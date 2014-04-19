@@ -16,8 +16,8 @@ public class DemoJTree
     private static final class TestTreeCellRenderer extends DefaultTreeCellRenderer
     {
         private static final long serialVersionUID = 1L;
-        private Icon loadIcon = UIManager.getIcon("OptionPane.errorIcon");
-        private Icon saveIcon = UIManager.getIcon("OptionPane.informationIcon");
+        private final Icon loadIcon = UIManager.getIcon("OptionPane.errorIcon");
+        private final Icon saveIcon = UIManager.getIcon("OptionPane.informationIcon");
 
         @Override
         public Component getTreeCellRendererComponent(//
@@ -42,7 +42,7 @@ public class DemoJTree
     }
 
     private static void createAndShowUI() {
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         final JTree tree = new JTree( buildDemoModel() );
 
         tree.setCellRenderer( new TestTreeCellRenderer() );
@@ -56,7 +56,7 @@ public class DemoJTree
     }
 
     private static DefaultTreeModel buildDemoModel() {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
+        final DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
 
         root.add(new DefaultMutableTreeNode("A"));
         root.add(new DefaultMutableTreeNode("B"));
@@ -65,12 +65,7 @@ public class DemoJTree
         return new DefaultTreeModel(root);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                createAndShowUI();
-            }
-        });
+    public static void main(final String[] args) {
+        SwingUtilities.invokeLater(DemoJTree::createAndShowUI);
     }
 }

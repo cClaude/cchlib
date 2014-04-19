@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+import com.googlecode.cchlib.lang.Objects;
+import com.googlecode.cchlib.lang.reflect.Methods;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -10,8 +12,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.lang.Objects;
-import com.googlecode.cchlib.lang.reflect.Methods;
 
 public class MyResourcesLoaderTest
 {

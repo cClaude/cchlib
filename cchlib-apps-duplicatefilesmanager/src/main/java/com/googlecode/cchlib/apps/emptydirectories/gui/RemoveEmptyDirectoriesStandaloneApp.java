@@ -1,15 +1,15 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
-import javax.swing.JFrame;
-import javax.swing.border.CompoundBorder;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import javax.swing.JFrame;
+import javax.swing.border.CompoundBorder;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -22,10 +22,10 @@ public class RemoveEmptyDirectoriesStandaloneApp
     private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( RemoveEmptyDirectoriesStandaloneApp.class );
 
-    private AutoI18nCore autoI18n;
-    private AppToolKit dfToolKit;
-    private RemoveEmptyDirectoriesPanel _contentPane;
-    @I18nString private static String txtFrameTitle = "Delete Empty Directories";
+    private final AutoI18nCore autoI18n;
+    private final AppToolKit dfToolKit;
+    private final RemoveEmptyDirectoriesPanel _contentPane;
+    @I18nString private static final String txtFrameTitle = "Delete Empty Directories";
 
     /**
      *

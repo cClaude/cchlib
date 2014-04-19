@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.Folders;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.Iterator;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
 
 /**
  * TODOC

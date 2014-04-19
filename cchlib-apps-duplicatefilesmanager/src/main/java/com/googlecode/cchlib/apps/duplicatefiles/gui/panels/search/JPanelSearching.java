@@ -1,6 +1,20 @@
 // $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.io.FileIterable;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.util.HashMapSet;
+import com.googlecode.cchlib.util.duplicate.DigestEventListener;
+import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -22,20 +36,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.io.FileIterable;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.util.HashMapSet;
-import com.googlecode.cchlib.util.duplicate.DigestEventListener;
-import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 @I18nName("duplicatefiles.JPanelSearching")
 public class JPanelSearching extends JPanel
@@ -244,7 +244,7 @@ public class JPanelSearching extends JPanel
                         )
                     );
 
-                final Vector<Object> v = new Vector<Object>();
+                final Vector<Object> v = new Vector<>();
                 v.add( file );
                 v.add( e.getLocalizedMessage() );
                 tableModelErrorList.addRow( v );

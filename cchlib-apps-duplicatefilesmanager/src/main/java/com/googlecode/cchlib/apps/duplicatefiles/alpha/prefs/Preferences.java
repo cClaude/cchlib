@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.apps.duplicatefiles.alpha.prefs;
 
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
-import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 
 
 /**

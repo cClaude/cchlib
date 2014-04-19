@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.apps.emptydirectories.debug;
 
+import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
+import com.googlecode.cchlib.apps.emptydirectories.debug.lib.DualIcon;
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
-import com.googlecode.cchlib.apps.emptydirectories.debug.lib.DualIcon;
 
 
 public class DebugJCheckBoxDualIcon {
@@ -41,11 +41,6 @@ public class DebugJCheckBoxDualIcon {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new DebugJCheckBoxDualIcon().createAndShowUI();
-            }
-        });
+        SwingUtilities.invokeLater(new DebugJCheckBoxDualIcon()::createAndShowUI);
     }
 }

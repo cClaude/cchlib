@@ -11,8 +11,8 @@ public final class KeyFileState
                 Comparable<KeyFileState>
 {
     private static final long serialVersionUID = 1L;
-    private String  key;
-    private File    file;
+    private final String  key;
+    private final File    file;
     private String  path;
     private boolean selectedToDelete;
     private Integer depth;

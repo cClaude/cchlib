@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.emptydirectories.path.folders;
 
-import java.io.File;
-import java.nio.file.Path;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import com.googlecode.cchlib.apps.emptydirectories.FolderFactory;
+import java.io.File;
+import java.nio.file.Path;
 
 @Deprecated
 public class PathFolderFactory implements FolderFactory

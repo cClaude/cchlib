@@ -1,5 +1,11 @@
 package com.googlecode.cchlib.apps.emptydirectories.lookup;
 
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
+import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.CancelRequestException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -16,12 +22,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
-import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
-import com.googlecode.cchlib.util.CancelRequestException;
 
 public class DefaultEmptyDirectoriesLookupTest
 {
@@ -36,9 +36,9 @@ public class DefaultEmptyDirectoriesLookupTest
     {}
 
     private LoggerEmptyDirectoriesListener emptyDirectoriesListener;
-    private List<Path>                     pathToCleanUpList = new ArrayList<>();
-    private List<Path>                     isEmptyList       = new ArrayList<>();
-    private List<Path>                     couldBeEmptyList  = new ArrayList<>();
+    private final List<Path>                     pathToCleanUpList = new ArrayList<>();
+    private final List<Path>                     isEmptyList       = new ArrayList<>();
+    private final List<Path>                     couldBeEmptyList  = new ArrayList<>();
     private Path rootPath;
 
     @Before
@@ -172,7 +172,7 @@ public class DefaultEmptyDirectoriesLookupTest
 
     private static class LoggerEmptyDirectoriesListener implements EmptyDirectoriesListener
     {
-        private List<EmptyFolder> emptyFolderList = new ArrayList<>();
+        private final List<EmptyFolder> emptyFolderList = new ArrayList<>();
 
         public List<EmptyFolder> getEmptyFolderList()
         {

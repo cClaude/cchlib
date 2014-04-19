@@ -1,14 +1,14 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import java.awt.EventQueue;
 import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesPanel;
+import java.awt.EventQueue;
 
 public class DebugApp extends DebugFrame
 {
     private static final long serialVersionUID = 1L;
 
     //private AppToolKit dfToolKit = new FakeAppToolKit();
-    private RemoveEmptyDirectoriesPanel jPanel_RemoveEmptyDirectories;
+    private final RemoveEmptyDirectoriesPanel jPanel_RemoveEmptyDirectories;
 
     public DebugApp()
     {
@@ -22,20 +22,16 @@ public class DebugApp extends DebugFrame
      */
     public static void main( final String[] args )
     {
-        EventQueue.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    DebugApp frame = new DebugApp();
-
-                    frame.setVisible( true );
-                }
-                catch( Exception e ) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater( () -> {
+            try {
+                DebugApp frame = new DebugApp();
+                
+                frame.setVisible( true );
             }
-        } );
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+        });
     }
 
 }

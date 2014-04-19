@@ -1,19 +1,19 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector;
 
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import java.awt.CardLayout;
 import java.util.EnumMap;
 import java.util.Map;
 import javax.swing.JPanel;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
 
-    private Map<Selectors,SelectorPanel> map = new EnumMap<Selectors,SelectorPanel>(Selectors.class);
+    private final Map<Selectors,SelectorPanel> map = new EnumMap<>(Selectors.class);
     private SelectorComboBox selectorComboBox;
-    private CardLayout layout;
+    private final CardLayout layout;
 
     public SelectorsJPanel(
         final DuplicateData duplicateData

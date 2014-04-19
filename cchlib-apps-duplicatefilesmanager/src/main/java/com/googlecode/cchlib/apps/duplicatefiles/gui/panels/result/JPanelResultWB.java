@@ -1,6 +1,18 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.DuplicateData;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.SelectorComboBox;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.SelectorsJPanel;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.DividersLocation;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.swing.JSplitPane.JSplitPanes;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,20 +26,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.apps.duplicatefiles.Resources;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.DuplicateData;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.SelectorComboBox;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.SelectorsJPanel;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.DividersLocation;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.swing.JSplitPane.JSplitPanes;
 
 @I18nName("JPanelResult")
 public abstract class JPanelResultWB extends JPanel implements DuplicateData // $codepro.audit.disable largeNumberOfFields
@@ -74,10 +73,10 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelResultWB.class );
 
-    private Resources resources;
+    private final Resources resources;
 
-    private JTextField jTextFieldFileInfo;
-    private JPanelResultListModelImpl listModelDuplicatesFiles;
+    private final JTextField jTextFieldFileInfo;
+    private final JPanelResultListModelImpl listModelDuplicatesFiles;
     private JSplitPane jSplitPaneResultMain;
     private JSplitPane jSplitPaneResultRight;
     private JList<KeyFileState> jListKeptIntact;
@@ -86,7 +85,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
     @I18nIgnore @I18nToolTipText private JButton jButtonPrevSet;
     @I18nIgnore @I18nToolTipText private JButton refreshButton;
     @I18nIgnore @I18nToolTipText private JButton jButtonNextSet;
-    private SelectorsJPanel selectorsJPanel;
+    private final SelectorsJPanel selectorsJPanel;
 
     public JPanelResultWB()
     {
@@ -146,19 +145,15 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             jListDuplicatesFiles.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
             jListDuplicatesFiles.setModel( listModelDuplicatesFiles );
             jListDuplicatesFiles.addListSelectionListener(
-                new ListSelectionListener() {
-                    @Override
-                    public void valueChanged( ListSelectionEvent event )
-                    {
-                        LOGGER.info( "valueChanged: " + event );
-
-                        if( ! event.getValueIsAdjusting() ) {
-                            int i = jListDuplicatesFiles.getSelectedIndex();
-
-                            updateDisplayKeptDelete( i );
-                            }
+                (ListSelectionEvent event) -> {
+                    LOGGER.info( "valueChanged: " + event );
+                    
+                    if( ! event.getValueIsAdjusting() ) {
+                        int i = jListDuplicatesFiles.getSelectedIndex();
+                        
+                        updateDisplayKeptDelete( i );
                     }
-                } );
+            });
         }
     }
 
@@ -270,7 +265,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
 
             JScrollPane jScrollPaneKeptIntact = new JScrollPane();
             final KeyFileStateListModel jListKeptIntactListModel = listModelDuplicatesFiles.getKeptIntactListModel();
-            jListKeptIntact = new JList<KeyFileState>();
+            jListKeptIntact = new JList<>();
             this.jListKeptIntact.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             jListKeptIntact.setModel( jListKeptIntactListModel );
             jListKeptIntact.setCellRenderer( listModelDuplicatesFiles.getKeptIntactListCellRenderer() );
@@ -296,7 +291,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             jSplitPaneResultRight.setTopComponent( jScrollPaneKeptIntact );
 
             JScrollPane jScrollPaneWillBeDeleted = new JScrollPane();
-            jListWillBeDeleted = new JList<KeyFileState>();
+            jListWillBeDeleted = new JList<>();
             this.jListWillBeDeleted.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
             final KeyFileStateListModel jListWillBeDeletedListModel = listModelDuplicatesFiles.getWillBeDeletedListModel();
@@ -328,7 +323,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
     protected JList<KeyFiles> getJListDuplicatesFiles()
     {
         if (jListDuplicatesFiles == null) {
-            jListDuplicatesFiles = new JList<KeyFiles>();
+            jListDuplicatesFiles = new JList<>();
             jListDuplicatesFiles.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {

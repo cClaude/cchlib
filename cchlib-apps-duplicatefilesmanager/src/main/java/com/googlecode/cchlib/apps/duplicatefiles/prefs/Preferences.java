@@ -1,6 +1,15 @@
 // $codepro.audit.disable largeNumberOfMethods, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.util.properties.Populator;
+import com.googlecode.cchlib.util.properties.PropertiesHelper;
+import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,15 +22,6 @@ import java.util.Properties;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.util.properties.Populator;
-import com.googlecode.cchlib.util.properties.PropertiesHelper;
-import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 
 /**
  *
@@ -33,7 +33,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
     private static final String DEFAULT_PREFS_FILE = '.' + Preferences.class.getName() + ".properties";
     private static final Logger LOGGER = Logger.getLogger( Preferences.class );
 
-    private PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
+    private final PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
     private final File preferencesFile;
 
     @Populator(defaultValueIsNull=true) private String lookAndFeelName;
@@ -373,7 +373,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
     public List<String> getIncFilesFilterPatternRegExpList()
     {
         if( incFilesFilterPatternRegExpList == null ) {
-            incFilesFilterPatternRegExpList = new ArrayList<String>();
+            incFilesFilterPatternRegExpList = new ArrayList<>();
 
             // TODO: Store this into prefs !
             incFilesFilterPatternRegExpList.add( "(.*?)\\.(jpg|jpeg|png|gif)" );

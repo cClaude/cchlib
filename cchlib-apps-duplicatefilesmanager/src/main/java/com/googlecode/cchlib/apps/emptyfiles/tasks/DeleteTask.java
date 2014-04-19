@@ -1,20 +1,20 @@
 package com.googlecode.cchlib.apps.emptyfiles.tasks;
 
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
-import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 
 public class DeleteTask implements Runnable
 {
     private static final Logger LOGGER = Logger.getLogger( DeleteTask.class );
     
-    private WorkingTableModel tableModel;
-    private JProgressBar progressBar;
+    private final WorkingTableModel tableModel;
+    private final JProgressBar progressBar;
     private int progressBarValue;
-    private WorkingJPanel workingJPanel;
+    private final WorkingJPanel workingJPanel;
 
     public DeleteTask( WorkingJPanel workingJPanel, WorkingTableModel tableModel, JProgressBar progressBar )
     {
@@ -31,15 +31,11 @@ public class DeleteTask implements Runnable
                 final int rowIndex = i;
 
                 if( this.tableModel.isRowSelected( rowIndex ) ) {
-                    SwingUtilities.invokeAndWait( new Runnable() { // $codepro.audit.disable anonymousClassInLoop, avoidInstantiationInLoops
-                        @Override
-                        public void run()
-                        {
-                            if( tableModel.doDelete( rowIndex ) ) {
-                                progressBar.setValue( ++progressBarValue );
-                            }
+                    SwingUtilities.invokeAndWait( () -> {
+                        if( tableModel.doDelete( rowIndex ) ) {
+                            progressBar.setValue( ++progressBarValue );
                         }
-                        } );
+                    });
                     }
                 }
             

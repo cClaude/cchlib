@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
 //NOT public
 class KeyFileStateListModelImpl
@@ -11,7 +11,7 @@ class KeyFileStateListModelImpl
         implements KeyFileStateListModel
 {
     private static final long serialVersionUID = 1L;
-    private List<KeyFileState> dataList;
+    private final List<KeyFileState> dataList;
 
     public KeyFileStateListModelImpl()
     {

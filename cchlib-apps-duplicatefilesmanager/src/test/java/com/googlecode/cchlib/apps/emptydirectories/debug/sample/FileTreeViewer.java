@@ -57,9 +57,8 @@ public class FileTreeViewer extends JFrame
 
         DefaultMutableTreeNode node;
         File[] roots = File.listRoots();
-        for( int k = 0; k < roots.length; k++ ) {
-            node = new DefaultMutableTreeNode( new IconData( ICON_DISK, null,
-                    new FileNode( roots[ k ] ) ) );
+        for (File root : roots) {
+            node = new DefaultMutableTreeNode(new IconData(ICON_DISK, null, new FileNode(root)));
             top.add( node );
             node.add( new DefaultMutableTreeNode( new Boolean( true ) ) );
         }
@@ -153,12 +152,8 @@ public class FileTreeViewer extends JFrame
                 public void run()
                 {
                     if( fnode != null && fnode.expand( node ) ) {
-                        Runnable runnable = new Runnable() {
-                            @Override
-                            public void run()
-                            {
-                                m_model.reload( node );
-                            }
+                        Runnable runnable = () -> {
+                            m_model.reload( node );
                         };
                         SwingUtilities.invokeLater( runnable );
                     }
@@ -330,10 +325,9 @@ class FileNode {
         File[] files = listFiles();
         if( files == null ) return true;
 
-        Vector<FileNode> v = new Vector<FileNode>();
+        Vector<FileNode> v = new Vector<>();
 
-        for( int k = 0; k < files.length; k++ ) {
-            File f = files[ k ];
+        for (File f : files) {
             if( !(f.isDirectory()) ) continue;
 
             FileNode newNode = new FileNode( f );
@@ -368,8 +362,10 @@ class FileNode {
     {
         File[] files = listFiles();
         if( files == null ) return false;
-        for( int k = 0; k < files.length; k++ ) {
-            if( files[ k ].isDirectory() ) return true;
+        for (File file : files) {
+            if (file.isDirectory()) {
+                return true;
+            }
         }
         return false;
     }

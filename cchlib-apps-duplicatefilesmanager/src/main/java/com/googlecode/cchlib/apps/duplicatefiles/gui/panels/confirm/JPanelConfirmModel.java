@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm;
 
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.util.HashMapSet;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  *
@@ -15,13 +15,13 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
                Serializable
 {
     private static final long serialVersionUID = 1L;
-    private HashMapSet<String, KeyFileState> dupFiles; // $codepro.audit.disable declareAsInterface
+    private final HashMapSet<String, KeyFileState> dupFiles; // $codepro.audit.disable declareAsInterface
     private int size;
-    private List<KeyFileState> cache = new ArrayList<>();
+    private final List<KeyFileState> cache = new ArrayList<>();
     private Boolean[] deleted; // Tree states boolean array ?????? FIXME
     // need to cache files lengths, to display length even when
     // a file will be deleted.
-    private List<Long> cacheFileLength = new ArrayList<>();
+    private final List<Long> cacheFileLength = new ArrayList<>();
 
     public JPanelConfirmModel(
         final HashMapSet<String,KeyFileState> dupFiles // $codepro.audit.disable declareAsInterface

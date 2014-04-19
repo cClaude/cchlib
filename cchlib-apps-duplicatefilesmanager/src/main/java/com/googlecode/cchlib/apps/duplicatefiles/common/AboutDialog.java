@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.apps.duplicatefiles.common;
 
-import javax.swing.JDialog;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import javax.swing.JDialog;
+import org.apache.log4j.Logger;
 
 /**
  * Display about dialog
@@ -30,7 +30,7 @@ public class AboutDialog
 //    }
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( AboutDialog.class );
-    private /*final*/ AboutPanel contentPanel;
+    private final /*final*/ AboutPanel contentPanel;
     //private /*final*/ DFToolKit dfToolKit;
 
     /**

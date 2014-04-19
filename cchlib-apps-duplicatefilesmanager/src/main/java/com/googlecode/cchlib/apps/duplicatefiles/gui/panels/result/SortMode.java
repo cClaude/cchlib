@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import java.util.Comparator;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import java.util.Comparator;
 
 /**
  *
@@ -21,7 +21,7 @@ public enum SortMode implements Comparator<KeyFiles>
     NUMBER_OF_DUPLICATE(new NumberOfDuplicateComparator()),
     ;
 
-    private  Comparator<KeyFiles> comparator;
+    private final  Comparator<KeyFiles> comparator;
     private  SortMode( final Comparator<KeyFiles> comparator )
     {
         this.comparator = comparator;

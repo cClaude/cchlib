@@ -1,16 +1,16 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
+import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
 import java.awt.Component;
 import java.io.File;
 import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
-import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
 
 /**
  *
@@ -22,7 +22,7 @@ class EmptyDirectoryTreeCellRenderer
 {
     private static final long serialVersionUID = 1L;
 
-    private IconResources iconResources = IconResources.getInstance();
+    private final IconResources iconResources = IconResources.getInstance();
 //    private Icon nodeLeafIcon;
 //    private Icon nodeLeafSelectedIcon;
 //    private Icon nodeLeafSelectedByUserIcon;

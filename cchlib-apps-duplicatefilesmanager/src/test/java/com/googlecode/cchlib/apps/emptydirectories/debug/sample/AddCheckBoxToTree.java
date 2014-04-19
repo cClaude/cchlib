@@ -44,8 +44,8 @@ public class AddCheckBoxToTree {
                 return false;
             }
 
-            for( int j = 0; j < selectionPaths.length; j++ ) {
-                if( isDescendant( selectionPaths[ j ], path ) ) {
+            for (TreePath selectionPath : selectionPaths) {
+                if (isDescendant(selectionPath, path)) {
                     return true;
                 }
             }
@@ -92,33 +92,21 @@ public class AddCheckBoxToTree {
         public void addSelectionPaths( final TreePath[] paths )
         {
 
-            // unselect all descendants of paths[]
-            for( int i = 0; i < paths.length; i++ ) {
-                final TreePath path = paths[ i ];
-
+            for (TreePath path : paths) {
                 final TreePath[] selectionPaths = getSelectionPaths();
-
                 if( selectionPaths == null ) {
                     break;
                 }
-
-                final ArrayList<TreePath> toBeRemoved = new ArrayList<TreePath>();
-
-                for( int j = 0; j < selectionPaths.length; j++ ) {
-                    if( isDescendant( selectionPaths[ j ], path ) ) {
-                        toBeRemoved.add( selectionPaths[ j ] );
+                final ArrayList<TreePath> toBeRemoved = new ArrayList<>();
+                for (TreePath selectionPath : selectionPaths) {
+                    if (isDescendant(selectionPath, path)) {
+                        toBeRemoved.add(selectionPath);
                     }
                 }
                 super.removeSelectionPaths( toBeRemoved
                         .toArray( new TreePath[0] ) );
             }
-
-            // if all siblings are selected then unselect them and select parent
-            // recursively
-            // otherwize just select that path.
-            for( int i = 0; i < paths.length; i++ ) {
-                TreePath path = paths[ i ];
-
+            for (TreePath path : paths) {
                 TreePath temp = null;
 
                 while( areSiblingsSelected( path ) ) {
@@ -198,8 +186,7 @@ public class AddCheckBoxToTree {
         @Override
         public void removeSelectionPaths( final TreePath[] paths )
         {
-            for( int i = 0; i < paths.length; i++ ) {
-                final TreePath path = paths[ i ];
+            for (TreePath path : paths) {
                 if( path.getPathCount() == 1 ) {
                     super.removeSelectionPaths( new TreePath[] { path } );
                 } else {
@@ -216,7 +203,7 @@ public class AddCheckBoxToTree {
         private void toggleRemoveSelection( final TreePath path )
         {
 
-            final Stack<TreePath> stack = new Stack<TreePath>();
+            final Stack<TreePath> stack = new Stack<>();
             TreePath parent = path.getParentPath();
 
             boolean isParameters = false;

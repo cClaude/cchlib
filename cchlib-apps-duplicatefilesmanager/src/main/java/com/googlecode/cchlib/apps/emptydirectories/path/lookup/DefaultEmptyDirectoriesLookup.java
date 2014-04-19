@@ -1,7 +1,14 @@
 package com.googlecode.cchlib.apps.emptydirectories.path.lookup;
 
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.FolderFilter;
+import com.googlecode.cchlib.apps.emptydirectories.Folders;
+import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
+import com.googlecode.cchlib.lang.Enumerable;
+import com.googlecode.cchlib.util.CancelRequestException;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.AccessDeniedException;
@@ -14,14 +21,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.FolderFilter;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
-import com.googlecode.cchlib.lang.Enumerable;
-import com.googlecode.cchlib.util.CancelRequestException;
 
 @Deprecated
 public class DefaultEmptyDirectoriesLookup
@@ -32,7 +31,7 @@ public class DefaultEmptyDirectoriesLookup
 
     private List<Path> rootFilesForScan;
     private DirectoryStream.Filter<Path> excludeDirectoriesFile;
-    private List<EmptyDirectoriesListener> listeners = new ArrayList<EmptyDirectoriesListener>();
+    private List<EmptyDirectoriesListener> listeners = new ArrayList<>();
     private LinkOption[] linkOption = new LinkOption[0]; // TODO Future extension
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
@@ -44,7 +43,7 @@ public class DefaultEmptyDirectoriesLookup
      */
     public DefaultEmptyDirectoriesLookup( final File...rootFiles )
     {
-        this.rootFilesForScan = new ArrayList<Path>( rootFiles.length );
+        this.rootFilesForScan = new ArrayList<>( rootFiles.length );
 
         for( File f: rootFiles ) {
             this.rootFilesForScan.add( f.toPath() );
@@ -61,7 +60,7 @@ public class DefaultEmptyDirectoriesLookup
      */
     public DefaultEmptyDirectoriesLookup( final Path...rootPaths )
     {
-        this.rootFilesForScan = new ArrayList<Path>( rootPaths.length );
+        this.rootFilesForScan = new ArrayList<>( rootPaths.length );
 
         for( Path p: rootPaths ) {
             this.rootFilesForScan.add( p );
@@ -75,7 +74,7 @@ public class DefaultEmptyDirectoriesLookup
      */
     public DefaultEmptyDirectoriesLookup( final Enumerable<File> rootFiles )
     {
-        this.rootFilesForScan = new ArrayList<Path>();
+        this.rootFilesForScan = new ArrayList<>();
 
         Enumeration<File> enumeration = rootFiles.enumeration();
 
@@ -255,12 +254,7 @@ public class DefaultEmptyDirectoriesLookup
 
             if( couldBeEmpty ) {
                 if( isEmpty ) {
-                    assert folder.toFile().listFiles( new FileFilter(){
-                        @Override
-                        public boolean accept( File pathname )
-                        {
-                            return false;
-                        }}).length == 0;
+                    assert folder.toFile().listFiles( (File pathname) -> false).length == 0;
 
                     notify( Folders.createEmptyFolder( folder ) );
                     }

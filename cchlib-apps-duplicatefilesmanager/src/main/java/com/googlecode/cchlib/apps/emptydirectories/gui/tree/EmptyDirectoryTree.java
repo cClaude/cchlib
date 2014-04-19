@@ -1,19 +1,19 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 
 public class EmptyDirectoryTree extends JTree
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( EmptyDirectoryTree.class );
 
-    private Object lock = new Object();
-    private FolderTreeModelable2 model;
+    private final Object lock = new Object();
+    private final FolderTreeModelable2 model;
 
     public EmptyDirectoryTree( final FolderTreeModelable2 model )
     {

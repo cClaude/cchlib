@@ -1,6 +1,10 @@
 // $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.common;
 
+import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.i18n.annotation.I18n;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -8,7 +12,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -22,10 +25,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.Resources;
-import com.googlecode.cchlib.i18n.annotation.I18n;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
 
 /**
  *
@@ -38,16 +37,16 @@ public class AboutPanel extends JPanel
     private static final String DESCRIPTION = "About brief (dev text)";
 
     private boolean click;
-    private Resources resources;
+    private final Resources resources;
 
-    @I18nIgnore private JLabel jLabel_authorName;
-    private JLabel jLabel_author;    // I18n
-    private JLabel jLabel_copyRight; // I18n
-    private JLabel jLabel_version;   // I18n
-    private JButton jButton_Ok;
+    @I18nIgnore private final JLabel jLabel_authorName;
+    private final JLabel jLabel_author;    // I18n
+    private final JLabel jLabel_copyRight; // I18n
+    private final JLabel jLabel_version;   // I18n
+    private final JButton jButton_Ok;
 
-    @I18n private JTextArea jTextArea;
-    private TitledBorder titleBorder;
+    @I18n private final JTextArea jTextArea;
+    private final TitledBorder titleBorder;
 
 
 //    /**
@@ -203,12 +202,8 @@ public class AboutPanel extends JPanel
         }
         {
             jButton_Ok = new JButton("OK");
-            jButton_Ok.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent event)
-                {
-                    action.buttonOKClicked();
-                }
+            jButton_Ok.addActionListener((ActionEvent event) -> {
+                action.buttonOKClicked();
             });
             GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
             gbc_jButton_Ok.gridwidth = 4;

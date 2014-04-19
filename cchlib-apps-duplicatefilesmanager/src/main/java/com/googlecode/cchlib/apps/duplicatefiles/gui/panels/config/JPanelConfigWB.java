@@ -1,19 +1,19 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JComboBox;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JCheckBox;
-import javax.swing.JScrollPane;
-import javax.swing.BoxLayout;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 /**
  *
@@ -22,22 +22,22 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 public abstract class JPanelConfigWB extends JPanel // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses
 {
     private static final long serialVersionUID = 1L;
-    private JComboBox<String> jComboBoxFilesFilters;
-    private JComboBox<String> jComboBoxDirsFilters;
+    private final JComboBox<String> jComboBoxFilesFilters;
+    private final JComboBox<String> jComboBoxDirsFilters;
     protected JCheckBox jCheckBoxFFIgnoreHidden;
     protected JCheckBox jCheckBoxFDIgnoreHidden;
     protected JCheckBox jCheckBoxIgnoreReadOnlyFiles;
     protected JCheckBox jCheckBoxIgnoreEmptyFiles;
-    private JPanel jPanelFilters;
+    private final JPanel jPanelFilters;
 
-    private JPanel jPanelFilesFilers;
-    private TitledBorder jPanelFilesFilersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Files filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
+    private final JPanel jPanelFilesFilers;
+    private final TitledBorder jPanelFilesFilersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Files filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
-    private JPanel jPanelDirectoryFilters;
-    private Border jPanelDirectoryFiltersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Directories filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
+    private final JPanel jPanelDirectoryFilters;
+    private final Border jPanelDirectoryFiltersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Directories filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
-    private JPanel jPanelIgnore;
-    private TitledBorder jPanelIgnoreTitledBorder = new TitledBorder(null, "Ignore", TitledBorder.LEADING, TitledBorder.TOP, null, null);
+    private final JPanel jPanelIgnore;
+    private final TitledBorder jPanelIgnoreTitledBorder = new TitledBorder(null, "Ignore", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
     /**
      * Create the panel.
@@ -172,7 +172,7 @@ public abstract class JPanelConfigWB extends JPanel // $codepro.audit.disable co
      */
     public static JComboBox<String> createJComboBoxString()
     {
-        return new JComboBox<String>();
+        return new JComboBox<>();
     }
 
     protected JComboBox<String> getJComboBoxFilesFilters()

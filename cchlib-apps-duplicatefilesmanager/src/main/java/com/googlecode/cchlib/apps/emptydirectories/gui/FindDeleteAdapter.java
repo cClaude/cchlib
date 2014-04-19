@@ -1,5 +1,11 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
+import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable1;
+import com.googlecode.cchlib.util.CancelRequestException;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.AccessDeniedException;
@@ -9,16 +15,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException; // $codepro.audit.disable unnecessaryImport
-import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable1;
-import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
  *
@@ -78,26 +77,21 @@ public class FindDeleteAdapter
 
         emptyDirs.addListener( listener );
 
-        Runnable doRun = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try {
-                    emptyDirs.lookup();
-
-                    LOGGER.info(
+        Runnable doRun = () -> {
+            try {
+                emptyDirs.lookup();
+                
+                LOGGER.info(
                         "treeModel.size(): " + ((treeModel == null) ? null : Integer.valueOf( treeModel.size()) )
-                        );
-                    }
-                catch( CancelRequestException | ScanIOException cancelRequestException )  { // $codepro.audit.disable logExceptions
-                    LOGGER.info( "Cancel received" );
-
-                    // Call done, to cleanup layout.
-                    listener.findDone();
-                    }
-                findEnd();
+                );
             }
+            catch( CancelRequestException | ScanIOException cancelRequestException )  { // $codepro.audit.disable logExceptions
+                LOGGER.info( "Cancel received" );
+                
+                // Call done, to cleanup layout.
+                listener.findDone();
+            }
+            findEnd();
         };
 
         // KO Lock UI doRun.run();
@@ -121,14 +115,9 @@ public class FindDeleteAdapter
         public void newEntry( final EmptyFolder folder )
         {
             SwingUtilities.invokeLater(
-                new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        treeModel.add( folder );
-                    }
-                });
+                () -> {
+                    treeModel.add( folder );
+            });
         }
         @Override
         public void findStarted()
@@ -137,14 +126,7 @@ public class FindDeleteAdapter
 
             try {
                 SwingUtilities.invokeAndWait(
-                        new Runnable()
-                        {
-                            @Override
-                            public void run()
-                            {
-                                treeModel.clear();
-                            }
-                        });
+                        treeModel::clear);
                 }
             catch( InvocationTargetException | InterruptedException e ) {
                 LOGGER.error( "findStarted() *** ERROR", e );
@@ -173,13 +155,7 @@ public class FindDeleteAdapter
         assert selectedPaths.size() > 0;
 
         // Add deepest paths at the beginning
-        Collections.sort( selectedPaths, new Comparator<Path>(){
-            @Override
-            public int compare( Path p1, Path p2 )
-            {
-                return p2.getNameCount() - p1.getNameCount();
-            }
-        });
+        Collections.sort( selectedPaths, (Path p1, Path p2) -> p2.getNameCount() - p1.getNameCount());
 
         // Delete deepest paths firsts
         for( final Path path : selectedPaths ) {

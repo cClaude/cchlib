@@ -1,13 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.file.lookup;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.Serializable;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
@@ -17,6 +9,14 @@ import com.googlecode.cchlib.apps.emptydirectories.Folders;
 import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
 import com.googlecode.cchlib.lang.Enumerable;
 import com.googlecode.cchlib.util.CancelRequestException;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.Serializable;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  * Find empty directories
@@ -30,7 +30,7 @@ public class DefaultEmptyDirectoriesLookup
 
     private List<File> rootFilesForScan;
     private FileFilter excludeDirectoriesFile;
-    private List<EmptyDirectoriesListener> listeners = new ArrayList<EmptyDirectoriesListener>();
+    private List<EmptyDirectoriesListener> listeners = new ArrayList<>();
 
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
@@ -42,7 +42,7 @@ public class DefaultEmptyDirectoriesLookup
      */
     public DefaultEmptyDirectoriesLookup( final File...rootFiles )
     {
-        this.rootFilesForScan = new ArrayList<File>( rootFiles.length );
+        this.rootFilesForScan = new ArrayList<>( rootFiles.length );
 
         for( File f: rootFiles ) {
             this.rootFilesForScan.add( f );
@@ -56,7 +56,7 @@ public class DefaultEmptyDirectoriesLookup
      */
     public DefaultEmptyDirectoriesLookup( final Enumerable<File> rootFiles )
     {
-        this.rootFilesForScan = new ArrayList<File>();
+        this.rootFilesForScan = new ArrayList<>();
 
         Enumeration<File> enumeration = rootFiles.enumeration();
 
@@ -67,7 +67,7 @@ public class DefaultEmptyDirectoriesLookup
 
     public DefaultEmptyDirectoriesLookup( final Path...rootPaths )
     {
-        this.rootFilesForScan = new ArrayList<File>( rootPaths.length );
+        this.rootFilesForScan = new ArrayList<>( rootPaths.length );
 
         for( Path p: rootPaths ) {
             this.rootFilesForScan.add( p.toFile() );

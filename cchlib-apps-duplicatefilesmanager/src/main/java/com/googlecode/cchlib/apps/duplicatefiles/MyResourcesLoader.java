@@ -1,18 +1,18 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.awt.Image;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.DateFormat;
-import java.text.ParseException; // $codepro.audit.disable unnecessaryImport
-import java.util.Properties;
-import javax.swing.Icon;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.Version;
 import com.googlecode.cchlib.resources.ResourcesLoader;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
+import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI; // $codepro.audit.disable unnecessaryImport
+import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Properties;
+import javax.swing.Icon;
+import org.apache.log4j.Logger;
 
 /**
  * Load resources for GUI

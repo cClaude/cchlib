@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import java.util.Map.Entry;
-import java.util.Set;
-import javax.swing.ListModel;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 import com.googlecode.cchlib.util.HashMapSet;
+import java.util.Map.Entry;
+import java.util.Set;
+import javax.swing.ListModel;
 
 public interface JPanelResultListModel extends ListModel<KeyFiles>
 {

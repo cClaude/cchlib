@@ -1,17 +1,6 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.util.Set;
-import java.util.regex.Pattern;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
@@ -19,8 +8,18 @@ import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.util.Set;
+import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
+import org.apache.log4j.Logger;
 
 @I18nName("JPanelResult.SelectByRegExp")
 public class SelectByRegExp extends SelectorPanel
@@ -28,15 +27,15 @@ public class SelectByRegExp extends SelectorPanel
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER  = Logger.getLogger( SelectByRegExp.class );
 
-    @I18nString private String txtPatternSyntaxExceptionTitle = "Not valid Regular Expression";
+    @I18nString private final String txtPatternSyntaxExceptionTitle = "Not valid Regular Expression";
 
-    private JButton jButtonRegExDelete;
-    private JButton jButtonRegExRestore;
-    private JCheckBox jCheckBoxKeepOne;
-    private XComboBoxPattern xComboBoxPatternRegEx;
+    private final JButton jButtonRegExDelete;
+    private final JButton jButtonRegExRestore;
+    private final JCheckBox jCheckBoxKeepOne;
+    private final XComboBoxPattern xComboBoxPatternRegEx;
 
-    private AppToolKit dFToolKit;
-    private DuplicateData duplicateData;
+    private final AppToolKit dFToolKit;
+    private final DuplicateData duplicateData;
 
     /**
      * Create the select by regular expression panel.
@@ -60,7 +59,7 @@ public class SelectByRegExp extends SelectorPanel
             xComboBoxPatternRegEx = new XComboBoxPattern();
             xComboBoxPatternRegEx.setErrorBackGroundColor( errorColor );
             xComboBoxPatternRegEx.setModel(
-                new DefaultComboBoxModel<String>(new String[] { ".*\\.jpg", ".*\\.gif", ".*\\.tmp" })
+                new DefaultComboBoxModel<>(new String[] { ".*\\.jpg", ".*\\.gif", ".*\\.tmp" })
                 );
 
             GridBagConstraints gbc_xComboBoxPatternRegEx = new GridBagConstraints();
@@ -90,11 +89,8 @@ public class SelectByRegExp extends SelectorPanel
             gbc_jButtonRegExDelete.gridy = 0;
 
             jButtonRegExDelete = new JButton( "Delete" );
-            this.jButtonRegExDelete.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent event) {
-                    onButtonRegExDelete();
-                }
+            this.jButtonRegExDelete.addActionListener((ActionEvent event) -> {
+                onButtonRegExDelete();
             });
             add(jButtonRegExDelete, gbc_jButtonRegExDelete);
         }
@@ -105,11 +101,8 @@ public class SelectByRegExp extends SelectorPanel
             gbc_jButtonRegExRestore.gridy = 0;
 
             jButtonRegExRestore = new JButton( "Restore" );
-            jButtonRegExRestore.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent event) {
-                    onButtonRegExRestore();
-                }
+            jButtonRegExRestore.addActionListener((ActionEvent event) -> {
+                onButtonRegExRestore();
             });
             add( jButtonRegExRestore, gbc_jButtonRegExRestore );
         }

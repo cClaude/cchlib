@@ -1,14 +1,17 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
+import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
-import java.awt.Insets;
+import java.awt.Insets; // $codepro.audit.disable unnecessaryImport
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
-import java.util.TooManyListenersException; // $codepro.audit.disable unnecessaryImport
+import java.util.TooManyListenersException;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -21,10 +24,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.SoftBevelBorder;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.Resources;
-import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 
 /**
  * Handle layout
@@ -44,20 +43,20 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel // $codepro.a
     protected static final String ACTION_UNSELECT_ALL  = "ACTION_UNSELECT_ALL";
     protected static final String ACTION_START_REMDIRS = "ACTION_START_REMDIRS";
 
-    private JButton btnAddRootDirectory;
-    private JButton btnCancel;
-    private @I18nToolTipText JButton btnImportDirectories;
-    private JButton btnRemoveRootDirectory;
-    private JButton btnSelectAll;
-    private JButton btnSelectAllLeaf;
-    private JButton btnDeselectAll;
-    private JButton btnStartDelete;
-    private JButton btnStartScan;
-    private JList<File> jListRootDirectories;
-    private JProgressBar progressBar;
-    private JSeparator separator;
-    private JTree jTreeEmptyDirectories;
-    private SimpleFileDrop scrollPaneJListSimpleFileDrop;
+    private final JButton btnAddRootDirectory;
+    private final JButton btnCancel;
+    private final @I18nToolTipText JButton btnImportDirectories;
+    private final JButton btnRemoveRootDirectory;
+    private final JButton btnSelectAll;
+    private final JButton btnSelectAllLeaf;
+    private final JButton btnDeselectAll;
+    private final JButton btnStartDelete;
+    private final JButton btnStartScan;
+    private final JList<File> jListRootDirectories;
+    private final JProgressBar progressBar;
+    private final JSeparator separator;
+    private final JTree jTreeEmptyDirectories;
+    private final SimpleFileDrop scrollPaneJListSimpleFileDrop;
 
     protected abstract ActionListener getActionListener();
     protected abstract void addRootDirectory( List<File> files );
@@ -102,18 +101,10 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel // $codepro.a
             gbc_scrollPaneJList.gridy = 0;
             this.add(scrollPaneJList, gbc_scrollPaneJList);
 
-            this.scrollPaneJListSimpleFileDrop = new SimpleFileDrop( scrollPaneJList, new SimpleFileDropListener()
-            {
-                @Override
-                public void filesDropped( final List<File> files )
-                {
-                    new Thread( new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            addRootDirectory( files );
-                        }}, "filesDropped()" ).start();
-                }
+            this.scrollPaneJListSimpleFileDrop = new SimpleFileDrop( scrollPaneJList, (final List<File> files) -> {
+                new Thread(() -> {
+                    addRootDirectory( files );
+                }, "filesDropped()").start();
             });
 
             jListRootDirectories = createJList();
@@ -280,8 +271,8 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel // $codepro.a
      */
     public static JList<File> createJList()
     {
-        MyDefaultListModel<File>    model   = new MyDefaultListModel<File>();
-        JList<File>                 list    = new JList<File>( model );
+        MyDefaultListModel<File>    model   = new MyDefaultListModel<>();
+        JList<File>                 list    = new JList<>( model );
 
         return list;
     }

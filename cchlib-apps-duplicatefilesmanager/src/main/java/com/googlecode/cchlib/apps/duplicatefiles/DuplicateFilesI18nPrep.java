@@ -1,11 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.awt.HeadlessException;
-import java.awt.Window;
-import java.io.PrintStream;
-import java.util.Locale;
-import java.util.Set;
-import java.util.TooManyListenersException;
 import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
@@ -17,6 +11,12 @@ import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import java.awt.HeadlessException;
+import java.awt.Window;
+import java.io.PrintStream;
+import java.util.Locale;
+import java.util.Set;
+import java.util.TooManyListenersException;
 
 /**
  * Create resources bundles files

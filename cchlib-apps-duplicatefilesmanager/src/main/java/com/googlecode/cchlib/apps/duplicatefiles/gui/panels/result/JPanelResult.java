@@ -1,6 +1,18 @@
 // $codepro.audit.disable largeNumberOfFields, largeNumberOfMethods, constantNamingConvention
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
+import com.googlecode.cchlib.util.HashMapSet;
+import com.googlecode.cchlib.util.iterator.Iterators;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -22,18 +34,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
-import com.googlecode.cchlib.util.HashMapSet;
-import com.googlecode.cchlib.util.iterator.Iterators;
 
 @I18nName("duplicatefiles.JPanelResult")
 public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable
@@ -100,7 +100,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
     // TODO: Must be restore by parent !
     private transient AppToolKit dFToolKit;
-    private DuplicateSetListContextualMenu duplicateSetListContextualMenu;
+    private final DuplicateSetListContextualMenu duplicateSetListContextualMenu;
 
     private ActionListener      actionListenerContextSubMenu;
     private static final String ACTION_OBJECT                            = "KeyFile";
@@ -113,21 +113,21 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     private static final String ACTION_COMMAND_KeepTheseFiles            = "KeepTheseFiles";
     private static final String ACTION_COMMAND_KeepAllExceptTheseFiles   = "KeepAllExceptTheseFiles";
 
-    @I18nString private String txtCopy = "Copy";
-    @I18nString private String txtOpenFile = "Open (Handle by System)";
-    @I18nString private String txtOpenParentDirectory = "Open parent directory (Handle by System)";
-    @I18nString private String txtDeleteThisFile = "Delete this file";
-    @I18nString private String txtDeleteAllExceptThisFile  = "Delete all except this file";
-    @I18nString private String txtKeepThisFile = "Keep this file";
-    @I18nString private String txtKeepAllExceptThisFile = "Keep all except this file";
-    @I18nString private String txtDeleteDuplicateIn = "Delete duplicate in";
-    @I18nString private String txtKeepNonDuplicateIn = "Keep nonduplicate in";
-    @I18nString private String txtKeepAllInDir = "Keep all in dir";
-    @I18nString private String txtDeleteAllInDir = "Delete all in dir";
-    @I18nString private String txtHiddenFirstLetter = "H";
+    @I18nString private final String txtCopy = "Copy";
+    @I18nString private final String txtOpenFile = "Open (Handle by System)";
+    @I18nString private final String txtOpenParentDirectory = "Open parent directory (Handle by System)";
+    @I18nString private final String txtDeleteThisFile = "Delete this file";
+    @I18nString private final String txtDeleteAllExceptThisFile  = "Delete all except this file";
+    @I18nString private final String txtKeepThisFile = "Keep this file";
+    @I18nString private final String txtKeepAllExceptThisFile = "Keep all except this file";
+    @I18nString private final String txtDeleteDuplicateIn = "Delete duplicate in";
+    @I18nString private final String txtKeepNonDuplicateIn = "Keep nonduplicate in";
+    @I18nString private final String txtKeepAllInDir = "Keep all in dir";
+    @I18nString private final String txtDeleteAllInDir = "Delete all in dir";
+    @I18nString private final String txtHiddenFirstLetter = "H";
     //@I18nString private String txtCanExecuteFirstLetter = "E";
-    @I18nString private String txtCanWriteFirstLetter = "W";
-    @I18nString private String txtCanReadFirstLetter = "R";
+    @I18nString private final String txtCanWriteFirstLetter = "W";
+    @I18nString private final String txtCanReadFirstLetter = "R";
 
     public JPanelResult()
     {
@@ -469,46 +469,42 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     private ActionListener getActionListenerContextSubMenu()
     {
         if( actionListenerContextSubMenu == null ) {
-            this.actionListenerContextSubMenu = new ActionListener()
-            {
-                @Override
-                public void actionPerformed( ActionEvent e )
-                {
-                    final JMenuItem    sourceItem   = (JMenuItem) e.getSource();
-                    final Object       actionObject = sourceItem.getClientProperty(ACTION_OBJECT);
-                    //final KeyFileState kf         = (KeyFileState)sourceItem.getClientProperty(ACTION_OBJECT);
-                    final String       cmd        = sourceItem.getActionCommand();
-
-                    LOGGER.info( "cmd:" + cmd + " - " + actionObject );
-
-                    if( ACTION_COMMAND_DeleteTheseFiles.equals( cmd ) ) {
-                        onDeleteTheseFiles( actionObject );
-                        }
-                    else if( ACTION_COMMAND_KeepTheseFiles.equals( cmd ) ) {
-                        onKeepTheseFiles( actionObject );
-                        }
-                    else if( ACTION_COMMAND_DeleteAllExceptTheseFiles.equals( cmd ) ) {
-                        onDeleteAllExceptTheseFiles( actionObject );
-                        }
-                    else if( ACTION_COMMAND_KeepAllExceptTheseFiles.equals( cmd ) ) {
-                        onKeepAllExceptTheseFiles( actionObject );
-                        }
-                    else if( ACTION_COMMAND_DeleteDuplicateInDir.equals( cmd ) ) {
-                        onDeleteDuplicateInDir( actionObject );
-                        }
-                    else if( ACTION_COMMAND_KeepNonDuplicateInDir.equals( cmd ) ) {
-                        onKeepNonDuplicateInDir( actionObject );
-                        }
-                    else if( ACTION_COMMAND_KeepAllInDir.equals( cmd ) ) {
-                        onKeepAllInDir( actionObject );
-                        }
-                    else if( ACTION_COMMAND_DeleteAllInDir.equals( cmd ) ) {
-                        onDeleteAllInDir( actionObject );
-                        }
-                    else {
-                        LOGGER.error("Don't known how to handle: " + cmd);
-                        }
+            this.actionListenerContextSubMenu = (ActionEvent e) -> {
+                final JMenuItem    sourceItem   = (JMenuItem) e.getSource();
+                final Object       actionObject = sourceItem.getClientProperty(ACTION_OBJECT);
+                final String       cmd        = sourceItem.getActionCommand();
+                LOGGER.info( "cmd:" + cmd + " - " + actionObject );
+                if (null != cmd) {
+                    switch (cmd) {
+                        case ACTION_COMMAND_DeleteTheseFiles:
+                            onDeleteTheseFiles( actionObject );
+                            break;
+                        case ACTION_COMMAND_KeepTheseFiles:
+                            onKeepTheseFiles( actionObject );
+                            break;
+                        case ACTION_COMMAND_DeleteAllExceptTheseFiles:
+                            onDeleteAllExceptTheseFiles( actionObject );
+                            break;
+                        case ACTION_COMMAND_KeepAllExceptTheseFiles:
+                            onKeepAllExceptTheseFiles( actionObject );
+                            break;
+                        case ACTION_COMMAND_DeleteDuplicateInDir:
+                            onDeleteDuplicateInDir( actionObject );
+                            break;
+                        case ACTION_COMMAND_KeepNonDuplicateInDir:
+                            onKeepNonDuplicateInDir( actionObject );
+                            break;
+                        case ACTION_COMMAND_KeepAllInDir:
+                            onKeepAllInDir( actionObject );
+                            break;
+                        case ACTION_COMMAND_DeleteAllInDir:
+                            onDeleteAllInDir( actionObject );
+                            break;
+                        default:
+                            LOGGER.error("Don't known how to handle: " + cmd);
+                            break;
                     }
+                }
             };
         }
         return actionListenerContextSubMenu;

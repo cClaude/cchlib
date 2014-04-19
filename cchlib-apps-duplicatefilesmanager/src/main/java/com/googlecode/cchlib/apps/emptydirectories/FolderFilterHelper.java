@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
+import com.googlecode.cchlib.io.FileFilterHelper;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
-import com.googlecode.cchlib.io.FileFilterHelper;
 
 public class FolderFilterHelper 
 {

@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
@@ -7,7 +8,6 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreePath;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
 
 /**
  *

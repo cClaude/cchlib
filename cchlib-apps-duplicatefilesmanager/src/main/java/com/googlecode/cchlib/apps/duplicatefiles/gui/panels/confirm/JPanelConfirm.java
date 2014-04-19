@@ -1,12 +1,18 @@
 // $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm;
 
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
+import com.googlecode.cchlib.util.HashMapSet;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.Set;
 import javax.swing.BoxLayout;
@@ -23,13 +29,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
-import com.googlecode.cchlib.util.HashMapSet;
 
 public class JPanelConfirm extends JPanel
 {
@@ -37,31 +36,31 @@ public class JPanelConfirm extends JPanel
     private static final Logger LOGGER = Logger.getLogger(JPanelConfirm.class);
     public static final String ACTIONCMD_GENERATE_SCRIPT = "ACTIONCMD_GENERATE_SCRIPT";
 
-    private AppToolKit dfToolKit;
-    private JTable jTableFiles2Delete;
-    private JLabel jLabelTitle;
-    private JProgressBar jProgressBarDeleteProcess;
-    private JButton jButtonDoScript;
+    private final AppToolKit dfToolKit;
+    private final JTable jTableFiles2Delete;
+    private final JLabel jLabelTitle;
+    private final JProgressBar jProgressBarDeleteProcess;
+    private final JButton jButtonDoScript;
 
-    private Icon iconOk;
-    private Icon iconKo;
-    private Icon iconKoButDelete;
+    private final Icon iconOk;
+    private final Icon iconKo;
+    private final Icon iconKoButDelete;
     private AbstractTableModel tableModel;
     private JPanelConfirmModel tableDts_toDelete;
 
-    @I18nString private String[] columnsHeaders = {
+    @I18nString private final String[] columnsHeaders = {
         "File to delete",
         "Length",
         "Kept",
         "Deleted"
         };
-    @I18nString private String txtWaiting = "Waitting for user...";
-    @I18nString private String txtTitle = "%d file(s) selected to be deleted";
-    @I18nString private String txtMsgDone = "Done";
-    @I18nString private String txtCopy = "Copy";
-    @I18nString private String msgStr_doDeleteExceptiontitle = "Error while deleting files";
-    @I18nString private String txtIconKo = "File already exist";
-    @I18nString private String txtIconKoButDelete = "File does not exist";
+    @I18nString private final String txtWaiting = "Waitting for user...";
+    @I18nString private final String txtTitle = "%d file(s) selected to be deleted";
+    @I18nString private final String txtMsgDone = "Done";
+    @I18nString private final String txtCopy = "Copy";
+    @I18nString private final String msgStr_doDeleteExceptiontitle = "Error while deleting files";
+    @I18nString private final String txtIconKo = "File already exist";
+    @I18nString private final String txtIconKoButDelete = "File does not exist";
 
     public JPanelConfirm()
     {
@@ -109,10 +108,7 @@ public class JPanelConfirm extends JPanel
             gbc_jButtonDoScript.gridy = 3;
             jButtonDoScript = new JButton("Create script");
             jButtonDoScript.setActionCommand( ACTIONCMD_GENERATE_SCRIPT );
-            jButtonDoScript.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                }
+            jButtonDoScript.addActionListener((ActionEvent e) -> {
             });
             add( jButtonDoScript, gbc_jButtonDoScript);
 
@@ -324,21 +320,17 @@ public class JPanelConfirm extends JPanel
         final HashMapSet<String,KeyFileState>   duplicateFiles // $codepro.audit.disable declareAsInterface
         )
     {
-        Runnable task = new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    private_doDelete( duplicateFiles );
-                    }
-                catch( Exception e ) {
-                    LOGGER.fatal( "*** Error catched while delete files", e );
-                    DialogHelper.showMessageExceptionDialog(
-                            dfToolKit.getMainFrame(), //.getMainWindow(),
-                            msgStr_doDeleteExceptiontitle,
-                            e
-                            );
-                    }
+        Runnable task = () -> {
+            try {
+                private_doDelete( duplicateFiles );
+            }
+            catch( Exception e ) {
+                LOGGER.fatal( "*** Error catched while delete files", e );
+                DialogHelper.showMessageExceptionDialog(
+                        dfToolKit.getMainFrame(), //.getMainWindow(),
+                        msgStr_doDeleteExceptiontitle,
+                        e
+                );
             }
         };
 
@@ -380,18 +372,14 @@ public class JPanelConfirm extends JPanel
 
             final int row = i;
 
-            SwingUtilities.invokeLater( new Runnable() { // $codepro.audit.disable anonymousClassInLoop, avoidInstantiationInLoops
-                @Override
-                public void run()
-                {
-                    try {
-                        jTableFiles2Delete.scrollRectToVisible(
+            SwingUtilities.invokeLater( () -> {
+                try {
+                    jTableFiles2Delete.scrollRectToVisible(
                             jTableFiles2Delete.getCellRect(row, 0, true)
-                            );
-                        }
-                    catch( Exception e ) {
-                        LOGGER.warn( "Swing error:", e );
-                        }
+                    );
+                }
+                catch( Exception e ) {
+                    LOGGER.warn( "Swing error:", e );
                 }
             });
 

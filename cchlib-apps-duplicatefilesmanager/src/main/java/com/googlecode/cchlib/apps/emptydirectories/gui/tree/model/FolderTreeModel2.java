@@ -1,5 +1,9 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.util.iterable.Iterables;
+import com.googlecode.cchlib.util.iterator.SingletonIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,12 +20,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrapperException;
-import com.googlecode.cchlib.util.iterable.Iterables;
-import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
 /**
  *
@@ -34,7 +32,7 @@ class FolderTreeModel2
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( FolderTreeModel2.class );
 
-    private FolderTreeBuilder folderTreeBuilder;
+    private final FolderTreeBuilder folderTreeBuilder;
     private final Set<EmptyFolder> selectedNodes = new HashSet<>();
     private final Object lock = new Object();
 
@@ -258,7 +256,7 @@ class FolderTreeModel2
      */
     protected final TreePath getPath( TreeNode node )
     {
-        final List<TreeNode> list = new ArrayList<TreeNode>();
+        final List<TreeNode> list = new ArrayList<>();
 
         // Add all nodes to list
         while( node != null ) {
@@ -297,12 +295,7 @@ class FolderTreeModel2
         @SuppressWarnings("unchecked")
         final Enumeration<Object> enumeration = getRootNode().children(); // never null
 
-        return Iterables.wrap( enumeration, new Wrappable<Object,FolderTreeNode>() {
-            @Override
-            public FolderTreeNode wrap( Object obj ) throws WrapperException
-            {
-                 return FolderTreeNode.class.cast( obj );
-            }} );
+        return Iterables.wrap( enumeration, FolderTreeNode.class::cast);
     }
 
     /**
@@ -348,10 +341,10 @@ class FolderTreeModel2
     //@Override
     protected Iterator<FolderTreeNode> nodeIterator()
     {
-        final List<Iterator<FolderTreeNode>> iterators = new ArrayList<Iterator<FolderTreeNode>>();
+        final List<Iterator<FolderTreeNode>> iterators = new ArrayList<>();
 
         for( FolderTreeNode rn : rootNodes() ) {
-            iterators.add( new SingletonIterator<FolderTreeNode>( rn ) );
+            iterators.add( new SingletonIterator<>( rn ) );
             }
 
         return new Iterator<FolderTreeNode>()

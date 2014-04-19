@@ -7,10 +7,10 @@ package com.googlecode.cchlib.apps.duplicatefiles.alpha.filefilter;
 public abstract class AbstractXFileFilter
     implements XFileFilter
 {
-    private String name;
-    private String description;
-    private XFileFilterType type;
-    private XFileFilterMode mode;
+    private final String name;
+    private final String description;
+    private final XFileFilterType type;
+    private final XFileFilterMode mode;
 
     /**
     *

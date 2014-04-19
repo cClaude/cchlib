@@ -1,5 +1,13 @@
 package com.googlecode.cchlib.apps.emptyfiles.panel.remove;
 
+import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
+import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
+import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.table.ForceColumnWidthModel;
+import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
+import com.googlecode.cchlib.util.iterable.Iterables;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,16 +20,6 @@ import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
-import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
-import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.table.ForceColumnWidthModel;
-import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
-import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.WrapperException;
-import com.googlecode.cchlib.util.iterable.Iterables;
 
 /**
  *
@@ -280,13 +278,7 @@ public class WorkingTableModel
 
     private Iterable<FileInfo> getFileInfos()
     {
-        return Iterables.transform( this.fileList, new Wrappable<File,FileInfo>() {
-            @Override
-            public FileInfo wrap( File file ) throws WrapperException
-            {
-                return getFileInfo( file );
-            }
-        } );
+        return Iterables.transform( this.fileList, this::getFileInfo);
     }
 
     public int getSelectedRowCount()

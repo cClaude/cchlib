@@ -10,7 +10,7 @@ import javax.swing.tree.TreePath;
 public class Folder3TreeImpl extends JTree
 {
     private static final long serialVersionUID = 1L;
-    private Set<Folder3TreeNode> selectedNodes = new HashSet<>();
+    private final Set<Folder3TreeNode> selectedNodes = new HashSet<>();
 
     public Folder3TreeImpl( )
     {

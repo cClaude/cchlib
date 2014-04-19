@@ -1,19 +1,18 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Window;
 import java.io.File;
 import java.util.Collections;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.swing.JFileChooser;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 
 /**
  * Fake class for tests
@@ -22,7 +21,7 @@ public class FakeAppToolKit implements AppToolKit
 {
     private static final long serialVersionUID = 1L;
     private JFileChooserInitializer jFileChooserInitializer;
-    private DefaultAppToolKit delegator;
+    private final DefaultAppToolKit delegator;
 
     public FakeAppToolKit()
     {

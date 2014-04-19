@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.apps.emptydirectories.debug;
 
+import com.googlecode.cchlib.apps.emptydirectories.debug.lib.DefaultCheckBoxTreeCellRenderer;
+import com.googlecode.cchlib.apps.emptydirectories.debug.lib.DualIcon;
 import java.awt.Component;
 import java.io.File;
 import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.TreeCellRenderer;
-import com.googlecode.cchlib.apps.emptydirectories.debug.lib.DefaultCheckBoxTreeCellRenderer;
-import com.googlecode.cchlib.apps.emptydirectories.debug.lib.DualIcon;
 
 final class Folder3TreeCellRenderer extends DefaultCheckBoxTreeCellRenderer implements TreeCellRenderer {
     private static final long serialVersionUID = 1L;

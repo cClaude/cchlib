@@ -1,13 +1,20 @@
 // $codepro.audit.disable questionableName, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Locale;
 import javax.swing.JButton;
@@ -21,14 +28,6 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 
 /**
  *
@@ -205,7 +204,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
                 panel.add(jLabelUserLevel, gbc_jLabelUserLevel);
             }
             {
-                jComboBoxUserLevel = new JComboBox<ConfigMode>();
+                jComboBoxUserLevel = new JComboBox<>();
                 GridBagConstraints gbc_jComboBoxUserLevel = new GridBagConstraints();
                 gbc_jComboBoxUserLevel.insets = new Insets(0, 0, 5, 5);
                 gbc_jComboBoxUserLevel.fill = GridBagConstraints.HORIZONTAL;
@@ -315,7 +314,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
                 panel.add(jLabelLocale, gbc_jLabelLocale);
             }
             {
-                jComboBoxLocal = new JComboBox<ListInfo<Locale>>();
+                jComboBoxLocal = new JComboBox<>();
                 GridBagConstraints gbc_jComboBoxLocal = new GridBagConstraints();
                 gbc_jComboBoxLocal.gridwidth = 2;
                 gbc_jComboBoxLocal.insets = new Insets(0, 0, 5, 5);
@@ -334,7 +333,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
                 panel.add(jLabelLookAndFeel, gbc_jLabelLookAndFeel);
             }
             {
-                jComboBoxLookAndFeel = new JComboBox<ListInfo<LookAndFeelInfo>>();
+                jComboBoxLookAndFeel = new JComboBox<>();
                 GridBagConstraints gbc_jComboBoxLookAndFeel = new GridBagConstraints();
                 gbc_jComboBoxLookAndFeel.gridwidth = 3;
                 gbc_jComboBoxLookAndFeel.insets = new Insets(0, 0, 5, 0);
@@ -413,11 +412,8 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             gbc_jButtonCancel.gridx = 0;
             gbc_jButtonCancel.gridy = 1;
             contentPanel.add(jButtonCancel, gbc_jButtonCancel);
-            jButtonCancel.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    PreferencesDialogWB.this.dispose();
-                }
+            jButtonCancel.addActionListener((ActionEvent e) -> {
+                PreferencesDialogWB.this.dispose();
             });
         }
         {
@@ -427,39 +423,36 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             gbc_jButtonSave.gridx = 2;
             gbc_jButtonSave.gridy = 1;
             contentPanel.add(jButtonSave, gbc_jButtonSave);
-            jButtonSave.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent event ) {
-                    prefs.setConfigMode( getSelectedItem( jComboBoxUserLevel ) );
-                    prefs.setDeleteSleepDisplay( deleteSleepDisplayTF.getValue() );
-                    prefs.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntriesTF.getValue() );
-                    prefs.setMessageDigestBufferSize( messageDigestBufferSizeTF.getValue() );
-                    //prefs.setLastDirectory( file );
-                    prefs.setLocale( getSelectedItem( jComboBoxLocal ).getContent() );
-                    prefs.setLookAndFeelInfo( getSelectedItem( jComboBoxLookAndFeel ).getContent() );
-
-                    prefs.setIgnoreHiddenFiles( jCheckBox_ignoreHiddenFiles.isSelected() );
-                    prefs.setIgnoreHiddenDirectories( jCheckBox_ignoreHiddenDirectories.isSelected() );
-                    prefs.setIgnoreReadOnlyFiles( jCheckBox_ignoreReadOnlyFiles.isSelected() );
-                    prefs.setIgnoreEmptyFiles( jCheckBox_ignoreHiddenFiles.isSelected() );
-
-                    if( jCheckBoxWindowDimension.isSelected() ) {
-                        prefs.setWindowDimension( mainWindowDimension );
-                        }
-                    try {
-                        prefs.save();
-                        }
-                    catch( IOException e ) {
-                        e.printStackTrace();
-
-                        DialogHelper.showMessageExceptionDialog(
+            jButtonSave.addActionListener((ActionEvent event) -> {
+                prefs.setConfigMode( getSelectedItem( jComboBoxUserLevel ) );
+                prefs.setDeleteSleepDisplay( deleteSleepDisplayTF.getValue() );
+                prefs.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntriesTF.getValue() );
+                prefs.setMessageDigestBufferSize( messageDigestBufferSizeTF.getValue() );
+                //prefs.setLastDirectory( file );
+                prefs.setLocale( getSelectedItem( jComboBoxLocal ).getContent() );
+                prefs.setLookAndFeelInfo( getSelectedItem( jComboBoxLookAndFeel ).getContent() );
+                
+                prefs.setIgnoreHiddenFiles( jCheckBox_ignoreHiddenFiles.isSelected() );
+                prefs.setIgnoreHiddenDirectories( jCheckBox_ignoreHiddenDirectories.isSelected() );
+                prefs.setIgnoreReadOnlyFiles( jCheckBox_ignoreReadOnlyFiles.isSelected() );
+                prefs.setIgnoreEmptyFiles( jCheckBox_ignoreHiddenFiles.isSelected() );
+                
+                if( jCheckBoxWindowDimension.isSelected() ) {
+                    prefs.setWindowDimension( mainWindowDimension );
+                }
+                try {
+                    prefs.save();
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                    
+                    DialogHelper.showMessageExceptionDialog(
                             PreferencesDialogWB.this,
                             txtPreferencesDialogMessageExceptionDialogTitle,
                             e
-                            );
-                        }
-                    PreferencesDialogWB.this.dispose();
+                    );
                 }
+                PreferencesDialogWB.this.dispose();
             });
         }
     }

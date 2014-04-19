@@ -1,35 +1,32 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
+import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 import java.awt.EventQueue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.SpringLayout;
-import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
+import javax.swing.border.EmptyBorder;
 
 public class PropertiesXComboBoxPatternBuilderTstFrameWB extends JFrame
 {
     private static final long serialVersionUID = 1L;
-    private static File propertiesFile = new File( "C:\\tst.properties" );
-    private JPanel contentPane;
+    private static final File propertiesFile = new File( "C:\\tst.properties" );
+    private final JPanel contentPane;
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    PropertiesXComboBoxPatternBuilderTstFrameWB frame = new PropertiesXComboBoxPatternBuilderTstFrameWB();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                PropertiesXComboBoxPatternBuilderTstFrameWB frame = new PropertiesXComboBoxPatternBuilderTstFrameWB();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }

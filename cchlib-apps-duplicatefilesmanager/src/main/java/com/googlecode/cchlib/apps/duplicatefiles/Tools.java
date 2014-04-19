@@ -15,17 +15,12 @@ public class Tools
      */
     public static void run( final Runnable runner, final String threadName )
     {
-        new Thread( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try {
-                    runner.run();
-                    }
-                catch( Exception e ) {
-                    LOGGER.warn( "Unexpected error", e );
-                    }
+        new Thread( () -> {
+            try {
+                runner.run();
+            }
+            catch( Exception e ) {
+                LOGGER.warn( "Unexpected error", e );
             }
         }, threadName).start();
     }

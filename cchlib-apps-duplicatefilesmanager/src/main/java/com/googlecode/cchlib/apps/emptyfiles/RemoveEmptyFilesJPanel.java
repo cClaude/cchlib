@@ -1,5 +1,17 @@
 package com.googlecode.cchlib.apps.emptyfiles;
 
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
+import com.googlecode.cchlib.apps.emptyfiles.panel.select.SelectDirecoriesJPanel;
+import com.googlecode.cchlib.apps.emptyfiles.tasks.FindTask;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.io.File;
@@ -16,18 +28,6 @@ import javax.swing.JProgressBar;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.Resources;
-import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
-import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
-import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
-import com.googlecode.cchlib.apps.emptyfiles.panel.select.SelectDirecoriesJPanel;
-import com.googlecode.cchlib.apps.emptyfiles.tasks.FindTask;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 @I18nName("emptyfiles.RemoveEmptyFilesJPanel")
 public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdatable // $codepro.audit.disable largeNumberOfFields
@@ -35,20 +35,20 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( RemoveEmptyFilesJPanel.class );
 
-    private JPanel                mainJPanel;
-    private CardLayout            cardLayout;
+    private final JPanel                mainJPanel;
+    private final CardLayout            cardLayout;
 
-    private SelectDirecoriesJPanel selecDirecoriesJPanel;
+    private final SelectDirecoriesJPanel selecDirecoriesJPanel;
 
-    private WorkingJPanel         workingJPanel;
+    private final WorkingJPanel         workingJPanel;
     private WorkingTableModel     tableModel;
 
-    @I18nString private String findFilesFmt = "%d files in list";
-    @I18nString private String fileLengthFmt = "%d bytes";
-    @I18nString private String fileAttributsDelete = "Deleted";
+    @I18nString private final String findFilesFmt = "%d files in list";
+    @I18nString private final String fileLengthFmt = "%d bytes";
+    @I18nString private final String fileAttributsDelete = "Deleted";
 
     // private JFileChooserInitializer jFileChooserInitializer;
-    private AppToolKit dfToolKit;
+    private final AppToolKit dfToolKit;
 
     /**
      * Create the panel.
@@ -112,12 +112,8 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
         progressBar.setIndeterminate( true );
         progressBar.setStringPainted( true );
 
-        TableModelListener tableModelListener = new TableModelListener() {
-            @Override
-            public void tableChanged( TableModelEvent e )
-            {
-                progressBar.setString( String.format( findFilesFmt, Integer.valueOf( tableModel.getRowCount() ) ) );
-            }
+        TableModelListener tableModelListener = (TableModelEvent e) -> {
+            progressBar.setString( String.format( findFilesFmt, Integer.valueOf( tableModel.getRowCount() ) ) );
         };
         this.tableModel.addTableModelListener( tableModelListener  );
 
@@ -157,18 +153,14 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
     {
         LOGGER.info( "doImport()" );
 
-        Runnable importDirectories = new Runnable() {
-            @Override
-            public void run()
-            {
-                List<File> dirs = getDFToolKit().getRootDirectoriesList();
-
-                for( File file : dirs ) {
-                    directoriesJListModel.addElement( file );
-                    }
-
-                LOGGER.info( "doImport() done" );
+        Runnable importDirectories = () -> {
+            List<File> dirs = getDFToolKit().getRootDirectoriesList();
+            
+            for( File file : dirs ) {
+                directoriesJListModel.addElement( file );
             }
+            
+            LOGGER.info( "doImport() done" );
         };
         new Thread( importDirectories, "doImport():importDirectories" ).start();
     }

@@ -1,23 +1,6 @@
 // $codepro.audit.disable largeNumberOfFields
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
-import java.awt.HeadlessException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.security.NoSuchAlgorithmException;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.TooManyListenersException;
-
-import javax.swing.AbstractButton;
-import javax.swing.Icon;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
-import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.Tools;
@@ -35,6 +18,20 @@ import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 import com.googlecode.cchlib.util.HashMapSet;
 import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
+import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.security.NoSuchAlgorithmException;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.TooManyListenersException;
+import javax.swing.AbstractButton;
+import javax.swing.Icon;
+import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -50,7 +47,7 @@ final public class DuplicateFilesFrame
     private RemoveEmptyDirectoriesStandaloneApp removeEmptyDirectories;
     private ActionListener mainActionListener;
 
-    private HashMapSet<String,KeyFileState> duplicateFiles = new HashMapSet<String,KeyFileState>(); // $codepro.audit.disable declareAsInterface
+    private final HashMapSet<String,KeyFileState> duplicateFiles = new HashMapSet<>(); // $codepro.audit.disable declareAsInterface
 
     private int                 state;
     private int                 subState;
@@ -62,18 +59,18 @@ final public class DuplicateFilesFrame
     private static final int    SUBSTATE_CONFIRM_INIT  = 0;
     private static final int    SUBSTATE_CONFIRM_DONE  = 1;
 
-    private AutoI18nCore autoI18n;
+    private final AutoI18nCore autoI18n;
 
     private Icon iconContinue;
     private Icon iconRestart;
 
-    @I18nString private String txtContinue  = "Continue";
-    @I18nString private String txtRestart   = "Restart";
-    @I18nString private String txtRemove    = "Remove";
-    @I18nString private String txtDeleteNow = "Delete now";
-    @I18nString private String txtBack      = "Back";
-    @I18nString private String txtCancel            = "Cancel";
-    @I18nString private String txtClearSelection    = "Clear selection";
+    @I18nString private final String txtContinue  = "Continue";
+    @I18nString private final String txtRestart   = "Restart";
+    @I18nString private final String txtRemove    = "Remove";
+    @I18nString private final String txtDeleteNow = "Delete now";
+    @I18nString private final String txtBack      = "Back";
+    @I18nString private final String txtCancel            = "Cancel";
+    @I18nString private final String txtClearSelection    = "Clear selection";
 
     public DuplicateFilesFrame(
         final Preferences preferences
@@ -226,100 +223,73 @@ final public class DuplicateFilesFrame
 
     private void updateDisplayAccordingState()
     {
-        final Runnable safeRunner = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                applyConfigMode();
-
-                LOGGER.debug( "updateDisplayAccordState: " + state );
-
-                getDuplicateFilesMainPanel().selectedPanel( state );
-
-                getDuplicateFilesMainPanel().getJButtonNextStep().setText( txtContinue );
-                getDuplicateFilesMainPanel().getJButtonNextStep().setIcon( iconContinue );
-
-                getDuplicateFilesMainPanel().getJButtonRestart().setText( txtRestart );
-                getDuplicateFilesMainPanel().getJButtonRestart().setIcon( iconRestart );
-
-                getDuplicateFilesMainPanel().getJButtonCancel().setText( txtCancel );
-
-                if( state == STATE_SELECT_DIRS ) {
-                    getDuplicateFilesMainPanel().getJPanel2Searching().clear();
+        final Runnable safeRunner = () -> {
+            applyConfigMode();
+            LOGGER.debug( "updateDisplayAccordState: " + state );
+            getDuplicateFilesMainPanel().selectedPanel( state );
+            getDuplicateFilesMainPanel().getJButtonNextStep().setText( txtContinue );
+            getDuplicateFilesMainPanel().getJButtonNextStep().setIcon( iconContinue );
+            getDuplicateFilesMainPanel().getJButtonRestart().setText( txtRestart );
+            getDuplicateFilesMainPanel().getJButtonRestart().setIcon( iconRestart );
+            getDuplicateFilesMainPanel().getJButtonCancel().setText( txtCancel );
+            if (state == STATE_SELECT_DIRS) {
+                getDuplicateFilesMainPanel().getJPanel2Searching().clear();
+                getDuplicateFilesMainPanel().getJPanel3Result().clear();
+                
+                getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( false );
+                getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
+            } else if (state == STATE_SEARCH_CONFIG) {
+                getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( true );
+                getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
+            } else if (state == STATE_SEARCHING) {
+                getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( false );
+                getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( false );
+                getJMenuLookAndFeel().setEnabled( false );
+                try {
+                    getDuplicateFilesMainPanel().getJPanel2Searching().prepareScan(
+                            new MessageDigestFile(
+                                    "MD5",
+                                    getDFToolKit().getPreferences().getMessageDigestBufferSize()
+                            ),
+                            getDuplicateFilesMainPanel().getJPanel1Config().isIgnoreEmptyFiles()
+                    );
+                }
+                catch( NoSuchAlgorithmException ignore ) {
+                    LOGGER.error( ignore );
+                }
+                new Thread(() -> {
+                    getDuplicateFilesMainPanel().getJPanel2Searching().doScan(
+                            getDuplicateFilesMainPanel().getJPanel0Select().entriesToScans(),
+                            getDuplicateFilesMainPanel().getJPanel0Select().entriesToIgnore(),
+                            getDuplicateFilesMainPanel().getJPanel1Config().getFileFilterBuilders(),
+                            duplicateFiles
+                    );
+                    getJMenuLookAndFeel().setEnabled( true );
+                    getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( true );
+                }, "STATE_SEARCHING").start();
+            } else if (state == STATE_RESULTS) {
+                getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( false );
+                getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( false );
+                getDuplicateFilesMainPanel().getJButtonNextStep().setText( txtRemove );
+                getDuplicateFilesMainPanel().getJButtonCancel().setText( txtClearSelection );
+                getDuplicateFilesMainPanel().getJButtonCancel().setEnabled( true );
+                SwingUtilities.invokeLater(() -> {
                     getDuplicateFilesMainPanel().getJPanel3Result().clear();
-
-                    getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( false );
-                    getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
-                    }
-                else if( state == STATE_SEARCH_CONFIG ) {
                     getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( true );
                     getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
-                    }
-                else if( state == STATE_SEARCHING ) {
-                    getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( false );
+                });
+            } else if( state == STATE_CONFIRM ) {
+                getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( true );
+                getDuplicateFilesMainPanel().getJButtonRestart().setText( txtBack );
+                
+                if( subState == SUBSTATE_CONFIRM_INIT ) {
+                    getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
+                    getDuplicateFilesMainPanel().getJButtonNextStep().setText( txtDeleteNow  );
+                    getDuplicateFilesMainPanel().getJPanel4Confirm().populate( duplicateFiles );
+                }
+                else {
                     getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( false );
-                    getJMenuLookAndFeel().setEnabled( false );
-
-                    try {
-                        getDuplicateFilesMainPanel().getJPanel2Searching().prepareScan(
-                                new MessageDigestFile(
-                                        "MD5",
-                                        getDFToolKit().getPreferences().getMessageDigestBufferSize()
-                                        ),
-                                    getDuplicateFilesMainPanel().getJPanel1Config().isIgnoreEmptyFiles()
-                                );
-                        }
-                    catch( NoSuchAlgorithmException ignore ) {
-                        LOGGER.error( ignore );
-                        }
-
-                    new Thread( new Runnable()
-                        {
-                            @Override
-                            public void run()
-                            {
-                                getDuplicateFilesMainPanel().getJPanel2Searching().doScan(
-                                    getDuplicateFilesMainPanel().getJPanel0Select().entriesToScans(),
-                                    getDuplicateFilesMainPanel().getJPanel0Select().entriesToIgnore(),
-                                    getDuplicateFilesMainPanel().getJPanel1Config().getFileFilterBuilders(),
-                                    duplicateFiles
-                                    );
-                                getJMenuLookAndFeel().setEnabled( true );
-                                getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( true );
-                            }
-                        }, "STATE_SEARCHING").start();
-                    }
-                else if( state == STATE_RESULTS ) {
-                    getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( false );
-                    getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( false );
-                    getDuplicateFilesMainPanel().getJButtonNextStep().setText( txtRemove );
-                    getDuplicateFilesMainPanel().getJButtonCancel().setText( txtClearSelection );
-                    getDuplicateFilesMainPanel().getJButtonCancel().setEnabled( true );
-
-                    SwingUtilities.invokeLater( new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            //getJPanel3Result().initDisplay();
-                            getDuplicateFilesMainPanel().getJPanel3Result().clear();
-                            getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( true );
-                            getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
-                        }} );
-                    }
-                else if( state == STATE_CONFIRM ) {
-                    getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( true );
-                    getDuplicateFilesMainPanel().getJButtonRestart().setText( txtBack );
-
-                    if( subState == SUBSTATE_CONFIRM_INIT ) {
-                        getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
-                        getDuplicateFilesMainPanel().getJButtonNextStep().setText( txtDeleteNow  );
-                        getDuplicateFilesMainPanel().getJPanel4Confirm().populate( duplicateFiles );
-                        }
-                    else {
-                        getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( false );
-                        }
-                    }
+                }
             }
         };
         SafeSwingUtilities.invokeLater( safeRunner, "updateDisplayAccordingState()" );
@@ -355,17 +325,13 @@ final public class DuplicateFilesFrame
                 if( subState == SUBSTATE_CONFIRM_INIT ) {
                     getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( false );
 
-                    SafeSwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            getDuplicateFilesMainPanel().getJPanel4Confirm().doDelete( duplicateFiles );
-
-                            //state = STATE_RESULTS;
-                            subState = SUBSTATE_CONFIRM_DONE;
-                            updateDisplayAccordingState();
-                        }
-                        }, "SUBSTATE_CONFIRM_INIT");
+                    SafeSwingUtilities.invokeLater(() -> {
+                        getDuplicateFilesMainPanel().getJPanel4Confirm().doDelete( duplicateFiles );
+                        
+                        //state = STATE_RESULTS;
+                        subState = SUBSTATE_CONFIRM_DONE;
+                        updateDisplayAccordingState();
+                    }, "SUBSTATE_CONFIRM_INIT");
                     return;
                     }
                 }
@@ -378,79 +344,57 @@ final public class DuplicateFilesFrame
     public ActionListener getActionListener()
     {
         if( this.mainActionListener == null ) {
-            this.mainActionListener = new ActionListener()
-            {
-                @Override
-                public void actionPerformed( ActionEvent event )
-                {
-                    switch( event.getActionCommand() ) {
-                        case ACTIONCMD_EXIT :
-                            exitApplication();
-                            break;
-
-                        case DuplicateFilesMainPanel.ACTIONCMD_RESTART :
-                            if( getDuplicateFilesMainPanel().getJButtonRestart().isEnabled() ) {
-                                if( state == STATE_CONFIRM ) {
-                                    state = STATE_RESULTS;
-                                    }
-                                else {
-                                    state = STATE_SELECT_DIRS;
-                                    getDuplicateFilesMainPanel().getJPanel2Searching().clear();
-                                    }
-
-                                updateDisplayAccordingState();
-                                }
-                            break;
-
-                        case DuplicateFilesMainPanel.ACTIONCMD_NEXT:
-                            jButtonNextStep_ActionPerformed();
-                            break;
-
-                        case DuplicateFilesMainPanel.ACTIONCMD_CANCEL :
-                            if( getDuplicateFilesMainPanel().getJButtonCancel().isEnabled() ) {
-                                getDuplicateFilesMainPanel().getJButtonCancel().setEnabled( false );
-                                getDuplicateFilesMainPanel().getJPanel2Searching().cancelProcess();
-                                getDuplicateFilesMainPanel().getJPanel3Result().clearSelected();
-                                }
-                            break;
-
-                        case ACTIONCMD_SET_MODE :
-                            {
-                            AbstractButton sourceConfigMode = AbstractButton.class.cast( event.getSource() );
-                            LOGGER.debug( "source: " + sourceConfigMode );
-
-                            getDFToolKit().getPreferences().setConfigMode(
-                                ConfigMode.class.cast(
-                                    sourceConfigMode.getClientProperty( ConfigMode.class )
-                                    )
-                                );
-
-                            applyConfigMode();
-                            }
-                            break;
-
-                        case ACTIONCMD_PREFS :
-                            Tools.run( new Runnable() {
-                                @Override
-                                public void run()
-                                {
-                                    openPreferences();
-                                }}, ACTIONCMD_PREFS );
-                            break;
-
-                        case ACTIONCMD_ABOUT :
-                            Tools.run( new Runnable() {
-                                @Override
-                                public void run()
-                                {
-                                    openAbout();
-                                }}, ACTIONCMD_ABOUT );
-                            break;
-
-                        default:
-                            LOGGER.warn( "Undefined ActionCommand: " + event.getActionCommand() );
-                            break;
+            this.mainActionListener = (ActionEvent event) -> {
+                switch (event.getActionCommand()) {
+                    case ACTIONCMD_EXIT :
+                        exitApplication();
+                        break;
+                case DuplicateFilesMainPanel.ACTIONCMD_RESTART :
+                    if( getDuplicateFilesMainPanel().getJButtonRestart().isEnabled() ) {
+                        if( state == STATE_CONFIRM ) {
+                            state = STATE_RESULTS;
+                        }
+                        else {
+                            state = STATE_SELECT_DIRS;
+                            getDuplicateFilesMainPanel().getJPanel2Searching().clear();
+                        }
+                        
+                        updateDisplayAccordingState();
                     }
+                    break;
+                case DuplicateFilesMainPanel.ACTIONCMD_NEXT:
+                    jButtonNextStep_ActionPerformed();
+                    break;
+                case DuplicateFilesMainPanel.ACTIONCMD_CANCEL :
+                    if( getDuplicateFilesMainPanel().getJButtonCancel().isEnabled() ) {
+                        getDuplicateFilesMainPanel().getJButtonCancel().setEnabled( false );
+                        getDuplicateFilesMainPanel().getJPanel2Searching().cancelProcess();
+                        getDuplicateFilesMainPanel().getJPanel3Result().clearSelected();
+                    }
+                    break;
+                case ACTIONCMD_SET_MODE :
+                {
+                    AbstractButton sourceConfigMode = AbstractButton.class.cast( event.getSource() );
+                    LOGGER.debug( "source: " + sourceConfigMode );
+                    
+                    getDFToolKit().getPreferences().setConfigMode(
+                            ConfigMode.class.cast(
+                                    sourceConfigMode.getClientProperty( ConfigMode.class )
+                            )
+                    );
+                    
+                    applyConfigMode();
+                }
+                break;
+                    case ACTIONCMD_PREFS:
+                        Tools.run(this::openPreferences, ACTIONCMD_PREFS);
+                        break;
+                    case ACTIONCMD_ABOUT:
+                        Tools.run(this::openAbout, ACTIONCMD_ABOUT);
+                        break;
+                    default:
+                        LOGGER.warn( "Undefined ActionCommand: " + event.getActionCommand() );
+                        break;
                 }
             };
         }
@@ -510,27 +454,22 @@ final public class DuplicateFilesFrame
     {
         getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( false );
 
-        Runnable task = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                LOGGER.info( "initComponentsJPanelConfirm begin" );
-
-                try {
-                    Thread.sleep( 1000 );
-                    }
-                catch( InterruptedException e ) {
-                    LOGGER.warn( "Interrupted", e );
-                    }
-
-                try {
-                    LOGGER.info( "initComponentsJPanelConfirm start" );
-                    getDuplicateFilesMainPanel().getJPanel3Result().populate( DuplicateFilesFrame.this.duplicateFiles );
-                } finally {
-                    getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
-                    LOGGER.info( "initComponentsJPanelConfirm done" );
-                }
+        Runnable task = () -> {
+            LOGGER.info( "initComponentsJPanelConfirm begin" );
+            
+            try {
+                Thread.sleep( 1000 );
+            }
+            catch( InterruptedException e ) {
+                LOGGER.warn( "Interrupted", e );
+            }
+            
+            try {
+                LOGGER.info( "initComponentsJPanelConfirm start" );
+                getDuplicateFilesMainPanel().getJPanel3Result().populate( DuplicateFilesFrame.this.duplicateFiles );
+            } finally {
+                getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
+                LOGGER.info( "initComponentsJPanelConfirm done" );
             }
         };
         new Thread( task, "initComponentsJPanelConfirm()" ).start();

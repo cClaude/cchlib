@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.apps.emptydirectories.path.folders;
 
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Path;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
 
 @Deprecated
 public class PathFolder implements Folder, Serializable, Comparable<Folder>

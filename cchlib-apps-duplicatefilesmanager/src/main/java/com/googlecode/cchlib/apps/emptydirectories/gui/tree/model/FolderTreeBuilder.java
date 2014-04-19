@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folders;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
 
 //not public
 final class FolderTreeBuilder
@@ -13,9 +13,9 @@ final class FolderTreeBuilder
     private static final Logger LOGGER = Logger.getLogger( FolderTreeBuilder.class );
 
     // TODO use ArrayHashMap instead !
-    private LinkedHashMap<Path,FolderTreeNode> rootNodesMap = new LinkedHashMap<Path,FolderTreeNode>(); // $codepro.audit.disable declareAsInterface
+    private final LinkedHashMap<Path,FolderTreeNode> rootNodesMap = new LinkedHashMap<>(); // $codepro.audit.disable declareAsInterface
 
-    private FolderTreeModelable model;
+    private final FolderTreeModelable model;
 
     /**
      * @param model

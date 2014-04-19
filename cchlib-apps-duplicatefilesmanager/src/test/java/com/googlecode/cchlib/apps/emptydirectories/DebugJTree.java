@@ -1,18 +1,18 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import java.io.File;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
-import org.apache.log4j.Logger;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTree;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellRenderer;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel2;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 import com.googlecode.cchlib.io.FileHelper;
+import java.io.File;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+import org.apache.log4j.Logger;
 import static org.mockito.BDDMockito.given;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class DebugJTree {
     private static final Logger LOGGER = Logger.getLogger( DebugJTree.class );
@@ -76,11 +76,6 @@ public class DebugJTree {
 //    }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new DebugJTree().createAndShowUI();
-            }
-        });
+        SwingUtilities.invokeLater(new DebugJTree()::createAndShowUI);
     }
 }

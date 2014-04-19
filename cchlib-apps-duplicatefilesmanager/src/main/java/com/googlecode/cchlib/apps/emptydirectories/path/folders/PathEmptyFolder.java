@@ -1,16 +1,16 @@
 package com.googlecode.cchlib.apps.emptydirectories.path.folders;
 
-import java.io.File;
-import java.nio.file.Path;
 import com.googlecode.cchlib.apps.emptydirectories.AbstractEmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import java.io.File;
+import java.nio.file.Path;
 
 @Deprecated
 public class PathEmptyFolder extends AbstractEmptyFolder
 {
     private static final long serialVersionUID = 2L;
-    private Path path;
+    private final Path path;
 
     protected PathEmptyFolder( final Path path, final EmptyFolderType type )
     {

@@ -10,26 +10,22 @@ import javax.swing.border.EmptyBorder;
 public class EmptyfilesTestApp extends JFrame
 {
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
+    private final JPanel contentPane;
 
     /**
      * Launch the application.
      */
     public static void main( String[] args )
     {
-        EventQueue.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    EmptyfilesTestApp frame = new EmptyfilesTestApp();
-                    frame.setVisible( true );
-                    }
-                catch( Exception e ) {
-                    e.printStackTrace();
-                    }
+        EventQueue.invokeLater( () -> {
+            try {
+                EmptyfilesTestApp frame = new EmptyfilesTestApp();
+                frame.setVisible( true );
             }
-        } );
+            catch( Exception e ) {
+                e.printStackTrace();
+            }
+        });
     }
 
     /**

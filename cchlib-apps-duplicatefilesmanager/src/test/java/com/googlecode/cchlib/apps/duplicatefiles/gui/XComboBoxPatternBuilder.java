@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
+import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
-import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
 /**
  *
@@ -16,7 +16,7 @@ public class XComboBoxPatternBuilder implements Serializable
     private static final long serialVersionUID = 1L;
 
     private Color        errorColor    = null;
-    private List<String> regExpList    = new ArrayList<String>();
+    private final List<String> regExpList    = new ArrayList<>();
 
     /**
      *

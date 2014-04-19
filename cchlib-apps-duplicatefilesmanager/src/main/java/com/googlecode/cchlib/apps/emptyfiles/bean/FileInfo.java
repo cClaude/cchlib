@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.apps.emptyfiles.bean;
 
+import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
-import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 
 /**
  *
@@ -16,8 +16,8 @@ public class FileInfo implements Serializable
     //private boolean deleted;
     //private String lengthString;
     //private String fileAttributsString;
-    private File file;
-    private FileInfoFormater fileInfoFormater;
+    private final File file;
+    private final FileInfoFormater fileInfoFormater;
 
      /**
      * 

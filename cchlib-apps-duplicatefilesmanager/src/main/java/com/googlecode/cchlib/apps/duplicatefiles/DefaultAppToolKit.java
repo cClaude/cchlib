@@ -1,19 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.awt.Component;
-import java.awt.Frame;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import javax.swing.JFileChooser;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
@@ -29,6 +15,20 @@ import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
+import java.awt.Component;
+import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import javax.swing.JFileChooser;
+import org.apache.log4j.Logger;
 
 //NOT public
 final class DefaultAppToolKit
@@ -42,9 +42,9 @@ final class DefaultAppToolKit
     private DuplicateFilesFrame mainWindow;
     private Set<AutoI18nConfig> autoI18nConfig;
 
-    @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
-    @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
-    @I18nString private String txtOpenDesktopExceptionTitle     = "Can not open file";
+    @I18nString private final String jFileChooserInitializerTitle     = "Waiting...";
+    @I18nString private final String jFileChooserInitializerMessage   = "Analyze disk structure";
+    @I18nString private final String txtOpenDesktopExceptionTitle     = "Can not open file";
 
     //NOT public
     DefaultAppToolKit(

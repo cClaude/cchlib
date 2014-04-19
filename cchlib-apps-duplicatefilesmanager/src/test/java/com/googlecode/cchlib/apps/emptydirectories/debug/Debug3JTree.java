@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.apps.emptydirectories.debug;
 
+import com.googlecode.cchlib.io.FileHelper;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
-import com.googlecode.cchlib.io.FileHelper;
 
 public class Debug3JTree
 {
@@ -78,11 +78,6 @@ public class Debug3JTree
 
     public static void main(final String[] args) {
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Debug3JTree().createAndShowUI();
-            }
-        });
+        SwingUtilities.invokeLater(new Debug3JTree()::createAndShowUI);
     }
 }

@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
 /**
  * TODOC

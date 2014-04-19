@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import javax.swing.ListModel;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import javax.swing.ListModel;
 
 /**
  *

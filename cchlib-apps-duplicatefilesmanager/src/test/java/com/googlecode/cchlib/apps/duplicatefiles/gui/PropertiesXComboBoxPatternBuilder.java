@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,8 +10,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
 public class PropertiesXComboBoxPatternBuilder
     extends XComboBoxPatternBuilder
@@ -17,8 +17,8 @@ public class PropertiesXComboBoxPatternBuilder
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( PropertiesXComboBoxPatternBuilder.class );
 
-    private PropertiesFileLock propertiesFile; // $codepro.audit.disable declareAsInterface
-    private String keyPrefix;
+    private final PropertiesFileLock propertiesFile; // $codepro.audit.disable declareAsInterface
+    private final String keyPrefix;
     private XComboBoxPattern xComboBoxPattern;
 
     public PropertiesXComboBoxPatternBuilder(
@@ -124,7 +124,7 @@ public class PropertiesXComboBoxPatternBuilder
     private static class SaveOnExitHook
     {
         private static Set<PropertiesXComboBoxPatternBuilder> COMBOS
-            = new LinkedHashSet<PropertiesXComboBoxPatternBuilder>();
+            = new LinkedHashSet<>();
 
 //        static {
 //            // DeleteOnExitHook must be the last shutdown hook to be invoked.
@@ -144,19 +144,12 @@ public class PropertiesXComboBoxPatternBuilder
 //        }
 
         static {
-            Runtime.getRuntime().addShutdownHook( new Thread( new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    runHooks();
-                }
-            }, "SaveOnExitHook"));
+            Runtime.getRuntime().addShutdownHook( new Thread( SaveOnExitHook::runHooks, "SaveOnExitHook"));
         }
 
         private SaveOnExitHook() {}
 
-        static synchronized void add( PropertiesXComboBoxPatternBuilder combo ) // $codepro.audit.disable synchronizedMethod
+        static synchronized void add( final PropertiesXComboBoxPatternBuilder combo ) // $codepro.audit.disable synchronizedMethod
         {
             if( COMBOS == null) {
                 // DeleteOnExitHook is running. Too late to add a file
@@ -173,14 +166,14 @@ public class PropertiesXComboBoxPatternBuilder
                 theCombos = COMBOS;
                 COMBOS = null;
                 }
-            List<PropertiesXComboBoxPatternBuilder> toBeSaved
-                = new ArrayList<PropertiesXComboBoxPatternBuilder>( theCombos );
+            final List<PropertiesXComboBoxPatternBuilder> toBeSaved
+                = new ArrayList<>( theCombos );
 
-            for( PropertiesXComboBoxPatternBuilder c : toBeSaved ) {
+            for( final PropertiesXComboBoxPatternBuilder c : toBeSaved ) {
                 try {
                     c.save();
                     }
-                catch (IOException e) {
+                catch (final IOException e) {
                     e.printStackTrace();
                     }
                 }

@@ -1,5 +1,11 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
+import com.googlecode.cchlib.util.HashMapSet;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import javax.swing.ButtonGroup;
@@ -7,12 +13,6 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
-import com.googlecode.cchlib.util.HashMapSet;
 
 @I18nName("duplicatefiles.JPanelResult.DuplicateSetContextualMenu")
 //NOT public
@@ -20,18 +20,18 @@ final class DuplicateSetListContextualMenu implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    @I18nString private String txtMenuIgnoreThisSetMen = "Ignore theses files";
+    @I18nString private final String txtMenuIgnoreThisSetMen = "Ignore theses files";
 
-    @I18nString private String txtMenuSortList  = "Sort by";
-    @I18nString private String txtMenuSortBySize = "Size";
-    @I18nString private String txtMenuSortByName = "Filename";
-    @I18nString private String txtMenuSortByPath = "File path";
-    @I18nString private String txtMenuSortByDepth = "File depth";
-    @I18nString private String txtMenuSortFirstFile = "Select first file";
-    @I18nString private String txtMenuSortByNumberOfDuplicate = "Number of duplicate";
-    @I18nString private String txtMenuFirstFileRandom = "Quick";
-    @I18nString private String txtMenuFirstFileDepthAscendingOrder = "Depth Order Ascending";
-    @I18nString private String txtMenuFirstFileDepthDescendingOrder = "Depth Order Descending";
+    @I18nString private final String txtMenuSortList  = "Sort by";
+    @I18nString private final String txtMenuSortBySize = "Size";
+    @I18nString private final String txtMenuSortByName = "Filename";
+    @I18nString private final String txtMenuSortByPath = "File path";
+    @I18nString private final String txtMenuSortByDepth = "File depth";
+    @I18nString private final String txtMenuSortFirstFile = "Select first file";
+    @I18nString private final String txtMenuSortByNumberOfDuplicate = "Number of duplicate";
+    @I18nString private final String txtMenuFirstFileRandom = "Quick";
+    @I18nString private final String txtMenuFirstFileDepthAscendingOrder = "Depth Order Ascending";
+    @I18nString private final String txtMenuFirstFileDepthDescendingOrder = "Depth Order Descending";
 
     private final JPanelResult jPanelResult;
 

@@ -1,6 +1,14 @@
 // $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
 
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
+import com.googlecode.cchlib.swing.textfield.XTextField;
+import com.googlecode.cchlib.util.iterable.CascadingIterable;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
@@ -23,14 +31,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
-import com.googlecode.cchlib.swing.textfield.XTextField;
-import com.googlecode.cchlib.util.iterable.CascadingIterable;
 
 /**
  * <pre>
@@ -51,30 +51,30 @@ import com.googlecode.cchlib.util.iterable.CascadingIterable;
 public class JPanelSelectFoldersOrFiles extends JPanel
 {
     private static final long serialVersionUID = 4L;
-    private static Logger LOGGER = Logger.getLogger( JPanelSelectFoldersOrFiles.class );
+    private static final Logger LOGGER = Logger.getLogger( JPanelSelectFoldersOrFiles.class );
 
-    private JTable jTableSelectedFoldersOrFiles;
-    private XTextField jTextFieldCurrentDir;
-    private JButton jButtonSelectDir;
-    private JButton jButtonSelectFile;
-    private JButton jButtonAddEntry;
-    private JButton jButtonRemEntry;
+    private final JTable jTableSelectedFoldersOrFiles;
+    private final XTextField jTextFieldCurrentDir;
+    private final JButton jButtonSelectDir;
+    private final JButton jButtonSelectFile;
+    private final JButton jButtonAddEntry;
+    private final JButton jButtonRemEntry;
 
-    private transient AppToolKit dFToolKit; // Serialization !!
+    private final transient AppToolKit dFToolKit; // Serialization !!
     private AbstractTableModel tableModelSelectedFoldersOrFiles;
-    private List<File> includeFileList  = new ArrayList<File>();
-    private List<File> ingoreFileList   = new ArrayList<File>();
+    private final List<File> includeFileList  = new ArrayList<>();
+    private final List<File> ingoreFileList   = new ArrayList<>();
 
-    @I18nString private String[] columnsHeaders = {
+    @I18nString private final String[] columnsHeaders = {
             "Files or folders names",
             "Type",  // File or Directory
             "Action" // Scan recursive, Check File, Ignore recursive
             };
-    @I18nString private String txtFile = "File";
-    @I18nString private String txtDirectory = "Directory";
-    @I18nString private String txtIgnoreContent = "Ignore content";
-    @I18nString private String txtIncludeDir = "Include content";
-    @I18nString private String txtIncludeFile = "Include file";
+    @I18nString private final String txtFile = "File";
+    @I18nString private final String txtDirectory = "Directory";
+    @I18nString private final String txtIgnoreContent = "Ignore content";
+    @I18nString private final String txtIncludeDir = "Include content";
+    @I18nString private final String txtIncludeFile = "Include file";
 
     /**
      * Create the panel.
@@ -213,15 +213,10 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             scrollPane.setViewportView(jTableSelectedFoldersOrFiles);
         }
 
-        SimpleFileDropListener dropListener = new SimpleFileDropListener()
-        {
-            @Override
-            public void filesDropped( List<File> files )
-            {
-                for( File f:files ) {
-                    LOGGER.info( "add drop file:" + f );
-                    addEntry( f, false );
-                    }
+        SimpleFileDropListener dropListener = (List<File> files) -> {
+            for( File f:files ) {
+                LOGGER.info( "add drop file:" + f );
+                addEntry( f, false );
             }
         };
 
@@ -315,23 +310,18 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
     private void onJButtonSelectDir()
     {
-        Runnable doJob = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                JFileChooser jfc = dFToolKit.getJFileChooser( dFToolKit.getMainFrame(), JPanelSelectFoldersOrFiles.this );
-                jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
-                int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
-
-                if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                    File[] files = jfc.getSelectedFiles();
-
-                    for(File f:files) {
-                        LOGGER.info( "selected dir:" + f );
-                        addEntry( f, false );
-                        }
-                    }
+        Runnable doJob = () -> {
+            JFileChooser jfc = dFToolKit.getJFileChooser( dFToolKit.getMainFrame(), JPanelSelectFoldersOrFiles.this );
+            jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+            int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
+            
+            if( returnVal == JFileChooser.APPROVE_OPTION ) {
+                File[] files = jfc.getSelectedFiles();
+                
+                for(File f:files) {
+                    LOGGER.info( "selected dir:" + f );
+                    addEntry( f, false );
+                }
             }
         };
 
@@ -340,23 +330,18 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
     private void onJButtonSelectFile()
     {
-        Runnable doJob = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                JFileChooser jfc = dFToolKit.getJFileChooser( dFToolKit.getMainFrame(), JPanelSelectFoldersOrFiles.this );
-                jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
-                int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
-
-                if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                    File[] files = jfc.getSelectedFiles();
-
-                    for(File f:files) {
-                        LOGGER.info( "selected file:" + f );
-                        addEntry( f, false );
-                        }
-                    }
+        Runnable doJob = () -> {
+            JFileChooser jfc = dFToolKit.getJFileChooser( dFToolKit.getMainFrame(), JPanelSelectFoldersOrFiles.this );
+            jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
+            int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
+            
+            if( returnVal == JFileChooser.APPROVE_OPTION ) {
+                File[] files = jfc.getSelectedFiles();
+                
+                for(File f:files) {
+                    LOGGER.info( "selected file:" + f );
+                    addEntry( f, false );
+                }
             }
         };
 
@@ -445,7 +430,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
        array[ 0 ] = includeFileList;
        array[ 1 ] = ingoreFileList;
 
-       return new CascadingIterable<File>( array );
+       return new CascadingIterable<>( array );
     }
 
     public Iterable<File> entriesToScans()

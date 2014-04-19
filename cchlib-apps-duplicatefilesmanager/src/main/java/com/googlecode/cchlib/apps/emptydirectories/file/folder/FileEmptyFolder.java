@@ -1,15 +1,15 @@
 package com.googlecode.cchlib.apps.emptydirectories.file.folder;
 
-import java.io.File;
-import java.nio.file.Path;
 import com.googlecode.cchlib.apps.emptydirectories.AbstractEmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import java.io.File;
+import java.nio.file.Path;
 
 public class FileEmptyFolder extends AbstractEmptyFolder// implements EmptyFolder
 {
     private static final long serialVersionUID = 1L;
-    private File file;
+    private final File file;
 
     protected FileEmptyFolder( File emptyDirectoryFile, EmptyFolderType type )
     {

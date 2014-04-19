@@ -1,5 +1,8 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folders;
+import com.googlecode.cchlib.lang.StringHelper;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,9 +18,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
-import com.googlecode.cchlib.lang.StringHelper;
 
 public class FolderTreeBuilderTest
 {
@@ -32,7 +32,7 @@ public class FolderTreeBuilderTest
     public static void tearDownAfterClass()
     {}
 
-    private List<Path> globalList = new ArrayList<>();
+    private final List<Path> globalList = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception

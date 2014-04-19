@@ -1,5 +1,8 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.list.DefaultListCellRenderer;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.Serializable;
@@ -10,9 +13,6 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.list.DefaultListCellRenderer;
 
 /**
  *
@@ -47,14 +47,14 @@ class KeyFileStateListCellRenderer
     private static final long serialVersionUID = 1L;
     private static final LinkOption DEFAULT_LINK_OPTIONS = LinkOption.NOFOLLOW_LINKS;
 
-    @I18nString private String executableStr = "Executable";
-    @I18nString private String notExecutableStr = "Not Executable";
-    @I18nString private String hiddenStr = "Hidden";
-    @I18nString private String notHiddenStr = "Visible";
-    @I18nString private String readableStr = "Readable";
-    @I18nString private String notReadableStr = "Not Readable";
-    @I18nString private Object writableStr = "Writable";
-    @I18nString private Object notWritableStr = "Not Writable";
+    @I18nString private final String executableStr = "Executable";
+    @I18nString private final String notExecutableStr = "Not Executable";
+    @I18nString private final String hiddenStr = "Hidden";
+    @I18nString private final String notHiddenStr = "Visible";
+    @I18nString private final String readableStr = "Readable";
+    @I18nString private final String notReadableStr = "Not Readable";
+    @I18nString private final Object writableStr = "Writable";
+    @I18nString private final Object notWritableStr = "Not Writable";
 
     @Override
     public Component getListCellRendererComponent(

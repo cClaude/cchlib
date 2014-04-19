@@ -1,22 +1,22 @@
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
-import java.util.Iterator;
-import java.util.Locale;
 import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterator.AbstractIteratorWrapper;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
+import java.util.Iterator;
+import java.util.Locale;
 
 /**
  *
  */
 public class LocaleList implements ListContener<Locale>
 {
-    private Locale[] locales = { // TODO Should be computed !
+    private final Locale[] locales = { // TODO Should be computed !
         null,
         Locale.ENGLISH,
         Locale.FRENCH
         };
-    private String txtStringDefaultLocale;
+    private final String txtStringDefaultLocale;
 
     /**
      *
@@ -62,18 +62,12 @@ public class LocaleList implements ListContener<Locale>
 
     private Iterator<Locale> getContentIterator()
     {
-        return new ArrayIterator<Locale>( locales );
+        return new ArrayIterator<>( locales );
     }
 
     @Override
     public Iterable<Locale> getContentIterable()
     {
-        return new Iterable<Locale>() {
-                @Override
-                public Iterator<Locale> iterator()
-                {
-                    return getContentIterator();
-                }
-            };
+        return this::getContentIterator;
     }
 }

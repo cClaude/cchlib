@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
+import com.googlecode.cchlib.lang.Enumerable;
 import java.util.Enumeration;
 import javax.swing.DefaultListModel;
-import com.googlecode.cchlib.lang.Enumerable;
 
 /**
  * @see DefaultListModel

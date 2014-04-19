@@ -1,6 +1,9 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config;
 
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.FileTypeCheckBox;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -20,9 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.FileTypeCheckBox;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
 /**
  *
@@ -40,7 +40,7 @@ class JPanelConfigFilter
 
     /** @serial */
     private Map<Integer,FileTypeCheckBox> fileTypeCheckBoxMap
-        = new HashMap<Integer,FileTypeCheckBox>();
+        = new HashMap<>();
 
     private JPanel jPanelCheckBox;
     @I18nIgnore private JCheckBox jCheckBoxRegExp;
@@ -80,16 +80,11 @@ class JPanelConfigFilter
         jCheckBoxRegExp.setHorizontalAlignment(SwingConstants.TRAILING);
         jCheckBoxRegExp.setHorizontalTextPosition( SwingConstants.LEFT );
         jCheckBoxRegExp.setText( regExpText );
-        jCheckBoxRegExp.addActionListener( new ActionListener()
-            {
-                @Override
-                public void actionPerformed( ActionEvent e )
-                {
-                    xComboBoxPatternRegExp.setEnabled(
-                            jCheckBoxRegExp.isSelected()
-                            );
-                }
-            } );
+        jCheckBoxRegExp.addActionListener( (ActionEvent e) -> {
+            xComboBoxPatternRegExp.setEnabled(
+                    jCheckBoxRegExp.isSelected()
+            );
+        });
         jCheckBoxRegExp.setSelected( false );
         GridBagConstraints gbc_jCheckBoxRegExp = new GridBagConstraints();
         gbc_jCheckBoxRegExp.fill = GridBagConstraints.HORIZONTAL;

@@ -1,9 +1,12 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import java.io.File;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.nio.file.FilterHelper;
+import com.googlecode.cchlib.util.CancelRequestException; // $codepro.audit.disable unnecessaryImport
+import java.io.File; // $codepro.audit.disable unnecessaryImport
 import java.io.IOException;
-import java.nio.file.DirectoryStream; // $codepro.audit.disable unnecessaryImport
-import java.nio.file.Files; // $codepro.audit.disable unnecessaryImport
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Set;
 import org.apache.log4j.Logger;
@@ -12,11 +15,8 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.Ignore; // $codepro.audit.disable unnecessaryImport
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.nio.file.FilterHelper; // $codepro.audit.disable unnecessaryImport
-import com.googlecode.cchlib.util.CancelRequestException;
 
 public class EmptyDirectoriesFinderTest
 {

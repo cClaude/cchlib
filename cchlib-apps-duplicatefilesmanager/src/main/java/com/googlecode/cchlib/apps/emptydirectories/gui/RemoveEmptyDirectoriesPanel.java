@@ -1,20 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.List;
-import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
-import javax.swing.JList;
-import javax.swing.JProgressBar;
-import javax.swing.JTree;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
@@ -31,6 +16,19 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.LasyJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 import com.googlecode.cchlib.swing.list.LeftDotListCellRenderer;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JProgressBar;
+import javax.swing.JTree;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TreeSelectionEvent;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -44,19 +42,19 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
     private static final Logger LOGGER = Logger.getLogger( RemoveEmptyDirectoriesPanel.class );
 
     private ActionListener actionListener;
-    private AppToolKit dfToolKit;
-    private Window mainWindow;
+    private final AppToolKit dfToolKit;
+    private final Window mainWindow;
     private FolderTreeModelable1 treeModel;
     private FindDeleteAdapter findDeleteAdapter;
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
 
-    @I18nString private String jFileChooserInitializerMessage    = "Analyze disk structure";
-    @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
-    @I18nString private String txtProgressBarComputing = "Computing...";
-    @I18nString private String txtSelectDirToScan = "Select directory to scan";
-    @I18nString private String txtProgressBarScanCancel = "Scan canceled !";
-    @I18nString private String txtProgressBarSelectFileToDelete = "Select file to delete";
-    @I18nString private String txtProgressBarDeleteSelectedFiles = "Delete selected files";
+    @I18nString private final String jFileChooserInitializerMessage    = "Analyze disk structure";
+    @I18nString private final String jFileChooserInitializerTitle     = "Waiting...";
+    @I18nString private final String txtProgressBarComputing = "Computing...";
+    @I18nString private final String txtSelectDirToScan = "Select directory to scan";
+    @I18nString private final String txtProgressBarScanCancel = "Scan canceled !";
+    @I18nString private final String txtProgressBarSelectFileToDelete = "Select file to delete";
+    @I18nString private final String txtProgressBarDeleteSelectedFiles = "Delete selected files";
 
     /**
      *
@@ -84,30 +82,25 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         initListRootDirectories();
 
         // Init Adapter
-        final FindDeleteListener findDeleteListener = new FindDeleteListener()
-        {
-            @Override
-            public void findTaskDone( final boolean isCancel )
-            {
-                LOGGER.info( "find thread done" );
-                // Bad workaround !!!!
-                // TODO: find a better solution to expand tree
-                // during build.
-
-                treeModel.expandAllRows();
-
-                enable_findTaskDone();
-
-                final JProgressBar pBar = getProgressBar();
-
-                pBar.setIndeterminate( false );
-
-                if( isCancel ) {
-                    pBar.setString( txtProgressBarScanCancel );
-                    }
-                else {
-                    pBar.setString( txtProgressBarSelectFileToDelete );
-                    }
+        final FindDeleteListener findDeleteListener = (final boolean isCancel) -> {
+            LOGGER.info( "find thread done" );
+            // Bad workaround !!!!
+            // TODO: find a better solution to expand tree
+            // during build.
+            
+            treeModel.expandAllRows();
+            
+            enable_findTaskDone();
+            
+            final JProgressBar pBar = getProgressBar();
+            
+            pBar.setIndeterminate( false );
+            
+            if( isCancel ) {
+                pBar.setString( txtProgressBarScanCancel );
+            }
+            else {
+                pBar.setString( txtProgressBarSelectFileToDelete );
             }
         };
 
@@ -129,22 +122,17 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         super.getJListRootDirectories().setCellRenderer( leftListCellRenderer );
 
         super.getJListRootDirectories().addListSelectionListener(
-            new ListSelectionListener()
-            {
-                @Override
-                public void valueChanged( ListSelectionEvent e )
-                {
-                    final int count = getJListRootDirectories().getSelectedValuesList().size();
-
-                    if( count > 0 ) {
-                        setButtonRemoveRootDirectoryEnabled( true );
-                        }
-                    else {
-                        // No selection
-                        setButtonRemoveRootDirectoryEnabled( false );
-                        }
+            (ListSelectionEvent e) -> {
+                final int count = getJListRootDirectories().getSelectedValuesList().size();
+                
+                if( count > 0 ) {
+                    setButtonRemoveRootDirectoryEnabled( true );
                 }
-            });
+                else {
+                    // No selection
+                    setButtonRemoveRootDirectoryEnabled( false );
+                }
+        });
     }
 
     private void initTreeEmptyDirectories()
@@ -154,20 +142,17 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         treeModel = new FolderTreeModel( jTreeDir );
         jTreeDir.setModel( treeModel );
 
-        jTreeDir.addTreeSelectionListener(new TreeSelectionListener() {
-            @Override
-            public void valueChanged( final TreeSelectionEvent event )
-            {
-                final Object currentSelectedNodeModel = jTreeDir.getLastSelectedPathComponent();
-
-                if( currentSelectedNodeModel instanceof FolderTreeNode ) {
-                    FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
-
-                    if( selectedNode.getFolder() instanceof EmptyFolder ) {
-                        treeModel.toggleSelected( selectedNode );
-                    } // else click on a none empty folder => ignore
-                 }
-            }});
+        jTreeDir.addTreeSelectionListener((final TreeSelectionEvent event) -> {
+            final Object currentSelectedNodeModel = jTreeDir.getLastSelectedPathComponent();
+            
+            if( currentSelectedNodeModel instanceof FolderTreeNode ) {
+                FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
+                
+                if( selectedNode.getFolder() instanceof EmptyFolder ) {
+                    treeModel.toggleSelected( selectedNode );
+                } // else click on a none empty folder => ignore
+            }
+        });
 
         final EmptyDirectoryTreeCellRenderer cellRenderer = new EmptyDirectoryTreeCellRenderer( treeModel );
 
@@ -254,14 +239,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         LOGGER.info( "onStartDelete()" );
 
         if( super.getBtnStartDelete().isEnabled() ) {
-            Runnable task = new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    startDelete();
-                }
-            };
+            Runnable task = this::startDelete;
             new Thread( task, "onStartDelete()" ).start();
             // NOTE: do not use of SwingUtilities.invokeLater( task );
         }
@@ -270,43 +248,41 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
     protected ActionListener getActionListener()
     {
         if( actionListener == null ) {
-            actionListener = new ActionListener()
-            {
-                @Override
-                public void actionPerformed( final ActionEvent event )
-                {
-                    final String cmd = event.getActionCommand();
-
-                    if( ACTION_IMPORT_DIRS.equals( cmd ) ) {
-                        onImportDirectories();
-                        }
-                    else if( ACTION_ADD_DIRS.equals( cmd ) ) {
-                        onAddRootDirectory();
-                        }
-                    else if( ACTION_REMOVE_DIR.equals( cmd ) ) {
-                        onRemoveRootDirectory();
-                        }
-                    else if( ACTION_FIND_EMPTY_DIRS.equals( cmd ) ) {
-                        onFindEmptyDirectories();
-                        }
-                    else if( ACTION_CANCEL.equals( cmd ) ) {
-                        onCancel();
-                        }
-                    else if( ACTION_SELECT_ALL_SELECTABLE_NODES.equals( cmd ) ) {
-                        onSelectAll( false );
-                        }
-                    else if( ACTION_SELECT_ALL_LEAFONLY.equals( cmd ) ) {
-                        onSelectAll( true );
-                        }
-                    else if( ACTION_UNSELECT_ALL.equals( cmd ) ) {
-                        onUnselectAll();
-                        }
-                    else if( ACTION_START_REMDIRS.equals( cmd ) ) {
-                        onStartDelete();
-                        }
-                    else {
-                        LOGGER.warn( "Action not handled : " + cmd );
-                        }
+            actionListener = (final ActionEvent event) -> {
+                final String cmd = event.getActionCommand();
+                if (null != cmd) {
+                    switch (cmd) {
+                        case ACTION_IMPORT_DIRS:
+                            onImportDirectories();
+                            break;
+                        case ACTION_ADD_DIRS:
+                            onAddRootDirectory();
+                            break;
+                        case ACTION_REMOVE_DIR:
+                            onRemoveRootDirectory();
+                            break;
+                        case ACTION_FIND_EMPTY_DIRS:
+                            onFindEmptyDirectories();
+                            break;
+                        case ACTION_CANCEL:
+                            onCancel();
+                            break;
+                        case ACTION_SELECT_ALL_SELECTABLE_NODES:
+                            onSelectAll( false );
+                            break;
+                        case ACTION_SELECT_ALL_LEAFONLY:
+                            onSelectAll( true );
+                            break;
+                        case ACTION_UNSELECT_ALL:
+                            onUnselectAll();
+                            break;
+                        case ACTION_START_REMDIRS:
+                            onStartDelete();
+                            break;
+                        default:
+                            LOGGER.warn( "Action not handled : " + cmd );
+                            break;
+                    }
                 }
             };
         }
@@ -318,14 +294,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         LOGGER.info( "btnAddRootDirectory()" );
 
         if( super.isButtonAddRootDirectoryEnabled() ) {
-            Runnable task = new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    addRootDirectory();
-                }
-            };
+            Runnable task = this::addRootDirectory;
            new Thread( task, "onAddRootDirectory()" ).start();
            LOGGER.info( "btnAddRootDirectory() done" );
         }
@@ -359,15 +328,10 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         LOGGER.info( "btnImportDirectories()" );
 
         if( super.isButtonImportDirectoriesEnabled() ) {
-            Runnable note = new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    List<File> dirs = getDFToolKit().getRootDirectoriesList();
-                    addRootDirectory( dirs );
-                    LOGGER.info( "btnImportDirectories() done" );
-                }
+            Runnable note = () -> {
+                List<File> dirs = getDFToolKit().getRootDirectoriesList();
+                addRootDirectory( dirs );
+                LOGGER.info( "btnImportDirectories() done" );
             };
             new Thread( note, "onImportDirectories()" ).start();
             }
@@ -429,14 +393,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
 
         enable_findBegin();
 
-        Runnable doRun = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                findDeleteAdapter.doFind();
-            }
-        };
+        Runnable doRun = findDeleteAdapter::doFind;
 
         // KO Lock UI doRun.run();
         // KO Lock UI SwingUtilities.invokeAndWait( doRun );
@@ -456,32 +413,27 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         pBar.setString( txtProgressBarDeleteSelectedFiles );
         pBar.setIndeterminate( true );
 
-        new Thread( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                try {
-                    findDeleteAdapter.doDelete();
-                    }
-                catch( Exception e ) {
-                    LOGGER.warn( "doDelete()", e );
-                    }
-                catch( Error e ) {
-                    LOGGER.fatal( "doDelete()", e );
-                    }
-                finally {
-                    getBtnStartDelete().setEnabled( true );
-
-                    getBtnCancel().setEnabled( false );
-                    getJTreeEmptyDirectories().setEditable( true );
-                    pBar.setIndeterminate( false );
-
-                    findBegin();
-                    }
-
-                LOGGER.info( "DELETE Thread done" );
+        new Thread( () -> {
+            try {
+                findDeleteAdapter.doDelete();
             }
+            catch( Exception e ) {
+                LOGGER.warn( "doDelete()", e );
+            }
+            catch( Error e ) {
+                LOGGER.fatal( "doDelete()", e );
+            }
+            finally {
+                getBtnStartDelete().setEnabled( true );
+                
+                getBtnCancel().setEnabled( false );
+                getJTreeEmptyDirectories().setEditable( true );
+                pBar.setIndeterminate( false );
+                
+                findBegin();
+            }
+            
+            LOGGER.info( "DELETE Thread done" );
         }, "startDelete()").start();
     }
 

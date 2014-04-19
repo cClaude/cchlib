@@ -1,5 +1,8 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.util.HashMapSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,9 +15,6 @@ import java.util.TreeSet;
 import javax.swing.AbstractListModel;
 import javax.swing.ListCellRenderer;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.util.HashMapSet;
 
 //NOT public
 class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements JPanelResultListModel
@@ -32,7 +32,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
 
     public JPanelResultListModelImpl()
     {
-        this.duplicateFiles = new HashMapSet<String,KeyFileState>();
+        this.duplicateFiles = new HashMapSet<>();
         this.sortMode = SortMode.FILESIZE;
         this.selectFirstMode = SelectFirstMode.QUICK;
 
@@ -142,14 +142,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     @Override
     public Iterable<KeyFileState> getAllDuplicates()
     {
-        return new Iterable<KeyFileState>()
-        {
-            @Override
-            public Iterator<KeyFileState> iterator()
-            {
-                return getDuplicateFiles().iterator();
-            }
-        };
+        return getDuplicateFiles()::iterator;
     }
 
     /**
@@ -221,7 +214,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
             }
         this.key = key;
 
-        final SortedSet<KeyFileState> ss = new TreeSet<KeyFileState>();
+        final SortedSet<KeyFileState> ss = new TreeSet<>();
 
         ss.addAll( s );
 

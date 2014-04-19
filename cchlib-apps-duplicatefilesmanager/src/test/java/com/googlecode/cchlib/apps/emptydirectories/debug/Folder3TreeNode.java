@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.emptydirectories.debug;
 
-import java.io.File;
 import com.googlecode.cchlib.apps.emptydirectories.debug.lib.CheckBoxMutableTreeNode;
+import java.io.File;
 
 public interface Folder3TreeNode extends CheckBoxMutableTreeNode 
 {

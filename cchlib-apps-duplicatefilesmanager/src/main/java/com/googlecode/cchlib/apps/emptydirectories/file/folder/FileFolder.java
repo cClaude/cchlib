@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.apps.emptydirectories.file.folder;
 
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import java.io.File;
 import java.nio.file.Path;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
 
 public class FileFolder implements Folder
 {
     private static final long serialVersionUID = 1L;
-    private File file;
+    private final File file;
 
     public FileFolder( File emptyDirectoryFile )
     {

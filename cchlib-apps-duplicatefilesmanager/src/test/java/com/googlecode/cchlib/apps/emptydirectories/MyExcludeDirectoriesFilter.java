@@ -13,8 +13,8 @@ import java.util.Set;
 final class MyExcludeDirectoriesFilter implements FolderFilter, Filter<Path>, FileFilter
 {
     private static final String TRASH = "$Recycle.Bin";
-    private List<Path> pathList = new ArrayList<Path>();
-    private List<File> fileList = new ArrayList<File>();
+    private final List<Path> pathList = new ArrayList<>();
+    private final List<File> fileList = new ArrayList<>();
  
     @Override
     public boolean accept( final Path entry ) throws IOException
@@ -44,12 +44,12 @@ final class MyExcludeDirectoriesFilter implements FolderFilter, Filter<Path>, Fi
     
     public Set<Path> createPathSet()
     {
-        return new HashSet<Path>( pathList );
+        return new HashSet<>( pathList );
     }
 
     public Set<File> createFileSet()
     {
-        return new HashSet<File>( fileList );
+        return new HashSet<>( fileList );
     }
 
     @Override

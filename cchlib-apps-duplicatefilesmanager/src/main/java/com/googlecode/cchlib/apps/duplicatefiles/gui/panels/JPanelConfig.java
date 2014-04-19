@@ -1,18 +1,6 @@
 // $codepro.audit.disable largeNumberOfFields
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
 
-import java.awt.event.ActionListener;
-import java.nio.file.PathMatcher;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.regex.Pattern;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
@@ -27,6 +15,18 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
 import cx.ath.choisnet.lang.ToStringBuilder;
+import java.awt.event.ActionListener;
+import java.nio.file.PathMatcher;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -39,7 +39,7 @@ public class JPanelConfig
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelConfig.class );
 
-    private AppToolKit dfToolKit;
+    private final AppToolKit dfToolKit;
     private ActionListener actionListener;
     private ConfigMode mode;
 
@@ -47,28 +47,28 @@ public class JPanelConfig
 private Scanner s;
 
     private JPanelConfigFilter jPanelIncFilesFilter;
-    @I18nString private String jPanelIncFilesFilterTitle  = "jPanelIncFilesFilterTitle";
-    @I18nString private String jPanelIncFilesFilterRegExp = "jPanelIncFilesFilterRegExp";
+    @I18nString private final String jPanelIncFilesFilterTitle  = "jPanelIncFilesFilterTitle";
+    @I18nString private final String jPanelIncFilesFilterRegExp = "jPanelIncFilesFilterRegExp";
     private JPanelConfigFilter jPanelExcFilesFilter;
-    @I18nString private String jPanelExcFilesFilterTitle = "jPanelExcFilesFilterTitle";
-    @I18nString private String jPanelExcFilesFilterRegExp = "jPanelExcFilesFilterRegExp";
+    @I18nString private final String jPanelExcFilesFilterTitle = "jPanelExcFilesFilterTitle";
+    @I18nString private final String jPanelExcFilesFilterRegExp = "jPanelExcFilesFilterRegExp";
     private JPanelConfigFilter jPanelIncDirsFilter;
-    @I18nString private String jPanelIncDirsFilterTitle = "jPanelIncDirsFilterTitle";
-    @I18nString private String jPanelIncDirsFilterRegExp = "jPanelIncDirsFilterRegExp";
+    @I18nString private final String jPanelIncDirsFilterTitle = "jPanelIncDirsFilterTitle";
+    @I18nString private final String jPanelIncDirsFilterRegExp = "jPanelIncDirsFilterRegExp";
     private JPanelConfigFilter jPanelExcDirsFilter;
-    @I18nString private String jPanelExcDirsFilterTitle = "jPanelExcDirsFilterTitle";
-    @I18nString private String jPanelExcDirsFilterRegExp = "jPanelExcDirsFilterRegExp";
+    @I18nString private final String jPanelExcDirsFilterTitle = "jPanelExcDirsFilterTitle";
+    @I18nString private final String jPanelExcDirsFilterRegExp = "jPanelExcDirsFilterRegExp";
 
-    @I18nString private String txtDisableFilesFilters = "Disable files filters";
-    @I18nString private String txtIncludeFilesFilters = "Include filters";
-    @I18nString private String txtExcludeFilesFilters = "Exclude filters";
+    @I18nString private final String txtDisableFilesFilters = "Disable files filters";
+    @I18nString private final String txtIncludeFilesFilters = "Include filters";
+    @I18nString private final String txtExcludeFilesFilters = "Exclude filters";
     //private final static int FILES_FILTER_DISABLED  = 0;
     private static final int FILES_FILTER_INCLUDE   = 1;
     private static final int FILES_FILTER_EXCLUDE   = 2;
 
-    @I18nString private String txtDisableDirsFilters = "Disable dirs filters";
-    @I18nString private String txtExcludeDirsFilters = "Exclude filters";
-    @I18nString private String txtIncludeDirsFilters = "Include filters";
+    @I18nString private final String txtDisableDirsFilters = "Disable dirs filters";
+    @I18nString private final String txtExcludeDirsFilters = "Exclude filters";
+    @I18nString private final String txtIncludeDirsFilters = "Include filters";
     //private final static int DIRS_FILTER_DISABLED   = 0;
     private static final int DIRS_FILTER_EXCLUDE    = 1;
     private static final int DIRS_FILTER_INCLUDE    = 2;
@@ -186,7 +186,7 @@ private Scanner s;
         if( isModeChanged ) {
             if( mode == ConfigMode.BEGINNER ) {
                 getJComboBoxFilesFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel<>(
                             new String[] {
                                 txtDisableFilesFilters
                                 }
@@ -194,7 +194,7 @@ private Scanner s;
                         );
                 getJComboBoxFilesFilters().setEnabled( false );
                 getJComboBoxDirsFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel<>(
                             new String[] {
                                 txtDisableDirsFilters
                                 }
@@ -204,7 +204,7 @@ private Scanner s;
                 }
             else if( mode == ConfigMode.ADVANCED ) {
                 getJComboBoxFilesFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel<>(
                             new String[] {
                                 txtDisableFilesFilters,
                                 txtIncludeFilesFilters,
@@ -214,7 +214,7 @@ private Scanner s;
                         );
                 getJComboBoxFilesFilters().setEnabled( true );
                 getJComboBoxDirsFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel<>(
                             new String[] {
                                 txtDisableDirsFilters
                                 }
@@ -224,7 +224,7 @@ private Scanner s;
                 }
             else { // if( mode == ConfigMode.EXPERT )
                 getJComboBoxFilesFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel<>(
                             new String[] {
                                 txtDisableFilesFilters,
                                 txtIncludeFilesFilters,
@@ -234,7 +234,7 @@ private Scanner s;
                         );
                 getJComboBoxFilesFilters().setEnabled( true );
                 getJComboBoxDirsFilters().setModel(
-                        new DefaultComboBoxModel<String>(
+                        new DefaultComboBoxModel<>(
                             new String[] {
                                 txtDisableDirsFilters,
                                 txtExcludeDirsFilters,
@@ -329,7 +329,7 @@ private Scanner s;
 
     private FileFilterBuilder createIncludeFilesFileFilterBuilder()
     {
-        final Set<String>   extsList = new HashSet<String>();
+        final Set<String>   extsList = new HashSet<>();
         Pattern             pattern  = null;
 
         final boolean userIncFilesFilers =
@@ -376,7 +376,7 @@ private Scanner s;
 
     private FileFilterBuilder createExcludeFilesFileFilterBuilder()
     {
-        final Set<String>   extsList = new HashSet<String>();
+        final Set<String>   extsList = new HashSet<>();
         Pattern             pattern  = null;
 
         final boolean userExcFilesFilers =
@@ -437,7 +437,7 @@ private Scanner s;
 
     private FileFilterBuilder createIncludeDirectoriesFileFilterBuilder()
     {
-        final Set<String>   namesList = new HashSet<String>();
+        final Set<String>   namesList = new HashSet<>();
         Pattern             pattern   = null;
 
         final boolean useIncDirsFilters  =
@@ -486,7 +486,7 @@ private Scanner s;
 
     private FileFilterBuilder createExcludeDirectoriesFileFilterBuilder()
     {
-        final Set<String>   namesList = new HashSet<String>();
+        final Set<String>   namesList = new HashSet<>();
         Pattern             pattern   = null;
 
         final boolean useExcDirsFilters  =
