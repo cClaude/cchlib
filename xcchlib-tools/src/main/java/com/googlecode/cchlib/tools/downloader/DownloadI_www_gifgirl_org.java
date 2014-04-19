@@ -2,6 +2,7 @@ package com.googlecode.cchlib.tools.downloader;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,8 +25,8 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item
 public class DownloadI_www_gifgirl_org
     extends AbstractDownloaderAppInterface
 {
-	private static final long serialVersionUID = 1L;
-	private static final String URL_PATTERN
+    private static final long serialVersionUID = 1L;
+    private static final String URL_PATTERN
         = "http://www.gifgirl.org/search?updated-max=%04d-%02d-%02dT23:59:00-05:00&max-results=%d&start=%d&by-date=%s";
     private static final String SITE_NAME = "www.gifgirl.org";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 50; // FIXME
@@ -37,8 +38,8 @@ public class DownloadI_www_gifgirl_org
         // int:start
         // String(boolean):sort?
         //="http://www.gifgirl.org/search?updated-max=2012-05-29T23:59:00-05:00&max-results=4&start=44&by-date=false";
-    private GenericDownloaderAppComboBoxConfig configMaxResults;
-    private GenericDownloaderAppComboBoxConfig configStart;
+    private final GenericDownloaderAppComboBoxConfig configMaxResults;
+    private final GenericDownloaderAppComboBoxConfig configStart;
     private final Map<String, String> requestPropertyMap;
 
     /**
@@ -64,7 +65,7 @@ public class DownloadI_www_gifgirl_org
                 99,             // max
                 "'start' parameter value" // labelStrings
                 );
-        GenericDownloaderAppComboBoxConfig config2 = new DefaultComboBoxConfig(
+        final GenericDownloaderAppComboBoxConfig config2 = new DefaultComboBoxConfig(
                 "labelString",  //labelString
                 new String[]{ "A" }, // comboBoxValues
                 new String[]{ "a" }  // labelStrings
@@ -167,23 +168,33 @@ public class DownloadI_www_gifgirl_org
     public DownloadStringURL getDownloadStringURL( final int pageNumber )
             throws MalformedURLException, URISyntaxException
     {
-        int      amount = 1 - pageNumber; // = - ( pageNumber - 1 )
-        Calendar today  = Calendar.getInstance();
+        final int      amount = 1 - pageNumber; // = - ( pageNumber - 1 )
+        final Calendar today  = Calendar.getInstance();
 
         today.add( Calendar.DAY_OF_MONTH, amount );
 
-        int     year        = today.get( Calendar.YEAR );
-        int     month       = today.get( Calendar.MONTH ) + 1; // 0 based value
-        int     day         = today.get( Calendar.DAY_OF_MONTH );
-        int     start       = Integer.parseInt( configStart.getComboBoxSelectedValue() );
-        int     maxResults  = Integer.parseInt( configMaxResults.getComboBoxSelectedValue() );
-        String  sort        = Boolean.FALSE.toString();
+        final URL url = createURL( today );
 
         return new DefaultDownloadStringURL(
-                String.format( URL_PATTERN, year , month, day, maxResults, start, sort ),
+                url ,
                 requestPropertyMap,
                 getProxy()
                 );
+    }
+
+    private URL createURL( final Calendar today ) throws MalformedURLException
+    {
+        final int     year        = today.get( Calendar.YEAR );
+        final int     month       = today.get( Calendar.MONTH ) + 1; // 0 based value
+        final int     day         = today.get( Calendar.DAY_OF_MONTH );
+        final int     start       = Integer.parseInt( configStart.getComboBoxSelectedValue() );
+        final int     maxResults  = Integer.parseInt( configMaxResults.getComboBoxSelectedValue() );
+        final String  sort        = Boolean.FALSE.toString();
+
+        @SuppressWarnings("boxing")
+        final String url = String.format( URL_PATTERN, year , month, day, maxResults, start, sort );
+
+        return new URL( url );
     }
 
     @Override
@@ -198,7 +209,7 @@ public class DownloadI_www_gifgirl_org
         // </p><center><a href="http://gifgirl.org/" target="_blank"><img src="http://1.bp.blogspot.com/-5T7_VbjbB3w/T4jvVOlsLUI/AAAAAAAAeKQ/LLEXC1cGUD0/s1600/GGBoobflasher.gif"></a></center>________________________________________<p></p>
         //
         // <center><a href="http://gifgirl.org/" target="_blank"><img src="
-        RegExgSplitter[] regexps = {
+        final RegExgSplitter[] regexps = {
             new DefaultRegExgSplitter( "<center><a href=\"http\\://gifgirl\\.org/\" target=\"_blank\"><img src=\"", '"' ),
             //new DefaultRegExgSplitter( "<img src=\"", '"' ),
             };
@@ -206,7 +217,7 @@ public class DownloadI_www_gifgirl_org
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( final String src, final int regexpIndex )
             throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadFileURL( src, requestPropertyMap, getProxy() );
@@ -217,11 +228,11 @@ public class DownloadI_www_gifgirl_org
     {
         return null;
     }
-    
+
     @Override
     public void setSelectedItems( final List<Item> selectedItems )
     {
         // TODO Auto-generated method stub
-        
+
     }
 }

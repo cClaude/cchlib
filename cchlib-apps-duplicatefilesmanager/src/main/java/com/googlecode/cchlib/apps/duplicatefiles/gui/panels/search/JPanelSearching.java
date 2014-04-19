@@ -1,9 +1,10 @@
-// $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
@@ -47,8 +48,31 @@ public class JPanelSearching extends JPanelSearchingFilters
         super();
     }
 
-    @Override
-    protected void doScanPass1Prepare(
+    public void startScan(
+            final String                            messageDigestAlgorithm,
+            final int                               messageDigestBufferSize,
+            final boolean                           ignoreEmptyFiles,
+            final Collection<File>                  entriesToScans,
+            final Collection<File>                  entriesToIgnore,
+            final FileFilterBuilders                fileFilterBuilders,
+            final Map<String, Set<KeyFileState>>    duplicateFiles
+            )
+    {
+        try {
+            final MessageDigestFile messageDigestFile = new MessageDigestFile( messageDigestAlgorithm, messageDigestBufferSize );
+
+            prepareScan( messageDigestFile , ignoreEmptyFiles );
+       }
+        catch( final NoSuchAlgorithmException e ) {
+            LOGGER.fatal( "Bad messageDigestAlgorithm: " + messageDigestAlgorithm, e );
+            // This exception should not occur.
+            throw new RuntimeException( e );
+        }
+
+        doScan(entriesToScans, entriesToIgnore, fileFilterBuilders, duplicateFiles);
+    }
+
+    private void doScanPass1Prepare(
         final Iterable<File>      entriesToScans,
         final Iterable<File>      entriesToIgnore,
         final FileFilterBuilders  fileFilterBuilders
@@ -139,8 +163,7 @@ public class JPanelSearching extends JPanelSearchingFilters
        }
     }
 
-    @Override
-    protected void doScanPass2()
+    private void doScanPass2()
     {
         displayPass = 2;
 
@@ -247,7 +270,7 @@ public class JPanelSearching extends JPanelSearchingFilters
         super.clear();
     }
 
-    public void prepareScan(
+    private void prepareScan(
         final MessageDigestFile   messageDigestFile,
         final boolean             ignoreEmptyFiles
         )
@@ -264,7 +287,7 @@ public class JPanelSearching extends JPanelSearchingFilters
         updateDisplayThread();
     }
 
-    public void doScan(
+    private void doScan(
             final Iterable<File>                  entriesToScans,
             final Iterable<File>                  entriesToIgnore,
             final FileFilterBuilders              fileFilterBuilders,
@@ -331,11 +354,5 @@ public class JPanelSearching extends JPanelSearchingFilters
         if( duplicateFC != null ) {
             duplicateFC.setCancelProcess( true );
             }
-    }
-
-    @Override
-    protected Map<String, Set<File>> getPass2MapKeyFiles()
-    {
-        return duplicateFC.getFiles();
     }
 }

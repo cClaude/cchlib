@@ -1,11 +1,13 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.util.HashMapSet;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.util.MapSetHelper;
 
 /**
  *
@@ -15,7 +17,7 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
                Serializable
 {
     private static final long serialVersionUID = 1L;
-    private final HashMapSet<String, KeyFileState> dupFiles; // $codepro.audit.disable declareAsInterface
+    private final Map<String, Set<KeyFileState>> dupFiles;
     private int size;
     private final List<KeyFileState> cache = new ArrayList<>();
     private Boolean[] deleted; // Tree states boolean array ?????? FIXME
@@ -24,10 +26,10 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
     private final List<Long> cacheFileLength = new ArrayList<>();
 
     public JPanelConfirmModel(
-        final HashMapSet<String,KeyFileState> dupFiles // $codepro.audit.disable declareAsInterface
+        final Map<String, Set<KeyFileState>> duplicateFiles
         )
     {
-        this.dupFiles = dupFiles;
+        this.dupFiles = duplicateFiles;
 
         buildCache();
     }
@@ -36,7 +38,7 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
     {
         int index = 0;
 
-        for( KeyFileState f:dupFiles ) {
+        for( final KeyFileState f : MapSetHelper.valuesIterable( dupFiles ) ) {
             if( f.isSelectedToDelete() ) {
                 this.cache.add( f );
                 this.cacheFileLength.add( Long.valueOf( f.getFile().length() ) );
@@ -95,7 +97,7 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
     /**
      * @param deleted the isDeleted to set
      */
-    public void setDeleted( int index, boolean deleted )
+    public void setDeleted( final int index, final boolean deleted )
     {
         this.deleted[ index ] = Boolean.valueOf( deleted );
     }

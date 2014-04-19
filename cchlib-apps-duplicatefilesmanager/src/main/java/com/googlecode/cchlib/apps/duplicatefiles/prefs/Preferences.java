@@ -1,15 +1,6 @@
 // $codepro.audit.disable largeNumberOfMethods, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
-import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.util.properties.Populator;
-import com.googlecode.cchlib.util.properties.PropertiesHelper;
-import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +13,15 @@ import java.util.Properties;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.util.properties.Populator;
+import com.googlecode.cchlib.util.properties.PropertiesHelper;
+import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 
 /**
  *
@@ -119,12 +119,12 @@ public final class Preferences implements Serializable // $codepro.audit.disable
         try {
             properties = PropertiesHelper.loadProperties( preferencesFile );
             }
-        catch( FileNotFoundException fileNotFoundException ) { // $codepro.audit.disable logExceptions
+        catch( final FileNotFoundException fileNotFoundException ) { // $codepro.audit.disable logExceptions
             properties = new Properties();
 
             LOGGER.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             properties = new Properties();
 
             final String msg = "Cannot load preferences: " + preferencesFile;
@@ -177,7 +177,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
             return null; // not set
             }
 
-        for( LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+        for( final LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
             if( lookAndFeelName.equals(info.getName() ) ) {
                 return info.getClassName();
                 }
@@ -194,7 +194,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
             try {
                 UIManager.setLookAndFeel( cn );
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.warn( "Cant set LookAndFeel: " + cn, e );
                 }
             }
@@ -205,13 +205,13 @@ public final class Preferences implements Serializable // $codepro.audit.disable
             try {
                 UIManager.setLookAndFeel( cn );
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.error( "Cant set LookAndFeel: " + cn, e );
                 }
             }
     }
 
-    public void setLookAndFeelInfo( LookAndFeelInfo lafi )
+    public void setLookAndFeelInfo( final LookAndFeelInfo lafi )
     {
         this.lookAndFeelClassName = lafi.getClassName();
         // Store name has well, if class not found
@@ -259,7 +259,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
     /**
      * @param deleteSleepDisplay the deleteSleepDisplay to set
      */
-    public void setDeleteSleepDisplay(int deleteSleepDisplay)
+    public void setDeleteSleepDisplay(final int deleteSleepDisplay)
     {
         this.deleteSleepDisplay = deleteSleepDisplay;
     }
@@ -275,7 +275,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
     /**
      * @param deleteSleepDisplayMaxEntries the deleteSleepDisplayMaxEntries to set
      */
-    public void setDeleteSleepDisplayMaxEntries( int deleteSleepDisplayMaxEntries )
+    public void setDeleteSleepDisplayMaxEntries( final int deleteSleepDisplayMaxEntries )
     {
         this.deleteSleepDisplayMaxEntries = deleteSleepDisplayMaxEntries;
     }
@@ -302,7 +302,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
         return this.messageDigestBufferSize;
     }
 
-    public void setMessageDigestBufferSize( int value )
+    public void setMessageDigestBufferSize( final int value )
     {
         this.messageDigestBufferSize = value;
     }
@@ -311,7 +311,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
         return ignoreHiddenFiles;
     }
 
-    public void setIgnoreHiddenFiles(boolean ignoreHiddenFiles) {
+    public void setIgnoreHiddenFiles(final boolean ignoreHiddenFiles) {
         this.ignoreHiddenFiles = ignoreHiddenFiles;
     }
 
@@ -319,7 +319,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
         return ignoreReadOnlyFiles;
     }
 
-    public void setIgnoreReadOnlyFiles(boolean ignoreReadOnlyFiles) {
+    public void setIgnoreReadOnlyFiles(final boolean ignoreReadOnlyFiles) {
         this.ignoreReadOnlyFiles = ignoreReadOnlyFiles;
     }
 
@@ -327,7 +327,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
         return ignoreHiddenDirectories;
     }
 
-    public void setIgnoreHiddenDirectories(boolean ignoreReadOnlyDirectories) {
+    public void setIgnoreHiddenDirectories(final boolean ignoreReadOnlyDirectories) {
         this.ignoreHiddenDirectories = ignoreReadOnlyDirectories;
     }
 
@@ -335,7 +335,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
         return ignoreEmptyFiles;
     }
 
-    public void setIgnoreEmptyFiles(boolean ignoreEmptyFiles) {
+    public void setIgnoreEmptyFiles(final boolean ignoreEmptyFiles) {
         this.ignoreEmptyFiles = ignoreEmptyFiles;
     }
 
@@ -345,11 +345,11 @@ public final class Preferences implements Serializable // $codepro.audit.disable
      */
     public void save() throws IOException
     {
-        Properties properties = new Properties(); // $codepro.audit.disable declareAsInterface
+        final Properties properties = new Properties(); // $codepro.audit.disable declareAsInterface
 
         pp.populateProperties( this, properties );
 
-        File prefs = getPreferencesFile();
+        final File prefs = getPreferencesFile();
         PropertiesHelper.saveProperties(prefs, properties, StringHelper.EMPTY );
         LOGGER.info( "Preferences saved in " + prefs );
     }
@@ -392,7 +392,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
                 return resultsMainDividerLocation;
             }
             @Override
-            public void setMainDividerLocation( Integer mainDividerLocation )
+            public void setMainDividerLocation( final Integer mainDividerLocation )
             {
                 resultsMainDividerLocation = mainDividerLocation;
             }
@@ -403,7 +403,7 @@ public final class Preferences implements Serializable // $codepro.audit.disable
                 return resultsRightDividerLocation;
             }
             @Override
-            public void setRightDividerLocation( Integer rightDividerLocation )
+            public void setRightDividerLocation( final Integer rightDividerLocation )
             {
                 resultsRightDividerLocation = rightDividerLocation;
             }
@@ -426,6 +426,11 @@ public final class Preferences implements Serializable // $codepro.audit.disable
     public SelectFirstMode getDefaultSelectFirstMode()
     {
         return SelectFirstMode.QUICK; // FIXME get default mode from prefs
+    }
+
+    public String getMessageDigestAlgorithm()
+    {
+        return "MD5"; // FIXME get default Algorithm from prefs
     }
 }
 

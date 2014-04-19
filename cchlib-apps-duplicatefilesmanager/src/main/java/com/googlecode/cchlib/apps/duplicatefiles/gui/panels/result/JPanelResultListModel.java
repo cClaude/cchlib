@@ -1,19 +1,19 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.util.HashMapSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import javax.swing.ListModel;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 
 public interface JPanelResultListModel extends ListModel<KeyFiles>
 {
     Iterable<KeyFileState> getAllDuplicates();
 
-    HashMapSet<String, KeyFileState> getDuplicateFiles();
+    Map<String, Set<KeyFileState>> getDuplicateFiles();
 
-    void setDuplicateFiles( HashMapSet<String, KeyFileState> duplicateFiles );
+    void setDuplicateFiles( Map<String,Set<KeyFileState>> duplicateFiles );
     void setSelectFirstMode( SelectFirstMode selectFirstMode );
     void setSortMode( SortMode sortMode );
 

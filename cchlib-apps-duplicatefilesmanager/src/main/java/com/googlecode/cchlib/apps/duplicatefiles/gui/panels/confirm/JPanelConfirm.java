@@ -1,19 +1,13 @@
 // $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
-import com.googlecode.cchlib.util.HashMapSet;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -29,6 +23,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
+import com.googlecode.cchlib.util.MapSetHelper;
 
 public class JPanelConfirm extends JPanel
 {
@@ -66,7 +67,7 @@ public class JPanelConfirm extends JPanel
     {
         this.dfToolKit = AppToolKitService.getInstance().getAppToolKit();
 
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0};
         gridBagLayout.rowHeights = new int[]{26, 0, 0, 0, 0};
         gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
@@ -74,27 +75,27 @@ public class JPanelConfirm extends JPanel
         setLayout(gridBagLayout);
         {
             jLabelTitle = new JLabel("Files selected to be deleted");
-            GridBagConstraints gbc_jLabelTitle = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabelTitle = new GridBagConstraints();
             gbc_jLabelTitle.insets = new Insets(0, 0, 5, 0);
             gbc_jLabelTitle.gridx = 0;
             gbc_jLabelTitle.gridy = 0;
             add(jLabelTitle, gbc_jLabelTitle);
         }
         {
-            GridBagConstraints gbc_jScrollPaneFiles2Delete = new GridBagConstraints();
+            final GridBagConstraints gbc_jScrollPaneFiles2Delete = new GridBagConstraints();
             gbc_jScrollPaneFiles2Delete.fill = GridBagConstraints.BOTH;
             gbc_jScrollPaneFiles2Delete.insets = new Insets(0, 0, 5, 0);
             gbc_jScrollPaneFiles2Delete.gridx = 0;
             gbc_jScrollPaneFiles2Delete.gridy = 1;
-            JScrollPane jScrollPaneFiles2Delete = new JScrollPane();
+            final JScrollPane jScrollPaneFiles2Delete = new JScrollPane();
             jTableFiles2Delete = new JTable();
             jScrollPaneFiles2Delete.setViewportView( jTableFiles2Delete );
             add( jScrollPaneFiles2Delete, gbc_jScrollPaneFiles2Delete );
         }
         {
-            JPanel jPanelBottom = new JPanel();
+            final JPanel jPanelBottom = new JPanel();
             jPanelBottom.setLayout(new BoxLayout(jPanelBottom, BoxLayout.Y_AXIS));
-            GridBagConstraints gbc_jProgressBarDeleteProcess = new GridBagConstraints();
+            final GridBagConstraints gbc_jProgressBarDeleteProcess = new GridBagConstraints();
             gbc_jProgressBarDeleteProcess.fill = GridBagConstraints.HORIZONTAL;
             gbc_jProgressBarDeleteProcess.insets = new Insets(0, 0, 5, 0);
             gbc_jProgressBarDeleteProcess.gridx = 0;
@@ -103,12 +104,12 @@ public class JPanelConfirm extends JPanel
             add( jProgressBarDeleteProcess, gbc_jProgressBarDeleteProcess);
         }
         {
-            GridBagConstraints gbc_jButtonDoScript = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonDoScript = new GridBagConstraints();
             gbc_jButtonDoScript.gridx = 0;
             gbc_jButtonDoScript.gridy = 3;
             jButtonDoScript = new JButton("Create script");
             jButtonDoScript.setActionCommand( ACTIONCMD_GENERATE_SCRIPT );
-            jButtonDoScript.addActionListener((ActionEvent e) -> {
+            jButtonDoScript.addActionListener((final ActionEvent e) -> {
             });
             add( jButtonDoScript, gbc_jButtonDoScript);
 
@@ -126,34 +127,34 @@ public class JPanelConfirm extends JPanel
     }
 
     public void populate(
-            final HashMapSet<String,KeyFileState> dupFiles // $codepro.audit.disable declareAsInterface
+            final Map<String, Set<KeyFileState>> duplicateFiles
             )
     {
         //clear();
-        LOGGER.info( "populate: Duplicate count: " + dupFiles.size() );
+        LOGGER.info( "populate: Duplicate count: " + duplicateFiles.size() );
 
-        tableDts_toDelete = new JPanelConfirmModel( dupFiles );
+        tableDts_toDelete = new JPanelConfirmModel( duplicateFiles );
 
         LOGGER.info( "populate: Selected count: " + tableDts_toDelete.size() );
 
-        DefaultTableCellRenderer render = new DefaultTableCellRenderer()
+        final DefaultTableCellRenderer render = new DefaultTableCellRenderer()
         {
             private static final long serialVersionUID = 1L;
             @Override
             public Component getTableCellRendererComponent(
-                    JTable table,
-                    Object value,
-                    boolean isSelected,
-                    boolean hasFocus,
-                    int row,
-                    int column
+                    final JTable table,
+                    final Object value,
+                    final boolean isSelected,
+                    final boolean hasFocus,
+                    final int row,
+                    final int column
                     )
             {
                 if( row == 0 ) {
-                    KeyFileState f = tableDts_toDelete.get( row );
+                    final KeyFileState f = tableDts_toDelete.get( row );
                     setText( f.getFile().getPath() );
 
-                    Boolean b = tableDts_toDelete.getDeleted( row );
+                    final Boolean b = tableDts_toDelete.getDeleted( row );
 
                     if( b != null ) {
                         setHorizontalAlignment(SwingConstants.LEFT);
@@ -196,7 +197,7 @@ public class JPanelConfirm extends JPanel
                 return columnsHeaders.length;
             }
             @Override
-            public String getColumnName(int column)
+            public String getColumnName(final int column)
             {
                 return columnsHeaders[column];
             }
@@ -206,7 +207,7 @@ public class JPanelConfirm extends JPanel
                 return tableDts_toDelete.size();
             }
             @Override
-            public Class<?> getColumnClass(int columnIndex)
+            public Class<?> getColumnClass(final int columnIndex)
             {
                 switch(columnIndex) {
                     case 1:
@@ -219,20 +220,20 @@ public class JPanelConfirm extends JPanel
                 }
             }
             @Override
-            public Object getValueAt(int rowIndex, int columnIndex)
+            public Object getValueAt(final int rowIndex, final int columnIndex)
             {
                 if( columnIndex == 1 ) {
                     //return tableDts_length[rowIndex];
                     return tableDts_toDelete.getFileLength( rowIndex );
                     }
                 else {
-                    KeyFileState f = tableDts_toDelete.get( rowIndex );
+                    final KeyFileState f = tableDts_toDelete.get( rowIndex );
 
                     switch(columnIndex) {
                         case 0 : return f.getFile().getPath();
                         //case 1 : return f.getFile().length();
-                        case 2 : return computeKept( dupFiles,f.getKey() );
-                        case 3 : return computeDeleted( dupFiles,f.getKey() );
+                        case 2 : return computeKept( duplicateFiles,f.getKey() );
+                        case 3 : return computeDeleted( duplicateFiles,f.getKey() );
                     }
                     return null;
                 }
@@ -241,17 +242,17 @@ public class JPanelConfirm extends JPanel
 
         jTableFiles2Delete.setModel(tableModel);
 
-        JPopupMenuForJTable popupMenu = new JPopupMenuForJTable(jTableFiles2Delete)
+        final JPopupMenuForJTable popupMenu = new JPopupMenuForJTable(jTableFiles2Delete)
         {
             private static final long serialVersionUID = 1L;
 
             @Override
             protected JPopupMenu createContextMenu(
-                    int rowIndex,
-                    int columnIndex
+                    final int rowIndex,
+                    final int columnIndex
                     )
             {
-                JPopupMenu contextMenu = new JPopupMenu();
+                final JPopupMenu contextMenu = new JPopupMenu();
 
                 if( rowIndex == 0 ) {
                     addCopyMenuItem(contextMenu, txtCopy, rowIndex, columnIndex);
@@ -272,22 +273,22 @@ public class JPanelConfirm extends JPanel
         jLabelTitle.setText( String.format( txtTitle, Integer.valueOf( tableDts_toDelete.size() ) ) );
     }
 
-    public void updateProgressBar(int count, String msg)
+    public void updateProgressBar(final int count, final String msg)
     {
         jProgressBarDeleteProcess.setValue( count );
         jProgressBarDeleteProcess.setString( msg );
     }
 
     private Integer computeKept(
-        final HashMapSet<String,KeyFileState> dupFiles, // $codepro.audit.disable declareAsInterface
-        final String                          k
+        final Map<String, Set<KeyFileState>>    duplicateFiles,
+        final String                            k
         )
     {
-        Set<KeyFileState> s = dupFiles.get( k );
+        final Set<KeyFileState> s = duplicateFiles.get( k );
         int               c = 0;
 
         if( s != null ) {
-            for( KeyFileState f:s ) {
+            for( final KeyFileState f:s ) {
                 if(!f.isSelectedToDelete()) {
                     c++;
                 }
@@ -298,15 +299,15 @@ public class JPanelConfirm extends JPanel
     }
 
     private Integer computeDeleted(
-        final HashMapSet<String,KeyFileState> dupFiles, // $codepro.audit.disable declareAsInterface
-        final String                          k
+        final Map<String, Set<KeyFileState>> duplicateFiles,
+        final String                         k
         )
     {
-        Set<KeyFileState> s = dupFiles.get( k );
+        final Set<KeyFileState> s = duplicateFiles.get( k );
         int               c = 0;
 
         if( s != null ) {
-            for(KeyFileState f:s) {
+            for(final KeyFileState f:s) {
                 if(f.isSelectedToDelete()) {
                     c++;
                 }
@@ -317,14 +318,14 @@ public class JPanelConfirm extends JPanel
     }
 
     public void doDelete(
-        final HashMapSet<String,KeyFileState>   duplicateFiles // $codepro.audit.disable declareAsInterface
+        final Map<String, Set<KeyFileState>> duplicateFiles
         )
     {
-        Runnable task = () -> {
+        final Runnable task = () -> {
             try {
                 private_doDelete( duplicateFiles );
             }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.fatal( "*** Error catched while delete files", e );
                 DialogHelper.showMessageExceptionDialog(
                         dfToolKit.getMainFrame(), //.getMainWindow(),
@@ -338,7 +339,7 @@ public class JPanelConfirm extends JPanel
     }
 
     private void private_doDelete(
-            final HashMapSet<String,KeyFileState>   duplicateFiles
+            final Map<String, Set<KeyFileState>> duplicateFiles
             )
     {
         int                     deleteCount = 0;
@@ -352,13 +353,13 @@ public class JPanelConfirm extends JPanel
         LOGGER.info( "private_doDelete: Selected count: " + tableDts_toDelete.size() );
 
         for( int i=0; i<size; i++ ) {
-            KeyFileState kf = tableDts_toDelete.get( i );
-            String msg = kf.getFile().getPath();
+            final KeyFileState kf = tableDts_toDelete.get( i );
+            final String msg = kf.getFile().getPath();
 
             updateProgressBar(deleteCount,msg);
 
             // Delete file
-            boolean isDel = kf.getFile().delete();
+            final boolean isDel = kf.getFile().delete();
 
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace("Delete=" + isDel + ':' + kf + " - i=" + i);
@@ -378,7 +379,7 @@ public class JPanelConfirm extends JPanel
                             jTableFiles2Delete.getCellRect(row, 0, true)
                     );
                 }
-                catch( Exception e ) {
+                catch( final Exception e ) {
                     LOGGER.warn( "Swing error:", e );
                 }
             });
@@ -391,7 +392,7 @@ public class JPanelConfirm extends JPanel
             updateProgressBar(deleteCount,msg);
         }
 
-        int keepCount = duplicateFiles.valuesSize();
+        final int keepCount = MapSetHelper.size( duplicateFiles );
 
         updateProgressBar(deleteCount,txtMsgDone);
 
@@ -399,10 +400,10 @@ public class JPanelConfirm extends JPanel
         LOGGER.info( "keepCount= " + keepCount );
 
         // Remove files that can't be found on file system
-        Iterator<KeyFileState> iter = duplicateFiles.iterator();
+        final Iterator<KeyFileState> iter = MapSetHelper.values( duplicateFiles );
 
         while( iter.hasNext() ) {
-            KeyFileState f = iter.next();
+            final KeyFileState f = iter.next();
 
             if( !f.getFile().exists() ) {
                 iter.remove();
@@ -411,9 +412,9 @@ public class JPanelConfirm extends JPanel
 
         // Remove from list, files with no more
         // duplicate entry
-        duplicateFiles.purge(2);
+        MapSetHelper.purge( duplicateFiles, 2);
 
-        int newDupCount = duplicateFiles.valuesSize();
+        final int newDupCount = MapSetHelper.size( duplicateFiles );
 
         LOGGER.info( "newDupCount= " + newDupCount );
         }

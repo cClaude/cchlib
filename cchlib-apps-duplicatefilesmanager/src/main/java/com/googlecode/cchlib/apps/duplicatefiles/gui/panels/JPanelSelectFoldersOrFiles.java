@@ -1,14 +1,6 @@
 // $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
-import com.googlecode.cchlib.swing.textfield.XTextField;
-import com.googlecode.cchlib.util.iterable.CascadingIterable;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
@@ -17,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.TooManyListenersException;
 import javax.swing.Icon;
@@ -31,6 +25,14 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
+import com.googlecode.cchlib.swing.textfield.XTextField;
+import com.googlecode.cchlib.util.iterable.CascadingIterable;
 
 /**
  * <pre>
@@ -86,7 +88,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     {
         this.dFToolKit = AppToolKitService.getInstance().getAppToolKit();
 
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0};
         gridBagLayout.rowHeights = new int[]{23, 0, 0, 0};
         gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0};
@@ -99,7 +101,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonRemEntry.setIcon( dFToolKit.getResources().getFolderRemoveIcon() );
             jButtonRemEntry.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mouseClicked(final MouseEvent e) {
                     jButtonRemEntryMouseMousePressed( e );
                     }
                 });
@@ -110,12 +112,12 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonAddEntry.setIcon( dFToolKit.getResources().getAddIcon() );
             jButtonAddEntry.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mouseClicked(final MouseEvent e) {
                     onAddEntry();
                     }
                 });
 
-            GridBagConstraints gbc_jButtonAddEntry = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonAddEntry = new GridBagConstraints();
             gbc_jButtonAddEntry.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonAddEntry.insets = new Insets(0, 0, 5, 5);
             gbc_jButtonAddEntry.gridx = 1;
@@ -123,9 +125,9 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             add(jButtonAddEntry, gbc_jButtonAddEntry);
         }
         {
-            Icon image = dFToolKit.getResources().getLogoIcon();
-            JLabel jLabelDeco = new JLabel( image );
-            GridBagConstraints gbc_jLabelDeco = new GridBagConstraints();
+            final Icon image = dFToolKit.getResources().getLogoIcon();
+            final JLabel jLabelDeco = new JLabel( image );
+            final GridBagConstraints gbc_jLabelDeco = new GridBagConstraints();
             gbc_jLabelDeco.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelDeco.gridx = 0;
             gbc_jLabelDeco.gridy = 0;
@@ -137,11 +139,11 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonSelectFile.setIcon( dFToolKit.getResources().getFileIcon() );
             jButtonSelectFile.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mouseClicked(final MouseEvent e) {
                     onJButtonSelectFile();
                 }
             });
-            GridBagConstraints gbc_jButtonSelectFile = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonSelectFile = new GridBagConstraints();
             gbc_jButtonSelectFile.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonSelectFile.insets = new Insets(0, 0, 5, 0);
             gbc_jButtonSelectFile.anchor = GridBagConstraints.NORTH;
@@ -153,22 +155,22 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jTextFieldCurrentDir = createXTextField();
             jTextFieldCurrentDir.getDocument().addDocumentListener(new DocumentListener() {
                 @Override
-                public void insertUpdate( DocumentEvent event )
+                public void insertUpdate( final DocumentEvent event )
                 {
                     fix_jButtonAddEntry();
                 }
                 @Override
-                public void removeUpdate( DocumentEvent event )
+                public void removeUpdate( final DocumentEvent event )
                 {
                     fix_jButtonAddEntry();
                 }
                 @Override
-                public void changedUpdate( DocumentEvent event )
+                public void changedUpdate( final DocumentEvent event )
                 {
                     fix_jButtonAddEntry();
                 }});
 
-            GridBagConstraints gbc_jTextFieldCurrentDir = new GridBagConstraints();
+            final GridBagConstraints gbc_jTextFieldCurrentDir = new GridBagConstraints();
             gbc_jTextFieldCurrentDir.insets = new Insets(0, 0, 5, 5);
             gbc_jTextFieldCurrentDir.fill = GridBagConstraints.HORIZONTAL;
             gbc_jTextFieldCurrentDir.gridx = 0;
@@ -176,7 +178,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             add(jTextFieldCurrentDir, gbc_jTextFieldCurrentDir);
         }
         {
-            GridBagConstraints gbc_jButtonRemEntry = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonRemEntry = new GridBagConstraints();
             gbc_jButtonRemEntry.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonRemEntry.insets = new Insets(0, 0, 5, 5);
             gbc_jButtonRemEntry.gridx = 1;
@@ -189,11 +191,11 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonSelectDir.setIcon( dFToolKit.getResources().getFolderSelectIcon() );
             jButtonSelectDir.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mouseClicked(final MouseEvent e) {
                     onJButtonSelectDir();
                 }
             });
-            GridBagConstraints gbc_jButtonSelectDir = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonSelectDir = new GridBagConstraints();
             gbc_jButtonSelectDir.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonSelectDir.insets = new Insets(0, 0, 5, 0);
             gbc_jButtonSelectDir.gridx = 2;
@@ -201,8 +203,8 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             add(jButtonSelectDir, gbc_jButtonSelectDir);
         }
         {
-            JScrollPane scrollPane = new JScrollPane();
-            GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+            final JScrollPane scrollPane = new JScrollPane();
+            final GridBagConstraints gbc_scrollPane = new GridBagConstraints();
             gbc_scrollPane.gridwidth = 3;
             gbc_scrollPane.fill = GridBagConstraints.BOTH;
             gbc_scrollPane.gridx = 0;
@@ -213,8 +215,8 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             scrollPane.setViewportView(jTableSelectedFoldersOrFiles);
         }
 
-        SimpleFileDropListener dropListener = (List<File> files) -> {
-            for( File f:files ) {
+        final SimpleFileDropListener dropListener = (final List<File> files) -> {
+            for( final File f:files ) {
                 LOGGER.info( "add drop file:" + f );
                 addEntry( f, false );
             }
@@ -243,12 +245,12 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                 return columnsHeaders.length;
             }
             @Override
-            public String getColumnName(int column)
+            public String getColumnName(final int column)
             {
                 return columnsHeaders[column];
             }
             @Override
-            public Class<?> getColumnClass(int columnIndex)
+            public Class<?> getColumnClass(final int columnIndex)
             {
                 return String.class;
             }
@@ -258,7 +260,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                 return includeFileList.size() + ingoreFileList.size();
             }
             @Override
-            public Object getValueAt(int rowIndex, int columnIndex)
+            public Object getValueAt(final int rowIndex, final int columnIndex)
             {
                 // Build data
                 final int   includeFileListSize = includeFileList.size();
@@ -310,15 +312,15 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
     private void onJButtonSelectDir()
     {
-        Runnable doJob = () -> {
-            JFileChooser jfc = dFToolKit.getJFileChooser( dFToolKit.getMainFrame(), JPanelSelectFoldersOrFiles.this );
+        final Runnable doJob = () -> {
+            final JFileChooser jfc = dFToolKit.getJFileChooser( dFToolKit.getMainFrame(), JPanelSelectFoldersOrFiles.this );
             jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
-            int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
-            
+            final int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
+
             if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                File[] files = jfc.getSelectedFiles();
-                
-                for(File f:files) {
+                final File[] files = jfc.getSelectedFiles();
+
+                for(final File f:files) {
                     LOGGER.info( "selected dir:" + f );
                     addEntry( f, false );
                 }
@@ -330,15 +332,15 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
     private void onJButtonSelectFile()
     {
-        Runnable doJob = () -> {
-            JFileChooser jfc = dFToolKit.getJFileChooser( dFToolKit.getMainFrame(), JPanelSelectFoldersOrFiles.this );
+        final Runnable doJob = () -> {
+            final JFileChooser jfc = dFToolKit.getJFileChooser( dFToolKit.getMainFrame(), JPanelSelectFoldersOrFiles.this );
             jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
-            int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
-            
+            final int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
+
             if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                File[] files = jfc.getSelectedFiles();
-                
-                for(File f:files) {
+                final File[] files = jfc.getSelectedFiles();
+
+                for(final File f:files) {
                     LOGGER.info( "selected file:" + f );
                     addEntry( f, false );
                 }
@@ -355,19 +357,19 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         addEntry( f, false );
     }
 
-    private void jButtonRemEntryMouseMousePressed( MouseEvent event )
+    private void jButtonRemEntryMouseMousePressed( final MouseEvent event )
     {
         final int[] selecteds = jTableSelectedFoldersOrFiles.getSelectedRows();
 
         for( int i = selecteds.length - 1; i>=0; i-- ) {
-            int selected = selecteds[ i ];
+            final int selected = selecteds[ i ];
 
             removeEntry( selected );
         }
         tableModelSelectedFoldersOrFiles.fireTableDataChanged();
     }
 
-    private void removeEntry( int index )
+    private void removeEntry( final int index )
     {
         final int includeFileListSize = includeFileList.size();
 
@@ -383,12 +385,12 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             }
     }
 
-    private boolean addEntry( File f, boolean ignore ) // $codepro.audit.disable booleanMethodNamingConvention
+    private boolean addEntry( final File f, final boolean ignore ) // $codepro.audit.disable booleanMethodNamingConvention
     {
         if( f.exists() ) {
             File existingValue = null;
 
-            for( File current : entries() ) {
+            for( final File current : entries() ) {
                 if( current.equals( f ) ) {
                     existingValue = f;
                     break;
@@ -426,20 +428,21 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
     private Iterable<File> entries()
     {
-       @SuppressWarnings("unchecked") Iterable<? extends File>[] array = new Iterable[ 2 ];
+       @SuppressWarnings("unchecked")
+    final Iterable<? extends File>[] array = new Iterable[ 2 ];
        array[ 0 ] = includeFileList;
        array[ 1 ] = ingoreFileList;
 
        return new CascadingIterable<>( array );
     }
 
-    public Iterable<File> entriesToScans()
+    public Collection<File> entriesToScans()
     {
-        return includeFileList;
+        return Collections.unmodifiableCollection( includeFileList );
     }
 
-    public Iterable<File> entriesToIgnore()
+    public Collection<File> entriesToIgnore()
     {
-        return ingoreFileList;
+        return Collections.unmodifiableCollection( ingoreFileList );
     }
 }

@@ -1,8 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.util.HashMapSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,6 +12,10 @@ import java.util.TreeSet;
 import javax.swing.AbstractListModel;
 import javax.swing.ListCellRenderer;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.util.HashMapSet;
+import com.googlecode.cchlib.util.MapSetHelper;
 
 //NOT public
 class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements JPanelResultListModel
@@ -23,7 +24,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelResultListModelImpl.class );
 
-    private HashMapSet<String,KeyFileState> duplicateFiles; // $codepro.audit.disable declareAsInterface
+    private Map<String, Set<KeyFileState>> duplicateFiles;
     private SortMode sortMode;
     private SelectFirstMode selectFirstMode;
 
@@ -74,7 +75,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
             try {
                 Collections.sort( duplicatesFileCacheList, sortMode );
                 }
-            catch( IllegalArgumentException e ) {
+            catch( final IllegalArgumentException e ) {
                 LOGGER.error( "Can not sort : sortMode = " + sortMode, e );
                 }
             }
@@ -85,7 +86,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
 
     @Override
     public void setDuplicateFiles(
-            final HashMapSet<String,KeyFileState> duplicateFiles
+            final Map<String, Set<KeyFileState>> duplicateFiles
             )
     {
         this.duplicateFiles  = duplicateFiles;
@@ -142,14 +143,15 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     @Override
     public Iterable<KeyFileState> getAllDuplicates()
     {
-        return getDuplicateFiles()::iterator;
+        //return getDuplicateFiles()::iterator;
+        return MapSetHelper.valuesIterable( duplicateFiles );
     }
 
     /**
      * @return the duplicateFiles
      */
     @Override
-    public HashMapSet<String,KeyFileState> getDuplicateFiles() // $codepro.audit.disable declareAsInterface
+    public Map<String, Set<KeyFileState>> getDuplicateFiles()
     {
         return duplicateFiles;
     }
@@ -242,7 +244,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
         //
         // Update global list
         //
-        for( final KeyFileState kfs : getDuplicateFiles() ) {
+        for( final KeyFileState kfs : getAllDuplicates() ) {
             kfs.setSelectedToDelete( false );
             }
 

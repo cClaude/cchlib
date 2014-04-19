@@ -1,18 +1,19 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
-import com.googlecode.cchlib.util.HashMapSet;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 
 @I18nName("duplicatefiles.JPanelResult.DuplicateSetContextualMenu")
 //NOT public
@@ -189,9 +190,9 @@ final class DuplicateSetListContextualMenu implements Serializable
 
     private void doIgnoreThisSetOfFiles( final int rowIndex )
     {
-        final KeyFiles element = jPanelResult.getJListDuplicatesFiles().getModel().getElementAt( rowIndex );
-        final String   setKey  = element.getKey();
-        final HashMapSet<String, KeyFileState> hashMap = jPanelResult.getListModelDuplicatesFiles().getDuplicateFiles();
+        final KeyFiles                       element = jPanelResult.getJListDuplicatesFiles().getModel().getElementAt( rowIndex );
+        final String                         setKey  = element.getKey();
+        final Map<String, Set<KeyFileState>> hashMap = jPanelResult.getListModelDuplicatesFiles().getDuplicateFiles();
 
         hashMap.remove( setKey );
 

@@ -1,18 +1,6 @@
 // $codepro.audit.disable largeNumberOfFields, largeNumberOfMethods, constantNamingConvention
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
-import com.googlecode.cchlib.util.HashMapSet;
-import com.googlecode.cchlib.util.iterator.Iterators;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -23,6 +11,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,13 +23,24 @@ import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
+import com.googlecode.cchlib.util.iterator.Iterators;
 
 @I18nName("duplicatefiles.JPanelResult")
 public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable
 {
     private static class Selected implements Iterable<KeyFileState>
     {
-        private List<KeyFileState> selectedList;
+        private final List<KeyFileState> selectedList;
 
         Selected(
             final ListModel<KeyFileState> listModel,
@@ -56,7 +56,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
             this.selectedList = new ArrayList<>( selectedIndices.length );
 
-            for( int index : selectedIndices ) {
+            for( final int index : selectedIndices ) {
                 this.selectedList.add( listModel.getElementAt( index ) );
                 }
         }
@@ -142,7 +142,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     }
 
      public void populate(
-        final HashMapSet<String,KeyFileState> duplicateFiles // $codepro.audit.disable declareAsInterface
+        final Map<String,Set<KeyFileState>> duplicateFiles
         )
     {
         final Preferences preferences = this.dFToolKit.getPreferences();
@@ -168,7 +168,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     {
         getSelectorsJPanel().updateDisplay();
 
-        int index = getJListDuplicatesFiles().getSelectedIndex();
+        final int index = getJListDuplicatesFiles().getSelectedIndex();
 
         updateDisplayKeptDelete( index );
     }
@@ -270,10 +270,10 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
             getJTextFieldFileInfo().setText( StringHelper.EMPTY );
             }
         else {
-            File    f       = kf.getFile();
-            Locale  locale  = dFToolKit.getValidLocale();
+            final File    f       = kf.getFile();
+            final Locale  locale  = dFToolKit.getValidLocale();
 
-            String date = DateFormat.getDateTimeInstance(
+            final String date = DateFormat.getDateTimeInstance(
                     DateFormat.FULL,
                     DateFormat.SHORT,
                     locale
@@ -314,7 +314,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         LOGGER.info( "updateDisplayKeptDelete: " + key );
 
         displayFileInfo( null );
-        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( key );
+        final Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( key );
         if( s != null ) {
             getListModelDuplicatesFiles().setKeepDelete( key, s );
             }
@@ -333,7 +333,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     }
 
     @Override
-    protected void onKeepThisFile( KeyFileState kf, boolean updateDisplay )
+    protected void onKeepThisFile( final KeyFileState kf, final boolean updateDisplay )
     {
         if( kf != null ) {
             kf.setSelectedToDelete( false );
@@ -362,7 +362,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
             @Override
             protected JPopupMenu createContextMenu( final int rowIndex )
             {
-                JPopupMenu cm = new JPopupMenu();
+                final JPopupMenu cm = new JPopupMenu();
 
                 //KeyFileState kf = getValueAt( rowIndex );
                 final int[]        selectedIndices = getSelectedIndices();
@@ -469,7 +469,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     private ActionListener getActionListenerContextSubMenu()
     {
         if( actionListenerContextSubMenu == null ) {
-            this.actionListenerContextSubMenu = (ActionEvent e) -> {
+            this.actionListenerContextSubMenu = (final ActionEvent e) -> {
                 final JMenuItem    sourceItem   = (JMenuItem) e.getSource();
                 final Object       actionObject = sourceItem.getClientProperty(ACTION_OBJECT);
                 final String       cmd        = sourceItem.getActionCommand();
@@ -517,7 +517,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         final String k       = kf.getKey();
         final String dirPath = kf.getFile().getPath() + File.separator;
 
-        for( KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
+        for( final KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
             if( f.isInDirectory( dirPath ) ) {
                 f.setSelectedToDelete( true );
                 }
@@ -532,7 +532,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         final String k       = kf.getKey();
         final String dirPath = kf.getFile().getPath() + File.separator;
 
-        for( KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
+        for( final KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
             if( f.isInDirectory( dirPath ) ) {
                 f.setSelectedToDelete( false );
                 }
@@ -549,11 +549,11 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
        final String dirPath = kf.getFile().getPath() + File.separator;
 
         //Look for all files in this dir !
-        for( Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
+        for( final Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
             int               c = 0;
-            Set<KeyFileState> s = entry.getValue();
+            final Set<KeyFileState> s = entry.getValue();
 
-            for(KeyFileState f:s) {
+            for(final KeyFileState f:s) {
                 if( !f.isSelectedToDelete() ) {
                     if( f.isInDirectory( dirPath ) ) {
                        c++;
@@ -561,10 +561,10 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                     }
                 }
 
-            Iterator<KeyFileState> iter = s.iterator();
+            final Iterator<KeyFileState> iter = s.iterator();
 
             while( (c== 0) && iter.hasNext() ) {
-                KeyFileState f = iter.next();
+                final KeyFileState f = iter.next();
 
                 if( f.isSelectedToDelete() ) {
                     if( f.isInDirectory( dirPath ) ) {
@@ -588,21 +588,21 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         final String dirPath = kf.getFile().getPath() + File.separator;
 
         //Look for all files in this dir !
-        for( Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
-            Set<KeyFileState>   s = entry.getValue();
+        for( final Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
+            final Set<KeyFileState>   s = entry.getValue();
             int                 c = 0;
 
-            for( KeyFileState f : s ) {
+            for( final KeyFileState f : s ) {
                 if( !f.isSelectedToDelete() ) {
                    c++;
                     }
                 }
 
             // Keep one file !
-            int maxDel = c - 1;
+            final int maxDel = c - 1;
             c = 0;
 
-            for(KeyFileState f:s) {
+            for(final KeyFileState f:s) {
                 if( !f.isSelectedToDelete() ) {
                     if( f.isInDirectory( dirPath ) ) {
                         if( c < maxDel ) {
@@ -624,10 +624,10 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         final String           k             = selected.getKey();
         final Collection<File> selectedFiles = selected.toFileList();
 
-        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
+        final Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
 
         if( s != null ) {
-            for(KeyFileState f:s) {
+            for(final KeyFileState f:s) {
                 //if( file.equals( f.getFile() ) ) {
                 if( selectedFiles.contains( f.getFile() ) ) {
                     f.setSelectedToDelete( true );
@@ -648,11 +648,11 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         final String           k             = selected.getKey();
         final Collection<File> selectedFiles = selected.toFileList();
 
-        Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
+        final Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
         //Set<KeyFileState> s = duplicateFiles.get( k );
 
         if( s != null ) {
-            for(KeyFileState f:s) {
+            for(final KeyFileState f:s) {
                 //if( file.equals( f.getFile() ) ) {
                 if( selectedFiles.contains( f.getFile() ) ) {
                     f.setSelectedToDelete( false );
@@ -669,7 +669,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     {
         final Selected selected = Selected.class.cast( actionObject );
 
-        for( KeyFileState kf : selected ) {
+        for( final KeyFileState kf : selected ) {
             onKeepThisFile( kf, false );
             }
 
@@ -680,7 +680,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     {
         final Selected selected = Selected.class.cast( actionObject );
 
-        for( KeyFileState kf : selected ) {
+        for( final KeyFileState kf : selected ) {
             onDeleteThisFile( kf, false );
             }
 
@@ -695,7 +695,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
             try {
                 getListModelDuplicatesFiles().clearSelected();
             }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.error( "clearSelected()", e );
             }
             finally {
@@ -727,7 +727,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
             try {
                 getListModelDuplicatesFiles().refreshList();
             }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.error( "onRefresh()", e );
             }
             finally {

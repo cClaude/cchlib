@@ -3,9 +3,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.File;
-import java.util.Map;
-import java.util.Set;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -15,7 +12,6 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
@@ -23,7 +19,6 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 abstract class JPanelSearchingDisplay extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    //private static final Logger LOGGER = Logger.getLogger( JPanelSearchingDisplay.class );
 
     private DefaultTableModel tableModelErrorList;
 
@@ -40,10 +35,6 @@ abstract class JPanelSearchingDisplay extends JPanel
     @I18nIgnore private final JLabel jTextFieldCurrentFile;
     @I18nIgnore private final JLabel jLabelDuplicateSetsFoundValue;
     @I18nIgnore private final JLabel jLabelDuplicateFilesFoundValue;
-
-    protected abstract void doScanPass1Prepare( Iterable<File> entriesToScans, Iterable<File> entriesToIgnore, FileFilterBuilders fileFilterBuilders );
-    protected abstract Map<String, Set<File>> getPass2MapKeyFiles();
-    protected abstract void doScanPass2();
 
     /**
      * Create the panel.
