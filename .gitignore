@@ -54,3 +54,10 @@ xcchlib-sandbox/xcchlib-sandbox-tools/.classpath
 xcchlib-sandbox/xcchlib-sandbox-tools/target/
 xcchlib-tools/.classpath
 xcchlib-tools/target/
+cchlib-nio/target/
+cchlib-samples/target/
+cchlib-tools/target/
+cchlib-core-sample/.classpath
+cchlib-nio/.classpath
+cchlib-samples/.classpath
+cchlib-tools/.classpath
