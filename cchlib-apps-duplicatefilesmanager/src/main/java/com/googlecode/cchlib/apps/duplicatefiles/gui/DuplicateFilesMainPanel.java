@@ -1,15 +1,6 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelConfig;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSelectFoldersOrFiles;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfirm;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResult;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearching;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,6 +11,16 @@ import java.util.TooManyListenersException;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelConfig;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSelectFoldersOrFiles;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfirm;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResult;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearching;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearchingParallel;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
  * Main frame layout for DuplicateFilesManager
@@ -69,7 +70,7 @@ public class DuplicateFilesMainPanel
         this.dfToolKit          = AppToolKitService.getInstance().getAppToolKit();
         this.mainActionListener = mainActionListener;
 
-        GridBagLayout gbl_contentPane = new GridBagLayout();
+        final GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
         gbl_contentPane.rowHeights = new int[]{100, 0, 0};
         gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -78,7 +79,7 @@ public class DuplicateFilesMainPanel
 
         {
             jPanelMain = new JPanel();
-            GridBagConstraints gbc_jPanelMain = new GridBagConstraints();
+            final GridBagConstraints gbc_jPanelMain = new GridBagConstraints();
             gbc_jPanelMain.anchor = GridBagConstraints.WEST;
             gbc_jPanelMain.gridwidth = 4;
             gbc_jPanelMain.gridheight = 1;
@@ -110,7 +111,7 @@ public class DuplicateFilesMainPanel
         jButtonRestart = new JButton("Restart");
         jButtonRestart.setActionCommand( ACTIONCMD_RESTART );
         jButtonRestart.addActionListener( getActionListener() );
-        GridBagConstraints gbc_jButtonRestart = new GridBagConstraints();
+        final GridBagConstraints gbc_jButtonRestart = new GridBagConstraints();
         gbc_jButtonRestart.anchor = GridBagConstraints.WEST;
         gbc_jButtonRestart.insets = new Insets(0, 0, 0, 5);
         gbc_jButtonRestart.gridx = 0;
@@ -120,7 +121,7 @@ public class DuplicateFilesMainPanel
         jButtonCancel = new JButton("Cancel");
         jButtonCancel.setActionCommand( ACTIONCMD_CANCEL );
         jButtonCancel.addActionListener( getActionListener() );
-        GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
+        final GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
         gbc_jButtonCancel.anchor = GridBagConstraints.WEST;
         gbc_jButtonCancel.insets = new Insets(0, 0, 0, 5);
         gbc_jButtonCancel.gridx = 1;
@@ -130,7 +131,7 @@ public class DuplicateFilesMainPanel
         jButtonNextStep = new JButton( "Next" );
         jButtonNextStep.setActionCommand( ACTIONCMD_NEXT );
         jButtonNextStep.addActionListener( getActionListener() );
-        GridBagConstraints gbc_jButtonNextStep = new GridBagConstraints();
+        final GridBagConstraints gbc_jButtonNextStep = new GridBagConstraints();
         gbc_jButtonNextStep.anchor = GridBagConstraints.EAST;
         gbc_jButtonNextStep.gridx = 3;
         gbc_jButtonNextStep.gridy = 1;
@@ -223,7 +224,7 @@ public class DuplicateFilesMainPanel
      */
     public JPanelSearching createJPanel2Searching()
     {
-        return new JPanelSearching();
+        return new JPanelSearchingParallel();
     }
 
     /**

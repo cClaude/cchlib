@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.util.duplicate.stream;
 
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -17,6 +15,8 @@ import java.util.stream.Stream;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
 
 public class PrepareDuplicateFileTest {
     private static final Logger LOGGER = Logger.getLogger( PrepareDuplicateFileTest.class );
@@ -53,7 +53,7 @@ public class PrepareDuplicateFileTest {
         final int maxDepth = Integer.MAX_VALUE;
         final FileVisitor<Path> visitor = Helper.newFileVisitor();
 
-        final Map<Long, Set<File>> files = DuplicateFileBuilder.createFromFileVisitor( visitor, options, maxDepth, startPaths ).compute();
+        final Map<Long, Set<File>> files = DuplicateFileBuilder.createFromFileVisitor( visitor, options, maxDepth, false, startPaths ).compute();
 
         LOGGER.info( "files.size() = " + files.size() );
 

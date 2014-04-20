@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.util.duplicate.stream;
 
-import com.googlecode.cchlib.NeedDoc;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitOption;
@@ -18,6 +17,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import com.googlecode.cchlib.NeedDoc;
 
 @NeedDoc
 public final class DuplicateFileBuilder
@@ -69,13 +69,13 @@ public final class DuplicateFileBuilder
 
     private static PrepareDuplicateFile newInstance(
             final Stream<File>  filesStream,
-            final boolean       ignoreEmptyFile
+            final boolean       ignoreEmptyFiles
             )
         {
             return ( ) -> {
                 final Stream<File> workStream;
 
-                if( ignoreEmptyFile ) {
+                if( ignoreEmptyFiles ) {
                     workStream = filesStream.filter( f -> f.length() > 0 );
                 } else {
                     workStream = filesStream;
@@ -90,26 +90,39 @@ public final class DuplicateFileBuilder
         }
 
     @NeedDoc
-    public static PrepareDuplicateFile createFromCollection( final Collection<File> files, final boolean ignoreEmptyFile )
+    public static PrepareDuplicateFile createFromCollection( final Collection<File> files, final boolean ignoreEmptyFiles )
     {
-        return newInstance( files.parallelStream(), ignoreEmptyFile );
+        return newInstance( files.parallelStream(), ignoreEmptyFiles );
     }
 
     @NeedDoc
-    public static PrepareDuplicateFile createFromStreamOfFiles( final Stream<File> filesStream, final boolean ignoreEmptyFile)
+    public static PrepareDuplicateFile createFromStreamOfFiles( final Stream<File> filesStream, final boolean ignoreEmptyFiles)
     {
-        return newInstance( filesStream, ignoreEmptyFile );
+        return newInstance( filesStream, ignoreEmptyFiles );
     }
 
-    public static PrepareDuplicateFile createFromStreamOfPaths( final Stream<Path> pathsStream, final boolean ignoreEmptyFile )
+    @NeedDoc
+    public static PrepareDuplicateFile createFromStreamOfPaths( final Stream<Path> pathsStream, final boolean ignoreEmptyFiles )
     {
-        return newInstance( pathsStream.map( p -> p.toFile() ), ignoreEmptyFile );
+        return newInstance( pathsStream.map( p -> p.toFile() ), ignoreEmptyFiles );
     }
 
+    @NeedDoc
+    public static PrepareDuplicateFile createFromFileVisitor(
+            final FileVisitor<Path>     visitor,
+            final boolean               ignoreEmptyFiles,
+            final Path...               startPaths
+            ) throws IOException
+    {
+        return createFromFileVisitor( visitor, EnumSet.noneOf( FileVisitOption.class ), Integer.MAX_VALUE, ignoreEmptyFiles, startPaths );
+    }
+
+    @NeedDoc
     public static PrepareDuplicateFile createFromFileVisitor(
             final FileVisitor<Path>     visitor,
             final Set<FileVisitOption>  options,
             final int                   maxDepth,
+            final boolean               ignoreEmptyFiles,
             final Path...               startPaths
             ) throws IOException
     {
@@ -119,15 +132,36 @@ public final class DuplicateFileBuilder
             Files.walkFileTree(start, options, maxDepth, visitorDelegator);
         }
 
-        return newInstance( visitorDelegator.toList().parallelStream().map( Path::toFile ), false );
+        return newInstance( visitorDelegator.toList().parallelStream().map( Path::toFile ), ignoreEmptyFiles );
     }
 
-    public static PrepareDuplicateFile createFromFileVisitor(
-            final FileVisitor<Path>     visitor,
-            final Path...               startPaths
+    @NeedDoc
+    public static PrepareDuplicateFile createFromFileVisitor( //
+            final Stream<Path>              startPathsStream, //
+            final FileVisitor<Path>         visitor, //
+            final EnumSet<FileVisitOption>  options, //
+            final int                       maxDepth, //
+            final boolean                   ignoreEmptyFiles //
             ) throws IOException
     {
-        return createFromFileVisitor( visitor, EnumSet.noneOf( FileVisitOption.class ), Integer.MAX_VALUE, startPaths );
+        final FileVisitorCollector<Path> visitorDelegator = new FileVisitorCollector<>( visitor );
+
+        startPathsStream.forEach( p -> {
+            try {
+                Files.walkFileTree( p, options, maxDepth, visitorDelegator );
+            }
+            catch( final IOException walkIOE ) {
+                try {
+                    visitor.visitFileFailed( p, walkIOE );
+                }
+                catch( final Exception visitorIOE ) {
+                    // Should not occur
+                    visitorIOE.printStackTrace();
+                }
+            }
+        } );
+
+        return newInstance( visitorDelegator.toList().parallelStream().map( Path::toFile ), ignoreEmptyFiles );
     }
 
 }

@@ -41,12 +41,13 @@ abstract class DuplicateFileFinderTestBase {
         final long beginNanoTime = System.nanoTime();
         getLogger().info( "*** PASS 1 +++ beginNanoTime " + beginNanoTime );
 
-        final Map<Long, Set<File>>        mapSet   = DuplicateFileBuilder.createFromFileVisitor( Helper.newFileVisitor(), startPaths ).compute();
+        final Map<Long, Set<File>>        mapSet   = DuplicateFileBuilder.createFromFileVisitor( Helper.newFileVisitor(), true, startPaths ).compute();
         final DuplicateFileFinderListener listener = newDuplicateFileFinderListener( "integration_test" );
 
-        final DuplicateFileFinder dff = newDuplicateFileFinder( messageDigestFileBuilder, listener );
-
         getLogger().info( "*** PASS 2" );
+        getLogger().info( "*** PASS 2" );
+
+        final DuplicateFileFinder dff = newDuplicateFileFinder( messageDigestFileBuilder, listener );
         getLogger().info( "*** PASS 2" );
         getLogger().info( "*** PASS 2" );
 
