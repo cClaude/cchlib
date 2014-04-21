@@ -1,5 +1,16 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileBuilder;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.MessageDigestFileBuilder;
+import com.googlecode.cchlib.util.duplicate.stream.ParallelDuplicateFileFinder;
+import com.googlecode.cchlib.util.duplicate.stream.PrepareDuplicateFile;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -21,17 +32,6 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileBuilder;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.MessageDigestFileBuilder;
-import com.googlecode.cchlib.util.duplicate.stream.ParallelDuplicateFileFinder;
-import com.googlecode.cchlib.util.duplicate.stream.PrepareDuplicateFile;
 
 @I18nName("duplicatefiles.JPanelSearching")
 public class JPanelSearchingParallel extends JPanelSearching

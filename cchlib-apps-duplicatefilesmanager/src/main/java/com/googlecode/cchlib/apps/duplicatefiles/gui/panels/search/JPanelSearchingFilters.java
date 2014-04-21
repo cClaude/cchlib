@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
+import com.googlecode.cchlib.lang.StringHelper;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
-import com.googlecode.cchlib.lang.StringHelper;
 
 //NOT public
 abstract class JPanelSearchingFilters extends JPanelSearchingDisplay

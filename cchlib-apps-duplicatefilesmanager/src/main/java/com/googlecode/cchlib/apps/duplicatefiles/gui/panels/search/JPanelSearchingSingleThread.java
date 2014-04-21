@@ -1,5 +1,13 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.io.FileIterable;
+import com.googlecode.cchlib.util.duplicate.DigestEventListener;
+import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -12,14 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.io.FileIterable;
-import com.googlecode.cchlib.util.duplicate.DigestEventListener;
-import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 @I18nName("duplicatefiles.JPanelSearching")
 public class JPanelSearchingSingleThread extends JPanelSearching

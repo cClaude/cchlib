@@ -1,6 +1,14 @@
 // $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
 
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
+import com.googlecode.cchlib.swing.textfield.XTextField;
+import com.googlecode.cchlib.util.iterable.CascadingIterable;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
@@ -25,14 +33,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
-import com.googlecode.cchlib.swing.textfield.XTextField;
-import com.googlecode.cchlib.util.iterable.CascadingIterable;
 
 /**
  * <pre>

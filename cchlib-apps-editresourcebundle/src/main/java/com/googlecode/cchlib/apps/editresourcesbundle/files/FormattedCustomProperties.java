@@ -26,8 +26,8 @@ class FormattedCustomProperties extends AbstractCustomProperties
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( FormattedCustomProperties.class );
 
-    private FileObject              fileObject;
-    private FormattedProperties     properties;
+    private final FileObject              fileObject;
+    private final FormattedProperties     properties;
     private HashMap<String,Integer> linesNumbers;
 
     public FormattedCustomProperties(
@@ -140,9 +140,9 @@ class FormattedCustomProperties extends AbstractCustomProperties
 
         int lineNumber = 1;
 
-        for( FormattedPropertiesLine line : properties.getLines() ) {
+        for( final FormattedPropertiesLine line : properties.getLines() ) {
             if( ! line.isComment() ) {
-                this.linesNumbers.put( line.getContent(), lineNumber ); // $codepro.audit.disable avoidAutoBoxing
+                this.linesNumbers.put( line.getContent(), Integer.valueOf( lineNumber ) );
                 }
             lineNumber++;
             }

@@ -1,14 +1,5 @@
-// $codepro.audit.disable questionableName, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
-import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -28,27 +19,32 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 
-/**
- *
- */
 @I18nName("PreferencesDialogWB")
-public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
+public class PreferencesDialogWB
     extends JDialog
         implements I18nAutoCoreUpdatable
 {
-    private static final int DEFAULT_MESSAGE_DIGEST_BUFFER_SIZE = 16384;
-    private static final int DEFAULT_DELETE_DELAIS = 100;
-    private static final int DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES = 50;
+    private static final Integer DEFAULT_MESSAGE_DIGEST_BUFFER_SIZE = Integer.valueOf( 16384 );
+    private static final Integer DEFAULT_DELETE_DELAIS = Integer.valueOf( 100 );
+    private static final Integer DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES = Integer.valueOf( 50 );
 
     private static final long serialVersionUID = 3L;
 
-    @I18nString private String txtPreferencesDialogMessageExceptionDialogTitle = "Can not save configuration";
-    @I18nString private String txtStringDefaultLocale = "default system";
-    @I18nString private String txtJLabelDefaultMessageDigestBufferSize = "Default: %d bytes";
-    @I18nString private String txtJLabelDefaultDeleteDelais = "Default: %d ms";
-    @I18nString private String txtJLabelDefaultDeleteSleepDisplayMaxEntries = "Default: %d";
-    @I18nString private String txtJPanelTitle = "Default configuration";
+    @I18nString private final String txtPreferencesDialogMessageExceptionDialogTitle = "Can not save configuration";
+    @I18nString private final String txtStringDefaultLocale = "default system";
+    @I18nString private final String txtJLabelDefaultMessageDigestBufferSize = "Default: %d bytes";
+    @I18nString private final String txtJLabelDefaultDeleteDelais = "Default: %d ms";
+    @I18nString private final String txtJLabelDefaultDeleteSleepDisplayMaxEntries = "Default: %d";
+    @I18nString private final String txtJPanelTitle = "Default configuration";
 
     private JButton jButtonCancel;
     private JButton jButtonSave;
@@ -76,13 +72,13 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
 
     private TitledBorder jPanelTitle;
     private JPanel panel;
-    private JPanel contentPanel;
+    private final JPanel contentPanel;
 
     private LimitedIntegerJTextField deleteSleepDisplayTF;
     private LimitedIntegerJTextField messageDigestBufferSizeTF;
     private LimitedIntegerJTextField deleteSleepDisplayMaxEntriesTF;
 
-    private Preferences preferences;
+    private final Preferences preferences;
 
     @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
@@ -97,10 +93,10 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
         {
             jComboBoxLocal.removeAllItems();
 
-            Locale locale = preferences.getLocale();
-            LocaleList localeList = new LocaleList( txtStringDefaultLocale );
+            final Locale locale = preferences.getLocale();
+            final LocaleList localeList = new LocaleList( txtStringDefaultLocale );
 
-            for( ListInfo<Locale> li : localeList ) {
+            for( final ListInfo<Locale> li : localeList ) {
                 jComboBoxLocal.addItem( li );
 
                 if( locale == null ) {
@@ -117,7 +113,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
         {
             jComboBoxUserLevel.removeAllItems();
 
-            for( ConfigMode cm : ConfigMode.values() ) {
+            for( final ConfigMode cm : ConfigMode.values() ) {
                 jComboBoxUserLevel.addItem( cm );
                 }
             jComboBoxUserLevel.setSelectedItem( preferences.getConfigMode() );
@@ -130,7 +126,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             final LookAndFeelInfoList list                = new LookAndFeelInfoList();
             final String              currentLAFClassName = currentLAF.getClass().getName();
 
-            for( ListInfo<LookAndFeelInfo> info : list ) {
+            for( final ListInfo<LookAndFeelInfo> info : list ) {
                 jComboBoxLookAndFeel.addItem( info );
 
                 if( info.getContent().getClassName().equals( currentLAFClassName  ) ) {
@@ -167,7 +163,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
         contentPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         setContentPane( contentPanel );
 
-        GridBagLayout gbl_contentPanel = new GridBagLayout();
+        final GridBagLayout gbl_contentPanel = new GridBagLayout();
         gbl_contentPanel.columnWidths = new int[]{40, 484, 40, 0};
         gbl_contentPanel.rowHeights = new int[]{315, 23, 0};
         gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -176,7 +172,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
         contentPanel.setLayout(gbl_contentPanel);
         {
             panel = new JPanel();
-            GridBagConstraints gbc_panel = new GridBagConstraints();
+            final GridBagConstraints gbc_panel = new GridBagConstraints();
             gbc_panel.fill = GridBagConstraints.BOTH;
             gbc_panel.gridwidth = 3;
             gbc_panel.insets = new Insets(0, 0, 5, 0);
@@ -184,7 +180,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             gbc_panel.gridy = 0;
             contentPanel.add(panel, gbc_panel);
 
-            GridBagLayout gbl_panel = new GridBagLayout();
+            final GridBagLayout gbl_panel = new GridBagLayout();
             gbl_panel.columnWidths = new int[]{0, 40, 0, 0, 0};
             gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
@@ -196,7 +192,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             //--------------
             {
                 jLabelUserLevel = new JLabel("User level");
-                GridBagConstraints gbc_jLabelUserLevel = new GridBagConstraints();
+                final GridBagConstraints gbc_jLabelUserLevel = new GridBagConstraints();
                 gbc_jLabelUserLevel.anchor = GridBagConstraints.EAST;
                 gbc_jLabelUserLevel.insets = new Insets(0, 0, 5, 5);
                 gbc_jLabelUserLevel.gridx = 0;
@@ -205,7 +201,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jComboBoxUserLevel = new JComboBox<>();
-                GridBagConstraints gbc_jComboBoxUserLevel = new GridBagConstraints();
+                final GridBagConstraints gbc_jComboBoxUserLevel = new GridBagConstraints();
                 gbc_jComboBoxUserLevel.insets = new Insets(0, 0, 5, 5);
                 gbc_jComboBoxUserLevel.fill = GridBagConstraints.HORIZONTAL;
                 gbc_jComboBoxUserLevel.gridx = 1;
@@ -215,7 +211,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             //--------------
             {
                 jLabeMessageDigestBufferSize = new JLabel("Hash code buffer size");
-                GridBagConstraints gbc_jLabeMessageDigestBufferSize = new GridBagConstraints();
+                final GridBagConstraints gbc_jLabeMessageDigestBufferSize = new GridBagConstraints();
                 gbc_jLabeMessageDigestBufferSize.anchor = GridBagConstraints.EAST;
                 gbc_jLabeMessageDigestBufferSize.insets = new Insets(0, 0, 5, 5);
                 gbc_jLabeMessageDigestBufferSize.gridx = 0;
@@ -225,7 +221,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             {
                 messageDigestBufferSizeTF = new LimitedIntegerJTextField();
                 messageDigestBufferSizeTF.setValue( prefs.getMessageDigestBufferSize() );
-                GridBagConstraints gbc_messageDigestBufferSizeTF = new GridBagConstraints();
+                final GridBagConstraints gbc_messageDigestBufferSizeTF = new GridBagConstraints();
                 gbc_messageDigestBufferSizeTF.insets = new Insets(0, 0, 5, 5);
                 gbc_messageDigestBufferSizeTF.fill = GridBagConstraints.HORIZONTAL;
                 gbc_messageDigestBufferSizeTF.gridx = 1;
@@ -235,7 +231,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jLabelDefaultMessageDigestBufferSize = new JLabel();
-                GridBagConstraints gbc_jLabelDefaultMessageDigestBufferSize = new GridBagConstraints();
+                final GridBagConstraints gbc_jLabelDefaultMessageDigestBufferSize = new GridBagConstraints();
                 gbc_jLabelDefaultMessageDigestBufferSize.gridwidth = 2;
                 gbc_jLabelDefaultMessageDigestBufferSize.fill = GridBagConstraints.HORIZONTAL;
                 gbc_jLabelDefaultMessageDigestBufferSize.insets = new Insets(0, 0, 5, 0);
@@ -246,7 +242,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             //--------------
             {
                 jLabelDeleteSleepDisplay = new JLabel("Delete delais");
-                GridBagConstraints gbc_jLabelDeleteSleepDisplay = new GridBagConstraints();
+                final GridBagConstraints gbc_jLabelDeleteSleepDisplay = new GridBagConstraints();
                 gbc_jLabelDeleteSleepDisplay.anchor = GridBagConstraints.EAST;
                 gbc_jLabelDeleteSleepDisplay.insets = new Insets(0, 0, 5, 5);
                 gbc_jLabelDeleteSleepDisplay.gridx = 0;
@@ -256,7 +252,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             {
                 deleteSleepDisplayTF = new LimitedIntegerJTextField();
                 deleteSleepDisplayTF.setValue( prefs.getDeleteSleepDisplay() );
-                GridBagConstraints gbc_deleteSleepDisplayTF = new GridBagConstraints();
+                final GridBagConstraints gbc_deleteSleepDisplayTF = new GridBagConstraints();
                 gbc_deleteSleepDisplayTF.insets = new Insets(0, 0, 5, 5);
                 gbc_deleteSleepDisplayTF.fill = GridBagConstraints.HORIZONTAL;
                 gbc_deleteSleepDisplayTF.gridx = 1;
@@ -266,7 +262,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jLabelDefaultDeleteDelais = new JLabel();
-                GridBagConstraints gbc_jLabelDefaultDeleteDelais = new GridBagConstraints();
+                final GridBagConstraints gbc_jLabelDefaultDeleteDelais = new GridBagConstraints();
                 gbc_jLabelDefaultDeleteDelais.gridwidth = 2;
                 gbc_jLabelDefaultDeleteDelais.fill = GridBagConstraints.HORIZONTAL;
                 gbc_jLabelDefaultDeleteDelais.insets = new Insets(0, 0, 5, 0);
@@ -276,7 +272,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jLabelDeleteSleepDisplayMaxEntries = new JLabel("Delete display max entries");
-                GridBagConstraints gbc_jLabelDeleteSleepDisplayMaxEntries = new GridBagConstraints();
+                final GridBagConstraints gbc_jLabelDeleteSleepDisplayMaxEntries = new GridBagConstraints();
                 gbc_jLabelDeleteSleepDisplayMaxEntries.anchor = GridBagConstraints.EAST;
                 gbc_jLabelDeleteSleepDisplayMaxEntries.insets = new Insets(0, 0, 5, 5);
                 gbc_jLabelDeleteSleepDisplayMaxEntries.gridx = 0;
@@ -286,7 +282,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             {
                 deleteSleepDisplayMaxEntriesTF = new LimitedIntegerJTextField();
                 deleteSleepDisplayMaxEntriesTF.setValue( prefs.getDeleteSleepDisplayMaxEntries() );
-                GridBagConstraints gbc_deleteSleepDisplayMaxEntriesTF = new GridBagConstraints();
+                final GridBagConstraints gbc_deleteSleepDisplayMaxEntriesTF = new GridBagConstraints();
                 gbc_deleteSleepDisplayMaxEntriesTF.insets = new Insets(0, 0, 5, 5);
                 gbc_deleteSleepDisplayMaxEntriesTF.fill = GridBagConstraints.HORIZONTAL;
                 gbc_deleteSleepDisplayMaxEntriesTF.gridx = 1;
@@ -296,7 +292,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jLabelDefaultDeleteSleepDisplayMaxEntries = new JLabel();
-                GridBagConstraints gbc_jLabelDefaultDeleteSleepDisplayMaxEntries = new GridBagConstraints();
+                final GridBagConstraints gbc_jLabelDefaultDeleteSleepDisplayMaxEntries = new GridBagConstraints();
                 gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.gridwidth = 2;
                 gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.fill = GridBagConstraints.HORIZONTAL;
                 gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.insets = new Insets(0, 0, 5, 0);
@@ -306,7 +302,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jLabelLocale = new JLabel("Language");
-                GridBagConstraints gbc_jLabelLocale = new GridBagConstraints();
+                final GridBagConstraints gbc_jLabelLocale = new GridBagConstraints();
                 gbc_jLabelLocale.anchor = GridBagConstraints.EAST;
                 gbc_jLabelLocale.insets = new Insets(0, 0, 5, 5);
                 gbc_jLabelLocale.gridx = 0;
@@ -315,7 +311,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jComboBoxLocal = new JComboBox<>();
-                GridBagConstraints gbc_jComboBoxLocal = new GridBagConstraints();
+                final GridBagConstraints gbc_jComboBoxLocal = new GridBagConstraints();
                 gbc_jComboBoxLocal.gridwidth = 2;
                 gbc_jComboBoxLocal.insets = new Insets(0, 0, 5, 5);
                 gbc_jComboBoxLocal.fill = GridBagConstraints.HORIZONTAL;
@@ -325,7 +321,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jLabelLookAndFeel = new JLabel("Look and feel");
-                GridBagConstraints gbc_jLabelLookAndFeel = new GridBagConstraints();
+                final GridBagConstraints gbc_jLabelLookAndFeel = new GridBagConstraints();
                 gbc_jLabelLookAndFeel.anchor = GridBagConstraints.EAST;
                 gbc_jLabelLookAndFeel.insets = new Insets(0, 0, 5, 5);
                 gbc_jLabelLookAndFeel.gridx = 0;
@@ -334,7 +330,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jComboBoxLookAndFeel = new JComboBox<>();
-                GridBagConstraints gbc_jComboBoxLookAndFeel = new GridBagConstraints();
+                final GridBagConstraints gbc_jComboBoxLookAndFeel = new GridBagConstraints();
                 gbc_jComboBoxLookAndFeel.gridwidth = 3;
                 gbc_jComboBoxLookAndFeel.insets = new Insets(0, 0, 5, 0);
                 gbc_jComboBoxLookAndFeel.fill = GridBagConstraints.HORIZONTAL;
@@ -344,7 +340,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jCheckBoxWindowDimension = new JCheckBox("Save current Windows size");
-                GridBagConstraints gbc_jCheckBoxWindowDimension = new GridBagConstraints();
+                final GridBagConstraints gbc_jCheckBoxWindowDimension = new GridBagConstraints();
                 gbc_jCheckBoxWindowDimension.gridwidth = 3;
                 gbc_jCheckBoxWindowDimension.fill = GridBagConstraints.HORIZONTAL;
                 gbc_jCheckBoxWindowDimension.insets = new Insets(0, 0, 5, 0);
@@ -354,7 +350,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
             {
                 jLabelWindowDimension = new JLabel("Main Window dimentions");
-                GridBagConstraints gbc_jLabelWindowDimension = new GridBagConstraints();
+                final GridBagConstraints gbc_jLabelWindowDimension = new GridBagConstraints();
                 gbc_jLabelWindowDimension.anchor = GridBagConstraints.EAST;
                 gbc_jLabelWindowDimension.insets = new Insets(0, 0, 5, 5);
                 gbc_jLabelWindowDimension.gridx = 0;
@@ -364,7 +360,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             {
                 jCheckBox_ignoreHiddenFiles = new JCheckBox("Ignore hidden files");
                 jCheckBox_ignoreHiddenFiles.setSelected( prefs.isIgnoreHiddenFiles() );
-                GridBagConstraints gbc_jCheckBox_ignoreHiddenFiles = new GridBagConstraints();
+                final GridBagConstraints gbc_jCheckBox_ignoreHiddenFiles = new GridBagConstraints();
                 gbc_jCheckBox_ignoreHiddenFiles.fill = GridBagConstraints.HORIZONTAL;
                 gbc_jCheckBox_ignoreHiddenFiles.insets = new Insets(0, 0, 5, 5);
                 gbc_jCheckBox_ignoreHiddenFiles.gridx = 1;
@@ -374,7 +370,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             {
                 jCheckBox_ignoreReadOnlyFiles = new JCheckBox("Ignore read only files");
                 jCheckBox_ignoreReadOnlyFiles.setSelected( prefs.isIgnoreReadOnlyFiles() );
-                GridBagConstraints gbc_jCheckBox_ignoreReadOnlyFiles = new GridBagConstraints();
+                final GridBagConstraints gbc_jCheckBox_ignoreReadOnlyFiles = new GridBagConstraints();
                 gbc_jCheckBox_ignoreReadOnlyFiles.gridwidth = 2;
                 gbc_jCheckBox_ignoreReadOnlyFiles.fill = GridBagConstraints.HORIZONTAL;
                 gbc_jCheckBox_ignoreReadOnlyFiles.insets = new Insets(0, 0, 5, 5);
@@ -385,7 +381,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             {
                 jCheckBox_ignoreHiddenDirectories = new JCheckBox("Ignore hidden directories");
                 jCheckBox_ignoreHiddenDirectories.setSelected( prefs.isIgnoreHiddenDirectories() );
-                GridBagConstraints gbc_jCheckBox_ignoreHiddenDirectories = new GridBagConstraints();
+                final GridBagConstraints gbc_jCheckBox_ignoreHiddenDirectories = new GridBagConstraints();
                 gbc_jCheckBox_ignoreHiddenDirectories.fill = GridBagConstraints.HORIZONTAL;
                 gbc_jCheckBox_ignoreHiddenDirectories.insets = new Insets(0, 0, 5, 5);
                 gbc_jCheckBox_ignoreHiddenDirectories.gridx = 1;
@@ -395,7 +391,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             {
                 jCheckBox_ignoreEmptyFiles = new JCheckBox("Ignore empty files");
                 jCheckBox_ignoreEmptyFiles.setSelected( prefs.isIgnoreEmptyFiles() );
-                GridBagConstraints gbc_jCheckBox_ignoreEmptyFiles = new GridBagConstraints();
+                final GridBagConstraints gbc_jCheckBox_ignoreEmptyFiles = new GridBagConstraints();
                 gbc_jCheckBox_ignoreEmptyFiles.gridwidth = 2;
                 gbc_jCheckBox_ignoreEmptyFiles.fill = GridBagConstraints.HORIZONTAL;
                 gbc_jCheckBox_ignoreEmptyFiles.insets = new Insets(0, 0, 5, 5);
@@ -406,24 +402,24 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
         }
         {
             jButtonCancel = new JButton("Cancel");
-            GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
             gbc_jButtonCancel.fill = GridBagConstraints.BOTH;
             gbc_jButtonCancel.insets = new Insets(0, 0, 0, 5);
             gbc_jButtonCancel.gridx = 0;
             gbc_jButtonCancel.gridy = 1;
             contentPanel.add(jButtonCancel, gbc_jButtonCancel);
-            jButtonCancel.addActionListener((ActionEvent e) -> {
+            jButtonCancel.addActionListener((final ActionEvent e) -> {
                 PreferencesDialogWB.this.dispose();
             });
         }
         {
             jButtonSave = new JButton("Save");
-            GridBagConstraints gbc_jButtonSave = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonSave = new GridBagConstraints();
             gbc_jButtonSave.fill = GridBagConstraints.BOTH;
             gbc_jButtonSave.gridx = 2;
             gbc_jButtonSave.gridy = 1;
             contentPanel.add(jButtonSave, gbc_jButtonSave);
-            jButtonSave.addActionListener((ActionEvent event) -> {
+            jButtonSave.addActionListener((final ActionEvent event) -> {
                 prefs.setConfigMode( getSelectedItem( jComboBoxUserLevel ) );
                 prefs.setDeleteSleepDisplay( deleteSleepDisplayTF.getValue() );
                 prefs.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntriesTF.getValue() );
@@ -431,21 +427,21 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
                 //prefs.setLastDirectory( file );
                 prefs.setLocale( getSelectedItem( jComboBoxLocal ).getContent() );
                 prefs.setLookAndFeelInfo( getSelectedItem( jComboBoxLookAndFeel ).getContent() );
-                
+
                 prefs.setIgnoreHiddenFiles( jCheckBox_ignoreHiddenFiles.isSelected() );
                 prefs.setIgnoreHiddenDirectories( jCheckBox_ignoreHiddenDirectories.isSelected() );
                 prefs.setIgnoreReadOnlyFiles( jCheckBox_ignoreReadOnlyFiles.isSelected() );
                 prefs.setIgnoreEmptyFiles( jCheckBox_ignoreHiddenFiles.isSelected() );
-                
+
                 if( jCheckBoxWindowDimension.isSelected() ) {
                     prefs.setWindowDimension( mainWindowDimension );
                 }
                 try {
                     prefs.save();
                 }
-                catch( IOException e ) {
+                catch( final IOException e ) {
                     e.printStackTrace();
-                    
+
                     DialogHelper.showMessageExceptionDialog(
                             PreferencesDialogWB.this,
                             txtPreferencesDialogMessageExceptionDialogTitle,
@@ -457,10 +453,10 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
         }
     }
 
-    private static void setMaxWidthOf( Component c1, Component c2 )
+    private static void setMaxWidthOf( final Component c1, final Component c2 )
     {
-        int w1 = c1.getMinimumSize().width;
-        int w2 = c2.getMinimumSize().width;
+        final int w1 = c1.getMinimumSize().width;
+        final int w2 = c2.getMinimumSize().width;
 
         if( w1 > w2 ) {
             c2.setSize( w1, c2.getSize().height );
@@ -470,7 +466,7 @@ public class PreferencesDialogWB // $codepro.audit.disable largeNumberOfFields
             }
     }
 
-    private static <T> T getSelectedItem( JComboBox<T> c )
+    private static <T> T getSelectedItem( final JComboBox<T> c )
     {
         return c.getItemAt( c.getSelectedIndex() );
     }

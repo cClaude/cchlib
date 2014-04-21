@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.util.Date;
-import javax.swing.SwingUtilities;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.Version;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.JFrames;
+import java.util.Date;
+import javax.swing.SwingUtilities;
+import org.apache.log4j.Logger;
 
 /**
  * Application launcher

@@ -1,6 +1,17 @@
 // $codepro.audit.disable largeNumberOfFields, largeNumberOfMethods, constantNamingConvention
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
+import com.googlecode.cchlib.util.iterator.Iterators;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -23,17 +34,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
-import com.googlecode.cchlib.util.iterator.Iterators;
 
 @I18nName("duplicatefiles.JPanelResult")
 public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable

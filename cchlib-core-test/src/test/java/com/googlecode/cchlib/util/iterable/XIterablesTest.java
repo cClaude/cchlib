@@ -3,7 +3,6 @@ package com.googlecode.cchlib.util.iterable;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -26,15 +25,15 @@ public class XIterablesTest
     @Test
     public void testFilter_1()
     {
-        Collection<Integer> iterable = IterablesTestFactory.createIterable();
-        Selectable<Integer> filter   = IterablesTestFactory.createFilter();
+        final Collection<Integer> iterable = IterablesTestFactory.createIterable();
+        final Selectable<Integer> filter   = IterablesTestFactory.createFilter();
 
-        XIterable<Integer> result = XIterables.filter( iterable, filter );
-        List<Integer>     list1  = XIterables.newList( result );
-        List<Integer>     list2  = result.toList();
+        final XIterable<Integer> result = XIterables.filter( iterable, filter );
+        final List<Integer>     list1  = XIterables.newList( result );
+        final List<Integer>     list2  = result.toList();
 
         // add additional test code here
-        int expected_size = iterable.size() / 2;
+        final int expected_size = iterable.size() / 2;
 
         assertThat( result ).isNotNull();
         assertThat( list1 ).hasSize( expected_size );
@@ -47,15 +46,15 @@ public class XIterablesTest
     @Test
     public void testWrappe_1()
     {
-        Collection<Integer>       iterable = IterablesTestFactory.createIterable();
-        Wrappable<Integer,String> wrapper  = IterablesTestFactory.createWrappableIntegerToString();
+        final Collection<Integer>       iterable = IterablesTestFactory.createIterable();
+        final Wrappable<Integer,String> wrapper  = IterablesTestFactory.createWrappableIntegerToString();
 
-        XIterable<String>  result = XIterables.wrap( iterable, wrapper );
-        List<String>       list1  = XIterables.newList( result );
-        List<String>       list2  = result.toList();
+        final XIterable<String>  result = XIterables.wrap( iterable, wrapper );
+        final List<String>       list1  = XIterables.newList( result );
+        final List<String>       list2  = result.toList();
 
         // add additional test code here
-        int expected_size = iterable.size();
+        final int expected_size = iterable.size();
 
         assertThat( result ).isNotNull();
         assertThat( list1 ).hasSize( expected_size );
@@ -66,26 +65,26 @@ public class XIterablesTest
     @Test
     public void testFilterWrappe_1()
     {
-        Collection<Integer>       collection = IterablesTestFactory.createIterable();
-        Selectable<Integer>       filter     = IterablesTestFactory.createFilter();
-        Wrappable<Integer,String> wrapper    = IterablesTestFactory.createWrappableIntegerToString();
+        final Collection<Integer>       collection = IterablesTestFactory.createIterable();
+        final Selectable<Integer>       filter     = IterablesTestFactory.createFilter();
+        final Wrappable<Integer,String> wrapper    = IterablesTestFactory.createWrappableIntegerToString();
 
-        XIterable<Integer>  result1   = new XIterableImpl<Integer>( collection );
-        XIterable<Integer>  result2  = result1.filter( filter );
-        XIterable<String>   result3  = result2.wrap( wrapper );
+        final XIterable<Integer>  result1   = new XIterableImpl<Integer>( collection );
+        final XIterable<Integer>  result2  = result1.filter( filter );
+        final XIterable<String>   result3  = result2.wrap( wrapper );
 
-        List<Integer>     result1list1  = result1.toList();
-        List<Integer>     result1list2  = result1.toList();
+        final List<Integer>     result1list1  = result1.toList();
+        final List<Integer>     result1list2  = result1.toList();
         assertEquals( collection.size(), result1list1.size() );
         assertEquals( collection.size(), result1list2.size() );
 
-        List<Integer>     result2list1  = result2.toList();
-        List<Integer>     result2list2  = result2.toList();
+        final List<Integer>     result2list1  = result2.toList();
+        final List<Integer>     result2list2  = result2.toList();
         assertEquals( collection.size() / 2, result2list1.size() );
         assertEquals( collection.size() / 2, result2list2.size() );
 
-        List<String>     result3list1  = result3.toList();
-        List<String>     result3list2  = result3.toList();
+        final List<String>     result3list1  = result3.toList();
+        final List<String>     result3list2  = result3.toList();
         assertEquals( collection.size() / 2, result3list1.size() );
         assertEquals( collection.size() / 2, result3list2.size() );
     }
@@ -93,15 +92,15 @@ public class XIterablesTest
     @Test
     public void testFilterWrappeSort_1()
     {
-        Collection<Integer>       collection = IterablesTestFactory.createIterable();
-        Selectable<Integer>       filter     = IterablesTestFactory.createFilter();
-        Wrappable<Integer,String> wrapper    = IterablesTestFactory.createWrappableIntegerToString();
-        Comparator<String>        comparator = IterablesTestFactory.createDescendingComparatorForString();
+        final Collection<Integer>       collection = IterablesTestFactory.createIterable();
+        final Selectable<Integer>       filter     = IterablesTestFactory.createFilter();
+        final Wrappable<Integer,String> wrapper    = IterablesTestFactory.createWrappableIntegerToString();
+        final Comparator<String>        comparator = IterablesTestFactory.createDescendingComparatorForString();
 
-        XIterable<String> result3 = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator );
+        final XIterable<String> result3 = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator );
 
-        List<String>     result3list1  = result3.toList();
-        List<String>     result3list2  = result3.toList();
+        final List<String>     result3list1  = result3.toList();
+        final List<String>     result3list2  = result3.toList();
         assertEquals( collection.size() / 2, result3list1.size() );
         assertEquals( collection.size() / 2, result3list2.size() );
     }
@@ -109,12 +108,12 @@ public class XIterablesTest
     @Test
     public void testFilterWrappeSort_2()
     {
-        Collection<Integer>       collection = IterablesTestFactory.createIterable();
-        Selectable<Integer>       filter     = IterablesTestFactory.createFilter();
-        Wrappable<Integer,String> wrapper    = IterablesTestFactory.createWrappableIntegerToString();
-        Comparator<String>        comparator = IterablesTestFactory.createDescendingComparatorForString();
+        final Collection<Integer>       collection = IterablesTestFactory.createIterable();
+        final Selectable<Integer>       filter     = IterablesTestFactory.createFilter();
+        final Wrappable<Integer,String> wrapper    = IterablesTestFactory.createWrappableIntegerToString();
+        final Comparator<String>        comparator = IterablesTestFactory.createDescendingComparatorForString();
 
-        List<String> result = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator ).toList();
+        final List<String> result = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator ).toList();
 
         assertEquals( collection.size() / 2, result.size() );
 
@@ -126,20 +125,18 @@ public class XIterablesTest
     @Test
     public void testFilterWrappeSort_3()
     {
-        Collection<Integer>       collection  = IterablesTestFactory.createIterable();
-        Selectable<Integer>       filter      = IterablesTestFactory.createFilter();
-        Wrappable<Integer,String> wrapper     = IterablesTestFactory.createWrappableIntegerToString();
-        Comparator<String>        comparator  = IterablesTestFactory.createDescendingComparatorForString();
+        final Collection<Integer>       collection  = IterablesTestFactory.createIterable();
+        final Selectable<Integer>       filter      = IterablesTestFactory.createFilter();
+        final Wrappable<Integer,String> wrapper     = IterablesTestFactory.createWrappableIntegerToString();
+        final Comparator<String>        comparator  = IterablesTestFactory.createDescendingComparatorForString();
 
-        Wrappable<String,Integer> wrapper2    = IterablesTestFactory.createWrappableStringToInteger();
-        Comparator<Integer>       comparator2 = IterablesTestFactory.createComparatorForInteger();
-        Selectable<String>        filter2     = IterablesTestFactory.createFilterRemoveEntryIfStringEndWithZero();
+        final Wrappable<String,Integer> wrapper2    = IterablesTestFactory.createWrappableStringToInteger();
+        final Comparator<Integer>       comparator2 = IterablesTestFactory.createComparatorForInteger();
+        final Selectable<String>        filter2     = IterablesTestFactory.createFilterRemoveEntryIfStringEndWithZero();
 
-        List<Integer> result = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator ).filter( filter2 ).wrap( wrapper2 ).sort( comparator2 ).toList();
+        final List<Integer> result = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator ).filter( filter2 ).wrap( wrapper2 ).sort( comparator2 ).toList();
 
-        //int firstElement = result.get( 0 ).intValue();
-        //assertEquals( 2, firstElement );
-        assertThat( result ).startsWith( 2 ); // $codepro.audit.disable avoidAutoBoxing
+        assertThat( result ).startsWith( Integer.valueOf( 2 ) );
     }
 
     /**
@@ -163,7 +160,7 @@ public class XIterablesTest
     /**
      * Launch the test.
      */
-    public static void main(String[] args)
+    public static void main(final String[] args)
     {
         new org.junit.runner.JUnitCore().run(XIterablesTest.class);
     }

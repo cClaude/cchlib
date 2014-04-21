@@ -1,5 +1,9 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.util.HashMapSet;
+import com.googlecode.cchlib.util.MapSetHelper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,10 +16,6 @@ import java.util.TreeSet;
 import javax.swing.AbstractListModel;
 import javax.swing.ListCellRenderer;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.util.HashMapSet;
-import com.googlecode.cchlib.util.MapSetHelper;
 
 //NOT public
 class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements JPanelResultListModel

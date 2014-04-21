@@ -9,11 +9,11 @@ public class FilesPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
 
-    private FileEntryPanel[] panelFiles;
-    private String msgStringLeft;
-    private String msgStringFmt;
-    private String msgButton;
-    private ActionListener actionListener;
+    private final FileEntryPanel[] panelFiles;
+    private final String msgStringLeft;
+    private final String msgStringFmt;
+    private final String msgButton;
+    private final ActionListener actionListener;
 
     /**
     * Create the panel.
@@ -34,7 +34,7 @@ public class FilesPanel extends JPanel
 
         setLayout(new BorderLayout(0, 0));
 
-        JPanel panel = new JPanel();
+        final JPanel panel = new JPanel();
         add(panel, BorderLayout.NORTH);
 
         panel.setLayout(new GridLayout(0, 1, 0, 0));
@@ -54,7 +54,7 @@ public class FilesPanel extends JPanel
     public FileEntryPanel getPanelFile( final int index )
     {
         if( panelFiles[ index ] == null ) {
-            final String msgString     = (index == 0) ? msgStringLeft : String.format( msgStringFmt, index ); // $codepro.audit.disable avoidAutoBoxing
+            final String msgString     = (index == 0) ? msgStringLeft : String.format( msgStringFmt, Integer.valueOf( index ) );
             final String actionCommand = LoadDialogAction.ACTIONCMD_SELECT_PREFIX.getActionCommand( index );
 
             panelFiles[ index ] = new FileEntryPanel( msgString, msgButton, actionCommand , actionListener );

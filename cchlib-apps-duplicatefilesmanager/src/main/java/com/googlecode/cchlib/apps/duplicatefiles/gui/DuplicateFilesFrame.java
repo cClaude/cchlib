@@ -22,7 +22,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.Tools;
 import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesDialogWB;
-import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesStandaloneApp;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -44,7 +43,6 @@ final public class DuplicateFilesFrame
     private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( DuplicateFilesFrame.class );
 
-    private RemoveEmptyDirectoriesStandaloneApp removeEmptyDirectories;
     private ActionListener mainActionListener;
 
     private final Map<String,Set<KeyFileState>> duplicateFiles = new HashMapSet<>();
@@ -212,12 +210,6 @@ final public class DuplicateFilesFrame
              //
              // Add extra customization here
              //
-
-            if( DuplicateFilesFrame.this.removeEmptyDirectories != null ) {
-                SwingUtilities.updateComponentTreeUI(
-                    DuplicateFilesFrame.this.removeEmptyDirectories
-                    );
-                }
             }
     }
 

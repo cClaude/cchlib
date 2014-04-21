@@ -1,6 +1,15 @@
 // $codepro.audit.disable largeNumberOfMethods, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.util.properties.Populator;
+import com.googlecode.cchlib.util.properties.PropertiesHelper;
+import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 import java.awt.Dimension;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,15 +22,6 @@ import java.util.Properties;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.util.properties.Populator;
-import com.googlecode.cchlib.util.properties.PropertiesHelper;
-import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 
 /**
  *

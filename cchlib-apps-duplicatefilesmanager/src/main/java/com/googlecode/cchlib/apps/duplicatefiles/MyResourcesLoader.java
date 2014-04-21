@@ -3,7 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI; // $codepro.audit.disable unnecessaryImport
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.util.Properties;

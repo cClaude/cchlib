@@ -1,5 +1,10 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.Map;
@@ -9,11 +14,6 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 
 @I18nName("duplicatefiles.JPanelResult.DuplicateSetContextualMenu")
 //NOT public

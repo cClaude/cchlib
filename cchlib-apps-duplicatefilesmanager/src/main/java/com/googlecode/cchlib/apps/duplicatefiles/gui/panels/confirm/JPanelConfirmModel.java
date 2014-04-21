@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm;
 
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.util.MapSetHelper;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.util.MapSetHelper;
 
 /**
  *
