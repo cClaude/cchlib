@@ -15,6 +15,7 @@ import java.util.Properties;
  */
 public final class Version
 {
+    private static Version service;
     private final String name;
     private final String version;
     private final Date date;
@@ -26,7 +27,7 @@ public final class Version
      * @throws ParseException if build.date is not a valid date
      *        according to maven.build.timestamp.format
      */
-    public Version() throws IOException, ParseException
+    private Version() throws IOException, ParseException
     {
         final String     filename = "/version.properties";
         final Properties prop     = new Properties();
@@ -111,12 +112,25 @@ public final class Version
     public static void main( final String[] args )
     {
         try {
-            final Version instance = new Version();
+            final Version instance = Version.getInstance();
 
             System.out.println( instance );
             }
-        catch( IOException | ParseException e ) {
+        catch( final Exception e ) {
             e.printStackTrace( System.err );
             }
+    }
+
+    public static Version getInstance()
+    {
+        if( service == null ) {
+            try {
+                service = new Version();
+            }
+            catch( IOException | ParseException e ) {
+                throw new RuntimeException( e );
+            }
+        }
+        return service;
     }
 }

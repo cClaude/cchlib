@@ -1,18 +1,17 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import com.googlecode.cchlib.Version;
-import com.googlecode.cchlib.resources.ResourcesLoader;
-import com.googlecode.cchlib.resources.ResourcesLoaderException;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI; // $codepro.audit.disable unnecessaryImport
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.Properties;
 import javax.swing.Icon;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.Version;
+import com.googlecode.cchlib.resources.ResourcesLoader;
+import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
 /**
  * Load resources for GUI
@@ -51,7 +50,7 @@ public final class MyResourcesLoader
         try {
             return ResourcesLoader.getImageIcon( MyResourcesLoader.class, name );
             }
-        catch( ResourcesLoaderException e ) {
+        catch( final ResourcesLoaderException e ) {
             LOGGER.error( "Can't load Icon: " + name, e );
 
             return null;
@@ -68,7 +67,7 @@ public final class MyResourcesLoader
         try {
             return ResourcesLoader.getImage( MyResourcesLoader.class, name );
             }
-        catch( ResourcesLoaderException e ) {
+        catch( final ResourcesLoaderException e ) {
             LOGGER.error( "Can't load Image: " + name, e );
 
             return null;
@@ -86,7 +85,7 @@ public final class MyResourcesLoader
         final Properties prop = new Properties();
 
         try {
-            InputStream is = MyResourcesLoader.getResourceAsStream( name );
+            final InputStream is = MyResourcesLoader.getResourceAsStream( name );
 
             if( is != null ) {
                 prop.load( is );
@@ -108,18 +107,11 @@ public final class MyResourcesLoader
             try {
                 siteURI = new URI( "https://code.google.com/p/cchlib-apps/" );
                 }
-            catch( URISyntaxException e ) {
+            catch( final URISyntaxException e ) {
                 throw new RuntimeException( e );
                 }
 
-            final Version version;
-
-            try {
-                version = new Version();
-                }
-            catch( IOException | ParseException e ) {
-                throw new RuntimeException( e );
-                }
+            final Version version = Version.getInstance();
 
             RESOURCES = newResources( siteURI, version );
             }

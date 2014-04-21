@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.apps.duplicatefiles.alpha.filefilter;
 
-import com.googlecode.cchlib.io.FileFilterHelper;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
+import com.googlecode.cchlib.io.FileFilterHelper;
 
 /**
  *
@@ -26,7 +26,7 @@ public class MutableFileFilter
     /**
      *
      */
-    public MutableFileFilter( FileFilter fileFilter )
+    public MutableFileFilter( final FileFilter fileFilter )
     {
         this.fileFilter = fileFilter;
     }
@@ -34,13 +34,13 @@ public class MutableFileFilter
     /**
     *
     */
-    public void setFileFilter( FileFilter fileFilter )
+    public void setFileFilter( final FileFilter fileFilter )
     {
         this.fileFilter = fileFilter;
     }
 
     @Override
-    public boolean accept( File pathFile )
+    public boolean accept( final File pathFile )
     {
         return this.fileFilter.accept( pathFile );
     }

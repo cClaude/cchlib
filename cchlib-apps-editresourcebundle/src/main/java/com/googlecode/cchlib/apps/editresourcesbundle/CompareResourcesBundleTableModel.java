@@ -18,9 +18,8 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-
+import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FormattedCustomProperties;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
@@ -71,7 +70,7 @@ class CompareResourcesBundleTableModel
         }
         @Override
         public String toString() {
-            StringBuilder builder = new StringBuilder();
+            final StringBuilder builder = new StringBuilder();
             builder.append("Colunms [colunmCount=");
             builder.append(colunmCount);
             builder.append(", colunmKey=");
@@ -84,17 +83,17 @@ class CompareResourcesBundleTableModel
             return builder.toString();
         }
     }
-    private Colunms colunms = new Colunms();
+    private final Colunms colunms = new Colunms();
 
-    @I18nString private String txtNoFile = "<<NoFile>>";
-    @I18nString private String columnKeyNames = "Key";
-    private String[] columnOtherNames = {
+    @I18nString private final String txtNoFile = "<<NoFile>>";
+    @I18nString private final String columnKeyNames = "Key";
+    private final String[] columnOtherNames = {
             "#",
             "(%s%s)",
             };
     private final ArrayList<String> keyList = new ArrayList<String>();
-    private CustomProperties[] customProperties;
-    private AutoI18nCore       autoI18n;
+    private final CustomProperties[] customProperties;
+    private final AutoI18nCore       autoI18n;
 
     @Override
     public String toString()
@@ -158,7 +157,7 @@ class CompareResourcesBundleTableModel
             keyBuilderSet.addAll( customProperties[ index ].stringPropertyNames() );
             }
 
-        for( String s : keyBuilderSet ) {
+        for( final String s : keyBuilderSet ) {
             keyList.add( s );
             }
         keyBuilderSet.clear();
@@ -271,7 +270,7 @@ class CompareResourcesBundleTableModel
                 return false;
                 }
             else {
-                String key = keyList.get( rowIndex );
+                final String key = keyList.get( rowIndex );
                 return isStringEditable( customProperties[ computedIndex ].getProperty( key ) );
                 }
             }
@@ -309,7 +308,7 @@ class CompareResourcesBundleTableModel
             return key;
             }
         else if( (computedIndex = colunms.getColunmLineIndex( columnIndex )) != -1 ) {
-            return customProperties[ computedIndex ].getLineNumber( key ); // $codepro.audit.disable avoidAutoBoxing
+            return Integer.valueOf( customProperties[ computedIndex ].getLineNumber( key ) );
             }
         else if( (computedIndex = colunms.getColunmValueIndex( columnIndex )) != -1 ) {
             return customProperties[ computedIndex ].getProperty( key );
@@ -397,15 +396,15 @@ class CompareResourcesBundleTableModel
                 }
                 @Override
                 public Component getTableCellRendererComponent(
-                        JTable  table,
-                        Object  value,
-                        boolean isSelected,
-                        boolean hasFocus,
-                        int     row,
-                        int     column
+                        final JTable  table,
+                        final Object  value,
+                        final boolean isSelected,
+                        final boolean hasFocus,
+                        final int     row,
+                        final int     column
                         )
                 {
-                    String str = String.class.cast( value );
+                    final String str = String.class.cast( value );
 
                     if( value == null ) {
                         setBackground( Color.RED );
@@ -430,8 +429,8 @@ class CompareResourcesBundleTableModel
             // The following methods override the defaults for performance reasons
             @Override public void validate() {}
             @Override public void revalidate() {}
-            @Override protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {}
-            @Override public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {}
+            @Override protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) {}
+            @Override public void firePropertyChange(final String propertyName, final boolean oldValue, final boolean newValue) {}
             }
         };
 
@@ -466,9 +465,9 @@ class CompareResourcesBundleTableModel
                 final Object content = getValueAt( ri, ci );
 
                 if( content instanceof String ) {
-                    String s = String.class.cast( content );
+                    final String s = String.class.cast( content );
 
-                    int width = fm.stringWidth( s );
+                    final int width = fm.stringWidth( s );
 
                     if( width > maxWidth ) {
                         maxWidth = width;

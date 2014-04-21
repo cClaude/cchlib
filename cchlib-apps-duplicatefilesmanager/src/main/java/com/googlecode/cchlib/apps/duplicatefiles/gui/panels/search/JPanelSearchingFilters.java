@@ -14,8 +14,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingFilters.class );
 
-    private int     pass1CountFile;
-    private long    pass1BytesCount;
+    private int     _pass1FilesCount;
+    private long    _pass1BytesCount;
     private File    displayFile;
 
     protected FileFilter createFilesFileFilter(
@@ -60,8 +60,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
                     // RegEx
                     if( regex != null ) {
                         if( regex.matcher(f.getName()).matches() ) {
-                            pass1CountFile++;
-                            pass1BytesCount += f.length();
+                            _pass1FilesCount++;
+                            _pass1BytesCount += f.length();
                             return true;
                             }
                         }
@@ -71,8 +71,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
 
                     for(int i=0;i<fileExtsL;i++) {
                         if(name.endsWith( fileExts[i] )) {
-                            pass1CountFile++;
-                            pass1BytesCount += f.length();
+                            _pass1FilesCount++;
+                            _pass1BytesCount += f.length();
                             return true;
                             }
                         }
@@ -127,8 +127,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
                                 return false;
                             }
                         }
-                        pass1CountFile++;
-                        pass1BytesCount += f.length();
+                        _pass1FilesCount++;
+                        _pass1BytesCount += f.length();
                         return true;
                     }
                     return false;
@@ -150,8 +150,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
                                 return false;
                             }
                         }
-                        pass1CountFile++;
-                        pass1BytesCount += f.length();
+                        _pass1FilesCount++;
+                        _pass1BytesCount += f.length();
                         return true;
                     }
                     return false;
@@ -265,24 +265,24 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
         }
     }
 
-    protected final int getPass1CountFile()
+    protected final int getPass1FilesCount()
     {
-        return pass1CountFile;
+        return _pass1FilesCount;
     }
 
-    protected final void setPass1CountFile( final int pass1CountFile )
+    protected final void setPass1FilesCount( final int pass1FilesCount )
     {
-        this.pass1CountFile = pass1CountFile;
+        this._pass1FilesCount = pass1FilesCount;
     }
 
     protected final long getPass1BytesCount()
     {
-        return pass1BytesCount;
+        return _pass1BytesCount;
     }
 
     protected final void setPass1BytesCount( final long pass1BytesCount )
     {
-        this.pass1BytesCount = pass1BytesCount;
+        this._pass1BytesCount = pass1BytesCount;
     }
 
     protected final File getDisplayFile()

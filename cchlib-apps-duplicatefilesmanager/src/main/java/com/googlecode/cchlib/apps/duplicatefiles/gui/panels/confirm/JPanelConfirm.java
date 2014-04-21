@@ -137,58 +137,53 @@ public class JPanelConfirm extends JPanel
 
         LOGGER.info( "populate: Selected count: " + tableDts_toDelete.size() );
 
-        final DefaultTableCellRenderer render = new DefaultTableCellRenderer()
-        {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public Component getTableCellRendererComponent(
-                    final JTable table,
-                    final Object value,
-                    final boolean isSelected,
-                    final boolean hasFocus,
-                    final int row,
-                    final int column
-                    )
-            {
-                if( row == 0 ) {
-                    final KeyFileState f = tableDts_toDelete.get( row );
-                    setText( f.getFile().getPath() );
-
-                    final Boolean b = tableDts_toDelete.getDeleted( row );
-
-                    if( b != null ) {
-                        setHorizontalAlignment(SwingConstants.LEFT);
-
-                        if( b.booleanValue() ) {
-                            setIcon( iconOk );
-                            }
-                        else {
-                            if( f.getFile().exists() ) {
-                                setIcon( iconKo );
-                                setToolTipText( txtIconKo );
-                                }
-                            else {
-                                setIcon( iconKoButDelete );
-                                setToolTipText( txtIconKoButDelete );
-                                }
-                            }
-                        }
-                    } // else no change !
-
-                return super.getTableCellRendererComponent(
-                        table,
-                        value,
-                        isSelected,
-                        hasFocus,
-                        row,
-                        column
-                        );
-            }
-        };
+        final DefaultTableCellRenderer render = newDefaultTableCellRenderer();
 
         jTableFiles2Delete.setDefaultRenderer(String.class, render);
 
-        tableModel = new AbstractTableModel()
+        tableModel = newAbstractTableModel( duplicateFiles );
+
+        jTableFiles2Delete.setModel(tableModel);
+
+        final JPopupMenuForJTable popupMenu = newJPopupMenuForJTable();
+        popupMenu.addMenu();
+
+        jProgressBarDeleteProcess.setMinimum( 0 );
+        jProgressBarDeleteProcess.setValue( 0 );
+        jProgressBarDeleteProcess.setMaximum( tableDts_toDelete.size() );
+        jProgressBarDeleteProcess.setIndeterminate( false );
+        jProgressBarDeleteProcess.setString( txtWaiting  );
+        jProgressBarDeleteProcess.setStringPainted( true );
+
+        jLabelTitle.setText( String.format( txtTitle, Integer.valueOf( tableDts_toDelete.size() ) ) );
+    }
+
+    private JPopupMenuForJTable newJPopupMenuForJTable()
+    {
+        return new JPopupMenuForJTable(jTableFiles2Delete)
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected JPopupMenu createContextMenu(
+                    final int rowIndex,
+                    final int columnIndex
+                    )
+            {
+                final JPopupMenu contextMenu = new JPopupMenu();
+
+                if( rowIndex == 0 ) {
+                    addCopyMenuItem(contextMenu, txtCopy, rowIndex, columnIndex);
+                }
+
+                return contextMenu;
+            }
+        };
+    }
+
+    private AbstractTableModel newAbstractTableModel( final Map<String, Set<KeyFileState>> duplicateFiles )
+    {
+        return new AbstractTableModel()
         {
             private static final long serialVersionUID = 1L;
             @Override
@@ -239,38 +234,58 @@ public class JPanelConfirm extends JPanel
                 }
             }
          };
+    }
 
-        jTableFiles2Delete.setModel(tableModel);
-
-        final JPopupMenuForJTable popupMenu = new JPopupMenuForJTable(jTableFiles2Delete)
+    private DefaultTableCellRenderer newDefaultTableCellRenderer()
+    {
+        return new DefaultTableCellRenderer()
         {
             private static final long serialVersionUID = 1L;
-
             @Override
-            protected JPopupMenu createContextMenu(
-                    final int rowIndex,
-                    final int columnIndex
+            public Component getTableCellRendererComponent(
+                    final JTable table,
+                    final Object value,
+                    final boolean isSelected,
+                    final boolean hasFocus,
+                    final int row,
+                    final int column
                     )
             {
-                final JPopupMenu contextMenu = new JPopupMenu();
+                if( row == 0 ) {
+                    final KeyFileState f = tableDts_toDelete.get( row );
+                    setText( f.getFile().getPath() );
 
-                if( rowIndex == 0 ) {
-                    addCopyMenuItem(contextMenu, txtCopy, rowIndex, columnIndex);
-                }
+                    final Boolean b = tableDts_toDelete.getDeleted( row );
 
-                return contextMenu;
+                    if( b != null ) {
+                        setHorizontalAlignment(SwingConstants.LEFT);
+
+                        if( b.booleanValue() ) {
+                            setIcon( iconOk );
+                            }
+                        else {
+                            if( f.getFile().exists() ) {
+                                setIcon( iconKo );
+                                setToolTipText( txtIconKo );
+                                }
+                            else {
+                                setIcon( iconKoButDelete );
+                                setToolTipText( txtIconKoButDelete );
+                                }
+                            }
+                        }
+                    } // else no change !
+
+                return super.getTableCellRendererComponent(
+                        table,
+                        value,
+                        isSelected,
+                        hasFocus,
+                        row,
+                        column
+                        );
             }
         };
-        popupMenu.addMenu();
-
-        jProgressBarDeleteProcess.setMinimum( 0 );
-        jProgressBarDeleteProcess.setValue( 0 );
-        jProgressBarDeleteProcess.setMaximum( tableDts_toDelete.size() );
-        jProgressBarDeleteProcess.setIndeterminate( false );
-        jProgressBarDeleteProcess.setString( txtWaiting  );
-        jProgressBarDeleteProcess.setStringPainted( true );
-
-        jLabelTitle.setText( String.format( txtTitle, Integer.valueOf( tableDts_toDelete.size() ) ) );
     }
 
     public void updateProgressBar(final int count, final String msg)

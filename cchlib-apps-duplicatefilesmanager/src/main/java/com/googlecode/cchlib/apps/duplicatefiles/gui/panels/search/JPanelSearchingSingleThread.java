@@ -29,8 +29,8 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
     private DuplicateFileCollector  duplicateFC;
 
-    @I18nString private final String txtDuplicateSetsFound = "Duplicate sets found: %,d";
-    @I18nString private final String txtDuplicateFilesFound = "Duplicate files found: %,d";
+    @I18nString private final String txtDuplicateSetsFound = "%,d";
+    @I18nString private final String txtDuplicateFilesFound = "%,d";
     @I18nString private final String txtNumberOfFilesProcessed = "Number of files processed: %,d";
     @I18nString private final String txtOctectsToCheck = "Octects to check: %,d";
 
@@ -48,6 +48,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         super();
     }
 
+    @Override
     public void startScan(
             final String                            messageDigestAlgorithm,
             final int                               messageDigestBufferSize,
@@ -131,10 +132,10 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         doScanPass1( entriesToScans, dirFilter, fileFilter );
 
         final DuplicateFileCollector.Stats stats = duplicateFC.getPass1Stats();
-        setPass1CountFile( stats.getPass2Files() );
+        setPass1FilesCount( stats.getPass2Files() );
         setPass1BytesCount( stats.getPass2Bytes() );
 
-        LOGGER.info( "doScanPass1Prepare + doScanPass1: pass1CountFile = " + getPass1CountFile() );
+        LOGGER.info( "doScanPass1Prepare + doScanPass1: pass1CountFile = " + getPass1FilesCount() );
         LOGGER.info( "doScanPass1Prepare + doScanPass1: pass1BytesCount = " + getPass1BytesCount() );
 
         LOGGER.info( "doScanPass1Prepare + doScanPass1: done" );
@@ -167,13 +168,13 @@ public class JPanelSearchingSingleThread extends JPanelSearching
     {
         displayPass = 2;
 
-        getjProgressBarFiles().setMaximum( getPass1CountFile() );
+        getjProgressBarFiles().setMaximum( getPass1FilesCount() );
         getjProgressBarOctets().setMaximum( (int)(getPass1BytesCount()/1024) );
         duplicateFC.pass2();
 
         setDisplayFile( null );
         displayRunning = false;
-        pass2CountFile = getPass1CountFile();
+        pass2CountFile = getPass1FilesCount();
         pass2BytesCount = getPass1BytesCount();
         displayRunning = false;
     }
@@ -228,7 +229,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
                     String.format(
                         locale,
                         txtNumberOfFilesProcessed,
-                        Integer.valueOf( getPass1CountFile() )
+                        Integer.valueOf( getPass1FilesCount() )
                         )
                     );
             getjProgressBarOctets().setString(
@@ -247,7 +248,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 //                    )
 //                );
             getjProgressBarFiles().setValue( pass2CountFile );
-            getjProgressBarFiles().setString( String.format( locale, "%,d / %,d", Integer.valueOf( pass2CountFile ), Integer.valueOf( getPass1CountFile() ) ) );
+            getjProgressBarFiles().setString( String.format( locale, "%,d / %,d", Integer.valueOf( pass2CountFile ), Integer.valueOf( getPass1FilesCount() ) ) );
             //jProgressBarOctets.setValue( Math.round( pass2BytesCount/1024) );
             getjProgressBarOctets().setValue( (int)( pass2BytesCount/1024 ) );
             getjProgressBarOctets().setString( String.format( locale, "%,d / %,d", Long.valueOf( pass2BytesCount), Long.valueOf( getPass1BytesCount() ) ) );
@@ -262,7 +263,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             }
         duplicateFC = null;
 
-        setPass1CountFile( 0 );
+        setPass1FilesCount( 0 );
         setPass1BytesCount( 0 );
         pass2CountFile = 0;
         pass2BytesCount = 0;

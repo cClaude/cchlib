@@ -2,53 +2,46 @@ package cx.ath.choisnet.swing.introspection;
 
 import java.util.EnumSet;
 import java.util.Map;
-import cx.ath.choisnet.lang.introspection.IntrospectionException;
-import cx.ath.choisnet.lang.introspection.method.IntrospectionParameters;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospection;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
 import cx.ath.choisnet.lang.introspection.method.Introspection;
+import cx.ath.choisnet.lang.introspection.method.IntrospectionParameters;
 
 /**
  * @author CC
- * @param <FRAME> 
- * @param <OBJECT> 
+ * @param <FRAME>
+ * @param <OBJECT>
  *
  */
-public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT> 
+public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
     extends AbstractSwingIntrospectorObjectInterface<
-                FRAME, 
-                OBJECT, 
+                FRAME,
+                OBJECT,
                 DefaultIntrospectionItem<OBJECT>
-                > 
+                >
 {
+    private static final Integer ZERO = Integer.valueOf( 0 );
+
     public DefaultSwingIntrospectorObjectInterface(
-            Class<FRAME>                                            frameClass,
-            Introspection<OBJECT,DefaultIntrospectionItem<OBJECT>>  introspection,
-            ComponentInitializer                                    componentInitializer
+            final Class<FRAME>                                            frameClass,
+            final Introspection<OBJECT,DefaultIntrospectionItem<OBJECT>>  introspection,
+            final ComponentInitializer                                    componentInitializer
             )
     {
         super( frameClass, introspection, componentInitializer );
     }
 
-//    public DefaultSwingIntrospectorObjectInterface(
-//            Class<FRAME>                                            frameClass,
-//            Introspection<OBJECT,DefaultIntrospectionItem<OBJECT>>  introspection
-//            )
-//    {
-//        super( frameClass, introspection );
-//    }
-    
     public DefaultSwingIntrospectorObjectInterface(
-            Class<FRAME>    frameClass,
-            Class<OBJECT>   objectClass
+            final Class<FRAME>    frameClass,
+            final Class<OBJECT>   objectClass
             )
     {
-        super( 
-                frameClass, 
+        super(
+                frameClass,
                 new DefaultIntrospection<OBJECT>(
                         objectClass,
                         EnumSet.of(
-                                IntrospectionParameters.ONLY_PUBLIC, 
+                                IntrospectionParameters.ONLY_PUBLIC,
                                 IntrospectionParameters.NO_DEPRECATED
                                 )
                         )
@@ -57,29 +50,19 @@ public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
 
     @Override
     public ObjectPopulator<FRAME,OBJECT,DefaultIntrospectionItem<OBJECT>> getObjectPopulator(
-            final FRAME     frame, 
-            final OBJECT    object 
+            final FRAME     frame,
+            final OBJECT    object
             )
     {
-        return new ObjectPopulator<FRAME,OBJECT,DefaultIntrospectionItem<OBJECT>>()
-        {
-            @Override
-            public void populateObject(
-                    DefaultIntrospectionItem<OBJECT>    iItem,
-                    SwingIntrospectorRootItem<FRAME>    rootItem 
-                    )
-                    throws  SwingIntrospectorException, 
-                            IntrospectionException
-            {
-                Map<Integer, SwingIntrospectorItem<FRAME>> map = rootItem.getRootItemsMap();
-                
-                if( map.size() == 1 ) {                    
-                    Object value = ObjectPopulatorHelper.getFieldValue( map.get( 0 ).getFieldObject( frame ), iItem );
-                    iItem.setObjectValue( object, value );
-                }
-                else {
-                    throw new SwingIntrospectorException("Don't handle multiple rootItem");
-                }
+        return ( iItem, rootItem ) -> {
+            final Map<Integer, SwingIntrospectorItem<FRAME>> map = rootItem.getRootItemsMap();
+
+            if( map.size() == 1 ) {
+                final Object value = ObjectPopulatorHelper.getFieldValue( map.get( ZERO ).getFieldObject( frame ), iItem );
+                iItem.setObjectValue( object, value );
+            }
+            else {
+                throw new SwingIntrospectorException("Don't handle multiple rootItem");
             }
         };
     }
@@ -90,20 +73,20 @@ public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
 
     @Override
     public FrameFieldPopulator<FRAME,OBJECT> getFrameFieldPopulator(
-            final FRAME     frame, 
-            final OBJECT    object 
+            final FRAME     frame,
+            final OBJECT    object
             )
     {
         // In cache ?
-        if( frameFieldPopulator == null 
-            || frameFieldPopulatorFRAME != frame 
-            || frameFieldPopulatorOBJECT != object 
+        if( frameFieldPopulator == null
+            || frameFieldPopulatorFRAME != frame
+            || frameFieldPopulatorOBJECT != object
             ) {
             frameFieldPopulator = new DefaultFrameFieldPopulator<FRAME,OBJECT>(frame,object);
             frameFieldPopulatorFRAME = frame;
             frameFieldPopulatorOBJECT = object;
         }
-        
+
         return frameFieldPopulator;
     }
 

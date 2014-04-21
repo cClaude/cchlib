@@ -83,19 +83,24 @@ public class EmptyDirectoryTree extends JTree
         synchronized( lock ) {
             try {
                 //Expend all nodes
-                for (int i = 0; i < this.getRowCount(); i++) {
-                    try {
-                        this.expandRow( i );
-                        }
-                    catch( Exception e ) {
-                        LOGGER.error( "expandRow( " + i + " )", e );
-                        }
-                     }
+                expandAllRowsUnsynchronized();
                 }
             catch( Exception e ) {
                 LOGGER.error( "expandAllRows()", e );
                 }
             }
+    }
+
+    private void expandAllRowsUnsynchronized()
+    {
+        for (int i = 0; i < this.getRowCount(); i++) {
+            try {
+                this.expandRow( i );
+                }
+            catch( Exception e ) {
+                LOGGER.error( "expandRow( " + i + " )", e );
+                }
+             }
     }
 
 }

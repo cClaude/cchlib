@@ -20,7 +20,7 @@ public class AppToolKitService {
     {
         if( this.appToolKit == null ) {
             synchronized( this.lock ) {
-                createAppToolKit();;
+                createAppToolKit();
             }
         }
 
@@ -50,7 +50,7 @@ public class AppToolKitService {
         this.mainWindow  = duplicateFilesFrame;
 
         synchronized( this.lock ) {
-            createAppToolKit();;
+            createAppToolKit();
         }
 
         return this.appToolKit;

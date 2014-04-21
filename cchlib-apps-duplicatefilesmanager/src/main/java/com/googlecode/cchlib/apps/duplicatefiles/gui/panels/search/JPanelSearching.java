@@ -8,6 +8,10 @@ import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
 public abstract class JPanelSearching extends JPanelSearchingFilters implements Cancelable{
+    enum Pass {
+        PASS1,PASS2
+    }
+
     private static final long serialVersionUID = 1L;
 
     public abstract void startScan( //
