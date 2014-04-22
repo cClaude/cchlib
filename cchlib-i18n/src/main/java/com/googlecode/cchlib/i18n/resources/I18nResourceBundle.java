@@ -1,17 +1,18 @@
 package com.googlecode.cchlib.i18n.resources;
 
+import com.googlecode.cchlib.i18n.I18nInterface;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import com.googlecode.cchlib.i18n.I18nInterface;
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}
  * for {@link I18nInterface}
  */
-public class I18nResourceBundle implements I18nInterface
+public class I18nResourceBundle implements I18nInterface, Serializable
 {
     private static final long serialVersionUID = 3L;
 
@@ -70,7 +71,7 @@ public class I18nResourceBundle implements I18nInterface
     }
 
     @Override // I18nInterface
-    public String getString(String key)
+    public String getString( final String key )
         throws MissingResourceException
     {
         try {
@@ -100,7 +101,7 @@ public class I18nResourceBundle implements I18nInterface
      * @param out where to write the serialized stream
      * @throws IOException if any
      */
-    private void writeObject( ObjectOutputStream out ) throws IOException
+    private void writeObject( final ObjectOutputStream out ) throws IOException
     {
         // Default serialization process (store baseName for this resourceBundle)
         out.defaultWriteObject();
@@ -109,7 +110,7 @@ public class I18nResourceBundle implements I18nInterface
         out.writeObject( resourceBundle.getLocale() );
     }
 
-    private void readObject( ObjectInputStream in ) throws IOException, ClassNotFoundException
+    private void readObject( final ObjectInputStream in ) throws IOException, ClassNotFoundException
     {
         // Default serialization process  (restore baseName for this resourceBundle)
         in.defaultReadObject();

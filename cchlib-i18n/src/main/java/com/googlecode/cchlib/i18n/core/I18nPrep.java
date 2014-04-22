@@ -1,22 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Set;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
@@ -35,19 +18,36 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.Set;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 
 public class I18nPrep
 {
     private static final Logger LOGGER = Logger.getLogger( I18nPrep.class );
 
-    private EnumSet<AutoI18nConfig> config;
-    private AutoI18nTypeLookup      defaultAutoI18nTypes;
-    private I18nResourceBundle      i18nResourceBundle;
-    private I18nResourceBundleName  resourceBundleName;
+    private final EnumSet<AutoI18nConfig> config;
+    private final AutoI18nTypeLookup      defaultAutoI18nTypes;
+    private final I18nResourceBundle      i18nResourceBundle;
+    private final I18nResourceBundleName  resourceBundleName;
 
-    private Map<String,Integer> keyUsageCountMap     = new HashMap<String,Integer>();
-    private Map<String,String>  missingPropertiesMap = new HashMap<String,String>();
+    private final Map<String,Integer> keyUsageCountMap     = new HashMap<>();
+    private final Map<String,String>  missingPropertiesMap = new HashMap<>();
     private AutoI18nCore        autoI18nCore;
     private I18nDelegator       i18nDelegator;
 
@@ -60,10 +60,10 @@ public class I18nPrep
         final I18nResourceBundleName  resourceBundleName
         )
     {
-        this.config                   = EnumSet.copyOf( config );
-        this.defaultAutoI18nTypes     = defaultAutoI18nTypes;
-        this.resourceBundleName       = resourceBundleName;
-        this.i18nResourceBundle = new I18nSimpleResourceBundle( locale, resourceBundleName );
+        this.config                 = EnumSet.copyOf( config );
+        this.defaultAutoI18nTypes   = defaultAutoI18nTypes;
+        this.resourceBundleName     = resourceBundleName;
+        this.i18nResourceBundle     = new I18nSimpleResourceBundle( locale, resourceBundleName );
      }
 
     public I18nResourceBundleName getI18nResourceBundleName()
@@ -112,14 +112,10 @@ public class I18nPrep
                                 missingPropertiesMap.put( k, v );
                                 }
                             }
-                        catch( MissingKeyException e ) {
-                            // TODO Auto-generated catch block
+                        catch( MissingKeyException | GetFieldException e ) {
+                            // TODO Auto-generated catch block : improve this
                             e.printStackTrace();
                              }
-                        catch( GetFieldException e ) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                            }
 
                         super.handleMissingResourceException( cause, i18nField, objectToI18n, i18nInterface );
                     }
@@ -130,16 +126,16 @@ public class I18nPrep
                 @Override
                 public void ignoredField( Field f, String key, EventCause eventCause, String causeDecription )
                 {
-                    if( LOGGER.isDebugEnabled() ) {
-                        LOGGER.debug( "ignoredField: " + key + " - field: " + f );
+                    if( LOGGER.isTraceEnabled() ) {
+                        LOGGER.trace( "I18nPrep.ignoredField: " + key + " - field: " + f );
                         }
-                    incForKey( key );
+                    // incForKey( key ); // not use, should not increment value !
                 }
                 @Override
                 public void localizedField( Field f, String key )
                 {
                     if( LOGGER.isDebugEnabled() ) {
-                        LOGGER.debug( "localizedField: " + key );
+                        LOGGER.debug( "I18nPrep.localizedField: " + key );
                         }
                     incForKey( key );
                 }} );
@@ -178,7 +174,7 @@ public class I18nPrep
     public Map<String,String> getResourceBundleMap()
     {
         ResourceBundle      rb  = getResourceBundle();
-        Map<String,String>  map = new HashMap<String,String>();
+        Map<String,String>  map = new HashMap<>();
         Enumeration<String> enu = rb.getKeys();
 
         while( enu.hasMoreElements() ) {
@@ -204,9 +200,9 @@ public class I18nPrep
 
         OutputStream os = getResourceBundleOutputStream();
 
-        LOGGER.info( "saveValues(): found (key,value) count  = " + keyUsageCountMap.size() );
-        LOGGER.info( "saveValues(): know (key,value) count  = " + getResourceBundleMap().size() );
-        LOGGER.info( "saveValues(): unknow (key,value) count = " + properties.size() );
+        LOGGER.info( "closeOutputFile(): found (key,value) count  = " + keyUsageCountMap.size() );
+        LOGGER.info( "closeOutputFile(): know (key,value) count  = " + getResourceBundleMap().size() );
+        LOGGER.info( "closeOutputFile(): unknow (key,value) count = " + properties.size() );
 
         //properties.putAll( getProperties() );
 
@@ -229,8 +225,10 @@ public class I18nPrep
         return new FileOutputStream( resourceBundleOutputFile );
     }
 
-    private void incForKey( String key )
+    private void incForKey( final String key )
     {
+        assert key != null : "Key is null";
+
         final Integer countInteger = keyUsageCountMap.get( key );
         final int     count;
 

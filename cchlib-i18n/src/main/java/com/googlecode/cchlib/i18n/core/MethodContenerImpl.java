@@ -1,14 +1,14 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.lang.reflect.Method;
 import com.googlecode.cchlib.lang.Classes;
+import java.lang.reflect.Method;
 
 class MethodContenerImpl implements MethodContener
 {
     private static final long serialVersionUID = 1L;
 
-    private Class<?> clazz;
-    private String methodName;
+    private final Class<?> clazz;
+    private final String methodName;
 
     public MethodContenerImpl( Class<?> clazz, String methodName )
     {

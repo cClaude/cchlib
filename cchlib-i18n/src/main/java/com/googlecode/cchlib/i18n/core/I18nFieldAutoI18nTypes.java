@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
@@ -12,6 +11,7 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
+import java.lang.reflect.Field;
 
 final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
 {
@@ -48,10 +48,7 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
 
                    return getAutoI18nTypes().getKeys( fieldObject, getKeyBase() );
                     }
-                catch( IllegalArgumentException e ) {
-                    throw new MissingKeyException( e );
-                     }
-                catch( IllegalAccessException e ) {
+                catch( IllegalArgumentException | IllegalAccessException e ) {
                     throw new MissingKeyException( e );
                      }
            }

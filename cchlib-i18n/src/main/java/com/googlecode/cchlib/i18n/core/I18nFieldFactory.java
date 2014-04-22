@@ -1,9 +1,10 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.lang.reflect.Field;
-import javax.swing.JTabbedPane;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import javax.swing.JTabbedPane;
 
 final /* not public*/ class I18nFieldFactory
 {
@@ -55,10 +56,21 @@ final /* not public*/ class I18nFieldFactory
             return new I18nFieldMethodsResolution( i18nDelegator, i18nKeyFactory, field, keyIdValue, methodContener, null );
             }
         else if( String.class.isAssignableFrom( field.getType() ) ) {
+            if( isStatic( field ) ) {
+                // FIXME better handle this error !
+                throw new RuntimeException( "Field is static " + field );
+                }
+
             return new I18nFieldString( i18nDelegator, i18nKeyFactory, field, keyIdValue );
             }
         else {
             return new I18nFieldStringArray( i18nDelegator, i18nKeyFactory, field, keyIdValue );
             }
+    }
+
+    private static boolean isStatic( final Field field )
+    {
+        int modifiers = field.getModifiers();
+        return Modifier.isStatic(modifiers);
     }
 }

@@ -25,6 +25,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactoryImpl;
+import com.googlecode.cchlib.lang.DebugException;
 import com.googlecode.cchlib.lang.StringHelper;
 
 class I18nClassImpl<T> implements I18nClass<T>, Serializable
@@ -33,7 +34,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     private static final Logger LOGGER = Logger.getLogger( I18nClassImpl.class );
 
     /** Array well know std API classes : do not use reflexion on theses classes */
-    static final Class<?>[] NOT_HANDLED_CLASS_TYPES = {
+    /*package*/ static final Class<?>[] NOT_HANDLED_CLASS_TYPES = {
         Object.class,
         JFrame.class,
         JDialog.class,
@@ -50,10 +51,10 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     };
 
     /** @serial */
-    private Class<? extends T> objectToI18nClass;
-    private List<I18nField> fieldList = new ArrayList<I18nField>();
-    private I18nDelegator i18nDelegator;
-    private I18nKeyFactory i18nKeyFactory;
+    private final Class<? extends T> objectToI18nClass;
+    private final List<I18nField> fieldList = new ArrayList<>();
+    private final I18nDelegator i18nDelegator;
+    private final I18nKeyFactory i18nKeyFactory;
 
     public I18nClassImpl(
         final Class<? extends T>    objectToI18nClass,
@@ -64,13 +65,12 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         this.i18nDelegator     = i18nDelegator;
         this.i18nKeyFactory    = new I18nKeyFactoryImpl( objectToI18nClass.getAnnotation( I18nName.class ) );
 
-        //setObjectToI18n(objectToI18n,clazz);
         Class<?> currentClass = objectToI18nClass;
 
         while( currentClass != null ) {
             boolean stop = false;
 
-            for( Class<?> c : NOT_HANDLED_CLASS_TYPES ) {
+            for( final Class<?> c : NOT_HANDLED_CLASS_TYPES ) {
                 if( currentClass.equals( c ) ) {
                     // Nothing to customize in default API classes
                     stop = true;
@@ -106,13 +106,13 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         //?? TODO ?? eventHandle.ignoreSuperClass(?)
     }
 
-    private void handleFields( final I18nDelegator i18nDelegator, Field[] fields )
+    private void handleFields( final I18nDelegator i18nDelegator, final Field[] fields )
     {
-        for( Field f : fields ) {
+        for( final Field f : fields ) {
             if( f.isSynthetic() ) {
                 continue; // ignore member that was introduced by the compiler.
                 }
-            Class<?> ftype = f.getType();
+            final Class<?> ftype = f.getType();
 
             if( ftype.isAnnotation() ) {
                 i18nDelegator.fireIgnoreField( f, null, EventCause.FIELD_TYPE_IS_ANNOTATION, null);
@@ -124,7 +124,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 }
 
             boolean skip = false;
-            for( Class<?> notHandleClass : NOT_HANDLED_FIELD_TYPES ) {
+            for( final Class<?> notHandleClass : NOT_HANDLED_FIELD_TYPES ) {
                 if( notHandleClass.isAssignableFrom( ftype ) ) {
                     i18nDelegator.fireIgnoreField( f, null, EventCause.FIELD_TYPE_IS_NOT_HANDLE, null );
                     skip = true;
@@ -136,22 +136,22 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 }
 
             // Special handle for tool tip text
-            I18nToolTipText toolTipText = f.getAnnotation( I18nToolTipText.class );
+            final I18nToolTipText toolTipText = f.getAnnotation( I18nToolTipText.class );
 
             if( toolTipText != null ) {
                 // Customize tool tip text of this field (if possible)
                 try {
                     addValueToCustomizeForToolTipText( f, toolTipText.id(), toolTipText.method() );
                     }
-                catch( MethodProviderSecurityException e ) {
+                catch( final MethodProviderSecurityException e ) {
                     i18nDelegator.handleSecurityException( e, f );
                     }
-                catch( MethodProviderNoSuchMethodException e ) {
+                catch( final MethodProviderNoSuchMethodException e ) {
                     i18nDelegator.handleNoSuchMethodException( e, f );
                     }
                  }
             // Field mark has ignore (except for tool tip text)
-            I18nIgnore ignoreIt = f.getAnnotation( I18nIgnore.class );
+            final I18nIgnore ignoreIt = f.getAnnotation( I18nIgnore.class );
 
             if( ignoreIt != null ) {
                 i18nDelegator.fireIgnoreField( f, null, EventCause.ANNOTATION_I18N_IGNORE_DEFINE, null );
@@ -175,7 +175,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         final String method
         ) throws MethodProviderNoSuchMethodException, MethodProviderSecurityException
     {
-        Class<?> fClass = f.getType();
+        final Class<?> fClass = f.getType();
 
         if( JComponent.class.isAssignableFrom( fClass ) ) {
             MethodContener methodContener;
@@ -187,7 +187,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 methodContener = MethodProviderFactory.getMethodProvider( i18nDelegator ).getMethods( this.objectToI18nClass, f, method );
                 }
 
-            I18nField field = I18nFieldFactory.createI18nFieldToolTipText( this.i18nDelegator, this.i18nKeyFactory, f, id, methodContener );
+            final I18nField field = I18nFieldFactory.createI18nFieldToolTipText( this.i18nDelegator, this.i18nKeyFactory, f, id, methodContener );
 
             this.fieldList.add( field );
             }
@@ -196,7 +196,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             }
     }
 
-    private void addValueToCustomize( Field f )
+    private void addValueToCustomize( final Field f )
     {
         final I18nString i18nString = f.getAnnotation( I18nString.class );
 
@@ -207,13 +207,13 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             try {
                 addValueToCustomizeForString( f, i18nString.id(), i18nString.method() );
                 }
-            catch( MethodProviderSecurityException e ) {
+            catch( final MethodProviderSecurityException e ) {
                 i18nDelegator.handleSecurityException( e, f );
                 }
-            catch( MethodProviderNoSuchMethodException e ) {
+            catch( final MethodProviderNoSuchMethodException e ) {
                 i18nDelegator.handleNoSuchMethodException( e, f );
                 }
-            catch( I18nStringNotAStringException e ) {
+            catch( final I18nStringNotAStringException e ) {
                 i18nDelegator.handleI18nSyntaxeException( e, f );
                 }
             }
@@ -228,13 +228,13 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 alreadyHandle = true;
 
                 try {
-                    AutoI18nType type = this.i18nDelegator.getAutoI18nTypes().lookup( f );
+                    final AutoI18nType type = this.i18nDelegator.getAutoI18nTypes().lookup( f );
                     addValueToCustomize( f, i18n.id(), i18n.method(), type );
                     }
-                catch( MethodProviderSecurityException e ) {
+                catch( final MethodProviderSecurityException e ) {
                     i18nDelegator.handleSecurityException( e, f );
                     }
-                catch( MethodProviderNoSuchMethodException e ) {
+                catch( final MethodProviderNoSuchMethodException e ) {
                     i18nDelegator.handleNoSuchMethodException( e, f );
                     }
                 }
@@ -242,17 +242,17 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
 
         if( ! alreadyHandle ) {
             // No annotation, use default process
-            AutoI18nType type = this.i18nDelegator.getDefaultAutoI18nTypes().lookup( f );
+            final AutoI18nType type = this.i18nDelegator.getDefaultAutoI18nTypes().lookup( f );
 
             if( type != null ) {
                 try {
                     addValueToCustomize( f, StringHelper.EMPTY, StringHelper.EMPTY, type );
                     }
-                catch( MethodProviderSecurityException e ) {
+                catch( final MethodProviderSecurityException e ) {
                     // Should not occur (no reflexion here)
                     i18nDelegator.handleSecurityException( e, f );
                     }
-                catch( MethodProviderNoSuchMethodException e ) {
+                catch( final MethodProviderNoSuchMethodException e ) {
                     // Should not occur (no reflexion here)
                     i18nDelegator.handleNoSuchMethodException( e, f );
                     }
@@ -263,22 +263,19 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
           }
     }
 
-    private void addValueToCustomizeForString( Field f, String id, String method )
-        throws MethodProviderSecurityException, MethodProviderNoSuchMethodException, I18nStringNotAStringException
+    private void addValueToCustomizeForString( final Field f, final String id, final String method ) //
+            throws MethodProviderSecurityException, MethodProviderNoSuchMethodException, I18nStringNotAStringException
     {
         // Check if field is a String
         if( !String.class.isAssignableFrom( f.getType() ) && !String[].class.isAssignableFrom( f.getType() ) ) {
 
             if( LOGGER.isTraceEnabled() ) {
-                boolean res1  = String.class.isAssignableFrom( f.getType() );
-                boolean res2  = String[].class.isAssignableFrom( f.getType() );
+                final boolean isAssignableFromString = String.class.isAssignableFrom( f.getType() );
+                final boolean isAssignableFromStringArray = String[].class.isAssignableFrom( f.getType() );
 
-                LOGGER.trace( "*** Syntaxe error " + f.getType()
-                        + " : res1 = " + res1
-                        + " * res2 = " + res2,
-                        new Exception()
-                        );
-                }
+                LOGGER.trace( new DebugException( "*** Syntaxe error " + f.getType() + " : isAssignableFromString = " + isAssignableFromString
+                        + " * isAssignableFromStringArray = " + isAssignableFromStringArray ) );
+            }
 
             throw new I18nStringNotAStringException( f );
         }
@@ -287,12 +284,11 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
 
         if( method.isEmpty() ) {
             methodContener = null;
-            }
-        else {
+        } else {
             methodContener = MethodProviderFactory.getMethodProvider( i18nDelegator ).getMethods( objectToI18nClass, f, method );
-            }
+        }
 
-        I18nField field = I18nFieldFactory.createI18nStringField( this.i18nDelegator, this.i18nKeyFactory, f, id, methodContener );
+        final I18nField field = I18nFieldFactory.createI18nStringField( this.i18nDelegator, this.i18nKeyFactory, f, id, methodContener );
         this.fieldList.add( field );
     }
 

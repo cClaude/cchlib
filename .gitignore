@@ -31,3 +31,4 @@ cchlib-tools-duplicatefiles/target/
 cchlib-tools/target/
 cchlib-unit/target/
 cchlib-x-googlecontact/target/
+.logs/
