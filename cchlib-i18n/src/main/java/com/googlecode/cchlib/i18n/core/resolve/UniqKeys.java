@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n.core.resolve;
 
+import com.googlecode.cchlib.util.iterator.SingletonIterator;
 import java.io.Serializable;
 import java.util.Iterator;
-import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
 /**
  *
@@ -10,7 +10,7 @@ import com.googlecode.cchlib.util.iterator.SingletonIterator;
 public class UniqKeys implements Serializable, Keys
 {
     private static final long serialVersionUID = 1L;
-    private String  key;
+    private final String  key;
 
     public UniqKeys( final String key )
     {
@@ -35,7 +35,7 @@ public class UniqKeys implements Serializable, Keys
     @Override
     public Iterator<String> iterator()
     {
-        return new SingletonIterator<String>( key );
+        return new SingletonIterator<>( key );
     }
 
     @Override

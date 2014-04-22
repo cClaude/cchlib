@@ -1,23 +1,23 @@
 package com.googlecode.cchlib.i18n.core;
 
+import com.googlecode.cchlib.i18n.AutoI18nType;
+import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import com.googlecode.cchlib.i18n.AutoI18nType;
-import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 
 /* not public */ abstract class AbstractAutoI18nTypes implements AutoI18nTypeLookup, Iterable<AutoI18nType>
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    private ArrayList<AutoI18nType> types;
+    private final ArrayList<AutoI18nType> types;
 
     public AbstractAutoI18nTypes()
     {
-        this.types = new ArrayList<AutoI18nType>();
+        this.types = new ArrayList<>();
 
         final Method[] methods = getClass().getMethods();
 

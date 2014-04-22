@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.i18n.core;
 
-import javax.swing.JEditorPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import com.googlecode.cchlib.i18n.core.resolve.IndexValues;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
 import com.googlecode.cchlib.i18n.types.AbstractType;
 import com.googlecode.cchlib.i18n.types.AbstractTypeUniqKeys;
+import javax.swing.JEditorPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 /**
  * Default implementation for field with {@link com.googlecode.cchlib.i18n.annotation.I18n} annotation

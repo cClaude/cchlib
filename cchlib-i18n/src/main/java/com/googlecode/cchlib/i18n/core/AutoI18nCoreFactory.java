@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.util.Locale;
-import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import com.googlecode.cchlib.i18n.I18nInterface;
@@ -9,10 +7,9 @@ import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JEventHandler;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
+import java.util.Locale;
+import java.util.Set;
 
-/**
- *
- */
 public class AutoI18nCoreFactory
 {
     private AutoI18nCoreFactory() {} // All static

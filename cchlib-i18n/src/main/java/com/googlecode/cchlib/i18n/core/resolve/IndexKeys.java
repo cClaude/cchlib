@@ -8,8 +8,8 @@ import java.io.Serializable;
 public class IndexKeys extends IndexKV implements Keys, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private String keyBase;
-    private int    size;
+    private final String keyBase;
+    private final int    size;
 
     /**
      * new IndexKeys with <code>keyBase</code> and <code>size</code> possible values
