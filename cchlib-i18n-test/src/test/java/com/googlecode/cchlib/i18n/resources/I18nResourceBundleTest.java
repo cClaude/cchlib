@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import org.fest.assertions.Assertions;
 import org.junit.Ignore;
 import org.junit.Test;
+import com.googlecode.cchlib.i18n.I18NResources;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.io.SerializableHelper;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
@@ -176,7 +177,7 @@ public class I18nResourceBundleTest
     @Test
     public void testSerilization1() throws ClassNotFoundException, IOException, MissingResourceException
     {
-        final String    resourceBundleBaseName  = I18nResourceBundleTest.class.getName();
+        final String    resourceBundleBaseName  = I18NResources.class.getName();
         final Locale    localeEn                = Locale.ENGLISH;
 
         final ResourceBundle  resourceBundle = ResourceBundle.getBundle( resourceBundleBaseName, localeEn );

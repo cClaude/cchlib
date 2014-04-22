@@ -1,5 +1,15 @@
 package com.googlecode.cchlib.i18n.unit.util;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Test;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.TestPartInterface;
@@ -11,23 +21,14 @@ import com.googlecode.cchlib.i18n.unit.parts.I18nStringPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextIgnorePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 
-public class RunI18nTestApp
+/**
+ * Integration test for I18n
+ */
+public class RunI18nTestAppTest
 {
-    private static final Logger LOGGER = Logger.getLogger( RunI18nTestApp.class );
+    private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );
 
-    @Ignore
     private static TestPartInterface[] getTests()
     {
         return new TestPartInterface[] {
@@ -45,31 +46,32 @@ public class RunI18nTestApp
     @Test
     public void runPrepTest() throws FileNotFoundException, IOException
     {
-        PrepTestPartInterface prepTest = TestUtils.createPrepTest();
-        TestPartInterface[]        tests    = getTests();
+        final PrepTestPartInterface prepTest = TestUtils.createPrepTest();
+        final TestPartInterface[]   tests    = getTests();
+
         int syntaxeExceptionCount = 0;
         int missingResourceExceptionCount = 0;
 
         // Value should not change (check before)
-        for( TestPartInterface test : tests ) {
+        for( final TestPartInterface test : tests ) {
             test.afterPrepTest();
 
             syntaxeExceptionCount += test.getSyntaxeExceptionCount();
             missingResourceExceptionCount += test.getMissingResourceExceptionCount();
             }
 
-        for( TestPartInterface test : tests ) {
+        for( final TestPartInterface test : tests ) {
             test.beforePrepTest( prepTest );
             }
 
-        I18nPrepHelper.Result result = TestUtils.runPrepTest( prepTest );
+        final I18nPrepHelper.Result result = TestUtils.runPrepTest( prepTest );
 
         // Value should not change (check after)
-        for( TestPartInterface test : tests ) {
+        for( final TestPartInterface test : tests ) {
             test.afterPrepTest();
             }
 
-        AutoI18nExceptionCollector collector = prepTest.getAutoI18nExceptionHandlerCollector();
+        final AutoI18nExceptionCollector collector = prepTest.getAutoI18nExceptionHandlerCollector();
 
         LOGGER.info( "I18nSyntaxeException = " + collector.getI18nSyntaxeExceptionCollector().size() );
         LOGGER.info( "IllegalAccessException = " + collector.getIllegalAccessExceptionCollector().size() );
@@ -103,10 +105,10 @@ public class RunI18nTestApp
             Assert.assertTrue( existingSize > 0 );
        }
 
-        int createdSize;
+        final int createdSize;
         {
-            Properties prop   = new Properties();
-            try (Reader reader = new FileReader( result.getOutputFile() )) {
+            final Properties prop   = new Properties();
+            try (final Reader reader = new FileReader( result.getOutputFile() )) {
                 prop.load( reader );
             }
 
@@ -121,9 +123,10 @@ public class RunI18nTestApp
     @Test
     public void runPerformeI18nTest()
     {
-        TestPartInterface[] tests = getTests();
+        final TestPartInterface[] tests = getTests();
 
-        for( TestPartInterface test : tests ) {
+        for( final TestPartInterface test : tests ) {
+            LOGGER.info( "testing " + test  );
             test.runPerformeI18nTest();
             }
 

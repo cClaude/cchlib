@@ -1,16 +1,16 @@
 package com.googlecode.cchlib.i18n.unit.parts;
 
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Ignore;
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.TestPartInterface;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Ignore;
 
-public class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, TestPartInterface
+public final class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, TestPartInterface
 {
     private static final Logger LOGGER = Logger.getLogger( AutoI18nBasicInterfacePart.class );
     private static final String INIT_TEXT = "my MyAutoI18nBasicInterface text 1";
@@ -31,7 +31,7 @@ public class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, TestPa
     }
 
     @Override
-    public void beforePrepTest(PrepTestPartInterface prepTest)
+    public void beforePrepTest(final PrepTestPartInterface prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
     }
@@ -60,7 +60,7 @@ public class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, TestPa
     {
         private String i18nString;
 
-        public MyAutoI18nBasicInterface( String i18nString )
+        public MyAutoI18nBasicInterface( final String i18nString )
         {
             this.i18nString = i18nString;
         }
@@ -72,7 +72,7 @@ public class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, TestPa
         }
 
         @Override
-        public void setI18nString( String localString )
+        public void setI18nString( final String localString )
         {
             this.i18nString = localString;
         }

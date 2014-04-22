@@ -1,6 +1,10 @@
 // $codepro.audit.disable largeNumberOfFields, constantNamingConvention
 package com.googlecode.cchlib.i18n.unit.parts;
 
+import javax.swing.JButton;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
+import org.junit.Ignore;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -8,10 +12,6 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.TestPartInterface;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
-import javax.swing.JButton;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Ignore;
 
 public class I18nStringPart implements I18nAutoCoreUpdatable, TestPartInterface
 {
@@ -60,7 +60,7 @@ public class I18nStringPart implements I18nAutoCoreUpdatable, TestPartInterface
     }
 
     @Override
-    public void beforePrepTest(PrepTestPartInterface prepTest)
+    public void beforePrepTest(final PrepTestPartInterface prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
    }
