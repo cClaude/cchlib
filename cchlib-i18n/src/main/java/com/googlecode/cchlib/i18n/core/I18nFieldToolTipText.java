@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.lang.reflect.Field;
-import javax.swing.JComponent;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
@@ -13,6 +11,8 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.UniqKeys;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
+import java.lang.reflect.Field;
+import javax.swing.JComponent;
 
 final /* not public */ class I18nFieldToolTipText extends AbstractI18nField
 {

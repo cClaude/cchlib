@@ -30,43 +30,51 @@ public class I18nResourceBundle implements I18nInterface, Serializable
     private String resourceBundleFullBaseName;
 
     /**
-     * Provide a non initialized object for inherit class
-     * that must initialize ResourceBundle object ({@link #resourceBundle}
-     * and {@link #resourceBundleFullBaseName}).
-     */
-    protected I18nResourceBundle()
-    { //Empty
-    }
-
-    /**
+     * Build I18nResourceBundle for locale
      *
      * @param resourceBundleFullBaseName
+     * @param locale
      * @throws IllegalArgumentException if <code>resourceBundleFullBaseName</code> is null
      */
-    protected I18nResourceBundle( final String resourceBundleFullBaseName )
+    protected I18nResourceBundle( //
+        final String resourceBundleFullBaseName,
+        final Locale locale
+        )
     {
+        if( resourceBundleFullBaseName == null ) {
+            throw newIllegalArgumentException( "resourceBundleFullBaseName is null" );
+            }
+
+        if( locale == null ) {
+            throw newIllegalArgumentException( "locale is null" );
+            }
+
         this.resourceBundleFullBaseName = resourceBundleFullBaseName;
 
-        if( resourceBundleFullBaseName == null ) {
-            throw new IllegalArgumentException(
-                new NullPointerException( "resourceBundleFullBaseName is null" )
-                );
-            }
+        buildResourceBundle( locale );
+    }
+
+    private IllegalArgumentException newIllegalArgumentException( final String message )
+    {
+        return new IllegalArgumentException(
+            new NullPointerException( message )
+            );
     }
 
     /**
      * Create I18nResourceBundle using giving
      * resource bundle and resource bundle baseName
      *
-     * @param resourceBundle            ResourceBundle to use
-     * @param resourceBundleBaseName    base name for this resource bundle
+     * @param resourceBundle             ResourceBundle to use
+     * @param resourceBundleFullBaseName base name for this resource bundle
      */
     public I18nResourceBundle(
-            final ResourceBundle    resourceBundle,
-            final String            resourceBundleBaseName
+            final ResourceBundle resourceBundle,
+            final String         resourceBundleFullBaseName
             )
     {
-        this( resourceBundleBaseName );
+        this( resourceBundleFullBaseName, resourceBundle.getLocale() );
+
         this.resourceBundle = resourceBundle;
     }
 
@@ -119,12 +127,21 @@ public class I18nResourceBundle implements I18nInterface, Serializable
         Locale locale = Locale.class.cast( in.readObject() );
 
         // Build a new ResourceBundle
+        buildResourceBundle( locale );
+    }
+
+    private void buildResourceBundle( final Locale locale )
+    {
         resourceBundle = ResourceBundle.getBundle( resourceBundleFullBaseName, locale );
     }
 
-    protected void setResourceBundle( ResourceBundle resourceBundle )
+    protected void setResourceBundle( //
+        final ResourceBundle resourceBundle, //
+        final String resourceBundleFullBaseName //
+        )
     {
         this.resourceBundle = resourceBundle;
+        this.resourceBundleFullBaseName = resourceBundleFullBaseName;
     }
 
     protected String getResourceBundleFullBaseName()

@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.i18n.core;
 
+import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
@@ -11,9 +12,9 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
-import java.lang.reflect.Field;
 
-final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
+//NOT public
+final class I18nFieldAutoI18nTypes extends AbstractI18nField
 {
     private static final long serialVersionUID = 1L;
 
@@ -37,63 +38,50 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
     }
 
     @Override
-    public <T> I18nResolver createI18nResolver( final T objectToI18n, I18nInterface i18nInterface )
+    public <T> I18nResolver createI18nResolver( final T objectToI18n, final I18nInterface i18nInterface )
     {
         return new I18nResolver() {
             @Override
             public Keys getKeys() throws MissingKeyException
             {
                 try {
-                   Object fieldObject = getComponent( objectToI18n );
+                   final Object fieldObject = getComponent( objectToI18n );
 
                    return getAutoI18nTypes().getKeys( fieldObject, getKeyBase() );
                     }
-                catch( IllegalArgumentException | IllegalAccessException e ) {
+                catch( final IllegalArgumentException | IllegalAccessException e ) {
                     throw new MissingKeyException( e );
                      }
            }
 
             @Override
-            public I18nResolvedFieldGetter getI18nResolvedFieldGetter()
-            {
+            public I18nResolvedFieldGetter getI18nResolvedFieldGetter() {
                 return new I18nResolvedFieldGetter() {
                     @Override
-                    public Values getValues( Keys keys ) throws GetFieldException
-                    {
+                    public Values getValues(Keys keys) throws GetFieldException {
                         try {
-                            Object fieldObject = getComponent( objectToI18n );
+                            Object fieldObject = getComponent(objectToI18n);
 
-                            return getAutoI18nTypes().getText( fieldObject );
-                            }
-                        catch( IllegalArgumentException e ) {
-                            throw new GetFieldException( e );
-                            }
-                        catch( IllegalAccessException e ) {
-                            throw new GetFieldException( e );
-                            }
+                            return getAutoI18nTypes().getText(fieldObject);
+                        } catch (final IllegalArgumentException | IllegalAccessException e) {
+                            throw new GetFieldException(e);
+                        }
                     }
                 };
             }
 
             @Override
-            public I18nResolvedFieldSetter getI18nResolvedFieldSetter()
-            {
+            public I18nResolvedFieldSetter getI18nResolvedFieldSetter() {
                 return new I18nResolvedFieldSetter() {
                     @Override
-                    public void setValues( Keys keys, Values values )
-                            throws SetFieldException
-                    {
+                    public void setValues(Keys keys, Values values) throws SetFieldException {
                         try {
-                            Object fieldObject = getComponent( objectToI18n );
+                            Object fieldObject = getComponent(objectToI18n);
 
-                            getAutoI18nTypes().setText( fieldObject, values );
-                            }
-                        catch( IllegalArgumentException e ) {
-                            throw new SetFieldException( e );
-                            }
-                        catch( IllegalAccessException e ) {
-                            throw new SetFieldException( e );
-                            }
+                            getAutoI18nTypes().setText(fieldObject, values);
+                        } catch (IllegalArgumentException | IllegalAccessException e) {
+                            throw new SetFieldException(e);
+                        }
                     }
                 };
             }
@@ -103,7 +91,7 @@ final /* not public */ class I18nFieldAutoI18nTypes extends AbstractI18nField
     private final <T> Object getComponent( final T objectToI18n )
             throws IllegalArgumentException, IllegalAccessException
     {
-        Field f = getField();
+        final Field f = getField();
         f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
 
         return f.get( objectToI18n );

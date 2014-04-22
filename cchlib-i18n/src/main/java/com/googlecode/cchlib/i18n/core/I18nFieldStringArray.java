@@ -14,7 +14,8 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
 
-final /*not public*/ class I18nFieldStringArray  extends AbstractI18nField
+//NOT public
+final class I18nFieldStringArray  extends AbstractI18nField
 {
     private static final long serialVersionUID = 1L;
 
@@ -44,14 +45,14 @@ final /*not public*/ class I18nFieldStringArray  extends AbstractI18nField
             public Keys getKeys()
             {
                 try {
-                    String[] values = getComponent( objectToI18n );
+                    final String[] values = getComponent( objectToI18n );
 
                     return new IndexKeys( getKeyBase(), values.length );
                     }
-                catch( IllegalArgumentException e ) {
+                catch( final IllegalArgumentException e ) {
                     throw new KeyException( "objectToI18n is: " + objectToI18n, e );
                     }
-                catch( IllegalAccessException e ) {
+                catch( final IllegalAccessException e ) {
                     throw new KeyException( e );
                     }
             }
@@ -60,17 +61,14 @@ final /*not public*/ class I18nFieldStringArray  extends AbstractI18nField
             {
                 return new I18nResolvedFieldGetter() {
                     @Override
-                    public Values getValues( Keys keys ) throws GetFieldException
+                    public Values getValues( final Keys keys ) throws GetFieldException
                     {
                         try {
-                            String[] values = getComponent( objectToI18n );
+                            final String[] values = getComponent( objectToI18n );
 
                             return new IndexValues( values );
                             }
-                        catch( IllegalArgumentException e ) {
-                            throw new GetFieldException( e );
-                            }
-                        catch( IllegalAccessException e ) {
+                        catch( final IllegalArgumentException | IllegalAccessException e ) {
                             throw new GetFieldException( e );
                             }
                      }
@@ -81,20 +79,17 @@ final /*not public*/ class I18nFieldStringArray  extends AbstractI18nField
             {
                 return new I18nResolvedFieldSetter() {
                     @Override
-                    public void setValues( Keys keys, Values values ) throws SetFieldException
+                    public void setValues( final Keys keys, final Values values ) throws SetFieldException
                     {
                         // Keys and Values inconsistent size
                         assert keys.size() == values.size() : "Keys and Values inconsistent size";
 
                         try {
-                            Field f = getField();
+                            final Field f = getField();
                             f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
                             f.set( objectToI18n, values.toArray() );
                             }
-                        catch( IllegalArgumentException e ) {
-                            throw new SetFieldException( e );
-                            }
-                        catch( IllegalAccessException e ) {
+                        catch( final IllegalArgumentException | IllegalAccessException e ) {
                             throw new SetFieldException( e );
                             }
                     }
@@ -106,7 +101,7 @@ final /*not public*/ class I18nFieldStringArray  extends AbstractI18nField
     private final <T> String[] getComponent( final T objectToI18n )
             throws IllegalArgumentException, IllegalAccessException
     {
-        Field f = getField();
+        final Field f = getField();
         f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
 
         return (String[])f.get( objectToI18n );

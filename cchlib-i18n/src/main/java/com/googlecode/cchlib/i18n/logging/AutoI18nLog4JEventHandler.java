@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.i18n.logging;
 
+import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import java.lang.reflect.Field;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 
 /**
  * {@link AutoI18nEventHandler} using PrintStream

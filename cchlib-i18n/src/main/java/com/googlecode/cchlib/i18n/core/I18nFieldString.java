@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.i18n.core;
 
+import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
@@ -11,15 +12,15 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.UniqKeys;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
-import java.lang.reflect.Field;
 
-final /*not public*/ class I18nFieldString  extends AbstractI18nField
+// NOT public
+final class I18nFieldString  extends AbstractI18nField
 {
     private static final long serialVersionUID = 1L;
 
     public I18nFieldString(
         final I18nDelegator     i18nDelegator,
-        final I18nKeyFactory    i18nKeyFactory, 
+        final I18nKeyFactory    i18nKeyFactory,
         final Field             field,
         final String            keyIdValue
         )
@@ -49,21 +50,14 @@ final /*not public*/ class I18nFieldString  extends AbstractI18nField
             {
                 return new I18nResolvedFieldGetter() {
                     @Override
-                    public Values getValues( Keys keys ) throws GetFieldException
+                    public Values getValues( final Keys keys ) throws GetFieldException
                     {
                         try {
-//                            Field f = getField();
-//                            f.setAccessible( true ); // TODO: try to restore ! (need to handle concurrent access)
-//                            Object objectField = f.get( objectToI18n );
-//                            String value       = (String)objectField;
-                            String value = getComponent( objectToI18n );
+                            final String value = getComponent( objectToI18n );
 
                             return new IndexValues( value );
                             }
-                        catch( IllegalArgumentException e ) {
-                            throw new GetFieldException( e );
-                            }
-                        catch( IllegalAccessException e ) {
+                        catch( final IllegalArgumentException | IllegalAccessException e ) {
                             throw new GetFieldException( e );
                             }
                      }
@@ -74,32 +68,38 @@ final /*not public*/ class I18nFieldString  extends AbstractI18nField
             {
                 return new I18nResolvedFieldSetter() {
                     @Override
-                    public void setValues( Keys keys, Values values ) throws SetFieldException
+                    public void setValues( final Keys keys, final Values values ) throws SetFieldException
                     {
-                        // Keys and Values inconsistent size
-                        assert keys.size() == values.size() : "Keys and Values inconsistent size";
-                        assert keys.size() == 1 : "Keys and Values should have only 1 value";
-
-                        try {
-                            Field f = getField();
-                            f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
-                            f.set( objectToI18n, values.get( 0 ) );
-                            }
-                        catch( IllegalArgumentException | IllegalAccessException e ) {
-                            throw new SetFieldException( e );
-                            }
+                        setComponent( objectToI18n, keys, values );
                     }
                 };
             }
         };
     }
-    
-    private final <T> String getComponent( final T objectToI18n ) 
+
+    private final <T> String getComponent( final T objectToI18n ) //
             throws IllegalArgumentException, IllegalAccessException
     {
-        Field f = getField();
+        final Field f = getField();
         f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
 
         return (String)f.get( objectToI18n );
+    }
+
+    private <T> void setComponent( final T objectToI18n, final Keys keys, final Values values ) //
+            throws SetFieldException
+    {
+        // Keys and Values inconsistent size
+        assert keys.size() == values.size() : "Keys and Values inconsistent size";
+        assert keys.size() == 1 : "Keys and Values should have only 1 value";
+
+        try {
+            final Field f = getField();
+            f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+            f.set( objectToI18n, values.get( 0 ) );
+            }
+        catch( final IllegalArgumentException | IllegalAccessException e ) {
+            throw new SetFieldException( e );
+            }
     }
 }

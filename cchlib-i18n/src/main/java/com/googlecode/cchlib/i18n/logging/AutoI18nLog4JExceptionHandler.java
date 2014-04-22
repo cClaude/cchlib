@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.i18n.logging;
 
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import java.util.Set;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
 
 /**
  * {@link com.googlecode.cchlib.i18n.AutoI18nExceptionHandler} using Log4J to trace

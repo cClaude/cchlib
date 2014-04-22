@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.lang.reflect.Field;
-import javax.swing.JTabbedPane;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
@@ -14,6 +12,8 @@ import com.googlecode.cchlib.i18n.core.resolve.KeyException;
 import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
+import java.lang.reflect.Field;
+import javax.swing.JTabbedPane;
 
 final /* not public */ class I18nFieldToolTipTextForJTabbedPane
     extends AbstractI18nField

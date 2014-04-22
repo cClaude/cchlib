@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class PrepCollector<T> implements Iterable<Map.Entry<String,T>>
 {
-    private Map<String,T> map = new HashMap<String,T>();
+    private final Map<String,T> map = new HashMap<>();
 
     public void add( String key, T value )
     {
@@ -21,7 +21,7 @@ public class PrepCollector<T> implements Iterable<Map.Entry<String,T>>
     public Iterator<Map.Entry<String,T>> iterator()
     {
         Set<Map.Entry<String,T>>       entrySet = map.entrySet();
-        ArrayList<Map.Entry<String,T>> list     = new ArrayList<Map.Entry<String,T>>( entrySet );
+        ArrayList<Map.Entry<String,T>> list     = new ArrayList<>( entrySet );
 
         Collections.sort( list, new Comparator<Map.Entry<String,T>>() {
             @Override

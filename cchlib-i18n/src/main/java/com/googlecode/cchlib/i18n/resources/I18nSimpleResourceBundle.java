@@ -1,9 +1,10 @@
 package com.googlecode.cchlib.i18n.resources;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.I18nInterface;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import  org.apache.log4j.Logger;
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}
@@ -41,16 +42,12 @@ public class I18nSimpleResourceBundle
             final String resourceBundleFullBaseName
             )
     {
-        super( resourceBundleFullBaseName );
-
-        if( locale == null ) {
-            throw new NullPointerException( "Locale is null" );
-            }
+        super( resourceBundleFullBaseName, locale );
 
         setLocale( locale );
     }
 
-    private void setLocale( Locale locale )
+    private void setLocale( final Locale locale )
     {
       this.currentLocale = locale;
 
@@ -65,12 +62,15 @@ public class I18nSimpleResourceBundle
           }
 
       try {
-          super.setResourceBundle( ResourceBundle.getBundle(
-              getResourceBundleFullBaseName(),
-              getLocale()
-              ) );
+          final String         resourceBundleFullBaseName = getResourceBundleFullBaseName();
+          final ResourceBundle resourceBundle             =  ResourceBundle.getBundle(
+                  resourceBundleFullBaseName,
+                  getLocale()
+                  );
+
+          super.setResourceBundle( resourceBundle, resourceBundleFullBaseName );
           }
-      catch( java.util.MissingResourceException e ) {
+      catch( MissingResourceException e ) {
           LOGGER.error(
               "Error while trying to open default resource bundle for: "
                   + getResourceBundleFullBaseName()
