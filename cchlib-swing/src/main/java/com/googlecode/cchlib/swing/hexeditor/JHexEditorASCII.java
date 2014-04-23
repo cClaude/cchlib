@@ -161,7 +161,6 @@ class JHexEditorASCII
     @Override//KeyListener
     public void keyTyped(KeyEvent e)
     {
-        @SuppressWarnings("resource")
         ArrayReadWriteAccess buf = model.getBufferRW();
 
         if( buf != null ) {

@@ -66,7 +66,6 @@ public class FormattedPropertiesTest
                 );
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_Reader_load_save() throws IOException
@@ -117,7 +116,6 @@ public class FormattedPropertiesTest
         delete(tmpStreamFile);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_Stream_load_save()
@@ -160,7 +158,6 @@ public class FormattedPropertiesTest
         delete(tmpStreamFile);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_clear() throws FileNotFoundException, IOException
@@ -175,7 +172,6 @@ public class FormattedPropertiesTest
         delete(copy);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_add() throws IOException
@@ -226,7 +222,6 @@ public class FormattedPropertiesTest
         delete(tmpWriterFile);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_getLines() throws FileNotFoundException, IOException
@@ -259,7 +254,6 @@ public class FormattedPropertiesTest
         delete( copy );
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_equal() throws FileNotFoundException, IOException
@@ -325,7 +319,6 @@ public class FormattedPropertiesTest
         delete(copy);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_clone() throws FileNotFoundException, IOException
@@ -369,7 +362,6 @@ public class FormattedPropertiesTest
         delete(copy);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_store_plusplus() throws FileNotFoundException, IOException
@@ -421,7 +413,6 @@ public class FormattedPropertiesTest
         }
     }
 
-    @SuppressWarnings("resource")
     public void compare(
             Properties  propRef,
             File        propFile
@@ -517,7 +508,6 @@ public class FormattedPropertiesTest
         w.close();
     }
 
-    @SuppressWarnings("resource")
     public File storeWriter(Properties prop) throws IOException
     {
         File        tmpFile = getTmpFile("writer");
@@ -532,7 +522,6 @@ public class FormattedPropertiesTest
         os.close();
     }
 
-    @SuppressWarnings("resource")
     public File storeOutputStream(Properties prop) throws FileNotFoundException, IOException
     {
         File        tmpFile = getTmpFile("OuputStream");

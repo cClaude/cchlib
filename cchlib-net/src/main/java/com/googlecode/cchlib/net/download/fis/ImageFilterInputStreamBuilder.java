@@ -7,19 +7,19 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.filetype.ImageIOFileData;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 
-public class ImageFilterInputStreamBuilder 
+public class ImageFilterInputStreamBuilder
     implements DownloadFilterInputStreamBuilder
 {
     private static final Logger LOGGER = Logger.getLogger( ImageFilterInputStreamBuilder.class );
 
     /**
-     * 
+     *
      */
     public ImageFilterInputStreamBuilder()
     {
         // Empty
     }
-    
+
     @Override
     public ImageFilterInputStream createFilterInputStream( InputStream is )
     {
@@ -27,14 +27,13 @@ public class ImageFilterInputStreamBuilder
     }
 
     @Override
-    public void storeFilterResult( 
+    public void storeFilterResult(
         final FilterInputStream filter,
         final DownloadFileURL   dURL
         )
     {
-        @SuppressWarnings("resource")
         ImageFilterInputStream f = ImageFilterInputStream.class.cast( filter );
-        
+
         try {
             ImageIOFileData infos = f.geImageIOFileData();
 

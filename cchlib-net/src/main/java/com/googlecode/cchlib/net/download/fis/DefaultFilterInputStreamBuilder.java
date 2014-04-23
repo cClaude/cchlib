@@ -9,23 +9,23 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
 
 /**
  * TODOC
- * 
+ *
  * @since 4.1.7
  */
-public class DefaultFilterInputStreamBuilder 
+public class DefaultFilterInputStreamBuilder
     implements DownloadFilterInputStreamBuilder
 {
     private static final Logger LOGGER = Logger.getLogger( DefaultFilterInputStreamBuilder.class );
 
-    /** 
+    /**
      * Property name for {@link java.awt.Dimension Dimension}
      * if {@link DownloadFileURL} is a valid picture
      * <br>
      * Property result is return in a {@link java.awt.Dimension Dimension} object
      */
     public static final String DIMENSION = "Dimension";
-    
-    /** 
+
+    /**
      * Property name for picture format name
      * if {@link DownloadFileURL} is a valid picture
      * <br>
@@ -33,8 +33,8 @@ public class DefaultFilterInputStreamBuilder
      */
     public static final String FORMAT_NAME = "FormatName";
 
-    /** 
-     * Property name for hash code of {@link DownloadFileURL} 
+    /**
+     * Property name for hash code of {@link DownloadFileURL}
      * content.
      * <br>
      * Property result is return in a {@link String} object
@@ -42,7 +42,7 @@ public class DefaultFilterInputStreamBuilder
     public static final String HASH_CODE = "HashCode";
 
     /**
-     * 
+     *
      */
     public DefaultFilterInputStreamBuilder()
     {
@@ -52,7 +52,7 @@ public class DefaultFilterInputStreamBuilder
     /**
      * Create a new {@link DefaultFilterInputStream} based on
      * given {@link InputStream}
-     * 
+     *
      * @param is underlying {@link InputStream}
      * @return a new {@link DefaultFilterInputStream}
      */
@@ -64,7 +64,7 @@ public class DefaultFilterInputStreamBuilder
 
     /**
      * Set filter result on {@link DownloadFileURL}.
-     * 
+     *
      * @param filter    Closed filter to use for result
      * @param dURL      DownloadFileURL that will received result.
      */
@@ -74,9 +74,8 @@ public class DefaultFilterInputStreamBuilder
         final DownloadFileURL   dURL
         )
     {
-        @SuppressWarnings("resource")
         DefaultFilterInputStream f = DefaultFilterInputStream.class.cast( filter );
-        
+
         try {
             ImageIOFileData infos = f.geImageIOFileData();
 

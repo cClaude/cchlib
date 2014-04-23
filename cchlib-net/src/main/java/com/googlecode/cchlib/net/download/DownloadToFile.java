@@ -34,7 +34,6 @@ public class DownloadToFile extends AbstractDownload
         this.downloadFilterBuilder = downloadFilterBuilder;
     }
 
-    @SuppressWarnings("resource")
     @Override
     protected void download( final InputStream inputStream )
             throws DownloadIOException, IOException

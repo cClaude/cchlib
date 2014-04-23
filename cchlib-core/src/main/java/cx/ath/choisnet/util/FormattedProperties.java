@@ -172,7 +172,6 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
     @Override
     public synchronized void load( final Reader aReader ) throws IOException
     {
-        @SuppressWarnings("resource")
         final BufferedReader reader = toBufferedReader( aReader );
         String               line;
 
@@ -471,7 +470,6 @@ public class FormattedProperties // $codepro.audit.disable largeNumberOfMethods
             attribs = EnumSet.copyOf( config );
             }
 
-        @SuppressWarnings("resource")
         PrintWriter writer = toPrintWriter( out );
 
         // We ignore the header, because if we prepend a

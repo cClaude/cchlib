@@ -24,7 +24,6 @@ public class SplitMails implements Iterable<InputStream>
      * @throws FileNotFoundException
      * @throws IOException
      */
-    @SuppressWarnings("resource")
     public SplitMails(
         final File thunderbirdMailFile
         )
