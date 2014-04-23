@@ -24,7 +24,6 @@ public class ArrayReadAccessFile implements ArrayReadAccess
         this.raf = raf;
     }
 
-    @SuppressWarnings("resource")
     public ArrayReadAccessFile( File f ) throws FileNotFoundException
     {
         this( new RandomAccessFile( f, "r" ) );

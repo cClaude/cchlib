@@ -26,9 +26,9 @@ public @interface I18nString
     String id() default "";
     
     /**
-     * Must have two methods, with theses signatures:<br/>
+     * Must have two methods, with theses signatures:<BR>
      * public void set'method'(String)
-     * <br/>
+     * <BR>
      * public String get'method'()
      *
      * @return method name, if not define ("")

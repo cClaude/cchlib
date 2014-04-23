@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n.logging;
 
+import com.googlecode.cchlib.lang.StringHelper;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Convert fields to String for logging, add extra information

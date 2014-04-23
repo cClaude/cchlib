@@ -11,7 +11,7 @@
 .settings/
 cchlib-apps-duplicatefilesmanager/.classpath
 cchlib-apps-duplicatefilesmanager/target/
-cchlib-apps-editresourcebundle/.classpath
+cchlib-apps-duplicatefilesmanager/target/DuplicateFilesManager-4.1.8-SNAPSHOT-r20140411_2213.jar
 cchlib-apps-editresourcebundle/target/
 cchlib-apps-regexpbuilder/.classpath
 cchlib-apps-regexpbuilder/target/
@@ -26,7 +26,7 @@ cchlib-core/.classpath
 cchlib-core/target/
 cchlib-i18n-deprecated/.classpath
 cchlib-i18n-deprecated/target/
-cchlib-i18n-test/.classpath
+cchlib-i18n-test/com.googlecode.cchlib.i18n.unit.REF-empty
 cchlib-i18n-test/target/
 cchlib-i18n/.classpath
 cchlib-i18n/com.googlecode.cchlib.i18n.unit.REF-empty

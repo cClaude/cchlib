@@ -19,15 +19,15 @@ public class I18nStringPart implements I18nAutoCoreUpdatable, TestPartInterface
     private static final String INIT_myString = "my string text 1";
     private static final String DEFAULT_BUNDLE_myString = "OK(myString)";
 
-    @I18nString private String myString = INIT_myString;
+    @I18nString private final String myString = INIT_myString;
 
-    @I18nString @I18nIgnore private String myStringIgnore = INIT_myString;
+    @I18nString @I18nIgnore private final String myStringIgnore = INIT_myString;
     @I18nString private Object thisNotAString1;
     @I18nString private JButton thisNotAString2;
 
     private static final String INIT_myGlobalStringID1 = "my Global string 1 text";
     private static final String DEFAULT_BUNDLE_myGlobalStringID1 = "OK(GlobalStringID)";
-    @I18nString(id="GlobalStringID") private String myGlobalStringID = INIT_myGlobalStringID1;
+    @I18nString(id="GlobalStringID") private final String myGlobalStringID = INIT_myGlobalStringID1;
 
     private static final String INIT_myGlobalStringIDMethod1 = "my Global string 2 text";
     private static final String DEFAULT_BUNDLE_myGlobalStringIDMethod1 = "OK(myGlobalStringIDMethod1)";
@@ -60,7 +60,7 @@ public class I18nStringPart implements I18nAutoCoreUpdatable, TestPartInterface
     }
 
     @Override
-    public void beforePrepTest(PrepTestPartInterface prepTest)
+    public void beforePrepTest(final PrepTestPartInterface prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
    }

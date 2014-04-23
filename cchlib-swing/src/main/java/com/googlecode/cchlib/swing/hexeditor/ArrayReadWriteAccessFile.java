@@ -16,7 +16,6 @@ public class ArrayReadWriteAccessFile extends ArrayReadAccessFile implements Arr
      * @param f
      * @throws FileNotFoundException
      */
-    @SuppressWarnings("resource")
     public ArrayReadWriteAccessFile( File f ) throws FileNotFoundException
     {
         super( new RandomAccessFile( f, "rw" ) );

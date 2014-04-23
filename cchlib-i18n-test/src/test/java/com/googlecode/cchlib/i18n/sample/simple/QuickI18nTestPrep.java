@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Set;
+
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
@@ -19,26 +20,41 @@ public class QuickI18nTestPrep
     {
     }
 
-    public static void main( String...args ) throws IOException
+    public static void main( final String...args ) throws IOException
     {
         // Default language !
-        Locale locale = Locale.ENGLISH;
+        final Locale locale = Locale.ENGLISH;
 
         // Build frame
-        QuickI18nTest frame = new QuickI18nTest();
+        final QuickI18nTest frame = new QuickI18nTest();
 
         // Define output
-        PrintStream usageStatPrintStream    = System.err;
-        PrintStream notUsePrintStream       = System.out;
+        final PrintStream usageStatPrintStream    = System.err;
+        final PrintStream notUsePrintStream       = System.out;
 
         // Other frames,panel,... if any
-        I18nAutoCoreUpdatable[] i18nConteners = { frame };
+        final I18nAutoCoreUpdatable[] i18nConteners = { frame };
 
+<<<<<<< HEAD:cchlib-i18n-test/src/test/java/com/googlecode/cchlib/i18n/sample/simple/QuickI18nTestPrep.java
         Set<AutoI18nConfig>         config                   = AutoI18nConfig.newAutoI18nConfig();
         String                      messageBundleBaseName    = frame.getClass().getSimpleName();
         Package                     packageMessageBundleBase = frame.getClass().getPackage();
         I18nResourceBundleName      i18nResourceBundleName   = new DefaultI18nResourceBundleName(packageMessageBundleBase, messageBundleBaseName);
         I18nPrep                    autoI18n                 = I18nPrepHelper.createAutoI18nCore( config, i18nResourceBundleName, locale );
+=======
+        //        I18nPrepHelper.defaultPrep(
+        //            locale,
+        //            usageStatPrintStream,
+        //            notUsePrintStream,
+        //            frame,
+        //            otherFrames
+        //            );
+        final Set<AutoI18nConfig>         config                   = AutoI18nConfig.newAutoI18nConfig();
+        final String                      messageBundleBaseName    = frame.getClass().getSimpleName();
+        final Package                     packageMessageBundleBase = frame.getClass().getPackage();
+        final I18nResourceBundleName      i18nResourceBundleName   = new DefaultI18nResourceBundleName(packageMessageBundleBase, messageBundleBaseName);
+        final I18nPrep                    autoI18n                 = I18nPrepHelper.createAutoI18nCore( config, i18nResourceBundleName, locale );
+>>>>>>> cchlib-pre4-1-8:cchlib-i18n/src/test/java/com/googlecode/cchlib/i18n/sample/simple/QuickI18nTestPrep.java
 
         //I18nPrepHelper.defaultPrep(
         //        autoI18n,
@@ -46,9 +62,14 @@ public class QuickI18nTestPrep
         //        notUsePrintStream,
         //        i18nConteners
         //        );
-        Result r = I18nPrepHelper.defaultPrep( autoI18n, i18nConteners);
+        final Result result= I18nPrepHelper.defaultPrep( autoI18n, i18nConteners);
 
+<<<<<<< HEAD:cchlib-i18n-test/src/test/java/com/googlecode/cchlib/i18n/sample/simple/QuickI18nTestPrep.java
         I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, r );
         I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, r );
+=======
+        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result );
+        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result );
+>>>>>>> cchlib-pre4-1-8:cchlib-i18n/src/test/java/com/googlecode/cchlib/i18n/sample/simple/QuickI18nTestPrep.java
     }
 }

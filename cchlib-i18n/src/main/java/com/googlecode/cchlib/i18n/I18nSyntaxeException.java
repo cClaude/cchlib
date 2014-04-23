@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.i18n;
 
-import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.logging.LogFieldFormat;
+import java.lang.reflect.Field;
 
 public class I18nSyntaxeException extends Exception
 {

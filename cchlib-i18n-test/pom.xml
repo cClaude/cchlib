@@ -10,14 +10,12 @@
   </parent>
   <artifactId>cchlib-i18n-test</artifactId>
   <packaging>jar</packaging>
-  <name>cchlib-i18n</name>
+  <name>cchlib-i18n-test</name>
 
   <!-- Global properties -->
   <properties>
-    <project.java.source.version>1.7</project.java.source.version>
-    <project.java.target.version>1.7</project.java.target.version>
   </properties>
-  
+
   <dependencies>
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>

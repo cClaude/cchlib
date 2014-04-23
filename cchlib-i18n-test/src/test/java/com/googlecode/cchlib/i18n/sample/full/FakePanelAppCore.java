@@ -5,9 +5,11 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.EnumSet;
 import java.util.Locale;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
@@ -17,12 +19,12 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 public class FakePanelAppCore extends JFrame
 {
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
+    private final JPanel contentPane;
 
     /**
      * Launch the application.
      */
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
         start( false );
         start( true  );
@@ -32,23 +34,22 @@ public class FakePanelAppCore extends JFrame
     {
         EventQueue.invokeLater( new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 try {
-                    FakePanelAppCore frame = new FakePanelAppCore( doI18n );
+                    final FakePanelAppCore frame = new FakePanelAppCore( doI18n );
                     frame.setVisible( true );
-                    }
-                catch( Exception e ) {
+                }
+                catch( final Exception e ) {
                     e.printStackTrace();
-                    }
+                }
             }
-        } );
+        });
     }
 
     /**
      * Create the frame.
      */
-    public FakePanelAppCore( boolean doI18n )
+    public FakePanelAppCore( final boolean doI18n )
     {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( 800, 400 );
@@ -57,14 +58,14 @@ public class FakePanelAppCore extends JFrame
         contentPane.setLayout( new BorderLayout( 0, 0 ) );
         setContentPane( contentPane );
 
-        FakePanel panel = new FakePanel();
+        final FakePanel panel = new FakePanel();
 
         if( doI18n ) {
-            Locale locale = Locale.ENGLISH;
+            final Locale locale = Locale.ENGLISH;
 
-            EnumSet<AutoI18nConfig> config                   = null;
-            I18nResourceBundleName  i18nResourceBundleName   = createI18nResourceBundleName();
-            AutoI18nCore            autoI18n                 = AutoI18nCoreFactory.createAutoI18nCore( config, i18nResourceBundleName, locale );
+            final EnumSet<AutoI18nConfig> config                   = null;
+            final I18nResourceBundleName  i18nResourceBundleName   = createI18nResourceBundleName();
+            final AutoI18nCore            autoI18n                 = AutoI18nCoreFactory.createAutoI18nCore( config, i18nResourceBundleName, locale );
 
             //autoI18n.setLocale( locale );
             panel.performeI18n( autoI18n );
@@ -75,7 +76,7 @@ public class FakePanelAppCore extends JFrame
 
     public static I18nResourceBundleName createI18nResourceBundleName( final String messageBundleBaseName)
     {
-        Class<FakePanelAppCore> packageMessageBundleBase = FakePanelAppCore.class;
+        final Class<FakePanelAppCore> packageMessageBundleBase = FakePanelAppCore.class;
 
         return new DefaultI18nResourceBundleName(packageMessageBundleBase, messageBundleBaseName);
     }
@@ -86,4 +87,5 @@ public class FakePanelAppCore extends JFrame
 
         return createI18nResourceBundleName( messageBundleBaseName );
     }
+
 }

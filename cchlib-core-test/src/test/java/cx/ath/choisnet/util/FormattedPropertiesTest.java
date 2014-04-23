@@ -27,7 +27,6 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.lang.StringHelper;
 
-public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMethods
 {
     private static final String REF = "tstref.properties";
     private Properties refPropertiesStream;
@@ -66,7 +65,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 );
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_Reader_load_save() throws IOException
@@ -117,7 +115,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(tmpStreamFile);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_Stream_load_save()
@@ -160,7 +157,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(tmpStreamFile);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_clear() throws FileNotFoundException, IOException
@@ -175,7 +171,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(copy);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_add() throws IOException
@@ -226,7 +221,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(tmpWriterFile);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_getLines() throws FileNotFoundException, IOException
@@ -259,7 +253,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete( copy );
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_equal() throws FileNotFoundException, IOException
@@ -325,7 +318,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(copy);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_clone() throws FileNotFoundException, IOException
@@ -369,7 +361,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(copy);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME
     public void test_store_plusplus() throws FileNotFoundException, IOException
@@ -421,7 +412,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         }
     }
 
-    @SuppressWarnings("resource")
     public void compare(
             Properties  propRef,
             File        propFile
@@ -517,7 +507,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         w.close();
     }
 
-    @SuppressWarnings("resource")
     public File storeWriter(Properties prop) throws IOException
     {
         File        tmpFile = getTmpFile("writer");
@@ -532,7 +521,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         os.close();
     }
 
-    @SuppressWarnings("resource")
     public File storeOutputStream(Properties prop) throws FileNotFoundException, IOException
     {
         File        tmpFile = getTmpFile("OuputStream");

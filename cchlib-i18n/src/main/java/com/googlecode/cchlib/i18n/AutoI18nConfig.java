@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.i18n;
 
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import java.awt.Window;
 import java.util.EnumSet;
 import java.util.Set;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JWindow;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 
 /**
  * How to select Fields:
@@ -31,7 +31,7 @@ public enum AutoI18nConfig
 
     /**
      * Also get inspect Fields from super class.
-     * <br/>
+     * <BR>
      * Recurse process into super classes since
      * super class is one of {@link Object},
      * {@link JFrame}, {@link JDialog},

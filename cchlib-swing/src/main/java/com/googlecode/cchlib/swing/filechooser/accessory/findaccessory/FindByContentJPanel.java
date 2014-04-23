@@ -209,7 +209,6 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
                 long foundAt = -1;
 
                 for( int i=matchMakers.size()-1; i>=0; i-- ) {
-                    @SuppressWarnings("resource")
                     MatchStream m = matchMakers.elementAt(i);
 
                     try {
@@ -226,7 +225,6 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
                     }
 
                 if( b == locate[0] ) {
-                    @SuppressWarnings("resource")
                     MatchStream m = new MatchStream(locate,mark);
                     m.write(b); // This will be accepted
                     matchMakers.addElement(m);

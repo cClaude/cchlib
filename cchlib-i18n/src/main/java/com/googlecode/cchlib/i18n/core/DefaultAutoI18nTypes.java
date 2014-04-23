@@ -1,10 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-import javax.swing.AbstractButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
-import javax.swing.border.TitledBorder;
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.core.resolve.IndexKeys;
 import com.googlecode.cchlib.i18n.core.resolve.IndexValues;
@@ -12,6 +7,11 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
 import com.googlecode.cchlib.i18n.types.AbstractType;
 import com.googlecode.cchlib.i18n.types.AbstractTypeUniqKeys;
+import javax.swing.AbstractButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JTabbedPane;
+import javax.swing.border.TitledBorder;
 
 /**
  * TODOC

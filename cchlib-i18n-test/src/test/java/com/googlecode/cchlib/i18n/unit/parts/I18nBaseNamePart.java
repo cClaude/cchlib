@@ -1,10 +1,6 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.i18n.unit.parts;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
 import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
@@ -13,6 +9,10 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.TestPartInterface;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
 
 @I18nName("I18nBaseNameTest")
 public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, TestPartInterface
@@ -30,11 +30,11 @@ public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, T
 
     private static final String INIT_myJLabel1 = "my JLabel 1 text";
     private static final String DEFAULT_BUNDLE_myJLabel1 = "OK(myJLabel1)";
-    private JLabel myJLabel1;
+    private final JLabel myJLabel1;
 
     private static final String INIT_myJLabel2 = "my JLabel 2 text";
     private static final String DEFAULT_BUNDLE_myJLabel2 = "OK(myJLabel2)";
-    @I18n(id="MyJLabel2ID") private JLabel myJLabel2;
+    @I18n(id="MyJLabel2ID") private final JLabel myJLabel2;
 
     public I18nBaseNamePart()
     {

@@ -1,17 +1,17 @@
 // $codepro.audit.disable largeNumberOfFields, constantNamingConvention, numericLiterals
 package com.googlecode.cchlib.i18n.unit.parts;
 
-import javax.swing.Icon;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.TestPartInterface;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
+import javax.swing.Icon;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import org.apache.log4j.Logger;
+import org.fest.assertions.Assertions;
 
 public class I18nToolTipText_for_JTabbedPanePart
     implements TestPartInterface
@@ -38,7 +38,7 @@ public class I18nToolTipText_for_JTabbedPanePart
     private static final String TIP3_I18N = "OK(Tool tip text 3)";
     private static final String TIP4_I18N = "OK(Tool tip text 4)";
 
-    @I18nToolTipText private JTabbedPane myJTabbedPane;
+    @I18nToolTipText private final JTabbedPane myJTabbedPane;
 
     public I18nToolTipText_for_JTabbedPanePart()
     {

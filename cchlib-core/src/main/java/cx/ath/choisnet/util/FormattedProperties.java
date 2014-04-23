@@ -172,8 +172,12 @@ public final class FormattedProperties
     @Override
     public synchronized void load( final Reader aReader ) throws IOException
     {
+<<<<<<< HEAD
         @SuppressWarnings("resource")
         final BufferedReader reader = FormattedPropertiesHelper.toBufferedReader( aReader );
+=======
+        final BufferedReader reader = toBufferedReader( aReader );
+>>>>>>> cchlib-pre4-1-8
         String               line;
 
         while ((line = reader.readLine()) != null) {
@@ -388,8 +392,12 @@ public final class FormattedProperties
             attribs = EnumSet.copyOf( config );
             }
 
+<<<<<<< HEAD
         @SuppressWarnings("resource")
         final PrintWriter writer = FormattedPropertiesHelper.toPrintWriter( out );
+=======
+        PrintWriter writer = toPrintWriter( out );
+>>>>>>> cchlib-pre4-1-8
 
         // We ignore the header, because if we prepend a
         // commented header then read it back in it is

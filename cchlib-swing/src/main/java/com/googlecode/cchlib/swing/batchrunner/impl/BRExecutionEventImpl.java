@@ -54,7 +54,6 @@ class BRExecutionEventImpl implements BRExecutionEvent
     /* (non-Javadoc)
      * @see com.googlecode.cchlib.swing.batchrunner.simplebatchrunner.SBRExecutionEvent#getInputStream()
      */
-    @SuppressWarnings("resource")
     @Override
     public InputStream getInputStream() throws FileNotFoundException
     {

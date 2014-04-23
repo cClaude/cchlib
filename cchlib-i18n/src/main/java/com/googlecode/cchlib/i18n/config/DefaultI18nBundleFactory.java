@@ -9,16 +9,16 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 
 /**
- * @deprecated this class remaind for old project based on previous version of cchlib-i18n (now called cchlib-i18n-deprecated)
+ * @deprecated this class remain for old projects based on previous version of cchlib-i18n
  */
 @Deprecated
 public class DefaultI18nBundleFactory
 {
-    private AutoI18nCore autoI18n;
+    private final AutoI18nCore autoI18n;
 
-    private DefaultI18nBundleFactory(Locale locale, final I18nPrepHelperAutoUpdatable prep)
+    private DefaultI18nBundleFactory(final Locale locale, final I18nPrepHelperAutoUpdatable prep)
     {
-        EnumSet<AutoI18nConfig> config = null; // default config
+        final EnumSet<AutoI18nConfig> config = null; // default config
 
         autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
                 config,
@@ -34,7 +34,7 @@ public class DefaultI18nBundleFactory
                 );
     }
 
-    public static <T> DefaultI18nBundleFactory createDefaultI18nBundle( Locale locale, I18nPrepHelperAutoUpdatable prep )
+    public static <T> DefaultI18nBundleFactory createDefaultI18nBundle( final Locale locale, final I18nPrepHelperAutoUpdatable prep )
     {
         if( locale == null ) {
             return new DefaultI18nBundleFactory( Locale.getDefault(), prep );

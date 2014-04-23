@@ -1,10 +1,16 @@
 package com.googlecode.cchlib.i18n.core;
 
+<<<<<<< HEAD
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import javax.swing.JTabbedPane;
+=======
+>>>>>>> cchlib-pre4-1-8
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import javax.swing.JTabbedPane;
 
 final /* not public*/ class I18nFieldFactory
 {

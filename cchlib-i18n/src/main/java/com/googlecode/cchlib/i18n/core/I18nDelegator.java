@@ -1,14 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
@@ -21,6 +12,15 @@ import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
+import java.io.Serializable;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  *
@@ -31,14 +31,14 @@ class I18nDelegator implements Serializable
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    private EnumSet<AutoI18nConfig> config;
+    private final EnumSet<AutoI18nConfig> config;
     /** @serial */
-    private List<AutoI18nExceptionHandler> exceptionHandlerList = new ArrayList<AutoI18nExceptionHandler>();
+    private final List<AutoI18nExceptionHandler> exceptionHandlerList = new ArrayList<>();
     /** @serial */
-    private List<AutoI18nEventHandler> eventHandlerList = new ArrayList<AutoI18nEventHandler>();
+    private final List<AutoI18nEventHandler> eventHandlerList = new ArrayList<>();
     /** @serial */
-    private AutoI18nTypeLookup defaultTypes;
-    private AutoI18nTypeLookup allTypes = new AllAutoI18nTypes();
+    private final AutoI18nTypeLookup defaultTypes;
+    private final AutoI18nTypeLookup allTypes = new AllAutoI18nTypes();
     private I18nInterface i18nInterface;
 
     public I18nDelegator(

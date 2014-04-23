@@ -3,7 +3,7 @@ package com.googlecode.cchlib.i18n; // $codepro.audit.disable packageNamingConve
 public interface AutoI18n 
 {
     /**
-     * System properties : {@value #DISABLE_PROPERTIES}<br/>
+     * System properties : {@value #DISABLE_PROPERTIES}<BR>
      * If set with "true" disable
      * auto-internalization process.
      */

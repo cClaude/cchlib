@@ -37,7 +37,6 @@ public class CloneInputStreamThreadTest
         TestRunnable[] runs = new TestRunnable[ threadIS.getSize() ];
 
         for( int i = 0; i<runs.length; i++ ) {
-            @SuppressWarnings("resource")
             final InputStream is = threadIS.getInputStream( i );
 
             runs[ i ]= new TestRunner( is ); // $codepro.audit.disable avoidInstantiationInLoops

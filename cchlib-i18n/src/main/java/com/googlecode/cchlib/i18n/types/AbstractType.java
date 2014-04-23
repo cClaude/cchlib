@@ -3,22 +3,17 @@ package com.googlecode.cchlib.i18n.types;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 
-/**
- * TODOC
- *
- * @param <T> TODOC
- */
 @NeedDoc
 public abstract class AbstractType<T> implements AutoI18nType
 {
     private static final long serialVersionUID = 1L;
-    private Class<T> type;
+    private final Class<T> type;
 
     public AbstractType( Class<T> type )
     {
         this.type = type;
     }
-    
+
     /**
      * Returns type for this object
      * @return type for this object

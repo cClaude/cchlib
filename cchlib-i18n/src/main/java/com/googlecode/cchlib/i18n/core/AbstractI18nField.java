@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n.core;
 
-import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
+import java.lang.reflect.Field;
 
 /**
  *
@@ -11,12 +11,12 @@ import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 abstract class AbstractI18nField implements I18nField
 {
     private static final long serialVersionUID = 1L;
-    private I18nDelegator  i18nDelegator;
-    private I18nKeyFactory i18nKeyFactory;
-    private Field field;
-    private String keyIdValue;
-    private MethodContener methodContener;
-    private AutoI18nType autoI18nType;
+    private final I18nDelegator  i18nDelegator;
+    private final I18nKeyFactory i18nKeyFactory;
+    private final Field field;
+    private final String keyIdValue;
+    private final MethodContener methodContener;
+    private final AutoI18nType autoI18nType;
 
     protected AbstractI18nField(
         final I18nDelegator  i18nDelegator,
