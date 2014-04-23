@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Set;
 import java.util.TooManyListenersException;
+
 import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
@@ -26,34 +27,34 @@ public class DuplicateFilesI18nPrep
     public static void main( final String[] args ) throws HeadlessException, TooManyListenersException, InterruptedException
     {
         // Default language !
-        Preferences preferences = getPreferences();
+        final Preferences preferences = getPreferences();
 
         // Build frame
-        DefaultDFToolKit    defaultDFToolKit_   = new DefaultDFToolKit( preferences );
-        DFToolKit           dfToolKit           = defaultDFToolKit_;
-        DuplicateFilesFrame duplicateFilesFrame = new DuplicateFilesFrame( dfToolKit );
+        final DefaultDFToolKit    defaultDFToolKit_   = new DefaultDFToolKit( preferences );
+        final DFToolKit           dfToolKit           = defaultDFToolKit_;
+        final DuplicateFilesFrame duplicateFilesFrame = new DuplicateFilesFrame( dfToolKit );
         defaultDFToolKit_.setMainWindow( duplicateFilesFrame );
-        PrintStream         usageStatPrintStream    = System.err;
-        PrintStream         notUsePrintStream       = System.out;
+        final PrintStream         usageStatPrintStream    = System.err;
+        final PrintStream         notUsePrintStream       = System.out;
 
-        I18nAutoCoreUpdatable[] i18nConteners = {
+        final I18nAutoCoreUpdatable[] i18nConteners = {
             duplicateFilesFrame,
             new AboutDialog( dfToolKit ),
             new PreferencesDialogWB(),
             new RemoveEmptyFilesJPanel( dfToolKit )
             };
 
-        Set<AutoI18nConfig>     config                 = dfToolKit.getAutoI18nConfig();
-        I18nResourceBundleName  i18nResourceBundleName = dfToolKit.getI18nResourceBundleName();
+        final Set<AutoI18nConfig>     config                 = dfToolKit.getAutoI18nConfig();
+        final I18nResourceBundleName  i18nResourceBundleName = dfToolKit.getI18nResourceBundleName();
 
-        I18nPrep i18nPrep = I18nPrepHelper.createI18nPrep( config, i18nResourceBundleName, preferences.getLocale() );
+        final I18nPrep i18nPrep = I18nPrepHelper.createI18nPrep( config, i18nResourceBundleName, preferences.getLocale() );
 
-        Result result = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
+        final Result result = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
 
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result.getUsageStatCollector() );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result.getNotUseCollector() );
+        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result );
+        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result );
 
-        for( I18nAutoCoreUpdatable contener : i18nConteners ) {
+        for( final I18nAutoCoreUpdatable contener : i18nConteners ) {
             if( contener instanceof Window ) {
                 ((Window)contener).dispose();
                 }

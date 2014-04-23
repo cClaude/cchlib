@@ -12,15 +12,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
 import javax.swing.JFileChooser;
+
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -42,9 +44,9 @@ public final class DefaultDFToolKit
     private DuplicateFilesFrame mainWindow;
     private Set<AutoI18nConfig> autoI18nConfig;
 
-    @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
-    @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
-    @I18nString private String txtOpenDesktopExceptionTitle     = "Can not open file";
+    @I18nString private final String jFileChooserInitializerTitle     = "Waiting...";
+    @I18nString private final String jFileChooserInitializerMessage   = "Analyze disk structure";
+    @I18nString private final String txtOpenDesktopExceptionTitle     = "Can not open file";
 
     public DefaultDFToolKit(
         final Preferences preferences
@@ -64,7 +66,7 @@ public final class DefaultDFToolKit
     {
         return new DefaultI18nResourceBundleName(
                 MyResourcesLoader.class,
-                I18nPrepHelper.DEFAULT_MESSAGE_BUNDLE_BASENAME
+                DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME
                 );
     }
 
@@ -100,7 +102,7 @@ public final class DefaultDFToolKit
     @Override
     public void initJFileChooser()
     {
-        Window win = getMainFrame();
+        final Window win = getMainFrame();
         getJFileChooserInitializer( win , win );
     }
 
@@ -127,7 +129,7 @@ public final class DefaultDFToolKit
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public void perfomeConfig( JFileChooser jfc )
+                public void perfomeConfig( final JFileChooser jfc )
                 {
                     super.perfomeConfig( jfc );
 
@@ -158,15 +160,15 @@ public final class DefaultDFToolKit
     }
 
     @Override // DFToolKit
-    public void openDesktop( File file )
+    public void openDesktop( final File file )
     {
-        java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+        final java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
 
         try {
             LOGGER.info( "trying to open: " + file );
             desktop.open( file );
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             DialogHelper.showMessageExceptionDialog(
                     getMainFrame(),
                     txtOpenDesktopExceptionTitle,
@@ -176,12 +178,12 @@ public final class DefaultDFToolKit
     }
 
     @Override // DFToolKit
-    public void sleep(long ms)
+    public void sleep(final long ms)
     {
         try {
             Thread.sleep( ms );
             }
-        catch( InterruptedException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
+        catch( final InterruptedException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
             }
     }
 
@@ -202,7 +204,7 @@ public final class DefaultDFToolKit
             try {
                 locale = getMainFrame().getLocale();
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 locale = null;
                 LOGGER.warn( "Can not use main window to set Locale", e );
                 }
@@ -218,7 +220,7 @@ public final class DefaultDFToolKit
 
 
     @Override // DFToolKit
-    public void setEnabledJButtonCancel( boolean b )
+    public void setEnabledJButtonCancel( final boolean b )
     {
         private_getMainWindow().setJButtonCancelEnabled( b );
     }
@@ -244,10 +246,10 @@ public final class DefaultDFToolKit
     @Override // DFToolKit
     public List<File> getRootDirectoriesList()
     {
-        List<File> list = new ArrayList<>();
+        final List<File> list = new ArrayList<>();
 
         if( this.mainWindow != null ) {
-            for( File f : this.mainWindow.getDuplicateFilesMainPanel().getJPanel0Select().entriesToScans() ) {
+            for( final File f : this.mainWindow.getDuplicateFilesMainPanel().getJPanel0Select().entriesToScans() ) {
                 if( f.isDirectory() ) {
                     list.add( f );
                     }
