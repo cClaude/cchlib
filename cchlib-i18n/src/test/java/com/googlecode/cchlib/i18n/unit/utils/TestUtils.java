@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
+
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
@@ -19,9 +20,9 @@ import com.googlecode.cchlib.i18n.unit.REF;
 
 public class TestUtils
 {
-    public static final XI18nResourceBundleName validMessageBundle 
+    public static final XI18nResourceBundleName validMessageBundle
         = new XI18nResourceBundleName( REF.class.getPackage(), REF.class.getSimpleName() );
-    public static final I18nResourceBundleName notValidMessageBundleButExist 
+    public static final I18nResourceBundleName notValidMessageBundleButExist
         = new  DefaultI18nResourceBundleName( REF.class.getPackage(), REF.class.getSimpleName() + "-empty" );
 
     private TestUtils()
@@ -37,18 +38,18 @@ public class TestUtils
         final PrintStream usageStatPrintStream    = System.err;
         final PrintStream notUsePrintStream       = System.out;
 
-        EnumSet<AutoI18nConfig> config   = getPrepConfig();
-        final I18nPrep          autoI18n = I18nPrepHelper.createAutoI18nCore( 
-                config, 
+        final EnumSet<AutoI18nConfig> config   = getPrepConfig();
+        final I18nPrep          autoI18n = I18nPrepHelper.createAutoI18nCore(
+                config,
                 notValidMessageBundleButExist,
-                locale 
+                locale
                 );
         final AutoI18nExceptionCollector exceptionCollector = new AutoI18nExceptionCollector();
-        
+
         autoI18n.addAutoI18nExceptionHandler( exceptionCollector );
 
         return new RunI18nTestInterface.PrepTest() {
-            private List<I18nAutoCoreUpdatable> list = new ArrayList<I18nAutoCoreUpdatable>();
+            private final List<I18nAutoCoreUpdatable> list = new ArrayList<I18nAutoCoreUpdatable>();
             @Override
             public I18nPrep getAutoI18n()
             {
@@ -65,7 +66,7 @@ public class TestUtils
                 return notUsePrintStream;
             }
             @Override
-            public void add( I18nAutoCoreUpdatable frame )
+            public void add( final I18nAutoCoreUpdatable frame )
             {
                 list.add( frame );
             }
@@ -81,39 +82,39 @@ public class TestUtils
             }
         };
     }
-    
-    public static void preparePrepTest( 
-            RunI18nTestInterface.PrepTest prepTest,
-            I18nAutoCoreUpdatable         frame 
+
+    public static void preparePrepTest(
+            final RunI18nTestInterface.PrepTest prepTest,
+            final I18nAutoCoreUpdatable         frame
             )
     {
         prepTest.add( frame );
     }
-    
-    public static I18nPrepHelper.Result runPrepTest( 
-            RunI18nTestInterface.PrepTest prepTest
+
+    public static I18nPrepHelper.Result runPrepTest(
+            final RunI18nTestInterface.PrepTest prepTest
             )
     {
-        Result r = I18nPrepHelper.defaultPrep( prepTest.getAutoI18n(), prepTest.getI18nConteners());
+        final Result result = I18nPrepHelper.defaultPrep( prepTest.getAutoI18n(), prepTest.getI18nConteners());
 
-        I18nPrepHelper.fmtUsageStatCollector( prepTest.getUsageStatPrintStream(), r.getUsageStatCollector() );
-        I18nPrepHelper.fmtNotUseCollector( prepTest.getNotUsePrintStream(), r.getNotUseCollector() );
-        
-        return r;
+        I18nPrepHelper.fmtUsageStatCollector( prepTest.getUsageStatPrintStream(), result );
+        I18nPrepHelper.fmtNotUseCollector( prepTest.getNotUsePrintStream(), result );
+
+        return result;
     }
-    
-    public static void runPerformeI18nTest( I18nAutoCoreUpdatable frame )
-    {
-        Locale locale = Locale.ENGLISH;
 
-        EnumSet<AutoI18nConfig> config   = getDebugConfig();
-        AutoI18nCore            autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
-                config, 
+    public static void runPerformeI18nTest( final I18nAutoCoreUpdatable frame )
+    {
+        final Locale locale = Locale.ENGLISH;
+
+        final EnumSet<AutoI18nConfig> config   = getDebugConfig();
+        final AutoI18nCore            autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+                config,
                 validMessageBundle,
                 locale
                 );
         //autoI18n.setLocale( locale );
-        
+
         frame.performeI18n( autoI18n );
     }
 
@@ -121,7 +122,7 @@ public class TestUtils
     {
         return EnumSet.of( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS );
     }
-    
+
     private static EnumSet<AutoI18nConfig> getPrepConfig()
     {
         //return EnumSet.of( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS );

@@ -1,12 +1,5 @@
 package com.googlecode.cchlib.i18n.prep;
 
-import com.googlecode.cchlib.NeedDoc;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.core.I18nPrep;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -17,23 +10,71 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nPrep;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
  * Create resources bundles files
  */
 public final class I18nPrepHelper
 {
-    public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = "MessagesBundle";
+//    /**
+//     * @deprecated Use {@link DefaultI18nResourceBundleName#DEFAULT_MESSAGE_BUNDLE_BASENAME} instead
+//     */
+//    @Deprecated
+//    public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME;
+
+    private static final class DefaultResult implements Result {
+        private final PrepCollector<String>  notUseCollector;
+        private final File                   outputFile;
+        private final PrepCollector<Integer> usageStatCollector;
+
+        private DefaultResult(
+                final PrepCollector<String>  notUseCollector,
+                final File                   outputFile,
+                final PrepCollector<Integer> usageStatCollector
+                )
+        {
+            this.notUseCollector = notUseCollector;
+            this.outputFile = outputFile;
+            this.usageStatCollector = usageStatCollector;
+        }
+
+        @Override
+        public PrepCollector<Integer> getUsageStatCollector()
+        {
+            return usageStatCollector;
+        }
+
+        @Override
+        public PrepCollector<String> getNotUseCollector()
+        {
+            return notUseCollector;
+        }
+
+        @Override
+        public File getOutputFile()
+        {
+            return outputFile;
+        }
+    }
 
     /**
-     * TODOC
-     *
+     * Results for {@link I18nPrepHelper}
      */
     @NeedDoc
     public interface Result
     {
+        @NeedDoc
         PrepCollector<Integer> getUsageStatCollector();
+        @NeedDoc
         PrepCollector<String> getNotUseCollector();
+        @NeedDoc
         File getOutputFile();
     }
 
@@ -55,17 +96,19 @@ public final class I18nPrepHelper
         return createI18nPrep( config, messageBundleName, locale );
     }
 
+    @NeedDoc
     public static I18nPrep createI18nPrep(
         final Set<AutoI18nConfig>     config,
         final I18nResourceBundleName  messageBundleName,
         final Locale                  locale
         )
     {
-        AutoI18nTypeLookup defaultAutoI18nTypes = null; // Use default implementation
+        final AutoI18nTypeLookup defaultAutoI18nTypes = null; // Use default implementation
 
         return createI18nPrep( config, defaultAutoI18nTypes, messageBundleName, locale );
     }
 
+    @NeedDoc
     public static I18nPrep createI18nPrep(
         final Set<AutoI18nConfig>     config,
         final AutoI18nTypeLookup      defaultAutoI18nTypes,
@@ -76,107 +119,81 @@ public final class I18nPrepHelper
         return new I18nPrep( config, defaultAutoI18nTypes, locale, messageBundleName );
     }
 
+    @NeedDoc
     public static void fmtUsageStatCollector(
-        PrintStream            usageStatPrintStream,
-        PrepCollector<Integer> usageStatCollector
+        final PrintStream usageStatPrintStream,
+        final Result      result
         )
     {
-        usageStatPrintStream.flush();
+        final PrepCollector<Integer> usageStatCollector = result.getUsageStatCollector();
 
-        for( Map.Entry<String,Integer> entry : usageStatCollector ) {
-            usageStatPrintStream.print("K=");
-            usageStatPrintStream.print(entry.getKey());
-            usageStatPrintStream.print(" Usage= ");
-            usageStatPrintStream.println(entry.getValue());
+        for( final Map.Entry<String,Integer> entry : usageStatCollector ) {
+            usageStatPrintStream.println("K="+entry.getKey()+" Usage= "+entry.getValue());
             }
 
         usageStatPrintStream.println();
-        usageStatPrintStream.flush();
     }
 
+    @NeedDoc
     public static void fmtNotUseCollector(
-        PrintStream           notUsePrintStream,
-        PrepCollector<String> notUseCollector
+        final PrintStream notUsePrintStream,
+        final Result      result
         )
     {
-        notUsePrintStream.flush();
+        final PrepCollector<String> notUseCollector = result.getNotUseCollector();
+
         notUsePrintStream.println( "### not use list ###" );
 
-        for( Map.Entry<String,String> entry : notUseCollector ) {
-            notUsePrintStream.print("### not use [");
-            notUsePrintStream.print(entry.getKey());
-            notUsePrintStream.print('=');
-            notUsePrintStream.print(entry.getValue());
-            notUsePrintStream.println(']');
+         for( final Map.Entry<String,String> entry : notUseCollector ) {
+            notUsePrintStream.println("### not use ["+entry.getKey()+'='+entry.getValue()+']');
             }
 
         notUsePrintStream.println( "### Done" );
         notUsePrintStream.println();
-        notUsePrintStream.flush();
     }
 
-    /**
-     * @deprecated use {@link #defaultPrep(I18nPrep, I18nAutoCoreUpdatable...)} instead,
-     * and build output using {@link #fmtUsageStatCollector(PrintStream, PrepCollector)}
-     * and {@link #fmtNotUseCollector(PrintStream, PrepCollector)}
-     */
-    @Deprecated
-    public static Result defaultPrep(
-            final I18nPrep                 i18nPrep,
-            final PrintStream              usageStatPrintStream,
-            final PrintStream              notUsePrintStream,
-            final I18nAutoCoreUpdatable... i18nConteners
-            )
-    {
-        Result r = defaultPrep( i18nPrep, i18nConteners);
-
-        fmtUsageStatCollector( usageStatPrintStream, r.getUsageStatCollector() );
-        fmtNotUseCollector( notUsePrintStream, r.getNotUseCollector() );
-
-        return r;
-    }
-
+    @NeedDoc
     public static Result defaultPrep(
         final I18nPrep                 i18nPrep,
         final I18nAutoCoreUpdatable... i18nConteners
         )
     {
-        final PrepCollector<Integer> usageStatCollector = new PrepCollector<Integer>();
-        final PrepCollector<String>  notUseCollector    = new PrepCollector<String>();
+        final PrepCollector<Integer> usageStatCollector = new PrepCollector<>();
+        final PrepCollector<String>  notUseCollector    = new PrepCollector<>();
         final File                   outputFile         = new File(
             new File(".").getAbsoluteFile(),
             i18nPrep.getI18nResourceBundleName().getName()
             );
 
-        AutoI18nCore autoI18n = i18nPrep.getAutoI18nCore();
+        final AutoI18nCore autoI18n = i18nPrep.getAutoI18nCore();
 
         i18nPrep.openOutputFile( outputFile );
 
         try {
-            for( I18nAutoCoreUpdatable i18nContener : i18nConteners ) {
+            for( final I18nAutoCoreUpdatable i18nContener : i18nConteners ) {
                 i18nContener.performeI18n( autoI18n );
                 }
 
-            ResourceBundle      rb          = i18nPrep.getResourceBundle();
-            Enumeration<String> enu         = rb.getKeys();
-            Map<String,String>  knowKeyMap  = new HashMap<>();
+            final ResourceBundle      rb          = i18nPrep.getResourceBundle();
+            final Enumeration<String> enu         = rb.getKeys();
+            final Map<String,String>  knowKeyMap  = new HashMap<>();
 
             while( enu.hasMoreElements() ) {
                 final String k = enu.nextElement();
-                
+
                 assert k != null : "Key is null";
-                
+
                 knowKeyMap.put( k, rb.getString( k ) );
                 }
 
-            Map<String,Integer> statsMap = new HashMap<>( i18nPrep.getUsageMap() );
+            final Map<String,Integer> statsMap = new HashMap<>( i18nPrep.getUsageMap() );
 
-            for( String key : statsMap.keySet() ) {
+            for( final String key : statsMap.keySet() ) {
                 usageStatCollector.add( key, statsMap.get( key ) );
                 knowKeyMap.remove( key );
                 }
 
-            for( String key : statsMap.keySet() ) {
+            for( final String key : statsMap.keySet() ) {
                 notUseCollector.add( key, knowKeyMap.get( key ) );
                 }
             }
@@ -184,28 +201,11 @@ public final class I18nPrepHelper
             try {
                 i18nPrep.closeOutputFile();
                 }
-            catch( IOException e ) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            catch( final IOException e ) {
+                throw new RuntimeException( e ); // FIXME Not handled
                 }
             }
 
-        return new Result() {
-            @Override
-            public PrepCollector<Integer> getUsageStatCollector()
-            {
-                return usageStatCollector;
-            }
-            @Override
-            public PrepCollector<String> getNotUseCollector()
-            {
-                return notUseCollector;
-            }
-            @Override
-            public File getOutputFile()
-            {
-                return outputFile;
-            }
-        };
+        return new DefaultResult( notUseCollector, outputFile, usageStatCollector );
     }
 }

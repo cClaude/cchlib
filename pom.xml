@@ -15,8 +15,8 @@
     <buildNumber>${maven.build.timestamp}</buildNumber>
     <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.javadoc.source.version>1.6</project.javadoc.source.version>
-    <project.javadoc.target.version>1.6</project.javadoc.target.version>
+    <project.javadoc.source.version>1.7</project.javadoc.source.version>
+    <project.javadoc.target.version>1.7</project.javadoc.target.version>
   </properties>
 
   <prerequisites>
@@ -190,6 +190,7 @@
     <module>cchlib-core-beta</module>
     <module>cchlib-core-deprecated</module>
     <module>cchlib-i18n</module>
+    <module>cchlib-i18n-test</module>
     <module>cchlib-i18n-deprecated</module>
     <module>cchlib-io</module>
     <module>cchlib-io-test</module>

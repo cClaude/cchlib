@@ -32,3 +32,4 @@ cchlib-tools/target/
 cchlib-unit/target/
 cchlib-x-googlecontact/target/
 .logs/
+cchlib-i18n-test/com.googlecode.cchlib.i18n.unit.REF-empty
