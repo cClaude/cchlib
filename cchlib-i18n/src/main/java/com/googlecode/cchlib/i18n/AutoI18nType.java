@@ -5,10 +5,6 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
 import java.io.Serializable;
 
-/**
- * TODOC
- *
- */
 @NeedDoc
 public interface AutoI18nType extends Serializable
 {

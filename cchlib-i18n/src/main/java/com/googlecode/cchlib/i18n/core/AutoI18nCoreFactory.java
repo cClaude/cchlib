@@ -10,9 +10,6 @@ import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 import java.util.Locale;
 import java.util.Set;
 
-/**
- *
- */
 public class AutoI18nCoreFactory
 {
     private AutoI18nCoreFactory() {} // All static

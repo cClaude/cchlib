@@ -4,9 +4,6 @@ import com.googlecode.cchlib.NeedDoc;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
-/**
- *
- */
 @NeedDoc
 public interface I18nKeyFactory extends Serializable
 {

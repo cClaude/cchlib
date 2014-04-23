@@ -1,13 +1,5 @@
 package com.googlecode.cchlib.i18n.prep;
 
-import com.googlecode.cchlib.NeedDoc;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.core.I18nPrep;
-import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -18,17 +10,24 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nPrep;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
  * Create resources bundles files
  */
 public final class I18nPrepHelper
 {
-    /**
-     * @deprecated Use {@link DefaultI18nResourceBundleName#DEFAULT_MESSAGE_BUNDLE_BASENAME} instead
-     */
-    @Deprecated
-    public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME;
+//    /**
+//     * @deprecated Use {@link DefaultI18nResourceBundleName#DEFAULT_MESSAGE_BUNDLE_BASENAME} instead
+//     */
+//    @Deprecated
+//    public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME;
 
     private static final class DefaultResult implements Result {
         private final PrepCollector<String>  notUseCollector;
@@ -71,11 +70,11 @@ public final class I18nPrepHelper
     @NeedDoc
     public interface Result
     {
-        /** TODOC */
+        @NeedDoc
         PrepCollector<Integer> getUsageStatCollector();
-        /** TODOC */
+        @NeedDoc
         PrepCollector<String> getNotUseCollector();
-        /** TODOC */
+        @NeedDoc
         File getOutputFile();
     }
 
@@ -97,17 +96,19 @@ public final class I18nPrepHelper
         return createI18nPrep( config, messageBundleName, locale );
     }
 
+    @NeedDoc
     public static I18nPrep createI18nPrep(
         final Set<AutoI18nConfig>     config,
         final I18nResourceBundleName  messageBundleName,
         final Locale                  locale
         )
     {
-        AutoI18nTypeLookup defaultAutoI18nTypes = null; // Use default implementation
+        final AutoI18nTypeLookup defaultAutoI18nTypes = null; // Use default implementation
 
         return createI18nPrep( config, defaultAutoI18nTypes, messageBundleName, locale );
     }
 
+    @NeedDoc
     public static I18nPrep createI18nPrep(
         final Set<AutoI18nConfig>     config,
         final AutoI18nTypeLookup      defaultAutoI18nTypes,
@@ -118,6 +119,7 @@ public final class I18nPrepHelper
         return new I18nPrep( config, defaultAutoI18nTypes, locale, messageBundleName );
     }
 
+    @NeedDoc
     public static void fmtUsageStatCollector(
         final PrintStream usageStatPrintStream,
         final Result      result
@@ -132,16 +134,17 @@ public final class I18nPrepHelper
         usageStatPrintStream.println();
     }
 
+    @NeedDoc
     public static void fmtNotUseCollector(
         final PrintStream notUsePrintStream,
         final Result      result
         )
     {
-        PrepCollector<String> notUseCollector = result.getNotUseCollector();
+        final PrepCollector<String> notUseCollector = result.getNotUseCollector();
 
         notUsePrintStream.println( "### not use list ###" );
 
-         for( Map.Entry<String,String> entry : notUseCollector ) {
+         for( final Map.Entry<String,String> entry : notUseCollector ) {
             notUsePrintStream.println("### not use ["+entry.getKey()+'='+entry.getValue()+']');
             }
 
@@ -149,6 +152,7 @@ public final class I18nPrepHelper
         notUsePrintStream.println();
     }
 
+    @NeedDoc
     public static Result defaultPrep(
         final I18nPrep                 i18nPrep,
         final I18nAutoCoreUpdatable... i18nConteners
@@ -161,35 +165,35 @@ public final class I18nPrepHelper
             i18nPrep.getI18nResourceBundleName().getName()
             );
 
-        AutoI18nCore autoI18n = i18nPrep.getAutoI18nCore();
+        final AutoI18nCore autoI18n = i18nPrep.getAutoI18nCore();
 
         i18nPrep.openOutputFile( outputFile );
 
         try {
-            for( I18nAutoCoreUpdatable i18nContener : i18nConteners ) {
+            for( final I18nAutoCoreUpdatable i18nContener : i18nConteners ) {
                 i18nContener.performeI18n( autoI18n );
                 }
 
-            ResourceBundle      rb          = i18nPrep.getResourceBundle();
-            Enumeration<String> enu         = rb.getKeys();
-            Map<String,String>  knowKeyMap  = new HashMap<>();
+            final ResourceBundle      rb          = i18nPrep.getResourceBundle();
+            final Enumeration<String> enu         = rb.getKeys();
+            final Map<String,String>  knowKeyMap  = new HashMap<>();
 
             while( enu.hasMoreElements() ) {
                 final String k = enu.nextElement();
-                
+
                 assert k != null : "Key is null";
-                
+
                 knowKeyMap.put( k, rb.getString( k ) );
                 }
 
-            Map<String,Integer> statsMap = new HashMap<>( i18nPrep.getUsageMap() );
+            final Map<String,Integer> statsMap = new HashMap<>( i18nPrep.getUsageMap() );
 
-            for( String key : statsMap.keySet() ) {
+            for( final String key : statsMap.keySet() ) {
                 usageStatCollector.add( key, statsMap.get( key ) );
                 knowKeyMap.remove( key );
                 }
 
-            for( String key : statsMap.keySet() ) {
+            for( final String key : statsMap.keySet() ) {
                 notUseCollector.add( key, knowKeyMap.get( key ) );
                 }
             }
@@ -197,8 +201,8 @@ public final class I18nPrepHelper
             try {
                 i18nPrep.closeOutputFile();
                 }
-            catch( IOException e ) {
-                throw new RuntimeException( e ); // Not handled
+            catch( final IOException e ) {
+                throw new RuntimeException( e ); // FIXME Not handled
                 }
             }
 

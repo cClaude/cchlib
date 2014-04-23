@@ -263,8 +263,8 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
           }
     }
 
-    private void addValueToCustomizeForString( final Field f, final String id, final String method ) throws MethodProviderSecurityException,
-            MethodProviderNoSuchMethodException, I18nStringNotAStringException
+    private void addValueToCustomizeForString( final Field f, final String id, final String method ) //
+            throws MethodProviderSecurityException, MethodProviderNoSuchMethodException, I18nStringNotAStringException
     {
         // Check if field is a String
         if( !String.class.isAssignableFrom( f.getType() ) && !String[].class.isAssignableFrom( f.getType() ) ) {

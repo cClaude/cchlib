@@ -7,10 +7,6 @@ import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 
-/**
- * TODOC
- *
- */
 @NeedDoc
 public interface I18nField extends Serializable
 {
