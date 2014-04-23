@@ -6,7 +6,6 @@ import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
-import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import java.io.File;
 import java.io.IOException;
@@ -18,13 +17,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import com.googlecode.cchlib.NeedDoc;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.core.I18nPrep;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
  * Create resources bundles files

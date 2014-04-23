@@ -45,7 +45,7 @@ final class I18nFieldStringArray  extends AbstractI18nField
             public Keys getKeys()
             {
                 try {
-                    final String[] values = getComponent( objectToI18n );
+                    final String[] values = _getComponent( objectToI18n, getField() );
 
                     return new IndexKeys( getKeyBase(), values.length );
                     }
@@ -56,6 +56,7 @@ final class I18nFieldStringArray  extends AbstractI18nField
                     throw new KeyException( e );
                     }
             }
+
             @Override
             public I18nResolvedFieldGetter getI18nResolvedFieldGetter()
             {
@@ -63,17 +64,11 @@ final class I18nFieldStringArray  extends AbstractI18nField
                     @Override
                     public Values getValues( final Keys keys ) throws GetFieldException
                     {
-                        try {
-                            final String[] values = getComponent( objectToI18n );
-
-                            return new IndexValues( values );
-                            }
-                        catch( final IllegalArgumentException | IllegalAccessException e ) {
-                            throw new GetFieldException( e );
-                            }
+                        return _getValues(objectToI18n, getField());
                      }
                 };
             }
+
             @Override
             public I18nResolvedFieldSetter getI18nResolvedFieldSetter()
             {
@@ -81,29 +76,50 @@ final class I18nFieldStringArray  extends AbstractI18nField
                     @Override
                     public void setValues( final Keys keys, final Values values ) throws SetFieldException
                     {
-                        // Keys and Values inconsistent size
-                        assert keys.size() == values.size() : "Keys and Values inconsistent size";
-
-                        try {
-                            final Field f = getField();
-                            f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
-                            f.set( objectToI18n, values.toArray() );
-                            }
-                        catch( final IllegalArgumentException | IllegalAccessException e ) {
-                            throw new SetFieldException( e );
-                            }
+                        _setValues(objectToI18n, getField(), keys, values);
                     }
+
                 };
             }
         };
     }
 
-    private final <T> String[] getComponent( final T objectToI18n )
+    private static final <T> Values _getValues( final T objectToI18n, final Field field ) //
+        throws GetFieldException //
+    {
+        try {
+            final String[] values = _getComponent( objectToI18n, field );
+
+            return new IndexValues( values );
+            }
+        catch( final IllegalArgumentException | IllegalAccessException e ) {
+            throw new GetFieldException( e );
+            }
+    }
+
+    private static final <T> void _setValues( //
+            final T objectToI18n, //
+            final Field field, //
+            final Keys keys, //
+            final Values values //
+            ) throws SetFieldException //
+    {
+        // Keys and Values inconsistent size
+        assert keys.size() == values.size() : "Keys and Values inconsistent size";
+
+        try {
+            field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+            field.set( objectToI18n, values.toArray() );
+            }
+        catch( final IllegalArgumentException | IllegalAccessException e ) {
+            throw new SetFieldException( e );
+            }
+    }
+    private static final <T> String[] _getComponent( final T objectToI18n, final Field field )
             throws IllegalArgumentException, IllegalAccessException
     {
-        final Field f = getField();
-        f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+        field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
 
-        return (String[])f.get( objectToI18n );
+        return (String[])field.get( objectToI18n );
     }
 }

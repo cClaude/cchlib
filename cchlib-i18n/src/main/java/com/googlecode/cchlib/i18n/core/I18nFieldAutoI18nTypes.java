@@ -45,7 +45,7 @@ final class I18nFieldAutoI18nTypes extends AbstractI18nField
             public Keys getKeys() throws MissingKeyException
             {
                 try {
-                   final Object fieldObject = getComponent( objectToI18n );
+                   final Object fieldObject = _getComponent( objectToI18n, getField() );
 
                    return getAutoI18nTypes().getKeys( fieldObject, getKeyBase() );
                     }
@@ -59,13 +59,7 @@ final class I18nFieldAutoI18nTypes extends AbstractI18nField
                 return new I18nResolvedFieldGetter() {
                     @Override
                     public Values getValues(Keys keys) throws GetFieldException {
-                        try {
-                            Object fieldObject = getComponent(objectToI18n);
-
-                            return getAutoI18nTypes().getText(fieldObject);
-                        } catch (final IllegalArgumentException | IllegalAccessException e) {
-                            throw new GetFieldException(e);
-                        }
+                        return _getValues( objectToI18n, getField(), getAutoI18nTypes() );
                     }
                 };
             }
@@ -75,25 +69,51 @@ final class I18nFieldAutoI18nTypes extends AbstractI18nField
                 return new I18nResolvedFieldSetter() {
                     @Override
                     public void setValues(Keys keys, Values values) throws SetFieldException {
-                        try {
-                            Object fieldObject = getComponent(objectToI18n);
-
-                            getAutoI18nTypes().setText(fieldObject, values);
-                        } catch (IllegalArgumentException | IllegalAccessException e) {
-                            throw new SetFieldException(e);
-                        }
+                        _setValues(objectToI18n, values, getField(), getAutoI18nTypes());
                     }
+
                 };
             }
         };
     }
 
-    private final <T> Object getComponent( final T objectToI18n )
+    private static final <T> Values _getValues( //
+            final T            objectToI18n, //
+            final Field        field, //
+            final AutoI18nType autoI18nType //
+            ) throws GetFieldException //
+    {
+        try {
+            final Object fieldObject = _getComponent(objectToI18n, field );
+
+            return autoI18nType.getText(fieldObject);
+        } catch (final IllegalArgumentException | IllegalAccessException e) {
+            throw new GetFieldException(e);
+        }
+    }
+
+    private static final <T> void _setValues( //
+            final T            objectToI18n, //
+            final Values       values, //
+            final Field        field, //
+            final AutoI18nType autoI18nType //
+            ) throws SetFieldException //
+    {
+        try {
+
+            final Object fieldObject = _getComponent(objectToI18n, field );
+
+            autoI18nType.setText(fieldObject, values);
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            throw new SetFieldException(e);
+        }
+    }
+
+    private static final <T> Object _getComponent( final T objectToI18n, final Field field )
             throws IllegalArgumentException, IllegalAccessException
     {
-        final Field f = getField();
-        f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+        field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
 
-        return f.get( objectToI18n );
+        return field.get( objectToI18n );
     }
 }

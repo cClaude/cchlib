@@ -40,11 +40,13 @@ final class I18nFieldString  extends AbstractI18nField
     public <T> I18nResolver createI18nResolver( final T objectToI18n, final I18nInterface i18nInterface )
     {
         return new I18nResolver() {
+
             @Override
             public Keys getKeys()
             {
                 return new UniqKeys( getKeyBase() );
             }
+
             @Override
             public I18nResolvedFieldGetter getI18nResolvedFieldGetter()
             {
@@ -52,17 +54,11 @@ final class I18nFieldString  extends AbstractI18nField
                     @Override
                     public Values getValues( final Keys keys ) throws GetFieldException
                     {
-                        try {
-                            final String value = getComponent( objectToI18n );
-
-                            return new IndexValues( value );
-                            }
-                        catch( final IllegalArgumentException | IllegalAccessException e ) {
-                            throw new GetFieldException( e );
-                            }
+                        return _getValues( objectToI18n, getField() );
                      }
                 };
             }
+
             @Override
             public I18nResolvedFieldSetter getI18nResolvedFieldSetter()
             {
@@ -70,36 +66,52 @@ final class I18nFieldString  extends AbstractI18nField
                     @Override
                     public void setValues( final Keys keys, final Values values ) throws SetFieldException
                     {
-                        setComponent( objectToI18n, keys, values );
+                        _setValue(objectToI18n, getField(), keys, values);
                     }
+
                 };
             }
         };
     }
 
-    private final <T> String getComponent( final T objectToI18n ) //
-            throws IllegalArgumentException, IllegalAccessException
+    private final static <T> Values _getValues( final T objectToI18n, final Field field )
+            throws GetFieldException //
     {
-        final Field f = getField();
-        f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+        try {
+            final String value = _getComponent( objectToI18n, field );
 
-        return (String)f.get( objectToI18n );
+            return new IndexValues( value );
+            }
+        catch( final IllegalArgumentException | IllegalAccessException e ) {
+            throw new GetFieldException( e );
+            }
     }
 
-    private <T> void setComponent( final T objectToI18n, final Keys keys, final Values values ) //
-            throws SetFieldException
+    private final static <T> void _setValue( //
+            final T      objectToI18n, //
+            final Field  field, //
+            final Keys   keys, //
+            final Values values //
+            ) throws SetFieldException //
     {
         // Keys and Values inconsistent size
         assert keys.size() == values.size() : "Keys and Values inconsistent size";
         assert keys.size() == 1 : "Keys and Values should have only 1 value";
 
         try {
-            final Field f = getField();
-            f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
-            f.set( objectToI18n, values.get( 0 ) );
+            field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+            field.set( objectToI18n, values.get( 0 ) );
             }
         catch( final IllegalArgumentException | IllegalAccessException e ) {
             throw new SetFieldException( e );
             }
+    }
+
+    private final static <T> String _getComponent( final T objectToI18n, final Field field )
+            throws IllegalArgumentException, IllegalAccessException
+    {
+        field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+
+        return (String)field.get( objectToI18n );
     }
 }

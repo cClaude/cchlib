@@ -7,8 +7,6 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
-import java.util.EnumSet;
-import java.util.Locale;
 
 /**
  * @deprecated this class remain for old projects based on previous version of cchlib-i18n
