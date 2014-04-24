@@ -1,16 +1,12 @@
 package com.googlecode.cchlib.i18n.resources;
 
-import com.googlecode.cchlib.i18n.I18nInterface;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-<<<<<<< HEAD
+
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.i18n.I18nInterface;
-import  java.util.MissingResourceException;
-=======
-import  org.apache.log4j.Logger;
->>>>>>> cchlib-pre4-1-8
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}
@@ -76,7 +72,7 @@ public class I18nSimpleResourceBundle
 
           super.setResourceBundle( resourceBundle, resourceBundleFullBaseName );
           }
-      catch( MissingResourceException e ) {
+      catch( final MissingResourceException e ) {
           LOGGER.error(
               "Error while trying to open default resource bundle for: "
                   + getResourceBundleFullBaseName()

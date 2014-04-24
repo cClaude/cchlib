@@ -1,4 +1,3 @@
-// $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.i18n.sample.full;
 
 import java.awt.GridBagConstraints;
@@ -7,6 +6,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.EnumSet;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JEditorPane;
@@ -40,7 +40,7 @@ public class FakePanel
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( FakePanel.class );
 
-    private TitledBorder panelTitleBorder;
+    private final TitledBorder panelTitleBorder;
     private JPanel jPanel; // TODO @I18nTitledBorder private JPanel jPanel;
 
     @I18nIgnore private JLabel jLabelNoI18n; // No I18n
@@ -64,7 +64,7 @@ public class FakePanel
 
 
     @I18nIgnore private JButton refreshButton;
-    @I18nString private String refreshButtonText = "Refresh (default String)";
+    @I18nString private final String refreshButtonText = "Refresh (default String)";
 
     /*
     // Errors (during prep process)
@@ -95,7 +95,7 @@ public class FakePanel
         this.panelTitleBorder = new TitledBorder(null, "TitleBorder", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
         setBorder( panelTitleBorder );
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{80, 0, 0, 50, 0, 0};
         gridBagLayout.rowHeights = new int[]{25, 14, 0, 0, 0, 0, 0, 0, 0};
         gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
@@ -105,7 +105,7 @@ public class FakePanel
         {
             jLabel = new JLabel("jLabel");
             jLabel.setToolTipText("<html>jLabel<br/>toolTipText to I18n</html>");
-            GridBagConstraints gbc_jLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabel = new GridBagConstraints();
             gbc_jLabel.fill = GridBagConstraints.VERTICAL;
             gbc_jLabel.insets = new Insets(0, 0, 5, 5);
             gbc_jLabel.anchor = GridBagConstraints.EAST;
@@ -120,7 +120,7 @@ public class FakePanel
             jProgressBar.setString( "My JProgressBar" );
             jProgressBar.setToolTipText("<html>JProgressBar<br/>ToolTipText to i18n</html>");
             jProgressBar.setOrientation(SwingConstants.VERTICAL);
-            GridBagConstraints gbc_jProgressBar = new GridBagConstraints();
+            final GridBagConstraints gbc_jProgressBar = new GridBagConstraints();
             gbc_jProgressBar.gridheight = 5;
             gbc_jProgressBar.fill = GridBagConstraints.VERTICAL;
             gbc_jProgressBar.insets = new Insets(0, 0, 5, 5);
@@ -135,7 +135,7 @@ public class FakePanel
             this.jProgressBarToI18n.setStringPainted(true);
             this.jProgressBarToI18n.setString("My JProgressBar to I18n");
             this.jProgressBarToI18n.setOrientation(SwingConstants.VERTICAL);
-            GridBagConstraints gbc_jProgressBarToI18n = new GridBagConstraints();
+            final GridBagConstraints gbc_jProgressBarToI18n = new GridBagConstraints();
             gbc_jProgressBarToI18n.fill = GridBagConstraints.VERTICAL;
             gbc_jProgressBarToI18n.gridheight = 5;
             gbc_jProgressBarToI18n.insets = new Insets(0, 0, 5, 5);
@@ -148,7 +148,7 @@ public class FakePanel
             jTextAreaNoI18n.setEditable(false);
             jTextAreaNoI18n.setToolTipText("<html>jTextArea<br/>ToolTipText to i18n</html>");
             jTextAreaNoI18n.setText("jTextArea l1\r\njTextArea l2 (no I18n)");
-            GridBagConstraints gbc_jTextAreaNoI18n = new GridBagConstraints();
+            final GridBagConstraints gbc_jTextAreaNoI18n = new GridBagConstraints();
             gbc_jTextAreaNoI18n.insets = new Insets(0, 0, 5, 0);
             gbc_jTextAreaNoI18n.gridheight = 4;
             gbc_jTextAreaNoI18n.fill = GridBagConstraints.BOTH;
@@ -161,7 +161,7 @@ public class FakePanel
             this.jTextArea.setToolTipText("<html>jTextArea<br/>ToolTipText to i18n</html>");
             this.jTextArea.setText("jTextArea l1\r\njTextArea l2");
             this.jTextArea.setEditable(false);
-            GridBagConstraints gbc_jTextArea = new GridBagConstraints();
+            final GridBagConstraints gbc_jTextArea = new GridBagConstraints();
             gbc_jTextArea.gridheight = 4;
             gbc_jTextArea.insets = new Insets(0, 0, 5, 0);
             gbc_jTextArea.fill = GridBagConstraints.BOTH;
@@ -171,7 +171,7 @@ public class FakePanel
         }
         {
             jLabelNoI18n = new JLabel("jLabel (No_I18n)");
-            GridBagConstraints gbc_jLabelNoI18n = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabelNoI18n = new GridBagConstraints();
             gbc_jLabelNoI18n.anchor = GridBagConstraints.EAST;
             gbc_jLabelNoI18n.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelNoI18n.gridx = 0;
@@ -181,7 +181,7 @@ public class FakePanel
         {
             jButton = new JButton("JButton ");
             jButton.setToolTipText("<html>JButton<br/>toolTipText to I18n</html>");
-            GridBagConstraints gbc_jButton = new GridBagConstraints();
+            final GridBagConstraints gbc_jButton = new GridBagConstraints();
             gbc_jButton.anchor = GridBagConstraints.EAST;
             gbc_jButton.insets = new Insets(0, 0, 5, 5);
             gbc_jButton.gridx = 0;
@@ -191,7 +191,7 @@ public class FakePanel
         {
             jCheckBox = new JCheckBox("jCheckBox");
             jCheckBox.setToolTipText("<html>JCheckBox<br/>toolTipText to I18n</html>");
-            GridBagConstraints gbc_jCheckBox = new GridBagConstraints();
+            final GridBagConstraints gbc_jCheckBox = new GridBagConstraints();
             gbc_jCheckBox.insets = new Insets(0, 0, 5, 5);
             gbc_jCheckBox.gridx = 0;
             gbc_jCheckBox.gridy = 4;
@@ -200,7 +200,7 @@ public class FakePanel
         {
             jPanel = new JPanel();
             jPanel.setBorder(new TitledBorder(null, "My TitledBorder 2", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-            GridBagConstraints gbc_jPanel = new GridBagConstraints();
+            final GridBagConstraints gbc_jPanel = new GridBagConstraints();
             gbc_jPanel.gridwidth = 2;
             gbc_jPanel.insets = new Insets(0, 0, 5, 0);
             gbc_jPanel.fill = GridBagConstraints.BOTH;
@@ -208,7 +208,7 @@ public class FakePanel
             gbc_jPanel.gridy = 5;
             add(jPanel, gbc_jPanel);
 
-            GridBagLayout gbl_jPanel = new GridBagLayout();
+            final GridBagLayout gbl_jPanel = new GridBagLayout();
             gbl_jPanel.columnWidths = new int[]{0, 0, 0};
             gbl_jPanel.rowHeights = new int[]{0, 0, 0};
             gbl_jPanel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
@@ -220,7 +220,7 @@ public class FakePanel
             myJTextField.setEditable(false);
             myJTextField.setToolTipText("<html>jTextField<br/>toolTipText to I18n</html>");
             myJTextField.setText("My JTextField");
-            GridBagConstraints gbc_myJTextField = new GridBagConstraints();
+            final GridBagConstraints gbc_myJTextField = new GridBagConstraints();
             gbc_myJTextField.fill = GridBagConstraints.BOTH;
             gbc_myJTextField.insets = new Insets(0, 0, 5, 5);
             gbc_myJTextField.gridx = 0;
@@ -231,7 +231,7 @@ public class FakePanel
         {
             this.myJTextFieldDefineWithId = new JTextField();
             this.myJTextFieldDefineWithId.setText("My JTextField define with ID");
-            GridBagConstraints gbc_myJTextFieldDefineWithId = new GridBagConstraints();
+            final GridBagConstraints gbc_myJTextFieldDefineWithId = new GridBagConstraints();
             gbc_myJTextFieldDefineWithId.insets = new Insets(0, 0, 5, 0);
             gbc_myJTextFieldDefineWithId.fill = GridBagConstraints.BOTH;
             gbc_myJTextFieldDefineWithId.gridx = 1;
@@ -244,7 +244,7 @@ public class FakePanel
             jEditorPane.setEditable(false);
             jEditorPane.setToolTipText("<html>JEditorPane ligne1<br/>ToolTipText to I18n</html>");
             jEditorPane.setText("JEditorPane line1\r\nJEditorPane line2\r\nJEditorPane line3\r\n");
-            GridBagConstraints gbc_jEditorPane = new GridBagConstraints();
+            final GridBagConstraints gbc_jEditorPane = new GridBagConstraints();
             gbc_jEditorPane.gridwidth = 2;
             gbc_jEditorPane.fill = GridBagConstraints.BOTH;
             gbc_jEditorPane.gridx = 0;
@@ -254,7 +254,7 @@ public class FakePanel
         {
             this.buttonToolTipsButton = new JButton("button tool tips");
             this.buttonToolTipsButton.setToolTipText("my tool tips");
-            GridBagConstraints gbc_buttonToolTipsButton = new GridBagConstraints();
+            final GridBagConstraints gbc_buttonToolTipsButton = new GridBagConstraints();
             gbc_buttonToolTipsButton.insets = new Insets(0, 0, 5, 5);
             gbc_buttonToolTipsButton.gridx = 0;
             gbc_buttonToolTipsButton.gridy = 6;
@@ -263,7 +263,7 @@ public class FakePanel
         {
             this.buttonIgnoreButton = new JButton("button ignore - but not tool tips");
             this.buttonIgnoreButton.setToolTipText("<html>my tool<br/>tips 2</html>");
-            GridBagConstraints gbc_buttonIgnoreButton = new GridBagConstraints();
+            final GridBagConstraints gbc_buttonIgnoreButton = new GridBagConstraints();
             gbc_buttonIgnoreButton.insets = new Insets(0, 0, 5, 5);
             gbc_buttonIgnoreButton.gridx = 3;
             gbc_buttonIgnoreButton.gridy = 6;
@@ -273,14 +273,14 @@ public class FakePanel
             this.refreshButton = new JButton("Refresh (click here)");
             this.refreshButton.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(final ActionEvent e) {
                     doRefresh();
                 }
 
             });
             {
                 this.menuBar = new JMenuBar();
-                GridBagConstraints gbc_menuBar = new GridBagConstraints();
+                final GridBagConstraints gbc_menuBar = new GridBagConstraints();
                 gbc_menuBar.fill = GridBagConstraints.BOTH;
                 gbc_menuBar.gridwidth = 5;
                 gbc_menuBar.insets = new Insets(0, 0, 5, 0);
@@ -313,7 +313,7 @@ public class FakePanel
                 }
             }
             {
-                GridBagConstraints gbc_refreshButton = new GridBagConstraints();
+                final GridBagConstraints gbc_refreshButton = new GridBagConstraints();
                 gbc_refreshButton.insets = new Insets(0, 0, 0, 5);
                 gbc_refreshButton.gridx = 0;
                 gbc_refreshButton.gridy = 7;

@@ -1,4 +1,3 @@
-// $codepro.audit.disable constantNamingConvention
 package com.googlecode.cchlib.i18n.unit.util;
 
 import java.io.PrintStream;
@@ -21,16 +20,10 @@ import com.googlecode.cchlib.i18n.unit.REF;
 
 public class TestUtils
 {
-<<<<<<< HEAD:cchlib-i18n-test/src/test/java/com/googlecode/cchlib/i18n/unit/util/TestUtils.java
     public static final XI18nResourceBundleName VALID_MESSAGE_BUNDLE
         = new XI18nResourceBundleName( REF.class.getPackage(), REF.class.getSimpleName() );
 
     public static final I18nResourceBundleName NOT_VALID_MESSAGE_BUNDLE_BUT_EXIST
-=======
-    public static final XI18nResourceBundleName validMessageBundle
-        = new XI18nResourceBundleName( REF.class.getPackage(), REF.class.getSimpleName() );
-    public static final I18nResourceBundleName notValidMessageBundleButExist
->>>>>>> cchlib-pre4-1-8:cchlib-i18n/src/test/java/com/googlecode/cchlib/i18n/unit/utils/TestUtils.java
         = new  DefaultI18nResourceBundleName( REF.class.getPackage(), REF.class.getSimpleName() + "-empty" );
 
     private TestUtils()
@@ -47,28 +40,17 @@ public class TestUtils
         final PrintStream notUsePrintStream       = System.out;
 
         final EnumSet<AutoI18nConfig> config   = getPrepConfig();
-<<<<<<< HEAD:cchlib-i18n-test/src/test/java/com/googlecode/cchlib/i18n/unit/util/TestUtils.java
         final I18nPrep                autoI18n = I18nPrepHelper.createAutoI18nCore(
                 config,
                 NOT_VALID_MESSAGE_BUNDLE_BUT_EXIST,
-=======
-        final I18nPrep          autoI18n = I18nPrepHelper.createAutoI18nCore(
-                config,
-                notValidMessageBundleButExist,
->>>>>>> cchlib-pre4-1-8:cchlib-i18n/src/test/java/com/googlecode/cchlib/i18n/unit/utils/TestUtils.java
                 locale
                 );
         final AutoI18nExceptionCollector exceptionCollector = new AutoI18nExceptionCollector();
 
         autoI18n.addAutoI18nExceptionHandler( exceptionCollector );
 
-<<<<<<< HEAD:cchlib-i18n-test/src/test/java/com/googlecode/cchlib/i18n/unit/util/TestUtils.java
         return new PrepTestPartInterface() {
-            private List<I18nAutoCoreUpdatable> list = new ArrayList<I18nAutoCoreUpdatable>();
-=======
-        return new RunI18nTestInterface.PrepTest() {
-            private final List<I18nAutoCoreUpdatable> list = new ArrayList<I18nAutoCoreUpdatable>();
->>>>>>> cchlib-pre4-1-8:cchlib-i18n/src/test/java/com/googlecode/cchlib/i18n/unit/utils/TestUtils.java
+            private final List<I18nAutoCoreUpdatable> list = new ArrayList<>();
             @Override
             public I18nPrep getAutoI18n()
             {
@@ -103,21 +85,14 @@ public class TestUtils
     }
 
     public static void preparePrepTest(
-<<<<<<< HEAD:cchlib-i18n-test/src/test/java/com/googlecode/cchlib/i18n/unit/util/TestUtils.java
         final PrepTestPartInterface prepTest,
         final I18nAutoCoreUpdatable frame
         )
-=======
-            final RunI18nTestInterface.PrepTest prepTest,
-            final I18nAutoCoreUpdatable         frame
-            )
->>>>>>> cchlib-pre4-1-8:cchlib-i18n/src/test/java/com/googlecode/cchlib/i18n/unit/utils/TestUtils.java
     {
         prepTest.add( frame );
     }
 
     public static I18nPrepHelper.Result runPrepTest(
-<<<<<<< HEAD:cchlib-i18n-test/src/test/java/com/googlecode/cchlib/i18n/unit/util/TestUtils.java
         final PrepTestPartInterface prepTest
         )
     {
@@ -137,30 +112,6 @@ public class TestUtils
                 VALID_MESSAGE_BUNDLE,
                 Locale.ENGLISH
                 );
-=======
-            final RunI18nTestInterface.PrepTest prepTest
-            )
-    {
-        final Result result = I18nPrepHelper.defaultPrep( prepTest.getAutoI18n(), prepTest.getI18nConteners());
-
-        I18nPrepHelper.fmtUsageStatCollector( prepTest.getUsageStatPrintStream(), result );
-        I18nPrepHelper.fmtNotUseCollector( prepTest.getNotUsePrintStream(), result );
-
-        return result;
-    }
-
-    public static void runPerformeI18nTest( final I18nAutoCoreUpdatable frame )
-    {
-        final Locale locale = Locale.ENGLISH;
-
-        final EnumSet<AutoI18nConfig> config   = getDebugConfig();
-        final AutoI18nCore            autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
-                config,
-                validMessageBundle,
-                locale
-                );
-        //autoI18n.setLocale( locale );
->>>>>>> cchlib-pre4-1-8:cchlib-i18n/src/test/java/com/googlecode/cchlib/i18n/unit/utils/TestUtils.java
 
         frame.performeI18n( autoI18n );
     }

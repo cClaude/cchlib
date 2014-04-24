@@ -14,6 +14,8 @@
 
   <!-- Global properties -->
   <properties>
+    <project.javadoc.source.version>1.7</project.javadoc.source.version>
+    <project.javadoc.target.version>1.7</project.javadoc.target.version>
   </properties>
 
   <dependencies>

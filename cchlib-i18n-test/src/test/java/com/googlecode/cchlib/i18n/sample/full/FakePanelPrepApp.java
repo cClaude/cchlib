@@ -1,8 +1,9 @@
 package com.googlecode.cchlib.i18n.sample.full;
 
+import java.io.IOException;
+
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import java.io.IOException;
 
 public class FakePanelPrepApp extends AbstractMessageBundleBaseName
 {
@@ -10,15 +11,15 @@ public class FakePanelPrepApp extends AbstractMessageBundleBaseName
     {
     }
 
-    public static void main( String...args ) throws IOException
+    public static void main( final String...args ) throws IOException
     {
         // Build frame
-        FakePanel frameOrPanel = new FakePanel();
+        final FakePanel frameOrPanel = new FakePanel();
 
         // Other frames,panel,... if any
-        I18nAutoCoreUpdatable[] i18nConteners = { frameOrPanel };
+        final I18nAutoCoreUpdatable[] i18nConteners = { frameOrPanel };
 
-        FakePanelPrepApp instance = new FakePanelPrepApp();
+        final FakePanelPrepApp instance = new FakePanelPrepApp();
         instance.start( i18nConteners );
     }
 

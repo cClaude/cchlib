@@ -1,18 +1,15 @@
 package com.googlecode.cchlib.i18n.core;
 
-<<<<<<< HEAD
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import javax.swing.JTabbedPane;
-=======
->>>>>>> cchlib-pre4-1-8
-import com.googlecode.cchlib.i18n.AutoI18nType;
-import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+
 import javax.swing.JTabbedPane;
 
-final /* not public*/ class I18nFieldFactory
+import com.googlecode.cchlib.i18n.AutoI18nType;
+import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
+
+//NOT public
+final class I18nFieldFactory
 {
     public static I18nField createI18nFieldToolTipText(
         final I18nDelegator     i18nDelegator,
@@ -76,7 +73,7 @@ final /* not public*/ class I18nFieldFactory
 
     private static boolean isStatic( final Field field )
     {
-        int modifiers = field.getModifiers();
+        final int modifiers = field.getModifiers();
         return Modifier.isStatic(modifiers);
     }
 }

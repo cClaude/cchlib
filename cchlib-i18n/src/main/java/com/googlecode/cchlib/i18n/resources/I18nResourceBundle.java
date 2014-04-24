@@ -1,12 +1,13 @@
 package com.googlecode.cchlib.i18n.resources;
 
-import com.googlecode.cchlib.i18n.I18nInterface;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import com.googlecode.cchlib.i18n.I18nInterface;
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}
@@ -43,21 +44,12 @@ public class I18nResourceBundle implements I18nInterface, Serializable
     {
         if( resourceBundleFullBaseName == null ) {
             throw newIllegalArgumentException( "resourceBundleFullBaseName is null" );
-<<<<<<< HEAD
             }
 
         if( locale == null ) {
             throw newIllegalArgumentException( "locale is null" );
             }
 
-=======
-            }
-
-        if( locale == null ) {
-            throw newIllegalArgumentException( "locale is null" );
-            }
-
->>>>>>> cchlib-pre4-1-8
         this.resourceBundleFullBaseName = resourceBundleFullBaseName;
 
         buildResourceBundle( locale );
@@ -94,7 +86,7 @@ public class I18nResourceBundle implements I18nInterface, Serializable
         try {
             return resourceBundle.getString( key );
             }
-        catch( java.util.MissingResourceException e ) {
+        catch( final java.util.MissingResourceException e ) {
             throw new MissingResourceException( e );
             }
     }
@@ -133,7 +125,7 @@ public class I18nResourceBundle implements I18nInterface, Serializable
         in.defaultReadObject();
 
         // restore Locale for this resourceBundle
-        Locale locale = Locale.class.cast( in.readObject() );
+        final Locale locale = Locale.class.cast( in.readObject() );
 
         // Build a new ResourceBundle
         buildResourceBundle( locale );

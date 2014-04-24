@@ -35,41 +35,15 @@ public class QuickI18nTestPrep
         // Other frames,panel,... if any
         final I18nAutoCoreUpdatable[] i18nConteners = { frame };
 
-<<<<<<< HEAD:cchlib-i18n-test/src/test/java/com/googlecode/cchlib/i18n/sample/simple/QuickI18nTestPrep.java
-        Set<AutoI18nConfig>         config                   = AutoI18nConfig.newAutoI18nConfig();
-        String                      messageBundleBaseName    = frame.getClass().getSimpleName();
-        Package                     packageMessageBundleBase = frame.getClass().getPackage();
-        I18nResourceBundleName      i18nResourceBundleName   = new DefaultI18nResourceBundleName(packageMessageBundleBase, messageBundleBaseName);
-        I18nPrep                    autoI18n                 = I18nPrepHelper.createAutoI18nCore( config, i18nResourceBundleName, locale );
-=======
-        //        I18nPrepHelper.defaultPrep(
-        //            locale,
-        //            usageStatPrintStream,
-        //            notUsePrintStream,
-        //            frame,
-        //            otherFrames
-        //            );
         final Set<AutoI18nConfig>         config                   = AutoI18nConfig.newAutoI18nConfig();
         final String                      messageBundleBaseName    = frame.getClass().getSimpleName();
         final Package                     packageMessageBundleBase = frame.getClass().getPackage();
         final I18nResourceBundleName      i18nResourceBundleName   = new DefaultI18nResourceBundleName(packageMessageBundleBase, messageBundleBaseName);
         final I18nPrep                    autoI18n                 = I18nPrepHelper.createAutoI18nCore( config, i18nResourceBundleName, locale );
->>>>>>> cchlib-pre4-1-8:cchlib-i18n/src/test/java/com/googlecode/cchlib/i18n/sample/simple/QuickI18nTestPrep.java
 
-        //I18nPrepHelper.defaultPrep(
-        //        autoI18n,
-        //        usageStatPrintStream,
-        //        notUsePrintStream,
-        //        i18nConteners
-        //        );
-        final Result result= I18nPrepHelper.defaultPrep( autoI18n, i18nConteners);
+        final Result result = I18nPrepHelper.defaultPrep( autoI18n, i18nConteners);
 
-<<<<<<< HEAD:cchlib-i18n-test/src/test/java/com/googlecode/cchlib/i18n/sample/simple/QuickI18nTestPrep.java
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, r );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, r );
-=======
         I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result );
         I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result );
->>>>>>> cchlib-pre4-1-8:cchlib-i18n/src/test/java/com/googlecode/cchlib/i18n/sample/simple/QuickI18nTestPrep.java
     }
 }

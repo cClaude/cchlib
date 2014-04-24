@@ -10,13 +10,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
-import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
@@ -24,20 +24,6 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
  */
 public final class I18nPrepHelper
 {
-<<<<<<< HEAD
-    /**
-     * @deprecated Use {@link DefaultI18nResourceBundleName#DEFAULT_MESSAGE_BUNDLE_BASENAME} instead
-     */
-    @Deprecated
-    public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME;
-=======
-//    /**
-//     * @deprecated Use {@link DefaultI18nResourceBundleName#DEFAULT_MESSAGE_BUNDLE_BASENAME} instead
-//     */
-//    @Deprecated
-//    public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME;
->>>>>>> cchlib-pre4-1-8
-
     private static final class DefaultResult implements Result {
         private final PrepCollector<String>  notUseCollector;
         private final File                   outputFile;
@@ -79,19 +65,11 @@ public final class I18nPrepHelper
     @NeedDoc
     public interface Result
     {
-<<<<<<< HEAD
-        /** TODOC */
-        PrepCollector<Integer> getUsageStatCollector();
-        /** TODOC */
-        PrepCollector<String> getNotUseCollector();
-        /** TODOC */
-=======
         @NeedDoc
         PrepCollector<Integer> getUsageStatCollector();
         @NeedDoc
         PrepCollector<String> getNotUseCollector();
         @NeedDoc
->>>>>>> cchlib-pre4-1-8
         File getOutputFile();
     }
 
@@ -157,19 +135,11 @@ public final class I18nPrepHelper
         final Result      result
         )
     {
-<<<<<<< HEAD
-        PrepCollector<String> notUseCollector = result.getNotUseCollector();
-
-        notUsePrintStream.println( "### not use list ###" );
-
-         for( Map.Entry<String,String> entry : notUseCollector ) {
-=======
         final PrepCollector<String> notUseCollector = result.getNotUseCollector();
 
         notUsePrintStream.println( "### not use list ###" );
 
          for( final Map.Entry<String,String> entry : notUseCollector ) {
->>>>>>> cchlib-pre4-1-8
             notUsePrintStream.println("### not use ["+entry.getKey()+'='+entry.getValue()+']');
             }
 
@@ -205,15 +175,9 @@ public final class I18nPrepHelper
 
             while( enu.hasMoreElements() ) {
                 final String k = enu.nextElement();
-<<<<<<< HEAD
-                
-                assert k != null : "Key is null";
-                
-=======
 
                 assert k != null : "Key is null";
 
->>>>>>> cchlib-pre4-1-8
                 knowKeyMap.put( k, rb.getString( k ) );
                 }
 
@@ -232,13 +196,8 @@ public final class I18nPrepHelper
             try {
                 i18nPrep.closeOutputFile();
                 }
-<<<<<<< HEAD
-            catch( IOException e ) {
-                throw new RuntimeException( e ); // Not handled
-=======
             catch( final IOException e ) {
                 throw new RuntimeException( e ); // FIXME Not handled
->>>>>>> cchlib-pre4-1-8
                 }
             }
 

@@ -1,5 +1,24 @@
 package com.googlecode.cchlib.i18n.core;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
@@ -18,23 +37,6 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import java.util.Set;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 
 
 public class I18nPrep
@@ -96,37 +98,26 @@ public class I18nPrep
                         assert i18nField.getMethods() == null;
 
                         try {
-                            I18nResolver resolver = i18nField.createI18nResolver( objectToI18n, i18nInterface );
-                            Keys         keys     = resolver.getKeys();
+                            final I18nResolver resolver = i18nField.createI18nResolver( objectToI18n, i18nInterface );
+                            final Keys         keys     = resolver.getKeys();
 
-                            I18nResolvedFieldGetter getter = resolver.getI18nResolvedFieldGetter();
-                            Values values = getter.getValues( keys );
+                            final I18nResolvedFieldGetter getter = resolver.getI18nResolvedFieldGetter();
+                            final Values values = getter.getValues( keys );
 
                             assert keys.size() == values.size();
                             assert keys.size() > 0;
 
                             for( int i = 0; i<keys.size(); i++ ) {
-                                String k = keys.get( i );
-                                String v = values.get( i );
+                                final String k = keys.get( i );
+                                final String v = values.get( i );
 
                                 missingPropertiesMap.put( k, v );
                                 }
                             }
-<<<<<<< HEAD
-                        catch( MissingKeyException e ) {
-                            // TODO Auto-generated catch block : improve this
-                            e.printStackTrace();
-                             }
-                        catch( GetFieldException e ) {
-                            // TODO Auto-generated catch block : improve this
-                            e.printStackTrace();
-                            }
-=======
                         catch( MissingKeyException | GetFieldException e ) {
                             // TODO Auto-generated catch block : improve this
                             e.printStackTrace();
                              }
->>>>>>> cchlib-pre4-1-8
 
                         super.handleMissingResourceException( cause, i18nField, objectToI18n, i18nInterface );
                     }
@@ -135,7 +126,7 @@ public class I18nPrep
             getI18nDelegator().addAutoI18nEventHandler( new AutoI18nEventHandler() {
                 private static final long serialVersionUID = 1L;
                 @Override
-                public void ignoredField( Field f, String key, EventCause eventCause, String causeDecription )
+                public void ignoredField( final Field f, final String key, final EventCause eventCause, final String causeDecription )
                 {
                     if( LOGGER.isTraceEnabled() ) {
                         LOGGER.trace( "I18nPrep.ignoredField: " + key + " - field: " + f );
@@ -143,7 +134,7 @@ public class I18nPrep
                     // incForKey( key ); // not use, should not increment value !
                 }
                 @Override
-                public void localizedField( Field f, String key )
+                public void localizedField( final Field f, final String key )
                 {
                     if( LOGGER.isDebugEnabled() ) {
                         LOGGER.debug( "I18nPrep.localizedField: " + key );
@@ -172,25 +163,25 @@ public class I18nPrep
         return i18nResourceBundle.getResourceBundle();
     }
 
-    public void addAutoI18nEventHandler( AutoI18nEventHandler eventHandler )
+    public void addAutoI18nEventHandler( final AutoI18nEventHandler eventHandler )
     {
         getI18nDelegator().addAutoI18nEventHandler( eventHandler );
     }
 
-    public void addAutoI18nExceptionHandler( AutoI18nExceptionHandler exceptionHandler )
+    public void addAutoI18nExceptionHandler( final AutoI18nExceptionHandler exceptionHandler )
     {
         getI18nDelegator().addAutoI18nExceptionHandler( exceptionHandler );
     }
 
     public Map<String,String> getResourceBundleMap()
     {
-        ResourceBundle      rb  = getResourceBundle();
-        Map<String,String>  map = new HashMap<>();
-        Enumeration<String> enu = rb.getKeys();
+        final ResourceBundle      rb  = getResourceBundle();
+        final Map<String,String>  map = new HashMap<>();
+        final Enumeration<String> enu = rb.getKeys();
 
         while( enu.hasMoreElements() ) {
-            String key   = enu.nextElement();
-            String value = rb.getString( key );
+            final String key   = enu.nextElement();
+            final String value = rb.getString( key );
 
             map.put( key, value );
             }
@@ -198,18 +189,18 @@ public class I18nPrep
         return map;
     }
 
-    public void openOutputFile( File outputFile )
+    public void openOutputFile( final File outputFile )
     {
         this.resourceBundleOutputFile = outputFile;
     }
 
     public void closeOutputFile() throws IOException
     {
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
 
         properties.putAll( missingPropertiesMap );
 
-        OutputStream os = getResourceBundleOutputStream();
+        final OutputStream os = getResourceBundleOutputStream();
 
         LOGGER.info( "closeOutputFile(): found (key,value) count  = " + keyUsageCountMap.size() );
         LOGGER.info( "closeOutputFile(): know (key,value) count  = " + getResourceBundleMap().size() );

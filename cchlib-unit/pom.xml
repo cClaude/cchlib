@@ -13,21 +13,26 @@
   <packaging>jar</packaging>
   <name>cchlib-unit</name>
 
+  <properties>
+    <project.javadoc.source.version>1.7</project.javadoc.source.version>
+    <project.javadoc.target.version>1.7</project.javadoc.target.version>
+  </properties>
+
   <dependencies>
-  	<dependency>
-  		<groupId>junit</groupId>
-  		<artifactId>junit</artifactId>
-  		<version>4.11</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>com.googlecode.cchlib</groupId>
-  		<artifactId>cchlib-core</artifactId>
-  		<version>4.1.8-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>com.googlecode.cchlib</groupId>
-  		<artifactId>cchlib-io</artifactId>
-  		<version>4.1.8-SNAPSHOT</version>
-  	</dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core</artifactId>
+      <version>4.1.8-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-io</artifactId>
+      <version>4.1.8-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>
