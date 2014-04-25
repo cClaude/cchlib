@@ -3,7 +3,7 @@ package com.googlecode.cchlib.i18n.core;
 import com.googlecode.cchlib.NeedDoc;
 
 /**
- * Define an internationalizable class.
+ * Define a class able to be internationalized.
  *
  * @see I18nAutoCoreUpdatable
  */

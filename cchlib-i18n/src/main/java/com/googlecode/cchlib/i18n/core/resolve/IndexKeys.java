@@ -25,7 +25,7 @@ public class IndexKeys extends IndexKV implements Keys, Serializable
     }
 
     @Override
-    public String get( int index )
+    public String get( final int index )
     {
         if( index < 0 ) {
             throw new IndexOutOfBoundsException( "index=" + index + " must getter than 0" );
@@ -46,7 +46,7 @@ public class IndexKeys extends IndexKV implements Keys, Serializable
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "IndexKeys [keyBase=" );
         builder.append( keyBase );
         builder.append( ", size=" );

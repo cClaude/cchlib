@@ -1,19 +1,19 @@
 package com.googlecode.cchlib.i18n.logging;
 
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
-import com.googlecode.cchlib.i18n.I18nInterface;
-import com.googlecode.cchlib.i18n.I18nSyntaxeException;
-import com.googlecode.cchlib.i18n.core.I18nField;
-import com.googlecode.cchlib.i18n.core.MethodProviderSecurityException;
-import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
-import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
-import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
-import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumSet;
 import java.util.Set;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
+import com.googlecode.cchlib.i18n.I18nInterface;
+import com.googlecode.cchlib.i18n.I18nSyntaxeException;
+import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
+import com.googlecode.cchlib.i18n.core.I18nField;
+import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
+import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
+import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
+import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 /**
  * {@link AutoI18nExceptionHandler} using logging
@@ -25,19 +25,19 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     private static final long serialVersionUID = 1L;
     private final EnumSet<AutoI18nConfig> config;
 
-    public AbstractAutoI18nLoggingExceptionHandler( Set<AutoI18nConfig> userConfig )
+    public AbstractAutoI18nLoggingExceptionHandler( final Set<AutoI18nConfig> userConfig )
     {
         this.config = (userConfig == null) ? EnumSet.noneOf( AutoI18nConfig.class ) : EnumSet.copyOf( userConfig );
     }
 
     protected abstract void doHandle( String msg, Throwable e );
 
-    private void doHandleForField( String msg, Throwable e, I18nField i18nField )
+    private void doHandleForField( final String msg, final Throwable e, final I18nField i18nField )
     {
         doHandle( msg, e );
     }
 
-    protected void doHandleMissingResourceException( Exception e, I18nField i18nField )
+    protected void doHandleMissingResourceException( final Exception e, final I18nField i18nField )
     {
         final String msg = "* MissingResourceException for:"
                 + i18nField.getKeyBase()
@@ -48,15 +48,14 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     }
 
     protected void doHandleMissingResourceException_MissingMethodsResolution(
-        Exception e,
-        I18nField i18nField
+        final Exception e,
+        final I18nField i18nField
         )
     {
         final String msg = String.format(
                 "* MissingResourceException for: %s using [%s] - %s\n",
                 i18nField.getKeyBase(),
-                //methods[0],
-                i18nField.getMethods().getBaseName(),
+                i18nField.getMethodContener().getMethodName(),
                 e.getLocalizedMessage()
                 );
 
@@ -69,13 +68,13 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     }
 
     @Override
-    public void handleI18nSyntaxeException( I18nSyntaxeException e, Field f )
+    public void handleI18nSyntaxeException( final I18nSyntaxeException e, final Field f )
     {
         doHandle( e.getMessage(), e );
     }
 
     @Override
-    public void handleIllegalAccessException( IllegalAccessException cause, I18nField i18nField )
+    public void handleIllegalAccessException( final IllegalAccessException cause, final I18nField i18nField )
     {
         doHandleForField( "IllegalAccessException", cause, i18nField );
     }
@@ -87,7 +86,7 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
 //    }
 
     @Override
-    public void handleIllegalArgumentException( IllegalArgumentException cause, I18nField i18nField )
+    public void handleIllegalArgumentException( final IllegalArgumentException cause, final I18nField i18nField )
     {
         doHandleForField( "IllegalArgumentException", cause, i18nField );
     }
@@ -99,7 +98,7 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
 //    }
 
     @Override
-    public void handleInvocationTargetException( InvocationTargetException cause, I18nField i18nField )
+    public void handleInvocationTargetException( final InvocationTargetException cause, final I18nField i18nField )
     {
         doHandleForField( "InvocationTargetException", cause, i18nField );
     }
@@ -142,25 +141,25 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     }
 
     @Override
-    public void handleNoSuchMethodException( NoSuchMethodException cause, Field field )
+    public void handleNoSuchMethodException( final NoSuchMethodException cause, final Field field )
     {
         doHandleForField( "NoSuchMethodException", cause, (I18nField)null );
     }
 
     @Override
-    public void handleNoSuchMethodException( NoSuchMethodException cause, I18nField i18nField )
+    public void handleNoSuchMethodException( final NoSuchMethodException cause, final I18nField i18nField )
     {
         doHandleForField( "NoSuchMethodException", cause, i18nField );
     }
 
     @Override
-    public void handleSecurityException( MethodProviderSecurityException cause, Field field )
+    public void handleSecurityException( final MethodProviderSecurityException cause, final Field field )
     {
         doHandleForField( "SecurityException", cause, (I18nField)null );
     }
 
     @Override
-    public void handleSecurityException( SecurityException cause, I18nField i18nField )
+    public void handleSecurityException( final SecurityException cause, final I18nField i18nField )
     {
         doHandleForField( "SecurityException", cause, i18nField );
     }

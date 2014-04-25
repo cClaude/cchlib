@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n.core.resolve;
 
-import com.googlecode.cchlib.util.iterator.SingletonIterator;
 import java.io.Serializable;
 import java.util.Iterator;
+import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
 /**
  *
@@ -18,7 +18,7 @@ public class UniqKeys implements Serializable, Keys
     }
 
     @Override
-    public String get( int index )
+    public String get( final int index )
     {
         if( index != 0 ) {
             throw new IndexOutOfBoundsException( "index=" + index + " must be 0" );
@@ -41,7 +41,7 @@ public class UniqKeys implements Serializable, Keys
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "UniqKeys [key=" );
         builder.append( key );
         builder.append( ", size()=" );

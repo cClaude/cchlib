@@ -1,11 +1,8 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n;
 
-import com.googlecode.cchlib.i18n.logging.LogFieldFormat;
 import java.lang.reflect.Field;
+import com.googlecode.cchlib.i18n.logging.LogFieldFormat;
 
-/**
- *
- */
 public class MethodProviderNoSuchMethodException extends NoSuchMethodException
 {
     private static final long serialVersionUID = 1L;
@@ -21,7 +18,7 @@ public class MethodProviderNoSuchMethodException extends NoSuchMethodException
         super.initCause( cause );
     }
 
-    protected static String createMessage(
+    /* package */ static String createMessage(
             final Field     field,
             final String    fullMethodName,
             final Class<?>  clazz

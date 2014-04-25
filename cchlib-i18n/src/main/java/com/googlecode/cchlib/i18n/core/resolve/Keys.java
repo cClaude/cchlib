@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.i18n.core.resolve;
 
-/**
- * TODOC
- */
+import com.googlecode.cchlib.NeedDoc;
+
+@NeedDoc
 public interface Keys extends Iterable<String>
 {
-    /** TODOC */
+    @NeedDoc
     String get( int i );
 
-    /** TODOC */
+    @NeedDoc
     int size();
 }

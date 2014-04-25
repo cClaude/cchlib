@@ -1,7 +1,9 @@
 package com.googlecode.cchlib.i18n.core;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import com.googlecode.cchlib.i18n.I18nInterface;
+import com.googlecode.cchlib.i18n.I18nSyntaxeException;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolvedFieldGetter;
@@ -16,6 +18,49 @@ import com.googlecode.cchlib.i18n.core.resolve.Values;
 // NOT public
 final class I18nFieldString  extends AbstractI18nField
 {
+    private final class I18nResolverForString<T> implements I18nResolver {
+        private final T objectToI18n;
+
+        private I18nResolverForString( final T objectToI18n )
+        {
+            this.objectToI18n = objectToI18n;
+        }
+
+        @Override
+        public Keys getKeys()
+        {
+            return new UniqKeys( getKeyBase() );
+        }
+
+        @Override
+        public I18nResolvedFieldGetter getI18nResolvedFieldGetter()
+        {
+            return keys -> _getValues( objectToI18n, getField() );
+        }
+
+        @Override
+        public I18nResolvedFieldSetter getI18nResolvedFieldSetter()
+        {
+            return ( keys, values ) -> _setValue(objectToI18n, getField(), keys, values);
+        }
+
+        @Override
+        public String toString()
+        {
+            final StringBuilder builder = new StringBuilder();
+            builder.append( "I18nResolverForString [objectToI18n=" );
+            builder.append( objectToI18n );
+            builder.append( ", getKeys()=" );
+            builder.append( getKeys() );
+            builder.append( ", getI18nResolvedFieldGetter()=" );
+            builder.append( getI18nResolvedFieldGetter() );
+            builder.append( ", getI18nResolvedFieldSetter()=" );
+            builder.append( getI18nResolvedFieldSetter() );
+            builder.append( ']' );
+            return builder.toString();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
     public I18nFieldString(
@@ -23,7 +68,7 @@ final class I18nFieldString  extends AbstractI18nField
         final I18nKeyFactory    i18nKeyFactory,
         final Field             field,
         final String            keyIdValue
-        )
+        ) throws I18nSyntaxeException
     {
         super( i18nDelegator, i18nKeyFactory, field, keyIdValue, null, null );
 
@@ -33,45 +78,13 @@ final class I18nFieldString  extends AbstractI18nField
     @Override
     public FieldType getFieldType()
     {
-        return (getMethods() != null) ? FieldType.METHODS_RESOLUTION : FieldType.SIMPLE_KEY;
+        return (getMethodContener() != null) ? FieldType.METHODS_RESOLUTION : FieldType.SIMPLE_KEY;
     }
 
     @Override
     public <T> I18nResolver createI18nResolver( final T objectToI18n, final I18nInterface i18nInterface )
     {
-        return new I18nResolver() {
-
-            @Override
-            public Keys getKeys()
-            {
-                return new UniqKeys( getKeyBase() );
-            }
-
-            @Override
-            public I18nResolvedFieldGetter getI18nResolvedFieldGetter()
-            {
-                return new I18nResolvedFieldGetter() {
-                    @Override
-                    public Values getValues( final Keys keys ) throws GetFieldException
-                    {
-                        return _getValues( objectToI18n, getField() );
-                     }
-                };
-            }
-
-            @Override
-            public I18nResolvedFieldSetter getI18nResolvedFieldSetter()
-            {
-                return new I18nResolvedFieldSetter() {
-                    @Override
-                    public void setValues( final Keys keys, final Values values ) throws SetFieldException
-                    {
-                        _setValue(objectToI18n, getField(), keys, values);
-                    }
-
-                };
-            }
-        };
+        return new I18nResolverForString<T>( objectToI18n );
     }
 
     private final static <T> Values _getValues( final T objectToI18n, final Field field )
@@ -97,10 +110,15 @@ final class I18nFieldString  extends AbstractI18nField
         // Keys and Values inconsistent size
         assert keys.size() == values.size() : "Keys and Values inconsistent size";
         assert keys.size() == 1 : "Keys and Values should have only 1 value";
+        assert values.size() == 1 : "Should one and only one value for a String";
+        assert values.get( 0 ) instanceof String : "Value is not a String";
+        assert !Modifier.isFinal( field.getModifiers() ) : "Field " + field + " is final";
 
         try {
             field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
             field.set( objectToI18n, values.get( 0 ) );
+
+            assert field.get( objectToI18n ).equals( values.get( 0 ) );
             }
         catch( final IllegalArgumentException | IllegalAccessException e ) {
             throw new SetFieldException( e );
@@ -113,5 +131,25 @@ final class I18nFieldString  extends AbstractI18nField
         field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
 
         return (String)field.get( objectToI18n );
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append( "I18nFieldString [getFieldType()=" );
+        builder.append( getFieldType() );
+        builder.append( ", getI18nDelegator()=" );
+        builder.append( getI18nDelegator() );
+        builder.append( ", getField()=" );
+        builder.append( getField() );
+        builder.append( ", getMethods()=" );
+        builder.append( getMethodContener() );
+        builder.append( ", getKeyBase()=" );
+        builder.append( getKeyBase() );
+        builder.append( ", getAutoI18nTypes()=" );
+        builder.append( getAutoI18nTypes() );
+        builder.append( ']' );
+        return builder.toString();
     }
 }

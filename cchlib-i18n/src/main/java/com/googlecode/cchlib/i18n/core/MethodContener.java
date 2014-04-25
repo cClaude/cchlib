@@ -3,9 +3,12 @@ package com.googlecode.cchlib.i18n.core;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
+/**
+ * A {@link MethodContener} class is {@link Serializable} class able
+ * to return a {@link Method}.
+ */
 public interface MethodContener extends Serializable
 {
-    String getBaseName();
-    String getInvokeMethodName();
-    Method getInvokeMethod() throws SecurityException, NoSuchMethodException;
+    String getMethodName();
+    Method getMethod() throws SecurityException, NoSuchMethodException;
 }

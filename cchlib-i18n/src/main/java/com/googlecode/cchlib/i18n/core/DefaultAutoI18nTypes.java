@@ -1,5 +1,10 @@
 package com.googlecode.cchlib.i18n.core;
 
+import javax.swing.AbstractButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JTabbedPane;
+import javax.swing.border.TitledBorder;
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.core.resolve.IndexKeys;
 import com.googlecode.cchlib.i18n.core.resolve.IndexValues;
@@ -7,17 +12,9 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
 import com.googlecode.cchlib.i18n.types.AbstractType;
 import com.googlecode.cchlib.i18n.types.AbstractTypeUniqKeys;
-import javax.swing.AbstractButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JTabbedPane;
-import javax.swing.border.TitledBorder;
 
-/**
- * TODOC
- *
- */
-/*not public*/ class DefaultAutoI18nTypes 
+//NOT public
+class DefaultAutoI18nTypes
     extends AbstractAutoI18nTypes
 {
     private static final long serialVersionUID = 1L;
@@ -37,14 +34,14 @@ import javax.swing.border.TitledBorder;
         return new AbstractTypeUniqKeys<AutoI18nBasicInterface>( AutoI18nBasicInterface.class ) {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, Values values )
+            public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
 
                 cast( toI18n ).setI18nString( values.get( 0 ) );
             }
             @Override
-            public Values getText( Object toI18n )
+            public Values getText( final Object toI18n )
             {
                 return new IndexValues( cast( toI18n ).getI18nString() );
             }
@@ -62,12 +59,12 @@ import javax.swing.border.TitledBorder;
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, Values values )
+            public void setText( final Object toI18n, final Values values )
             {
                 cast( toI18n ).setText( values.get( 0 ) );
             }
             @Override
-            public Values getText( Object toI18n )
+            public Values getText( final Object toI18n )
             {
                 return new IndexValues( cast( toI18n ).getText() );
             }
@@ -85,14 +82,14 @@ import javax.swing.border.TitledBorder;
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, Values values )
+            public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
 
                 cast( toI18n ).setText( values.get( 0 ) );
             }
             @Override
-            public Values getText( Object toI18n )
+            public Values getText( final Object toI18n )
             {
                 return new IndexValues( cast( toI18n ).getText() );
             }
@@ -110,14 +107,14 @@ import javax.swing.border.TitledBorder;
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, Values values )
+            public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
 
                 cast( toI18n ).setText( values.get( 0 ) );
             }
             @Override
-            public Values getText( Object toI18n )
+            public Values getText( final Object toI18n )
             {
                 return new IndexValues( cast( toI18n ).getText() );
             }
@@ -135,21 +132,21 @@ import javax.swing.border.TitledBorder;
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public Keys getKeys( Object toI18n, String keyBaseName )
+            public Keys getKeys( final Object toI18n, final String keyBaseName )
             {
-                JTabbedPane  o      = cast( toI18n );
+                final JTabbedPane  o      = cast( toI18n );
                 final int    len    = o.getTabCount();
 
                 return new IndexKeys( keyBaseName, len );
             }
             @Override
-            public void setText( Object toI18n, Values values )
+            public void setText( final Object toI18n, final Values values )
             {
-                JTabbedPane  o      = cast( toI18n );
+                final JTabbedPane  o      = cast( toI18n );
                 final int    len    = o.getTabCount();
                 int           index = 0;
 
-                for( String value : values ) {
+                for( final String value : values ) {
                     o.setTitleAt( index++, value );
 
                     if( index >= len ) {
@@ -159,9 +156,9 @@ import javax.swing.border.TitledBorder;
                     }
             }
             @Override
-            public Values getText( Object toI18n )
+            public Values getText( final Object toI18n )
             {
-                JTabbedPane    o      = cast( toI18n );
+                final JTabbedPane    o      = cast( toI18n );
                 final int      len    = o.getTabCount();
                 final String[] values = new String[ len ];
 
@@ -185,14 +182,14 @@ import javax.swing.border.TitledBorder;
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, Values values )
+            public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
 
                 cast( toI18n ).setTitle( values.get( 0 ) );
             }
             @Override
-            public Values getText( Object toI18n )
+            public Values getText( final Object toI18n )
             {
                 return new IndexValues( cast( toI18n ).getTitle() );
             }

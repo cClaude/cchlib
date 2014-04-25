@@ -2,6 +2,7 @@ package com.googlecode.cchlib.i18n.core;
 
 import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.I18nInterface;
+import com.googlecode.cchlib.i18n.I18nSyntaxeException;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolvedFieldGetter;
@@ -24,7 +25,7 @@ final class I18nFieldStringArray  extends AbstractI18nField
         final I18nKeyFactory    i18nKeyFactory,
         final Field             field,
         final String            keyIdValue
-        )
+        ) throws I18nSyntaxeException
     {
         super( i18nDelegator, i18nKeyFactory, field, keyIdValue, null, null );
 
@@ -34,7 +35,7 @@ final class I18nFieldStringArray  extends AbstractI18nField
     @Override
     public FieldType getFieldType()
     {
-        return (getMethods() != null) ? FieldType.METHODS_RESOLUTION : FieldType.SIMPLE_KEY;
+        return (getMethodContener() != null) ? FieldType.METHODS_RESOLUTION : FieldType.SIMPLE_KEY;
     }
 
     @Override
@@ -60,26 +61,13 @@ final class I18nFieldStringArray  extends AbstractI18nField
             @Override
             public I18nResolvedFieldGetter getI18nResolvedFieldGetter()
             {
-                return new I18nResolvedFieldGetter() {
-                    @Override
-                    public Values getValues( final Keys keys ) throws GetFieldException
-                    {
-                        return _getValues(objectToI18n, getField());
-                     }
-                };
+                return keys -> _getValues(objectToI18n, getField());
             }
 
             @Override
             public I18nResolvedFieldSetter getI18nResolvedFieldSetter()
             {
-                return new I18nResolvedFieldSetter() {
-                    @Override
-                    public void setValues( final Keys keys, final Values values ) throws SetFieldException
-                    {
-                        _setValues(objectToI18n, getField(), keys, values);
-                    }
-
-                };
+                return ( keys, values ) -> _setValues(objectToI18n, getField(), keys, values);
             }
         };
     }

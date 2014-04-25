@@ -1,18 +1,17 @@
 package com.googlecode.cchlib.i18n.core;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
-import java.io.Serializable;
-import java.lang.reflect.Field;
 
 @NeedDoc
 public interface I18nField extends Serializable
 {
     /**
-     * TODOC
-     * (internal)
+     * Describe how an {@link I18nField} should be handle.
      */
     public enum FieldType {
         SIMPLE_KEY,
@@ -42,8 +41,9 @@ public interface I18nField extends Serializable
      * @return {@link MethodContener} object for this field, if custom getter/setter define,
      * return null otherwise
      */
-    MethodContener getMethods();
+    MethodContener getMethodContener();
 
+    @NeedDoc
     FieldType getFieldType();
 
     /**

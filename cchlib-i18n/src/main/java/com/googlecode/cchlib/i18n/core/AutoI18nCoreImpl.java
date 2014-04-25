@@ -1,15 +1,12 @@
 package com.googlecode.cchlib.i18n.core;
 
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
 
-/**
- *
- */
 //NOT public
 class AutoI18nCoreImpl implements AutoI18nCore, Serializable
 {
@@ -17,14 +14,9 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
     private static final Logger LOGGER = Logger.getLogger( AutoI18nCoreImpl.class );
 
     private final Map<Class<?>,I18nClass<?>> map = new HashMap<>();
-    /** @serial */
     private final I18nDelegator i18nDelegator;
-    /** @serial */
     private final Locale locale;
 
-    /**
-     *
-     */
     public AutoI18nCoreImpl( final I18nDelegator i18nDelegator )
     {
         this.i18nDelegator = i18nDelegator;
@@ -46,6 +38,14 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
             LOGGER.debug( "I18n handle class " + clazz + " on " + objectToI18n );
             }
 
+        final I18nClass<T>     i18nClass = getI18nClass( clazz );
+        final I18nApplyable<T> applyer   = new I18nApplyableImpl<>( i18nClass, this.i18nDelegator );
+
+        applyer.performeI18n( objectToI18n, locale );
+    }
+
+    private <T> I18nClass<T> getI18nClass( final Class<? extends T> clazz )
+    {
         @SuppressWarnings("unchecked")
         I18nClass<T> i18nClass = (I18nClass<T>)this.map.get( clazz ); // $codepro.audit.disable unnecessaryCast
 
@@ -54,9 +54,6 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
 
             this.map.put( clazz, i18nClass );
             }
-
-        final I18nApplyable<T> apply = new I18nApplyableImpl<>( i18nClass, this.i18nDelegator );
-
-        apply.performeI18n( objectToI18n, locale );
+        return i18nClass;
     }
 }

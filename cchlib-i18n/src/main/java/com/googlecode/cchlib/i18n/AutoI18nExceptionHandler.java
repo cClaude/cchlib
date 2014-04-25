@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.i18n;
 
 import com.googlecode.cchlib.i18n.core.I18nField;
-import com.googlecode.cchlib.i18n.core.MethodProviderSecurityException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;

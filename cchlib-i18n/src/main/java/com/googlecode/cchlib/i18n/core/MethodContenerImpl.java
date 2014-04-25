@@ -1,7 +1,8 @@
 package com.googlecode.cchlib.i18n.core;
 
-import com.googlecode.cchlib.lang.Classes;
 import java.lang.reflect.Method;
+import javax.annotation.Nonnull;
+import com.googlecode.cchlib.lang.Classes;
 
 class MethodContenerImpl implements MethodContener
 {
@@ -9,52 +10,44 @@ class MethodContenerImpl implements MethodContener
 
     private final Class<?> clazz;
     private final String methodName;
+    private final Class<?>[] parameterTypes;
+    private transient Method method;
 
-    public MethodContenerImpl( Class<?> clazz, String methodName )
+    public MethodContenerImpl( final Class<?> clazz, final String methodName )
     {
-        this.clazz      = clazz;
-        this.methodName = methodName;
+        this(clazz,methodName, Classes.emptyArray());
+    }
+
+    public MethodContenerImpl( //
+            @Nonnull final Class<?> clazz, //
+            @Nonnull final String methodName, //
+            @Nonnull final Class<?> ... parameterTypes //
+            ) //
+    {
+        assert clazz != null : "clazz parameter is null";
+        assert methodName != null : "methodName parameter is null";
+        assert parameterTypes != null : "parameterTypes parameter is null";
+
+        this.clazz          = clazz;
+        this.methodName     = methodName;
+        this.parameterTypes = parameterTypes;
     }
 
     @Override
-    public String getBaseName()
+    public String getMethodName()
     {
-        return methodName;
+        return this.methodName;
     }
 
     @Override
-    public String getInvokeMethodName()
+    public Method getMethod() throws SecurityException, NoSuchMethodException
     {
-        return getBaseName();
+        if( this.method == null ) {
+            this.method = getMethodForClass( this.clazz, getMethodName(), this.parameterTypes );
+        }
+
+        return this.method;
     }
-
-//    @Override
-//    public String getSetterName()
-//    {
-//        return "set" + getBaseName();
-//    }
-
-    @Override
-    public Method getInvokeMethod() throws SecurityException, NoSuchMethodException
-    {
-        final String fullMethodName = getInvokeMethodName();
-
-        Method m = getMethodForClass( clazz, fullMethodName, Classes.emptyArray() );
-
-        if( m.getReturnType().equals( void.class ) ) {
-            return m;
-            }
-        else {
-            throw new NoSuchMethodException( "Method " + m + " return : " + m.getReturnType() );
-            }
-    }
-
-//    @Override
-//    public Method getSetter() throws SecurityException, NoSuchMethodException
-//    {
-//        final String fullMethodName = getSetterName();
-//        return getMethodForClass( clazz, fullMethodName, new Class<?>[] {String.class} );
-//    }
 
     private static Method getMethodForClass(
             final Class<?>   clazz,

@@ -93,7 +93,7 @@ public class I18nPrep
                         final I18nInterface            i18nInterface
                         )
                     {
-                        assert i18nField.getMethods() == null;
+                        assert i18nField.getMethodContener() == null;
 
                         try {
                             I18nResolver resolver = i18nField.createI18nResolver( objectToI18n, i18nInterface );
