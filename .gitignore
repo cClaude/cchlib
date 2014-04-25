@@ -11,8 +11,10 @@
 .releases/
 .settings/
 cchlib-apps-duplicatefilesmanager/.classpath
+cchlib-apps-duplicatefilesmanager/com.googlecode.cchlib.apps.duplicatefiles.MessagesBundle
 cchlib-apps-duplicatefilesmanager/target/
 cchlib-apps-editresourcebundle/.classpath
+cchlib-apps-editresourcebundle/com.googlecode.cchlib.apps.editresourcesbundle.MessagesBundle
 cchlib-apps-editresourcebundle/target/
 cchlib-apps-regexpbuilder/.classpath
 cchlib-apps-regexpbuilder/target/
