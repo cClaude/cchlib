@@ -1,5 +1,7 @@
 *.classpath
+*.html!
 *.java!
+*.java!todo
 *.tws
 */dependency-reduced-pom.xml
 */pom.xml.versionsBackup
@@ -67,3 +69,4 @@ cchlib-x-sandbox/cchlib-x-sandbox-lib/.classpath
 cchlib-x-sandbox/cchlib-x-sandbox-lib/target/
 cchlib-x-sandbox/cchlib-x-sandbox-tools/.classpath
 cchlib-x-sandbox/cchlib-x-sandbox-tools/target/
+target/
