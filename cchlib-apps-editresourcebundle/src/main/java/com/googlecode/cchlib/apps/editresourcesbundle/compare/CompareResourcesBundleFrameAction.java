@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.editresourcesbundle;
+package com.googlecode.cchlib.apps.editresourcesbundle.compare;
 
 import com.googlecode.cchlib.util.EnumHelper;
 

@@ -39,9 +39,7 @@ public class FilesPanel extends JPanel
 
         panel.setLayout(new GridLayout(0, 1, 0, 0));
 
-        int i;
-
-        for( i = 0; i<panelFiles.length; i++ ) {
+        for( int i = 0; i<panelFiles.length; i++ ) {
             panel.add( getPanelFile( i ) );
             }
    }

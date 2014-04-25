@@ -4,15 +4,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-/**
- * TODOC
- */
 public abstract class AbstractCustomProperties
     implements CustomProperties
 {
     private static final long serialVersionUID = 1L;
     /** The listeners waiting for object changes. */
-    private EventListenerList listenerList = new EventListenerList();
+    private final EventListenerList listenerList = new EventListenerList();
     private boolean hasChanged;
 
     public AbstractCustomProperties()
@@ -26,10 +23,6 @@ public abstract class AbstractCustomProperties
         return this.hasChanged;
     }
 
-    /**
-     * TODOC
-     * @param isEdited
-     */
     protected void setEdited( final boolean isEdited )
     {
         if( this.hasChanged != isEdited ) {

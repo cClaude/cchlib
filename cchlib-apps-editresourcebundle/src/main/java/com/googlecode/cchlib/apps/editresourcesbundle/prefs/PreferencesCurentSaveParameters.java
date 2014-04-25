@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
-/* not public */ interface PreferencesCurentSaveParameters
+//NOT public
+interface PreferencesCurentSaveParameters
 {
     int getNumberOfFiles();
     int getSelectedLanguageIndex();

@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.io.FileNotFoundException;
@@ -7,19 +6,14 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Properties;
-
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.DefaultCustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FormattedCustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
-
 import cx.ath.choisnet.util.FormattedProperties;
 
-/**
- *
- */
-public class FilesConfig implements Serializable // $codepro.audit.disable largeNumberOfMethods
+public class FilesConfig implements Serializable
 {
     private static final long serialVersionUID = 2L;
 
@@ -34,7 +28,7 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
     private boolean showLineNumbers
           = false;
 
-    private /*final*/ int numberOfFiles;
+    private int numberOfFiles;
 
     public enum FileType {
         PROPERTIES,
@@ -44,7 +38,7 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
     /**
      * Build default {@link FilesConfig} (no file selected yet)
      */
-    public FilesConfig( Preferences preferences )
+    public FilesConfig( final Preferences preferences )
     {
         setNumberOfFiles( preferences.getNumberOfFiles() );
      }
@@ -66,7 +60,7 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
         this.showLineNumbers          = filesConfig.showLineNumbers;
     }
 
-    public void setNumberOfFiles( int numberOfFiles )
+    public void setNumberOfFiles( final int numberOfFiles )
     {
         this.numberOfFiles = numberOfFiles;
 
@@ -74,15 +68,12 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
             this.fileObjects   = new FileObject[ numberOfFiles ];
             }
         else {
-            FileObject[] oldArray = this.fileObjects;
+            final FileObject[] oldArray = this.fileObjects;
 
             this.fileObjects = new FileObject[ numberOfFiles ];
 
             final int min = (numberOfFiles > oldArray.length) ? oldArray.length : numberOfFiles;
 
-//            for( int i = 0; i<min; i++ ) {
-//                this.fileObjects[ i ] = oldArray[ i ];
-//                }
             System.arraycopy( oldArray, 0, fileObjects, 0, min );
             }
     }
@@ -147,7 +138,7 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
     /**
      * @param fileType the fileType to set
      */
-    public void setFileType( FileType fileType )
+    public void setFileType( final FileType fileType )
     {
         this.fileType = fileType;
     }
@@ -160,7 +151,7 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
     /**
      * @param useLeftHasDefault the useLeftHasDefault to set
      */
-    public void setUseLeftHasDefault( boolean useLeftHasDefault )
+    public void setUseLeftHasDefault( final boolean useLeftHasDefault )
     {
         this.useLeftHasDefault = useLeftHasDefault;
     }
@@ -192,7 +183,7 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
         return showLineNumbers;
     }
 
-    public void setShowLineNumbers(boolean showLineNumbers)
+    public void setShowLineNumbers(final boolean showLineNumbers)
     {
         this.showLineNumbers = showLineNumbers;
     }
@@ -202,7 +193,7 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
      */
     public boolean isFilesExists()
     {
-        for( FileObject entry : this.fileObjects ) {
+        for( final FileObject entry : this.fileObjects ) {
             if( entry == null ) {
                 return false;
                 }
@@ -239,7 +230,7 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
     {
         privateLoadProperties( null, 0 );
 
-        Properties def = isUseLeftHasDefault() ?
+        final Properties def = isUseLeftHasDefault() ?
             DefaultCustomProperties.class.cast(
                 this.fileObjects[ 0 ].getCustomProperties()
                 ).getProperties()
@@ -259,14 +250,14 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
             throws  FileNotFoundException,
                     IOException
     {
-        CustomProperties cprop = new DefaultCustomProperties( this.getFileObject( index ), defaults );
+        final CustomProperties cprop = new DefaultCustomProperties( this.getFileObject( index ), defaults );
     }
 
     private void privateLoadFormattedProperties() throws FileNotFoundException, IOException
     {
         privateLoadFormattedProperties( null, 0 );
 
-        FormattedProperties def  =
+        final FormattedProperties def  =
             isUseLeftHasDefault() ?
                 FormattedCustomProperties.class.cast(
                     this.fileObjects[ 0 ].getCustomProperties()
@@ -286,7 +277,7 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
         throws  FileNotFoundException,
                 IOException
     {
-        FormattedCustomProperties cprop = new FormattedCustomProperties(
+        final FormattedCustomProperties cprop = new FormattedCustomProperties(
                 this.getFileObject( index ),
                 defaults,
                 formattedPropertiesStore
@@ -295,14 +286,14 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
     }
 
     //Serializable
-    private void writeObject(java.io.ObjectOutputStream out)
+    private void writeObject(final java.io.ObjectOutputStream out)
         throws IOException
     {
         out.defaultWriteObject();
     }
 
     //Serializable
-    private void readObject(java.io.ObjectInputStream in)
+    private void readObject(final java.io.ObjectInputStream in)
         throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
@@ -314,7 +305,7 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
     @Override
     public int hashCode()
     {
-        final int prime = 31;
+        final int prime = 31; // $codepro.audit.disable numericLiterals
         int result = 1;
         result = (prime * result) + Arrays.hashCode( fileObjects );
         result = (prime * result)
@@ -324,29 +315,47 @@ public class FilesConfig implements Serializable // $codepro.audit.disable large
                 + ((formattedPropertiesStore == null) ? 0
                         : formattedPropertiesStore.hashCode());
         result = (prime * result) + numberOfFiles;
-        result = (prime * result) + (showLineNumbers ? 1231 : 1237);
-        result = (prime * result) + (useLeftHasDefault ? 1231 : 1237);
+        result = (prime * result) + (showLineNumbers ? 1231 : 1237); // $codepro.audit.disable numericLiterals
+        result = (prime * result) + (useLeftHasDefault ? 1231 : 1237); // $codepro.audit.disable numericLiterals
         return result;
     }
 
     @Override
-    public boolean equals( Object obj ) // $codepro.audit.disable cyclomaticComplexity
+    public boolean equals( final Object obj ) // $codepro.audit.disable cyclomaticComplexity
     {
-        if( this == obj ) return true;
-        if( obj == null ) return false;
-        if( !(obj instanceof FilesConfig) ) return false;
-        FilesConfig other = (FilesConfig)obj;
+        if( this == obj ) {
+            return true;
+        }
+        if( obj == null ) {
+            return false;
+        }
+        if( !(obj instanceof FilesConfig) ) {
+            return false;
+        }
+        final FilesConfig other = (FilesConfig)obj;
         if( !Arrays.equals( fileObjects, other.fileObjects ) ) {
             return false;
         }
-        if( fileType != other.fileType ) return false;
+        if( fileType != other.fileType ) {
+            return false;
+        }
         if( formattedPropertiesStore == null ) {
-            if( other.formattedPropertiesStore != null ) return false;
+            if( other.formattedPropertiesStore != null ) {
+                return false;
+            }
         } else if( !formattedPropertiesStore
-                .equals( other.formattedPropertiesStore ) ) return false;
-        if( numberOfFiles != other.numberOfFiles ) return false;
-        if( showLineNumbers != other.showLineNumbers ) return false;
-        if( useLeftHasDefault != other.useLeftHasDefault ) return false;
+                .equals( other.formattedPropertiesStore ) ) {
+            return false;
+        }
+        if( numberOfFiles != other.numberOfFiles ) {
+            return false;
+        }
+        if( showLineNumbers != other.showLineNumbers ) {
+            return false;
+        }
+        if( useLeftHasDefault != other.useLeftHasDefault ) {
+            return false;
+        }
         return true;
     }
 }

@@ -2,7 +2,7 @@ package com.googlecode.cchlib.apps.editresourcesbundle.load;
 
 import com.googlecode.cchlib.util.EnumHelper;
 
-/*not public*/
+//NOT public
 enum LoadDialogAction
 {
     ACTIONCMD_OK_BUTTON,

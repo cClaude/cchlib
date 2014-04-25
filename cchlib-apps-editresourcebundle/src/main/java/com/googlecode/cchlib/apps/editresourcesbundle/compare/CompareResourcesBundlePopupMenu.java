@@ -1,21 +1,18 @@
-package com.googlecode.cchlib.apps.editresourcesbundle;
+package com.googlecode.cchlib.apps.editresourcesbundle.compare;
 
 import java.awt.Container;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.editresourcesbundle.html.HTMLPreviewDialog;
+import com.googlecode.cchlib.apps.editresourcesbundle.multilineeditor.MultiLineEditorDialog;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 
-/**
- *
- */
 class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable
 {
@@ -23,27 +20,16 @@ class CompareResourcesBundlePopupMenu
     //
     // http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
     //
-    private static final transient Logger LOGGER = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
+    private static final Logger LOGGER = Logger.getLogger( CompareResourcesBundlePopupMenu.class );
     private CompareResourcesBundleFrame frame;
     private final AbstractTableModel  abstractTableModel;
-    /** @serial */
     private final CompareResourcesBundleTableModel.Colunms colunms;
 
-    @I18nString
-    private final String txtHTMLPreview = "HTML Preview";
-    @I18nString
-    private final String txtEditLines = "Edit lines";
-    @I18nString
-    private final String txtCopy = "Copy";
-    @I18nString
-    private final String txtPaste = "Paste";
+    @I18nString protected String txtHTMLPreview = "HTML Preview"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String txtEditLines = "Edit lines"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String txtCopy = "Copy"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String txtPaste = "Paste"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
 
-    /**
-     * @param jTable
-     * @param abstractTableModel
-     * @param colunms
-     * @param autoI18n
-     */
     public CompareResourcesBundlePopupMenu(
             final JTable                                      jTable,
             final AbstractTableModel                          abstractTableModel,
@@ -94,23 +80,18 @@ class CompareResourcesBundlePopupMenu
 
         previewMenu.setText( txtHTMLPreview );
         previewMenu.addActionListener(
-                new ActionListener()
-                {
-                    @Override
-                    public void actionPerformed( final ActionEvent e )
-                    {
-                        final Object value = getValueAt( rowIndex, columnIndex );
+                e -> {
+                    final Object value = getValueAt( rowIndex, columnIndex );
 
-                        if( value instanceof String ) {
-                            final HTMLPreviewDialog d = new HTMLPreviewDialog(
-                                    getFrame(),
-                                    txtHTMLPreview,
-                                    value.toString()
-                                    );
-                            d.pack();
-                            d.setVisible( true );
-                            }
-                    }
+                    if( value instanceof String ) {
+                        final HTMLPreviewDialog d = new HTMLPreviewDialog(
+                                getFrame(),
+                                txtHTMLPreview,
+                                value.toString()
+                                );
+                        d.pack();
+                        d.setVisible( true );
+                        }
                 });
 
         contextMenu.add( previewMenu );
@@ -133,21 +114,16 @@ class CompareResourcesBundlePopupMenu
 
         copyMenu.setText( txtEditLines );
         copyMenu.addActionListener(
-                new ActionListener()
-                {
-                    @Override
-                    public void actionPerformed( final ActionEvent e )
-                    {
-                        final Object value = getValueAt( rowIndex, columnIndex );
+                e -> {
+                    final Object value = getValueAt( rowIndex, columnIndex );
 
-                        if( value instanceof String ) {
-                            openMultiLineEditor(
-                                    //txtEditLines,
-                                    String.class.cast( value ),
-                                    rowIndex,
-                                    columnIndex
-                                    );
-                        }
+                    if( value instanceof String ) {
+                        openMultiLineEditor(
+                                //txtEditLines,
+                                String.class.cast( value ),
+                                rowIndex,
+                                columnIndex
+                                );
                     }
                 });
 
@@ -171,34 +147,29 @@ class CompareResourcesBundlePopupMenu
                     );
             }
 
-        final MultiLineEditorDialog.StoreResult storeResult = new MultiLineEditorDialog.StoreResult()
-        {
-            @Override
-            public void storeResult( final String text )
-            {
-                if( LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace(
-                        String.format( "Update value @(%d;%d)\n", Integer.valueOf( rowIndex ), Integer.valueOf( columnIndex ) )
-                        );
-                    }
+        final MultiLineEditorDialog.StoreResult storeResult = text -> {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace(
+                    String.format( "Update value @(%d;%d)\n", Integer.valueOf( rowIndex ), Integer.valueOf( columnIndex ) )
+                    );
+                }
 
-                setValueAt(text, rowIndex, columnIndex);
+            setValueAt(text, rowIndex, columnIndex);
 
-                // Update display
-                final int row = getJTable().convertRowIndexToModel( rowIndex );
-                final int col = getJTable().convertColumnIndexToModel( columnIndex );
+            // Update display
+            final int row = getJTable().convertRowIndexToModel( rowIndex );
+            final int col = getJTable().convertColumnIndexToModel( columnIndex );
 
-                if( LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace(
-                        String.format( "Update display @(%d;%d)\n", Integer.valueOf( row ), Integer.valueOf( col ) )
-                        );
-                    }
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace(
+                    String.format( "Update display @(%d;%d)\n", Integer.valueOf( row ), Integer.valueOf( col ) )
+                    );
+                }
 
-                abstractTableModel.fireTableCellUpdated(
-                        row,
-                        col
-                        );
-            }
+            abstractTableModel.fireTableCellUpdated(
+                    row,
+                    col
+                    );
         };
 
         final MultiLineEditorDialog d = new MultiLineEditorDialog(

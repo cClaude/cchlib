@@ -4,8 +4,6 @@ package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -14,10 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-/* not public */ class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
+//NOT public
+class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
 
@@ -41,7 +38,7 @@ import javax.swing.event.ChangeListener;
         final PreferencesAction     action
         )
     {
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{50, 50, 30, 10, 50, 0};
         gridBagLayout.rowHeights = new int[]{22, 0, 0, 0, 0, 0, 0};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -50,7 +47,7 @@ import javax.swing.event.ChangeListener;
 
         {
             numberOfFilesJLabel = new JLabel("Number of files");
-            GridBagConstraints gbc_numberOfFilesJLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_numberOfFilesJLabel = new GridBagConstraints();
             gbc_numberOfFilesJLabel.gridwidth = 2;
             gbc_numberOfFilesJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_numberOfFilesJLabel.insets = new Insets(0, 0, 5, 5);
@@ -61,7 +58,7 @@ import javax.swing.event.ChangeListener;
         {
             numberOfFilesJTextField = new JTextField();
             numberOfFilesJTextField.setEditable(false);
-            GridBagConstraints gbc_numberOfFilesJTextField = new GridBagConstraints();
+            final GridBagConstraints gbc_numberOfFilesJTextField = new GridBagConstraints();
             gbc_numberOfFilesJTextField.insets = new Insets(0, 0, 5, 5);
             gbc_numberOfFilesJTextField.fill = GridBagConstraints.HORIZONTAL;
             gbc_numberOfFilesJTextField.gridx = 2;
@@ -72,15 +69,10 @@ import javax.swing.event.ChangeListener;
         {
             numberOfFilesJSlider = new JSlider();
             numberOfFilesJSlider.setValue(2);
-            numberOfFilesJSlider.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    numberOfFilesJTextField.setText( Integer.toString( numberOfFilesJSlider.getValue() ) );
-                }
-            });
+            numberOfFilesJSlider.addChangeListener(e -> numberOfFilesJTextField.setText( Integer.toString( numberOfFilesJSlider.getValue() ) ));
             numberOfFilesJSlider.setMaximum(10);
             numberOfFilesJSlider.setMinimum(2);
-            GridBagConstraints gbc_numberOfFilesJSlider = new GridBagConstraints();
+            final GridBagConstraints gbc_numberOfFilesJSlider = new GridBagConstraints();
             gbc_numberOfFilesJSlider.gridwidth = 2;
             gbc_numberOfFilesJSlider.fill = GridBagConstraints.HORIZONTAL;
             gbc_numberOfFilesJSlider.insets = new Insets(0, 0, 5, 0);
@@ -90,7 +82,7 @@ import javax.swing.event.ChangeListener;
         }
         {
             languageJLabel = new JLabel("Language");
-            GridBagConstraints gbc_languageJLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_languageJLabel = new GridBagConstraints();
             gbc_languageJLabel.gridwidth = 2;
             gbc_languageJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_languageJLabel.insets = new Insets(0, 0, 5, 5);
@@ -100,7 +92,7 @@ import javax.swing.event.ChangeListener;
         }
         {
             languageJComboBox = new JComboBox<>();
-            GridBagConstraints gbc_languageJComboBox = new GridBagConstraints();
+            final GridBagConstraints gbc_languageJComboBox = new GridBagConstraints();
             gbc_languageJComboBox.fill = GridBagConstraints.HORIZONTAL;
             gbc_languageJComboBox.insets = new Insets(0, 0, 5, 5);
             gbc_languageJComboBox.anchor = GridBagConstraints.NORTH;
@@ -110,7 +102,7 @@ import javax.swing.event.ChangeListener;
         }
         {
             saveWindowSizeJLabel = new JLabel("Save current windows size");
-            GridBagConstraints gbc_saveWindowSizeJLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_saveWindowSizeJLabel = new GridBagConstraints();
             gbc_saveWindowSizeJLabel.gridwidth = 2;
             gbc_saveWindowSizeJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_saveWindowSizeJLabel.insets = new Insets(0, 0, 5, 5);
@@ -120,7 +112,7 @@ import javax.swing.event.ChangeListener;
         }
         {
             saveWindowSizeJCheckBox = new JCheckBox("");
-            GridBagConstraints gbc_saveWindowSizeJCheckBox = new GridBagConstraints();
+            final GridBagConstraints gbc_saveWindowSizeJCheckBox = new GridBagConstraints();
             gbc_saveWindowSizeJCheckBox.fill = GridBagConstraints.HORIZONTAL;
             gbc_saveWindowSizeJCheckBox.insets = new Insets(0, 0, 5, 5);
             gbc_saveWindowSizeJCheckBox.gridx = 2;
@@ -129,15 +121,10 @@ import javax.swing.event.ChangeListener;
         }
         {
             btnCancel = new JButton("Cancel");
-            btnCancel.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    action.onCancel();
-                }
-            });
+            btnCancel.addActionListener(e -> action.onCancel());
             {
                 saveLookAndFeelJLabel = new JLabel("save current Look And Feel ");
-                GridBagConstraints gbc_saveLookAndFeelJLabel = new GridBagConstraints();
+                final GridBagConstraints gbc_saveLookAndFeelJLabel = new GridBagConstraints();
                 gbc_saveLookAndFeelJLabel.fill = GridBagConstraints.HORIZONTAL;
                 gbc_saveLookAndFeelJLabel.gridwidth = 2;
                 gbc_saveLookAndFeelJLabel.insets = new Insets(0, 0, 5, 5);
@@ -147,14 +134,14 @@ import javax.swing.event.ChangeListener;
             }
             {
                 saveLookAndFeelJCheckBox = new JCheckBox("");
-                GridBagConstraints gbc_saveLookAndFeelJCheckBox = new GridBagConstraints();
+                final GridBagConstraints gbc_saveLookAndFeelJCheckBox = new GridBagConstraints();
                 gbc_saveLookAndFeelJCheckBox.fill = GridBagConstraints.HORIZONTAL;
                 gbc_saveLookAndFeelJCheckBox.insets = new Insets(0, 0, 5, 5);
                 gbc_saveLookAndFeelJCheckBox.gridx = 2;
                 gbc_saveLookAndFeelJCheckBox.gridy = 3;
                 add(saveLookAndFeelJCheckBox, gbc_saveLookAndFeelJCheckBox);
             }
-            GridBagConstraints gbc_btnCancel = new GridBagConstraints();
+            final GridBagConstraints gbc_btnCancel = new GridBagConstraints();
             gbc_btnCancel.fill = GridBagConstraints.HORIZONTAL;
             gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
             gbc_btnCancel.gridx = 0;
@@ -163,34 +150,29 @@ import javax.swing.event.ChangeListener;
         }
         {
             btnSave = new JButton("Save");
-            btnSave.addActionListener(new ActionListener() {
+            btnSave.addActionListener(e -> action.onSave(new PreferencesCurentSaveParameters() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    action.onSave(new PreferencesCurentSaveParameters() {
-                        @Override
-                        public int getNumberOfFiles()
-                        {
-                            return numberOfFilesJSlider.getValue();
-                        }
-                        @Override
-                        public int getSelectedLanguageIndex()
-                        {
-                            return languageJComboBox.getSelectedIndex();
-                        }
-                        @Override
-                        public boolean isSaveWindowSize()
-                        {
-                            return saveWindowSizeJCheckBox.isSelected();
-                        }
-                        @Override
-                        public boolean isSaveLookAndFeel()
-                        {
-                            return saveLookAndFeelJCheckBox.isSelected();
-                        }
-                    });
+                public int getNumberOfFiles()
+                {
+                    return numberOfFilesJSlider.getValue();
                 }
-            });
-            GridBagConstraints gbc_btnSave = new GridBagConstraints();
+                @Override
+                public int getSelectedLanguageIndex()
+                {
+                    return languageJComboBox.getSelectedIndex();
+                }
+                @Override
+                public boolean isSaveWindowSize()
+                {
+                    return saveWindowSizeJCheckBox.isSelected();
+                }
+                @Override
+                public boolean isSaveLookAndFeel()
+                {
+                    return saveLookAndFeelJCheckBox.isSelected();
+                }
+            }));
+            final GridBagConstraints gbc_btnSave = new GridBagConstraints();
             gbc_btnSave.fill = GridBagConstraints.HORIZONTAL;
             gbc_btnSave.gridx = 4;
             gbc_btnSave.gridy = 5;

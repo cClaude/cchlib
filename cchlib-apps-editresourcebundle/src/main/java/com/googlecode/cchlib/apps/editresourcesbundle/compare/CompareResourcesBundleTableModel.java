@@ -1,5 +1,5 @@
 // $codepro.audit.disable numericLiterals
-package com.googlecode.cchlib.apps.editresourcesbundle;
+package com.googlecode.cchlib.apps.editresourcesbundle.compare;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -12,7 +12,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -20,6 +19,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FormattedCustomProperties;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
@@ -29,7 +29,6 @@ import com.googlecode.cchlib.swing.table.LeftDotTableCellRenderer;
 
 /**
  * {@link TableModel} for {@link CompareResourcesBundleFrame}
- *
  */
 class CompareResourcesBundleTableModel
     extends AbstractTableModel
@@ -122,14 +121,7 @@ class CompareResourcesBundleTableModel
         // Perform internationalization
         autoI18n.performeI18n(this,this.getClass());
 
-        final ChangeListener cpChangeLstener = new ChangeListener()
-        {
-            @Override
-            public void stateChanged(final ChangeEvent e)
-            {
-                fireTableStructureChanged();
-            }
-        };
+        final ChangeListener cpChangeLstener = e -> fireTableStructureChanged();
 
         customProperties = new CustomProperties[ filesConfig.getNumberOfFiles() ];
 

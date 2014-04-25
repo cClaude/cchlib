@@ -17,19 +17,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-
 import com.googlecode.cchlib.apps.editresourcesbundle.Resources;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
-/**
- *
- */
-/*public*/
+//NOT public
 abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID  = 4L;
 
-    private int numberOfFiles;
+    private final int numberOfFiles;
 
     private ButtonGroup buttonGroup_FileType;
     private FilesPanel selectJPanel;
@@ -52,9 +48,9 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
     private JScrollPane scrollPane;
     private JTabbedPane jTabbedPaneRoot;
 
-    @I18nString private String msgStringLeft  = "Left";
-    @I18nString private String msgStringFmt = "File %d";
-    @I18nString private String msgButton = "Select";
+    @I18nString private final String msgStringLeft  = "Left";
+    @I18nString private final String msgStringFmt = "File %d";
+    @I18nString private final String msgButton = "Select";
 
     public LoadDialogWB( final Frame parent, final int numberOfFiles )
     {
@@ -70,7 +66,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
         setFont(new Font("Dialog", Font.PLAIN, 12));
         setBackground(Color.white);
         setForeground(Color.black);
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{100, 0, 100, 0};
         gridBagLayout.rowHeights = new int[]{180, 0, 0};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -78,7 +74,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
         getContentPane().setLayout(gridBagLayout);
 
         {
-            GridBagConstraints gbc_jTabbedPaneRoot = new GridBagConstraints();
+            final GridBagConstraints gbc_jTabbedPaneRoot = new GridBagConstraints();
             gbc_jTabbedPaneRoot.gridwidth = 3;
             gbc_jTabbedPaneRoot.fill = GridBagConstraints.BOTH;
             gbc_jTabbedPaneRoot.insets = new Insets(0, 0, 5, 0);
@@ -93,7 +89,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
             getContentPane().add(jTabbedPaneRoot, gbc_jTabbedPaneRoot);
         }
         {
-            GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
+            final GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
             gbc_jButton_Ok.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButton_Ok.insets = new Insets(0, 0, 0, 5);
             gbc_jButton_Ok.gridx = 0;
@@ -105,7 +101,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
             getContentPane().add(jButton_Ok, gbc_jButton_Ok);
         }
         {
-            GridBagConstraints gbc_jButton_Cancel = new GridBagConstraints();
+            final GridBagConstraints gbc_jButton_Cancel = new GridBagConstraints();
             gbc_jButton_Cancel.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButton_Cancel.gridx = 2;
             gbc_jButton_Cancel.gridy = 1;
@@ -178,14 +174,14 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
         if (jPanel_TabFMTProperties == null) {
             jPanel_TabFMTProperties = new JPanel();
 
-            GridBagLayout gbl_jPanel_TabFMTProperties = new GridBagLayout();
+            final GridBagLayout gbl_jPanel_TabFMTProperties = new GridBagLayout();
             gbl_jPanel_TabFMTProperties.columnWidths = new int[]{0, 0, 0};
             gbl_jPanel_TabFMTProperties.rowHeights = new int[]{23, 23, 23, 23, 23, 0};
             gbl_jPanel_TabFMTProperties.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
             gbl_jPanel_TabFMTProperties.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
             jPanel_TabFMTProperties.setLayout(gbl_jPanel_TabFMTProperties);
             {
-                GridBagConstraints gbc_checkBox_CUT_LINE_AFTER_NEW_LINE = new GridBagConstraints();
+                final GridBagConstraints gbc_checkBox_CUT_LINE_AFTER_NEW_LINE = new GridBagConstraints();
                 gbc_checkBox_CUT_LINE_AFTER_NEW_LINE.anchor = GridBagConstraints.WEST;
                 gbc_checkBox_CUT_LINE_AFTER_NEW_LINE.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_CUT_LINE_AFTER_NEW_LINE.gridx = 0;
@@ -193,7 +189,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_AFTER_NEW_LINE(), gbc_checkBox_CUT_LINE_AFTER_NEW_LINE);
             }
             {
-                GridBagConstraints gbc_checkBox_CUT_LINE_AFTER_HTML_BR = new GridBagConstraints();
+                final GridBagConstraints gbc_checkBox_CUT_LINE_AFTER_HTML_BR = new GridBagConstraints();
                 gbc_checkBox_CUT_LINE_AFTER_HTML_BR.anchor = GridBagConstraints.WEST;
                 gbc_checkBox_CUT_LINE_AFTER_HTML_BR.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_CUT_LINE_AFTER_HTML_BR.gridx = 0;
@@ -201,7 +197,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_AFTER_HTML_BR(), gbc_checkBox_CUT_LINE_AFTER_HTML_BR);
             }
             {
-                GridBagConstraints gbc_checkBox_CUT_LINE_BEFORE_HTML_BR = new GridBagConstraints();
+                final GridBagConstraints gbc_checkBox_CUT_LINE_BEFORE_HTML_BR = new GridBagConstraints();
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BR.anchor = GridBagConstraints.WEST;
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BR.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BR.gridx = 0;
@@ -209,7 +205,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_BEFORE_HTML_BR(), gbc_checkBox_CUT_LINE_BEFORE_HTML_BR);
             }
             {
-                GridBagConstraints gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P = new GridBagConstraints();
+                final GridBagConstraints gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P = new GridBagConstraints();
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P.anchor = GridBagConstraints.WEST;
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P.gridx = 0;
@@ -217,7 +213,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P(), gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P);
             }
             {
-                GridBagConstraints gbc_checkBox_CUT_LINE_AFTER_HTML_END_P = new GridBagConstraints();
+                final GridBagConstraints gbc_checkBox_CUT_LINE_AFTER_HTML_END_P = new GridBagConstraints();
                 gbc_checkBox_CUT_LINE_AFTER_HTML_END_P.insets = new Insets(0, 0, 0, 5);
                 gbc_checkBox_CUT_LINE_AFTER_HTML_END_P.anchor = GridBagConstraints.WEST;
                 gbc_checkBox_CUT_LINE_AFTER_HTML_END_P.gridx = 0;
@@ -289,14 +285,14 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
     {
         if (jPanel_TabProperties == null) {
             jPanel_TabProperties = new JPanel();
-            GridBagLayout gbl_jPanel_TabProperties = new GridBagLayout();
+            final GridBagLayout gbl_jPanel_TabProperties = new GridBagLayout();
             gbl_jPanel_TabProperties.columnWidths = new int[]{0, 0, 0};
             gbl_jPanel_TabProperties.rowHeights = new int[]{23, 0};
             gbl_jPanel_TabProperties.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
             gbl_jPanel_TabProperties.rowWeights = new double[]{0.0, Double.MIN_VALUE};
             jPanel_TabProperties.setLayout(gbl_jPanel_TabProperties);
 
-            GridBagConstraints gbc_checkBox_RightUseLeftHasDefaults = new GridBagConstraints();
+            final GridBagConstraints gbc_checkBox_RightUseLeftHasDefaults = new GridBagConstraints();
             gbc_checkBox_RightUseLeftHasDefaults.insets = new Insets(0, 0, 0, 5);
             gbc_checkBox_RightUseLeftHasDefaults.anchor = GridBagConstraints.NORTHWEST;
             gbc_checkBox_RightUseLeftHasDefaults.gridx = 0;
@@ -312,7 +308,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
         if (jPanel_TabSelect == null) {
             {
                 jPanel_TabSelect = new JPanel();
-                GridBagLayout gbl_jPanel_TabSelect = new GridBagLayout();
+                final GridBagLayout gbl_jPanel_TabSelect = new GridBagLayout();
                 gbl_jPanel_TabSelect.columnWidths = new int[]{0, 0, 0};
                 gbl_jPanel_TabSelect.rowHeights = new int[]{50, 0, 0, 0, 0};
                 gbl_jPanel_TabSelect.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
@@ -320,7 +316,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 jPanel_TabSelect.setLayout(gbl_jPanel_TabSelect);
             }
             {
-                GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+                final GridBagConstraints gbc_scrollPane = new GridBagConstraints();
                 gbc_scrollPane.fill = GridBagConstraints.BOTH;
                 gbc_scrollPane.gridwidth = 2;
                 gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
@@ -329,7 +325,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 jPanel_TabSelect.add(getScrollPane(), gbc_scrollPane);
             }
             {
-                GridBagConstraints gbc_checkBox_Properties = new GridBagConstraints();
+                final GridBagConstraints gbc_checkBox_Properties = new GridBagConstraints();
                 gbc_checkBox_Properties.fill = GridBagConstraints.HORIZONTAL;
                 gbc_checkBox_Properties.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_Properties.gridx = 0;
@@ -337,7 +333,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 jPanel_TabSelect.add(getCheckBox_Properties(), gbc_checkBox_Properties);
             }
             {
-                GridBagConstraints gbc_checkBox_LeftReadOnly = new GridBagConstraints();
+                final GridBagConstraints gbc_checkBox_LeftReadOnly = new GridBagConstraints();
                 gbc_checkBox_LeftReadOnly.anchor = GridBagConstraints.WEST;
                 gbc_checkBox_LeftReadOnly.insets = new Insets(0, 0, 5, 0);
                 gbc_checkBox_LeftReadOnly.gridx = 1;
@@ -345,7 +341,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 jPanel_TabSelect.add(getCheckBox_LeftReadOnly(), gbc_checkBox_LeftReadOnly);
             }
             {
-                GridBagConstraints gbc_checkBox_FormattedProperties = new GridBagConstraints();
+                final GridBagConstraints gbc_checkBox_FormattedProperties = new GridBagConstraints();
                 gbc_checkBox_FormattedProperties.fill = GridBagConstraints.HORIZONTAL;
                 gbc_checkBox_FormattedProperties.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_FormattedProperties.gridx = 0;
@@ -353,7 +349,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 jPanel_TabSelect.add(getCheckBox_FormattedProperties(), gbc_checkBox_FormattedProperties);
             }
             {
-                GridBagConstraints gbc_checkBox_ShowLineNumbers = new GridBagConstraints();
+                final GridBagConstraints gbc_checkBox_ShowLineNumbers = new GridBagConstraints();
                 gbc_checkBox_ShowLineNumbers.anchor = GridBagConstraints.WEST;
                 gbc_checkBox_ShowLineNumbers.insets = new Insets(0, 0, 5, 0);
                 gbc_checkBox_ShowLineNumbers.gridx = 1;
@@ -361,7 +357,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 jPanel_TabSelect.add(getCheckBox_ShowLineNumbers(), gbc_checkBox_ShowLineNumbers);
             }
             {
-                GridBagConstraints gbc_checkBox_ini = new GridBagConstraints();
+                final GridBagConstraints gbc_checkBox_ini = new GridBagConstraints();
                 gbc_checkBox_ini.fill = GridBagConstraints.HORIZONTAL;
                 gbc_checkBox_ini.insets = new Insets(0, 0, 0, 5);
                 gbc_checkBox_ini.gridx = 0;

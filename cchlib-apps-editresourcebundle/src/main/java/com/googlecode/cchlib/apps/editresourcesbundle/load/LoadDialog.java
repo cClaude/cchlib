@@ -1,14 +1,13 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.load;
 
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.editresourcesbundle.CompareResourcesBundleFrame;
 import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
+import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
@@ -25,7 +24,7 @@ import cx.ath.choisnet.util.FormattedProperties;
  *
  */
 @I18nName("LoadDialog")
-public class LoadDialog // $codepro.audit.disable largeNumberOfFields
+public class LoadDialog
     extends LoadDialogWB
         implements I18nAutoCoreUpdatable
 {
@@ -33,7 +32,7 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
     private static final Logger LOGGER = Logger.getLogger( LoadDialog.class );
 
     private JFileChooserInitializer jFileChooserInitializer = new JFileChooserInitializer();
-    private FilesConfig filesConfig;
+    private final FilesConfig filesConfig;
 
     private static final int PROPERTIES = 1;
     private static final int FORMATTED_PROPERTIES = 2;
@@ -41,11 +40,11 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
     private static final int LOAD_DIALOG_MINIMUM_WIDTH = 400;
     private static final int LOAD_DIALOG_MINIMUM_HEIGHT = 250;
 
-    @I18nString private String strMsgTitle = "Load...";
-    @I18nString private String strMsg_ErrorWhileLoading = "Error while loading files";
+    @I18nString private final String strMsgTitle = "Load...";
+    @I18nString private final String strMsg_ErrorWhileLoading = "Error while loading files";
 
     private ActionListener thisActionListener;
-    private Preferences preferences;
+    private final Preferences preferences;
 
     public LoadDialog(
         final CompareResourcesBundleFrame   parentFrame,
@@ -92,7 +91,7 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
     }
 
 
-    private void init(CompareResourcesBundleFrame parentFrame)
+    private void init(final CompareResourcesBundleFrame parentFrame)
     {
         initFixComponents();
 
@@ -232,8 +231,8 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
     }
 
     private FileObject getLoadFile(
-            FileObject          previousFile,
-            boolean             readOnly
+            final FileObject          previousFile,
+            final boolean             readOnly
             )
     {
         final JFileChooser fc = getJFileChooser();
@@ -244,7 +243,7 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
                 }
             }
 
-        int returnVal = fc.showOpenDialog( this );
+        final int returnVal = fc.showOpenDialog( this );
 
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             return new FileObject( fc.getSelectedFile(), readOnly );
@@ -256,7 +255,7 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
     //@Override
     private void jButton_LeftMouseMousePressed()
     {
-        FileObject fo = getLoadFile(
+        final FileObject fo = getLoadFile(
                         filesConfig.getLeftFileObject(),
                         getCheckBox_LeftReadOnly().isSelected()
                         );
@@ -270,7 +269,7 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
     //@Override
     protected void jButton_RightMouseMousePressed( final int index )
     {
-        FileObject fo = getLoadFile(
+        final FileObject fo = getLoadFile(
                         filesConfig.getFileObject( index ),
                         false
                         );
@@ -298,7 +297,7 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
             }
 
         // Update left file is ReadOnly has change
-        FileObject foLeft = new FileObject(
+        final FileObject foLeft = new FileObject(
                 filesConfig.getLeftFileObject().getFile(),
                 getCheckBox_LeftReadOnly().isSelected()
                 );
@@ -307,7 +306,7 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
         try {
             filesConfig.load();
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             DialogHelper.showMessageExceptionDialog( this, strMsg_ErrorWhileLoading, e );
             }
 
@@ -316,7 +315,7 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
     }
 
 
-    private void updateStoreOptions(JCheckBox jCheckBox,FormattedProperties.Store storeOption)
+    private void updateStoreOptions(final JCheckBox jCheckBox,final FormattedProperties.Store storeOption)
     {
         if( jCheckBox.isSelected() ) {
             filesConfig.add( storeOption );
@@ -330,14 +329,7 @@ public class LoadDialog // $codepro.audit.disable largeNumberOfFields
     protected ActionListener getActionListener()
     {
         if( this.thisActionListener == null ) {
-            this.thisActionListener = new ActionListener()
-            {
-                @Override
-                public void actionPerformed( ActionEvent e )
-                {
-                    actionPerform( e.getActionCommand() );
-                 }
-            };
+            this.thisActionListener = e -> actionPerform( e.getActionCommand() );
             }
         return this.thisActionListener;
     }

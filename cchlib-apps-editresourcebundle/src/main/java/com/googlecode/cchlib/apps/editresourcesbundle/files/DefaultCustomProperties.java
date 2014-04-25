@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.editresourcesbundle.CompareResourcesBundleFrame;
+import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
 
 
 /**

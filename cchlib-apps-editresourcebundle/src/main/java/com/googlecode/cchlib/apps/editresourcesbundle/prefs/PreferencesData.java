@@ -11,11 +11,14 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.util.properties.Populator;
 
-/* not public */ class PreferencesData implements Serializable // $codepro.audit.disable largeNumberOfMethods, largeNumberOfFields
+//NOT public
+class PreferencesData implements Serializable // $codepro.audit.disable largeNumberOfMethods, largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( PreferencesData.class );
     private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+    private static final int COMPARE_FRAME_MIN_HEIGHT = 400;
+    private static final int COMPARE_FRAME_MIN_WIDTH = 600;
 
     @Populator
     private String lookAndFeelClassName;
@@ -151,17 +154,17 @@ import com.googlecode.cchlib.util.properties.Populator;
         return new Dimension( this.windowWidth, this.windowHeight );
     }
 
-    public void setHTMLPreview_HONOR_DISPLAY_PROPERTIES(boolean b)
+    public void setHTMLPreview_HONOR_DISPLAY_PROPERTIES(final boolean b)
     {
         this.htmlPreview_HONOR_DISPLAY_PROPERTIES = b;
     }
 
-    public void setHTMLPreview_W3C_LENGTH_UNITS(boolean b)
+    public void setHTMLPreview_W3C_LENGTH_UNITS(final boolean b)
     {
         this.htmlPreview_W3C_LENGTH_UNITS = b;
     }
 
-    public void setHTMLPreviewDimension(Dimension size)
+    public void setHTMLPreviewDimension(final Dimension size)
     {
         this.htmlPreviewDimension_width  = size.width;
         this.htmlPreviewDimension_height = size.height;
@@ -194,7 +197,7 @@ import com.googlecode.cchlib.util.properties.Populator;
      * Set current LookAndFeelClassName
      * @param lookAndFeel Look and Feel to use
      */
-    public void setLookAndFeelClassName( LookAndFeel lookAndFeel )
+    public void setLookAndFeelClassName( final LookAndFeel lookAndFeel )
     {
         setLookAndFeelClassName( lookAndFeel.getClass().getName() );
     }
@@ -208,18 +211,18 @@ import com.googlecode.cchlib.util.properties.Populator;
         this.lookAndFeelClassName = name;
     }
 
-    public void setMultiLineEditorDimension(Dimension size)
+    public void setMultiLineEditorDimension(final Dimension size)
     {
         this.multiLineEditorDimension_width  = size.width;
         this.multiLineEditorDimension_height = size.height;
     }
 
-    public void setMultiLineEditorLineWrap( boolean lw )
+    public void setMultiLineEditorLineWrap( final boolean lw )
     {
         this.multiLineEditorLineWrap = lw;
     }
 
-    public void setMultiLineEditorWordWrap( boolean ww )
+    public void setMultiLineEditorWordWrap( final boolean ww )
     {
         this.multiLineEditorWordWrap = ww;
     }
@@ -234,16 +237,22 @@ import com.googlecode.cchlib.util.properties.Populator;
             }
         this.numberOfFiles = numberOfFiles;
     }
+
     public void setWindowDimension( final Dimension size )
     {
         this.windowWidth = size.width;
         this.windowHeight = size.height;
     }
 
+    public Dimension getCompareFrameMinimumDimension()
+    {
+        return new Dimension( COMPARE_FRAME_MIN_WIDTH, COMPARE_FRAME_MIN_HEIGHT ); // FIXME
+    }
+
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "PreferencesData [lookAndFeelClassName=" );
         builder.append( lookAndFeelClassName );
         builder.append( ", localeLanguage=" );

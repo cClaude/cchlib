@@ -7,7 +7,8 @@ import java.awt.event.WindowListener;
 import javax.swing.JDialog;
 import javax.swing.border.EmptyBorder;
 
-/* not public */ class PreferencesJDialog extends JDialog
+//NOT public
+class PreferencesJDialog extends JDialog
 {
     private static final long serialVersionUID = 1L;
     private final PreferencesJPanel contentPanel;
@@ -31,17 +32,17 @@ import javax.swing.border.EmptyBorder;
         action.setWindow( this );
 
         this.addWindowListener( new WindowListener() {
-            @Override public void windowOpened( WindowEvent e ) {}
-            @Override public void windowIconified( WindowEvent e ) {}
-            @Override public void windowDeiconified( WindowEvent e ) {}
-            @Override public void windowDeactivated( WindowEvent e ) {}
-            @Override public void windowClosing( WindowEvent e ) {}
-            @Override public void windowClosed( WindowEvent e )
+            @Override public void windowOpened( final WindowEvent e ) {}
+            @Override public void windowIconified( final WindowEvent e ) {}
+            @Override public void windowDeiconified( final WindowEvent e ) {}
+            @Override public void windowDeactivated( final WindowEvent e ) {}
+            @Override public void windowClosing( final WindowEvent e ) {}
+            @Override public void windowClosed( final WindowEvent e )
             {
                 action.onCancel();
             }
             @Override
-            public void windowActivated( WindowEvent e ) {}
+            public void windowActivated( final WindowEvent e ) {}
         } );
     }
 }

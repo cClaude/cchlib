@@ -7,9 +7,7 @@ import java.io.Serializable;
 import java.util.Properties;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -25,7 +23,7 @@ public class Preferences extends PreferencesData implements Serializable
     private static final long serialVersionUID = 3L;
 
     private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
-    private PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
+    private final PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
     private final File preferencesFile;
 
     /**
@@ -85,7 +83,7 @@ public class Preferences extends PreferencesData implements Serializable
     public static Preferences createPreferences()
     {
         // Try to load pref
-        File preferencesFile = createPropertiesFile();
+        final File preferencesFile = createPropertiesFile();
 
         try {
             return new Preferences(
@@ -93,10 +91,10 @@ public class Preferences extends PreferencesData implements Serializable
                 PropertiesHelper.loadProperties( preferencesFile )
                 );
             }
-        catch( FileNotFoundException e ) { // $codepro.audit.disable logExceptions
+        catch( final FileNotFoundException e ) { // $codepro.audit.disable logExceptions
             LOGGER.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             final String msg = "Cannot load preferences: " + preferencesFile;
             LOGGER.warn( msg, e );
 
@@ -112,11 +110,11 @@ public class Preferences extends PreferencesData implements Serializable
      */
     public void save() throws IOException
     {
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
 
         pp.populateProperties( this, properties );
 
-        File prefs = getPreferencesFile();
+        final File prefs = getPreferencesFile();
         PropertiesHelper.saveProperties(prefs, properties, StringHelper.EMPTY );
         LOGGER.info( "Preferences saved in " + prefs );
     }
@@ -160,7 +158,7 @@ public class Preferences extends PreferencesData implements Serializable
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "Preferences [preferencesFile=" );
         builder.append( preferencesFile );
         builder.append( ", super=" );
@@ -168,6 +166,4 @@ public class Preferences extends PreferencesData implements Serializable
         builder.append( ']' );
         return builder.toString();
     }
-
-
 }

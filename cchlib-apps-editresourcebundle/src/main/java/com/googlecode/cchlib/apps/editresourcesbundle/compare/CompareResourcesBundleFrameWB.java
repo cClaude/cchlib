@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.editresourcesbundle;
+package com.googlecode.cchlib.apps.editresourcesbundle.compare;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
@@ -10,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import com.googlecode.cchlib.apps.editresourcesbundle.Resources;
 import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
 
 /**
@@ -19,7 +20,7 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame // $codepro.a
 {
     private static final long serialVersionUID = 3L;
 
-    private int numberOfFiles;
+    private final int numberOfFiles;
 
     private JMenuBar     jMenuBarFrame;
     private JMenu        jMenuFile;
@@ -31,7 +32,7 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame // $codepro.a
     private JMenuItem[]  jMenuItemSaveRightFile;
     private JMenu        jMenuLookAndFeel;
     private JMenuItem    jMenuItemSaveLeftFile;
-    private JScrollPane  jScrollPaneProperties;
+    private final JScrollPane  jScrollPaneProperties;
     private JTable       jTableProperties;
     private JMenuItem    preferencesJMenuItem;
 
@@ -39,7 +40,7 @@ public abstract class CompareResourcesBundleFrameWB extends JFrame // $codepro.a
     {
         this.numberOfFiles = numberOfFiles;
 
-        setIconImage(Toolkit.getDefaultToolkit().getImage(CompareResourcesBundleFrameWB.class.getResource("icon.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Resources.class.getResource("icon.png")));
         jScrollPaneProperties = new JScrollPane();
         jTableProperties = new JTable();
         jScrollPaneProperties.setViewportView( getjTableProperties() );

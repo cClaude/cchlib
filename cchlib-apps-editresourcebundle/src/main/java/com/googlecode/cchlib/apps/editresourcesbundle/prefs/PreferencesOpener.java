@@ -12,23 +12,23 @@ import com.googlecode.cchlib.swing.DialogHelper;
 public class PreferencesOpener
 {
     private static final Logger LOGGER = Logger.getLogger( PreferencesOpener.class );
-    private static final Locale[] locales = {
+    private static final Locale[] LOCALES = {
         null, // System,
         Locale.ENGLISH,
         Locale.FRENCH
         };
 
-    @I18nString private String msgStringDefaultLocale = "default system";
-    @I18nString private String msgStringSavePrefsExceptionTitle = "Error while saving preferences";
+    @I18nString protected String msgStringDefaultLocale = "default system";
+    @I18nString protected String msgStringSavePrefsExceptionTitle = "Error while saving preferences";
 
     private final String[] languages = {
         null,
-        locales[1].getDisplayLanguage(),
-        locales[2].getDisplayLanguage() // $codepro.audit.disable numericLiterals
+        LOCALES[1].getDisplayLanguage(),
+        LOCALES[2].getDisplayLanguage() // $codepro.audit.disable numericLiterals
         };
-    private JFrame rootFrame;
-    private Preferences preferences;
-    private PreferencesDefaultsParametersValues initParams;
+    private final JFrame rootFrame;
+    private final Preferences preferences;
+    private final PreferencesDefaultsParametersValues initParams;
 
     public PreferencesOpener( final JFrame rootFrame, final Preferences preferences )
     {
@@ -36,24 +36,7 @@ public class PreferencesOpener
         this.preferences    = preferences;
         this.languages[ 0 ] = msgStringDefaultLocale;
 
-        final int selectedLanguageIndex;
-        {
-            final Locale pLocale  = preferences.getLocale();
-            int    selected = 0;
-
-            if( pLocale == null ) {
-                selected = 0;
-                }
-            else {
-                for( int i = 1; i<locales.length; i++ ) {
-                    if( pLocale.equals( locales[ i ] ) ) {
-                        selected = i;
-                        break;
-                        }
-                    }
-                }
-            selectedLanguageIndex = selected;
-        }
+        final int selectedLanguageIndex = getSelectedLanguageIndex( preferences );
 
         this.initParams = newPreferencesDefaultsParametersValues(
                 languages,
@@ -61,9 +44,29 @@ public class PreferencesOpener
                 );
     }
 
+    private int getSelectedLanguageIndex( final Preferences preferences )
+    {
+        final Locale pLocale               = preferences.getLocale();
+        int          selectedLanguageIndex = 0;
+
+        if( pLocale == null ) {
+            selectedLanguageIndex = 0;
+            }
+        else {
+            for( int i = 1; i<LOCALES.length; i++ ) {
+                if( pLocale.equals( LOCALES[ i ] ) ) {
+                    selectedLanguageIndex = i;
+                    break;
+                    }
+                }
+            }
+
+        return selectedLanguageIndex;
+    }
+
     public void open()
     {
-        final AbstractPreferencesAction action = newPreferencesAction( locales );
+        final AbstractPreferencesAction action = newPreferencesAction( LOCALES );
         final PreferencesJDialog        dialog = new PreferencesJDialog( initParams, action );
 
         dialog.setVisible( true );
@@ -74,9 +77,9 @@ public class PreferencesOpener
         final AbstractPreferencesAction action = new AbstractPreferencesAction()
         {
             @Override
-            public void onSave( PreferencesCurentSaveParameters saveParams )
+            public void onSave( final PreferencesCurentSaveParameters saveParams )
             {
-                Locale locale = locales[ saveParams.getSelectedLanguageIndex() ];
+                final Locale locale = locales[ saveParams.getSelectedLanguageIndex() ];
                 preferences.setLocale( locale );
 
                 if( saveParams.isSaveWindowSize() ) {
@@ -102,7 +105,7 @@ public class PreferencesOpener
             final int      selectedLanguageIndex
             )
     {
-        PreferencesDefaultsParametersValues initParams = new PreferencesDefaultsParametersValues()
+        final PreferencesDefaultsParametersValues initParams = new PreferencesDefaultsParametersValues()
         {
             @Override
             public int getNumberOfFiles()
@@ -134,7 +137,7 @@ public class PreferencesOpener
         try {
             preferences.save();
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             DialogHelper.showMessageExceptionDialog(
                 this.rootFrame,
                 msgStringSavePrefsExceptionTitle,

@@ -7,11 +7,8 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.swing.event.ChangeListener;
 
-/**
- *
- */
-public
-interface CustomProperties
+
+public interface CustomProperties
     extends Serializable
 {
     /**

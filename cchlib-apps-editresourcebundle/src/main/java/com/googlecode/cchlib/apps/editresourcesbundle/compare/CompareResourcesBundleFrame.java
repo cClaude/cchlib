@@ -1,5 +1,4 @@
-// $codepro.audit.disable numericLiterals
-package com.googlecode.cchlib.apps.editresourcesbundle;
+package com.googlecode.cchlib.apps.editresourcesbundle.compare;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.editresourcesbundle.EditResourcesBundleApp;
+import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.load.LoadDialog;
@@ -36,43 +37,34 @@ import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccess
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessoryDefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
-/**
- *
- */
 @I18nName("CompareResourcesBundleFrame")
-public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOfFields
+public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOfFields
     extends CompareResourcesBundleFrameWB
         implements I18nAutoCoreUpdatable
 {
     private static final Logger LOGGER = Logger.getLogger(CompareResourcesBundleFrame.class);
     private static final long serialVersionUID = 1L;
 
-    /* @serial */
     private FilesConfig filesConfig;
-    /* @serial */
     private CompareResourcesBundleTableModel tableModel;
-    /* @serial */
     private JFileChooserInitializer jFileChooserInitializer;
-    /* @serial */
     private FrameActionListener frameActionListener;
-    /* @serial */
-    private Preferences preferences;
-    /* @serial */
-    private LastSelectedFilesAccessoryDefaultConfigurator lastSelectedFilesAccessoryDefaultConfigurator = new LastSelectedFilesAccessoryDefaultConfigurator();
-    /* @serial */
-    private AutoI18nCore autoI18n;
+    private final Preferences preferences;
+    private final LastSelectedFilesAccessoryDefaultConfigurator lastSelectedFilesAccessoryDefaultConfigurator = new LastSelectedFilesAccessoryDefaultConfigurator();
+    private final AutoI18nCore autoI18n;
 
-    @I18nString private String fileSavedMsg = "File '%s' saved.";
-    @I18nString private String fileSaveNowQuestionMsg = "Save file '%s' now ?";
-    @I18nString private String saveLeftFileTypeMsg = "Left File";
-    @I18nString private String saveRightFileTypeMsg = "Right File";
-    @I18nString private String fileSaveIOException = "Error while saving '%s'";
-    @I18nString private String jFileChooserInitializerTitle     = "Waiting...";
-    @I18nString private String jFileChooserInitializerMessage   = "Analyze disk structure";
-    @I18nString private String msgStringAlertLocaleTitle = "Change language";
-    @I18nString private String msgStringAlertLocale = "You need to restart application to apply this language: %s";
-    @I18nString private String txtNoFile = "<<NoFile>>";
-    private PreferencesOpener preferencesOpener;
+    @I18nString protected String fileSavedMsg = "File '%s' saved."; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String fileSaveNowQuestionMsg = "Save file '%s' now ?"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String saveLeftFileTypeMsg = "Left File"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String saveRightFileTypeMsg = "Right File"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String fileSaveIOException = "Error while saving '%s'"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String jFileChooserInitializerTitle     = "Waiting..."; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String jFileChooserInitializerMessage   = "Analyze disk structure"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String msgStringAlertLocaleTitle = "Change language"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String msgStringAlertLocale = "You need to restart application to apply this language: %s"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String txtNoFile = "<<NoFile>>"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+
+    private final PreferencesOpener preferencesOpener;
 
     /**
      * For I18n only
@@ -118,9 +110,9 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
         final Locale locale = this.preferences.getLocale();
 
         if( LOGGER.isTraceEnabled() ) {
-            LOGGER.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
-            LOGGER.info( "I18n Init: locale = " + locale );
-            LOGGER.info( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResourceBundleName() );
+            LOGGER.trace( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
+            LOGGER.trace( "I18n Init: locale = " + locale );
+            LOGGER.trace( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResourceBundleName() );
             }
 
         autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
@@ -128,12 +120,17 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
                 EditResourcesBundleApp.getI18nSimpleResourceBundle( locale )
                 );
 
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "I18n Init: done" );
+            }
+
         preferencesOpener = new PreferencesOpener( this, preferences );
 
         // Apply i18n !
         performeI18n( autoI18n );
 
-        JFrames.handleMinimumSize( this, 600, 400 );
+
+        JFrames.handleMinimumSize( this, preferences.getCompareFrameMinimumDimension() );
     }
 
     protected void closeContent()
@@ -157,7 +154,7 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
         return url;
     }
 
-    public static void main(/* String[] args*/)
+    public static void main()
     {
         LOGGER.info( "started" );
 
@@ -165,26 +162,21 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
 
         prefs.installPreferences();
 
-        SwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    CompareResourcesBundleFrame frame = new CompareResourcesBundleFrame(prefs);
-                    // frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-                    frame.setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
-                    frame.setTitle( "Edit Ressource Bundle" );
-                    frame.getContentPane().setPreferredSize( frame.getSize() );
-                    frame.pack();
-                    frame.setLocationRelativeTo( null );
-                    frame.setVisible( true );
-                    frame.getJFileChooserInitializer();
-                    }
-                catch( Exception e ) {
-                    LOGGER.error( "Error while building main frame", e );
-                    DialogHelper.showMessageExceptionDialog( null, "Fatal error", e );
-                    }
-            }
+        SwingUtilities.invokeLater( ( ) -> {
+            try {
+                final CompareResourcesBundleFrame frame = new CompareResourcesBundleFrame(prefs);
+                frame.setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
+                frame.setTitle( "Edit Ressource Bundle" );
+                frame.getContentPane().setPreferredSize( frame.getSize() );
+                frame.pack();
+                frame.setLocationRelativeTo( null );
+                frame.setVisible( true );
+                frame.getJFileChooserInitializer();
+                }
+            catch( final Exception e ) {
+                LOGGER.error( "Error while building main frame", e );
+                DialogHelper.showMessageExceptionDialog( null, "Fatal error", e );
+                }
         } );
     }
 
@@ -225,7 +217,7 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
             {
                 private static final long serialVersionUID = 1L;
                 @Override
-                public void perfomeConfig(JFileChooser jfc)
+                public void perfomeConfig(final JFileChooser jfc)
                 {
                     super.perfomeConfig( jfc );
 
@@ -320,7 +312,7 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
                             );
                     }
                 }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 LOGGER.error( e );
                 DialogHelper.showMessageExceptionDialog(
                     this,
@@ -333,30 +325,25 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
 
     private void jMenuItem_Open()
     {
-        new Thread( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                // TODO: close prev
-                closeContent();
+        new Thread( ( ) -> {
+            // TODO: close prev
+            closeContent();
 
-                FilesConfig fc     = new FilesConfig(filesConfig);
-                fc.setNumberOfFiles( preferences.getNumberOfFiles() );
+            final FilesConfig fc     = new FilesConfig(filesConfig);
+            fc.setNumberOfFiles( preferences.getNumberOfFiles() );
 
-                LoadDialog  dialog = new LoadDialog(
-                        CompareResourcesBundleFrame.this,
-                        fc
-                        );
-                dialog.performeI18n(autoI18n);
-                dialog.setModal( true );
-                dialog.setVisible( true );
+            final LoadDialog  dialog = new LoadDialog(
+                    CompareResourcesBundleFrame.this,
+                    fc
+                    );
+            dialog.performeI18n(autoI18n);
+            dialog.setModal( true );
+            dialog.setVisible( true );
 
-                if( fc.isFilesExists() ) {
-                    filesConfig = fc;
-                    updateDisplay();
-                    }
-            }
+            if( fc.isFilesExists() ) {
+                filesConfig = fc;
+                updateDisplay();
+                }
         }, "jMenuItem_Open()").start();
     }
 
@@ -373,7 +360,7 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
     private class FrameActionListener implements ActionListener
     {
         @Override
-        public void actionPerformed( ActionEvent event )
+        public void actionPerformed( final ActionEvent event )
         {
             final String  actionCommandString = event.getActionCommand();
             final Integer index               = CompareResourcesBundleFrameAction.ACTIONCMD_SAVE_RIGHT_PREFIX.getIndex( actionCommandString );
@@ -425,7 +412,7 @@ public class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOf
     {
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(this.preferencesOpener,this.preferencesOpener.getClass());
-           }
+    }
 
     public void openPreferences()
     {

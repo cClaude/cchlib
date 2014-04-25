@@ -2,6 +2,7 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.util.Locale;
 import java.util.Set;
+import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
