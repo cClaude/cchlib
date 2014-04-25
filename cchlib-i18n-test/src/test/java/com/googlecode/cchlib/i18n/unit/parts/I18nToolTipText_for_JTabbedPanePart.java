@@ -1,20 +1,20 @@
 // $codepro.audit.disable largeNumberOfFields, constantNamingConvention, numericLiterals
 package com.googlecode.cchlib.i18n.unit.parts;
 
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
-import com.googlecode.cchlib.i18n.unit.TestPartInterface;
-import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 import javax.swing.Icon;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
+import com.googlecode.cchlib.i18n.unit.TestReference;
+import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
-public class I18nToolTipText_for_JTabbedPanePart
-    implements TestPartInterface
+public class I18nToolTipText_for_JTabbedPanePart implements TestReference, I18nAutoCoreUpdatable
 {
     private static final Logger LOGGER = Logger.getLogger( I18nToolTipTextIgnorePart.class );
 
@@ -57,7 +57,7 @@ public class I18nToolTipText_for_JTabbedPanePart
     }
 
     @Override
-    public void beforePrepTest( PrepTestPartInterface prepTest )
+    public void beforePrepTest( final PrepTestPartInterface prepTest )
     {
         TestUtils.preparePrepTest( prepTest, this );
     }
@@ -79,7 +79,7 @@ public class I18nToolTipText_for_JTabbedPanePart
     }
 
     @Override
-    public void runPerformeI18nTest()
+    public void performeI18n()
     {
         afterPrepTest();
 
@@ -88,7 +88,7 @@ public class I18nToolTipText_for_JTabbedPanePart
             LOGGER.info( "before contentJTabbedPane.getToolTipTextAt( " + i + " ) =" + myJTabbedPane.getToolTipTextAt( i ) );
             }
 
-        TestUtils.runPerformeI18nTest( this );
+        TestUtils.performeI18n( this );
 
         Assertions.assertThat( myJTabbedPane.getTabCount() ).isEqualTo( 4 );
 

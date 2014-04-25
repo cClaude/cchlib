@@ -1,21 +1,21 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.i18n.unit.parts;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import org.apache.log4j.Logger;
+import org.junit.Assert;
 import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
-import com.googlecode.cchlib.i18n.unit.TestPartInterface;
+import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
 
 @I18nName("I18nBaseNameTest")
-public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, TestPartInterface
+public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, TestReference
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nBaseNamePart.class );
@@ -49,7 +49,7 @@ public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, T
     }
 
     @Override
-    public void beforePrepTest(PrepTestPartInterface prepTest)
+    public void beforePrepTest(final PrepTestPartInterface prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
     }
@@ -65,7 +65,7 @@ public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, T
     }
 
     @Override
-    public void runPerformeI18nTest()
+    public void performeI18n()
     {
         Assert.assertEquals( INIT_myString1, this.myString1 );
         Assert.assertEquals( INIT_myString2, this.myString2 );
@@ -73,7 +73,7 @@ public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, T
         Assert.assertEquals( INIT_myJLabel1, this.myJLabel1.getText() );
         Assert.assertEquals( INIT_myJLabel2, this.myJLabel2.getText() );
 
-        TestUtils.runPerformeI18nTest( this );
+        TestUtils.performeI18n( this );
 
         Assert.assertEquals( DEFAULT_BUNDLE_myString1, this.myString1 );
         Assert.assertEquals( DEFAULT_BUNDLE_myString2, this.myString2 );

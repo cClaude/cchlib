@@ -7,10 +7,10 @@ import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
-import com.googlecode.cchlib.i18n.unit.TestPartInterface;
+import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
-public final class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, TestPartInterface
+public final class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, TestReference
 {
     private static final Logger LOGGER = Logger.getLogger( AutoI18nBasicInterfacePart.class );
     private static final String INIT_TEXT = "my MyAutoI18nBasicInterface text 1";
@@ -43,11 +43,11 @@ public final class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, 
     }
 
     @Override
-    public void runPerformeI18nTest()
+    public void performeI18n()
     {
         afterPrepTest();
 
-        TestUtils.runPerformeI18nTest( this );
+        TestUtils.performeI18n( this );
 
         {
             final String text = this.myAutoI18nBasicInterface.getI18nString();

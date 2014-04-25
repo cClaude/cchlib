@@ -1,12 +1,6 @@
 // $codepro.audit.disable largeNumberOfFields, constantNamingConvention, questionableName
 package com.googlecode.cchlib.i18n.unit.parts;
 
-import com.googlecode.cchlib.i18n.annotation.I18n;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
-import com.googlecode.cchlib.i18n.unit.TestPartInterface;
-import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,8 +14,14 @@ import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Ignore;
+import com.googlecode.cchlib.i18n.annotation.I18n;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
+import com.googlecode.cchlib.i18n.unit.TestReference;
+import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
-public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, TestPartInterface
+public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, TestReference
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nForcedPart.class );
@@ -81,11 +81,11 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
             myJTabbedPane = new JTabbedPane();
             super.add( myJTabbedPane );
             {
-                JPanel panel1 = new JPanel();
+                final JPanel panel1 = new JPanel();
                 this.myJTabbedPane.addTab(INIT_myJTabbedPane1, null, panel1, null);
             }
             {
-                JPanel panel2 = new JPanel();
+                final JPanel panel2 = new JPanel();
                 this.myJTabbedPane.addTab(INIT_myJTabbedPane2, null, panel2, null);
 
                 this.myTitledBorder = new TitledBorder(null, INIT_myTitledBorder, TitledBorder.LEADING, TitledBorder.TOP, null, null);
@@ -129,7 +129,7 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
     }
 
     @Override
-    public void beforePrepTest(PrepTestPartInterface prepTest)
+    public void beforePrepTest(final PrepTestPartInterface prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
     }
@@ -158,11 +158,11 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
     }
 
     @Override
-    public void runPerformeI18nTest()
+    public void performeI18n()
     {
         afterPrepTest();
 
-        TestUtils.runPerformeI18nTest( this );
+        TestUtils.performeI18n( this );
 
         {
             final String r = this.myJLabel.getText();

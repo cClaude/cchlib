@@ -1,6 +1,11 @@
 // $codepro.audit.disable constantNamingConvention
 package com.googlecode.cchlib.i18n.unit.util;
 
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Locale;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
@@ -12,11 +17,6 @@ import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
 import com.googlecode.cchlib.i18n.unit.REF;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Locale;
 
 public class TestUtils
 {
@@ -67,7 +67,7 @@ public class TestUtils
                 return notUsePrintStream;
             }
             @Override
-            public void add( I18nAutoCoreUpdatable frame )
+            public void add( final I18nAutoCoreUpdatable frame )
             {
                 list.add( frame );
             }
@@ -104,7 +104,7 @@ public class TestUtils
         return result;
     }
 
-    public static void runPerformeI18nTest( final I18nAutoCoreUpdatable frame )
+    public static void performeI18n( final I18nAutoCoreUpdatable frame )
     {
         final EnumSet<AutoI18nConfig> config   = getDebugConfig();
         final AutoI18nCore            autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
@@ -116,7 +116,7 @@ public class TestUtils
         frame.performeI18n( autoI18n );
     }
 
-    private static EnumSet<AutoI18nConfig> getDebugConfig()
+    public static EnumSet<AutoI18nConfig> getDebugConfig()
     {
         return EnumSet.of( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS );
     }

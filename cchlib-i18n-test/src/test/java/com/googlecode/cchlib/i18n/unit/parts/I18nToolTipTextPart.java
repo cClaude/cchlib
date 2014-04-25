@@ -1,17 +1,17 @@
 package com.googlecode.cchlib.i18n.unit.parts;
 
-import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
-import com.googlecode.cchlib.i18n.unit.TestPartInterface;
-import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 import javax.swing.JButton;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Ignore;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
+import com.googlecode.cchlib.i18n.unit.TestReference;
+import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
-public class I18nToolTipTextPart implements I18nAutoCoreUpdatable, TestPartInterface
+public class I18nToolTipTextPart implements I18nAutoCoreUpdatable, TestReference
 {
     private static final Logger LOGGER = Logger.getLogger( I18nToolTipTextPart.class );
     private static final String TOOLTIPTEXT_INIT = "my tool tip text 1";
@@ -36,7 +36,7 @@ public class I18nToolTipTextPart implements I18nAutoCoreUpdatable, TestPartInter
     }
 
     @Override
-    public void beforePrepTest(PrepTestPartInterface prepTest)
+    public void beforePrepTest(final PrepTestPartInterface prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
     }
@@ -49,12 +49,12 @@ public class I18nToolTipTextPart implements I18nAutoCoreUpdatable, TestPartInter
     }
 
     @Override
-    public void runPerformeI18nTest()
+    public void performeI18n()
     {
         Assert.assertEquals( TEXT_INIT, this.myButtonWithToolTipText1.getText() );
         Assert.assertEquals( TOOLTIPTEXT_INIT, this.myButtonWithToolTipText1.getToolTipText() );
 
-        TestUtils.runPerformeI18nTest( this );
+        TestUtils.performeI18n( this );
 
         final String toolTipText = this.myButtonWithToolTipText1.getToolTipText();
 

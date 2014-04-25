@@ -15,7 +15,7 @@
   <!-- Global properties -->
   <properties>
   </properties>
-  
+
   <dependencies>
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
@@ -34,6 +34,12 @@
         <groupId>com.googlecode.cchlib</groupId>
         <artifactId>cchlib-unit</artifactId>
         <version>4.2-SNAPSHOT</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>17.0-rc2</version>
         <scope>test</scope>
     </dependency>
   </dependencies>

@@ -4,15 +4,22 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.Set;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import com.google.common.collect.Sets;
+import com.google.common.collect.Sets.SetView;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
+import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
-import com.googlecode.cchlib.i18n.unit.TestPartInterface;
+import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.parts.AutoI18nBasicInterfacePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nBaseNamePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nDefaultPart;
@@ -21,6 +28,8 @@ import com.googlecode.cchlib.i18n.unit.parts.I18nStringPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextIgnorePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart;
+import com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReference;
+import com.googlecode.cchlib.i18n.unit.strings.errors.I18nStringWithErrorsTestReference;
 
 /**
  * Integration test for I18n
@@ -28,15 +37,18 @@ import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart
 public class RunI18nTestAppTest
 {
     private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );
+    private static final int NUMBERS_OF_UNUSED = 2;
 
-    private static TestPartInterface[] getTests()
+    private static TestReference[] getTests()
     {
-        return new TestPartInterface[] {
+        return new TestReference[] {
                 new AutoI18nBasicInterfacePart(),
                 new I18nBaseNamePart(),
                 new I18nDefaultPart(),
                 new I18nForcedPart(),
                 new I18nStringPart(),
+                new I18nStringTestReference(),
+                new I18nStringWithErrorsTestReference(),
                 new I18nToolTipTextIgnorePart(),
                 new I18nToolTipTextPart(),
                 new I18nToolTipText_for_JTabbedPanePart(),
@@ -47,27 +59,27 @@ public class RunI18nTestAppTest
     public void runPrepTest() throws FileNotFoundException, IOException
     {
         final PrepTestPartInterface prepTest = TestUtils.createPrepTest();
-        final TestPartInterface[]   tests    = getTests();
+        final TestReference[]       tests    = getTests();
 
         int syntaxeExceptionCount = 0;
         int missingResourceExceptionCount = 0;
 
         // Value should not change (check before)
-        for( final TestPartInterface test : tests ) {
+        for( final TestReference test : tests ) {
             test.afterPrepTest();
 
             syntaxeExceptionCount += test.getSyntaxeExceptionCount();
             missingResourceExceptionCount += test.getMissingResourceExceptionCount();
             }
 
-        for( final TestPartInterface test : tests ) {
+        for( final TestReference test : tests ) {
             test.beforePrepTest( prepTest );
             }
 
         final I18nPrepHelper.Result result = TestUtils.runPrepTest( prepTest );
 
         // Value should not change (check after)
-        for( final TestPartInterface test : tests ) {
+        for( final TestReference test : tests ) {
             test.afterPrepTest();
             }
 
@@ -95,41 +107,103 @@ public class RunI18nTestAppTest
         Assert.assertEquals(  0, collector.getSecurityExceptionCollector().size() );
         Assert.assertEquals(  0, collector.getSetFieldExceptionCollector().size() );
 
-        int existingSize;
-        {
-            final ResourceBundle validMessageBundleResource = TestUtils.VALID_MESSAGE_BUNDLE.createResourceBundle( Locale.ENGLISH );
+        final Map<String, String>  computeEntriesExistingInPropertiesMap = computeEntriesExistingInPropertiesMap();
+        final int                  existingSize = computeEntriesExistingInPropertiesMap.size();
+        LOGGER.info( "existing entries in properties = " + existingSize );
 
-            existingSize= validMessageBundleResource.keySet().size();
-            LOGGER.info( "existingSize = " + existingSize );
+        Assert.assertTrue( existingSize > 0 );
 
-            Assert.assertTrue( existingSize > 0 );
-       }
+        final Map<String,String> entriesCreatedByPrepMap = computeEntriesCreatedByPrepMap( result );
+        final int                createdSize = entriesCreatedByPrepMap.size();
+        LOGGER.info( "created entries by Prep process = " + createdSize );
 
-        final int createdSize;
-        {
-            final Properties prop   = new Properties();
-            try (final Reader reader = new FileReader( result.getOutputFile() )) {
-                prop.load( reader );
-            }
+        final SetView<String> commonsValuesSet = Sets.intersection( computeEntriesExistingInPropertiesMap.keySet(), entriesCreatedByPrepMap.keySet() );
 
-            createdSize = prop.size();
-        }
+        final SetView<String> notFoundByPrepSet       = Sets.difference( computeEntriesExistingInPropertiesMap.keySet(), commonsValuesSet );
+        final SetView<String> notFoundInPropertiesSet = Sets.difference( entriesCreatedByPrepMap.keySet(), commonsValuesSet );
 
-        Assert.assertEquals( existingSize, createdSize );
+        display( "existing entries in properties", computeEntriesExistingInPropertiesMap.keySet() );
+        display( "created entries by Prep process", entriesCreatedByPrepMap.keySet() );
+
+        display( "commons values", commonsValuesSet );
+
+        display( "Not found in properties", notFoundInPropertiesSet );
+        display( "Not found by Prep process", notFoundByPrepSet );
+
+        Assert.assertEquals( existingSize, createdSize + NUMBERS_OF_UNUSED );
 
         LOGGER.info( "ALL runPrepTest() done" );
      }
 
+    private void display( final String message, final Set<String> set )
+    {
+        LOGGER.info( " *** " + message + " ***" );
+
+        final StringBuilder sb = new StringBuilder();
+        sb.append( "values = \n" );
+        set.stream().sorted().forEach( k -> sb.append( k ).append( '\n' ) );
+        LOGGER.info( sb.toString() );
+
+        LOGGER.info( " *** " );
+    }
+
+    private Map<String, String> computeEntriesCreatedByPrepMap( final Result result ) //
+            throws FileNotFoundException, IOException
+    {
+        final Properties prop   = new Properties();
+        try (final Reader reader = new FileReader( result.getOutputFile() )) {
+            prop.load( reader );
+        }
+
+        final Set<String>         propertiyNames = prop.stringPropertyNames();
+        final Map<String, String> map           = new HashMap<String, String>( propertiyNames.size() );
+
+        propertiyNames.forEach( t -> map.put( t, prop.getProperty( t ) ) );
+
+        return Collections.unmodifiableMap( map );
+    }
+
+    private Map<String, String> computeEntriesExistingInPropertiesMap()
+    {
+        final ResourceBundle validMessageBundleResource = TestUtils.VALID_MESSAGE_BUNDLE.createResourceBundle( Locale.ENGLISH );
+
+        final Set<String>         propertiyNames = validMessageBundleResource.keySet();
+        final Map<String, String> map           = new HashMap<String, String>( propertiyNames.size() );
+
+        propertiyNames.forEach( t -> map.put( t, validMessageBundleResource.getString( t ) ) );
+
+        return Collections.unmodifiableMap( map );
+    }
+
     @Test
     public void runPerformeI18nTest()
     {
-        final TestPartInterface[] tests = getTests();
+        final TestReference[] tests = getTests();
 
-        for( final TestPartInterface test : tests ) {
+        for( final TestReference test : tests ) {
             LOGGER.info( "testing " + test  );
-            test.runPerformeI18nTest();
+            test.performeI18n();
             }
 
         LOGGER.info( "ALL runPerformeI18nTest() done"  );
     }
+
+    @Test
+    public void launchI18nStringOldTest()
+    {
+        new I18nStringPart().performeI18n();
+    }
+
+    @Test
+    public void launch_I18nStringTestReference()
+    {
+        new I18nStringTestReference().performeI18n();
+    }
+
+    @Test
+    public void launch_I18nStringWithErrorsTestReference()
+    {
+        new I18nStringWithErrorsTestReference().performeI18n();
+    }
+
 }
