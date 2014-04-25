@@ -1,17 +1,6 @@
 // $codepro.audit.disable largeNumberOfFields, largeNumberOfMethods, constantNamingConvention
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
-import com.googlecode.cchlib.util.iterator.Iterators;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -34,6 +23,17 @@ import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
+import com.googlecode.cchlib.util.iterator.Iterators;
 
 @I18nName("duplicatefiles.JPanelResult")
 public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable
@@ -113,25 +113,27 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     private static final String ACTION_COMMAND_KeepTheseFiles            = "KeepTheseFiles";
     private static final String ACTION_COMMAND_KeepAllExceptTheseFiles   = "KeepAllExceptTheseFiles";
 
-    @I18nString private final String txtCopy = "Copy";
-    @I18nString private final String txtOpenFile = "Open (Handle by System)";
-    @I18nString private final String txtOpenParentDirectory = "Open parent directory (Handle by System)";
-    @I18nString private final String txtDeleteThisFile = "Delete this file";
-    @I18nString private final String txtDeleteAllExceptThisFile  = "Delete all except this file";
-    @I18nString private final String txtKeepThisFile = "Keep this file";
-    @I18nString private final String txtKeepAllExceptThisFile = "Keep all except this file";
-    @I18nString private final String txtDeleteDuplicateIn = "Delete duplicate in";
-    @I18nString private final String txtKeepNonDuplicateIn = "Keep nonduplicate in";
-    @I18nString private final String txtKeepAllInDir = "Keep all in dir";
-    @I18nString private final String txtDeleteAllInDir = "Delete all in dir";
-    @I18nString private final String txtHiddenFirstLetter = "H";
+    @I18nString private String txtCopy;
+    @I18nString private String txtOpenFile;
+    @I18nString private String txtOpenParentDirectory;
+    @I18nString private String txtDeleteThisFile;
+    @I18nString private String txtDeleteAllExceptThisFile;
+    @I18nString private String txtKeepThisFile;
+    @I18nString private String txtKeepAllExceptThisFile;
+    @I18nString private String txtDeleteDuplicateIn;
+    @I18nString private String txtKeepNonDuplicateIn;
+    @I18nString private String txtKeepAllInDir;
+    @I18nString private String txtDeleteAllInDir;
+    @I18nString private String txtHiddenFirstLetter;
     //@I18nString private String txtCanExecuteFirstLetter = "E";
-    @I18nString private final String txtCanWriteFirstLetter = "W";
-    @I18nString private final String txtCanReadFirstLetter = "R";
+    @I18nString private String txtCanWriteFirstLetter;
+    @I18nString private String txtCanReadFirstLetter;
 
     public JPanelResult()
     {
         super();
+
+        beSurNonFinal();
 
         this.dFToolKit = AppToolKitService.getInstance().getAppToolKit();
 
@@ -141,7 +143,26 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         SwingUtilities.invokeLater( () -> setDividersLocation( dFToolKit.getPreferences().getJPaneResultDividerLocations() ) );
     }
 
-     public void populate(
+    private void beSurNonFinal()
+    {
+         this.txtCopy = "Copy";
+         this.txtOpenFile = "Open (Handle by System)";
+         this.txtOpenParentDirectory = "Open parent directory (Handle by System)";
+         this.txtDeleteThisFile = "Delete this file";
+         this.txtDeleteAllExceptThisFile  = "Delete all except this file";
+         this.txtKeepThisFile = "Keep this file";
+         this.txtKeepAllExceptThisFile = "Keep all except this file";
+         this.txtDeleteDuplicateIn = "Delete duplicate in";
+         this.txtKeepNonDuplicateIn = "Keep nonduplicate in";
+         this.txtKeepAllInDir = "Keep all in dir";
+         this.txtDeleteAllInDir = "Delete all in dir";
+         this.txtHiddenFirstLetter = "H";
+         //@I18nString private String txtCanExecuteFirstLetter = "E";
+         this.txtCanWriteFirstLetter = "W";
+         this.txtCanReadFirstLetter = "R";
+    }
+
+    public void populate(
         final Map<String,Set<KeyFileState>> duplicateFiles
         )
     {

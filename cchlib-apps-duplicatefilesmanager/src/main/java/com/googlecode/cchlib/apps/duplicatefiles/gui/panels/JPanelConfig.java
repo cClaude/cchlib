@@ -1,6 +1,17 @@
-// $codepro.audit.disable largeNumberOfFields
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
 
+import java.awt.event.ActionListener;
+import java.nio.file.PathMatcher;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
@@ -15,18 +26,6 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
 import cx.ath.choisnet.lang.ToStringBuilder;
-import java.awt.event.ActionListener;
-import java.nio.file.PathMatcher;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.regex.Pattern;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -47,38 +46,63 @@ public class JPanelConfig
 private Scanner s;
 
     private JPanelConfigFilter jPanelIncFilesFilter;
-    @I18nString private final String jPanelIncFilesFilterTitle  = "jPanelIncFilesFilterTitle";
-    @I18nString private final String jPanelIncFilesFilterRegExp = "jPanelIncFilesFilterRegExp";
-    private JPanelConfigFilter jPanelExcFilesFilter;
-    @I18nString private final String jPanelExcFilesFilterTitle = "jPanelExcFilesFilterTitle";
-    @I18nString private final String jPanelExcFilesFilterRegExp = "jPanelExcFilesFilterRegExp";
-    private JPanelConfigFilter jPanelIncDirsFilter;
-    @I18nString private final String jPanelIncDirsFilterTitle = "jPanelIncDirsFilterTitle";
-    @I18nString private final String jPanelIncDirsFilterRegExp = "jPanelIncDirsFilterRegExp";
-    private JPanelConfigFilter jPanelExcDirsFilter;
-    @I18nString private final String jPanelExcDirsFilterTitle = "jPanelExcDirsFilterTitle";
-    @I18nString private final String jPanelExcDirsFilterRegExp = "jPanelExcDirsFilterRegExp";
+    @I18nString private String jPanelIncFilesFilterTitle;
+    @I18nString private String jPanelIncFilesFilterRegExp;
 
-    @I18nString private final String txtDisableFilesFilters = "Disable files filters";
-    @I18nString private final String txtIncludeFilesFilters = "Include filters";
-    @I18nString private final String txtExcludeFilesFilters = "Exclude filters";
+    private JPanelConfigFilter jPanelExcFilesFilter;
+    @I18nString private String jPanelExcFilesFilterTitle;
+    @I18nString private String jPanelExcFilesFilterRegExp;
+
+    private JPanelConfigFilter jPanelIncDirsFilter;
+    @I18nString private String jPanelIncDirsFilterTitle;
+    @I18nString private String jPanelIncDirsFilterRegExp;
+
+    private JPanelConfigFilter jPanelExcDirsFilter;
+    @I18nString private String jPanelExcDirsFilterTitle;
+    @I18nString private String jPanelExcDirsFilterRegExp;
+
+    @I18nString private String txtDisableFilesFilters;
+    @I18nString private String txtIncludeFilesFilters;
+    @I18nString private String txtExcludeFilesFilters;
+
     //private final static int FILES_FILTER_DISABLED  = 0;
     private static final int FILES_FILTER_INCLUDE   = 1;
     private static final int FILES_FILTER_EXCLUDE   = 2;
 
-    @I18nString private final String txtDisableDirsFilters = "Disable dirs filters";
-    @I18nString private final String txtExcludeDirsFilters = "Exclude filters";
-    @I18nString private final String txtIncludeDirsFilters = "Include filters";
+    @I18nString private String txtDisableDirsFilters;
+    @I18nString private String txtExcludeDirsFilters;
+    @I18nString private String txtIncludeDirsFilters;
+
     //private final static int DIRS_FILTER_DISABLED   = 0;
     private static final int DIRS_FILTER_EXCLUDE    = 1;
     private static final int DIRS_FILTER_INCLUDE    = 2;
-
 
     public JPanelConfig()
     {
         super();
 
+        beSurNonFinal();
+
         this.dfToolKit = AppToolKitService.getInstance().getAppToolKit();
+    }
+
+    private void beSurNonFinal()
+    {
+        this.jPanelExcDirsFilterRegExp = "jPanelExcDirsFilterRegExp";
+        this.jPanelExcDirsFilterTitle = "jPanelExcDirsFilterTitle";
+        this.jPanelExcFilesFilterRegExp = "jPanelExcFilesFilterRegExp";
+        this.jPanelExcFilesFilterTitle = "jPanelExcFilesFilterTitle";
+        this.jPanelIncDirsFilterRegExp = "jPanelIncDirsFilterRegExp";
+        this.jPanelIncDirsFilterTitle = "jPanelIncDirsFilterTitle";
+        this.jPanelIncFilesFilterRegExp = "jPanelIncFilesFilterRegExp";
+        this.jPanelIncFilesFilterTitle  = "jPanelIncFilesFilterTitle";
+
+        this.txtDisableDirsFilters = "Disable dirs filters";
+        this.txtDisableFilesFilters = "Disable files filters";
+        this.txtExcludeDirsFilters = "Exclude filters";
+        this.txtExcludeFilesFilters = "Exclude filters";
+        this.txtIncludeDirsFilters = "Include filters";
+        this.txtIncludeFilesFilters = "Include filters";
     }
 
     @Override//LookAndFeelListener
@@ -124,12 +148,12 @@ private Scanner s;
      * Must be call to have a
      * @param autoI18n
      */
-    public void performeI18n(AutoI18nCore autoI18n)
+    public void performeI18n(final AutoI18nCore autoI18n)
     {
         autoI18n.performeI18n(this,this.getClass());
 
-        Properties  prop  = dfToolKit.getResources().getJPanelConfigProperties(); // $codepro.audit.disable declareAsInterface
-        Preferences prefs = dfToolKit.getPreferences();
+        final Properties  prop  = dfToolKit.getResources().getJPanelConfigProperties(); // $codepro.audit.disable declareAsInterface
+        final Preferences prefs = dfToolKit.getPreferences();
 
         jPanelIncFilesFilter = new JPanelConfigFilter(
                 jPanelIncFilesFilterTitle,
@@ -248,7 +272,7 @@ private Scanner s;
 
         // private_updateDisplayMode( final boolean doRepaint )
         {
-            JPanel jp = getJPanelFilters();
+            final JPanel jp = getJPanelFilters();
 
             if( jPanelIncFilesFilter != null ) {
                 jp.remove( jPanelIncFilesFilter );
@@ -319,7 +343,7 @@ private Scanner s;
         )
     {
         if( ft.getJCheckBox().isSelected() ) {
-            for(String s:ft.getData().split( "," )) {
+            for(final String s:ft.getData().split( "," )) {
                 if(s.length()>0) {
                     c.add( "." + s.toLowerCase() ); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
                 }
@@ -337,7 +361,7 @@ private Scanner s;
                 == FILES_FILTER_INCLUDE);
 
         if( userIncFilesFilers ) {
-            for( FileTypeCheckBox ft : jPanelIncFilesFilter ) {
+            for( final FileTypeCheckBox ft : jPanelIncFilesFilter ) {
                 addExtIf( extsList, ft );
                 }
 
@@ -347,7 +371,7 @@ private Scanner s;
                 try {
                     pattern = jPanelIncFilesFilter.getSelectedPattern();
                     }
-                catch( Exception ignore ) {
+                catch( final Exception ignore ) {
                     LOGGER.error( ignore );
                     }
                 }
@@ -384,7 +408,7 @@ private Scanner s;
                 == FILES_FILTER_EXCLUDE);
 
         if( userExcFilesFilers ) {
-            for( FileTypeCheckBox ft : jPanelExcFilesFilter ) {
+            for( final FileTypeCheckBox ft : jPanelExcFilesFilter ) {
                 addExtIf( extsList, ft );
                 }
 
@@ -394,7 +418,7 @@ private Scanner s;
                 try {
                     pattern = jPanelExcFilesFilter.getSelectedPattern();
                     }
-                catch( Exception ignore ) {
+                catch( final Exception ignore ) {
                     LOGGER.error( ignore );
                     }
                 }
@@ -427,7 +451,7 @@ private Scanner s;
             )
     {
         if( ft.getJCheckBox().isSelected() ) {
-            for(String s:ft.getData().split( "," )) {
+            for(final String s:ft.getData().split( "," )) {
                 if( s.length() > 0 ) {
                     c.add( s.toLowerCase() ); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
                 }
@@ -446,7 +470,7 @@ private Scanner s;
 
         if( useIncDirsFilters ) {
             //TODO need to be studies, not really useful like this !
-            for( FileTypeCheckBox ft : jPanelIncDirsFilter ) {
+            for( final FileTypeCheckBox ft : jPanelIncDirsFilter ) {
                 addNameIf( namesList, ft );
                 }
 
@@ -456,7 +480,7 @@ private Scanner s;
                 try {
                     pattern = jPanelIncDirsFilter.getSelectedPattern();
                     }
-                catch( Exception ignore ) {
+                catch( final Exception ignore ) {
                     LOGGER.error( ignore );
                     }
                 }
@@ -494,7 +518,7 @@ private Scanner s;
                     == DIRS_FILTER_EXCLUDE);
 
         if( useExcDirsFilters ) {
-            for( FileTypeCheckBox ft : jPanelExcDirsFilter ) {
+            for( final FileTypeCheckBox ft : jPanelExcDirsFilter ) {
                 addNameIf(namesList,ft);
                 }
 
@@ -504,7 +528,7 @@ private Scanner s;
                 try {
                     pattern = jPanelExcDirsFilter.getSelectedPattern();
                     }
-                catch( Exception ignore ){
+                catch( final Exception ignore ){
                     LOGGER.error( ignore );
                     }
                 }

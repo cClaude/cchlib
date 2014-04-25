@@ -1,9 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -14,6 +10,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
 
 //NOT public
 abstract class JPanelSearchingDisplay extends JPanel
@@ -22,8 +22,8 @@ abstract class JPanelSearchingDisplay extends JPanel
 
     private DefaultTableModel tableModelErrorList;
 
-    @I18nString protected final String txtCurrentFile = "Current File :";
-    @I18nString protected final String txtCurrentDir = "Current directory :";
+    @I18nString protected String txtCurrentFile;
+    @I18nString protected String txtCurrentDir;
 
     private final JTable jTableErrorList;
     private final JProgressBar jProgressBarFiles;
@@ -41,6 +41,8 @@ abstract class JPanelSearchingDisplay extends JPanel
      */
     public JPanelSearchingDisplay()
     {
+        beSurNonFinal();
+
         final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
@@ -145,6 +147,12 @@ abstract class JPanelSearchingDisplay extends JPanel
 
         jTableErrorList = new JTable();
         scrollPane.setViewportView(jTableErrorList);
+    }
+
+    private void beSurNonFinal()
+    {
+        this.txtCurrentFile = "Current File :";
+        this.txtCurrentDir = "Current directory :";
     }
 
     protected AppToolKit getAppToolKit()

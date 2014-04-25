@@ -1,4 +1,3 @@
-// $codepro.audit.disable largeNumberOfFields
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
 import java.awt.HeadlessException;
@@ -62,13 +61,13 @@ final public class DuplicateFilesFrame
     private Icon iconContinue;
     private Icon iconRestart;
 
-    @I18nString private final String txtContinue  = "Continue";
-    @I18nString private final String txtRestart   = "Restart";
-    @I18nString private final String txtRemove    = "Remove";
-    @I18nString private final String txtDeleteNow = "Delete now";
-    @I18nString private final String txtBack      = "Back";
-    @I18nString private final String txtCancel            = "Cancel";
-    @I18nString private final String txtClearSelection    = "Clear selection";
+    @I18nString private String txtContinue;
+    @I18nString private String txtRestart;
+    @I18nString private String txtRemove;
+    @I18nString private String txtDeleteNow;
+    @I18nString private String txtBack;
+    @I18nString private String txtCancel;
+    @I18nString private String txtClearSelection;
 
     public DuplicateFilesFrame(
         final Preferences preferences
@@ -77,24 +76,50 @@ final public class DuplicateFilesFrame
     {
         super( preferences );
 
-        //
+        beSurNonFinal();
+
         // Menu: configMode
-        //
-        {
-            final Enumeration<AbstractButton> modeEntriesEnum = getButtonGroupConfigMode().getElements();
-            final ConfigMode                  configMode      = getDFToolKit().getPreferences().getConfigMode();
+        buildConfigModeMenu();
 
-            while( modeEntriesEnum.hasMoreElements() ) {
-                final AbstractButton  entry   = modeEntriesEnum.nextElement();
-                final Object          cf      = entry.getClientProperty( ConfigMode.class );
-
-                entry.setSelected( configMode.equals( cf ) );
-                }
-        }
-
-        //
         // Menu: Locale
-        //
+        buildLocaleMenu();
+
+        // Apply i18n !
+        this.autoI18n = initI18n();
+
+        setSize( getDFToolKit().getPreferences().getWindowDimension() );
+
+        // Init display
+        initFixComponents();
+        updateDisplayAccordingState();
+        LOGGER.info( "DuplicateFilesFrame() done." );
+    }
+
+    private void beSurNonFinal()
+    {
+        this.txtContinue          = "Continue";
+        this.txtRestart           = "Restart";
+        this.txtRemove            = "Remove";
+        this.txtDeleteNow         = "Delete now";
+        this.txtBack              = "Back";
+        this.txtCancel            = "Cancel";
+        this.txtClearSelection    = "Clear selection";
+    }
+
+    private AutoI18nCore initI18n()
+    {
+        final AutoI18nCore autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+                getDFToolKit().getAutoI18nConfig(),
+                getDFToolKit().getI18nResourceBundleName(),
+                getDFToolKit().getValidLocale()
+                );
+        performeI18n( autoI18n );
+
+        return autoI18n;
+    }
+
+    private void buildLocaleMenu()
+    {
         final Locale locale = getDFToolKit().getPreferences().getLocale();
 
         {
@@ -120,23 +145,19 @@ final public class DuplicateFilesFrame
             LOGGER.info( "I18n Init: getValidLocale() = " + getDFToolKit().getValidLocale() );
             LOGGER.info( "I18n Init: getI18nResourceBundleName() = " + getDFToolKit().getI18nResourceBundleName() );
             }
+    }
 
-        // Apply i18n !
-        {
-            this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
-                    getDFToolKit().getAutoI18nConfig(),
-                    getDFToolKit().getI18nResourceBundleName(),
-                    getDFToolKit().getValidLocale()
-                    );
-            performeI18n( autoI18n );
-       }
+    private void buildConfigModeMenu()
+    {
+        final Enumeration<AbstractButton> modeEntriesEnum = getButtonGroupConfigMode().getElements();
+        final ConfigMode                  configMode      = getDFToolKit().getPreferences().getConfigMode();
 
-        setSize( getDFToolKit().getPreferences().getWindowDimension() );
+        while( modeEntriesEnum.hasMoreElements() ) {
+            final AbstractButton  entry   = modeEntriesEnum.nextElement();
+            final Object          cf      = entry.getClientProperty( ConfigMode.class );
 
-        // Init display
-        initFixComponents();
-        updateDisplayAccordingState();
-        LOGGER.info( "DuplicateFilesFrame() done." );
+            entry.setSelected( configMode.equals( cf ) );
+            }
     }
 
     @Override // I18nPrepHelperAutoUpdatable

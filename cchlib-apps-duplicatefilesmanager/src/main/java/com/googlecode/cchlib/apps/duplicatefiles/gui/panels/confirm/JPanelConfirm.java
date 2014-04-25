@@ -1,13 +1,6 @@
 // $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
-import com.googlecode.cchlib.util.MapSetHelper;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -30,6 +23,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
+import com.googlecode.cchlib.util.MapSetHelper;
 
 public class JPanelConfirm extends JPanel
 {
@@ -55,16 +55,18 @@ public class JPanelConfirm extends JPanel
         "Kept",
         "Deleted"
         };
-    @I18nString private final String txtWaiting = "Waitting for user...";
-    @I18nString private final String txtTitle = "%d file(s) selected to be deleted";
-    @I18nString private final String txtMsgDone = "Done";
-    @I18nString private final String txtCopy = "Copy";
-    @I18nString private final String msgStr_doDeleteExceptiontitle = "Error while deleting files";
-    @I18nString private final String txtIconKo = "File already exist";
-    @I18nString private final String txtIconKoButDelete = "File does not exist";
+    @I18nString private String txtWaiting;
+    @I18nString private String txtTitle;
+    @I18nString private String txtMsgDone;
+    @I18nString private String txtCopy;
+    @I18nString private String msgStr_doDeleteExceptiontitle;
+    @I18nString private String txtIconKo;
+    @I18nString private String txtIconKoButDelete;
 
     public JPanelConfirm()
     {
+        beSurNonFinal();
+
         this.dfToolKit = AppToolKitService.getInstance().getAppToolKit();
 
         final GridBagLayout gridBagLayout = new GridBagLayout();
@@ -124,6 +126,17 @@ public class JPanelConfirm extends JPanel
         iconKoButDelete = dfToolKit.getResources().getSmallOKButOKIcon();
 
         setSize(320, 240);
+    }
+
+    private void beSurNonFinal()
+    {
+        this.txtWaiting = "Waitting for user...";
+        this.txtTitle = "%d file(s) selected to be deleted";
+        this.txtMsgDone = "Done";
+        this.txtCopy = "Copy";
+        this.msgStr_doDeleteExceptiontitle = "Error while deleting files";
+        this.txtIconKo = "File already exist";
+        this.txtIconKoButDelete = "File does not exist";
     }
 
     public void populate(

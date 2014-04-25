@@ -1,5 +1,18 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JProgressBar;
+import javax.swing.JTree;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TreeSelectionEvent;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
@@ -16,19 +29,6 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.LasyJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 import com.googlecode.cchlib.swing.list.LeftDotListCellRenderer;
-import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.List;
-import javax.swing.DefaultListModel;
-import javax.swing.JFileChooser;
-import javax.swing.JList;
-import javax.swing.JProgressBar;
-import javax.swing.JTree;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.TreeSelectionEvent;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -48,13 +48,13 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
     private FindDeleteAdapter findDeleteAdapter;
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
 
-    @I18nString private final String jFileChooserInitializerMessage    = "Analyze disk structure";
-    @I18nString private final String jFileChooserInitializerTitle     = "Waiting...";
-    @I18nString private final String txtProgressBarComputing = "Computing...";
-    @I18nString private final String txtSelectDirToScan = "Select directory to scan";
-    @I18nString private final String txtProgressBarScanCancel = "Scan canceled !";
-    @I18nString private final String txtProgressBarSelectFileToDelete = "Select file to delete";
-    @I18nString private final String txtProgressBarDeleteSelectedFiles = "Delete selected files";
+    @I18nString private String jFileChooserInitializerMessage;
+    @I18nString private String jFileChooserInitializerTitle;
+    @I18nString private String txtProgressBarComputing;
+    @I18nString private String txtSelectDirToScan;
+    @I18nString private String txtProgressBarScanCancel;
+    @I18nString private String txtProgressBarSelectFileToDelete;
+    @I18nString private String txtProgressBarDeleteSelectedFiles;
 
     /**
      *
@@ -65,10 +65,23 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
     {
         super( AppToolKitService.getInstance().getAppToolKit().getResources() );
 
+        beSurNonFinal();
+
         this.dfToolKit  = AppToolKitService.getInstance().getAppToolKit();
         this.mainWindow = mainWindow;
 
         init();
+    }
+
+    private void beSurNonFinal()
+    {
+        this.jFileChooserInitializerMessage    = "Analyze disk structure";
+        this.jFileChooserInitializerTitle     = "Waiting...";
+        this.txtProgressBarComputing = "Computing...";
+        this.txtSelectDirToScan = "Select directory to scan";
+        this.txtProgressBarScanCancel = "Scan canceled !";
+        this.txtProgressBarSelectFileToDelete = "Select file to delete";
+        this.txtProgressBarDeleteSelectedFiles = "Delete selected files";
     }
 
     private void init()
@@ -87,15 +100,15 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
             // Bad workaround !!!!
             // TODO: find a better solution to expand tree
             // during build.
-            
+
             treeModel.expandAllRows();
-            
+
             enable_findTaskDone();
-            
+
             final JProgressBar pBar = getProgressBar();
-            
+
             pBar.setIndeterminate( false );
-            
+
             if( isCancel ) {
                 pBar.setString( txtProgressBarScanCancel );
             }
@@ -122,9 +135,9 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         super.getJListRootDirectories().setCellRenderer( leftListCellRenderer );
 
         super.getJListRootDirectories().addListSelectionListener(
-            (ListSelectionEvent e) -> {
+            (final ListSelectionEvent e) -> {
                 final int count = getJListRootDirectories().getSelectedValuesList().size();
-                
+
                 if( count > 0 ) {
                     setButtonRemoveRootDirectoryEnabled( true );
                 }
@@ -144,10 +157,10 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
 
         jTreeDir.addTreeSelectionListener((final TreeSelectionEvent event) -> {
             final Object currentSelectedNodeModel = jTreeDir.getLastSelectedPathComponent();
-            
+
             if( currentSelectedNodeModel instanceof FolderTreeNode ) {
-                FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
-                
+                final FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
+
                 if( selectedNode.getFolder() instanceof EmptyFolder ) {
                     treeModel.toggleSelected( selectedNode );
                 } // else click on a none empty folder => ignore
@@ -180,11 +193,11 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         LOGGER.info( "onRemoveRootDirectory()" );
 
         if( super.isButtonRemoveRootDirectoryEnabled() ) {
-            JList<File>             rootList        = super.getJListRootDirectories();
-            List<File>              selectedList    = rootList.getSelectedValuesList();
-            DefaultListModel<File>  model           = super.getJListRootDirectoriesModel();
+            final JList<File>             rootList        = super.getJListRootDirectories();
+            final List<File>              selectedList    = rootList.getSelectedValuesList();
+            final DefaultListModel<File>  model           = super.getJListRootDirectoriesModel();
 
-            for( File f : selectedList ) {
+            for( final File f : selectedList ) {
                 model.removeElement( f );
                 }
 
@@ -239,7 +252,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         LOGGER.info( "onStartDelete()" );
 
         if( super.getBtnStartDelete().isEnabled() ) {
-            Runnable task = this::startDelete;
+            final Runnable task = this::startDelete;
             new Thread( task, "onStartDelete()" ).start();
             // NOTE: do not use of SwingUtilities.invokeLater( task );
         }
@@ -294,7 +307,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         LOGGER.info( "btnAddRootDirectory()" );
 
         if( super.isButtonAddRootDirectoryEnabled() ) {
-            Runnable task = this::addRootDirectory;
+            final Runnable task = this::addRootDirectory;
            new Thread( task, "onAddRootDirectory()" ).start();
            LOGGER.info( "btnAddRootDirectory() done" );
         }
@@ -308,9 +321,9 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
 
     private void addRootDirectory( final File[] files )
     {
-        DefaultListModel<File> model = super.getJListRootDirectoriesModel();
+        final DefaultListModel<File> model = super.getJListRootDirectoriesModel();
 
-        for( File f: files ) {
+        for( final File f: files ) {
             if( f.isDirectory() ) {
                 model.addElement( f );
                 LOGGER.info( "add drop dir:" + f );
@@ -328,8 +341,8 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         LOGGER.info( "btnImportDirectories()" );
 
         if( super.isButtonImportDirectoriesEnabled() ) {
-            Runnable note = () -> {
-                List<File> dirs = getDFToolKit().getRootDirectoriesList();
+            final Runnable note = () -> {
+                final List<File> dirs = getDFToolKit().getRootDirectoriesList();
                 addRootDirectory( dirs );
                 LOGGER.info( "btnImportDirectories() done" );
             };
@@ -342,12 +355,12 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         LOGGER.info( "addRootDirectory()" );
 
         if( super.isButtonAddRootDirectoryEnabled() ) {
-            JFileChooser jfc = getJFileChooser();
+            final JFileChooser jfc = getJFileChooser();
 
             LOGGER.info( "getJFileChooser() done" );
 
             jfc.setMultiSelectionEnabled( true );
-            int returnVal = jfc.showOpenDialog( this );
+            final int returnVal = jfc.showOpenDialog( this );
 
             if( returnVal == JFileChooser.APPROVE_OPTION ) {
                 final File[] files = jfc.getSelectedFiles();
@@ -361,7 +374,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
     private WaitingJFileChooserInitializer getWaitingJFileChooserInitializer()
     {
         if( waitingJFileChooserInitializer == null ) {
-            JFileChooserInitializerCustomize configurator
+            final JFileChooserInitializerCustomize configurator
                 = new LasyJFCCustomizer()
                     .setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
 
@@ -378,7 +391,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
 
     private JFileChooser getJFileChooser()
     {
-        JFileChooser jfc = getWaitingJFileChooserInitializer().getJFileChooser();
+        final JFileChooser jfc = getWaitingJFileChooserInitializer().getJFileChooser();
 
         return jfc;
     }
@@ -393,7 +406,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
 
         enable_findBegin();
 
-        Runnable doRun = findDeleteAdapter::doFind;
+        final Runnable doRun = findDeleteAdapter::doFind;
 
         // KO Lock UI doRun.run();
         // KO Lock UI SwingUtilities.invokeAndWait( doRun );
@@ -417,22 +430,22 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
             try {
                 findDeleteAdapter.doDelete();
             }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.warn( "doDelete()", e );
             }
-            catch( Error e ) {
+            catch( final Error e ) {
                 LOGGER.fatal( "doDelete()", e );
             }
             finally {
                 getBtnStartDelete().setEnabled( true );
-                
+
                 getBtnCancel().setEnabled( false );
                 getJTreeEmptyDirectories().setEditable( true );
                 pBar.setIndeterminate( false );
-                
+
                 findBegin();
             }
-            
+
             LOGGER.info( "DELETE Thread done" );
         }, "startDelete()").start();
     }

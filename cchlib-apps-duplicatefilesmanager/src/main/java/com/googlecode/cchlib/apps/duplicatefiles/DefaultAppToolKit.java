@@ -1,20 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
-import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
-import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
-import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
-import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
-import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Toolkit;
@@ -29,8 +14,25 @@ import java.util.Map;
 import java.util.Set;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
+import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
+import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
+import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
+import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 //NOT public
+@I18nName("DefaultAppToolKit")
 final class DefaultAppToolKit
     implements AppToolKit, I18nAutoCoreUpdatable
 {
@@ -42,9 +44,9 @@ final class DefaultAppToolKit
     private DuplicateFilesFrame mainWindow;
     private Set<AutoI18nConfig> autoI18nConfig;
 
-    @I18nString private final String jFileChooserInitializerTitle     = "Waiting...";
-    @I18nString private final String jFileChooserInitializerMessage   = "Analyze disk structure";
-    @I18nString private final String txtOpenDesktopExceptionTitle     = "Can not open file";
+    @I18nString private String jFileChooserInitializerTitle;
+    @I18nString private String jFileChooserInitializerMessage;
+    @I18nString private String txtOpenDesktopExceptionTitle;
 
     //NOT public
     DefaultAppToolKit(
@@ -52,6 +54,15 @@ final class DefaultAppToolKit
         )
     {
         this.preferences = preferences;
+
+        beSurNonFinal();
+    }
+
+    private void beSurNonFinal()
+    {
+        this.jFileChooserInitializerTitle     = "Waiting...";
+        this.jFileChooserInitializerMessage   = "Analyze disk structure";
+        this.txtOpenDesktopExceptionTitle     = "Can not open file";
     }
 
     @Override // I18nAutoUpdatable
@@ -101,7 +112,7 @@ final class DefaultAppToolKit
     @Override
     public void initJFileChooser()
     {
-        Window win = getMainFrame();
+        final Window win = getMainFrame();
         getJFileChooserInitializer( win , win );
     }
 
@@ -128,7 +139,7 @@ final class DefaultAppToolKit
                 private static final long serialVersionUID = 1L;
 
                 @Override
-                public void perfomeConfig( JFileChooser jfc )
+                public void perfomeConfig( final JFileChooser jfc )
                 {
                     super.perfomeConfig( jfc );
 
@@ -159,15 +170,15 @@ final class DefaultAppToolKit
     }
 
     @Override // DFToolKit
-    public void openDesktop( File file )
+    public void openDesktop( final File file )
     {
-        java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+        final java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
 
         try {
             LOGGER.info( "trying to open: " + file );
             desktop.open( file );
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             DialogHelper.showMessageExceptionDialog(
                     getMainFrame(),
                     txtOpenDesktopExceptionTitle,
@@ -177,12 +188,12 @@ final class DefaultAppToolKit
     }
 
     @Override // DFToolKit
-    public void sleep(long ms)
+    public void sleep(final long ms)
     {
         try {
             Thread.sleep( ms );
             }
-        catch( InterruptedException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
+        catch( final InterruptedException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
             }
     }
 
@@ -203,7 +214,7 @@ final class DefaultAppToolKit
             try {
                 locale = getMainFrame().getLocale();
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 locale = null;
                 LOGGER.warn( "Can not use main window to set Locale", e );
                 }
@@ -219,7 +230,7 @@ final class DefaultAppToolKit
 
 
     @Override // DFToolKit
-    public void setEnabledJButtonCancel( boolean b )
+    public void setEnabledJButtonCancel( final boolean b )
     {
         private_getMainWindow().setJButtonCancelEnabled( b );
     }
@@ -245,10 +256,10 @@ final class DefaultAppToolKit
     @Override // DFToolKit
     public List<File> getRootDirectoriesList()
     {
-        List<File> list = new ArrayList<>();
+        final List<File> list = new ArrayList<>();
 
         if( this.mainWindow != null ) {
-            for( File f : this.mainWindow.getDuplicateFilesMainPanel().getJPanel0Select().entriesToScans() ) {
+            for( final File f : this.mainWindow.getDuplicateFilesMainPanel().getJPanel0Select().entriesToScans() ) {
                 if( f.isDirectory() ) {
                     list.add( f );
                     }

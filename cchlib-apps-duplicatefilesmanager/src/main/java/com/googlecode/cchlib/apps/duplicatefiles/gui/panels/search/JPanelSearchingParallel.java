@@ -1,16 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileBuilder;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.MessageDigestFileBuilder;
-import com.googlecode.cchlib.util.duplicate.stream.ParallelDuplicateFileFinder;
-import com.googlecode.cchlib.util.duplicate.stream.PrepareDuplicateFile;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -32,6 +21,17 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileBuilder;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.MessageDigestFileBuilder;
+import com.googlecode.cchlib.util.duplicate.stream.ParallelDuplicateFileFinder;
+import com.googlecode.cchlib.util.duplicate.stream.PrepareDuplicateFile;
 
 @I18nName("duplicatefiles.JPanelSearching")
 public class JPanelSearchingParallel extends JPanelSearching
@@ -68,10 +68,10 @@ public class JPanelSearchingParallel extends JPanelSearching
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingParallel.class );
     private static final int MIN_SET_SIZE = 2;
 
-    @I18nString private final String txtDuplicateSetsFound = "%,d";
-    @I18nString private final String txtDuplicateFilesFound = "%,d";
-    @I18nString private final String txtNumberOfFilesProcessed = "Number of files processed: %,d";
-    @I18nString private final String txtOctectsToCheck = "Octects to check: %,d";
+    @I18nString private String txtDuplicateSetsFound = "%,d";
+    @I18nString private String txtDuplicateFilesFound = "%,d";
+    @I18nString private String txtNumberOfFilesProcessed = "Number of files processed: %,d";
+    @I18nString private String txtOctectsToCheck = "Octects to check: %,d";
 
     private final Object pass2FilesCountLock = new Object();
     private int          pass2FilesCount;
@@ -90,6 +90,16 @@ public class JPanelSearchingParallel extends JPanelSearching
     public JPanelSearchingParallel()
     {
         super();
+
+        beSurNonFinal();
+    }
+
+    private void beSurNonFinal()
+    {
+        this.txtDuplicateSetsFound = "%,d";
+        this.txtDuplicateFilesFound = "%,d";
+        this.txtNumberOfFilesProcessed = "Number of files processed: %,d";
+        this.txtOctectsToCheck = "Octects to check: %,d";
     }
 
     @Override

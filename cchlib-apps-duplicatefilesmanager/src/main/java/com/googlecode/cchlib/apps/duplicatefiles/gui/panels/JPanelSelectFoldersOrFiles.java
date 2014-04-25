@@ -1,14 +1,5 @@
-// $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
-import com.googlecode.cchlib.swing.textfield.XTextField;
-import com.googlecode.cchlib.util.iterable.CascadingIterable;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
@@ -33,6 +24,14 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
+import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
+import com.googlecode.cchlib.swing.textfield.XTextField;
+import com.googlecode.cchlib.util.iterable.CascadingIterable;
 
 /**
  * <pre>
@@ -72,11 +71,11 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             "Type",  // File or Directory
             "Action" // Scan recursive, Check File, Ignore recursive
             };
-    @I18nString private final String txtFile = "File";
-    @I18nString private final String txtDirectory = "Directory";
-    @I18nString private final String txtIgnoreContent = "Ignore content";
-    @I18nString private final String txtIncludeDir = "Include content";
-    @I18nString private final String txtIncludeFile = "Include file";
+    @I18nString private String txtFile;
+    @I18nString private String txtDirectory;
+    @I18nString private String txtIgnoreContent;
+    @I18nString private String txtIncludeDir;
+    @I18nString private String txtIncludeFile;
 
     /**
      * Create the panel.
@@ -86,6 +85,8 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     public JPanelSelectFoldersOrFiles()
         throws HeadlessException, TooManyListenersException
     {
+        beSurNonFinal();
+
         this.dFToolKit = AppToolKitService.getInstance().getAppToolKit();
 
         final GridBagLayout gridBagLayout = new GridBagLayout();
@@ -223,6 +224,15 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         };
 
         new SimpleFileDrop( this, dropListener ).addDropTargetListener();
+    }
+
+    private void beSurNonFinal()
+    {
+        this.txtFile = "File";
+        this.txtDirectory = "Directory";
+        this.txtIgnoreContent = "Ignore content";
+        this.txtIncludeDir = "Include content";
+        this.txtIncludeFile = "Include file";
     }
 
     /**
