@@ -27,23 +27,6 @@
     <project.java.target.version>1.7</project.java.target.version>
   </properties>
 
-  <repositories>
-    <repository>
-      <id>google-releases</id>
-      <name>Google Releases</name>
-      <url>https://oss.sonatype.org/content/repositories/google-releases</url>
-    </repository>
-    <repository>
-      <id>google-api-services</id>
-      <url>http://mavenrepo.google-api-java-client.googlecode.com/hg</url>
-    </repository>
-
-    <repository>
-      <id>Java.Net</id>
-      <url>http://download.java.net/maven/2/</url>
-    </repository>
-  </repositories>
-
   <dependencies>
 
     <dependency>
@@ -107,13 +90,7 @@
   </dependencies>
 
   <build>
-    <extensions>
-      <extension><!-- maven on googlecode -->
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
-      </extension>
-    </extensions>
+    <extensions />
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
