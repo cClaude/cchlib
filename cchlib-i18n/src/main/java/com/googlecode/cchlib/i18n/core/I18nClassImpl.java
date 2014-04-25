@@ -221,10 +221,6 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         if( i18nString != null ) {
             alreadyHandle = true;
 
-            if( Modifier.isFinal( field.getModifiers() ) ) {
-                i18nDelegator.handleI18nSyntaxeException( new I18nStringIsStaticException( field ), field );
-            }
-
             addValueToCustomizeForStringAndHandleErrors( field, i18nString );
             }
 
@@ -320,6 +316,13 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             }
 
             throw new I18nStringNotAStringException( field );
+        }
+
+        if( String.class.isAssignableFrom( field.getType() ) ) {
+            // A String field should not be static
+            if( Modifier.isFinal( field.getModifiers() ) ) {
+                throw new I18nStringIsStaticException( field );
+            }
         }
 
         MethodContener methodContener;

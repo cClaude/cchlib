@@ -7,8 +7,9 @@ public class I18nSyntaxeException extends Exception
 {
     private static final long serialVersionUID = 1L;
 
-    public I18nSyntaxeException( final Field field )
+    protected I18nSyntaxeException( final String causeMessage, final Field field )
     {
-        super( "Syntaxe error on field: " + LogFieldFormat.toString( field ));
+        super( "Syntaxe error on field: " + LogFieldFormat.toString( field ) //
+                + " cause by " + causeMessage );
     }
 }

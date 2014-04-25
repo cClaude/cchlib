@@ -1,29 +1,23 @@
 package com.googlecode.cchlib.i18n.logging;
 
-import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import java.lang.reflect.Field;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 
 /**
  * {@link AutoI18nEventHandler} using PrintStream
  * to trace Localization events.
- * <p>
- * This object is not Serializable, you must use
- * this debugging your application only!
- * </p>
  */
 public class AutoI18nLog4JEventHandler
     extends AbstractAutoI18nLoggingEventHandler
         implements AutoI18nEventHandler
 {
-    private static final long serialVersionUID = 1L;
-    private static final transient Logger LOGGER = Logger.getLogger( AutoI18nLog4JEventHandler.class );
+    private static final long serialVersionUID = 2L;
+    private static final Logger LOGGER = Logger.getLogger( AutoI18nLog4JEventHandler.class );
 
-    /** @serial */
-    private Level levelIgnoredField;
-    /** @serial */
-    private Level levelLocalizedField;
+    private final Level levelIgnoredField;
+    private final Level levelLocalizedField;
 
     /**
      * Create object using Logger based on current class
@@ -31,7 +25,7 @@ public class AutoI18nLog4JEventHandler
      */
     public AutoI18nLog4JEventHandler()
     {
-        this(Level.WARN);
+        this(Level.TRACE,Level.WARN);
     }
 
     /**
@@ -40,7 +34,7 @@ public class AutoI18nLog4JEventHandler
      * @param level Level to use for logging
      */
     public AutoI18nLog4JEventHandler(
-            Level level
+            final Level level
             )
     {
         this.levelIgnoredField = level;
@@ -56,8 +50,8 @@ public class AutoI18nLog4JEventHandler
      *        {@link #localizedField(Field, String)} informations
      */
     public AutoI18nLog4JEventHandler(
-            Level levelIgnoredField,
-            Level levelLocalizedField
+            final Level levelIgnoredField,
+            final Level levelLocalizedField
             )
     {
         this.levelIgnoredField = levelIgnoredField;
@@ -65,13 +59,13 @@ public class AutoI18nLog4JEventHandler
     }
 
     @Override
-    protected void logIgnoredField( String msg )
+    protected void logIgnoredField( final String msg )
     {
         LOGGER.log( levelIgnoredField, msg );
     }
 
     @Override
-    protected void logLocalizedField( String msg )
+    protected void logLocalizedField( final String msg )
     {
         LOGGER.log( levelLocalizedField, msg );
     }
