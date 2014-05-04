@@ -1,15 +1,12 @@
 package com.googlecode.cchlib.apps.duplicatefiles.alpha.prefs;
 
-import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.UIManager;
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 
-/**
- *
- */
 public class PreferencesImpl implements Preferences
 {
     private static final long serialVersionUID = 1L;
@@ -26,7 +23,7 @@ public class PreferencesImpl implements Preferences
         this.userLevel = ConfigMode.EXPERT;
         this.lookAndFeelName = UIManager.getSystemLookAndFeelClassName();
 
-        RootFile testEntry = new DefaultRootFile(
+        final RootFile testEntry = new DefaultRootFile(
                 "C:\\",
                 RootFileAction.INCLUDE_ALL_FILES
                 );

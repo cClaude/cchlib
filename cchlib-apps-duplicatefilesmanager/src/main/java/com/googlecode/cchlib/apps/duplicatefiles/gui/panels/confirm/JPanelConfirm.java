@@ -33,6 +33,55 @@ import com.googlecode.cchlib.util.MapSetHelper;
 
 public class JPanelConfirm extends JPanel
 {
+    private final class ConfirmTableCellRenderer extends DefaultTableCellRenderer {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public Component getTableCellRendererComponent(
+                final JTable table,
+                final Object value,
+                final boolean isSelected,
+                final boolean hasFocus,
+                final int row,
+                final int column
+                )
+        {
+            if( row == 0 ) {
+                final KeyFileState f = tableDts_toDelete.get( row );
+                setText( f.getFile().getPath() );
+
+                final Boolean b = tableDts_toDelete.getDeleted( row );
+
+                if( b != null ) {
+                    setHorizontalAlignment(SwingConstants.LEFT);
+
+                    if( b.booleanValue() ) {
+                        setIcon( iconOk );
+                        }
+                    else {
+                        if( f.getFile().exists() ) {
+                            setIcon( iconKo );
+                            setToolTipText( txtIconKo );
+                            }
+                        else {
+                            setIcon( iconKoButDelete );
+                            setToolTipText( txtIconKoButDelete );
+                            }
+                        }
+                    }
+                } // else no change !
+
+            return super.getTableCellRendererComponent(
+                    table,
+                    value,
+                    isSelected,
+                    hasFocus,
+                    row,
+                    column
+                    );
+        }
+    }
+
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(JPanelConfirm.class);
     public static final String ACTIONCMD_GENERATE_SCRIPT = "ACTIONCMD_GENERATE_SCRIPT";
@@ -251,54 +300,7 @@ public class JPanelConfirm extends JPanel
 
     private DefaultTableCellRenderer newDefaultTableCellRenderer()
     {
-        return new DefaultTableCellRenderer()
-        {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public Component getTableCellRendererComponent(
-                    final JTable table,
-                    final Object value,
-                    final boolean isSelected,
-                    final boolean hasFocus,
-                    final int row,
-                    final int column
-                    )
-            {
-                if( row == 0 ) {
-                    final KeyFileState f = tableDts_toDelete.get( row );
-                    setText( f.getFile().getPath() );
-
-                    final Boolean b = tableDts_toDelete.getDeleted( row );
-
-                    if( b != null ) {
-                        setHorizontalAlignment(SwingConstants.LEFT);
-
-                        if( b.booleanValue() ) {
-                            setIcon( iconOk );
-                            }
-                        else {
-                            if( f.getFile().exists() ) {
-                                setIcon( iconKo );
-                                setToolTipText( txtIconKo );
-                                }
-                            else {
-                                setIcon( iconKoButDelete );
-                                setToolTipText( txtIconKoButDelete );
-                                }
-                            }
-                        }
-                    } // else no change !
-
-                return super.getTableCellRendererComponent(
-                        table,
-                        value,
-                        isSelected,
-                        hasFocus,
-                        row,
-                        column
-                        );
-            }
-        };
+        return new ConfirmTableCellRenderer();
     }
 
     public void updateProgressBar(final int count, final String msg)

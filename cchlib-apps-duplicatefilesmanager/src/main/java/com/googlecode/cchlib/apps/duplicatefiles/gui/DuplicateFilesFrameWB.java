@@ -1,13 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
-import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesPanel;
-import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
-import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -21,6 +13,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTabbedPane;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
+import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesPanel;
+import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 /**
  * Main frame layout.
  */
@@ -68,21 +68,21 @@ public abstract class DuplicateFilesFrameWB extends JFrame // $codepro.audit.dis
      * @throws TooManyListenersException
      * @throws HeadlessException
      */
-    public DuplicateFilesFrameWB( final Preferences preferences )
+    public DuplicateFilesFrameWB( final PreferencesControler preferences )
         throws HeadlessException, TooManyListenersException
     {
         this.dfToolKit = AppToolKitService.getInstance().createAppToolKit( preferences, (DuplicateFilesFrame)this );
 
         addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(final WindowEvent e) {
                 exitApplication();
             }
         });
 
         setSize(650, 500); // Just for design // $codepro.audit.disable numericLiterals
 
-        JMenuBar jMenuBarMain = new JMenuBar();
+        final JMenuBar jMenuBarMain = new JMenuBar();
         setJMenuBar(jMenuBarMain);
 
         jMenuFile = new JMenu("File");
@@ -160,7 +160,7 @@ public abstract class DuplicateFilesFrameWB extends JFrame // $codepro.audit.dis
         }
     }
 
-    protected void setEnabledAt( int index, boolean enabled )
+    protected void setEnabledAt( final int index, final boolean enabled )
     {
         this.contentJTabbedPane.setEnabledAt( index, enabled );
     }

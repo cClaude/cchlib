@@ -1,31 +1,39 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
-/**
- * TODOC
- */
 public enum SelectFirstMode
 {
     /**
      * get first file is set, no rule
      */
-    QUICK( new QuickCompute() ),
+    QUICK( files -> files ),
 
     /**
      * File depth ascending order
      */
-    FILEDEPTH_ASCENDING_ORDER( new FileDepthAscendingCompute() ),
+    FILEDEPTH_ASCENDING_ORDER( files -> {
+        final List<KeyFileState> list = new ArrayList<>( files );
+
+        Collections.sort( list, ( o1, o2 ) -> o1.getDepth() - o2.getDepth() );
+
+        return list;
+    } ),
 
     /**
      * File depth descending order
      */
-    FILEDEPTH_DESCENDING_ORDER( new FileDepthDescendingCompute() ),
+    FILEDEPTH_DESCENDING_ORDER( files -> {
+        final List<KeyFileState> list = new ArrayList<>( files );
+
+        Collections.sort( list, ( o1, o2 ) -> o2.getDepth() - o1.getDepth() );
+
+        return list;
+    }),
     ;
 
     private final ComputeForMode computeForMode;
@@ -35,12 +43,12 @@ public enum SelectFirstMode
         this.computeForMode = computeForMode;
     }
 
-    public Collection<KeyFileState> sort( Collection<KeyFileState> files )
+    public Collection<KeyFileState> sort( final Collection<KeyFileState> files )
     {
         return computeForMode.sort( files );
     }
 
-    public KeyFileState getFileToDisplay( Collection<KeyFileState> files )
+    public KeyFileState getFileToDisplay( final Collection<KeyFileState> files )
     {
         if( files instanceof List ) {
             return ((List<KeyFileState>)files).get( 0 );
@@ -49,55 +57,8 @@ public enum SelectFirstMode
         }
     }
 
-    private interface ComputeForMode {
+    @FunctionalInterface
+    private static interface ComputeForMode {
         Collection<KeyFileState> sort( Collection<KeyFileState> files );
-    }
-
-    private static final class QuickCompute implements ComputeForMode {
-        @Override
-        public Collection<KeyFileState> sort( Collection<KeyFileState> files )
-        {
-            return files;
-        }
-    }
-
-    private static final class FileDepthAscendingCompute implements ComputeForMode {
-        private static final Comparator<? super KeyFileState> fileDepthAscendingComparator = new FileDepthDescendingComparator();
-        @Override
-        public Collection<KeyFileState> sort( Collection<KeyFileState> files )
-        {
-            List<KeyFileState> list = new ArrayList<>( files );
-            Collections.sort( list, fileDepthAscendingComparator );
-
-            return list;
-        }
-    }
-
-    private static final class FileDepthDescendingCompute implements ComputeForMode {
-        private static final Comparator<? super KeyFileState> fileDepthDescendingComparator = new FileDepthAscendingComparator();
-        @Override
-        public Collection<KeyFileState> sort( Collection<KeyFileState> files )
-        {
-            List<KeyFileState> list = new ArrayList<>( files );
-            Collections.sort( list, fileDepthDescendingComparator );
-
-            return list;
-        }
-    }
-
-    private static final class FileDepthDescendingComparator implements Comparator<KeyFileState> {
-        @Override
-        public int compare( final KeyFileState o1, final KeyFileState o2)
-        {
-            return o1.getDepth() - o2.getDepth();
-        }
-    }
-
-    private static final class FileDepthAscendingComparator implements Comparator<KeyFileState> {
-        @Override
-        public int compare( final KeyFileState o1, final KeyFileState o2)
-        {
-            return o1.getDepth() - o2.getDepth();
-        }
     }
 }

@@ -1,9 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import com.googlecode.cchlib.util.iterable.Iterables;
-import com.googlecode.cchlib.util.iterator.SingletonIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,6 +16,10 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.util.iterable.Iterables;
+import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
 /**
  *
@@ -53,7 +53,7 @@ class FolderTreeModel2
     public int size()
     {
         int                       count   = 0;
-        Iterator<FolderTreeNode>  iter    = this.nodeIterator();
+        final Iterator<FolderTreeNode>  iter    = this.nodeIterator();
 
         while( iter.hasNext() ) {
             iter.next();
@@ -74,7 +74,7 @@ class FolderTreeModel2
 
             if( newRoot != null ) {
                 // Add this new 'root', to model
-                DefaultMutableTreeNode hiddenRoot = DefaultMutableTreeNode.class.cast( root );
+                final DefaultMutableTreeNode hiddenRoot = DefaultMutableTreeNode.class.cast( root );
                 hiddenRoot.add( newRoot );
                 }
             else {
@@ -119,10 +119,10 @@ class FolderTreeModel2
     public boolean isSelectable( final TreePath path )
     {
         if( path != null ) {
-            Object value = path.getLastPathComponent();
+            final Object value = path.getLastPathComponent();
 
             if( value instanceof FolderTreeNode ) {
-                FolderTreeNode node = FolderTreeNode.class.cast( value );
+                final FolderTreeNode node = FolderTreeNode.class.cast( value );
 
                 return node.getFolder() instanceof EmptyFolder;
                 }
@@ -222,7 +222,7 @@ class FolderTreeModel2
             }
 
         try {
-            Object[]        pairs   = listenerList.getListenerList();
+            final Object[]        pairs   = listenerList.getListenerList();
             TreeModelEvent  e       = null;
 
             for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
@@ -231,20 +231,20 @@ class FolderTreeModel2
                         e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
                         }
 
-                    TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
+                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
 
                     l.treeNodesChanged( e );
                     }
                 }
             }
-        catch( RuntimeException e ) {
+        catch( final RuntimeException e ) {
             LOGGER.error( "UI Error : parentPath=" + parentPath, e );
             }
     }
 
-    private void treeNodesChanged( FolderTreeNode selectedNode )
+    private void treeNodesChanged( final FolderTreeNode selectedNode )
     {
-      TreePath path = getPath( selectedNode );
+      final TreePath path = getPath( selectedNode );
 
       assert path != null;
 
@@ -343,7 +343,7 @@ class FolderTreeModel2
     {
         final List<Iterator<FolderTreeNode>> iterators = new ArrayList<>();
 
-        for( FolderTreeNode rn : rootNodes() ) {
+        for( final FolderTreeNode rn : rootNodes() ) {
             iterators.add( new SingletonIterator<>( rn ) );
             }
 
@@ -374,12 +374,12 @@ class FolderTreeModel2
                     final Iterator<FolderTreeNode> current = globalIterator.next();
 
                     if( current.hasNext() ) {
-                        final FolderTreeNode n = current.next();
+                        final FolderTreeNode node = current.next();
 
                         // Add children to global iterator
-                        iterators.add( n.iterator() );
+                        iterators.add( node.iterator() );
 
-                        return n;
+                        return node;
                         }
                     else {
                         globalIterator.remove(); // remove empty entry

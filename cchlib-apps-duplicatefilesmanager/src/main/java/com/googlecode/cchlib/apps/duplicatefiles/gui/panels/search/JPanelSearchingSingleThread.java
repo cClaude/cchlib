@@ -307,7 +307,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         //jProgressBarFiles.setStringPainted( true );
         getjProgressBarFiles().setIndeterminate( false );
         getjProgressBarOctets().setIndeterminate( false );
-        getjLabelCurrentFile().setText( txtCurrentFile );
+        getjLabelCurrentFile().setText( getTxtCurrentFile() );
         getjTextFieldCurrentFile().setText( "" );
 
         LOGGER.info( "pass2" );

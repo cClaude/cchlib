@@ -15,7 +15,7 @@ import java.util.Set;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
@@ -40,7 +40,7 @@ final class DefaultAppToolKit
     private static final Logger LOGGER = Logger.getLogger( DefaultAppToolKit.class );
 
     private final Map<Component,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>(); // parentComponent,jFileChooserInitializer;
-    private final Preferences preferences;
+    private final PreferencesControler preferences;
     private DuplicateFilesFrame mainWindow;
     private Set<AutoI18nConfig> autoI18nConfig;
 
@@ -50,7 +50,7 @@ final class DefaultAppToolKit
 
     //NOT public
     DefaultAppToolKit(
-        final Preferences preferences
+        final PreferencesControler preferences
         )
     {
         this.preferences = preferences;
@@ -198,7 +198,7 @@ final class DefaultAppToolKit
     }
 
     @Override // DFToolKit
-    public Preferences getPreferences()
+    public PreferencesControler getPreferences()
     {
         return preferences;
     }

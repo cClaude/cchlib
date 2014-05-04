@@ -1,13 +1,14 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import com.googlecode.cchlib.Version;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.JFrames;
 import java.util.Date;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.Version;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControlerFactory;
+import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.swing.JFrames;
 
 /**
  * Application launcher
@@ -27,8 +28,8 @@ public class DuplicateFilesApp
         LOGGER.info( "maxMemory           = " + Runtime.getRuntime().maxMemory() );
         LOGGER.info( "totalMemory         = " + Runtime.getRuntime().totalMemory() );
 
-        final Preferences   preferences = Preferences.createPreferences();
-        final String        title       = "Duplicate Files Manager " + Version.getInstance().getVersion();
+        final PreferencesControler  preferences = PreferencesControlerFactory.createPreferences();
+        final String                title       = "Duplicate Files Manager " + Version.getInstance().getVersion();
 
         preferences.applyLookAndFeel();
 

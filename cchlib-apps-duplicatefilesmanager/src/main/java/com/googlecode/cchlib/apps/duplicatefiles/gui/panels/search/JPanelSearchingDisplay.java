@@ -4,7 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -13,17 +12,13 @@ import javax.swing.table.DefaultTableModel;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
 
 //NOT public
-abstract class JPanelSearchingDisplay extends JPanel
+abstract class JPanelSearchingDisplay extends JPanelSearchingDisplayI18n
 {
     private static final long serialVersionUID = 1L;
 
     private DefaultTableModel tableModelErrorList;
-
-    @I18nString protected String txtCurrentFile;
-    @I18nString protected String txtCurrentDir;
 
     private final JTable jTableErrorList;
     private final JProgressBar jProgressBarFiles;
@@ -41,8 +36,6 @@ abstract class JPanelSearchingDisplay extends JPanel
      */
     public JPanelSearchingDisplay()
     {
-        beSurNonFinal();
-
         final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
@@ -149,12 +142,6 @@ abstract class JPanelSearchingDisplay extends JPanel
         scrollPane.setViewportView(jTableErrorList);
     }
 
-    private void beSurNonFinal()
-    {
-        this.txtCurrentFile = "Current File :";
-        this.txtCurrentDir = "Current directory :";
-    }
-
     protected AppToolKit getAppToolKit()
     {
         return AppToolKitService.getInstance().getAppToolKit();
@@ -183,7 +170,7 @@ abstract class JPanelSearchingDisplay extends JPanel
     {
         getjProgressBarFiles().setIndeterminate( true );
         jProgressBarOctets.setIndeterminate( true );
-        jLabelCurrentFile.setText( txtCurrentDir );
+        jLabelCurrentFile.setText( getTxtCurrentDir() );
         jTextFieldCurrentFile.setText( "" );
 
         getAppToolKit().setEnabledJButtonCancel( true );

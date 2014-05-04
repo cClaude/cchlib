@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.prefs;
+package com.googlecode.cchlib.apps.duplicatefiles.gui.prefs;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -20,17 +20,21 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.ListInfo;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.LocaleList;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.LookAndFeelInfoList;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControlerFactory;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 
 @I18nName("PreferencesDialogWB")
-public class PreferencesDialogWB
-    extends JDialog
+public final class PreferencesDialogWB
+    extends PreferencesDialogI18n
         implements I18nAutoCoreUpdatable
 {
     private static final Integer DEFAULT_MESSAGE_DIGEST_BUFFER_SIZE = Integer.valueOf( 16384 );
@@ -38,13 +42,6 @@ public class PreferencesDialogWB
     private static final Integer DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES = Integer.valueOf( 50 );
 
     private static final long serialVersionUID = 3L;
-
-    @I18nString private final String txtPreferencesDialogMessageExceptionDialogTitle = "Can not save configuration";
-    @I18nString private final String txtStringDefaultLocale = "default system";
-    @I18nString private final String txtJLabelDefaultMessageDigestBufferSize = "Default: %d bytes";
-    @I18nString private final String txtJLabelDefaultDeleteDelais = "Default: %d ms";
-    @I18nString private final String txtJLabelDefaultDeleteSleepDisplayMaxEntries = "Default: %d";
-    @I18nString private final String txtJPanelTitle = "Default configuration";
 
     private JButton jButtonCancel;
     private JButton jButtonSave;
@@ -78,23 +75,23 @@ public class PreferencesDialogWB
     private LimitedIntegerJTextField messageDigestBufferSizeTF;
     private LimitedIntegerJTextField deleteSleepDisplayMaxEntriesTF;
 
-    private final Preferences preferences;
+    private final PreferencesControler preferences;
 
     @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
 
-        this.jLabelDefaultMessageDigestBufferSize.setText( String.format( txtJLabelDefaultMessageDigestBufferSize, DEFAULT_MESSAGE_DIGEST_BUFFER_SIZE ) );
-        this.jLabelDefaultDeleteDelais.setText( String.format( txtJLabelDefaultDeleteDelais, DEFAULT_DELETE_DELAIS ) );
-        this.jLabelDefaultDeleteSleepDisplayMaxEntries.setText( String.format( txtJLabelDefaultDeleteSleepDisplayMaxEntries, DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES ) );
+        this.jLabelDefaultMessageDigestBufferSize.setText( String.format( getTxtJLabelDefaultMessageDigestBufferSize(), DEFAULT_MESSAGE_DIGEST_BUFFER_SIZE ) );
+        this.jLabelDefaultDeleteDelais.setText( String.format( getTxtJLabelDefaultDeleteDelais(), DEFAULT_DELETE_DELAIS ) );
+        this.jLabelDefaultDeleteSleepDisplayMaxEntries.setText( String.format( getTxtJLabelDefaultDeleteSleepDisplayMaxEntries(), DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES ) );
 
         //------------------
         {
             jComboBoxLocal.removeAllItems();
 
             final Locale locale = preferences.getLocale();
-            final LocaleList localeList = new LocaleList( txtStringDefaultLocale );
+            final LocaleList localeList = new LocaleList( getTxtStringDefaultLocale() );
 
             for( final ListInfo<Locale> li : localeList ) {
                 jComboBoxLocal.addItem( li );
@@ -143,15 +140,15 @@ public class PreferencesDialogWB
      */
     public PreferencesDialogWB()
     {
-        this( Preferences.createDefaultPreferences(), null );
+        this( PreferencesControlerFactory.createDefaultPreferences(), null );
     }
 
     /**
      * Create the frame.
      */
     public PreferencesDialogWB(
-        final Preferences   prefs,
-        final Dimension     mainWindowDimension
+        final PreferencesControler  prefs,
+        final Dimension             mainWindowDimension
         )
     {
         this.preferences = prefs;
@@ -187,7 +184,7 @@ public class PreferencesDialogWB
             gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
             panel.setLayout(gbl_panel);
 
-            jPanelTitle = new TitledBorder(null, txtJPanelTitle, TitledBorder.LEADING, TitledBorder.TOP, null, null);
+            jPanelTitle = new TitledBorder(null, getTxtJPanelTitle(), TitledBorder.LEADING, TitledBorder.TOP, null, null);
             panel.setBorder( jPanelTitle );
             //--------------
             {
@@ -444,7 +441,7 @@ public class PreferencesDialogWB
 
                     DialogHelper.showMessageExceptionDialog(
                             PreferencesDialogWB.this,
-                            txtPreferencesDialogMessageExceptionDialogTitle,
+                            getTxtPreferencesDialogMessageExceptionDialogTitle(),
                             e
                     );
                 }

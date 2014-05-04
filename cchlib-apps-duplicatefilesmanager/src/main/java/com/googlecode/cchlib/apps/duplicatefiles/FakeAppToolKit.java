@@ -1,9 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Window;
@@ -13,6 +9,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.swing.JFileChooser;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 
 /**
  * Fake class for tests
@@ -31,7 +31,7 @@ public class FakeAppToolKit implements AppToolKit
     @Override
     public void initJFileChooser()
     {
-        Window win = getMainFrame();
+        final Window win = getMainFrame();
         getJFileChooserInitializer( win , win );
     }
 
@@ -63,7 +63,7 @@ public class FakeAppToolKit implements AppToolKit
     }
 
     @Override
-    public void openDesktop( File file )
+    public void openDesktop( final File file )
     {
         // fake
         throw new UnsupportedOperationException();
@@ -77,13 +77,13 @@ public class FakeAppToolKit implements AppToolKit
     }
 
     @Override
-    public void sleep( long ms )
+    public void sleep( final long ms )
     {
         delegator.sleep( ms );
     }
 
     @Override
-    public Preferences getPreferences()
+    public PreferencesControler getPreferences()
     {
         // fake (no pref here)
         return null;
@@ -96,7 +96,7 @@ public class FakeAppToolKit implements AppToolKit
     }
 
     @Override
-    public void setEnabledJButtonCancel( boolean b )
+    public void setEnabledJButtonCancel( final boolean b )
     {
         // fake
     }

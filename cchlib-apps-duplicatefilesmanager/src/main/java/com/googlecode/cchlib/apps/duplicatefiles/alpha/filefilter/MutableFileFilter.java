@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.apps.duplicatefiles.alpha.filefilter;
 
-import com.googlecode.cchlib.io.FileFilterHelper;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
+import com.googlecode.cchlib.io.FileFilterHelper;
 
 /**
  *

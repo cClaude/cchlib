@@ -1,13 +1,10 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import java.io.File;
 import java.util.Collection;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
-/**
- *
- */
-// not public
+//NOT public
 final class DefaultKeyFiles extends AbstractKeyFiles
 {
     private static final long serialVersionUID = 3L;

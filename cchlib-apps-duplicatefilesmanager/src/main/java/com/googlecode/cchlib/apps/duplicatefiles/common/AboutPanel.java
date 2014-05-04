@@ -1,10 +1,6 @@
 // $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.common;
 
-import com.googlecode.cchlib.apps.duplicatefiles.Resources;
-import com.googlecode.cchlib.i18n.annotation.I18n;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
@@ -25,13 +21,13 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.i18n.annotation.I18n;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 
-/**
- *
- */
 @I18nName("AboutPanel")
-final
-public class AboutPanel extends JPanel
+public final class AboutPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final String DESCRIPTION = "About brief (dev text)";
@@ -48,18 +44,6 @@ public class AboutPanel extends JPanel
     @I18n private final JTextArea jTextArea;
     private final TitledBorder titleBorder;
 
-
-//    /**
-//     * Creates new form AboutPanel for windows builder ONLY.
-//     *
-//     * @param action
-//     */
-//    public AboutPanel( AboutPanelAction action )
-//    {
-//        this( MyResourcesLoader.getResources(), action  );
-//    }
-
-
     /**
      * Creates new form AboutPanel
      */// $codepro.audit.disable sourceLength
@@ -70,7 +54,7 @@ public class AboutPanel extends JPanel
     {
         this.resources = resources;
 
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{20, 20, 20, 20, 0};
         gridBagLayout.rowHeights = new int[]{22, 22, 22, 100, 0, 0};
         gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
@@ -83,20 +67,20 @@ public class AboutPanel extends JPanel
             jLabel_authorName.setText( resources.getAuthorName() );
             jLabel_authorName.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked( MouseEvent evt ) {
+                public void mouseClicked( final MouseEvent evt ) {
                     authorMouseClicked(evt);
                 }
                 @Override
-                public void mouseEntered( MouseEvent evt ) {
+                public void mouseEntered( final MouseEvent evt ) {
                     authorMouseEntered(evt);
                 }
                 @Override
-                public void mouseExited( MouseEvent evt ) {
+                public void mouseExited( final MouseEvent evt ) {
                     authorMouseExited(evt);
                 }
             });
 
-            GridBagConstraints gbc_jLabel_authorName = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabel_authorName = new GridBagConstraints();
             gbc_jLabel_authorName.fill = GridBagConstraints.BOTH;
             gbc_jLabel_authorName.insets = new Insets(0, 0, 5, 5);
             gbc_jLabel_authorName.gridx = 2;
@@ -104,9 +88,9 @@ public class AboutPanel extends JPanel
             add(jLabel_authorName, gbc_jLabel_authorName);
         }
         {
-            JLabel jLabel_logo = new javax.swing.JLabel();
+            final JLabel jLabel_logo = new javax.swing.JLabel();
             jLabel_logo.setIcon( resources.getLogoIcon() ); // NOI18N
-            GridBagConstraints gbc_jLabel_logo = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabel_logo = new GridBagConstraints();
             gbc_jLabel_logo.gridwidth = 4;
             gbc_jLabel_logo.fill = GridBagConstraints.BOTH;
             gbc_jLabel_logo.insets = new Insets(0, 0, 5, 0);
@@ -115,9 +99,9 @@ public class AboutPanel extends JPanel
             add(jLabel_logo, gbc_jLabel_logo);
         }
         {
-            JLabel jLabel_AppIcon = new JLabel();
+            final JLabel jLabel_AppIcon = new JLabel();
             jLabel_AppIcon.setIcon( resources.getAddIcon() ); // NOI18N FIXME
-            GridBagConstraints gbc_jLabel_AppIcon = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabel_AppIcon = new GridBagConstraints();
             gbc_jLabel_AppIcon.gridheight = 2;
             gbc_jLabel_AppIcon.fill = GridBagConstraints.BOTH;
             gbc_jLabel_AppIcon.insets = new Insets(0, 0, 5, 5);
@@ -129,7 +113,7 @@ public class AboutPanel extends JPanel
             jLabel_author = new JLabel();
             jLabel_author.setHorizontalAlignment(SwingConstants.RIGHT);
             jLabel_author.setText( "Author :" );
-            GridBagConstraints gbc_jLabel_author = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabel_author = new GridBagConstraints();
             gbc_jLabel_author.fill = GridBagConstraints.BOTH;
             gbc_jLabel_author.insets = new Insets(0, 0, 5, 5);
             gbc_jLabel_author.gridx = 1;
@@ -139,7 +123,7 @@ public class AboutPanel extends JPanel
         {
             jLabel_copyRight = new JLabel();
             jLabel_copyRight.setText( "copyRight" ); // NOI18N
-            GridBagConstraints gbc_jLabel_copyRight = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabel_copyRight = new GridBagConstraints();
             gbc_jLabel_copyRight.fill = GridBagConstraints.BOTH;
             gbc_jLabel_copyRight.insets = new Insets(0, 0, 5, 0);
             gbc_jLabel_copyRight.gridx = 3;
@@ -149,7 +133,7 @@ public class AboutPanel extends JPanel
         {
             jLabel_version = new JLabel("Version :");
             jLabel_version.setHorizontalAlignment(SwingConstants.RIGHT);
-            GridBagConstraints gbc_jLabel_version = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabel_version = new GridBagConstraints();
             gbc_jLabel_version.fill = GridBagConstraints.BOTH;
             gbc_jLabel_version.insets = new Insets(0, 0, 5, 5);
             gbc_jLabel_version.gridx = 1;
@@ -157,9 +141,9 @@ public class AboutPanel extends JPanel
             add(jLabel_version, gbc_jLabel_version);
         }
         {
-            JLabel jLabel_versionValue = new JLabel();
+            final JLabel jLabel_versionValue = new JLabel();
             jLabel_versionValue.setText( resources.getAboutVersion() ); // NOI18N
-            GridBagConstraints gbc_jLabel_versionValue = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabel_versionValue = new GridBagConstraints();
             gbc_jLabel_versionValue.fill = GridBagConstraints.BOTH;
             gbc_jLabel_versionValue.insets = new Insets(0, 0, 5, 5);
             gbc_jLabel_versionValue.gridx = 2;
@@ -167,9 +151,9 @@ public class AboutPanel extends JPanel
             add(jLabel_versionValue, gbc_jLabel_versionValue);
         }
         {
-            JLabel jLabel_completeDate = new JLabel();
+            final JLabel jLabel_completeDate = new JLabel();
             jLabel_completeDate.setText( resources.getAboutVersionDate() ); // NOI18N
-            GridBagConstraints gbc_jLabel_completeDate = new GridBagConstraints();
+            final GridBagConstraints gbc_jLabel_completeDate = new GridBagConstraints();
             gbc_jLabel_completeDate.fill = GridBagConstraints.BOTH;
             gbc_jLabel_completeDate.insets = new Insets(0, 0, 5, 0);
             gbc_jLabel_completeDate.gridx = 3;
@@ -187,12 +171,12 @@ public class AboutPanel extends JPanel
             jTextArea.setRows(5);
             jTextArea.setText( DESCRIPTION );
 
-            JScrollPane jScrollPane = new JScrollPane();
+            final JScrollPane jScrollPane = new JScrollPane();
             titleBorder = BorderFactory.createTitledBorder( "Brief" );
             jScrollPane.setBorder( titleBorder );
             jScrollPane.setViewportView( jTextArea );
 
-            GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
+            final GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
             gbc_jScrollPane.insets = new Insets(0, 0, 5, 0);
             gbc_jScrollPane.fill = GridBagConstraints.BOTH;
             gbc_jScrollPane.gridwidth = 4;
@@ -202,18 +186,16 @@ public class AboutPanel extends JPanel
         }
         {
             jButton_Ok = new JButton("OK");
-            jButton_Ok.addActionListener((ActionEvent event) -> {
+            jButton_Ok.addActionListener((final ActionEvent event) -> {
                 action.buttonOKClicked();
             });
-            GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
+            final GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
             gbc_jButton_Ok.gridwidth = 4;
             gbc_jButton_Ok.gridx = 0;
             gbc_jButton_Ok.gridy = 4;
             add(jButton_Ok, gbc_jButton_Ok);
         }
     }
-
-    //protected abstract void buttonOKClicked();
 
     private void authorMouseEntered( final MouseEvent evt )
     {
@@ -241,7 +223,7 @@ public class AboutPanel extends JPanel
             try {
                 Desktop.getDesktop().browse( resources.getSiteURI() );
                 }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 Logger.getLogger( getClass() ).warn( "Error while opening: " + resources.getSiteURI(), e );
                 }
             }

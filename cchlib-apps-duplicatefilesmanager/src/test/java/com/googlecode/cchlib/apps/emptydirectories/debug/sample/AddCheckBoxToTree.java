@@ -44,7 +44,7 @@ public class AddCheckBoxToTree {
                 return false;
             }
 
-            for (TreePath selectionPath : selectionPaths) {
+            for (final TreePath selectionPath : selectionPaths) {
                 if (isDescendant(selectionPath, path)) {
                     return true;
                 }
@@ -92,13 +92,13 @@ public class AddCheckBoxToTree {
         public void addSelectionPaths( final TreePath[] paths )
         {
 
-            for (TreePath path : paths) {
+            for (final TreePath path : paths) {
                 final TreePath[] selectionPaths = getSelectionPaths();
                 if( selectionPaths == null ) {
                     break;
                 }
                 final ArrayList<TreePath> toBeRemoved = new ArrayList<>();
-                for (TreePath selectionPath : selectionPaths) {
+                for (final TreePath selectionPath : selectionPaths) {
                     if (isDescendant(selectionPath, path)) {
                         toBeRemoved.add(selectionPath);
                     }
@@ -186,7 +186,7 @@ public class AddCheckBoxToTree {
         @Override
         public void removeSelectionPaths( final TreePath[] paths )
         {
-            for (TreePath path : paths) {
+            for (final TreePath path : paths) {
                 if( path.getPathCount() == 1 ) {
                     super.removeSelectionPaths( new TreePath[] { path } );
                 } else {
@@ -244,14 +244,18 @@ public class AddCheckBoxToTree {
 
                     if( childNode != peekNode ) {
                         if( !isParameters && !isDescription ) {
-                            super.addSelectionPaths( new TreePath[] { temp
-                                    .pathByAddingChild( childNode ) } );
+                            super.addSelectionPaths( createTreePath( temp, childNode ) );
                         }
                     }
                 }
             }
 
             super.removeSelectionPaths( new TreePath[] { parent } );
+        }
+
+        private TreePath[] createTreePath( final TreePath temp, final Object childNode )
+        {
+            return new TreePath[] { temp.pathByAddingChild( childNode ) };
         }
 
         public TreeModel getModel()

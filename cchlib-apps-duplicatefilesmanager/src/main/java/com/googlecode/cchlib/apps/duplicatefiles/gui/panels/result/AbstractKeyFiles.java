@@ -1,19 +1,17 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 import java.io.File;
 import java.util.Collection;
 import java.util.Iterator;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 
 //NOT public
-abstract class AbstractKeyFiles // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses
-    implements KeyFiles // Serializable, Iterable<KeyFileState>
+abstract class AbstractKeyFiles
+    implements KeyFiles
 {
     private static final long serialVersionUID = 1L;
     private final String key;
-    //private String              firstFileDisplayCache;
-    //private long                firstFileSizeCache;
 
     public AbstractKeyFiles(
         final String key
@@ -26,13 +24,11 @@ abstract class AbstractKeyFiles // $codepro.audit.disable com.instantiations.ass
     public String toString()
     {
         return getFirstFile().getName();
-        //return firstFileDisplayCache;
     }
 
     @Override
     public long length()
     {
-        //return this.firstFileSizeCache;
         return getFirstFile().length();
     }
 

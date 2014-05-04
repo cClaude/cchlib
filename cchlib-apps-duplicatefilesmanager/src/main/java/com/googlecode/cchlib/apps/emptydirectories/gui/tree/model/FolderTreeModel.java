@@ -389,12 +389,12 @@ public final class FolderTreeModel
                     final Iterator<FolderTreeNode> current = globalIterator.next();
 
                     if( current.hasNext() ) {
-                        FolderTreeNode n = current.next();
+                        FolderTreeNode node = current.next();
 
                         // Add children to global iterator
-                        iterators.add( n.iterator() );
+                        iterators.add( node.iterator() );
 
-                        return n;
+                        return node;
                         }
                     else {
                         globalIterator.remove(); // remove empty entry

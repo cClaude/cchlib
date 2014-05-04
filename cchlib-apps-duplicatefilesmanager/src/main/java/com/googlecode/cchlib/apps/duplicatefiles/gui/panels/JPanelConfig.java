@@ -12,33 +12,25 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigFilter;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigWB;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
 import cx.ath.choisnet.lang.ToStringBuilder;
 
-/**
- *
- */
 @I18nName("duplicatefiles.JPanelConfig")
 public class JPanelConfig
-    extends JPanelConfigWB
+    extends JPanelConfigI18n
         implements LookAndFeelListener
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( JPanelConfig.class );
 
-    private final AppToolKit dfToolKit;
     private ActionListener actionListener;
     private ConfigMode mode;
 
@@ -46,32 +38,13 @@ public class JPanelConfig
 private Scanner s;
 
     private JPanelConfigFilter jPanelIncFilesFilter;
-    @I18nString private String jPanelIncFilesFilterTitle;
-    @I18nString private String jPanelIncFilesFilterRegExp;
-
-    private JPanelConfigFilter jPanelExcFilesFilter;
-    @I18nString private String jPanelExcFilesFilterTitle;
-    @I18nString private String jPanelExcFilesFilterRegExp;
-
-    private JPanelConfigFilter jPanelIncDirsFilter;
-    @I18nString private String jPanelIncDirsFilterTitle;
-    @I18nString private String jPanelIncDirsFilterRegExp;
-
     private JPanelConfigFilter jPanelExcDirsFilter;
-    @I18nString private String jPanelExcDirsFilterTitle;
-    @I18nString private String jPanelExcDirsFilterRegExp;
-
-    @I18nString private String txtDisableFilesFilters;
-    @I18nString private String txtIncludeFilesFilters;
-    @I18nString private String txtExcludeFilesFilters;
+    private JPanelConfigFilter jPanelExcFilesFilter;
+    private JPanelConfigFilter jPanelIncDirsFilter;
 
     //private final static int FILES_FILTER_DISABLED  = 0;
     private static final int FILES_FILTER_INCLUDE   = 1;
     private static final int FILES_FILTER_EXCLUDE   = 2;
-
-    @I18nString private String txtDisableDirsFilters;
-    @I18nString private String txtExcludeDirsFilters;
-    @I18nString private String txtIncludeDirsFilters;
 
     //private final static int DIRS_FILTER_DISABLED   = 0;
     private static final int DIRS_FILTER_EXCLUDE    = 1;
@@ -80,29 +53,6 @@ private Scanner s;
     public JPanelConfig()
     {
         super();
-
-        beSurNonFinal();
-
-        this.dfToolKit = AppToolKitService.getInstance().getAppToolKit();
-    }
-
-    private void beSurNonFinal()
-    {
-        this.jPanelExcDirsFilterRegExp = "jPanelExcDirsFilterRegExp";
-        this.jPanelExcDirsFilterTitle = "jPanelExcDirsFilterTitle";
-        this.jPanelExcFilesFilterRegExp = "jPanelExcFilesFilterRegExp";
-        this.jPanelExcFilesFilterTitle = "jPanelExcFilesFilterTitle";
-        this.jPanelIncDirsFilterRegExp = "jPanelIncDirsFilterRegExp";
-        this.jPanelIncDirsFilterTitle = "jPanelIncDirsFilterTitle";
-        this.jPanelIncFilesFilterRegExp = "jPanelIncFilesFilterRegExp";
-        this.jPanelIncFilesFilterTitle  = "jPanelIncFilesFilterTitle";
-
-        this.txtDisableDirsFilters = "Disable dirs filters";
-        this.txtDisableFilesFilters = "Disable files filters";
-        this.txtExcludeDirsFilters = "Exclude filters";
-        this.txtExcludeFilesFilters = "Exclude filters";
-        this.txtIncludeDirsFilters = "Include filters";
-        this.txtIncludeFilesFilters = "Include filters";
     }
 
     @Override//LookAndFeelListener
@@ -126,19 +76,6 @@ private Scanner s;
     protected ActionListener getActionListener()
     {
         if( this.actionListener == null ) {
-//            this.actionListener = new ActionListener()
-//            {
-//                @Override//ActionListener
-//                public void actionPerformed( ActionEvent e )
-//                {
-//                    SafeSwingUtilities.invokeLater( new Runnable() {
-//                        @Override
-//                        public void run()
-//                        {
-//                            updateDisplay( true );
-//                        }}, "updateDisplay()");
-//                }
-//            };
             this.actionListener = event -> SafeSwingUtilities.invokeLater( () -> updateDisplay( true ), "updateDisplay()" );
             }
         return this.actionListener;
@@ -152,12 +89,12 @@ private Scanner s;
     {
         autoI18n.performeI18n(this,this.getClass());
 
-        final Properties  prop  = dfToolKit.getResources().getJPanelConfigProperties(); // $codepro.audit.disable declareAsInterface
-        final Preferences prefs = dfToolKit.getPreferences();
+        final Properties           prop  = getAppToolKit().getResources().getJPanelConfigProperties(); // $codepro.audit.disable declareAsInterface
+        final PreferencesControler prefs = getAppToolKit().getPreferences();
 
         jPanelIncFilesFilter = new JPanelConfigFilter(
-                jPanelIncFilesFilterTitle,
-                jPanelIncFilesFilterRegExp,
+                getjPanelIncFilesFilterTitle(),
+                getjPanelIncFilesFilterRegExp(),
                 prop,
                 "filetype",
                 getActionListener()
@@ -169,19 +106,19 @@ private Scanner s;
         prefs.getIncFilesFilterPatternRegExpList().stream().forEach( exp -> jPanelIncFilesFilter.addPatternRegExp( exp ) );
 
         jPanelExcFilesFilter = new JPanelConfigFilter(
-                jPanelExcFilesFilterTitle,
-                jPanelExcFilesFilterRegExp,
+                getjPanelExcFilesFilterTitle(),
+                getjPanelExcFilesFilterRegExp(),
                 prop,
                 "filetype",
                 getActionListener()
                 );
         jPanelIncDirsFilter = new JPanelConfigFilter( // No values
-                jPanelIncDirsFilterTitle,
-                jPanelIncDirsFilterRegExp
+                getjPanelIncDirsFilterTitle(),
+                getjPanelIncDirsFilterRegExp()
                 );
         jPanelExcDirsFilter = new JPanelConfigFilter(
-                jPanelExcDirsFilterTitle,
-                jPanelExcDirsFilterRegExp,
+                getjPanelExcDirsFilterTitle(),
+                getjPanelExcDirsFilterRegExp(),
                 prop,
                 "dirtype",
                 getActionListener()
@@ -195,7 +132,7 @@ private Scanner s;
             )
     {
         final ConfigMode prevMode   = this.mode;
-        this.mode                   = this.dfToolKit.getPreferences().getConfigMode();
+        this.mode                   = getAppToolKit().getPreferences().getConfigMode();
 
         if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "updateDisplayMode()"
@@ -212,7 +149,7 @@ private Scanner s;
                 getJComboBoxFilesFilters().setModel(
                         new DefaultComboBoxModel<>(
                             new String[] {
-                                txtDisableFilesFilters
+                                getTxtDisableFilesFilters()
                                 }
                             )
                         );
@@ -220,7 +157,7 @@ private Scanner s;
                 getJComboBoxDirsFilters().setModel(
                         new DefaultComboBoxModel<>(
                             new String[] {
-                                txtDisableDirsFilters
+                                getTxtDisableDirsFilters()
                                 }
                             )
                         );
@@ -230,9 +167,9 @@ private Scanner s;
                 getJComboBoxFilesFilters().setModel(
                         new DefaultComboBoxModel<>(
                             new String[] {
-                                txtDisableFilesFilters,
-                                txtIncludeFilesFilters,
-                                txtExcludeFilesFilters
+                                getTxtDisableFilesFilters(),
+                                getTxtIncludeFilesFilters(),
+                                getTxtExcludeFilesFilters()
                                 }
                             )
                         );
@@ -240,7 +177,7 @@ private Scanner s;
                 getJComboBoxDirsFilters().setModel(
                         new DefaultComboBoxModel<>(
                             new String[] {
-                                txtDisableDirsFilters
+                                getTxtDisableDirsFilters()
                                 }
                             )
                         );
@@ -250,9 +187,9 @@ private Scanner s;
                 getJComboBoxFilesFilters().setModel(
                         new DefaultComboBoxModel<>(
                             new String[] {
-                                txtDisableFilesFilters,
-                                txtIncludeFilesFilters,
-                                txtExcludeFilesFilters
+                                getTxtDisableFilesFilters(),
+                                getTxtIncludeFilesFilters(),
+                                getTxtExcludeFilesFilters()
                                 }
                             )
                         );
@@ -260,9 +197,9 @@ private Scanner s;
                 getJComboBoxDirsFilters().setModel(
                         new DefaultComboBoxModel<>(
                             new String[] {
-                                txtDisableDirsFilters,
-                                txtExcludeDirsFilters,
-                                txtIncludeDirsFilters
+                                getTxtDisableDirsFilters(),
+                                getTxtExcludeDirsFilters(),
+                                getTxtIncludeDirsFilters()
                                 }
                             )
                         );
@@ -321,7 +258,7 @@ private Scanner s;
                 jp.revalidate();
 
                 // repaint a JFrame jframe in this case
-                dfToolKit.getMainFrame().repaint();
+                getAppToolKit().getMainFrame().repaint();
 
                 LOGGER.debug( "repaint MainWindow" );
                 }
@@ -334,7 +271,7 @@ private Scanner s;
      */
     public boolean isIgnoreEmptyFiles()
     {
-        return jCheckBoxIgnoreEmptyFiles.isSelected();
+        return getjCheckBoxIgnoreEmptyFiles().isSelected();
     }
 
     private static final void addExtIf(
@@ -565,10 +502,10 @@ private Scanner s;
         LOGGER.info( "EFtype = " + EFtype);
 
         // Special cases
-        final boolean ignoreEmptyFiles      = jCheckBoxIgnoreEmptyFiles.isSelected();
-        final boolean ignoreHiddedFiles     = jCheckBoxFFIgnoreHidden.isSelected();
-        final boolean ignoreReadOnlyFiles   = jCheckBoxIgnoreReadOnlyFiles.isSelected();
-        final boolean ignoreHiddedDirs      = jCheckBoxFDIgnoreHidden.isSelected();
+        final boolean ignoreEmptyFiles      = getjCheckBoxIgnoreEmptyFiles().isSelected();
+        final boolean ignoreHiddedFiles     = getjCheckBoxFFIgnoreHidden().isSelected();
+        final boolean ignoreReadOnlyFiles   = getjCheckBoxIgnoreReadOnlyFiles().isSelected();
+        final boolean ignoreHiddedDirs      = getjCheckBoxFDIgnoreHidden().isSelected();
 
         LOGGER.info( "ignoreEmptyFiles = " + ignoreEmptyFiles);
         LOGGER.info( "ignoreHiddedFiles = " + ignoreHiddedFiles);

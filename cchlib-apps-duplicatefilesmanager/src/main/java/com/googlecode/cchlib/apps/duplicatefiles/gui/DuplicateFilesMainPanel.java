@@ -1,16 +1,6 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelConfig;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSelectFoldersOrFiles;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfirm;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResult;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearching;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearchingParallel;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,6 +11,16 @@ import java.util.TooManyListenersException;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelConfig;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSelectFoldersOrFiles;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfirm;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResult;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearching;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearchingParallel;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
  * Main frame layout for DuplicateFilesManager
@@ -30,7 +30,6 @@ public class DuplicateFilesMainPanel
         implements I18nAutoCoreUpdatable //I18nAutoUpdatable//I18nPrepAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
-    private AppToolKit dfToolKit;
 
     public static final String ACTIONCMD_RESTART = "ACTIONCMD_RESTART";
     public static final String ACTIONCMD_NEXT = "ACTIONCMD_NEXT";
@@ -67,7 +66,6 @@ public class DuplicateFilesMainPanel
         )
         throws HeadlessException, TooManyListenersException
     {
-        this.dfToolKit          = AppToolKitService.getInstance().getAppToolKit();
         this.mainActionListener = mainActionListener;
 
         final GridBagLayout gbl_contentPane = new GridBagLayout();
@@ -91,21 +89,26 @@ public class DuplicateFilesMainPanel
             jPanelMainCardLayout = new CardLayout(0, 0);
             jPanelMain.setLayout( jPanelMainCardLayout );
 
-            int panelNumber = 0;
+            //int panelNumber = 0;
             jPanel0Select = createJPanel0Select();
-            jPanelMain.add( jPanel0Select, Integer.toString( panelNumber++ ) );
+            //jPanelMain.add( jPanel0Select, Integer.toString( panelNumber++ ) );
+            jPanelMain.add( jPanel0Select, DuplicateFilesState.STATE_SELECT_DIRS.name() );
 
             jPanel1Config = createJPanel1Config();
-            jPanelMain.add( jPanel1Config, Integer.toString( panelNumber++ ) );
+            //jPanelMain.add( jPanel1Config, Integer.toString( panelNumber++ ) );
+            jPanelMain.add( jPanel1Config, DuplicateFilesState.STATE_SEARCH_CONFIG.name() );
 
             jPanel2Searching = createJPanel2Searching();
-            jPanelMain.add( jPanel2Searching, Integer.toString( panelNumber++ ) );
+            //jPanelMain.add( jPanel2Searching, Integer.toString( panelNumber++ ) );
+            jPanelMain.add( jPanel2Searching, DuplicateFilesState.STATE_SEARCHING.name() );
 
             jPanel3Result = createJPanel3Result();
-            jPanelMain.add( jPanel3Result, Integer.toString( panelNumber++ ) );
+            //jPanelMain.add( jPanel3Result, Integer.toString( panelNumber++ ) );
+            jPanelMain.add( jPanel3Result, DuplicateFilesState.STATE_RESULTS.name() );
 
             jPanel4Confirm = createJPanel4Confirm();
-            jPanelMain.add( jPanel4Confirm, Integer.toString( panelNumber++ ) );
+            //jPanelMain.add( jPanel4Confirm, Integer.toString( panelNumber++ ) );
+            jPanelMain.add( jPanel4Confirm, DuplicateFilesState.STATE_CONFIRM.name() );
         }
 
         jButtonRestart = new JButton("Restart");
@@ -183,21 +186,18 @@ public class DuplicateFilesMainPanel
         return jButtonRestart;
     }
 
-    protected void selectedPanel( final int state )
+    protected void selectedPanel( final DuplicateFilesState state )
     {
         jPanelMainCardLayout.show(
                 jPanelMain,
-                Integer.toString( state )
+                //Integer.toString( state )
+                state.name()
                 );
     }
 
-    public AppToolKit getDFToolKit()
+    public final AppToolKit getAppToolKit()
     {
-        if( this.dfToolKit == null ) {
-            throw new NullPointerException( "DFToolKit not initialized" );
-            }
-
-        return this.dfToolKit;
+        return AppToolKitService.getInstance().getAppToolKit();
     }
 
     /**

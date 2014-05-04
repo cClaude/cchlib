@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -71,18 +71,6 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         {
             return this.selectedList.get( 0 ).getKey();
         }
-
-//        public List<File> toFileList()
-//        {
-//
-//            final List<File> list = new ArrayList<>();
-//
-//            for( final KeyFileState kf : this ) {
-//                list.add( kf.getFile() );
-//                }
-//
-//            return list;
-//        }
 
         public List<File> toFileList()
         {
@@ -166,7 +154,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         final Map<String,Set<KeyFileState>> duplicateFiles
         )
     {
-        final Preferences preferences = this.dFToolKit.getPreferences();
+        final PreferencesControler preferences = this.dFToolKit.getPreferences();
 
         final SortMode        sortMode        = preferences.getDefaultSortMode();
         final SelectFirstMode selectFirstMode = preferences.getDefaultSelectFirstMode();
@@ -609,6 +597,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         final String dirPath = kf.getFile().getPath() + File.separator;
 
         //Look for all files in this dir !
+        // FIXME NEED CODE REVIEW !!!!
         for( final Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
             final Set<KeyFileState>   s = entry.getValue();
             int                 c = 0;

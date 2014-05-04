@@ -82,6 +82,19 @@
     </plugins>
   </reporting>
 
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Maven Repository Switchboard</name>
+      <layout>default</layout>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+
   <!-- BUILD
     * ALL sub project will have their java code compiled using java 1.6
   -->

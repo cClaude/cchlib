@@ -1,14 +1,14 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.Preferences;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 
 public class AppToolKitService {
 
-    private static AppToolKitService service;
+    private static AppToolKitService SERVICE;
     private final Object lock = new Object();
     private AppToolKit appToolKit;
-    private Preferences preferences;
+    private PreferencesControler preferences;
     private DuplicateFilesFrame mainWindow;
 
     private AppToolKitService()
@@ -32,15 +32,15 @@ public class AppToolKitService {
         assert this.preferences != null;
         assert this.mainWindow != null;
 
-        DefaultAppToolKit newObject = new DefaultAppToolKit( this.preferences );
+        final DefaultAppToolKit newObject = new DefaultAppToolKit( this.preferences );
 
         newObject.setMainWindow( this.mainWindow );
         this.appToolKit = newObject;
     }
 
     public AppToolKit createAppToolKit(
-        final Preferences         preferences,
-        final DuplicateFilesFrame duplicateFilesFrame
+        final PreferencesControler  preferences,
+        final DuplicateFilesFrame   duplicateFilesFrame
         )
     {
         assert preferences != null;
@@ -58,10 +58,10 @@ public class AppToolKitService {
 
     public static AppToolKitService getInstance()
     {
-        if( service == null ) {
-            service = new AppToolKitService();
+        if( SERVICE == null ) {
+            SERVICE = new AppToolKitService();
         }
 
-        return service;
+        return SERVICE;
     }
 }

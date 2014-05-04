@@ -24,7 +24,6 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileBuilder;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder;
@@ -64,14 +63,9 @@ public class JPanelSearchingParallel extends JPanelSearching
         }
     }
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingParallel.class );
     private static final int MIN_SET_SIZE = 2;
-
-    @I18nString private String txtDuplicateSetsFound = "%,d";
-    @I18nString private String txtDuplicateFilesFound = "%,d";
-    @I18nString private String txtNumberOfFilesProcessed = "Number of files processed: %,d";
-    @I18nString private String txtOctectsToCheck = "Octects to check: %,d";
 
     private final Object pass2FilesCountLock = new Object();
     private int          pass2FilesCount;
@@ -90,16 +84,6 @@ public class JPanelSearchingParallel extends JPanelSearching
     public JPanelSearchingParallel()
     {
         super();
-
-        beSurNonFinal();
-    }
-
-    private void beSurNonFinal()
-    {
-        this.txtDuplicateSetsFound = "%,d";
-        this.txtDuplicateFilesFound = "%,d";
-        this.txtNumberOfFilesProcessed = "Number of files processed: %,d";
-        this.txtOctectsToCheck = "Octects to check: %,d";
     }
 
     @Override
@@ -214,7 +198,7 @@ public class JPanelSearchingParallel extends JPanelSearching
     {
         getjProgressBarFiles().setIndeterminate( false );
         getjProgressBarOctets().setIndeterminate( false );
-        getjLabelCurrentFile().setText( txtCurrentFile );
+        getjLabelCurrentFile().setText( getTxtCurrentFile() );
         getjTextFieldCurrentFile().setText( "" );
     }
 
@@ -468,14 +452,14 @@ public class JPanelSearchingParallel extends JPanelSearching
         getjLabelDuplicateSetsFoundValue().setText(
                 String.format(
                     locale,
-                    txtDuplicateSetsFound,
+                    getTxtDuplicateSetsFound(),
                     Integer.valueOf( pass2SetsCount )
                     )
                 );
         getjLabelDuplicateFilesFoundValue().setText(
                 String.format(
                     locale,
-                    txtDuplicateFilesFound,
+                    getTxtDuplicateFilesFound(),
                     Integer.valueOf( pass2FilesCount )
                     )
                 );
@@ -496,14 +480,14 @@ public class JPanelSearchingParallel extends JPanelSearching
         getjProgressBarFiles().setString(
                 String.format(
                     locale,
-                    txtNumberOfFilesProcessed,
+                    getTxtNumberOfFilesProcessed(),
                     Integer.valueOf( getPass1FilesCount() )
                     )
                 );
         getjProgressBarOctets().setString(
             String.format(
                 locale,
-                txtOctectsToCheck,
+                getTxtOctectsToCheck(),
                 Long.valueOf( getPass1BytesCount() )
                 )
             );

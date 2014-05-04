@@ -1,10 +1,11 @@
 package com.googlecode.cchlib.apps.duplicatefiles.common;
 
+import javax.swing.JDialog;
+import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import javax.swing.JDialog;
-import org.apache.log4j.Logger;
 
 /**
  * Display about dialog
@@ -13,25 +14,11 @@ public class AboutDialog
     extends JDialog
         implements I18nAutoCoreUpdatable, AboutPanelAction
 {
-//    private final class Panel extends AboutPanel
-//    {
-//        private static final long serialVersionUID = 1L;
-//
-//        private Panel( Resources resources )
-//        {
-//            super( resources );
-//        }
-//
-//        @Override
-//        protected void buttonOKClicked()
-//        {
-//            AboutDialog.this.dispose();
-//        }
-//    }
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( AboutDialog.class );
-    private final /*final*/ AboutPanel contentPanel;
-    //private /*final*/ DFToolKit dfToolKit;
+    private static final int ABOUT_FRAME_HEIGTH = 350;
+    private static final int ABOUT_FRAME_WIDTH = 500;
+    private final AboutPanel contentPanel;
 
     /**
      * Launch the application.
@@ -41,13 +28,13 @@ public class AboutDialog
         )
     {
         try {
-            AboutDialog dialog = new AboutDialog();
+            final AboutDialog dialog = new AboutDialog();
 
             dialog.performeI18n( autoI18n );
             dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
             dialog.setVisible( true );
             }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             LOGGER.error( "showDialog", e );
             }
     }
@@ -59,13 +46,17 @@ public class AboutDialog
      */
     public AboutDialog()
     {
-        super( AppToolKitService.getInstance().getAppToolKit().getMainFrame() );
+        super( getAppToolKit().getMainFrame() );
 
-        //this.dfToolKit    = dfToolKit;
-        this.contentPanel = new AboutPanel( AppToolKitService.getInstance().getAppToolKit().getResources(), this );
+        this.contentPanel = new AboutPanel( getAppToolKit().getResources(), this );
 
         super.setContentPane( contentPanel );
-        super.setSize( 500, 350 ); // $codepro.audit.disable numericLiterals
+        super.setSize( ABOUT_FRAME_WIDTH, ABOUT_FRAME_HEIGTH );
+    }
+
+    private static AppToolKit getAppToolKit()
+    {
+        return AppToolKitService.getInstance().getAppToolKit();
     }
 
     @Override // I18nAutoUpdatable
