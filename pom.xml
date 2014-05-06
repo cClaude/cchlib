@@ -16,6 +16,8 @@
     <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+    <java.source.version>1.7</java.source.version>
+    <project.java.source.version>1.7</project.java.source.version>
     <project.javadoc.source.version>1.7</project.javadoc.source.version>
     <project.javadoc.target.version>1.7</project.javadoc.target.version>
   </properties>
@@ -215,10 +217,9 @@
     <module>cchlib-core</module>
     <module>cchlib-core-test</module>
     <module>cchlib-core-beta</module>
-    <module>cchlib-i18n-test</module>
     <module>cchlib-i18n</module>
     <module>cchlib-i18n-test</module>
-    <module>cchlib-i18n-deprecated</module>
+    <!--module>cchlib-i18n-deprecated</module-->
     <module>cchlib-io</module>
     <module>cchlib-io-test</module>
     <module>cchlib-j2ee</module>
