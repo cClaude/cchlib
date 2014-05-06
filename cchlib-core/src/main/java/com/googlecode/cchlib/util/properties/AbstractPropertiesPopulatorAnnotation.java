@@ -1,51 +1,39 @@
 package com.googlecode.cchlib.util.properties;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 
-/* not public */
-class PopulatorAnnotation<E> implements PropertiesPopulatorAnnotation<E> {
+//NOT public
+abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
+    implements PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD>
+{
     private final Populator populator;
 
-    PopulatorAnnotation( final Populator populator )
+    AbstractPropertiesPopulatorAnnotation( final Populator populator )
     {
         this.populator = populator;
     }
 
     @Override
-    public boolean isDefaultValueNull()
+    public final boolean isDefaultValueNull()
     {
         return populator.defaultValueIsNull();
     }
 
     @Override
-    public String defaultValue()
+    public final String defaultValue()
     {
         return populator.defaultValue();
     }
 
     @Override
-    public String toString( final Object o )
+    public final String toString( final Object o )
     {
         return o.toString();
     }
 
-    @Override
-    public void setValue( final Field f, final E bean, final String strValue, final Class<?> type ) throws IllegalArgumentException, IllegalAccessException,
-            ConvertCantNotHandleTypeException, PropertiesPopulatorException
-    {
-        f.set( bean, private_convertStringToObject( strValue, type ) );
-    }
-
-    @Override
-    public void setArrayEntry( final Field f, final Object array, final int index, final String strValue, final Class<?> type )
-            throws ArrayIndexOutOfBoundsException, IllegalArgumentException, ConvertCantNotHandleTypeException, PropertiesPopulatorException
-    {
-        Array.set( array, index, private_convertStringToObject( strValue, type ) );
-    }
-
-    private static Object private_convertStringToObject( // $codepro.audit.disable cyclomaticComplexity
-            final String strValue, final Class<?> type ) throws ConvertCantNotHandleTypeException
+    protected static Object private_convertStringToObject( // // $codepro.audit.disable cyclomaticComplexity
+        final String   strValue, //
+        final Class<?> type //
+        ) throws ConvertCantNotHandleTypeException
     {
         if( strValue == null ) {
             // No value.

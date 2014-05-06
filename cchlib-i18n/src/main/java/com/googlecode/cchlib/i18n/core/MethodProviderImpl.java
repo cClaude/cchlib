@@ -19,7 +19,7 @@ final class MethodProviderImpl implements MethodProvider
             throws MethodProviderNoSuchMethodException, MethodProviderSecurityException
     {
         // FIXME look for f.getDeclaringClass() up to clazz (when enable access to not public methods)
-        final Class<?>[] todo_improve_this_but_not_so_bad = I18nClassImpl.NOT_HANDLED_CLASS_TYPES;
+        //final Class<?>[] todo_improve_this_but_not_so_bad = I18nClassImpl.NOT_HANDLED_CLASS_TYPES;
 
         try {
             return getValidMethods( field.getDeclaringClass(), methodName );

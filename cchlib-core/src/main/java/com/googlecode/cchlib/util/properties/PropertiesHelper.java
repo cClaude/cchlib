@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.util.properties;
 
-import com.googlecode.cchlib.lang.StringHelper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 import java.util.Properties;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Extra tools for {@link Properties}.
@@ -56,9 +56,9 @@ public final class PropertiesHelper
             }
     }
 
-    private static Properties loadProperties( InputStream is ) throws IOException, IllegalArgumentException
+    private static Properties loadProperties( final InputStream is ) throws IOException, IllegalArgumentException
     {
-        Properties  properties = new Properties();
+        final Properties  properties = new Properties();
         properties.load( is );
         return properties;
     }
@@ -106,9 +106,9 @@ public final class PropertiesHelper
      */
     public static Properties cloneFrom( final Map<String,String> propertiesMap )
     {
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
 
-        for( Map.Entry<String,String> entry : propertiesMap.entrySet() ) {
+        for( final Map.Entry<String,String> entry : propertiesMap.entrySet() ) {
             properties.put( entry.getKey(), entry.getValue() );
             }
 

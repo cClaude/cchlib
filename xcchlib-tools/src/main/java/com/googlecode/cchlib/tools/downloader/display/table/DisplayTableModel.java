@@ -27,13 +27,13 @@ public abstract class DisplayTableModel
     private static final long serialVersionUID = 1L;
     private static final transient Logger LOGGER = Logger.getLogger( DisplayTableModel.class );
     // Note: use ConcurrentHashMap to avoid java.util.ConcurrentModificationException
-    private ConcurrentHashMap<Integer,DisplayTableModelEntry> list = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Integer,DisplayTableModelEntry> list = new ConcurrentHashMap<>();
     private JTable jTable;
 
-    @I18nString private String columnNameURL    = "URL";
-    @I18nString private String columnNameState  = "State";
-    @I18nString private String columnNameFile   = "File";
-    @I18nString private String columnNameParent = "Parent URL";
+    @I18nString private final String columnNameURL    = "URL";
+    @I18nString private final String columnNameState  = "State";
+    @I18nString private final String columnNameFile   = "File";
+    @I18nString private final String columnNameParent = "Parent URL";
 
     /**
      *
@@ -62,7 +62,7 @@ public abstract class DisplayTableModel
     {
         final URI uri = url.toURI();
 
-        for( Entry<Integer, DisplayTableModelEntry> entry : list.entrySet() ) {
+        for( final Entry<Integer, DisplayTableModelEntry> entry : list.entrySet() ) {
             if( entry.getValue().getURL().toURI().equals( uri ) ) {
                 return entry.getKey().intValue();
                 }
@@ -102,9 +102,9 @@ public abstract class DisplayTableModel
 
     @Override // AbstractTableModel
     final
-    public synchronized Object getValueAt( int rowIndex, int columnIndex )
+    public synchronized Object getValueAt( final int rowIndex, final int columnIndex )
     {
-        return list.get( rowIndex ).getColumn( columnIndex );
+        return getRow( rowIndex ).getColumn( columnIndex );
     }
 
     /**
@@ -115,7 +115,7 @@ public abstract class DisplayTableModel
      */
     public DisplayTableModelEntry getRow( final int rowIndex )
     {
-        return list.get( rowIndex );
+        return list.get( Integer.valueOf( rowIndex ) );
     }
 
     @Override // LoggerListener
@@ -124,17 +124,13 @@ public abstract class DisplayTableModel
     {
         final int index = this.list.size();
 
-        this.list.put( index, new DisplayTableModelEntry( dURL ) );
+        this.list.put( Integer.valueOf( index ), new DisplayTableModelEntry( dURL ) );
 
         super.fireTableDataChanged();
 
-        SwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                jTable.getSelectionModel().setSelectionInterval(index, index);
-                jTable.scrollRectToVisible(new Rectangle(jTable.getCellRect(index, 0, true)));
-            }
+        SwingUtilities.invokeLater( ( ) -> {
+            jTable.getSelectionModel().setSelectionInterval(index, index);
+            jTable.scrollRectToVisible(new Rectangle(jTable.getCellRect(index, 0, true)));
         });
     }
 
@@ -150,12 +146,12 @@ public abstract class DisplayTableModel
                 LOGGER.fatal( "URL not in list: " + dURL );
                 }
             else {
-                list.get( index ).setState( state );
+                list.get( Integer.valueOf( index ) ).setState( state );
 
                 super.fireTableRowsUpdated( index, index );
                 }
             }
-        catch( URISyntaxException e ) {
+        catch( final URISyntaxException e ) {
             LOGGER.fatal( "updateDisplay : ", e );
             }
     }

@@ -1,30 +1,29 @@
 package com.googlecode.cchlib.util.properties;
 
-import java.lang.reflect.Field;
 import com.googlecode.cchlib.NeedDoc;
 
 @NeedDoc
 public class PopulatorException extends PropertiesPopulatorException
 {
-    private static final long serialVersionUID = 1L;
-    private final Field causeField;// NOT SERIALISABLE !
+    private static final long serialVersionUID = 2L;
+    private final Object causeFieldOrMethod;// NOT SERIALISABLE !
     private final Class<?> causeType;
 
     public PopulatorException(
         final String    message,
-        final Field     causeField,
+        final Object    causeFieldOrMethod,
         final Class<?>  causeType
         )
     {
-        super( message + " for Field " + causeField.getName() + " that return a " + causeField.getName() );
+        super( message + " for " + causeFieldOrMethod + " that return: " + causeType );
 
-        this.causeField = causeField;
-        this.causeType = causeType;
+        this.causeFieldOrMethod = causeFieldOrMethod;
+        this.causeType          = causeType;
     }
 
-    public final Field getCauseField()
+    public final Object getCauseFieldOrMethod()
     {
-        return causeField;
+        return causeFieldOrMethod;
     }
 
     public final Class<?> getCauseType()

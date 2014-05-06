@@ -2,11 +2,9 @@ package com.googlecode.cchlib.util.properties;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -35,7 +33,12 @@ import org.apache.log4j.Logger;
 public class PropertiesPopulator<E>
 {
     private static final Logger LOGGER = Logger.getLogger( PropertiesPopulator.class );
-    private final Map<Field,PropertiesPopulatorAnnotation<E>> keyFieldMap;
+
+    private static final int IS_LENGTH = 2;
+    private static final int GET_SET_LENGTH = 3;
+
+    private final Map<Field ,PropertiesPopulatorAnnotation<E,Field>>  fieldsMap      = new HashMap<>();
+    private final Map<String,PropertiesPopulatorAnnotation<E,Method>> getterSetterMap = new HashMap<>();
 
     /**
      * Create a {@link PropertiesPopulator} object for giving class.
@@ -44,29 +47,137 @@ public class PropertiesPopulator<E>
      */
     public PropertiesPopulator( final Class<? extends E> clazz )
     {
-        this.keyFieldMap = new HashMap<>();
-
-        Field[] fields  = clazz.getDeclaredFields();
-
-        for( Field f : fields ) {
-            Populator populator = f.getAnnotation( Populator.class );
-
-            if( populator != null ) {
-                this.keyFieldMap.put( f, new PopulatorAnnotation<>( populator ) );
-                }
-
-            Persistent persistent = f.getAnnotation( Persistent.class );
-
-            if( persistent != null ) {
-                this.keyFieldMap.put( f, new PersistentAnnotation<>( persistent ) );
-                }
-            }
+        buildFieldMap( clazz.getDeclaredFields() );
+        buildMethodMaps( clazz.getDeclaredMethods() );
 
         if( LOGGER.isTraceEnabled() ) {
-            LOGGER.trace( "Found " + this.keyFieldMap.size() + " fields on " + clazz );
+            LOGGER.trace( "Found " + this.fieldsMap.size() + " fields on " + clazz );
 
-            for( Map.Entry<Field,PropertiesPopulatorAnnotation<E>> entry : this.keyFieldMap.entrySet() ) {
+            for( final Entry<Field, PropertiesPopulatorAnnotation<E, Field>> entry : this.fieldsMap.entrySet() ) {
                 LOGGER.trace( "Key[" + entry.getKey() + "]=" + entry.getValue() );
+                }
+
+            for( final Entry<String, PropertiesPopulatorAnnotation<E, Method>> entry : this.getterSetterMap.entrySet() ) {
+                LOGGER.trace( "Method[" + entry.getKey() + "]=" + entry.getValue() );
+                }
+            }
+    }
+
+    private void buildMethodMaps( final Method[] methods )
+    {
+        for( final Method method : methods ) {
+            final Populator populator = method.getAnnotation( Populator.class );
+
+            if( populator != null ) {
+                tryToBuildMethodPopulator( methods, method, populator );
+                }
+
+            final Persistent persistent = method.getAnnotation( Persistent.class );
+
+            if( persistent != null ) {
+                final String attributeName = getAttributeNameForGetter( method );
+
+                this.getterSetterMap.put( attributeName, new PropertiesPersistentAnnotationForMethodImpl<>( persistent, method, attributeName )  );
+                }
+        }
+    }
+
+    private String getAttributeNameForGetter( final Method method )
+    {
+        final String name = method.getName();
+
+        if( name.startsWith( "get" ) ) {
+            return name.substring( GET_SET_LENGTH );
+        }
+        return null;
+    }
+
+    private void tryToBuildMethodPopulator( final Method[] methods, final Method method, final Populator populator )
+    {
+        Method getter;
+        Method setter;
+        String attributName;
+
+        if( method.getParameterCount() == 0 ) {
+            final String methodName = method.getName();
+
+            if( methodName.startsWith( "get" ) ) {
+                getter = method;
+                attributName = methodName.substring( GET_SET_LENGTH );
+                setter = findSetter( attributName, methods, method.getReturnType() );
+            } else if( methodName.startsWith( "is" ) ) {
+                getter = method;
+                attributName = methodName.substring( IS_LENGTH );
+                setter = findSetter( attributName, methods, method.getReturnType() );
+            } else {
+                getter = null;
+                setter = null;
+                attributName = null;
+            }
+
+        } else  if( method.getParameterCount() == 1 ) {
+            final String methodName = method.getName();
+
+            if( methodName.startsWith( "set" ) ) {
+                setter = method;
+                attributName = methodName.substring( GET_SET_LENGTH );
+
+                final Class<?> returnType = method.getReturnType();
+                getter = findMethod( "get" + attributName, methods, returnType , 0 );
+
+                if( getter == null ) {
+                    getter = findMethod( "is" + attributName, methods, returnType, 0 );
+                }
+            } else {
+                getter = null;
+                setter = null;
+                attributName = null;
+            }
+        } else {
+            getter = null;
+            setter = null;
+            attributName = null;
+        }
+
+        if( (getter != null) && (setter != null) && (attributName != null) ) {
+            this.getterSetterMap.put( //
+                    attributName, //
+                    new PropertiesPopulatorAnnotationForMethodImpl<>( populator, getter, setter, attributName ) //
+                    );
+        } else {
+            LOGGER.warn( "Populator warning : can not handle Method " + method + " getter=" + getter + " / setter=" + setter + " / attributName=[" + attributName + ']' );
+        }
+    }
+
+    private Method findSetter( final String attributName, final Method[] methods, final Class<?> type )
+    {
+        return findMethod( "set" + attributName, methods, type, 1 );
+    }
+
+    private Method findMethod( final String methodName, final Method[] methods, final Class<?> type, final int parameterCount )
+    {
+        for( final Method method : methods ) {
+            if( method.getName().equals( methodName )  && (method.getParameterCount() == parameterCount) ) {
+                return method;
+            }
+        }
+
+        return null;
+    }
+
+    private void buildFieldMap( final Field[] fields )
+    {
+        for( final Field field : fields ) {
+            final Populator populator = field.getAnnotation( Populator.class );
+
+            if( populator != null ) {
+                this.fieldsMap.put( field, new PropertiesPopulatorAnnotationForFieldImpl<>( populator, field ) );
+                }
+
+            final Persistent persistent = field.getAnnotation( Persistent.class );
+
+            if( persistent != null ) {
+                this.fieldsMap.put( field, new PropertiesPersistentAnnotationForFieldImpl<E>( persistent, field ) );
                 }
             }
     }
@@ -104,10 +215,11 @@ public class PropertiesPopulator<E>
         final Properties properties
         ) throws PropertiesPopulatorException
     {
-        final PropertiesPopulatorLoader<E> loader //
-        = new PropertiesPopulatorLoader<>( keyFieldMap, bean, properties, propertiesPrefix );
+        final BeanToProperties<E> loader //
+        = new BeanToProperties<>( bean, properties, propertiesPrefix );
 
-        loader.load();
+        loader.loadForField( this.fieldsMap );
+        loader.loadForMethod( this.getterSetterMap );
     }
 
     /**
@@ -141,196 +253,11 @@ public class PropertiesPopulator<E>
         final E          bean
         ) throws PropertiesPopulatorException
     {
-        new PopulateBean(propertiesPrefix, properties, bean).populate();
+        final PropertiesToBean<E> propertiesToBean = new PropertiesToBean<E>( propertiesPrefix, properties, bean);
+
+        propertiesToBean.populateFields( this.fieldsMap );
+        propertiesToBean.populateMethods( this.getterSetterMap );
     }
-
-    /**
-     * Populate bean from Properties
-     */
-    class PopulateBean
-    {
-        private final Properties      properties;
-        private final E bean;
-        private final StringBuilder   prefix;
-        private final int       prefixLength;
-
-        /**
-         *
-         */
-        public PopulateBean(
-            final String     propertiesPrefix,
-            final Properties properties,
-            final E          bean
-            )
-        {
-            this.properties = properties;
-            this.bean       = bean;
-
-            if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
-                prefix = null;
-                prefixLength = 0;
-                }
-            else {
-                prefix = new StringBuilder( propertiesPrefix );
-                prefixLength = prefix.length();
-                }
-         }
-
-        public void populate() throws PropertiesPopulatorException
-        {
-            for( Entry<Field,PropertiesPopulatorAnnotation<E>> entry : keyFieldMap.entrySet() ) {
-                final Field     field = entry.getKey();
-                final Class<?>  type  = field.getType();
-
-                if( type.isArray() ) {
-                    handleArray( entry, prefix, prefixLength );
-                    }
-                else {
-                    handleNonArray( entry, field, type );
-                    }
-                }
-        }
-
-        private void handleNonArray(
-            final Entry<Field,PropertiesPopulatorAnnotation<E>> entry,
-            final Field                                         field,
-            final Class<?>                                      type
-            )
-        {
-            final String strValue;
-            final String defaultValue;
-
-            if( entry.getValue().isDefaultValueNull() ) {
-                defaultValue = null;
-                }
-            else {
-                defaultValue = entry.getValue().defaultValue();
-                }
-
-            if( prefixLength == 0 ) {
-                strValue = properties.getProperty( field.getName(), defaultValue );
-                }
-            else {
-                prefix.setLength( prefixLength );
-                prefix.append( field.getName() );
-                strValue = properties.getProperty( prefix.toString(), defaultValue );
-                }
-
-            field.setAccessible( true );
-
-            try {
-                if( PopulatorContener.class.isAssignableFrom( type ) ) {
-                    Object o = field.get( bean );
-
-                    if( o == null ) {
-                        throw new PopulatorException( "Can't handle null for PopulatorContener field", field, field.getType() );
-                        }
-                    PopulatorContener contener = PopulatorContener.class.cast( o );
-
-                    contener.setConvertToString( strValue );
-                    }
-                else {
-                    try {
-                        //Object o = convertStringToObject( strValue, type );
-                        //f.set( bean, o );
-                        entry.getValue().setValue( field, bean, strValue, type );
-                        }
-                    catch( ConvertCantNotHandleTypeException e ) {
-                        throw new PopulatorException( "Bad type for field", field, field.getType() );
-                        }
-                    }
-                }
-            catch( NumberFormatException e ) {
-                LOGGER.warn( "Cannot set field:" + field, e );
-                }
-            catch( IllegalArgumentException e ) {
-                // ignore !
-                LOGGER.warn( "Cannot set field:" + field, e );
-                }
-            catch( IllegalAccessException e ) {
-                // ignore !
-                LOGGER.error( "Cannot set field:" + field, e );
-                }
-            finally {
-                field.setAccessible( false );
-                }
-        }
-
-        /*
-         * Handle arrays
-         *
-         * @param f
-         * @param type
-         */
-        private void handleArray(
-            final Entry<Field,PropertiesPopulatorAnnotation<E>> entry,
-            StringBuilder                                       prefix,
-            final int                                           prefixLength
-            ) throws ArrayIndexOutOfBoundsException, PropertiesPopulatorException
-        {
-            final Field         f         = entry.getKey();
-            final Class<?>      arrayType = f.getType();
-            final Class<?>      type      = arrayType.getComponentType();
-            final List<String>  values    = new ArrayList<>();
-
-            // TODO: handle default values ???
-
-            if( prefix == null ) {
-                prefix = new StringBuilder();
-                }
-
-            // Put arrays values in a list of strings
-            for(int i=0;;i++ ) {
-                prefix.setLength( prefixLength );
-                prefix.append( f.getName() );
-                prefix.append( '.' );
-                prefix.append( i );
-
-                final String strValue = properties.getProperty( prefix.toString() );
-
-                if( strValue == null ) {
-                    break;
-                    }
-                else {
-                    values.add( strValue );
-                    }
-                }
-
-            // Compute array size
-            final int length = values.size();
-
-            try {
-                f.setAccessible( true );
-
-                Object o = f.get( bean );
-
-                if( (o == null) || (length != Array.getLength( o )) ) {
-                    o = Array.newInstance( type, length );
-                    f.set( bean, o );
-                    }
-
-                for( int i = 0; i < length; i ++ ) {
-                    //Array.set( o, i, convert( f, values.get( i ), type ) );
-                    try {
-                        //Array.set( o, i, convertStringToObject( values.get( i ), type ) );
-
-                        entry.getValue().setArrayEntry( f, o, i, values.get( i ), type );
-                        }
-                    catch( ConvertCantNotHandleTypeException e ) {
-                        throw new PopulatorException( "Bad type for field", f, f.getType() );
-                        }
-                    }
-                }
-            catch( IllegalArgumentException | IllegalAccessException e ) {
-                // ignore !
-                LOGGER.warn( "Cannot set field:" + f, e );
-                }
-            finally {
-                f.setAccessible( false );
-                }
-        }
-
-    } //class PopulateBean
 
     /**
      * Initialize a bean from a properties file.
@@ -374,4 +301,4 @@ public class PropertiesPopulator<E>
         new PropertiesPopulator<>( clazz ).populateProperties( bean, properties );
         PropertiesHelper.saveProperties( propertiesFile, properties );
     }
-}//class PropertiesPopulator
+}
