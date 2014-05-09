@@ -302,10 +302,8 @@ class FolderTreeModel2
      * Add entry, and return parent node.
      *
      * @param emptyFolder Entry to add
-     * @return TODOC
      * @return parent node, null if already in tree
      */
-    //@Override
     protected final FolderTreeNode synchronizedAdd( final EmptyFolder emptyFolder )
     {
         final int rootCount = this.folderTreeBuilder.getRootNodesMap().size();
@@ -338,7 +336,6 @@ class FolderTreeModel2
         return null;
     }
 
-    //@Override
     protected Iterator<FolderTreeNode> nodeIterator()
     {
         final List<Iterator<FolderTreeNode>> iterators = new ArrayList<>();

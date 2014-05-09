@@ -30,12 +30,14 @@ public class PreferencesControler implements Serializable
 
     private static final int DEFAULT_MESSAGEDIGEST_BUFFER_SIZE = 16 * 1024;
     private static final int MIN_MESSAGE_DIGEST_BUFFER_SIZE = 1024;
+    private static final int DEFAULT_DELETE_SLEEP_DELAIS = 100;
 
     private static final int MINIMUM_WINDOW_WIDTH = 640;
     private static final int MINIMUM_WINDOW_HEIGHT = 440;
 
     private static final int MINIMUM_PREFERENCE_WIDTH = 640;
     private static final int MINIMUM_PREFERENCE_HEIGHT = 340;
+    private static final int DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES = 50;
 
     private final Preferences preferences;
 
@@ -283,12 +285,28 @@ public class PreferencesControler implements Serializable
 
     public int getDeleteSleepDisplay()
     {
-        return preferences.getDeleteSleepDisplay();
+        int deleteSleepDisplay = preferences.getDeleteSleepDisplay();
+
+        if( deleteSleepDisplay < 0 ) {
+            deleteSleepDisplay = DEFAULT_DELETE_SLEEP_DELAIS;
+
+            preferences.setDeleteSleepDisplay( deleteSleepDisplay );
+        }
+
+        return deleteSleepDisplay;
     }
 
     public int getDeleteSleepDisplayMaxEntries()
     {
-        return preferences.getDeleteSleepDisplayMaxEntries();
+        int deleteSleepDisplayMaxEntries = preferences.getDeleteSleepDisplayMaxEntries();
+
+        if( deleteSleepDisplayMaxEntries < 0 ) {
+            deleteSleepDisplayMaxEntries = DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES;
+
+            preferences.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntries );
+        }
+
+        return deleteSleepDisplayMaxEntries;
     }
 
     public String getMessageDigestAlgorithm()
@@ -315,6 +333,8 @@ public class PreferencesControler implements Serializable
 
         if( messageDigestBufferSize < MIN_MESSAGE_DIGEST_BUFFER_SIZE ) {
             messageDigestBufferSize = DEFAULT_MESSAGEDIGEST_BUFFER_SIZE;
+
+            preferences.setMessageDigestBufferSize( messageDigestBufferSize );
             }
 
         return messageDigestBufferSize;
@@ -375,5 +395,46 @@ public class PreferencesControler implements Serializable
         preferences.setWindowDimension( Dimensions.toSerializableDimension( mainWindowDimension ) );
     }
 
+    public int getNumberOfThreads()
+    {
+        int maxThreads = preferences.getNumberOfThreads();
 
+        if( (maxThreads < 1) || (maxThreads > Runtime.getRuntime().availableProcessors()) ) {
+            maxThreads = computeMaxThreads();
+
+            preferences.setNumberOfThreads( maxThreads );
+        }
+
+        return maxThreads;
+    }
+
+    private int computeMaxThreads()
+    {
+        int maxThreads = Runtime.getRuntime().availableProcessors() - 1;
+
+        if( maxThreads < 1 ) {
+            maxThreads = 1;
+        }
+        return maxThreads;
+    }
+
+    public void setNumberOfThreads( final int maxThreads )
+    {
+        preferences.setNumberOfThreads( maxThreads );
+    }
+
+    public Integer getDefaultMessageDigestBufferSize()
+    {
+        return Integer.valueOf( DEFAULT_MESSAGEDIGEST_BUFFER_SIZE );
+    }
+
+    public Integer getDefaultDeleteSleepDisplay()
+    {
+        return Integer.valueOf( DEFAULT_DELETE_SLEEP_DELAIS );
+    }
+
+    public Integer getDefaultDeleteSleepDisplayMaxEntries()
+    {
+        return Integer.valueOf( DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES );
+    }
 }

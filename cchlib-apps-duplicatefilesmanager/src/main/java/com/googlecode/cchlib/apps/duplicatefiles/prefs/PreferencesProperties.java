@@ -307,5 +307,18 @@ final class PreferencesProperties implements Preferences, Serializable
     {
         return this.preferences;
     }
+
+    @Override
+    @Populator(defaultValue="1")
+    public int getNumberOfThreads()
+    {
+        return preferences.getNumberOfThreads();
+    }
+
+    @Override
+    public void setNumberOfThreads( final int maxThreads )
+    {
+        preferences.setNumberOfThreads( maxThreads );
+    }
 }
 

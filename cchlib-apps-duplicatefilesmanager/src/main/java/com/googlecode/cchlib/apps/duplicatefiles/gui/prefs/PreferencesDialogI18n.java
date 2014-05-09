@@ -1,11 +1,14 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.prefs;
 
 import javax.swing.JDialog;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
-public abstract class PreferencesDialogI18n extends JDialog
+public class PreferencesDialogI18n extends JDialog
 {
     private static final long serialVersionUID = 1L;
+    private final PreferencesControler preferencesControler;
 
     @I18nString private String txtPreferencesDialogMessageExceptionDialogTitle;
     @I18nString private String txtStringDefaultLocale;
@@ -16,12 +19,19 @@ public abstract class PreferencesDialogI18n extends JDialog
 
     protected PreferencesDialogI18n()
     {
+        this.preferencesControler = AppToolKitService.getInstance().getAppToolKit().getPreferences();
+
         setTxtPreferencesDialogMessageExceptionDialogTitle( "Can not save configuration" );
         setTxtStringDefaultLocale( "default system" );
         setTxtJLabelDefaultMessageDigestBufferSize( "Default: %d bytes" );
         setTxtJLabelDefaultDeleteDelais( "Default: %d ms" );
         setTxtJLabelDefaultDeleteSleepDisplayMaxEntries( "Default: %d" );
         setTxtJPanelTitle( "Default configuration" );
+    }
+
+    public PreferencesControler getPreferencesControler()
+    {
+        return preferencesControler;
     }
 
     protected final String getTxtPreferencesDialogMessageExceptionDialogTitle()

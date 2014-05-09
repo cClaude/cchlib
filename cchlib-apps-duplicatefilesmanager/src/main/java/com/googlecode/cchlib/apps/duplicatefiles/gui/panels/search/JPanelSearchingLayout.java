@@ -9,56 +9,62 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 
 //NOT public
-abstract class JPanelSearchingDisplay extends JPanelSearchingDisplayI18n
+abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger( JPanelSearchingLayout.class );
+
+    private final int nThreads;
 
     private DefaultTableModel tableModelErrorList;
 
     private final JTable jTableErrorList;
     private final JProgressBar jProgressBarFiles;
     private final JProgressBar jProgressBarOctets;
-    private final JLabel jLabelCurrentFile;
     private final JLabel jLabelBytesReadFromDisk;
     private final JLabel jLabelDuplicateSetsFound;
     private final JLabel jLabelDuplicateFilesFound;
-    @I18nIgnore private final JLabel jTextFieldCurrentFile;
+
     @I18nIgnore private final JLabel jLabelDuplicateSetsFoundValue;
     @I18nIgnore private final JLabel jLabelDuplicateFilesFoundValue;
 
+    private final JPanelCurrentFiles panelCurrentFiles;
+
     /**
-     * Create the panel.
+     * @wbp.parser.constructor
      */
-    public JPanelSearchingDisplay()
+    public JPanelSearchingLayout()
     {
+        this( 2 );
+    }
+
+    public JPanelSearchingLayout( final int nThreads )
+    {
+        this.nThreads = nThreads;
+
+        LOGGER.info( "nThreads = " +nThreads );
+
         final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0};
-        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-        gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.rowHeights = new int[]{60, 0, 0, 0, 0, 0, 0};
+        gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 2.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
-        jLabelCurrentFile = new JLabel("Current File :");
-        jLabelCurrentFile.setHorizontalAlignment(SwingConstants.RIGHT);
-        final GridBagConstraints gbc_jLabelCurrentFile = new GridBagConstraints();
-        gbc_jLabelCurrentFile.fill = GridBagConstraints.HORIZONTAL;
-        gbc_jLabelCurrentFile.insets = new Insets(0, 0, 5, 5);
-        gbc_jLabelCurrentFile.gridx = 0;
-        gbc_jLabelCurrentFile.gridy = 0;
-        add(jLabelCurrentFile, gbc_jLabelCurrentFile);
-
-        jTextFieldCurrentFile = new JLabel();
-        final GridBagConstraints gbc_jTextFieldCurrentFile = new GridBagConstraints();
-        gbc_jTextFieldCurrentFile.fill = GridBagConstraints.HORIZONTAL;
-        gbc_jTextFieldCurrentFile.insets = new Insets(0, 0, 5, 0);
-        gbc_jTextFieldCurrentFile.gridx = 1;
-        gbc_jTextFieldCurrentFile.gridy = 0;
-        add(jTextFieldCurrentFile, gbc_jTextFieldCurrentFile);
+        this.panelCurrentFiles = new JPanelCurrentFiles( nThreads );
+        final GridBagConstraints gbc_panelCurrentFile = new GridBagConstraints();
+        gbc_panelCurrentFile.gridwidth = 2;
+        gbc_panelCurrentFile.insets = new Insets(0, 0, 5, 5);
+        gbc_panelCurrentFile.fill = GridBagConstraints.BOTH;
+        gbc_panelCurrentFile.gridx = 0;
+        gbc_panelCurrentFile.gridy = 0;
+        add(this.panelCurrentFiles, gbc_panelCurrentFile);
 
         final JLabel lblFilesReads = new JLabel("Files reads :");
         lblFilesReads.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -142,6 +148,11 @@ abstract class JPanelSearchingDisplay extends JPanelSearchingDisplayI18n
         scrollPane.setViewportView(jTableErrorList);
     }
 
+    protected int getNumberOfThreads()
+    {
+        return this.nThreads;
+    }
+
     protected AppToolKit getAppToolKit()
     {
         return AppToolKitService.getInstance().getAppToolKit();
@@ -170,8 +181,9 @@ abstract class JPanelSearchingDisplay extends JPanelSearchingDisplayI18n
     {
         getjProgressBarFiles().setIndeterminate( true );
         jProgressBarOctets.setIndeterminate( true );
-        jLabelCurrentFile.setText( getTxtCurrentDir() );
-        jTextFieldCurrentFile.setText( "" );
+
+        clearCurrentFiles();
+        setCurrentDir( getTxtCurrentDir() );
 
         getAppToolKit().setEnabledJButtonCancel( true );
         tableModelErrorList.setRowCount( 0 );
@@ -192,11 +204,6 @@ abstract class JPanelSearchingDisplay extends JPanelSearchingDisplayI18n
         return jProgressBarOctets;
     }
 
-    protected JLabel getjTextFieldCurrentFile()
-    {
-        return jTextFieldCurrentFile;
-    }
-
     protected JLabel getjLabelDuplicateSetsFoundValue()
     {
         return jLabelDuplicateSetsFoundValue;
@@ -207,9 +214,34 @@ abstract class JPanelSearchingDisplay extends JPanelSearchingDisplayI18n
         return jLabelDuplicateFilesFoundValue;
     }
 
-    protected JLabel getjLabelCurrentFile()
+    protected void setCurrentFile( final String currentFileText, final int threadNumber )
     {
-        return jLabelCurrentFile;
+        panelCurrentFiles.setCurrentFile( currentFileText, threadNumber );
+    }
+
+    protected void setCurrentFileLabels( final String label )
+    {
+        panelCurrentFiles.setCurrentFileLabels( label );
+    }
+
+    protected void clearCurrentFiles()
+    {
+        panelCurrentFiles.clearCurrentFiles();
+    }
+
+    protected void clearCurrentFile( final int threadNumber )
+    {
+        panelCurrentFiles.clearCurrentFile( threadNumber );
+    }
+
+    protected void clearCurrentFileLabels()
+    {
+        panelCurrentFiles.clearCurrentFileLabels();
+    }
+
+    private void setCurrentDir( final String currentDir )
+    {
+        panelCurrentFiles.setCurrentDir( currentDir );
     }
 
     public void clear()

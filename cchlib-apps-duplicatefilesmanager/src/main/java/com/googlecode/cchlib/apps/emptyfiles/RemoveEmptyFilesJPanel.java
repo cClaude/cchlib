@@ -92,7 +92,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
             @Override
             public String formatAttributs( final File file )
             {
-                return "TODO"; // TODO
+                return "TODO"; // TODO formatAttributs
             }
 
             @Override
@@ -112,9 +112,9 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
 
     public void doFindFiles( final Collection<File> directoryFiles, final JProgressBar progressBar )
     {
-        final Set<FileVisitOption> fileVisitOption = EnumSet.noneOf( FileVisitOption.class ); // TODO
-        final int                  maxDepth        = 150; // TODO
-        final LinkOption           linkOption      = LinkOption.NOFOLLOW_LINKS; // TODO
+        final Set<FileVisitOption> fileVisitOption = EnumSet.noneOf( FileVisitOption.class ); // TODO fileVisitOption
+        final int                  maxDepth        = 150; // TODO maxDepth
+        final LinkOption           linkOption      = LinkOption.NOFOLLOW_LINKS; // TODO linkOption
 
         progressBar.setEnabled( true );
         progressBar.setIndeterminate( true );

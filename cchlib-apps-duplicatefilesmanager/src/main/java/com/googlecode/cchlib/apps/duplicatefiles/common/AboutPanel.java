@@ -100,7 +100,7 @@ public final class AboutPanel extends JPanel
         }
         {
             final JLabel jLabel_AppIcon = new JLabel();
-            jLabel_AppIcon.setIcon( resources.getAddIcon() ); // NOI18N FIXME
+            jLabel_AppIcon.setIcon( resources.getAddIcon() ); //  FIXME NOI18N
             final GridBagConstraints gbc_jLabel_AppIcon = new GridBagConstraints();
             gbc_jLabel_AppIcon.gridheight = 2;
             gbc_jLabel_AppIcon.fill = GridBagConstraints.BOTH;

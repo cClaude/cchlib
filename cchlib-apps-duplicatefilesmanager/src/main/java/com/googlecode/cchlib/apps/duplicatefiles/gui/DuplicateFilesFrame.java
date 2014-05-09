@@ -22,7 +22,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.prefs.PreferencesDialogWB;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
@@ -48,11 +47,7 @@ final public class DuplicateFilesFrame
 
     private DuplicateFilesState   state;
     private int     subState;
-//    private static final int    STATE_SELECT_DIRS      = 0;
-//    private static final int    STATE_SEARCH_CONFIG    = 1;
-//    private static final int    STATE_SEARCHING        = 2;
-//    private static final int    STATE_RESULTS          = 3;
-//    private static final int    STATE_CONFIRM          = 4;
+
     private static final int    SUBSTATE_CONFIRM_INIT  = 0;
     private static final int    SUBSTATE_CONFIRM_DONE  = 1;
 
@@ -61,22 +56,12 @@ final public class DuplicateFilesFrame
     private Icon iconContinue;
     private Icon iconRestart;
 
-    @I18nString private String txtContinue;
-    @I18nString private String txtRestart;
-    @I18nString private String txtRemove;
-    @I18nString private String txtDeleteNow;
-    @I18nString private String txtBack;
-    @I18nString private String txtCancel;
-    @I18nString private String txtClearSelection;
-
     public DuplicateFilesFrame(
         final PreferencesControler preferences
         )
         throws HeadlessException, TooManyListenersException
     {
         super( preferences );
-
-        beSurNonFinal();
 
         // Menu: configMode
         buildConfigModeMenu();
@@ -93,17 +78,6 @@ final public class DuplicateFilesFrame
         initFixComponents();
         updateDisplayAccordingState();
         LOGGER.info( "DuplicateFilesFrame() done." );
-    }
-
-    private void beSurNonFinal()
-    {
-        this.txtContinue          = "Continue";
-        this.txtRestart           = "Restart";
-        this.txtRemove            = "Remove";
-        this.txtDeleteNow         = "Delete now";
-        this.txtBack              = "Back";
-        this.txtCancel            = "Cancel";
-        this.txtClearSelection    = "Clear selection";
     }
 
     private AutoI18nCore initI18n()
@@ -216,20 +190,20 @@ final public class DuplicateFilesFrame
             applyConfigMode();
             LOGGER.debug( "updateDisplayAccordState: " + state );
             getDuplicateFilesMainPanel().selectedPanel( state );
-            getDuplicateFilesMainPanel().getJButtonNextStep().setText( txtContinue );
+            getDuplicateFilesMainPanel().getJButtonNextStep().setText( getTxtContinue() );
             getDuplicateFilesMainPanel().getJButtonNextStep().setIcon( iconContinue );
-            getDuplicateFilesMainPanel().getJButtonRestart().setText( txtRestart );
+            getDuplicateFilesMainPanel().getJButtonRestart().setText( getTxtRestart() );
             getDuplicateFilesMainPanel().getJButtonRestart().setIcon( iconRestart );
-            getDuplicateFilesMainPanel().getJButtonCancel().setText( txtCancel );
+            getDuplicateFilesMainPanel().getJButtonCancel().setText( getTxtCancel() );
 
             switch( state ) {
                 case STATE_CONFIRM:
                     getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( true );
-                    getDuplicateFilesMainPanel().getJButtonRestart().setText( txtBack );
+                    getDuplicateFilesMainPanel().getJButtonRestart().setText( getTxtBack() );
 
                     if( subState == SUBSTATE_CONFIRM_INIT ) {
                         getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( true );
-                        getDuplicateFilesMainPanel().getJButtonNextStep().setText( txtDeleteNow  );
+                        getDuplicateFilesMainPanel().getJButtonNextStep().setText( getTxtDeleteNow()  );
                         getDuplicateFilesMainPanel().getJPanel4Confirm().populate( duplicateFiles );
                     }
                     else {
@@ -240,8 +214,8 @@ final public class DuplicateFilesFrame
                 case STATE_RESULTS:
                     getDuplicateFilesMainPanel().getJButtonRestart().setEnabled( false );
                     getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( false );
-                    getDuplicateFilesMainPanel().getJButtonNextStep().setText( txtRemove );
-                    getDuplicateFilesMainPanel().getJButtonCancel().setText( txtClearSelection );
+                    getDuplicateFilesMainPanel().getJButtonNextStep().setText( getTxtRemove() );
+                    getDuplicateFilesMainPanel().getJButtonCancel().setText( getTxtClearSelection() );
                     getDuplicateFilesMainPanel().getJButtonCancel().setEnabled( true );
                     SwingUtilities.invokeLater(() -> {
                         getDuplicateFilesMainPanel().getJPanel3Result().clear();
@@ -424,7 +398,6 @@ final public class DuplicateFilesFrame
 
         final PreferencesControler preferences = getDFToolKit().getPreferences();
         final PreferencesDialogWB dialog = new PreferencesDialogWB(
-                preferences ,
                 getSize()
                 );
         dialog.performeI18n( autoI18n );
@@ -432,7 +405,7 @@ final public class DuplicateFilesFrame
 
         JFrames.handleMinimumSize(dialog, preferences.getMinimumPreferenceDimension());
 
-        LOGGER.info( "openPreferences done : " + getDFToolKit().getPreferences() );
+        LOGGER.info( "openPreferences done : " + preferences );
     }
 
     public void openAbout()

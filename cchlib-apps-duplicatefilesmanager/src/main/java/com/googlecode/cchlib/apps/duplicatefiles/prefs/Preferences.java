@@ -64,4 +64,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.util.SerializableDimensio
 
     String getLocaleLanguage();
     void setLocaleLanguage( String empty );
+
+    int getNumberOfThreads();
+    void setNumberOfThreads( int maxThreads );
 }

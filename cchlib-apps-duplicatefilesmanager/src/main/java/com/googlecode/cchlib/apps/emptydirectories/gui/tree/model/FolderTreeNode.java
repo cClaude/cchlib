@@ -1,17 +1,14 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.Iterator;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.Folders;
 
-/**
- * TODOC
- */
 public final class FolderTreeNode
     extends DefaultMutableTreeNode
         implements Iterable<FolderTreeNode>
@@ -21,14 +18,14 @@ public final class FolderTreeNode
 
     private Folder              folder;
     private boolean             selected;
-    private FolderTreeModelable model;
+    private final FolderTreeModelable model;
 
     /**
      * Create a root FileTreeNode
      *
      * @param folder {@link EmptyFolder} object for this root FileTreeNode
      * @param selected
-     * @param model
+     * @param model Modelable
      */
     private FolderTreeNode(
         final Folder              folder,
@@ -56,7 +53,7 @@ public final class FolderTreeNode
 
 
     @Override
-    public void setUserObject( Object userObject )
+    public void setUserObject( final Object userObject )
     {
         if( !(userObject instanceof Folder) ) {
             super.setUserObject( userObject );
@@ -71,7 +68,7 @@ public final class FolderTreeNode
      *
      * @param emptyFolder new type for this folder.
      */
-    public void setFolder( EmptyFolder emptyFolder )
+    public void setFolder( final EmptyFolder emptyFolder )
     {
         if( emptyFolder.getPath().equals( this.folder.getPath() ) ) {
             this.folder = emptyFolder;
@@ -81,10 +78,6 @@ public final class FolderTreeNode
             }
     }
 
-    /**
-     * TODOC
-     * @return TODOC
-     */
     public Folder getFolder()
     {
         return this.folder;
@@ -92,14 +85,11 @@ public final class FolderTreeNode
 
     /**
      * Create a child node on this node.
-     *
-     * @param newFolder TODOC
-     * @return TODOC
      */
     public FolderTreeNode addFolder( final Folder newFolder )
     {
-        Path newFolderPath  = newFolder.getPath().getParent();
-        Path thisParentPath = this.getFolder().getPath();
+        final Path newFolderPath  = newFolder.getPath().getParent();
+        final Path thisParentPath = this.getFolder().getPath();
 
         if( thisParentPath.compareTo( newFolderPath ) != 0 ) {
             throw new IllegalArgumentException(
@@ -107,16 +97,13 @@ public final class FolderTreeNode
                 );
             }
 
-        FolderTreeNode newNode = new FolderTreeNode( newFolder, this.model );
+        final FolderTreeNode newNode = new FolderTreeNode( newFolder, this.model );
 
         super.add( newNode );//TODO: Could do better using super.insert( node, index );
 
         return newNode;
     }
 
-    /**
-     *
-     */
     @Override//Iterable
     final
     public Iterator<FolderTreeNode> iterator()
@@ -156,7 +143,7 @@ public final class FolderTreeNode
         setSelected( !isSelected() );
     }
 
-    public void setSelected( boolean selected )
+    public void setSelected( final boolean selected )
     {
         this.selected = selected;
         this.model.updateState( this );
@@ -170,7 +157,7 @@ public final class FolderTreeNode
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "FolderTreeNode [folder=" );
         builder.append( folder );
         builder.append( ", selected=" );

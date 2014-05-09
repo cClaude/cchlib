@@ -1,16 +1,16 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
-import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
 import java.awt.Component;
 import java.io.File;
 import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
+import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
 
 /**
  *
@@ -102,7 +102,7 @@ class EmptyDirectoryTreeCellRenderer
             }
     }
 
-    @SuppressWarnings("deprecation") // FIXME
+    @SuppressWarnings("deprecation") // FIXME A finir
     private Icon getNodeLeafIconSelected(
         final boolean selected,
         final boolean selectedByUser
@@ -118,7 +118,7 @@ class EmptyDirectoryTreeCellRenderer
             }
     }
 
-    @SuppressWarnings("deprecation") // FIXME
+    @SuppressWarnings("deprecation") // FIXME A finir
     private Icon getNodeLeafEmptyRendererIcon(
         final boolean selected,
         final boolean selectedByUser
@@ -139,9 +139,9 @@ class EmptyDirectoryTreeCellRenderer
         final String name;
 
         if( objectValue instanceof FolderTreeNode ) {
-            FolderTreeNode nodeValue = FolderTreeNode.class.cast( objectValue );
-            Folder         folder    = nodeValue.getFolder();
-            File           file      = folder.getPath().toFile();
+            final FolderTreeNode nodeValue = FolderTreeNode.class.cast( objectValue );
+            final Folder         folder    = nodeValue.getFolder();
+            final File           file      = folder.getPath().toFile();
 
             name = file.getName();
             }

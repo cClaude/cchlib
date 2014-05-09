@@ -21,10 +21,10 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileBuilder;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
@@ -33,7 +33,7 @@ import com.googlecode.cchlib.util.duplicate.stream.ParallelDuplicateFileFinder;
 import com.googlecode.cchlib.util.duplicate.stream.PrepareDuplicateFile;
 
 @I18nName("duplicatefiles.JPanelSearching")
-public class JPanelSearchingParallel extends JPanelSearching
+public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurrentFile
 {
     private static final class Stats {
         private final int  filesCount;
@@ -66,12 +66,13 @@ public class JPanelSearchingParallel extends JPanelSearching
     private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingParallel.class );
     private static final int MIN_SET_SIZE = 2;
+    private final Object lockpass1StatsAdd = new Object();
 
     private final Object pass2FilesCountLock = new Object();
     private int          pass2FilesCount;
     private final Object pass2BytesCountLock = new Object();
     private long         pass2BytesCount;
-    private final Object pass2SetsCountLock  = new Object();
+    //private final Object pass2SetsCountLock  = new Object();
     private int          pass2SetsCount;
 
     private Pass    displayPass;
@@ -83,19 +84,19 @@ public class JPanelSearchingParallel extends JPanelSearching
      */
     public JPanelSearchingParallel()
     {
-        super();
+        super( AppToolKitService.getInstance().getAppToolKit().getPreferences().getNumberOfThreads() );
     }
 
     @Override
     public void startScan(
-            final String                            messageDigestAlgorithm,
-            final int                               messageDigestBufferSize,
-            final boolean                           ignoreEmptyFiles,
-            final Collection<File>                  entriesToScans,
-            final Collection<File>                  entriesToIgnore,
-            final FileFilterBuilders                fileFilterBuilders,
-            final Map<String, Set<KeyFileState>>    duplicateFiles
-            )
+        final String                            messageDigestAlgorithm,
+        final int                               messageDigestBufferSize,
+        final boolean                           ignoreEmptyFiles,
+        final Collection<File>                  entriesToScans,
+        final Collection<File>                  entriesToIgnore,
+        final FileFilterBuilders                fileFilterBuilders,
+        final Map<String, Set<KeyFileState>>    duplicateFiles
+        )
     {
         this.cancel = false;
 
@@ -181,6 +182,7 @@ public class JPanelSearchingParallel extends JPanelSearching
     {
         displayPass = Pass.PASS1;
 
+        clearDisplayFiles();
         setPass1FilesCount( 0 );
         setPass1BytesCount( 0 );
         pass2FilesCount = 0;
@@ -198,13 +200,16 @@ public class JPanelSearchingParallel extends JPanelSearching
     {
         getjProgressBarFiles().setIndeterminate( false );
         getjProgressBarOctets().setIndeterminate( false );
-        getjLabelCurrentFile().setText( getTxtCurrentFile() );
-        getjTextFieldCurrentFile().setText( "" );
+        setCurrentFileLabels( getTxtCurrentFile() );
+        clearCurrentFiles();
     }
 
     private void beforePass2()
     {
-        setDisplayFile( null );
+        clearDisplayFiles();
+
+        //setDisplayFile( null );
+        clearCurrentFiles();
         displayPass = Pass.PASS2;
 
         getjProgressBarFiles().setMaximum( getPass1FilesCount() );
@@ -213,7 +218,8 @@ public class JPanelSearchingParallel extends JPanelSearching
 
     private void afterPass2()
     {
-        setDisplayFile( null );
+        //setDisplayFile( null );
+        clearCurrentFiles();
         displayRunning = false;
 
         //Stop display !
@@ -225,7 +231,9 @@ public class JPanelSearchingParallel extends JPanelSearching
 
     private void afterPopulate()
     {
-        setDisplayFile( null );
+        //setDisplayFile( null );
+        clearCurrentFiles();
+        clearDisplayFiles();
 
         //Be sure to have a coherent ending display !
         //(Include ignored files) -> FIXME expecting sizes should be adapt instead of result
@@ -250,7 +258,7 @@ public class JPanelSearchingParallel extends JPanelSearching
             final MessageDigestFileBuilder    messageDigestFileBuilder = newMessageDigestFileBuilder( messageDigestAlgorithm, messageDigestBufferSize );
             final DuplicateFileFinderListener listener                 = newDuplicateFileFinderListener();
 
-            final DuplicateFileFinder duplicateFileFinder = new ParallelDuplicateFileFinder(messageDigestFileBuilder, listener);
+            final DuplicateFileFinder duplicateFileFinder = new ParallelDuplicateFileFinder(messageDigestFileBuilder, listener, getNumberOfThreads() );
 
             return duplicateFileFinder.computeHash( computePass1 );
         }
@@ -268,9 +276,12 @@ public class JPanelSearchingParallel extends JPanelSearching
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void computeDigest( final File file )
+            public void computeDigest( final long threadId, final File file )
             {
-                setDisplayFile( file );
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "start reading : " + file );
+                }
+                setDisplayFileUsingThreadId( threadId, file );
 
                 synchronized( pass2FilesCountLock  ) {
                     pass2FilesCount++;
@@ -306,7 +317,16 @@ public class JPanelSearchingParallel extends JPanelSearching
             public boolean isCancel()
             {
                 return JPanelSearchingParallel.this.isCancel();
-            }};
+            }
+
+            @Override
+            public void hashString( final File file, final String hashString )
+            {
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "Hash for " + file + " is " + hashString );
+                }
+            }
+        };
     }
 
     private boolean isCancel()
@@ -328,7 +348,7 @@ public class JPanelSearchingParallel extends JPanelSearching
 
         try {
             final PrepareDuplicateFile prepareDuplicateFile = DuplicateFileBuilder.createFromFileVisitor( //
-                    entriesToScans.stream().map( f -> f.toPath() ), //
+                    entriesToScans.stream().map( f -> f.toPath() ), // FIXME use parallleStream() here !!!
                     fileVisitor, //
                     EnumSet.noneOf( FileVisitOption.class ), //
                     Integer.MAX_VALUE, //
@@ -398,11 +418,13 @@ public class JPanelSearchingParallel extends JPanelSearching
         };
     }
 
-    private synchronized void pass1StatsAdd( final File fileFile )
+    private void pass1StatsAdd( final File fileFile )
     {
-        super.setPass1FilesCount( super.getPass1FilesCount() + 1 );
-        super.setPass1BytesCount( super.getPass1BytesCount() + fileFile.length() );
-        super.setDisplayFile( fileFile );
+        synchronized( lockpass1StatsAdd  ) {
+            super.setPass1FilesCount( super.getPass1FilesCount() + 1 );
+            super.setPass1BytesCount( super.getPass1BytesCount() + fileFile.length() );
+            setPass1DisplayFile( fileFile );
+        }
     }
 
     private void populateDuplicate( final Map<String, Set<KeyFileState>> duplicateFiles, final Map<String, Set<File>> filesMap )
@@ -423,7 +445,8 @@ public class JPanelSearchingParallel extends JPanelSearching
     private void updateDisplayThread()
     {
         displayRunning  = true;
-        setDisplayFile( null );
+        //setDisplayFile( null );
+        clearCurrentFiles();
 
         new Thread( ( ) -> {
             while(displayRunning) {
@@ -441,12 +464,8 @@ public class JPanelSearchingParallel extends JPanelSearching
 
     private void updateDisplay()
     {
-        if( getDisplayFile() != null ) {
-            getjTextFieldCurrentFile().setText( getDisplayFile().getAbsolutePath() );
-            }
-        else {
-            getjTextFieldCurrentFile().setText( StringHelper.EMPTY );
-        }
+        updateCurrentFilesDisplay();
+
         final Locale locale = getAppToolKit().getValidLocale();
 
         getjLabelDuplicateSetsFoundValue().setText(
@@ -473,7 +492,6 @@ public class JPanelSearchingParallel extends JPanelSearching
                 break;
         }
     }
-
 
     private void updateDisplayPass1(final Locale locale )
     {
@@ -508,4 +526,6 @@ public class JPanelSearchingParallel extends JPanelSearching
     {
         this.cancel = true;
     }
+
+
 }

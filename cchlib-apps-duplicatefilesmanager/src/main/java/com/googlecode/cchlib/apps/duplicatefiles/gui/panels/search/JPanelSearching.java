@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
 public abstract class JPanelSearching extends JPanelSearchingFilters implements Cancelable{
     enum Pass {
@@ -13,6 +13,11 @@ public abstract class JPanelSearching extends JPanelSearchingFilters implements 
     }
 
     private static final long serialVersionUID = 1L;
+
+    protected JPanelSearching( final int nThreads )
+    {
+        super( nThreads );
+    }
 
     public abstract void startScan( //
             String messageDigestAlgorithm, //

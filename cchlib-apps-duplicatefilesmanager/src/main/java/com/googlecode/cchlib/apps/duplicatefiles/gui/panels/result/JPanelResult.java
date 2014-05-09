@@ -86,8 +86,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelResult.class );
 
-    // TODO: Must be restore by parent !
-    private transient AppToolKit dFToolKit;
+    private final AppToolKit dFToolKit;
     private final DuplicateSetListContextualMenu duplicateSetListContextualMenu;
 
     private ActionListener      actionListenerContextSubMenu;

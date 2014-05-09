@@ -1,13 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.io.FileIterable;
-import com.googlecode.cchlib.util.duplicate.DigestEventListener;
-import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -20,12 +12,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.io.FileIterable;
+import com.googlecode.cchlib.util.duplicate.DigestEventListener;
+import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 @I18nName("duplicatefiles.JPanelSearching")
 public class JPanelSearchingSingleThread extends JPanelSearching
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingSingleThread.class );
+    private static final int THREAD_NUMBER = 0;
+    private static final int NUMBER_OF_THREADS = 1;
 
     private DuplicateFileCollector  duplicateFC;
 
@@ -39,13 +41,24 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
     private int     displayPass;
     private boolean displayRunning;
+    private File displayFile;
 
     /**
      * Create the panel.
      */
     public JPanelSearchingSingleThread()
     {
-        super();
+        super( NUMBER_OF_THREADS );
+    }
+
+    @Override
+    protected void setPass1DisplayFile( final File file )
+    {
+        if( file != null ) {
+            setCurrentFile( file.getAbsolutePath(), THREAD_NUMBER );
+        } else {
+            clearCurrentFile( THREAD_NUMBER );
+        }
     }
 
     @Override
@@ -97,7 +110,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             @Override
             public void computeDigest( final File file )
             {
-                setDisplayFile( file );
+                setPass1DisplayFile( file );
                 pass2CountFile++;
                 //pass2BytesCount += file.length();
             }
@@ -126,6 +139,13 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             public boolean isCancel()
             {
                 return duplicateFC.isCancelProcess();
+            }
+            @Override
+            public void hashString( final File file, final String hashString )
+            {
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "Hash for " + file + " is " + hashString );
+                }
             }
         } );
 
@@ -199,14 +219,20 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         }, "updateDisplayThread()" ).start();
     }
 
+    private void setDisplayFile( final File displayFile )
+    {
+        this.displayFile = displayFile;
+    }
+
+    private File getDisplayFile()
+    {
+        return displayFile;
+    }
+
     private void updateDisplay()
     {
-        if( getDisplayFile() != null ) {
-            getjTextFieldCurrentFile().setText( getDisplayFile().getAbsolutePath() );
-            }
-        else {
-            getjTextFieldCurrentFile().setText( "" );
-        }
+        setPass1DisplayFile( getDisplayFile() );
+
         final Locale locale = getAppToolKit().getValidLocale();
 
         getjLabelDuplicateSetsFoundValue().setText(
@@ -307,11 +333,14 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         //jProgressBarFiles.setStringPainted( true );
         getjProgressBarFiles().setIndeterminate( false );
         getjProgressBarOctets().setIndeterminate( false );
-        getjLabelCurrentFile().setText( getTxtCurrentFile() );
-        getjTextFieldCurrentFile().setText( "" );
+
+        //clearCurrentFileLabels();
+        setCurrentFileLabels( getTxtCurrentFile() );
+        clearCurrentFiles();
 
         LOGGER.info( "pass2" );
         setDisplayFile( null );
+
         displayPass = 2;
         doScanPass2();
         LOGGER.info( "pass2 done" );

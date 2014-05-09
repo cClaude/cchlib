@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.util.MapSetHelper;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.util.MapSetHelper;
 
 /**
  *
@@ -20,7 +20,7 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
     private final Map<String, Set<KeyFileState>> dupFiles;
     private int size;
     private final List<KeyFileState> cache = new ArrayList<>();
-    private Boolean[] deleted; // Tree states boolean array ?????? FIXME
+    private Boolean[] deleted; // FIXME Tree states boolean array ??????
     // need to cache files lengths, to display length even when
     // a file will be deleted.
     private final List<Long> cacheFileLength = new ArrayList<>();

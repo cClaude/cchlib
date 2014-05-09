@@ -1,9 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import com.googlecode.cchlib.util.iterable.Iterables;
-import com.googlecode.cchlib.util.iterator.SingletonIterator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -21,6 +17,10 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.util.iterable.Iterables;
+import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
 public final class FolderTreeModel
     extends DefaultTreeModel
@@ -34,9 +34,6 @@ public final class FolderTreeModel
     @Deprecated private final JTree jTree;
     private final Object lock = new Object();
 
-    /**
-     *
-     */
     public FolderTreeModel( final JTree jTree )
     {
         // Support for multiple root - add an fake hidden root
@@ -61,11 +58,10 @@ public final class FolderTreeModel
      * @return count of node in this tree
      */
     @Override //FileTreeModelable
-    final
-    public int size()
+    public final int size()
     {
         int                       count   = 0;
-        Iterator<FolderTreeNode>  iter    = this.nodeIterator();
+        final Iterator<FolderTreeNode>  iter    = this.nodeIterator();
 
         while( iter.hasNext() ) {
             iter.next();
@@ -75,13 +71,8 @@ public final class FolderTreeModel
         return count;
     }
 
-    /**
-     * TODOC
-     * @param emptyFolder TODOC
-     */
     @Override //FileTreeModelable
-    final
-    public void add( final EmptyFolder emptyFolder )
+    public final void add( final EmptyFolder emptyFolder )
     {
         final FolderTreeNode newRoot;
 
@@ -90,7 +81,7 @@ public final class FolderTreeModel
 
             if( newRoot != null ) {
                 // Add this new 'root', to model
-                DefaultMutableTreeNode hiddenRoot = DefaultMutableTreeNode.class.cast( root );
+                final DefaultMutableTreeNode hiddenRoot = DefaultMutableTreeNode.class.cast( root );
                 hiddenRoot.add( newRoot );
                 }
             else {
@@ -117,11 +108,6 @@ public final class FolderTreeModel
             }
     }
 
-//    public abstract Iterator<FolderTreeNode> nodeIterator();
-
-    /**
-     *
-     */
     protected final void clearSelected()
     {
         if( LOGGER.isDebugEnabled() ) {
@@ -137,10 +123,10 @@ public final class FolderTreeModel
     public boolean isSelectable( final TreePath path )
     {
         if( path != null ) {
-            Object value = path.getLastPathComponent();
+            final Object value = path.getLastPathComponent();
 
             if( value instanceof FolderTreeNode ) {
-                FolderTreeNode node = FolderTreeNode.class.cast( value );
+                final FolderTreeNode node = FolderTreeNode.class.cast( value );
 
                 return node.getFolder() instanceof EmptyFolder;
                 }
@@ -150,8 +136,7 @@ public final class FolderTreeModel
     }
 
     @Override // FileTreeModelable
-    final
-    public void setSelectAll( final boolean onlyLeaf, final boolean selected )
+    public final void setSelectAll( final boolean onlyLeaf, final boolean selected )
     {
         if( selected ) {
             synchronized( lock ) {
@@ -186,7 +171,7 @@ public final class FolderTreeModel
     @Deprecated
     protected final void fireStructureChanged()
     {
-        Object root = getRoot();
+        final Object root = getRoot();
 
         if( root != null ) {
             fireTreeStructureChanged(new TreePath( root ));
@@ -209,7 +194,7 @@ public final class FolderTreeModel
             }
 
         try {
-            Object[]        pairs   = listenerList.getListenerList();
+            final Object[]        pairs   = listenerList.getListenerList();
             TreeModelEvent  e       = null;
 
             for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
@@ -218,13 +203,13 @@ public final class FolderTreeModel
                         e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
                         }
 
-                    TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
+                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
 
                     l.treeStructureChanged( e );
                     }
                 }
             }
-        catch( RuntimeException e ) {
+        catch( final RuntimeException e ) {
             LOGGER.error( "UI Error : parentPath=" + parentPath, e );
             }
     }
@@ -240,7 +225,7 @@ public final class FolderTreeModel
             }
 
         try {
-            Object[]        pairs   = listenerList.getListenerList();
+            final Object[]        pairs   = listenerList.getListenerList();
             TreeModelEvent  e       = null;
 
             for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
@@ -249,20 +234,20 @@ public final class FolderTreeModel
                         e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
                         }
 
-                    TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
+                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
 
                     l.treeNodesChanged( e );
                     }
                 }
             }
-        catch( RuntimeException e ) {
+        catch( final RuntimeException e ) {
             LOGGER.error( "UI Error : parentPath=" + parentPath, e );
             }
     }
 
-    private void treeNodesChanged( FolderTreeNode selectedNode )
+    private void treeNodesChanged( final FolderTreeNode selectedNode )
     {
-      TreePath path = getPath( selectedNode );
+      final TreePath path = getPath( selectedNode );
 
       assert path != null;
 
@@ -288,8 +273,7 @@ public final class FolderTreeModel
     }
 
     @Override //FileTreeModelable
-    final
-    public Iterable<EmptyFolder> getSelectedEmptyFolders()
+    public final Iterable<EmptyFolder> getSelectedEmptyFolders()
     {
         return Collections.unmodifiableSet( this.selectedNodes );
     }
@@ -317,10 +301,8 @@ public final class FolderTreeModel
      * Add entry, and return parent node.
      *
      * @param emptyFolder Entry to add
-     * @return TODOC
      * @return parent node, null if already in tree
      */
-    //@Override
     protected final FolderTreeNode synchronizedAdd( final EmptyFolder emptyFolder )
     {
         final int rootCount = this.folderTreeBuilder.getRootNodesMap().size();
@@ -353,12 +335,11 @@ public final class FolderTreeModel
         return null;
     }
 
-    //@Override
     protected Iterator<FolderTreeNode> nodeIterator()
     {
         final List<Iterator<FolderTreeNode>> iterators = new ArrayList<>();
 
-        for( FolderTreeNode rn : rootNodes() ) {
+        for( final FolderTreeNode rn : rootNodes() ) {
             iterators.add( new SingletonIterator<>( rn ) );
             }
 
@@ -389,7 +370,7 @@ public final class FolderTreeModel
                     final Iterator<FolderTreeNode> current = globalIterator.next();
 
                     if( current.hasNext() ) {
-                        FolderTreeNode node = current.next();
+                        final FolderTreeNode node = current.next();
 
                         // Add children to global iterator
                         iterators.add( node.iterator() );
@@ -441,12 +422,12 @@ public final class FolderTreeModel
                     try {
                         jTreeDir.expandRow( i );
                         }
-                    catch( Exception e ) {
+                    catch( final Exception e ) {
                         LOGGER.error( "expandRow( " + i + " )", e );
                         }
                      }
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.error( "expandAllRows()", e );
                 }
             }

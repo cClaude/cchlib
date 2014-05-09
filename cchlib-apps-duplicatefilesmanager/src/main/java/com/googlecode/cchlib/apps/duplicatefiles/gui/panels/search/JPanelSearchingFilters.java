@@ -1,25 +1,31 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
-import com.googlecode.cchlib.lang.StringHelper;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
+import com.googlecode.cchlib.lang.StringHelper;
 
 //NOT public
-abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
+abstract class JPanelSearchingFilters extends JPanelSearchingLayout
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingFilters.class );
 
-    private int     pass1FilesCount_;
-    private long    pass1BytesCount__;
-    private File    displayFile;
+    private int     pass1FilesCount;
+    private long    pass1BytesCount;
+
+    protected JPanelSearchingFilters( final int nThreads )
+    {
+        super( nThreads );
+    }
+
+    protected abstract void setPass1DisplayFile( final File file );
 
     protected FileFilter createFilesFileFilter(
-        final FileFilterBuilders   fbs
+        final FileFilterBuilders fbs
         )
     {
         final boolean skipHidden   = fbs.isIgnoreHiddenFiles();
@@ -60,8 +66,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
                     // RegEx
                     if( regex != null ) {
                         if( regex.matcher(f.getName()).matches() ) {
-                            pass1FilesCount_++;
-                            pass1BytesCount__ += f.length();
+                            pass1FilesCount++;
+                            pass1BytesCount += f.length();
                             return true;
                             }
                         }
@@ -71,8 +77,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
 
                     for(int i=0;i<fileExtsL;i++) {
                         if(name.endsWith( fileExts[i] )) {
-                            pass1FilesCount_++;
-                            pass1BytesCount__ += f.length();
+                            pass1FilesCount++;
+                            pass1BytesCount += f.length();
                             return true;
                             }
                         }
@@ -127,8 +133,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
                                 return false;
                             }
                         }
-                        pass1FilesCount_++;
-                        pass1BytesCount__ += f.length();
+                        pass1FilesCount++;
+                        pass1BytesCount += f.length();
                         return true;
                     }
                     return false;
@@ -150,8 +156,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
                                 return false;
                             }
                         }
-                        pass1FilesCount_++;
-                        pass1BytesCount__ += f.length();
+                        pass1FilesCount++;
+                        pass1BytesCount += f.length();
                         return true;
                     }
                     return false;
@@ -203,7 +209,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
                     }
                 }
 
-                displayFile = f;
+                setPass1DisplayFile( f );
+
                 return true;
             };
         }
@@ -241,7 +248,7 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
 
                     for(int i=0;i<dirNamesL;i++) {
                         if(name.equals( dirNames[i] )) {
-                            displayFile = f;
+                            setPass1DisplayFile( f );
                             return true;
                         }
                     }
@@ -258,7 +265,7 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
                             return false;
                         }
                     }
-                    displayFile = f;
+                    setPass1DisplayFile( f );
                     return true;
                 };
             }
@@ -267,31 +274,21 @@ abstract class JPanelSearchingFilters extends JPanelSearchingDisplay
 
     protected final int getPass1FilesCount()
     {
-        return pass1FilesCount_;
+        return pass1FilesCount;
     }
 
     protected final void setPass1FilesCount( final int pass1FilesCount )
     {
-        this.pass1FilesCount_ = pass1FilesCount;
+        this.pass1FilesCount = pass1FilesCount;
     }
 
     protected final long getPass1BytesCount()
     {
-        return pass1BytesCount__;
+        return pass1BytesCount;
     }
 
     protected final void setPass1BytesCount( final long pass1BytesCount )
     {
-        this.pass1BytesCount__ = pass1BytesCount;
-    }
-
-    protected final File getDisplayFile()
-    {
-        return displayFile;
-    }
-
-    protected final void setDisplayFile( final File displayFile )
-    {
-        this.displayFile = displayFile;
+        this.pass1BytesCount = pass1BytesCount;
     }
 }

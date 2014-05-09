@@ -12,9 +12,7 @@ class PreferencesBean implements Preferences, Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private static final int DEFAULT_DELETE_SLEEP_DISPLAY = 100;
-    private static final int DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES = 50;
-    private static final int DEFAULT_MESSAGE_DIGEST_BUFFER_SIZE = 4096;
+    private static final int INT_NOT_SET = Integer.MIN_VALUE;
 
     private SerializableDimension minimumPreferenceDimension;
     private SerializableDimension mnimumWindowDimension;
@@ -33,9 +31,10 @@ class PreferencesBean implements Preferences, Serializable
     private boolean ignoreHiddenDirectories = true;
     private boolean ignoreHiddenFiles = true;
     private boolean ignoreReadOnlyFiles = true;
-    private int deleteSleepDisplay = DEFAULT_DELETE_SLEEP_DISPLAY;
-    private int deleteSleepDisplayMaxEntries = DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES;
-    private int messageDigestBufferSize = DEFAULT_MESSAGE_DIGEST_BUFFER_SIZE;
+    private int deleteSleepDisplay = INT_NOT_SET;
+    private int deleteSleepDisplayMaxEntries = INT_NOT_SET;
+    private int messageDigestBufferSize = INT_NOT_SET;
+    private int maxThreads;
 
     @Override
     public final ConfigMode getConfigMode()
@@ -308,7 +307,21 @@ class PreferencesBean implements Preferences, Serializable
         builder.append( getLookAndFeelName() );
         builder.append( ", getLocaleLanguage()=" );
         builder.append( getLocaleLanguage() );
-        builder.append( "]" );
+        builder.append( ", getMaxThreads()=" );
+        builder.append( getNumberOfThreads() );
+        builder.append( ']' );
         return builder.toString();
+    }
+
+    @Override
+    public int getNumberOfThreads()
+    {
+        return maxThreads;
+    }
+
+    @Override
+    public void setNumberOfThreads( final int maxThreads )
+    {
+        this.maxThreads = maxThreads;
     }
 }

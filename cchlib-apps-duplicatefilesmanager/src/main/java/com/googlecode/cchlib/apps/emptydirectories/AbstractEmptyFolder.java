@@ -9,7 +9,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
     private static final long serialVersionUID = 1L;
     private EmptyFolderType type;
 
-    public AbstractEmptyFolder( EmptyFolderType type )
+    public AbstractEmptyFolder( final EmptyFolderType type )
     {
         this.type = type;
     }
@@ -18,8 +18,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
      * @return true if folder have no entry, false otherwise
      */
     @Override
-    final // TODO: remove this
-    public boolean isEmpty()
+    public final boolean isEmpty()
     {
         return type.equals( EmptyFolderType.IS_EMPTY );
     }
@@ -28,17 +27,15 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
      * @return true if folder contain only folder with no entry (rec), false otherwise
      */
     @Override
-    final // TODO: remove this
-    public boolean isContaintOnlyEmptyFolders()
+    public final boolean isContaintOnlyEmptyFolders()
     {
         return type.equals( EmptyFolderType.CONTAINT_ONLY_EMPTY_FOLDERS );
     }
 
     @Override
-    final // TODO: remove this
-    public String toString()
+    public final String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "EmptyFolder [path=" );
         builder.append( getPath() );
         builder.append( ", type=" );
@@ -50,7 +47,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
     public final int compareToEmptyFolder( final Folder aFolder )
     {
         if( aFolder instanceof EmptyFolder ) {
-            EmptyFolder aEmptyFolder = EmptyFolder.class.cast( aFolder );
+            final EmptyFolder aEmptyFolder = EmptyFolder.class.cast( aFolder );
 
             if( this.isEmpty() == aEmptyFolder.isEmpty() ) {
                 return /*((Folder)this).*/compareTo( aEmptyFolder );
@@ -73,8 +70,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
      * @throws DirectoryNotEmptyException if there is at least one file in this directory
      */
     @Override
-    final // TODO: remove this
-    public void check() throws NotDirectoryException, DirectoryNotEmptyException
+    public final void check() throws NotDirectoryException, DirectoryNotEmptyException
     {
         final File file = getFile();
 
@@ -84,7 +80,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
 
         final File[] files = file.listFiles();
 
-        for( File f : files ) {
+        for( final File f : files ) {
             if( ! f.isDirectory() ) {
                 throw new DirectoryNotEmptyException( file.getPath() );
                 }

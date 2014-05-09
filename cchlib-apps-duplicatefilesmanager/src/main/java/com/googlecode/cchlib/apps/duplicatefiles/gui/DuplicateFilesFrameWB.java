@@ -7,7 +7,6 @@ import java.awt.event.WindowEvent;
 import java.util.TooManyListenersException;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -24,9 +23,9 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 /**
  * Main frame layout.
  */
-public abstract class DuplicateFilesFrameWB extends JFrame // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses, largeNumberOfFields
+public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses, largeNumberOfFields
 {
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
     private final AppToolKit dfToolKit;
 
     public static final int REMOVE_EMPTY_DIRECTORIES_TAB = 1;
