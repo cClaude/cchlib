@@ -55,16 +55,27 @@ public class ParallelDuplicateFileFinder extends DuplicateFileFinder {
         }
     }
 
-    public ParallelDuplicateFileFinder( final MessageDigestFileBuilder messageDigestFileBuilder, final DuplicateFileFinderListener listener )
+    private final int nThreads;
+
+    public ParallelDuplicateFileFinder( //
+        final MessageDigestFileBuilder messageDigestFileBuilder,
+        final DuplicateFileFinderListener listener, //
+        final int nThreads //
+        )
             throws InvalidParameterException
     {
         super( messageDigestFileBuilder, listener );
+
+        assert nThreads > 0;
+
+        this.nThreads = nThreads;
     }
 
     @Override
     @NeedDoc
-    public synchronized Map<String, Set<File>> computeHash(
-            @Nonnull final Map<Long, Set<File>> mapLengthFiles ) throws IllegalStateException, NoSuchAlgorithmException, InterruptedException, ExecutionException
+    public synchronized Map<String, Set<File>> computeHash( //
+            @Nonnull final Map<Long, Set<File>> mapLengthFiles //
+            ) throws IllegalStateException, NoSuchAlgorithmException, InterruptedException, ExecutionException
     {
         if( mapLengthFiles == null ) {
             throw new InvalidParameterException( "mapSet is null" );
@@ -73,8 +84,7 @@ public class ParallelDuplicateFileFinder extends DuplicateFileFinder {
             return Collections.emptyMap();
         }
 
-        final int                                  cores    = Runtime.getRuntime().availableProcessors();
-        final ExecutorService                      executor = Executors.newFixedThreadPool( cores );
+        final ExecutorService                      executor = Executors.newFixedThreadPool( nThreads );
         final List<Future<Entry<String,File>>>     results = new ArrayList<>();
 
         final Map<String, Set<File>> mapHashFiles = new HashMap<>( computeMapSize( mapLengthFiles ) );

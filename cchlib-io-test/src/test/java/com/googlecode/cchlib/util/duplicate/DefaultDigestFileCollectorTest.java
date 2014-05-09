@@ -1,8 +1,5 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.io.FileIterable;
-import com.googlecode.cchlib.util.CancelRequestException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,6 +9,9 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.io.FileIterable;
+import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
  *
@@ -29,13 +29,13 @@ public class DefaultDigestFileCollectorTest
                 FileNotFoundException,
                 IOException
     {
-        DefaultDigestFileCollector instance = new DefaultDigestFileCollector();
+        final DefaultDigestFileCollector instance = new DefaultDigestFileCollector();
 
         instance.addDigestEventListener( getDigestEventListener() );
 
-        File            root  = FileHelper.getUserHomeDirFile();
-        Iterable<File>  files = new FileIterable(
-                root, (File f) -> {
+        final File            root  = FileHelper.getUserHomeDirFile();
+        final Iterable<File>  files = new FileIterable(
+                root, (final File f) -> {
                     if( f.isFile() && f.length() > 0  && f.length() < FILE_MAX_SIZE ) {
                         return true;
                     }
@@ -47,12 +47,12 @@ public class DefaultDigestFileCollectorTest
         try {
             instance.add( files );
             }
-        catch( CancelRequestException e ) {
+        catch( final CancelRequestException e ) {
             LOGGER.info( "CancelRequestException: " + e /* Not a error, e */ );
             }
 
-        int dsc = instance.getDuplicateSetsCount();
-        int dfc = instance.getDuplicateFilesCount();
+        final int dsc = instance.getDuplicateSetsCount();
+        final int dfc = instance.getDuplicateFilesCount();
 
         LOGGER.info("getDuplicateSetsCount: "+dsc);
         LOGGER.info("getDuplicateFilesCount: "+dfc);
@@ -72,14 +72,14 @@ public class DefaultDigestFileCollectorTest
         Assert.assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
         Assert.assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
 
-        Map<String, Set<File>> map = instance.getFiles();
+        final Map<String, Set<File>> map = instance.getFiles();
 
-        for(Map.Entry<String,Set<File>> entry:map.entrySet()) {
-            String      k = entry.getKey();
-            Set<File>   s = entry.getValue();
+        for(final Map.Entry<String,Set<File>> entry:map.entrySet()) {
+            final String      k = entry.getKey();
+            final Set<File>   s = entry.getValue();
 
             LOGGER.info( k + " : " + s.size() );
-            for( File f:s ) {
+            for( final File f:s ) {
                 LOGGER.info( f );
                 }
             }
@@ -100,11 +100,11 @@ public class DefaultDigestFileCollectorTest
                 countFile++;
             }
             @Override
-            public void computeDigest( File file, long length )
+            public void computeDigest( final File file, final long length )
             {//Partial compute
             }
             @Override
-            public void ioError( IOException e, File file )
+            public void ioError( final IOException e, final File file )
             {
                 LOGGER.warn( "ioError file=" + file + " OK[" + e + "]" /*, e OK JUST WARN */ );
             }
@@ -112,6 +112,11 @@ public class DefaultDigestFileCollectorTest
             public boolean isCancel()
             {
                 return countFile > MAX_FILES_COUNT;
+            }
+            @Override
+            public void hashString( final File file, final String hashString )
+            {
+                LOGGER.info( "hashString[" + file + "] => " + hashString );
             }
         };
     }

@@ -28,6 +28,15 @@ public interface DigestEventListener
     void computeDigest(File file, long length);
 
     /**
+     * Invoked after computing digest for this file
+     *
+     * @param file the file
+     * @param hashString the hash for this file
+     * @since 4.2
+     */
+    void hashString( File file, String hashString );
+
+    /**
      * Invoked if any {@link IOException} occur.
      *
      * @param e     exception that append.

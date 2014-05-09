@@ -34,6 +34,14 @@ public class DuplicateFileFinder
 
     @NeedDoc
     public interface DuplicateFileFinderListener extends DigestEventListener {
+        void computeDigest( long threadId, File file );
+
+        @Override
+        default void computeDigest( final File file ) {
+            final long threadId = Thread.currentThread().getId();
+
+            computeDigest( threadId, file );
+        }
     }
 
     private final MessageDigestFileBuilder messageDigestFileBuilder;
@@ -114,7 +122,10 @@ public class DuplicateFileFinder
         }
     }
 
-    private Map<String, Set<File>> computeHashForSet( final MessageDigestFile mdf, final Set<File> filesSet )
+    private Map<String, Set<File>> computeHashForSet( //
+            final MessageDigestFile mdf,
+            final Set<File> filesSet
+            )
     {
         final Map<String, Set<File>> hashs = new HashMap<>();
 
@@ -143,14 +154,21 @@ public class DuplicateFileFinder
         return hashs;
     }
 
-    protected String computeHashForFile( final MessageDigestFile mdf, final File file ) throws CancelRequestException
+    protected String computeHashForFile(
+        final MessageDigestFile mdf,
+        final File file
+        ) throws CancelRequestException
     {
         listener.computeDigest( file );
 
         try {
             mdf.compute( file, listener );
 
-            return mdf.digestString();
+            final String hashString = mdf.digestString();
+
+            listener.hashString( file, hashString );
+
+            return hashString;
             }
         catch(final IOException e) {
             listener.ioError( e, file );

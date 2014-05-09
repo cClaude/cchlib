@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import com.googlecode.cchlib.io.FileHelper;
+import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import com.googlecode.cchlib.io.FileHelper;
 
 /**
  *
@@ -27,10 +27,10 @@ public class DuplicateFileCollectorTest
                 FileNotFoundException,
                 IOException
     {
-        MessageDigestFile       messageDigestFile = new MessageDigestFile("MD5");
-        DuplicateFileCollector  instance          = new DuplicateFileCollector( messageDigestFile, true );
-        File                    root              = FileHelper.getUserHomeDirFile();
-        Iterable<File>          files             = FileIteratorBuilder.createFileIterator(root, FILE_MAX_LENGTH, MAX_FILES_COUNT * 2);
+        final MessageDigestFile       messageDigestFile = new MessageDigestFile("MD5");
+        final DuplicateFileCollector  instance          = new DuplicateFileCollector( messageDigestFile, true );
+        final File                    root              = FileHelper.getUserHomeDirFile();
+        final Iterable<File>          files             = FileIteratorBuilder.createFileIterator(root, FILE_MAX_LENGTH, MAX_FILES_COUNT * 2);
 
         instance.addDigestEventListener(
                 new DigestEventListener()
@@ -42,7 +42,7 @@ public class DuplicateFileCollectorTest
                     boolean canNotCheckCumulSinceALeastOneFileLocked = false;
 
                     @Override
-                    public void computeDigest( File file )
+                    public void computeDigest( final File file )
                     {
                         if( ! canNotCheckCumulSinceALeastOneFileLocked ) {
                             assertEquals("Bad cumul size!",currentFileLength,cumul);
@@ -54,13 +54,13 @@ public class DuplicateFileCollectorTest
                         fileCount++;
                     }
                     @Override
-                    public void ioError( IOException e, File file )
+                    public void ioError( final IOException e, final File file )
                     {
                         LOGGER.warn( "IOException "+file+" : "+e/*,e JUST A WARNING*/);
                         canNotCheckCumulSinceALeastOneFileLocked = true;
                     }
                     @Override
-                    public void computeDigest( File file, long length )
+                    public void computeDigest( final File file, final long length )
                     {
                         //System.out.printf("in:%s - reading %d bytes\n",file,length);
                         cumul += length;
@@ -71,6 +71,11 @@ public class DuplicateFileCollectorTest
                         //return false;
                         return fileCount > MAX_FILES_COUNT;
                     }
+                    @Override
+                    public void hashString( final File file, final String hashString )
+                    {
+                        LOGGER.info( "hashString[" + file + "] => " + hashString );
+                    }
                 });
 
         LOGGER.info( "adding... : " + root );
@@ -79,8 +84,8 @@ public class DuplicateFileCollectorTest
         LOGGER.info( "Pass 2" );
         instance.pass2();
 
-        int dsc = instance.getDuplicateSetsCount();
-        int dfc = instance.getDuplicateFilesCount();
+        final int dsc = instance.getDuplicateSetsCount();
+        final int dfc = instance.getDuplicateFilesCount();
 
         LOGGER.info("getDuplicateSetsCount: "+dsc);
         LOGGER.info("getDuplicateFilesCount: "+dfc);
@@ -100,15 +105,15 @@ public class DuplicateFileCollectorTest
         assertEquals("getDuplicateSetsCount:",dsc,instance.getDuplicateSetsCount());
         assertEquals("getDuplicateFilesCount:",dfc,instance.getDuplicateFilesCount());
 
-        Map<String, Set<File>> map = instance.getFiles();
+        final Map<String, Set<File>> map = instance.getFiles();
 
-        for(Map.Entry<String,Set<File>> entry:map.entrySet()) {
-            String      k = entry.getKey();
-            Set<File>   s = entry.getValue();
+        for(final Map.Entry<String,Set<File>> entry:map.entrySet()) {
+            final String      k = entry.getKey();
+            final Set<File>   s = entry.getValue();
 
             LOGGER.info( "'"+k+" : "+ s.size() );
 
-            for(File f:s) {
+            for(final File f:s) {
                 LOGGER.info( f );
                 }
             }

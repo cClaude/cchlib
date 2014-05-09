@@ -21,7 +21,9 @@ public class ParallelDuplicateFileFinderTest extends DuplicateFileFinderTestBase
     @Override
     protected DuplicateFileFinder newDuplicateFileFinder( final MessageDigestFileBuilder messageDigestFileBuilder, final DuplicateFileFinderListener listener )
     {
-        return new ParallelDuplicateFileFinder(messageDigestFileBuilder, listener);
+        final int nThreads = Runtime.getRuntime().availableProcessors();
+
+        return new ParallelDuplicateFileFinder(messageDigestFileBuilder, listener, nThreads );
     }
 
     @Override
