@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
@@ -48,16 +47,17 @@ public class JPanelSearchingSingleThread extends JPanelSearching
      */
     public JPanelSearchingSingleThread()
     {
-        super( NUMBER_OF_THREADS );
+        super();
     }
 
     @Override
     protected void setPass1DisplayFile( final File file )
     {
         if( file != null ) {
-            setCurrentFile( file.getAbsolutePath(), THREAD_NUMBER );
+            setCurrentFile( THREAD_NUMBER, file  );
         } else {
-            clearCurrentFile( THREAD_NUMBER );
+            //clearCurrentFile( THREAD_NUMBER );
+            clearCurrentFiles();
         }
     }
 
@@ -125,10 +125,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
                         )
                     );
 
-                final Vector<Object> v = new Vector<>();
-                v.add( file );
-                v.add( e.getLocalizedMessage() );
-                getTableModelErrorList().addRow( v );
+                getTableModelErrorList().addRow( file, e );
             }
             @Override
             public void computeDigest( final File file, final long length )
@@ -267,15 +264,8 @@ public class JPanelSearchingSingleThread extends JPanelSearching
                 );
         }
         else {
-//            jLabelBytesReadFromDisk.setText(
-//                String.format(
-//                    txtBytesReadFromDisk,
-//                    pass2BytesCount
-//                    )
-//                );
             getjProgressBarFiles().setValue( pass2CountFile );
             getjProgressBarFiles().setString( String.format( locale, "%,d / %,d", Integer.valueOf( pass2CountFile ), Integer.valueOf( getPass1FilesCount() ) ) );
-            //jProgressBarOctets.setValue( Math.round( pass2BytesCount/1024) );
             getjProgressBarOctets().setValue( (int)( pass2BytesCount/1024 ) );
             getjProgressBarOctets().setString( String.format( locale, "%,d / %,d", Long.valueOf( pass2BytesCount), Long.valueOf( getPass1BytesCount() ) ) );
         }
@@ -330,11 +320,9 @@ public class JPanelSearchingSingleThread extends JPanelSearching
                 );
         LOGGER.info( "pass1 done" );
 
-        //jProgressBarFiles.setStringPainted( true );
         getjProgressBarFiles().setIndeterminate( false );
         getjProgressBarOctets().setIndeterminate( false );
 
-        //clearCurrentFileLabels();
         setCurrentFileLabels( getTxtCurrentFile() );
         clearCurrentFiles();
 

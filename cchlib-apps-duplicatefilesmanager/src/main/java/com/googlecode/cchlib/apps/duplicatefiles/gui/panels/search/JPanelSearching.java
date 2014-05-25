@@ -14,9 +14,9 @@ public abstract class JPanelSearching extends JPanelSearchingFilters implements 
 
     private static final long serialVersionUID = 1L;
 
-    protected JPanelSearching( final int nThreads )
+    protected JPanelSearching()
     {
-        super( nThreads );
+        super();
     }
 
     public abstract void startScan( //
@@ -28,4 +28,5 @@ public abstract class JPanelSearching extends JPanelSearchingFilters implements 
             FileFilterBuilders fileFilterBuilders, //
             Map<String, Set<KeyFileState>> duplicateFiles //
             );
+
 }

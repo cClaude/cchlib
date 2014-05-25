@@ -1,10 +1,6 @@
 // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
 package com.googlecode.cchlib.util.duplicate;
 
-import com.googlecode.cchlib.lang.ByteArrayBuilder;
-import com.googlecode.cchlib.test.ArrayAssert;
-import com.googlecode.cchlib.test.FilesTestCaseHelper;
-import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +12,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.ByteArrayBuilder;
+import com.googlecode.cchlib.test.ArrayAssert;
+import com.googlecode.cchlib.test.FilesTestCaseHelper;
+import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 public class MessageDigestFileTest
 {
@@ -50,7 +50,7 @@ public class MessageDigestFileTest
     }
 
     private void doTest_MessageDigestFileClone(
-            MessageDigestFile mdf
+            final MessageDigestFile mdf
             )
     throws  NoSuchAlgorithmException,
             FileNotFoundException,
@@ -60,13 +60,13 @@ public class MessageDigestFileTest
     {
         doTest_MessageDigestFile(mdf);
 
-        MessageDigestFile clone = SerializableTestCaseHelper.cloneOverSerialization( mdf );
+        final MessageDigestFile clone = SerializableTestCaseHelper.cloneOverSerialization( mdf );
 
         doTest_MessageDigestFile(clone);
     }
 
     private void doTest_MessageDigestFile(
-            MessageDigestFile mdf
+            final MessageDigestFile mdf
             )
     throws  NoSuchAlgorithmException,
             FileNotFoundException,
@@ -74,19 +74,19 @@ public class MessageDigestFileTest
             DigestException,
             ClassNotFoundException
     {
-        Iterator<File> iter = FilesTestCaseHelper.getFilesFrom( new File(".").getAbsoluteFile(), null );
+        final Iterator<File> iter = FilesTestCaseHelper.getFilesFrom( new File(".").getAbsoluteFile(), null );
         int i = 0;
         while( iter.hasNext() ) {
-            File f = iter.next();
+            final File f = iter.next();
 
             if( f.length() > MAX_FILE_LENGTH ) {
                 continue; // Skip big files to speed up testing
                 }
 
-            byte[] mdfKey1 = mdf.computeInputStream( f );
+            final byte[] mdfKey1 = mdf.computeInputStream( f );
             doTest_File( mdf, f, mdfKey1);
 
-            byte[] mdfKey2 = mdf.compute( f );
+            final byte[] mdfKey2 = mdf.compute( f );
             doTest_File( mdf, f, mdfKey2);
 
             ArrayAssert.assertEquals("Error!",mdfKey1,mdfKey2);
@@ -98,25 +98,25 @@ public class MessageDigestFileTest
     }
 
     private void doTest_File(
-            MessageDigestFile   mdf,
-            File                f,
-            byte[]              mdfKey
+            final MessageDigestFile   mdf,
+            final File                f,
+            final byte[]              mdfKey
             ) throws NoSuchAlgorithmException, IOException
     {
-        String mdfKeyStr = MessageDigestFile.computeDigestKeyString( mdfKey );
-        String algorithm = mdf.getAlgorithm();
+        final String mdfKeyStr = MessageDigestFile.computeDigestKeyString( mdfKey );
+        final String algorithm = mdf.getAlgorithm();
 
         ArrayAssert.assertEquals(mdfKey,mdf.digest());
-        String mdfHexStr = mdf.digestString();
-        byte[] mdfKey2      = mdf.digest();
-        String mdfKey2Str   = MessageDigestFile.computeDigestKeyString(mdfKey2);
+        final String mdfHexStr = mdf.digestString();
+        final byte[] mdfKey2      = mdf.digest();
+        final String mdfKey2Str   = MessageDigestFile.computeDigestKeyString(mdfKey2);
 
         System.out.printf("MDF:%s - %s\n", mdfKeyStr, f );
         System.out.printf("MD_:%s (%s)\n",  mdfHexStr, algorithm );
         System.out.printf("MD2:%s\n", mdfKey2Str );
 
         if( algorithm.equals( "MD5" ) ) {
-            String r2        = getMD5(f);
+            final String r2        = getMD5(f);
             System.out.printf("MD>:%s\n", r2 );
 
             Assert.assertEquals(mdfKeyStr,r2);
@@ -130,25 +130,25 @@ public class MessageDigestFileTest
                 );
         ArrayAssert.assertEquals(mdfKey,mdfKey2);
 
-        byte[] bytesFromStr = MessageDigestFile.computeDigestKey( mdfHexStr );
+        final byte[] bytesFromStr = MessageDigestFile.computeDigestKey( mdfHexStr );
 
         ArrayAssert.assertEquals("Error!",mdfKey,bytesFromStr);
     }
 
-    private static String getMD5(byte[] input)
+    private static String getMD5(final byte[] input)
         throws NoSuchAlgorithmException
     {
-        final StringBuilder sb = new StringBuilder(); 
+        final StringBuilder sb = new StringBuilder();
         final MessageDigest md            = MessageDigest.getInstance("MD5");
         final byte[]        messageDigest = md.digest(input);
         final BigInteger    number        = new BigInteger(1, messageDigest);
-        
+
         String  hashtext = number.toString(16);
 
         // Now we need to zero pad it if you actually want the full 32 chars.
         while (hashtext.length() < 32) {
             sb.setLength( 0 );
-            sb.append( '0' ); 
+            sb.append( '0' );
             sb.append( hashtext );
             hashtext = sb.toString();
             }
@@ -161,7 +161,7 @@ public class MessageDigestFileTest
                 IOException
     {
         try (FileInputStream fis = new FileInputStream( input )) {
-            ByteArrayBuilder bab = new ByteArrayBuilder((int)input.length());
+            final ByteArrayBuilder bab = new ByteArrayBuilder((int)input.length());
 
             bab.append( fis );
 

@@ -13,9 +13,6 @@ import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.io.FileIterable;
 import com.googlecode.cchlib.util.CancelRequestException;
 
-/**
- *
- */
 public class DefaultDigestFileCollectorTest
 {
     private static final Logger LOGGER = Logger.getLogger( DefaultDigestFileCollectorTest.class );

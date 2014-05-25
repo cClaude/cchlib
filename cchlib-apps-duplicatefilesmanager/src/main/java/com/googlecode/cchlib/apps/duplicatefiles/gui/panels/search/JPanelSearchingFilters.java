@@ -17,9 +17,9 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayout
     private int     pass1FilesCount;
     private long    pass1BytesCount;
 
-    protected JPanelSearchingFilters( final int nThreads )
+    protected JPanelSearchingFilters()
     {
-        super( nThreads );
+        super();
     }
 
     protected abstract void setPass1DisplayFile( final File file );

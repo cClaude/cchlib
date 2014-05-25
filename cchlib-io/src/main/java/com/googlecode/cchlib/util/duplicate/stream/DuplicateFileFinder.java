@@ -34,14 +34,14 @@ public class DuplicateFileFinder
 
     @NeedDoc
     public interface DuplicateFileFinderListener extends DigestEventListener {
-        void computeDigest( long threadId, File file );
-
-        @Override
-        default void computeDigest( final File file ) {
-            final long threadId = Thread.currentThread().getId();
-
-            computeDigest( threadId, file );
-        }
+//        void computeDigest( long threadId, File file );
+//
+//        @Override
+//        default void computeDigest( final File file ) {
+//            final long threadId = Thread.currentThread().getId();
+//
+//            computeDigest( threadId, file );
+//        }
     }
 
     private final MessageDigestFileBuilder messageDigestFileBuilder;

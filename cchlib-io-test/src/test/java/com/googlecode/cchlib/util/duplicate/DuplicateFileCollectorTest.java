@@ -11,9 +11,6 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
 
-/**
- *
- */
 public class DuplicateFileCollectorTest
 {
     private static final Logger LOGGER = Logger.getLogger( DuplicateFileCollectorTest.class );

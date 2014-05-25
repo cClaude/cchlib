@@ -1,40 +1,41 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
 import java.io.File;
-import java.util.Arrays;
-import org.apache.log4j.Logger;
 
 public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSearching
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger( JPanelSearchingParallelUpdateCurrentFile.class );
+
+    private static final long PASS1_FAKE_THREAD_ID = Long.MIN_VALUE;
 
     private final Object lockSynchronizedPass1DisplayFile = new Object();
-    private final File[] displayFiles;
-    private final long[] threadIds;
+    private long[] threadIds;
     private int threadIdCount;
+    private int numberOfThreads;
 
-    protected JPanelSearchingParallelUpdateCurrentFile( final int nThreads )
+    protected JPanelSearchingParallelUpdateCurrentFile()
     {
-        super( nThreads );
+        super();
+    }
 
-        final int numberOfThreads = getNumberOfThreads();
-
-        displayFiles = new File[ numberOfThreads ];
-        threadIds    = new long[ numberOfThreads ];
-   }
-
-    private final long getThreadId( final int threadNumber )
+    protected final void init()
     {
-        assert threadNumber >= 0;
-        assert threadNumber < getNumberOfThreads();
-        assert threadNumber < threadIdCount;
+        this.numberOfThreads = super.getAppToolKit().getPreferences().getNumberOfThreads();
+        this.threadIds       = new long[ this.numberOfThreads ];
+        this.threadIdCount   = 0;
+    }
 
-        return threadIds[ threadNumber ];
+    protected final int getNumberOfThreads()
+    {
+        return this.numberOfThreads;
     }
 
     private final int getThreadNumber( final long threadId )
     {
+        if( threadId == PASS1_FAKE_THREAD_ID ) {
+            return 0; // number for this id is 0 !
+        }
+
         for( int i = 0; i<threadIdCount; i++ ) {
             if( threadIds[ i ] == threadId ) {
                 return i;
@@ -44,61 +45,34 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
         return -1;
     }
 
-    private final File getDisplayFileUsingThreadId( final long threadId )
-    {
-        return displayFiles[ getThreadNumber( threadId ) ];
-    }
-
-    protected void updateCurrentFilesDisplay()
-    {
-        for( int threadNumber = 0; threadNumber < threadIdCount; threadNumber++ ) {
-            updateCurrentFilesDisplay_( threadNumber );
-        }
-    }
-
-    private void updateCurrentFilesDisplay_( final int threadNumber )
-    {
-        final long threadId    = getThreadId( threadNumber );
-        final File displayFile = getDisplayFileUsingThreadId( threadId );
-
-        if( LOGGER.isTraceEnabled() ) {
-            LOGGER.trace( "threadId = " + threadId + " - displayFile = " + displayFile  + " - threadNumber = " + threadNumber );
-        }
-
-        if( displayFile != null ) {
-            setCurrentFile( displayFile.getAbsolutePath(), threadNumber );
-            }
-        else {
-            clearCurrentFile( threadNumber );
-        }
-    }
-
-
-    protected final void setDisplayFileUsingThreadId( final long threadId, final File displayFile )
+    private int getOrCreateThreadNumber( final long threadId )
     {
         int threadNumber = getThreadNumber( threadId );
 
         if( threadNumber < 0 ) {
-            threadNumber = threadIdCount;
+            threadNumber = threadIdCount++;
             threadIds[ threadNumber ] = threadId;
-            threadIdCount++;
 
             assert threadNumber >= 0;
+            assert threadNumber < getNumberOfThreads();
             assert threadIdCount <= getNumberOfThreads();
         }
 
-        displayFiles[ threadNumber ] = displayFile;
-   }
-
-    private final static <T> void clear( final T [] array )
-    {
-        Arrays.fill( array, 0, array.length - 1, null );
+        return threadNumber;
     }
 
-    protected final void clearDisplayFiles()
+    protected final void setDisplayFileUsingThreadId( final long threadId, final File currentFile )
     {
-        clear( displayFiles );
-        threadIdCount = 0;
+        final int threadNumber = getOrCreateThreadNumber( threadId );
+
+        getCurrentFiles().setCurrentFile( threadNumber, currentFile );
+   }
+
+    protected void setDisplayFileLengthUsingThreadId( final long threadId, final File currentFile, final long lengthToInc )
+    {
+        final int threadNumber = getOrCreateThreadNumber( threadId );
+
+        getCurrentFiles().setCurrentFileNewLength( threadNumber, currentFile, lengthToInc );
     }
 
     @Override
@@ -110,7 +84,7 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
     private final void setSynchronizedPass1DisplayFile( final File file )
     {
         synchronized( lockSynchronizedPass1DisplayFile  ) {
-            setDisplayFileUsingThreadId( 0L, file );
+            setDisplayFileUsingThreadId( PASS1_FAKE_THREAD_ID, file );
         }
     }
 }
