@@ -18,8 +18,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Vector;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
@@ -68,12 +69,9 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
     private static final int MIN_SET_SIZE = 2;
     private final Object lockpass1StatsAdd = new Object();
 
-    private final Object pass2FilesCountLock = new Object();
-    private int          pass2FilesCount;
-    private final Object pass2BytesCountLock = new Object();
-    private long         pass2BytesCount;
-    //private final Object pass2SetsCountLock  = new Object();
-    private int          pass2SetsCount;
+    private final AtomicInteger pass2FilesCount = new AtomicInteger();
+    private final AtomicLong    pass2BytesCount = new AtomicLong();
+    private final AtomicInteger pass2SetsCount  = new AtomicInteger();
 
     private Pass    displayPass;
     private boolean displayRunning;
@@ -172,9 +170,9 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
     {
         final Stats stats = purge( computePass2 );
 
-        pass2FilesCount = stats.getFilesCount();
-        pass2BytesCount = stats.getBytesCount();
-        pass2SetsCount  = stats.getSetsCount();
+        pass2FilesCount.set( stats.getFilesCount() );
+        pass2BytesCount.set( stats.getBytesCount() );
+        pass2SetsCount.set( stats.getSetsCount() );
     }
 
 
@@ -185,11 +183,11 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
         clearDisplayFiles();
         setPass1FilesCount( 0 );
         setPass1BytesCount( 0 );
-        pass2FilesCount = 0;
-        pass2BytesCount = 0;
-        pass2SetsCount  = 0;
+        pass2FilesCount.set( 0 );
+        pass2BytesCount.set( 0 );
+        pass2SetsCount.set( 0 );
 
-        super.clear();
+        super.clearErrors();
 
         duplicateFiles.clear();
 
@@ -237,8 +235,8 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
 
         //Be sure to have a coherent ending display !
         //(Include ignored files) -> FIXME expecting sizes should be adapt instead of result
-        pass2FilesCount = getPass1FilesCount();
-        pass2BytesCount = getPass1BytesCount();
+        pass2FilesCount.set( getPass1FilesCount() );
+        pass2BytesCount.set( getPass1BytesCount() );
         updateDisplay();
         displayPass = null; // No more update !
 
@@ -272,64 +270,10 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
 
     private DuplicateFileFinderListener newDuplicateFileFinderListener()
     {
-        return new DuplicateFileFinderListener() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void computeDigest( final long threadId, final File file )
-            {
-                if( LOGGER.isDebugEnabled() ) {
-                    LOGGER.debug( "start reading : " + file );
-                }
-                setDisplayFileUsingThreadId( threadId, file );
-
-                synchronized( pass2FilesCountLock  ) {
-                    pass2FilesCount++;
-                }
-            }
-
-            @Override
-            public void computeDigest( final File file, final long length )
-            {
-                synchronized( pass2BytesCountLock  ) {
-                    pass2BytesCount += length;
-                }
-            }
-
-            @Override
-            public void ioError( final IOException e, final File file )
-            {
-                LOGGER.warn(
-                        String.format(
-                            "IOException %s : %s\n",
-                            file,
-                            e.getMessage()
-                            )
-                        );
-
-                    final Vector<Object> v = new Vector<>();
-                    v.add( file );
-                    v.add( e.getLocalizedMessage() );
-                    getTableModelErrorList().addRow( v );
-            }
-
-            @Override
-            public boolean isCancel()
-            {
-                return JPanelSearchingParallel.this.isCancel();
-            }
-
-            @Override
-            public void hashString( final File file, final String hashString )
-            {
-                if( LOGGER.isDebugEnabled() ) {
-                    LOGGER.debug( "Hash for " + file + " is " + hashString );
-                }
-            }
-        };
+        return new GlobalDuplicateFileFinderListener( this );
     }
 
-    private boolean isCancel()
+    boolean isCancel()
     {
         return cancel;
     }
@@ -472,14 +416,14 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
                 String.format(
                     locale,
                     getTxtDuplicateSetsFound(),
-                    Integer.valueOf( pass2SetsCount )
+                    Integer.valueOf( pass2SetsCount.get() )
                     )
                 );
         getjLabelDuplicateFilesFoundValue().setText(
                 String.format(
                     locale,
                     getTxtDuplicateFilesFound(),
-                    Integer.valueOf( pass2FilesCount )
+                    Integer.valueOf( pass2FilesCount.get() )
                     )
                 );
 
@@ -514,11 +458,11 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
     private void updateDisplayPass2( final Locale locale )
     {
         //jLabelBytesReadFromDisk.setText( String.format( txtBytesReadFromDisk, pass2BytesCount ) );
-        getjProgressBarFiles().setValue( pass2FilesCount );
-        getjProgressBarFiles().setString( String.format( locale, "%,d / %,d", Integer.valueOf( pass2FilesCount ), Integer.valueOf( getPass1FilesCount() ) ) );
+        getjProgressBarFiles().setValue( pass2FilesCount.get() );
+        getjProgressBarFiles().setString( String.format( locale, "%,d / %,d", Integer.valueOf( pass2FilesCount.get() ), Integer.valueOf( getPass1FilesCount() ) ) );
         // jProgressBarOctets.setValue( Math.round( pass2BytesCount/1024) );
-        getjProgressBarOctets().setValue( (int)(pass2BytesCount / 1024) );
-        getjProgressBarOctets().setString( String.format( locale, "%,d / %,d", Long.valueOf( pass2BytesCount ), Long.valueOf( getPass1BytesCount() ) ) );
+        getjProgressBarOctets().setValue( (int)(pass2BytesCount.get() / 1024) );
+        getjProgressBarOctets().setString( String.format( locale, "%,d / %,d", Long.valueOf( pass2BytesCount.get() ), Long.valueOf( getPass1BytesCount() ) ) );
     }
 
     @Override
@@ -527,5 +471,13 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
         this.cancel = true;
     }
 
+    public void pass2BytesCountAdd( final long lengthToInc )
+    {
+        pass2BytesCount.addAndGet( lengthToInc );
+    }
 
+    public void pass2FilesCountInc()
+    {
+        pass2FilesCount.incrementAndGet();
+    }
 }

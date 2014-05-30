@@ -152,16 +152,8 @@ abstract class DuplicateFileFinderTestBase {
             @Override
             public void hashString( final File file, final String hashString )
             {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void computeDigest( final long threadId, final File file )
-            {
-                // GUI display name, length bytes to be read, ...
                 if( getLogger().isDebugEnabled() ) {
-                    getLogger().debug(  testName + " computeDigest:" + threadId  + " * "+ file );
+                    getLogger().debug(  testName + " hashString:" + file  + " * "+ hashString );
                 }
             }
         };

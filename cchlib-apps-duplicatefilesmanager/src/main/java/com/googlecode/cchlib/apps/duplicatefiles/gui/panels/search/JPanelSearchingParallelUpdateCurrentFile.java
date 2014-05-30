@@ -8,6 +8,7 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingParallelUpdateCurrentFile.class );
+    private static final long FIRST_PASS_THREAD_ID = Long.MIN_VALUE;
 
     private final Object lockSynchronizedPass1DisplayFile = new Object();
     private final File[] displayFiles;
@@ -73,8 +74,13 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
         }
     }
 
+    public void setDisplayFileLengthUsingThreadId( final long threadId, final File file, final long lengthToInc )
+    {
+        // TODO Auto-generated method stub
+        setDisplayFileUsingThreadId( threadId, file );
+    }
 
-    protected final void setDisplayFileUsingThreadId( final long threadId, final File displayFile )
+    protected final void setDisplayFileUsingThreadId( final long threadId, final File file )
     {
         int threadNumber = getThreadNumber( threadId );
 
@@ -87,7 +93,7 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
             assert threadIdCount <= getNumberOfThreads();
         }
 
-        displayFiles[ threadNumber ] = displayFile;
+        displayFiles[ threadNumber ] = file;
    }
 
     private final static <T> void clear( final T [] array )
@@ -110,7 +116,7 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
     private final void setSynchronizedPass1DisplayFile( final File file )
     {
         synchronized( lockSynchronizedPass1DisplayFile  ) {
-            setDisplayFileUsingThreadId( 0L, file );
+            setDisplayFileUsingThreadId( FIRST_PASS_THREAD_ID, file );
         }
     }
 }

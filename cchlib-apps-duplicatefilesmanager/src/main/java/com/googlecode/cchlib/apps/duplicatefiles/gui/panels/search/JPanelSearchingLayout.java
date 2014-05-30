@@ -8,10 +8,10 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.errors.ErrorTableModel;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 
 //NOT public
@@ -22,7 +22,7 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n
 
     private final int nThreads;
 
-    private DefaultTableModel tableModelErrorList;
+    private ErrorTableModel tableModelErrorList;
 
     private final JTable jTableErrorList;
     private final JProgressBar jProgressBarFiles;
@@ -160,17 +160,18 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n
 
     public void initFixComponents()
     {
-         tableModelErrorList = new DefaultTableModel() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public boolean isCellEditable( final int row, final int column )
-            {
-                return false;
-            }
-        };
-        tableModelErrorList.addColumn( "Files" );
-        tableModelErrorList.addColumn( "Errors" );
+        tableModelErrorList = new ErrorTableModel();
+//         tableModelErrorList = new DefaultTableModel() {
+//            private static final long serialVersionUID = 1L;
+//
+//            @Override
+//            public boolean isCellEditable( final int row, final int column )
+//            {
+//                return false;
+//            }
+//        };
+//        tableModelErrorList.addColumn( "Files" );
+//        tableModelErrorList.addColumn( "Errors" );
         jTableErrorList.setModel( tableModelErrorList );
 
         getjProgressBarFiles().setStringPainted( true );
@@ -186,10 +187,17 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n
         setCurrentDir( getTxtCurrentDir() );
 
         getAppToolKit().setEnabledJButtonCancel( true );
-        tableModelErrorList.setRowCount( 0 );
+
+        //tableModelErrorList.setRowCount( 0 );
+        clearErrors();
     }
 
-    protected DefaultTableModel getTableModelErrorList()
+    protected void clearErrors()
+    {
+        tableModelErrorList.clear();
+    }
+
+    protected ErrorTableModel getTableModelErrorList()
     {
         return tableModelErrorList;
     }
@@ -244,10 +252,10 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n
         panelCurrentFiles.setCurrentDir( currentDir );
     }
 
-    public void clear()
-    {
-        while( tableModelErrorList.getRowCount() > 0 ) {
-            tableModelErrorList.removeRow( 0 );
-        }
-    }
+//    public void clear()
+//    {
+//        while( tableModelErrorList.getRowCount() > 0 ) {
+//            tableModelErrorList.removeRow( 0 );
+//        }
+//    }
 }

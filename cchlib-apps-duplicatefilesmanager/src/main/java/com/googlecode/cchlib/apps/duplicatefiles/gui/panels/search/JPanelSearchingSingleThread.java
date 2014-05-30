@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
@@ -125,10 +124,11 @@ public class JPanelSearchingSingleThread extends JPanelSearching
                         )
                     );
 
-                final Vector<Object> v = new Vector<>();
-                v.add( file );
-                v.add( e.getLocalizedMessage() );
-                getTableModelErrorList().addRow( v );
+//                final Vector<Object> v = new Vector<>();
+//                v.add( file );
+//                v.add( e.getLocalizedMessage() );
+//                getTableModelErrorList().addRow( v );
+                getTableModelErrorList().addRow( file, e );
             }
             @Override
             public void computeDigest( final File file, final long length )
@@ -281,7 +281,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         }
     }
 
-    @Override
+    //@Override
     public void clear()
     {
         if( duplicateFC!= null ) {
@@ -294,7 +294,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         pass2CountFile = 0;
         pass2BytesCount = 0;
 
-        super.clear();
+        super.clearErrors();
     }
 
     private void prepareScan(

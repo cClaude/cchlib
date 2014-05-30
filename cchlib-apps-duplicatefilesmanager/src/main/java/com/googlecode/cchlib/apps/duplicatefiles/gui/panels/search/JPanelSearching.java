@@ -7,7 +7,7 @@ import java.util.Set;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
-public abstract class JPanelSearching extends JPanelSearchingFilters implements Cancelable{
+public abstract class JPanelSearching extends JPanelSearchingFilters implements Cancelable {
     enum Pass {
         PASS1,PASS2
     }
@@ -28,4 +28,11 @@ public abstract class JPanelSearching extends JPanelSearchingFilters implements 
             FileFilterBuilders fileFilterBuilders, //
             Map<String, Set<KeyFileState>> duplicateFiles //
             );
+
+    public void clear()
+    {
+        super.clearErrors();
+        super.clearCurrentFiles();
+        super.clearCurrentFileLabels();
+    }
 }
