@@ -25,7 +25,6 @@ import com.googlecode.cchlib.i18n.MethodProviderNoSuchMethodException;
 import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
 import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
@@ -67,7 +66,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     {
         this.objectToI18nClass = objectToI18nClass;
         this.i18nDelegator     = i18nDelegator;
-        this.i18nKeyFactory    = new I18nKeyFactoryImpl( objectToI18nClass.getAnnotation( I18nName.class ) );
+        this.i18nKeyFactory    = new I18nKeyFactoryImpl( objectToI18nClass );
 
         Class<?> currentClass = objectToI18nClass;
 
