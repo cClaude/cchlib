@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
-@I18nName("ErrorTableModel")
+@I18nName("JPanelSearching.ErrorTableModel")
 public final class ErrorTableModel extends AbstractTableModel
 {
     private static final long serialVersionUID = 1L;

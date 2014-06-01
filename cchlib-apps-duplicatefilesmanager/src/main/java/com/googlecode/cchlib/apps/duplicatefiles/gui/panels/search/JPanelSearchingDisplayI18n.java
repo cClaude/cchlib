@@ -1,8 +1,10 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
 import javax.swing.JPanel;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
+@I18nName("JPanelSearching")
 public class JPanelSearchingDisplayI18n extends JPanel
 {
     private static final long serialVersionUID = 1L;

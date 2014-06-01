@@ -13,16 +13,18 @@ import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.errors.ErrorTableModel;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 //NOT public
-abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n
+abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingLayout.class );
 
     private final int nThreads;
 
-    private ErrorTableModel tableModelErrorList;
+    private final ErrorTableModel tableModelErrorList = new ErrorTableModel();
 
     private final JTable jTableErrorList;
     private final JProgressBar jProgressBarFiles;
@@ -158,9 +160,15 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n
         return AppToolKitService.getInstance().getAppToolKit();
     }
 
+    @Override
+    public final void performeI18n( final AutoI18nCore autoI18n )
+    {
+        autoI18n.performeI18n( this, this.getClass() );
+        autoI18n.performeI18n( tableModelErrorList, ErrorTableModel.class );
+    }
+
     public void initFixComponents()
     {
-        tableModelErrorList = new ErrorTableModel();
 //         tableModelErrorList = new DefaultTableModel() {
 //            private static final long serialVersionUID = 1L;
 //

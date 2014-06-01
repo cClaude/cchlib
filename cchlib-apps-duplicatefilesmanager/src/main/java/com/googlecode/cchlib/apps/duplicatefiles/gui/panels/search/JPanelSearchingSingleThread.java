@@ -13,14 +13,12 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.io.FileIterable;
 import com.googlecode.cchlib.util.duplicate.DigestEventListener;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileCollector;
 import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
-@I18nName("duplicatefiles.JPanelSearching")
 public class JPanelSearchingSingleThread extends JPanelSearching
 {
     private static final long serialVersionUID = 1L;
@@ -282,6 +280,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
     }
 
     //@Override
+    @Override
     public void clear()
     {
         if( duplicateFC!= null ) {

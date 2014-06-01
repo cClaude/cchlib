@@ -249,7 +249,8 @@ public class DuplicateFilesMainPanel
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(getJPanel0Select(),getJPanel0Select().getClass());
         getJPanel1Config().performeI18n(autoI18n);
-        autoI18n.performeI18n(getJPanel2Searching(),getJPanel2Searching().getClass());
+        //autoI18n.performeI18n(getJPanel2Searching(),getJPanel2Searching().getClass());
+        getJPanel2Searching().performeI18n( autoI18n );
         //autoI18n.performeI18n(getJPanel3Result(),getJPanel3Result().getClass());
         getJPanel3Result().performeI18n(autoI18n);
         autoI18n.performeI18n(getJPanel4Confirm(),getJPanel4Confirm().getClass());
