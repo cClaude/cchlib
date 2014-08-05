@@ -103,7 +103,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonRemEntry.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(final MouseEvent e) {
-                    jButtonRemEntryMouseMousePressed( e );
+                    onRemoveEntries();
                     }
                 });
         }
@@ -126,8 +126,9 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             add(jButtonAddEntry, gbc_jButtonAddEntry);
         }
         {
-            final Icon image = dFToolKit.getResources().getLogoIcon();
+            final Icon   image      = dFToolKit.getResources().getLogoIcon();
             final JLabel jLabelDeco = new JLabel( image );
+
             final GridBagConstraints gbc_jLabelDeco = new GridBagConstraints();
             gbc_jLabelDeco.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelDeco.gridx = 0;
@@ -135,10 +136,10 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             add(jLabelDeco, gbc_jLabelDeco);
         }
         {
-            jButtonSelectFile = new JButton("Select File");
+            this.jButtonSelectFile = new JButton("Select File");
             this.jButtonSelectFile.setHorizontalAlignment(SwingConstants.LEFT);
-            jButtonSelectFile.setIcon( dFToolKit.getResources().getFileIcon() );
-            jButtonSelectFile.addMouseListener(new MouseAdapter() {
+            this.jButtonSelectFile.setIcon( dFToolKit.getResources().getFileIcon() );
+            this.jButtonSelectFile.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(final MouseEvent e) {
                     onJButtonSelectFile();
@@ -306,6 +307,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
          };
 
         jTableSelectedFoldersOrFiles.setModel( tableModelSelectedFoldersOrFiles );
+        jTableSelectedFoldersOrFiles.getSelectionModel().addListSelectionListener( e -> fix_jButtonRemEntry() );
         fix_jButtonAddEntry();
         fix_jButtonRemEntry();
     }
@@ -367,7 +369,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         addEntry( f, false );
     }
 
-    private void jButtonRemEntryMouseMousePressed( final MouseEvent event )
+    private void onRemoveEntries()
     {
         final int[] selecteds = jTableSelectedFoldersOrFiles.getSelectedRows();
 
@@ -395,14 +397,14 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             }
     }
 
-    private boolean addEntry( final File f, final boolean ignore ) // $codepro.audit.disable booleanMethodNamingConvention
+    private boolean addEntry( final File file, final boolean ignore ) // $codepro.audit.disable booleanMethodNamingConvention
     {
-        if( f.exists() ) {
+        if( file.exists() ) {
             File existingValue = null;
 
             for( final File current : entries() ) {
-                if( current.equals( f ) ) {
-                    existingValue = f;
+                if( current.equals( file ) ) {
+                    existingValue = file;
                     break;
                     }
                 }
@@ -410,20 +412,20 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             if( existingValue == null ) {
                 // Not found
                 if( ignore ) {
-                    ingoreFileList.add( f );
+                    ingoreFileList.add( file );
                     }
                 else {
-                    includeFileList.add( f );
+                    includeFileList.add( file );
                     }
                 tableModelSelectedFoldersOrFiles.fireTableDataChanged();
-                LOGGER.info( "add: " + f );
+                LOGGER.info( "add: " + file );
 
                 jButtonRemEntry.setEnabled( true );
                 return true;
                 }
             else {
                 // TODO: Explain reason in a dialog
-                LOGGER.warn( "Value already exist: " + f );
+                LOGGER.warn( "Value already exist: " + file );
                 }
             }
 

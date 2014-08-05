@@ -1,4 +1,3 @@
-// $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
 import java.awt.CardLayout;
@@ -27,7 +26,7 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
  */
 public class DuplicateFilesMainPanel
     extends JPanel
-        implements I18nAutoCoreUpdatable //I18nAutoUpdatable//I18nPrepAutoUpdatable
+        implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
 
@@ -89,25 +88,19 @@ public class DuplicateFilesMainPanel
             jPanelMainCardLayout = new CardLayout(0, 0);
             jPanelMain.setLayout( jPanelMainCardLayout );
 
-            //int panelNumber = 0;
             jPanel0Select = createJPanel0Select();
-            //jPanelMain.add( jPanel0Select, Integer.toString( panelNumber++ ) );
             jPanelMain.add( jPanel0Select, DuplicateFilesState.STATE_SELECT_DIRS.name() );
 
             jPanel1Config = createJPanel1Config();
-            //jPanelMain.add( jPanel1Config, Integer.toString( panelNumber++ ) );
             jPanelMain.add( jPanel1Config, DuplicateFilesState.STATE_SEARCH_CONFIG.name() );
 
             jPanel2Searching = createJPanel2Searching();
-            //jPanelMain.add( jPanel2Searching, Integer.toString( panelNumber++ ) );
             jPanelMain.add( jPanel2Searching, DuplicateFilesState.STATE_SEARCHING.name() );
 
             jPanel3Result = createJPanel3Result();
-            //jPanelMain.add( jPanel3Result, Integer.toString( panelNumber++ ) );
             jPanelMain.add( jPanel3Result, DuplicateFilesState.STATE_RESULTS.name() );
 
             jPanel4Confirm = createJPanel4Confirm();
-            //jPanelMain.add( jPanel4Confirm, Integer.toString( panelNumber++ ) );
             jPanelMain.add( jPanel4Confirm, DuplicateFilesState.STATE_CONFIRM.name() );
         }
 
@@ -249,9 +242,7 @@ public class DuplicateFilesMainPanel
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(getJPanel0Select(),getJPanel0Select().getClass());
         getJPanel1Config().performeI18n(autoI18n);
-        //autoI18n.performeI18n(getJPanel2Searching(),getJPanel2Searching().getClass());
         getJPanel2Searching().performeI18n( autoI18n );
-        //autoI18n.performeI18n(getJPanel3Result(),getJPanel3Result().getClass());
         getJPanel3Result().performeI18n(autoI18n);
         autoI18n.performeI18n(getJPanel4Confirm(),getJPanel4Confirm().getClass());
     }
@@ -259,8 +250,6 @@ public class DuplicateFilesMainPanel
     public void initFixComponents()
     {
         getJPanel0Select().initFixComponents();
-        //getJPanel1Config().initFixComponents();
         getJPanel2Searching().initFixComponents();
-        // no need here : getJPanel3Result().populate( duplicateFiles, getDFToolKit() );
     }
 }
