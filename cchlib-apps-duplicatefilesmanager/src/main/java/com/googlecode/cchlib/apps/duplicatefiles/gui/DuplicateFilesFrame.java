@@ -188,7 +188,9 @@ final public class DuplicateFilesFrame
     {
         final Runnable safeRunner = () -> {
             applyConfigMode();
+
             LOGGER.debug( "updateDisplayAccordState: " + state );
+
             getDuplicateFilesMainPanel().selectedPanel( state );
             getDuplicateFilesMainPanel().getJButtonNextStep().setText( getTxtContinue() );
             getDuplicateFilesMainPanel().getJButtonNextStep().setIcon( iconContinue );
@@ -273,6 +275,7 @@ final public class DuplicateFilesFrame
                     }
                 else {
                     getDFToolKit().beep();
+
                     LOGGER.info( "No dir selected" );
                     // TODO: Show alert
                     }
@@ -311,52 +314,46 @@ final public class DuplicateFilesFrame
     {
         if( this.mainActionListener == null ) {
             this.mainActionListener = (final ActionEvent event) -> {
-                switch (event.getActionCommand()) {
-                    case ACTIONCMD_EXIT :
+                switch( event.getActionCommand() ) {
+                    case ACTIONCMD_EXIT:
                         exitApplication();
                         break;
-                case DuplicateFilesMainPanel.ACTIONCMD_RESTART :
-                    if( getDuplicateFilesMainPanel().getJButtonRestart().isEnabled() ) {
-                        if( state == DuplicateFilesState.STATE_CONFIRM ) {
-                            state = DuplicateFilesState.STATE_RESULTS;
+                    case DuplicateFilesMainPanel.ACTIONCMD_RESTART:
+                        if( getDuplicateFilesMainPanel().getJButtonRestart().isEnabled() ) {
+                            if( state == DuplicateFilesState.STATE_CONFIRM ) {
+                                state = DuplicateFilesState.STATE_RESULTS;
+                            } else {
+                                state = DuplicateFilesState.STATE_SELECT_DIRS;
+                                getDuplicateFilesMainPanel().getJPanel2Searching().clear();
+                            }
+
+                            updateDisplayAccordingState();
                         }
-                        else {
-                            state = DuplicateFilesState.STATE_SELECT_DIRS;
-                            getDuplicateFilesMainPanel().getJPanel2Searching().clear();
+                        break;
+                    case DuplicateFilesMainPanel.ACTIONCMD_NEXT:
+                        jButtonNextStep_ActionPerformed();
+                        break;
+                    case DuplicateFilesMainPanel.ACTIONCMD_CANCEL:
+                        if( getDuplicateFilesMainPanel().getJButtonCancel().isEnabled() ) {
+                            getDuplicateFilesMainPanel().getJButtonCancel().setEnabled( false );
+                            getDuplicateFilesMainPanel().getJPanel2Searching().cancelProcess();
+                            getDuplicateFilesMainPanel().getJPanel3Result().clearSelected();
                         }
+                        break;
+                    case ACTIONCMD_SET_MODE: {
+                        final AbstractButton sourceConfigMode = AbstractButton.class.cast( event.getSource() );
+                        LOGGER.debug( "source: " + sourceConfigMode );
 
-                        updateDisplayAccordingState();
+                        getDFToolKit().getPreferences().setConfigMode( ConfigMode.class.cast( sourceConfigMode.getClientProperty( ConfigMode.class ) ) );
+
+                        applyConfigMode();
                     }
-                    break;
-                case DuplicateFilesMainPanel.ACTIONCMD_NEXT:
-                    jButtonNextStep_ActionPerformed();
-                    break;
-                case DuplicateFilesMainPanel.ACTIONCMD_CANCEL :
-                    if( getDuplicateFilesMainPanel().getJButtonCancel().isEnabled() ) {
-                        getDuplicateFilesMainPanel().getJButtonCancel().setEnabled( false );
-                        getDuplicateFilesMainPanel().getJPanel2Searching().cancelProcess();
-                        getDuplicateFilesMainPanel().getJPanel3Result().clearSelected();
-                    }
-                    break;
-                case ACTIONCMD_SET_MODE :
-                {
-                    final AbstractButton sourceConfigMode = AbstractButton.class.cast( event.getSource() );
-                    LOGGER.debug( "source: " + sourceConfigMode );
-
-                    getDFToolKit().getPreferences().setConfigMode(
-                            ConfigMode.class.cast(
-                                    sourceConfigMode.getClientProperty( ConfigMode.class )
-                            )
-                    );
-
-                    applyConfigMode();
-                }
-                break;
+                        break;
                     case ACTIONCMD_PREFS:
-                        Tools.run(this::openPreferences, ACTIONCMD_PREFS);
+                        Tools.run( this::openPreferences, ACTIONCMD_PREFS );
                         break;
                     case ACTIONCMD_ABOUT:
-                        Tools.run(this::openAbout, ACTIONCMD_ABOUT);
+                        Tools.run( this::openAbout, ACTIONCMD_ABOUT );
                         break;
                     default:
                         LOGGER.warn( "Undefined ActionCommand: " + event.getActionCommand() );
