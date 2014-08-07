@@ -13,11 +13,11 @@ import javax.swing.JPanel;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelConfig;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfirm;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResult;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearching;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearchingParallel;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.select.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 

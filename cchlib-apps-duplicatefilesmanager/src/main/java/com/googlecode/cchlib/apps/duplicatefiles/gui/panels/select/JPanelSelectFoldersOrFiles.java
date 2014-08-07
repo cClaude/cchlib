@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
+package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.select;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
