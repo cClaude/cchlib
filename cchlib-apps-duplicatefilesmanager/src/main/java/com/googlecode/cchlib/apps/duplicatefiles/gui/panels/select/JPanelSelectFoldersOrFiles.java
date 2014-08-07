@@ -4,8 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
 import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -100,23 +98,24 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonRemEntry = new JButton("Remove");
             this.jButtonRemEntry.setHorizontalAlignment(SwingConstants.LEFT);
             jButtonRemEntry.setIcon( dFToolKit.getResources().getFolderRemoveIcon() );
-            jButtonRemEntry.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(final MouseEvent e) {
-                    onRemoveEntries();
-                    }
-                });
+//            jButtonRemEntry.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(final MouseEvent e) {
+//                    onRemoveEntries();
+//                    }
+//                });
+            this.jButtonRemEntry.addActionListener(e -> onRemoveEntries());
         }
         {
             jButtonAddEntry = new JButton("Append");
             this.jButtonAddEntry.setHorizontalAlignment(SwingConstants.LEFT);
             jButtonAddEntry.setIcon( dFToolKit.getResources().getAddIcon() );
-            jButtonAddEntry.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(final MouseEvent e) {
-                    onAddEntry();
-                    }
-                });
+//            jButtonAddEntry.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(final MouseEvent e) {
+//                    }
+//                });
+            this.jButtonAddEntry.addActionListener(e -> onAddEntry());
 
             final GridBagConstraints gbc_jButtonAddEntry = new GridBagConstraints();
             gbc_jButtonAddEntry.fill = GridBagConstraints.HORIZONTAL;
@@ -139,12 +138,13 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             this.jButtonSelectFile = new JButton("Select File");
             this.jButtonSelectFile.setHorizontalAlignment(SwingConstants.LEFT);
             this.jButtonSelectFile.setIcon( dFToolKit.getResources().getFileIcon() );
-            this.jButtonSelectFile.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(final MouseEvent e) {
-                    onJButtonSelectFile();
-                }
-            });
+//            this.jButtonSelectFile.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(final MouseEvent e) {
+//                }
+//            });
+            this.jButtonSelectFile.addActionListener(e -> onJButtonSelectFile());
+
             final GridBagConstraints gbc_jButtonSelectFile = new GridBagConstraints();
             gbc_jButtonSelectFile.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonSelectFile.insets = new Insets(0, 0, 5, 0);
@@ -191,12 +191,14 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             jButtonSelectDir = new JButton("Select Folder");
             this.jButtonSelectDir.setHorizontalAlignment(SwingConstants.LEFT);
             jButtonSelectDir.setIcon( dFToolKit.getResources().getFolderSelectIcon() );
-            jButtonSelectDir.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(final MouseEvent e) {
-                    onJButtonSelectDir();
-                }
-            });
+//            jButtonSelectDir.addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseClicked(final MouseEvent e) {
+//                    onJButtonSelectDir();
+//                }
+//            });
+            this.jButtonSelectDir.addActionListener(e -> onJButtonSelectDir());
+
             final GridBagConstraints gbc_jButtonSelectDir = new GridBagConstraints();
             gbc_jButtonSelectDir.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonSelectDir.insets = new Insets(0, 0, 5, 0);
