@@ -399,7 +399,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             }
     }
 
-    private boolean addEntry( final File file, final boolean ignore ) // $codepro.audit.disable booleanMethodNamingConvention
+    public boolean addEntry( final File file, final boolean ignore ) // $codepro.audit.disable booleanMethodNamingConvention
     {
         if( file.exists() ) {
             File existingValue = null;
@@ -430,6 +430,10 @@ public class JPanelSelectFoldersOrFiles extends JPanel
                 LOGGER.warn( "Value already exist: " + file );
                 }
             }
+        else {
+            // TODO: Explain reason in a dialog
+            LOGGER.warn( "Value does not exist: " + file );
+        }
 
         dFToolKit.beep();
         return false;

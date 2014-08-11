@@ -4,6 +4,7 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.io.File;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
@@ -445,5 +446,13 @@ final public class DuplicateFilesFrame
     public boolean isEnabledJButtonCancel()
     {
         return getDuplicateFilesMainPanel().getJButtonCancel().isEnabled();
+    }
+
+    /** Add entry from CLI */
+    public void addEntry( final String entry )
+    {
+        final File entryFile = new File( entry );
+
+        getDuplicateFilesMainPanel().getJPanel0Select().addEntry( entryFile , false );
     }
 }

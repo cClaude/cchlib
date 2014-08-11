@@ -28,20 +28,58 @@ public final class PreferencesControlerFactory
         return new PreferencesControler( new PreferencesBean() );
     }
 
-    public static PreferencesControler createPreferences()
+    public static PreferencesControler createPreferences( final File preferencesFile ) throws FileNotFoundException
     {
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "createPreferences(" + preferencesFile +')'  );
+        }
+
+        final boolean useDefaultFile = preferencesFile == null;
+        final File preferencesFileToUse = useDefaultFile ? getJSONPreferencesFile() : preferencesFile;
         final ObjectMapper mapper = new ObjectMapper();
 
         Preferences preferences;
+
         try {
-            preferences = mapper.readValue( getJSONPreferencesFile(), PreferencesBean.class);
+            preferences = mapper.readValue( preferencesFileToUse, PreferencesBean.class);
         }
         catch( final IOException e ) {
-            LOGGER.warn( "Can not read JSON oreferences file", e );
-            preferences = createPropertiesPreferences();
-            //preferences =  new PreferencesBean();
+            if( useDefaultFile ) {
+                LOGGER.warn( "Can not read JSON preferences file: " + preferencesFileToUse, e );
+
+                preferences = createPropertiesPreferences();
+            } else {
+                final FileNotFoundException fnfe = new FileNotFoundException( "Can not read JSON oreferences file");
+
+                fnfe.initCause( e );
+
+                throw fnfe;
+            }
         }
+
         return new PreferencesControler( preferences );
+    }
+
+    public static PreferencesControler createPreferences()
+    {
+//        final ObjectMapper mapper = new ObjectMapper();
+//
+//        Preferences preferences;
+//        try {
+//            preferences = mapper.readValue( getJSONPreferencesFile(), PreferencesBean.class);
+//        }
+//        catch( final IOException e ) {
+//            LOGGER.warn( "Can not read JSON oreferences file", e );
+//
+//            preferences = createPropertiesPreferences();
+//        }
+//        return new PreferencesControler( preferences );
+        try {
+            return createPreferences( null );
+        }
+        catch( final FileNotFoundException e ) {
+            throw new RuntimeException( e );
+        }
     }
 
     static File getJSONPreferencesFile()
@@ -83,5 +121,6 @@ public final class PreferencesControlerFactory
     {
         return FileHelper.getUserHomeDirFile( PROPERTIES_PREFS_FILE );
     }
+
 
 }
