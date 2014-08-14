@@ -149,7 +149,6 @@ packageApps()
       echo "***[ERROR] Copy error" 1>&2
       exit 1
     fi
-  # metadata/start-apps/cchlib-apps-duplicatefilesmanager/DuplicateFilesManager.sh
   SCRIPTSSRC="./metadata/start-apps/${project}"
   echo "Copy [${SCRIPTSSRC}/*.sh] to [${DDIR}]"
   cp ${SCRIPTSSRC}/*.sh ${DDIR}

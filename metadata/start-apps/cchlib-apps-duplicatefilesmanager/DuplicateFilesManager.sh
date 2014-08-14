@@ -1,8 +1,9 @@
 #!/bin/bash
 #
 JAVA="java"
-CMD="${JAVA} -jar ./DuplicateFilesManager-*.jar"
+JAR='./DuplicateFilesManager-*.jar'
+CMD="${JAVA} -jar ${JAR}"
 ${CMD}
 
+# activate this line to have stacktrace
 # read -p "Press [Enter] key to quit..."
-
