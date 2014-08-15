@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>17.0-rc2</version>
+            <version>18.0-rc1</version>
             <classifier>site</classifier>
             <scope>test</scope>
         </dependency>
