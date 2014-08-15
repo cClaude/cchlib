@@ -18,8 +18,6 @@
 */
 package cx.ath.choisnet.net;
 
-import cx.ath.choisnet.io.InputStreamHelper;
-import cx.ath.choisnet.io.ReaderHelper;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,6 +30,8 @@ import java.io.Writer;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
+import cx.ath.choisnet.io.InputStreamHelper;
+import cx.ath.choisnet.io.ReaderHelper;
 
 /**
 **
@@ -51,7 +51,7 @@ private long delaisBeforeRetry ;
 private Proxy proxy;
 
 /** */
-private Object lock = new Object();
+private final Object lock = new Object();
 
     /**
     **
@@ -157,7 +157,7 @@ private Object lock = new Object();
             return "("
                 + this.contentType
                 + "," + this.contentLength
-                + "," + new java.util.Date( this.date )
+                + "," + new java.util.Date( this.date.longValue() )
                 + ")";
         }
 
@@ -219,7 +219,7 @@ private void sleep( final long timeout ) // -------------------------------
     try {
         this.lock.wait( timeout );
         }
-    catch( InterruptedException ignore ) {
+    catch( final InterruptedException ignore ) {
         // ignore
         }
     }
@@ -268,7 +268,7 @@ public Status download( // ------------------------------------------------
 
         break;
         }
-    catch( java.net.ConnectException e ) {
+    catch( final java.net.ConnectException e ) {
         if( --count < 0 ) {
             throw e;
             }
@@ -312,12 +312,12 @@ public Status download( // ------------------------------------------------
  try {
     status = download( url, output );
     }
- catch( java.io.FileNotFoundException urlNotFound ) {
+ catch( final java.io.FileNotFoundException urlNotFound ) {
 
     try {
         output.close();
         }
-    catch( Exception ignore ) {
+    catch( final Exception ignore ) {
         // Just ignore it !
         }
 
@@ -355,12 +355,12 @@ public static void copy( // -----------------------------------------------
  try {
     copy( url, output );
     }
- catch( java.io.FileNotFoundException urlNotFound ) {
+ catch( final java.io.FileNotFoundException urlNotFound ) {
 
     try {
         output.close();
         }
-    catch( Exception ignore ) {
+    catch( final Exception ignore ) {
         // Just ignore it !
         }
 
@@ -510,7 +510,7 @@ public final static void main( final String[] argS ) // -------------------
  for( int i = from; i<=to; i += step ) {
     params[ 1 ] = new Integer( i );
 
-    for( String ext : extentions ) {
+    for( final String ext : extentions ) {
         params[ 0 ] = ext;
 
         final String  str   = msgfmt.format( params );
@@ -525,11 +525,11 @@ public final static void main( final String[] argS ) // -------------------
             System.out.println( "url =" + url );
 
             try {
-                Status status = urlHelper.download( url, file );
+                final Status status = urlHelper.download( url, file );
 
                 System.out.println( "Status = " + status );
 
-                boolean deleteFile = "text/html".equals( status.getContentType() );
+                final boolean deleteFile = "text/html".equals( status.getContentType() );
 
 //
 //                boolean deleteFile = file.length() == 0;
@@ -547,7 +547,7 @@ public final static void main( final String[] argS ) // -------------------
                     System.out.println( "file '" + file + "' OK" );
                     }
                 }
-            catch( java.io.FileNotFoundException e ) {
+            catch( final java.io.FileNotFoundException e ) {
                 System.out.println( "### url '" + url + "' NotFound - skipped..." );
                 }
             }

@@ -27,7 +27,7 @@ public class PublicIP
 private static final long serialVersionUID = 1L;
 
 /** Objet d'acquisition de l'IP publique */
-private PublicIPReader publicIPReader;
+private final PublicIPReader publicIPReader;
 
 /** */
 private Long lastChangeTimeMillis;
@@ -41,7 +41,7 @@ private static PublicIP globalPublicIP = null;
 **
 */
 public PublicIP( // -------------------------------------------------------
-    PublicIPReader publicIPReader
+    final PublicIPReader publicIPReader
     )
     throws PublicIPException
 {
@@ -65,7 +65,7 @@ public boolean hasChange() // ---------------------------------------------
 
     this.publicIPReader.storePublicIP(); // on sauvegarde � tous les coups
     }
- catch( PublicIPException e ) {
+ catch( final PublicIPException e ) {
     getLogger().warn( "hasChange{} - getCurrentPublicIP{}", e );
 
     return false;
@@ -85,7 +85,7 @@ public boolean hasChange() // ---------------------------------------------
 */
 public long getLastChangeTimeMillis() // ----------------------------------
 {
- return this.lastChangeTimeMillis;
+ return this.lastChangeTimeMillis.longValue();
 }
 
 /**

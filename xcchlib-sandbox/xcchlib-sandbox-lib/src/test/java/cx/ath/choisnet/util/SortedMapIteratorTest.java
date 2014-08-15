@@ -38,7 +38,7 @@ public class SortedMapIteratorTest extends TestCase {
         while( iter.hasNext() ) {
             final String value = iter.next();
             final int cmp = value.compareTo( prev );
-            final int key = iter.getLastKey();
+            final int key = iter.getLastKey().intValue();
 
             assertTrue( "Prob. d'ordre : value.cmp( prev ) = (" + value + ";" + prev + ") = " + cmp + " - " + map, cmp < 0 );
             assertEquals( "Valeur diff. de la clé : (key,value) = (" + key + ";" + value + ")", Integer.toString( key ), value );
@@ -61,7 +61,7 @@ public class SortedMapIteratorTest extends TestCase {
 
         while( iter.hasNext() ) {
             final String value = iter.next();
-            final int key = iter.getLastKey();
+            final int key = iter.getLastKey().intValue();
 
             assertEquals( "Valeur diff. de la clé : (key,value) = (" + key + ";" + value + ")", Integer.toString( key ), value );
 
