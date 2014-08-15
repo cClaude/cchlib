@@ -82,6 +82,8 @@ http://weblogs.java.net/blog/johnsmart/archive/2010/08/18/managing-version-numbe
   mvn versions:set -DnewVersion=4.2-SNAPSHOT
 
 
-mvn-nesclub2 help:effective-pom
+mvn help:effective-pom
+mvn install assembly:assembly
+mvn clean compile assembly:single
 
 
