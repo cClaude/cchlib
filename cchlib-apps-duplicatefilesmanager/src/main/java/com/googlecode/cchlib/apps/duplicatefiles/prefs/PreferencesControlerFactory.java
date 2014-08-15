@@ -30,11 +30,12 @@ public final class PreferencesControlerFactory
 
     public static PreferencesControler createPreferences( final File preferencesFile ) throws FileNotFoundException
     {
+        final boolean useDefaultFile = preferencesFile == null;
+
         if( LOGGER.isDebugEnabled() ) {
-            LOGGER.debug( "createPreferences(" + preferencesFile +')'  );
+            LOGGER.debug( "createPreferences(" + preferencesFile + ") - useDefaultFile=" + useDefaultFile );
         }
 
-        final boolean useDefaultFile = preferencesFile == null;
         final File preferencesFileToUse = useDefaultFile ? getJSONPreferencesFile() : preferencesFile;
         final ObjectMapper mapper = new ObjectMapper();
 
@@ -62,18 +63,6 @@ public final class PreferencesControlerFactory
 
     public static PreferencesControler createPreferences()
     {
-//        final ObjectMapper mapper = new ObjectMapper();
-//
-//        Preferences preferences;
-//        try {
-//            preferences = mapper.readValue( getJSONPreferencesFile(), PreferencesBean.class);
-//        }
-//        catch( final IOException e ) {
-//            LOGGER.warn( "Can not read JSON oreferences file", e );
-//
-//            preferences = createPropertiesPreferences();
-//        }
-//        return new PreferencesControler( preferences );
         try {
             return createPreferences( null );
         }
