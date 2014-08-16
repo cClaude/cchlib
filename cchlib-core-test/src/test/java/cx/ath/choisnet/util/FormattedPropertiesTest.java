@@ -68,7 +68,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     @SuppressWarnings({ "resource", "boxing" })
     @Test
-    @Ignore//FIXME
+    @Ignore//FIXME must be activate
     public void test_Reader_load_save() throws IOException
     {
         final File                copy = getCopy();
@@ -119,7 +119,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     @SuppressWarnings({ "resource", "boxing" })
     @Test
-    @Ignore//FIXME
+    @Ignore//FIXME must be activate
     public void test_Stream_load_save()
         throws IOException
     {
@@ -162,7 +162,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     @SuppressWarnings("resource")
     @Test
-    @Ignore//FIXME
+    @Ignore//FIXME must be activte
     public void test_clear() throws FileNotFoundException, IOException
     {
         final File                copy = getCopy();
@@ -177,7 +177,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     @SuppressWarnings("resource")
     @Test
-    @Ignore//FIXME
+    @Ignore//FIXME must be activte
     public void test_add() throws IOException
     {
         final File                copy = getCopy();
@@ -228,7 +228,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     @SuppressWarnings({ "resource", "boxing" })
     @Test
-    @Ignore//FIXME
+    @Ignore//FIXME must be activte
     public void test_getLines() throws FileNotFoundException, IOException
     {
         final File                copy = getCopy();
@@ -261,7 +261,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     @SuppressWarnings("resource")
     @Test
-    @Ignore//FIXME
+    @Ignore//FIXME must be activte
     public void test_equal() throws FileNotFoundException, IOException
     {
         final File                copy  = getCopy();
@@ -327,7 +327,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     @SuppressWarnings("resource")
     @Test
-    @Ignore//FIXME
+    @Ignore//FIXME must be activte
     public void test_clone() throws FileNotFoundException, IOException
     {
         final File                copy = getCopy();
@@ -371,7 +371,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     @SuppressWarnings("resource")
     @Test
-    @Ignore//FIXME
+    @Ignore//FIXME must be activte
     public void test_store_plusplus() throws FileNotFoundException, IOException
     {
         final File                copy = getCopy();

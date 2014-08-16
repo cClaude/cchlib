@@ -3,13 +3,13 @@ package alpha.cx.ath.choisnet.system.impl.java;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import alpha.cx.ath.choisnet.system.SystemEnvironmentVar;
 import com.googlecode.cchlib.io.SerializableHelper;
 import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.base64.Base64Decoder;
 import com.googlecode.cchlib.util.base64.Base64Encoder;
 import com.googlecode.cchlib.util.iterable.XIterables;
 import com.googlecode.cchlib.util.iterator.Selectable;
-import alpha.cx.ath.choisnet.system.SystemEnvironmentVar;
 
 /**
  *
@@ -19,47 +19,47 @@ public abstract class AbstractSystemEnvironmentVar implements SystemEnvironmentV
 {
     private static final char SEPARATOR = '\0';
 
-    private Wrappable<String,Serializable>         toSerializable = new StringToSerializable();
-    private Selectable<Serializable>               filterString   = new SelectString();
-    private Wrappable<? super Serializable,String> castToString   = new CastToString();
+    private final Wrappable<String,Serializable>         toSerializable = new StringToSerializable();
+    private final Selectable<Serializable>               filterString   = new SelectString();
+    private final Wrappable<? super Serializable,String> castToString   = new CastToString();
 
     protected AbstractSystemEnvironmentVar()
     {
     }
 
-    private String transformSerializableToString( Serializable object )
+    private String transformSerializableToString( final Serializable object )
     {
         if( object instanceof String ) {
             return (String)object;
             }
 
         try {
-            byte[] bytes = SerializableHelper.toByteArray( object );
+            final byte[] bytes = SerializableHelper.toByteArray( object );
 
             return object.getClass().getName() + SEPARATOR + Base64Encoder.encode( bytes );
             }
-        catch( IOException e ) {
-            throw new RuntimeException( e ); // FIXME
+        catch( final IOException e ) {
+            throw new SerializationException( e );
             }
     }
 
     static Serializable transformStringToSerializable( final ClassLoader classLoader, final String valueString )
     {
-        int separatorIndex = valueString.indexOf( SEPARATOR );
+        final int separatorIndex = valueString.indexOf( SEPARATOR );
 
         if( separatorIndex > 0 ) {
             try {
-                Class<? extends Serializable> clazz = getClass( classLoader, valueString.substring( 0, separatorIndex ) );
+                final Class<? extends Serializable> clazz = getClass( classLoader, valueString.substring( 0, separatorIndex ) );
 
-                byte[] bytes = Base64Decoder.decode( valueString.substring( separatorIndex + 1 ).toCharArray() );
+                final byte[] bytes = Base64Decoder.decode( valueString.substring( separatorIndex + 1 ).toCharArray() );
 
                 return SerializableHelper.toObject( bytes, clazz );
                 }
-            catch( UnsupportedEncodingException  e ) {
+            catch( final UnsupportedEncodingException  e ) {
                 return valueString;
                 }
-            catch( ClassNotFoundException | IOException e ) {
-                throw new RuntimeException( e ); // FIXME
+            catch( final ClassNotFoundException | IOException e ) {
+                throw new SerializationException( e );
                 }
             }
         else {
@@ -78,10 +78,10 @@ public abstract class AbstractSystemEnvironmentVar implements SystemEnvironmentV
     }
 
     @Override
-    public Serializable getVarObject( Serializable key )
+    public Serializable getVarObject( final Serializable key )
     {
-        String keyString   = transformSerializableToString( key );
-        String ValueString = getVar( keyString );
+        final String keyString   = transformSerializableToString( key );
+        final String ValueString = getVar( keyString );
 
         if( ValueString == null ) {
             return null;
@@ -91,19 +91,19 @@ public abstract class AbstractSystemEnvironmentVar implements SystemEnvironmentV
     }
 
     @Override
-    public void setVarObject( Serializable key, Serializable value )
+    public void setVarObject( final Serializable key, final Serializable value )
     {
-        String keyString   = transformSerializableToString( key );
-        String ValueString = transformSerializableToString( value );
+        final String keyString   = transformSerializableToString( key );
+        final String ValueString = transformSerializableToString( value );
 
         setVar( keyString, ValueString );
     }
 
     @Override
-    public void deleteVarObject( Serializable key )
+    public void deleteVarObject( final Serializable key )
         throws UnsupportedOperationException
     {
-        String keyString = transformSerializableToString( key );
+        final String keyString = transformSerializableToString( key );
 
         deleteVar( keyString );
     }

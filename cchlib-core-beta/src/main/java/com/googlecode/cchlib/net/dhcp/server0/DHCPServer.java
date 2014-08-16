@@ -21,15 +21,15 @@ public class DHCPServer {
     private static final int      LIMIT_IP        = 255;
     private static final String   NL              = System.getProperty( "line.separator" );;
 
-    private int            maxNumIP;
+    private final int            maxNumIP;
     private int            listenPort      = DHCP.SERVER_PORT;
-    private int            clientPort      = DHCP.CLIENT_PORT;
+    private final int            clientPort      = DHCP.CLIENT_PORT;
 
     private DatagramSocket socket          = null;
 
     //private ArrayList[]           options         = new ArrayList[4];
 
-    private byte[]         subnet          = new byte[4];     // 192.168.1.0
+    private final byte[]         subnet          = new byte[4];     // 192.168.1.0
     private byte[]         subnetMask      = new byte[] { (byte)255,
             (byte)255, (byte)255, 0              };
     private byte[]         router          = new byte[] { (byte)192,
@@ -41,13 +41,13 @@ public class DHCPServer {
 //    private byte[][]       hostNameTable   = new byte[254][];
 //    private long[]         leaseStartTable = new long[254];
 //    private int[]          leaseTimeTable  = new int[254];
-    private DHCPTable dhcp = new DHCPTable(); // 0,255 reserved(1-254 assignable)
+    private final DHCPTable dhcp = new DHCPTable(); // 0,255 reserved(1-254 assignable)
 
 //    private DHCPTable      dhcpTable;
-    private int            numAssigned     = 0;
+    private final int            numAssigned     = 0;
 
-    private long           startTime;
-    private long           defLeaseTime    = 3600;            // 1 hour lease default
+    private final long           startTime;
+    private final long           defLeaseTime    = 3600;            // 1 hour lease default
 
 
 //    public DHCPServer( int servePort, String config )
@@ -61,7 +61,7 @@ public class DHCPServer {
          this( DHCP.SERVER_PORT );
     }
 
-    public DHCPServer( int servePort )
+    public DHCPServer( final int servePort )
     {
         if( servePort > 0 ) {
             listenPort = servePort;
@@ -91,7 +91,7 @@ public class DHCPServer {
 
         // calculate max number of assignable ip addresses for this subnet
 
-        BitSet subnetBits = DHCPUtility.bytes2Bits( this.subnet );
+        final BitSet subnetBits = DHCPUtility.bytes2Bits( this.subnet );
         boolean done = false;
         int count = 32;
         for( int i = subnetBits.length() - 1; i >= 0 && !done; i-- ) {
@@ -113,8 +113,8 @@ public class DHCPServer {
             // + "...");
             System.out.println( "Listening on port " + listenPort + "..." );
         }
-        catch( SocketException e ) {
-            // TODO Auto-generated catch block
+        catch( final SocketException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
         } // ipaddress? throws socket exception
 
@@ -130,15 +130,15 @@ public class DHCPServer {
 
     public byte[] receivePacket()
     {
-        byte[] payload = new byte[MAX_BUFFER_SIZE];
-        int length = MAX_BUFFER_SIZE;
-        DatagramPacket p = new DatagramPacket( payload, length );
+        final byte[] payload = new byte[MAX_BUFFER_SIZE];
+        final int length = MAX_BUFFER_SIZE;
+        final DatagramPacket p = new DatagramPacket( payload, length );
 
         try {
             socket.receive( p );
         }
-        catch( IOException e ) {
-            // TODO Auto-generated catch block
+        catch( final IOException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
         } // throws i/o exception
 
@@ -151,37 +151,37 @@ public class DHCPServer {
 
     }
 
-    public void sendPacket( String clientIP, byte[] payload )
+    public void sendPacket( final String clientIP, final byte[] payload )
     {
         assert (payload.length <= MAX_BUFFER_SIZE);
 
         try {
-            DatagramPacket p = new DatagramPacket( payload, payload.length,
+            final DatagramPacket p = new DatagramPacket( payload, payload.length,
                     InetAddress.getByName( clientIP ), clientPort );
             System.out.println( "Sending data: " +
             // Arrays.toString(p.getData()) +
                     "to " + p.getAddress().toString() );
         }
-        catch( UnknownHostException e ) {
-            // TODO Auto-generated catch block
+        catch( final UnknownHostException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
         }
 
     }
 
-    public void broadcastPacket( byte[] payload )
+    public void broadcastPacket( final byte[] payload )
     {
         assert (payload.length <= MAX_BUFFER_SIZE);
 
         try {
-            String broadcastIP = "255.255.255.255";
-            DatagramPacket p = new DatagramPacket( payload, payload.length,
+            final String broadcastIP = "255.255.255.255";
+            final DatagramPacket p = new DatagramPacket( payload, payload.length,
                     InetAddress.getByName( broadcastIP ), clientPort );
             // System.out.println("Broadcasting data: " +
             // Arrays.toString(p.getData()));
         }
-        catch( UnknownHostException e ) {
-            // TODO Auto-generated catch block
+        catch( final UnknownHostException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
         }
 
@@ -190,7 +190,7 @@ public class DHCPServer {
     /**
      * @param args
      */
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
         DHCPServer server;
 //        if( args.length >= 1 ) {
@@ -199,14 +199,7 @@ public class DHCPServer {
             server = new DHCPServer();
 //        }
 
-        DHCPTablable model = new DHCPTablable() {
-            @Override
-            public void add( DHCPTableEntry entry )
-            {
-                System.out.println( "+ " + entry );
-            }
-
-        };
+        final DHCPTablable model = entry -> System.out.println( "+ " + entry );
         server.startDeamon( model );
     }
 
@@ -226,10 +219,10 @@ public class DHCPServer {
 //        return new DHCPServer( port, config );
 //    }
 
-    private void process( byte[] msg )
+    private void process( final byte[] msg )
     {
-        DHCPMessage request = new DHCPMessage( msg );
-        byte msgType = request.getOptions().getOptionData(
+        final DHCPMessage request = new DHCPMessage( msg );
+        final byte msgType = request.getOptions().getOptionData(
                 DHCPOptions.DHCPMESSAGETYPE )[ 0 ];
 
         if( request.getOp() == DHCPMessage.DHCPREQUEST ) {
@@ -237,7 +230,7 @@ public class DHCPServer {
                 System.out.println( "DHCP Discover Message Received" );
                 log( "log.txt", "DHCPServer: DHCP Discover Message Received"
                         + NL + request.toString() );
-                byte[] offer = createOfferReply( request );
+                final byte[] offer = createOfferReply( request );
                 System.out.println( "Broadcasting Offer Reply" );
                 log( "log.txt", "DHCPServer: Broadcasting Offer Reply" + NL );
                 broadcastPacket( offer );
@@ -245,7 +238,7 @@ public class DHCPServer {
                 System.out.println( "DHCP Request Message Received" );
                 log( "log.txt", "DHCPServer: DHCP Request Message Received"
                         + NL + request.toString() );
-                byte[] ack = createACKReply( request );
+                final byte[] ack = createACKReply( request );
                 System.out.println( "Sending ACK reply to "
                         + request.printCHAddr() );
                 log( "log.txt",
@@ -281,7 +274,7 @@ public class DHCPServer {
         }
     }
 
-    private byte[] createACKReply( DHCPMessage request )
+    private byte[] createACKReply( final DHCPMessage request )
     {
 
         // compare request ip, to transaction offer ip, ensure it is still
@@ -295,7 +288,7 @@ public class DHCPServer {
 //                row = i;
 //            }
 //        }
-        DHCPTableEntry entry = dhcp.findMac( request.getCHAddr() );
+        final DHCPTableEntry entry = dhcp.findMac( request.getCHAddr() );
 
 //        assert (row >= 0) : "mac address not matching";
         assert entry != null : "mac address not matching";
@@ -310,7 +303,7 @@ public class DHCPServer {
         // ip is now unique
         // offer ip to requesting client
 
-        DHCPMessage ackMsg = new DHCPMessage();
+        final DHCPMessage ackMsg = new DHCPMessage();
 //        System.out.println( request.getXid() + " "
 //                + DHCPUtility.macToString( request.getCHAddr() ) + " "
 //                + DHCPUtility.macToString( macTable[ row ] ) + " "
@@ -319,23 +312,23 @@ public class DHCPServer {
         return ackMsg.externalize();
     }
 
-    private byte[] createOfferReply( DHCPMessage discover )
+    private byte[] createOfferReply( final DHCPMessage discover )
     {
 //        macTable[ numAssigned ] = discover.getCHAddr();
 
-        byte[] ip = assignIP( discover.getGIAddr() );
+        final byte[] ip = assignIP( discover.getGIAddr() );
         addAssignedIP( ip );
 
         // ip is now unique
         // offer ip to requesting client
 
-        DHCPMessage offerMsg = new DHCPMessage();
+        final DHCPMessage offerMsg = new DHCPMessage();
         offerMsg.offerMsg( discover.getXid(), discover.getCHAddr(), ip );
         return offerMsg.externalize();
     }
 
     // generate a unique ip appropriate to gateway interface subnet address
-    private byte[] assignIP( byte[] gIAddr )
+    private byte[] assignIP( final byte[] gIAddr )
     {
         byte[] ip = new byte[4];
 
@@ -362,10 +355,10 @@ public class DHCPServer {
     }
 
     // verify if ip is unique in the ip table
-    private boolean isUnique( byte[] ip )
+    private boolean isUnique( final byte[] ip )
     {
-        boolean done = false;
-        boolean isUnique = true;
+        final boolean done = false;
+        final boolean isUnique = true;
 //        for( int i = 0; i < ipTable.length && isUnique && !done; i++ ) {
 //            if( ip[ 0 ] == ipTable[ i ][ 0 ] && ip[ 1 ] == ipTable[ i ][ 1 ]
 //                    && ip[ 2 ] == ipTable[ i ][ 2 ]
@@ -380,7 +373,7 @@ public class DHCPServer {
     }
 
     // add ip to list of assigned ips
-    private void addAssignedIP( byte[] assignedIP )
+    private void addAssignedIP( final byte[] assignedIP )
     {
 //        boolean done = false;
 //        for( int i = 0; i < ipTable.length && !done; i++ ) {
@@ -416,20 +409,20 @@ public class DHCPServer {
 //            }
 //        }
 //        catch( FileNotFoundException e1 ) {
-//            // TODO Auto-generated catch block
+//            // TO DO Auto-generated catch block
 //            e1.printStackTrace();
 //        }
 //        catch( IOException e ) {
-//            // TODO Auto-generated catch block
+//            // TO DO Auto-generated catch block
 //            e.printStackTrace();
 //        }
 //
 //    }
 
-    private void log( String fileName, String transcript )
+    private void log( final String fileName, final String transcript )
     {
-        Date logTime = new Date( System.currentTimeMillis() );
-        String data = new String( logTime.toString() + " - " + printUpTime()
+        final Date logTime = new Date( System.currentTimeMillis() );
+        final String data = new String( logTime.toString() + " - " + printUpTime()
                 + NL + transcript + NL );
 
         System.out.println( data );
@@ -438,13 +431,13 @@ public class DHCPServer {
             outputStream.write( data );
             outputStream.flush();
             }
-        catch( IOException e ) {
-            // TODO Auto-generated catch block
+        catch( final IOException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
             }
     }
 
-    public void setRouter( byte[] router )
+    public void setRouter( final byte[] router )
     {
         this.router = router;
     }
@@ -459,7 +452,7 @@ public class DHCPServer {
         return this.subnetMask;
     }
 
-    public void setSubnetMask( byte[] subnetMask )
+    public void setSubnetMask( final byte[] subnetMask )
     {
         this.subnetMask = subnetMask;
     }
@@ -538,11 +531,11 @@ public class DHCPServer {
 //        dhcpTable.setModel( dataModel );
 //    }
 
-    public void startDeamon( DHCPTablable model )
+    public void startDeamon( final DHCPTablable model )
     {
         // server is always listening
         while( true ) {
-            byte[] packet = receivePacket();
+            final byte[] packet = receivePacket();
             process( packet );
         }
     }

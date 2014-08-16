@@ -1,8 +1,8 @@
 // $codepro.audit.disable staticFieldNamingConvention
 package com.googlecode.cchlib.lang;
 
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.io.IOHelper;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,11 +14,11 @@ import javax.tools.ToolProvider;
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.io.IOHelper;
 
 public class ExtendableClassLoaderTest
 {
@@ -39,7 +39,7 @@ public class ExtendableClassLoaderTest
         final File        tmpDirFile   = FileHelper.createTempDir();
         File              dirFile      = tmpDirFile;
 
-        for( String pn : packagename.split( "\\." ) ) {
+        for( final String pn : packagename.split( "\\." ) ) {
             dirFile = new File( dirFile, pn );
             dirFile.mkdirs();
             }
@@ -61,7 +61,7 @@ public class ExtendableClassLoaderTest
 
         compile( sourceFile );
 
-        File targetFile = new File(dirFile,  basename + ".class" );
+        final File targetFile = new File(dirFile,  basename + ".class" );
         LOGGER.info( "targetFile = " + targetFile );
         assertTrue( targetFile.isFile() );
 
@@ -89,40 +89,37 @@ public class ExtendableClassLoaderTest
     @Test
     public void testAddClassPathFile() throws IOException, ClassNotFoundException
     {
-        ExtendableClassLoader ecl  = new ExtendableClassLoader();
+        final ExtendableClassLoader ecl  = new ExtendableClassLoader();
 
         ecl.addClassPath( compiledDirectoryFile );
 
-        Class<?> clazz = ecl.loadClass( compiledClassName );
+        final Class<?> clazz = ecl.loadClass( compiledClassName );
         LOGGER.info( "clazz = " + clazz );
 
         assertNotNull( clazz );
     }
 
-//    @Test TODO
-//    public void testFindResourceString()
+//    @Test TODO public void testFindResourceString()
 //    {
 //        fail( "Not yet implemented" );
 //    }
 
-//    @Test TODO
-//    public void testLoadClassString()
+//    @Test TODO public void testLoadClassString()
 //    {
 //        fail( "Not yet implemented" );
 //    }
 
-//    @Test TODO
-//    public void testLoadClassStringBoolean()
+//    @Test TODO public void testLoadClassStringBoolean()
 //    {
 //        fail( "Not yet implemented" );
 //    }
 //
 
-    private static void compile( File...files ) throws IOException
+    private static void compile( final File...files ) throws IOException
     {
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        final JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null)) {
-            Iterable<? extends JavaFileObject> compilationUnits1 =
+            final Iterable<? extends JavaFileObject> compilationUnits1 =
                     fileManager.getJavaFileObjectsFromFiles(Arrays.asList(files));
             compiler.getTask(null, fileManager, null, null, null, compilationUnits1).call();
         }

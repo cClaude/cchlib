@@ -9,58 +9,54 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 /**
- * 
+ *
  *
  */
-public class GDAI_tumblr_com_ConfigJDialog extends JDialog 
+public class GDAI_tumblr_com_ConfigJDialog extends JDialog
 {
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
+    private final JPanel contentPane;
 
     /**
      * Launch the application.
      */
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
         final GDAI_tumblr_com_Config config = new GDAI_tumblr_com_Config();
-        EventQueue.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    GDAI_tumblr_com_ConfigJDialog frame 
-                        = new GDAI_tumblr_com_ConfigJDialog( null, config );
-                    
-                    frame.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
-                    frame.setVisible( true );
-                    }
-                catch( Exception e ) {
-                    e.printStackTrace();
-                    }
-            }
+        EventQueue.invokeLater( ( ) -> {
+            try {
+                final GDAI_tumblr_com_ConfigJDialog frame
+                    = new GDAI_tumblr_com_ConfigJDialog( null, config );
+
+                frame.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
+                frame.setVisible( true );
+                }
+            catch( final Exception e ) {
+                e.printStackTrace();
+                }
         });
     }
 
     /**
      * Create the frame.
      */
-    public GDAI_tumblr_com_ConfigJDialog( 
+    public GDAI_tumblr_com_ConfigJDialog(
         final Frame                     owner,
         final GDAI_tumblr_com_Config    config
         )
     {
         super( owner );
-        
+
         setBounds( 100, 100, 450, 300 );
         contentPane = new JPanel();
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         contentPane.setLayout( new BorderLayout( 0, 0 ) );
         setContentPane( contentPane );
-        
-        GDAI_tumblr_com_ConfigJPanel panel = new GDAI_tumblr_com_ConfigJPanel( config )
+
+        final GDAI_tumblr_com_ConfigJPanel panel = new GDAI_tumblr_com_ConfigJPanel( config )
         {
             private static final long serialVersionUID = 1L;
-            
+
             @Override
             void cancelClicked()
             {
@@ -72,18 +68,13 @@ public class GDAI_tumblr_com_ConfigJDialog extends JDialog
                 try {
                     config.save();
                     }
-                catch( IOException e ) {
-                    // TODO Auto-generated catch block
-                    // TODO Auto-generated catch block
-                    // TODO Auto-generated catch block
-                    // TODO Auto-generated catch block
-                    // TODO Auto-generated catch block
-                    // TODO Auto-generated catch block
+                catch( final IOException e ) {
+                    // TODO try to save
                     e.printStackTrace();
                     }
                 GDAI_tumblr_com_ConfigJDialog.this.dispose();
             }
-            
+
         };
         contentPane.add(panel, BorderLayout.CENTER);
     }

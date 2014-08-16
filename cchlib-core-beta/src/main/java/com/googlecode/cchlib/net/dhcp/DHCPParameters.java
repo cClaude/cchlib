@@ -76,7 +76,7 @@ public class DHCPParameters
 //
 //    public static DHCPParameters newInstance(byte[] ibuf)
 //    {
-//        DHCPParameters message = new DHCPParameters( new DHCPOptionsProperties() ); // FIXME
+//        DHCPParameters message = new DHCPParameters( new DHCPOptionsProperties() ); // FIX ME
 //
 //        message.init(ibuf);
 //

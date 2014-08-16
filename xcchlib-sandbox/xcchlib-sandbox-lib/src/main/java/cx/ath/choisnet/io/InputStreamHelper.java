@@ -20,13 +20,13 @@
 */
 package cx.ath.choisnet.io;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 
 /**
 **
@@ -52,7 +52,7 @@ public class InputStreamHelper
 **
 ** @throws java.io.IOException en cas d'erreur
 */
-public static String toString( InputStream is ) // ------------------------
+public static String toString( final InputStream is ) // ------------------------
     throws java.io.IOException
 {
  final StringBuilder    sb      = new StringBuilder();
@@ -82,8 +82,8 @@ public static String toString( InputStream is ) // ------------------------
 ** @throws java.io.IOException en cas d'erreur
 */
 public static void copy( // -----------------------------------------------
-    InputStream     input,
-    OutputStream    output,
+    final InputStream     input,
+    final OutputStream    output,
     final int       bufferSize
     )
     throws java.io.IOException
@@ -108,7 +108,7 @@ public static void copy( // -----------------------------------------------
 **
 ** @throws java.io.IOException en cas d'erreur
 */
-public static void copy( InputStream input, OutputStream output ) // ------
+public static void copy( final InputStream input, final OutputStream output ) // ------
     throws java.io.IOException
 {
  copy( input, output, 2048 );
@@ -124,17 +124,17 @@ public static void copy( InputStream input, OutputStream output ) // ------
 **
 ** @throws java.io.IOException en cas d'erreur
 */
-public static void copy( File inputFile, File outputFile ) // -------------
+public static void copy( final File inputFile, final File outputFile ) // -------------
     throws java.io.IOException
 {
- InputStream  input  = new BufferedInputStream( new FileInputStream( inputFile ) );
- OutputStream output = new BufferedOutputStream( new FileOutputStream( outputFile ) );
+ final InputStream  input  = new BufferedInputStream( new FileInputStream( inputFile ) );
+ final OutputStream output = new BufferedOutputStream( new FileOutputStream( outputFile ) );
 
  try {
     copy( input, output, 4096 );
     }
  finally {
-    try {  input.close(); } catch( Exception ignore ) {}
+    try {  input.close(); } catch( final Exception ignore ) {}
 
     output.close(); // close avec g�n�ration d'exception....
     }
@@ -186,7 +186,7 @@ public static InputStream concat( // --------------------------------------
                 try {
                     is[ i ].close();
                     }
-                catch( java.io.IOException e ) {
+                catch( final java.io.IOException e ) {
                     anIOE = e;
                     }
                 }
@@ -204,7 +204,7 @@ public static InputStream concat( // --------------------------------------
             throws java.io.IOException
         {
             for( ; index < is.length; index++ ) {
-                int r = is[ index ].read();
+                final int r = is[ index ].read();
 
                 if( r != -1 ) {
                     return r;

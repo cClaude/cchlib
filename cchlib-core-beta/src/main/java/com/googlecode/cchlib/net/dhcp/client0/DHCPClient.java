@@ -23,15 +23,15 @@ public class DHCPClient {
     private static byte[]         clientIP;
 
     public DHCPClient()
-    { 
-        this( DHCP.SERVER_PORT, DHCP.CLIENT_PORT ); 
+    {
+        this( DHCP.SERVER_PORT, DHCP.CLIENT_PORT );
     }
 
-    public DHCPClient( int serverPort, int listenPort )
+    public DHCPClient( final int serverPort, final int listenPort )
     {
         this.serverPort  = serverPort;
         this.listenPort  = listenPort;
-        
+
         System.out.println( "Connecting to DHCPServer at " + serverIP
                 + " on port " + serverPort + "..." );
         try {
@@ -42,8 +42,8 @@ public class DHCPClient {
             // sendTestPacket();
 
         }
-        catch( SocketException e ) {
-            // TODO Auto-generated catch block
+        catch( final SocketException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
         }
 
@@ -52,8 +52,8 @@ public class DHCPClient {
     private void sendTestPacket()
     {
         // byte[] payload = new byte[MAX_BUFFER_SIZE];
-        int length = 6;
-        byte[] payload = new byte[length];
+        final int length = 6;
+        final byte[] payload = new byte[length];
         payload[ 0 ] = 'h';
         payload[ 1 ] = '3';
         payload[ 2 ] = 'l';
@@ -70,17 +70,17 @@ public class DHCPClient {
             socket.send( p ); // throws i/o exception
             socket.send( p );
         }
-        catch( UnknownHostException e ) {
-            // TODO Auto-generated catch block
+        catch( final UnknownHostException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
         }
-        catch( IOException e ) {
-            // TODO Auto-generated catch block
+        catch( final IOException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
         }
     }
 
-    public /*static*/ void sendPacket( byte[] payload )
+    public /*static*/ void sendPacket( final byte[] payload )
     {
         assert (payload.length <= MAX_BUFFER_SIZE);
 
@@ -92,37 +92,37 @@ public class DHCPClient {
                         InetAddress.getByAddress( clientIP ), listenPort );
                 socket.bind( assigned );
             } else { // source ip is 0.0.0.0 when requesting ip
-                InetSocketAddress broadcast = new InetSocketAddress(
+                final InetSocketAddress broadcast = new InetSocketAddress(
                         InetAddress.getByName( "0.0.0.0" ), listenPort );
                 socket.close();
                 socket = new DatagramSocket( null );
                 socket.bind( broadcast );
             }
 
-            DatagramPacket p = new DatagramPacket( payload, payload.length,
+            final DatagramPacket p = new DatagramPacket( payload, payload.length,
                     InetAddress.getByName( serverIP ), serverPort );
             System.out.println( "Sending data: "
                     + Arrays.toString( p.getData() ) );
             socket.send( p ); // throws i/o exception
         }
-        catch( UnknownHostException e ) {
-            // TODO Auto-generated catch block
+        catch( final UnknownHostException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
         }
-        catch( SocketException e ) {
-            // TODO Auto-generated catch block
+        catch( final SocketException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
         }
-        catch( IOException e ) {
-            // TODO Auto-generated catch block
+        catch( final IOException e ) {
+            // TODO Auto-generated catch block !
             e.printStackTrace();
         }
 
     }
 
-    public /*static*/ void broadcastPacket( byte[] payload )
+    public /*static*/ void broadcastPacket( final byte[] payload )
     {
-        String temp = serverIP;
+        final String temp = serverIP;
         serverIP = "255.255.255.255";
         sendPacket( payload );
         serverIP = temp;
@@ -130,16 +130,16 @@ public class DHCPClient {
 
     /**
      * @param args
-     * @throws SocketException 
-     * @throws UnknownHostException 
+     * @throws SocketException
+     * @throws UnknownHostException
      */
-    public static void main( String[] args ) throws UnknownHostException, SocketException
+    public static void main( final String[] args ) throws UnknownHostException, SocketException
     {
         DHCPClient client;
         /* if (args.length >= 1) { server = new
          * DHCPClient(Integer.parseInt(args[0])); } else { */
         client = new DHCPClient();
-        DHCPMessage msgTest = new DHCPMessage();
+        final DHCPMessage msgTest = new DHCPMessage();
         // msgTest.discoverMsg(getMacAddress());
         DHCPUtility.printMacAddress();
         // sendPacket(msgTest.externalize());

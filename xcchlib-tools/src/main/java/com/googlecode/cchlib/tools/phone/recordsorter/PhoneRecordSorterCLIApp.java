@@ -91,7 +91,7 @@ public class PhoneRecordSorterCLIApp
 
         try {
             Files.walkFileTree( sourceFolderFile.toPath(), createVisitor( config, destinationFolder ) );
-        } catch( IOException e ) {
+        } catch( final IOException e ) {
             LOGGER.fatal( "Fail while walking in : " + sourceFolderFile, e );
             throw e;
         }
@@ -100,7 +100,7 @@ public class PhoneRecordSorterCLIApp
     private FileVisitor<Path> createVisitor(
             final Config config,
             final File   destinationFolder
-            )
+            ) throws CreateDestinationFolderException
     {
         return new PhoneRecordSorterFileVisitor( config, destinationFolder );
     }

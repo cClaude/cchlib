@@ -141,11 +141,9 @@ public class Example2
             catch( NoSuchMethodException | SecurityException
                     | IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e ) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 }
             catch( final MethodResolutionException e ) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             }

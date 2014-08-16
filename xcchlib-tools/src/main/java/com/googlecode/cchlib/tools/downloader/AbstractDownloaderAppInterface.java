@@ -26,8 +26,8 @@ public abstract class AbstractDownloaderAppInterface
 
     public static final String DownloadFileURL_PARENT_URL_PROPERTY = "parent";
 
-    private String  siteName;
-    private int     numberOfPicturesByPage;
+    private final String  siteName;
+    private final int     numberOfPicturesByPage;
     private int     pageCount;
     private Proxy   proxy;
     private List<GenericDownloaderAppComboBoxConfig> comboBoxConfigList;
@@ -139,8 +139,8 @@ public abstract class AbstractDownloaderAppInterface
 
     public static class DefaultRegExgSplitter implements RegExgSplitter
     {
-        private String beginRegExg;
-        private char lastChar;
+        private final String beginRegExg;
+        private final char lastChar;
         public DefaultRegExgSplitter( final String beginRegExg, final char lastChar )
         {
             this.beginRegExg = beginRegExg;
@@ -179,7 +179,7 @@ public abstract class AbstractDownloaderAppInterface
     {
         final Set<DownloadFileURL> imagesURLCollection = new HashSet<DownloadFileURL>();
 
-        for( RegExgSplitter regexp : regexps ) {
+        for( final RegExgSplitter regexp : regexps ) {
             final String[] strs = content2Parse.getResultAsString().split( regexp.getBeginRegExp() );
 
             if( LOGGER.isDebugEnabled() ) {
@@ -193,14 +193,13 @@ public abstract class AbstractDownloaderAppInterface
 
                 try {
                     //imagesURLCollection.add( getDownloadURLFrom( src, i ) );
-                    DownloadFileURL dfURL = getDownloadURLFrom( src, i );
+                    final DownloadFileURL dfURL = getDownloadURLFrom( src, i );
 
                     dfURL.setProperty( DownloadFileURL_PARENT_URL_PROPERTY, content2Parse.getURL() );
 
                     imagesURLCollection.add( dfURL );
                     }
                 catch( MalformedURLException | URISyntaxException e ) {
-                    // TODO Auto-generated catch block
                     LOGGER.warn( "URL Exception src = [" + src + "]" );
                     LOGGER.warn( "URL Exception", e );
                     LOGGER.warn( "URL Exception strPart:\n------->>\n"

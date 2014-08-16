@@ -35,8 +35,8 @@ public class DownloadI_www_epins_fr
     //private final static int    MAX = 110;
 
     private static final String SITE_NAME = "www.epins.fr";
-    private static final int NUMBER_OF_PICTURES_BY_PAGE = 10; // FIXME
-    private static final int DEFAULT_MAX_PAGES = 10; // FIXME
+    private static final int NUMBER_OF_PICTURES_BY_PAGE = 10;
+    private static final int DEFAULT_MAX_PAGES = 10;
 
     protected DownloadI_www_epins_fr()
     {
@@ -62,8 +62,8 @@ public class DownloadI_www_epins_fr
 
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
-            GenericDownloaderAppUIResults   gdauir,
-            DownloadStringURL               content2Parse
+            final GenericDownloaderAppUIResults   gdauir,
+            final DownloadStringURL               content2Parse
             )
             throws MalformedURLException
     {
@@ -74,7 +74,7 @@ public class DownloadI_www_epins_fr
             {
                 return new Iterator<DownloadFileURL>()
                 {
-                    private StringBuilder buildURL_sb1 = new StringBuilder();
+                    private final StringBuilder buildURL_sb1 = new StringBuilder();
                     //private StringBuilder buildURL_sb2 = new StringBuilder();
                     private int i = MIN;
 
@@ -127,14 +127,14 @@ public class DownloadI_www_epins_fr
     }
 
     @Override
-    public DownloadStringURL getDownloadStringURL( int pageNumber )
+    public DownloadStringURL getDownloadStringURL( final int pageNumber )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();// NOT USE
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( final String src, final int regexpIndex )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();// NOT USE

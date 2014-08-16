@@ -33,7 +33,7 @@ public final class PhoneRecordSorterFileVisitor implements FileVisitor<Path> {
     public PhoneRecordSorterFileVisitor(
         final Config config,
         final File   destinationFolder
-        )
+        ) throws CreateDestinationFolderException
     {
         this.config             = config;
         this.numberNormalizer   = new NumberNormalizer();
@@ -65,7 +65,7 @@ public final class PhoneRecordSorterFileVisitor implements FileVisitor<Path> {
                 try {
                     this.fileMover.move( file, contact );
                 }
-                catch( FileMoverException e ) {
+                catch( final FileMoverException e ) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -112,7 +112,7 @@ public final class PhoneRecordSorterFileVisitor implements FileVisitor<Path> {
     }
 
     @Override
-    public FileVisitResult postVisitDirectory( Path dir, IOException exc )
+    public FileVisitResult postVisitDirectory( final Path dir, final IOException exc )
             throws IOException
     {
         if( exc != null ) {

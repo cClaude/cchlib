@@ -340,7 +340,7 @@ package com.googlecode.cchlib.util.concurrent;
 //    @Override
 //    public boolean contains( final Object value )
 //    {// from Collection<V>
-//        //FIXME
+//        //FIX ME
 //        throw new UnsupportedOperationException();
 //    }
 //

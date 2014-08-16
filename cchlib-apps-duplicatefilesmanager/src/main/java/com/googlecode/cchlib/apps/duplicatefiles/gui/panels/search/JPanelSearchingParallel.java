@@ -258,8 +258,8 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
 
             return duplicateFileFinder.computeHash( computePass1 );
         }
-        catch( IllegalStateException | NoSuchAlgorithmException | InterruptedException | ExecutionException e ) {
-            // TODO Auto-generated catch block
+        catch( final IllegalStateException | NoSuchAlgorithmException | InterruptedException | ExecutionException e ) {
+            // TODO ADD some logs !
             e.printStackTrace();
 
             return Collections.emptyMap();

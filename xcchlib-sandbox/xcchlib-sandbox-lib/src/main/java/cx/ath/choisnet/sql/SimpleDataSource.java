@@ -18,14 +18,14 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 /**
- ** 
+ **
  ** @author Claude CHOISNET
  ** @since 2.02.009
  ** @version 2.02.009
  */
 public class SimpleDataSource implements java.io.Closeable {
     /** Description de la source de donn�es */
-    private DataSource ds;
+    private final DataSource ds;
 
     /**  */
     private String[]   userPass;
@@ -78,24 +78,24 @@ public class SimpleDataSource implements java.io.Closeable {
      ** @param resourceName
      *            ex: "java:comp/env/jdbc/resourceName"
      */
-    protected final static DataSource getDataSource( String resourceName ) // -
+    protected final static DataSource getDataSource( final String resourceName ) // -
             throws SimpleDataSourceException
     {
         DataSource ds;
         Object ressource = null;
 
         try {
-            Context context = new InitialContext();
+            final Context context = new InitialContext();
 
             ressource = context.lookup( resourceName );
             ds = DataSource.class.cast( ressource );
         }
-        catch( ClassCastException e ) {
+        catch( final ClassCastException e ) {
             throw new SimpleDataSourceException( "Bad ressource '"
                     + resourceName + "' expecting DataSource, found : "
                     + ressource, e );
         }
-        catch( javax.naming.NamingException e ) {
+        catch( final javax.naming.NamingException e ) {
             throw new SimpleDataSourceException(
                     "Can't create SimpleQuery for '" + resourceName + "'", e );
         }
@@ -111,6 +111,7 @@ public class SimpleDataSource implements java.io.Closeable {
     /**
 **
 */
+    @SuppressWarnings("resource")
     protected Connection getConnectionFromDataSource() // ---------------------
             throws java.sql.SQLException
     {

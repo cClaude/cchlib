@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import com.googlecode.cchlib.tools.phone.recordsorter.PhoneRecordSorterFileVisitor;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
 
 public class PhoneRecordSorterFileVisitorTest {
@@ -14,7 +13,7 @@ public class PhoneRecordSorterFileVisitorTest {
     private PhoneRecordSorterFileVisitor instance;
 
     @Before
-    public void setup()
+    public void setup() throws CreateDestinationFolderException
     {
         final Config config             = Mockito.mock( Config.class );
         final File   destinationFolders = new File("");

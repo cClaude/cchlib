@@ -16,7 +16,7 @@ public class FileMover {
     private final ContactFolder contactFolder;
 
 
-    public FileMover( final File destinationFolder )
+    public FileMover( final File destinationFolder ) throws CreateDestinationFolderException
     {
         this.destinationFolder = destinationFolder;
         this.contactFolder     = new ContactFolder();
@@ -24,14 +24,13 @@ public class FileMover {
         createDestinationFolder();
     }
 
-    private void createDestinationFolder()
+    private void createDestinationFolder() throws CreateDestinationFolderException
     {
         try {
             Files.createDirectories( this.destinationFolder.toPath() );
         }
-        catch( IOException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        catch( final IOException e ) {
+            throw new CreateDestinationFolderException( this.destinationFolder.getPath(), e );
         }
     }
 
@@ -47,10 +46,10 @@ public class FileMover {
             //Files.move( file, getTarget( file, contact ), StandardCopyOption.COPY_ATTRIBUTES );
              Files.move( file, target );
         }
-        catch( FileAlreadyExistsException e ) {
+        catch( final FileAlreadyExistsException e ) {
             throw new FileMoverException( "FileAlreadyExistsException", file, contact, target, e );
         }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             throw new FileMoverException( "IOException", file, contact, target, e );
         }
     }

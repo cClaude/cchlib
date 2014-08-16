@@ -29,8 +29,8 @@ public class DownloadI_www_gifgirl_org
     private static final String URL_PATTERN
         = "http://www.gifgirl.org/search?updated-max=%04d-%02d-%02dT23:59:00-05:00&max-results=%d&start=%d&by-date=%s";
     private static final String SITE_NAME = "www.gifgirl.org";
-    private static final int NUMBER_OF_PICTURES_BY_PAGE = 50; // FIXME
-    private static final int DEFAULT_MAX_PAGES = 50; // FIXME
+    private static final int NUMBER_OF_PICTURES_BY_PAGE = 50;
+    private static final int DEFAULT_MAX_PAGES = 50;
         // int:year
         // int:month
         // int:day

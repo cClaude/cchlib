@@ -1,13 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-   <groupId>com.googlecode.cchlib</groupId>
-   <artifactId>cchlib</artifactId>
-   <version>4.2-SNAPSHOT</version>
+    <groupId>com.googlecode.cchlib</groupId>
+    <artifactId>cchlib</artifactId>
+    <version>4.2-SNAPSHOT</version>
   </parent>
+
   <artifactId>cchlib-jdbf</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-jdbf</name>
@@ -17,28 +17,7 @@
 
   <!-- Global properties -->
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <!-- Project description -->
-  <!-- scm>
-    <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</developerConnection>
-    <url/>
-  </scm -->
-
-  <!-- Distribution management -->
-  <!-- distributionManagement>
-    <repository>
-      <id>googlecode.cchlib.repo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>googlecode.cchlib.snapshotrepo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement -->
 
   <dependencies>
     <dependency>
@@ -53,7 +32,6 @@
   <build>
     <extensions>
     </extensions>
-
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -82,7 +60,7 @@
           </links>
           <show>protected</show>
           <source>${project.java.source.version}</source>
-      </configuration>
+        </configuration>
       </plugin>
     </plugins>
   </build>

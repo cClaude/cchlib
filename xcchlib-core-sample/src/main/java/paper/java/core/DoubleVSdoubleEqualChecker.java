@@ -7,7 +7,7 @@ public class DoubleVSdoubleEqualChecker {
         checkDouble();
     }
 
-    @SuppressWarnings("boxing")
+    @SuppressWarnings("all")
     private static void checkDouble()
     {
         final double i1 = 1.0;
