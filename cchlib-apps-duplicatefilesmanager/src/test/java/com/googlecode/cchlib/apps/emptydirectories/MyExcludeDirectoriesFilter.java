@@ -13,7 +13,7 @@ import java.util.Set;
 
 final class MyExcludeDirectoriesFilter implements FolderFilter, Filter<Path>, FileFilter
 {
-    private static final String TRASH = "$Recycle.Bin";
+    private static final String[] TRASH = { "$Recycle.Bin", "Trash" };
 
     private final List<Path> pathList = new ArrayList<>();
     private final List<File> fileList = new ArrayList<>();
@@ -21,9 +21,7 @@ final class MyExcludeDirectoriesFilter implements FolderFilter, Filter<Path>, Fi
     @Override
     public boolean accept( final Path entry ) throws IOException
     {
-        if( ! TRASH.equals(entry.getFileName() ) ) {
-            return false;
-        } else if( Files.isSymbolicLink( entry ) ) {
+        if( souldBeExclude( entry ) ) {
             return false;
         }
 
@@ -32,17 +30,36 @@ final class MyExcludeDirectoriesFilter implements FolderFilter, Filter<Path>, Fi
         return false;
     }
 
+    private boolean souldBeExclude( final Path path )
+    {
+        if( isInTrash( path.getFileName().toString() ) ) {
+            return true;
+        } else if( Files.isSymbolicLink( path ) ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public boolean accept( final File file )
     {
-        if( ! TRASH.equals( file.getName() ) ) {
-            return false;
-        } else if( Files.isSymbolicLink( file.toPath() ) ) {
+        if( souldBeExclude( file.toPath() ) ) {
             return false;
         }
 
         this.fileList.add( file );
 
+        return false;
+    }
+
+    private boolean isInTrash( final String filename )
+    {
+        for( final String name : TRASH ) {
+            if( name.equals( filename ) ) {
+                return true;
+            }
+        }
         return false;
     }
 
