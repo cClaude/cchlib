@@ -102,7 +102,7 @@ public class PositionalXMLReader
         try {
             documentBuilder = documentBuilderFactory.newDocumentBuilder();
             }
-        catch( ParserConfigurationException e ) {
+        catch( final ParserConfigurationException e ) {
             throw new XMLReaderException( "Can't create DOM builder", e );
             }
 
@@ -213,7 +213,7 @@ public class PositionalXMLReader
             }
 
             @Override
-            public void startEntity(String name) throws SAXException
+            public void startEntity(final String name) throws SAXException
             {
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace( "startEntity: [" + name + "]");
@@ -222,7 +222,7 @@ public class PositionalXMLReader
             }
 
             @Override
-            public void endEntity(String name) throws SAXException
+            public void endEntity(final String name) throws SAXException
             {
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace( "endEntity: [" + name + "]");

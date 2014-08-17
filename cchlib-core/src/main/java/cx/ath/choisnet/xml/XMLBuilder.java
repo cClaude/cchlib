@@ -1,11 +1,11 @@
 package cx.ath.choisnet.xml;
 
-import com.googlecode.cchlib.NeedDoc;
-import com.googlecode.cchlib.NeedTestCases;
-import com.googlecode.cchlib.lang.StringHelper;
 import java.io.IOException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import com.googlecode.cchlib.NeedDoc;
+import com.googlecode.cchlib.NeedTestCases;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * TODOC
@@ -23,7 +23,7 @@ import org.w3c.dom.NodeList;
 public class XMLBuilder
 {
     private static final String DEFAULT_TABULATION = "  ";
-    private Appendable anAppendableObject;
+    private final Appendable anAppendableObject;
     private String incTabulation;
     // TODO: private String initTabulation;
 
@@ -69,10 +69,11 @@ public class XMLBuilder
                               .append('{')
                               .append(aNode.getTextContent())
                               .append("}\n");
+
             }
         else {
-            NodeList nodeList = aNode.getChildNodes();
-            int len = nodeList.getLength();
+            final NodeList nodeList = aNode.getChildNodes();
+            final int len = nodeList.getLength();
 
             anAppendableObject.append(incTabulation)
                               .append('<')
@@ -103,7 +104,7 @@ public class XMLBuilder
         throws IOException
     {
         final int   len             = nodeList.getLength();
-        String      saveTabulation  = incTabulation;
+        final String      saveTabulation  = incTabulation;
 
         for( int i = 0; i < len; i++ ) {
             append( nodeList.item(i) );
@@ -134,7 +135,7 @@ public class XMLBuilder
     {
         final XMLBuilder builder = new XMLBuilder(new StringBuilder());
 
-        try { builder.append(aNode); } catch(IOException ignore) {} // $codepro.audit.disable emptyCatchClause, logExceptions
+        try { builder.append(aNode); } catch(final IOException ignore) {} // $codepro.audit.disable emptyCatchClause, logExceptions
 
         return builder.appendableToString();
     }
@@ -152,7 +153,7 @@ public class XMLBuilder
 
         sb.append("--------------------\n");
 
-        try { builder.append(nodeList); } catch(IOException ignore) {} // $codepro.audit.disable emptyCatchClause, logExceptions
+        try { builder.append(nodeList); } catch(final IOException ignore) {} // $codepro.audit.disable emptyCatchClause, logExceptions
 
         sb.append("--------------------\n");
 
