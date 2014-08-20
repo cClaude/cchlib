@@ -18,7 +18,7 @@
 **                      New method to download classes : toBytes()
 **  3.02.042 2007.01.08 Claude CHOISNET
 **                      Modification de findResource( final String name )
-**                      afin d'�tre compatible avec les recommendations
+**                      afin d'etre compatible avec les recommendations
 **                      java 1.6
 ** ------------------------------------------------------------------------
 **
@@ -32,16 +32,18 @@
 */
 package cx.ath.choisnet.lang;
 
-import cx.ath.choisnet.util.ByteBuffer;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import cx.ath.choisnet.util.ByteBuffer;
 
 /**
 ** This class implements a {@link ClassLoader} that allow to extend the
@@ -128,41 +130,48 @@ public void addClassPath( final File path ) // ----------------------------
     }
 }
 
-/**
-** Remove a class path
-** <P>
-** Remark: the previous loaded class with this path are not
-** unloaded.
-**
-** @param path the class path to remove
-*/
-public void removeClassPath( final String path ) // -----------------------
-{
- removeClassPath( new File( path ) );
-}
-
-/**
-** Remove a class path
-** <P>
-** Remark: the previous loaded class with this path are not
-** unloaded.
-**
-** @param path the class path to remove
-*/
-public void removeClassPath( final File path ) // -------------------------
-{
- JarFile found;
-
- synchronized( jars ) {
-    found = jars.remove( path );
+    /**
+     ** Remove a class path
+     ** <P>
+     * Remark: the previous loaded class with this path are not unloaded.
+     **
+     ** @param path
+     *            the class path to remove
+     * @throws IOException
+     *             if any error occur while closing jar
+     */
+    public void removeClassPath( final String path ) throws IOException // -----------------------
+    {
+        removeClassPath( new File( path ) );
     }
 
- if( found == null ) {
-    synchronized( paths ) {
-        paths.remove( path );
+    /**
+     ** Remove a class path
+     ** <P>
+     * Remark: the previous loaded class with this path are not unloaded.
+     **
+     ** @param path
+     *            the class path to remove
+     * @throws IOException
+     *             if any error occur while closing jar
+     */
+    public void removeClassPath( final File path ) throws IOException // -------------------------
+    {
+        JarFile found;
+
+        synchronized( jars ) {
+            found = jars.remove( path );
+            if( found != null ) {
+                found.close();
+            }
+        }
+
+        if( found == null ) {
+            synchronized( paths ) {
+                paths.remove( path );
+            }
         }
     }
-}
 
 /**
 ** Looks up a class into all the class path and return its byte
@@ -177,13 +186,13 @@ private byte[] getClassFromAddedClassPaths( final String className ) // ---
  byte[] result = null;
 
  try {
-    String fileName = className.replace( '.', '/' ) + ".class";
+    final String fileName = className.replace( '.', '/' ) + ".class";
 
     //
     // Lookup the class into all the added class paths (folder)
     //
-    for( File path : paths ) {
-        File f = new File( path, fileName );
+    for( final File path : paths ) {
+        final File f = new File( path, fileName );
 
         if( f.exists() ) {
             result = toBytes( new FileInputStream( f ) );
@@ -194,12 +203,12 @@ private byte[] getClassFromAddedClassPaths( final String className ) // ---
     //
     // Lookup the class into all the added jarfiles
     //
-    for( Map.Entry<File,JarFile> entry :jars.entrySet() ) {
+    for( final Map.Entry<File,JarFile> entry :jars.entrySet() ) {
         //
         //
         //
-        JarFile     jarFile     = entry.getValue();
-        JarEntry    jarEntry    = jarFile.getJarEntry( fileName );
+        final JarFile     jarFile     = entry.getValue();
+        final JarEntry    jarEntry    = jarFile.getJarEntry( fileName );
 
         if( jarEntry != null ) {
             result = toBytes( jarFile.getInputStream( jarEntry ) );
@@ -207,61 +216,66 @@ private byte[] getClassFromAddedClassPaths( final String className ) // ---
             }
         }
     }
- catch( Exception ignore ) {
+ catch( final Exception ignore ) {
     // ignore
     }
 
  return result;
 }
 
-/**
-**
-*/
-@Override
-public URL findResource( final String name ) // ---------------------------
-{
- //
- // Lookup the file into all the added class paths (folder)
- //
- for( File path : paths ) {
-    File f = new File( path, name );
+    @Override
+    public URL findResource( final String name ) // ---------------------------
+    {
+        //
+        // Lookup the file into all the added class paths (folder)
+        //
+        for( final File path : paths ) {
+            final File f = new File( path, name );
 
-    if( f.exists() ) {
-        try {
-            // return f.toURL(); DEPRECATED in java 1.6
-            return f.toURI().toURL();
-            }
-        catch( java.net.MalformedURLException ignore ) {
-            // ignore
-            }
-        }
-    }
-
- //
- // Lookup the file into all the added jarfiles
- //
- for( Map.Entry<File,JarFile> entry :jars.entrySet() ) {
-    JarFile     jarFile     = entry.getValue();
-    JarEntry    jarEntry    = jarFile.getJarEntry( name );
-
-    if( jarEntry != null ) {
-        try {
-            // URL jarURL = entry.getKey().toURL(); DEPRECATED in java 1.6
-            URL jarURL = entry.getKey().toURI().toURL();
-
-            //
-            // The syntax of a JAR URL is: jar:<url>!/{entry}
-            //
-            return new URL( "jar:" + jarURL.toString() + "!/" + jarEntry.getName() );
-            }
-        catch( java.net.MalformedURLException ignore ) {
-            // ignore
+            if( f.exists() ) {
+                try {
+                    // return f.toURL(); DEPRECATED in java 1.6
+                    return f.toURI().toURL();
+                }
+                catch( final MalformedURLException ignore ) {
+                    // ignore: should not be malformed
+                    throw new RuntimeException( name, ignore );
+                }
             }
         }
-    }
 
- return null;
-}
+        //
+        // Lookup the file into all the added jarfiles
+        //
+        for( final Map.Entry<File, JarFile> entry : jars.entrySet() ) {
+            try (final JarFile jarFile = entry.getValue()) {
+                final JarEntry jarEntry = jarFile.getJarEntry( name );
+
+                if( jarEntry != null ) {
+                    try {
+                        // URL jarURL = entry.getKey().toURL(); DEPRECATED in java 1.6
+                        final URL jarURL = entry.getKey().toURI().toURL();
+
+                        //
+                        // The syntax of a JAR URL is: jar:<url>!/{entry}
+                        //
+                        return new URL( "jar:" + jarURL.toString() + "!/" + jarEntry.getName() );
+                    }
+                    catch( final MalformedURLException ignore ) {
+                        // ignore: should not be malformed
+                        throw new RuntimeException( name, ignore );
+                    }
+                }
+            }
+            catch( final IOException ignore ) {
+                // ignore: should not have problem while closing
+                throw new RuntimeException( name, ignore );
+            }
+
+        }
+
+        return null;
+    }
 
 /**
 ** Build a new byte array from the InputStream content.
@@ -325,13 +339,13 @@ public synchronized Class<?> loadClass( // --------------------------------
 {
 
  if( resolveIt ) {
-    ClassLoader parent = getParent();
+    final ClassLoader parent = getParent();
 
     if( parent != null ) {
         try {
             return parent.loadClass( className );
             }
-        catch( ClassNotFoundException ignore ) {
+        catch( final ClassNotFoundException ignore ) {
             // ignore, continue
             }
         }
@@ -354,14 +368,14 @@ try {
 
     return classResult;
     }
-catch( ClassNotFoundException ignore ) {
+catch( final ClassNotFoundException ignore ) {
     // ignore, continue
     }
 
  //
  // Try to load it from the added class paths
  //
- byte[] classData = getClassFromAddedClassPaths( className );
+ final byte[] classData = getClassFromAddedClassPaths( className );
 
  if( classData == null ) {
     throw new ClassNotFoundException( className );
@@ -400,21 +414,3 @@ protected Class<?> findClass( final String name ) // ----------------------
 
 } // class
 
-
-
-/**
-** toBytes
-private byte[] private_getClass( InputStream inputStream ) // -------------
-    throws java.io.IOException
-{
- byte[] result = new byte[ inputStream.available() ];
-
- int len = inputStream.read( result );
-
- if( result.length != len ) {
-    new java.io.IOException( "read error expected : " + result.length + " bytes, read : " + len );
-    }
-
- return result;
-}
-*/
