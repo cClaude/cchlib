@@ -1,15 +1,15 @@
 package com.googlecode.cchlib.io;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -201,11 +201,11 @@ public class FileIteratorTest
             LOGGER.info( "  > not found by Iterator: " + f );
         }
 
-        assertEquals("File count not equals !",allFiles.size(),foundInFileIterator.size());
-        assertEquals("Somes files not founds !",0,notFoundInFileIterator.size());
+        assertEquals( "File count not equals !", allFiles.size(), foundInFileIterator.size() );
+        assertEquals( "Somes files not founds !", 0, notFoundInFileIterator.size() );
 
         // cleanup !
-        IOHelper.deleteTree(dirRootFile);
+        IOHelper.deleteTree( dirRootFile );
 
         res = dirRootFile.exists();
         assertFalse( "Can't delete(): " + dirRootFile, res);

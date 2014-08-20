@@ -58,26 +58,26 @@ public class XMLBuilder
     /**
      * TODOC
      *
-     * @param aNode
+     * @param node
      * @return this object for chaining initialization
      * @throws IOException
      */
-    public XMLBuilder append( final Node aNode ) throws IOException
+    public XMLBuilder append( final Node node ) throws IOException
     {
-        if( aNode.getNodeType() == Node.TEXT_NODE ) {
+        if( node.getNodeType() == Node.TEXT_NODE ) {
             anAppendableObject.append(incTabulation)
                               .append('{')
-                              .append(aNode.getTextContent())
+                              .append(node.getTextContent())
                               .append("}\n");
 
             }
         else {
-            final NodeList nodeList = aNode.getChildNodes();
+            final NodeList nodeList = node.getChildNodes();
             final int len = nodeList.getLength();
 
             anAppendableObject.append(incTabulation)
                               .append('<')
-                              .append(aNode.getNodeName())
+                              .append(node.getNodeName())
                               .append(">    (")
                               .append( Integer.toString( len ) )
                               .append(")\n");
@@ -86,7 +86,7 @@ public class XMLBuilder
 
             anAppendableObject.append(incTabulation)
                               .append("</")
-                              .append(aNode.getNodeName())
+                              .append(node.getNodeName())
                               .append(">\n");
             }
 
