@@ -4,10 +4,10 @@
 ** Description   :
 **
 **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapt� du code de Jason Goldschmidt and Nick Stone
+**                      Adapte du code de Jason Goldschmidt and Nick Stone
 **                      edu.bucknell.net.JDHCP.DHCPOptions
 **                      http://www.eg.bucknell.edu/~jgoldsch/dhcp/
-**                      et bas� sur les RFCs 1700, 2131 et 2132
+**                      et base sur les RFCs 1700, 2131 et 2132
 **  3.02.015 2006.06.22 Claude CHOISNET
 **                      implemente java.io.Serializable
 ** -----------------------------------------------------------------------
@@ -34,47 +34,47 @@ import java.util.TreeMap;
 ** <pre>
 ** CHAMP   OCTETS  DESCRIPTION
 **
-** op          1   Code op�ration du message:/
+** op          1   Code operation du message:/
 **                 type du message. 1 = BOOTREQUEST, 2 = BOOTREPLY
 **
-** htype       1   Adresse mat�rielle, voir la section ARP dans le RFC "Assigned Numbers" ;
+** htype       1   Adresse materielle, voir la section ARP dans le RFC "Assigned Numbers" ;
 **                 par ex., '1' = Ethernet 10Mb.
 **
-** hlen        1   Longueur de l'adresse mat�rielle (par ex. '6' for Ethernet 10Mb).
+** hlen        1   Longueur de l'adresse materielle (par ex. '6' for Ethernet 10Mb).
 **
-** hops        1   Mis � z�ro par le client, utilis� de mani�re optionnelle par les agents
-**                 de relais quand on d�marre via un agent de relais
+** hops        1   Mis e zero par le client, utilise de maniere optionnelle par les agents
+**                 de relais quand on demarre via un agent de relais
 **
-** xid         4   Identifiant de transaction, un nombre al�atoire choisi par le client,
-**                 utilis� par le client et le serveur pour associer les messages et les
-**                 r�ponses entre un client et un serveur
+** xid         4   Identifiant de transaction, un nombre aleatoire choisi par le client,
+**                 utilise par le client et le serveur pour associer les messages et les
+**                 reponses entre un client et un serveur
 **
-** secs        2   Rempli par le client, les secondes s'�coulent depuis le processus
+** secs        2   Rempli par le client, les secondes s'ecoulent depuis le processus
 **                 d'acquisition ou de renouvellement d'adresse du client
 **
 ** flags       2   Drapeaux (voir figure 2).
 **
-** ciaddr      4   Adresse IP des clients, rempli seulement si le client est dans un �tat
-**                 AFFECT�, RENOUVELLEMENT ou REAFFECTATION
-**                 et peut r�pondre aux requ�tes ARP
+** ciaddr      4   Adresse IP des clients, rempli seulement si le client est dans un etat
+**                 AFFECTe, RENOUVELLEMENT ou REAFFECTATION
+**                 et peut repondre aux requetes ARP
 **
 ** yiaddr      4   'votre' (client) adresse IP.
 **
-** siaddr      4   Adresse IP du prochain serveur � utiliser pour le processus de d�marrage;
-**                 retourn�e par le serveur dans DHCPOFFER et DHCPACK.
+** siaddr      4   Adresse IP du prochain serveur e utiliser pour le processus de demarrage;
+**                 retournee par le serveur dans DHCPOFFER et DHCPACK.
 **
-** giaddr      4   Adresse IP de l'agent de relais, utilis�e pour d�marrer via un agent de relais.
+** giaddr      4   Adresse IP de l'agent de relais, utilisee pour demarrer via un agent de relais.
 **
-** chaddr     16   Adresse mat�rielle des clients (Address MAC).
+** chaddr     16   Adresse materielle des clients (Address MAC).
 **
-** sname      64   Nom d'h�te du serveur optionnel, cha�ne de caract�res termin�e par
-**                 un caract�re nul.
+** sname      64   Nom d'hete du serveur optionnel, chaene de caracteres terminee par
+**                 un caractere nul.
 **
-** fichier   128   Nom du fichier de d�marrage, cha�ne termin�e par un caract�re nul;
+** fichier   128   Nom du fichier de demarrage, chaene terminee par un caractere nul;
 **                 nom "generic" ou nul dans le DHCPDISCOVER,
-**                 nom du r�pertoire explicite dans DHCPOFFER.
+**                 nom du repertoire explicite dans DHCPOFFER.
 **
-** options   var   Champ de param�tres optionnels.
+** options   var   Champ de parametres optionnels.
 **
 ** </pre>
 **

@@ -7,7 +7,7 @@
 **  2.00.006 2005.09.30 Claude CHOISNET
 **                      Implemente Iterable<T>
 **  2.01.004 2005.10.03 Claude CHOISNET - Version initiale
-**                      Impl�mente java.io.Serializable
+**                      Implemente java.io.Serializable
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.EmptyIterator

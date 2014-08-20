@@ -41,7 +41,7 @@ private final byte[] buffer;
 private final MD5 md5;
 
 /**
-** Construit un objet {@link MD5TreeSTDLoader} devant �tre initialis�.
+** Construit un objet {@link MD5TreeSTDLoader} devant etre initialise.
 */
 public MD5TreeSTDLoader() // ----------------------------------------------
 {

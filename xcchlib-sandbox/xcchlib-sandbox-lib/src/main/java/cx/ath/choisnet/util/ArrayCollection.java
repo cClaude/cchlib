@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
 ** <p>
-** Cette classe � pour objectif de simplifier les �changes entre les
+** Cette classe e pour objectif de simplifier les echanges entre les
 ** tableaux natif et l'API des collections JAVA.
 ** </p>
 **
@@ -45,13 +45,13 @@ public ArrayCollection() // -----------------------------------------------
 
 /**
 ** <p>
-** Construction d'une {@link java.util.Collection} � partir d'un tableau d'objet
+** Construction d'une {@link java.util.Collection} e partir d'un tableau d'objet
 ** </p>
 **
-** @param array Tableau de valeurs � ajouter dans la collection.
+** @param array Tableau de valeurs e ajouter dans la collection.
 **
 ** <p>
-** Ce constructeur accepte la valeur null pour le param�tre 'array', dans ce
+** Ce constructeur accepte la valeur null pour le parametre 'array', dans ce
 ** cas elle retourne une vide {@link java.util.Collection}, mais valide.
 ** </p>
 */
@@ -71,20 +71,20 @@ public ArrayCollection( final E ... array ) // ----------------------------
 
 /**
 ** <p>
-** Construction d'une {@link java.util.Collection} � partir d'une portion
+** Construction d'une {@link java.util.Collection} e partir d'une portion
 ** d'un tableau d'objet.
 ** </p>
 **
-** @param array     Tableau de valeurs � ajouter dans la collection.
-** @param offset    Indice � partir duquel commencera la copie
+** @param array     Tableau de valeurs e ajouter dans la collection.
+** @param offset    Indice e partir duquel commencera la copie
 ** @param len       Indice de fin de la copie
 **
 ** <p>
-** Construction d'objet Iterator parcourant les objects du tableau � partir
-** de l'indice offset et jusqu'� la position len - 1
+** Construction d'objet Iterator parcourant les objects du tableau e partir
+** de l'indice offset et jusqu'e la position len - 1
 ** </p>
 ** <p>
-** Cette m�thode <b>n'accepte pas</b> la valeur null pour le param�tre 'array'
+** Cette methode <b>n'accepte pas</b> la valeur null pour le parametre 'array'
 ** </p>
 */
 public ArrayCollection( // --------------------------------------------------

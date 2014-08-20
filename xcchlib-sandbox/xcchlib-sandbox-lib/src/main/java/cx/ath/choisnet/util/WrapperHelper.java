@@ -17,7 +17,7 @@ package cx.ath.choisnet.util;
 
 /**
 ** <p>
-**  Classe prenant en charge la transformation de type �l�mentaires.
+**  Classe prenant en charge la transformation de type elementaires.
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -32,8 +32,8 @@ public class WrapperHelper //<T,U> implements Wrappable<T,U>
 {
 
     /**
-    ** Permet de cr�er un objet de type {@link Wrappable} g�rant
-    ** une valeur par d�faut en cas d'�chec de la transformation.
+    ** Permet de creer un objet de type {@link Wrappable} gerant
+    ** une valeur par defaut en cas d'echec de la transformation.
     */
     static class DefaultValueWrapper<T,U> implements Wrappable<T,U>
     {

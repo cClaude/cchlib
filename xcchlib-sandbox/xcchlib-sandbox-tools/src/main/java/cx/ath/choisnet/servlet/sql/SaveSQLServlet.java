@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  ** <P>
- * Servlet prenant en charge la sauvegarde SQL de la base de donn�e (DUMP),
- * ainsi que le t�l�chargement et l'execution de requ�tes SQL.
+ * Servlet prenant en charge la sauvegarde SQL de la base de donnee (DUMP),
+ * ainsi que le telechargement et l'execution de requetes SQL.
  * </P>
  ** 
  ** <PRE>
@@ -44,7 +44,7 @@ public class SaveSQLServlet extends HttpServlet {
     private static final long serialVersionUID = 3L;
 
     /**
-     ** Param�tre de la servlet
+     ** Parametre de la servlet
      */
     public final static String  DUMP_DIRECTORY   = "DUMP_DIRECTORY";
 
@@ -164,7 +164,7 @@ public class SaveSQLServlet extends HttpServlet {
             return nextURL;
         } else if( "TEXT".equals( outputMode ) ) {
             //
-            // Envoi du r�sultat au format TEXT vers le demandeur.
+            // Envoi du resultat au format TEXT vers le demandeur.
             //
             response.setContentType( "text/plain" );
 
@@ -174,7 +174,7 @@ public class SaveSQLServlet extends HttpServlet {
             return null;
         } else if( "SQL".equals( outputMode ) ) {
             //
-            // Envoi du r�sultat au format SQL vers le demandeur.
+            // Envoi du resultat au format SQL vers le demandeur.
             //
             response.setContentType( "text/sql" );
 
@@ -212,7 +212,7 @@ public class SaveSQLServlet extends HttpServlet {
     }
 
     /**
-     ** Retourne une cha�ne formatt�e, compatible avec un nom de fichier
+     ** Retourne une chaene formattee, compatible avec un nom de fichier
      * contenant les date et heure courantes.
      ** 
      ** @return un objet String non null.

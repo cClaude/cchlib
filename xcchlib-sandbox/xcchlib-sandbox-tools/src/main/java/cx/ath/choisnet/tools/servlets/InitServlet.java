@@ -43,7 +43,7 @@ public class InitServlet extends HttpServlet {
     /** Parametre de la servlet */
     public final static String             PERIOD           = "PERIOD";
 
-    /** Param�tre de la servlet */
+    /** Parametre de la servlet */
     public final static String             TASKLIST         = "TASK-LIST";
 
     /**
@@ -75,7 +75,7 @@ public class InitServlet extends HttpServlet {
     private boolean                        cancelTimer      = false;
 
     /**
-     ** Initialisation des param�tres de la servlet
+     ** Initialisation des parametres de la servlet
      */
     @Override
     public void init( // ------------------------------------------------------

@@ -14,7 +14,7 @@
 **                      Ajout de append( java.nio.ByteBuffer )
 **  2.02.037 2005.12.28 Claude CHOISNET
 **                      Modification de clone() utilise maintenant la
-**                      m�thode System.arraycopy()
+**                      methode System.arraycopy()
 **  2.02.042 2006.01.09 Claude CHOISNET
 **                      Ajout du constructeur:
 ** -----------------------------------------------------------------------
@@ -25,9 +25,9 @@
 package cx.ath.choisnet.util;
 
 /**
-** Buffer d'octects � taille variable, � ne pas confondre avec la classe
+** Buffer d'octects e taille variable, e ne pas confondre avec la classe
 ** {@link java.nio.ByteBuffer} (java.nio.ByteBuffer) apparue dans le
-** JDK 1.4. Cette classe est comparable � la classe {@link StringBuffer}.
+** JDK 1.4. Cette classe est comparable e la classe {@link StringBuffer}.
 **
 ** @author Claude CHOISNET
 ** @since   1.53.011
@@ -209,23 +209,23 @@ public void ensureCapacity( final int minimumCapacity ) // ----------------
     final byte[] newBuffer = new byte[ newLength ];
 
     //
-    // Recopie des donn�es
+    // Recopie des donnees
     //
     System.arraycopy( this.buffer, 0, newBuffer, 0, this.buffer.length );
 
     //
-    // Changement de r�f�rence.
+    // Changement de reference.
     //
     this.buffer = newBuffer;
     }
 }
 
 /**
-** Ajoute le tableau de bytes donn�.
+** Ajoute le tableau de bytes donne.
 **
-** @param bytes tableau de bytes � ajouter dans le buffer.
+** @param bytes tableau de bytes e ajouter dans le buffer.
 **
-** @return l'objet ByteBuffer lui-m�me
+** @return l'objet ByteBuffer lui-meme
 */
 public ByteBuffer append( byte[] bytes ) // -------------------------------
 {
@@ -233,14 +233,14 @@ public ByteBuffer append( byte[] bytes ) // -------------------------------
 }
 
 /**
-** Ajoute une partie du tableau de bytes donn�.
+** Ajoute une partie du tableau de bytes donne.
 **
-** @param bytes     tableau de bytes � ajouter dans le buffer.
-** @param offset    position de d�part
+** @param bytes     tableau de bytes e ajouter dans le buffer.
+** @param offset    position de depart
 ** @param len       longueur.
 **
 **
-** @return l'objet ByteBuffer lui-m�me
+** @return l'objet ByteBuffer lui-meme
 */
 public ByteBuffer append( // ----------------------------------------------
     final byte[]    bytes,
@@ -260,11 +260,11 @@ public ByteBuffer append( // ----------------------------------------------
 }
 
 /**
-** Ajout le byte donn�.
+** Ajout le byte donne.
 **
 ** @param b byte a ajouter dans le buffer.
 **
-** @return l'objet ByteBuffer lui-m�me
+** @return l'objet ByteBuffer lui-meme
 */
 public ByteBuffer append( final byte b ) // -------------------------------
 {
@@ -283,7 +283,7 @@ public ByteBuffer append( final byte b ) // -------------------------------
     this.buffer[ this.lastPos ] = b;
     }
 
- this.lastPos++; // doit imp�rativement se trouver apr�s
+ this.lastPos++; // doit imperativement se trouver apres
 
  return this;
 }
@@ -291,7 +291,7 @@ public ByteBuffer append( final byte b ) // -------------------------------
 /**
 ** Ajoute le contenu courant du buffer nioByteBuffer
 **
-** @return l'objet ByteBuffer lui-m�me
+** @return l'objet ByteBuffer lui-meme
 **
 ** @since 2.02.035
 public ByteBuffer _append( final java.nio.ByteBuffer nioByteBuffer ) // ----
@@ -312,11 +312,11 @@ public ByteBuffer _append( final java.nio.ByteBuffer nioByteBuffer ) // ----
 */
 
 /**
-** Ajoute le contenu courant du flux correspondant au channel donn�.
+** Ajoute le contenu courant du flux correspondant au channel donne.
 **
 ** @param channel byte a ajouter dans le buffer.
 **
-** @return l'objet ByteBuffer lui-m�me
+** @return l'objet ByteBuffer lui-meme
 **
 ** @since 2.02.035
 */
@@ -329,13 +329,13 @@ public ByteBuffer append( // ----------------------------------------------
 }
 
 /**
-** Ajoute le contenu courant du flux correspondant au channel donn�.
+** Ajoute le contenu courant du flux correspondant au channel donne.
 **
 ** @param channel       byte a ajouter dans le buffer.
 ** @param bufferSize    taille du buffer utiliser pour le transfert des
-**                      donn�es.
+**                      donnees.
 **
-** @return l'objet ByteBuffer lui-m�me
+** @return l'objet ByteBuffer lui-meme
 **
 ** @since 2.02.035
 */
@@ -368,7 +368,7 @@ public byte[] array() // --------------------------------------------------
  final byte[] bufferCopy = new byte[ this.lastPos ];
 
  //
- // Recopie des donn�es
+ // Recopie des donnees
  //
  System.arraycopy( this.buffer, 0, bufferCopy, 0, bufferCopy.length );
 
@@ -447,7 +447,7 @@ public int compareTo( Object o ) // ---------------------------------------
 public int compareTo( ByteBuffer aByteBuffer ) // -------------------------
 {
  //
- // Recup�re la longueur la plus courte
+ // Recupere la longueur la plus courte
  //
  final int length = this.lastPos < aByteBuffer.lastPos ?  this.lastPos : aByteBuffer.lastPos;
 
@@ -460,7 +460,7 @@ public int compareTo( ByteBuffer aByteBuffer ) // -------------------------
     }
 
  //
- // Ils sont �gaux jusqu'� la position du plus court
+ // Ils sont egaux jusqu'e la position du plus court
  //
  return this.lastPos - aByteBuffer.lastPos;
 }
@@ -548,7 +548,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
  stream.defaultReadObject();
 
  //
- // R�initialisation des champs non sauvegard�s automatiquements
+ // Reinitialisation des champs non sauvegardes automatiquements
  //
  this.buffer = new byte[ stream.readInt() ];
 

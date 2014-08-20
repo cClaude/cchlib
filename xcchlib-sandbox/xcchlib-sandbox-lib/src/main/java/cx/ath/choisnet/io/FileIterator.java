@@ -6,34 +6,34 @@
  **
  **  2.00.005 2005.09.29 Claude CHOISNET
  **  2.01.004 2005.10.03 Claude CHOISNET - Version initiale
- **                      Impl�mente java.io.Serializable
+ **                      Implemente java.io.Serializable
  **                      Ajout de la classe statique DirectoriesOnlyFileFilter
- **                      Ajout de la m�thode statique getCounts( File )
+ **                      Ajout de la methode statique getCounts( File )
  **  2.01.008 2005.10.05 Claude CHOISNET - Version initiale
- **                      Optimisations, reprise de l'impl�mentation de Count
+ **                      Optimisations, reprise de l'implementation de Count
  **                      afin de limiter l'allocations d'objets.
  **  2.01.013 2005.10.09 Claude CHOISNET - Version initiale
  **                      Correction d'un bug lorsqu'un des objects File
- **                      donn� n'existait pas.
+ **                      donne n'existait pas.
  **                      Correction de getCounts( File )
  **  2.01.014 2005.10.11 Claude CHOISNET - Version initiale
  **                      Ajout de la classe statique :
  **                          NoDirectoriesFileFilter
  **  2.01.034 2005.11.22 Claude CHOISNET - Version initiale
- **                      Le dossier initial n'est plus retourn� dans
- **                      l'it�ration, le constructeur � base de plusieurs
+ **                      Le dossier initial n'est plus retourne dans
+ **                      l'iteration, le constructeur e base de plusieurs
  **                      dossier n'est plus disponible.
  **  2.02.006 2005.12.04 Claude CHOISNET - Version initiale
- **                      D� aux nombreux bug de la s�rialisation, cet objet
- **                      n'est plus d�clar� comme "Serializable"
+ **                      De aux nombreux bug de la serialisation, cet objet
+ **                      n'est plus declare comme "Serializable"
  **  2.02.041 2006.01.09 Claude CHOISNET
- **                      Nouvelle version d�r�cursifi�e, bas�e sur
+ **                      Nouvelle version derecursifiee, basee sur
  **                          cx.ath.choisnet.io.FileFolderIterator
- **                      Cette version g�re correctement la s�rialisation,
- **                      utilise moins de m�moire et va plus vite (10%) que
- **                      la version pr�c�dente.
+ **                      Cette version gere correctement la serialisation,
+ **                      utilise moins de memoire et va plus vite (10%) que
+ **                      la version precedente.
  **  3.02.036 2006.08.04 Claude CHOISNET
- **                      Suppression des inner-classes obsol�tes.
+ **                      Suppression des inner-classes obsoletes.
  ** ------------------------------------------------------------------------
  **
  ** cx.ath.choisnet.io.FileIterator
@@ -126,7 +126,7 @@ public class FileIterator extends DirectoryIterator {
      public File computeNext() // --------------------------------------------- throws
      * java.util.NoSuchElementException { File cFile;
      *
-     * if( this.folderFile != null ) { // // Traite le r�pertoire courant // cFile = this.folderFile;
+     * if( this.folderFile != null ) { // // Traite le repertoire courant // cFile = this.folderFile;
      *
      * this.folderFile = null;
      *
@@ -180,7 +180,7 @@ public class FileIterator extends DirectoryIterator {
      ** @since 2.01.004 private void readObject( java.io.ObjectInputStream stream ) // ------------ throws
      *        java.io.IOException, ClassNotFoundException { stream.defaultReadObject();
      *
-     *        // // R�initialisation des champs non sauvegard�s // this.folderContentIndex = stream.readInt();
+     *        // // Reinitialisation des champs non sauvegardes // this.folderContentIndex = stream.readInt();
      *
      *        debugSerilization( "R:" ); }
      */
@@ -258,19 +258,19 @@ public class FileIterator extends DirectoryIterator {
             this.sizeCount = sizeCount;
         }
 
-        /** Nombre de dossiers trouv�s */
+        /** Nombre de dossiers trouves */
         public int getDirectories()
         {
             return this.folderCount;
         }
 
-        /** Nombre de fichiers trouv�s */
+        /** Nombre de fichiers trouves */
         public int getFiles()
         {
             return this.filesCount;
         }
 
-        /** Nombre d'octets de l'ensemble des fichiers trouv�s */
+        /** Nombre d'octets de l'ensemble des fichiers trouves */
         public long getBytes()
         {
             return this.sizeCount;
@@ -305,7 +305,7 @@ public class FileIterator extends DirectoryIterator {
             stream.defaultReadObject();
 
             //
-            // R�initialisation des champs non sauvegard�s
+            // Reinitialisation des champs non sauvegardes
             //
             this.folderCount = stream.readInt();
             this.filesCount = stream.readInt();
@@ -488,7 +488,7 @@ public class FileIterator extends DirectoryIterator {
  */
 
 /**
- ** Permet de filter les fichiers n'�tant pas des dossiers.
+ ** Permet de filter les fichiers n'etant pas des dossiers.
  **
  ** @deprecated use FileFilterHelper
  ** @see FileFilterHelper#directoryFileFilter()

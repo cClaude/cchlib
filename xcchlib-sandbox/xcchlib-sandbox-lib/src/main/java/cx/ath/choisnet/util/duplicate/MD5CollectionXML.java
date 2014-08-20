@@ -27,9 +27,9 @@ import org.w3c.dom.NodeList;
 
 /**
 ** <p>
-** Classe permettant de constuire des flux XML � partir d'un objet
+** Classe permettant de constuire des flux XML e partir d'un objet
 ** {@link MD5Collection} ou  d'un objet {@link MD5FileCollection}
-** et r�ciproquement.
+** et reciproquement.
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -47,7 +47,7 @@ public class MD5CollectionXML
 private static final long serialVersionUID = 1L;
 
 /**
-** Nom de l'�l�ment racine du document XML
+** Nom de l'element racine du document XML
 */
 public final static String ROOT_ELEMENT_NAME
                             = MD5CollectionXML.class.getName();
@@ -68,7 +68,7 @@ public MD5CollectionXML( // -----------------------------------------------
     //
     // Prob. d'initialisation...
     //
-    throw new MD5CollectionXMLException( "�l�ment inattendu '" + rootElement.getTagName() + "'" );
+    throw new MD5CollectionXMLException( "element inattendu '" + rootElement.getTagName() + "'" );
     }
 
  loadFolders( rootElement.getElementsByTagName( "folders" ) );
@@ -89,9 +89,9 @@ public MD5CollectionXML( // -----------------------------------------------
 /**
 ** Sauvegarde l'objet dans un flux sous forme de XML.
 **
-** @param output Objet {@link Appendable} destin� � recevoir le flux XML.
+** @param output Objet {@link Appendable} destine e recevoir le flux XML.
 **
-** @throws java.io.IOException en cas de probl�me lors de l'ajout dans le flux.
+** @throws java.io.IOException en cas de probleme lors de l'ajout dans le flux.
 **
 ** @see #toXML(MD5Collection,Appendable)
 */
@@ -190,10 +190,10 @@ private static SortedSet<String> buildFilesSet( // ------------------------
 /**
 ** Transformation d'un objet {@link MD5Collection} en un flux XML.
 **
-** @param aMD5Collection    Objet {@link MD5Collection} � transformer en XML.
-** @param output            Objet {@link Appendable} destin� � recevoir le flux XML.
+** @param aMD5Collection    Objet {@link MD5Collection} e transformer en XML.
+** @param output            Objet {@link Appendable} destine e recevoir le flux XML.
 **
-** @throws java.io.IOException en cas de probl�me lors de l'ajout dans le flux.
+** @throws java.io.IOException en cas de probleme lors de l'ajout dans le flux.
 */
 public static void toXML( // ----------------------------------------------
     final MD5Collection aMD5Collection,
@@ -207,10 +207,10 @@ public static void toXML( // ----------------------------------------------
 /**
 ** Transformation d'un objet {@link MD5Collection} en un flux XML.
 **
-** @param aMD5FileCollection    Objet {@link MD5Collection} � transformer en XML.
-** @param output                Objet {@link Appendable} destin� � recevoir le flux XML.
+** @param aMD5FileCollection    Objet {@link MD5Collection} e transformer en XML.
+** @param output                Objet {@link Appendable} destine e recevoir le flux XML.
 **
-** @throws java.io.IOException en cas de probl�me lors de l'ajout dans le flux.
+** @throws java.io.IOException en cas de probleme lors de l'ajout dans le flux.
 */
 public static void toXML( // ----------------------------------------------
     final MD5FileCollection aMD5FileCollection,

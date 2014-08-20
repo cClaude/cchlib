@@ -12,7 +12,7 @@
 **                      Ajout de: toMap(MappableHelper,T)
 **  3.02.047 2007.01.20 Claude CHOISNET
 **                      Modification de: toMap(MappableHelper,T) qui accepte
-**                      maintenant les valeurs "null" sur ces deux param�tres.
+**                      maintenant les valeurs "null" sur ces deux parametres.
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.servlet.debug.impl.InfosServletDisplayImpl2

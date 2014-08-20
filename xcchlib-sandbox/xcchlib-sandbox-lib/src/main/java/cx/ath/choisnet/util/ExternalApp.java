@@ -10,17 +10,17 @@
 **  1.51.002 2005.04.28 Claude CHOISNET
 **                      Mise en place d'un premier jet de doc.
 **  2.01.000 2005.09.30 Claude CHOISNET
-**                      La m�thode execute(String, Writer, Writer) est
+**                      La methode execute(String, Writer, Writer) est
 **                      'deprecated'
 **  2.02.034 2005.12.26 Claude CHOISNET
 **                      Ajout de execute( String, InputStream )
 **                      Ajout de execute( String )
-**                      La m�thode execute(String,Reader,String,Writer,String,Writer,String)
+**                      La methode execute(String,Reader,String,Writer,String,Writer,String)
 **                      est 'deprecated'
 **  3.01.011 2005.12.26 Claude CHOISNET
-**                      La m�thode run(String,InputStream,OutputStream,OutputStream)
-**                      est r�introduite, car elle travaille diff�rement
-**                      de la m�thode execute(String,InputStream,OutputStream,OutputStream)
+**                      La methode run(String,InputStream,OutputStream,OutputStream)
+**                      est reintroduite, car elle travaille differement
+**                      de la methode execute(String,InputStream,OutputStream,OutputStream)
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.ExternalApp
@@ -28,8 +28,6 @@
 */
 package cx.ath.choisnet.util;
 
-import cx.ath.choisnet.io.EmptyInputStream;
-import cx.ath.choisnet.io.StreamCopyThread;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -40,9 +38,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import cx.ath.choisnet.io.EmptyInputStream;
+import cx.ath.choisnet.io.StreamCopyThread;
 
 /**
-** <p>Version simplifi�e de la m�thode {@link Runtime#exec(String)}</p>
+** <p>Version simplifiee de la methode {@link Runtime#exec(String)}</p>
 **
 **
 ** @author Claude CHOISNET
@@ -57,14 +57,14 @@ public class ExternalApp
 {
 
 /**
-** Execute la commande donn�e
+** Execute la commande donnee
 **
-** @param command   Chaine contenant la commande � executer
-** @param input     Flux d'entr�e
+** @param command   Chaine contenant la commande e executer
+** @param input     Flux d'entree
 ** @param stdout    Flux de sortie standard
 ** @param stderr    Flux d'erreur
 **
-** @return un int correspondant � la valeur retourn�e par la m�thode
+** @return un int correspondant e la valeur retournee par la methode
 **         exitValue() processus.
 **
 ** @see Process#exitValue()
@@ -82,10 +82,10 @@ public final static int execute( // ---------------------------------------
  int exitValue;
 
  try {
-    Process         process = Runtime.getRuntime().exec( command );
-    InputStream     procIn  = new BufferedInputStream( process.getInputStream() );
-    InputStream     procErr = new BufferedInputStream( process.getErrorStream() );
-    OutputStream    procOut = new BufferedOutputStream( process.getOutputStream() );
+    final Process         process = Runtime.getRuntime().exec( command );
+    final InputStream     procIn  = new BufferedInputStream( process.getInputStream() );
+    final InputStream     procErr = new BufferedInputStream( process.getErrorStream() );
+    final OutputStream    procOut = new BufferedOutputStream( process.getOutputStream() );
     ExternalAppException exception = null;
     int             c;
 
@@ -97,7 +97,7 @@ public final static int execute( // ---------------------------------------
         procOut.flush();
         procOut.close();
         }
-    catch( IOException e ) {
+    catch( final IOException e ) {
         exception = new ExternalAppException(
             "IOException while running extern application",
             e
@@ -124,7 +124,7 @@ public final static int execute( // ---------------------------------------
 
     exitValue = process.exitValue();
     }
- catch( IOException e ) {
+ catch( final IOException e ) {
     throw new ExternalAppException(
         "IOException while running extern application",
         e
@@ -135,19 +135,20 @@ public final static int execute( // ---------------------------------------
 }
 
 /**
-** Execute la commande donn�e, avec un flux d'entr�e vide, cette m�thode
-** est bas�e sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
+** Execute la commande donnee, avec un flux d'entree vide, cette methode
+** est basee sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
 **
-** @param command   commande � executer
+** @param command   commande e executer
 ** @param stdout    Flux de sortie standard
 ** @param stderr    Flux d'erreur
 **
-** @return un int correspondant � la valeur retourn�e par la m�thode
+** @return un int correspondant e la valeur retournee par la methode
 **         exitValue() processus.
 **
 ** @see #execute(String,InputStream,OutputStream,OutputStream)
 ** @see EmptyInputStream
 */
+@SuppressWarnings("resource")
 public final static int execute( // ---------------------------------------
     final String        command,
     final OutputStream  stdout,
@@ -159,7 +160,7 @@ public final static int execute( // ---------------------------------------
 }
 
     /**
-    ** R�sultats de l'execution.
+    ** Resultats de l'execution.
     **
     ** @since 2.02.034
     **
@@ -171,21 +172,21 @@ public final static int execute( // ---------------------------------------
         /**
         ** Tableau de byte correspondant au flux stdout brut.
         **
-        ** @return un byte[] correspondant au flux stdout de la commande execut�.
+        ** @return un byte[] correspondant au flux stdout de la commande execute.
         */
         public byte[] getStdOut(); // - - - - - - - - - - - - - - - - - - -
 
         /**
         ** Tableau de byte correspondant au flux sdterr brut.
         **
-        ** @return un byte[] correspondant au flux sdterr de la commande execut�.
+        ** @return un byte[] correspondant au flux sdterr de la commande execute.
         */
         public byte[] getStdErr(); // - - - - - - - - - - - - - - - - - - -
 
         /**
         ** Entier correspondant au code erreur retour par l'application.
         **
-        ** @return un int contenant la valeur retourn� par l'application.
+        ** @return un int contenant la valeur retourne par l'application.
         **
         ** @see Process#exitValue()
         */
@@ -193,21 +194,21 @@ public final static int execute( // ---------------------------------------
     }
 
     /**
-    ** Implementation priv�e de Output
+    ** Implementation privee de Output
     **
     ** @since 2.02.034
     */
     private static class OutputImpl
         implements Output
     {
-        private byte[] stdout;
-        private byte[] stderr;
-        private int returnCode;
+        private final byte[] stdout;
+        private final byte[] stderr;
+        private final int returnCode;
 
         public OutputImpl( // - - - - - - - - - - - - - - - - - - - - - - -
-                    byte[]  stdout,
-                    byte[]  stderr,
-                    int     returnCode
+                    final byte[]  stdout,
+                    final byte[]  stderr,
+                    final int     returnCode
                     )
         {
             this.stdout     = stdout;
@@ -235,13 +236,13 @@ public final static int execute( // ---------------------------------------
     }
 
 /**
-** Execute la commande donn�e, avec un flux d'entr�e vide, cette m�thode
-** est bas�e sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
+** Execute la commande donnee, avec un flux d'entree vide, cette methode
+** est basee sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
 **
-** @param command   Commande � executer
-** @param input     Flux � envoyer � la commande.
+** @param command   Commande e executer
+** @param input     Flux e envoyer e la commande.
 **
-** @return un Object Output correspondant aux r�sultats du traitement
+** @return un Object Output correspondant aux resultats du traitement
 **
 ** @since 2.02.034
 **
@@ -261,16 +262,17 @@ public final static Output execute( // ------------------------------------
 }
 
 /**
-** Execute la commande donn�e, avec un flux d'entr�e vide, cette m�thode
-** est bas�e sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
+** Execute la commande donnee, avec un flux d'entree vide, cette methode
+** est basee sur {@link #execute(String,InputStream,OutputStream,OutputStream)}
 **
-** @param command   Commande � executer
+** @param command   Commande e executer
 **
-** @return un Object Output correspondant aux r�sultats du traitement
+** @return un Object Output correspondant aux resultats du traitement
 **
 ** @since 2.02.034
 **
 */
+@SuppressWarnings("resource")
 public final static Output execute( // ------------------------------------
     final String command
     )
@@ -280,19 +282,19 @@ public final static Output execute( // ------------------------------------
 }
 
 /**
-** Execute la commande donn�e, commande �quivalente �
+** Execute la commande donnee, commande equivalente e
 ** {@link #execute(String,InputStream,OutputStream,OutputStream)}
-** mais � la diff�rence de cette derni�re les flux sont copi�s
-** � l'aide de {@link StreamCopyThread} permettant un traitement
-** assynchrone des flux. Par ailleurs la fin de la t�che est
-** trait� � l'aide de {@link Process#waitFor()}.
+** mais e la difference de cette derniere les flux sont copies
+** e l'aide de {@link StreamCopyThread} permettant un traitement
+** assynchrone des flux. Par ailleurs la fin de la teche est
+** traite e l'aide de {@link Process#waitFor()}.
 **
-** @param command   Chaine contenant la commande � executer
-** @param input     Flux d'entr�e
+** @param command   Chaine contenant la commande e executer
+** @param input     Flux d'entree
 ** @param stdout    Flux de sortie standard
 ** @param stderr    Flux d'erreur
 **
-** @return un int correspondant � la valeur retourn�e par la m�thode
+** @return un int correspondant e la valeur retournee par la methode
 **         {@link Process#waitFor()}. processus.
 **
 ** @see Process#waitFor()
@@ -314,14 +316,11 @@ public final static int run( // -------------------------------------------
  int exitValue;
 
  try {
-    Process process = Runtime.getRuntime().exec( command );
+    final Process process = Runtime.getRuntime().exec( command );
 
-    StreamCopyThread procOutThread  = new StreamCopyThread( "OutputStream"  , input, process.getOutputStream() );
-    StreamCopyThread procInThread   = new StreamCopyThread( "InputStream"   , process.getInputStream(), stdout );
-    StreamCopyThread procErrThread  = new StreamCopyThread( "ErrorStream"   , process.getErrorStream(), stderr );
-
-    ExternalAppException exception = null;
-    int             c;
+    final StreamCopyThread procOutThread  = new StreamCopyThread( "OutputStream"  , input, process.getOutputStream() );
+    final StreamCopyThread procInThread   = new StreamCopyThread( "InputStream"   , process.getInputStream(), stdout );
+    final StreamCopyThread procErrThread  = new StreamCopyThread( "ErrorStream"   , process.getErrorStream(), stderr );
 
     procOutThread.start();
     procInThread.start();
@@ -333,7 +332,7 @@ public final static int run( // -------------------------------------------
     procInThread.cancel();
     procErrThread.cancel();
     }
- catch( IOException e ) {
+ catch( final IOException e ) {
     throw new ExternalAppException(
         "IOException while running extern application",
         e
@@ -344,9 +343,9 @@ public final static int run( // -------------------------------------------
 }
 
 /**
-** Excute la commande donn�e
+** Excute la commande donnee
 **
-** @param command           commande � executer
+** @param command           commande e executer
 ** @param input
 ** @param inputCharsetName
 ** @param stdout
@@ -354,7 +353,7 @@ public final static int run( // -------------------------------------------
 ** @param stderr
 ** @param stderrCharsetName
 **
-** @return un int correspondant � la valeur retourn�e par la m�thode
+** @return un int correspondant e la valeur retournee par la methode
 **         exitValue() processus.
 **
 ** @see Process#exitValue()
@@ -373,7 +372,7 @@ public final static int run( // -------------------------------------------
 **      stderr, "Cp850"
 **      );
 ** </pre>
-** Peut �tre remplac� par<br />
+** Peut etre remplace par<br />
 ** <pre>
 **  Writer stdout = ...
 **  Writer stderr = ...
@@ -423,10 +422,10 @@ public final static int execute( // ---------------------------------------
  int exitValue;
 
  try {
-    Process process = Runtime.getRuntime().exec( command );
-    Writer  procOut = new OutputStreamWriter( process.getOutputStream() , inputCharsetName  );
-    Reader  procIn  = new InputStreamReader(  process.getInputStream()  , stdoutCharsetName );
-    Reader  procErr = new InputStreamReader(  process.getErrorStream()  , stderrCharsetName );
+    final Process process = Runtime.getRuntime().exec( command );
+    final Writer  procOut = new OutputStreamWriter( process.getOutputStream() , inputCharsetName  );
+    final Reader  procIn  = new InputStreamReader(  process.getInputStream()  , stdoutCharsetName );
+    final Reader  procErr = new InputStreamReader(  process.getErrorStream()  , stderrCharsetName );
 
     ExternalAppException exception = null;
     int             c;
@@ -439,7 +438,7 @@ public final static int execute( // ---------------------------------------
         procOut.flush();
         procOut.close();
         }
-    catch( IOException e ) {
+    catch( final IOException e ) {
         exception = new ExternalAppException(
             "IOException while running extern application",
             e
@@ -466,7 +465,7 @@ public final static int execute( // ---------------------------------------
 
     exitValue = process.exitValue();
     }
- catch( IOException e ) {
+ catch( final IOException e ) {
     throw new ExternalAppException(
         "IOException while running extern application",
         e
@@ -477,19 +476,20 @@ public final static int execute( // ---------------------------------------
 }
 
 /**
-** Excute la commande donn�e, avec un flux d'entr�e vide
+** Excute la commande donnee, avec un flux d'entree vide
 **
-** @param command   commande � executer
+** @param command   commande e executer
 ** @param stdout
 ** @param stderr
 **
-** @return un int correspondant � la valeur retourn�e par la m�thode
+** @return un int correspondant e la valeur retournee par la methode
 **         exitValue() processus.
 **
 ** @see #execute( String, Reader, String, Writer, String, Writer, String )
 **
 ** @deprecated use execute(String,InputStream,OutputStream,OutputStream)
 */
+@SuppressWarnings("resource")
 @Deprecated
 public final static int execute( // ---------------------------------------
     final String    command,

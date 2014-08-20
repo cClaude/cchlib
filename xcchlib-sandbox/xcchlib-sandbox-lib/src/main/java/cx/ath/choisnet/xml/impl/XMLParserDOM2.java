@@ -68,8 +68,8 @@ public class XMLParserDOM2
     };
 
     /**
-    ** Pas de validation, les commentaires sont gard�s,
-    ** les WHITESPACE sont ignor�s.
+    ** Pas de validation, les commentaires sont gardes,
+    ** les WHITESPACE sont ignores.
     **
     ** @see Attributs#IGNORE_WHITESPACE
     */
@@ -83,7 +83,7 @@ public class XMLParserDOM2
                             );
 
     /**
-    ** Seule la validation est activ�e.
+    ** Seule la validation est activee.
     **
     ** @see Attributs#ENABLE_VALIDATING
     */

@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.Iterator;
 
 /**
-** Objectif de l'interface traiter des algorithmes g�n�riques de filtrage.
+** Objectif de l'interface traiter des algorithmes generiques de filtrage.
 **
 ** @author Claude CHOISNET
 ** @since   3.02.008
@@ -43,15 +43,15 @@ public CollectionFilterImpl( final Selectable<T> selector ) // ------------
 }
 
 /**
-** Filtre une collection d'�l�ment pour obtenir un sous ensemble de
+** Filtre une collection d'element pour obtenir un sous ensemble de
 ** cette liste.
 **
-** @param elements Collections d'�l�ments, ce param�tre ne doit pas �tre
-**        null, mais la collection peut �ventuellement �tre vide.
+** @param elements Collections d'elements, ce parametre ne doit pas etre
+**        null, mais la collection peut eventuellement etre vide.
 **
-** @return un Collections d'�l�ments, sous ensemble de la collection don�e,
-**         ne retourne jamais null, mais le r�sultat peut �ventullement
-**         �tre une collection vide.
+** @return un Collections d'elements, sous ensemble de la collection donee,
+**         ne retourne jamais null, mais le resultat peut eventullement
+**         etre une collection vide.
 */
 @Override
 public Collection<T> apply( final Collection<T> elements ) // -------------

@@ -19,8 +19,8 @@ import javax.servlet.ServletException;
 import cx.ath.choisnet.sql.mysql.MySQLAdmin;
 
 /**
-** <P>Classe prenant en charge l'excution des req�etes SQL vers
-** une base de donn�e MySQL en utilisant les commandes
+** <P>Classe prenant en charge l'excution des reqeetes SQL vers
+** une base de donnee MySQL en utilisant les commandes
 ** d'administration de la base.
 ** </P>
 **
@@ -33,22 +33,22 @@ public class MySQLAdminFactory
 //    extends MySQLAdmin
 {
 /**
-** Param�tre de la servlet
+** Parametre de la servlet
 */
 public final static String MYSQL_EXE = "MYSQL_EXE";
 
 /**
-** Param�tre de la servlet
+** Parametre de la servlet
 */
 public final static String MYSQL_EXE_PARAMS = "MYSQL_EXE_PARAMS";
 
 /**
-** Param�tre de la servlet
+** Parametre de la servlet
 */
 public final static String MYSQL_DUMP_EXE = "MYSQL_DUMP_EXE";
 
 /**
-** Param�tre de la servlet
+** Parametre de la servlet
 */
 public final static String MYSQL_DUMP_EXE_PARAMS = "MYSQL_DUMP_EXE_PARAMS";
 
@@ -73,7 +73,7 @@ protected String mySQLDumpParams;
 */
 
 /**
-** Initialisation � partir de la servlet
+** Initialisation e partir de la servlet
 public MySQLAdminFactory( ServletConfig servletConfig ) // ----------------
     throws ServletException
 {
@@ -82,7 +82,7 @@ public MySQLAdminFactory( ServletConfig servletConfig ) // ----------------
 */
 
 /**
-** Initialisation � partir de la servlet
+** Initialisation e partir de la servlet
 */
 public static MySQLAdmin build( ServletConfig servletConfig ) // ----------
     throws ServletException
@@ -212,8 +212,8 @@ public void createSQLDumpFile( // -----------------------------------------
 */
 
 /**
-** <P>NOTE: Les paramt�res <code>servletOuput</code> et <code>outputFile</code>
-** ne doivent pas �tre null en m�me temps.</P>
+** <P>NOTE: Les paramteres <code>servletOuput</code> et <code>outputFile</code>
+** ne doivent pas etre null en meme temps.</P>
 **
 ** @param   servletOuput    Flux de la servlet ou null
 ** @param   outputFile      Fichier de sortie ou null

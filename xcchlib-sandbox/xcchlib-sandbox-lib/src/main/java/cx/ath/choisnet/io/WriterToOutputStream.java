@@ -45,7 +45,7 @@ public WriterToOutputStream( // -------------------------------------------
     final Writer writer
     )
 {
- this( writer, Charset.defaultCharset() ); // N�cessite le jdk 1.5
+ this( writer, Charset.defaultCharset() ); // Necessite le jdk 1.5
 }
 
 /**

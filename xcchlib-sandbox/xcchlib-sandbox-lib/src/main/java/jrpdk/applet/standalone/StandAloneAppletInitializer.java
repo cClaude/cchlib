@@ -35,7 +35,7 @@ protected StandAloneAppletInitializer( // ---------------------------------
     )
 {
  //
- // Initialisation des informations permettant de compl�ter la class Applet
+ // Initialisation des informations permettant de completer la class Applet
  //
  File file = new File( "." );
 
@@ -52,7 +52,7 @@ protected StandAloneAppletInitializer( // ---------------------------------
 
 
 /**
-** M�thode permettant de compl�ter la classe java.applet.Applet
+** Methode permettant de completer la classe java.applet.Applet
 */
 @Override
 public URL getDocumentBase() // -------------------------------------------
@@ -61,7 +61,7 @@ public URL getDocumentBase() // -------------------------------------------
 }
 
 /**
-** M�thode permettant de compl�ter la classe java.applet.Applet
+** Methode permettant de completer la classe java.applet.Applet
 */
 @Override
 public URL getCodeBase() // -----------------------------------------------
@@ -70,7 +70,7 @@ public URL getCodeBase() // -----------------------------------------------
 }
 
 /**
-** M�thode permettant de compl�ter la classe java.applet.Applet
+** Methode permettant de completer la classe java.applet.Applet
 */
 @Override
 public AppletContext getAppletContext() // --------------------------------
@@ -79,24 +79,24 @@ public AppletContext getAppletContext() // --------------------------------
 }
 
 /**
-** Contruction d'un initialiser par d�faut � partir des arguments.
+** Contruction d'un initialiser par defaut e partir des arguments.
 ** <P>
-** M�thode permettant de compl�ter la classe java.applet.Applet, en
-** particuli� la m�thode getParameter().
+** Methode permettant de completer la classe java.applet.Applet, en
+** particulie la methode getParameter().
 ** <P>
-** La m�thode tentera de construire un initialiser � avec le fichier
-** HTML en cas d'�chec, avec le fichier properties et enfin avec
-** le tableau de cha�ne.
+** La methode tentera de construire un initialiser e avec le fichier
+** HTML en cas d'echec, avec le fichier properties et enfin avec
+** le tableau de chaene.
 ** <P>
-** <B>Actuellement le param�tre HTMLFileName est ignor�</B>
+** <B>Actuellement le parametre HTMLFileName est ignore</B>
 **
 ** @param HTMLFileName          URL d'un fichier HTML depuis lequel les
-**                              param�tres seront lus.
+**                              parametres seront lus.
 ** @param propertiesFileName    Nom d'un fichier properties depuis lequel
-**                              les param�tres seront lus.
-** @param args                  Tableau de cha�ne en provenance de la
-**                              m�thode statique main() depuis lequel les
-**                              param�tres seront lus.
+**                              les parametres seront lus.
+** @param args                  Tableau de chaene en provenance de la
+**                              methode statique main() depuis lequel les
+**                              parametres seront lus.
 **
 **
 */

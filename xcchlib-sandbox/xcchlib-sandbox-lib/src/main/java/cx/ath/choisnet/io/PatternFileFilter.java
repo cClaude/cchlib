@@ -21,12 +21,12 @@ import java.util.regex.Pattern;
 /**
 ** <p>
 ** Permet de construire un {@link java.io.FileFilter} en utilisant
-** les expressions r�guli�res.
+** les expressions regulieres.
 ** </p>
 ** La vue {@link java.io.FileFilter} permet de faire une recherche sur le
 ** nom complet du fichier ({@link #accept(File)}), alors que la vue
 ** {@link java.io.FilenameFilter} permet de faire une recherche uniquement
-** bas�e sur le nom du fichier ({@link #accept(File,String)}).
+** basee sur le nom du fichier ({@link #accept(File,String)}).
 **
 ** @author Claude CHOISNET
 ** @since   3.01.031
@@ -70,10 +70,10 @@ public PatternFileFilter( // ----------------------------------------------
 }
 
 /**
-** Retourne true si le chemin complet du fichier correspont � l'expression
-** r�guli�re.
+** Retourne true si le chemin complet du fichier correspont e l'expression
+** reguliere.
 **
-** @param file  Fichier � tester
+** @param file  Fichier e tester
 **
 ** @see java.io.FileFilter#accept(File)
 ** @see File#getPath()
@@ -85,11 +85,11 @@ public boolean accept( final File file ) // -------------------------------
 }
 
 /**
-** Retourne true si le nom du fichier correspont � l'expression
-** r�guli�re.
+** Retourne true si le nom du fichier correspont e l'expression
+** reguliere.
 **
-** @param dir   Objet File du dossier courant (ignor�)
-** @param name  Nom du fichier � tester.
+** @param dir   Objet File du dossier courant (ignore)
+** @param name  Nom du fichier e tester.
 **
 ** @see java.io.FilenameFilter#accept(File,String)
 */
@@ -100,8 +100,8 @@ public boolean accept( final File dir, final String name ) // -------------
 }
 
 /**
-** Retourne un object {@link java.io.FileFilter}, cette m�thode est
-** destin�e � lever les ambiguit�es.
+** Retourne un object {@link java.io.FileFilter}, cette methode est
+** destinee e lever les ambiguitees.
 **
 ** @see #asFilenameFilter()
 **
@@ -113,8 +113,8 @@ public java.io.FileFilter asFileFilter() // -------------------------------
 }
 
 /**
-** Retourne un object {@link java.io.FilenameFilter}, cette m�thode est
-** destin�e � lever les ambiguit�es.
+** Retourne un object {@link java.io.FilenameFilter}, cette methode est
+** destinee e lever les ambiguitees.
 **
 ** @see #asFileFilter()
 **

@@ -6,7 +6,7 @@
 **
 **  1.00.000 2005.03.17 Claude CHOISNET
 **  3.01.025 2006.04.18 Claude CHOISNET
-**                      Correction d'un bug sur la m�thode: available()
+**                      Correction d'un bug sur la méthode: available()
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.io.ConcateInputStream

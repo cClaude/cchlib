@@ -5,9 +5,9 @@
 **
 **  2.00.005 2005.09.29 Claude CHOISNET - Version initiale
 **  2.01.015 2005.10.14 Claude CHOISNET
-**                      Impl�mente Iterable<T>
+**                      Implemente Iterable<T>
 **  3.02.006 2006.06.06 Claude CHOISNET
-**                      Cette version impl�mente la nouvelle interface
+**                      Cette version implemente la nouvelle interface
 **                      cx.ath.choisnet.util.IterableIterator
 ** -----------------------------------------------------------------------
 **
@@ -19,7 +19,7 @@ package cx.ath.choisnet.util;
 import java.util.Iterator;
 
 /**
-** Permet de construire des {@link Iterator} uniquement � l'aide de la m�thode
+** Permet de construire des {@link Iterator} uniquement e l'aide de la methode
 ** computeNext()
 **
 ** @author Claude CHOISNET
@@ -57,7 +57,7 @@ public boolean hasNext() // -----------------------------------------------
 {
  if( nextObject == null ) {
     //
-    // L'objet suivant n'est pas pr�t, on le prepare
+    // L'objet suivant n'est pas pret, on le prepare
     //
     try {
         nextObject = computeNext();
@@ -71,7 +71,7 @@ public boolean hasNext() // -----------------------------------------------
     }
 
  //
- // L'object suivant est pr�t et valide !
+ // L'object suivant est pret et valide !
  //
  return true;
 }
@@ -87,7 +87,7 @@ public T next() // --------------------------------------------------------
 {
  if( nextObject == null ) {
     //
-    // L'objet suivant n'est pas pr�t, on le prepare
+    // L'objet suivant n'est pas pret, on le prepare
     //
     //  Note: on sort en NoSuchElementException s'il n'existe pas
     //
@@ -95,7 +95,7 @@ public T next() // --------------------------------------------------------
     }
 
  //
- // On sauvegarde l'�l�ment courant
+ // On sauvegarde l'element courant
  //
  T returnObject = nextObject;
 

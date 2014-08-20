@@ -17,7 +17,7 @@ import java.io.Writer;
 /**
 ** <p>
 ** Classe permettant de contruire des flux XML
-** Ecrit le flux en transformant les caract�res sp�ciaux en leur �quivalent
+** Ecrit le flux en transformant les caracteres speciaux en leur equivalent
 ** HTML
 ** </p>
 **
@@ -44,7 +44,7 @@ private final Writer writer;
 private final StringBuilder sbuffer;
 
 /**
-** Cr�ation d'un nouvel objet {@link XMLWriter}
+** Creation d'un nouvel objet {@link XMLWriter}
 */
 public XMLWriter( // ------------------------------------------------------
     final Writer writer

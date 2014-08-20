@@ -60,10 +60,10 @@ protected AbstractMD5FileCollection() // ----------------------------------
 }
 
 /**
-** Retourne un ensemble, non modifiable, de chaines repr�sentant le
+** Retourne un ensemble, non modifiable, de chaines representant le
 ** le nom relatif de l'ensemble des dossiers connus de cette collection.
 **
-** @return un objet Set<String> non null, mais �ventuellement vide.
+** @return un objet Set<String> non null, mais eventuellement vide.
 */
 @Override
 final
@@ -74,9 +74,9 @@ public Set<File> getFolderFiles() // --------------------------------------
 
 /**
 ** Retourne un dictionnaire, non modifiable, des fichiers sous forme d'un
-** object Map contenant un couple form� de l'empreinte du fichier {@link MD5TreeEntry}
-** et d'un ensemble de cha�ne repr�sentant le nom relatif de chacune des
-** instances de ce fichier (il doit y avoir au moins une entr�e).
+** object Map contenant un couple forme de l'empreinte du fichier {@link MD5TreeEntry}
+** et d'un ensemble de chaene representant le nom relatif de chacune des
+** instances de ce fichier (il doit y avoir au moins une entree).
 **
 ** @return un Map<MD5TreeEntry,? extends Set<String>> non null, et non vide.
 */
@@ -88,13 +88,13 @@ public Map<MD5TreeEntry,? extends Set<File>> getEntryFiles() // -----------
 }
 
 /**
-** Retourne l'ensemble des noms de fichier relatifs correspondant �
-** l'empreinte donn�e.
+** Retourne l'ensemble des noms de fichier relatifs correspondant e
+** l'empreinte donnee.
 **
-** @param md5 Empreinte recherch�e
+** @param md5 Empreinte recherchee
 **
 ** @return un Set<String> si au moins un fichier correspond au MD5TreeEntry
-** donn�, retourne null autrement.
+** donne, retourne null autrement.
 */
 @Override
 final
@@ -116,11 +116,11 @@ public void computeEntryCount() // ----------------------------------------
 
 /**
 ** Retourne le nombre de fichiers contenu dans la collection. Cette valeur
-** �tant cach�e, si la collection est modifi�e, elle devrait �tre
-** r�initialis�e {@link #computeEntryCount()}.
+** etant cachee, si la collection est modifiee, elle devrait etre
+** reinitialisee {@link #computeEntryCount()}.
 **
-** @return un int correspondant au nombre de fichiers (hors dossier) �tant
-**         d�fini dans la collection.
+** @return un int correspondant au nombre de fichiers (hors dossier) etant
+**         defini dans la collection.
 **
 ** @see #computeEntryCount()
 */
@@ -145,7 +145,7 @@ final
 public int compareTo( final MD5FileCollection anOtherCollection ) // ------
 {
  if( super.equals( anOtherCollection ) ) {
-    return 0; // on s'arr�te l�, c'est le m�me objet !
+    return 0; // on s'arrete le, c'est le meme objet !
     }
 
  return MD5CollectionHelper.compare( this, anOtherCollection );
@@ -159,7 +159,7 @@ final
 public boolean equals( final MD5FileCollection anOtherCollection ) // -----
 {
  if( super.equals( anOtherCollection ) ) {
-    return true; // on s'arr�te l�, c'est le m�me objet !
+    return true; // on s'arrete le, c'est le meme objet !
     }
 
  return MD5CollectionHelper.compare( this, anOtherCollection ) == 0;

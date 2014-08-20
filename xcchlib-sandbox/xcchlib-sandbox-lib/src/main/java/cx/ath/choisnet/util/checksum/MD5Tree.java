@@ -10,13 +10,13 @@
 **                      Ajout de l'interface AppendFileListener et
 **                      prise en compte
 **  2.02.011 2005.12.15 Claude CHOISNET
-**                      Bug min: fermeture du flux d'acc�s aux fichiers.
+**                      Bug min: fermeture du flux d'acces aux fichiers.
 **  2.02.037 2005.10.25 Claude CHOISNET
 **                      Ajout de l'interface Loader et externalisation
 **                      du chargeur.
-**                      Le buffer par d�faut passe de 8ko � 1Mo
+**                      Le buffer par defaut passe de 8ko e 1Mo
 **  3.00.003 2006.02.14 Claude CHOISNET
-**                      Les classes statiques sont �galement Serializable
+**                      Les classes statiques sont egalement Serializable
 **  3.01.003 2006.03.01 Claude CHOISNET
 **                      Les inner-class NullExceptionHandler et
 **                      NullAppendFileListener sont maintenant static
@@ -52,18 +52,18 @@ public class MD5Tree
 /** serialVersionUID */
 private static final long serialVersionUID = 2L;
 
-/** Taille par d�faut du buffer */
+/** Taille par defaut du buffer */
 private static final int DEFAULT_BUFFER_SIZE = 1048576; // 1 Mo
 
 /** Noeud racine */
 private MD5TreeNode rootNode;
 
     /**
-    ** Gestion des erreurs lors de l'ajout de nouvelles entr�es.
+    ** Gestion des erreurs lors de l'ajout de nouvelles entrees.
     */
     public interface ExceptionHandler
     {
-        /** M�thode appell�e lors d'un probl�me d'E/S */
+        /** Methode appellee lors d'un probleme d'E/S */
         public void handleIOException( File file, java.io.IOException e )
             throws java.io.IOException;
 
@@ -72,12 +72,12 @@ private MD5TreeNode rootNode;
     }
 
     /**
-    ** Interface � utiliser pour suivre les traitements.
+    ** Interface e utiliser pour suivre les traitements.
     */
     public interface AppendFileListener
     {
         /**
-        ** M�thode appell�e lors du traitement d'un fichier
+        ** Methode appellee lors du traitement d'un fichier
         **
         ** @param file Object file correspondant au fichier en cours de
         **             traitement.
@@ -85,7 +85,7 @@ private MD5TreeNode rootNode;
         public void appendFile( File file ); // - - - - - - - - - - - - - -
 
         /**
-        ** M�thode appell�e lors du traitement d'un dossier
+        ** Methode appellee lors du traitement d'un dossier
         **
         ** @param file Object file correspondant au dossier en cours de
         **             traitement.
@@ -94,7 +94,7 @@ private MD5TreeNode rootNode;
     }
 
     /**
-    ** Interface devant �tre impl�ment�e par les classes prendant
+    ** Interface devant etre implementee par les classes prendant
     ** en charge l'initialisation d'un object {@link MD5Tree}
     **
     ** @since   2.02.037
@@ -102,11 +102,11 @@ private MD5TreeNode rootNode;
     public interface Loader
     {
         /**
-        ** Cr�ation d'une nouvelle instance pr�te � �tre utilis�e.
+        ** Creation d'une nouvelle instance prete e etre utilisee.
         **
         ** @param appendFileListener    Ecouteur
         ** @param errorHandler          Gestionnaire d'erreur.
-        ** @param bufferSize            Taille du buffer utilis� pour
+        ** @param bufferSize            Taille du buffer utilise pour
         **                              le calcul MD5.
         */
         public Loader newInstance( // - - - - - - - - - - - - - - - - - - -
@@ -116,12 +116,12 @@ private MD5TreeNode rootNode;
             );
 
         /**
-        ** Ajout du dossier principal (cette m�thode peut �ventuellement
-        ** �tre appell�e r�cursivement).
+        ** Ajout du dossier principal (cette methode peut eventuellement
+        ** etre appellee recursivement).
         **
         ** @param node      Noeud courant.
-        ** @param folder    Objet File correspondant au dossier � analyser
-        **                  (r�cursivement).
+        ** @param folder    Objet File correspondant au dossier e analyser
+        **                  (recursivement).
         */
         public void addFolder( // - - - - - - - - - - - - - - - - - - - - -
             MD5TreeNode node,
@@ -141,9 +141,9 @@ public MD5Tree() // -------------------------------------------------------
 }
 
 /**
-** Chargement d'un MD5Tree � partir d'un dossier donn�
+** Chargement d'un MD5Tree e partir d'un dossier donne
 **
-** @return un r�f�rence vers l'objet lui-m�me.
+** @return un reference vers l'objet lui-meme.
 */
 public MD5Tree load( // ---------------------------------------------------
     final File                  rootFolderFile,
@@ -166,9 +166,9 @@ public MD5Tree load( // ---------------------------------------------------
 }
 
 /**
-** Chargement d'un MD5Tree � partir d'un dossier donn�
+** Chargement d'un MD5Tree e partir d'un dossier donne
 **
-** @return un r�f�rence vers l'objet lui-m�me.
+** @return un reference vers l'objet lui-meme.
 */
 public MD5Tree load( // ---------------------------------------------------
     final File                  rootFolderFile,
@@ -190,9 +190,9 @@ public MD5Tree load( // ---------------------------------------------------
 }
 
 /**
-** Chargement d'un MD5Tree � partir d'un dossier donn�
+** Chargement d'un MD5Tree e partir d'un dossier donne
 **
-** @return un r�f�rence vers l'objet lui-m�me.
+** @return un reference vers l'objet lui-meme.
 */
 public MD5Tree load( // ---------------------------------------------------
     final File                  rootFolderFile,
@@ -205,9 +205,9 @@ public MD5Tree load( // ---------------------------------------------------
 }
 
 /**
-** Chargement d'un MD5Tree � partir d'un dossier donn�
+** Chargement d'un MD5Tree e partir d'un dossier donne
 **
-** @return un r�f�rence vers l'objet lui-m�me.
+** @return un reference vers l'objet lui-meme.
 */
 public MD5Tree load( // ---------------------------------------------------
     final File              rootFolderFile,

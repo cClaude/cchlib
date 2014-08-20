@@ -4,12 +4,12 @@
 ** Description   :
 **
 **  2.01.015 2005.10.14 Claude CHOISNET - Version initiale
-**                      Impl�mente Iterable<T>
+**                      Implemente Iterable<T>
 **  2.01.020 2005.10.20 Claude CHOISNET
 **                      Ajout du constructeur :
 **                          IteratorWrapper(Collection<T>,Wrappable<T,U>)
 **  3.02.007 2006.06.07 Claude CHOISNET
-**                      Impl�mente IterableIterator<U>
+**                      Implemente IterableIterator<U>
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.IteratorWrapper
@@ -21,8 +21,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
-** Permet de construire des {@link Iterator} � partir d'un autre Iterateur
-** en changeant de type � la vol�e.
+** Permet de construire des {@link Iterator} e partir d'un autre Iterateur
+** en changeant de type e la volee.
 **
 ** @author Claude CHOISNET
 ** @since   2.01.015

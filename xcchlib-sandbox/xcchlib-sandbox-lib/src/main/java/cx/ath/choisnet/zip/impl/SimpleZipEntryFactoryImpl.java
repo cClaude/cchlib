@@ -7,7 +7,7 @@
 **  2.01.019 2005.10.18 Claude CHOISNET - Version initiale
 **  2.01.020 2005.10.19 Claude CHOISNET
 **                      Refonte de la classe.
-**                      G�re le cas des dossiers.
+**                      Gere le cas des dossiers.
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.zip.impl.SimpleZipEntryFactoryImpl

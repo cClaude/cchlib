@@ -5,9 +5,9 @@
 ** Encodage      : ANSI
 **
 **  2.01.030 2005.11.10 Claude CHOISNET - Version initiale
-**                      Le code de getUserAgent() est exp�rimental.
+**                      Le code de getUserAgent() est experimental.
 **  3.01.018 2006.04.11 Claude CHOISNET
-**                      La m�thode getUserAgent() est deprecated,
+**                      La methode getUserAgent() est deprecated,
 **                      Ajout de getUserAgentDetails()
 **  3.01.033 2006.04.11 Claude CHOISNET
 **                      Ajout de getCookie(String)
@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
 ** <p>
-** Impl�mentation basique de {@link cx.ath.choisnet.servlet.SimpleServletRequest}
+** Implementation basique de {@link cx.ath.choisnet.servlet.SimpleServletRequest}
 ** </p>
 **
 ** @see javax.servlet.http.HttpServletRequest
@@ -199,7 +199,7 @@ public ParameterValue getParameter( final String paramName ) // -----------
 
 /**
 ** <p>
-** Le code de cette m�thode est encore exp�rimental.
+** Le code de cette methode est encore experimental.
 ** </p>
 **
 **
@@ -317,7 +317,7 @@ public EnumSet<UserAgent> getUserAgentDetails() // ------------------------
 }
 
 /**
-** Bas� sur la documentation Micr*s*ft :
+** Base sur la documentation Micr*s*ft :
 ** <a href="http://msdn.microsoft.com/workshop/author/dhtml/overview/aboutuseragent.asp">
 ** http://msdn.microsoft.com/workshop/author/dhtml/overview/aboutuseragent.asp
 ** </a>
@@ -384,7 +384,7 @@ private EnumSet<UserAgent> getOSForIE( final String userAgent ) // --------
 }
 
 /**
-** Bas� sur la documentation :
+** Base sur la documentation :
 ** <a href="http://www.mozilla.org/build/revised-user-agent-strings.html">
 ** http://www.mozilla.org/build/revised-user-agent-strings.html
 ** </a>
@@ -400,7 +400,7 @@ private EnumSet<UserAgent> getOSForMozilla( final String userAgent ) // ---
     details.add( UserAgent.WINDOWS );
 
     //
-    // Valeurs ignor�es :
+    // Valeurs ignorees :
     //
     // * Win3.11 for Windows 3.11
     // * WinNT3.51 for Windows NT 3.11
@@ -447,8 +447,8 @@ private EnumSet<UserAgent> getOSForMozilla( final String userAgent ) // ---
 
 
 /**
-** Initialise le tableau de cookies si cela n'a pas �t� fait. Cette m�thode
-** permet d'�tre ind�pendant de l'impl�mentation de {@link HttpServletRequest}
+** Initialise le tableau de cookies si cela n'a pas ete fait. Cette methode
+** permet d'etre independant de l'implementation de {@link HttpServletRequest}
 **
 ** @since 3.01.033
 */
@@ -459,7 +459,7 @@ private void initCookiesIfNeeded() // -------------------------------------
 
     if( this.cookies == null ) {
         //
-        // Pas de coolies de d�fini
+        // Pas de coolies de defini
         //
         this.cookies = new Cookie[ 0 ];
         }

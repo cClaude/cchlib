@@ -6,10 +6,10 @@
 **
 **  1.00.000 2005.03.24 Claude CHOISNET - Version initiale
 **  1.50.000 2005.05.19 Claude CHOISNET
-**                      Adaptation � l'interface HTMLWritable
+**                      Adaptation e l'interface HTMLWritable
 **  3.02.042 2007.01.08 Claude CHOISNET
 **                      Modification de buildDataSource(String,String,String,String)
-**                      afin  d'�tre  compatible avec le java 1.6
+**                      afin  d'etre  compatible avec le java 1.6
 **                      Deprecated: buildMySQLDataSource(String,String,String)
 **                      Deprecated: buildMySQLDataSource(String,String,String,String)
 **                      Deprecated: buildMySQLDataSource(String,int,String,String,String)
@@ -36,14 +36,14 @@ import javax.sql.DataSource;
 public class DataSourceFactory
 {
 /**
-** Port par d�faut pour MySQL
+** Port par defaut pour MySQL
 **
 ** @since 3.02.042
 */
 public final static int MYSQL_DEFAULT_PORT = 3306;
 
 /**
-** Driver par d�faut pour MySQL
+** Driver par defaut pour MySQL
 **
 ** @since 3.02.042
 */
@@ -52,8 +52,8 @@ public final static String MYSQL_DEFAULT_DRIVERS = "org.gjt.mm.mysql.Driver";
 
 /**
 **
-** NOTE: Les m�thodes relative � l'interface {@link java.sql.Wrapper} du
-** java 1.6 ne sont pas support�e.
+** NOTE: Les methodes relative e l'interface {@link java.sql.Wrapper} du
+** java 1.6 ne sont pas supportee.
 */
 public static DataSource buildDataSource( // ------------------------------
     final String driverClassName,
@@ -152,7 +152,7 @@ public static DataSource buildDataSource( // ------------------------------
 }
 
 /**
-** Constructeur sp�cifique MySQL, utilise le driver d�fini par {@link #MYSQL_DEFAULT_DRIVERS}
+** Constructeur specifique MySQL, utilise le driver defini par {@link #MYSQL_DEFAULT_DRIVERS}
 **
 ** @deprecated use {@link #buildMySQLDataSource(String,String,int,String,String,String)} instead.
 */
@@ -168,8 +168,8 @@ public static DataSource buildMySQLDataSource( // -------------------------
 }
 
 /**
-** Constructeur sp�cifique MySQL, utilise le port d�fini par {@link #MYSQL_DEFAULT_PORT}
-** et le driver d�fini par {@link #MYSQL_DEFAULT_DRIVERS}
+** Constructeur specifique MySQL, utilise le port defini par {@link #MYSQL_DEFAULT_PORT}
+** et le driver defini par {@link #MYSQL_DEFAULT_DRIVERS}
 **
 ** @deprecated use {@link #buildMySQLDataSource(String,String,int,String,String,String)} instead.
 */

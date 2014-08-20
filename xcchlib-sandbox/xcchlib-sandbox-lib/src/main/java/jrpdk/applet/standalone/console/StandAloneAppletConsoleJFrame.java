@@ -89,7 +89,7 @@ public StandAloneAppletConsoleJFrame() // ---------------------------------
 
  this.setLocation( screenLocation );
 
- /* m�thode pour extends JFrame */
+ /* methode pour extends JFrame */
  Container thisContainer = getContentPane();
 
  //TextArea: consoleTextArea = new TextArea();
@@ -121,7 +121,7 @@ public StandAloneAppletConsoleJFrame() // ---------------------------------
 
  /* --- */
 
- /* m�thode pour "extends Frame"
+ /* methode pour "extends Frame"
  this.add( myTextArea, "Center" );
  this.add( status, "South" );
  /* --- */
@@ -151,8 +151,8 @@ public AppletContext getAppletContext() // --------------------------------
 }
 
 /**
-** Ferme la console et restaure les I/O par d�faut, et lib�re les ressources
-** de la fen�tre.
+** Ferme la console et restaure les I/O par defaut, et libere les ressources
+** de la fenetre.
 */
 @Override
 public void close() // ----------------------------------------------------
@@ -195,7 +195,7 @@ public PrintStream getOut() // --------------------------------------------
 }
 
 /**
-** Appel la m�thode {@link #close()} puis la m�thode finalize() parente.
+** Appel la methode {@link #close()} puis la methode finalize() parente.
 */
 @Override
 protected void finalize() throws Throwable // -----------------------------
@@ -284,7 +284,7 @@ public void restaureErr()
 }
 
 /**
-** calcul la valeur enti�re de a * b
+** calcul la valeur entiere de a * b
 */
 private static int getRatio( int a, float b ) // --------------------------
 {
@@ -309,12 +309,12 @@ public void restaureOutput() // -------------------------------------------
 }
 
 /**
-** Construction d'un object StandAloneAppletConsole g�n�rique.
+** Construction d'un object StandAloneAppletConsole generique.
 **
-** @param exit  Objet StandAloneExitInterface permettant de d�finir
-**              la m�thode appell�e lors de la fermeture de la console
+** @param exit  Objet StandAloneExitInterface permettant de definir
+**              la methode appellee lors de la fermeture de la console
 **              par l'utilisateur.
-** @param title Objet String contenant le nom de la fen�tre de la
+** @param title Objet String contenant le nom de la fenetre de la
 **              la console.
 **
 ** @deprecated no remplacement.

@@ -42,7 +42,7 @@ public StandAloneAppletConsoleContext( // ---------------------------------
 /**
 ** Interface AppletContext
 **
-** @return toujours null (faux, mais conforme � la documentation: not found)
+** @return toujours null (faux, mais conforme e la documentation: not found)
 */
 @Override
 public Applet getApplet( String name ) // ---------------------------------
@@ -87,7 +87,7 @@ public AudioClip getAudioClip( URL url ) // -------------------------------
 }
 
 /**
-** Cette m�thode est conforme � l'Interface AppletContext
+** Cette methode est conforme e l'Interface AppletContext
 **
 ** @see AppletContext#getImage( URL )
 */
@@ -98,7 +98,7 @@ public Image getImage( URL url ) // ---------------------------------------
 }
 
 /**
-** Cette m�thode est conforme � l'Interface AppletContext.
+** Cette methode est conforme e l'Interface AppletContext.
 **
 ** @see AppletContext#showDocument( URL )
 */
@@ -109,7 +109,7 @@ public void showDocument( URL url ) // ------------------------------------
 }
 
 /**
-** Cette m�thode est conforme � l'Interface AppletContext.
+** Cette methode est conforme e l'Interface AppletContext.
 **
 ** @see AppletContext#showDocument( URL, String )
 */
@@ -120,7 +120,7 @@ public void showDocument( URL url,  String target ) // --------------------
 }
 
 /**
-** Cette m�thode est conforme � l'Interface AppletContext.
+** Cette methode est conforme e l'Interface AppletContext.
 **
 ** @see AppletContext#showStatus( String )
 */
@@ -165,7 +165,7 @@ public void setStream( String str, InputStream input )
 }
 
 /**
-** @return toujours null (faux, mais conforme � la documentation: not found)
+** @return toujours null (faux, mais conforme e la documentation: not found)
 */
 @Override
 public InputStream getStream( String str )

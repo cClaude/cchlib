@@ -112,7 +112,7 @@ public void doDisplay( final Writer output ) // ---------------------------
  if( this.macAddress != null ) {
     out.write( "<br />\n" );
     out.write( "<div class=\"h2\">\n" );
-    out.write( "Requete envoy�e vers\n" );
+    out.write( "Requete envoyee vers\n" );
     out.write( "<br />\n" );
     out.write( this.macAddress );
     out.write( "</div>\n" );
@@ -145,12 +145,12 @@ public void displayOnce( // -----------------------------------------------
     out.write( "<input type=\"TEXT\" name=\"MAC_ADDRESS\" value=\"" + this.macAddressValue + "\" size=\"17\" maxlength=\"17\" />" );
     out.write( "(ex: 00:0B:DB:3D:DE:CB)\n" );
 
-    submitValue = "R�veiller";
+    submitValue = "Reveiller";
     }
  else {
     out.write( "<input type=\"HIDDEN\" name=\"MAC_ADDRESS\" value=\"" + hostMacAddress + "\" />\n" );
 
-    submitValue = "R�veiller: " + hostMacAddress;
+    submitValue = "Reveiller: " + hostMacAddress;
     }
 
  out.write( "</td>\n" );
@@ -160,7 +160,7 @@ public void displayOnce( // -----------------------------------------------
  out.write( "</td>\n" )
  ;
  out.write( "<td width=\"25%\">" );
- out.write( (hostName == null) ? "machine non identifi�e" : hostName);
+ out.write( (hostName == null) ? "machine non identifiee" : hostName);
  out.write( "</td>\n" );
 
  out.write( "</tr>\n" );

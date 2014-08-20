@@ -10,7 +10,7 @@
  **  2.01.001 2005.10.02 Claude CHOISNET
  **                      Implemente l'interface java.io.Closeable
  **  2.02.009 2005.12.14 Claude CHOISNET
- **                      La classe �tend maintenant SimpleDataSource
+ **                      La classe etend maintenant SimpleDataSource
  ** -----------------------------------------------------------------------
  **
  ** cx.ath.choisnet.sql.SimpleQuery
@@ -41,10 +41,10 @@ import javax.sql.DataSource;
  ** @version 2.02.009
  */
 public class SimpleQuery extends SimpleDataSource {
-    /** Connection courante � la source de donn�es */
+    /** Connection courante e la source de donnees */
     private Connection conn = null;
 
-    /** Support de la requ�te courante */
+    /** Support de la requete courante */
     private Statement  stmt = null;
 
     /**
@@ -88,7 +88,7 @@ public class SimpleQuery extends SimpleDataSource {
         finally {
             if( rset == null ) {
                 //
-                // Il y a eu un probl�me
+                // Il y a eu un probleme
                 //
                 flush();
             }
@@ -99,7 +99,7 @@ public class SimpleQuery extends SimpleDataSource {
 
     /**
      ** 
-     ** @return une liste (List) de String contenant les n valeurs trouv�es dans
+     ** @return une liste (List) de String contenant les n valeurs trouvees dans
      *         le ResultSet. Ne retourne jamais null.
      ** 
      ** @throws java.sql.SQLException
@@ -118,7 +118,7 @@ public class SimpleQuery extends SimpleDataSource {
 
     /**
      ** 
-     ** @return un tableau de String contenant les n valeurs trouv�es dans le
+     ** @return un tableau de String contenant les n valeurs trouvees dans le
      *         ResultSet. Ne retourne jamais null.
      ** 
      ** @throws java.sql.SQLException
@@ -139,8 +139,8 @@ public class SimpleQuery extends SimpleDataSource {
 
     /**
      ** 
-     ** @return un tableau de String contenant les n valeurs trouv�es � l'aide de
-     *         la requ�te. Ne retourne jamais null.
+     ** @return un tableau de String contenant les n valeurs trouvees e l'aide de
+     *         la requete. Ne retourne jamais null.
      ** 
      ** @throws java.sql.SQLException
      */
@@ -168,8 +168,8 @@ public class SimpleQuery extends SimpleDataSource {
 
     /**
      ** 
-     ** @return un tableau de String contenant les n valeurs trouv�es � l'aide de
-     *         la requ�te. Ne retourne jamais null.
+     ** @return un tableau de String contenant les n valeurs trouvees e l'aide de
+     *         la requete. Ne retourne jamais null.
      ** 
      ** @throws SimpleQueryException
      ** @throws java.sql.SQLException
@@ -251,10 +251,10 @@ public class SimpleQuery extends SimpleDataSource {
 
     /**
      ** <P>
-     * Lib�re les informations de la requ�te courante.
+     * Libere les informations de la requete courante.
      * </P>
      ** 
-     ** Autorise l'execution d'une nouvelle requ�te.
+     ** Autorise l'execution d'une nouvelle requete.
      */
     public void flush() // ----------------------------------------------------
     {
@@ -263,7 +263,7 @@ public class SimpleQuery extends SimpleDataSource {
 
     /**
      ** <P>
-     * Lib�re les informations de la requ�te courante.
+     * Libere les informations de la requete courante.
      * </P>
      */
     @Override
@@ -276,7 +276,7 @@ public class SimpleQuery extends SimpleDataSource {
     }
 
     /**
-     ** Lib�re les ressources.
+     ** Libere les ressources.
      */
     @Override
     protected void finalize() throws Throwable // -----------------------------

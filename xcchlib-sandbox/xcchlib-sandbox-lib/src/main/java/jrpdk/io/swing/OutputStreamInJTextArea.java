@@ -10,7 +10,7 @@ import javax.swing.JTextArea;
 //** @version 1.00 25/01/2001
 
 /**
-** Objet de type OutputStream dont les donn�es sont redirig�es vers
+** Objet de type OutputStream dont les donnees sont redirigees vers
 ** une sortie graphique.
 **
 ** @author Claude CHOISNET

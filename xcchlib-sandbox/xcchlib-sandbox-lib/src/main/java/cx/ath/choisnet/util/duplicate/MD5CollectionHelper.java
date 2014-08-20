@@ -24,7 +24,7 @@ import java.util.Set;
 
 /**
 ** <p>
-** Classe d'aide � l'impl�mentation de {@link MD5Collection} et
+** Classe d'aide e l'implementation de {@link MD5Collection} et
 ** de {@link MD5FileCollection}
 ** </p>
 **
@@ -38,7 +38,7 @@ public class MD5CollectionHelper
 
 /**
 ** Retourne le nombre de fichiers connus dans l'objet
-** {@link MD5Collection} donn�
+** {@link MD5Collection} donne
 */
 public static int getEntryCount( final MD5Collection aCollection ) // -----
 {
@@ -47,7 +47,7 @@ public static int getEntryCount( final MD5Collection aCollection ) // -----
 
 /**
 ** Retourne le nombre de fichiers connus dans l'objet
-** {@link MD5FileCollection} donn�
+** {@link MD5FileCollection} donne
 */
 public static int getEntryCount( // ---------------------------------------
     final MD5FileCollection aCollection
@@ -57,7 +57,7 @@ public static int getEntryCount( // ---------------------------------------
 }
 
 /**
-** Retourne le nombre d'�l�ments g�n�riques connus.
+** Retourne le nombre d'elements generiques connus.
 */
 public static <T> int getEntryCount( // -----------------------------------
     final Map<MD5TreeEntry,? extends Set<T>> map
@@ -91,7 +91,7 @@ public static int compare( // ---------------------------------------------
 
  if( cmp == 0 ) {
     //
-    // A priori pas de diff�rences
+    // A priori pas de differences
     //
     if( o1.getEntryCount() != o2.getEntryCount() ) {
         throw new RuntimeException( "Inconsistence compareTo() : diff. filesCount() " );
@@ -120,7 +120,7 @@ public static int compare( // ---------------------------------------------
 
  if( cmp == 0 ) {
     //
-    // A priori pas de diff�rences
+    // A priori pas de differences
     //
     if( o1.getEntryCount() != o2.getEntryCount() ) {
         throw new RuntimeException( "Inconsistence compareTo() : diff. filesCount() " );
@@ -173,22 +173,22 @@ public static <T extends Comparable<T>> int compare( // -------------------
                 int resKey = obj0.getKey().compareTo( obj1.getKey() );
 
                 if( resKey != 0 ) {
-                    return resKey; // Cl�s diff�rentes
+                    return resKey; // Cles differentes
                     }
 
                 int cmpFiles = MD5CollectionHelper.compareTo( obj0.getValue(), obj1.getValue() );
 
                 if( cmpFiles != 0 ) {
-                    return cmpFiles; // Valeur diff�rentes
+                    return cmpFiles; // Valeur differentes
                     }
                 }
             else {
-                return -1; // Pas le m�me nombre d'entr�es
+                return -1; // Pas le meme nombre d'entrees
                 }
             }
 
         if( iter1.hasNext() ) {
-            return 1; // Pas le m�me nombre d'entr�es
+            return 1; // Pas le meme nombre d'entrees
             }
 
     }
@@ -213,16 +213,16 @@ private final static <T extends Comparable<T>> int compareTo( // ----------
         int res = iter0.next().compareTo( iter1.next() );
 
         if( res != 0 ) {
-            return res; // Valeur diff�rentes
+            return res; // Valeur differentes
             }
         }
     else {
-        return -1; // Pas le m�me nombre d'entr�es
+        return -1; // Pas le meme nombre d'entrees
         }
     }
 
  if( iter1.hasNext() ) {
-    return 1; // Pas le m�me nombre d'entr�es
+    return 1; // Pas le meme nombre d'entrees
     }
 
  return 0;
@@ -320,11 +320,11 @@ public static <T> void toXML( // ------------------------------------------
 /**
 ** Transformation d'un objet {@link MD5Collection} en un flux XML.
 **
-** @param rootElementName   Nom de l'�l�ment XML racine.
-** @param aMD5Collection    Objet {@link MD5Collection} � transformer en XML.
-** @param output            Objet {@link Appendable} destin� � recevoir le flux XML.
+** @param rootElementName   Nom de l'element XML racine.
+** @param aMD5Collection    Objet {@link MD5Collection} e transformer en XML.
+** @param output            Objet {@link Appendable} destine e recevoir le flux XML.
 **
-** @throws java.io.IOException en cas de probl�me lors de l'ajout dans le flux.
+** @throws java.io.IOException en cas de probleme lors de l'ajout dans le flux.
 */
 public static void toXML( // ----------------------------------------------
     final String        rootElementName,
@@ -344,11 +344,11 @@ public static void toXML( // ----------------------------------------------
 /**
 ** Transformation d'un objet {@link MD5FileCollection} en un flux XML.
 **
-** @param rootElementName       Nom de l'�l�ment XML racine.
-** @param aMD5FileCollection    Objet {@link MD5Collection} � transformer en XML.
-** @param output                Objet {@link Appendable} destin� � recevoir le flux XML.
+** @param rootElementName       Nom de l'element XML racine.
+** @param aMD5FileCollection    Objet {@link MD5Collection} e transformer en XML.
+** @param output                Objet {@link Appendable} destine e recevoir le flux XML.
 **
-** @throws java.io.IOException en cas de probl�me lors de l'ajout dans le flux.
+** @throws java.io.IOException en cas de probleme lors de l'ajout dans le flux.
 */
 public static void toXML( // ----------------------------------------------
     final String            rootElementName,

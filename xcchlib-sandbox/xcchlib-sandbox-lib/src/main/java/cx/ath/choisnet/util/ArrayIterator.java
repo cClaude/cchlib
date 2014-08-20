@@ -20,7 +20,7 @@ import java.util.Iterator;
 /**
 ** <P>
 ** Classe permettant de construire des objets {@link Iterator} sans pour cela
-** avoir besoin de cr�er de nouvelle collection.
+** avoir besoin de creer de nouvelle collection.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -49,7 +49,7 @@ private int index;
 ** Construction d'objet Iterator parcourant l'ensemble des objects du tableau.
 ** </P>
 ** <br />
-** Ce constructeur accepte la valeur null pour le param�tre 'array', dans ce
+** Ce constructeur accepte la valeur null pour le parametre 'array', dans ce
 ** cas elle retourne un objet {@link Iterator} vide, mais valide.
 ** <br />
 */
@@ -68,11 +68,11 @@ public ArrayIterator( final T[] array ) // --------------------------------
 
 /**
 ** <P>
-** Construction d'objet Iterator parcourant les objects du tableau � partir
-** de l'indice offset et jusqu'� la position len - 1
+** Construction d'objet Iterator parcourant les objects du tableau e partir
+** de l'indice offset et jusqu'e la position len - 1
 ** </P>
 ** <br />
-** Cette m�thode <b>n'accepte pas</b> la valeur null pour le param�tre 'array'
+** Cette methode <b>n'accepte pas</b> la valeur null pour le parametre 'array'
 ** <br />
 */
 public ArrayIterator( // --------------------------------------------------

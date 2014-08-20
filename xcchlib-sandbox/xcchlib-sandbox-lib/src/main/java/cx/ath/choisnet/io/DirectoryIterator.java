@@ -81,7 +81,7 @@ private DirectoryIterator( // ---------------------------------------------
 }
 
 /**
-** Ajoute un dossier dans le r�sultat de l'it�rateur.
+** Ajoute un dossier dans le résultat de l'itérateur.
 */
 protected void addFolder( File folderFile ) // ----------------------------
 {
@@ -179,7 +179,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
  stream.defaultReadObject();
 
  //
- // R�initialisation des champs non sauvegard�s
+ // Réinitialisation des champs non sauvegardés
  //
  this.folderContentIndex = stream.readInt();
 

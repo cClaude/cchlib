@@ -15,7 +15,7 @@ import java.io.PrintStream;
 public interface StandAloneAppletConsole
 {
 /**
-** Retrouve l'object AppletContext lier � la console.
+** Retrouve l'object AppletContext lier e la console.
 **
 ** @return un object de type AppletContext
 */
@@ -34,14 +34,14 @@ abstract public void clear(); // ------------------------------------------
 /**
 ** Affiche une ligne dans la console
 **
-** @param s cha�ne devrant �tre �crite sur la console.
+** @param s chaene devrant etre ecrite sur la console.
 */
 abstract public void println( String s ); // ------------------------------
 
 /**
-** Retrouve l'objet permettant d'�crire sur la console.
+** Retrouve l'objet permettant d'ecrire sur la console.
 **
-** @return un objet PrintStream correspondant � la sortie vers la console.
+** @return un objet PrintStream correspondant e la sortie vers la console.
 */
 abstract public PrintStream getOut(); // ----------------------------------
 

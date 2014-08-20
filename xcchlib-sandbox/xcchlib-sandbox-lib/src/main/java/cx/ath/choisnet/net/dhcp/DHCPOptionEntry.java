@@ -4,8 +4,8 @@
 ** Description   :
 **
 **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapt� du code de Jason Goldschmidt and Nick Stone
-**                      et bas� sur les RFCs 1700, 2131 et 2132
+**                      Adapte du code de Jason Goldschmidt and Nick Stone
+**                      et base sur les RFCs 1700, 2131 et 2132
 **  3.02.015 2006.06.22 Claude CHOISNET
 **                      implemente java.io.Serializable
 ** -----------------------------------------------------------------------

@@ -15,7 +15,7 @@ import java.util.Iterator;
 
 /**
 ** <P>
-** Permet de construire un objet Iterator � partir d'un Iterateur {@link Iterator}
+** Permet de construire un objet Iterator e partir d'un Iterateur {@link Iterator}
 ** d'objets iterables {@link Iterable}>
 ** </P>
 **
@@ -39,7 +39,7 @@ private Iterator<T> currentIterator;
 
 /**
 ** <P>
-** Permet de construire un objet � partir d'un Iterateur <Iterator>
+** Permet de construire un objet e partir d'un Iterateur <Iterator>
 ** d'objet iterable <Iterable>.
 ** </P>
 */

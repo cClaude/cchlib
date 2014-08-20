@@ -65,7 +65,7 @@ public static <T> Enumeration<T> toEnumeration( final T[] array ) // ------
 }
 
 /**
-** @return  un {@link Enumeration} sur les objets du tableau de offset et jusqu'� la
+** @return  un {@link Enumeration} sur les objets du tableau de offset et jusqu'e la
 **          position len - 1
 */
 public static <T> Enumeration<T> toEnumeration( // ------------------------
@@ -105,7 +105,7 @@ public static <T> Enumeration<T> toEnumeration( // ------------------------
 }
 
 /**
-** @return  un {@link Enumeration} correspondant � l'Iterator donn�
+** @return  un {@link Enumeration} correspondant e l'Iterator donne
 */
 public static <T> Enumeration<T> toEnumeration( // ------------------------
     final java.util.Iterator<T> iterator
@@ -131,7 +131,7 @@ public static <T> Enumeration<T> toEnumeration( // ------------------------
 }
 
 /**
-** @return un {@link Enumeration}<String> � partir d'un {@link Enumeration}<?>
+** @return un {@link Enumeration}<String> e partir d'un {@link Enumeration}<?>
 */
 public static Enumeration<String> toEnumerationString( // -----------------
     final Enumeration<?> enumeration
@@ -157,9 +157,9 @@ public static Enumeration<String> toEnumerationString( // -----------------
 }
 
 /**
-** Transforme une �num�ration non typ�e en �num�ration typ�e.
+** Transforme une enumeration non typee en enumeration typee.
 **
-** @return un {@link Enumeration}<T> � partir d'un {@link Enumeration}<?> et de la classe
+** @return un {@link Enumeration}<T> e partir d'un {@link Enumeration}<?> et de la classe
 **         de support.
 */
 public static <T> Enumeration<? extends T> toEnumeration( // --------------

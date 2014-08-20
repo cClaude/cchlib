@@ -6,18 +6,18 @@
 ** Encodage      : ANSI
 **
 **  2.01.032 2005.11.21 Claude CHOISNET - Version initiale
-**                      inspir�e de :
+**                      inspiree de :
 **                          cx.ath.choisnet.servlet.debug.DisplayServletInfos
-**                      et bas� sur :
+**                      et base sur :
 **                          cx.ath.choisnet.lang.reflect.MappableHelper
 **  2.02.007 2005.12.05 Claude CHOISNET
 **                      Ajout de l'affichage du contenu de l'objet HttpSession
 **  2.02.042 2006.01.09 Claude CHOISNET
-**                      Ajout d'un r�sum� dans l'affichage.
+**                      Ajout d'un resume dans l'affichage.
 **  3.03.002 29.05.2007 Claude CHOISNET
 **                      Traitement de l'affichage des informations de la
-**                      JVM (runtime) � l'aide de r�flexion. Permet de
-**                      d'appeller des m�thodes pas n�cessairement disponible
+**                      JVM (runtime) e l'aide de reflexion. Permet de
+**                      d'appeller des methodes pas necessairement disponible
 **                      sur toutes les versions de JVM.
 **  3.03.003 05.06.2007 Claude CHOISNET
 ** -----------------------------------------------------------------------

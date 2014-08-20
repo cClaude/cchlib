@@ -96,23 +96,23 @@ private void tryCreateUser( // --------------------------------------------
         }
     else {
         //
-        // L'utilisateur existe d�j�
+        // L'utilisateur existe deje
         //
 
-        session.setAttribute( "Message", "Cr�ation impossible - L'utilisateur existe d�j�" );
+        session.setAttribute( "Message", "Creation impossible - L'utilisateur existe deje" );
         session.setAttribute( "OK", "KO" );
         }
 
     }
  catch( Exception e ) {
-    getLogger().warn( "Probl�me lors de l'ajout de : " + nickname, e );
+    getLogger().warn( "Probleme lors de l'ajout de : " + nickname, e );
 
     //result      = -1;
     //exception   = e;
 
     session.setAttribute( "EXCEPTION", e );
     session.setAttribute( "OK", "KO" );
-    session.setAttribute( "Message", "Cr�ation impossible" );
+    session.setAttribute( "Message", "Creation impossible" );
     }
 }
 
@@ -213,7 +213,7 @@ final protected org.apache.log4j.Logger getLogger() // --------------------
           <td>
             <input name="PASSWORD" type="PASSWORD" value="" size="32" maxlength="32" />
             <br />
-            7 caract�res ou plus incluant des chiffres et des lettres
+            7 caracteres ou plus incluant des chiffres et des lettres
           </td>
         </tr>
         <tr>

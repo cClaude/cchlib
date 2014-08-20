@@ -4,10 +4,10 @@
 ** Description   :
 **
 **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapt� du code de Jason Goldschmidt and Nick Stone
+**                      Adapte du code de Jason Goldschmidt and Nick Stone
 **                      edu.bucknell.net.JDHCP.DHCPMessage
 **                      http://www.eg.bucknell.edu/~jgoldsch/dhcp/
-**                      et bas� sur les RFCs 1700, 2131 et 2132
+**                      et base sur les RFCs 1700, 2131 et 2132
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.net.dhcp.DHCPMessage

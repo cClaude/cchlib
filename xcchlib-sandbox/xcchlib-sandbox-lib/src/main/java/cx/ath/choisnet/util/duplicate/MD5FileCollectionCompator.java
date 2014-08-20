@@ -33,7 +33,7 @@ import java.util.TreeSet;
 /**
 ** <p>
 ** Cette classe prend en charge la comparaison de deux {@link MD5Collection},
-** elle permet d�fectuer des traitements d�fini par {@link TasksFactory}
+** elle permet defectuer des traitements defini par {@link TasksFactory}
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -47,7 +47,7 @@ import java.util.TreeSet;
 public class MD5FileCollectionCompator
 {
 /**
-** Liste des fichiers � l'origine
+** Liste des fichiers e l'origine
 */
 private MD5FileCollection reference;
 
@@ -134,12 +134,12 @@ public void init() // -----------------------------------------------------
  //# ##################################################################
 
  //
- // Dossiers � ajouter (r�sultat)
+ // Dossiers e ajouter (resultat)
  //
  for( File folder : this.reference.getFolderFiles() ) {
     if( ! this.toUpdate.getFolderFiles().contains( folder ) ) {
         //
-        // Pas trouv�, il faut cr�er le dossier....
+        // Pas trouve, il faut creer le dossier....
         //
         addTask(
             this.tasksFactory.buildActionLocalCreateFolder( folder )
@@ -148,7 +148,7 @@ public void init() // -----------------------------------------------------
     }
 
  //
- // Dossiers � supprimer (r�sultat)
+ // Dossiers e supprimer (resultat)
  //
     {
     final SortedSet<File> foldersToDelete = new TreeSet<File>( new DirComparator() );
@@ -156,7 +156,7 @@ public void init() // -----------------------------------------------------
     for( File folder : this.toUpdate.getFolderFiles() ) {
         if( ! this.reference.getFolderFiles().contains( folder ) ) {
             //
-            // Pas trouv�, il faut supprimer le dossier....
+            // Pas trouve, il faut supprimer le dossier....
             //
             foldersToDelete.add( folder );
             }
@@ -176,17 +176,17 @@ public void init() // -----------------------------------------------------
  //# ##################################################################
 
  //
- // Fichiers de r�f�rences - FIXE
+ // Fichiers de references - FIXE
  //
  final Map<MD5TreeEntry,? extends Set<File>> referenceFiles = this.reference.getEntryFiles();
 
  //
- // Fichiers actuellements pr�sents - FIXE
+ // Fichiers actuellements presents - FIXE
  //
  final Map<MD5TreeEntry,? extends Set<File>> toUpdateFiles = this.toUpdate.getEntryFiles();
 
  //
- // Recherche les fichiers supprim�s (en terme d'empreintes)
+ // Recherche les fichiers supprimes (en terme d'empreintes)
  //
  for( Map.Entry<MD5TreeEntry,? extends Set<File>> toUpdate : toUpdateFiles.entrySet() ) {
     MD5TreeEntry    md5             = toUpdate.getKey();
@@ -195,7 +195,7 @@ public void init() // -----------------------------------------------------
 
     if( refList == null ) {
         //
-        // Les fichiers associ�s � cette mati�re (md5) n'existent plus.
+        // Les fichiers associes e cette matiere (md5) n'existent plus.
         //
         for( File f : toUpdateList ) {
             addTask(
@@ -207,7 +207,7 @@ public void init() // -----------------------------------------------------
     }
 
  //
- // Traitement des d�placements et ajout de mati�re
+ // Traitement des deplacements et ajout de matiere
  //
 
 //        System.err.println( "** this.reference " + this.reference );
@@ -221,12 +221,12 @@ public void init() // -----------------------------------------------------
     if( newList == null ) {
         //
         // Ce fichier est dans la reference, mais pas dans la destination
-        //      il r�cup�rer la mati�re et cr�er les fichiers
+        //      il recuperer la matiere et creer les fichiers
         //
         addTask( this.tasksFactory.buildActionCopyFileFromSource( md5 ) );
 
         //
-        // Cr�ation de tous les fichiers associ�s
+        // Creation de tous les fichiers associes
         //
         for( File f : refList ) {
             addTask( this.tasksFactory.buildActionLocalCopyFile( md5, f ) );
@@ -234,11 +234,11 @@ public void init() // -----------------------------------------------------
         }
     else {
         //
-        // Ce fichier existe d�j� dans la destination,
-        // il n'y a pas besoin de r�cup�rer la mati�re.
+        // Ce fichier existe deje dans la destination,
+        // il n'y a pas besoin de recuperer la matiere.
         //
-        // Pour le traitement, on recherche un fichier de r�f�rance
-        // correspondant � l'empreinte (qui ne bougera pas).
+        // Pour le traitement, on recherche un fichier de referance
+        // correspondant e l'empreinte (qui ne bougera pas).
         //
         File currentMD5RefFile = null;
 
@@ -259,7 +259,7 @@ public void init() // -----------------------------------------------------
             }
 
         //
-        // On recherche les fichiers a cr�er
+        // On recherche les fichiers a creer
         //
         final LinkedList<File> to2create = new LinkedList<File>();
 
@@ -276,7 +276,7 @@ public void init() // -----------------------------------------------------
         final Iterator<File> to2createIter    = to2create.iterator();
 
         //
-        // D�placements
+        // Deplacements
         //
         while( to2delIter.hasNext() && to2createIter.hasNext() ) {
             final File to2delFile       = to2delIter.next();

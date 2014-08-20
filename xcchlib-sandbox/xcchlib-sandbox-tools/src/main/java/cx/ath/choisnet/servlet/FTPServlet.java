@@ -209,7 +209,7 @@ public class FTPServlet extends HttpServlet {
         }
         catch( StringIndexOutOfBoundsException e ) {
             //
-            // On tente d'acc�der au "dessus" de la racine...
+            // On tente d'acceder au "dessus" de la racine...
             //
             return "";
         }

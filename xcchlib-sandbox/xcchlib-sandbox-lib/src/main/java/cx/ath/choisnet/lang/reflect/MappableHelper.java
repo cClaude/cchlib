@@ -6,25 +6,25 @@
 **
 **  2.01.001 2005.10.24 Claude CHOISNET - version initiale
 **  2.01.024 2005.11.03 Claude CHOISNET
-**                      Traite r�cursivement les objets Mappable
+**                      Traite recursivement les objets Mappable
 **  2.01.025 2005.11.04 Claude CHOISNET
 **                      Cette version traite les tableaux d'objets.
 **  2.01.028 2005.11.09 Claude CHOISNET
-**                      Prend en compte les m�thodes prot�g�es
+**                      Prend en compte les methodes protegees
 **  2.02.008 2005.12.06 Claude CHOISNET
-**                      Ajout de param�tres TRY_PRIVATE_METHODS,
+**                      Ajout de parametres TRY_PRIVATE_METHODS,
 **                      TRY_PROTECTED_METHODS et DO_ITERABLE
 **  3.01.013 2006.03.27 Claude CHOISNET
 **                      Ajout de toXML(Appendable,Class,Map)
-**                      Ajout de l'attribut d'�num�rateur DO_ARRAYS
-**                      Ajout de l'attribut d'�num�rateur DO_PARENT_CLASSES
+**                      Ajout de l'attribut d'enumerateur DO_ARRAYS
+**                      Ajout de l'attribut d'enumerateur DO_PARENT_CLASSES
 **  3.01.015 2006.04.03 Claude CHOISNET
 **                      Version objet.
-**                      Suppression de la m�thode statique ;
+**                      Suppression de la methode statique ;
 **                          toString(T,EnumSet<Attributes>)
-**                      Ajout de la m�thode statique :
+**                      Ajout de la methode statique :
 **                          toString(EnumSet<Attributes>,T)
-**                      Mise en place de nombreux test � l'aide de JUnit.
+**                      Mise en place de nombreux test e l'aide de JUnit.
 **  3.01.016 2006.04.04 Claude CHOISNET
 **                      Adaptation du code afin de pouvoir mettre en place
 **                      de formateur configurable.
@@ -34,32 +34,32 @@
 **  3.01.021 2006.04.04 Claude CHOISNET
 **                      L'objet membre returnTypeClasses n'est plus un
 **                      tableau de classe, mais un Set<Class<?>>
-**                      Ajout d'un constructeur en conformit�e avec
-**                      cette �volution,
-**                      Les m�thodes internes n'utilise plus que ce nouveau
+**                      Ajout d'un constructeur en conformitee avec
+**                      cette evolution,
+**                      Les methodes internes n'utilise plus que ce nouveau
 **                      constructeur.
 **  3.01.022 2006.04.13 Claude CHOISNET
-**                      Evolution de la m�thode toXML(Appendable,Class,Map)
+**                      Evolution de la methode toXML(Appendable,Class,Map)
 **                      qui supporte maintenant une valeur null pour le
-**                      param�tre de type Map.
-**                      Ajout des m�thodes:
+**                      parametre de type Map.
+**                      Ajout des methodes:
 **                          toXML(Appendable,Class,Mappable)
 **                          toXML(Class,Mappable)
-**                      Reprise des m�thodes :
+**                      Reprise des methodes :
 **                          toXML(Appendable,Mappable)
 **                          toXML(Mappable)
 **  3.01.034 2006.05.05 Claude CHOISNET
-**                      Utilisation de la nouvelle m�thode:
+**                      Utilisation de la nouvelle methode:
 **                          MappableHelperFactory#getMessageFormatMethodName()
 **                      Ajout de messageFormatMethodName
 **                      Ajout de formatMethodName(String)
-**                      La m�thode toString(EnumSet,Object) devient priv�e
+**                      La methode toString(EnumSet,Object) devient privee
 **                      Toutes les representations de la valeur null sont
-**                      maintenant remplac� par this.toStringNullValue
+**                      maintenant remplace par this.toStringNullValue
 **  3.02.010 2006.06.16 Claude CHOISNET
 **                      Ajout de: toMap(MappableHelperFactory,T)
-**                      Les m�thodes statiques toMap(T,Pattern,Class,EnumSet)
-**                      et toMap(T,Class) sont obsol�tes
+**                      Les methodes statiques toMap(T,Pattern,Class,EnumSet)
+**                      et toMap(T,Class) sont obsoletes
 **  3.02.026 2006.07.19 Claude CHOISNET
 **                      Le constructeur est maintenant protected
 **  3.02.047 2007.01.20 Claude CHOISNET
@@ -69,7 +69,7 @@
 **
 ** cx.ath.choisnet.lang.reflect.MappableHelper
 **
-** Cette classe devrait �tre abstraite, voir ce devrait �tre une interface !!!
+** Cette classe devrait etre abstraite, voir ce devrait etre une interface !!!
 **
 ** http://java.sun.com/developer/codesamples/refl.html
 */
@@ -90,7 +90,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
-** <P>Permet d'avoir une vue synth�tique d'un objet</P>
+** <P>Permet d'avoir une vue synthetique d'un objet</P>
 **
 **
 ** @author Claude CHOISNET
@@ -114,7 +114,7 @@ public enum Attributes {
     ALL_PRIMITIVE_TYPE,
 
     /**
-    ** Traite les objets Mappable r�cursivement.
+    ** Traite les objets Mappable recursivement.
     */
     DO_RECURSIVE,
 
@@ -124,7 +124,7 @@ public enum Attributes {
     DO_ARRAYS,
 
     /**
-    ** Parcours l'it�rateur et affiche les �l�ments s'ils
+    ** Parcours l'iterateur et affiche les elements s'ils
     ** appartiennent aux types demander.
     **
     ** @see java.util.Iterator
@@ -139,7 +139,7 @@ public enum Attributes {
     DO_ITERABLE,
 
     /**
-    ** Parcours l'it�rateur et affiche les �l�ments s'ils
+    ** Parcours l'iterateur et affiche les elements s'ils
     ** appartiennent aux types demander.
     **
     ** @see java.util.Enumeration
@@ -148,29 +148,29 @@ public enum Attributes {
 
     /*
     **
-    ** Parcours �galements les m�thodes des classes parentes
+    ** Parcours egalements les methodes des classes parentes
     **
     */
     DO_PARENT_CLASSES,
 
     /**
-    ** Demande d'afficher le r�sultat des m�thodes priv�es 'private'
+    ** Demande d'afficher le resultat des methodes privees 'private'
     ** <br/>
     ** Heu, c'est pas possible normalement.
     */
     TRY_PRIVATE_METHODS,
 
     /**
-    ** Demande d'afficher le r�sultat des m�thodes prot�g�es 'protected'
+    ** Demande d'afficher le resultat des methodes protegees 'protected'
     ** <br/>
-    ** Possible uniquement si la classe h�rite MappableHelper
+    ** Possible uniquement si la classe herite MappableHelper
     */
     TRY_PROTECTED_METHODS
 
     };
 
 /**
-** EnumSet utilis� les traitements par d�faut.
+** EnumSet utilise les traitements par defaut.
 **
 ** @see Attributes#ALL_PRIMITIVE_TYPE
 ** @see Attributes#DO_ARRAYS
@@ -248,10 +248,10 @@ private final MessageFormat messageFormatArrayEntry;
 private final MessageFormat messageFormatMethodName;
 
 /**
-** Cr�ation d'un nouvel objet {@link MappableHelper}
+** Creation d'un nouvel objet {@link MappableHelper}
 **
-** @param factory   Objet {@link MappableHelperFactory} � partir duquel sera
-**                  initialis� les informations de formattage.
+** @param factory   Objet {@link MappableHelperFactory} e partir duquel sera
+**                  initialise les informations de formattage.
 **
 ** @see EnumSet#of
 ** @see EnumSet#noneOf( Class )
@@ -279,11 +279,11 @@ protected MappableHelper( // ----------------------------------------------
 ** Retourne des couples (nomDeMethode,valeur).
 ** </p>
 **
-** @param object    Objet � analyser par introsp�ction.
+** @param object    Objet e analyser par introspection.
 **
-** @return un objet Map contenant un couple <String,String>, avec comme cl� le nom
-**         de la m�thode et comme valeur la valeur retourn�e par la m�thode sur
-**         lequel un toString() a �t� appliqu�.
+** @return un objet Map contenant un couple <String,String>, avec comme cle le nom
+**         de la methode et comme valeur la valeur retournee par la methode sur
+**         lequel un toString() a ete applique.
 **
 ** @see Object#toString()
 **
@@ -390,7 +390,7 @@ public <T> Map<String,String> toMap( // ---------------------------------------
                         && Enumeration.class.isAssignableFrom( returnType )
                         ) {
                     //
-                    // C'est une �numeration
+                    // C'est une enumeration
                     //
                     Enumeration<?>  enum0   = invoke( object, method, hashMap, Enumeration.class );
                     final String    name    = method.getName();
@@ -436,7 +436,7 @@ public <T> Map<String,String> toMap( // ---------------------------------------
                             }
 
                         } // result none null
-                    // else { null : deja trait� }
+                    // else { null : deja traite }
 
                     }
                 // else { On ne souhaite pas traiter ce type ! }
@@ -553,7 +553,7 @@ private final Method[] getDeclaredMethods( final Class<?> clazz ) // ------
     }
 
  //
- // Initialise une liste de m�thodes
+ // Initialise une liste de methodes
  //
  final Set<Method> methodsSet = new HashSet<Method>();
 
@@ -588,9 +588,9 @@ private final Method[] getDeclaredMethods( final Class<?> clazz ) // ------
 ** Permet d'identifier si la classe est Mappable.<br/>
 ** <br/>
 **
-** @param clazz Objet Class de l'objet � analyser.
+** @param clazz Objet Class de l'objet e analyser.
 **
-** @return true si la classe donn�e (clazz) est une classe qui h�rite de
+** @return true si la classe donnee (clazz) est une classe qui herite de
 **         l'interface {@link Mappable}, false autrement
 **
 ** @see Mappable
@@ -613,9 +613,9 @@ protected final boolean isMappable( final Class<?> clazz ) // -------------
 /**
 **
 **
-** @param returnType    class de l'objet � analyser.
+** @param returnType    class de l'objet e analyser.
 **
-** @return true si la classe donn�e (returnType) est a �valuer,
+** @return true si la classe donnee (returnType) est a evaluer,
 **         false autrement
 **
 ** @since 3.01.015
@@ -628,11 +628,11 @@ private final boolean shouldEvaluate( // ----------------------------------
 
  if( Modifier.isPrivate( modifier ) ) {
     //
-    // M�thode "private"
+    // Methode "private"
     //
     if( ! attributesSet.contains( Attributes.TRY_PRIVATE_METHODS ) ) {
         //
-        // M�thodes priv�es non demand�es
+        // Methodes privees non demandees
         //
         return false;
         }
@@ -640,11 +640,11 @@ private final boolean shouldEvaluate( // ----------------------------------
 
  if( Modifier.isProtected( modifier ) ) {
     //
-    // M�thode "protected"
+    // Methode "protected"
     //
     if( ! attributesSet.contains( Attributes.TRY_PROTECTED_METHODS ) ) {
         //
-        // M�thodes prot�g�es non demand�es
+        // Methodes protegees non demandees
         //
         return false;
         }
@@ -687,12 +687,12 @@ private final boolean shouldEvaluate( // ----------------------------------
 
 /**
 ** <P>
-** Transforme un object en une cha�ne
+** Transforme un object en une chaene
 ** </P>
 **
-** @param object    Objet � mettre sous forme de chaine.
+** @param object    Objet e mettre sous forme de chaine.
 **
-** @return un representation de l'objet sous forme de cha�ne.
+** @return un representation de l'objet sous forme de chaene.
 **
 ** @see #toString(EnumSet,Object)
 ** @since 3.01.015
@@ -708,7 +708,7 @@ public <T> String toString( final T object ) // ---------------------------
 }
 
 /**
-** Relance l'analyse r�cursivement.
+** Relance l'analyse recursivement.
 **
 **
 ** @param hashMap       x
@@ -732,14 +732,14 @@ private final static void addRec( // --------------------------------------
 
 /**
 ** <P>
-** Transforme un object en une cha�ne
+** Transforme un object en une chaene
 ** </P>
-** @param attributesSet     EnumSet d'objet Attributes permettant de param�trer
+** @param attributesSet     EnumSet d'objet Attributes permettant de parametrer
 **                          l'analyse ({@link MappableHelper.Attributes#DO_ITERATOR},
 **                          {@link MappableHelper.Attributes#DO_ENUMERATION})
-** @param object            Objet � mettre sous forme de chaine
+** @param object            Objet e mettre sous forme de chaine
 **
-** @return un representation de l'objet sous forme de cha�ne.
+** @return un representation de l'objet sous forme de chaene.
 **
 ** @throw NullPointerException si object est null
 */
@@ -813,19 +813,19 @@ private final static <T> String toString( // ------------------------------
 }
 
 /**
-** Appel la m�thode donn�e, en cas de r�ponse null ou d'erreur alimente
+** Appel la methode donnee, en cas de reponse null ou d'erreur alimente
 ** la hashMap
 **
-** @param object        Objet sur lequel doit �tre appliquer la m�thode
-**                      � appeler.
-** @param method        M�thode � appeler
+** @param object        Objet sur lequel doit etre appliquer la methode
+**                      e appeler.
+** @param method        Methode e appeler
 ** @param hashMap       Object {@link Map}<String,String> vers lequel sera copier
-**                      le resultat (Utiliser de pr�f�rence un objet de
-**                      type {@link HashMap}, afin d'�viter le doublonage.
+**                      le resultat (Utiliser de preference un objet de
+**                      type {@link HashMap}, afin d'eviter le doublonage.
 ** @param resultClass   Type resultat attendu.
 **
-** @return la valeur retourn�e par la m�thode ou null si le resultat a d�ja
-**         �t� trait� (erreur).
+** @return la valeur retournee par la methode ou null si le resultat a deja
+**         ete traite (erreur).
 */
 protected final <T,R> R invoke( // ----------------------------------------
     final T                     object,
@@ -841,7 +841,7 @@ protected final <T,R> R invoke( // ----------------------------------------
         //hashMap.put( formatMethodName( method.getName() ), "*null*" );
         hashMap.put( formatMethodName( method.getName() ), this.toStringNullValue );
 
-        return null; // valeur trait�e: null !
+        return null; // valeur traitee: null !
         }
     else {
         try {
@@ -876,18 +876,18 @@ protected final <T,R> R invoke( // ----------------------------------------
     //
     hashMap.put( formatMethodName( method.getName() ), "ExceptionInInitializerError: " + e.getCause() );
 
-    return null; // indique une erreur trait�e.
+    return null; // indique une erreur traitee.
     }
  catch( IllegalAccessException ignore ) {
     //
-    // La m�thode est prot�g�e, on ignore sa valeur
+    // La methode est protegee, on ignore sa valeur
     //
-    return null; // valeur trait�e: on ignore la valeur
+    return null; // valeur traitee: on ignore la valeur
     }
  catch( java.lang.reflect.InvocationTargetException e ) {
     hashMap.put( formatMethodName( method.getName() ), "InvocationTargetException: " + e.getCause() );
 
-    return null; // indique une erreur trait�e.
+    return null; // indique une erreur traitee.
     }
 
 }
@@ -899,11 +899,11 @@ protected final <T,R> R invoke( // ----------------------------------------
 **
 ** @param factory   Objet {@link MappableHelperFactory} permettant de configurer
 **                  l'objet {@link MappableHelper} pour le traitement.
-** @param object    Objet � analyser par introsp�ction.
+** @param object    Objet e analyser par introspection.
 **
-** @return un objet Map contenant un couple <String,String>, avec comme cl� le nom
-**         de la m�thode et comme valeur la valeur retourn�e par la m�thode sur
-**         lequel un toString() a �t� appliqu�.
+** @return un objet Map contenant un couple <String,String>, avec comme cle le nom
+**         de la methode et comme valeur la valeur retournee par la methode sur
+**         lequel un toString() a ete applique.
 **
 ** @since 3.02.009
 **
@@ -919,14 +919,14 @@ public static <T> Map<String,String> toMap( // ----------------------------
 
 /**
 ** <P>
-** Permet d'obtenir un flux XML � partir d'un objet Map contenant
-** des cha�nes.
+** Permet d'obtenir un flux XML e partir d'un objet Map contenant
+** des chaenes.
 ** </P>
 **
-** @param out   objet Appendable vers lequel sera �mis le flux.
-** @param clazz objet Class pour lequelle sera g�n�r� le flux XML
-** @param map   objet Map<String,String> � partir duquel sera contruit
-**              les valeurs. Cette valeur peut �tre null, dans ce cas
+** @param out   objet Appendable vers lequel sera emis le flux.
+** @param clazz objet Class pour lequelle sera genere le flux XML
+** @param map   objet Map<String,String> e partir duquel sera contruit
+**              les valeurs. Cette valeur peut etre null, dans ce cas
 **              le flux XML l'indiquera.
 **
 ** @since 3.01.012
@@ -958,13 +958,13 @@ public static void toXML( // ----------------------------------------------
 
 /**
 ** <P>
-** Permet d'obtenir un XML � partir d'un objet Mappable
+** Permet d'obtenir un XML e partir d'un objet Mappable
 ** </P>
 **
-** @param out               objet Appendable vers lequel sera �mis le flux.
-** @param clazz             objet Class pour lequelle sera g�n�r� le flux XML
-** @param aMappableObject   objet Mappable utilis� pour construire le flux
-**                          XML. Cette valeur peut �tre null, dans ce cas
+** @param out               objet Appendable vers lequel sera emis le flux.
+** @param clazz             objet Class pour lequelle sera genere le flux XML
+** @param aMappableObject   objet Mappable utilise pour construire le flux
+**                          XML. Cette valeur peut etre null, dans ce cas
 **                          le flux XML l'indiquera.
 **
 ** @since 3.01.022
@@ -983,12 +983,12 @@ public static <T extends Mappable> void toXML( // -------------------------
 
 /**
 ** <P>
-** Permet d'obtenir un XML � partir d'un objet Mappable
+** Permet d'obtenir un XML e partir d'un objet Mappable
 ** </P>
 **
-** @param out               objet Appendable vers lequel sera �mis le flux.
-** @param aMappableObject   objet Mappable utilis� pour construire le flux
-**                          XML. Ne doit pas �tre null.
+** @param out               objet Appendable vers lequel sera emis le flux.
+** @param aMappableObject   objet Mappable utilise pour construire le flux
+**                          XML. Ne doit pas etre null.
 **
 ** @see #toXML(Appendable,Class,Mappable)
 */
@@ -1003,15 +1003,15 @@ public static void toXML( // ----------------------------------------------
 
 /**
 ** <P>
-** Permet d'obtenir un XML � partir d'un objet Mappable
+** Permet d'obtenir un XML e partir d'un objet Mappable
 ** </P>
 **
-** @param clazz             objet Class pour lequelle sera g�n�r� le flux XML
-** @param aMappableObject   objet Mappable utilis� pour construire le flux
-**                          XML. Cette valeur peut �tre null, dans ce cas
+** @param clazz             objet Class pour lequelle sera genere le flux XML
+** @param aMappableObject   objet Mappable utilise pour construire le flux
+**                          XML. Cette valeur peut etre null, dans ce cas
 **                          le flux XML l'indiquera.
 **
-** @return un cha�ne contenant le flux XML
+** @return un chaene contenant le flux XML
 **
 ** @since 3.01.022
 **
@@ -1037,13 +1037,13 @@ public static <T extends Mappable> String toXML( // -----------------------
 
 /**
 ** <P>
-** Permet d'obtenir un XML � partir d'un objet Mappable
+** Permet d'obtenir un XML e partir d'un objet Mappable
 ** </P>
 **
-** @param aMappableObject   objet Mappable utilis� pour construire le flux
-**                          XML. Ne doit pas �tre null.
+** @param aMappableObject   objet Mappable utilise pour construire le flux
+**                          XML. Ne doit pas etre null.
 **
-** @return un cha�ne contenant le flux XML
+** @return un chaene contenant le flux XML
 **
 ** @see #toXML(Class,Mappable)
 */
@@ -1075,9 +1075,9 @@ public static String toXML( final Mappable aMappableObject ) // -----------
 ///////////////////////////////////////////////////////////////////////////
 
 /**
-** Cr�ation d'un nouvel objet MappableHelper, en utilisant l'objet
-** {@link MappableHelperFactory} initialis� avec les param�tres
-** par d�fauts.
+** Creation d'un nouvel objet MappableHelper, en utilisant l'objet
+** {@link MappableHelperFactory} initialise avec les parametres
+** par defauts.
 **
 ** @see MappableHelperFactory
 **
@@ -1092,14 +1092,14 @@ public MappableHelper() // ------------------------------------------------
 */
 
 /**
-** Cr�ation d'un nouvel objet MappableHelper
+** Creation d'un nouvel objet MappableHelper
 **
-** @param factory               Objet MappableHelperFactory � partir duquel sera
-**                              initialis� les informations de formattage.
-** @param methodesNamePattern   Pattern permettant d'identifier les m�thodes � traiter
-** @param returnTypeClasses     Collection des objets Class devant �tre analyser
-**                              par introsp�ction.
-** @param attributesSet         EnumSet d'objet Attributes permettant de param�trer
+** @param factory               Objet MappableHelperFactory e partir duquel sera
+**                              initialise les informations de formattage.
+** @param methodesNamePattern   Pattern permettant d'identifier les methodes e traiter
+** @param returnTypeClasses     Collection des objets Class devant etre analyser
+**                              par introspection.
+** @param attributesSet         EnumSet d'objet Attributes permettant de parametrer
 **                              l'analyse.
 **
 ** @see EnumSet#of
@@ -1130,14 +1130,14 @@ public MappableHelper( // -------------------------------------------------
 */
 
 /**
-** Cr�ation d'un nouvel objet MappableHelper
+** Creation d'un nouvel objet MappableHelper
 **
-** @param factory               Objet MappableHelperFactory � partir duquel sera
+** @param factory               Objet MappableHelperFactory e partir duquel sera
 **                              initialiser les informations de formattage.
-** @param methodesNamePattern   Pattern permettant d'identifier les m�thodes � traiter
-** @param returnTypeClasses     Liste des objets Class devant �tre analyser
-**                              par introsp�ction.
-** @param attributesSet         EnumSet d'objet Attributes permettant de param�trer
+** @param methodesNamePattern   Pattern permettant d'identifier les methodes e traiter
+** @param returnTypeClasses     Liste des objets Class devant etre analyser
+**                              par introspection.
+** @param attributesSet         EnumSet d'objet Attributes permettant de parametrer
 **                              l'analyse.
 **
 ** @see EnumSet#of
@@ -1167,13 +1167,13 @@ public MappableHelper( // -------------------------------------------------
 */
 
 /**
-** Cr�ation d'un nouvel objet MappableHelper, en utilisant l'objet
-** {@link MappableHelperFactory} par d�faut
+** Creation d'un nouvel objet MappableHelper, en utilisant l'objet
+** {@link MappableHelperFactory} par defaut
 **
-** @param methodesNamePattern   Pattern permettant d'identifier les m�thodes � traiter
-** @param returnTypeClasses     Liste des objets Class devant �tre analyser
-**                              par introsp�ction.
-** @param attributesSet         EnumSet d'objet Attributes permettant de param�trer
+** @param methodesNamePattern   Pattern permettant d'identifier les methodes e traiter
+** @param returnTypeClasses     Liste des objets Class devant etre analyser
+**                              par introspection.
+** @param attributesSet         EnumSet d'objet Attributes permettant de parametrer
 **                              l'analyse.
 **
 ** @see EnumSet#of
@@ -1202,13 +1202,13 @@ public MappableHelper( // -------------------------------------------------
 */
 
 /**
-** Cr�ation d'un nouvel objet MappableHelper, en utilisant l'objet
-** {@link MappableHelperFactory} par d�faut
+** Creation d'un nouvel objet MappableHelper, en utilisant l'objet
+** {@link MappableHelperFactory} par defaut
 **
-** @param methodesNamePattern   Pattern permettant d'identifier les m�thodes � traiter
-** @param returnTypeClasses     Liste des objets Class devant �tre analyser
-**                              par introsp�ction.
-** @param attributesSet         EnumSet d'objet Attributes permettant de param�trer
+** @param methodesNamePattern   Pattern permettant d'identifier les methodes e traiter
+** @param returnTypeClasses     Liste des objets Class devant etre analyser
+**                              par introspection.
+** @param attributesSet         EnumSet d'objet Attributes permettant de parametrer
 **                              l'analyse.
 **
 ** @see EnumSet#of
@@ -1237,12 +1237,12 @@ public MappableHelper( // -------------------------------------------------
 */
 
 /**
-** Cr�ation d'un nouvel objet MappableHelper, en utilisant l'objet
-** {@link MappableHelperFactory} par d�faut.
+** Creation d'un nouvel objet MappableHelper, en utilisant l'objet
+** {@link MappableHelperFactory} par defaut.
 **
-** @param methodesNamePattern   Pattern permettant d'identifier les m�thodes � traiter
-** @param returnTypeClasses     Liste des objets Class devant �tre analyser
-**                              par introsp�ction.
+** @param methodesNamePattern   Pattern permettant d'identifier les methodes e traiter
+** @param returnTypeClasses     Liste des objets Class devant etre analyser
+**                              par introspection.
 **
 ** @see #DEFAULT_ATTRIBUTES
 **
@@ -1268,12 +1268,12 @@ public MappableHelper( // -------------------------------------------------
 */
 
 /**
-** Cr�ation d'un nouvel objet MappableHelper, en utilisant l'objet
-** {@link MappableHelperFactory} par d�faut.
+** Creation d'un nouvel objet MappableHelper, en utilisant l'objet
+** {@link MappableHelperFactory} par defaut.
 **
-** @param methodesNamePattern   Pattern permettant d'identifier les m�thodes � traiter
-** @param returnTypeClasses     Liste des objets Class devant �tre analyser
-**                              par introsp�ction.
+** @param methodesNamePattern   Pattern permettant d'identifier les methodes e traiter
+** @param returnTypeClasses     Liste des objets Class devant etre analyser
+**                              par introspection.
 **
 ** @see #DEFAULT_ATTRIBUTES
 **
@@ -1303,15 +1303,15 @@ public MappableHelper( // -------------------------------------------------
 ** Retourne des couples (nomDeMethode,valeur).
 ** </p>
 **
-** @param object                Objet � analyser par introsp�ction.
-** @param methodesNamePattern   Pattern permettant d'identifier les m�thodes � traiter
-** @param returnTypeClasses     Liste des ClassObjet � analyser par introsp�ction.
-** @param attributesSet         EnumSet d'objet Attributes permettant de param�trer
+** @param object                Objet e analyser par introspection.
+** @param methodesNamePattern   Pattern permettant d'identifier les methodes e traiter
+** @param returnTypeClasses     Liste des ClassObjet e analyser par introspection.
+** @param attributesSet         EnumSet d'objet Attributes permettant de parametrer
 **                              l'analyse.
 **
-** @return un objet Map contenant un couple <String,String>, avec comme cl� le nom
-**         de la m�thode et comme valeur la valeur retourn�e par la m�thode sur
-**         lequel un toString() a �t� appliqu�.
+** @return un objet Map contenant un couple <String,String>, avec comme cle le nom
+**         de la methode et comme valeur la valeur retournee par la methode sur
+**         lequel un toString() a ete applique.
 **
 ** @see EnumSet#of
 ** @see EnumSet#noneOf( Class )
@@ -1345,7 +1345,7 @@ public static <T> Map<String,String> toMap( // ----------------------------
 ** </p>
 **
 ** <p>
-** Correspond � l'appel :
+** Correspond e l'appel :
 ** <code>
 **  MappableHelper instance
 **         = new MappableHelper(
@@ -1384,12 +1384,12 @@ public static <T> Map<String,String> toMap( // ----------------------------
 ** </p>
 **
 **
-** @param object            Objet � analyser par introsp�ction.
-** @param returnTypeClasses Liste des ClassObjet � analyser par introsp�ction.
+** @param object            Objet e analyser par introspection.
+** @param returnTypeClasses Liste des ClassObjet e analyser par introspection.
 **
-** @return un objet Map contenant un couple <String,String>, avec comme cl� le nom
-**         de la m�thode et comme valeur la valeur retourn�e par la m�thode sur
-**         lequel un toString() a �t� appliqu�.
+** @return un objet Map contenant un couple <String,String>, avec comme cle le nom
+**         de la methode et comme valeur la valeur retournee par la methode sur
+**         lequel un toString() a ete applique.
 **
 **
 ** @see #toMap( Object )
@@ -1417,7 +1417,7 @@ public static <T> Map<String,String> toMap( // ----------------------------
 */
 
 /**
-** Indique que toutes les classes sont �ligibles.
+** Indique que toutes les classes sont eligibles.
 **
 ** @deprecated use {@link MappableHelperFactory#ALL_CLASS}
 @Deprecated
@@ -1425,7 +1425,7 @@ public final static Class<?>[] ALL_CLASS = { Object.class };
 */
 
 /**
-** Permet de voir les r�sultats des types standards.
+** Permet de voir les resultats des types standards.
 **
 ** @deprecated use {@link MappableHelperFactory#STANDARDS_TYPES_CLASS}
 @Deprecated

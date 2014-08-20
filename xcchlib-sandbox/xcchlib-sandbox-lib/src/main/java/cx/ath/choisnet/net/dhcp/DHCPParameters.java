@@ -4,8 +4,8 @@
 ** Description   :
 **
 **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapt� du code de Jason Goldschmidt and Nick Stone
-**                      et bas� sur les RFCs 1700, 2131 et 2132
+**                      Adapte du code de Jason Goldschmidt and Nick Stone
+**                      et base sur les RFCs 1700, 2131 et 2132
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.net.dhcp.DHCPParameters
@@ -40,8 +40,8 @@ public static final byte OP_OPTION_BOOTREQUEST = 1;
 */
 public static final byte OP_OPTION_BOOTREPLY = 2;
 
-private byte            op;     // Code op�ration du message
-private byte            htype;  // HW: Adresse mat�rielle
+private byte            op;     // Code operation du message
+private byte            htype;  // HW: Adresse materielle
 private byte            hlen;   // hardware address length
 private byte            hops;   // Hw options
 private int             xid;    // transaction id

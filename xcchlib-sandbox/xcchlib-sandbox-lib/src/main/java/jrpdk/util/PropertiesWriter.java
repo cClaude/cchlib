@@ -18,13 +18,13 @@ private       PrintWriter   output;
 private final boolean       doNotSaveNullValue;
 
 /**
-** Construction � partir d'objet PrintWriter<P>
+** Construction e partir d'objet PrintWriter<P>
 **
 ** @param properties    PrintWriter valide dans lequel sera construit
 **                      le fichier properties.
-** @param hideNullValue Si true les couples (cl�,objets) pour lesquels
+** @param hideNullValue Si true les couples (cle,objets) pour lesquels
 **                      l'objet est null ne sont pas incrits dans le
-**                      fichier properties, si false seule la cl�
+**                      fichier properties, si false seule la cle
 **                      est incrite.
 */
 public PropertiesWriter( // -----------------------------------------------
@@ -37,10 +37,10 @@ public PropertiesWriter( // -----------------------------------------------
 }
 
 /**
-** Construction � partir d'objet PrintWriter<P>
+** Construction e partir d'objet PrintWriter<P>
 **
-** Par d�fault les couples (cl�,objets) pour lesquels l'objet est null ne
-** sont pas incrits dans le fichier properties, si false seule la cl�
+** Par default les couples (cle,objets) pour lesquels l'objet est null ne
+** sont pas incrits dans le fichier properties, si false seule la cle
 ** est incrite.
 */
 public PropertiesWriter( PrintWriter properties ) // ----------------------
@@ -49,13 +49,13 @@ public PropertiesWriter( PrintWriter properties ) // ----------------------
 }
 
 /**
-** Construction � partir d'objet OutputStream
+** Construction e partir d'objet OutputStream
 **
 ** @param properties    OutputStream valide dans lequel sera construit
 **                      le fichier properties.
-** @param hideNullValue Si true les couples (cl�,objets) pour lesquels
+** @param hideNullValue Si true les couples (cle,objets) pour lesquels
 **                      l'objet est null ne sont pas incrits dans le
-**                      fichier properties, si false seule la cl�
+**                      fichier properties, si false seule la cle
 **                      est incrite.
 */
 public PropertiesWriter( // -----------------------------------------------
@@ -67,10 +67,10 @@ public PropertiesWriter( // -----------------------------------------------
 }
 
 /**
-** Construction � partir d'objet OutputStream<P>
+** Construction e partir d'objet OutputStream<P>
 **
-** Par d�fault les couples (cl�,objets) pour lesquels l'objet est null ne
-** sont pas incrits dans le fichier properties, si false seule la cl�
+** Par default les couples (cle,objets) pour lesquels l'objet est null ne
+** sont pas incrits dans le fichier properties, si false seule la cle
 ** est incrite.
 */
 public PropertiesWriter( OutputStream properties ) // ---------------------
@@ -88,8 +88,8 @@ protected void finalize() throws Throwable // -----------------------------
 }
 
 /**
-** Ajout d'une ligne dans le fichier properties. La ligne est ajout�e
-** sans aucun traitement sp�cifique.
+** Ajout d'une ligne dans le fichier properties. La ligne est ajoutee
+** sans aucun traitement specifique.
 */
 public void putLine( String line ) // -------------------------------------
 {
@@ -107,9 +107,9 @@ public void putComment( String comment ) // -------------------------------
 }
 
 /**
-** Ajout d'un couple cl�, valeur dans le fichier properties.
+** Ajout d'un couple cle, valeur dans le fichier properties.
 **
-** @param key       Cl�, String non nulle
+** @param key       Cle, String non nulle
 ** @param value     Valeur, String non nulle
 */
 private void private_set( String key, String value ) // -------------------
@@ -118,7 +118,7 @@ private void private_set( String key, String value ) // -------------------
 }
 
 /**
-** Ajout d'un couple cl�, valeur dans le fichier properties.
+** Ajout d'un couple cle, valeur dans le fichier properties.
 */
 public void set( String key, String value ) // ----------------------------
 {
@@ -135,7 +135,7 @@ public void set( String key, String value ) // ----------------------------
 }
 
 /**
-** Ajout d'un couple cl�, valeur dans le fichier properties.
+** Ajout d'un couple cle, valeur dans le fichier properties.
 */
 public void set( String key, boolean value ) // ---------------------------
 {
@@ -143,7 +143,7 @@ public void set( String key, boolean value ) // ---------------------------
 }
 
 /**
-** Ajout d'un couple cl�, valeur dans le fichier properties.
+** Ajout d'un couple cle, valeur dans le fichier properties.
 */
 public void set( String key, Object value ) // ----------------------------
 {
@@ -160,7 +160,7 @@ public void set( String key, Object value ) // ----------------------------
 }
 
 /**
-** Ajout d'un couple cl�, valeur dans le fichier properties.
+** Ajout d'un couple cle, valeur dans le fichier properties.
 */
 public void set( String key, int value ) // -------------------------------
 {
@@ -168,7 +168,7 @@ public void set( String key, int value ) // -------------------------------
 }
 
 /**
-** Ajout d'un couple cl�, valeur dans le fichier properties.
+** Ajout d'un couple cle, valeur dans le fichier properties.
 */
 public void set( String key, long value ) // ------------------------------
 {
@@ -176,7 +176,7 @@ public void set( String key, long value ) // ------------------------------
 }
 
 /**
-** Ajout d'un couple cl�, valeur dans le fichier properties.
+** Ajout d'un couple cle, valeur dans le fichier properties.
 */
 public void set( String key, float value ) // -----------------------------
 {

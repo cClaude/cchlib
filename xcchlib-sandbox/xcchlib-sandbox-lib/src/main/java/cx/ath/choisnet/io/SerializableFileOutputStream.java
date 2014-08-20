@@ -16,21 +16,21 @@ import java.io.File;
 import java.io.OutputStream;
 
 /**
-** <p>Objet �quivalent � la classe {@link java.io.FileOutputStream}, et impl�mentant
+** <p>Objet equivalent e la classe {@link java.io.FileOutputStream}, et implementant
 ** l'interface {@link java.io.Serializable}.</p>
 ** <br />
-** Le principe de la "s�rialisation" de cet objet fonctionne comme suit:
+** Le principe de la "serialisation" de cet objet fonctionne comme suit:
 ** <br />
 ** <ul>
-**  <li>Lorsque l'objet est "s�rialiser", le flux de support est ferm�
-**      proprement, et les r�f�rences ayant permis de le construire est
-**      sauvegarder dans le flux de "s�rialisation".</li>
+**  <li>Lorsque l'objet est "serialiser", le flux de support est ferme
+**      proprement, et les references ayant permis de le construire est
+**      sauvegarder dans le flux de "serialisation".</li>
 **  <li>Lorsque l'objet est recontruit, le flux de support (fichier) est
-**      recr�� sur lequel on viendra ajouter les donn�es.</li>
+**      recree sur lequel on viendra ajouter les donnees.</li>
 ** </ul>
 ** <br/>
-** <b>La solution propos�e par cette s�rialisation n'est pas utilisable
-** pour une s�rialisation � travers un r�seau</b>.
+** <b>La solution proposee par cette serialisation n'est pas utilisable
+** pour une serialisation e travers un reseau</b>.
 **
 ** @author Claude CHOISNET
 ** @version 2.01.010
@@ -82,7 +82,7 @@ public SerializableFileOutputStream( // -----------------------------------
 }
 
 /**
-** par la r�prise (s�rialisation) il faut mettre le param�tre 'append' �
+** par la reprise (serialisation) il faut mettre le parametre 'append' e
 ** la valeur 'true'
 */
 private void open( boolean append ) // ------------------------------------
@@ -142,7 +142,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
  stream.defaultReadObject();
 
  //
- // R�initialisation des champs non sauvegard�s
+ // Reinitialisation des champs non sauvegardes
  //
  this.open( true );
 }

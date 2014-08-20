@@ -18,8 +18,8 @@ import java.util.SortedMap;
 
 /**
  ** <P>
- * Construction d'un {@link Iterator} � partir d'objet SortedMap, on iter sur les valeurs (et non pas sur les cl�s), de
- * plus la m�thode remove() est support�e.
+ * Construction d'un {@link Iterator} e partir d'objet SortedMap, on iter sur les valeurs (et non pas sur les cles), de
+ * plus la methode remove() est supportee.
  * </P>
  **
  ** @author Claude CHOISNET

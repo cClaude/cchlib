@@ -10,20 +10,20 @@
 **                      Ajout de l'interface SerializableFileFilter
 **                      Ajout de: trueFileFilter()
 **  3.01.031 2006.04.25 Claude CHOISNET - Version initial
-**                      La m�thode nameMatchesFileFilter(String) est
+**                      La méthode nameMatchesFileFilter(String) est
 **                      deprecated au profit de PatternFileFilter
 **  3.01.041 2006.05.24 Claude CHOISNET - Version initial
-**                      La m�thode not(FileFilter) retourne maintenant un
+**                      La méthode not(FileFilter) retourne maintenant un
 **                      objet SerializableFileFilter
-**                      La m�thode not(FileFilter) retourne maintenant un
+**                      La méthode not(FileFilter) retourne maintenant un
 **                      objet SerializableFileFilter
-**                      La m�thode and(FileFilter,FileFilter) retourne
+**                      La méthode and(FileFilter,FileFilter) retourne
 **                      maintenant un objet SerializableFileFilter
-**                      La m�thode and(FileFilter[]) retourne
+**                      La méthode and(FileFilter[]) retourne
 **                      maintenant un objet SerializableFileFilter
-**                      La m�thode or(FileFilter,FileFilter) retourne
+**                      La méthode or(FileFilter,FileFilter) retourne
 **                      maintenant un objet SerializableFileFilter
-**                      La m�thode or(FileFilter[]) retourne
+**                      La méthode or(FileFilter[]) retourne
 **                      maintenant un objet SerializableFileFilter
 ** ------------------------------------------------------------------------
 **
@@ -266,7 +266,7 @@ public static SerializableFileFilter zeroLengthFileFilter() // ------------
 
 /**
 ** <p>
-** Construit un FileFilter bas� sur une expression r�guli�re.
+** Construit un FileFilter basé sur une expression régulière.
 ** </p>
 **
 ** @deprecated use {@link PatternFileFilter} instead

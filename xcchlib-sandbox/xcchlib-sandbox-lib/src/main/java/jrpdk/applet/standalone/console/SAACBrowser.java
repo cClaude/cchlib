@@ -11,7 +11,7 @@ import javax.swing.text.*;
 import javax.swing.event.*;
 
 /**
-** Conform�ment � l'object java.awt.Component cette classe impl�mente
+** Conformement e l'object java.awt.Component cette classe implemente
 ** correctenement l'interface Serializable
 **
 ** @author Claude CHOISNET

@@ -10,7 +10,7 @@
 **                      Le constructeur XMLParserErrorHandler( PrintStream )
 **                      est deprecated.
 **  3.02.002 2006.05.30 Claude CHOISNET
-**                      Ajout des m�thodes:
+**                      Ajout des methodes:
 **                          ioError(IOException)
 **                          parserError(ParserConfigurationException)
 **  3.02.043 2007.01.09 Claude CHOISNET

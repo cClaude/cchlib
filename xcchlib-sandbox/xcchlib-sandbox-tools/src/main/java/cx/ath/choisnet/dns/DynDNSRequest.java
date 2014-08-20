@@ -48,7 +48,7 @@ private final String wildcard;
 /** Encode64( username:pass ) */
 private final String usernamePass;
 
-/** Fichier destriner � recevoir les traces des mise � jours */
+/** Fichier destriner e recevoir les traces des mise e jours */
 private final File traceFile;
 
 /** */

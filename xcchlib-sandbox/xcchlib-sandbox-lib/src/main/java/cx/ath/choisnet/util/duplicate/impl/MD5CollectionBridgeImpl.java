@@ -26,9 +26,9 @@ import java.util.TreeSet;
 
 /**
 ** <p>
-** Permet d'obtenir un {@link MD5Collection} � partir d'un objet
-** {@link MD5FileCollection} en applicant la r�gle d�fini par la
-** m�thode {@link #toString(File)}.
+** Permet d'obtenir un {@link MD5Collection} e partir d'un objet
+** {@link MD5FileCollection} en applicant la regle defini par la
+** methode {@link #toString(File)}.
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -86,10 +86,10 @@ public String toString() // -----------------------------------------------
 }
 
 /**
-** Retourne un ensemble, non modifiable, de cha�ne repr�sentant le
+** Retourne un ensemble, non modifiable, de chaene representant le
 ** le nom complet de l'ensemble des dossiers connus de cette collection.
 **
-** @return un objet Set<String> non null, mais �ventuellement vide.
+** @return un objet Set<String> non null, mais eventuellement vide.
 **
 ** @see MD5FileCollection#getFolderFiles()
 */
@@ -107,9 +107,9 @@ public Set<String> getFolderFilenames() // --------------------------------
 
 /**
 ** Retourne un dictionnaire, non modifiable, des fichiers sous forme d'un
-** object Map contenant un couple form� de l'empreinte du fichier {@link MD5TreeEntry}
-** et d'un ensemble cha�nes repr�sentant le nom complet de chacune des
-** instances de ce fichier (il doit y avoir au moins une entr�e).
+** object Map contenant un couple forme de l'empreinte du fichier {@link MD5TreeEntry}
+** et d'un ensemble chaenes representant le nom complet de chacune des
+** instances de ce fichier (il doit y avoir au moins une entree).
 **
 ** @return un Map<MD5TreeEntry,? extends Set<String>> non null, et non vide.
 **
@@ -128,13 +128,13 @@ public Map<MD5TreeEntry,? extends Set<String>> getEntryFilenames() // -----
 }
 
 /**
-** Retourne l'ensemble des noms de fichier complet correspondant �
-** l'empreinte donn�e.
+** Retourne l'ensemble des noms de fichier complet correspondant e
+** l'empreinte donnee.
 **
-** @param md5 Empreinte recherch�e
+** @param md5 Empreinte recherchee
 **
 ** @return un Set<String> si au moins un fichier correspond au MD5TreeEntry
-** donn�, retourne null autrement.
+** donne, retourne null autrement.
 **
 ** @see MD5FileCollection#getEntryFiles(MD5TreeEntry)
 */
@@ -153,7 +153,7 @@ public Set<String> getEntryFilenames( final MD5TreeEntry md5 ) // ---------
 public int compareTo( final MD5Collection anOtherCollection ) // ------
 {
  if( super.equals( anOtherCollection ) ) {
-    return 0; // on s'arr�te l�, c'est le m�me objet !
+    return 0; // on s'arrete le, c'est le meme objet !
     }
 
  return MD5CollectionHelper.compare( this, anOtherCollection );
@@ -166,21 +166,21 @@ public int compareTo( final MD5Collection anOtherCollection ) // ------
 public boolean equals( final MD5Collection anOtherCollection ) // -----
 {
  if( super.equals( anOtherCollection ) ) {
-    return true; // on s'arr�te l�, c'est le m�me objet !
+    return true; // on s'arrete le, c'est le meme objet !
     }
 
  return MD5CollectionHelper.compare( this, anOtherCollection ) == 0;
 }
 
 /**
-** M�thode de transformation des objets {@link File} des r�pertoire et des
-** fichiers en cha�ne.
+** Methode de transformation des objets {@link File} des repertoire et des
+** fichiers en chaene.
 ** <br/>
-** Cette m�thode est destin�e � �tre surcharg�e.
+** Cette methode est destinee e etre surchargee.
 **
-** @param file Objet File correspondant � un r�pertoire ou un fichier.
+** @param file Objet File correspondant e un repertoire ou un fichier.
 **
-** @return une cha�ne correspondant au nom complet de r�pertoire ou du
+** @return une chaene correspondant au nom complet de repertoire ou du
 **         dossier (non null).
 */
 public String toString( final File file ) // ------------------------------
@@ -189,7 +189,7 @@ public String toString( final File file ) // ------------------------------
 }
 
 /**
-** Transforme un ensemble d'objet File en un ensemble tri� de noms de fichiers
+** Transforme un ensemble d'objet File en un ensemble trie de noms de fichiers
 */
 private final SortedSet<String> toSetOfPath( final Set<File> files ) // ---
 {

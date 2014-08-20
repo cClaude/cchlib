@@ -39,9 +39,9 @@ public StandAloneAppletCLI( // --------------------------------------------
 }
 
 /**
-** Utilise le tableau de cha�ne parameters du constructeur (en g�n�ral, le
-** tableau donn� par la m�thode statique main() ) pour simuler la m�thode
-** �quivalente de la classe java.applet.Applet
+** Utilise le tableau de chaene parameters du constructeur (en general, le
+** tableau donne par la methode statique main() ) pour simuler la methode
+** equivalente de la classe java.applet.Applet
 **
 ** @see java.applet.Applet#getParameter( String )
 */

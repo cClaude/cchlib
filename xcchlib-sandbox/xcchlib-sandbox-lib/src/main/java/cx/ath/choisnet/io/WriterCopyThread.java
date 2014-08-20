@@ -17,7 +17,7 @@ import java.io.Reader;
 import java.io.Writer;
 
 /**
-** <p>Classe permettant de lire ou de copier un flux de mani�re assynchrone</p>
+** <p>Classe permettant de lire ou de copier un flux de maniere assynchrone</p>
 **
 **
 ** @author Claude CHOISNET
@@ -68,7 +68,7 @@ public WriterCopyThread( // -----------------------------------------------
 /**
 ** Build a new WriterCopyThread
 **
-** @param threadName    Nom de la tache qui sera cr�e
+** @param threadName    Nom de la tache qui sera cree
 ** @param source        Flux source
 ** @param destination   Flux de destination
 */
@@ -159,10 +159,10 @@ public void stopSpyWriter() // --------------------------------------------
 }
 
 /**
-** L'appel de la m�thode close() entraine l'appel de la m�thode cancel()
-** (arr�t du thread) puis la fermeture du flux de source.
+** L'appel de la methode close() entraine l'appel de la methode cancel()
+** (arret du thread) puis la fermeture du flux de source.
 ** <br />
-** Le flux destination n'est pas ferm�.
+** Le flux destination n'est pas ferme.
 */
 public void close() // ----------------------------------------------------
     throws java.io.IOException
@@ -173,9 +173,9 @@ public void close() // ----------------------------------------------------
 }
 
 /**
-** L'appel de la m�thode cancel() entraine l'arr�t du thread.
+** L'appel de la methode cancel() entraine l'arret du thread.
 ** <br />
-** Les flux ne sont pas ferm�s (ils restent en l'�tat).
+** Les flux ne sont pas fermes (ils restent en l'etat).
 */
 public void cancel() // ---------------------------------------------------
     throws java.io.IOException

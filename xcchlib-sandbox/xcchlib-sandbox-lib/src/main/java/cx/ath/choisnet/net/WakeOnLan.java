@@ -27,7 +27,7 @@ public static final int PORT = 7;
 private final int port;
 
 /**
-** Pr�pare une requ�te WakeOnLan sur le port par défaut
+** Prepare une requete WakeOnLan sur le port par défaut
 */
 public WakeOnLan() // ----------------------------------------------------
 {

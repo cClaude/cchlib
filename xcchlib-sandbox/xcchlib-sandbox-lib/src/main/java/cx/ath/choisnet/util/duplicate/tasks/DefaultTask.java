@@ -38,12 +38,12 @@ public abstract class DefaultTask
     private static final long serialVersionUID = 1L;
 
     /**
-    ** Fichier local sur lequel sera effectu� le traitement.
+    ** Fichier local sur lequel sera effectue le traitement.
     */
     protected File destinationAbsoluteFile;
 
     /**
-    ** Fichier local sur lequel sera effectu� le traitement.
+    ** Fichier local sur lequel sera effectue le traitement.
     */
     private Boolean firstime = Boolean.TRUE;
 
@@ -121,7 +121,7 @@ public abstract class DefaultTask
         ** Action par défaut pour la suppression d'un fichier.
         ** </p>
         **
-        ** @param destinationAbsoluteFile object File � supprimer
+        ** @param destinationAbsoluteFile object File e supprimer
         */
         public ActionLocalDeleteFile( final File destinationAbsoluteFile )
         {
@@ -129,11 +129,11 @@ public abstract class DefaultTask
         }
 
         /**
-        ** Cette m�thode v�rifie que l'objet File donn� est bien un
+        ** Cette methode verifie que l'objet File donne est bien un
         ** fichier, avant d'effacer le fichier, dans le cas contraire
         ** il ne fait rien.
         **
-        ** @throws cx.ath.choisnet.io.DeleteFileException si la suppression n'a pas pu �tre faite.
+        ** @throws cx.ath.choisnet.io.DeleteFileException si la suppression n'a pas pu etre faite.
         */
         @Override
         public void doIOJob() throws cx.ath.choisnet.io.DeleteFileException
@@ -189,7 +189,7 @@ public abstract class DefaultTask
                         );
                     }
                 }
-            // else { on fait rien il existe d�j� }
+            // else { on fait rien il existe deje }
         }
     }
 

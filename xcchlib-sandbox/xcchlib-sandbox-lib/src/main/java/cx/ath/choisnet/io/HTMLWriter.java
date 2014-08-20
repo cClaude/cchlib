@@ -17,13 +17,13 @@
 **  3.02.003 2005.05.20 Claude CHOISNET
 **                      Ajout de: rawWrite(String)
 **                      Deprecated de: writeHTML(String)
-**                      Ajout d'une synchronisation sur la m�thode
+**                      Ajout d'une synchronisation sur la methode
 **                      write(byte[],int,int)
 **  3.02.009 2006.06.12 Claude CHOISNET
 **                      Documentation
 **  3.02.025 2006.07.18 Claude CHOISNET
-**                      Les m�thodes ne produisent plus de java.io.IOException,
-**                      mais une HTMLWriterException. Objectif facilit�
+**                      Les methodes ne produisent plus de java.io.IOException,
+**                      mais une HTMLWriterException. Objectif facilite
 **                      la source de l'exception.
 ** -----------------------------------------------------------------------
 **
@@ -36,7 +36,7 @@ import java.io.Writer;
 
 /**
 ** <p>
-** Flux destin� a �tre utiliser pour contruire une page HTML.
+** Flux destine a etre utiliser pour contruire une page HTML.
 ** </p>
 **
 **
@@ -62,7 +62,7 @@ private final Writer writer;
 private final StringBuilder sbuffer;
 
 /**
-** Ecrit le flux en transformant les caract�res sp�ciaux en leur �quivalent
+** Ecrit le flux en transformant les caracteres speciaux en leur equivalent
 ** HTML
 */
 public HTMLWriter( // -----------------------------------------------------
@@ -75,7 +75,7 @@ public HTMLWriter( // -----------------------------------------------------
 
 /**
 ** Vide les caches {@link #flush()} et ferme le flux (y compris le flux
-** p�re)
+** pere)
 **
 ** @see #flush()
 ** @see Writer#close()

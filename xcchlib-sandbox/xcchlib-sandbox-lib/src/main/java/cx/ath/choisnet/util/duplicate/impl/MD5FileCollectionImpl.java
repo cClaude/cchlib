@@ -29,12 +29,12 @@ import java.util.TreeSet;
 
 /**
 ** <p>
-** Vue par empreintes d'un ensemble de fichiers, object semblable �
+** Vue par empreintes d'un ensemble de fichiers, object semblable e
 ** l'objet {@link MD5Collection}, mais permet de traiter des fichiers
-** directement � partir de l'objet File des fichiers.
+** directement e partir de l'objet File des fichiers.
 ** <br/>
 ** <br/>
-** Cette classe est adapt�e pour une utilisation avec
+** Cette classe est adaptee pour une utilisation avec
 ** {@link cx.ath.choisnet.util.duplicate.MD5FileCollectionCompator}
 ** </p>
 **
@@ -89,10 +89,10 @@ public MD5FileCollectionImpl() // -----------------------------------------
 }
 
 /**
-** Retourne un ensemble, non modifiable, d'objet {@link File} repr�sentant le
+** Retourne un ensemble, non modifiable, d'objet {@link File} representant le
 ** le nom complet de l'ensemble des dossiers connus de cette collection.
 **
-** @return un objet Set<String> non null, mais �ventuellement vide.
+** @return un objet Set<String> non null, mais eventuellement vide.
 **
 ** @see MD5Collection#getFolderFilenames()
 */
@@ -104,9 +104,9 @@ public Set<File> getFolderFiles() // --------------------------------------
 
 /**
 ** Retourne un dictionnaire, non modifiable, des fichiers sous forme d'un
-** object Map contenant un couple form� de l'empreinte du fichier {@link MD5TreeEntry}
-** et d'un ensemble de {@link File} repr�sentant le nom complet de chacune des
-** instances de ce fichier (il doit y avoir au moins une entr�e).
+** object Map contenant un couple forme de l'empreinte du fichier {@link MD5TreeEntry}
+** et d'un ensemble de {@link File} representant le nom complet de chacune des
+** instances de ce fichier (il doit y avoir au moins une entree).
 **
 ** @return un Map<MD5TreeEntry,? extends Set<File>> non null, et non vide.
 **
@@ -119,13 +119,13 @@ public Map<MD5TreeEntry,? extends Set<File>> getEntryFiles() // -----------
 }
 
 /**
-** Retourne l'ensemble des noms de fichier complet correspondant �
-** l'empreinte donn�e.
+** Retourne l'ensemble des noms de fichier complet correspondant e
+** l'empreinte donnee.
 **
-** @param md5 Empreinte recherch�e
+** @param md5 Empreinte recherchee
 **
 ** @return un Set<File> si au moins un fichier correspond au MD5TreeEntry
-** donn�, retourne null autrement.
+** donne, retourne null autrement.
 **
 ** @see MD5Collection#getEntryFilenames(MD5TreeEntry)
 */
@@ -157,7 +157,7 @@ public int getEntryCount() // ---------------------------------------------
 public int compareTo( final MD5FileCollection anOtherCollection ) // ------
 {
  if( super.equals( anOtherCollection ) ) {
-    return 0; // on s'arr�te l�, c'est le m�me objet !
+    return 0; // on s'arrete le, c'est le meme objet !
     }
 
  return MD5CollectionHelper.compare( this, anOtherCollection );
@@ -170,7 +170,7 @@ public int compareTo( final MD5FileCollection anOtherCollection ) // ------
 public boolean equals( final MD5FileCollection anOtherCollection ) // -----
 {
  if( super.equals( anOtherCollection ) ) {
-    return true; // on s'arr�te l�, c'est le m�me objet !
+    return true; // on s'arrete le, c'est le meme objet !
     }
 
  return MD5CollectionHelper.compare( this, anOtherCollection ) == 0;
@@ -181,7 +181,7 @@ public boolean equals( final MD5FileCollection anOtherCollection ) // -----
 ** Charge l'arbre dans cette collection.
 ** <br/>
 ** <br/>
-** Ces listes permettent, en particulier, d'avoir une vue des dossier bas�e
+** Ces listes permettent, en particulier, d'avoir une vue des dossier basee
 ** sur l'empreinte des fichiers et non pas leur localisation.
 ** </p>
 **

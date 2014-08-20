@@ -6,7 +6,7 @@
 **
 **  2.02.037 2005.10.25 Claude CHOISNET - Version initiale
 **  2.02.042 2006.01.09 Claude CHOISNET
-**                      Optimisations : suppression de la r�cursition.
+**                      Optimisations : suppression de la recursition.
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.checksum.MD5TreeNIOLoader
@@ -40,7 +40,7 @@ private final MD5Tree.AppendFileListener appendFileListener;
 private final SimpleMD5 sMD5;
 
 /**
-** Construit un objet {@link MD5TreeNIOLoader} devant �tre initialis�.
+** Construit un objet {@link MD5TreeNIOLoader} devant etre initialise.
 */
 public MD5TreeNIOLoader() // ----------------------------------------------
 {
@@ -120,7 +120,7 @@ public final void addFolder( // -------------------------------------------
 
         if( map.size() == 0 ) {
             //
-            // Plus de dossier � traiter, on sort !
+            // Plus de dossier e traiter, on sort !
             //
             break;
             }

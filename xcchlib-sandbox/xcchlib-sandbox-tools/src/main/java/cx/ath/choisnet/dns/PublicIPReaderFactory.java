@@ -30,11 +30,11 @@ import java.net.URL;
 */
 public class PublicIPReaderFactory
 {
-/** Service par d�faut : http://myip.dtdns.com/ */
+/** Service par defaut : http://myip.dtdns.com/ */
 public static final URL PUBLIC_DEFAULT_IP_LOCATOR_URL
                 = buildURL( "http://myip.dtdns.com/" );
 
-/** Sauvegarde par d�faut : C:/Tomcat-Tools.PublicIP */
+/** Sauvegarde par defaut : C:/Tomcat-Tools.PublicIP */
 public static final File PUBLIC_DEFAULT_IP_FILE
                 = new File( "C:/PreviousPublicIP" );
 
@@ -170,7 +170,7 @@ public static PublicIPReader getDefaultPublicIPReader() // ----------------
 }
 
 /**
-** @return l'@ IP publique ou null si elle n'a pas pu �tre d�termin�e
+** @return l'@ IP publique ou null si elle n'a pas pu etre determinee
 **
 ** @since 1.02
 */
@@ -195,8 +195,8 @@ public static String getCurrentPublicIP( // -------------------------------
 }
 
 /**
-** @return l'@ IP publique ou un message pr�cisant l'erreur si elle n'a pas
-**         pu �tre d�termin�e
+** @return l'@ IP publique ou un message precisant l'erreur si elle n'a pas
+**         pu etre determinee
 **
 ** @since 1.02
 */

@@ -8,7 +8,7 @@
 **  2.00.003 2005.09.17 Claude CHOISNET
 **                      Adapation JDK1.5 et TimeInterface
 **  2.01.012 2005.10.07 Claude CHOISNET
-**                      Amm�lioration de la s�rialisation
+**                      Ammelioration de la serialisation
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.datetime.BasicTime
@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.text.Format;
 
 /**
-** Cette classe g�re les probl�mes d'heure au sens commun (heure, minutes, secondes)
+** Cette classe gere les problemes d'heure au sens commun (heure, minutes, secondes)
 ** <P>
 ** <P>
 ** NOTES:<br/>
@@ -42,24 +42,24 @@ public class BasicTime
 private static final long serialVersionUID = 1L;
 
 /**
-** Cha�ne de formatage pour la class SimpleDateFormat du
-** r�sultat de la m�thode toString()
+** Chaene de formatage pour la class SimpleDateFormat du
+** resultat de la methode toString()
 */
 protected final static String TIMEFMT  = "HH:mm:ss";
 
 /**
 ** Objet de formatage SimpleDateFormat correspondant au format
-** de la m�thode toString()
+** de la methode toString()
 */
 protected final static SimpleDateFormat TIME_FMT = new SimpleDateFormat( TIMEFMT );
 
-/** int contenant le num�ro de l'heure de 0 � 23 */
+/** int contenant le numero de l'heure de 0 e 23 */
 protected int hours = -1;
 
-/** int contenant le num�ro des minutes de 0 � 59 */
+/** int contenant le numero des minutes de 0 e 59 */
 protected int minutes = -1;
 
-/** int contenant le num�ro des secondes de 0 � 59 */
+/** int contenant le numero des secondes de 0 e 59 */
 protected int seconds = -1;
 
 /** Valeur minimum pour BasicTime */
@@ -69,7 +69,7 @@ public final static BasicTime MIN_VALUE = buildBasicTime( 0, 0, 0 );
 public final static BasicTime MAX_VALUE = buildBasicTime( 23, 59, 59 );
 
 /**
-** Construit � partir d'un autre object BasicTime
+** Construit e partir d'un autre object BasicTime
 ** <P>
 ** @param time BasicTime <B>valide</B>
 */
@@ -102,7 +102,7 @@ public BasicTime( java.util.Date javadate ) // ---------------------------
 }
 
 /**
-** Construit une heure BasicTime avec la date sp�cifi�e
+** Construit une heure BasicTime avec la date specifiee
 **
 ** @param hours     l'heure interval [0..23]
 ** @param minutes   les minutes interval [0..59]
@@ -119,7 +119,7 @@ public BasicTime( int hours, int minutes, int secondes ) // --------------
 }
 
 /**
-** Construit une heure BasicTime avec la date sp�cifi�e
+** Construit une heure BasicTime avec la date specifiee
 **
 ** @param hours     l'heure interval [0..23]
 ** @param minutes   les minutes interval [0..59]
@@ -146,11 +146,11 @@ public BasicTime( long secondsFormMidnight ) // ---------------------------
 }
 
 /**
-** Construit BasicTime une cha�ne au format sp�cifi�e
+** Construit BasicTime une chaene au format specifiee
 **
-** @param time          heure sous forme de cha�ne.
-** @param formatter     object SimpleDateFormat d�crivant le format de la
-**                      cha�ne 'time'
+** @param time          heure sous forme de chaene.
+** @param formatter     object SimpleDateFormat decrivant le format de la
+**                      chaene 'time'
 **
 ** @exception java.text.ParseException
 */
@@ -161,14 +161,14 @@ public BasicTime( String time, SimpleDateFormat formatter ) // -----------
 }
 
 /**
-** Initialise l'objet BasicTime � partir de l'ann�e, du mois et du jour.
+** Initialise l'objet BasicTime e partir de l'annee, du mois et du jour.
 ** <P>
-** Cette m�thode lance un exception si les param�tres de la date ne sont pas
-** consistant vis-�-vis du calendrier.
+** Cette methode lance un exception si les parametres de la date ne sont pas
+** consistant vis-e-vis du calendrier.
 **
 ** @param hours     l'heure interval [0..23]
 ** @param minutes   les minutes interval [0..59]
-** @param seconds   les secondes interval [0..59] (d�pend du mois et de l'ann�e)
+** @param seconds   les secondes interval [0..59] (depend du mois et de l'annee)
 **
 ** @exception BasicTimeException
 */
@@ -191,7 +191,7 @@ public void set( int hours, int minutes, int seconds ) // -----------------
 }
 
 /**
-** D�finition de l'heure � partir du nombre de secondes
+** Definition de l'heure e partir du nombre de secondes
 **
 */
 protected void set( long secondsFromMidnight ) // -------------------------
@@ -219,7 +219,7 @@ protected void set( long secondsFromMidnight ) // -------------------------
 }
 
 /**
-** Initialise l'objet BasicTime avec une String format�e avec
+** Initialise l'objet BasicTime avec une String formatee avec
 ** le format interne : SIMPLE_TIME_FORMAT
 ** <P>
 */
@@ -234,7 +234,7 @@ protected void setWithFmtString( String fmtTime ) // ----------------------
 }
 
 /**
-** Initialise l'objet BasicTime � partir d'un objet java.util.Date
+** Initialise l'objet BasicTime e partir d'un objet java.util.Date
 */
 protected void set( java.util.Date javaDate ) // --------------------------
 {
@@ -244,7 +244,7 @@ protected void set( java.util.Date javaDate ) // --------------------------
 /**
 ** retourne les heures
 **
-** @return un int correspondant � la valeur des heures [0..23]
+** @return un int correspondant e la valeur des heures [0..23]
 */
 public int getHours() // --------------------------------------------------
 {
@@ -254,7 +254,7 @@ public int getHours() // --------------------------------------------------
 /**
 ** retourne les minutes
 **
-** @return un int correspondant � la valeur des minutes [0..59]
+** @return un int correspondant e la valeur des minutes [0..59]
 */
 public int getMinutes() // ------------------------------------------------
 {
@@ -264,7 +264,7 @@ public int getMinutes() // ------------------------------------------------
 /**
 ** retourne les secondes
 **
-** @return un int correspondant � la valeur des secondes [0..59]
+** @return un int correspondant e la valeur des secondes [0..59]
 */
 public int getSeconds() // ------------------------------------------------
 {
@@ -272,8 +272,8 @@ public int getSeconds() // ------------------------------------------------
 }
 
 /**
-** Surcharge de la m�thode toString() de la classe Object, permet d'utiliser
-** la classe comme une cha�ne.
+** Surcharge de la methode toString() de la classe Object, permet d'utiliser
+** la classe comme une chaene.
 **
 ** @return l'heure au format hh:mm:ss
 */
@@ -284,12 +284,12 @@ public String toString() // -----------------------------------------------
 }
 
 /**
-** Renvoie la date associ�e au calendrier conform�ment � l'oject de formatage.
+** Renvoie la date associee au calendrier conformement e l'oject de formatage.
 **
-** @param formatter     Object SimpleDateFormat contenant les caract�ristiques
+** @param formatter     Object SimpleDateFormat contenant les caracteristiques
 **                      du format attendu.
 **
-** @return l'horaire format�
+** @return l'horaire formate
 */
 @Override
 public String toString( Format formatter ) // -----------------------------
@@ -298,9 +298,9 @@ public String toString( Format formatter ) // -----------------------------
 }
 
 /**
-** retourne les heures dans une cha�ne sur 2 caract�res
+** retourne les heures dans une chaene sur 2 caracteres
 **
-** @return une String correspondant � la valeur des heures [00..23]
+** @return une String correspondant e la valeur des heures [00..23]
 */
 public String toStringHours() // ------------------------------------------
 {
@@ -313,9 +313,9 @@ public String toStringHours() // ------------------------------------------
 }
 
 /**
-** retourne les minutes dans une cha�ne sur 2 caract�res
+** retourne les minutes dans une chaene sur 2 caracteres
 **
-** @return une String correspondant � la valeur des minutes [00..59]
+** @return une String correspondant e la valeur des minutes [00..59]
 */
 public String toStringMinutes() // ----------------------------------------
 {
@@ -323,9 +323,9 @@ public String toStringMinutes() // ----------------------------------------
 }
 
 /**
-** retourne les secondes dans une cha�ne sur 2 caract�res
+** retourne les secondes dans une chaene sur 2 caracteres
 **
-** @return une String correspondant � la valeur des secondes [00..59]
+** @return une String correspondant e la valeur des secondes [00..59]
 */
 public String toStringSeconds() // ----------------------------------------
 {
@@ -333,7 +333,7 @@ public String toStringSeconds() // ----------------------------------------
 }
 
 /**
-** retourne le nombre secondes depuis l'heure 00:00:00 correspondant � la
+** retourne le nombre secondes depuis l'heure 00:00:00 correspondant e la
 ** valeur BasicTime de l'object
 **
 ** @return un long correspondant le nombre secondes depuis l'heure 00:00:00
@@ -370,7 +370,7 @@ public java.util.Date getJavaDate() // ------------------------------------
 /**
 ** Compare deux BasicTime.
 **
-** @return true si les 2 horaires correspondent � la seconde pr�s.
+** @return true si les 2 horaires correspondent e la seconde pres.
 */
 @Override
 public boolean equals( TimeInterface anotherTime ) // ---------------------
@@ -395,10 +395,10 @@ public boolean equals( Object o ) // --------------------------------------
 /**
 ** Compare deux BasicTime.
 **
-** @return  la valeur 0 si les 2 horaires correspondent � la m�me heure, une
-**          valeur n�gative si la date de l'object courant est plus vielle que l'horaire
-**          pass� en param�tre. une valeur positive si l'horaire de l'object
-**          courant est plus r�cent que l'horaire pass� en param�tre.
+** @return  la valeur 0 si les 2 horaires correspondent e la meme heure, une
+**          valeur negative si la date de l'object courant est plus vielle que l'horaire
+**          passe en parametre. une valeur positive si l'horaire de l'object
+**          courant est plus recent que l'horaire passe en parametre.
 */
 @Override
 public int compareTo( TimeInterface anotherTime ) // ----------------------
@@ -553,7 +553,7 @@ public static BasicTime subtract( // --------------------------------------
 }
 
 /**
-** Construit � partir d'un autre object BasicTime
+** Construit e partir d'un autre object BasicTime
 ** <P>
 */
 private static BasicTime buildBasicTime( // -------------------------------

@@ -31,7 +31,7 @@ public class ReaderHelper
 {
 
 /**
-** Transforme le contenu du flux en cha�ne, puis ferme le flux.
+** Transforme le contenu du flux en chaene, puis ferme le flux.
 **
 ** @throws java.io.IOException en cas d'erreur
 */
@@ -59,7 +59,7 @@ public static String toString( Reader input ) // ---------------------------
 ** Copie le contenu du flux 'input' vers le flux 'output'.
 ** </p>
 ** <br />
-** <b>Les flux ne sont pas ferm�s</b>
+** <b>Les flux ne sont pas fermes</b>
 ** <br />
 **
 ** @throws java.io.IOException en cas d'erreur
@@ -86,7 +86,7 @@ public static void copy( // -----------------------------------------------
 ** Copie le contenu du flux 'input' vers le flux 'output'.
 ** </p>
 ** <br />
-** <b>Les flux ne sont pas ferm�s</b>
+** <b>Les flux ne sont pas fermes</b>
 ** <br />
 **
 ** @throws java.io.IOException en cas d'erreur

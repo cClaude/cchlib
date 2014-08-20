@@ -6,9 +6,9 @@
 **
 **  2.00.005 2005.09.29 Claude CHOISNET
 **  2.01.004 2005.10.03 Claude CHOISNET - Version initiale
-**                      Impl�mente java.io.Serializable
+**                      Implemente java.io.Serializable
 **  2.01.008 2005.10.05 Claude CHOISNET - Version initiale
-**                      Impl�mente Iterable<MD5FileEntry>
+**                      Implemente Iterable<MD5FileEntry>
 **  2.01.036 2005.12.27 Claude CHOISNET
 **                      La classe est DEPRECATED au profit de MD5Tree
 ** -----------------------------------------------------------------------
@@ -190,7 +190,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
  stream.defaultReadObject();
 
  //
- // R�initialisation des champs non sauvegard�s
+ // Reinitialisation des champs non sauvegardes
  //
  int len = stream.readInt();
 

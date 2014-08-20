@@ -36,7 +36,7 @@ public MD5TreeDebug() // --------------------------------------------------
 }
 
 /**
-** Retourne le sous-arbre sous forme ASCII dans la cha�ne
+** Retourne le sous-arbre sous forme ASCII dans la chaene
 */
 public String tree() // ---------------------------------------------------
 {
@@ -44,7 +44,7 @@ public String tree() // ---------------------------------------------------
 }
 
 /**
-** Retourne le sous-arbre sous forme ASCII dans la cha�ne
+** Retourne le sous-arbre sous forme ASCII dans la chaene
 */
 final static public String tree( final MD5Tree aMD5Tree ) // --------------
 {

@@ -67,10 +67,10 @@ protected MD5CollectionImpl() // ------------------------------------------
 }
 
 /**
-** Construction d'un objet MD5Collection relative � un dossier.
+** Construction d'un objet MD5Collection relative e un dossier.
 **
 ** @param md5tree           Arbre contenant l'arboressance
-** @param baseFolderFile    Dossier correspondant � la racine de
+** @param baseFolderFile    Dossier correspondant e la racine de
 **                          l'arboressance.
 **
 **
@@ -87,7 +87,7 @@ public MD5CollectionImpl( // ----------------------------------------------
 }
 
 /**
-** Permet de modifier le dossier de r�f�rance (cas du d�placement).
+** Permet de modifier le dossier de referance (cas du deplacement).
 */
 private final void setBaseFolderFile( final File baseFolderFile ) // ------
 {
@@ -104,7 +104,7 @@ private String getRelativePath( final File absoluteFile ) // ---------------
 
  if( relFilePath.startsWith( this.baseFolderFilePath ) ) {
     //
-    // On retire le chemin vers la r�f�rance.
+    // On retire le chemin vers la referance.
     //
     relFilePath = relFilePath.substring( this.baseFolderFilePathLen );
     }
@@ -122,7 +122,7 @@ private String getName( final File file ) // ------------------------------
 
  if( relFilePath.startsWith( this.baseFolderFilePath ) ) {
     //
-    // On retire le chemin vers la r�f�rance.
+    // On retire le chemin vers la referance.
     //
     return relFilePath.substring( this.baseFolderFilePathLen );
     }
@@ -143,7 +143,7 @@ public File getRelativeFile( final File absoluteFile ) // -----------------
 ** Charge l'arbre dans cette collection.
 ** <br/>
 ** <br/>
-** Ces listes permettent, en particulier, d'avoir une vue des dossier bas�e
+** Ces listes permettent, en particulier, d'avoir une vue des dossier basee
 ** sur l'empreinte des fichiers et non pas leur localisation.
 ** </p>
 **

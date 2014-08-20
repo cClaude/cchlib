@@ -134,7 +134,7 @@ public void compute() // --------------------------------------------------
 {
  if( (this.standDevMap != null) && (this.meanMap != null) ) {
     //
-    // d�j� calcul�
+    // déjà calculé
     //
     return;
     }
@@ -163,7 +163,7 @@ public void append( Appendable a ) // -------------------------------------
 */
 
 /**
-** Standard deviation - �cart type
+** Standard deviation - écart type
 */
 public static final double sd( double... values ) // ----------------------
 {

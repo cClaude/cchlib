@@ -49,7 +49,7 @@ private T item;
 
 /**
 ** Construction d'un objet Iterator valide, contenant uniquement l'objet
-** pass� en param�tre.
+** passe en parametre.
 **
 */
 public SingletonIterator( T item ) // -------------------------------------

@@ -6,9 +6,9 @@
 **
 **  1.03.___ 2000.10.29 Claude CHOISNET - Version initiale
 **  1.31.___ 2005.05.16 Claude CHOISNET
-**                      Prise en charge de la serialization � travers les
-**                      les m�thodes writeObject() et readObject()
-**                      Changement de la repr�sentation interne
+**                      Prise en charge de la serialization e travers les
+**                      les methodes writeObject() et readObject()
+**                      Changement de la representation interne
 **  2.00.003 2005.09.17 Claude CHOISNET
 **                      Adapation JDK1.5 et DateInterface
 ** -----------------------------------------------------------------------
@@ -23,14 +23,14 @@ import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-//** Elle ne g�re pas les notions d'heure ou de calendrier, elle pourra �tre
-//** compl�t� en utilisant les m�thodes statiques de FullCalendar
+//** Elle ne gere pas les notions d'heure ou de calendrier, elle pourra etre
+//** complete en utilisant les methodes statiques de FullCalendar
 
 /**
 **
-** Cette classe g�re les probl�mes de date au sens commun (jour, mois, ann�e)
+** Cette classe gere les problemes de date au sens commun (jour, mois, annee)
 ** <P>
-** Elle ne g�re pas les notions d'heure ou de calendrier.
+** Elle ne gere pas les notions d'heure ou de calendrier.
 ** <P>
 ** <PRE>
 **  Exemple 1:
@@ -42,7 +42,7 @@ import java.text.SimpleDateFormat;
 ** </PRE>
 ** <P>
 ** <PRE>
-**  Exemple 2: Parcours d'une p�riode.
+**  Exemple 2: Parcours d'une periode.
 **      BasicDate  firstDayDate = new BasicDate( getDebutDePeriode() );
 **      BasicDate  lastDayDate  = new BasicDate( getFinDePeriode() );
 **
@@ -74,24 +74,24 @@ public class BasicDate
 private static final long serialVersionUID = 1L;
 
 /**
-** Cha�ne de formatage pour la class BasicDateFormat de
-** la m�thode toString()
+** Chaene de formatage pour la class BasicDateFormat de
+** la methode toString()
 */
 protected final static String DATEFMT = "yyyyMMdd";
 
 /**
 ** Object de formatage pour la class BasicDateFormat de
-** la m�thode toString()
+** la methode toString()
 */
 protected final static SimpleDateFormat DATE_FMT = new SimpleDateFormat( DATEFMT );
 
-/** Integer contenant le num�ro de l'ann�e de 0 � 9999 */
+/** Integer contenant le numero de l'annee de 0 e 9999 */
 protected transient int year = -1;
 
-/** Integer contenant le num�ro du mois 1 � 12 */
+/** Integer contenant le numero du mois 1 e 12 */
 protected transient int month = -1;
 
-/** Integer contenant le num�ro du jour 1 � 31 */
+/** Integer contenant le numero du jour 1 e 31 */
 protected transient int day = -1;
 
 /**
@@ -115,7 +115,7 @@ public BasicDate( java.util.Date javaDate ) // ----------------------------
 }
 
 /**
-** Construit � partir d'un autre object BasicDate
+** Construit e partir d'un autre object BasicDate
 ** <P>
 ** @param date  BasicDate <B>valide</B>
 */
@@ -130,10 +130,10 @@ public BasicDate( BasicDate date ) // -----------------------------------
 }
 
 /**
-** Construit un calendrier avec une cha�ne au format sp�cifi�e
+** Construit un calendrier avec une chaene au format specifiee
 **
-** @param date  date sous forme de cha�ne.
-** @param fmt   format de la cha�ne, conform�ment � la classe BasicDateFormat.
+** @param date  date sous forme de chaene.
+** @param fmt   format de la chaene, conformement e la classe BasicDateFormat.
 **
 ** @exception java.text.ParseException
 */
@@ -145,7 +145,7 @@ public BasicDate( String date, SimpleDateFormat fmt ) // -----------------
 
 ///*
 //*
-//** Construit une date BasicDate avec une cha�ne ayant le format YYYYMMDD
+//** Construit une date BasicDate avec une chaene ayant le format YYYYMMDD
 //**
 //** @param date  date au format YYYYMMDD
 //**
@@ -169,9 +169,9 @@ public BasicDate( String date, SimpleDateFormat fmt ) // -----------------
 
 
 /**
-** Construit une date BasicDate avec la date sp�cifi�e
+** Construit une date BasicDate avec la date specifiee
 **
-** @param year  l'ann�e
+** @param year  l'annee
 ** @param month le mois intervalle [1..12]
 ** @param day   le jour
 **
@@ -218,14 +218,14 @@ public void set( int year, int month, int day ) // ------------------------
 */
 
 /**
-** Initialise l'objet BasicDate � partir de l'ann�e, du mois et du jour.
+** Initialise l'objet BasicDate e partir de l'annee, du mois et du jour.
 ** <P>
-** Cette m�thode lance un exception si les param�tres de la date ne sont pas
-** consistant vis-�-vis du calendrier.
+** Cette methode lance un exception si les parametres de la date ne sont pas
+** consistant vis-e-vis du calendrier.
 **
-** @param year  l'ann�e interval [0..9999]
+** @param year  l'annee interval [0..9999]
 ** @param month le mois interval [1..12]
-** @param day   le jour interval [1..31] (d�pend du mois et de l'ann�e)
+** @param day   le jour interval [1..31] (depend du mois et de l'annee)
 **
 ** @exception BasicDateException
 */
@@ -254,9 +254,9 @@ public void set( int year, int month, int day ) // ------------------------
 }
 
 /**
-** Modifie le num�ro de l'ann�e de l'objet BasicDate
+** Modifie le numero de l'annee de l'objet BasicDate
 **
-** @param year le num�ro de l'ann�e [0..9999]
+** @param year le numero de l'annee [0..9999]
 **
 ** @exception BasicDateException
 */
@@ -266,7 +266,7 @@ public void setYear( int year ) throws BasicDateException // -------------
 }
 
 /**
-** Modifie le num�ro du mois de l'objet BasicDate
+** Modifie le numero du mois de l'objet BasicDate
 **
 ** @param month   le mois [1..12]
 **
@@ -278,7 +278,7 @@ public void setMonth( int month ) throws BasicDateException // -----------
 }
 
 /**
-** Modifie le num�ro du jour de l'objet BasicDate
+** Modifie le numero du jour de l'objet BasicDate
 **
 ** @param day   le jour [1..31]
 **
@@ -290,7 +290,7 @@ public void setDay( int day ) throws BasicDateException // ---------------
 }
 
 /**
-** Initialise l'objet BasicDate � partir d'un object  java.util.Date
+** Initialise l'objet BasicDate e partir d'un object  java.util.Date
 **
 ** @param javaDate date
 */
@@ -300,7 +300,7 @@ public void set( java.util.Date javaDate  ) // ----------------------------
 }
 
 /**
-** Initialise l'objet BasicDate avec une String format�e avec
+** Initialise l'objet BasicDate avec une String formatee avec
 ** le format interne
 ** <P>
 */
@@ -315,23 +315,23 @@ protected void setWithFmtString( String fmtTime ) // ----------------------
 }
 
 /**
-** retourne le num�ro du jour.
+** retourne le numero du jour.
 **
-** @return le num�ro du jour [1..31]
+** @return le numero du jour [1..31]
 */
 public int getDay() { return this.day; } // -------------------------------
 
 /**
-** retourne le num�ro du mois.
+** retourne le numero du mois.
 **
-** @return le num�ro du mois [1..12]
+** @return le numero du mois [1..12]
 */
 public int getMonth() { return this.month; } // ---------------------------
 
 /**
-** retourne le num�ro de l'ann�e.
+** retourne le numero de l'annee.
 **
-** @return le num�ro de l'ann�e
+** @return le numero de l'annee
 */
 public int getYear() { return this.year; } // -----------------------------
 
@@ -381,7 +381,7 @@ public boolean equals( Object o ) // --------------------------------------
 /**
 ** Compare deux BasicDate.
 **
-** @return true si les 2 dates correspondent au m�me jour, false autrement.
+** @return true si les 2 dates correspondent au meme jour, false autrement.
 */
 @Override
 public boolean equals( DateInterface anotherDate ) // ---------------------
@@ -401,10 +401,10 @@ public int compareTo( Object o ) // ---------------------------------------
 /**
 ** Compare deux BasicDate.
 **
-** @return  la valeur 0 si les 2 dates correspondent au m�me jour, une valeur
-**          n�gative si la date de l'object courant est plus vielle que la
-**          date pass� en param�tre. une valeur positive si la date de l'object
-**          courant est plus r�cente que la date pass� en param�tre.
+** @return  la valeur 0 si les 2 dates correspondent au meme jour, une valeur
+**          negative si la date de l'object courant est plus vielle que la
+**          date passe en parametre. une valeur positive si la date de l'object
+**          courant est plus recente que la date passe en parametre.
 */
 @Override
 public int compareTo( DateInterface anotherDate ) // -----------------------
@@ -476,8 +476,8 @@ public boolean isAfter( DateInterface anOtherDate ) // --------------------
 }
 
 /**
-** Surcharge de la m�thode toString() de la classe Object, permet d'utiliser
-** la classe comme une cha�ne. Retourne la date au format interne de la
+** Surcharge de la methode toString() de la classe Object, permet d'utiliser
+** la classe comme une chaene. Retourne la date au format interne de la
 ** classe BasicDate.
 **
 ** @return la date au format YYYYMMDD
@@ -515,12 +515,12 @@ public String toStringDay() // --------------------------------------------
 }
 
 /**
-** Renvoie la date associ�e au calendrier conform�ment � l'oject de formatage.
+** Renvoie la date associee au calendrier conformement e l'oject de formatage.
 **
-** @param formatter     Object BasicDateFormat contenant les caract�ristiques
+** @param formatter     Object BasicDateFormat contenant les caracteristiques
 **                      du format attendu.
 **
-** @return la date format�e
+** @return la date formatee
 */
 @Override
 public String toString( Format formatter ) // -----------------------------
@@ -531,7 +531,7 @@ public String toString( Format formatter ) // -----------------------------
 private final static long MILLISECONDS_BY_DAY = (1000L*60L*60L*24L);
 
 /**
-** NOTE: cette m�thode devrait retourner le nombre de jour depuis
+** NOTE: cette methode devrait retourner le nombre de jour depuis
 ** le 1er janvier de l'an 1.
 **
 ** @return le nombre de jour depuis le 1er January 1970,
@@ -543,17 +543,17 @@ public long longValue() // ------------------------------------------------
 }
 
 /**
-** Ajoute de UN an � la date courante.
+** Ajoute de UN an e la date courante.
 ** <P>
-** Passe automatiquement � l'ann�e suivante, en cas de d�passement de capacit�
-** de l'ann�e (9999) retour � l'an 0.
+** Passe automatiquement e l'annee suivante, en cas de depassement de capacite
+** de l'annee (9999) retour e l'an 0.
 */
 public void incYear() // -------------------------------------------------
 {
- int year = this.getYear() + 1; // Incr�mente
+ int year = this.getYear() + 1; // Incremente
 
  if( year > 9999 ) {
-    // Afin d'�viter � transmettre une exception, presque inutile ;-)
+    // Afin d'eviter e transmettre une exception, presque inutile ;-)
     year = 0;
     }
 
@@ -566,22 +566,22 @@ public void incYear() // -------------------------------------------------
 }
 
 /**
-** Ajoute de UN mois � la date courante.
+** Ajoute de UN mois e la date courante.
 ** <P>
-** Passe automatiquement � l'ann�e suivante, en cas de d�passement de capacit�
-** de l'ann�e (9999) retour � l'an 0.
+** Passe automatiquement e l'annee suivante, en cas de depassement de capacite
+** de l'annee (9999) retour e l'an 0.
 */
 public void incMonth() // -------------------------------------------------
 {
  int year   = this.getYear();
- int month  = this.getMonth() + 1; // Incr�mente
+ int month  = this.getMonth() + 1; // Incremente
 
  if( month > 12 ) {
     month = 1; // Janvier
     year += 1;
 
     if( year > 9999 ) {
-        // Afin d'�viter � transmettre une exception, presque inutile ;-)
+        // Afin d'eviter e transmettre une exception, presque inutile ;-)
         year = 0;
         }
     }
@@ -595,11 +595,11 @@ public void incMonth() // -------------------------------------------------
 }
 
 /**
-** M�thode permettant de calculer la dur�e en jours entre 2 dates BasicDate
-** la date le l'object actuel est la r�f�rence de d�but de p�riode
+** Methode permettant de calculer la duree en jours entre 2 dates BasicDate
+** la date le l'object actuel est la reference de debut de periode
 ** <P>
 ** <PRE>
-**  // Calcul le nombre de jour d'un mois donn�.
+**  // Calcul le nombre de jour d'un mois donne.
 **  BasicDate startDate = new BasicDate( yearNumber, monthNumber, 1 );
 **  BasicDate endDate   = new BasicDate( yearNumber, monthNumber, 1 );
 **  endDate.incMonth();
@@ -607,9 +607,9 @@ public void incMonth() // -------------------------------------------------
 **  int countOfDayInTheMonth = startDate.countOfDay( endDate );
 ** </PRE>
 **
-** @param endOfPeriod BasicDate initialis� � la fin de la p�riode
+** @param endOfPeriod BasicDate initialise e la fin de la periode
 **
-** @return dur�e (en jours) entre la date de d�but et la date de fin
+** @return duree (en jours) entre la date de debut et la date de fin
 */
 public int countOfDay( BasicDate endOfPeriod ) // ------------------------
 {
@@ -632,7 +632,7 @@ public int countOfDay( BasicDate endOfPeriod ) // ------------------------
 protected void check() throws BasicDateException // ----------------------
 {
  //
- // V�rification que la date est consistante.
+ // Verification que la date est consistante.
  //
  BasicDate checkDate = new BasicDate( this.getJavaDate() );
 
@@ -697,14 +697,14 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
 
 /*
 *
-** Ajoute de UN jour � la date courante.
+** Ajoute de UN jour e la date courante.
 ** <P>
-** Passe automatiquement au mois et � l'ann�e suivante si besoin.
+** Passe automatiquement au mois et e l'annee suivante si besoin.
 *
 /
 public void incDay() // ---------------------------------------------------
 {
- int day = this.getDay() + 1; // Incr�mente
+ int day = this.getDay() + 1; // Incremente
 
  if( day > 28 ) {
     // Il y a un risque potentiel de changement de mois,
@@ -716,7 +716,7 @@ public void incDay() // ---------------------------------------------------
 
     calendar.add( FullCalendar.DATE, 1 );
 
-    // R�cup�re une date toute propre ;-)
+    // Recupere une date toute propre ;-)
     dateYYYYMMDD = calendar.getDate( SIMPLE_DATE_FORMAT );
 
     // System.out.println( "cal :" + calendar.getDate( SIMPLE_DATE_FORMAT ) );
@@ -737,9 +737,9 @@ public void incDay() // ---------------------------------------------------
 
 /*
 *
-** Ajoute 'numberOfDay' jours � la date.
+** Ajoute 'numberOfDay' jours e la date.
 **
-** @param numberOfDay   nombres de jours � ajouter � partir de la date courante
+** @param numberOfDay   nombres de jours e ajouter e partir de la date courante
 **                      (valeur <B>positive uniquement</B>).
 *
 /
@@ -755,9 +755,9 @@ public void incDay( int numberOfDay ) // ----------------------------------
 
 /*
 *
-** Retire UN jour � la date courante.
+** Retire UN jour e la date courante.
 ** <P>
-** Ajoute automatiquement le mois et l'ann�e si besoin.
+** Ajoute automatiquement le mois et l'annee si besoin.
 *
 /
 public void decDay() // ---------------------------------------------------
@@ -768,9 +768,9 @@ public void decDay() // ---------------------------------------------------
 
 /*
 *
-** Retire 'numberOfDay' jours � la date.
+** Retire 'numberOfDay' jours e la date.
 **
-** @param numberOfDay   nombres de jours � retirer � partir de la date courante
+** @param numberOfDay   nombres de jours e retirer e partir de la date courante
 **                      (valeur <B>positive uniquement</B>).
 *
 /

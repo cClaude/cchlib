@@ -20,10 +20,10 @@ import java.util.Iterator;
 
 /**
 ** <p>
-** Outils permettant de cr�er des identificateurs HTML, CSS ou JavaScript
-** � partir du hashcode ({@link Object#hashCode()}) de l'objet Java
-** concern� ({@link #getHTMLID(Object)})
-** et de r�cup�rer le hashcode � partir de l'ID ({@link #getHashCode(String)})
+** Outils permettant de creer des identificateurs HTML, CSS ou JavaScript
+** e partir du hashcode ({@link Object#hashCode()}) de l'objet Java
+** concerne ({@link #getHTMLID(Object)})
+** et de recuperer le hashcode e partir de l'ID ({@link #getHashCode(String)})
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -38,7 +38,7 @@ public class HTMLParameterHelper<T>
 {
 
 /**
-** Encode le hashcode de l'objet en un cha�ne qui peut permettre
+** Encode le hashcode de l'objet en un chaene qui peut permettre
 ** d'identifier un objet HTML, CSS ou JavaScript.
 **
 ** @see #hashCode()
@@ -52,7 +52,7 @@ public final static String getHTMLID( // ----------------------------------
 }
 
 /**
-** Permet de retrouver le hashcode encod� � l'aide de la m�thode
+** Permet de retrouver le hashcode encode e l'aide de la methode
 ** {@link #getHTMLID(Object)}
 **
 ** @see #getHTMLID(Object)
@@ -106,7 +106,7 @@ public final static int[] getHashCodes( // --------------------------------
 ** @see #getHashCode(String)
 ** @see #getHashCodes(String[])
 **
-** @return l'objet trouv� ou null sinon
+** @return l'objet trouve ou null sinon
 **
 ** @since 3.02.009
 */
@@ -159,7 +159,7 @@ public final static <T> IterableIterator<T> select( // -------------------------
 }
 
     /**
-    ** N'est pas s�rializable
+    ** N'est pas serializable
     */
     public static class Selectable<T>
         implements cx.ath.choisnet.util.Selectable<T>

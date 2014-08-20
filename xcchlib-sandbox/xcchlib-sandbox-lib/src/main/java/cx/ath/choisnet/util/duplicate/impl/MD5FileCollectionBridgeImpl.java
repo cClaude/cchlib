@@ -27,7 +27,7 @@ import java.util.TreeSet;
 /**
  ** <p>
  * Permet d'obtenir un {@link MD5FileCollection} à partir d'un objet
- ** {@link MD5Collection} en applicant la r�gle d�fini par la méthode
+ ** {@link MD5Collection} en applicant la regle defini par la méthode
  ** {@link #toFile(String)}.
  * </p>
  **
@@ -104,7 +104,7 @@ public class MD5FileCollectionBridgeImpl implements MD5FileCollection {
     /**
      ** Retourne un dictionnaire, non modifiable, des fichiers sous forme d'un
      * object Map contenant un couple formé de l'empreinte du fichier
-     * {@link MD5TreeEntry} et d'un ensemble de {@link File} repr�sentant le nom
+     * {@link MD5TreeEntry} et d'un ensemble de {@link File} representant le nom
      * complet de chacune des instances de ce fichier (il doit y avoir au moins
      * une entrée).
      **
@@ -131,7 +131,7 @@ public class MD5FileCollectionBridgeImpl implements MD5FileCollection {
      *            Empreinte recherchée
      **
      ** @return un Set<File> si au moins un fichier correspond au MD5TreeEntry
-     *         donn�, retourne null autrement.
+     *         donne, retourne null autrement.
      **
      ** @see MD5Collection#getEntryFilenames(MD5TreeEntry)
      */
@@ -150,7 +150,7 @@ public class MD5FileCollectionBridgeImpl implements MD5FileCollection {
     public int compareTo( final MD5FileCollection anOtherCollection ) // ------
     {
         if( super.equals( anOtherCollection ) ) {
-            return 0; // on s'arr�te l�, c'est le m�me objet !
+            return 0; // on s'arrete le, c'est le meme objet !
         }
 
         return MD5CollectionHelper.compare( this, anOtherCollection );
@@ -163,7 +163,7 @@ public class MD5FileCollectionBridgeImpl implements MD5FileCollection {
     public boolean equals( final MD5FileCollection anOtherCollection ) // -----
     {
         if( super.equals( anOtherCollection ) ) {
-            return true; // on s'arr�te l�, c'est le m�me objet !
+            return true; // on s'arrete le, c'est le meme objet !
         }
 
         return MD5CollectionHelper.compare( this, anOtherCollection ) == 0;
@@ -172,7 +172,7 @@ public class MD5FileCollectionBridgeImpl implements MD5FileCollection {
     /**
      ** Méthode de transformation du nom des répertoire et des fichiers en objet
      ** {@link File}. <br/>
-     ** Cette m�thode est destinée à être surchargée.
+     ** Cette methode est destinée à être surchargée.
      **
      ** @param path
      *            chaîne décrivant le nom complet du répertoire ou du fichier.

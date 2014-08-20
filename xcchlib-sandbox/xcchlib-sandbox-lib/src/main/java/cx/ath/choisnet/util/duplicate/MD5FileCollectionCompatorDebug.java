@@ -16,17 +16,17 @@
  */
 package cx.ath.choisnet.util.duplicate;
 
-import cx.ath.choisnet.util.duplicate.tasks.DefaultFileTasksFactory;
-import cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionBridgeImpl;
-import cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionFactory;
-import cx.ath.choisnet.xml.XMLParserErrorHandler;
-import cx.ath.choisnet.xml.impl.XMLParserDOM2Impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.StringWriter;
+import cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionBridgeImpl;
+import cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionFactory;
+import cx.ath.choisnet.util.duplicate.tasks.DefaultFileTasksFactory;
+import cx.ath.choisnet.xml.XMLParserErrorHandler;
+import cx.ath.choisnet.xml.impl.XMLParserDOM2Impl;
 
 /**
- ** Classe r�serv�e au d�buggage de {@link MD5CollectionCompator}
+ ** Classe réservée au débuggage de {@link MD5CollectionCompator}
  **
  **
  ** @author Claude CHOISNET
@@ -121,7 +121,7 @@ public class MD5FileCollectionCompatorDebug {
 
         final MD5FileCollectionFactory factory = new MD5FileCollectionFactory() {
             @Override
-            public void handleIOException( File file, java.io.IOException cause )
+            public void handleIOException( final File file, final java.io.IOException cause )
             {
                 // on ignore les erreurs...
                 System.err.println( "***warn : " + file + " - " + cause );
@@ -131,15 +131,13 @@ public class MD5FileCollectionCompatorDebug {
         return factory.getMD5FileCollection( folder );
     }
 
-    /**
-**
-*/
+    @SuppressWarnings("resource")
     public static MD5FileCollection loadFromXML( final File file ) // ---------
             throws Exception
     {
-        StringWriter sw = new StringWriter();
+        final StringWriter sw = new StringWriter();
 
-        MD5CollectionXML instance = new MD5CollectionXML(
+        final MD5CollectionXML instance = new MD5CollectionXML(
                 new XMLParserDOM2Impl(
                         new FileInputStream( file ),
                         XMLParserDOM2Impl.DEFAULT_ATTRIBUTS,

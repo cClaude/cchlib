@@ -13,8 +13,8 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 /**
-** Liste cha�n�e d'�l�ments simplifi�e. Cette liste est particuli�rement
-** efficasse en terme de m�moire et de temps sur les op�rations simples.
+** Liste chaenee d'elements simplifiee. Cette liste est particulierement
+** efficasse en terme de memoire et de temps sur les operations simples.
 */
 public class SimpleList<E>
     extends AbstractSequentialList<E>
@@ -116,7 +116,7 @@ public void add( int index, E o ) // ---------------------------------
     throw new IndexOutOfBoundsException( "Index: " + index + ", Size: " + size );
     }
 
- if( index == 0 ) { // Ajout en t�te
+ if( index == 0 ) { // Ajout en tete
     addFirst( o );
 
     return;
@@ -245,7 +245,7 @@ public E set( int index, E element )
 
  //
  // Pas de modification de "this.modificationCounter", car la
- // structure de la liste n'a pas chang�e.
+ // structure de la liste n'a pas changee.
  //
 
  return oldVal;
@@ -354,7 +354,7 @@ System.out.println( "public boolean remove( Object o )" );
     for( SimpleListEntry<E> e = this.firstItem; e != null; e = e.next ) {
 
         if( e.element == null ) {
-            // il ne s'agit ni du premier, ni du dernier �l�ment.
+            // il ne s'agit ni du premier, ni du dernier element.
             prev.next = e.next;
             size--;
 
@@ -382,7 +382,7 @@ System.out.println( "public boolean remove( Object o )" );
 
     for( SimpleListEntry<E> e = this.firstItem; e != null; e = e.next ) {
         if( o.equals( e.element ) ) {
-            // il ne s'agit ni du premier, ni du dernier �l�ment.
+            // il ne s'agit ni du premier, ni du dernier element.
             prev.next = e.next;
             size--;
 
@@ -411,7 +411,7 @@ private void removeSimpleListEntry( SimpleListEntry<E> entry ) // ------------
 
  for( SimpleListEntry<E> e = this.firstItem; e != null; e = e.next ) {
     if( e == entry ) {
-        // il ne s'agit ni du premier, ni du dernier �l�ment.
+        // il ne s'agit ni du premier, ni du dernier element.
         prev.next = e.next;
         size--;
 
@@ -480,7 +480,7 @@ System.out.println( "public boolean remove( int index )" );
     e       = e.next;
     }
 
- // Note: il ne s'agit ni de la t�te, ni de la queue.
+ // Note: il ne s'agit ni de la tete, ni de la queue.
 
  prev.next = e.next;
 
@@ -701,7 +701,7 @@ private synchronized void readObject( ObjectInputStream s ) // ----
 
      SimpleList.this.removeSimpleListEntry( lastReturn );
 
-     --currentEntryIndex; // La position courante a boug�e d'un element
+     --currentEntryIndex; // La position courante a bougee d'un element
 
      lastReturn = null;
      iteratorMC = modificationCounter;
@@ -737,7 +737,7 @@ private synchronized void readObject( ObjectInputStream s ) // ----
 
             SimpleList.this.add( currentIndex, o );
 
-            currentIndex++; // on a ajout� avant le curseur
+            currentIndex++; // on a ajoute avant le curseur
             iteratorMC = modificationCounter;
             }
 

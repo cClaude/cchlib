@@ -24,7 +24,7 @@ import javax.sql.DataSource;
  ** @version 2.02.009
  */
 public class SimpleDataSource implements java.io.Closeable {
-    /** Description de la source de donn�es */
+    /** Description de la source de donnees */
     private final DataSource ds;
 
     /**  */
@@ -64,7 +64,7 @@ public class SimpleDataSource implements java.io.Closeable {
 
     /**
      ** <P>
-     * Lib�re les informations de la requ�te courante.
+     * Libere les informations de la requete courante.
      * </P>
      */
     @Override

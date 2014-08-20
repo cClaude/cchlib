@@ -18,7 +18,7 @@ import java.util.zip.ZipEntry;
 
 /**
 ** <p>
-** Impl�mentation minimal de {@link SimpleZipEntry}
+** Implementation minimal de {@link SimpleZipEntry}
 ** </p>
 **
 ** @author Claude CHOISNET

@@ -6,11 +6,11 @@
 **
 **  1.01.___ 2005.05.04 Claude CHOISNET
 **  3.00.003 2006.02.14 Claude CHOISNET
-**                      Suppression du constructeur avec 3 param�tres
+**                      Suppression du constructeur avec 3 parametres
 **                      Writer.
 **                      Reprise du constructeur ParallelWriter(...)
-**                      afin d'�tre compatible avec ce qu'�tait le
-**                      constructeur � 3 param�tres (cr�ation d'un tableau
+**                      afin d'etre compatible avec ce qu'etait le
+**                      constructeur e 3 parametres (creation d'un tableau
 **                      local).
 ** -----------------------------------------------------------------------
 **
@@ -77,7 +77,7 @@ public void close() // ----------------------------------------------------
         }
     catch( java.io.IOException e ) {
         //
-        // Sauvegarde la derni�re exception
+        // Sauvegarde la derniere exception
         //
         lastException = e;
         }

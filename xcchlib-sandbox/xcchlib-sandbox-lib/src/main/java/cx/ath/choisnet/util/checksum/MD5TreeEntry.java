@@ -36,7 +36,7 @@ private static final long serialVersionUID = 2L;
 private transient byte[] mdBytes;
 
 /**
-** Construction d'une entr�e � partir de sa valeur brute.
+** Construction d'une entree e partir de sa valeur brute.
 */
 public MD5TreeEntry( final byte[] mdBytes ) // ----------------------------
 {
@@ -175,7 +175,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
 }
 
 /**
-** Construction d'une entr�e � partir de sa cha�ne en HEXADECIMAL.
+** Construction d'une entree e partir de sa chaene en HEXADECIMAL.
 */
 public final static MD5TreeEntry newInstance( final String hexKey ) // ----
     throws NumberFormatException

@@ -23,7 +23,7 @@ import java.util.Iterator;
 ** </P>
 ** <P>
 ** Classe permettant de construire des objets {@link Iterator} sans pour cela
-** avoir besoin de cr�er de nouvelle collection.
+** avoir besoin de creer de nouvelle collection.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -55,7 +55,7 @@ private T nextObject = null;
 ** d'iterateurs.
 ** </p>
 **
-** @param iteratorOfIterator    Iterateur de r�f�rence
+** @param iteratorOfIterator    Iterateur de reference
 */
 public FlattenIterator( // ------------------------------------------------
     final Iterator<Iterator<T>> iteratorOfIterator
@@ -70,7 +70,7 @@ public FlattenIterator( // ------------------------------------------------
 ** ({@link Iterator}),
 ** </p>
 **
-** @param collectionOfIterator    Collection de r�f�rence
+** @param collectionOfIterator    Collection de reference
 */
 public FlattenIterator( // ------------------------------------------------
     final Collection<Iterator<T>> collectionOfIterator
@@ -85,7 +85,7 @@ public FlattenIterator( // ------------------------------------------------
 ** </p>
 **
 ** @param arrayOfIterator   Tableau d'iterateur
-** @param   offset          Index de d�part
+** @param   offset          Index de depart
 ** @param   len             Index de fin
 **
 */
@@ -142,14 +142,14 @@ public FlattenIterator( // ------------------------------------------------
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur un iterateur (Iterator) et un
-** �l�ment.
+** element.
 ** </p>
 ** Ce constructeur s'appuis sur {@link ArrayCollection}.
 **
 ** @param iter      Object {@link Iterator}
 ** @param element   Element seul
 **
-** L'�l�ment seul sera traiter APR�S les �l�ments de l'iterateur.
+** L'element seul sera traiter APReS les elements de l'iterateur.
 **
 */
 public FlattenIterator( // ------------------------------------------------
@@ -167,14 +167,14 @@ public FlattenIterator( // ------------------------------------------------
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur un iterateur (Iterator) et un
-** �l�ment.
+** element.
 ** </p>
 ** Ce constructeur s'appuis sur {@link ArrayCollection}.
 **
 ** @param element   Element seul
 ** @param iter      Object {@link Iterator}
 **
-** L'�l�ment seul sera traiter AVANT les �l�ments de l'iterateur.
+** L'element seul sera traiter AVANT les elements de l'iterateur.
 **
 */
 public FlattenIterator( // ------------------------------------------------

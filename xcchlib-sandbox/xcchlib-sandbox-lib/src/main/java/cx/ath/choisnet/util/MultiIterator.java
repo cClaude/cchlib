@@ -7,7 +7,7 @@
 **  2.01.015 2005.10.14 Claude CHOISNET
 **                      extends ComputableIterator<T>
 **  2.01.018 2005.10.14 Claude CHOISNET
-**                      Ajout des constructeurs acceptant un �l�ment seul.
+**                      Ajout des constructeurs acceptant un element seul.
 **  3.02.018 2006.06.28 Claude CHOISNET
 **                      Ajout des constructeurs :
 **                          MultiIterator(Iterator<Iterator<T>>)
@@ -34,7 +34,7 @@ import java.util.List;
 ** </P>
 ** <P>
 ** Classe permettant de construire des objets {@link Iterator} sans pour cela
-** avoir besoin de cr�er de nouvelle collection.
+** avoir besoin de creer de nouvelle collection.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -108,9 +108,9 @@ public MultiIterator( // --------------------------------------------------
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur un iterateur (Iterator) et un
-** �l�ment.
+** element.
 ** </p>
-** L'�l�ment seul sera traiter APR�S les �l�ments de l'iterateur.
+** L'element seul sera traiter APReS les elements de l'iterateur.
 **
 */
 public MultiIterator( // --------------------------------------------------
@@ -129,9 +129,9 @@ public MultiIterator( // --------------------------------------------------
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur un iterateur (Iterator) et un
-** �l�ment.
+** element.
 ** </p>
-** L'�l�ment seul sera traiter AVANT les �l�ments de l'iterateur.
+** L'element seul sera traiter AVANT les elements de l'iterateur.
 **
 */
 public MultiIterator( // --------------------------------------------------
@@ -234,7 +234,7 @@ public boolean hasNext() // -----------------------------------------------
 {
  if( nextObject == null ) {
     //
-    // L'objet suivant n'est pas pr�t, on le prepare
+    // L'objet suivant n'est pas pret, on le prepare
     //
     try {
         nextObject = computeNext();
@@ -248,7 +248,7 @@ public boolean hasNext() // -----------------------------------------------
     }
 
  //
- // L'object suivant est pr�t et valide !
+ // L'object suivant est pret et valide !
  //
  return true;
 }
@@ -261,7 +261,7 @@ public T next() // --------------------------------------------------------
 {
  if( nextObject == null ) {
     //
-    // L'objet suivant n'est pas pr�t, on le prepare
+    // L'objet suivant n'est pas pret, on le prepare
     //
     //  Note: on sort en NoSuchElementException s'il n'existe pas
     //
@@ -269,7 +269,7 @@ public T next() // --------------------------------------------------------
     }
 
  //
- // On sauvegarde l'�l�ment courant
+ // On sauvegarde l'element courant
  //
  T returnObject = nextObject;
 

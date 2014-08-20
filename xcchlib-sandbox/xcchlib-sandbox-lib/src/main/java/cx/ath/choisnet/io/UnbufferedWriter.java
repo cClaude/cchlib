@@ -19,8 +19,8 @@ package cx.ath.choisnet.io;
 import java.io.Writer;
 
 /**
-** Classe permettant d'avoir un flux sans m�moire tampon ou avec une m�moire
-** tampon limit�e, m�me avec un flux h�ritant de {@link java.io.BufferedWriter}
+** Classe permettant d'avoir un flux sans memoire tampon ou avec une memoire
+** tampon limitee, meme avec un flux heritant de {@link java.io.BufferedWriter}
 **
 ** @author Claude CHOISNET
 ** @version 1.30
@@ -41,12 +41,12 @@ private final int maxBufferSize;
 private int bufferSize;
 
 /**
-** Permet de limit� la m�moire tampon � maxBufferSize maximum.
+** Permet de limite la memoire tampon e maxBufferSize maximum.
 **
 ** @param   writer          Object {@link Writer} valide, vers lequel sera
-**                          �mis le flux.
-** @param   maxBufferSize   Taille maximum de la m�moire tampon, ne garantis
-**                          pas que cela soit �galement le mimimum.
+**                          emis le flux.
+** @param   maxBufferSize   Taille maximum de la memoire tampon, ne garantis
+**                          pas que cela soit egalement le mimimum.
 */
 public UnbufferedWriter( // -----------------------------------------------
     final Writer    writer,
@@ -59,10 +59,10 @@ public UnbufferedWriter( // -----------------------------------------------
 }
 
 /**
-** Construit un flux sans m�moire tampon.
+** Construit un flux sans memoire tampon.
 **
 ** @param   writer  Object {@link Writer} valide, vers lequel sera
-**                  �mis le flux.
+**                  emis le flux.
 **
 */
 public UnbufferedWriter( // -----------------------------------------------

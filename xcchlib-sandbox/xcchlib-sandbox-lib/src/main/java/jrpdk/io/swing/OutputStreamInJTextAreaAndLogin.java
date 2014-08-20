@@ -8,7 +8,7 @@ import javax.swing.JTextArea;
 import java.io.IOException;
 
 /**
-** Objet de type OutputStream dont les donn�es sont redirig�es vers
+** Objet de type OutputStream dont les donnees sont redirigees vers
 ** une sortie graphique ainsi que vers un autre flux de type OutputStream
 **
 ** @author Claude CHOISNET

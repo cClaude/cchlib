@@ -41,8 +41,8 @@ import java.util.TreeSet;
 import java.util.TreeMap;
 
 /**
-** Classe permettant de retrouver, de g�rer et d'effectuer des traitements
-** li� aux fichiers trouv� en double.
+** Classe permettant de retrouver, de gerer et d'effectuer des traitements
+** lie aux fichiers trouve en double.
 **
 ** @author Claude CHOISNET
 ** @since   3.01.042
@@ -57,7 +57,7 @@ public class DuplicateLayer
 private static final long serialVersionUID = 2L;
 
     /**
-    ** Param�tre pour les m�thodes delete et select
+    ** Parametre pour les methodes delete et select
     **
     ** @see #select(FileFilter,EnumSet)
     */
@@ -65,24 +65,24 @@ private static final long serialVersionUID = 2L;
     {
 
         /**
-        ** La suppression de toutes les occurences est autoris�e, par
-        ** d�faut si la suppression engendre la suppression de toutes
-        ** les occurences trouv�s AUCUN fichier n'est supprim�e.
+        ** La suppression de toutes les occurences est autorisee, par
+        ** defaut si la suppression engendre la suppression de toutes
+        ** les occurences trouves AUCUN fichier n'est supprimee.
         ** deprecated no remplacement
         Deprecated
         deleteAllAllowed,
         */
 
         /**
-        ** Supprime physiquement le fichier. Par d�faut le fichier n'est
-        ** pas effac�.
+        ** Supprime physiquement le fichier. Par defaut le fichier n'est
+        ** pas efface.
         ** deprecated no remplacement
         Deprecated
         doDelete,
         */
 
         /**
-        ** Ne supprime pas de la liste interne. Par d�faut
+        ** Ne supprime pas de la liste interne. Par defaut
         ** deprecated no remplacement
         Deprecated
         doNotRemoveInDuplicateLayer,
@@ -97,17 +97,17 @@ private static final long serialVersionUID = 2L;
     };
 
 /**
-** Collection d'un SortedSet de fichiers identiques (avec des noms diff�rents)
+** Collection d'un SortedSet de fichiers identiques (avec des noms differents)
 */
 private Collection<SortedSet<File>> duplicatesFiles;
 
 /**
-** Liste des fichiers (ou dossiers) devant �tre conserv�s.
+** Liste des fichiers (ou dossiers) devant etre conserves.
 */
 private List<File> filesToKeep;
 
 /**
-** Expression r�guli�re des fichiers (ou dossier) devant �tre conserv�s.
+** Expression reguliere des fichiers (ou dossier) devant etre conserves.
 */
 private List<Pattern> filesToKeepRegExp;
 
@@ -139,7 +139,7 @@ public DuplicateLayer( // -------------------------------------------------
 /**
 ** Retourne une collection non modifiable de collections de fichier
 **
-** @return une liste ({@link Collection}) de listes tri�es ({@link SortedSet})
+** @return une liste ({@link Collection}) de listes triees ({@link SortedSet})
 ** d'objets {@link File}.
 */
 public Collection<? extends SortedSet<File>> getDuplicateFilesList() //---
@@ -149,18 +149,18 @@ public Collection<? extends SortedSet<File>> getDuplicateFilesList() //---
 
 /**
 ** <p>
-** Permet de d�finir un filtre (FileFilter) des fichiers � ignorer. Les
-** entr�es correspondant � ce filtre sont supprimer de la liste de
-** r�f�rence : ainsi s'il n'existe qu'un seul double celui-ci sera
-** lui aussi ignor�.
+** Permet de definir un filtre (FileFilter) des fichiers e ignorer. Les
+** entrees correspondant e ce filtre sont supprimer de la liste de
+** reference : ainsi s'il n'existe qu'un seul double celui-ci sera
+** lui aussi ignore.
 ** </p>
 ** <p>
-** Cette m�thode peut �tre appell� plusieurs fois avec des filtres diff�rents.
+** Cette methode peut etre appelle plusieurs fois avec des filtres differents.
 ** </p>
 ** @param fileFilter    Object FileFilter valide permetant d'identifier les
-**                      fichiers � ignorer
+**                      fichiers e ignorer
 **
-** @return l'objet DuplicateLayer lui-m�me.
+** @return l'objet DuplicateLayer lui-meme.
 **
 ** @see cx.ath.choisnet.io.FileFilterHelper
 ** @see cx.ath.choisnet.io.PatternFileFilter
@@ -176,7 +176,7 @@ public DuplicateLayer filesToIgnore( final FileFilter fileFilter ) // -----
 
         if( fileFilter.accept( iter2.next() ) ) {
             //
-            // Supprime l'entr�e
+            // Supprime l'entree
             //
             iter2.remove();
             }
@@ -196,7 +196,7 @@ public DuplicateLayer filesToIgnore( final FileFilter fileFilter ) // -----
 /**
 **
 **
-** @return l'objet DuplicateLayer lui-m�me.
+** @return l'objet DuplicateLayer lui-meme.
 */
 public DuplicateLayer addFileToKeep( final File file ) // -----------------
 {
@@ -207,7 +207,7 @@ public DuplicateLayer addFileToKeep( final File file ) // -----------------
 
 /**
 **
-** @return l'objet DuplicateLayer lui-m�me.
+** @return l'objet DuplicateLayer lui-meme.
 **
 ** @see java.util.regex.Pattern
 */
@@ -219,9 +219,9 @@ public DuplicateLayer addFileToKeep( final String regexp ) // -------------
 }
 
 /**
-** Permet de savoir si un fichier doit �tre prot�g� ou non
+** Permet de savoir si un fichier doit etre protege ou non
 **
-** @return l'objet DuplicateLayer lui-m�me.
+** @return l'objet DuplicateLayer lui-meme.
 **
 ** @see #addFileToKeep
 */
@@ -245,8 +245,8 @@ public boolean isDeletable( final File file ) // --------------------------
 }
 
 /**
-** Construit une collection de fichier  � partir de la liste des
-** fichiers interne et d'un filtre ({@link FileFilter}) donn�
+** Construit une collection de fichier  e partir de la liste des
+** fichiers interne et d'un filtre ({@link FileFilter}) donne
 ** <p>
 ** Exemple d'utilisation:
 ** <pre>
@@ -266,11 +266,11 @@ public boolean isDeletable( final File file ) // --------------------------
 ** </p>
 **
 ** @param selectFileFilter  Objet {@link FileFilter} valide permettant
-**                          d'identifier les fichiers � copier dans
+**                          d'identifier les fichiers e copier dans
 **                          la liste.
-** @param params           Param�tres permettant d'affiner le traitement.
+** @param params           Parametres permettant d'affiner le traitement.
 **
-** @return une collection des fichiers qui correspondent aux crit�res.
+** @return une collection des fichiers qui correspondent aux criteres.
 **
 ** @see DuplicateLayer.Params#SELECT_DO_NOT_SELECT_ALL_OCCURENCES
 ** @see cx.ath.choisnet.io.FileFilterHelper
@@ -296,7 +296,7 @@ public Collection<File> select( // ----------------------------------------
         if( selectFileFilter.accept( f ) ) {
             //
             // Correspond au motif de suppression, mais
-            // est-il dans la liste des fichiers prot�g�s
+            // est-il dans la liste des fichiers proteges
             //
             if( isDeletable( f ) ) {
                 currentSelectList.add( f );
@@ -308,14 +308,14 @@ public Collection<File> select( // ----------------------------------------
 
     if( size > 0 ) {
         //
-        // Il y'a quelque chose � selectionner
+        // Il y'a quelque chose e selectionner
         //
 
         if( selectAllAllowed || size < filesList.size() ) {
             //
-            // Tous les �l�ments non pas �t� s�lectionn�
-            // ou bien on est autoris� � s�lectionner tous les
-            // �l�ments
+            // Tous les elements non pas ete selectionne
+            // ou bien on est autorise e selectionner tous les
+            // elements
             //
             result.addAll( currentSelectList );
             }
@@ -328,14 +328,14 @@ public Collection<File> select( // ----------------------------------------
 }
 
 /**
-** Construit une collection de fichier  � partir de la liste des
-** fichiers interne et d'un filtre ({@link CollectionFilter}) donn�
+** Construit une collection de fichier  e partir de la liste des
+** fichiers interne et d'un filtre ({@link CollectionFilter}) donne
 **
 ** @param collectionFileFilter Objet {@link CollectionFilter} valide
 **          permettant de filters pour chaques occurances d'un fichier
-**          le ou les fichiers qui devront �tre retourn�s.
+**          le ou les fichiers qui devront etre retournes.
 **
-** @return une collection des fichiers qui correspondent aux crit�res.
+** @return une collection des fichiers qui correspondent aux criteres.
 **
 ** @see CollectionFilter#apply
 **
@@ -356,11 +356,11 @@ public Collection<File> select( // ----------------------------------------
 }
 
 /**
-** Met � jour la liste des fichiers en double, en supprimant de la liste
+** Met e jour la liste des fichiers en double, en supprimant de la liste
 ** les fichiers n'existes plus physiquement. Cas d'une suppression par un
 ** autre thread, par exemple, ou d'un nettoyage manuel...
 **
-** @return l'objet DuplicateLayer lui-m�me.
+** @return l'objet DuplicateLayer lui-meme.
 **
 */
 public DuplicateLayer updateList() // -------------------------------------

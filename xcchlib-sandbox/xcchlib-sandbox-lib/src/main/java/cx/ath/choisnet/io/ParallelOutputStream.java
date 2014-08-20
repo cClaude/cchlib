@@ -6,11 +6,11 @@
 **
 **  1.00.___ 2005.04.19 Claude CHOISNET
 **  3.00.003 2006.02.14 Claude CHOISNET
-**                      Suppression du constructeur avec 3 param�tres
+**                      Suppression du constructeur avec 3 parametres
 **                      OutputStream.
 **                      Reprise du constructeur ParallelOutputStream(...)
-**                      afin d'�tre compatible avec ce qu'�tait le
-**                      constructeur � 3 param�tres (cr�ation d'un tableau
+**                      afin d'etre compatible avec ce qu'etait le
+**                      constructeur e 3 parametres (creation d'un tableau
 **                      local).
 ** -----------------------------------------------------------------------
 **
@@ -90,7 +90,7 @@ public void close() // ----------------------------------------------------
         }
     catch( java.io.IOException e ) {
         //
-        // Sauvegarde la derni�re exception
+        // Sauvegarde la derniere exception
         //
         lastException = e;
         }

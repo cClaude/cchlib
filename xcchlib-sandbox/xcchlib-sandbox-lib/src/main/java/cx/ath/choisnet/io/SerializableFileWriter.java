@@ -17,10 +17,10 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
-** <p>Objet �quivalent � la classe {@link java.io.FileWriter}, et impl�mentant
+** <p>Objet equivalent e la classe {@link java.io.FileWriter}, et implementant
 ** l'interface {@link java.io.Serializable}.</p>
 ** <br />
-** <p>Le principe de la "s�rialisation" de cet objet s'appuit sur la
+** <p>Le principe de la "serialisation" de cet objet s'appuit sur la
 ** classe {@link SerializableFileOutputStream}</p>
 ** <br />
 **
@@ -90,7 +90,7 @@ public SerializableFileWriter( // -----------------------------------------
 }
 
 /**
-** par la r�prise (s�rialisation) il faut mettre le param�tre 'append' �
+** par la reprise (serialisation) il faut mettre le parametre 'append' e
 ** la valeur 'true'
 */
 private void open() // ----------------------------------------------------
@@ -149,7 +149,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
  stream.defaultReadObject();
 
  //
- // R�initialisation des champs non sauvegard�s
+ // Reinitialisation des champs non sauvegardes
  //
  this.open();
 }

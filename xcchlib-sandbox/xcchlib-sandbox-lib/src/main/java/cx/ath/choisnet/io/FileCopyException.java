@@ -16,8 +16,8 @@ import java.io.IOException;
 
 /**
 ** <p>
-** Exception d�clanch�e, par certaine m�thode, lors de la tentative
-** �chou�e de suppression d'un fichier
+** Exception déclanchée, par certaines méthodes, lors de la tentative
+** échouée de suppression d'un fichier
 ** </p>
 **
 **

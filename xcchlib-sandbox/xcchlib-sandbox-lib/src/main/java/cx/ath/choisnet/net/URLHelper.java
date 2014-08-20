@@ -4,13 +4,13 @@
 ** Description   :
 **
 **  2.02.040 2006.01.06 Claude CHOISNET - Version initiale
-**                      Bas� sur cx.ath.choisnet.net.NetTools
+**                      Base sur cx.ath.choisnet.net.NetTools
 **  3.02.021 2006.01.06 Claude CHOISNET - Version initiale
-**                      Ajout des m�thodes: setConnectRetryCount(int),
+**                      Ajout des methodes: setConnectRetryCount(int),
 **                      setDelaisBeforeRetry(long), sleep(long),
 **                      download(URL,OutputStream), download(URL,File),
 **  3.02.022 2006.07.04 Claude CHOISNET - Version initiale
-**                      Ajout de la m�thode: setProxy(Proxy)
+**                      Ajout de la methode: setProxy(Proxy)
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.net.URLHelper

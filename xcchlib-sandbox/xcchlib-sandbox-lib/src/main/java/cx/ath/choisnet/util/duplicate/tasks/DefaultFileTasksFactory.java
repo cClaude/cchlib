@@ -63,7 +63,7 @@ public DefaultFileTasksFactory( // ----------------------------------------
 }
 
 /**
-** Construction d'un object File local et temporaire � partir d'un
+** Construction d'un object File local et temporaire e partir d'un
 ** object MD5TreeEntry
 */
 @Override
@@ -73,10 +73,10 @@ public File getLocalTmpName( final MD5TreeEntry md5 ) // ------------------
 }
 
 /**
-** Retourne un flux permettant de r�cup�rer la mati�re associ�e � l'empreinte
-** donn�e.
+** Retourne un flux permettant de recuperer la matiere associee e l'empreinte
+** donnee.
 **
-** @return un object InputStream valide permettant de recopie la mati�re
+** @return un object InputStream valide permettant de recopie la matiere
 **         depuis la source.
 */
 @Override
@@ -94,7 +94,7 @@ public InputStream getInputStreamFromSource( final MD5TreeEntry md5 ) // --
     }
 
  //
- // On r�cup�re 1 �l�ment dans la liste
+ // On recupere 1 element dans la liste
  //
  final String relativeName = list.iterator().next().getPath();
 
@@ -116,7 +116,7 @@ private File getAbsoluteDestinationFile( // -------------------------------
 
 /**
 ** <p>
-** Action par d�faut pour la suppression d'un fichier.
+** Action par defaut pour la suppression d'un fichier.
 ** </p>
 */
 @Override

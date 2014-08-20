@@ -31,8 +31,8 @@ import javax.servlet.ServletContext;
 
 /**
  ** <P>
- * Servlet prenant en charge la sauvegarde SQL de la base de donn�e (DUMP),
- * ainsi que le t�l�chargement et l'execution de requ�tes SQL.
+ * Servlet prenant en charge la sauvegarde SQL de la base de donnee (DUMP),
+ * ainsi que le telechargement et l'execution de requetes SQL.
  * </P>
  ** 
  ** <PRE>
@@ -48,12 +48,12 @@ public class LoadSQLServlet extends HttpServlet {
     private static final long  serialVersionUID = 2L;
 
     /**
-     ** Param�tre de la servlet
+     ** Parametre de la servlet
      */
     public final static String LOAD_DIRECTORY   = "LOAD_DIRECTORY";
 
     /**
-     ** Param�tre de la servlet - Anti DOS taille maximum pour les uploads <BR />
+     ** Parametre de la servlet - Anti DOS taille maximum pour les uploads <BR />
      ** <code>1073741824 = 1 Go </code>
      */
     public final static String MAX_POST_SIZE    = "MAX_POST_SIZE";
@@ -126,14 +126,14 @@ public class LoadSQLServlet extends HttpServlet {
 
                 if( filename == null ) {
                     //
-                    // La valeur n'est pas d�finie, on passe � la suite
+                    // La valeur n'est pas definie, on passe e la suite
                     //
                     continue;
                 }
 
                 if( inputStream != null ) {
                     //
-                    // Quelqu'un qui fait joujou avec les param�tres,
+                    // Quelqu'un qui fait joujou avec les parametres,
                     // on ignore !
                     //
                     continue;
@@ -151,7 +151,7 @@ public class LoadSQLServlet extends HttpServlet {
                 inputStream = new FileInputStream( newFile );
             } else if( "X_NEXTURL".equals( partName ) ) {
                 //
-                // Le param�tre NEXTURL est obligatoire.
+                // Le parametre NEXTURL est obligatoire.
                 //
                 ParamPart aParamPart = (ParamPart)aPart;
 

@@ -20,8 +20,8 @@ import java.util.Iterator;
 ** </P>
 ** <P>
 ** Classe permettant de construire des objets {@link Iterator} sans pour cela
-** avoir besoin de cr�er de nouvelle collection. Elle permet d'applatir
-** la vue avec de traiter les sous-objets s�quentiellement.
+** avoir besoin de creer de nouvelle collection. Elle permet d'applatir
+** la vue avec de traiter les sous-objets sequentiellement.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -84,7 +84,7 @@ public FlattenIterable( // ------------------------------------------------
 ** </p>
 **
 ** @param   arrayOfIterable Tableau d'objets {@link Iterable}
-** @param   offset          Index de d�part
+** @param   offset          Index de depart
 ** @param   len             Index de fin
 **
 */
@@ -115,13 +115,13 @@ public FlattenIterable( // ------------------------------------------------
 /**
 ** <p>
 ** Construction d'Iterator s'appuyant sur d'un objet {@link Iterable} et un
-** �l�ment.
+** element.
 ** </p>
 **
 ** @param iterable  Object {@link Iterable}
 ** @param element   Element seul
 **
-** L'�l�ment seul sera traiter APR�S les �l�ments de l'iterateur.
+** L'element seul sera traiter APReS les elements de l'iterateur.
 **
 */
 public FlattenIterable( // ------------------------------------------------
@@ -138,14 +138,14 @@ public FlattenIterable( // ------------------------------------------------
 
 /**
 ** <p>
-** Construction d'Iterator s'appuyant sur un �l�ment
+** Construction d'Iterator s'appuyant sur un element
 ** et d'objet {@link Iterable}
 ** </p>
 **
 ** @param element   Element seul
 ** @param iterable  Object {@link Iterable}
 **
-** L'�l�ment seul sera traiter AVANT les �l�ments de l'iterateur.
+** L'element seul sera traiter AVANT les elements de l'iterateur.
 **
 */
 public FlattenIterable( // ------------------------------------------------

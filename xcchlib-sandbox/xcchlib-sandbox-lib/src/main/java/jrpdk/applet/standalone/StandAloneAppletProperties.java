@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
-** Emulation des param�tres d'une applet dans un fichier properties.
+** Emulation des parametres d'une applet dans un fichier properties.
 **
 ** @author Claude CHOISNET
 ** @version 1.00 24/01/2001
@@ -37,9 +37,9 @@ public StandAloneAppletProperties( // -------------------------------------
 }
 
 /**
-** Attention cette m�thode n'est pas compl�tement compatible avec la
-** m�thode de la classe Apllet, car elle est partiellement sensible
-** � la case.
+** Attention cette methode n'est pas completement compatible avec la
+** methode de la classe Apllet, car elle est partiellement sensible
+** e la case.
 **
 ** @see java.applet.Applet#getParameter( String )
 */

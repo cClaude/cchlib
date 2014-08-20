@@ -114,7 +114,7 @@ public SAACActions( StandAloneAppletConsole saacBase ) // ----------------
 
     {
     //
-    // Force nettoyage de la m�moire
+    // Force nettoyage de la memoire
     //
     JButton garbageCollector = new JButton( "Run garbage collector" );
 
@@ -197,7 +197,7 @@ public void actionGarbageCollector() // -----------------------------------
 
 /*
 *
-** Cette m�thode est conforme � l'Interface AppletContext.
+** Cette methode est conforme e l'Interface AppletContext.
 **
 ** @see AppletContext#showStatus( String )
 *
@@ -209,7 +209,7 @@ public void showStatus( String message ) // -------------------------------
 */
 
 /**
-** Cette m�thode est conforme � l'Interface AppletContext.
+** Cette methode est conforme e l'Interface AppletContext.
 **
 ** @see AppletContext#showDocument( URL )
 */
@@ -229,7 +229,7 @@ public void showDocument( URL url ) // ------------------------------------
 }
 
 /**
-** Cette m�thode est conforme � l'Interface AppletContext.
+** Cette methode est conforme e l'Interface AppletContext.
 **
 ** @see AppletContext#showDocument( URL, String )
 */

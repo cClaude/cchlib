@@ -13,10 +13,6 @@
 */
 package cx.ath.choisnet.sql.mysql;
 
-import cx.ath.choisnet.io.ConcateInputStream;
-import cx.ath.choisnet.io.ParallelOutputStream;
-import cx.ath.choisnet.util.ExternalApp;
-import cx.ath.choisnet.util.ExternalAppException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -24,6 +20,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import cx.ath.choisnet.io.ConcateInputStream;
+import cx.ath.choisnet.io.ParallelOutputStream;
+import cx.ath.choisnet.util.ExternalApp;
+import cx.ath.choisnet.util.ExternalAppException;
 
 /**
 ** <P>Classe prenant en charge l'excution des reqéetes SQL vers
@@ -61,32 +61,32 @@ public final static String MYSQL_DUMP_EXE_PARAMS = "MYSQL_DUMP_EXE_PARAMS";
 /**
 **
 */
-private String mySQLExe;
+private final String mySQLExe;
 
 /**
 **
 */
-private String mySQLParams;
+private final String mySQLParams;
 
 /**
 **
 */
-private String mySQLDumpExe;
+private final String mySQLDumpExe;
 
 /**
 **
 */
-private String mySQLDumpParams;
+private final String mySQLDumpParams;
 
 /**
 **
 ** @since 1.30.010
 */
 public MySQLAdmin( // -----------------------------------------------------
-    String mySQLExe,
-    String mySQLParams,
-    String mySQLDumpExe,
-    String mySQLDumpParams
+    final String mySQLExe,
+    final String mySQLParams,
+    final String mySQLDumpExe,
+    final String mySQLDumpParams
     )
 {
  this.mySQLExe          = mySQLExe;
@@ -166,7 +166,7 @@ public String getRequiredInitParameter( // --------------------------------
 ** @since 1.49
 */
 public void createSQLDumpFile( // -----------------------------------------
-    OutputStream outputStream
+    final OutputStream outputStream
     )
     throws MySQLAdminException
 {
@@ -179,7 +179,7 @@ public void createSQLDumpFile( // -----------------------------------------
         System.err
         );
     }
- catch( cx.ath.choisnet.util.ExternalAppException e ) {
+ catch( final cx.ath.choisnet.util.ExternalAppException e ) {
     throw new MySQLAdminException( e );
     }
 }
@@ -191,7 +191,7 @@ public void createSQLDumpFile( // -----------------------------------------
 **
 */
 public void createSQLDumpFile( // -----------------------------------------
-    File outputFile
+    final File outputFile
     )
     throws MySQLAdminException
 {
@@ -204,7 +204,7 @@ public void createSQLDumpFile( // -----------------------------------------
 
     createSQLDumpFile( outputStream );
     }
- catch( java.io.IOException e ) {
+ catch( final java.io.IOException e ) {
     throw new MySQLAdminException( e );
     }
  finally {
@@ -212,7 +212,7 @@ public void createSQLDumpFile( // -----------------------------------------
         try {
             outputStream.close();
             }
-        catch( Exception ignore ) {
+        catch( final Exception ignore ) {
             // Ignore
             }
         }
@@ -229,8 +229,8 @@ public void createSQLDumpFile( // -----------------------------------------
 **
 */
 public void createSQLDumpFile( // -----------------------------------------
-    OutputStream    servletOuput,
-    File            outputFile
+    final OutputStream    servletOuput,
+    final File            outputFile
     )
     throws MySQLAdminException
 {
@@ -256,7 +256,7 @@ public void createSQLDumpFile( // -----------------------------------------
 
             createSQLDumpFile( servletOuput, fileOutputStream );
             }
-        catch( java.io.IOException e ) {
+        catch( final java.io.IOException e ) {
             throw new MySQLAdminException( e );
             }
         finally {
@@ -264,7 +264,7 @@ public void createSQLDumpFile( // -----------------------------------------
                 try {
                     fileOutputStream.close();
                     }
-                catch( Exception ignore ) {
+                catch( final Exception ignore ) {
                     // Ignore
                     }
                 }
@@ -278,8 +278,8 @@ public void createSQLDumpFile( // -----------------------------------------
 **
 */
 public void createSQLDumpFile( // -----------------------------------------
-    OutputStream    servletOuput,
-    OutputStream    fileOutputStream
+    final OutputStream    servletOuput,
+    final OutputStream    fileOutputStream
     )
     throws MySQLAdminException
 {
@@ -292,16 +292,14 @@ public void createSQLDumpFile( // -----------------------------------------
 
     createSQLDumpFile( multipleOutputStream );
     }
- catch( java.io.IOException e ) {
+ catch( final java.io.IOException e ) {
     throw new MySQLAdminException( e );
     }
 }
 
-/**
-**
-*/
+@SuppressWarnings("resource")
 public void applySQL( // --------------------------------------------------
-    File inputfile
+    final File inputfile
     )
     throws
         MySQLAdminException,
@@ -318,13 +316,13 @@ public void applySQL( // --------------------------------------------------
 **
 */
 public void applySQL( // --------------------------------------------------
-    InputStream sqlStream
+    final InputStream sqlStream
     )
     throws MySQLAdminException
 {
  final String command = mySQLExe + mySQLParams;
 
- ConcateInputStream fullSQLStream
+ final ConcateInputStream fullSQLStream
     = new ConcateInputStream(
             sqlStream,
             "quit\n"
@@ -340,7 +338,7 @@ public void applySQL( // --------------------------------------------------
         System.err
         );
     }
- catch( ExternalAppException e ) {
+ catch( final ExternalAppException e ) {
     throw new MySQLAdminException( e );
     }
 }

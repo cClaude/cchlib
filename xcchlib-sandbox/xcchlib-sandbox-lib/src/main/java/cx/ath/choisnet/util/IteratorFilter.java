@@ -10,7 +10,7 @@
 **  2.01.015 2005.10.14 Claude CHOISNET - Nouveau nom
 **                          cx.ath.choisnet.util.IteratorFilter
 **  3.02.007 2006.06.07 Claude CHOISNET
-**                      Impl�mente IterableIterator<T>
+**                      Implemente IterableIterator<T>
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.util.IteratorFilter
@@ -23,7 +23,7 @@ import java.util.Iterator;
 
 /**
 ** <P>
-** {@link Iterator} bas� sur un {@link Iterator} de base et sur le filtre donn�.
+** {@link Iterator} base sur un {@link Iterator} de base et sur le filtre donne.
 ** </P>
 ** <P>
 ** Cette classe tente d'optimiser les traitements afin de limiter les
@@ -43,14 +43,14 @@ public class IteratorFilter<T>
             Iterable<T>,
             IterableIterator<T>
 {
-/** Iterator de r�f�rence */
+/** Iterator de reference */
 private Iterator<T> iterator;
 
 /** Filtre associer */
 private Selectable<T> filter;
 
 /**
-** Iterator bas� sur un Iterator de base et sur le filtre donn�.
+** Iterator base sur un Iterator de base et sur le filtre donne.
 */
 public IteratorFilter( // -------------------------------------------------
     final Iterator<T>   iterator,
@@ -73,7 +73,7 @@ public T computeNext() // -------------------------------------------------
 
     if( this.filter.isSelected( currentObject ) ) {
         //
-        // Trouv� ! On sort avec le prochain object valide
+        // Trouve ! On sort avec le prochain object valide
         //
         return currentObject;
         }
@@ -114,15 +114,15 @@ public static Selectable<File> wrappe( // ---------------------------------
 
 /**
 ** <p>
-** Transforme un {@link Iterator} en une cha�ne en utilisant la m�thode {@link Object#toString()}.
+** Transforme un {@link Iterator} en une chaene en utilisant la methode {@link Object#toString()}.
 ** </p>
 **
 ** @param iterator  Iterator Object to use
 ** @param separator a String
 **
-** @return un String correspondant � la concat�nation des valeurs {@link Object#toString()}
-**         de l'iterateur donn�e. Chaque valeur �tant s�par�e par le contenu
-**         de la cha�ne 'separator'
+** @return un String correspondant e la concatenation des valeurs {@link Object#toString()}
+**         de l'iterateur donnee. Chaque valeur etant separee par le contenu
+**         de la chaene 'separator'
 **
 ** @since 1.53.002
 */

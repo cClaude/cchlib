@@ -11,7 +11,7 @@
 **                      qui ne faisait pas de OutputStream.flush() en fin
 **                      copie.
 **                      Correction d'un bug mineur dans copy(File,File)
-**                      la fermeture du flux de destination ne g�nerait pas
+**                      la fermeture du flux de destination ne generait pas
 **                      d'exception.
 ** ------------------------------------------------------------------------
 **
@@ -30,9 +30,9 @@ import java.io.OutputStream;
 
 /**
 **
-** Classe offrant des m�thodes autour de {@link InputStream}, en
+** Classe offrant des methodes autour de {@link InputStream}, en
 ** particulier la copie de flux (ou de fichier), ainsi que la
-** concat�nation de flux.
+** concatenation de flux.
 **
 **
 **
@@ -48,7 +48,7 @@ public class InputStreamHelper
 {
 
 /**
-** Transforme le contenu du flux en cha�ne, puis ferme le flux.
+** Transforme le contenu du flux en chaene, puis ferme le flux.
 **
 ** @throws java.io.IOException en cas d'erreur
 */
@@ -76,7 +76,7 @@ public static String toString( final InputStream is ) // -----------------------
 ** Copie le contenu du flux 'input' vers le flux 'output'.
 ** </p>
 ** <br />
-** <b>Les flux ne sont pas ferm�s</b>
+** <b>Les flux ne sont pas fermes</b>
 ** <br />
 **
 ** @throws java.io.IOException en cas d'erreur
@@ -103,7 +103,7 @@ public static void copy( // -----------------------------------------------
 ** Copie le contenu du flux 'input' vers le flux 'output'.
 ** </p>
 ** <br />
-** <b>Les flux ne sont pas ferm�s</b>
+** <b>Les flux ne sont pas fermes</b>
 ** <br />
 **
 ** @throws java.io.IOException en cas d'erreur
@@ -119,7 +119,7 @@ public static void copy( final InputStream input, final OutputStream output ) //
 ** Copie le contenu du flux 'input' vers le flux 'output'.
 ** </p>
 ** <br />
-** <b>Les flux ne sont pas ferm�s</b>
+** <b>Les flux ne sont pas fermes</b>
 ** <br />
 **
 ** @throws java.io.IOException en cas d'erreur
@@ -136,7 +136,7 @@ public static void copy( final File inputFile, final File outputFile ) // ------
  finally {
     try {  input.close(); } catch( final Exception ignore ) {}
 
-    output.close(); // close avec g�n�ration d'exception....
+    output.close(); // close avec generation d'exception....
     }
 }
 

@@ -26,7 +26,7 @@ import java.util.TreeMap;
 
 /**
 ** <p>
-** Classe permettant de concerver un context lors d'�change de
+** Classe permettant de concerver un context lors d'echange de
 ** flux HTTP.
 **
 ** See :<br/>
@@ -34,7 +34,7 @@ import java.util.TreeMap;
 ** <a href="http://www.faqs.org/rfcs/rfc2109.html">RFC 2109</a><br/>
 ** </p>
 ** <p>
-** BUG: Ne g�re pas *encore* les cookies multiples...
+** BUG: Ne gere pas *encore* les cookies multiples...
 ** </p>
 **
 ** @author Claude CHOISNET
@@ -51,7 +51,7 @@ private static final long serialVersionUID = 1L;
 private Map<String,String> requestProperty;
 
 /**
-** Proxy sp�cifier a utiliser pour les connections.
+** Proxy specifier a utiliser pour les connections.
 */
 private Proxy proxy;
 
@@ -162,7 +162,7 @@ public HttpURLConnection openHttpConnection( URL url ) // -----------------
 /**
 ** update current URLContext from URLConnection
 **
-** @param connection URLConnection d�j� connect�e.
+** @param connection URLConnection deje connectee.
 **
 ** @see #openHttpConnection
 ** @see #openConnection
@@ -210,7 +210,7 @@ for( int n = 0;; n++ ) { // n=0 has no key, and the HTTP return status in the va
             }
         else {
             //
-            // On ignore l'entr�e
+            // On ignore l'entree
             //
             }
         }
@@ -234,10 +234,10 @@ for( int n = 0;; n++ ) { // n=0 has no key, and the HTTP return status in the va
 
 /**
 ** <p>
-** Permet de d�finir des propri�t�s utilis� par toutes les requ�tes
-** �mise � l'aide de l'objet courant.
+** Permet de definir des proprietes utilise par toutes les requetes
+** emise e l'aide de l'objet courant.
 ** </p>
-** Typiquement on initialisera un �change par<br/>
+** Typiquement on initialisera un echange par<br/>
 ** <pre>
 ** URLContext ctxt = new URLContext();
 **

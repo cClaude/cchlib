@@ -6,7 +6,7 @@
 **
 **  1.53.014 2005.05.20 Claude CHOISNET - Version initiale
 **  2.00.003 2005.09.17 Claude CHOISNET
-**                      Modification de l'h�ritable JDK1.5
+**                      Modification de l'heritable JDK1.5
 **                          Comparable -> Comparable<DateInterface>
 ** -----------------------------------------------------------------------
 **
@@ -52,10 +52,10 @@ public abstract DateInterface sub( DateInterface anotherDate ) // ---------
 /*
 ** Compare deux object horaire.
 **
-** @return  la valeur 0 si les 2 horaires correspondent, une valeur n�gative
-**          si l'object courant est plus ancien que l'horaire donn� en
-**          param�tre. une valeur positive si l'horaire de l'object
-**          courant est plus r�cent que l'horaire pass� en param�tre.
+** @return  la valeur 0 si les 2 horaires correspondent, une valeur negative
+**          si l'object courant est plus ancien que l'horaire donne en
+**          parametre. une valeur positive si l'horaire de l'object
+**          courant est plus recent que l'horaire passe en parametre.
 */
 @Override
 public abstract int compareTo( DateInterface anotherDate ); // ------------

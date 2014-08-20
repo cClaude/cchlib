@@ -6,12 +6,12 @@
 **
 **  2.01.001 2005.10.24 Claude CHOISNET - version initiale
 **  2.01.028 2005.11.09 Claude CHOISNET
-**                      Adaptation � la nouvelle m�thode
-**                      MappableHelper#toMap permettant de d�finir le nom
-**                      des m�thodes � analyser.
+**                      Adaptation e la nouvelle methode
+**                      MappableHelper#toMap permettant de definir le nom
+**                      des methodes e analyser.
 **  3.01.012 2006.03.27 Claude CHOISNET
-**                      La m�thode toXML() a �t� supprim�e, n'ayant rien
-**                      � faire ici...
+**                      La methode toXML() a ete supprimee, n'ayant rien
+**                      e faire ici...
 ** -----------------------------------------------------------------------
 **
 ** cx.ath.choisnet.lang.reflect.AbstractMappable
@@ -21,7 +21,7 @@ package cx.ath.choisnet.lang.reflect;
 import java.util.Map;
 
 /**
-** <P>Permet d'avoir une vue synth�tique d'un objet</P>
+** <P>Permet d'avoir une vue synthetique d'un objet</P>
 **
 ** @author Claude CHOISNET
 ** @since   2.01.001
@@ -36,8 +36,8 @@ public abstract class AbstractMappable
 ** Retourne des couples (nomDeMethode,valeur)
 ** </P>
 **
-** Constuit des couples de cha�nes � partir des observateurs de l'objet
-** courant (m�thodes sans param�tres commen�ant par 'get' ou 'is') et retournant
+** Constuit des couples de chaenes e partir des observateurs de l'objet
+** courant (methodes sans parametres commeneant par 'get' ou 'is') et retournant
 ** des objects ou des tableaux d'objets de type primitif ou d'un des types suivant :
 ** <ul>
 **  <li>java.lang.String</li>
@@ -70,7 +70,7 @@ public Map<String,String> toMap() // --------------------------------------
 
 /**
 ** <P>
-** Retourne une vue XML du r�sultat de la m�thode toMap()
+** Retourne une vue XML du resultat de la methode toMap()
 ** </P>
 **
 ** @see #toMap()

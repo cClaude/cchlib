@@ -17,8 +17,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
-** Outils autour de la s�rialisation, cette classe permet, entre autre,
-** de v�rifier si un object est "serializable" ou pas
+** Outils autour de la serialisation, cette classe permet, entre autre,
+** de verifier si un object est "serializable" ou pas
 **
 ** @author Claude CHOISNET
 ** @since   3.01.002

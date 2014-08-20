@@ -7,8 +7,8 @@
 **  3.01.014 2006.03.31 Claude CHOISNET
 **                      Prend en charge la conversion dans les 2 sens
 **  3.02.008 2006.06.09 Claude CHOISNET
-**                      Impl�mente Iterable<T>
-**                      Impl�mente IterableIterator<T>
+**                      Implemente Iterable<T>
+**                      Implemente IterableIterator<T>
 **  3.02.045 2007.01.16 Claude CHOISNET
 **                      nouveau constructeur
 **                          EnumerationIterator(Enumeration<?>,Class<T>)
@@ -24,7 +24,7 @@ import java.util.Iterator;
 
 /**
 ** <P>
-** Construction d'un objet Iterator � partir d'un objet Enumeration ou
+** Construction d'un objet Iterator e partir d'un objet Enumeration ou
 ** vis et versa.
 ** </P>
 **
@@ -46,7 +46,7 @@ public class EnumerationIterator<T>
 private Iterator<T> iterator;
 
 /**
-** Construction d'un objet Iterator equivalent � l'Enumeration donn�
+** Construction d'un objet Iterator equivalent e l'Enumeration donne
 */
 public EnumerationIterator( final Enumeration<T> enumeration ) // ---------
 {
@@ -77,8 +77,8 @@ public EnumerationIterator( final Enumeration<T> enumeration ) // ---------
 }
 
 /**
-** Construction d'un objet Iterator equivalent � l'Enumeration donn� (non
-** typ�e pre java 1.5) et la classe de support de cette �num�ration.
+** Construction d'un objet Iterator equivalent e l'Enumeration donne (non
+** typee pre java 1.5) et la classe de support de cette enumeration.
 **
 ** @since 3.02.045
 */
@@ -114,7 +114,7 @@ public EnumerationIterator( // --------------------------------------------
 }
 
 /**
-** Construction d'un objet Enumeration equivalent � l'Iterator donn�
+** Construction d'un objet Enumeration equivalent e l'Iterator donne
 */
 public EnumerationIterator( final Iterator<T> iterator ) // ---------------
 {

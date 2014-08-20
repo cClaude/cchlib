@@ -14,7 +14,7 @@ package cx.ath.choisnet.util;
 import java.util.Map;
 
 /**
-** Impl�mentation minimum de l'interface {@link java.util.Map.Entry}
+** Implementation minimum de l'interface {@link java.util.Map.Entry}
 **
 ** @author Claude CHOISNET
 ** @since   3.02.029

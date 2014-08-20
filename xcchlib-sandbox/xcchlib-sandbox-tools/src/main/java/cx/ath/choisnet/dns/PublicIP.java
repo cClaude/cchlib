@@ -6,7 +6,7 @@
 **
 **  1.00 2005.02.27 Claude CHOISNET
 **  1.02 2006.04.06 Claude CHOISNET
-**                  Adaptation aux �volutions de
+**                  Adaptation aux evolutions de
 **                      cx.ath.choisnet.dns.PublicIPReader
 ** -----------------------------------------------------------------------
 **
@@ -63,7 +63,7 @@ public boolean hasChange() // ---------------------------------------------
     currentIP = this.publicIPReader.getCurrentPublicIP();
     hasChange = !currentIP.equals( this.publicIPReader.getPreviousPublicIP() );
 
-    this.publicIPReader.storePublicIP(); // on sauvegarde � tous les coups
+    this.publicIPReader.storePublicIP(); // on sauvegarde e tous les coups
     }
  catch( final PublicIPException e ) {
     getLogger().warn( "hasChange{} - getCurrentPublicIP{}", e );

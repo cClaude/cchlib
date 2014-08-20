@@ -61,7 +61,7 @@ public class MappableHelperFactory
 private static final long serialVersionUID = 2L;
 
 /**
-** valeur par d�faut pour {@link #getStringNullValue()}
+** valeur par defaut pour {@link #getStringNullValue()}
 */
 public final static String DEFAULT_TO_STRING_NULL_VALUE
     = "NULL";
@@ -72,7 +72,7 @@ public final static String DEFAULT_TO_STRING_NULL_VALUE
 private String stringNullValue;
 
 /**
-** valeur par d�faut pour {@link #getMessageFormatIteratorEntry()}
+** valeur par defaut pour {@link #getMessageFormatIteratorEntry()}
 */
 public final static String DEFAULT_MESSAGE_FORMAT_ITERATOR_ENTRY
     = "{0}().ITERATOR({1})";
@@ -83,7 +83,7 @@ public final static String DEFAULT_MESSAGE_FORMAT_ITERATOR_ENTRY
 private String messageFormatIteratorEntry;
 
 /**
-** valeur par d�faut pour {@link #getMessageFormatIterableEntry()}
+** valeur par defaut pour {@link #getMessageFormatIterableEntry()}
 */
 public final static String DEFAULT_MESSAGE_FORMAT_ITERABLE_ENTRY
     = "{0}().ITERABLE({1})";
@@ -94,7 +94,7 @@ public final static String DEFAULT_MESSAGE_FORMAT_ITERABLE_ENTRY
 private String messageFormatIterableEntry;
 
 /**
-** valeur par d�faut pour {@link #getMessageFormatEnumerationEntry()}
+** valeur par defaut pour {@link #getMessageFormatEnumerationEntry()}
 */
 public final static String DEFAULT_MESSAGE_FORMAT_ENUMERATION_ENTRY
     = "{0}().ENUMERATION({1})";
@@ -105,7 +105,7 @@ public final static String DEFAULT_MESSAGE_FORMAT_ENUMERATION_ENTRY
 private String messageFormatEnumerationEntry;
 
 /**
-** valeur par d�faut pour {@link #getMessageFormatArrayEntry()}
+** valeur par defaut pour {@link #getMessageFormatArrayEntry()}
 */
 public final static String DEFAULT_MESSAGE_FORMAT_ARRAY_ENTRY
     = "{0}()[{1}/{2}]";
@@ -116,7 +116,7 @@ public final static String DEFAULT_MESSAGE_FORMAT_ARRAY_ENTRY
 private String messageFormatArrayEntry;
 
 /**
-** valeur par d�faut pour {@link #getMessageFormatMethodName()}
+** valeur par defaut pour {@link #getMessageFormatMethodName()}
 **
 ** @since 3.01.034
 */
@@ -130,14 +130,14 @@ public final static String DEFAULT_MESSAGE_FORMAT_METHOD_NAME
 private String messageFormatMethodName;
 
 /**
-** Indique que toutes les classes sont �ligibles.
+** Indique que toutes les classes sont eligibles.
 **
 ** @see #addClass(Class)
 */
 public final static Class<?> ALL_CLASS = Object.class;
 
 /**
-** Permet de voir les r�sultats des types standards<br/>
+** Permet de voir les resultats des types standards<br/>
 ** {@link Boolean},
 ** {@link Character},
 ** {@link Enum},
@@ -177,7 +177,7 @@ private Pattern methodesNamePattern;
 private EnumSet<MappableHelper.Attributes> attributesSet;
 
 /**
-** Constructeur par d�fault pour MappableHelperFactory
+** Constructeur par default pour MappableHelperFactory
 */
 public MappableHelperFactory() // -----------------------------------------
 {
@@ -187,9 +187,9 @@ public MappableHelperFactory() // -----------------------------------------
 }
 
 /**
-** Permet de d�finir la cha�ne retourn�e pour une valeur nulle.
+** Permet de definir la chaene retournee pour une valeur nulle.
 **
-** @return la cha�ne retourn�e pour une valeur "null".
+** @return la chaene retournee pour une valeur "null".
 **
 ** @see #setStringNullValue(String)
 */
@@ -218,10 +218,10 @@ public MappableHelperFactory setStringNullValue( // -----------------------
 }
 
 /**
-** Permet de d�finir la cha�ne de formattage pour la construction du nom
+** Permet de definir la chaene de formattage pour la construction du nom
 ** de d'une valeur issue d'un {@link java.util.Iterator}.
 **
-** @return la cha�ne de formattage pour la construction du nom de d'une
+** @return la chaene de formattage pour la construction du nom de d'une
 **         valeur issue d'un {@link java.util.Iterator}.
 **
 ** @see java.text.MessageFormat
@@ -251,10 +251,10 @@ public MappableHelperFactory setMessageFormatIteratorEntry( // ------------
 }
 
 /**
-** Permet de d�finir la cha�ne de formattage pour la construction du nom
+** Permet de definir la chaene de formattage pour la construction du nom
 ** de d'une valeur issue d'un {@link Iterable}.
 **
-** @return la cha�ne de formattage pour la construction du nom de d'une
+** @return la chaene de formattage pour la construction du nom de d'une
 **         valeur issue d'un object {@link Iterable}.
 **
 ** @see java.text.MessageFormat
@@ -285,10 +285,10 @@ public MappableHelperFactory setMessageFormatIterableEntry( // ------------
 }
 
 /**
-** Permet de d�finir la cha�ne de formattage pour la construction du nom
+** Permet de definir la chaene de formattage pour la construction du nom
 ** de d'une valeur issue d'un {@link java.util.Enumeration}.
 **
-** @return la cha�ne de formattage pour la construction du nom de d'une
+** @return la chaene de formattage pour la construction du nom de d'une
 **         valeur issue d'un {@link java.util.Enumeration}.
 **
 ** @see java.text.MessageFormat
@@ -319,10 +319,10 @@ public MappableHelperFactory setMessageFormatEnumerationEntry( // ---------
 }
 
 /**
-** Permet de d�finir la cha�ne de formattage pour la construction du nom
+** Permet de definir la chaene de formattage pour la construction du nom
 ** de d'une valeur issue d'un tableau.
 **
-** @return la cha�ne de formattage pour la construction du nom de d'une
+** @return la chaene de formattage pour la construction du nom de d'une
 **         valeur issue d'un tableau
 **
 ** @see java.text.MessageFormat
@@ -353,11 +353,11 @@ public MappableHelperFactory setMessageFormatArrayEntry( // ---------------
 }
 
 /**
-** Permet de d�finir la cha�ne de formattage pour la construction du nom
-** d'une m�thode retournant un �l�ment simple.
+** Permet de definir la chaene de formattage pour la construction du nom
+** d'une methode retournant un element simple.
 **
-** @return la cha�ne de formattage pour la construction du nom de
-**         la m�thode.
+** @return la chaene de formattage pour la construction du nom de
+**         la methode.
 **
 ** @see java.text.MessageFormat
 **

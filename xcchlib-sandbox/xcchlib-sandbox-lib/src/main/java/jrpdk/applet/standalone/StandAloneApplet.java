@@ -8,7 +8,7 @@ import java.applet.AppletContext;
 import java.net.URL;
 
 /**
-** Conform�ment � l'object java.awt.Component cette classe impl�mente
+** Conformement e l'object java.awt.Component cette classe implemente
 ** correctenement l'interface Serializable
 **
 ** @author Claude CHOISNET
@@ -25,7 +25,7 @@ private Boolean isStandAlone;
 private StandAloneAppletInitializerInterface appletInitializer;
 
 /**
-** Initialisation par d�faut, il s'agit typiquement de l'initialisation
+** Initialisation par defaut, il s'agit typiquement de l'initialisation
 ** faite par un navigateur.
 */
 public StandAloneApplet() // ----------------------------------------------
@@ -37,8 +37,8 @@ public StandAloneApplet() // ----------------------------------------------
 }
 
 /**
-** Constructeur �quivalent au constructeur par d�faut, puis � l'appel de
-** la m�thode setContext().
+** Constructeur equivalent au constructeur par defaut, puis e l'appel de
+** la methode setContext().
 **
 ** @see #setContext
 */
@@ -53,8 +53,8 @@ public StandAloneApplet( // -----------------------------------------------
 
 
 /**
-** M�thode permettant de d�finir un environnement d'initialisation �quivalent
-** � ce qu'un navigateur pour apporter comme context � un objet Applet.
+** Methode permettant de definir un environnement d'initialisation equivalent
+** e ce qu'un navigateur pour apporter comme context e un objet Applet.
 **
 ** @see StandAloneAppletInitializerInterface
 ** @see java.applet.Applet
