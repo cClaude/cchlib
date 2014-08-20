@@ -1,6 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.googlecode.cchlib</groupId>
   <artifactId>cchlib</artifactId>
   <version>4.2-SNAPSHOT</version>
@@ -73,7 +74,6 @@
       </snapshots>
     </repository>
   </repositories>
-
 
   <!-- BUILD
     * ALL sub project will have their java code compiled using java 1.6
@@ -254,13 +254,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- guava is too big - no more include
-    <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>14.0.1</version>
-    </dependency>
-    -->
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
@@ -279,23 +272,12 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-core</artifactId>
       <version>1.3</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-remote-control</artifactId>
-      <version>1.0.1</version>
-      <type>pom</type>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-report-plugin</artifactId>
-      <version>2.5</version>
-      <type>maven-plugin</type>
     </dependency>
   </dependencies>
 

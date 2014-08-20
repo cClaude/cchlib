@@ -15,10 +15,10 @@
 */
 package cx.ath.choisnet.xml.impl;
 
-import cx.ath.choisnet.xml.XMLFileParser;
-import cx.ath.choisnet.xml.XMLParserErrorHandler;
 import java.io.File;
 import java.util.EnumSet;
+import cx.ath.choisnet.xml.XMLFileParser;
+import cx.ath.choisnet.xml.XMLParserErrorHandler;
 
 /**
 **
@@ -30,24 +30,17 @@ public class XMLFileParserDOM2Impl
     extends XMLParserDOM2Impl
         implements XMLFileParser
 {
-/** */
-private File file;
+private final File file;
 
-/**
-**
-*/
+@SuppressWarnings("resource")
 public XMLFileParserDOM2Impl( // ------------------------------------------
     final File                                  sourceFile,
     final EnumSet<XMLParserDOM2Impl.Attributs>  attributes,
-    // final ErrorHandler                          errorHandler
     final XMLParserErrorHandler                 errorHandler
 
     )
     throws
         java.io.FileNotFoundException,
-//        java.io.IOException,
-//        javax.xml.parsers.ParserConfigurationException,
-//        org.xml.sax.SAXException
         cx.ath.choisnet.xml.XMLParserException
 {
  super(

@@ -1,7 +1,6 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.xml.factory;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -221,10 +220,10 @@ public class PositionalXMLReaderTest
             if( node instanceof Element ) {
                 final Element element = Element.class.cast( node );
 
-                final int bLine = ((Integer)element.getUserData( PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME )).intValue();
-                final int bCol  = ((Integer)element.getUserData( PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME )).intValue();
-                final int eLine = ((Integer)element.getUserData( PositionalXMLReader.END_LINE_NUMBER_KEY_NAME )).intValue();
-                final int eCol  = ((Integer)element.getUserData( PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME )).intValue();
+                final int bLine = getUserDataIntValue( element, PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME );
+                final int bCol  = getUserDataIntValue( element, PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME );
+                final int eLine = getUserDataIntValue( element, PositionalXMLReader.END_LINE_NUMBER_KEY_NAME );
+                final int eCol  = getUserDataIntValue( element, PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME );
 
                 LOGGER.info(
                     String.format( "Element: %s @ (%d,%d)/(%d/%d)", element, bLine, bCol, eLine, eCol ) // $codepro.audit.disable avoidAutoBoxing
@@ -238,6 +237,11 @@ public class PositionalXMLReaderTest
 
             doRec( node.getChildNodes() );
             }
+    }
+
+    private int getUserDataIntValue( final Node node, final String key  )
+    {
+        return ((Integer)node.getUserData( key )).intValue();
     }
 
     private void doCheck(

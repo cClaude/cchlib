@@ -176,15 +176,20 @@ public class PositionalXMLReader
                     element.setAttribute( attributes.getQName( i ), attributes.getValue (i ) );
                     }
 
-                element.setUserData( PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME  , Integer.valueOf( prevLineNumber   ), null );
-                element.setUserData( PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME, Integer.valueOf( prevColumnNumber ), null );
+                setUserData( element, PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME  , prevLineNumber );
+                setUserData( element, PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME, prevColumnNumber );
 
                 updateLocator();
 
-                element.setUserData( PositionalXMLReader.END_LINE_NUMBER_KEY_NAME  , Integer.valueOf( prevLineNumber   ), null );
-                element.setUserData( PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME, Integer.valueOf( prevColumnNumber ), null );
+                setUserData( element, PositionalXMLReader.END_LINE_NUMBER_KEY_NAME  , prevLineNumber   );
+                setUserData( element, PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME, prevColumnNumber );
 
                 elementStack.push( element );
+            }
+
+            private void setUserData( final Node node, final String key, final int value )
+            {
+                node.setUserData( key, Integer.valueOf( value ), null );
             }
 
             @Override
