@@ -12,13 +12,13 @@
 */
 package cx.ath.choisnet.util.duplicate.tasks;
 
-import cx.ath.choisnet.io.InputStreamHelper;
-import cx.ath.choisnet.util.checksum.MD5TreeEntry;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import cx.ath.choisnet.io.InputStreamHelper;
+import cx.ath.choisnet.util.checksum.MD5TreeEntry;
 
 /**
 ** <p>
@@ -45,12 +45,12 @@ public abstract class DefaultTask
     /**
     ** Fichier local sur lequel sera effectue le traitement.
     */
-    private Boolean firstime = Boolean.TRUE;
+    private boolean firstime = true;
 
     /**
     **
     */
-    private String actionName;
+    private final String actionName;
 
     /**
     **
@@ -76,9 +76,9 @@ public abstract class DefaultTask
      try {
         doIOJob();
         }
-     catch( IOException e ) {
+     catch( final IOException e ) {
         if( firstime ) {
-            firstime = Boolean.FALSE;
+            firstime = false;
 
             throw new TaskRetryLaterException( e );
             }
@@ -240,7 +240,7 @@ public abstract class DefaultTask
         /** serialVersionUID */
         private static final long serialVersionUID = 1L;
 
-        private File sourceAbsoluteFile;
+        private final File sourceAbsoluteFile;
 
         /**
         **
@@ -289,7 +289,7 @@ public abstract class DefaultTask
             try {
                 InputStreamHelper.copy( sourceAbsoluteFile, destinationAbsoluteFile );
                 }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 throw new cx.ath.choisnet.io.FileCopyException(
                         "actionLocalCopyFile ["
                             + sourceAbsoluteFile + "] to ["
@@ -309,10 +309,10 @@ public abstract class DefaultTask
         private static final long serialVersionUID = 1L;
 
         /** */
-        private TasksFactory<?> tasksFactory;
+        private final TasksFactory<?> tasksFactory;
 
         /** */
-        private MD5TreeEntry sourceFileDigest;
+        private final MD5TreeEntry sourceFileDigest;
 
         /**
         **
@@ -341,7 +341,7 @@ public abstract class DefaultTask
             try {
                 InputStreamHelper.copy( input, output );
                 }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 throw new cx.ath.choisnet.io.FileCopyException(
                         "actionCopyFileFromSource ["
                             + sourceFileDigest + "] to ["
@@ -365,7 +365,7 @@ public abstract class DefaultTask
         private static final long serialVersionUID = 1L;
 
         /** */
-        private File sourceAbsoluteFile;
+        private final File sourceAbsoluteFile;
 
         /**
         **

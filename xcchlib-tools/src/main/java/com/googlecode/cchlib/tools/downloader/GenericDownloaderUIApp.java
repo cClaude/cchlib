@@ -1,48 +1,43 @@
 package com.googlecode.cchlib.tools.downloader;
 
-import java.awt.EventQueue;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException; // $codepro.audit.disable unnecessaryImport
-import javax.swing.border.EmptyBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JComboBox;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.awt.CardLayout;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.net.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException; // $codepro.audit.disable unnecessaryImport
+import javax.swing.border.EmptyBorder;
 import org.apache.log4j.Logger;
-
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.tools.downloader.display.table.DisplayTableBuilder;
 import com.googlecode.cchlib.tools.downloader.display.table.DisplayTableModel;
 import com.googlecode.cchlib.tools.downloader.gdai.tumblr.GDAI_tumblr_com;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import javax.swing.JScrollPane;
-import java.awt.Toolkit;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JProgressBar;
-import java.awt.FlowLayout;
-import javax.swing.JTable;
 
 /**
  * Application starting class
@@ -62,7 +57,7 @@ public class GenericDownloaderUIApp extends JFrame
 
     private GenericDownloader genericDownloader_useLock;
     /** lock for genericDownloader access */
-    private Object genericDownloaderLock = new Object();
+    private final Object genericDownloaderLock = new Object();
     private ActionListener actionListener;
     private WindowListener windowListener;
 
@@ -79,7 +74,7 @@ public class GenericDownloaderUIApp extends JFrame
     private JMenuBar menuBar;
     private JMenuItem mntmQuit;
     private JPanel cardsPanel;
-    private JPanel contentPane;
+    private final JPanel contentPane;
     private JPanel panel;
     private JProgressBar displayJProgressBar;
     private JScrollPane cardsPanel_JScrollPane;
@@ -90,37 +85,33 @@ public class GenericDownloaderUIApp extends JFrame
     /**
      * Launch the application.
      */
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
-        EventQueue.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                try {
-                    UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-                    }
-                catch( ClassNotFoundException | InstantiationException
-                        | IllegalAccessException
-                        | UnsupportedLookAndFeelException e ) {
+        EventQueue.invokeLater( ( ) -> {
+            try {
+                UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+                }
+            catch( ClassNotFoundException | InstantiationException
+                    | IllegalAccessException
+                    | UnsupportedLookAndFeelException e ) {
 
-                    LOGGER.fatal( "Can not set LookAndFeel", e );
-                    }
+                LOGGER.fatal( "Can not set LookAndFeel", e );
+                }
 
-                try {
-                    GenericDownloaderUIApp frame = new GenericDownloaderUIApp();
-                    frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-                            GenericDownloaderUIApp.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png"))
-                            );
-                    frame.setTitle( APP_NAME );
-                    }
-                catch( Exception e ) {
-                    LOGGER.fatal( "main() exception", e ); // FIXME
+            try {
+                final GenericDownloaderUIApp frame = new GenericDownloaderUIApp();
+                frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+                        GenericDownloaderUIApp.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png"))
+                        );
+                frame.setTitle( APP_NAME );
+                }
+            catch( final Exception e ) {
+                LOGGER.fatal( "main() exception", e );
 
-                    final String title = "GenericDownloaderUIApp";
+                final String title = "GenericDownloaderUIApp";
 
-                    DialogHelper.showMessageExceptionDialog( title , e );
-                    }
-            }
+                DialogHelper.showMessageExceptionDialog( title , e );
+                }
         } );
     }
 
@@ -144,7 +135,7 @@ public class GenericDownloaderUIApp extends JFrame
         downloaderUIPanels = new GenericDownloaderUIPanel[ downloadEntriesTypeList.size() ];
 
         for( int i = 0; i < downloaderUIPanels.length; i++ ) {
-            GenericDownloaderAppInterface entry = downloadEntriesTypeList.get( i );
+            final GenericDownloaderAppInterface entry = downloadEntriesTypeList.get( i );
 
             downloaderUIPanels[ i ] = new GenericDownloaderUIPanel( entry );
             }
@@ -153,7 +144,7 @@ public class GenericDownloaderUIApp extends JFrame
 
         proxyComboBoxModel.addElement( new ProxyEntry( Proxy.NO_PROXY ) );
 
-        for( ProxyEntry entry : createProxyList() ) {
+        for( final ProxyEntry entry : createProxyList() ) {
             proxyComboBoxModel.addElement( entry );
             }
 
@@ -169,34 +160,29 @@ public class GenericDownloaderUIApp extends JFrame
     private ActionListener getActionListener()
     {
         if( actionListener == null ) {
-            actionListener = new ActionListener()
-            {
-                @Override
-                public void actionPerformed( final ActionEvent event )
-                {
-                    final String cmd = event.getActionCommand();
+            actionListener = event -> {
+                final String cmd = event.getActionCommand();
 
-                    if( ACTION_QUIT.equals( cmd ) ) {
-                        // Simulate call to windows close !
+                if( ACTION_QUIT.equals( cmd ) ) {
+                    // Simulate call to windows close !
 
-                        if( windowClosing() ) {
-                            windowClosed();
-                            }
+                    if( windowClosing() ) {
+                        windowClosed();
                         }
-                    else if( ACTION_STOP.equals( cmd ) ) {
-                        if( stopJButton.isEnabled() ) {
-                            stopDownload();
-                            }
+                    }
+                else if( ACTION_STOP.equals( cmd ) ) {
+                    if( stopJButton.isEnabled() ) {
+                        stopDownload();
                         }
-                    else if( ACTION_START.equals( cmd ) ) {
-                        if( startJButton.isEnabled() ) {
-                            startDownload();
-                            }
+                    }
+                else if( ACTION_START.equals( cmd ) ) {
+                    if( startJButton.isEnabled() ) {
+                        startDownload();
                         }
-                    else {
-                        LOGGER.warn( "Unknown ActionCommand " + cmd );
-                        }
-                }
+                    }
+                else {
+                    LOGGER.warn( "Unknown ActionCommand " + cmd );
+                    }
             };
             }
 
@@ -301,7 +287,7 @@ public class GenericDownloaderUIApp extends JFrame
         contentPane = new JPanel();
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         setContentPane( contentPane );
-        GridBagLayout gbl_contentPane = new GridBagLayout();
+        final GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
         gbl_contentPane.rowHeights = new int[]{0, 80, 0, 0, 0, 0, 0};
         gbl_contentPane.columnWeights = new double[]{1.0, 2.0, 1.0, 1.0, Double.MIN_VALUE};
@@ -309,7 +295,7 @@ public class GenericDownloaderUIApp extends JFrame
         contentPane.setLayout(gbl_contentPane);
         {
             cardsPanel_JScrollPane = new JScrollPane();
-            GridBagConstraints gbc_cardsPanel_JScrollPane = new GridBagConstraints();
+            final GridBagConstraints gbc_cardsPanel_JScrollPane = new GridBagConstraints();
             gbc_cardsPanel_JScrollPane.fill = GridBagConstraints.BOTH;
             gbc_cardsPanel_JScrollPane.gridwidth = 4;
             gbc_cardsPanel_JScrollPane.insets = new Insets(0, 0, 5, 0);
@@ -326,28 +312,24 @@ public class GenericDownloaderUIApp extends JFrame
         }
         {
             siteJComboBox = new JComboBox<String>();
-            siteJComboBox.addItemListener(new ItemListener() {
-                @Override
-                public void itemStateChanged(ItemEvent event)
-                {
-                    CardLayout cl = (CardLayout)(cardsPanel.getLayout());
-                    String panelName = String.class.cast( event.getItem() );
-                    cl.show(cardsPanel, panelName );
+            siteJComboBox.addItemListener(event -> {
+                final CardLayout cl = (CardLayout)(cardsPanel.getLayout());
+                final String panelName = String.class.cast( event.getItem() );
+                cl.show(cardsPanel, panelName );
 
-                    for( int i = 0; i < downloaderUIPanels.length; i++ ) {
-                        final GenericDownloaderAppInterface c = downloaderUIPanels[ i ].getGenericDownloaderAppInterface();
-                        if( c.getSiteName().equals( panelName ) ) {
-                            //xxxxx
-                            break;
-                            }
+                for( int i = 0; i < downloaderUIPanels.length; i++ ) {
+                    final GenericDownloaderAppInterface c = downloaderUIPanels[ i ].getGenericDownloaderAppInterface();
+                    if( c.getSiteName().equals( panelName ) ) {
+                        //xxxxx
+                        break;
                         }
-                }
+                    }
             });
-            for( GenericDownloaderUIPanel p : downloaderUIPanels ) {
+            for( final GenericDownloaderUIPanel p : downloaderUIPanels ) {
                 siteJComboBox.addItem( p.getGenericDownloaderAppInterface().getSiteName() );
                 }
 
-            GridBagConstraints gbc_siteJComboBox = new GridBagConstraints();
+            final GridBagConstraints gbc_siteJComboBox = new GridBagConstraints();
             gbc_siteJComboBox.gridwidth = 4;
             gbc_siteJComboBox.insets = new Insets(0, 0, 5, 0);
             gbc_siteJComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -357,7 +339,7 @@ public class GenericDownloaderUIApp extends JFrame
         }
         {
             proxyJLabel = new JLabel("Proxy");
-            GridBagConstraints gbc_proxyJLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_proxyJLabel = new GridBagConstraints();
             gbc_proxyJLabel.insets = new Insets(0, 0, 5, 5);
             gbc_proxyJLabel.anchor = GridBagConstraints.EAST;
             gbc_proxyJLabel.gridx = 0;
@@ -367,7 +349,7 @@ public class GenericDownloaderUIApp extends JFrame
         {
             proxyJComboBox = new JComboBox<>(proxyComboBoxModel);
             proxyJLabel.setLabelFor(proxyJComboBox);
-            GridBagConstraints gbc_proxyJComboBox = new GridBagConstraints();
+            final GridBagConstraints gbc_proxyJComboBox = new GridBagConstraints();
             gbc_proxyJComboBox.insets = new Insets(0, 0, 5, 5);
             gbc_proxyJComboBox.fill = GridBagConstraints.HORIZONTAL;
             gbc_proxyJComboBox.gridx = 1;
@@ -377,7 +359,7 @@ public class GenericDownloaderUIApp extends JFrame
         {
             downloadThreadNumberJLabel = new JLabel("Download thread number");
             downloadThreadNumberJLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            GridBagConstraints gbc_downloadThreadNumberJLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_downloadThreadNumberJLabel = new GridBagConstraints();
             gbc_downloadThreadNumberJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_downloadThreadNumberJLabel.insets = new Insets(0, 0, 5, 5);
             gbc_downloadThreadNumberJLabel.gridx = 2;
@@ -388,7 +370,7 @@ public class GenericDownloaderUIApp extends JFrame
             downloadThreadNumberSpinnerModel = new SpinnerNumberModel( DOWNLOAD_THREAD_NUMBER_DEFAULT, 1, DOWNLOAD_THREAD_NUMBER_MAX, 1 );
             downloadThreadNumberJSpinner = new JSpinner( new SpinnerNumberModel(5, 1, 50, 1) );
             downloadThreadNumberJLabel.setLabelFor(downloadThreadNumberJSpinner);
-            GridBagConstraints gbc_downloadThreadNumberJSpinner = new GridBagConstraints();
+            final GridBagConstraints gbc_downloadThreadNumberJSpinner = new GridBagConstraints();
             gbc_downloadThreadNumberJSpinner.fill = GridBagConstraints.HORIZONTAL;
             gbc_downloadThreadNumberJSpinner.insets = new Insets(0, 0, 5, 0);
             gbc_downloadThreadNumberJSpinner.gridx = 3;
@@ -396,8 +378,8 @@ public class GenericDownloaderUIApp extends JFrame
             contentPane.add(downloadThreadNumberJSpinner, gbc_downloadThreadNumberJSpinner);
         }
         {
-            JScrollPane displayJScrollPane = new JScrollPane();
-            GridBagConstraints gbc_displayJScrollPane = new GridBagConstraints();
+            final JScrollPane displayJScrollPane = new JScrollPane();
+            final GridBagConstraints gbc_displayJScrollPane = new GridBagConstraints();
             gbc_displayJScrollPane.fill = GridBagConstraints.BOTH;
             gbc_displayJScrollPane.gridwidth = 4;
             gbc_displayJScrollPane.insets = new Insets(0, 0, 5, 0);
@@ -412,7 +394,7 @@ public class GenericDownloaderUIApp extends JFrame
         }
         {
             displayJProgressBar = new JProgressBar();
-            GridBagConstraints gbc_displayJProgressBar = new GridBagConstraints();
+            final GridBagConstraints gbc_displayJProgressBar = new GridBagConstraints();
             gbc_displayJProgressBar.fill = GridBagConstraints.HORIZONTAL;
             gbc_displayJProgressBar.gridwidth = 4;
             gbc_displayJProgressBar.insets = new Insets(0, 0, 5, 0);
@@ -422,7 +404,7 @@ public class GenericDownloaderUIApp extends JFrame
         }
         {
             panel = new JPanel();
-            GridBagConstraints gbc_panel = new GridBagConstraints();
+            final GridBagConstraints gbc_panel = new GridBagConstraints();
             gbc_panel.gridwidth = 2;
             gbc_panel.insets = new Insets(0, 0, 0, 5);
             gbc_panel.fill = GridBagConstraints.BOTH;
@@ -447,16 +429,12 @@ public class GenericDownloaderUIApp extends JFrame
 
     protected void stopDownload()
     {
-        new Thread( new Runnable() {
-            @Override
-            public void run()
-            {
-                synchronized( genericDownloaderLock ) {
-                    if( genericDownloader_useLock != null ) {
-                        genericDownloader_useLock.onClickStopDownload();
-                        }
+        new Thread( ( ) -> {
+            synchronized( genericDownloaderLock ) {
+                if( genericDownloader_useLock != null ) {
+                    genericDownloader_useLock.onClickStopDownload();
                     }
-            }
+                }
         }).start();
     }
 
@@ -470,7 +448,7 @@ public class GenericDownloaderUIApp extends JFrame
         downloadThreadNumberJSpinner.setEnabled( false );
         siteJComboBox.setEnabled( false );
 
-        for( GenericDownloaderUIPanel pannel : downloaderUIPanels ) {
+        for( final GenericDownloaderUIPanel pannel : downloaderUIPanels ) {
             pannel.setEnabledAllComponents( false );
             }
 
@@ -503,62 +481,58 @@ public class GenericDownloaderUIApp extends JFrame
         gdai.setProxy( proxy );
         // gdai.setPageCount( pageCount ); set in GenericDownloaderUIPanel
 
-        new Thread( new Runnable() {
-            @Override
-            public void run()
+        new Thread( ( ) -> {
+             final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
             {
-                 GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
+                @Override
+                public int getDownloadThreadCount()
                 {
-                    @Override
-                    public int getDownloadThreadCount()
-                    {
-                        return downloadThreadNumber;
-                    }
-                    @Override
-                    public LoggerListener getAbstractLogger()
-                    {
-                        return displayTableModel;
-                    }
-                };
+                    return downloadThreadNumber;
+                }
+                @Override
+                public LoggerListener getAbstractLogger()
+                {
+                    return displayTableModel;
+                }
+            };
 
-                try {
-                    //GenericDownloader
-                    synchronized( genericDownloaderLock ) {
-                        genericDownloader_useLock = new GenericDownloader(gdai, gdauir);
-                        }
-
-                    genericDownloader_useLock.onClickStartDownload();
-
-                    synchronized( genericDownloaderLock ) {
-                        genericDownloader_useLock = null;
-                        }
-                    LOGGER.info( "done" );
-                    }
-                catch( Exception e ) {
-                    LOGGER.fatal( "fatal", e );
+            try {
+                //GenericDownloader
+                synchronized( genericDownloaderLock ) {
+                    genericDownloader_useLock = new GenericDownloader(gdai, gdauir);
                     }
 
-                startJButton.setEnabled( true );
-                stopJButton.setEnabled( false );
-                siteJComboBox.setEnabled( true );
-                proxyJComboBox.setEnabled( true );
-                downloadThreadNumberJSpinner.setEnabled( true );
-                siteJComboBox.setEnabled( true );
+                genericDownloader_useLock.onClickStartDownload();
 
-                for( GenericDownloaderUIPanel pannel : downloaderUIPanels ) {
-                    pannel.setEnabledAllComponents( true );
+                synchronized( genericDownloaderLock ) {
+                    genericDownloader_useLock = null;
                     }
+                LOGGER.info( "done" );
+                }
+            catch( final Exception e ) {
+                LOGGER.fatal( "fatal", e );
+                }
 
-                displayJProgressBar.setIndeterminate( false );
-                displayJProgressBar.setEnabled( false );
-                displayJProgressBar.setString( "Ready." );
-            }
+            startJButton.setEnabled( true );
+            stopJButton.setEnabled( false );
+            siteJComboBox.setEnabled( true );
+            proxyJComboBox.setEnabled( true );
+            downloadThreadNumberJSpinner.setEnabled( true );
+            siteJComboBox.setEnabled( true );
+
+            for( final GenericDownloaderUIPanel pannel : downloaderUIPanels ) {
+                pannel.setEnabledAllComponents( true );
+                }
+
+            displayJProgressBar.setIndeterminate( false );
+            displayJProgressBar.setEnabled( false );
+            displayJProgressBar.setString( "Ready." );
         }).start();
     }
 
     private static List<ProxyEntry> createProxyList()
     {
-        List<ProxyEntry> l = new ArrayList<ProxyEntry>();
+        final List<ProxyEntry> l = new ArrayList<ProxyEntry>();
 
         //l.add(  new ProxyEntry( "xxx.yyy.zzz.2", 3128 ) );
 
@@ -570,12 +544,12 @@ public class GenericDownloaderUIApp extends JFrame
         private static final long serialVersionUID = 1L;
 
         @Override
-        public void error( final URL url, File file, final Throwable cause )
+        public void error( final URL url, final File file, final Throwable cause )
         {
             LOGGER.error(  ("*** ERROR: " + "Error while download: ") + url + " to file: " + file, cause );
         }
         @Override
-        public void downloadStateInit( DownloadStateEvent event )
+        public void downloadStateInit( final DownloadStateEvent event )
         {
             //TODO
             displayJProgressBar.setMinimum( 0 );
@@ -589,7 +563,7 @@ public class GenericDownloaderUIApp extends JFrame
             LOGGER.info( "init :" + event.getDownloadListSize() );
         }
         @Override
-        public void downloadStateChange( DownloadStateEvent event )
+        public void downloadStateChange( final DownloadStateEvent event )
         {
             //TODO
             displayJProgressBar.setValue( event.getDownloadListSize() );
@@ -607,7 +581,7 @@ public class GenericDownloaderUIApp extends JFrame
     //Needed for WindowsBuilder: static
     public JTable createJTable()
     {
-        DisplayTableBuilder builder = new DisplayTableBuilder( this, this.displayTableModel );
+        final DisplayTableBuilder builder = new DisplayTableBuilder( this, this.displayTableModel );
 
         return builder.getJTable();
     }

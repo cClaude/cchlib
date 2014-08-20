@@ -246,7 +246,7 @@ class PreferencesData implements Serializable // $codepro.audit.disable largeNum
 
     public Dimension getCompareFrameMinimumDimension()
     {
-        return new Dimension( COMPARE_FRAME_MIN_WIDTH, COMPARE_FRAME_MIN_HEIGHT ); // FIXME
+        return new Dimension( COMPARE_FRAME_MIN_WIDTH, COMPARE_FRAME_MIN_HEIGHT );
     }
 
     @Override

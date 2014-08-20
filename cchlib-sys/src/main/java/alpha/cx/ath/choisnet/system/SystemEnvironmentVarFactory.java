@@ -10,7 +10,7 @@ public class SystemEnvironmentVarFactory
 
     public static SystemEnvironmentVar getDefaultSystemEnvironmentVar()
     {
-        return getJavaSystemEnvironmentVar(); // FIXME
+        return getJavaSystemEnvironmentVar();
     }
 
     public static SystemEnvironmentVar getJavaSystemEnvironmentVar()

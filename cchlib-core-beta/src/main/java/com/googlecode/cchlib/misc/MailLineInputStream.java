@@ -10,11 +10,11 @@ import java.io.InputStream;
 //not public
 class MailLineInputStream extends InputStream
 {
-    private InputStream sourceInputStream;
+    private final InputStream sourceInputStream;
     private boolean isEOF;
     private boolean prev_0D;
     private boolean prev_0D0A;
-    private byte[] lineBuffer = new byte[ 1024 ];
+    private final byte[] lineBuffer = new byte[ 1024 ];
     private int currentLineNumber; // TODO
 
     /**
@@ -31,7 +31,7 @@ class MailLineInputStream extends InputStream
         int length = 0;
 
         do {
-            int c = read();
+            final int c = read();
 
             if( c == -1 ) {
                 break;
@@ -40,8 +40,8 @@ class MailLineInputStream extends InputStream
             try {
                 this.lineBuffer[ length++ ] = (byte)c;
                 }
-            catch( ArrayIndexOutOfBoundsException e ) {
-                // TODO handle buffer over run FIXME
+            catch( final ArrayIndexOutOfBoundsException e ) {
+                // TODO handle buffer over run
                 throw e;
                 }
             } while( !isEOL() );
@@ -50,7 +50,7 @@ class MailLineInputStream extends InputStream
             return null; // $codepro.audit.disable returnValue
             }
         else { // shadow buffer
-            byte[] shadow = new byte[ length ];
+            final byte[] shadow = new byte[ length ];
 
             System.arraycopy(lineBuffer, 0, shadow, 0, length);
 
@@ -64,7 +64,7 @@ class MailLineInputStream extends InputStream
         if( isEOF() ) {
             return -1;
             }
-        int c = sourceInputStream.read();
+        final int c = sourceInputStream.read();
 
         if( c == -1 ) {
             isEOF  = true;

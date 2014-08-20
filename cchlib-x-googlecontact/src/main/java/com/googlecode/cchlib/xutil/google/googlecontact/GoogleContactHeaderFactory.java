@@ -19,7 +19,7 @@ public class GoogleContactHeaderFactory {
 
     private static final class HeaderMethodContenerImpl implements HeaderMethodContener {
 
-        private Method method;
+        private final Method method;
 
         public HeaderMethodContenerImpl( final AnalyserMethodContener methodContener )
         {
@@ -37,7 +37,7 @@ public class GoogleContactHeaderFactory {
         @Override
         public String toString()
         {
-            StringBuilder builder = new StringBuilder();
+            final StringBuilder builder = new StringBuilder();
             builder.append( "HeaderMethodContenerImpl [method=" );
             builder.append( method );
             builder.append( ']' );
@@ -144,12 +144,7 @@ public class GoogleContactHeaderFactory {
 
     private static final Logger LOGGER = Logger.getLogger( GoogleContactHeaderFactory.class );
     private static final Pattern HEADER_PATTERN = Pattern.compile( "([a-zA-Z -]+) ([0-9]+) - ([a-zA-Z \\-]+)" );
-    private static final HeaderMethodContener NULL_CONTENER = new HeaderMethodContener() {
-        @Override
-        public Method getMethod()
-        {
-            return null;
-        }};
+    private static final HeaderMethodContener NULL_CONTENER = ( ) -> null;
 
     private final GoogleContactAnalyser googleContactAnalyser = new GoogleContactAnalyser();
     private final Map<Integer,HeaderMethodContener> indexMethodConteners = new HashMap<>();
@@ -207,7 +202,7 @@ public class GoogleContactHeaderFactory {
             final Matcher matcher = HEADER_PATTERN.matcher( headers [ index + i ] );
 
             if( ! matcher.matches() ) {
-                throw new IllegalArgumentException( headers [ index + i ] ); // FIXME
+                throw new IllegalArgumentException( headers [ index + i ] ); // FIXME should not stop process ?
             }
 
             final AnalyserMethodContener mc = findAnalyserMethodContener( typeInfo, matcher.group( SUFFIX_MATCHER_INDEX ) );
@@ -300,7 +295,7 @@ public class GoogleContactHeaderFactory {
         final GoogleContactHeaderFactory factory = new GoogleContactHeaderFactory( headers );
 
         return new GoogleContactHeader() {
-            private Map<Integer, HeaderMethodContener> unmodifiableMapIndexMethodConteners = Collections.unmodifiableMap( new HashMap<>( factory.indexMethodConteners ) );
+            private final Map<Integer, HeaderMethodContener> unmodifiableMapIndexMethodConteners = Collections.unmodifiableMap( new HashMap<>( factory.indexMethodConteners ) );
 
             @Override
             public Map<Integer,HeaderMethodContener> getIndexMethodConteners()

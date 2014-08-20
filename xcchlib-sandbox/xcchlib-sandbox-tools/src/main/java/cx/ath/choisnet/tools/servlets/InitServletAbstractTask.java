@@ -16,8 +16,8 @@ package cx.ath.choisnet.tools.servlets;
 import org.apache.log4j.Logger;
 
 /**
- ** 
- ** 
+ **
+ **
  ** @author Claude CHOISNET
  ** @since 1.00
  ** @version 1.10
@@ -26,19 +26,18 @@ public abstract class InitServletAbstractTask implements InitServletTaskInterfac
 {
     private final static Logger LOGGER = Logger.getLogger( InitServletAbstractTask.class );
 
-    private String              instanceName;
-    private Boolean             continueRunning;
+    private final String              instanceName;
+    private boolean             continueRunning;
 
     public InitServletAbstractTask() // ---------------------------------------
     {
-        this.instanceName = null;
-        this.continueRunning = Boolean.TRUE;
+        this( null );
     }
 
-    public InitServletAbstractTask( String instanceName ) // ------------------
+    public InitServletAbstractTask( final String instanceName ) // ------------------
     {
         this.instanceName = instanceName;
-        this.continueRunning = Boolean.TRUE;
+        this.continueRunning = true;
     }
 
     public String getInstanceName() // ----------------------------------------
@@ -60,7 +59,7 @@ public abstract class InitServletAbstractTask implements InitServletTaskInterfac
 
     public void stop() // -----------------------------------------------------
     {
-        this.continueRunning = Boolean.FALSE;
+        this.continueRunning = false;
     }
 
     @Override
@@ -70,7 +69,7 @@ public abstract class InitServletAbstractTask implements InitServletTaskInterfac
     }
 
     @Override
-    public void log( String message ) // --------------------------------------
+    public void log( final String message ) // --------------------------------------
     {
         LOGGER.trace( message );
     }
