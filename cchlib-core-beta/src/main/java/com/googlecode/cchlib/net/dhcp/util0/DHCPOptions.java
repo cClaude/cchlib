@@ -68,11 +68,13 @@ public class DHCPOptions {
 
     public byte[] getOptionData( final int optionID )
     {
-        final byte[] option = options.get( optionID );
+        final byte[] option = options.get( Integer.valueOf( optionID )  );
         final byte[] optionData = new byte[option.length - 2];
+
         for( int i = 0; i < optionData.length; i++ ) {
             optionData[ i ] = option[ 2 + i ];
         }
+
         return optionData;
     }
 
@@ -81,56 +83,59 @@ public class DHCPOptions {
         final byte[] option = new byte[2 + optionData.length];
         option[ 0 ] = (byte)optionID;
         option[ 1 ] = (byte)optionData.length;
+
         for( int i = 0; i < optionData.length; i++ ) {
             option[ 2 + i ] = optionData[ i ];
         }
-        options.put( optionID, option );
+
+        options.put( Integer.valueOf( optionID ), option );
     }
 
     public String printOption( final int optionID, final boolean header )
     {
-        String output;
-        if( options.get( optionID ) != null ) {
-            final byte[] option = options.get( optionID );
+        final StringBuilder output = new StringBuilder();
+        final byte[] option = options.get( Integer.valueOf( optionID ) );
+
+        if( option != null ) {
             switch( optionID ) {
                 case DHCPHOSTNAME:
-                    output = DHCPUtility.printString( option ).substring( 2 );
+                    output.append( DHCPUtility.printString( option ).substring( 2 ) );
                     break;
                 case DHCPREQUESTIP:
-                    output = DHCPUtility.ip4ToString( option[ 2 ], option[ 3 ], option[ 4 ], option[ 5 ] );
+                    output.append( DHCPUtility.ip4ToString( option[ 2 ], option[ 3 ], option[ 4 ], option[ 5 ] ) );
                     break;
                 case DHCPMESSAGETYPE:
-                    output = printMessageType( option[ 2 ] );
+                    output.append( printMessageType( option[ 2 ] ) );
                     break;
                 case DHCPSERVERIDENTIFIER:
-                    output = DHCPUtility.ip4ToString( option[ 2 ], option[ 3 ], option[ 4 ], option[ 5 ] );
+                    output.append( DHCPUtility.ip4ToString( option[ 2 ], option[ 3 ], option[ 4 ], option[ 5 ] ) );
                     break;
                 case DHCPCLIENTIDENTIFIER:
                     if( option[ 1 ] == 7 && option[ 2 ] == DHCPMessage.ETHERNET10MB ) {
-                        output = DHCPUtility.macToString( option[ 3 ], option[ 4 ], option[ 5 ], option[ 6 ], option[ 7 ], option[ 8 ] );
+                        output.append( DHCPUtility.macToString( option[ 3 ], option[ 4 ], option[ 5 ], option[ 6 ], option[ 7 ], option[ 8 ] ) );
                     } else if( option[ 2 ] == 0 ) {
-                        output = DHCPUtility.printString( option ).substring( 2 );
+                        output.append( DHCPUtility.printString( option ).substring( 2  ) );
                     } else {
-                        output = "";
                         final int head = (header ? 0 : 2);
+
                         for( int i = head; i < option.length; i++ ) {
-                            output += option[ i ] + (i == option.length - 1 ? "" : ",");
+                            output.append( option[ i ] + (i == option.length - 1 ? "" : "," ) );
                         }
                     }
                     break;
                 default:
-                    output = "";
                     final int head = (header ? 0 : 2);
+
                     for( int i = head; i < option.length; i++ ) {
-                        output += option[ i ] + (i == option.length - 1 ? "" : ",");
+                        output.append(  option[ i ] + (i == option.length - 1 ? "" : "," ) );
                     }
                     break;
             }
         } else {
-            output = "<Empty>";
+            output.append( "<Empty>" );
         }
         // System.out.println(output);
-        return output;
+        return output.toString();
     }
 
     private String printMessageType( final byte b )
@@ -170,43 +175,45 @@ public class DHCPOptions {
 
     public String printOptions()
     {
-        String str = "";
+        final StringBuilder sb = new StringBuilder();
+
         for( final byte[] option : options.values() ) {
-            str += printOption( option[ 0 ], true );
+            sb.append( printOption( option[ 0 ], true ) );
         }
-        return str;
+        return sb.toString();
     }
 
     @Override
     public String toString()
     {
-        String output = "";
+        final StringBuilder sb = new StringBuilder();
+
         for( final byte[] option : options.values() ) {
-            output += "optionID: " + option[ 0 ] + " optionLength: " + option[ 1 ] + " optionData: ";
+            sb.append( "optionID: " + option[ 0 ] + " optionLength: " + option[ 1 ] + " optionData: " );
             /* for (int i = 2; i < option.length; i++) { output += option[i] + (i == option.length - 1 ? "\n" : ", "); } */
-            output += printOption( option[ 0 ], false ) + System.getProperty( "line.separator" );
+            sb.append( printOption( option[ 0 ], false ) + System.getProperty( "line.separator" ) );
         }
-        return output;
+        return sb.toString();
     }
 
-    protected void internalize( byte[] options )
+    protected void internalize( final byte[] options )
     {
         // clear hash
         this.options.clear();
 
         // trim options
-        options = trim( options );
+        final byte[] tmpOptions = trim( options );
 
         // get size
-        final int totalBytes = options.length;
+        final int totalBytes = tmpOptions.length;
         assert (totalBytes >= 4 && totalBytes <= MAX_OPTION_SIZE);
 
         // read magic cookie
         final byte[] cookie = new byte[4];
-        cookie[ 0 ] = options[ 0 ];
-        cookie[ 1 ] = options[ 1 ];
-        cookie[ 2 ] = options[ 2 ];
-        cookie[ 3 ] = options[ 3 ];
+        cookie[ 0 ] = tmpOptions[ 0 ];
+        cookie[ 1 ] = tmpOptions[ 1 ];
+        cookie[ 2 ] = tmpOptions[ 2 ];
+        cookie[ 3 ] = tmpOptions[ 3 ];
         final String magicCookie = DHCPUtility.ip4ToString( cookie );
         // System.out.println("cookie received: " + magicCookie);
         assert (magicCookie.compareTo( "99.130.83.99" ) == 0) : "Cookie received \"" + magicCookie + "\"";
@@ -222,9 +229,9 @@ public class DHCPOptions {
             bytes = 1;
 
             // if option
-            if( options[ i ] != (byte)0 && options[ i ] != (byte)255 ) {
+            if( tmpOptions[ i ] != (byte)0 && tmpOptions[ i ] != (byte)255 ) {
                 // length of the option specified in length field
-                final int optionLength = options[ i + 1 ];
+                final int optionLength = tmpOptions[ i + 1 ];
 
                 // new byte array of size in length field
                 final byte[] option = new byte[optionLength];
@@ -235,20 +242,20 @@ public class DHCPOptions {
                 // for each option data byte
                 for( int j = 0; j < optionLength; j++ ) {
                     // set data
-                    option[ j ] = options[ i + 2 + j ];
+                    option[ j ] = tmpOptions[ i + 2 + j ];
                 }
                 bytes = 2 + optionLength; // opcode(1b) + length(1b) +
                                           // data.length
                 // set option data in this dhcpOptions object
-                this.setOptionData( options[ i ], option );
+                this.setOptionData( tmpOptions[ i ], option );
 
-            } else if( options[ i ] == (byte)255 ) { // end options
+            } else if( tmpOptions[ i ] == (byte)255 ) { // end options
                 assert (i == totalBytes - 1);
-            } else if( options[ i ] == (byte)0 ) { // padding
+            } else if( tmpOptions[ i ] == (byte)0 ) { // padding
                 // keep reading if padding op code
                 System.out.println( "padding op code" );
             } else {
-                System.out.println( "malformed option, code out of range (0-255). Code: " + options[ i ] );
+                System.out.println( "malformed option, code out of range (0-255). Code: " + tmpOptions[ i ] );
             }
         }
 

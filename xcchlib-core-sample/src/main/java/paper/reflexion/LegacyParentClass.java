@@ -5,6 +5,7 @@ package paper.reflexion;
  */
 public abstract class LegacyParentClass
 {
+    private static final Long TEN = Long.valueOf( 10L );
     public static final String aPublicFinalStaticField = "**aPublicFinalStaticField**";
     protected final String aProtectedFinalField = "**aProtectedFinalField**";
     protected String aProtectedField = "**aProtectedField**";
@@ -14,7 +15,7 @@ public abstract class LegacyParentClass
 
     public LegacyParentClass()
     {
-        this.aLong      = 10L;
+        this.aLong      = TEN;
         this.aString    = "FOO";
         this.aInt       = 20;
 
@@ -22,7 +23,7 @@ public abstract class LegacyParentClass
         try {
             doNullPointerException();
             }
-        catch( NullPointerException ignore ) {} // $codepro.audit.disable logExceptions, emptyCatchClause
+        catch( final NullPointerException ignore ) {} // $codepro.audit.disable logExceptions, emptyCatchClause
     }
 
     private void doNothing()
@@ -73,7 +74,7 @@ public abstract class LegacyParentClass
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("ParentClass [aProtectedFinalField=");
         builder.append(aProtectedFinalField);
         builder.append(", aProtectedField=");

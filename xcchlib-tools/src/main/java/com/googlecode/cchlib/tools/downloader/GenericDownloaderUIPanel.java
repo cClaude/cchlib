@@ -1,32 +1,28 @@
 package com.googlecode.cchlib.tools.downloader;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.SpinnerNumberModel;
-import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.JSpinner;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
 
 public class GenericDownloaderUIPanel
     extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private JLabel pageScanCountJLabel;
-    @I18nString private String numberOfPicturesByPageTxt = "%d picture(s) by page";
+    @I18nString private final String numberOfPicturesByPageTxt = "%d picture(s) by page";
     private JSpinner pageScanCountJSpinner;
-    private GenericDownloaderAppInterface config;
+    private final GenericDownloaderAppInterface config;
     private SpinnerNumberModel pageScanCountSpinnerModel;
-    private List<GenericDownloaderUIPanelEntry> entryJPanelList = new ArrayList<GenericDownloaderUIPanelEntry>();
+    private final List<GenericDownloaderUIPanelEntry> entryJPanelList = new ArrayList<GenericDownloaderUIPanelEntry>();
 
     /**
      * Create the panel.
@@ -37,7 +33,7 @@ public class GenericDownloaderUIPanel
     {
         this.config = config;
 
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{50, 50, 50, 0};
         gridBagLayout.rowHeights = new int[]{0, 14, 0, 0, 0, 0};
         gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
@@ -45,9 +41,9 @@ public class GenericDownloaderUIPanel
         setLayout(gridBagLayout);
 
         {
-            JLabel sitenameJLabel = new JLabel( config.getSiteName() );
+            final JLabel sitenameJLabel = new JLabel( config.getSiteName() );
             sitenameJLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            GridBagConstraints gbc_sitenameJLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_sitenameJLabel = new GridBagConstraints();
             gbc_sitenameJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_sitenameJLabel.gridwidth = 3;
             gbc_sitenameJLabel.insets = new Insets(0, 0, 5, 0);
@@ -58,7 +54,7 @@ public class GenericDownloaderUIPanel
         {
             pageScanCountJLabel = new JLabel( "Pages to scan :" );
             pageScanCountJLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-            GridBagConstraints gbc_pageScanCountJLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_pageScanCountJLabel = new GridBagConstraints();
             gbc_pageScanCountJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_pageScanCountJLabel.insets = new Insets(0, 0, 5, 5);
             gbc_pageScanCountJLabel.anchor = GridBagConstraints.NORTH;
@@ -75,15 +71,9 @@ public class GenericDownloaderUIPanel
                         1
                         );
             pageScanCountJSpinner = new JSpinner( pageScanCountSpinnerModel );
-            pageScanCountJSpinner.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent event)
-                {
-                    config.setPageCount( pageScanCountSpinnerModel.getNumber().intValue() );
-                }
-            });
+            pageScanCountJSpinner.addChangeListener(event -> config.setPageCount( pageScanCountSpinnerModel.getNumber().intValue() ));
 
-            GridBagConstraints gbc_pageScanCountJSpinner = new GridBagConstraints();
+            final GridBagConstraints gbc_pageScanCountJSpinner = new GridBagConstraints();
             gbc_pageScanCountJSpinner.fill = GridBagConstraints.HORIZONTAL;
             gbc_pageScanCountJSpinner.insets = new Insets(0, 0, 5, 5);
             gbc_pageScanCountJSpinner.gridx = 1;
@@ -91,9 +81,9 @@ public class GenericDownloaderUIPanel
             add(pageScanCountJSpinner, gbc_pageScanCountJSpinner);
         }
         {
-            JLabel numberOfPicturesByPageLabel = new JLabel();
-            numberOfPicturesByPageLabel.setText( String.format( numberOfPicturesByPageTxt, config.getNumberOfPicturesByPage() ) );
-            GridBagConstraints gbc_numberOfPicturesByPageLabel = new GridBagConstraints();
+            final JLabel numberOfPicturesByPageLabel = new JLabel();
+            numberOfPicturesByPageLabel.setText( String.format( numberOfPicturesByPageTxt, Integer.valueOf( config.getNumberOfPicturesByPage() ) ) );
+            final GridBagConstraints gbc_numberOfPicturesByPageLabel = new GridBagConstraints();
             gbc_numberOfPicturesByPageLabel.insets = new Insets(0, 0, 5, 0);
             gbc_numberOfPicturesByPageLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_numberOfPicturesByPageLabel.gridx = 2;
@@ -106,15 +96,8 @@ public class GenericDownloaderUIPanel
         for( final GenericDownloaderAppComboBoxConfig entry : config.getComboBoxConfigCollection() )
         // $hide<<$
         {
-            final GenericDownloaderUIPanelEntry entryJPanel = new GenericDownloaderUIPanelEntry( new ActionListener() {
-                @Override
-                public void actionPerformed( ActionEvent e )
-                {
-                    config.setSelectedItems( getSelectedItems() );
-                }
-                
-            });
-            GridBagConstraints gbc_entryJPanel = new GridBagConstraints();
+            final GenericDownloaderUIPanelEntry entryJPanel = new GenericDownloaderUIPanelEntry( e -> config.setSelectedItems( getSelectedItems() ));
+            final GridBagConstraints gbc_entryJPanel = new GridBagConstraints();
             gbc_entryJPanel.gridwidth = 3;
             //gbc_entryJPanel.insets = new Insets(0, 0, 0, 0);
             gbc_entryJPanel.fill = GridBagConstraints.BOTH;
@@ -187,14 +170,9 @@ public class GenericDownloaderUIPanel
         if( button != null )
         // $hide<<$
         {
-            JButton jButton = new JButton( button.getLabel() );
-            jButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent event) {
-                    button.onClick();
-                }
-            });
-            GridBagConstraints gbc_jButton = new GridBagConstraints();
+            final JButton jButton = new JButton( button.getLabel() );
+            jButton.addActionListener(event -> button.onClick());
+            final GridBagConstraints gbc_jButton = new GridBagConstraints();
             gbc_jButton.insets = new Insets(0, 0, 0, 5);
             gbc_jButton.gridx = 1;
             gbc_jButton.gridy = 4;
@@ -207,7 +185,7 @@ public class GenericDownloaderUIPanel
         return this.config;
     }
 
-    public void setReadOnly( boolean isReadOnly )
+    public void setReadOnly( final boolean isReadOnly )
     {
         final boolean enabled = ! isReadOnly;
 
@@ -222,7 +200,7 @@ public class GenericDownloaderUIPanel
 //            jcb.setEnabled( enabled );
 //            }
 
-        for( GenericDownloaderUIPanelEntry entry : entryJPanelList ) {
+        for( final GenericDownloaderUIPanelEntry entry : entryJPanelList ) {
             entry.setEnabledAllComponents( enabled );
             }
     }
@@ -231,7 +209,7 @@ public class GenericDownloaderUIPanel
     {
         final List<GenericDownloaderUIPanelEntry.Item> selectedItems = new ArrayList<>();
 
-        for( GenericDownloaderUIPanelEntry p : this.entryJPanelList ) {
+        for( final GenericDownloaderUIPanelEntry p : this.entryJPanelList ) {
             selectedItems.add( p.getSelectedItem() );
             }
 

@@ -55,8 +55,8 @@ public void testSerialization1() // ---------------------------------------
         java.io.IOException,
         java.lang.ClassNotFoundException
 {
- A a1 = getA1();
- A s1 = Serialization.clone( a1, A.class );
+ final A a1 = getA1();
+ final A s1 = Serialization.clone( a1, A.class );
 
  System.out.println( "----" );
  System.out.println( "a1 = " + a1 );
@@ -75,9 +75,9 @@ public void testSerialization2() // ---------------------------------------
         java.io.IOException,
         java.lang.ClassNotFoundException
 {
- B b3 = getB3();
- A a2 = getA1().setB( b3 );
- A s2 = Serialization.clone( a2, A.class );
+ final B b3 = getB3();
+ final A a2 = getA1().setB( b3 );
+ final A s2 = Serialization.clone( a2, A.class );
 
  System.out.println( "----" );
  System.out.println( "a2 = " + a2 );
@@ -94,9 +94,9 @@ public void testSerialization3() // ---------------------------------------
         java.io.IOException,
         java.lang.ClassNotFoundException
 {
- B b3  = getB3();
- A ab3 = b3.setB( b3 );
- A ss3 = Serialization.clone( ab3, A.class );
+ final B b3  = getB3();
+ final A ab3 = b3.setB( b3 );
+ final A ss3 = Serialization.clone( ab3, A.class );
 
  System.out.println( "----" );
  System.out.println( "b3  = " + b3 );
@@ -116,8 +116,8 @@ public void testSerialization4() // ---------------------------------------
         java.io.IOException,
         java.lang.ClassNotFoundException
 {
- C c4 = getC4();
- C s4 = Serialization.clone( c4, C.class );
+ final C c4 = getC4();
+ final C s4 = Serialization.clone( c4, C.class );
 
  System.out.println( "----" );
  System.out.println( "c4 = " + c4 );
@@ -135,9 +135,9 @@ public void testSerialization5() // ---------------------------------------
         java.io.IOException,
         java.lang.ClassNotFoundException
 {
- A a5 = getA1();
- C c5 = getC4().setA( a5 );
- C s5 = Serialization.clone( c5, C.class );
+ final A a5 = getA1();
+ final C c5 = getC4().setA( a5 );
+ final C s5 = Serialization.clone( c5, C.class );
 
  System.out.println( "----" );
  System.out.println( "a5 = " + a5 );
@@ -157,10 +157,10 @@ public void testSerialization6() // ---------------------------------------
         java.io.IOException,
         java.lang.ClassNotFoundException
 {
- A  a6 = getA1();
- C  c6 = getC4().setA( a6 );
- A aa6 = getA2().setC( c6 );
- A ss6 = Serialization.clone( aa6, A.class );
+ final A  a6 = getA1();
+ final C  c6 = getC4().setA( a6 );
+ final A aa6 = getA2().setC( c6 );
+ final A ss6 = Serialization.clone( aa6, A.class );
 
  System.out.println( "----" );
  System.out.println( "a6  = " + a6 );
@@ -171,11 +171,11 @@ public void testSerialization6() // ---------------------------------------
 
  assertEquals( "compare( aa6, ss6 )", A.scompare( aa6, ss6 ), 0 );
 
- C ccc6 = c6.setA( aa6 );
+ final C ccc6 = c6.setA( aa6 );
 // System.out.println( "ccc6= " + ccc6 ); // Plante (boucle)
  System.out.println( "ccc6=> " + ccc6.getFullContent( 80 ) );
 
- C sss6 = Serialization.clone( ccc6, C.class );
+ final C sss6 = Serialization.clone( ccc6, C.class );
 // System.out.println( "sss6= " + sss6 ); // Plante (boucle)
  System.out.println( "sss6=> " + sss6.getFullContent( 80 ) );
 
@@ -191,13 +191,13 @@ public void testSerialization_BasicTypes() // -----------------------------
         java.io.IOException,
         java.lang.ClassNotFoundException
 {
- BasicTypes v1 = new BasicTypes( true, 9, "zozo" );
+ final BasicTypes v1 = new BasicTypes( true, 9, "zozo" );
 
  System.out.println( "v1 = " + v1 );
 
  assertEquals( "v1.compareTo( v1 )", v1.compareTo( v1 ), 0 );
 
- BasicTypes v2 = Serialization.clone( v1, BasicTypes.class );
+ final BasicTypes v2 = Serialization.clone( v1, BasicTypes.class );
 
  System.out.println( "v2 = " + v2 );
 
@@ -212,10 +212,10 @@ abstract class AbstractComputeString
     abstract public String getContent();
     abstract public String getSubContent( int maxlength );
 
-    public String getFullContent( int maxlength )
+    public String getFullContent( final int maxlength )
     {
-        StringBuilder   sb  = new StringBuilder( getContent() );
-        int             len = sb.length();
+        final StringBuilder   sb  = new StringBuilder( getContent() );
+        final int             len = sb.length();
 
         if( len < maxlength ) {
             sb.append( getSubContent( maxlength - len ) );
@@ -235,12 +235,12 @@ class A
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
-    private String  content;
-    private String  hashCodeString;
+    private final String  content;
+    private final String  hashCodeString;
     private B       b;
     private C       c;
 
-    public A( String content )
+    public A( final String content )
     {
      this.content           = content;
      this.b                 = null;
@@ -248,14 +248,14 @@ class A
      this.hashCodeString    = "HC:" + this.hashCode();
     }
 
-    public A setB( B b )
+    public A setB( final B b )
     {
      this.b = b;
 
      return this;
     }
 
-    public A setC( C c )
+    public A setC( final C c )
     {
      this.c = c;
 
@@ -281,21 +281,22 @@ class A
     }
 
     @Override
-    public String getSubContent( int maxlength )
+    public String getSubContent( final int maxlength )
     {
-     StringBuilder sb = new StringBuilder( " B:" );
+     final StringBuilder sb = new StringBuilder( " B:" );
 
      sb.append( this.b == null ? "*" : this.b.getFullContent( maxlength - 3 ) );
 
      sb.append( "; C:" );
 
-     int len = sb.length();
+     final int len = sb.length();
 
      sb.append( this.c == null ? "*" : this.c.getFullContent( maxlength - len ) );
 
     return sb.toString();
     }
 
+    @SuppressWarnings("boxing")
     @Override
     public String toString()
     {
@@ -386,7 +387,7 @@ class B extends A
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
-    public B( String content )
+    public B( final String content )
     {
      super( content );
     }
@@ -402,18 +403,18 @@ class C
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
-    private String  content;
-    private String  hashCodeString;
+    private final String  content;
+    private final String  hashCodeString;
     private A       a;
 
-    public C( String content )
+    public C( final String content )
     {
      this.content           = content;
      this.hashCodeString    = "HC:" + this.hashCode();
      this.a                 = null;
     }
 
-    public C setA( A a )
+    public C setA( final A a )
     {
      this.a = a;
 
@@ -432,7 +433,7 @@ class C
     }
 
     @Override
-    public String getSubContent( int maxlength )
+    public String getSubContent( final int maxlength )
     {
      return " A:" +
             (this.a == null ? "*" :this.a.getFullContent( maxlength - 3 ));
@@ -495,14 +496,14 @@ class BasicTypes implements java.io.Serializable, Comparable<BasicTypes>
     /** serialVersionUID */
     private static final long serialVersionUID = 1L;
 
-    private String      content;
-    private boolean     bool;
-    private boolean     notBool;
-    private int         oInterger;
-    private long        oLong;
-    private int[]       arrayOfInt = new int[ 5];
+    private final String      content;
+    private final boolean     bool;
+    private final boolean     notBool;
+    private final int         oInterger;
+    private final long        oLong;
+    private final int[]       arrayOfInt = new int[ 5];
 
-    public BasicTypes( boolean bool, int anInteger, String content )
+    public BasicTypes( final boolean bool, final int anInteger, final String content )
     {
         this.bool       = bool;
         this.notBool    = ! bool;
@@ -518,7 +519,7 @@ class BasicTypes implements java.io.Serializable, Comparable<BasicTypes>
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder( "{" + this.bool
+        final StringBuilder sb = new StringBuilder( "{" + this.bool
                                                 + ";" + this.notBool
                                                 + ";" + this.oInterger
                                                 + ";" + this.oLong
@@ -536,7 +537,7 @@ class BasicTypes implements java.io.Serializable, Comparable<BasicTypes>
     }
 
     @Override
-    public int compareTo( BasicTypes anOtherTboolean )
+    public int compareTo( final BasicTypes anOtherTboolean )
     {
         if( this.bool == anOtherTboolean.bool ) {
             if( this.notBool == anOtherTboolean.notBool ) {

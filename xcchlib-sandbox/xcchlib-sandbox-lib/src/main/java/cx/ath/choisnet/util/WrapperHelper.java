@@ -37,22 +37,22 @@ public class WrapperHelper //<T,U> implements Wrappable<T,U>
     */
     static class DefaultValueWrapper<T,U> implements Wrappable<T,U>
     {
-        private Wrappable<T,U> wrapper;
-        private U defValue;
+        private final Wrappable<T,U> wrapper;
+        private final U defValue;
 
-        public DefaultValueWrapper( Wrappable<T,U> wrapper, U defValue )
+        public DefaultValueWrapper( final Wrappable<T,U> wrapper, final U defValue )
         {
             this.wrapper    = wrapper;
             this.defValue   = defValue;
         }
 
         @Override
-        public U wrappe( T o )
+        public U wrappe( final T o )
         {
             try {
                 return this.wrapper.wrappe( o );
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 return defValue;
                 }
         }
@@ -80,9 +80,9 @@ private final static Wrappable<String,Long> WRAPPESTRINGTOLONG
          = new Wrappable<String,Long>()
     {
         @Override
-        public Long wrappe( String o )
+        public Long wrappe( final String o )
         {
-            return Long.parseLong( o );
+            return Long.valueOf( Long.parseLong( o ) );
         }
     };
 
@@ -120,9 +120,9 @@ public final static Wrappable<String,Integer> wrappeStringToInteger() // --
  return new Wrappable<String,Integer>()
     {
         @Override
-        public Integer wrappe( String o )
+        public Integer wrappe( final String o )
         {
-            return Integer.parseInt( o );
+            return Integer.valueOf( Integer.parseInt( o ) );
         }
     };
 }
@@ -145,9 +145,9 @@ public final static Wrappable<String,Float> wrappeStringToFloat() // ------
  return new Wrappable<String,Float>()
     {
         @Override
-        public Float wrappe( String o )
+        public Float wrappe( final String o )
         {
-            return Float.parseFloat( o );
+            return Float.valueOf( Float.parseFloat( o ) );
         }
     };
 }
@@ -170,9 +170,9 @@ public final static Wrappable<String,Double> wrappeStringToDouble() // ----
  return new Wrappable<String,Double>()
     {
         @Override
-        public Double wrappe( String o )
+        public Double wrappe( final String o )
         {
-            return Double.parseDouble( o );
+            return Double.valueOf( Double.parseDouble( o ) ) ;
         }
     };
 }

@@ -30,21 +30,21 @@ import com.googlecode.cchlib.lang.StringHelper;
   * returned.
   *
  **/
-public class PrefsDemo 
+public class PrefsDemo
 {
   // Define constants for the three possible operations.
   private static final int GET   = 1;
   private static final int CLEAR = 2;
   private static final int PUT   = 3;
 
-  /** 
-   * Constructs the PrefsDemo application. 
-   * @param args 
+  /**
+   * Constructs the PrefsDemo application.
+   * @param args
   **/
-  public PrefsDemo( final String...args ) 
+  public PrefsDemo( final String...args )
   {
     // Get the preferences node for this user and this package.
-    Preferences prefs = Preferences.userNodeForPackage (getClass ());
+    final Preferences prefs = Preferences.userNodeForPackage (getClass ());
 
     // Decode the command-line arguments.
     String command  = null;
@@ -87,7 +87,7 @@ public class PrefsDemo
         }
     else {
         System.err.printf(
-                "Don't understand command '%s', assuming 'get'\n", 
+                "Don't understand command '%s', assuming 'get'\n",
                 command
                 );
         operation = GET;
@@ -109,30 +109,30 @@ public class PrefsDemo
             try {
                 prefs.clear ();
                 }
-            catch( BackingStoreException bse ) {
+            catch( final BackingStoreException bse ) {
                 System.err.println (bse);
                 }
             break;
-            
+
         case GET:
-            String prefs_value = prefs.get ("PrefsValue", "default value");
+            final String prefs_value = prefs.get ("PrefsValue", "default value");
             System.err.printf(
                     "Got PrefsValue '%s' from prefs\n",
                     prefs_value
                     );
             break;
-            
+
         case PUT:
             System.err.printf(
-                    "Putting '%s' into prefs\n", 
+                    "Putting '%s' into prefs\n",
                     newvalue
                     );
             prefs.put ("PrefsValue", newvalue);
-            int num_puts = prefs.getInt ("num_puts", 0);
+            final int num_puts = prefs.getInt ("num_puts", 0);
             prefs.putInt ("num_puts", num_puts+1);
             System.err.printf(
                     "Number of puts since clear is %d\n",
-                    (num_puts+1)
+                    Integer.valueOf( num_puts + 1 )
                     );
             break;
         } // switch
@@ -143,17 +143,17 @@ public class PrefsDemo
                 prefs.exportNode( System.out );
                 System.err.println( "export end" );
                 }
-            catch( java.io.IOException ioe ) {
+            catch( final java.io.IOException ioe ) {
                 System.err.println( ioe );
                 }
-            catch( BackingStoreException bse ) {
+            catch( final BackingStoreException bse ) {
                 System.err.println( bse );
                 }
             }
     } // constructor
 
     @SuppressWarnings("unused")
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
         new PrefsDemo( args );
         new PrefsDemo( "put", "something for prefs !" );

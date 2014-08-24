@@ -24,7 +24,7 @@ public class DownloadI_www_gifmash_com
     private static final String SITE_NAME = "www.gifmash.com";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 10;
     private static final int DEFAULT_MAX_PAGES = 100;
-    private GenericDownloaderAppComboBoxConfig mainComboBoxConfig;
+    private final GenericDownloaderAppComboBoxConfig mainComboBoxConfig;
 
     protected DownloadI_www_gifmash_com()
     {
@@ -34,8 +34,8 @@ public class DownloadI_www_gifmash_com
                 DEFAULT_MAX_PAGES
                 );
 
-        String[] comboBoxValues = { "http://www.gifmash.com/blog/page/%d" };
-        String[] labelStrings   = { "pics from blog" };
+        final String[] comboBoxValues = { "http://www.gifmash.com/blog/page/%d" };
+        final String[] labelStrings   = { "pics from blog" };
 
         mainComboBoxConfig =  new DefaultComboBoxConfig( "Main page", comboBoxValues, labelStrings );
 
@@ -54,7 +54,7 @@ public class DownloadI_www_gifmash_com
         return new DefaultDownloadStringURL(
             String.format(
                 mainComboBoxConfig.getComboBoxSelectedValue(),
-                pageNumber
+                Integer.valueOf( pageNumber )
                 ),
             null,
             getProxy()
@@ -68,7 +68,7 @@ public class DownloadI_www_gifmash_com
             ) throws MalformedURLException
     {
         // <img class="event-item-lol-image" src="https://chzgifs.files.wordpress.com/2012/06/bald-eagle-in-slow-motion.gif" a
-        RegExgSplitter[] regexps = {
+        final RegExgSplitter[] regexps = {
             new DefaultRegExgSplitter( "\\<img class=\"event-item-lol-image\" src=\"", '"' ),
             new DefaultRegExgSplitter( "\\<img class='event-item-lol-image' src='", '\'' ),
             };
@@ -76,7 +76,7 @@ public class DownloadI_www_gifmash_com
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( final String src, final int regexpIndex )
             throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadFileURL( src, null, getProxy() );

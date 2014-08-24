@@ -12,6 +12,7 @@ public class SortedMapIteratorTest extends TestCase {
         return new TestSuite( SortedMapIteratorTest.class );
     }
 
+    @SuppressWarnings("boxing")
     private static SortedMap<Integer, String> getSortedMap() // ----------------
     {
         final SortedMap<Integer, String> sm = new java.util.TreeMap<Integer, String>();
@@ -55,7 +56,7 @@ public class SortedMapIteratorTest extends TestCase {
     public void testRemove() // -----------------------------------------------
     {
         final SortedMap<Integer, String> map = getSortedMap();
-        final int size = map.size();
+        //final int size = map.size();
 
         final SortedMapIterator<Integer, String> iter = new SortedMapIterator<Integer, String>( map );
 

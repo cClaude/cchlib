@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -27,7 +26,7 @@ public class DefaultContactProperties
     private final String[]              defaultValues;
     private final List<String>          defaultValueList;
 
-    private Map<ContactValueType,Collection<Integer>> typeIndexMap = new HashMap<>();
+    private final Map<ContactValueType,Collection<Integer>> typeIndexMap = new HashMap<>();
 
     /**
      *
@@ -73,7 +72,7 @@ public class DefaultContactProperties
     }
 
     @Override
-    public String getName( int index )
+    public String getName( final int index )
     {
         checkIndex( index );
         return this.names[ index ];
@@ -92,14 +91,14 @@ public class DefaultContactProperties
     }
 
     @Override
-    public ContactValueType getType( int index )
+    public ContactValueType getType( final int index )
     {
         checkIndex( index );
         return this.types[ index ];
     }
 
     @Override
-    public String getDefault( int index )
+    public String getDefault( final int index )
     {
         checkIndex( index );
         return this.defaultValues[ index ];
@@ -135,7 +134,7 @@ public class DefaultContactProperties
             // Compute value
             for( int i = 0; i<this.types.length; i++ ) {
                 if( this.types[ i ].equals( type) ) {
-                    c.add( i );
+                    c.add( Integer.valueOf( i ) );
                     }
                 }
 

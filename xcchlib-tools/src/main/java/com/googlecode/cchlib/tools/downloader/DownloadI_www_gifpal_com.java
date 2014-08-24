@@ -49,7 +49,7 @@ public class DownloadI_www_gifpal_com
     private static final String CACHE_FOLDER_NAME = "com.gifpal.www";
 
 
-    private DefaultComboBoxConfig comboBoxConfig;
+    private final DefaultComboBoxConfig comboBoxConfig;
 
     public DownloadI_www_gifpal_com()
     {
@@ -59,8 +59,8 @@ public class DownloadI_www_gifpal_com
                 DEFAULT_MAX_PAGES
                 );
 
-        String[]    comboBoxValues  = { "id"        , "top"         , "top-today"       , "top of the week"};
-        String[]    labelStrings    = { "All items" , "top items"   , "top of the day"  , "top-week"};
+        final String[]    comboBoxValues  = { "id"        , "top"         , "top-today"       , "top of the week"};
+        final String[]    labelStrings    = { "All items" , "top items"   , "top of the day"  , "top-week"};
         comboBoxConfig = new DefaultComboBoxConfig(
             "Filter",
             comboBoxValues,
@@ -83,7 +83,7 @@ public class DownloadI_www_gifpal_com
             String.format(
                 __HTML_URL_BASE_FMT,
                 comboBoxConfig.getComboBoxSelectedValue(),
-                pageNumber
+                Integer.valueOf( pageNumber )
                 ),
             null,
             getProxy()
@@ -92,8 +92,8 @@ public class DownloadI_www_gifpal_com
 
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
-            GenericDownloaderAppUIResults   gdauir,
-            DownloadStringURL               content2Parse
+            final GenericDownloaderAppUIResults   gdauir,
+            final DownloadStringURL               content2Parse
             )
             throws MalformedURLException
     {
@@ -103,7 +103,7 @@ public class DownloadI_www_gifpal_com
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( final String src, final int regexpIndex )
             throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadFileURL( String.format( IMG_URL_BASE_FMT, src ), null, getProxy() );

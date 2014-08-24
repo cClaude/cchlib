@@ -49,7 +49,7 @@ public class ContactsExampleParameters {
    * Keeps map of parameter -> value.
    * Note! Tree Map is used to keep sequence of fields.
    */
-  private SortedMap<String, String> parameterValueMap =
+  private final SortedMap<String, String> parameterValueMap =
     new TreeMap<String,String>();
 
   /**
@@ -60,7 +60,7 @@ public class ContactsExampleParameters {
    * These parameters are later parsed by {@link ElementParser} and processed by
    * {@link ElementHelper}.
    */
-  private List<String> elementDesc = new LinkedList<String>();
+  private final List<String> elementDesc = new LinkedList<String>();
 
   /**
    * Stores names of parameters.
@@ -89,7 +89,7 @@ public class ContactsExampleParameters {
 
     private final String parameterName;
 
-    ParameterNames(String parameterName) {
+    ParameterNames(final String parameterName) {
       this.parameterName = parameterName;
     }
 
@@ -105,8 +105,8 @@ public class ContactsExampleParameters {
    * @param commandLineParams command line parameters
    * @param scriptLine line read from a file
    */
-  public ContactsExampleParameters(ContactsExampleParameters commandLineParams,
-      String scriptLine) {
+  public ContactsExampleParameters(final ContactsExampleParameters commandLineParams,
+      final String scriptLine) {
     parameterValueMap.putAll(commandLineParams.parameterValueMap);
     elementDesc.addAll(commandLineParams.elementDesc);
     fillFromArguments(scriptLine.split(" "));
@@ -118,7 +118,7 @@ public class ContactsExampleParameters {
    *
    * @param arguments arguments in form of array
    */
-  public ContactsExampleParameters(String arguments[]) {
+  public ContactsExampleParameters(final String arguments[]) {
     fillFromArguments(arguments);
   }
 
@@ -127,16 +127,16 @@ public class ContactsExampleParameters {
    *
    * @param arguments arguments in form of array
    */
-  private void fillFromArguments(String[] arguments) {
-    for (String string : arguments) {
+  private void fillFromArguments(final String[] arguments) {
+    for (final String string : arguments) {
       if (!string.startsWith("--")) {
         throw new IllegalArgumentException("illegal parameter: " + string);
       }
-      String param = string.substring(2);
-      String[] params = param.split("=", 2);
+      final String param = string.substring(2);
+      final String[] params = param.split("=", 2);
       boolean found = false;
-      for (ParameterNames parameterName : ParameterNames.values()) {
-        String name = parameterName.getParameterName().toLowerCase();
+      for (final ParameterNames parameterName : ParameterNames.values()) {
+        final String name = parameterName.getParameterName().toLowerCase();
         if (name.equals(params[0])) {
           if (params.length == 1) {
             parameterValueMap.put(params[0], "");
@@ -161,13 +161,13 @@ public class ContactsExampleParameters {
    * is a parameter which is not expected.
    */
   private void verifyAllParameters() {
-    for (String parameter : parameterValueMap.keySet()) {
+    for (final String parameter : parameterValueMap.keySet()) {
       verifyParameter(parameter);
     }
   }
 
-  private void verifyParameter(String name) {
-    for (ParameterNames parameter : ParameterNames.values()) {
+  private void verifyParameter(final String name) {
+    for (final ParameterNames parameter : ParameterNames.values()) {
       if (name.equals(parameter.getParameterName())) {
         return;
       }
@@ -176,7 +176,7 @@ public class ContactsExampleParameters {
         "Parameter " + name + " is not correct.");
   }
 
-  String getParameter(ParameterNames parameters) {
+  String getParameter(final ParameterNames parameters) {
     return parameterValueMap.get(parameters.getParameterName());
   }
 
@@ -185,7 +185,7 @@ public class ContactsExampleParameters {
   }
 
   Actions getAction() {
-    String actionString = getParameter(ParameterNames.ACTION);
+    final String actionString = getParameter(ParameterNames.ACTION);
     if (actionString == null) {
       return null;
     }
@@ -237,9 +237,9 @@ public class ContactsExampleParameters {
   }
 
   Integer getMaxResults() {
-    String maxResString = getParameter(ParameterNames.MAX_RESULTS);
+    final String maxResString = getParameter(ParameterNames.MAX_RESULTS);
     if (maxResString != null) {
-      Integer val = Integer.parseInt(maxResString);
+      final Integer val = Integer.valueOf( Integer.parseInt( maxResString ) ) ;
       if (val.intValue() < 1) {
         throw new RuntimeException(
             ParameterNames.MAX_RESULTS + " should be > 0" );
@@ -250,9 +250,9 @@ public class ContactsExampleParameters {
   }
 
   Integer getStartIndex() {
-    String startIndexString = getParameter(ParameterNames.START_INDEX);
+    final String startIndexString = getParameter(ParameterNames.START_INDEX);
     if (startIndexString != null) {
-      Integer val = Integer.parseInt(startIndexString);
+      final Integer val = Integer.valueOf( Integer.parseInt(startIndexString) );
       if (val.intValue() < 1) {
         throw new RuntimeException(
             ParameterNames.START_INDEX + " should be > 0" );
@@ -274,7 +274,7 @@ public class ContactsExampleParameters {
     return getParameter(ParameterNames.ID);
   }
 
-  void setId(String id) {
+  void setId(final String id) {
     parameterValueMap.put(ParameterNames.ID.getParameterName(), id);
   }
 

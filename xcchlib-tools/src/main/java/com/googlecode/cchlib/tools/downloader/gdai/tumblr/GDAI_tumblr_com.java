@@ -111,8 +111,8 @@ public abstract class GDAI_tumblr_com
 
     @Override
     public Collection<DownloadFileURL> getURLToDownloadCollection(
-            GenericDownloaderAppUIResults   gdauir,
-            DownloadStringURL               content2Parse
+            final GenericDownloaderAppUIResults   gdauir,
+            final DownloadStringURL               content2Parse
             )
             throws MalformedURLException
     {
@@ -129,8 +129,8 @@ public abstract class GDAI_tumblr_com
     {
         {
             // Ignore avatars
-            URL    urlBase = new URL( src );
-            String path    = urlBase.getPath();
+            final URL    urlBase = new URL( src );
+            final String path    = urlBase.getPath();
 
             if( path.startsWith( "avatar_" ) ) {
                 // Don't want to download avatars !
@@ -163,7 +163,7 @@ public abstract class GDAI_tumblr_com
 
             size = Integer.parseInt( sizeStr );
             }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             LOGGER.warn( "size of " + src, e );
             // Can not find picture size: Try to download any way.
             return new DefaultDownloadFileURL( src, null, getProxy() );
@@ -192,7 +192,7 @@ public abstract class GDAI_tumblr_com
             boolean first       = true;
             String  firstURLStr = null;
 
-            for( String urlStr : urls ) {
+            for( final String urlStr : urls ) {
                 if( first ) {
                     firstURLStr = urlStr;
                     first       = false;
@@ -224,13 +224,13 @@ public abstract class GDAI_tumblr_com
         final String[] blogDescriptions;
         final GDAI_tumblr_com_Config config = new GDAI_tumblr_com_Config();
         {
-            Collection<GDAI_tumblr_com_Config.Entry> entries = config.getEntriesCollection();
+            final Collection<GDAI_tumblr_com_Config.Entry> entries = config.getEntriesCollection();
 
             blogNames        = new String[ entries.size() ];
             blogDescriptions = new String[ entries.size() ];
 
             int i = 0;
-            for( GDAI_tumblr_com_Config.Entry entry : entries ) {
+            for( final GDAI_tumblr_com_Config.Entry entry : entries ) {
                 blogNames[ i ]          = entry.getName();
                 blogDescriptions[ i++ ] = entry.getDescription();
                 }
@@ -268,7 +268,7 @@ public abstract class GDAI_tumblr_com
                 String.format(
                     fmt,
                     hostname,
-                    pageNumber
+                    Integer.valueOf( pageNumber )
                     ),
                 null,
                 proxy

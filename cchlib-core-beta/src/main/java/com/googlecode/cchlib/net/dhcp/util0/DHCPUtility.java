@@ -22,13 +22,13 @@ public class DHCPUtility {
     {
         byte[] mac = null;
 
-        InetAddress address = InetAddress.getLocalHost();
+        final InetAddress address = InetAddress.getLocalHost();
 
         /*
          * Get NetworkInterface for the current host and then read the
          * hardware address.
          */
-        NetworkInterface ni = NetworkInterface.getByInetAddress(address);
+        final NetworkInterface ni = NetworkInterface.getByInetAddress(address);
         mac = ni.getHardwareAddress();
 
         return mac;
@@ -38,17 +38,18 @@ public class DHCPUtility {
     {
         printMacAddress( System.out );
     }
-    public static void printMacAddress( PrintStream out )
+    @SuppressWarnings("boxing")
+    public static void printMacAddress( final PrintStream out )
     {
         try {
-            InetAddress address = InetAddress.getLocalHost();
+            final InetAddress address = InetAddress.getLocalHost();
 
             /*
              * Get NetworkInterface for the current host and then read the
              * hardware address.
              */
-            NetworkInterface ni = NetworkInterface.getByInetAddress(address);
-            byte[] mac = ni.getHardwareAddress();
+            final NetworkInterface ni = NetworkInterface.getByInetAddress(address);
+            final byte[] mac = ni.getHardwareAddress();
 
             out.print("Hardware Address for current adapter: ");
 
@@ -61,9 +62,9 @@ public class DHCPUtility {
             }
 
             out.println();
-        } catch (UnknownHostException e) {
+        } catch (final UnknownHostException e) {
             e.printStackTrace( out );
-        } catch (SocketException e) {
+        } catch (final SocketException e) {
             e.printStackTrace( out );
         }
     }
@@ -73,8 +74,8 @@ public class DHCPUtility {
      * @param byteArray - the array of bytes to convert
      * @return the BitSet representation of a byte array
      */
-    public static BitSet bytes2Bits(byte[] byteArray) {
-        BitSet bits = new BitSet(8*byteArray.length);
+    public static BitSet bytes2Bits(final byte[] byteArray) {
+        final BitSet bits = new BitSet(8*byteArray.length);
 
         for (int i=0; i < byteArray.length; i++) {
                 int temp = (byteArray[i] < 0 ? byteArray[i] + 256 : byteArray[i]);
@@ -93,13 +94,13 @@ public class DHCPUtility {
         return bits;
     }
 
-    public static String byteToHex( byte b ) {
+    public static String byteToHex( final byte b ) {
         return Integer.toHexString( (b & 0xff) );
     }
 
     //only works for 4 bytes
-    public static byte[] inttobytes(int i){
-        byte[] dword = new byte[4];
+    public static byte[] inttobytes(final int i){
+        final byte[] dword = new byte[4];
         dword[0] = (byte) ((i >> 24) & 0x000000FF);
         dword[1] = (byte) ((i >> 16) & 0x000000FF);
         dword[2] = (byte) ((i >> 8) & 0x000000FF);
@@ -107,7 +108,7 @@ public class DHCPUtility {
         return dword;
     }
 
-    public static int bytestoint(byte[] ba){
+    public static int bytestoint(final byte[] ba){
         int integer = 0;
         for (int i=0; i < ba.length; i++) {
                 //System.out.printf("byte" + i + ": "+ (ba[i] & 0xff) + " ");
@@ -118,8 +119,8 @@ public class DHCPUtility {
         return integer;
     }
 
-    public static byte[] shorttobytes(short i){
-        byte[] b = new byte[2];
+    public static byte[] shorttobytes(final short i){
+        final byte[] b = new byte[2];
         b[0] = (byte) ((i >> 8) & 0x000000FF);
         b[1] = (byte) (i & 0x00FF);
         return b;
@@ -130,7 +131,7 @@ public class DHCPUtility {
      * @param ba - a byte array of 4 bytes
      * @return - IP String representation
      */
-    public static String ip4ToString(byte[] ba) {
+    public static String ip4ToString(final byte[] ba) {
         assert ba.length == 4;
         return ip4ToString(ba[0], ba[1], ba[2], ba[3]);
     }
@@ -143,12 +144,12 @@ public class DHCPUtility {
      * @param d - 4th byte value
      * @return - IP String representation
      */
-    public static String ip4ToString(byte a, byte b, byte c, byte d) {
+    public static String ip4ToString(final byte a, final byte b, final byte c, final byte d) {
             return (a & 0xff) + "." + (b & 0xff) + "." + (c & 0xff) + "." + (d & 0xff);
     }
 
-    public static String printString(byte[] ba) {
-        StringBuilder str = new StringBuilder();
+    public static String printString(final byte[] ba) {
+        final StringBuilder str = new StringBuilder();
 
         for (int i=0; i < ba.length; i++) {
             if (ba[i] != 0) {
@@ -158,11 +159,11 @@ public class DHCPUtility {
         return str.toString();
     }
 
-    public static byte[] stringToBytes(String str) {
+    public static byte[] stringToBytes(final String str) {
             return str.getBytes();
     }
 
-    public static String macToString(byte a, byte b, byte c, byte d, byte e, byte f) {
+    public static String macToString(final byte a, final byte b, final byte c, final byte d, final byte e, final byte f) {
         //Ethernet MAC Address?
         return    DHCPUtility.byteToHex(a) + "-" +
                   DHCPUtility.byteToHex(b) + "-" +
@@ -172,12 +173,12 @@ public class DHCPUtility {
                   DHCPUtility.byteToHex(f);
     }
 
-    public static String macToString(byte[] ba) {
+    public static String macToString(final byte[] ba) {
             assert ba.length == 6;
             return macToString(ba[0], ba[1], ba[2], ba[3], ba[4], ba[5]);
     }
 
-    public static boolean isEqual(byte[] a, byte[] b) {
+    public static boolean isEqual(final byte[] a, final byte[] b) {
         boolean isEqual = true;
         for (int i=0; i < Math.min(a.length, b.length); i++) {
             if (a[i] != b[i]) {
@@ -188,13 +189,13 @@ public class DHCPUtility {
         return isEqual;
     }
 
-    public static byte[] strToIP(String str) {
-        Pattern regex =  Pattern.compile(".*?(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}).*");
-        Matcher m = regex.matcher(str);
+    public static byte[] strToIP(final String str) {
+        final Pattern regex =  Pattern.compile(".*?(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}).*");
+        final Matcher m = regex.matcher(str);
 
         if( m.matches() ) {
-            String[] ip   = m.group(1).split("\\.");
-            byte[]   baIP = new byte[4];
+            final String[] ip   = m.group(1).split("\\.");
+            final byte[]   baIP = new byte[4];
 
             baIP[0] = Byte.parseByte(ip[0]);
             baIP[1] = Byte.parseByte(ip[1]);

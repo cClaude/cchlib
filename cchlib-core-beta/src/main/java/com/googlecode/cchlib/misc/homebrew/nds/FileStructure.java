@@ -13,11 +13,11 @@ public abstract class FileStructure
     }
 
     protected static class FSField {
-        private String field;
-        private int    start;
-        private int    end;
-        private int    length;
-        private FSType type;
+        private final String field;
+        private final int    start;
+        private final int    end;
+        private final int    length;
+        private final FSType type;
 
         public FSField( final String field, final int start, final int end, final int length )
         {
@@ -85,7 +85,7 @@ public abstract class FileStructure
         }
     }
 
-    private byte[] bytes;
+    private final byte[] bytes;
     private Map<String,Integer> nameIndexMap;
 
     public FileStructure( final byte[] bytes )
@@ -102,7 +102,7 @@ public abstract class FileStructure
             nameIndexMap = new HashMap<>();
 
             for( int i = 0; i<getFieldCount(); i++ ) {
-                nameIndexMap.put(  getFieldName( i ), i );
+                nameIndexMap.put( getFieldName( i ), Integer.valueOf( i ) );
                 }
             }
 
@@ -114,11 +114,11 @@ public abstract class FileStructure
     }
 
     public final byte[] getBytes( final int i ) {
-        FSField   f      = getFieldInfo( i );
-        int start  = f.getStart();
-        int length = f.getLength();
+        final FSField   f      = getFieldInfo( i );
+        final int start  = f.getStart();
+        final int length = f.getLength();
 
-       byte[] b = new byte[ length ];
+       final byte[] b = new byte[ length ];
        System.arraycopy( bytes, start, b, 0, length );
        return b;
     }

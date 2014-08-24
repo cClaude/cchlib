@@ -17,12 +17,12 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item
 public class DownloadI_senorgif
     extends AbstractDownloaderAppInterface
 {
-	private static final long serialVersionUID = 1L;
-	private static final String SITE_NAME = "senorgif";
+    private static final long serialVersionUID = 1L;
+    private static final String SITE_NAME = "senorgif";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 5;
     private static final int DEFAULT_MAX_PAGES = 15;
 
-    private GenericDownloaderAppComboBoxConfig mainComboBoxConfig;
+    private final GenericDownloaderAppComboBoxConfig mainComboBoxConfig;
 
     protected DownloadI_senorgif()
     {
@@ -32,8 +32,8 @@ public class DownloadI_senorgif
                 DEFAULT_MAX_PAGES
                 );
 
-        String[] comboBoxValues = { "http://senorgif.memebase.com/page/%d/" , "http://senorgif.memebase.com/vote/" };
-        String[] labelStrings   = { "pages type 1"                          , "pages type 2"};
+        final String[] comboBoxValues = { "http://senorgif.memebase.com/page/%d/" , "http://senorgif.memebase.com/vote/" };
+        final String[] labelStrings   = { "pages type 1"                          , "pages type 2"};
 
         mainComboBoxConfig = new DefaultComboBoxConfig(
              "Page type",
@@ -55,7 +55,7 @@ public class DownloadI_senorgif
         return new DefaultDownloadStringURL(
             String.format(
                 mainComboBoxConfig.getComboBoxSelectedValue(),
-                pageNumber
+                Integer.valueOf( pageNumber )
                 ),
             null,
             getProxy()
@@ -68,7 +68,7 @@ public class DownloadI_senorgif
             final DownloadStringURL             content2Parse
             ) throws MalformedURLException
     {
-        RegExgSplitter[] regexps = {
+        final RegExgSplitter[] regexps = {
             new DefaultRegExgSplitter( "\\<img class=\"event-item-lol-image\" src=\"", '"' ),
             new DefaultRegExgSplitter( "\\<img class='event-item-lol-image' src='", '\'' ),
             };
@@ -76,7 +76,7 @@ public class DownloadI_senorgif
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
+    public DownloadFileURL getDownloadURLFrom( final String src, final int regexpIndex )
             throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadFileURL( src, null, getProxy() );
@@ -87,11 +87,11 @@ public class DownloadI_senorgif
     {
         return null;
     }
-    
+
     @Override
     public void setSelectedItems( final List<Item> selectedItems )
     {
         // TODO Auto-generated method stub
-        
+
     }
 }

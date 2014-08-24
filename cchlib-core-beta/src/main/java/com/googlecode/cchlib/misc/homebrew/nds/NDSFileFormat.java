@@ -144,13 +144,13 @@ public class NDSFileFormat extends FileStructure
         new FSField("Reserved"                          , 0x160,   0x1FF,   160), // 0x00's
         };
 
-    public NDSFileFormat(byte[] file)
+    public NDSFileFormat(final byte[] file)
     {
         super( file );
     }
 
     @Override
-    protected FSField getFieldInfo( int i )
+    protected FSField getFieldInfo( final int i )
     {
         return structure[ i ];
     }
@@ -169,10 +169,10 @@ public class NDSFileFormat extends FileStructure
 //        return new NDSFileFormat( bytes );
 //    }
 
-    public static NDSFileFormat load( File file ) throws IOException
+    public static NDSFileFormat load( final File file ) throws IOException
     {
-        int    size   = getSize();
-        byte[] buffer = new byte[ size ];
+        final int    size   = getSize();
+        final byte[] buffer = new byte[ size ];
 
         try( BufferedInputStream is = new BufferedInputStream( new FileInputStream( file ) ) ) {
             is.read( buffer );
@@ -186,15 +186,15 @@ public class NDSFileFormat extends FileStructure
         return structure[ structure.length - 1 ].getEnd();
     }
 
-    public static void main( String[] args ) throws IOException
+    public static void main( final String[] args ) throws IOException
     {
-        File          file = new File( args[ 0 ] );
-        NDSFileFormat nds  = NDSFileFormat.load( file );
+        final File          file = new File( args[ 0 ] );
+        final NDSFileFormat nds  = NDSFileFormat.load( file );
 
-        String gameTitle= nds.getFieldAsString( "Game title" );
+        final String gameTitle= nds.getFieldAsString( "Game title" );
 
         for( int i = 0; i<nds.getFieldCount(); i++ ) {
-            FSField f    = nds.getFieldInfo( i );
+            final FSField f    = nds.getFieldInfo( i );
 
             switch( f.getType() ) {
                 case STRING:
@@ -212,16 +212,17 @@ public class NDSFileFormat extends FileStructure
         }
     }
 
-    private static void printField( FSField f, String value )
+    private static void printField( final FSField f, final String value )
     {
         System.out.println( f.getField() + " = " + value );
     }
 
-    private static String convertToHexa( byte[] bytes )
+    @SuppressWarnings("boxing")
+    private static String convertToHexa( final byte[] bytes )
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
-        for (byte b : bytes) {
+        for (final byte b : bytes) {
             sb.append(String.format("%02X ", b));
         }
 

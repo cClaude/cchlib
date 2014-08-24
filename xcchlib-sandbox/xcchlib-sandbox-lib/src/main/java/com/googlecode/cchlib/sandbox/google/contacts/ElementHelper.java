@@ -149,6 +149,7 @@ public enum ElementHelper implements ElementHelperInterface {
   },
 
   CALENDAR_LINK(true) {
+    @SuppressWarnings("boxing")
     @Override
     public void parse(final ContactEntry contact, final ElementParser parser) {
       final CalendarLink calendarLink = new CalendarLink();
@@ -593,6 +594,7 @@ public enum ElementHelper implements ElementHelperInterface {
   },
 
   IM(true) {
+    @SuppressWarnings("boxing")
     @Override
     public void parse(final ContactEntry contact, final ElementParser parser) {
       final Im im = new Im();
@@ -1286,6 +1288,7 @@ public enum ElementHelper implements ElementHelperInterface {
   },
 
   POSTAL(true) {
+    @SuppressWarnings("boxing")
     @Override
     public void parse(final ContactEntry contact, final ElementParser parser) {
       final StructuredPostalAddress address = new StructuredPostalAddress();
@@ -1463,6 +1466,7 @@ public enum ElementHelper implements ElementHelperInterface {
   },
 
   WEBSITE(true) {
+    @SuppressWarnings("boxing")
     @Override
     public void parse(final ContactEntry contact, final ElementParser parser) {
       final Website website = new Website();
