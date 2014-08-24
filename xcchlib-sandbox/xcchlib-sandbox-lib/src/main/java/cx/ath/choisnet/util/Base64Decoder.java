@@ -54,7 +54,7 @@ public Base64Decoder() // -------------------------------------------------
 /**
 **
 */
-private final int get1( byte buf[], int off ) // --------------------------
+private final int get1( final byte buf[], final int off ) // --------------------------
 {
  return ((buf[off] & 0x3f) << 2) | ((buf[off+1] & 0x30) >>> 4);
 }
@@ -62,21 +62,21 @@ private final int get1( byte buf[], int off ) // --------------------------
 /**
 **
 */
-    private final int get2 (byte buf[], int off) {
+    private final int get2 (final byte buf[], final int off) {
     return ((buf[off+1] & 0x0f) << 4) | ((buf[off+2] &0x3c) >>> 2);
     }
 
 /**
 **
 */
-    private final int get3 (byte buf[], int off) {
+    private final int get3 (final byte buf[], final int off) {
     return ((buf[off+2] & 0x03) << 6) | (buf[off+3] & 0x3f);
     }
 
 /**
 **
 */
-    private final int check (int ch) {
+    private final int check (final int ch) {
     if ((ch >= 'A') && (ch <= 'Z')) {
         return ch - 'A' ;
     } else if ((ch >= 'a') && (ch <= 'z')) {
@@ -129,13 +129,15 @@ public void decode( final InputStream in, final OutputStream out ) // -----
 
         // Check for un-understood characters:
         while( ready < 4 ) {
-            if( skiped >= got )
+            if( skiped >= got ) {
                 continue fill;
+            }
 
-            int ch = check (buffer[skiped++]);
+            final int ch = check (buffer[skiped++]);
 
-            if( ch >= 0 )
+            if( ch >= 0 ) {
                 chunk[ready++] = (byte) ch ;
+            }
             }
 
         if( chunk[ 2 ] == 65 ) {
@@ -172,7 +174,7 @@ public void decode( final InputStream in, final OutputStream out ) // -----
 ** @param out   The output stream, to write decoded data to.
 **
 */
-public void decode( byte[] datas, OutputStream out ) // -------------------
+public void decode( final byte[] datas, final OutputStream out ) // -------------------
     throws Base64FormatException, IOException
 {
  decode( new ByteArrayInputStream( datas ), out );
@@ -183,30 +185,31 @@ public void decode( byte[] datas, OutputStream out ) // -------------------
 ** Run it with one argument: the string to be decoded, it will print out
 ** the decoded value.
 */
-public static void main( String[] args ) // -------------------------------
+@SuppressWarnings("resource")
+public static void main( final String[] args ) // -------------------------------
 {
  if( args.length == 1 ) {
     try {
-        ByteArrayOutputStream   out = new ByteArrayOutputStream();
-        Base64Decoder           b   = new Base64Decoder();
+        final ByteArrayOutputStream   out = new ByteArrayOutputStream();
+        final Base64Decoder           b   = new Base64Decoder();
 
         b.decode( args[ 0 ].getBytes(), out );
 
         System.out.println( "[" + out.toString() + "]" );
         }
-    catch( Exception e ) {
+    catch( final Exception e ) {
         System.out.println ("Invalid Base64 format !");
         System.exit( 1 );
         }
     }
  else if( (args.length == 2) && (args[0].equals("-f"))) {
     try {
-        FileInputStream in  = new FileInputStream( args[1] );
-        Base64Decoder   b   = new Base64Decoder();
+        final FileInputStream in  = new FileInputStream( args[1] );
+        final Base64Decoder   b   = new Base64Decoder();
 
         b.decode( in, System.out );
         }
-    catch( Exception ex ) {
+    catch( final Exception ex ) {
         System.out.println("error: " + ex.getMessage());
         System.exit(1);
         }

@@ -124,6 +124,8 @@ public static void copy( final InputStream input, final OutputStream output ) //
 **
 ** @throws java.io.IOException en cas d'erreur
 */
+@SuppressWarnings("resource")
+@Deprecated
 public static void copy( final File inputFile, final File outputFile ) // -------------
     throws java.io.IOException
 {

@@ -19,6 +19,7 @@ public class DHCPClientSample
 /**
 ** .java sample.DHCPClientSample 00-0D-56-D7-2A-A5
 */
+@SuppressWarnings("resource")
 public static void main( final String[] args ) // -------------------------
 {
  if( args.length == 0 ) {
@@ -52,13 +53,13 @@ public static void main( final String[] args ) // -------------------------
 
     aClient.start();  // start the client. Sit back and enjoy the simulation fun
     }
- catch( java.net.BindException e ) {
+ catch( final java.net.BindException e ) {
     System.err.println("Socket Bind Error: ");
     System.err.print("Another process is bound to this port\n");
     System.err.print("or you do not have access to bind a process ");
     System.err.println("to this port");
     }
- catch( java.net.SocketException e ) {
+ catch( final java.net.SocketException e ) {
     System.out.println( "SocketException: " + e );
     }
 }

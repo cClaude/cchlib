@@ -12,13 +12,6 @@
 */
 package cx.ath.choisnet.util.duplicate.impl;
 
-import cx.ath.choisnet.util.checksum.MD5Tree;
-import cx.ath.choisnet.util.checksum.MD5TreeEntry;
-import cx.ath.choisnet.util.checksum.MD5TreeNode;
-import cx.ath.choisnet.util.duplicate.MD5Collection;
-import cx.ath.choisnet.util.duplicate.MD5CollectionHelper;
-import cx.ath.choisnet.util.duplicate.MD5CollectionXML;
-import cx.ath.choisnet.util.duplicate.MD5FileCollection;
 import java.io.File;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +19,12 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import cx.ath.choisnet.util.checksum.MD5Tree;
+import cx.ath.choisnet.util.checksum.MD5TreeEntry;
+import cx.ath.choisnet.util.checksum.MD5TreeNode;
+import cx.ath.choisnet.util.duplicate.MD5Collection;
+import cx.ath.choisnet.util.duplicate.MD5CollectionHelper;
+import cx.ath.choisnet.util.duplicate.MD5FileCollection;
 
 /**
 ** <p>
@@ -188,12 +187,12 @@ public boolean equals( final MD5FileCollection anOtherCollection ) // -----
 */
 public void add( final MD5Tree tree ) // ----------------------------------
 {
- for( MD5TreeNode node : tree.nodes() ) {
+ for( final MD5TreeNode node : tree.nodes() ) {
     final File folderFile = node.getFile();
 
     this.dbFoldersFiles.add( folderFile );
 
-    for( Map.Entry<String,MD5TreeEntry> entry : node.getFileEntries().entrySet() ) {
+    for( final Map.Entry<String,MD5TreeEntry> entry : node.getFileEntries().entrySet() ) {
         final MD5TreeEntry  md  = entry.getValue();
         SortedSet<File>     set = this.dbMessageDigestFiles.get( md );
 
@@ -216,101 +215,101 @@ public String toString() // -----------------------------------------------
  return MD5CollectionHelper.toString( this );
 }
 
-/**
-** <pre>
-** java cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionImpl FOLDER_TO_EXAMIN resultFile.xml
-** </pre>
-**
-*/
-public static void main( final String[] args ) // -------------------------
-    throws
-        java.io.IOException,
-        javax.xml.parsers.ParserConfigurationException,
-        cx.ath.choisnet.util.duplicate.MD5CollectionXMLException,
-        org.xml.sax.SAXException,
-        cx.ath.choisnet.xml.XMLParserException
-{
- final File folder  = new File( args[ 0 ] );
- final File file    = new File( args[ 1 ] );
-
- if( ! folder.isDirectory() ) {
-    System.err.println( "Not a folder : " + folder );
-    System.exit( 1 );
-    }
-
- final MD5FileCollectionFactory factory = new MD5FileCollectionFactory()
-    {
-                @Override
-                public void handleIOException(
-                    File                file,
-                    java.io.IOException cause
-                    )
-                {
-                    // on ignore les erreurs...
-                    System.err.println( "***warn : " + file + " - " + cause );
-                }
-
-    };
-
- String xmlInstance;
-
-    {
-    final MD5Collection            instance1    = factory.getMD5Collection( folder );
-    final java.io.StringWriter     sw          = new java.io.StringWriter();
-
-    MD5CollectionXML.toXML( instance1, sw );
-
-    xmlInstance = sw.toString();
-
-    System.out.println( "Premiere instance : " + instance1.getEntryCount() );
-    }
-
- System.out.println( "Sauvegarde du XML"  );
-
-    {
-    java.io.Reader              reader  = new java.io.StringReader( xmlInstance );
-    java.io.OutputStreamWriter  writer  = new java.io.OutputStreamWriter(
-                                            new java.io.FileOutputStream( file ),
-                                            "UTF-8"
-                                            );
-
-    final String encoding = writer.getEncoding();
-
-    System.out.println( "Encoding: " + encoding );
-
-    writer.write( "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>\n" );
-
-    cx.ath.choisnet.io.ReaderHelper.copy( reader, writer );
-
-    writer.close();
-    reader.close();
-    }
-
- System.out.println( "Creation d'un MD5CollectionXML" );
-
- final java.io.StringWriter sw      = new java.io.StringWriter();
- final java.io.InputStream  stream  = new java.io.FileInputStream( file );
-
- MD5CollectionXML instance2
-        = new MD5CollectionXML(
-                new cx.ath.choisnet.xml.impl.XMLParserDOM2Impl(
-                    stream,
-                    java.util.EnumSet.noneOf( cx.ath.choisnet.xml.impl.XMLParserDOM2Impl.Attributs.class ),
-                    new cx.ath.choisnet.xml.XMLParserErrorHandler(
-                        new java.io.PrintWriter( sw )
-                        )
-                    )
-                );
-
- System.out.println( "-----" );
- System.out.println( "ERROR - begin" );
- System.out.println( sw.toString() );
- System.out.println( "ERROR - end" );
- System.out.println( "-----" );
- System.out.println( "Seconde instance via XML : " + instance2.getEntryCount() );
-// System.out.print( MD5CollectionXML.toXML( instance2 ) );
- System.out.println( "-----" );
-}
+///**
+//** <pre>
+//** java cx.ath.choisnet.util.duplicate.impl.MD5FileCollectionImpl FOLDER_TO_EXAMIN resultFile.xml
+//** </pre>
+//**
+//*/
+//public static void main( final String[] args ) // -------------------------
+//    throws
+//        java.io.IOException,
+//        javax.xml.parsers.ParserConfigurationException,
+//        cx.ath.choisnet.util.duplicate.MD5CollectionXMLException,
+//        org.xml.sax.SAXException,
+//        cx.ath.choisnet.xml.XMLParserException
+//{
+// final File folder  = new File( args[ 0 ] );
+// final File file    = new File( args[ 1 ] );
+//
+// if( ! folder.isDirectory() ) {
+//    System.err.println( "Not a folder : " + folder );
+//    System.exit( 1 );
+//    }
+//
+// final MD5FileCollectionFactory factory = new MD5FileCollectionFactory()
+//    {
+//                @Override
+//                public void handleIOException(
+//                    File                file,
+//                    java.io.IOException cause
+//                    )
+//                {
+//                    // on ignore les erreurs...
+//                    System.err.println( "***warn : " + file + " - " + cause );
+//                }
+//
+//    };
+//
+// String xmlInstance;
+//
+//    {
+//    final MD5Collection            instance1    = factory.getMD5Collection( folder );
+//    final java.io.StringWriter     sw          = new java.io.StringWriter();
+//
+//    MD5CollectionXML.toXML( instance1, sw );
+//
+//    xmlInstance = sw.toString();
+//
+//    System.out.println( "Premiere instance : " + instance1.getEntryCount() );
+//    }
+//
+// System.out.println( "Sauvegarde du XML"  );
+//
+//    {
+//    java.io.Reader              reader  = new java.io.StringReader( xmlInstance );
+//    java.io.OutputStreamWriter  writer  = new java.io.OutputStreamWriter(
+//                                            new java.io.FileOutputStream( file ),
+//                                            "UTF-8"
+//                                            );
+//
+//    final String encoding = writer.getEncoding();
+//
+//    System.out.println( "Encoding: " + encoding );
+//
+//    writer.write( "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>\n" );
+//
+//    cx.ath.choisnet.io.ReaderHelper.copy( reader, writer );
+//
+//    writer.close();
+//    reader.close();
+//    }
+//
+// System.out.println( "Creation d'un MD5CollectionXML" );
+//
+// final java.io.StringWriter sw      = new java.io.StringWriter();
+// final java.io.InputStream  stream  = new java.io.FileInputStream( file );
+//
+// MD5CollectionXML instance2
+//        = new MD5CollectionXML(
+//                new cx.ath.choisnet.xml.impl.XMLParserDOM2Impl(
+//                    stream,
+//                    java.util.EnumSet.noneOf( cx.ath.choisnet.xml.impl.XMLParserDOM2Impl.Attributs.class ),
+//                    new cx.ath.choisnet.xml.XMLParserErrorHandler(
+//                        new java.io.PrintWriter( sw )
+//                        )
+//                    )
+//                );
+//
+// System.out.println( "-----" );
+// System.out.println( "ERROR - begin" );
+// System.out.println( sw.toString() );
+// System.out.println( "ERROR - end" );
+// System.out.println( "-----" );
+// System.out.println( "Seconde instance via XML : " + instance2.getEntryCount() );
+//// System.out.print( MD5CollectionXML.toXML( instance2 ) );
+// System.out.println( "-----" );
+//}
 
 } // class
 

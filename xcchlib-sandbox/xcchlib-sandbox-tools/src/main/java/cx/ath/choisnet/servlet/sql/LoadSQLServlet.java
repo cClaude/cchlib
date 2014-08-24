@@ -12,34 +12,34 @@
  */
 package cx.ath.choisnet.servlet.sql;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import com.oreilly.servlet.multipart.FilePart;
 import com.oreilly.servlet.multipart.MultipartParser;
 import com.oreilly.servlet.multipart.ParamPart;
 import com.oreilly.servlet.multipart.Part;
 import cx.ath.choisnet.servlet.util.SimpleServletConfig;
 import cx.ath.choisnet.sql.mysql.MySQLAdminException;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 
 /**
  ** <P>
  * Servlet prenant en charge la sauvegarde SQL de la base de donnee (DUMP),
  * ainsi que le telechargement et l'execution de requetes SQL.
  * </P>
- ** 
+ **
  ** <PRE>
  * * Configuration: ****
  ** </PRE>
- ** 
- ** 
+ **
+ **
  ** @author Claude CHOISNET
  ** @version 1.00
  */
@@ -74,7 +74,7 @@ public class LoadSQLServlet extends HttpServlet {
     @Override
     public void init() throws javax.servlet.ServletException // ---------------
     {
-        SimpleServletConfig ssc = new SimpleServletConfig( this );
+        final SimpleServletConfig ssc = new SimpleServletConfig( this );
 
         //
         // DUMP_DIRECTORY
@@ -97,32 +97,31 @@ public class LoadSQLServlet extends HttpServlet {
      ** Initialisation de la servlet
      */
     @Override
-    public void init( ServletConfig servletConfig ) // ------------------------
+    public void init( final ServletConfig servletConfig ) // ------------------------
             throws javax.servlet.ServletException
     {
         super.init( servletConfig );
     }
 
-    /**
-**
-*/
+    @SuppressWarnings("resource")
+    @Deprecated
     @Override
     protected void doPost( // ----------------------------------------------------
-            HttpServletRequest request, HttpServletResponse response )
+            final HttpServletRequest request, final HttpServletResponse response )
             throws java.io.IOException, javax.servlet.ServletException
     {
         InputStream inputStream = null;
         String nextURL = null;
 
-        MultipartParser aParser = new MultipartParser( request, maxPostSize );
+        final MultipartParser aParser = new MultipartParser( request, maxPostSize );
         Part aPart;
 
         while( (aPart = aParser.readNextPart()) != null ) {
             final String partName = aPart.getName();
 
             if( "X_DUMPFILE".equals( partName ) ) {
-                FilePart aFilePart = (FilePart)aPart;
-                String filename = aFilePart.getFileName();
+                final FilePart aFilePart = (FilePart)aPart;
+                final String filename = aFilePart.getFileName();
 
                 if( filename == null ) {
                     //
@@ -142,7 +141,7 @@ public class LoadSQLServlet extends HttpServlet {
                 //
                 // On charge le fichier
                 //
-                File newFile = new File( loadDirectory,
+                final File newFile = new File( loadDirectory,
                         SaveSQLServlet.getCurrentDateForFileName() + "_UPLOAD_"
                                 + filename );
 
@@ -153,7 +152,7 @@ public class LoadSQLServlet extends HttpServlet {
                 //
                 // Le parametre NEXTURL est obligatoire.
                 //
-                ParamPart aParamPart = (ParamPart)aPart;
+                final ParamPart aParamPart = (ParamPart)aPart;
 
                 nextURL = aParamPart.getStringValue();
             } else {
@@ -174,8 +173,8 @@ public class LoadSQLServlet extends HttpServlet {
 
         inputStream.close();
 
-        ServletContext sc = getServletContext();
-        RequestDispatcher rd = sc.getRequestDispatcher( nextURL );
+        final ServletContext sc = getServletContext();
+        final RequestDispatcher rd = sc.getRequestDispatcher( nextURL );
 
         rd.forward( request, response );
     }
@@ -185,7 +184,7 @@ public class LoadSQLServlet extends HttpServlet {
      */
     @Override
     protected void doGet( // -----------------------------------------------------
-            HttpServletRequest request, HttpServletResponse response )
+            final HttpServletRequest request, final HttpServletResponse response )
             throws java.io.IOException, javax.servlet.ServletException
     {
         doPost( request, response );
@@ -193,10 +192,10 @@ public class LoadSQLServlet extends HttpServlet {
 
     /**
      * @throws MySQLAdminException
-     ** 
+     **
      */
     public void actionLoadDumpFile( // ----------------------------------------
-            InputStream sqlStream ) throws MySQLAdminException
+            final InputStream sqlStream ) throws MySQLAdminException
     {
         SaveSQLServlet.getMySQLAdmin().applySQL( sqlStream );
     }

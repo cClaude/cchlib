@@ -30,13 +30,13 @@ import org.apache.log4j.Logger;
  ** <P>
  * <B>Servlet :</B>
  * </P>
- ** 
- ** 
+ **
+ **
  ** <B>Configuration :</B><BR>
- ** 
+ **
  ** <XMP> </XMP>
- ** 
- ** 
+ **
+ **
  ** @author Claude CHOISNET
  ** @version 1.00
  */
@@ -50,15 +50,15 @@ public class FTPServlet extends HttpServlet {
     private int                          rootCanonicalFolderLength;
 
     @Override
-    public void init( ServletConfig servletConfig ) // ------------------------
+    public void init( final ServletConfig servletConfig ) // ------------------------
             throws javax.servlet.ServletException
     {
         super.init( servletConfig );
 
-        String value = servletConfig.getInitParameter( ROOT_FOLDER );
+        final String value = servletConfig.getInitParameter( ROOT_FOLDER );
 
         try {
-            File file = new File( value );
+            final File file = new File( value );
 
             this.rootCanonicalFolderFile = file.getCanonicalFile();
 
@@ -72,10 +72,10 @@ public class FTPServlet extends HttpServlet {
                 throw new javax.servlet.ServletException( msg );
             }
         }
-        catch( javax.servlet.ServletException e ) {
+        catch( final javax.servlet.ServletException e ) {
             throw e;
         }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             final String msg = "init() - Not valid parameter '" + ROOT_FOLDER
                     + "' : '" + value + "'";
 
@@ -90,7 +90,7 @@ public class FTPServlet extends HttpServlet {
 
     @Override
     public void service( // ---------------------------------------------------
-            HttpServletRequest request, HttpServletResponse response )
+            final HttpServletRequest request, final HttpServletResponse response )
             throws javax.servlet.ServletException, java.io.IOException
     {
         File file;
@@ -98,8 +98,8 @@ public class FTPServlet extends HttpServlet {
         try {
             file = getFile( request.getParameter( "FILE" ).toString() );
         }
-        catch( Exception e ) {
-            String params = getURLParams( request );
+        catch( final Exception e ) {
+            final String params = getURLParams( request );
 
             file = decodeURL( params );
         }
@@ -110,7 +110,7 @@ public class FTPServlet extends HttpServlet {
 
             request.setAttribute( "file.File", file );
 
-            String extention = getExtension( file ).toLowerCase();
+            final String extention = getExtension( file ).toLowerCase();
 
             // if( file.getName().toLowerCase().endsWith( ".html" ) )
             if( extention.equals( ".html" ) ) {
@@ -138,19 +138,19 @@ public class FTPServlet extends HttpServlet {
 
     }
 
-    protected String getURLPrefix( HttpServletRequest request ) // ------------
+    protected String getURLPrefix( final HttpServletRequest request ) // ------------
     {
         // private String URLPrefix = "/Tools/FTP";
         return request.getContextPath() + request.getServletPath();
     }
 
-    protected String getURLParams( HttpServletRequest request ) // ------------
+    protected String getURLParams( final HttpServletRequest request ) // ------------
     {
         return request.getRequestURI().substring(
                 getURLPrefix( request ).length() );
     }
 
-    public File getFile( String suffix ) // -----------------------------------
+    public File getFile( final String suffix ) // -----------------------------------
             throws javax.servlet.ServletException
     {
         final File canonicalFile;
@@ -159,7 +159,7 @@ public class FTPServlet extends HttpServlet {
             canonicalFile = (new File( this.rootCanonicalFolderFile, suffix ))
                     .getCanonicalFile();
         }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             final String msg = "Not valid value '" + suffix + "'";
 
             LOGGER.fatal( msg, e );
@@ -196,18 +196,18 @@ public class FTPServlet extends HttpServlet {
         return canonicalFile;
     }
 
-    protected boolean isPrefix( File canonicalFile ) // -----------------------
+    protected boolean isPrefix( final File canonicalFile ) // -----------------------
     {
         return canonicalFile.getPath().startsWith( this.rootCanonicalFolder );
     }
 
-    protected String getRelativePath( File canonicalFile ) // -----------------
+    protected String getRelativePath( final File canonicalFile ) // -----------------
     {
         try {
             return canonicalFile.getPath().substring(
                     this.rootCanonicalFolderLength );
         }
-        catch( StringIndexOutOfBoundsException e ) {
+        catch( final StringIndexOutOfBoundsException e ) {
             //
             // On tente d'acceder au "dessus" de la racine...
             //
@@ -215,10 +215,10 @@ public class FTPServlet extends HttpServlet {
         }
     }
 
-    public static String getExtension( File file ) // -------------------------
+    public static String getExtension( final File file ) // -------------------------
     {
-        String name = file.getName();
-        int ext = name.lastIndexOf( '.' );
+        final String name = file.getName();
+        final int ext = name.lastIndexOf( '.' );
 
         if( ext == -1 ) {
             return "";
@@ -227,22 +227,22 @@ public class FTPServlet extends HttpServlet {
         return name.substring( ext );
     }
 
-    public File decodeURL( String params ) // ---------------------------------
+    public File decodeURL( final String params ) // ---------------------------------
             throws javax.servlet.ServletException
     {
 
         return getFile( params );
     }
 
-    public String encodeURL( HttpServletRequest request, File file ) // -------
+    public String encodeURL( final HttpServletRequest request, final File file ) // -------
     {
-        String relativePath = getRelativePath( file ).replace( '\\', '/' );
+        final String relativePath = getRelativePath( file ).replace( '\\', '/' );
 
         return getURLPrefix( request ) + relativePath;
     }
 
     public void directoryService( // ------------------------------------------
-            HttpServletRequest request, HttpServletResponse response, File file //
+            final HttpServletRequest request, final HttpServletResponse response, final File file //
             ) throws ServletException, IOException
     {
         final File[]   dirsFile;
@@ -296,86 +296,83 @@ public class FTPServlet extends HttpServlet {
                 .forward( request, response );
     }
 
-    /**
-**
-*/
-    public void fileServiceWithAttachement( // --------------------------------
-            HttpServletRequest request, HttpServletResponse response )
-            throws IOException
+    public void fileServiceWithAttachement(
+            final HttpServletRequest request,
+            final HttpServletResponse response
+            ) throws IOException
     {
-        final OutputStream out = response.getOutputStream();
-        final String contentType = (String)request
-                .getAttribute( "content-type.String" );
-        final File file = (File)request.getAttribute( "file.File" );
-        final String filenameExt = (String)request
-                .getAttribute( "filename.extension.String" );
+        try( final OutputStream out = response.getOutputStream() ) {
+            final String contentType = (String)request
+                    .getAttribute( "content-type.String" );
+            final File file = (File)request.getAttribute( "file.File" );
+            final String filenameExt = (String)request
+                    .getAttribute( "filename.extension.String" );
 
-        response.setContentType( contentType );
+            response.setContentType( contentType );
 
-        response.setHeader( "Cache-Control", "no-store" );
-        response.setHeader( "Pragma", "no-cache" );
-        response.setHeader( "Content-Disposition", "attachement; filename=\""
-                + file.getName() + filenameExt + "\"" );
+            response.setHeader( "Cache-Control", "no-store" );
+            response.setHeader( "Pragma", "no-cache" );
+            response.setHeader( "Content-Disposition", "attachement; filename=\""
+                    + file.getName() + filenameExt + "\"" );
 
-        try {
-            InputStream is = new BufferedInputStream(
-                    new FileInputStream( file ) );
-            final byte[] buffer = new byte[4096];
-            int len;
+            try {
+                final InputStream is = new BufferedInputStream(
+                        new FileInputStream( file ) );
+                final byte[] buffer = new byte[4096];
+                int len;
 
-            while( (len = is.read( buffer, 0, buffer.length )) != -1 ) {
-                out.write( buffer, 0, len );
+                while( (len = is.read( buffer, 0, buffer.length )) != -1 ) {
+                    out.write( buffer, 0, len );
+                }
+
+                is.close();
             }
+            catch( final IOException e ) {
+                LOGGER.error( "file '" + file + "'", e );
 
-            is.close();
-        }
-        catch( java.io.IOException e ) {
-            LOGGER.error( "file '" + file + "'", e );
-
-            throw e;
+                throw e;
+            }
         }
     }
 
-    /**
-**
-*/
     public void fileServiceWithoutAttachement( // -----------------------------
-            HttpServletRequest request, HttpServletResponse response )
+            final HttpServletRequest request, final HttpServletResponse response )
             throws IOException
     {
-        final OutputStream out = response.getOutputStream();
-        final String contentType = (String)request
-                .getAttribute( "content-type.String" );
-        final File file = (File)request.getAttribute( "file.File" );
-        final String filenameExt = (String)request
-                .getAttribute( "filename.extension.String" );
+        try( final OutputStream out = response.getOutputStream() ) {
+            final String contentType = (String)request
+                    .getAttribute( "content-type.String" );
+            final File file = (File)request.getAttribute( "file.File" );
+            final String filenameExt = (String)request
+                    .getAttribute( "filename.extension.String" );
 
-        response.setContentType( contentType );
+            response.setContentType( contentType );
 
-        response.setHeader( "Cache-Control", "no-store" );
-        response.setHeader( "Pragma", "no-cache" );
-        // response.setHeader( "Content-Description", file.getName() );
-        // response.setHeader(
-        // "Content-Disposition",
-        // "attachement; filename=\"" + file.getName() + filenameExt + "\""
-        // );
+            response.setHeader( "Cache-Control", "no-store" );
+            response.setHeader( "Pragma", "no-cache" );
+            // response.setHeader( "Content-Description", file.getName() );
+            // response.setHeader(
+            // "Content-Disposition",
+            // "attachement; filename=\"" + file.getName() + filenameExt + "\""
+            // );
 
-        try {
-            InputStream is = new BufferedInputStream(
-                    new FileInputStream( file ) );
-            final byte[] buffer = new byte[4096];
-            int len;
+            try {
+                final InputStream is = new BufferedInputStream(
+                        new FileInputStream( file ) );
+                final byte[] buffer = new byte[4096];
+                int len;
 
-            while( (len = is.read( buffer, 0, buffer.length )) != -1 ) {
-                out.write( buffer, 0, len );
+                while( (len = is.read( buffer, 0, buffer.length )) != -1 ) {
+                    out.write( buffer, 0, len );
+                }
+
+                is.close();
             }
+            catch(  final IOException e ) {
+                LOGGER.error( "file '" + file + "'", e );
 
-            is.close();
-        }
-        catch(  IOException e ) {
-            LOGGER.error( "file '" + file + "'", e );
-
-            throw e;
+                throw e;
+            }
         }
     }
-} 
+}

@@ -39,10 +39,10 @@ public class SimpleUnZip
 /**
 **
 */
-private ZipInputStream zis;
+private final ZipInputStream zis;
 
 /** */
-private byte[] buffer;
+private final byte[] buffer;
 
 /**
 ** <p>
@@ -50,7 +50,7 @@ private byte[] buffer;
 ** using default bufferSize = 4096 bytes.
 ** </p>
 */
-public SimpleUnZip( InputStream input ) // --------------------------------
+public SimpleUnZip( final InputStream input ) // --------------------------------
     throws java.io.IOException
 {
  this( input, 4096 );
@@ -61,7 +61,7 @@ public SimpleUnZip( InputStream input ) // --------------------------------
 ** Create a new SimpleUnZip object, based on an InputStream
 ** </p>
 */
-public SimpleUnZip( InputStream input, int bufferSize ) // ----------------
+public SimpleUnZip( final InputStream input, final int bufferSize ) // ----------------
     throws java.io.IOException
 {
  this.zis       = new ZipInputStream( input );
@@ -147,11 +147,12 @@ public void saveAll( final File folderFile ) // ---------------------------
 ** java -cp build/classes cx.ath.choisnet.zip.SimpleUnZip <zipfile> <destinationfolder>
 **
 */
-public static void main( String[] arg ) // --------------------------------
+@SuppressWarnings("resource")
+public static void main( final String[] arg ) // --------------------------------
     throws java.io.IOException
 // %JAVA_1_5_HOME%\bin\java -cp build/classes cx.ath.choisnet.zip.SimpleUnZip c:\testzip.zip D:/test1/test2
 {
- SimpleUnZip instance = new SimpleUnZip( new java.io.FileInputStream( arg[ 0 ] ) );
+ final SimpleUnZip instance = new SimpleUnZip( new java.io.FileInputStream( arg[ 0 ] ) );
 
  instance.saveAll( new File( arg[ 1 ] ) );
  instance.close();

@@ -1,122 +1,107 @@
 /*
-** -----------------------------------------------------------------------
-** Nom           : cx/ath/choisnet/net/dhcp/DHCPSimpleServer.java
-** Description   :
-**
-**  3.02.040 2006.09.05 Claude CHOISNET - Version initiale
-** -----------------------------------------------------------------------
-**
-** cx.ath.choisnet.net.dhcp.DHCPSimpleServer
-**
-*/
+ ** -----------------------------------------------------------------------
+ ** Nom           : cx/ath/choisnet/net/dhcp/DHCPSimpleServer.java
+ ** Description   :
+ **
+ **  3.02.040 2006.09.05 Claude CHOISNET - Version initiale
+ ** -----------------------------------------------------------------------
+ **
+ ** cx.ath.choisnet.net.dhcp.DHCPSimpleServer
+ **
+ */
 package cx.ath.choisnet.net.dhcp;
 
-import java.net.DatagramSocket;
+import java.io.IOException;
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 
 /**
-**
-** @author Claude CHOISNET
-** @since   3.02.040
-** @version 3.02.040
-*/
-public class DHCPSimpleServer
-    extends Thread
-{
-/**
-**
-*/
-private boolean running;
+ **
+ ** @author Claude CHOISNET
+ ** @since 3.02.040
+ ** @version 3.02.040
+ */
+public class DHCPSimpleServer extends Thread {
+    private boolean     running;
+    private final int   port;
 
-/**
-**
-*/
-private int port;
-
-/**
-**
-*/
-public DHCPSimpleServer( // -----------------------------------------------
-    final String    threadName,
-    final boolean   isDaemon
-    )
-{
- this( threadName, DHCPSocket.SERVER_PORT, isDaemon );
-}
-/**
-**
-*/
-public DHCPSimpleServer( // -----------------------------------------------
-    final String    threadName,
-    final int       port,
-    final boolean   isDaemon
-    )
-{
- this.running   = true;
- this.port      = port;
-
- // set thread name
- super.setName( threadName );
- super.setDaemon( isDaemon );
-}
-
-/**
-**
-*/
-@Override
-public void run() // ------------------------------------------------------
-{
- DHCPTrace.println( "start" );
-
- byte[]         buffer  = new byte[ 1024 ];
- DatagramSocket socket;
-
- try {
-    socket  = new DatagramSocket( port );
-    }
- catch( java.net.SocketException e ) {
-    throw new RuntimeException( e );
+    public DHCPSimpleServer( // -----------------------------------------------
+            final String threadName,
+            final boolean isDaemon
+            )
+    {
+        this( threadName, DHCPSocket.SERVER_PORT, isDaemon );
     }
 
+    public DHCPSimpleServer( // -----------------------------------------------
+            final String threadName,
+            final int port,
+            final boolean isDaemon
+            )
+    {
+        this.port    = port;
 
- while( this.running ) {
+        // set thread name
+        super.setName( threadName );
+        super.setDaemon( isDaemon );
+    }
 
-    try {
-        DatagramPacket data = new DatagramPacket( buffer, buffer.length );
+    @Override
+    public void run() // ------------------------------------------------------
+    {
+        DHCPTrace.println( "start" );
 
-        socket.receive( data );
+        this.running = true;
 
-        DHCPMessage aDHCPMessage = DHCPMessageFactory.newInstance( data );
-
-//        DHCPMessage     aDHCPMessage    = new DHCPMessage();
-//        DatagramPacket  data            = aDHCPMessage.toDatagramPacket();
-
-        DHCPTrace.println( "@= " + data.getAddress() );
-        DHCPTrace.println( "aDHCPMessage = ", aDHCPMessage );
-
-//        socket.send( data );
+        try( DatagramSocket socket = new DatagramSocket( port ) ) {
+            run( socket );
         }
-    catch( java.io.IOException e ) {
-        DHCPTrace.println( "*** " + e );
+        catch( final java.net.SocketException e ) {
+            this.running = false;
+            throw new RuntimeException( e );
         }
-
-    DHCPTrace.println( "run: " + this.running );
     }
-}
 
+    private void run( final DatagramSocket socket )
+    {
+        final byte[] buffer = new byte[1024];;
 
-/**
-** .java cx.ath.choisnet.net.dhcp.DHCPSimpleServer
-*/
-public final static void main( final String[] args ) // -------------------
-{
- DHCPSimpleServer instance = new DHCPSimpleServer( "DHCPSimpleServer", false );
+        while( this.running ) {
 
- instance.start();
+            try {
+                final DatagramPacket data = new DatagramPacket( buffer, buffer.length );
 
- DHCPTrace.println( "fin" );
-}
+                socket.receive( data );
+
+                final DHCPMessage aDHCPMessage = DHCPMessageFactory.newInstance( data );
+
+                // DHCPMessage aDHCPMessage = new DHCPMessage();
+                // DatagramPacket data = aDHCPMessage.toDatagramPacket();
+
+                DHCPTrace.println( "@= " + data.getAddress() );
+                DHCPTrace.println( "aDHCPMessage = ", aDHCPMessage );
+
+                // socket.send( data );
+            }
+            catch( final IOException e ) {
+                DHCPTrace.println( "*** " + e );
+            }
+
+            DHCPTrace.println( "run: " + this.running );
+        }
+    }
+
+    /**
+     ** .java cx.ath.choisnet.net.dhcp.DHCPSimpleServer
+     */
+    public final static void main( final String[] args ) // -------------------
+    {
+        final DHCPSimpleServer instance = new DHCPSimpleServer( "DHCPSimpleServer", false );
+
+        instance.start();
+
+        DHCPTrace.println( "fin" );
+    }
 
 } // class Client
-
 

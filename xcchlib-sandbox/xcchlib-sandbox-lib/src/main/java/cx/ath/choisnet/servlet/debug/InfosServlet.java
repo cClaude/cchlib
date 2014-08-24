@@ -81,12 +81,12 @@ public void init() throws ServletException // -----------------------------
  System.err.println( "print on System.err from " + this );
 
  // Retrieve and display the init arguments for this servlet
- Enumeration<?> names = getServletConfig().getInitParameterNames();
+ final Enumeration<?> names = getServletConfig().getInitParameterNames();
 
 if( names != null ) {
     while ( names.hasMoreElements() ) {
-        String name  = (String)names.nextElement();
-        String value = getServletConfig().getInitParameter( name );
+        final String name  = (String)names.nextElement();
+        final String value = getServletConfig().getInitParameter( name );
 
         log( SERVLETNAME + " init argument: [" + name + "] = [" + value + "]" );
         }
@@ -96,26 +96,20 @@ if( names != null ) {
     }
 }
 
-/**
-**
-*/
-@Override
-public void service( // ---------------------------------------------------
-    HttpServletRequest  request,
-    HttpServletResponse response
-    )
-    throws ServletException, IOException
-{
- InfosServletDisplayer infos
-    = new cx.ath.choisnet.servlet.debug.impl.InfosServletDisplayerImpl( this, request, response );
+    @Override
+    public void service(
+            final HttpServletRequest request,
+            final HttpServletResponse response
+            ) throws ServletException, IOException
+    {
+        final InfosServletDisplayer infos = new cx.ath.choisnet.servlet.debug.impl.InfosServletDisplayerImpl( this, request, response );
 
- response.setContentType( "text/html" );
+        response.setContentType( "text/html" );
 
- PrintWriter out = response.getWriter();
-
- infos.appendHTML( out );
-}
-
+        try (PrintWriter out = response.getWriter()) {
+            infos.appendHTML( out );
+        }
+    }
 
 /**
 **

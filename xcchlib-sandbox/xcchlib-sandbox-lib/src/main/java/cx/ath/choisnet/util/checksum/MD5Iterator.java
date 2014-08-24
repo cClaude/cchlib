@@ -18,11 +18,11 @@
 */
 package cx.ath.choisnet.util.checksum;
 
-import cx.ath.choisnet.io.FileIterator;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Iterator;
+import cx.ath.choisnet.io.FileIterator;
 
 /**
 **
@@ -43,30 +43,15 @@ public class MD5Iterator
 /** serialVersionUID */
 private static final long serialVersionUID = 1L;
 
-/** */
-private FileIterator fileIterator;
-
-/** */
+private final FileIterator fileIterator;
 private transient byte[] buffer;
-
-/** */
 private transient MD5 md5;
 
 /**
 **
-public MD5Iterator( // ----------------------------------------------------
-    File ... files
-    )
-{
- this( new FileIterator( files ) );
-}
-*/
-
-/**
-**
 */
 public MD5Iterator( // ----------------------------------------------------
-    File folderFile
+    final File folderFile
     )
 {
  this( new FileIterator( folderFile ) );
@@ -76,7 +61,7 @@ public MD5Iterator( // ----------------------------------------------------
 **
 */
 public MD5Iterator( // ----------------------------------------------------
-    FileIterator fileIterator
+    final FileIterator fileIterator
     )
 {
  this( fileIterator, 9192 ); // 8ko
@@ -90,8 +75,8 @@ public MD5Iterator( // ----------------------------------------------------
 ** @param bufferSize    size of the internal buffer use for compute MD5
 */
 public MD5Iterator( // ----------------------------------------------------
-    FileIterator    fileIterator,
-    int             bufferSize
+    final FileIterator    fileIterator,
+    final int             bufferSize
     )
 {
  this.fileIterator  = fileIterator;
@@ -117,45 +102,36 @@ public boolean hasNext() // -----------------------------------------------
  return this.fileIterator.hasNext();
 }
 
-/**
-**
-*/
-@Override
-public MD5FileEntry next() // ---------------------------------------------
-    throws java.util.NoSuchElementException
-{
- final File file = this.fileIterator.next();
+    @Override
+    public MD5FileEntry next() // ---------------------------------------------
+            throws java.util.NoSuchElementException
+    {
+        final File file = this.fileIterator.next();
 
- if( file.isDirectory() ) {
-    return new MD5FileEntry( file, null );
-    }
-  else {
-    md5.reset();
+        if( file.isDirectory() ) {
+            return new MD5FileEntry( file, null );
+        } else {
+            md5.reset();
 
-    try {
-        final BufferedInputStream bis
-            = new BufferedInputStream(
-                    new FileInputStream( file )
-                    );
-        int len;
+            try (final BufferedInputStream bis = new BufferedInputStream( new FileInputStream( file ) )) {
+                int len;
 
-        while( (len = bis.read( buffer, 0, buffer.length )) != -1 ) {
-            md5.update( buffer, 0, len );
+                while( (len = bis.read( buffer, 0, buffer.length )) != -1 ) {
+                    md5.update( buffer, 0, len );
+                }
+
+                return new MD5FileEntry( file, md5.getValue() );
             }
+            catch( final java.io.IOException e ) {
+                final java.util.NoSuchElementException nsee = new java.util.NoSuchElementException( file.toString() );
 
-        return new MD5FileEntry( file, md5.getValue() );
+                nsee.initCause( e );
+
+                throw nsee;
+            }
         }
-    catch( java.io.IOException e ) {
-        java.util.NoSuchElementException nsee
-                = new java.util.NoSuchElementException( file.toString() );
 
-        nsee.initCause( e );
-
-        throw nsee;
-        }
     }
-
-}
 
 /**
 **
@@ -170,7 +146,7 @@ public void remove() // ---------------------------------------------------
 /**
 ** java.io.Serializable
 */
-private void writeObject( java.io.ObjectOutputStream stream ) // ----------
+private void writeObject( final java.io.ObjectOutputStream stream ) // ----------
     throws java.io.IOException
 {
  stream.defaultWriteObject();
@@ -184,7 +160,7 @@ private void writeObject( java.io.ObjectOutputStream stream ) // ----------
 /**
 ** java.io.Serializable
 */
-private void readObject( java.io.ObjectInputStream stream ) // ------------
+private void readObject( final java.io.ObjectInputStream stream ) // ------------
     throws java.io.IOException, ClassNotFoundException
 {
  stream.defaultReadObject();
@@ -192,7 +168,7 @@ private void readObject( java.io.ObjectInputStream stream ) // ------------
  //
  // Reinitialisation des champs non sauvegardes
  //
- int len = stream.readInt();
+ final int len = stream.readInt();
 
  this.buffer    = new byte[ len ];
  this.md5       = new MD5();

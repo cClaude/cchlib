@@ -56,6 +56,7 @@ import cx.ath.choisnet.util.ByteBuffer;
 ** @since   2.00.004
 ** @version 3.02.042
 */
+@Deprecated
 public class ExtendableClassLoader
     extends ClassLoader
 {
@@ -181,6 +182,7 @@ public void addClassPath( final File path ) // ----------------------------
 **
 ** @return a byte array containing the byte code of the class
 */
+@SuppressWarnings("resource")
 private byte[] getClassFromAddedClassPaths( final String className ) // ---
 {
  byte[] result = null;

@@ -27,17 +27,18 @@ import cx.ath.choisnet.sql.mysql.MySQLTools;
  ** <P>
  * <B>Servlet :</B> Ajoute une entre dans la table des logs.
  * </P>
- ** 
- ** 
+ **
+ **
  ** <B>Configuration :</B><BR>
- ** 
+ **
  ** <XMP> </XMP>
- ** 
- ** 
+ **
+ **
  ** @author Claude CHOISNET
  ** @version 1.00
  */
-public class LogServlet extends HttpServlet 
+@Deprecated
+public class LogServlet extends HttpServlet
 {
     /** serialVersionUID */
     private static final long serialVersionUID = 3L;
@@ -46,7 +47,7 @@ public class LogServlet extends HttpServlet
     private DataSource dataSource;
 
     @Override
-    public void init( ServletConfig servletConfig ) // ------------------------
+    public void init( final ServletConfig servletConfig ) // ------------------------
             throws ServletException
     {
         super.init( servletConfig );
@@ -55,17 +56,14 @@ public class LogServlet extends HttpServlet
             this.dataSource = DataSourceFactory.buildMySQLDataSource(
                     "127.0.0.1", "tools", "tomcat", "tomcat" );
         }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             throw new ServletException( "Can't init database access", e );
         }
     }
 
-    /**
-**
-*/
     @Override
     public void service( // ---------------------------------------------------
-            HttpServletRequest request, HttpServletResponse response )
+            final HttpServletRequest request, final HttpServletResponse response )
             throws javax.servlet.ServletException, java.io.IOException
     {
         final String col_AutoIpAddress = request.getRemoteAddr();
@@ -107,20 +105,18 @@ public class LogServlet extends HttpServlet
         int result;
         Throwable exception;
 
-        try {
-            SimpleUpdate simpleUpdate = new SimpleUpdate( this.dataSource );
-
+        try(SimpleUpdate simpleUpdate = new SimpleUpdate( this.dataSource )) {
             result = simpleUpdate.doUpdate( query );
             exception = null;
         }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             getLogger().warn( "Error while add in log : " + query, e );
 
             result = -1;
             exception = e;
         }
 
-        HttpSession session = request.getSession();
+        final HttpSession session = request.getSession();
 
         session.setAttribute( "RESULT", Integer.toString( result ) );
         session.setAttribute( "EXCEPTION", exception );
@@ -131,8 +127,8 @@ public class LogServlet extends HttpServlet
 
     private static final String getParameter(
             // ------------------------------
-            HttpServletRequest request, String paramName1, String paramName2,
-            String paramName3 )
+            final HttpServletRequest request, final String paramName1, final String paramName2,
+            final String paramName3 )
     {
         String value = request.getParameter( paramName1 );
 
@@ -159,4 +155,4 @@ public class LogServlet extends HttpServlet
         return org.apache.log4j.Logger.getLogger( this.getClass() );
     }
 
-} 
+}
