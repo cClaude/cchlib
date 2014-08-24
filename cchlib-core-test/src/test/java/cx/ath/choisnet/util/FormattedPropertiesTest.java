@@ -84,7 +84,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         final File tmpWriterFile = storeWriter(prop);
         System.out.printf(
                 "Reader->store(Writer)(%d):%s\n",
-                    tmpWriterFile.length(),
+                    Long.valueOf( tmpWriterFile.length() ),
                     tmpWriterFile
                     );
         compare(
@@ -99,7 +99,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         final File tmpStreamFile = storeOutputStream(prop);
         System.out.printf(
                 "Reader->store(Stream)(%d):%s\n",
-                    tmpStreamFile.length(),
+                Long.valueOf( tmpStreamFile.length() ),
                     tmpStreamFile
                     );
         compare(
