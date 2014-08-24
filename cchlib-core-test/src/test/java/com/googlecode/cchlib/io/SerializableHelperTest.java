@@ -1,9 +1,8 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.io;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertNotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -33,10 +32,10 @@ public class SerializableHelperTest
     public void testClone_String() throws IOException, ClassNotFoundException
     {
         final String            value = "123456789";
-        Class<? extends String> clazz = value.getClass();
+        final Class<? extends String> clazz = value.getClass();
 
 
-        String result = SerializableHelper.clone( value, clazz );
+        final String result = SerializableHelper.clone( value, clazz );
 
         // add additional test code here
         Assertions.assertThat( result ).isNotNull().isEqualTo( value ).isNotSameAs( value );
@@ -77,15 +76,15 @@ public class SerializableHelperTest
     /**
      * Run the Serializable loadObject(File,Class<? extends T>) method test.
      */
-    @Ignore
     @Test
+    @Ignore // TODO create a test
     public void testLoadObject_1()
         throws Exception
     {
-        File aFile = new File("");
-        Class<? extends Serializable> clazz = Serializable.class;
+        final File aFile = new File("need a file here !");
+        final Class<? extends Serializable> clazz = Serializable.class;
 
-        Serializable result = SerializableHelper.loadObject(aFile, clazz);
+        final Serializable result = SerializableHelper.loadObject(aFile, clazz);
 
         // add additional test code here
         assertNotNull(result);
@@ -94,70 +93,51 @@ public class SerializableHelperTest
     /**
      * Run the Serializable loadObject(File,Class<? extends T>) method test.
      */
-    @Ignore
     @Test(expected = java.io.IOException.class)
-    public void testLoadObject_2()
+    public void testLoadObject_fileDoesNotExists()
         throws Exception
     {
-        File aFile = new File("");
-        Class<? extends Serializable> clazz = Serializable.class;
+        final File aFile = new File("this_file_should_not_exists");
+        final Class<? extends Serializable> clazz = Serializable.class;
 
-        Serializable result = SerializableHelper.loadObject(aFile, clazz);
+        final Serializable result = SerializableHelper.loadObject(aFile, clazz);
 
         // add additional test code here
         assertNotNull(result);
     }
 
-    /**
-     * Run the Serializable loadObject(File,Class<? extends T>) method test.
-     */
-    @Ignore
-    @Test(expected = java.io.IOException.class)
-    public void testLoadObject_3()
-        throws Exception
-    {
-        File aFile = new File("");
-        Class<? extends Serializable> clazz = Serializable.class;
+//    /**
+//     * Run the Serializable loadObject(File,Class<? extends T>) method test.
+//     */
+//    @Test(expected = java.io.IOException.class)
+//    public void testLoadObject_3()
+//        throws Exception
+//    {
+//        final File aFile = new File("");
+//        final Class<? extends Serializable> clazz = Serializable.class;
+//
+//        final Serializable result = SerializableHelper.loadObject(aFile, clazz);
+//
+//        // add additional test code here
+//        assertNotNull(result);
+//    }
 
-        Serializable result = SerializableHelper.loadObject(aFile, clazz);
+//    /**
+//     * Run the Serializable loadObject(File,Class<? extends T>) method test.
+//     */
+//    @Test(expected = java.lang.ClassNotFoundException.class)
+//    public void testLoadObject_4()
+//        throws Exception
+//    {
+//        final File aFile = new File("");
+//        final Class<? extends Serializable> clazz = Serializable.class;
+//
+//        final Serializable result = SerializableHelper.loadObject(aFile, clazz);
+//
+//        // add additional test code here
+//        assertNotNull(result);
+//    }
 
-        // add additional test code here
-        assertNotNull(result);
-    }
-
-    /**
-     * Run the Serializable loadObject(File,Class<? extends T>) method test.
-     */
-    @Ignore
-    @Test(expected = java.lang.ClassNotFoundException.class)
-    public void testLoadObject_4()
-        throws Exception
-    {
-        File aFile = new File("");
-        Class<? extends Serializable> clazz = Serializable.class;
-
-        Serializable result = SerializableHelper.loadObject(aFile, clazz);
-
-        // add additional test code here
-        assertNotNull(result);
-    }
-
-    /**
-     * Run the Serializable loadObject(File,Class<? extends T>) method test.
-     */
-    @Ignore
-    @Test(expected = java.io.FileNotFoundException.class)
-    public void testLoadObject_5()
-        throws Exception
-    {
-        File aFile = new File("");
-        Class<? extends Serializable> clazz = Serializable.class;
-
-        Serializable result = SerializableHelper.loadObject(aFile, clazz);
-
-        // add additional test code here
-        assertNotNull(result);
-    }
 
     /**
      * Run the byte[] toByteArray(null) method test.
@@ -166,7 +146,7 @@ public class SerializableHelperTest
     public void testToByteArray_null()
         throws Exception
     {
-            byte[] result = SerializableHelper.toByteArray(null);
+            final byte[] result = SerializableHelper.toByteArray(null);
 
             LOGGER.info( "result not null = " + (result!=null) );
 
@@ -181,7 +161,7 @@ public class SerializableHelperTest
     public void testToByteArray_1()
         throws Exception
     {
-        byte[] result = SerializableHelper.toByteArray(Level.OFF);
+        final byte[] result = SerializableHelper.toByteArray(Level.OFF);
 
         // add additional test code here
         assertNotNull(result);
@@ -254,7 +234,7 @@ public class SerializableHelperTest
     public void testToByteArray_2()
         throws Exception
     {
-        byte[] result = SerializableHelper.toByteArray(Level.OFF);
+        final byte[] result = SerializableHelper.toByteArray(Level.OFF);
 
         // add additional test code here
         assertNotNull(result);
@@ -328,7 +308,7 @@ public class SerializableHelperTest
         throws Exception
     {
 
-        byte[] result = SerializableHelper.toByteArray(Level.OFF);
+        final byte[] result = SerializableHelper.toByteArray(Level.OFF);
 
         // add additional test code here
         assertNotNull(result);
@@ -402,7 +382,7 @@ public class SerializableHelperTest
         throws Exception
     {
 
-        byte[] result = SerializableHelper.toByteArray(Level.OFF);
+        final byte[] result = SerializableHelper.toByteArray(Level.OFF);
 
         // add additional test code here
         assertNotNull(result);
@@ -476,7 +456,7 @@ public class SerializableHelperTest
         throws Exception
     {
 
-        byte[] result = SerializableHelper.toByteArray(Level.OFF);
+        final byte[] result = SerializableHelper.toByteArray(Level.OFF);
 
         // add additional test code here
         assertNotNull(result);
@@ -550,7 +530,7 @@ public class SerializableHelperTest
     public void testToFile_1()
         throws Exception
     {
-        File aFile = new File("");
+        final File aFile = new File("");
 
         SerializableHelper.toFile(Level.OFF, aFile);
 
@@ -571,7 +551,7 @@ public class SerializableHelperTest
     public void testToFile_2()
         throws Exception
     {
-        File aFile = new File("");
+        final File aFile = new File("");
 
         SerializableHelper.toFile(Level.OFF, aFile);
 
@@ -592,7 +572,7 @@ public class SerializableHelperTest
     public void testToFile_3()
         throws Exception
     {
-        File aFile = new File("");
+        final File aFile = new File("");
 
         SerializableHelper.toFile(Level.OFF, aFile);
 
@@ -613,7 +593,7 @@ public class SerializableHelperTest
     public void testToFile_4()
         throws Exception
     {
-        File aFile = new File("");
+        final File aFile = new File("");
 
         SerializableHelper.toFile(Level.OFF, aFile);
 
@@ -634,7 +614,7 @@ public class SerializableHelperTest
     public void testToFile_5()
         throws Exception
     {
-        File aFile = new File("");
+        final File aFile = new File("");
 
         SerializableHelper.toFile(Level.OFF, aFile);
 
@@ -655,7 +635,7 @@ public class SerializableHelperTest
     public void testToFile_6()
         throws Exception
     {
-        File aFile = new File("");
+        final File aFile = new File("");
 
         SerializableHelper.toFile(Level.OFF, aFile);
 
@@ -676,10 +656,10 @@ public class SerializableHelperTest
     public void testToObject_1()
         throws Exception
     {
-        byte[] aSerializedObject = new byte[] {};
-        Class<? extends Serializable> clazz = Serializable.class;
+        final byte[] aSerializedObject = new byte[] {};
+        final Class<? extends Serializable> clazz = Serializable.class;
 
-        Serializable result = SerializableHelper.toObject(aSerializedObject, clazz);
+        final Serializable result = SerializableHelper.toObject(aSerializedObject, clazz);
 
         // add additional test code here
         assertNotNull(result);
@@ -692,10 +672,10 @@ public class SerializableHelperTest
     public void testToObject_2()
         throws Exception
     {
-        byte[] aSerializedObject = new byte[] {};
-        Class<? extends Serializable> clazz = Serializable.class;
+        final byte[] aSerializedObject = new byte[] {};
+        final Class<? extends Serializable> clazz = Serializable.class;
 
-        Serializable result = SerializableHelper.toObject(aSerializedObject, clazz);
+        final Serializable result = SerializableHelper.toObject(aSerializedObject, clazz);
 
         // add additional test code here
         assertNotNull(result);
@@ -708,10 +688,10 @@ public class SerializableHelperTest
     public void testToObject_3()
         throws Exception
     {
-        byte[] aSerializedObject = new byte[] {};
-        Class<? extends Serializable> clazz = Serializable.class;
+        final byte[] aSerializedObject = new byte[] {};
+        final Class<? extends Serializable> clazz = Serializable.class;
 
-        Serializable result = SerializableHelper.toObject(aSerializedObject, clazz);
+        final Serializable result = SerializableHelper.toObject(aSerializedObject, clazz);
 
         // add additional test code here
         assertNotNull(result);
@@ -724,10 +704,10 @@ public class SerializableHelperTest
     public void testToObject_4()
         throws Exception
     {
-        byte[] aSerializedObject = new byte[] {};
-        Class<? extends Serializable> clazz = Serializable.class;
+        final byte[] aSerializedObject = new byte[] {};
+        final Class<? extends Serializable> clazz = Serializable.class;
 
-        Serializable result = SerializableHelper.toObject(aSerializedObject, clazz);
+        final Serializable result = SerializableHelper.toObject(aSerializedObject, clazz);
 
         // add additional test code here
         assertNotNull(result);
@@ -741,10 +721,10 @@ public class SerializableHelperTest
     public void testToObject_5()
         throws Exception
     {
-        byte[] aSerializedObject = new byte[] {};
-        Class<? extends Serializable> clazz = Serializable.class;
+        final byte[] aSerializedObject = new byte[] {};
+        final Class<? extends Serializable> clazz = Serializable.class;
 
-        Serializable result = SerializableHelper.toObject(aSerializedObject, clazz);
+        final Serializable result = SerializableHelper.toObject(aSerializedObject, clazz);
 
         // add additional test code here
         assertNotNull(result);
@@ -773,7 +753,7 @@ public class SerializableHelperTest
     /**
      * Launch the test.
       */
-    public static void main(String[] args)
+    public static void main(final String[] args)
     {
         new org.junit.runner.JUnitCore().run(SerializableHelperTest.class);
     }
