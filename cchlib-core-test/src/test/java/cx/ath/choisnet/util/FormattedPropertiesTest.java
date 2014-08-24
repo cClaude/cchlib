@@ -66,9 +66,8 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 );
     }
 
-    @SuppressWarnings({ "resource", "boxing" })
     @Test
-    @Ignore//FIXME must be activate
+    //@Ignore//FIXME must be activate
     public void test_Reader_load_save() throws IOException
     {
         final File                copy = getCopy();
@@ -449,6 +448,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         propR2 = null;
     }
 
+    /** get a file */
     public File getCopy() throws IOException
     {
         return getCopy(
