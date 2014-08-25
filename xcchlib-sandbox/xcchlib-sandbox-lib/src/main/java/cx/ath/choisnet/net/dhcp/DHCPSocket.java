@@ -26,6 +26,7 @@ import java.net.InetAddress;
 ** @author Claude CHOISNET
 ** @version 3.02.014
 */
+@Deprecated // TODO REMOVE THIS
 public class DHCPSocket
     extends DatagramSocket
 {
@@ -172,7 +173,7 @@ public synchronized DHCPParameters receive() // ---------------------------
 
     return DHCPParameters.newInstance( incoming.getData() );
     }
- catch( java.net.SocketTimeoutException e ) {
+ catch( final java.net.SocketTimeoutException e ) {
     System.err.println( "java.net.SocketTimeoutException: " + e );
 
     return null;

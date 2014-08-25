@@ -316,6 +316,8 @@
     <module>cchlib-core</module>
     <module>cchlib-core-test</module>
     <module>cchlib-core-beta</module>
+    <module>cchlib-dhcp</module>
+    <module>cchlib-dhcp-test</module>
     <module>cchlib-i18n-test</module>
     <module>cchlib-i18n</module>
     <module>cchlib-io</module>

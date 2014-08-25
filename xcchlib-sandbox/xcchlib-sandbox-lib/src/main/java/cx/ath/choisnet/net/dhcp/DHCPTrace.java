@@ -17,6 +17,7 @@ package cx.ath.choisnet.net.dhcp;
 ** @since   3.02.040
 ** @version 3.02.040
 */
+@Deprecated // TODO REMOVE THIS
 public class DHCPTrace
 {
 

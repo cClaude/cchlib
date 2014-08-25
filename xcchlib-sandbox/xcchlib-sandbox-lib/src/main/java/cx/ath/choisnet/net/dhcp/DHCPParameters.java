@@ -28,6 +28,7 @@ import java.util.Arrays;
 ** @author Claude CHOISNET
 ** @version 3.02.014
 */
+@Deprecated // TODO REMOVE THIS
 public class DHCPParameters
 {
 /**
@@ -103,7 +104,7 @@ public byte[] toByteArray() // --------------------------------------------
 
         return outBStream.toByteArray();
         }
-    catch( java.io.IOException unexpected ) {
+    catch( final java.io.IOException unexpected ) {
         throw new RuntimeException( unexpected );
         }
 
@@ -156,7 +157,7 @@ private void init( final byte[] ibuf ) // ---------------------------------
 
         this.dhcpOptions.init( dis );
         }
-    catch( java.io.IOException unexpected ) {
+    catch( final java.io.IOException unexpected ) {
         throw new RuntimeException( unexpected );
         }
     }
@@ -748,7 +749,7 @@ public DHCPParameters getClone() // ---------------------------------------
 /**
 ** interface java.io.Serializable ($$$ A FINIR$$$)
 */
-private void writeObject( java.io.ObjectOutputStream stream ) // ----------
+private void writeObject( final java.io.ObjectOutputStream stream ) // ----------
      throws java.io.IOException
 {
  stream.defaultWriteObject();
@@ -760,7 +761,7 @@ private void writeObject( java.io.ObjectOutputStream stream ) // ----------
 /**
 ** interface java.io.Serializable ($$$ A FINIR$$$)
 */
-private void readObject( java.io.ObjectInputStream stream ) // ------------
+private void readObject( final java.io.ObjectInputStream stream ) // ------------
      throws
         java.io.IOException,
         ClassNotFoundException
@@ -853,7 +854,7 @@ public final static String toHexString( // --------------------------------
 */
 public final static String toHexString( final byte value ) // -------------
 {
- int intValue = 0xFFFF0000 | (0x0000FFFF & value);
+ final int intValue = 0xFFFF0000 | (0x0000FFFF & value);
 
  return Integer.toHexString( intValue ).substring( 6 ).toUpperCase();
 }
@@ -900,7 +901,7 @@ public final static long byteToLong( final byte[] bytes ) // --------------
 */
 public static final boolean isNull( final byte[] values ) // --------------
 {
- for( byte b : values ) {
+ for( final byte b : values ) {
     if( b != 0 ) {
         return false;
         }

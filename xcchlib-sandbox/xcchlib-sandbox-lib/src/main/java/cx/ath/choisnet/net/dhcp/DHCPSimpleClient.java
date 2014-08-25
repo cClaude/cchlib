@@ -23,6 +23,7 @@ import java.util.StringTokenizer;
 ** @author Claude CHOISNET
 ** @version 3.02.014
 */
+@Deprecated // TODO REMOVE THIS
 public class DHCPSimpleClient
     extends Thread
 {
@@ -89,7 +90,7 @@ public void run() // ------------------------------------------------------
 
             case DHCPOptions.MESSAGE_TYPE_DHCPOFFER:
                 {
-                String ip = DHCPParameters.ip4AddrToString( this.dhcpMessageReceived.getDHCPParameters().getYIAddr() );
+                final String ip = DHCPParameters.ip4AddrToString( this.dhcpMessageReceived.getDHCPParameters().getYIAddr() );
 
                 DHCPTrace.println( getName() + " received a DHCPOFFER for " + ip );
 
@@ -100,8 +101,8 @@ public void run() // ------------------------------------------------------
             case DHCPOptions.MESSAGE_TYPE_DHCPACK:
                 {
                 long    t1 = DHCPParameters.byteToLong( this.dhcpMessageReceived.getDHCPParameters().getOption( DHCPOptions.T1_TIME ) );
-                long    t2 = DHCPParameters.byteToLong( this.dhcpMessageReceived.getDHCPParameters().getOption( DHCPOptions.T2_TIME ) );
-                String  ip = DHCPParameters.ip4AddrToString( this.dhcpMessageReceived.getDHCPParameters().getYIAddr() );
+                final long    t2 = DHCPParameters.byteToLong( this.dhcpMessageReceived.getDHCPParameters().getOption( DHCPOptions.T2_TIME ) );
+                final String  ip = DHCPParameters.ip4AddrToString( this.dhcpMessageReceived.getDHCPParameters().getYIAddr() );
 
                 DHCPTrace.println( getName() + " received an DHCPACK and a leasetime." );
                 DHCPTrace.println( "Binding to IP address: " + ip );
@@ -133,7 +134,7 @@ public void run() // ------------------------------------------------------
             }
         }
     }
- catch( java.io.IOException e ) {
+ catch( final java.io.IOException e ) {
     System.err.println( e );
 
     e.printStackTrace();
@@ -149,7 +150,7 @@ protected void sleepFor( final long seconds ) // --------------------------
  try {
     super.sleep( 1000 * seconds );
     }
- catch( java.lang.InterruptedException ignore ) {
+ catch( final java.lang.InterruptedException ignore ) {
     // ignore : continue
     }
 }
@@ -564,7 +565,7 @@ public static final byte[] addrToByte( final String addr ) // -------------
  int i = 0;
 
  while( i < 6 ) {
-    int temp = Integer.parseInt( token.nextToken(), 16 );
+    final int temp = Integer.parseInt( token.nextToken(), 16 );
 
     outHwaddr[ i++ ] = (byte) temp;
     }

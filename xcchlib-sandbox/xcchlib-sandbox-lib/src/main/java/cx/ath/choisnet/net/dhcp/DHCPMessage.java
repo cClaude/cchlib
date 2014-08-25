@@ -27,6 +27,7 @@ import java.net.InetAddress;
 ** @author Claude CHOISNET
 ** @version 3.02.014
 */
+@Deprecated // TODO REMOVE THIS
 public class DHCPMessage
 {
 /** */
@@ -44,7 +45,7 @@ static {
     //
     BROADCAST_ADDR = InetAddress.getByName( BROADCAST_IP_ADDR );
     }
- catch( java.net.UnknownHostException e ) {
+ catch( final java.net.UnknownHostException e ) {
     throw new RuntimeException( e );
     }
 }

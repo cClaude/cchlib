@@ -13,6 +13,7 @@ import cx.ath.choisnet.net.dhcp.DHCPSocket;
 **
 ** @author Claude CHOISNET
 */
+@Deprecated // TODO REMOVE THIS
 public class DHCPClientSample
 {
 

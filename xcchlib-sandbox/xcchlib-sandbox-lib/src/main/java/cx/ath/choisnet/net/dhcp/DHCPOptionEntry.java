@@ -22,6 +22,7 @@ package cx.ath.choisnet.net.dhcp;
 ** @author Claude CHOISNET
 ** @version 3.02.015
 */
+@Deprecated // TODO REMOVE THIS
 public class DHCPOptionEntry
     implements
         java.io.Serializable
@@ -78,7 +79,7 @@ public byte[] getOptionValue() // -----------------------------------------
 */
 public boolean isNull() // ------------------------------------------------
 {
- for( byte b : this.value ) {
+ for( final byte b : this.value ) {
     if( b != 0 ) {
         return false;
         }
@@ -112,7 +113,7 @@ public DHCPOptionEntry getClone() // --------------------------------------
 /**
 ** interface java.io.Serializable
 */
-private void writeObject( java.io.ObjectOutputStream stream ) // ----------
+private void writeObject( final java.io.ObjectOutputStream stream ) // ----------
      throws java.io.IOException
 {
  stream.defaultWriteObject();
@@ -125,7 +126,7 @@ private void writeObject( java.io.ObjectOutputStream stream ) // ----------
 /**
 ** interface java.io.Serializable
 */
-private void readObject( java.io.ObjectInputStream stream ) // ------------
+private void readObject( final java.io.ObjectInputStream stream ) // ------------
      throws
         java.io.IOException,
         ClassNotFoundException

@@ -1,21 +1,16 @@
+package com.googlecode.cchlib.dhcp;
+
 /*
-** -----------------------------------------------------------------------
-** Nom           : cx/ath/choisnet/net/dhcp/DHCPOptions.java
-** Description   :
-**
-**  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
-**                      Adapte du code de Jason Goldschmidt and Nick Stone
-**                      edu.bucknell.net.JDHCP.DHCPOptions
-**                      http://www.eg.bucknell.edu/~jgoldsch/dhcp/
-**                      et base sur les RFCs 1700, 2131 et 2132
-**  3.02.015 2006.06.22 Claude CHOISNET
-**                      implemente java.io.Serializable
-** -----------------------------------------------------------------------
-**
-** cx.ath.choisnet.net.dhcp.DHCPOptions
-**
-*/
-package cx.ath.choisnet.net.dhcp;
+ ** -----------------------------------------------------------------------
+ **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
+ **                      Adapte du code de Jason Goldschmidt and Nick Stone
+ **                      edu.bucknell.net.JDHCP.DHCPOptions
+ **                      http://www.eg.bucknell.edu/~jgoldsch/dhcp/
+ **                      et base sur les RFCs 1700, 2131 et 2132
+ **  3.02.015 2006.06.22 Claude CHOISNET
+ **                      implemente java.io.Serializable
+ ** -----------------------------------------------------------------------
+ */
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -30,64 +25,61 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
-**
-** <pre>
-** CHAMP   OCTETS  DESCRIPTION
-**
-** op          1   Code operation du message:/
-**                 type du message. 1 = BOOTREQUEST, 2 = BOOTREPLY
-**
-** htype       1   Adresse materielle, voir la section ARP dans le RFC "Assigned Numbers" ;
-**                 par ex., '1' = Ethernet 10Mb.
-**
-** hlen        1   Longueur de l'adresse materielle (par ex. '6' for Ethernet 10Mb).
-**
-** hops        1   Mis e zero par le client, utilise de maniere optionnelle par les agents
-**                 de relais quand on demarre via un agent de relais
-**
-** xid         4   Identifiant de transaction, un nombre aleatoire choisi par le client,
-**                 utilise par le client et le serveur pour associer les messages et les
-**                 reponses entre un client et un serveur
-**
-** secs        2   Rempli par le client, les secondes s'ecoulent depuis le processus
-**                 d'acquisition ou de renouvellement d'adresse du client
-**
-** flags       2   Drapeaux (voir figure 2).
-**
-** ciaddr      4   Adresse IP des clients, rempli seulement si le client est dans un etat
-**                 AFFECTe, RENOUVELLEMENT ou REAFFECTATION
-**                 et peut repondre aux requetes ARP
-**
-** yiaddr      4   'votre' (client) adresse IP.
-**
-** siaddr      4   Adresse IP du prochain serveur e utiliser pour le processus de demarrage;
-**                 retournee par le serveur dans DHCPOFFER et DHCPACK.
-**
-** giaddr      4   Adresse IP de l'agent de relais, utilisee pour demarrer via un agent de relais.
-**
-** chaddr     16   Adresse materielle des clients (Address MAC).
-**
-** sname      64   Nom d'hete du serveur optionnel, chaene de caracteres terminee par
-**                 un caractere nul.
-**
-** fichier   128   Nom du fichier de demarrage, chaene terminee par un caractere nul;
-**                 nom "generic" ou nul dans le DHCPDISCOVER,
-**                 nom du repertoire explicite dans DHCPOFFER.
-**
-** options   var   Champ de parametres optionnels.
-**
-** </pre>
-**
-** @author Jason Goldschmidt
-** @author Claude CHOISNET
-** @version 3.02.014
-*/
-@Deprecated // TODO REMOVE THIS
+ **
+ ** <pre>
+ * * CHAMP   OCTETS  DESCRIPTION
+ * *
+ * * op          1   Code operation du message:/
+ * *                 type du message. 1 = BOOTREQUEST, 2 = BOOTREPLY
+ * *
+ * * htype       1   Adresse materielle, voir la section ARP dans le RFC "Assigned Numbers" ;
+ * *                 par ex., '1' = Ethernet 10Mb.
+ * *
+ * * hlen        1   Longueur de l'adresse materielle (par ex. '6' for Ethernet 10Mb).
+ * *
+ * * hops        1   Mis e zero par le client, utilise de maniere optionnelle par les agents
+ * *                 de relais quand on demarre via un agent de relais
+ * *
+ * * xid         4   Identifiant de transaction, un nombre aleatoire choisi par le client,
+ * *                 utilise par le client et le serveur pour associer les messages et les
+ * *                 reponses entre un client et un serveur
+ * *
+ * * secs        2   Rempli par le client, les secondes s'ecoulent depuis le processus
+ * *                 d'acquisition ou de renouvellement d'adresse du client
+ * *
+ * * flags       2   Drapeaux (voir figure 2).
+ * *
+ * * ciaddr      4   Adresse IP des clients, rempli seulement si le client est dans un etat
+ * *                 AFFECTe, RENOUVELLEMENT ou REAFFECTATION
+ * *                 et peut repondre aux requetes ARP
+ * *
+ * * yiaddr      4   'votre' (client) adresse IP.
+ * *
+ * * siaddr      4   Adresse IP du prochain serveur e utiliser pour le processus de demarrage;
+ * *                 retournee par le serveur dans DHCPOFFER et DHCPACK.
+ * *
+ * * giaddr      4   Adresse IP de l'agent de relais, utilisee pour demarrer via un agent de relais.
+ * *
+ * * chaddr     16   Adresse materielle des clients (Address MAC).
+ * *
+ * * sname      64   Nom d'hete du serveur optionnel, chaene de caracteres terminee par
+ * *                 un caractere nul.
+ * *
+ * * fichier   128   Nom du fichier de demarrage, chaene terminee par un caractere nul;
+ * *                 nom "generic" ou nul dans le DHCPDISCOVER,
+ * *                 nom du repertoire explicite dans DHCPOFFER.
+ * *
+ * * options   var   Champ de parametres optionnels.
+ **
+ ** </pre>
+ **
+ ** @author Jason Goldschmidt
+ ** @author Claude CHOISNET
+ */
 public class DHCPOptions implements java.io.Serializable {
     /** serialVersionUID */
     private static final long                serialVersionUID          = 1L;
 
-    /** */
     public static final byte[]               MAGIC_COOKIE              = { 0x63, (byte)0x82, 0x53, 0x63 };
 
     /**
@@ -234,14 +226,8 @@ public class DHCPOptions implements java.io.Serializable {
      */
     public static final byte                 MESSAGE_TYPE_DHCPINFORM   = 8;
 
-    /**
-**
-*/
     private final Map<Byte, DHCPOptionEntry> optionsTable;
 
-    /**
-**
-*/
     public DHCPOptions() // ---------------------------------------------------
     {
         this.optionsTable = new HashMap<Byte, DHCPOptionEntry>();
@@ -381,29 +367,29 @@ public class DHCPOptions implements java.io.Serializable {
         return null;
     }
 
-//    /**
-//     ** Clear internal options list, and converts an options byte array to a list (ignore 4 first bytes, vendor magic
-//     * cookie)
-//     **
-//     ** @param optionsArray
-//     *            The byte array representation of the options list
-//     * */
-//    public void _init( final byte[] optionsArray ) throws ArrayIndexOutOfBoundsException
-//    {
-//        clear();
-//
-//        // Assume options valid and correct // ignore vendor magic cookie
-//        int pos = 4;
-//
-//        while( optionsArray[ pos ] != END_OPTION ) { // until end option
-//            final byte code = optionsArray[ pos++ ];
-//            final byte length = optionsArray[ pos++ ];
-//
-//            setOption( code, new DHCPOptionEntry( optionsArray, pos, length ) );
-//
-//            pos += length; // increment position pointer
-//        }
-//    }
+    // /**
+    // ** Clear internal options list, and converts an options byte array to a list (ignore 4 first bytes, vendor magic
+    // * cookie)
+    // **
+    // ** @param optionsArray
+    // * The byte array representation of the options list
+    // * */
+    // public void _init( final byte[] optionsArray ) throws ArrayIndexOutOfBoundsException
+    // {
+    // clear();
+    //
+    // // Assume options valid and correct // ignore vendor magic cookie
+    // int pos = 4;
+    //
+    // while( optionsArray[ pos ] != END_OPTION ) { // until end option
+    // final byte code = optionsArray[ pos++ ];
+    // final byte length = optionsArray[ pos++ ];
+    //
+    // setOption( code, new DHCPOptionEntry( optionsArray, pos, length ) );
+    //
+    // pos += length; // increment position pointer
+    // }
+    // }
 
     /**
      ** Clear internal options list, and converts an options DataInputStream stream to a list (ignore 4 first bytes,
@@ -502,7 +488,7 @@ public class DHCPOptions implements java.io.Serializable {
     /** */
     private final Object[]             msgFmtObjects    = new Object[1];
 
-     private String format( final byte optionNumber ) // -----------------------
+    private String format( final byte optionNumber ) // -----------------------
     {
         this.msgFmtObjects[ 0 ] = new Byte( optionNumber );
 
@@ -556,7 +542,6 @@ public class DHCPOptions implements java.io.Serializable {
     private transient static Properties prop;
 
     /** TODOC */
-    @SuppressWarnings("resource")
     public String getProperty( final String name ) // -------------------------
     {
         if( DHCPOptions.prop == null ) {
@@ -564,9 +549,7 @@ public class DHCPOptions implements java.io.Serializable {
 
             DHCPOptions.prop = new Properties();
 
-            final InputStream is = getClass().getResourceAsStream( ressourceName );
-
-            try {
+            try( final InputStream is = getClass().getResourceAsStream( ressourceName ) ) {
                 DHCPOptions.prop.load( is );
 
                 is.close();
