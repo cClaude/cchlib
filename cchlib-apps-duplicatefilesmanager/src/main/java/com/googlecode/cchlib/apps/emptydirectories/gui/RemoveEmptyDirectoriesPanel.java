@@ -4,6 +4,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -316,11 +317,6 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
     @Override
     protected void addRootDirectory( final List<File> files )
     {
-        addRootDirectory( files.toArray( new File[files.size()] ));
-    }
-
-    private void addRootDirectory( final File[] files )
-    {
         final DefaultListModel<File> model = super.getJListRootDirectoriesModel();
 
         for( final File f: files ) {
@@ -334,6 +330,15 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
             }
 
         setEnableFind( model.size() > 0 );
+    }
+
+    private void addRootDirectory( final File[] files )
+    {
+        final List<File> filesList = new ArrayList<>( files.length );
+
+        for( final File f: files ) {
+            filesList.add( f );
+        }
     }
 
     private void onImportDirectories()
