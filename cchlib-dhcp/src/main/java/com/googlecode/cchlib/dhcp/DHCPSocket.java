@@ -7,7 +7,6 @@ package com.googlecode.cchlib.dhcp;
  **                      http://www.eg.bucknell.edu/~jgoldsch/dhcp/
  **                      and RFCs 1700, 2131, 2132
  ** -----------------------------------------------------------------------
- **
  */
 
 import java.io.IOException;

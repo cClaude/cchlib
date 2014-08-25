@@ -3,7 +3,7 @@ package com.googlecode.cchlib.dhcp;
 import java.io.Serializable;
 
 /*
- ** -----------------------------------------------------------------------**
+ ** -----------------------------------------------------------------------
  **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
  **                      Adapte du code de Jason Goldschmidt and Nick Stone
  **                      et base sur les RFCs 1700, 2131 et 2132

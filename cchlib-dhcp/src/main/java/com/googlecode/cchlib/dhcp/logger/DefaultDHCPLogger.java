@@ -1,23 +1,14 @@
-package com.googlecode.cchlib.dhcp.client;
+package com.googlecode.cchlib.dhcp.logger;
 
-import com.googlecode.cchlib.dhcp.DHCPMessage;
-
-public class DefaultDHCPLogger implements DHCPLogger {
+/**
+ * Simple implementation for DHCPLogger
+ */
+public class DefaultDHCPLogger extends AbstractDHCPLogger {
 
     @Override
     public final void println( final String message )
     {
         System.out.println( message );
-    }
-
-    @Override
-    public final void println( final String messageName, final DHCPMessage dhcpMessage )
-    {
-        System.out.println( " --- " + messageName + " : --- BEGIN ---" );
-        System.out.println( dhcpMessage.toString() );
-        // System.out.println( " --- " + messageName + " : --- HEXA! ---" );
-        // System.out.println( dhcpMessage.toHexString() );
-        System.out.println( " --- " + messageName + " : --- E N D ---" );
     }
 
 }

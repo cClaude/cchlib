@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.dhcp.client;
+package com.googlecode.cchlib.dhcp.logger;
 
 import com.googlecode.cchlib.dhcp.DHCPMessage;
 

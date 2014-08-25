@@ -17,6 +17,7 @@ import com.googlecode.cchlib.dhcp.DHCPMessage;
 import com.googlecode.cchlib.dhcp.DHCPOptions;
 import com.googlecode.cchlib.dhcp.DHCPParameters;
 import com.googlecode.cchlib.dhcp.DHCPSocket;
+import com.googlecode.cchlib.dhcp.logger.DHCPLogger;
 
 public class DHCPSimpleClient extends Thread {
     private final DHCPSocket     bindDHCPSocket;

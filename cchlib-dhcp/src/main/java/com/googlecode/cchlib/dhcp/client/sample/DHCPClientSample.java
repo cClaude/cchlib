@@ -6,10 +6,10 @@ import com.googlecode.cchlib.dhcp.DHCPOptions;
 import com.googlecode.cchlib.dhcp.DHCPParameters;
 import com.googlecode.cchlib.dhcp.DHCPSocket;
 import com.googlecode.cchlib.dhcp.client.DHCPSimpleClient;
-import com.googlecode.cchlib.dhcp.client.DefaultDHCPLogger;
+import com.googlecode.cchlib.dhcp.logger.DefaultDHCPLogger;
 
 /**
- ** dhcpclient simulation program
+ ** dhcp client simulation program
  */
 public class DHCPClientSample {
 
@@ -25,12 +25,9 @@ public class DHCPClientSample {
 
         final String hwaddr = args[ 0 ];
 
-        try {
-            //
-            // Use port 67 if you are configuring as a bootp relay agent
-            // DHCPSocket mySocket = new DHCPSocket(67);
-            //
-            final DHCPSocket mySocket = new DHCPSocket( DHCPSocket.CLIENT_PORT ); // create socket
+        // create socket
+        // Use port 67 if you are configuring as a bootp relay agent
+        try( final DHCPSocket mySocket = new DHCPSocket( DHCPSocket.CLIENT_PORT ) ) {
 
             //
             //
