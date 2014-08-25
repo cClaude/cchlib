@@ -12,6 +12,7 @@ package com.googlecode.cchlib.dhcp;
 
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  ** This class represents a DHCP Message.
@@ -34,7 +35,7 @@ public class DHCPMessage {
             //
             BROADCAST_ADDR = InetAddress.getByName( BROADCAST_IP_ADDR );
         }
-        catch( final java.net.UnknownHostException e ) {
+        catch( final UnknownHostException e ) {
             throw new RuntimeException( e );
         }
     }
@@ -226,20 +227,23 @@ public class DHCPMessage {
 //        return copy;
 //    }
 
-    @Override
-    public String toString() // -----------------------------------------------
-    {
-        final StringBuilder sb = new StringBuilder();
-
-        sb.append( super.toString() + "\n" );
-        sb.append( this.getDHCPParameters().toString() );
-
-        return sb.toString();
-    }
-
     public String toHexString() // --------------------------------------------
     {
         return this.getDHCPParameters().toHexString();
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append( "DHCPMessage [messagePort=" );
+        builder.append( messagePort );
+        builder.append( ", messageInetAddress=" );
+        builder.append( messageInetAddress );
+        builder.append( ", dhcpParameters=" );
+        builder.append( toHexString() );
+        builder.append( "]" );
+        return builder.toString();
     }
 
 } // class

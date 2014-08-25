@@ -14,7 +14,7 @@ import com.googlecode.cchlib.dhcp.client.DefaultDHCPLogger;
 public class DHCPClientSample {
 
     /**
-     ** .java sample.DHCPClientSample 00-0D-56-D7-2A-A5
+     ** .java com.googlecode.cchlib.dhcp.client.sample.DHCPClientSample 00-0D-56-D7-2A-A5
      */
     public static void main( final String[] args ) // -------------------------
     {
@@ -44,12 +44,18 @@ public class DHCPClientSample {
         }
         catch( final BindException e ) {
             System.err.println( "Socket Bind Error: " );
-            System.err.print( "Another process is bound to this port\n" );
-            System.err.print( "or you do not have access to bind a process " );
-            System.err.println( "to this port" );
+            System.err.print( "Another process is bound to this port ("
+                    +  DHCPSocket.CLIENT_PORT
+                    + ") or you do not have access to bind a process to this port" );
+
+            System.exit( 1 );
         }
         catch( final SocketException e ) {
-            System.out.println( "SocketException: " + e );
+            System.err.println( "SocketException: " + e );
+
+            e.printStackTrace( System.err );
+
+            System.exit( 1 );
         }
     }
 
@@ -82,13 +88,10 @@ public class DHCPClientSample {
         dhcpParameters.setOption( DHCPOptions.MESSAGE_TYPE, DHCPOptions.MESSAGE_TYPE_DHCPDISCOVER );
 
         dhcpParameters.setOption( DHCPOptions.CLASS_ID, "xp_etu" );
-        // dhcpParameters.setOption(
-        // DHCPOptions.CLIENT_ID,
-        // "usine"
-        // );
+        // dhcpParameters.setOption( DHCPOptions.CLIENT_ID, "usine" );
 
         return dhcpParameters;
     }
 
-} // class
+}
 

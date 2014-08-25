@@ -10,9 +10,12 @@ package com.googlecode.cchlib.dhcp;
  **
  */
 
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 /**
  ** This class represents a Socket for sending DHCP Messages
@@ -51,8 +54,7 @@ public class DHCPSocket extends DatagramSocket {
      ** @param laddr
      *            local address to bind
      */
-    public DHCPSocket( final int port, final InetAddress laddr ) // -----------
-            throws java.net.SocketException
+    public DHCPSocket( final int port, final InetAddress laddr ) throws SocketException
     {
         super( port, laddr );
 
@@ -65,8 +67,7 @@ public class DHCPSocket extends DatagramSocket {
      ** @param port
      *            local port to use
      */
-    public DHCPSocket( final int port ) // ------------------------------------
-            throws java.net.SocketException
+    public DHCPSocket( final int port ) throws SocketException
     {
         super( port );
 
@@ -76,8 +77,7 @@ public class DHCPSocket extends DatagramSocket {
     /**
 **
 */
-    private void init() // ----------------------------------------------------
-            throws java.net.SocketException
+    private void init() throws SocketException
     {
         // set default time out
         super.setSoTimeout( DEFAULT_SOTIME_OUT );
@@ -112,8 +112,7 @@ public class DHCPSocket extends DatagramSocket {
      ** @param inMessage
      *            well-formed DHCPMessage to be sent to a server
      */
-    public synchronized void send( final DHCPMessage inMessage ) // -----------
-            throws java.io.IOException
+    public synchronized void send( final DHCPMessage inMessage ) throws IOException
     {
         super.send( inMessage.toDatagramPacket() ); // send outgoing message
     }
@@ -128,8 +127,7 @@ public class DHCPSocket extends DatagramSocket {
      **
      ** @return a valid DHCPMessage, if message is received or null if timeout occurs.
      */
-    public synchronized boolean receive( final DHCPMessage message ) // -------
-            throws java.io.IOException
+    public synchronized boolean receive( final DHCPMessage message ) throws IOException
     {
         final DHCPParameters params = receive();
 
@@ -147,8 +145,7 @@ public class DHCPSocket extends DatagramSocket {
      **
      ** @return a valid DHCPMessage, if message is received or null if timeout occurs.
      */
-    public synchronized DHCPParameters receive() // ---------------------------
-            throws java.io.IOException
+    public synchronized DHCPParameters receive() throws IOException
     {
         try {
             final DatagramPacket incoming = new DatagramPacket( new byte[this.packetSize], this.packetSize );
@@ -158,13 +155,13 @@ public class DHCPSocket extends DatagramSocket {
 
             return DHCPParameters.newInstance( incoming.getData() );
         }
-        catch( final java.net.SocketTimeoutException e ) {
-            System.err.println( "java.net.SocketTimeoutException: " + e );
+        catch( final SocketTimeoutException e ) {
+            System.err.println( "SocketTimeoutException: " + e );
+            e.printStackTrace( System.err );
 
             return null;
         }
 
     }
 
-} // class
-
+}

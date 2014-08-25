@@ -15,6 +15,7 @@ package com.googlecode.cchlib.dhcp;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -76,7 +77,9 @@ import java.util.TreeMap;
  ** @author Jason Goldschmidt
  ** @author Claude CHOISNET
  */
-public class DHCPOptions implements java.io.Serializable {
+public class DHCPOptions implements Serializable {
+    private static final String DHCP_OPTIONS_PROPERTIES = "DHCPOptions.properties";
+
     /** serialVersionUID */
     private static final long                serialVersionUID          = 1L;
 
@@ -545,7 +548,7 @@ public class DHCPOptions implements java.io.Serializable {
     public String getProperty( final String name ) // -------------------------
     {
         if( DHCPOptions.prop == null ) {
-            final String ressourceName = "DHCPOptions.properties";
+            final String ressourceName = DHCP_OPTIONS_PROPERTIES;
 
             DHCPOptions.prop = new Properties();
 
