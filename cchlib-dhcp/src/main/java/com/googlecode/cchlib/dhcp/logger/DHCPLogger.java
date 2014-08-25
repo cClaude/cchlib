@@ -4,7 +4,6 @@ import com.googlecode.cchlib.dhcp.DHCPMessage;
 
 public interface DHCPLogger {
 
-    void println( String string, DHCPMessage dhcpMessageReceived );
     void println( String string );
-
+    void println( String string, DHCPMessage dhcpMessageReceived );
 }

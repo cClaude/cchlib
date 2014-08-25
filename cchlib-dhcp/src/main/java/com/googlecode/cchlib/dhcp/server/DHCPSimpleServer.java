@@ -6,10 +6,6 @@ package com.googlecode.cchlib.dhcp.server;
  ** -----------------------------------------------------------------------
  */
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import com.googlecode.cchlib.dhcp.DHCPMessage;
 import com.googlecode.cchlib.dhcp.DHCPSocket;
 import com.googlecode.cchlib.dhcp.logger.DHCPLogger;
 
@@ -18,78 +14,62 @@ import com.googlecode.cchlib.dhcp.logger.DHCPLogger;
  ** @author Claude CHOISNET
  ** @since 3.02.040
  */
-public class DHCPSimpleServer extends Thread {
-    private boolean             running;
-    private final int           port;
-    private final DHCPLogger    logger;
+public class DHCPSimpleServer {
+    private final DHCPServerRunner  runner;
+    private final String            threadName;
+    private final boolean           isDaemon;
 
     public DHCPSimpleServer( // -----------------------------------------------
-            final String threadName,
-            final DHCPLogger logger,
-            final boolean isDaemon
+            final String        threadName,
+            final DHCPLogger    logger,
+            final boolean       isDaemon,
+            final boolean       replyToClients
             )
     {
-        this( threadName, DHCPSocket.SERVER_PORT, logger, isDaemon );
+        this( threadName, DHCPSocket.SERVER_PORT, logger, isDaemon, replyToClients );
     }
 
     public DHCPSimpleServer( // -----------------------------------------------
-            final String threadName,
-            final int port,
-            final DHCPLogger logger,
-            final boolean isDaemon
+            final String        threadName,
+            final int           port,
+            final DHCPLogger    logger,
+            final boolean       isDaemon,
+            final boolean       replyToClients
             )
     {
-        this.port       = port;
-        this.logger  = logger;
-
-        // set thread name
-        super.setName( threadName );
-        super.setDaemon( isDaemon );
+        this( new DHCPServerRunner( port, logger, replyToClients ), threadName, isDaemon );
     }
 
-    @Override
-    public void run() // ------------------------------------------------------
+    public DHCPSimpleServer( // -----------------------------------------------
+            final DHCPServerRunner  runner,
+            final String            threadName,
+            final boolean           isDaemon
+            )
     {
-        logger.println( "start server" );
-
-        this.running = true;
-
-        try( DatagramSocket socket = new DatagramSocket( port ) ) {
-            run( socket );
-        }
-        catch( final java.net.SocketException e ) {
-            this.running = false;
-            throw new RuntimeException( e );
-        }
+        this.runner     = runner;
+        this.threadName = threadName;
+        this.isDaemon   = isDaemon;
     }
 
-    private void run( final DatagramSocket socket )
+    public void start()
     {
-        final byte[] buffer = new byte[1024];;
-
-        while( this.running ) {
-
-            try {
-                final DatagramPacket data = new DatagramPacket( buffer, buffer.length );
-
-                socket.receive( data );
-
-                final DHCPMessage aDHCPMessage = DHCPMessageFactory.newInstance( data );
-
-                // DHCPMessage aDHCPMessage = new DHCPMessage();
-                // DatagramPacket data = aDHCPMessage.toDatagramPacket();
-
-                logger.println( "@= " + data.getAddress() );
-                logger.println( "aDHCPMessage = ", aDHCPMessage );
-
-                // socket.send( data );
-            }
-            catch( final IOException e ) {
-                logger.println( "*** " + e );
-            }
-
-            logger.println( "run: " + this.running );
+        if( runner.isRunning() ) {
+            throw new IllegalStateException( "Already running" );
         }
+
+        runner.setRunning( true );
+
+        final Thread thread = new Thread( this.runner, this.threadName );
+        thread.setDaemon( isDaemon );
+        thread.start();
     }
 
+    public void stop()
+    {
+        if( ! runner.isRunning() ) {
+            throw new IllegalStateException( "Not running" );
+        }
+
+        runner.setRunning( false );
+    }
 }

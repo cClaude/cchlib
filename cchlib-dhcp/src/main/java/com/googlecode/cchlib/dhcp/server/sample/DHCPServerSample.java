@@ -11,7 +11,7 @@ public class DHCPServerSample {
     public final static void main( final String[] args )
     {
         final DefaultDHCPLogger logger = new DefaultDHCPLogger();
-        final DHCPSimpleServer instance = new DHCPSimpleServer( "DHCPSimpleServer", logger, false );
+        final DHCPSimpleServer instance = new DHCPSimpleServer( "DHCPSimpleServer", logger, false, false );
 
         instance.start();
 

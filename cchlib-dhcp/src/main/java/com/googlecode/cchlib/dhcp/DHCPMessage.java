@@ -235,15 +235,17 @@ public class DHCPMessage {
     @Override
     public String toString()
     {
-        final StringBuilder builder = new StringBuilder();
-        builder.append( "DHCPMessage [messagePort=" );
-        builder.append( messagePort );
-        builder.append( ", messageInetAddress=" );
-        builder.append( messageInetAddress );
-        builder.append( ", dhcpParameters=" );
-        builder.append( toHexString() );
-        builder.append( "]" );
-        return builder.toString();
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append( "DHCPMessage [messagePort=" );
+        sb.append( messagePort );
+        sb.append( ", messageInetAddress=" );
+        sb.append( messageInetAddress );
+        sb.append( ", dhcpParameters=\n" );
+        sb.append( toHexString() );
+        sb.append( "\n]" );
+
+        return sb.toString();
     }
 
 } // class
