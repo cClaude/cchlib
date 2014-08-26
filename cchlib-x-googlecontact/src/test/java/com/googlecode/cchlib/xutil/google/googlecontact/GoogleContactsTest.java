@@ -20,6 +20,11 @@ public class GoogleContactsTest {
     {
         final File file = FileHelper.getUserHomeDirFile( "Dropbox/#CallRecorder/#Config/google-contacts.csv" );
 
+        if( ! file.exists() ) {
+            // skip test
+            return;
+        }
+
         final List<GoogleContact> contacts = GoogleContacts.createGoogleContacts( file );
 
         Assert.assertNotNull( contacts );

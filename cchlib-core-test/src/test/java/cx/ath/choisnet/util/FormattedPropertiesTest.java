@@ -67,7 +67,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     }
 
     @Test
-    //@Ignore//FIXME must be activate
+    @Ignore//FIXME must be activate - but with a fix arround encoding
     public void test_Reader_load_save() throws IOException
     {
         final File                copy = getCopy();
