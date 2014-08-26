@@ -1,13 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.path.lookup;
 
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.FolderFilter;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
-import com.googlecode.cchlib.lang.Enumerable;
-import com.googlecode.cchlib.util.CancelRequestException;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,6 +13,14 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.FolderFilter;
+import com.googlecode.cchlib.apps.emptydirectories.Folders;
+import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
+import com.googlecode.cchlib.lang.Enumerable;
+import com.googlecode.cchlib.util.CancelRequestException;
 
 @Deprecated
 public class DefaultEmptyDirectoriesLookup
@@ -29,10 +29,10 @@ public class DefaultEmptyDirectoriesLookup
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
 
-    private List<Path> rootFilesForScan;
+    private final List<Path> rootFilesForScan;
     private DirectoryStream.Filter<Path> excludeDirectoriesFile;
-    private List<EmptyDirectoriesListener> listeners = new ArrayList<>();
-    private LinkOption[] linkOption = new LinkOption[0]; // TODO Future extension
+    private final List<EmptyDirectoriesListener> listeners = new ArrayList<>();
+    private final LinkOption[] linkOption = new LinkOption[0]; // TODO Future extension
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
      * <br>
@@ -45,7 +45,7 @@ public class DefaultEmptyDirectoriesLookup
     {
         this.rootFilesForScan = new ArrayList<>( rootFiles.length );
 
-        for( File f: rootFiles ) {
+        for( final File f: rootFiles ) {
             this.rootFilesForScan.add( f.toPath() );
             }
     }
@@ -62,7 +62,7 @@ public class DefaultEmptyDirectoriesLookup
     {
         this.rootFilesForScan = new ArrayList<>( rootPaths.length );
 
-        for( Path p: rootPaths ) {
+        for( final Path p: rootPaths ) {
             this.rootFilesForScan.add( p );
             }
     }
@@ -76,7 +76,7 @@ public class DefaultEmptyDirectoriesLookup
     {
         this.rootFilesForScan = new ArrayList<>();
 
-        Enumeration<File> enumeration = rootFiles.enumeration();
+        final Enumeration<File> enumeration = rootFiles.enumeration();
 
         while( enumeration.hasMoreElements() ) {
             this.rootFilesForScan.add( enumeration.nextElement().toPath() );
@@ -136,7 +136,7 @@ public class DefaultEmptyDirectoriesLookup
     public void lookup( final FolderFilter excludeFolderFilter )
         throws CancelRequestException, ScanIOException
     {
-        for( EmptyDirectoriesListener l : this.listeners ) {
+        for( final EmptyDirectoriesListener l : this.listeners ) {
             l.findStarted();
             }
 
@@ -151,7 +151,7 @@ public class DefaultEmptyDirectoriesLookup
 //                    );
 //            }
 
-        for( Path p : this.rootFilesForScan ) {
+        for( final Path p : this.rootFilesForScan ) {
             if( LOGGER.isDebugEnabled() ) {
                 LOGGER.debug( "lookup start from : " + p );
                 }
@@ -162,7 +162,7 @@ public class DefaultEmptyDirectoriesLookup
                 }
             }
 
-        for( EmptyDirectoriesListener l : this.listeners ) {
+        for( final EmptyDirectoriesListener l : this.listeners ) {
             l.findDone();
             }
     }
@@ -192,7 +192,7 @@ public class DefaultEmptyDirectoriesLookup
 
 
         if( canBeScan( folder ) ) {
-            for( EmptyDirectoriesListener l : this.listeners ) {
+            for( final EmptyDirectoriesListener l : this.listeners ) {
                 if( l.isCancel() ) {
                     throw new CancelRequestException();
                     }
@@ -217,7 +217,7 @@ public class DefaultEmptyDirectoriesLookup
                     return false;
                     }
                 }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 throw new ScanIOException( e );
                 }
             }
@@ -231,13 +231,18 @@ public class DefaultEmptyDirectoriesLookup
         boolean isEmpty      = true;
         boolean couldBeEmpty = true;
 
+        if( Files.isSymbolicLink( folder ) ) {
+            // Do not follow symbolic links
+            return false;
+        }
+
         try( DirectoryStream<Path> stream = Files.newDirectoryStream( folder/*, this.directoriesFilter*/ ) ) {
 
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( "check if empty: " + folder );
                 }
 
-            for( Path entryPath : stream ) {
+            for( final Path entryPath : stream ) {
                 isEmpty = false;
 
                 if( entryPath.toFile().isDirectory() ) {
@@ -254,7 +259,7 @@ public class DefaultEmptyDirectoriesLookup
 
             if( couldBeEmpty ) {
                 if( isEmpty ) {
-                    assert folder.toFile().listFiles( (File pathname) -> false).length == 0;
+                    assert folder.toFile().listFiles( (final File pathname) -> false).length == 0;
 
                     notify( Folders.createEmptyFolder( folder ) );
                     }
@@ -269,21 +274,21 @@ public class DefaultEmptyDirectoriesLookup
                 return false;
                 }
             }
-        catch( NotDirectoryException e ) {
+        catch( final NotDirectoryException e ) {
             if( LOGGER.isDebugEnabled() ) {
                 LOGGER.debug( "Not a directory : " + folder, e );
                 }
 
             return false;
             }
-        catch( AccessDeniedException e ) {
+        catch( final AccessDeniedException e ) {
             if( LOGGER.isDebugEnabled() ) {
                 LOGGER.debug( "Denied access: " + folder, e );
                 }
 
             return false;
             }
-        catch( IOException e ) { // stream.close()
+        catch( final IOException e ) { // stream.close()
             // I/O error encounted during the iteration, the cause is an IOException
             if( LOGGER.isDebugEnabled() ) {
                 LOGGER.debug( "Can not read: " + folder, e );
@@ -295,7 +300,7 @@ public class DefaultEmptyDirectoriesLookup
 
     private void notify( final EmptyFolder emptyFolder )
     {
-        for( EmptyDirectoriesListener l : this.listeners ) {
+        for( final EmptyDirectoriesListener l : this.listeners ) {
             l.newEntry( emptyFolder );
             }
     }
