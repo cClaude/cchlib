@@ -1,10 +1,6 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.io.checksum;
 
-import com.googlecode.cchlib.io.FileFilterHelper;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.test.FilesTestCaseHelper;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +15,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.io.FileFilterHelper;
+import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.test.FilesTestCaseHelper;
+import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 public class MD5FilterInputStreamTest
 {
@@ -49,22 +49,23 @@ public class MD5FilterInputStreamTest
     @Test
     public void testMD5FilterInputStream() throws IOException
     {
-        for( File f : fileList ) {
+        for( final File f : fileList ) {
             try {
                 testMD5FilterInputStream( f );
                 }
-            catch( FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
+            catch( final FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
             }
     }
 
-    private void testMD5FilterInputStream( File f ) throws FileNotFoundException, IOException
+    private void testMD5FilterInputStream( final File file ) throws FileNotFoundException, IOException
     {
+        final long lastModified = file.lastModified();
         final String hashString1;
         final String hashString2;
 
         {
-            MD5FilterInputStream          mfis;
-            try (InputStream is = new BufferedInputStream( new FileInputStream( f ) )) {
+            MD5FilterInputStream mfis;
+            try (InputStream is = new BufferedInputStream( new FileInputStream( file ) )) {
                 mfis = new MD5FilterInputStream( is );
                 while( mfis.read( buffer ) != -1 ) { // $codepro.audit.disable emptyWhileStatement
                     // do nothing !
@@ -74,12 +75,16 @@ public class MD5FilterInputStreamTest
 
             hashString1 = mfis.getHashString().toUpperCase();
         }
-        {
-            byte[] digestKey = mdf.compute( f );
+
+        if( lastModified == file.lastModified() ) {
+            final byte[] digestKey = mdf.compute( file );
             hashString2 = MessageDigestFile.computeDigestKeyString( digestKey ).toUpperCase();
-        }
-        LOGGER.info( "F:" + f + " MD5(1)" + hashString1 + " MD5(2)" + hashString2 );
-        Assert.assertEquals( hashString2, hashString1 );
+
+            if( lastModified == file.lastModified() ) {
+                LOGGER.info( "F:" + file + " MD5(1)" + hashString1 + " MD5(2)" + hashString2 );
+                Assert.assertEquals( hashString2, hashString1 );
+            } // else ignore this file if modified
+        } // else ignore this file if modified
     }
 
 }
