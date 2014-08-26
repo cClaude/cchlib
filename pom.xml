@@ -35,18 +35,22 @@
     <url>https://code.google.com/p/cchlib/source/browse/</url>
   </scm>
 
-  <!-- maven on googlecode : Distribution management -->
+  <!-- maven on ftp : Distribution management -->
   <distributionManagement>
+
     <repository>
-      <id>googlecode.cchlib.repo</id>
+      <id>ftp.cchlib.repo.release</id>
       <!-- svn on googlecode <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url> -->
-      <url>dav:https://${google.code.project.name}.googlecode.com/git/maven/2</url>
+      <!-- git on googlecode <url>dav:https://${google.code.project.name}.googlecode.com/git/maven/2</url> -->
+      <url>ftp://choisnet.ath.cx/repository/cchlib/release</url>
     </repository>
-    <!--  snapshotRepository>
-      <id>googlecode.cchlib.snapshotrepo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
+
+    <snapshotRepository>
+      <id>ftp.cchlib.repo.snapshot</id>
+      <url>ftp://choisnet.ath.cx/repository/cchlib/release</url>
       <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository -->
+    </snapshotRepository>
+
   </distributionManagement>
 
   <!-- Developers listed by PMC Chair, PMC, Committers, Contributers, all alphabetical -->
@@ -87,10 +91,17 @@
         <version>1.0-beta-2</version>
       </extension>
       -->
-      <extension><!-- maven on googlecode and git -->
+      <!-- maven on googlecode and git
+      <extension>
         <groupId>org.apache.maven.wagon</groupId>
         <artifactId>wagon-webdav-jackrabbit</artifactId>
         <version>2.2</version>
+      </extension> -->
+      <!-- Enabling the use of FTP -->
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+         <artifactId>wagon-ftp</artifactId>
+         <version>2.6</version>
       </extension>
     </extensions>
     <plugins>
