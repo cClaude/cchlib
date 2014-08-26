@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.i18n;
 
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import java.awt.Window;
 import java.util.EnumSet;
 import java.util.Set;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JWindow;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 
 /**
  * How to select Fields:
@@ -46,7 +46,7 @@ public enum AutoI18nConfig
     DISABLE,
 
     /**
-     * TODOC
+     * Add stack trace in logs
      */
     PRINT_STACKTRACE_IN_LOGS,
 

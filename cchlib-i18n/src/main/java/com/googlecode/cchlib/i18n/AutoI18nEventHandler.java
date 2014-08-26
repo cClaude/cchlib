@@ -4,11 +4,9 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 
 /**
- * TODOC
- *
+ * Handler to manage action on field to ignore and on field ton localize
  */
-public interface AutoI18nEventHandler
-    extends Serializable
+public interface AutoI18nEventHandler extends Serializable
 {
     /**
      * Call when a Field is ignored
