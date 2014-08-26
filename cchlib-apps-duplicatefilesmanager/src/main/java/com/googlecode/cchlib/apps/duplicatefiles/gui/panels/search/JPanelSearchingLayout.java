@@ -4,13 +4,16 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.File;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+
 import org.apache.log4j.Logger;
+
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.errors.ErrorTableModel;
@@ -130,6 +133,9 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n
         gbc_panelCurrentFile.gridy = 4;
         add(this.panelCurrentFiles, gbc_panelCurrentFile);
 
+        this.tableCurrentFiles = new CurrentFilesJTable();
+        this.panelCurrentFiles.add( tableCurrentFiles );
+
         final JScrollPane scrollPane = new JScrollPane();
         final GridBagConstraints gbc_scrollPane = new GridBagConstraints();
         gbc_scrollPane.fill = GridBagConstraints.BOTH;
@@ -137,9 +143,6 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n
         gbc_scrollPane.gridx = 0;
         gbc_scrollPane.gridy = 5;
         add(scrollPane, gbc_scrollPane);
-
-        this.tableCurrentFiles = new CurrentFilesJTable();
-        this.panelCurrentFiles.add( tableCurrentFiles );
 
         jTableErrorList = new JTable();
         scrollPane.setViewportView(jTableErrorList);
