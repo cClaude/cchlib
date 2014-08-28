@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.apps.emptyfiles.bean;
 
-import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
+import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 
 /**
  *
@@ -12,25 +12,17 @@ public class FileInfo implements Serializable
 {
     private static final long serialVersionUID = 1L;
     private boolean selected;
-    //private Date lastModifiedDate;
-    //private boolean deleted;
-    //private String lengthString;
-    //private String fileAttributsString;
     private final File file;
     private final FileInfoFormater fileInfoFormater;
 
      /**
-     * 
+     *
      */
-    public FileInfo( File file, boolean selected, FileInfoFormater fileInfoFormater )
+    public FileInfo( final File file, final boolean selected, final FileInfoFormater fileInfoFormater )
     {
         this.file             = file;
         this.selected         = selected;
         this.fileInfoFormater = fileInfoFormater;
-        //this.lastModifiedDate    = new Date( file.lastModified() );
-        //this.fileAttributsString = fileInfoFormater.formatAttributs( file );
-        //this.lengthString        = fileInfoFormater.formatLength( file );
-        //this.deleted = false;
     }
 
     public boolean isSelected()
@@ -43,7 +35,7 @@ public class FileInfo implements Serializable
             }
     }
 
-    public void setSelected( boolean selected )
+    public void setSelected( final boolean selected )
     {
         this.selected = selected;
     }
@@ -58,28 +50,13 @@ public class FileInfo implements Serializable
         return ! file.exists();
     }
 
-//    public void setDeleted( boolean deleted )
-//    {
-//        this.deleted = deleted;
-//    }
-
     public String getLengthString()
     {
         return fileInfoFormater.formatLength( file );
     }
 
-//    public void setLengthString( String lengthString )
-//    {
-//        this.lengthString = lengthString;
-//    }
-
     public String getFileAttributsString()
     {
         return fileInfoFormater.formatAttributs( file );
     }
-    
-//    public void setFileAttributsString( String fileAttributsString )
-//    {
-//        this.fileAttributsString = fileAttributsString;
-//    }
 }

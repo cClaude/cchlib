@@ -101,20 +101,20 @@ public class URLHelper {
             this.contentType = contentType;
         }
 
-         public int getContentLength() //- - - - - - - - - - - - - - - - - -
-         {
-         return this.contentLength != null ? this.contentLength.intValue() : -1;
-         }
+//         public int getContentLength() //- - - - - - - - - - - - - - - - - -
+//         {
+//         return this.contentLength != null ? this.contentLength.intValue() : -1;
+//         }
 
         public void setContentLength( final int contentLength ) // - - - - -
         {
             this.contentLength = new Integer( contentLength );
         }
 
-        public long getDate() // - - - - - - - - - - - - - - - - - - - - - -
-        {
-            return this.contentLength != null ? this.contentLength.intValue() : -1;
-        }
+//        public long getDate() // - - - - - - - - - - - - - - - - - - - - - -
+//        {
+//            return this.contentLength != null ? this.contentLength.intValue() : -1;
+//        }
 
         /**
         **
@@ -412,87 +412,87 @@ public class URLHelper {
         }
     }
 
-    /**
-     **
-     **
-     ** .javaProxy cx.ath.choisnet.net.URLHelper
-     */
-    public final static void main( final String[] argS ) // -------------------
-            throws java.net.MalformedURLException, java.io.FileNotFoundException, java.io.IOException
-    {
-        //
-        // http://www.humourhumour.com/galerie/49/image_2450.jpg
-        // http://www.humourhumour.com/galerie/87/image_2446.jpg
-        // http://www.humourhumour.com/galerie/85/image_2445.jpg
-        // http://www.humourhumour.com/galerie/40/image_2444.jpg
-        //
-        //
-        //
-
-        final String[] args = {
-                // "http://video.zone-humour.com/videos_serie1/{1}.{0}",
-                "http://www.humourhumour.com/galerie/49/image_{1,number,####}.{0}", "C:/news", "1000", "9999", "1" };
-        final int pictures = 0;
-        final int videos = 1;
-        final String[][] commonsExtentions = { { "gif", "png", "jpg", "jpeg", "jpe", "tif", "bmp" }, // pictures
-                { "asf", "avi", "mov", "mpeg", "mpe", "mpg", "wmv" } // videos
-        };
-        final String[] extentions = commonsExtentions[ pictures ];
-
-        final java.text.MessageFormat msgfmt = new java.text.MessageFormat( args[ 0 ] );
-        final File dirFile = new File( args[ 1 ] );
-        final int from = Integer.parseInt( args[ 2 ] );
-        final int to = Integer.parseInt( args[ 3 ] );
-        final int step = Integer.parseInt( args[ 4 ] );
-        final Object[] params = new Object[2];
-
-        final URLHelper urlHelper = new URLHelper().setConnectRetryCount( 3 ).setDelaisBeforeRetry( 5000 );
-
-        for( int i = from; i <= to; i += step ) {
-            params[ 1 ] = new Integer( i );
-
-            for( final String ext : extentions ) {
-                params[ 0 ] = ext;
-
-                final String str = msgfmt.format( params );
-                final File file = new File( dirFile, str.substring( str.lastIndexOf( '/' ) + 1 ) );
-
-                if( file.exists() ) {
-                    System.out.println( "*** file '" + file + "' existe ! skipped..." );
-                } else {
-                    final URL url = new URL( str );
-
-                    System.out.println( "url =" + url );
-
-                    try {
-                        final Status status = urlHelper.download( url, file );
-
-                        System.out.println( "Status = " + status );
-
-                        final boolean deleteFile = "text/html".equals( status.getContentType() );
-
-                        //
-                        // boolean deleteFile = file.length() == 0;
-                        //
-                        // if( "text/html".equals( status.getContentType() ) ) {
-                        // deleteFile = true;
-                        // }
-
-                        if( deleteFile ) {
-                            file.delete();
-
-                            System.out.println( "*** file '" + file + "' BAD STATUS ! deleted..." );
-                        } else {
-                            System.out.println( "file '" + file + "' OK" );
-                        }
-                    }
-                    catch( final java.io.FileNotFoundException e ) {
-                        System.out.println( "### url '" + url + "' NotFound - skipped..." );
-                    }
-                }
-            }
-        }
-
-    }
+//    /**
+//     **
+//     **
+//     ** .javaProxy cx.ath.choisnet.net.URLHelper
+//     */
+//    public final static void main( final String[] argS ) // -------------------
+//            throws java.net.MalformedURLException, java.io.FileNotFoundException, java.io.IOException
+//    {
+//        //
+//        // http://www.humourhumour.com/galerie/49/image_2450.jpg
+//        // http://www.humourhumour.com/galerie/87/image_2446.jpg
+//        // http://www.humourhumour.com/galerie/85/image_2445.jpg
+//        // http://www.humourhumour.com/galerie/40/image_2444.jpg
+//        //
+//        //
+//        //
+//
+//        final String[] args = {
+//                // "http://video.zone-humour.com/videos_serie1/{1}.{0}",
+//                "http://www.humourhumour.com/galerie/49/image_{1,number,####}.{0}", "C:/news", "1000", "9999", "1" };
+//        final int pictures = 0;
+//        final int videos = 1;
+//        final String[][] commonsExtentions = { { "gif", "png", "jpg", "jpeg", "jpe", "tif", "bmp" }, // pictures
+//                { "asf", "avi", "mov", "mpeg", "mpe", "mpg", "wmv" } // videos
+//        };
+//        final String[] extentions = commonsExtentions[ pictures ];
+//
+//        final java.text.MessageFormat msgfmt = new java.text.MessageFormat( args[ 0 ] );
+//        final File dirFile = new File( args[ 1 ] );
+//        final int from = Integer.parseInt( args[ 2 ] );
+//        final int to = Integer.parseInt( args[ 3 ] );
+//        final int step = Integer.parseInt( args[ 4 ] );
+//        final Object[] params = new Object[2];
+//
+//        final URLHelper urlHelper = new URLHelper().setConnectRetryCount( 3 ).setDelaisBeforeRetry( 5000 );
+//
+//        for( int i = from; i <= to; i += step ) {
+//            params[ 1 ] = new Integer( i );
+//
+//            for( final String ext : extentions ) {
+//                params[ 0 ] = ext;
+//
+//                final String str = msgfmt.format( params );
+//                final File file = new File( dirFile, str.substring( str.lastIndexOf( '/' ) + 1 ) );
+//
+//                if( file.exists() ) {
+//                    System.out.println( "*** file '" + file + "' existe ! skipped..." );
+//                } else {
+//                    final URL url = new URL( str );
+//
+//                    System.out.println( "url =" + url );
+//
+//                    try {
+//                        final Status status = urlHelper.download( url, file );
+//
+//                        System.out.println( "Status = " + status );
+//
+//                        final boolean deleteFile = "text/html".equals( status.getContentType() );
+//
+//                        //
+//                        // boolean deleteFile = file.length() == 0;
+//                        //
+//                        // if( "text/html".equals( status.getContentType() ) ) {
+//                        // deleteFile = true;
+//                        // }
+//
+//                        if( deleteFile ) {
+//                            file.delete();
+//
+//                            System.out.println( "*** file '" + file + "' BAD STATUS ! deleted..." );
+//                        } else {
+//                            System.out.println( "file '" + file + "' OK" );
+//                        }
+//                    }
+//                    catch( final java.io.FileNotFoundException e ) {
+//                        System.out.println( "### url '" + url + "' NotFound - skipped..." );
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
 
 } // class
