@@ -180,7 +180,7 @@ public class JPanelConfirm extends JPanel
     private void beSurNonFinal()
     {
         this.txtWaiting = "Waitting for user...";
-        this.txtTitle = "%d file(s) selected to be deleted";
+        this.txtTitle = "%d file(s) selected to be deleted (total size: %d)";
         this.txtMsgDone = "Done";
         this.txtCopy = "Copy";
         this.msgStr_doDeleteExceptiontitle = "Error while deleting files";
@@ -217,7 +217,21 @@ public class JPanelConfirm extends JPanel
         jProgressBarDeleteProcess.setString( txtWaiting  );
         jProgressBarDeleteProcess.setStringPainted( true );
 
-        jLabelTitle.setText( String.format( txtTitle, Integer.valueOf( tableDts_toDelete.size() ) ) );
+        final Integer numberOfFilesToDelete = Integer.valueOf( tableDts_toDelete.size() );
+        final Long    sizeOfFilesToDelete   = Long.valueOf( getSizeOfFilesToDelete( tableDts_toDelete ) );
+
+        jLabelTitle.setText( String.format( txtTitle, numberOfFilesToDelete, sizeOfFilesToDelete ) );
+    }
+
+    private long getSizeOfFilesToDelete( final JPanelConfirmModel tableDts_toDelete2 )
+    {
+        long size = 0;
+
+        for( int i = 0; i<tableDts_toDelete.size(); i++ ) {
+            size += tableDts_toDelete.getFileLength( i ).longValue();
+        }
+
+        return size;
     }
 
     private JPopupMenuForJTable newJPopupMenuForJTable()
