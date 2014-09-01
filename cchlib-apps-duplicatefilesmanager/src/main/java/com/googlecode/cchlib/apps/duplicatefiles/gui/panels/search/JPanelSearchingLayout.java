@@ -17,7 +17,9 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 //NOT public
-abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implements I18nAutoCoreUpdatable
+abstract class JPanelSearchingLayout
+    extends JPanelSearchingDisplayI18n
+        implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingLayout.class );
@@ -32,9 +34,13 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
     private final JLabel jLabelBytesReadFromDisk;
     private final JLabel jLabelDuplicateSetsFound;
     private final JLabel jLabelDuplicateFilesFound;
+    private final JLabel jLabelSizeOfAllDuplicates;
+    private final JLabel jLabelSavedSize;
 
     @I18nIgnore private final JLabel jLabelDuplicateSetsFoundValue;
     @I18nIgnore private final JLabel jLabelDuplicateFilesFoundValue;
+    @I18nIgnore private JLabel jLabelSizeOfAllDuplicatesValue;
+    @I18nIgnore private JLabel jLabelSavedSizeValue;
 
     private final JPanelCurrentFiles panelCurrentFiles;
 
@@ -53,9 +59,9 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
         LOGGER.info( "nThreads = " +nThreads );
 
         final GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWidths = new int[]{0, 0, 0};
+        gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 30, 30, 0};
-        gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+        gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 2.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
@@ -72,6 +78,7 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
         {// line 0
             jProgressBarFiles = new JProgressBar();
             final GridBagConstraints gbc_jProgressBarFiles = new GridBagConstraints();
+            gbc_jProgressBarFiles.gridwidth = 3;
             gbc_jProgressBarFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jProgressBarFiles.insets = new Insets(0, 0, 5, 0);
             gbc_jProgressBarFiles.gridx = 1;
@@ -92,6 +99,7 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
         {// line 1
             jProgressBarOctets = new JProgressBar();
             final GridBagConstraints gbc_jProgressBarOctets = new GridBagConstraints();
+            gbc_jProgressBarOctets.gridwidth = 3;
             gbc_jProgressBarOctets.fill = GridBagConstraints.HORIZONTAL;
             gbc_jProgressBarOctets.insets = new Insets(0, 0, 5, 0);
             gbc_jProgressBarOctets.gridx = 1;
@@ -100,12 +108,31 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
         }
 
         {// line 2
+            this.jLabelSizeOfAllDuplicates = new JLabel("Size of all duplicates :");
+            this.jLabelSizeOfAllDuplicates.setHorizontalAlignment(SwingConstants.RIGHT);
+            final GridBagConstraints gbc_jLabelSizeOfAllDuplicates = new GridBagConstraints();
+            gbc_jLabelSizeOfAllDuplicates.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jLabelSizeOfAllDuplicates.insets = new Insets(0, 0, 5, 5);
+            gbc_jLabelSizeOfAllDuplicates.gridx = 0;
+            gbc_jLabelSizeOfAllDuplicates.gridy = 2;
+            add(this.jLabelSizeOfAllDuplicates, gbc_jLabelSizeOfAllDuplicates);
+        }
+        {// line 2
+            this.jLabelSizeOfAllDuplicatesValue = new JLabel("0");
+            final GridBagConstraints gbc_jLabelSizeOfAllDuplicatesValue = new GridBagConstraints();
+            gbc_jLabelSizeOfAllDuplicatesValue.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jLabelSizeOfAllDuplicatesValue.insets = new Insets(0, 0, 5, 5);
+            gbc_jLabelSizeOfAllDuplicatesValue.gridx = 1;
+            gbc_jLabelSizeOfAllDuplicatesValue.gridy = 2;
+            add(this.jLabelSizeOfAllDuplicatesValue, gbc_jLabelSizeOfAllDuplicatesValue);
+        }
+        {// line 2
             jLabelDuplicateSetsFound = new JLabel("Duplicate sets found :");
             jLabelDuplicateSetsFound.setHorizontalAlignment(SwingConstants.RIGHT);
             final GridBagConstraints gbc_jLabelDuplicateSetsFound = new GridBagConstraints();
             gbc_jLabelDuplicateSetsFound.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDuplicateSetsFound.insets = new Insets(0, 0, 5, 5);
-            gbc_jLabelDuplicateSetsFound.gridx = 0;
+            gbc_jLabelDuplicateSetsFound.gridx = 2;
             gbc_jLabelDuplicateSetsFound.gridy = 2;
             add(jLabelDuplicateSetsFound, gbc_jLabelDuplicateSetsFound);
         }
@@ -114,11 +141,30 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
             final GridBagConstraints gbc_jLabelDuplicateSetsFoundValue = new GridBagConstraints();
             gbc_jLabelDuplicateSetsFoundValue.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDuplicateSetsFoundValue.insets = new Insets(0, 0, 5, 0);
-            gbc_jLabelDuplicateSetsFoundValue.gridx = 1;
+            gbc_jLabelDuplicateSetsFoundValue.gridx = 3;
             gbc_jLabelDuplicateSetsFoundValue.gridy = 2;
             add(jLabelDuplicateSetsFoundValue, gbc_jLabelDuplicateSetsFoundValue);
         }
 
+        {// line 3
+            this.jLabelSavedSize = new JLabel("Size could be save :");
+            this.jLabelSavedSize.setHorizontalAlignment(SwingConstants.RIGHT);
+            final GridBagConstraints gbc_jLabelSavedSize = new GridBagConstraints();
+            gbc_jLabelSavedSize.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jLabelSavedSize.insets = new Insets(0, 0, 5, 5);
+            gbc_jLabelSavedSize.gridx = 0;
+            gbc_jLabelSavedSize.gridy = 3;
+            add(this.jLabelSavedSize, gbc_jLabelSavedSize);
+        }
+        {// line 3
+            this.jLabelSavedSizeValue = new JLabel("0");
+            final GridBagConstraints gbc_jLabelSavedSizeValue = new GridBagConstraints();
+            gbc_jLabelSavedSizeValue.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jLabelSavedSizeValue.insets = new Insets(0, 0, 5, 5);
+            gbc_jLabelSavedSizeValue.gridx = 1;
+            gbc_jLabelSavedSizeValue.gridy = 3;
+            add(this.jLabelSavedSizeValue, gbc_jLabelSavedSizeValue);
+        }
         {// line 3
             jLabelDuplicateFilesFound = new JLabel();
             jLabelDuplicateFilesFound.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -126,7 +172,7 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
             final GridBagConstraints gbc_jLabelDuplicateFilesFound = new GridBagConstraints();
             gbc_jLabelDuplicateFilesFound.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDuplicateFilesFound.insets = new Insets(0, 0, 5, 5);
-            gbc_jLabelDuplicateFilesFound.gridx = 0;
+            gbc_jLabelDuplicateFilesFound.gridx = 2;
             gbc_jLabelDuplicateFilesFound.gridy = 3;
             add(jLabelDuplicateFilesFound, gbc_jLabelDuplicateFilesFound);
         }
@@ -136,7 +182,7 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
             final GridBagConstraints gbc_jLabelDuplicateFilesFoundValue = new GridBagConstraints();
             gbc_jLabelDuplicateFilesFoundValue.fill = GridBagConstraints.BOTH;
             gbc_jLabelDuplicateFilesFoundValue.insets = new Insets(0, 0, 5, 0);
-            gbc_jLabelDuplicateFilesFoundValue.gridx = 1;
+            gbc_jLabelDuplicateFilesFoundValue.gridx = 3;
             gbc_jLabelDuplicateFilesFoundValue.gridy = 3;
             add(jLabelDuplicateFilesFoundValue, gbc_jLabelDuplicateFilesFoundValue);
         }
@@ -144,7 +190,7 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
         {// line 4
             this.panelCurrentFiles = new JPanelCurrentFiles( nThreads );
             final GridBagConstraints gbc_panelCurrentFile = new GridBagConstraints();
-            gbc_panelCurrentFile.gridwidth = 2;
+            gbc_panelCurrentFile.gridwidth = 4;
             gbc_panelCurrentFile.insets = new Insets(0, 0, 5, 0);
             gbc_panelCurrentFile.fill = GridBagConstraints.BOTH;
             gbc_panelCurrentFile.gridx = 0;
@@ -156,7 +202,7 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
             final JScrollPane scrollPane = new JScrollPane();
             final GridBagConstraints gbc_scrollPane = new GridBagConstraints();
             gbc_scrollPane.fill = GridBagConstraints.BOTH;
-            gbc_scrollPane.gridwidth = 2;
+            gbc_scrollPane.gridwidth = 4;
             gbc_scrollPane.gridx = 0;
             gbc_scrollPane.gridy = 5;
             add(scrollPane, gbc_scrollPane);
@@ -274,6 +320,16 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
     private void setCurrentDir( final String currentDir )
     {
         panelCurrentFiles.setCurrentDir( currentDir );
+    }
+
+    protected JLabel getjLabelSizeOfAllDuplicatesValue()
+    {
+        return jLabelSizeOfAllDuplicatesValue;
+    }
+
+    protected JLabel getjLabelSavedSizeValue()
+    {
+        return jLabelSavedSizeValue;
     }
 
 //    public void clear()
