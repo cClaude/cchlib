@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.HashMapSet;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  * Perform 2 pass to check duplicate.
@@ -152,7 +152,7 @@ public class DuplicateFileCollector
         int  c = 0;
         long l = 0;
 
-        for(final Set<File> s:mapLengthFiles.values()) {
+        for( final Set<File> s : mapLengthFiles.values() ) {
             if( s.size() > 1 ) {
                 c += s.size();
                 for(final File f:s) {
@@ -204,12 +204,12 @@ public class DuplicateFileCollector
         super.removeNonDuplicate();
     }
 
-    private void handlePass2ForFile( final File f )
+    private void handlePass2ForFile( final File file )
     {
-        notify( f );
+        notify( file );
 
         try {
-            mdf.compute( f, listeners );
+            mdf.compute( file, listeners );
 
             final String key = mdf.digestString();
             Set<File>    set = super.mapHashFile.get( key );
@@ -227,10 +227,10 @@ public class DuplicateFileCollector
                     this.duplicateFilesCount++;
                     }
                 }
-               set.add( f );
+               set.add( file );
             }
         catch(final IOException e) {
-            notify(e,f);
+            notify(e,file);
             }
         catch( final CancelRequestException e ) { // $codepro.audit.disable logExceptions
             setCancelProcess( true );

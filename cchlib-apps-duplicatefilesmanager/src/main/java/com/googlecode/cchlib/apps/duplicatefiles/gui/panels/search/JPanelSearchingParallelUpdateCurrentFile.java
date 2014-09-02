@@ -96,7 +96,7 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
         displayFiles[ threadNumber ] = file;
    }
 
-    private final static <T> void clear( final T [] array )
+    private final static <T> void clear( final T[] array )
     {
         Arrays.fill( array, 0, array.length - 1, null );
     }

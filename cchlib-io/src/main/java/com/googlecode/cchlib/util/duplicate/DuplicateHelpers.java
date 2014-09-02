@@ -18,10 +18,10 @@ public final class DuplicateHelpers {
      */
     public static <KEY> int removeNonDuplicate( final Map<KEY, Set<File>> mapSet )
     {
-        int                 count = 0;
+        int                       count = 0;
         final Iterator<Set<File>> iter  = mapSet.values().iterator();
 
-        while(iter.hasNext()) {
+        while( iter.hasNext() ) {
             final Set<File> s = iter.next();
 
             if( s.size() < 2 ) {

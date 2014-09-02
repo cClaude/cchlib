@@ -65,7 +65,9 @@ public class DuplicateFileFinder
     }
 
     @NeedDoc
-    public synchronized Map<String, Set<File>> computeHash(@Nonnull final Map<Long, Set<File>> mapLengthFiles )
+    public synchronized Map<String, Set<File>> computeHash( //
+            @Nonnull final Map<Long, Set<File>> mapLengthFiles //
+            )
         throws IllegalStateException, NoSuchAlgorithmException, InterruptedException, ExecutionException
     {
         if( mapLengthFiles == null ) {
@@ -99,7 +101,7 @@ public class DuplicateFileFinder
         return messageDigestFileBuilder.newMessageDigestFile();
     }
 
-    protected static int computeMapSize( final Map<Long, Set<File>> mapLengthFiles )
+    protected static int computeMapSize( @Nonnull final Map<Long, Set<File>> mapLengthFiles )
     {
         final int size = mapLengthFiles.size();
         if( size <= 0 ) {
@@ -124,7 +126,7 @@ public class DuplicateFileFinder
 
     private Map<String, Set<File>> computeHashForSet( //
             final MessageDigestFile mdf,
-            final Set<File> filesSet
+            final Set<File>         filesSet
             )
     {
         final Map<String, Set<File>> hashs = new HashMap<>();
