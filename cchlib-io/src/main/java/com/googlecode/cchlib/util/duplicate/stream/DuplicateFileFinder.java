@@ -3,9 +3,9 @@ package com.googlecode.cchlib.util.duplicate.stream;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -15,42 +15,21 @@ import java.util.concurrent.ExecutionException;
 import javax.annotation.Nonnull;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.duplicate.DigestEventListener;
 import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
 import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
 
 @NeedDoc
 public class DuplicateFileFinder
 {
-    @NeedDoc
-    public interface MessageDigestFileBuilder {
-        MessageDigestFile newMessageDigestFile() throws NoSuchAlgorithmException;
-
-        /** @see MessageDigest#getInstance */
-        public static MessageDigestFileBuilder newMessageDigestFileBuilder( final String algorithm, final int bufferSize ) throws NoSuchAlgorithmException {
-            return ( ) -> new MessageDigestFile( algorithm, bufferSize );
-        }
-    }
-
-    @NeedDoc
-    public interface DuplicateFileFinderListener extends DigestEventListener {
-//        void computeDigest( long threadId, File file );
-//
-//        @Override
-//        default void computeDigest( final File file ) {
-//            final long threadId = Thread.currentThread().getId();
-//
-//            computeDigest( threadId, file );
-//        }
-    }
-
     private final MessageDigestFileBuilder messageDigestFileBuilder;
     private final DuplicateFileFinderListener listener;
+    private final EnumSet<DuplicateFileFinderConfig> config;
 
     @NeedDoc
     public DuplicateFileFinder(
-        @Nonnull final MessageDigestFileBuilder      messageDigestFileBuilder,
-        @Nonnull final DuplicateFileFinderListener   listener
+        @Nonnull final MessageDigestFileBuilder     messageDigestFileBuilder,
+        @Nonnull final DuplicateFileFinderListener  listener,
+        final          EnumSet<DuplicateFileFinderConfig>              config
         ) throws InvalidParameterException
     {
         if( messageDigestFileBuilder == null ) {
@@ -62,6 +41,7 @@ public class DuplicateFileFinder
 
         this.messageDigestFileBuilder   = messageDigestFileBuilder;
         this.listener                   = listener;
+        this.config                     = config == null ? EnumSet.noneOf( DuplicateFileFinderConfig.class ) : config;
     }
 
     @NeedDoc
@@ -88,9 +68,10 @@ public class DuplicateFileFinder
             }
         }
 
-        if( listener.isCancel() ) {
+        if( listener.isCancel() && config.contains( DuplicateFileFinderConfig.CLEAN_ON_CANCEL ) ) {
             return Collections.emptyMap();
         }
+
         DuplicateHelpers.removeNonDuplicate( mapHashFiles );
 
         return mapHashFiles;
@@ -113,7 +94,7 @@ public class DuplicateFileFinder
         }
     }
 
-    private static void addAll( final Map<String, Set<File>> mapHashFiles, final Map<String, Set<File>> hashForSet )
+    private void addAll( final Map<String, Set<File>> mapHashFiles, final Map<String, Set<File>> hashForSet )
     {
         for( final Entry<String, Set<File>> entry : hashForSet.entrySet() ) {
             assert ! mapHashFiles.containsKey( entry.getKey() );
@@ -122,6 +103,8 @@ public class DuplicateFileFinder
                 mapHashFiles.put( entry.getKey(), entry.getValue() );
             }
         }
+
+        listener.newDataAvailable( ( ) -> Collections.unmodifiableMap( mapHashFiles ) );
     }
 
     private Map<String, Set<File>> computeHashForSet( //

@@ -14,8 +14,6 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.io.IO;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.MessageDigestFileBuilder;
 
 abstract class DuplicateFileFinderTestBase {
 
