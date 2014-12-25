@@ -32,7 +32,7 @@ public class PropertiesPersistentAnnotationForMethodImpl<E> //
     public void setValue( final E bean, final String strValue, final Class<?> type ) throws IllegalArgumentException, IllegalAccessException,
             ConvertCantNotHandleTypeException, PropertiesPopulatorException, InvocationTargetException
     {
-        final Object swingObject = method.invoke( bean );
+        final Object swingObject = this.method.invoke( bean );
 
         setValue( swingObject, strValue );
     }
@@ -47,25 +47,31 @@ public class PropertiesPersistentAnnotationForMethodImpl<E> //
     @Override
     public Method getMethodOrField()
     {
-        return method;
+        return this.method;
     }
 
     @Override
     public Method getGetter()
     {
-        return method;
+        return this.method;
     }
 
     @Override
     public Method getSetter()
     {
-        return method;
+        return this.method;
     }
 
     @Override
     public String getAttributeName()
     {
-        return attributeName;
+        return this.attributeName;
+    }
+
+    @Override
+    public FieldOrMethod getFieldOrMethod()
+    {
+        return new FieldOrMethod( this.method );
     }
 
 }

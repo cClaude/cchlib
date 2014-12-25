@@ -50,4 +50,10 @@ final class PropertiesPersistentAnnotationForFieldImpl<E> //
     {
         return field;
     }
+
+    @Override
+    public FieldOrMethod getFieldOrMethod()
+    {
+        return new FieldOrMethod( field );
+    }
 }
