@@ -46,7 +46,7 @@ public final class PreferencesControlerFactory
         }
         catch( final IOException e ) {
             if( useDefaultFile ) {
-                LOGGER.warn( "Can not read JSON preferences file: " + preferencesFileToUse, e );
+                LOGGER.warn( "Can not read JSON preferences file, create a new one : " + preferencesFileToUse, e );
 
                 preferences = createPropertiesPreferences();
             } else {
