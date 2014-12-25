@@ -21,7 +21,7 @@ final class PropertiesPopulatorAnnotationForFieldImpl<E> //
     public void setValue( final E bean, final String strValue, final Class<?> type ) throws IllegalArgumentException, IllegalAccessException,
             ConvertCantNotHandleTypeException, PropertiesPopulatorException
     {
-        field.set( bean, private_convertStringToObject( strValue, type ) );
+        this.field.set( bean, private_convertStringToObject( strValue, type ) );
     }
 
     @Override
@@ -34,7 +34,7 @@ final class PropertiesPopulatorAnnotationForFieldImpl<E> //
     @Override
     public Field getMethodOrField()
     {
-        return field;
+        return this.field;
     }
 
     @Override
@@ -46,6 +46,12 @@ final class PropertiesPopulatorAnnotationForFieldImpl<E> //
     @Override
     public Field getField()
     {
-        return field;
+        return this.field;
+    }
+
+    @Override
+    public FieldOrMethod getFieldOrMethod()
+    {
+        return new FieldOrMethod( this.field );
     }
 }

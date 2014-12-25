@@ -14,4 +14,5 @@ interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD> {
                 ConvertCantNotHandleTypeException, PropertiesPopulatorException;
 
         METHOD_OR_FIELD getMethodOrField();
+        FieldOrMethod   getFieldOrMethod();
 }

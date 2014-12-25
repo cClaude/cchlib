@@ -33,7 +33,7 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E> //
     {
         final Object[] parameters = new Object[] { private_convertStringToObject( strValue, type ) };
 
-        setter.invoke( bean, parameters );
+        this.setter.invoke( bean, parameters );
     }
 
     @Override
@@ -46,7 +46,7 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E> //
     @Override
     public Method getMethodOrField()
     {
-        return setter;
+        return this.setter;
     }
 
     @Override
@@ -58,18 +58,25 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E> //
     @Override
     public Method getGetter()
     {
-        return getter;
+        return this.getter;
     }
 
     @Override
     public Method getSetter()
     {
-        return setter;
+        return this.setter;
     }
 
     @Override
     public String getAttributeName()
     {
-        return attributeName;
+        return this.attributeName;
+    }
+
+    @Override
+    public FieldOrMethod getFieldOrMethod()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -31,12 +31,12 @@ class PropertiesToBean<E>
         this.bean       = bean;
 
         if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
-            prefix = null;
-            prefixLength = 0;
+            this.prefix = null;
+            this.prefixLength = 0;
             }
         else {
-            prefix = new StringBuilder( propertiesPrefix );
-            prefixLength = prefix.length();
+            this.prefix = new StringBuilder( propertiesPrefix );
+            this.prefixLength = this.prefix.length();
             }
      }
 
@@ -56,7 +56,7 @@ class PropertiesToBean<E>
                 final String strValue      = getStringValue( attributeName, defaultValue );
 
                 try {
-                    entryValue.setValue( bean, strValue, getter.getReturnType() );
+                    entryValue.setValue( this.bean, strValue, getter.getReturnType() );
                 }
                 catch( IllegalArgumentException | IllegalAccessException | PropertiesPopulatorException | InvocationTargetException | ConvertCantNotHandleTypeException e ) {
                     LOGGER.warn( "Cannot set field for Method: " + getter + " * strValue=[" + strValue + "] / defaultValue=[" + defaultValue + ']', e );
@@ -71,7 +71,7 @@ class PropertiesToBean<E>
                 final Class<?> type = setter.getParameters()[ 0 ].getType();
 
                 if( type.isArray() ) {
-                    handleArrayMethod( entry.getKey(), entryValue, prefix, prefixLength );
+                    handleArrayMethod( entry.getKey(), entryValue, this.prefix, this.prefixLength );
                     }
                 else {
                     handleNonArrayMethod( entry.getKey(), entryValue, type );
@@ -95,10 +95,10 @@ class PropertiesToBean<E>
         try {
             setter.setAccessible( true );
 
-            value.getPropertiesPopulatorSetter().setValue( bean, strValue, type );
+            value.getPropertiesPopulatorSetter().setValue( this.bean, strValue, type );
             }
         catch( final ConvertCantNotHandleTypeException e ) {
-            throw new PopulatorException( "Bad type for method", setter, setter.getReturnType() );
+            throw new PropertiesPopulatorException( "Bad value [" + strValue + "] for method " + setter, e );
             }
         catch( IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
             // ignore !
@@ -124,7 +124,7 @@ class PropertiesToBean<E>
         try {
             method.setAccessible( true );
 
-            Object array = method.invoke( bean );
+            Object array = method.invoke( this.bean );
 
             final PropertiesPopulatorSetter<E,Method> propertiesPopulatorSetter = propertiesPopulatorAnnotation.getPropertiesPopulatorSetter();
 
@@ -135,7 +135,7 @@ class PropertiesToBean<E>
             if( (array == null) || (length != Array.getLength( array )) ) {
                 array = Array.newInstance( componentType, length );
                 //field.set( bean, array );
-                propertiesPopulatorAnnotation.getSetter().invoke( bean, array );
+                propertiesPopulatorAnnotation.getSetter().invoke( this.bean, array );
                 }
 
             populateArray( array, arrayType, length, stringValues, propertiesPopulatorSetter, componentType );
@@ -157,7 +157,7 @@ class PropertiesToBean<E>
             final PropertiesPopulatorAnnotationForField<E> entryValue = (PropertiesPopulatorAnnotationForField<E>)(entry.getValue());
 
             if( type.isArray() ) {
-                handleArrayField( entryValue, prefix, prefixLength );
+                handleArrayField( entryValue, this.prefix, this.prefixLength );
                 }
             else {
                 handleNonArrayField( entryValue, type );
@@ -180,7 +180,7 @@ class PropertiesToBean<E>
             field.setAccessible( true );
 
             if( PopulatorContener.class.isAssignableFrom( type ) ) {
-                final Object o = field.get( bean );
+                final Object o = field.get( this.bean );
 
                 if( o == null ) {
                     throw new PopulatorException( "Can't handle null for PopulatorContener field", field, field.getType() );
@@ -191,7 +191,7 @@ class PropertiesToBean<E>
                 }
             else {
                 try {
-                    entryValue.getPropertiesPopulatorSetter().setValue( bean, strValue, type );
+                    entryValue.getPropertiesPopulatorSetter().setValue( this.bean, strValue, type );
                     }
                 catch( final ConvertCantNotHandleTypeException | PropertiesPopulatorException | InvocationTargetException e ) {
                     throw new PopulatorException( "Bad type for field", field, field.getType() );
@@ -211,13 +211,13 @@ class PropertiesToBean<E>
     {
         final String strValue;
 
-        if( prefixLength == 0 ) {
-            strValue = properties.getProperty( attributName, defaultValue );
+        if( this.prefixLength == 0 ) {
+            strValue = this.properties.getProperty( attributName, defaultValue );
             }
         else {
-            prefix.setLength( prefixLength );
-            prefix.append( attributName );
-            strValue = properties.getProperty( prefix.toString(), defaultValue );
+            this.prefix.setLength( this.prefixLength );
+            this.prefix.append( attributName );
+            strValue = this.properties.getProperty( this.prefix.toString(), defaultValue );
             }
 
         return strValue;
@@ -252,7 +252,7 @@ class PropertiesToBean<E>
         try {
             field.setAccessible( true );
 
-            Object array = field.get( bean );
+            Object array = field.get( this.bean );
             final PropertiesPopulatorSetter<E,Field> propertiesPopulatorSetter = propertiesPopulatorAnnotation.getPropertiesPopulatorSetter();
 
             final int       length          = stringValues.size();
@@ -261,7 +261,7 @@ class PropertiesToBean<E>
 
             if( (array == null) || (length != Array.getLength( array )) ) {
                 array = Array.newInstance( componentType, length );
-                field.set( bean, array );
+                field.set( this.bean, array );
                 }
 
             populateArray( array, arrayType, length, stringValues, propertiesPopulatorSetter, componentType );
@@ -289,7 +289,12 @@ class PropertiesToBean<E>
                 propertiesPopulatorSetter.setArrayEntry( array, i, stringValues.get( i ), componentType );
                 }
             catch( final ConvertCantNotHandleTypeException e ) {
-                throw new PopulatorException( "Bad type for field", propertiesPopulatorSetter.getMethodOrField(), arrayType );
+                throw new PopulatorException( 
+                        "Bad type for field", 
+                        propertiesPopulatorSetter.getFieldOrMethod(), 
+                        arrayType,
+                        e
+                        );
                 }
             }
     }
@@ -317,7 +322,7 @@ class PropertiesToBean<E>
             prefix.append( '.' );
             prefix.append( i );
 
-            final String strValue = properties.getProperty( prefix.toString() );
+            final String strValue = this.properties.getProperty( prefix.toString() );
 
             if( strValue == null ) {
                 break;
