@@ -29,7 +29,7 @@ public class CheckBoxTreeCellRenderer extends JCheckBox implements TreeCellRende
 
         this.setFocusPainted((booleanValue != null)&& (booleanValue.booleanValue()));
 
-        this.setSelectionBorderColor(UIManager.getColor("Tree.selectionBorderColor"));
+//        this.setSelectionBorderColor(UIManager.getColor("Tree.selectionBorderColor"));
         this.setSelectionForeground(UIManager.getColor("Tree.selectionForeground"));
         this.setSelectionBackground(UIManager.getColor("Tree.selectionBackground"));
         this.setTextForeground(UIManager.getColor("Tree.textForeground"));
@@ -65,53 +65,53 @@ public class CheckBoxTreeCellRenderer extends JCheckBox implements TreeCellRende
         return this;
     }
 
-    private Color _selectionBorderColor;
+//    private Color _selectionBorderColor;
     private Color _selectionForeground;
     private Color _selectionBackground;
     private Color _textForeground;
     private Color _textBackground;
 
-    private Color getSelectionBorderColor() {
-        return _selectionBorderColor;
-    }
+//    private Color getSelectionBorderColor() {
+//        return _selectionBorderColor;
+//    }
 
-    private void setSelectionBorderColor(Color selectionBorderColor) {
-        this._selectionBorderColor = selectionBorderColor;
-    }
+//    private void setSelectionBorderColor(final Color selectionBorderColor) {
+//        this._selectionBorderColor = selectionBorderColor;
+//    }
 
     private Color getSelectionForeground() {
-        return _selectionForeground;
+        return this._selectionForeground;
     }
 
-    private void setSelectionForeground(Color selectionForeground) {
+    private void setSelectionForeground(final Color selectionForeground) {
         this._selectionForeground = selectionForeground;
     }
 
     private Color getSelectionBackground() {
-        return _selectionBackground;
+        return this._selectionBackground;
     }
 
-    private void setSelectionBackground(Color selectionBackground) {
+    private void setSelectionBackground(final Color selectionBackground) {
         this._selectionBackground = selectionBackground;
     }
 
     private Color getTextForeground() {
-        return _textForeground;
+        return this._textForeground;
     }
 
-    private void setTextForeground(Color textForeground) {
+    private void setTextForeground(final Color textForeground) {
         this._textForeground = textForeground;
     }
 
     private Color getTextBackground() {
-        return _textBackground;
+        return this._textBackground;
     }
 
-    private void setTextBackground(Color textBackground) {
+    private void setTextBackground(final Color textBackground) {
         this._textBackground = textBackground;
     }
 
-    public void setMarked(boolean isMarked){
+    public void setMarked(final boolean isMarked){
         this.setSelected(isMarked);
     }
 
