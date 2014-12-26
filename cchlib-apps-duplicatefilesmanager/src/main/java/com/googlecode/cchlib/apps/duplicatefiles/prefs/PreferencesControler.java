@@ -48,13 +48,13 @@ public class PreferencesControler implements Serializable
 
     public void applyLookAndFeel()
     {
-      String cn = preferences.getLookAndFeelClassName();
+      String cn = this.preferences.getLookAndFeelClassName();
 
       if( cn != null /*&& !cn.isEmpty()*/ ) {
           applyLookAndFeel( cn );
           }
 
-      cn = getLookAndFeelClassNameFromName( preferences.getLookAndFeelName() );
+      cn = getLookAndFeelClassNameFromName( this.preferences.getLookAndFeelName() );
 
       if( cn != null ) {
           applyLookAndFeel( cn );
@@ -88,14 +88,14 @@ public class PreferencesControler implements Serializable
 
     public void setLookAndFeelInfo( final LookAndFeelInfo lafi )
     {
-        preferences.setLookAndFeelClassName( lafi.getClassName() );
+        this.preferences.setLookAndFeelClassName( lafi.getClassName() );
         // Store name has well, if class not found
-        preferences.setLookAndFeelName( lafi.getName() );
+        this.preferences.setLookAndFeelName( lafi.getName() );
 
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.trace( "setLookAndFeelInfo: " + lafi );
-            LOGGER.trace( "lookAndFeelClassName: " + preferences.getLookAndFeelClassName() );
-            LOGGER.trace( "lookAndFeelName: " + preferences.getLookAndFeelName() );
+            LOGGER.trace( "lookAndFeelClassName: " + this.preferences.getLookAndFeelClassName() );
+            LOGGER.trace( "lookAndFeelName: " + this.preferences.getLookAndFeelName() );
         }
     }
 
@@ -104,18 +104,18 @@ public class PreferencesControler implements Serializable
         PreferencesBean       preferencesBean;
         PreferencesProperties preferencesProperties;
 
-        if( preferences instanceof PreferencesProperties ) {
-            preferencesProperties = PreferencesProperties.class.cast( preferences );
+        if( this.preferences instanceof PreferencesProperties ) {
+            preferencesProperties = PreferencesProperties.class.cast( this.preferences );
             preferencesBean       = preferencesProperties.getPreferencesBean();
         }
-        else if( preferences instanceof PreferencesBean ) {
-            preferencesBean = PreferencesBean.class.cast( preferences );
+        else if( this.preferences instanceof PreferencesBean ) {
+            preferencesBean = PreferencesBean.class.cast( this.preferences );
             preferencesProperties = new PreferencesProperties( //
                     PreferencesControlerFactory.getPropertiesPreferencesFile(), //
                     preferencesBean //
                     );
         } else {
-            throw new RuntimeException( "Can not handle preferences type : " + preferences );
+            throw new RuntimeException( "Can not handle preferences type : " + this.preferences );
         }
 
         preferencesProperties.save();
@@ -129,16 +129,16 @@ public class PreferencesControler implements Serializable
     public void setLocale( final Locale locale )
     {
         if( locale == null ) {
-            preferences.setLocaleLanguage( StringHelper.EMPTY );
+            this.preferences.setLocaleLanguage( StringHelper.EMPTY );
             }
         else {
-            preferences.setLocaleLanguage( locale.getLanguage() );
+            this.preferences.setLocaleLanguage( locale.getLanguage() );
             }
     }
 
     public Locale getLocale()
     {
-        final String localeLanguage = preferences.getLocaleLanguage();
+        final String localeLanguage = this.preferences.getLocaleLanguage();
 
         if( ( localeLanguage == null) || localeLanguage.isEmpty() ) {
             if( LOGGER.isTraceEnabled() ) {
@@ -153,12 +153,12 @@ public class PreferencesControler implements Serializable
 
     public Dimension getMinimumWindowDimension()
     {
-        final Dimension dimension = Dimensions.toDimension( preferences.getMinimumWindowDimension() );
+        final Dimension dimension = Dimensions.toDimension( this.preferences.getMinimumWindowDimension() );
 
         final Dimension newDimension = fixMinDimension( dimension, MINIMUM_WINDOW_WIDTH, MINIMUM_WINDOW_HEIGHT );
 
         // TODO remove this later...
-        preferences.setMinimumWindowDimension( Dimensions.toSerializableDimension( newDimension ) );
+        this.preferences.setMinimumWindowDimension( Dimensions.toSerializableDimension( newDimension ) );
 
         return newDimension;
     }
@@ -182,9 +182,9 @@ public class PreferencesControler implements Serializable
     {
         final int windowWidth;
 
-        final SerializableDimension windowDimension = preferences.getWindowDimension();
+        final SerializableDimension windowDimension = this.preferences.getWindowDimension();
 
-        if( windowDimension == null || windowDimension.getWidth() < WINDOWS_MIN_WIDTH ) {
+        if( (windowDimension == null) || (windowDimension.getWidth() < WINDOWS_MIN_WIDTH) ) {
             windowWidth = WINDOWS_DEFAULT_WIDTH;
             }
         else {
@@ -193,35 +193,35 @@ public class PreferencesControler implements Serializable
 
         int windowHeight;
 
-        if( windowDimension == null || windowDimension.getHeigth() < WINDOWS_MIN_HEIGTH ) {
+        if( (windowDimension == null) || (windowDimension.getHeight() < WINDOWS_MIN_HEIGTH) ) {
             windowHeight = WINDOWS_DEFAULT_HEIGTH;
             }
         else  {
-            windowHeight = (int)Math.ceil( windowDimension.getHeigth() );
+            windowHeight = (int)Math.ceil( windowDimension.getHeight() );
         }
 
-        preferences.setWindowDimension( windowDimension );
+        this.preferences.setWindowDimension( windowDimension );
 
         return new Dimension( windowWidth, windowHeight );
     }
 
     public Dimension getMinimumPreferenceDimension()
     {
-        final Dimension dimension = Dimensions.toDimension( preferences.getMinimumPreferenceDimension() );
+        final Dimension dimension = Dimensions.toDimension( this.preferences.getMinimumPreferenceDimension() );
 
         final Dimension newDimension = fixMinDimension( dimension, MINIMUM_PREFERENCE_WIDTH, MINIMUM_PREFERENCE_HEIGHT );
 
         // TODO remove this later...
-        preferences.setMinimumPreferenceDimension( Dimensions.toSerializableDimension( newDimension ) );
+        this.preferences.setMinimumPreferenceDimension( Dimensions.toSerializableDimension( newDimension ) );
 
         return newDimension;
    }
 
     public Collection<String> getIncFilesFilterPatternRegExpList()
     {
-        Collection<String> incFilesFilterPatternRegExpList = preferences.getIncFilesFilterPatternRegExpList();
+        Collection<String> incFilesFilterPatternRegExpList = this.preferences.getIncFilesFilterPatternRegExpList();
 
-        if( incFilesFilterPatternRegExpList == null || incFilesFilterPatternRegExpList.isEmpty() ) {
+        if( (incFilesFilterPatternRegExpList == null) || incFilesFilterPatternRegExpList.isEmpty() ) {
             incFilesFilterPatternRegExpList = new ArrayList<>();
 
             // TODO: Store this into prefs !
@@ -229,7 +229,7 @@ public class PreferencesControler implements Serializable
             incFilesFilterPatternRegExpList.add( "(.*?)\\.(reg)" );
 
             // TODO remove this later...
-            preferences.setIncFilesFilterPatternRegExpList( incFilesFilterPatternRegExpList );
+            this.preferences.setIncFilesFilterPatternRegExpList( incFilesFilterPatternRegExpList );
             }
 
         return incFilesFilterPatternRegExpList;
@@ -237,34 +237,34 @@ public class PreferencesControler implements Serializable
 
     public DividersLocation getJPaneResultDividerLocations()
     {
-        return preferences.getPanelResultDividerLocations();
+        return this.preferences.getPanelResultDividerLocations();
     }
 
     public boolean isIgnoreHiddenFiles()
     {
-        return preferences.isIgnoreHiddenFiles();
+        return this.preferences.isIgnoreHiddenFiles();
     }
 
     public SortMode getDefaultSortMode()
     {
-        SortMode sortMode = preferences.getDefaultSortMode();
+        SortMode sortMode = this.preferences.getDefaultSortMode();
 
         if( sortMode == null ) {
             sortMode = SortMode.FILESIZE; // FIXME get default mode from prefs
 
-            preferences.setDefaultSortMode( sortMode );
+            this.preferences.setDefaultSortMode( sortMode );
         }
         return sortMode;
     }
 
     public SelectFirstMode getDefaultSelectFirstMode()
     {
-        SelectFirstMode selectFirstMode = preferences.getDefaultSelectFirstMode();
+        SelectFirstMode selectFirstMode = this.preferences.getDefaultSelectFirstMode();
 
         if( selectFirstMode == null ) {
             selectFirstMode = SelectFirstMode.QUICK; // FIXME get default mode from prefs
 
-            preferences.setDefaultSelectFirstMode( selectFirstMode );
+            this.preferences.setDefaultSelectFirstMode( selectFirstMode );
         }
 
         return selectFirstMode;
@@ -272,12 +272,12 @@ public class PreferencesControler implements Serializable
 
     public ConfigMode getConfigMode()
     {
-        ConfigMode configMode = preferences.getConfigMode();
+        ConfigMode configMode = this.preferences.getConfigMode();
 
         if( configMode == null ) {
             configMode = ConfigMode.BEGINNER;
 
-            preferences.setConfigMode( configMode );
+            this.preferences.setConfigMode( configMode );
            }
 
         return configMode;
@@ -285,12 +285,12 @@ public class PreferencesControler implements Serializable
 
     public int getDeleteSleepDisplay()
     {
-        int deleteSleepDisplay = preferences.getDeleteSleepDisplay();
+        int deleteSleepDisplay = this.preferences.getDeleteSleepDisplay();
 
         if( deleteSleepDisplay < 0 ) {
             deleteSleepDisplay = DEFAULT_DELETE_SLEEP_DELAIS;
 
-            preferences.setDeleteSleepDisplay( deleteSleepDisplay );
+            this.preferences.setDeleteSleepDisplay( deleteSleepDisplay );
         }
 
         return deleteSleepDisplay;
@@ -298,12 +298,12 @@ public class PreferencesControler implements Serializable
 
     public int getDeleteSleepDisplayMaxEntries()
     {
-        int deleteSleepDisplayMaxEntries = preferences.getDeleteSleepDisplayMaxEntries();
+        int deleteSleepDisplayMaxEntries = this.preferences.getDeleteSleepDisplayMaxEntries();
 
         if( deleteSleepDisplayMaxEntries < 0 ) {
             deleteSleepDisplayMaxEntries = DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES;
 
-            preferences.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntries );
+            this.preferences.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntries );
         }
 
         return deleteSleepDisplayMaxEntries;
@@ -311,12 +311,12 @@ public class PreferencesControler implements Serializable
 
     public String getMessageDigestAlgorithm()
     {
-        String messageDigestAlgorithm = preferences.getMessageDigestAlgorithm();
+        String messageDigestAlgorithm = this.preferences.getMessageDigestAlgorithm();
 
-        if( messageDigestAlgorithm == null || messageDigestAlgorithm.isEmpty() ) {
+        if( (messageDigestAlgorithm == null) || messageDigestAlgorithm.isEmpty() ) {
             messageDigestAlgorithm = "MD5"; // FIXME get default Algorithm from prefs
 
-            preferences.setMessageDigestAlgorithm( messageDigestAlgorithm );
+            this.preferences.setMessageDigestAlgorithm( messageDigestAlgorithm );
         }
 
         return messageDigestAlgorithm;
@@ -324,17 +324,17 @@ public class PreferencesControler implements Serializable
 
     public boolean isIgnoreReadOnlyFiles()
     {
-        return preferences.isIgnoreReadOnlyFiles();
+        return this.preferences.isIgnoreReadOnlyFiles();
     }
 
     public int getMessageDigestBufferSize()
     {
-        int messageDigestBufferSize = preferences.getMessageDigestBufferSize();
+        int messageDigestBufferSize = this.preferences.getMessageDigestBufferSize();
 
         if( messageDigestBufferSize < MIN_MESSAGE_DIGEST_BUFFER_SIZE ) {
             messageDigestBufferSize = DEFAULT_MESSAGEDIGEST_BUFFER_SIZE;
 
-            preferences.setMessageDigestBufferSize( messageDigestBufferSize );
+            this.preferences.setMessageDigestBufferSize( messageDigestBufferSize );
             }
 
         return messageDigestBufferSize;
@@ -342,67 +342,67 @@ public class PreferencesControler implements Serializable
 
     public boolean isIgnoreEmptyFiles()
     {
-        return preferences.isIgnoreEmptyFiles();
+        return this.preferences.isIgnoreEmptyFiles();
     }
 
     public void setConfigMode( final ConfigMode configMode )
     {
-        preferences.setConfigMode( configMode );
+        this.preferences.setConfigMode( configMode );
     }
 
     public void setDeleteSleepDisplay( final int deleteSleepDisplay )
     {
-        preferences.setDeleteSleepDisplay( deleteSleepDisplay );
+        this.preferences.setDeleteSleepDisplay( deleteSleepDisplay );
     }
 
     public void setDeleteSleepDisplayMaxEntries( final int deleteSleepDisplayMaxEntries )
     {
-        preferences.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntries );
+        this.preferences.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntries );
     }
 
     public void setMessageDigestBufferSize( final int messageDigestBufferSize )
     {
-        preferences.setMessageDigestBufferSize( messageDigestBufferSize );
+        this.preferences.setMessageDigestBufferSize( messageDigestBufferSize );
     }
 
     public boolean isIgnoreHiddenDirectories()
     {
-        return preferences.isIgnoreHiddenDirectories();
+        return this.preferences.isIgnoreHiddenDirectories();
     }
 
     public void setIgnoreHiddenFiles( final boolean ignoreHiddenFiles )
     {
-        preferences.setIgnoreHiddenFiles( ignoreHiddenFiles );
+        this.preferences.setIgnoreHiddenFiles( ignoreHiddenFiles );
     }
 
     public void setIgnoreReadOnlyFiles( final boolean ignoreReadOnlyFiles )
     {
-        preferences.setIgnoreReadOnlyFiles( ignoreReadOnlyFiles );
+        this.preferences.setIgnoreReadOnlyFiles( ignoreReadOnlyFiles );
     }
 
     public void setIgnoreHiddenDirectories( final boolean ignoreHiddenDirectories )
     {
-        preferences.setIgnoreHiddenDirectories( ignoreHiddenDirectories );
+        this.preferences.setIgnoreHiddenDirectories( ignoreHiddenDirectories );
     }
 
     public void setIgnoreEmptyFiles( final boolean ignoreEmptyFiles )
     {
-        preferences.setIgnoreEmptyFiles( ignoreEmptyFiles );
+        this.preferences.setIgnoreEmptyFiles( ignoreEmptyFiles );
     }
 
     public void setWindowDimension( final Dimension mainWindowDimension )
     {
-        preferences.setWindowDimension( Dimensions.toSerializableDimension( mainWindowDimension ) );
+        this.preferences.setWindowDimension( Dimensions.toSerializableDimension( mainWindowDimension ) );
     }
 
     public int getNumberOfThreads()
     {
-        int maxThreads = preferences.getNumberOfThreads();
+        int maxThreads = this.preferences.getNumberOfThreads();
 
         if( (maxThreads < 1) || (maxThreads > Runtime.getRuntime().availableProcessors()) ) {
             maxThreads = computeMaxThreads();
 
-            preferences.setNumberOfThreads( maxThreads );
+            this.preferences.setNumberOfThreads( maxThreads );
         }
 
         return maxThreads;
@@ -420,7 +420,7 @@ public class PreferencesControler implements Serializable
 
     public void setNumberOfThreads( final int maxThreads )
     {
-        preferences.setNumberOfThreads( maxThreads );
+        this.preferences.setNumberOfThreads( maxThreads );
     }
 
     public Integer getDefaultMessageDigestBufferSize()

@@ -14,7 +14,7 @@ public final class Dimensions
         final Dimension dimension = new Dimension();
 
         if( serializableDimension != null ) {
-            dimension.setSize( serializableDimension.getWidth(), serializableDimension.getHeigth() );
+            dimension.setSize( serializableDimension.getWidth(), serializableDimension.getHeight() );
         }
         return dimension;
     }

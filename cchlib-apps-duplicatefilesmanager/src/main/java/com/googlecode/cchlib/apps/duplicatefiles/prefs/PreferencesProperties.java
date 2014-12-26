@@ -38,7 +38,7 @@ final class PreferencesProperties implements Preferences, Serializable
 
     void load(final Properties properties )
     {
-        pp.populateBean( properties, this );
+        this.pp.populateBean( properties, this );
     }
 
     /**
@@ -49,9 +49,9 @@ final class PreferencesProperties implements Preferences, Serializable
     {
         final Properties properties = new Properties();
 
-        pp.populateProperties( this, properties );
+        this.pp.populateProperties( this, properties );
 
-        final File prefs = preferencesFile;
+        final File prefs = this.preferencesFile;
         PropertiesHelper.saveProperties(prefs, properties, StringHelper.EMPTY );
         LOGGER.info( "Preferences saved in " + prefs );
     }
@@ -59,248 +59,248 @@ final class PreferencesProperties implements Preferences, Serializable
     @Override//@Populator on setter - just to verify...
     public final ConfigMode getConfigMode()
     {
-        return preferences.getConfigMode();
+        return this.preferences.getConfigMode();
     }
 
     @Override
     @Populator(defaultValue="BEGINNER")
     public final void setConfigMode( final ConfigMode configMode )
     {
-        preferences.setConfigMode( configMode );
+        this.preferences.setConfigMode( configMode );
     }
 
     @Override
     @Populator(defaultValue="QUICK")
     public final SelectFirstMode getDefaultSelectFirstMode()
     {
-        return preferences.getDefaultSelectFirstMode();
+        return this.preferences.getDefaultSelectFirstMode();
     }
 
     @Override
     public final void setDefaultSelectFirstMode( final SelectFirstMode selectFirstMode )
     {
-        preferences.setDefaultSelectFirstMode( selectFirstMode );
+        this.preferences.setDefaultSelectFirstMode( selectFirstMode );
     }
 
     @Override
     @Populator(defaultValue="FILESIZE")
     public final SortMode getDefaultSortMode()
     {
-        return preferences.getDefaultSortMode();
+        return this.preferences.getDefaultSortMode();
     }
 
     @Override
     public final void setDefaultSortMode( final SortMode sortMode )
     {
-        preferences.setDefaultSortMode( sortMode );
+        this.preferences.setDefaultSortMode( sortMode );
     }
 
     @Override
     @Populator(defaultValue="100")
     public final int getDeleteSleepDisplay()
     {
-        return preferences.getDeleteSleepDisplay();
+        return this.preferences.getDeleteSleepDisplay();
     }
 
     @Override
     public final void setDeleteSleepDisplay( final int deleteSleepDisplay )
     {
-        preferences.setDeleteSleepDisplay( deleteSleepDisplay );
+        this.preferences.setDeleteSleepDisplay( deleteSleepDisplay );
     }
 
     @Override
     @Populator(defaultValue="50")
     public final int getDeleteSleepDisplayMaxEntries()
     {
-        return preferences.getDeleteSleepDisplayMaxEntries();
+        return this.preferences.getDeleteSleepDisplayMaxEntries();
     }
 
     @Override
     public final void setDeleteSleepDisplayMaxEntries( final int deleteSleepDisplayMaxEntries )
     {
-        preferences.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntries );
+        this.preferences.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntries );
     }
 
     @Override
     @Populator
     public final Collection<String> getIncFilesFilterPatternRegExpList()
     {
-        return preferences.getIncFilesFilterPatternRegExpList();
+        return this.preferences.getIncFilesFilterPatternRegExpList();
     }
 
     @Override
     public final void setIncFilesFilterPatternRegExpList( final Collection<String> incFilesFilterPatternRegExpList )
     {
-        preferences.setIncFilesFilterPatternRegExpList( incFilesFilterPatternRegExpList );
+        this.preferences.setIncFilesFilterPatternRegExpList( incFilesFilterPatternRegExpList );
     }
 
     @Override
-    @Populator
+    @Populator(defaultValue="-1,-1")
     public final DividersLocation getPanelResultDividerLocations()
     {
-        return preferences.getPanelResultDividerLocations();
+        return this.preferences.getPanelResultDividerLocations();
     }
 
     @Override
     public final void setPanelResultDividerLocations( final DividersLocation panelResultDividerLocations )
     {
-        preferences.setPanelResultDividerLocations( panelResultDividerLocations );
+        this.preferences.setPanelResultDividerLocations( panelResultDividerLocations );
     }
 
     @Override
     @Populator(defaultValue="MD5")
     public final String getMessageDigestAlgorithm()
     {
-        return preferences.getMessageDigestAlgorithm();
+        return this.preferences.getMessageDigestAlgorithm();
     }
 
     @Override
     public final void setMessageDigestAlgorithm( final String messageDigestAlgorithm )
     {
-        preferences.setMessageDigestAlgorithm( messageDigestAlgorithm );
+        this.preferences.setMessageDigestAlgorithm( messageDigestAlgorithm );
     }
 
     @Override
     @Populator(defaultValue="4096")
     public final int getMessageDigestBufferSize()
     {
-        return preferences.getMessageDigestBufferSize();
+        return this.preferences.getMessageDigestBufferSize();
     }
 
     @Override
     public final void setMessageDigestBufferSize( final int messageDigestBufferSize )
     {
-        preferences.setMessageDigestBufferSize( messageDigestBufferSize );
+        this.preferences.setMessageDigestBufferSize( messageDigestBufferSize );
     }
 
     @Override
-    @Populator
+    @Populator(defaultValue="0,0")
     public final SerializableDimension getMinimumPreferenceDimension()
     {
-        return preferences.getMinimumPreferenceDimension();
+        return this.preferences.getMinimumPreferenceDimension();
     }
 
     @Override
     public final void setMinimumPreferenceDimension( final SerializableDimension minimumPreferenceDimension )
     {
-        preferences.setMinimumPreferenceDimension( minimumPreferenceDimension );
+        this.preferences.setMinimumPreferenceDimension( minimumPreferenceDimension );
     }
 
     @Override
     @Populator
     public final SerializableDimension getMinimumWindowDimension()
     {
-        return preferences.getMinimumWindowDimension();
+        return this.preferences.getMinimumWindowDimension();
     }
 
     @Override
     public final void setMinimumWindowDimension( final SerializableDimension mnimumWindowDimension )
     {
-        preferences.setMinimumWindowDimension( mnimumWindowDimension );
+        this.preferences.setMinimumWindowDimension( mnimumWindowDimension );
     }
 
     @Override
     @Populator
     public final SerializableDimension getWindowDimension()
     {
-        return preferences.getWindowDimension();
+        return this.preferences.getWindowDimension();
     }
 
     @Override
     public final void setWindowDimension( final SerializableDimension windowDimension )
     {
-        preferences.setWindowDimension( windowDimension );
+        this.preferences.setWindowDimension( windowDimension );
     }
 
     @Override
     @Populator
     public final boolean isIgnoreEmptyFiles()
     {
-        return preferences.isIgnoreEmptyFiles();
+        return this.preferences.isIgnoreEmptyFiles();
     }
 
     @Override
     public final void setIgnoreEmptyFiles( final boolean ignoreEmptyFiles )
     {
-        preferences.setIgnoreEmptyFiles( ignoreEmptyFiles );
+        this.preferences.setIgnoreEmptyFiles( ignoreEmptyFiles );
     }
 
     @Override
     @Populator
     public final boolean isIgnoreHiddenDirectories()
     {
-        return preferences.isIgnoreHiddenDirectories();
+        return this.preferences.isIgnoreHiddenDirectories();
     }
 
     @Override
     public final void setIgnoreHiddenDirectories( final boolean ignoreHiddenDirectories )
     {
-        preferences.setIgnoreHiddenDirectories( ignoreHiddenDirectories );
+        this.preferences.setIgnoreHiddenDirectories( ignoreHiddenDirectories );
     }
 
     @Override
     @Populator
     public final boolean isIgnoreHiddenFiles()
     {
-        return preferences.isIgnoreHiddenFiles();
+        return this.preferences.isIgnoreHiddenFiles();
     }
 
     @Override
     public final void setIgnoreHiddenFiles( final boolean ignoreHiddenFiles )
     {
-        preferences.setIgnoreHiddenFiles( ignoreHiddenFiles );
+        this.preferences.setIgnoreHiddenFiles( ignoreHiddenFiles );
     }
 
     @Override//@Populator on setter -- just to check
     public final boolean isIgnoreReadOnlyFiles()
     {
-        return preferences.isIgnoreReadOnlyFiles();
+        return this.preferences.isIgnoreReadOnlyFiles();
     }
 
     @Override
     @Populator
     public final void setIgnoreReadOnlyFiles( final boolean ignoreReadOnlyFiles )
     {
-        preferences.setIgnoreReadOnlyFiles( ignoreReadOnlyFiles );
+        this.preferences.setIgnoreReadOnlyFiles( ignoreReadOnlyFiles );
     }
 
     @Override
     @Populator(defaultValueIsNull=true)
     public final String getLookAndFeelClassName()
     {
-        return preferences.getLookAndFeelClassName();
+        return this.preferences.getLookAndFeelClassName();
     }
 
     @Override
     public final void setLookAndFeelClassName( final String lookAndFeelClassName )
     {
-        preferences.setLookAndFeelClassName( lookAndFeelClassName );
+        this.preferences.setLookAndFeelClassName( lookAndFeelClassName );
     }
 
     @Override
     @Populator(defaultValueIsNull=true)
     public final String getLookAndFeelName()
     {
-        return preferences.getLookAndFeelName();
+        return this.preferences.getLookAndFeelName();
     }
 
     @Override
     public final void setLookAndFeelName( final String lookAndFeelName )
     {
-        preferences.setLookAndFeelName( lookAndFeelName );
+        this.preferences.setLookAndFeelName( lookAndFeelName );
     }
 
     @Override
     @Populator(defaultValueIsNull=true)
     public String getLocaleLanguage()
     {
-        return preferences.getLocaleLanguage();
+        return this.preferences.getLocaleLanguage();
     }
 
     @Override
     public void setLocaleLanguage( final String localeLanguage )
     {
-        preferences.setLocaleLanguage( localeLanguage );
+        this.preferences.setLocaleLanguage( localeLanguage );
     }
 
     public PreferencesBean getPreferencesBean()
@@ -312,13 +312,13 @@ final class PreferencesProperties implements Preferences, Serializable
     @Populator(defaultValue="1")
     public int getNumberOfThreads()
     {
-        return preferences.getNumberOfThreads();
+        return this.preferences.getNumberOfThreads();
     }
 
     @Override
     public void setNumberOfThreads( final int maxThreads )
     {
-        preferences.setNumberOfThreads( maxThreads );
+        this.preferences.setNumberOfThreads( maxThreads );
     }
 }
 
