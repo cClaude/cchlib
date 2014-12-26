@@ -97,16 +97,42 @@ class PropertiesToBean<E>
 
             value.getPropertiesPopulatorSetter().setValue( this.bean, strValue, type );
             }
-        catch( final ConvertCantNotHandleTypeException e ) {
-            throw new PropertiesPopulatorException( "Bad value [" + strValue + "] for method " + setter, e );
+        catch( final ConvertCantNotHandleTypeException ccnhte ) {
+            if( ! tryToSetUsingConstructor( value, type, strValue ) ) {
+                throw new PropertiesPopulatorException( "Bad value [" + strValue + "] for method " + setter, ccnhte );
+            }
             }
         catch( IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
             // ignore !
-            LOGGER.warn( "Cannot set field for Method: " + setter + " * strValue=[" + strValue + "] / defaultValue=[" + defaultValue + ']', e );
+            LOGGER.fatal( "Cannot set field for Method: " + setter + " * strValue=[" + strValue + "] / defaultValue=[" + defaultValue + ']', e );
             }
         finally {
             setter.setAccessible( setterIsAccessible );
             }
+    }
+
+    /** try to find a constructor based on String */
+    private boolean tryToSetUsingConstructor( final PropertiesPopulatorAnnotationForMethod<E> value, final Class<?> type, final String strValue )
+    {
+        try {
+            final Object realValue = type.getConstructor( String.class ).newInstance( strValue );
+
+            setValue( value.getPropertiesPopulatorSetter().getMethodOrField(), realValue );
+
+            return true;
+            }
+        catch( InstantiationException | IllegalAccessException //
+                | IllegalArgumentException | InvocationTargetException //
+                | NoSuchMethodException | SecurityException newInstanceException ) {
+            LOGGER.warn( "Can not find a constructor for " + type + " using String[" + strValue + ']', newInstanceException );
+            return false;
+            }
+    }
+
+    private void setValue( final Method method, final Object realValue ) //
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
+    {
+        method.invoke( this.bean, realValue );
     }
 
     private void handleArrayMethod( //
@@ -289,9 +315,9 @@ class PropertiesToBean<E>
                 propertiesPopulatorSetter.setArrayEntry( array, i, stringValues.get( i ), componentType );
                 }
             catch( final ConvertCantNotHandleTypeException e ) {
-                throw new PopulatorException( 
-                        "Bad type for field", 
-                        propertiesPopulatorSetter.getFieldOrMethod(), 
+                throw new PopulatorException(
+                        "Bad type for field",
+                        propertiesPopulatorSetter.getFieldOrMethod(),
                         arrayType,
                         e
                         );

@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.util.properties;
 
+import java.util.Collection;
+
 
 //NOT public
 abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
@@ -15,13 +17,13 @@ abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
     @Override
     public final boolean isDefaultValueNull()
     {
-        return populator.defaultValueIsNull();
+        return this.populator.defaultValueIsNull();
     }
 
     @Override
     public final String defaultValue()
     {
-        return populator.defaultValue();
+        return this.populator.defaultValue();
     }
 
     @Override
@@ -66,6 +68,22 @@ abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
             return Float.valueOf( strValue );
         } else if( Float.class.isAssignableFrom( type ) ) {
             return Float.valueOf( strValue );
+        } else if( Enum.class.isAssignableFrom( type ) ) {
+            @SuppressWarnings({ "unchecked", "rawtypes" })
+            final Enum value = Enum.valueOf( (Class)type, strValue );
+
+            return value;
+        } else if( strValue.isEmpty() ) {
+            if( Collection.class.isAssignableFrom( type ) && !type.isInterface() ) {
+                try {
+                    return type.newInstance();
+                }
+                catch( InstantiationException | IllegalAccessException shouldNotOccur ) {
+                    throw new RuntimeException( shouldNotOccur );
+                }
+            } else {
+                return null;
+            }
         } else {
             throw new ConvertCantNotHandleTypeException();
         }
