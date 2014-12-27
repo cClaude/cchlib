@@ -20,11 +20,11 @@ class JHexEditorASCII
                    KeyListener
 {
     private static final long serialVersionUID = 1L;
-    private HexEditorModel model;
+    private final HexEditorModel model;
 
     public JHexEditorASCII(
-        HexEditorModel   hexEditorModel,
-        FocusListener    focusListener
+        final HexEditorModel   hexEditorModel,
+        final FocusListener    focusListener
         )
     {
         this.model = hexEditorModel;
@@ -46,48 +46,48 @@ class JHexEditorASCII
     {
         //debug("getMinimumSize()");
 
-        Dimension d=new Dimension();
+        final Dimension d=new Dimension();
         //FontMetrics fn=getFontMetrics(getCustomFont());
-        FontMetrics fn = model.getFontMetrics();
-        int h=fn.getHeight();
-        int nl=model.getDisplayLinesCount();
+        final FontMetrics fn = this.model.getFontMetrics();
+        final int h=fn.getHeight();
+        final int nl=this.model.getDisplayLinesCount();
         d.setSize(
-            (fn.stringWidth(" ")+1)*(16)+(model.getBorderWidth()*2)+1,
-            h*nl+(model.getBorderWidth()*2)+1
+            ((fn.stringWidth(" ")+1)*(16))+(this.model.getBorderWidth()*2)+1,
+            (h*nl)+(this.model.getBorderWidth()*2)+1
             );
         return d;
     }
 
     @Override
-    public void paint(Graphics g)
+    public void paint(final Graphics g)
     {
         //debug("paint("+g+")");
         //debug("cursor="+model.getCursorPos()+" buff.length="+model.getBuffer().getLength());
-        Dimension d=getMinimumSize();
+        final Dimension d=getMinimumSize();
         g.setColor(Color.white);
         g.fillRect(0,0,d.width,d.height);
         g.setColor(Color.black);
 
-        g.setFont( model.getFont() );
+        g.setFont( this.model.getFont() );
 
         //datos ascii
-        int ini=model.getIntroduction()*16;
-        int fin=ini+(model.getDisplayLinesCount()*16);
-        if(fin>model.getBuffer().getLength()) {
-            fin=model.getBuffer().getLength();
+        final int ini=this.model.getIntroduction()*16;
+        int fin=ini+(this.model.getDisplayLinesCount()*16);
+        if(fin>this.model.getBuffer().getLength()) {
+            fin=this.model.getBuffer().getLength();
             }
 
         int x=0;
         int y=0;
         for(int n=ini;n<fin;n++)
         {
-            if(n==model.getCursorPos()) {
+            if(n==this.model.getCursorPos()) {
                 g.setColor(Color.blue);
 
                 if( hasFocus() ) {
-                    model.drawBackground(g,x,y,1); }
+                    this.model.drawBackground(g,x,y,1); }
                 else {
-                    model.drawTable(g,x,y,1);
+                    this.model.drawTable(g,x,y,1);
                     }
                 if( hasFocus() ) {
                     g.setColor(Color.white);
@@ -100,11 +100,11 @@ class JHexEditorASCII
                 g.setColor(Color.black);
                 }
 
-            String s = (new Character(model.getBuffer().getChar( n ))).toString();
-            if((model.getBuffer().getByte( n )<20)||(model.getBuffer().getByte( n )>126)) {
+            String s = (new Character(this.model.getBuffer().getChar( n ))).toString();
+            if((this.model.getBuffer().getByte( n )<20)||(this.model.getBuffer().getByte( n )>126)) {
                 s = Character.toString( (char)16 );
                 }
-            model.printString(g,s,(x++),y);
+            this.model.printString(g,s,(x++),y);
 
             if( x==16 ) {
                 x=0;
@@ -122,73 +122,72 @@ class JHexEditorASCII
     public int calcularPosicionRaton(int x,int y)
     {
         //FontMetrics fn=getFontMetrics(getCustomFont());
-        FontMetrics fn = model.getFontMetrics();
+        final FontMetrics fn = this.model.getFontMetrics();
         x=x/(fn.stringWidth(" ")+1);
         y=y/fn.getHeight();
         //debug("x="+x+" ,y="+y);
-        return x+((y+model.getIntroduction())*16);
+        return x+((y+this.model.getIntroduction())*16);
     }
 
     @Override// mouselistener
-    public void mouseClicked(MouseEvent e)
+    public void mouseClicked(final MouseEvent e)
     {
         //debug("mouseClicked("+e+")");
-        model.setCursorPos( calcularPosicionRaton(e.getX(),e.getY()) );
+        this.model.setCursorPos( calcularPosicionRaton(e.getX(),e.getY()) );
         this.requestFocus();
-        model.repaintAll();
+        this.model.repaintAll();
     }
 
     @Override// mouselistener
-    public void mousePressed(MouseEvent e)
+    public void mousePressed(final MouseEvent e)
     {
     }
 
     @Override// mouselistener
-    public void mouseReleased(MouseEvent e)
+    public void mouseReleased(final MouseEvent e)
     {
     }
 
     @Override// mouselistener
-    public void mouseEntered(MouseEvent e)
+    public void mouseEntered(final MouseEvent e)
     {
     }
 
     @Override// mouselistener
-    public void mouseExited(MouseEvent e)
+    public void mouseExited(final MouseEvent e)
     {
     }
 
     @Override//KeyListener
-    public void keyTyped(KeyEvent e)
+    public void keyTyped(final KeyEvent e)
     {
-        @SuppressWarnings("resource")
-        ArrayReadWriteAccess buf = model.getBufferRW();
+        final ArrayReadWriteAccess buf = this.model.getBufferRW();
 
         if( buf != null ) {
             //debug("keyTyped("+e+")");
 
             //he.getBuffer()[he.getCursorPos()]=(byte)e.getKeyChar();
             buf.setByte(
-                    model.getCursorPos(),
+                    this.model.getCursorPos(),
                     (byte)e.getKeyChar()
                     );
 
-            if(model.getCursorPos()!=(model.getBuffer().getLength()-1)) {
-                model.incCursorPos();
+            if(this.model.getCursorPos()!=(this.model.getBuffer().getLength()-1)) {
+                this.model.incCursorPos();
                 }
-            model.repaintAll();
+            this.model.repaintAll();
             }
     }
 
     @Override//KeyListener
-    public void keyPressed(KeyEvent e)
+    public void keyPressed(final KeyEvent e)
     {
         //debug("keyPressed("+e+")");
-        model.keyPressed(e);
+        this.model.keyPressed(e);
     }
 
     @Override//KeyListener
-    public void keyReleased(KeyEvent e)
+    public void keyReleased(final KeyEvent e)
     {
         //debug("keyReleased("+e+")");
     }

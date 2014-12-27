@@ -25,15 +25,15 @@ class BRExecutionEventImpl implements BRExecutionEvent
 {
     private final static Logger LOGGER = Logger.getLogger( BRExecutionEventImpl.class );
 
-    private File sourceFile;
-    private File destinationFile;
-    private Component progressMonitorParentComponent;
-    private String progressMonitorMessage;
+    private final File sourceFile;
+    private final File destinationFile;
+    private final Component progressMonitorParentComponent;
+    private final String progressMonitorMessage;
 
     /** Current file progress monitor */
     private ProgressMonitor progressMonitor;
 
-    public BRExecutionEventImpl( File sourceFile, File destinationFile, Component progressMonitorParentComponent, String progressMonitorMessage )
+    public BRExecutionEventImpl( final File sourceFile, final File destinationFile, final Component progressMonitorParentComponent, final String progressMonitorMessage )
     {
         this.sourceFile      = sourceFile;
         this.destinationFile = destinationFile;
@@ -48,13 +48,12 @@ class BRExecutionEventImpl implements BRExecutionEvent
     @Override
     public File getSourceFile()
     {
-        return sourceFile;
+        return this.sourceFile;
     }
 
     /* (non-Javadoc)
      * @see com.googlecode.cchlib.swing.batchrunner.simplebatchrunner.SBRExecutionEvent#getInputStream()
      */
-    @SuppressWarnings("resource")
     @Override
     public InputStream getInputStream() throws FileNotFoundException
     {
@@ -65,12 +64,12 @@ class BRExecutionEventImpl implements BRExecutionEvent
             }
 
         // Create progress monitor.
-        ProgressMonitorInputStream progressMonitorInputStream = new ProgressMonitorInputStream(
-                progressMonitorParentComponent,
-                progressMonitorMessage,
+        final ProgressMonitorInputStream progressMonitorInputStream = new ProgressMonitorInputStream(
+                this.progressMonitorParentComponent,
+                this.progressMonitorMessage,
                 new FileInputStream( file )
                 );
-        progressMonitor = progressMonitorInputStream.getProgressMonitor();
+        this.progressMonitor = progressMonitorInputStream.getProgressMonitor();
 
         // return a buffered InputStream but add exception on read() methods
         // to trap user cancel action.
@@ -78,21 +77,21 @@ class BRExecutionEventImpl implements BRExecutionEvent
             /** check progress monitor */
             private void checkCanceled() throws BRUserCancelException
             {
-                if( progressMonitor.isCanceled() ) {
+                if( BRExecutionEventImpl.this.progressMonitor.isCanceled() ) {
                     throw new BRUserCancelException( file );
                     }
             }
             @Override
             public synchronized int read() throws IOException
             {
-                int res = super.read();
+                final int res = super.read();
                 checkCanceled();
                 return res;
             }
             @Override
-            public synchronized int read( byte[] b, int off, int len ) throws IOException
+            public synchronized int read( final byte[] b, final int off, final int len ) throws IOException
             {
-                int res = super.read( b, off, len );
+                final int res = super.read( b, off, len );
                 checkCanceled();
                 return res;
             }
@@ -105,7 +104,7 @@ class BRExecutionEventImpl implements BRExecutionEvent
     @Override
     public File getDestinationFile()
     {
-        return destinationFile;
+        return this.destinationFile;
     }
 
     /* (non-Javadoc)

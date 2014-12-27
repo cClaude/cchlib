@@ -1,7 +1,6 @@
 // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.crossSiteScripting, numericLiterals, fullyParenthesizeExpressions, synchronizedMethod
 package cx.ath.choisnet.util;
 
-import com.googlecode.cchlib.lang.StringHelper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +19,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
+import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * The FormattedProperties class is an extension
@@ -41,9 +41,9 @@ public final class FormattedProperties
     protected static final Pattern PATTERN_P_BEGIN_ADD_BEFORE = Pattern.compile("<[pP][^/]*[/]?>[^\\n].*",Pattern.DOTALL);
     protected static final Pattern PATTERN_P_END_ADD_AFTER = Pattern.compile(".*[^\\n]</[pP]>",Pattern.DOTALL);
     /** @serial */
-    private FormattedPropertiesLines lines = new FormattedPropertiesLines(this);
+    private final FormattedPropertiesLines lines = new FormattedPropertiesLines(this);
     /** @serial */
-    private EnumSet<Store> storeOptions;
+    private final EnumSet<Store> storeOptions;
 
     /**
      * Configure store operation.
@@ -152,7 +152,7 @@ public final class FormattedProperties
     {
         // The specifications says that the file must
         // be encoded using ISO-8859-1.
-        BufferedReader reader = new BufferedReader(
+        final BufferedReader reader = new BufferedReader(
                 new InputStreamReader(
                         in,
                         ENCODING_ISO_8859_1
@@ -172,7 +172,6 @@ public final class FormattedProperties
     @Override
     public synchronized void load( final Reader aReader ) throws IOException
     {
-        @SuppressWarnings("resource")
         final BufferedReader reader = FormattedPropertiesHelper.toBufferedReader( aReader );
         String               line;
 
@@ -188,16 +187,16 @@ public final class FormattedProperties
 
         // Leading whitespace must be deleted first.
         final int lineLength = line.length();
-        while ( pos < lineLength
+        while ( (pos < lineLength)
                 && Character.isWhitespace(c = line.charAt(pos))) {
             pos++;
             }
 
         // If empty line or begins with a comment character, save this line
         // in lineData and save a "" in keyData.
-        if (    (lineLength - pos) == 0
-                || line.charAt(pos) == '#'
-                || line.charAt(pos) == '!') {
+        if (    ((lineLength - pos) == 0)
+                || (line.charAt(pos) == '#')
+                || (line.charAt(pos) == '!')) {
             addCommentLine(line);
             return;
             }
@@ -205,21 +204,21 @@ public final class FormattedProperties
         // The characters up to the next Whitespace, ':', or '='
         // describe the key.  But look for escape sequences.
         // Try to short-circuit when there is no escape char.
-        int     start       = pos;
-        boolean needsEscape = line.indexOf('\\', pos) != -1;
-        StringBuilder key = needsEscape ? new StringBuilder() : null; // $codepro.audit.disable avoidInstantiationInLoops
+        final int     start       = pos;
+        final boolean needsEscape = line.indexOf('\\', pos) != -1;
+        final StringBuilder key = needsEscape ? new StringBuilder() : null; // $codepro.audit.disable avoidInstantiationInLoops
 
-        while ( pos < lineLength
+        while ( (pos < lineLength)
                 && ! Character.isWhitespace(c = line.charAt(pos++))
-                && c != '=' && c != ':') {
-            if (needsEscape && c == '\\') {
+                && (c != '=') && (c != ':')) {
+            if (needsEscape && (c == '\\')) {
                 if (pos == lineLength) {
                     // The line continues on the next line.  If there
                     // is no next line, just treat it as a key with an
                     // empty value.
                     line = readLine( reader );
                     pos = 0;
-                    while( pos < lineLength
+                    while( (pos < lineLength)
                             && Character.isWhitespace(c = line.charAt(pos))) {
                         pos++;
                         }
@@ -237,8 +236,8 @@ public final class FormattedProperties
                             key.append('\r');
                             break;
                         case 'u':
-                            if (pos + 4 <= lineLength) {
-                                char uni = (char) Integer.parseInt
+                            if ((pos + 4) <= lineLength) {
+                                final char uni = (char) Integer.parseInt
                                            (line.substring(pos, pos + 4), 16);
                                 key.append(uni);
                                 pos += 4;
@@ -255,7 +254,7 @@ public final class FormattedProperties
                 }
             }
 
-        boolean isDelim = (c == ':' || c == '=');
+        final boolean isDelim = ((c == ':') || (c == '='));
         String  keyString;
 
         if( needsEscape ) {
@@ -268,14 +267,14 @@ public final class FormattedProperties
             keyString = line.substring(start, pos);
             }
 
-        while ( pos < lineLength
+        while ( (pos < lineLength)
                 && Character.isWhitespace(c = line.charAt(pos))) {
             pos++;
             }
 
-        if (! isDelim && (c == ':' || c == '=')) {
+        if (! isDelim && ((c == ':') || (c == '='))) {
             pos++;
-            while ( pos < lineLength
+            while ( (pos < lineLength)
                     && Character.isWhitespace(c = line.charAt(pos))) {
                 pos++;
                 }
@@ -287,7 +286,7 @@ public final class FormattedProperties
             }
         else {
             // Escape char found so iterate through the rest of the line.
-            StringBuilder element = FormattedPropertiesHelper.handleEscapeChar( reader, line, pos );
+            final StringBuilder element = FormattedPropertiesHelper.handleEscapeChar( reader, line, pos );
 
             this.put(keyString, element.toString());
         }
@@ -315,11 +314,11 @@ public final class FormattedProperties
      *            specified output stream throws an IOException.
      */
     @Override
-    public synchronized void store(OutputStream out, String comment)
+    public synchronized void store(final OutputStream out, final String comment)
         throws IOException
     {
         // The spec says that the file must be encoded using ISO-8859-1.
-        PrintWriter writer = new PrintWriter(
+        final PrintWriter writer = new PrintWriter(
                 new OutputStreamWriter(
                         out,
                         ENCODING_ISO_8859_1
@@ -345,12 +344,12 @@ public final class FormattedProperties
      */
     @Override
     @Deprecated
-    public synchronized void save( OutputStream out, String comment )
+    public synchronized void save( final OutputStream out, final String comment )
     {
         try {
             store(out,comment);
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             throw new RuntimeException( e ); // Show exception to the word :)
             }
     }
@@ -401,7 +400,6 @@ public final class FormattedProperties
             attribs = EnumSet.copyOf( config );
             }
 
-        @SuppressWarnings("resource")
         final PrintWriter writer = FormattedPropertiesHelper.toPrintWriter( out );
 
         // We ignore the header, because if we prepend a
@@ -411,7 +409,7 @@ public final class FormattedProperties
         // header...
         final StringBuilder sb = new StringBuilder();
 
-        for( final FormattedPropertiesLine line : lines ) {
+        for( final FormattedPropertiesLine line : this.lines ) {
             if( line.isComment() ) {
                 // was a blank or comment line, so just restore it
                 writer.println(line.getContent());
@@ -465,13 +463,13 @@ public final class FormattedProperties
             }
 
         // If 'str' contains one \n we don't add extra \n (already formatted)
-        boolean isAlreadyFormatted = str.contains( "\n" );
+        final boolean isAlreadyFormatted = str.contains( "\n" );
 
         boolean head = true;
-        int     size = str.length();
+        final int     size = str.length();
 
         for( int i = 0; i < size; i++ ) {
-            char c = str.charAt(i);
+            final char c = str.charAt(i);
             switch(c) {
                 case '\n':
                     buffer.append("\\n");
@@ -522,12 +520,12 @@ public final class FormattedProperties
                         buffer.append(c);
                         }
                     else {
-                        String hex = Integer.toHexString(c);
+                        final String hex = Integer.toHexString(c);
                         buffer.append("\\u0000".substring(0, 6 - hex.length()));
                         buffer.append(hex);
                         }
 
-                    if( !isKey && c == '>' ) {
+                    if( !isKey && (c == '>') ) {
                         if( !isAlreadyFormatted ) {
                             boolean cutLine = false;
 
@@ -549,7 +547,7 @@ public final class FormattedProperties
                                 int i2 = i + 1;
 
                                 while( i2 < size ) {
-                                    char c2 = str.charAt(i2);
+                                    final char c2 = str.charAt(i2);
                                     if( Character.isWhitespace(c2) ) {
                                         buffer.append( c2 );
                                         i++;
@@ -603,14 +601,14 @@ public final class FormattedProperties
                     );
             }
         if( super.containsKey( keyString ) ) {
-            Object prev = super.put( keyString, valueString );
+            final Object prev = super.put( keyString, valueString );
 
             if( prev == null ) {
                 throw new RuntimeException(
                         "Internal error can't find key in Properties"
                         );
                 }
-            if( !lines.contains( keyString ) ) {
+            if( !this.lines.contains( keyString ) ) {
                 throw new RuntimeException(
                         "Internal error key exist in Hashmap, but not in lines"
                         );
@@ -618,7 +616,7 @@ public final class FormattedProperties
             return prev;
             }
         else {
-            if( lines.contains( keyString ) ) {
+            if( this.lines.contains( keyString ) ) {
                 throw new RuntimeException(
                         "Internal error key found in lines but not in Hashmap"
                         );
@@ -626,7 +624,7 @@ public final class FormattedProperties
 
             // Not found add entry
             super.put( keyString, valueString );
-            lines.addKey(
+            this.lines.addKey(
                     String.class.cast(keyString)
                     );
             return null;
@@ -646,17 +644,17 @@ public final class FormattedProperties
     public void addCommentLine( final String line )
         throws IllegalArgumentException
     {
-        String trimLine = line.trim();
+        final String trimLine = line.trim();
 
         if( ! trimLine.isEmpty() ) {
-            char firstChar = trimLine.charAt( 0 );
+            final char firstChar = trimLine.charAt( 0 );
 
-            if( firstChar != '!' && firstChar != '#' ) {
+            if( (firstChar != '!') && (firstChar != '#') ) {
                 throw new IllegalArgumentException("Must be a comment line [" + line + ']');
                 }
             }
 
-        lines.addCommentLine( line );
+        this.lines.addCommentLine( line );
     }
 
     /**
@@ -665,7 +663,7 @@ public final class FormattedProperties
      */
     public void addBlankLine()
     {
-        lines.addCommentLine( StringHelper.EMPTY );
+        this.lines.addCommentLine( StringHelper.EMPTY );
     }
 
     /**
@@ -673,7 +671,7 @@ public final class FormattedProperties
      */
     public List<FormattedPropertiesLine> getLines()
     {
-        return Collections.unmodifiableList( lines.getLines() );
+        return Collections.unmodifiableList( this.lines.getLines() );
     }
     // ---------------------------------------------
 
@@ -694,7 +692,7 @@ public final class FormattedProperties
     public synchronized void clear()
     {
         super.clear();
-        lines.clear();
+        this.lines.clear();
     }
 
 
@@ -797,7 +795,7 @@ public final class FormattedProperties
     public synchronized Object remove( final Object key )
     {
         if( super.containsKey( key ) ) {
-            final FormattedPropertiesLine line = lines.remove(key);
+            final FormattedPropertiesLine line = this.lines.remove(key);
             final Object                  prev = super.remove( key );
 
             if( line == null ) {
@@ -810,7 +808,7 @@ public final class FormattedProperties
                 }
         }
         else {
-            if( lines.contains( key ) ) {
+            if( this.lines.contains( key ) ) {
                 throw new RuntimeException(
                         "Internal error key exist in lines, but not in Hashmap"
                         );
@@ -838,7 +836,7 @@ public final class FormattedProperties
     {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((lines == null) ? 0 : lines.hashCode());
+        result = (prime * result) + ((this.lines == null) ? 0 : this.lines.hashCode());
         return result;
     }
 
@@ -863,14 +861,14 @@ public final class FormattedProperties
         if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
             return false;
             }
-        FormattedProperties other = (FormattedProperties)obj;
+        final FormattedProperties other = (FormattedProperties)obj;
 
-        if( lines == null ) {
+        if( this.lines == null ) {
             if( other.lines != null ) {
                 return false;
                 }
             }
-        else if( !lines.equals( other.lines ) ) {
+        else if( !this.lines.equals( other.lines ) ) {
             return false;
             }
         return true;

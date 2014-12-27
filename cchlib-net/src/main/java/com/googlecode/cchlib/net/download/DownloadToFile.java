@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
 
@@ -14,7 +15,7 @@ import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
  */
 public class DownloadToFile extends AbstractDownload
 {
-    private DownloadFilterInputStreamBuilder downloadFilterBuilder;
+    private final DownloadFilterInputStreamBuilder downloadFilterBuilder;
 
     /**
      * Create a new DownloadToFile
@@ -34,7 +35,6 @@ public class DownloadToFile extends AbstractDownload
         this.downloadFilterBuilder = downloadFilterBuilder;
     }
 
-    @SuppressWarnings("resource")
     @Override
     protected void download( final InputStream inputStream )
             throws DownloadIOException, IOException
@@ -44,8 +44,8 @@ public class DownloadToFile extends AbstractDownload
         final InputStream           is;
         final FilterInputStream     filter;
 
-        if( downloadFilterBuilder != null ) {
-            is = filter = downloadFilterBuilder.createFilterInputStream( inputStream );
+        if( this.downloadFilterBuilder != null ) {
+            is = filter = this.downloadFilterBuilder.createFilterInputStream( inputStream );
             }
         else {
             is     = inputStream;
@@ -58,10 +58,10 @@ public class DownloadToFile extends AbstractDownload
             if( filter != null ) {
                 filter.close(); // Needed ???
 
-                downloadFilterBuilder.storeFilterResult( filter, dURL );
+                this.downloadFilterBuilder.storeFilterResult( filter, dURL );
                 }
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             throw new DownloadIOException( getDownloadURL(), file, e );
             }
         finally {

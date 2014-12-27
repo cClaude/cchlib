@@ -16,20 +16,19 @@ public class ArrayReadWriteAccessFile extends ArrayReadAccessFile implements Arr
      * @param f
      * @throws FileNotFoundException
      */
-    @SuppressWarnings("resource")
-    public ArrayReadWriteAccessFile( File f ) throws FileNotFoundException
+    public ArrayReadWriteAccessFile( final File f ) throws FileNotFoundException
     {
         super( new RandomAccessFile( f, "rw" ) );
     }
 
     @Override
-    public void setByte(int index, byte b)
+    public void setByte(final int index, final byte b)
     {
         try {
             this.raf.seek( index );
             this.raf.writeByte( b );
             }
-        catch (IOException e) {
+        catch (final IOException e) {
             throw new RuntimeException( e );
             }
     }

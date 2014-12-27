@@ -37,10 +37,10 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     @Test
     public void setUp() throws IOException
     {
-        refPropertiesStream = getProperties(
+        this.refPropertiesStream = getProperties(
                 getClass().getResourceAsStream( REF )
                 );
-        refPropertiesReader = getProperties(
+        this.refPropertiesReader = getProperties(
                 new InputStreamReader(
                     getClass().getResourceAsStream( REF ),
                     "ISO-8859-1"
@@ -54,15 +54,15 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 //                );
 
         // Something loaded ?
-        Assert.assertTrue("Should not empty",refPropertiesStream.size() != 0 );
-        Assert.assertTrue("Should not empty",refPropertiesReader.size() != 0 );
+        Assert.assertTrue("Should not empty",this.refPropertiesStream.size() != 0 );
+        Assert.assertTrue("Should not empty",this.refPropertiesReader.size() != 0 );
 
         // Verify standard Properties
         // give same result using Steam and Reader
         // for giving file
         compare(
-                refPropertiesStream,
-                refPropertiesReader
+                this.refPropertiesStream,
+                this.refPropertiesReader
                 );
     }
 
@@ -77,7 +77,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
         System.out.println("->Reader");
         compare(
-                refPropertiesStream,
+                this.refPropertiesStream,
                 prop
                 );
 
@@ -88,11 +88,11 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                     tmpWriterFile
                     );
         compare(
-                refPropertiesStream,
+                this.refPropertiesStream,
                 tmpWriterFile
                 );
         compare( // No Change ?
-                refPropertiesStream,
+                this.refPropertiesStream,
                 prop
                 );
 
@@ -103,11 +103,11 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                     tmpStreamFile
                     );
         compare(
-                refPropertiesStream,
+                this.refPropertiesStream,
                 tmpStreamFile
                 );
         compare( // No Change ?
-                refPropertiesStream,
+                this.refPropertiesStream,
                 prop
                 );
 
@@ -116,7 +116,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(tmpStreamFile);
     }
 
-    @SuppressWarnings({ "resource", "boxing" })
+    @SuppressWarnings({ "boxing" })
     @Test
     @Ignore//FIXME must be activate
     public void test_Stream_load_save()
@@ -128,13 +128,13 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 );
         System.out.println("->Stream");
         compare(
-                refPropertiesStream,
+                this.refPropertiesStream,
                 prop
                 );
 
         final File tmpStreamFile = storeOutputStream(prop);
         compare(
-                refPropertiesStream,
+                this.refPropertiesStream,
                 tmpStreamFile
                 );
         System.out.printf(
@@ -145,7 +145,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
         final File tmpWriterFile = storeWriter(prop);
         compare(
-                refPropertiesStream,
+                this.refPropertiesStream,
                 tmpWriterFile
                 );
         System.out.printf(
@@ -159,7 +159,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(tmpStreamFile);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME must be activte
     public void test_clear() throws FileNotFoundException, IOException
@@ -174,7 +173,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(copy);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME must be activte
     public void test_add() throws IOException
@@ -225,7 +223,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(tmpWriterFile);
     }
 
-    @SuppressWarnings({ "resource", "boxing" })
+    @SuppressWarnings({ "boxing" })
     @Test
     @Ignore//FIXME must be activte
     public void test_getLines() throws FileNotFoundException, IOException
@@ -258,7 +256,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete( copy );
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME must be activte
     public void test_equal() throws FileNotFoundException, IOException
@@ -324,7 +321,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(copy);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME must be activte
     public void test_clone() throws FileNotFoundException, IOException
@@ -368,7 +364,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete(copy);
     }
 
-    @SuppressWarnings("resource")
     @Test
     @Ignore//FIXME must be activte
     public void test_store_plusplus() throws FileNotFoundException, IOException
@@ -420,7 +415,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         }
     }
 
-    @SuppressWarnings("resource")
     public void compare(
             final Properties  propRef,
             final File        propFile
@@ -517,7 +511,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         w.close();
     }
 
-    @SuppressWarnings("resource")
     public File storeWriter(final Properties prop) throws IOException
     {
         final File        tmpFile = getTmpFile("writer");
@@ -532,7 +525,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         os.close();
     }
 
-    @SuppressWarnings("resource")
     public File storeOutputStream(final Properties prop) throws FileNotFoundException, IOException
     {
         final File        tmpFile = getTmpFile("OuputStream");

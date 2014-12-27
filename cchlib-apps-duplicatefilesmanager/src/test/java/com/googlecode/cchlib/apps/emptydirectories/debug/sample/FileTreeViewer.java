@@ -51,62 +51,66 @@ public class FileTreeViewer extends JFrame
         super( "Demo tree check box" );
         setSize( 400, 300 );
 
-        DefaultMutableTreeNode top = new DefaultMutableTreeNode(
+        final DefaultMutableTreeNode top = new DefaultMutableTreeNode(
                 new IconData( ICON_COMPUTER, null, "Computer" )
                 );
 
         DefaultMutableTreeNode node;
-        File[] roots = File.listRoots();
-        for (File root : roots) {
+        final File[] roots = File.listRoots();
+        for (final File root : roots) {
             node = new DefaultMutableTreeNode(new IconData(ICON_DISK, null, new FileNode(root)));
             top.add( node );
             node.add( new DefaultMutableTreeNode( new Boolean( true ) ) );
         }
 
-        m_model = new DefaultTreeModel( top );
+        this.m_model = new DefaultTreeModel( top );
 
-        m_tree = new JTree( m_model ) {
+        this.m_tree = new JTree( this.m_model ) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public String getToolTipText( MouseEvent ev )
+            public String getToolTipText( final MouseEvent ev )
             {
-                if( ev == null ) return null;
-                TreePath path = m_tree
+                if( ev == null ) {
+                    return null;
+                }
+                final TreePath path = FileTreeViewer.this.m_tree
                         .getPathForLocation( ev.getX(), ev.getY() );
                 if( path != null ) {
-                    FileNode fnode = getFileNode( getTreeNode( path ) );
-                    if( fnode == null ) return null;
-                    File f = fnode.getFile();
+                    final FileNode fnode = getFileNode( getTreeNode( path ) );
+                    if( fnode == null ) {
+                        return null;
+                    }
+                    final File f = fnode.getFile();
                     return (f == null ? null : f.getPath());
                 }
                 return null;
             }
         };
 
-        ToolTipManager.sharedInstance().registerComponent( m_tree );
+        ToolTipManager.sharedInstance().registerComponent( this.m_tree );
 
-        m_tree.putClientProperty( "JTree.lineStyle", "Angled" );
+        this.m_tree.putClientProperty( "JTree.lineStyle", "Angled" );
 
-        TreeCellRenderer renderer = new IconCellRenderer();
-        m_tree.setCellRenderer( renderer );
+        final TreeCellRenderer renderer = new IconCellRenderer();
+        this.m_tree.setCellRenderer( renderer );
 
-        m_tree.addTreeExpansionListener( new DirExpansionListener() );
+        this.m_tree.addTreeExpansionListener( new DirExpansionListener() );
 
-        m_tree.getSelectionModel().setSelectionMode(
+        this.m_tree.getSelectionModel().setSelectionMode(
                 TreeSelectionModel.SINGLE_TREE_SELECTION );
-        m_tree.setShowsRootHandles( true );
-        m_tree.setEditable( false );
+        this.m_tree.setShowsRootHandles( true );
+        this.m_tree.setEditable( false );
 
-        checkTreeManager = AddCh.new CheckTreeManager( m_tree, null );
+        this.checkTreeManager = this.AddCh.new CheckTreeManager( this.m_tree, null );
 
-        JScrollPane s = new JScrollPane();
-        s.getViewport().add( m_tree );
+        final JScrollPane s = new JScrollPane();
+        s.getViewport().add( this.m_tree );
         getContentPane().add( s, BorderLayout.CENTER );
 
-        WindowListener wndCloser = new WindowAdapter() {
+        final WindowListener wndCloser = new WindowAdapter() {
             @Override
-            public void windowClosing( WindowEvent e )
+            public void windowClosing( final WindowEvent e )
             {
                 System.exit( 0 );
             }
@@ -117,43 +121,48 @@ public class FileTreeViewer extends JFrame
         setVisible( true );
     }
 
-    DefaultMutableTreeNode getTreeNode( TreePath path )
+    DefaultMutableTreeNode getTreeNode( final TreePath path )
     {
         return (DefaultMutableTreeNode)(path.getLastPathComponent());
     }
 
-    FileNode getFileNode( DefaultMutableTreeNode node )
+    FileNode getFileNode( final DefaultMutableTreeNode node )
     {
-        if( node == null ) return null;
-        Object obj = node.getUserObject();
-        if( obj instanceof IconData ) obj = ((IconData)obj).getObject();
-        if( obj instanceof FileNode )
-            return (FileNode)obj;
-        else
+        if( node == null ) {
             return null;
+        }
+        Object obj = node.getUserObject();
+        if( obj instanceof IconData ) {
+            obj = ((IconData)obj).getObject();
+        }
+        if( obj instanceof FileNode ) {
+            return (FileNode)obj;
+        } else {
+            return null;
+        }
     }
 
     public AddCheckBoxToTree.CheckTreeManager getCheckTreeManager()
     {
-        return checkTreeManager;
+        return this.checkTreeManager;
     }
 
     // Make sure expansion is threaded and updating the tree model
     // only occurs within the event dispatching thread.
     class DirExpansionListener implements TreeExpansionListener {
         @Override
-        public void treeExpanded( TreeExpansionEvent event )
+        public void treeExpanded( final TreeExpansionEvent event )
         {
             final DefaultMutableTreeNode node = getTreeNode( event.getPath() );
             final FileNode fnode = getFileNode( node );
 
-            Thread runner = new Thread() {
+            final Thread runner = new Thread() {
                 @Override
                 public void run()
                 {
-                    if( fnode != null && fnode.expand( node ) ) {
-                        Runnable runnable = () -> {
-                            m_model.reload( node );
+                    if( (fnode != null) && fnode.expand( node ) ) {
+                        final Runnable runnable = () -> {
+                            FileTreeViewer.this.m_model.reload( node );
                         };
                         SwingUtilities.invokeLater( runnable );
                     }
@@ -163,18 +172,17 @@ public class FileTreeViewer extends JFrame
         }
 
         @Override
-        public void treeCollapsed( TreeExpansionEvent event )
+        public void treeCollapsed( final TreeExpansionEvent event )
         {}
     }
 
-    @SuppressWarnings("unused")
-    public static void main( String argv[] )
+    public static void main( final String argv[] )
     {
         try {
             UIManager
                     .setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
         }
-        catch( Exception evt ) {}
+        catch( final Exception evt ) {}
         new FileTreeViewer();
     }
 }
@@ -192,57 +200,62 @@ class IconCellRenderer extends JLabel implements TreeCellRenderer {
     public IconCellRenderer()
     {
         super();
-        m_textSelectionColor = UIManager.getColor( "Tree.selectionForeground" );
-        m_textNonSelectionColor = UIManager.getColor( "Tree.textForeground" );
-        m_bkSelectionColor = UIManager.getColor( "Tree.selectionBackground" );
-        m_bkNonSelectionColor = UIManager.getColor( "Tree.textBackground" );
-        m_borderSelectionColor = UIManager
+        this.m_textSelectionColor = UIManager.getColor( "Tree.selectionForeground" );
+        this.m_textNonSelectionColor = UIManager.getColor( "Tree.textForeground" );
+        this.m_bkSelectionColor = UIManager.getColor( "Tree.selectionBackground" );
+        this.m_bkNonSelectionColor = UIManager.getColor( "Tree.textBackground" );
+        this.m_borderSelectionColor = UIManager
                 .getColor( "Tree.selectionBorderColor" );
         setOpaque( false );
     }
 
     @Override
-    public Component getTreeCellRendererComponent( JTree tree, Object value,
-            boolean sel, boolean expanded, boolean leaf, int row,
-            boolean hasFocus )
+    public Component getTreeCellRendererComponent( final JTree tree, final Object value,
+            final boolean sel, final boolean expanded, final boolean leaf, final int row,
+            final boolean hasFocus )
 
     {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode)value;
-        Object obj = node.getUserObject();
+        final DefaultMutableTreeNode node = (DefaultMutableTreeNode)value;
+        final Object obj = node.getUserObject();
         setText( obj.toString() );
 
-        if( obj instanceof Boolean ) setText( "Retrieving data..." );
+        if( obj instanceof Boolean ) {
+            setText( "Retrieving data..." );
+        }
 
         if( obj instanceof IconData ) {
-            IconData idata = (IconData)obj;
-            if( expanded )
+            final IconData idata = (IconData)obj;
+            if( expanded ) {
                 setIcon( idata.getExpandedIcon() );
-            else
+            } else {
                 setIcon( idata.getIcon() );
-        } else
+            }
+        } else {
             setIcon( null );
+        }
 
         setFont( tree.getFont() );
-        setForeground( sel ? m_textSelectionColor : m_textNonSelectionColor );
-        setBackground( sel ? m_bkSelectionColor : m_bkNonSelectionColor );
-        m_selected = sel;
+        setForeground( sel ? this.m_textSelectionColor : this.m_textNonSelectionColor );
+        setBackground( sel ? this.m_bkSelectionColor : this.m_bkNonSelectionColor );
+        this.m_selected = sel;
         return this;
     }
 
     @Override
-    public void paintComponent( Graphics g )
+    public void paintComponent( final Graphics g )
     {
-        Color bColor = getBackground();
-        Icon icon = getIcon();
+        final Color bColor = getBackground();
+        final Icon icon = getIcon();
 
         g.setColor( bColor );
         int offset = 0;
-        if( icon != null && getText() != null )
+        if( (icon != null) && (getText() != null) ) {
             offset = (icon.getIconWidth() + getIconTextGap());
+        }
         g.fillRect( offset, 0, getWidth() - 1 - offset, getHeight() - 1 );
 
-        if( m_selected ) {
-            g.setColor( m_borderSelectionColor );
+        if( this.m_selected ) {
+            g.setColor( this.m_borderSelectionColor );
             g.drawRect( offset, 0, getWidth() - 1 - offset, getHeight() - 1 );
         }
 
@@ -255,104 +268,115 @@ class IconData {
     protected Icon   m_expandedIcon;
     protected Object m_data;
 
-    public IconData( Icon icon, Object data )
+    public IconData( final Icon icon, final Object data )
     {
-        m_icon = icon;
-        m_expandedIcon = null;
-        m_data = data;
+        this.m_icon = icon;
+        this.m_expandedIcon = null;
+        this.m_data = data;
     }
 
-    public IconData( Icon icon, Icon expandedIcon, Object data )
+    public IconData( final Icon icon, final Icon expandedIcon, final Object data )
     {
-        m_icon = icon;
-        m_expandedIcon = expandedIcon;
-        m_data = data;
+        this.m_icon = icon;
+        this.m_expandedIcon = expandedIcon;
+        this.m_data = data;
     }
 
     public Icon getIcon()
     {
-        return m_icon;
+        return this.m_icon;
     }
 
     public Icon getExpandedIcon()
     {
-        return m_expandedIcon != null ? m_expandedIcon : m_icon;
+        return this.m_expandedIcon != null ? this.m_expandedIcon : this.m_icon;
     }
 
     public Object getObject()
     {
-        return m_data;
+        return this.m_data;
     }
 
     @Override
     public String toString()
     {
-        return m_data.toString();
+        return this.m_data.toString();
     }
 }
 
 class FileNode {
     protected File m_file;
 
-    public FileNode( File file )
+    public FileNode( final File file )
     {
-        m_file = file;
+        this.m_file = file;
     }
 
     public File getFile()
     {
-        return m_file;
+        return this.m_file;
     }
 
     @Override
     public String toString()
     {
-        return m_file.getName().length() > 0 ? m_file.getName() : m_file
+        return this.m_file.getName().length() > 0 ? this.m_file.getName() : this.m_file
                 .getPath();
     }
 
-    public boolean expand( DefaultMutableTreeNode parent )
+    public boolean expand( final DefaultMutableTreeNode parent )
     {
-        DefaultMutableTreeNode flag = (DefaultMutableTreeNode)parent
+        final DefaultMutableTreeNode flag = (DefaultMutableTreeNode)parent
                 .getFirstChild();
-        if( flag == null ) // No flag
+        if( flag == null ) {
             return false;
-        Object obj = flag.getUserObject();
-        if( !(obj instanceof Boolean) ) return false; // Already expanded
+        }
+        final Object obj = flag.getUserObject();
+        if( !(obj instanceof Boolean) )
+         {
+            return false; // Already expanded
+        }
 
         parent.removeAllChildren(); // Remove Flag
 
-        File[] files = listFiles();
-        if( files == null ) return true;
+        final File[] files = listFiles();
+        if( files == null ) {
+            return true;
+        }
 
-        Vector<FileNode> v = new Vector<>();
+        final Vector<FileNode> v = new Vector<>();
 
-        for (File f : files) {
-            if( !(f.isDirectory()) ) continue;
+        for (final File f : files) {
+            if( !(f.isDirectory()) ) {
+                continue;
+            }
 
-            FileNode newNode = new FileNode( f );
+            final FileNode newNode = new FileNode( f );
 
             boolean isAdded = false;
             for( int i = 0; i < v.size(); i++ ) {
-                FileNode nd = (FileNode)v.elementAt( i );
+                final FileNode nd = v.elementAt( i );
                 if( newNode.compareTo( nd ) < 0 ) {
                     v.insertElementAt( newNode, i );
                     isAdded = true;
                     break;
                 }
             }
-            if( !isAdded ) v.addElement( newNode );
+            if( !isAdded ) {
+                v.addElement( newNode );
+            }
         }
 
         for( int i = 0; i < v.size(); i++ ) {
-            FileNode nd = (FileNode)v.elementAt( i );
-            IconData idata = new IconData( FileTreeViewer.ICON_FOLDER,
+            final FileNode nd = v.elementAt( i );
+            final IconData idata = new IconData( FileTreeViewer.ICON_FOLDER,
                     FileTreeViewer.ICON_EXPANDEDFOLDER, nd );
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode( idata );
+            final DefaultMutableTreeNode node = new DefaultMutableTreeNode( idata );
             parent.add( node );
 
-            if( nd.hasSubDirs() )
+            if( nd.hasSubDirs() ) {
                 node.add( new DefaultMutableTreeNode( new Boolean( true ) ) );
+            }
         }
 
         return true;
@@ -360,9 +384,11 @@ class FileNode {
 
     public boolean hasSubDirs()
     {
-        File[] files = listFiles();
-        if( files == null ) return false;
-        for (File file : files) {
+        final File[] files = listFiles();
+        if( files == null ) {
+            return false;
+        }
+        for (final File file : files) {
             if (file.isDirectory()) {
                 return true;
             }
@@ -370,21 +396,23 @@ class FileNode {
         return false;
     }
 
-    public int compareTo( FileNode toCompare )
+    public int compareTo( final FileNode toCompare )
     {
-        return m_file.getName()
+        return this.m_file.getName()
                 .compareToIgnoreCase( toCompare.m_file.getName() );
     }
 
     protected File[] listFiles()
     {
-        if( !m_file.isDirectory() ) return null;
-        try {
-            return m_file.listFiles();
+        if( !this.m_file.isDirectory() ) {
+            return null;
         }
-        catch( Exception ex ) {
+        try {
+            return this.m_file.listFiles();
+        }
+        catch( final Exception ex ) {
             JOptionPane.showMessageDialog( null, "Error reading directory "
-                    + m_file.getAbsolutePath(), "Warning",
+                    + this.m_file.getAbsolutePath(), "Warning",
                     JOptionPane.WARNING_MESSAGE );
             return null;
         }

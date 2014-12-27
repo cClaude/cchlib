@@ -16,7 +16,7 @@ public class SplitMails implements Iterable<InputStream>
     public static final String TESTINFILE_REL_FROM_USERHOME = "Bureau/jup60/jup60.mails2";
     public static final String TESTOUTDIR = "C:/temp/";
 
-    private MailLineInputStream thunderbirdMails;
+    private final MailLineInputStream thunderbirdMails;
 
     /**
      *
@@ -24,7 +24,6 @@ public class SplitMails implements Iterable<InputStream>
      * @throws FileNotFoundException
      * @throws IOException
      */
-    @SuppressWarnings("resource")
     public SplitMails(
         final File thunderbirdMailFile
         )
@@ -92,12 +91,12 @@ public class SplitMails implements Iterable<InputStream>
                 @Override
                 public boolean hasNext()
                 {
-                    return thunderbirdMails.isEOF();
+                    return SplitMails.this.thunderbirdMails.isEOF();
                 }
                 @Override
                 public InputStream next()
                 {
-                    return new MailInputStream( thunderbirdMails );
+                    return new MailInputStream( SplitMails.this.thunderbirdMails );
                }
                 @Override
                 public void remove()

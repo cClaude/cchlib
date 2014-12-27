@@ -1,9 +1,16 @@
 // $codepro.audit.disable
 package com.googlecode.cchlib.swing.hexeditor;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JComponent;
 
 /**
  * TODOC
@@ -14,12 +21,12 @@ class JHexEditorHEX
         implements MouseListener, KeyListener
 {
     private static final long serialVersionUID = 1L;
-    private HexEditorModel model;
+    private final HexEditorModel model;
     private int cursor=0;
 
     public JHexEditorHEX(
-        HexEditorModel hexEditorModel,
-        FocusListener  focusListener
+        final HexEditorModel hexEditorModel,
+        final FocusListener  focusListener
         )
     {
         this.model=hexEditorModel;
@@ -47,50 +54,50 @@ class JHexEditorHEX
     {
         //debug("getMinimumSize()");
 
-        Dimension d=new Dimension();
+        final Dimension d=new Dimension();
         //FontMetrics fn=getFontMetrics(getCustomFont());
-        FontMetrics fn = model.getFontMetrics();
-        int h=fn.getHeight();
-        int nl=model.getDisplayLinesCount();
+        final FontMetrics fn = this.model.getFontMetrics();
+        final int h=fn.getHeight();
+        final int nl=this.model.getDisplayLinesCount();
         d.setSize(
-            ((fn.stringWidth(" ")+1)*+((16*3)-1))+(model.getBorderWidth()*2)+1,
-            h*nl+(model.getBorderWidth()*2)+1
+            ((fn.stringWidth(" ")+1)*+((16*3)-1))+(this.model.getBorderWidth()*2)+1,
+            (h*nl)+(this.model.getBorderWidth()*2)+1
             );
         return d;
     }
 
     @Override
-    public void paint(Graphics g)
+    public void paint(final Graphics g)
     {
         //debug("paint("+g+")");
         //debug("cursor="+he.getCursorPos()+" buff.length="+he.getBuffer().getLength());
-        Dimension d=getMinimumSize();
+        final Dimension d=getMinimumSize();
         g.setColor(Color.white);
         g.fillRect(0,0,d.width,d.height);
         g.setColor(Color.black);
 
-        g.setFont( model.getFont() );
+        g.setFont( this.model.getFont() );
 
-        int ini=model.getIntroduction()*16;
-        int fin=ini+(model.getDisplayLinesCount()*16);
-        if(fin>model.getBuffer().getLength()) {
-            fin=model.getBuffer().getLength();
+        final int ini=this.model.getIntroduction()*16;
+        int fin=ini+(this.model.getDisplayLinesCount()*16);
+        if(fin>this.model.getBuffer().getLength()) {
+            fin=this.model.getBuffer().getLength();
             }
 
         //datos hex
         int x=0;
         int y=0;
         for(int n=ini;n<fin;n++) {
-            if(n==model.getCursorPos()) {
+            if(n==this.model.getCursorPos()) {
                 if(hasFocus()) {
                     g.setColor(Color.black);
-                    model.drawBackground(g,(x*3),y,2);
+                    this.model.drawBackground(g,(x*3),y,2);
                     g.setColor(Color.blue);
-                    model.drawBackground(g,(x*3)+cursor,y,1);
+                    this.model.drawBackground(g,(x*3)+this.cursor,y,1);
                     }
                 else {
                     g.setColor(Color.blue);
-                    model.drawTable(g,(x*3),y,2);
+                    this.model.drawTable(g,(x*3),y,2);
                     }
 
                 if(hasFocus()) {
@@ -104,9 +111,9 @@ class JHexEditorHEX
                 g.setColor(Color.black);
                 }
 
-            String s=("0"+Integer.toHexString(model.getBuffer().getByte( n ) ));
+            String s=("0"+Integer.toHexString(this.model.getBuffer().getByte( n ) ));
             s=s.substring(s.length()-2);
-            model.printString(g,s,((x++)*3),y);
+            this.model.printString(g,s,((x++)*3),y);
             if(x==16)
             {
                 x=0;
@@ -124,90 +131,89 @@ class JHexEditorHEX
     public int calcularPosicionRaton(int x,int y)
     {
         //FontMetrics fn=getFontMetrics(getCustomFont());
-        FontMetrics fn = model.getFontMetrics();
+        final FontMetrics fn = this.model.getFontMetrics();
         x=x/((fn.stringWidth(" ")+1)*3);
         y=y/fn.getHeight();
         //debug("x="+x+" ,y="+y);
-        return x+((y+model.getIntroduction())*16);
+        return x+((y+this.model.getIntroduction())*16);
     }
 
     @Override// mouselistener
-    public void mouseClicked(MouseEvent e)
+    public void mouseClicked(final MouseEvent e)
     {
         //debug("mouseClicked("+e+")");
-        model.setCursorPos( calcularPosicionRaton(e.getX(),e.getY()) );
+        this.model.setCursorPos( calcularPosicionRaton(e.getX(),e.getY()) );
         this.requestFocus();
-        model.repaintAll();
+        this.model.repaintAll();
     }
 
     @Override// mouselistener
-    public void mousePressed(MouseEvent e)
+    public void mousePressed(final MouseEvent e)
     {
     }
 
     @Override// mouselistener
-    public void mouseReleased(MouseEvent e)
+    public void mouseReleased(final MouseEvent e)
     {
     }
 
     @Override// mouselistener
-    public void mouseEntered(MouseEvent e)
+    public void mouseEntered(final MouseEvent e)
     {
     }
 
     @Override// mouselistener
-    public void mouseExited(MouseEvent e)
+    public void mouseExited(final MouseEvent e)
     {
     }
 
     @Override//KeyListener
-    public void keyTyped(KeyEvent e)
+    public void keyTyped(final KeyEvent e)
     {
         //debug("keyTyped("+e+")");
 
-        char c=e.getKeyChar();
+        final char c=e.getKeyChar();
         if(((c>='0')&&(c<='9'))||((c>='A')&&(c<='F'))||((c>='a')&&(c<='f')))
         {
-            char[] str=new char[2];
-            String n="00"+Integer.toHexString((int)model.getBuffer().getByte( model.getCursorPos() ));
+            final char[] str=new char[2];
+            String n="00"+Integer.toHexString(this.model.getBuffer().getByte( this.model.getCursorPos() ));
 
             if(n.length()>2) {
                 n=n.substring(n.length()-2);
                 }
-            str[1-cursor]=n.charAt(1-cursor);
-            str[cursor]=e.getKeyChar();
+            str[1-this.cursor]=n.charAt(1-this.cursor);
+            str[this.cursor]=e.getKeyChar();
             //he.getBuffer()[he.getCursorPos()]=(byte)Integer.parseInt(new String(str),16);
 
-            @SuppressWarnings("resource") // Should not be closed here.
-            ArrayReadWriteAccess buff = model.getBufferRW();
+            final ArrayReadWriteAccess buff = this.model.getBufferRW();
 
             if( buff != null ) {
                 buff.setByte(
-                        model.getCursorPos(),
+                        this.model.getCursorPos(),
                         (byte)Integer.parseInt(new String(str),16)
                         );
                 }
 
-            if(cursor!=1) {
-                cursor=1;
+            if(this.cursor!=1) {
+                this.cursor=1;
                 }
-            else if(model.getCursorPos()!=(model.getBuffer().getLength()-1)) {
-                model.incCursorPos();
-                cursor=0;
+            else if(this.model.getCursorPos()!=(this.model.getBuffer().getLength()-1)) {
+                this.model.incCursorPos();
+                this.cursor=0;
                 }
-            model.updateCursor();
+            this.model.updateCursor();
         }
     }
 
     @Override//KeyListener
-    public void keyPressed(KeyEvent e)
+    public void keyPressed(final KeyEvent e)
     {
         //debug("keyPressed("+e+")");
-        model.keyPressed(e);
+        this.model.keyPressed(e);
     }
 
     @Override//KeyListener
-    public void keyReleased(KeyEvent e)
+    public void keyReleased(final KeyEvent e)
     {
         //debug("keyReleased("+e+")");
     }
