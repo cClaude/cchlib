@@ -24,8 +24,7 @@ public class ArrayReadAccessFile implements ArrayReadAccess
         this.raf = raf;
     }
 
-    @SuppressWarnings("resource")
-    public ArrayReadAccessFile( File f ) throws FileNotFoundException
+    public ArrayReadAccessFile( final File f ) throws FileNotFoundException
     {
         this( new RandomAccessFile( f, "r" ) );
     }
@@ -34,28 +33,28 @@ public class ArrayReadAccessFile implements ArrayReadAccess
     public int getLength()
     {
         try {
-            return (int)raf.length();
+            return (int)this.raf.length();
             }
-        catch (IOException e) {
+        catch (final IOException e) {
             throw new RuntimeException( e );
             }
     }
 
     @Override
-    public byte getByte(int index)
+    public byte getByte(final int index)
     {
         try {
             this.raf.seek( index );
 
             return this.raf.readByte();
             }
-        catch (IOException e) {
+        catch (final IOException e) {
             throw new RuntimeException( e );
             }
     }
 
     @Override
-    public char getChar(int index)
+    public char getChar(final int index)
     {
         return (char)getByte( index );
     }

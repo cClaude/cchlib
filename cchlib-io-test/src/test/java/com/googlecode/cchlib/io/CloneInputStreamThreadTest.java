@@ -26,28 +26,27 @@ public class CloneInputStreamThreadTest
     public void testCloneInputStreamThread() throws IOException
     {
         try (InputStream sourceIS0 = IO.createPNGInputStream()) {
-            CloneInputStreamThread  threadIS    = new CloneInputStreamThread(
+            final CloneInputStreamThread  threadIS    = new CloneInputStreamThread(
                     getClass().getName(),
                     sourceIS0,
                     BUFFER_SIZE,
                     createExceptionHandlers()
             );
             //InputStream[] copies = new InputStream[ threadIS.getSize() ];
-            TestRunnable[] runs = new TestRunnable[ threadIS.getSize() ];
+            final TestRunnable[] runs = new TestRunnable[ threadIS.getSize() ];
             for( int i = 0; i<runs.length; i++ ) {
-                @SuppressWarnings("resource")
                 final InputStream is = threadIS.getInputStream( i );
-                
+
                 runs[ i ]= new TestRunner( is ); // $codepro.audit.disable avoidInstantiationInLoops
-                
+
                 LOGGER.info( "start( " + i + " )" );
                 launchTask( runs[ i ] );
             }
             threadIS.start();
             LOGGER.info( "start()" );
             final byte[] source = IO.createPNG();
-            for (TestRunnable run : runs) {
-                byte[] bytes = run.getInputStreamAsBytes();
+            for (final TestRunnable run : runs) {
+                final byte[] bytes = run.getInputStreamAsBytes();
                 Assert.assertArrayEquals( source, bytes );
             }
         }
@@ -77,12 +76,12 @@ public class CloneInputStreamThreadTest
         return new InputStreamThreadExceptionHandler()
         {
             @Override
-            public void handleReadingIOException( IOException e )
+            public void handleReadingIOException( final IOException e )
             {
                 LOGGER.warn( "handleReadingIOException", e );
             }
             @Override
-            public void handleWritingIOException( IOException e )
+            public void handleWritingIOException( final IOException e )
             {
                 LOGGER.warn( "handleWritingIOException", e );
             }
@@ -117,12 +116,12 @@ public class CloneInputStreamThreadTest
         public void run()
         {
             try {
-                bytes = convertInputStreamAsBytes();
+                this.bytes = convertInputStreamAsBytes();
                 }
-            catch( IOException e ) { // $codepro.audit.disable logExceptions
-                ioException = e;
+            catch( final IOException e ) { // $codepro.audit.disable logExceptions
+                this.ioException = e;
                 }
-            isReady = true;
+            this.isReady = true;
         }
 
         @Override
@@ -130,10 +129,10 @@ public class CloneInputStreamThreadTest
         {
             while( ! isReady() ) {
                 try { Thread.sleep( 500 ); }
-                catch( InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
+                catch( final InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
                 }
 
-            return bytes;
+            return this.bytes;
         }
         private byte[] convertInputStreamAsBytes() throws IOException
         {
@@ -141,14 +140,14 @@ public class CloneInputStreamThreadTest
 
             try {
                 try {
-                    IOHelper.copy( is, os );
+                    IOHelper.copy( this.is, os );
                     }
                 finally {
                     os.close();
                     }
                 }
             finally {
-                is.close();
+                this.is.close();
                 }
 
             return os.toByteArray();
@@ -156,7 +155,7 @@ public class CloneInputStreamThreadTest
         @Override
         public IOException IOException()
         {
-            return ioException;
+            return this.ioException;
         }
     }
 }

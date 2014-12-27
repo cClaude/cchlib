@@ -59,7 +59,7 @@ public class SimpleDataSource
      */
     protected DataSource getDataSource()
     {
-        return ds;
+        return this.ds;
     }
 
     @Override
@@ -139,7 +139,6 @@ public class SimpleDataSource
      * @return a new Connection from DataSource
      * @throws SQLException if any
      */
-    @SuppressWarnings("resource")
     public Connection createConnectionFromDataSource()
         throws SQLException
     {
@@ -147,11 +146,11 @@ public class SimpleDataSource
         int         count   = 0;
 
         while( (conn == null) || conn.isClosed() ) {
-            if( userPass == null ) {
-                conn = ds.getConnection();
+            if( this.userPass == null ) {
+                conn = this.ds.getConnection();
                 }
             else {
-                conn = ds.getConnection(userPass[0], userPass[1]);
+                conn = this.ds.getConnection(this.userPass[0], this.userPass[1]);
                 }
 
             if( conn.isClosed() && (++count > 10) ) {

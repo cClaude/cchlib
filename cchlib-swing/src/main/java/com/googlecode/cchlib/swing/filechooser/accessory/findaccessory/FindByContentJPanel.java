@@ -49,25 +49,25 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
 
         setLayout(new BorderLayout());
 
-        JPanel p = new JPanel();
+        final JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p,BoxLayout.Y_AXIS));
 
         // Name
-        JLabel l = new JLabel("File contains...",SwingConstants.LEFT);
+        final JLabel l = new JLabel("File contains...",SwingConstants.LEFT);
         l.setForeground(Color.black);
         l.setFont(new Font("Helvetica",Font.PLAIN,10));
         p.add(l);
 
-        contentField = new JTextField();
-        contentField.setForeground(Color.black);
-        contentField.setFont(new Font("Helvetica",Font.PLAIN,10));
-        p.add(contentField);
+        this.contentField = new JTextField();
+        this.contentField.setForeground(Color.black);
+        this.contentField.setFont(new Font("Helvetica",Font.PLAIN,10));
+        p.add(this.contentField);
 
         // ignore case
-        ignoreCaseCheck = new JCheckBox("ignore case",true);
-        ignoreCaseCheck.setForeground(Color.black);
-        ignoreCaseCheck.setFont(new Font("Helvetica",Font.PLAIN,9));
-        p.add(ignoreCaseCheck);
+        this.ignoreCaseCheck = new JCheckBox("ignore case",true);
+        this.ignoreCaseCheck.setForeground(Color.black);
+        this.ignoreCaseCheck.setFont(new Font("Helvetica",Font.PLAIN,9));
+        p.add(this.ignoreCaseCheck);
 
         add(p,BorderLayout.NORTH);
     }
@@ -75,8 +75,8 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
     @Override
     public FindFilter createFindFilter ()
     {
-        return new ContentFilter(contentField.getText(),
-                                    ignoreCaseCheck.isSelected());
+        return new ContentFilter(this.contentField.getText(),
+                                    this.ignoreCaseCheck.isSelected());
     }
 
     /**
@@ -87,14 +87,14 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
         protected String    content = null;
         protected boolean   ignoreCase = true;
 
-        ContentFilter (String s, boolean ignore)
+        ContentFilter (final String s, final boolean ignore)
         {
-            content = s;
-            ignoreCase = ignore;
+            this.content = s;
+            this.ignoreCase = ignore;
         }
 
         @Override
-        public boolean accept (File f, FindProgressCallback callback)
+        public boolean accept (final File f, final FindProgressCallback callback)
         {
             if (f == null) {
                 return false;
@@ -102,7 +102,7 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
             if (f.isDirectory()) {
                 return false;
                 }
-            if ((content == null) || (content.length() == 0)) {
+            if ((this.content == null) || (this.content.length() == 0)) {
                 return true;
                 }
 
@@ -111,14 +111,14 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
             LocatorStream       locator = null;
 
             try {
-                long fileLength = f.length();
+                final long fileLength = f.length();
                 in = new BufferedInputStream(new FileInputStream(f));
                 byte[] contentBytes = null;
-                if( ignoreCase ) {
-                    contentBytes = content.toLowerCase().getBytes();
+                if( this.ignoreCase ) {
+                    contentBytes = this.content.toLowerCase().getBytes();
                     }
                 else {
-                    contentBytes = content.getBytes();
+                    contentBytes = this.content.getBytes();
                     }
 
                 locator = new LocatorStream(contentBytes);
@@ -129,8 +129,8 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
                 while((c = in.read()) != -1) {
                     counter++;
                     int matchChar = c;
-                    if (ignoreCase) {
-                        matchChar = (int)Character.toLowerCase((char)c);
+                    if (this.ignoreCase) {
+                        matchChar = Character.toLowerCase((char)c);
                         }
                     locator.write(matchChar);
 
@@ -148,15 +148,15 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
                         }
                     }
                 }
-            catch( LocatedException e ) { // $codepro.audit.disable logExceptions
+            catch( final LocatedException e ) { // $codepro.audit.disable logExceptions
                 result = true;
                 }
-            catch (Throwable e) {
+            catch (final Throwable e) {
                 LOGGER.warn( "ContentFilter error", e );
                 }
             finally {
-                try { if (locator != null) { locator.close(); } } catch (IOException e){} // $codepro.audit.disable emptyCatchClause, logExceptions
-                try { if (in != null) { in.close(); } } catch (IOException e){} // $codepro.audit.disable emptyCatchClause, logExceptions
+                try { if (locator != null) { locator.close(); } } catch (final IOException e){} // $codepro.audit.disable emptyCatchClause, logExceptions
+                try { if (in != null) { in.close(); } } catch (final IOException e){} // $codepro.audit.disable emptyCatchClause, logExceptions
                 }
 
             return result;
@@ -169,12 +169,12 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
         {
             private static final long serialVersionUID = 1L;
 
-            public LocatedException(String msg)
+            public LocatedException(final String msg)
             {
                 super(msg);
             }
 
-            public LocatedException(long location)
+            public LocatedException(final long location)
             {
                 super(String.valueOf(location));
             }
@@ -191,47 +191,45 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
             protected Vector<MatchStream>   matchMakers = new Vector<MatchStream>();
             protected long                  mark = 0;
 
-            LocatorStream (byte[] b)
+            LocatorStream (final byte[] b)
             {
-                locate = b;
+                this.locate = b;
             }
 
             @Override
-            public void write (int b) throws IOException
+            public void write (final int b) throws IOException
             {
-                if( locate == null ) {
+                if( this.locate == null ) {
                     throw new IOException("NULL locator array");
                     }
-                if( locate.length == 0 ) {
+                if( this.locate.length == 0 ) {
                     throw new IOException("Empty locator array");
                     }
 
                 long foundAt = -1;
 
-                for( int i=matchMakers.size()-1; i>=0; i-- ) {
-                    @SuppressWarnings("resource")
-                    MatchStream m = matchMakers.elementAt(i);
+                for( int i=this.matchMakers.size()-1; i>=0; i-- ) {
+                    final MatchStream m = this.matchMakers.elementAt(i);
 
                     try {
                         m.write(b);
                         }
-                    catch (MatchMadeException e) { // $codepro.audit.disable logExceptions
+                    catch (final MatchMadeException e) { // $codepro.audit.disable logExceptions
                         foundAt = m.getMark();
-                        matchMakers.removeElementAt(i);
+                        this.matchMakers.removeElementAt(i);
                         }
-                    catch (IOException e) { // $codepro.audit.disable logExceptions
+                    catch (final IOException e) { // $codepro.audit.disable logExceptions
                         // Match not made. Remove current matchMaker stream.
-                        matchMakers.removeElementAt(i);
+                        this.matchMakers.removeElementAt(i);
                         }
                     }
 
-                if( b == locate[0] ) {
-                    @SuppressWarnings("resource")
-                    MatchStream m = new MatchStream(locate,mark);
+                if( b == this.locate[0] ) {
+                    final MatchStream m = new MatchStream(this.locate,this.mark);
                     m.write(b); // This will be accepted
-                    matchMakers.addElement(m);
+                    this.matchMakers.addElement(m);
                     }
-                mark++;
+                this.mark++;
 
                 if (foundAt >= 0) {
                     throw new LocatedException(foundAt);
@@ -245,12 +243,12 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
             {
                 private static final long serialVersionUID = 1L;
 
-                public MatchMadeException (String msg)
+                public MatchMadeException (final String msg)
                 {
                     super(msg);
                 }
 
-                public MatchMadeException (long mark)
+                public MatchMadeException (final long mark)
                 {
                     super(String.valueOf(mark));
                 }
@@ -270,45 +268,45 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
                 protected byte[]    match = null;
                 protected boolean   matchMade = false;
 
-                MatchStream (byte[] b, long m)
+                MatchStream (final byte[] b, final long m)
                 {
-                    mark = m;
-                    match = b;
+                    this.mark = m;
+                    this.match = b;
                 }
 
                 @Override
-                public void write (int b) throws IOException
+                public void write (final int b) throws IOException
                 {
-                    if (matchMade) {
+                    if (this.matchMade) {
                         return;
                     }
-                    if (match == null) {
+                    if (this.match == null) {
                         throw new IOException("NULL match array");
                     }
 
-                    if (match.length == 0) {
+                    if (this.match.length == 0) {
                         throw new IOException("Empty match array");
                     }
 
-                    if (pos >= match.length) {
+                    if (this.pos >= this.match.length) {
                         throw new IOException("No match");
                     }
 
-                    if (b != match[pos]) {
+                    if (b != this.match[this.pos]) {
                         throw new IOException("No match");
                     }
 
-                    pos++;
-                    if (pos >= match.length)
+                    this.pos++;
+                    if (this.pos >= this.match.length)
                     {
-                        matchMade = true;
-                        throw new MatchMadeException(mark);
+                        this.matchMade = true;
+                        throw new MatchMadeException(this.mark);
                     }
                 }
 
                 public long getMark ()
                 {
-                    return mark;
+                    return this.mark;
                 }
             }
         }

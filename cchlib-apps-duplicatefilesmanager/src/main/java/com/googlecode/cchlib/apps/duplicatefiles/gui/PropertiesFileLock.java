@@ -22,7 +22,7 @@ class PropertiesFileLock extends Properties
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( PropertiesFileLock.class );
 
-    private File file;
+    private final File file;
     private FileLock fileLock;
 
     public PropertiesFileLock( final File file ) throws IOException
@@ -47,8 +47,7 @@ class PropertiesFileLock extends Properties
     {
         try ( final RandomAccessFile raf = new RandomAccessFile( this.file, "rw" ) ) {
             // Get a file channel for the file
-            @SuppressWarnings("resource")
-            FileChannel channel = raf.getChannel();
+            final FileChannel channel = raf.getChannel();
 
             // Use the file channel to create a lock on the file.
             // This method blocks until it can retrieve the lock.
@@ -59,7 +58,7 @@ class PropertiesFileLock extends Properties
             try {
                 this.fileLock = channel.tryLock();
                 }
-            catch( OverlappingFileLockException ignore ) {
+            catch( final OverlappingFileLockException ignore ) {
                 // File is already locked in this thread or virtual machine
                 LOGGER.warn( "init()", ignore );
                 }
@@ -67,7 +66,7 @@ class PropertiesFileLock extends Properties
             // Release the lock
             this.fileLock.release();
             }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             LOGGER.warn( "init()", e );
             }
     }
