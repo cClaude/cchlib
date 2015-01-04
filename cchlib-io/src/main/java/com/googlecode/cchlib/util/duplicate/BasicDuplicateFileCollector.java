@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.util.duplicate;
 
+import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.HashMapSet;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  * Perform 2 pass to check duplicate.
@@ -25,9 +25,8 @@ import com.googlecode.cchlib.util.HashMapSet;
  * To use more than one this this object, call
  * {@link #clear()}
  */
-public class BasicDuplicateFileCollector //
-    extends DefaultDigestFileCollector//
-        implements DuplicateFileCollector
+public class DuplicateFileCollector
+    extends DefaultDigestFileCollector
 {
     private static final long serialVersionUID = 2L;
     /** @serial */
@@ -46,7 +45,7 @@ public class BasicDuplicateFileCollector //
      * to compute hash code for files.
      * @param ignoreEmptyFile ignore empty files (length = 0) if true.
      */
-    public BasicDuplicateFileCollector(
+    public DuplicateFileCollector(
         final MessageDigestFile   messageDigestFile,
         final boolean             ignoreEmptyFile
         )
@@ -102,13 +101,13 @@ public class BasicDuplicateFileCollector //
         for(final File f:files) {
             final long size = f.length();
 
-            if( this.ignoreEmptyFile && (size == 0) ) {
+            if( ignoreEmptyFile && (size == 0) ) {
                 continue;
             }
 
-            this.mapLengthFiles.add( Long.valueOf( size ), f );
+            mapLengthFiles.add( Long.valueOf( size ), f );
 
-            if( this.cancelProcess ) {
+            if( cancelProcess ) {
                 internalClear();
                 return;
             }
@@ -153,7 +152,7 @@ public class BasicDuplicateFileCollector //
         int  c = 0;
         long l = 0;
 
-        for(final Set<File> s:this.mapLengthFiles.values()) {
+        for(final Set<File> s:mapLengthFiles.values()) {
             if( s.size() > 1 ) {
                 c += s.size();
                 for(final File f:s) {
@@ -181,19 +180,19 @@ public class BasicDuplicateFileCollector //
 
         this.alreadyCallPass2 = true;
 
-        if( this.cancelProcess ) {
+        if( cancelProcess ) {
             internalClear();
             return;
         }
 
-        for( final Set<File> set : this.mapLengthFiles.values() ) {
+        for( final Set<File> set : mapLengthFiles.values() ) {
             if( set.size() > 1 ) {
                 for( final File file : set ) {
                     handlePass2ForFile( file );
 
                     // Done with current file (or cancel)
                     // Check cancel state
-                    if( this.cancelProcess ) {
+                    if( cancelProcess ) {
                         internalClear();
                         return;
                     }
@@ -201,7 +200,7 @@ public class BasicDuplicateFileCollector //
             }
         }
 
-        this.mapLengthFiles.clear();
+        mapLengthFiles.clear();
         super.removeNonDuplicate();
     }
 
@@ -210,9 +209,9 @@ public class BasicDuplicateFileCollector //
         notify( f );
 
         try {
-            this.mdf.compute( f, this.listeners );
+            mdf.compute( f, listeners );
 
-            final String key = this.mdf.digestString();
+            final String key = mdf.digestString();
             Set<File>    set = super.mapHashFile.get( key );
 
             if( set == null ) {
@@ -247,14 +246,14 @@ public class BasicDuplicateFileCollector //
     {
         internalClear();
         setCancelProcess(false);
-        this.alreadyCallPass2 = false;
+        alreadyCallPass2 = false;
     }
 
     // Should not stop cancel here, ensure cancel
     // process will continue.
     private void internalClear()
     {
-        this.mapLengthFiles.deepClear();
+        mapLengthFiles.deepClear();
         super.clear();
     }
 
@@ -275,7 +274,7 @@ public class BasicDuplicateFileCollector //
      */
     public void setCancelProcess(final boolean cancel)
     {
-        this.cancelProcess = cancel;
+        cancelProcess = cancel;
     }
 
     /**
@@ -283,7 +282,7 @@ public class BasicDuplicateFileCollector //
      */
     public boolean isCancelProcess()
     {
-        return this.cancelProcess;
+        return cancelProcess;
     }
 
     private static final class PStats implements Stats
@@ -300,13 +299,13 @@ public class BasicDuplicateFileCollector //
         @Override
         public int getPass2Files()
         {
-            return this.files;
+            return files;
         }
 
         @Override
         public long getPass2Bytes()
         {
-            return this.length;
+            return length;
         }
     }
 
