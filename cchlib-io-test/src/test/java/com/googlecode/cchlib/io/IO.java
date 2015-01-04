@@ -10,16 +10,18 @@ import java.io.InputStream;
 /**
  * For test ONLY
  */
-public class IO
+public final class IO
 {
-    public final static String PNG_FILE = "test.png";
+    public static final String DEFAULT_PREFIX_NAME = "cchlib-test-io";
+    public static final String PNG_FILE = "test.png";
+    public static final String MD5_FOR_PNG_FILE = "290F5DC06AEA8CCD8857A17AC5D4DD1E";
 
     /**
      * Returns an InputStream within a valid PNG file
      * @return an InputStream within a valid PNG file
      * @throws FileNotFoundException if file not found
      */
-    public final static InputStream createPNGInputStream()
+    public static final InputStream createPNGInputStream()
         throws FileNotFoundException
     {
         final InputStream is = IO.class.getResourceAsStream( PNG_FILE );
@@ -31,17 +33,27 @@ public class IO
         return is;
     }
 
-    public final static File createPNGTempFile() throws IOException
+    public static final File createPNGTempFile( final String prefixName ) throws IOException
     {
-        return IOHelper.toFile( createPNG(), File.createTempFile( "cchlib-test-io", ".png" ) );
+        return IOHelper.toFile( createPNG(), File.createTempFile( prefixName + '-', ".png" ) );
     }
 
-    public final static File createZipTempFile() throws IOException
+    public static final File createPNGTempFile() throws IOException
     {
-        return IOHelper.copy( createZipInputFile(), File.createTempFile( "cchlib-test-io", ".zip" ) );
+        return createPNGTempFile( DEFAULT_PREFIX_NAME );
     }
 
-    public final static InputStream createZipInputFile() throws FileNotFoundException
+    public static final File createZipTempFile( final String prefixName ) throws IOException
+    {
+        return IOHelper.copy( createZipInputFile(), File.createTempFile( prefixName + '-', ".zip" ) );
+    }
+
+    public static final File createZipTempFile() throws IOException
+    {
+        return createZipTempFile( DEFAULT_PREFIX_NAME );
+    }
+
+    public static final InputStream createZipInputFile() throws FileNotFoundException
     {
         return new FileInputStream( "./src/test/resources/com/googlecode/cchlib/io/mysrc.zip" );
     }
@@ -52,7 +64,7 @@ public class IO
      * @throws FileNotFoundException if file not found
      * @throws IOException if any IO error occurred
      */
-   public final static byte[] createPNG()
+   public static final byte[] createPNG()
        throws FileNotFoundException, IOException
     {
         final ByteArrayOutputStream os = new ByteArrayOutputStream();
