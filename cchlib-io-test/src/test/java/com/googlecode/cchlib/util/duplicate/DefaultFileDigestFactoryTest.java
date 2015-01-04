@@ -4,6 +4,9 @@ import java.security.NoSuchAlgorithmException;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 
+/**
+ * @since 4.2
+ */
 public class DefaultFileDigestFactoryTest {
 
     @Test

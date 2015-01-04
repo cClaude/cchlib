@@ -33,6 +33,13 @@ public final class IO
         return is;
     }
 
+    /**
+     *
+     * @param prefixName
+     * @return
+     * @throws IOException
+     * @since 4.2
+     */
     public static final File createPNGTempFile( final String prefixName ) throws IOException
     {
         return IOHelper.toFile( createPNG(), File.createTempFile( prefixName + '-', ".png" ) );
@@ -43,6 +50,13 @@ public final class IO
         return createPNGTempFile( DEFAULT_PREFIX_NAME );
     }
 
+    /**
+     *
+     * @param prefixName
+     * @return
+     * @throws IOException
+     * @since 4.2
+     */
     public static final File createZipTempFile( final String prefixName ) throws IOException
     {
         return IOHelper.copy( createZipInputFile(), File.createTempFile( prefixName + '-', ".zip" ) );

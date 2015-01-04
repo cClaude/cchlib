@@ -7,6 +7,8 @@ import java.util.EventListener;
 
 /**
  * The listener interface for receiving start computing digest events.
+ *
+ * @since 4.2
  */
 public interface DuplicateFileFinderEventListener
     extends EventListener, Serializable
