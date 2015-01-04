@@ -4,6 +4,8 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  *  Factory for {@link FileDigest}
+ *
+ *  @since 4.2
  */
 public interface FileDigestFactory {
     /**

@@ -14,6 +14,11 @@ import javax.annotation.Nonnull;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.HashMapSet;
 
+/**
+ * Default implementation for {@link DuplicateFileFinder}
+ *
+ * @since 4.2
+ */
 public class DefaultDuplicateFileFinder implements DuplicateFileFinder {
 
     private final class PrivateFileDigestListener implements FileDigestListener {
@@ -44,13 +49,13 @@ public class DefaultDuplicateFileFinder implements DuplicateFileFinder {
         }
 
         @Override
-        public long getPass2Bytes()
+        public long getBytesToRead()
         {
             return this.bytes2Read;
         }
 
         @Override
-        public int getPass2Files()
+        public int getFilesToRead()
         {
             return this.filesCount;
         }
@@ -76,6 +81,11 @@ public class DefaultDuplicateFileFinder implements DuplicateFileFinder {
     {
         if( maxParalleleFiles < 1 ) {
             throw new IllegalArgumentException( "maxParalleleFiles must be >= 1 : current value = " + maxParalleleFiles );
+        }
+
+        // FIXME implement nested functionalities
+        if( maxParalleleFiles > 1 ) {
+            throw new UnsupportedOperationException();
         }
 
         this.fileDigests = new FileDigest[ maxParalleleFiles ];
@@ -170,17 +180,19 @@ public class DefaultDuplicateFileFinder implements DuplicateFileFinder {
         this.state = State.PASS1;
     }
 
-    @Override
-    public int getDuplicateFilesCount()
-    {
-        return this.duplicateFilesCount;
-    }
+    // TODO
+//    @Override
+//    public int getDuplicateFilesCount()
+//    {
+//        return this.duplicateFilesCount;
+//    }
 
-    @Override
-    public int getDuplicateSetsCount()
-    {
-        return this.duplicateSetsCount;
-    }
+    // TODO
+//    @Override
+//    public int getDuplicateSetsCount()
+//    {
+//        return this.duplicateSetsCount;
+//    }
 
     @Override
     public Map<String, Set<File>> getFiles()

@@ -4,7 +4,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Default implementation for FileDigestFactory
+ * Default implementation for {@link FileDigestFactory}
+ *
+ * @since 4.2
  */
 public class DefaultFileDigestFactory implements FileDigestFactory {
     /**

@@ -12,6 +12,9 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.Status;
 
+/**
+ * @since 4.2
+ */
 public class DefaultDuplicateFileFinderTest {
 
     private final class LoggerEventListener implements DuplicateFileFinderEventListener {
@@ -82,16 +85,16 @@ public class DefaultDuplicateFileFinderTest {
 
         Status initialStatus = dff.getInitialStatus();
 
-        Assertions.assertThat( initialStatus.getPass2Files() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getPass2Bytes() ).isEqualTo( file1.length() + file2.length() );
+        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() + file2.length() );
 
         dff.addFile( file3 );
 
         initialStatus = dff.getInitialStatus();
 
         // new file
-        Assertions.assertThat( initialStatus.getPass2Files() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getPass2Bytes() ).isEqualTo( file1.length() + file2.length() );
+        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() + file2.length() );
     }
 
 
@@ -108,8 +111,8 @@ public class DefaultDuplicateFileFinderTest {
 
         Status initialStatus = dff.getInitialStatus();
 
-        Assertions.assertThat( initialStatus.getPass2Files() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getPass2Bytes() ).isEqualTo( file1.length() + file2.length() );
+        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() + file2.length() );
 
         dff.find();
 
@@ -134,8 +137,8 @@ public class DefaultDuplicateFileFinderTest {
 
         final Status initialStatus = dff.getInitialStatus();
 
-        Assertions.assertThat( initialStatus.getPass2Files() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getPass2Bytes() ).isEqualTo( file1.length() + file2.length() );
+        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() + file2.length() );
 
         dff.find();
 
@@ -168,8 +171,8 @@ public class DefaultDuplicateFileFinderTest {
         Status initialStatus = dff.getInitialStatus();
 
         // File 3 is expected here.
-        Assertions.assertThat( initialStatus.getPass2Files() ).isEqualTo( 3 );
-        Assertions.assertThat( initialStatus.getPass2Bytes() ).isEqualTo( file1.length() * 3 );
+        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 3 );
+        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() * 3 );
 
         // Delete file 3 now !
         file3.delete();
@@ -177,8 +180,8 @@ public class DefaultDuplicateFileFinderTest {
         initialStatus = dff.getInitialStatus();
 
         // File 3 no more expected here.
-        Assertions.assertThat( initialStatus.getPass2Files() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getPass2Bytes() ).isEqualTo( file1.length() * 2 );
+        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() * 2 );
 
         dff.find();
 
@@ -212,8 +215,8 @@ public class DefaultDuplicateFileFinderTest {
         file3.delete();
 
         // File 3 is still expected here.
-        Assertions.assertThat( initialStatus.getPass2Files() ).isEqualTo( 3 );
-        Assertions.assertThat( initialStatus.getPass2Bytes() ).isEqualTo( file1.length() * 3 );
+        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 3 );
+        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() * 3 );
 
         dff.find();
 
@@ -251,8 +254,8 @@ public class DefaultDuplicateFileFinderTest {
         final Status initialStatus = dff.getInitialStatus();
 
         // File 3 is not expected here.
-        Assertions.assertThat( initialStatus.getPass2Files() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getPass2Bytes() ).isEqualTo( file1.length() * 2 );
+        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() * 2 );
 
         dff.find();
 

@@ -9,6 +9,9 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.util.CancelRequestException;
 
+/**
+ * @since 4.2
+ */
 public class FileDigestTest {
     private static final Logger LOGGER = Logger.getLogger( FileDigestTest.class );
 

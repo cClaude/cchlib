@@ -13,9 +13,11 @@ import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
  * <P>This class is not thread safe</P>
+ *
+ * @see FileDigestFactory
+ * @since 4.2
  */
-public class FileDigest
-    implements Serializable
+public final class FileDigest implements Serializable
 {
 
  private static final long serialVersionUID = 1L;
