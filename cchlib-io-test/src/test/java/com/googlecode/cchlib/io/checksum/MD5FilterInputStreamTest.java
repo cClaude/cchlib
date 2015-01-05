@@ -18,12 +18,13 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.test.FilesTestCaseHelper;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
+import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 
+@SuppressWarnings("deprecation")
 public class MD5FilterInputStreamTest
 {
     private final static Logger LOGGER = Logger.getLogger( MD5FilterInputStreamTest.class );
-    private MessageDigestFile mdf;
+    private XMessageDigestFile mdf;
     private List<File> fileList;
     private final byte[] buffer = new byte[ 1024 ];
 
@@ -38,7 +39,7 @@ public class MD5FilterInputStreamTest
     @Before
     public void setUp() throws Exception
     {
-        this.mdf        = new MessageDigestFile( "MD5" );
+        this.mdf        = new XMessageDigestFile( "MD5" );
         this.fileList   = FilesTestCaseHelper.getFilesListFrom( FileHelper.getTmpDirFile(), FileFilterHelper.fileFileFilter() );
     }
 
@@ -49,7 +50,7 @@ public class MD5FilterInputStreamTest
     @Test
     public void testMD5FilterInputStream() throws IOException
     {
-        for( final File f : fileList ) {
+        for( final File f : this.fileList ) {
             try {
                 testMD5FilterInputStream( f );
                 }
@@ -67,7 +68,7 @@ public class MD5FilterInputStreamTest
             MD5FilterInputStream mfis;
             try (InputStream is = new BufferedInputStream( new FileInputStream( file ) )) {
                 mfis = new MD5FilterInputStream( is );
-                while( mfis.read( buffer ) != -1 ) { // $codepro.audit.disable emptyWhileStatement
+                while( mfis.read( this.buffer ) != -1 ) { // $codepro.audit.disable emptyWhileStatement
                     // do nothing !
                 }
             }
@@ -77,8 +78,8 @@ public class MD5FilterInputStreamTest
         }
 
         if( lastModified == file.lastModified() ) {
-            final byte[] digestKey = mdf.compute( file );
-            hashString2 = MessageDigestFile.computeDigestKeyString( digestKey ).toUpperCase();
+            final byte[] digestKey = this.mdf.compute( file );
+            hashString2 = XMessageDigestFile.computeDigestKeyString( digestKey ).toUpperCase();
 
             if( lastModified == file.lastModified() ) {
                 LOGGER.info( "F:" + file + " MD5(1)" + hashString1 + " MD5(2)" + hashString2 );

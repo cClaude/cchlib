@@ -1,9 +1,5 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import com.googlecode.cchlib.io.FileFilterHelper;
-import com.googlecode.cchlib.io.FileIterator;
-import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.HashMapSet;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,20 +9,24 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import com.googlecode.cchlib.io.FileFilterHelper;
+import com.googlecode.cchlib.io.FileIterator;
+import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.HashMapSet;
 
 /**
- * TODOC
- *
+ * @deprecated use {@link DuplicateFileFinder} instead.
  */
-public class DefaultDigestFileCollector
-    implements DigestFileCollector
+@Deprecated
+public class XDefaultDigestFileCollector
+    implements XDigestFileCollector
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
     protected ArrayList<DigestEventListener> listeners = new ArrayList<>();
 
     /** @serial */
-    protected MessageDigestFile mdf;
+    protected XMessageDigestFile mdf;
     /** @serial */
     protected HashMapSet<String,File> mapHashFile;
 
@@ -40,22 +40,22 @@ public class DefaultDigestFileCollector
      *
      * @throws NoSuchAlgorithmException
      */
-    public DefaultDigestFileCollector()
+    public XDefaultDigestFileCollector()
         throws NoSuchAlgorithmException
     {
-        this( new MessageDigestFile() );
+        this( new XMessageDigestFile() );
     }
 
     /**
      * TODOC
      *
-     * @param messageDigestFile
+     * @param xMessageDigestFile
      */
-    public DefaultDigestFileCollector(
-            final MessageDigestFile messageDigestFile
+    public XDefaultDigestFileCollector(
+            final XMessageDigestFile xMessageDigestFile
             )
     {
-        this.mdf         = messageDigestFile;
+        this.mdf         = xMessageDigestFile;
         this.mapHashFile = new HashMapSet<>();
     }
 
@@ -102,7 +102,7 @@ public class DefaultDigestFileCollector
             notify( f );
 
             try {
-                mdf.compute( f, listeners );
+                this.mdf.compute( f, this.listeners );
                 }
             catch( final FileNotFoundException e ) {
                 notify( e, f );
@@ -113,12 +113,12 @@ public class DefaultDigestFileCollector
                 continue;
             }
 
-            final String    k = mdf.digestString();
-            Set<File> c = mapHashFile.get( k );
+            final String    k = this.mdf.digestString();
+            Set<File> c = this.mapHashFile.get( k );
 
             if( c == null ) {
                 c = new HashSet<>();
-                mapHashFile.put( k, c );
+                this.mapHashFile.put( k, c );
                 }
             else {
                 if( c.size() < 2 ) {
@@ -136,14 +136,14 @@ public class DefaultDigestFileCollector
     @Override
     public Map<String,Set<File>> getFiles()
     {
-        return mapHashFile;
+        return this.mapHashFile;
     }
 
     @Override
     public int removeDuplicate()
     {
         int                 count = 0;
-        final Iterator<Set<File>> iter  = mapHashFile.values().iterator();
+        final Iterator<Set<File>> iter  = this.mapHashFile.values().iterator();
 
         while(iter.hasNext()) {
             final Set<File> s = iter.next();
@@ -163,7 +163,7 @@ public class DefaultDigestFileCollector
     @Override
     public int removeNonDuplicate()
     {
-        return DuplicateHelpers.removeNonDuplicate( mapHashFile );
+        return DuplicateHelpers.removeNonDuplicate( this.mapHashFile );
     }
 
     /**
@@ -178,7 +178,7 @@ public class DefaultDigestFileCollector
         int cs = 0;
         int cf = 0;
 
-        for(final Set<File> s:mapHashFile.values()) {
+        for(final Set<File> s:this.mapHashFile.values()) {
             if( s.size() > 1 ) {
                 cs++;
                 cf += s.size();
@@ -207,13 +207,13 @@ public class DefaultDigestFileCollector
         if( listener == null ) {
             throw new NullPointerException();
         }
-        listeners.add(listener);
+        this.listeners.add(listener);
     }
 
     @Override
     public void removeDigestEventListener( final DigestEventListener listener )
     {
-        listeners.remove(listener);
+        this.listeners.remove(listener);
     }
 
     /**
@@ -224,7 +224,7 @@ public class DefaultDigestFileCollector
      */
     protected void notify(final File f)
     {
-        for(final DigestEventListener l:listeners) {
+        for(final DigestEventListener l:this.listeners) {
             l.computeDigest( f );
         }
     }
@@ -238,7 +238,7 @@ public class DefaultDigestFileCollector
      */
     protected void notify(final IOException e, final File f)
     {
-        for(final DigestEventListener l:listeners) {
+        for(final DigestEventListener l:this.listeners) {
             l.ioError( e, f );
         }
     }

@@ -13,9 +13,7 @@ import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.io.FileIterable;
 import com.googlecode.cchlib.util.CancelRequestException;
 
-/**
- *
- */
+@Deprecated
 public class DefaultDigestFileCollectorTest
 {
     private static final Logger LOGGER = Logger.getLogger( DefaultDigestFileCollectorTest.class );
@@ -29,14 +27,14 @@ public class DefaultDigestFileCollectorTest
                 FileNotFoundException,
                 IOException
     {
-        final DefaultDigestFileCollector instance = new DefaultDigestFileCollector();
+        final XDefaultDigestFileCollector instance = new XDefaultDigestFileCollector();
 
         instance.addDigestEventListener( getDigestEventListener() );
 
         final File            root  = FileHelper.getUserHomeDirFile();
         final Iterable<File>  files = new FileIterable(
                 root, (final File f) -> {
-                    if( f.isFile() && f.length() > 0  && f.length() < FILE_MAX_SIZE ) {
+                    if( f.isFile() && (f.length() > 0)  && (f.length() < FILE_MAX_SIZE) ) {
                         return true;
                     }
                     return false;
@@ -97,7 +95,7 @@ public class DefaultDigestFileCollectorTest
             public void computeDigest( final File file )
             {
                 LOGGER.info( "computeDigest[" + file + "]" );
-                countFile++;
+                this.countFile++;
             }
             @Override
             public void computeDigest( final File file, final long length )
@@ -111,7 +109,7 @@ public class DefaultDigestFileCollectorTest
             @Override
             public boolean isCancel()
             {
-                return countFile > MAX_FILES_COUNT;
+                return this.countFile > MAX_FILES_COUNT;
             }
             @Override
             public void hashString( final File file, final String hashString )

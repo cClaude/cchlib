@@ -1,13 +1,15 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import com.googlecode.cchlib.NeedDoc;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
-@NeedDoc
-public interface DigestFileCollector
+/**
+ * @deprecated use {@link DuplicateFileFinder} instead.
+ */
+@Deprecated
+public interface XDigestFileCollector
     extends Serializable
 {
     /**

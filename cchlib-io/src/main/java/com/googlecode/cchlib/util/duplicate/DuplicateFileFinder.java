@@ -10,36 +10,83 @@ import java.util.Set;
  * To use more than once this this object, call
  * {@link #clear()} at the end of process.
  *
+ * @see DuplicateFileFinderHelper
+ * @see DefaultDuplicateFileFinder
  * @since 4.2
  */
 public interface DuplicateFileFinder {
 
-    public interface Status
+    /**
+     * @since 4.2
+     */
+    public interface InitialStatus
     {
         /**
-         * Returns numbers of bytes need to be read by pass2
-         * @return numbers of bytes need to be read by pass2
+         * Returns numbers maximum bytes need to be read by {@link DuplicateFileFinder#find()}
+         * @return numbers maximum bytes need to be read.
          */
-        long getBytesToRead();
+        long getBytes();
 
         /**
-         * Returns numbers of files need to be read by pass2
-         * @return numbers of files need to be read by pass2
+         * Returns numbers maximum files need to be read by {@link DuplicateFileFinder#find()}
+         * @return numbers maximum files need to be read.
          */
-        int getFilesToRead();
+        int getFiles();
     }
 
+    public interface Status extends InitialStatus {
+        /**
+         * Returns numbers bytes already read by {@link DuplicateFileFinder#find()}
+         * @return numbers bytes already read.
+         */
+        @Override
+        long getBytes();
+
+        /**
+         * Returns numbers files already read by {@link DuplicateFileFinder#find()}
+         * @return numbers files already read.
+         */
+        @Override
+        int getFiles();
+
+        /**
+         * Returns numbers set of duplicate already read by {@link DuplicateFileFinder#find()}
+         * @return numbers set of duplicate already found.
+         */
+        int getSets();
+    }
+
+    /**
+     * Add a {@link DuplicateFileFinderEventListener}
+     *
+     * @param eventListener eventListener to add
+     */
     void addEventListener( DuplicateFileFinderEventListener eventListener );
+
+    /**
+     * Remove a {@link DuplicateFileFinderEventListener}
+     *
+     * @param eventListener eventListener to remove
+     */
     void removeEventListener( DuplicateFileFinderEventListener eventListener );
 
+    /** Ask to cancel process as soon as possible */
     void cancelProcess();
+
+    /**
+     * Returns cancel status
+     * @return cancel status
+     */
     boolean isCancelProcess();
 
+    /** add a {@link File} to list of files to check
+     */
     void addFile( File file );
 
+    /** add a collection of files to list of files to check */
     void addFiles( Iterable<File> files );
 
-    Status getInitialStatus();
+    InitialStatus getInitialStatus();
 
     void find();
 
@@ -47,9 +94,5 @@ public interface DuplicateFileFinder {
 
     void clear();
 
-    // TODO
-    // int getDuplicateSetsCount();
-
-    // TODO
-    // int getDuplicateFilesCount();
+    Status getStatus();
 }

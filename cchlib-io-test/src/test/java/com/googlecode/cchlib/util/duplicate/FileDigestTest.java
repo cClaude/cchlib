@@ -8,6 +8,10 @@ import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigestListener;
 
 /**
  * @since 4.2
@@ -39,7 +43,7 @@ public class FileDigestTest {
         final FileDigest instance = factory.newInstance();
 
         final MyFileDigestListener listener = new MyFileDigestListener();
-        instance.compute( file, listener );
+        instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
         Assertions.assertThat( md5 ).isEqualTo( oldMD5 );
@@ -53,7 +57,7 @@ public class FileDigestTest {
         final FileDigest instance = factory.newInstance();
 
         final FileDigestListener listener = new MyFileDigestListener();
-        instance.compute( file, listener );
+        instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
         Assertions.assertThat( md5 ).isEqualTo( IO.MD5_FOR_PNG_FILE );
@@ -69,7 +73,7 @@ public class FileDigestTest {
         Assertions.assertThat( instance.getBufferSize() ).isEqualTo( 10 );
 
         final FileDigestListener listener = new MyFileDigestListener();
-        instance.compute( file, listener );
+        instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
         Assertions.assertThat( md5 ).isEqualTo( IO.MD5_FOR_PNG_FILE );

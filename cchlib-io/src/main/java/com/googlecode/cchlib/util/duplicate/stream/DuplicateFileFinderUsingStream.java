@@ -17,18 +17,18 @@ import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.DigestEventListener;
 import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
+import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 
 @NeedDoc
-public class DuplicateFileFinder
+public class DuplicateFileFinderUsingStream
 {
     @NeedDoc
     public interface MessageDigestFileBuilder {
-        MessageDigestFile newMessageDigestFile() throws NoSuchAlgorithmException;
+        XMessageDigestFile newMessageDigestFile() throws NoSuchAlgorithmException;
 
         /** @see MessageDigest#getInstance */
         public static MessageDigestFileBuilder newMessageDigestFileBuilder( final String algorithm, final int bufferSize ) throws NoSuchAlgorithmException {
-            return ( ) -> new MessageDigestFile( algorithm, bufferSize );
+            return ( ) -> new XMessageDigestFile( algorithm, bufferSize );
         }
     }
 
@@ -48,7 +48,7 @@ public class DuplicateFileFinder
     private final DuplicateFileFinderListener listener;
 
     @NeedDoc
-    public DuplicateFileFinder(
+    public DuplicateFileFinderUsingStream(
         @Nonnull final MessageDigestFileBuilder      messageDigestFileBuilder,
         @Nonnull final DuplicateFileFinderListener   listener
         ) throws InvalidParameterException
@@ -71,22 +71,22 @@ public class DuplicateFileFinder
         if( mapLengthFiles == null ) {
             throw new InvalidParameterException( "mapSet is null" );
         }
-        if( listener.isCancel() ) {
+        if( this.listener.isCancel() ) {
             return Collections.emptyMap();
         }
 
         final Map<String, Set<File>> mapHashFiles = new HashMap<>( computeMapSize( mapLengthFiles ) );
-        final MessageDigestFile messageDigestFile = newMessageDigestFile();
+        final XMessageDigestFile xMessageDigestFile = newMessageDigestFile();
 
         for( final Set<File> set : mapLengthFiles.values() ) {
             if( set.size() > 1 ) {
-                final Map<String, Set<File>> hashForSet = computeHashForSet( messageDigestFile, set );
+                final Map<String, Set<File>> hashForSet = computeHashForSet( xMessageDigestFile, set );
 
                 addAll( mapHashFiles, hashForSet );
             }
         }
 
-        if( listener.isCancel() ) {
+        if( this.listener.isCancel() ) {
             return Collections.emptyMap();
         }
         DuplicateHelpers.removeNonDuplicate( mapHashFiles );
@@ -94,9 +94,9 @@ public class DuplicateFileFinder
         return mapHashFiles;
     }
 
-    protected MessageDigestFile newMessageDigestFile() throws NoSuchAlgorithmException
+    protected XMessageDigestFile newMessageDigestFile() throws NoSuchAlgorithmException
     {
-        return messageDigestFileBuilder.newMessageDigestFile();
+        return this.messageDigestFileBuilder.newMessageDigestFile();
     }
 
     protected static int computeMapSize( final Map<Long, Set<File>> mapLengthFiles )
@@ -123,7 +123,7 @@ public class DuplicateFileFinder
     }
 
     private Map<String, Set<File>> computeHashForSet( //
-            final MessageDigestFile mdf,
+            final XMessageDigestFile mdf,
             final Set<File> filesSet
             )
     {
@@ -145,7 +145,7 @@ public class DuplicateFileFinder
                 } // else file can not be read
             }
             catch( final CancelRequestException e ) {
-                assert listener.isCancel();
+                assert this.listener.isCancel();
 
                 return Collections.emptyMap();
             }
@@ -155,29 +155,29 @@ public class DuplicateFileFinder
     }
 
     protected String computeHashForFile(
-        final MessageDigestFile mdf,
+        final XMessageDigestFile mdf,
         final File file
         ) throws CancelRequestException
     {
-        listener.computeDigest( file );
+        this.listener.computeDigest( file );
 
         try {
-            mdf.compute( file, listener );
+            mdf.compute( file, this.listener );
 
             final String hashString = mdf.digestString();
 
-            listener.hashString( file, hashString );
+            this.listener.hashString( file, hashString );
 
             return hashString;
             }
         catch(final IOException e) {
-            listener.ioError( e, file );
+            this.listener.ioError( e, file );
             return null;
             }
     }
 
     public DuplicateFileFinderListener getListener()
     {
-        return listener;
+        return this.listener;
     }
 }

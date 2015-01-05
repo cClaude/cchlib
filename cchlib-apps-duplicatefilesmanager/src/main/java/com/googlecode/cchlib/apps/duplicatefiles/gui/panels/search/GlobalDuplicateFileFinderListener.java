@@ -3,7 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 import java.io.File;
 import java.io.IOException;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.DuplicateFileFinderListener;
 
 //NOT public
 final class GlobalDuplicateFileFinderListener implements DuplicateFileFinderListener {
