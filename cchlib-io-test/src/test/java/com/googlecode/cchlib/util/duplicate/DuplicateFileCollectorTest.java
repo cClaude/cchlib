@@ -11,9 +11,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
 
-/**
- *
- */
+@Deprecated
 public class DuplicateFileCollectorTest
 {
     private static final Logger LOGGER = Logger.getLogger( DuplicateFileCollectorTest.class );
@@ -27,8 +25,8 @@ public class DuplicateFileCollectorTest
                 FileNotFoundException,
                 IOException
     {
-        final MessageDigestFile       messageDigestFile = new MessageDigestFile("MD5");
-        final DuplicateFileCollector  instance          = new DuplicateFileCollector( messageDigestFile, true );
+        final XMessageDigestFile       xMessageDigestFile = new XMessageDigestFile("MD5");
+        final XDuplicateFileCollector  instance          = new XDuplicateFileCollector( xMessageDigestFile, true );
         final File                    root              = FileHelper.getUserHomeDirFile();
         final Iterable<File>          files             = FileIteratorBuilder.createFileIterator(root, FILE_MAX_LENGTH, MAX_FILES_COUNT * 2);
 
@@ -44,32 +42,32 @@ public class DuplicateFileCollectorTest
                     @Override
                     public void computeDigest( final File file )
                     {
-                        if( ! canNotCheckCumulSinceALeastOneFileLocked ) {
-                            assertEquals("Bad cumul size!",currentFileLength,cumul);
+                        if( ! this.canNotCheckCumulSinceALeastOneFileLocked ) {
+                            assertEquals("Bad cumul size!",this.currentFileLength,this.cumul);
                             }
 
                         LOGGER.info( "ComputeD:" + file );
-                        currentFileLength = file.length();
-                        cumul = 0;
-                        fileCount++;
+                        this.currentFileLength = file.length();
+                        this.cumul = 0;
+                        this.fileCount++;
                     }
                     @Override
                     public void ioError( final IOException e, final File file )
                     {
                         LOGGER.warn( "IOException "+file+" : "+e/*,e JUST A WARNING*/);
-                        canNotCheckCumulSinceALeastOneFileLocked = true;
+                        this.canNotCheckCumulSinceALeastOneFileLocked = true;
                     }
                     @Override
                     public void computeDigest( final File file, final long length )
                     {
                         //System.out.printf("in:%s - reading %d bytes\n",file,length);
-                        cumul += length;
+                        this.cumul += length;
                     }
                     @Override
                     public boolean isCancel()
                     {
                         //return false;
-                        return fileCount > MAX_FILES_COUNT;
+                        return this.fileCount > MAX_FILES_COUNT;
                     }
                     @Override
                     public void hashString( final File file, final String hashString )

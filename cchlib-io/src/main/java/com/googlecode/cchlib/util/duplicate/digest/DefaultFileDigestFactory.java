@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.util.duplicate;
+package com.googlecode.cchlib.util.duplicate.digest;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

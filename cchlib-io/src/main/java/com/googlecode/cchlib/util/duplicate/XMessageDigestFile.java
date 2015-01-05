@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import com.googlecode.cchlib.util.CancelRequestException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,11 +13,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.util.Collection;
+import com.googlecode.cchlib.util.CancelRequestException;
 
 /**
  * <P>This class is not thread safe</P>
  */
-public class MessageDigestFile
+@Deprecated
+public class XMessageDigestFile
     implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -45,7 +46,7 @@ public class MessageDigestFile
      *         not occur since MD5, should be implemented on all
      *         Java platforms.
      */
-    public MessageDigestFile() throws NoSuchAlgorithmException
+    public XMessageDigestFile() throws NoSuchAlgorithmException
     {
         this("MD5");
     }
@@ -60,7 +61,7 @@ public class MessageDigestFile
      *         algorithm.*
      * @see MessageDigest#getInstance(String)
      */
-    public MessageDigestFile(
+    public XMessageDigestFile(
             final String algorithm
             )
         throws NoSuchAlgorithmException
@@ -82,7 +83,7 @@ public class MessageDigestFile
      *         algorithm.*
      * @see MessageDigest#getInstance(String)
      */
-    public MessageDigestFile(
+    public XMessageDigestFile(
             final String algorithm,
             final int    bufferSize
             )
@@ -101,7 +102,7 @@ public class MessageDigestFile
      * @param messageDigest the messageDigest
      * @param bufferSize buffer size
      */
-    private MessageDigestFile(
+    private XMessageDigestFile(
             final MessageDigest   messageDigest,
             final int             bufferSize
             )
@@ -126,7 +127,7 @@ public class MessageDigestFile
      */
     protected byte[] digestDelegator()
     {
-        this.lastDigest = md.digest();
+        this.lastDigest = this.md.digest();
         return this.lastDigest;
     }
 
@@ -144,7 +145,7 @@ public class MessageDigestFile
         // See Appendix A in the Java Cryptography Architecture
         // API Specification & Reference for information
         // about standard algorithm names.
-        return md.getAlgorithm();
+        return this.md.getAlgorithm();
     }
 
     /**
@@ -157,7 +158,7 @@ public class MessageDigestFile
      */
     public final int getDigestLength()
     {
-        return md.getDigestLength();
+        return this.md.getDigestLength();
     }
 
     /**
@@ -167,7 +168,7 @@ public class MessageDigestFile
      */
     public final Provider getProvider()
     {
-        return md.getProvider();
+        return this.md.getProvider();
     }
 
     /**
@@ -176,8 +177,8 @@ public class MessageDigestFile
      */
     protected void reset()
     {
-        lastDigest = null;
-        md.reset();
+        this.lastDigest = null;
+        this.md.reset();
     }
 
     /**
@@ -186,7 +187,7 @@ public class MessageDigestFile
      */
     protected void update( final byte input )
     {
-        md.update( input );
+        this.md.update( input );
     }
 
     /**
@@ -197,7 +198,7 @@ public class MessageDigestFile
      */
     public void update( final byte[] input, final int offset, final int len )
     {
-        md.update( input, offset, len );
+        this.md.update( input, offset, len );
     }
 
     /**
@@ -206,7 +207,7 @@ public class MessageDigestFile
      */
     protected void update( final byte[] input )
     {
-        md.update( input );
+        this.md.update( input );
     }
 
     /**
@@ -215,7 +216,7 @@ public class MessageDigestFile
      */
     protected final void update( final ByteBuffer input )
     {
-        md.update( input );
+        this.md.update( input );
     }
     // END MessageDigestDelegar -----
 
@@ -292,7 +293,7 @@ public class MessageDigestFile
         reset();
 
         try (FileInputStream fis = new FileInputStream(file)) {
-            FileChannel fchannel = fis.getChannel();
+            final FileChannel fchannel = fis.getChannel();
 
             try {
                 for( final ByteBuffer bb = ByteBuffer.wrap(this.buffer);
@@ -453,8 +454,8 @@ public class MessageDigestFile
         try (FileInputStream fis = new FileInputStream(file)) {
             int l;
 
-            while( (l = fis.read( buffer )) != -1 ) {
-                update(buffer,0,l);
+            while( (l = fis.read( this.buffer )) != -1 ) {
+                update(this.buffer,0,l);
                 }
             }
 
@@ -473,7 +474,7 @@ public class MessageDigestFile
         if( this.lastDigest == null ) {
             throw new IllegalStateException();
             }
-        return lastDigest;
+        return this.lastDigest;
     }
 
     /**
@@ -486,10 +487,10 @@ public class MessageDigestFile
      */
     public String digestString()
     {
-        if( lastDigest == null ) {
+        if( this.lastDigest == null ) {
             throw new IllegalStateException();
             }
-        return computeDigestKeyString( lastDigest );
+        return computeDigestKeyString( this.lastDigest );
     }
     // END File specific
 

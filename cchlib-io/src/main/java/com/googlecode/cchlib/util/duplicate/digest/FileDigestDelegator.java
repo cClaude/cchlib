@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.util.duplicate;
+package com.googlecode.cchlib.util.duplicate.digest;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

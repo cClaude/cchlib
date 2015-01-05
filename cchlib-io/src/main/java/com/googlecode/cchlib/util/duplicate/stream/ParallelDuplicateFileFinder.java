@@ -19,9 +19,9 @@ import javax.annotation.Nonnull;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFile;
+import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 
-public class ParallelDuplicateFileFinder extends DuplicateFileFinder {
+public class ParallelDuplicateFileFinder extends DuplicateFileFinderUsingStream {
 
     private static class MapEntry implements Entry<String, File> {
 
@@ -92,8 +92,8 @@ public class ParallelDuplicateFileFinder extends DuplicateFileFinder {
         for( final Set<File> set : mapLengthFiles.values() ) {
             if( set.size() > 1 ) {
                 for( final File file : set ) {
-                    final MessageDigestFile messageDigestFile = newMessageDigestFile();
-                    final Future<Entry<String,File>> submit = executor.submit( ( ) -> computeHashForEntry( messageDigestFile, file ) );
+                    final XMessageDigestFile xMessageDigestFile = newMessageDigestFile();
+                    final Future<Entry<String,File>> submit = executor.submit( ( ) -> computeHashForEntry( xMessageDigestFile, file ) );
 
                     results.add( submit );
                 }
@@ -113,10 +113,10 @@ public class ParallelDuplicateFileFinder extends DuplicateFileFinder {
         return mapHashFiles;
     }
 
-    private Entry<String,File> computeHashForEntry( final MessageDigestFile messageDigestFile, final File file )
+    private Entry<String,File> computeHashForEntry( final XMessageDigestFile xMessageDigestFile, final File file )
         throws CancelRequestException
     {
-        final String key = computeHashForFile( messageDigestFile, file );
+        final String key = computeHashForFile( xMessageDigestFile, file );
 
         return new MapEntry( key, file );
     }

@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.util.duplicate;
 
-import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.HashMapSet;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.HashMapSet;
 
 /**
  * Perform 2 pass to check duplicate.
@@ -24,9 +24,11 @@ import java.util.Set;
  * <BR>
  * To use more than one this this object, call
  * {@link #clear()}
+ * @deprecated use {@link DuplicateFileFinder} instead.
  */
-public class DuplicateFileCollector
-    extends DefaultDigestFileCollector
+@Deprecated
+public class XDuplicateFileCollector
+    extends XDefaultDigestFileCollector
 {
     private static final long serialVersionUID = 2L;
     /** @serial */
@@ -41,16 +43,16 @@ public class DuplicateFileCollector
     /**
      * Create a new DuplicateFileCollector
      *
-     * @param messageDigestFile MessageDigestFile to use
+     * @param xMessageDigestFile MessageDigestFile to use
      * to compute hash code for files.
      * @param ignoreEmptyFile ignore empty files (length = 0) if true.
      */
-    public DuplicateFileCollector(
-        final MessageDigestFile   messageDigestFile,
+    public XDuplicateFileCollector(
+        final XMessageDigestFile   xMessageDigestFile,
         final boolean             ignoreEmptyFile
         )
     {
-        super( messageDigestFile );
+        super( xMessageDigestFile );
 
         this.mapLengthFiles = new HashMapSet<>();
         this.ignoreEmptyFile = ignoreEmptyFile;
@@ -101,13 +103,13 @@ public class DuplicateFileCollector
         for(final File f:files) {
             final long size = f.length();
 
-            if( ignoreEmptyFile && (size == 0) ) {
+            if( this.ignoreEmptyFile && (size == 0) ) {
                 continue;
             }
 
-            mapLengthFiles.add( Long.valueOf( size ), f );
+            this.mapLengthFiles.add( Long.valueOf( size ), f );
 
-            if( cancelProcess ) {
+            if( this.cancelProcess ) {
                 internalClear();
                 return;
             }
@@ -152,7 +154,7 @@ public class DuplicateFileCollector
         int  c = 0;
         long l = 0;
 
-        for(final Set<File> s:mapLengthFiles.values()) {
+        for(final Set<File> s:this.mapLengthFiles.values()) {
             if( s.size() > 1 ) {
                 c += s.size();
                 for(final File f:s) {
@@ -169,7 +171,7 @@ public class DuplicateFileCollector
     /**
      * Perform second pass.
      *
-     * @see MessageDigestFile#compute(File)
+     * @see XMessageDigestFile#compute(File)
      * @throws IllegalStateException if {@link #pass2()} already call.
      */
     public synchronized void pass2()
@@ -180,19 +182,19 @@ public class DuplicateFileCollector
 
         this.alreadyCallPass2 = true;
 
-        if( cancelProcess ) {
+        if( this.cancelProcess ) {
             internalClear();
             return;
         }
 
-        for( final Set<File> set : mapLengthFiles.values() ) {
+        for( final Set<File> set : this.mapLengthFiles.values() ) {
             if( set.size() > 1 ) {
                 for( final File file : set ) {
                     handlePass2ForFile( file );
 
                     // Done with current file (or cancel)
                     // Check cancel state
-                    if( cancelProcess ) {
+                    if( this.cancelProcess ) {
                         internalClear();
                         return;
                     }
@@ -200,7 +202,7 @@ public class DuplicateFileCollector
             }
         }
 
-        mapLengthFiles.clear();
+        this.mapLengthFiles.clear();
         super.removeNonDuplicate();
     }
 
@@ -209,9 +211,9 @@ public class DuplicateFileCollector
         notify( f );
 
         try {
-            mdf.compute( f, listeners );
+            this.mdf.compute( f, this.listeners );
 
-            final String key = mdf.digestString();
+            final String key = this.mdf.digestString();
             Set<File>    set = super.mapHashFile.get( key );
 
             if( set == null ) {
@@ -246,14 +248,14 @@ public class DuplicateFileCollector
     {
         internalClear();
         setCancelProcess(false);
-        alreadyCallPass2 = false;
+        this.alreadyCallPass2 = false;
     }
 
     // Should not stop cancel here, ensure cancel
     // process will continue.
     private void internalClear()
     {
-        mapLengthFiles.deepClear();
+        this.mapLengthFiles.deepClear();
         super.clear();
     }
 
@@ -274,7 +276,7 @@ public class DuplicateFileCollector
      */
     public void setCancelProcess(final boolean cancel)
     {
-        cancelProcess = cancel;
+        this.cancelProcess = cancel;
     }
 
     /**
@@ -282,7 +284,7 @@ public class DuplicateFileCollector
      */
     public boolean isCancelProcess()
     {
-        return cancelProcess;
+        return this.cancelProcess;
     }
 
     private static final class PStats implements Stats
@@ -299,13 +301,13 @@ public class DuplicateFileCollector
         @Override
         public int getPass2Files()
         {
-            return files;
+            return this.files;
         }
 
         @Override
         public long getPass2Bytes()
         {
-            return length;
+            return this.length;
         }
     }
 

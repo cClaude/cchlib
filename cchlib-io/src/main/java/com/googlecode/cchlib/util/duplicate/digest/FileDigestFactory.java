@@ -1,10 +1,11 @@
-package com.googlecode.cchlib.util.duplicate;
+package com.googlecode.cchlib.util.duplicate.digest;
 
 import java.security.NoSuchAlgorithmException;
 
 /**
  *  Factory for {@link FileDigest}
  *
+ *  @see DefaultFileDigestFactory
  *  @since 4.2
  */
 public interface FileDigestFactory {

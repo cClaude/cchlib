@@ -17,6 +17,7 @@ import com.googlecode.cchlib.test.ArrayAssert;
 import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
+@SuppressWarnings("deprecation")
 public class MessageDigestFileTest
 {
     private static final long MAX_FILE_LENGTH = 10 * 1024 * 1024;
@@ -30,27 +31,27 @@ public class MessageDigestFileTest
                 ClassNotFoundException
     {
         doTest_MessageDigestFileClone(
-                new MessageDigestFile() // MD5
+                new XMessageDigestFile() // MD5
                 );
         doTest_MessageDigestFileClone(
-                new MessageDigestFile( "MD2" )
+                new XMessageDigestFile( "MD2" )
                 );
         doTest_MessageDigestFileClone(
-                new MessageDigestFile( "SHA-1" )
+                new XMessageDigestFile( "SHA-1" )
                 );
         doTest_MessageDigestFileClone(
-                new MessageDigestFile( "SHA-256" )
+                new XMessageDigestFile( "SHA-256" )
                 );
         doTest_MessageDigestFileClone(
-                new MessageDigestFile( "SHA-384" )
+                new XMessageDigestFile( "SHA-384" )
                 );
         doTest_MessageDigestFileClone(
-                new MessageDigestFile( "SHA-512" )
+                new XMessageDigestFile( "SHA-512" )
                 );
     }
 
     private void doTest_MessageDigestFileClone(
-            final MessageDigestFile mdf
+            final XMessageDigestFile mdf
             )
     throws  NoSuchAlgorithmException,
             FileNotFoundException,
@@ -60,13 +61,13 @@ public class MessageDigestFileTest
     {
         doTest_MessageDigestFile(mdf);
 
-        final MessageDigestFile clone = SerializableTestCaseHelper.cloneOverSerialization( mdf );
+        final XMessageDigestFile clone = SerializableTestCaseHelper.cloneOverSerialization( mdf );
 
         doTest_MessageDigestFile(clone);
     }
 
     private void doTest_MessageDigestFile(
-            final MessageDigestFile mdf
+            final XMessageDigestFile mdf
             )
     throws  NoSuchAlgorithmException,
             FileNotFoundException,
@@ -98,18 +99,18 @@ public class MessageDigestFileTest
     }
 
     private void doTest_File(
-            final MessageDigestFile   mdf,
+            final XMessageDigestFile   mdf,
             final File                f,
             final byte[]              mdfKey
             ) throws NoSuchAlgorithmException, IOException
     {
-        final String mdfKeyStr = MessageDigestFile.computeDigestKeyString( mdfKey );
+        final String mdfKeyStr = XMessageDigestFile.computeDigestKeyString( mdfKey );
         final String algorithm = mdf.getAlgorithm();
 
         ArrayAssert.assertEquals(mdfKey,mdf.digest());
         final String mdfHexStr = mdf.digestString();
         final byte[] mdfKey2      = mdf.digest();
-        final String mdfKey2Str   = MessageDigestFile.computeDigestKeyString(mdfKey2);
+        final String mdfKey2Str   = XMessageDigestFile.computeDigestKeyString(mdfKey2);
 
         System.out.printf("MDF:%s - %s\n", mdfKeyStr, f );
         System.out.printf("MD_:%s (%s)\n",  mdfHexStr, algorithm );
@@ -130,7 +131,7 @@ public class MessageDigestFileTest
                 );
         ArrayAssert.assertEquals(mdfKey,mdfKey2);
 
-        final byte[] bytesFromStr = MessageDigestFile.computeDigestKey( mdfHexStr );
+        final byte[] bytesFromStr = XMessageDigestFile.computeDigestKey( mdfHexStr );
 
         ArrayAssert.assertEquals("Error!",mdfKey,bytesFromStr);
     }

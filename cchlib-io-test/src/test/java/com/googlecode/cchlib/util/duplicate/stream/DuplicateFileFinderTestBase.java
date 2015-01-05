@@ -14,8 +14,8 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.io.IO;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.DuplicateFileFinderListener;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinder.MessageDigestFileBuilder;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.DuplicateFileFinderListener;
+import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.MessageDigestFileBuilder;
 
 abstract class DuplicateFileFinderTestBase {
 
@@ -24,7 +24,7 @@ abstract class DuplicateFileFinderTestBase {
     private MessageDigestFileBuilder messageDigestFileBuilder;
 
     protected abstract Logger getLogger();
-    protected abstract DuplicateFileFinder newDuplicateFileFinder( MessageDigestFileBuilder messageDigestFileBuilder, DuplicateFileFinderListener listener );
+    protected abstract DuplicateFileFinderUsingStream newDuplicateFileFinder( MessageDigestFileBuilder messageDigestFileBuilder, DuplicateFileFinderListener listener );
 
     public void setup() throws NoSuchAlgorithmException
     {
@@ -47,7 +47,7 @@ abstract class DuplicateFileFinderTestBase {
         getLogger().info( "*** PASS 2" );
         getLogger().info( "*** PASS 2" );
 
-        final DuplicateFileFinder dff = newDuplicateFileFinder( messageDigestFileBuilder, listener );
+        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( messageDigestFileBuilder, listener );
         getLogger().info( "*** PASS 2" );
         getLogger().info( "*** PASS 2" );
 
@@ -73,7 +73,7 @@ abstract class DuplicateFileFinderTestBase {
         Assert.assertEquals( 2, getEntry( mapSet, 1 ).size() );
 
         final DuplicateFileFinderListener listener = newDuplicateFileFinderListener( "test_computeHash" );
-        final DuplicateFileFinder dff = newDuplicateFileFinder( messageDigestFileBuilder, listener );
+        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( messageDigestFileBuilder, listener );
 
         final Map<String, Set<File>> result = dff.computeHash( mapSet );
 

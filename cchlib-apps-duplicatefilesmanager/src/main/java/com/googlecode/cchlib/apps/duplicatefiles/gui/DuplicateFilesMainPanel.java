@@ -17,6 +17,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfir
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResult;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearching;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearchingParallel;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearchingSingleThread;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.select.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
@@ -75,7 +76,7 @@ public class DuplicateFilesMainPanel
         this.setLayout(gbl_contentPane);
 
         {
-            jPanelMain = new JPanel();
+            this.jPanelMain = new JPanel();
             final GridBagConstraints gbc_jPanelMain = new GridBagConstraints();
             gbc_jPanelMain.anchor = GridBagConstraints.WEST;
             gbc_jPanelMain.gridwidth = 4;
@@ -84,49 +85,49 @@ public class DuplicateFilesMainPanel
             gbc_jPanelMain.fill = GridBagConstraints.BOTH;
             gbc_jPanelMain.gridx = 0;
             gbc_jPanelMain.gridy = 0;
-            this.add(jPanelMain, gbc_jPanelMain);
-            jPanelMainCardLayout = new CardLayout(0, 0);
-            jPanelMain.setLayout( jPanelMainCardLayout );
+            this.add(this.jPanelMain, gbc_jPanelMain);
+            this.jPanelMainCardLayout = new CardLayout(0, 0);
+            this.jPanelMain.setLayout( this.jPanelMainCardLayout );
 
-            jPanel0Select = createJPanel0Select();
-            jPanelMain.add( jPanel0Select, DuplicateFilesState.STATE_SELECT_DIRS.name() );
+            this.jPanel0Select = createJPanel0Select();
+            this.jPanelMain.add( this.jPanel0Select, DuplicateFilesState.STATE_SELECT_DIRS.name() );
 
-            jPanel1Config = createJPanel1Config();
-            jPanelMain.add( jPanel1Config, DuplicateFilesState.STATE_SEARCH_CONFIG.name() );
+            this.jPanel1Config = createJPanel1Config();
+            this.jPanelMain.add( this.jPanel1Config, DuplicateFilesState.STATE_SEARCH_CONFIG.name() );
 
-            jPanel2Searching = createJPanel2Searching();
-            jPanelMain.add( jPanel2Searching, DuplicateFilesState.STATE_SEARCHING.name() );
+            this.jPanel2Searching = createJPanel2Searching();
+            this.jPanelMain.add( this.jPanel2Searching, DuplicateFilesState.STATE_SEARCHING.name() );
 
-            jPanel3Result = createJPanel3Result();
-            jPanelMain.add( jPanel3Result, DuplicateFilesState.STATE_RESULTS.name() );
+            this.jPanel3Result = createJPanel3Result();
+            this.jPanelMain.add( this.jPanel3Result, DuplicateFilesState.STATE_RESULTS.name() );
 
-            jPanel4Confirm = createJPanel4Confirm();
-            jPanelMain.add( jPanel4Confirm, DuplicateFilesState.STATE_CONFIRM.name() );
+            this.jPanel4Confirm = createJPanel4Confirm();
+            this.jPanelMain.add( this.jPanel4Confirm, DuplicateFilesState.STATE_CONFIRM.name() );
         }
 
-        jButtonRestart = new JButton("Restart");
-        jButtonRestart.setActionCommand( ACTIONCMD_RESTART );
-        jButtonRestart.addActionListener( getActionListener() );
+        this.jButtonRestart = new JButton("Restart");
+        this.jButtonRestart.setActionCommand( ACTIONCMD_RESTART );
+        this.jButtonRestart.addActionListener( getActionListener() );
         final GridBagConstraints gbc_jButtonRestart = new GridBagConstraints();
         gbc_jButtonRestart.anchor = GridBagConstraints.WEST;
         gbc_jButtonRestart.insets = new Insets(0, 0, 0, 5);
         gbc_jButtonRestart.gridx = 0;
         gbc_jButtonRestart.gridy = 1;
-        this.add(jButtonRestart, gbc_jButtonRestart);
+        this.add(this.jButtonRestart, gbc_jButtonRestart);
 
-        jButtonCancel = new JButton("Cancel");
-        jButtonCancel.setActionCommand( ACTIONCMD_CANCEL );
-        jButtonCancel.addActionListener( getActionListener() );
+        this.jButtonCancel = new JButton("Cancel");
+        this.jButtonCancel.setActionCommand( ACTIONCMD_CANCEL );
+        this.jButtonCancel.addActionListener( getActionListener() );
         final GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
         gbc_jButtonCancel.anchor = GridBagConstraints.WEST;
         gbc_jButtonCancel.insets = new Insets(0, 0, 0, 5);
         gbc_jButtonCancel.gridx = 1;
         gbc_jButtonCancel.gridy = 1;
-        this.add(jButtonCancel, gbc_jButtonCancel);
+        this.add(this.jButtonCancel, gbc_jButtonCancel);
 
-        jButtonNextStep = new JButton( "Next" );
-        jButtonNextStep.setActionCommand( ACTIONCMD_NEXT );
-        jButtonNextStep.addActionListener( getActionListener() );
+        this.jButtonNextStep = new JButton( "Next" );
+        this.jButtonNextStep.setActionCommand( ACTIONCMD_NEXT );
+        this.jButtonNextStep.addActionListener( getActionListener() );
         final GridBagConstraints gbc_jButtonNextStep = new GridBagConstraints();
         gbc_jButtonNextStep.anchor = GridBagConstraints.EAST;
         gbc_jButtonNextStep.gridx = 3;
@@ -141,48 +142,48 @@ public class DuplicateFilesMainPanel
 
     protected JButton getJButtonNextStep()
     {
-        return jButtonNextStep;
+        return this.jButtonNextStep;
     }
 
     protected JButton getJButtonCancel()
     {
-        return jButtonCancel;
+        return this.jButtonCancel;
     }
 
     public JPanelSelectFoldersOrFiles getJPanel0Select()
     {
-        return jPanel0Select;
+        return this.jPanel0Select;
     }
 
     protected JPanelConfig getJPanel1Config()
     {
-        return jPanel1Config;
+        return this.jPanel1Config;
     }
 
     protected JPanelSearching getJPanel2Searching()
     {
-        return jPanel2Searching;
+        return this.jPanel2Searching;
     }
 
     public JPanelResult getJPanel3Result()
     {
-        return jPanel3Result;
+        return this.jPanel3Result;
     }
 
     protected JPanelConfirm getJPanel4Confirm()
     {
-        return jPanel4Confirm;
+        return this.jPanel4Confirm;
     }
 
     protected AbstractButton getJButtonRestart()
     {
-        return jButtonRestart;
+        return this.jButtonRestart;
     }
 
     protected void selectedPanel( final DuplicateFilesState state )
     {
-        jPanelMainCardLayout.show(
-                jPanelMain,
+        this.jPanelMainCardLayout.show(
+                this.jPanelMain,
                 //Integer.toString( state )
                 state.name()
                 );
@@ -217,7 +218,11 @@ public class DuplicateFilesMainPanel
      */
     public JPanelSearching createJPanel2Searching()
     {
-        return new JPanelSearchingParallel();
+        if( getAppToolKit().getPreferences().getNumberOfThreads() < 2 ) {
+            return new JPanelSearchingSingleThread();
+        } else {
+            return new JPanelSearchingParallel();
+        }
     }
 
     /**

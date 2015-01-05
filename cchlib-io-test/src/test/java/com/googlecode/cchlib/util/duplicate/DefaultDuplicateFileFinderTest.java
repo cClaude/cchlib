@@ -10,7 +10,10 @@ import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.InitialStatus;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.Status;
+import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 /**
  * @since 4.2
@@ -59,22 +62,29 @@ public class DefaultDuplicateFileFinderTest {
 
     private final FileDigestFactory fileDigestFactory = new DefaultFileDigestFactory( DEFAULT_ALGORITHM, DEFAULT_BUFFER_SIZE );
 
+
+
+    private DuplicateFileFinder newDefaultDuplicateFileFinder(final boolean ignoreEmptyFiles, final FileDigestFactory fileDigestFactory, final int maxParalleleFiles   ) throws NoSuchAlgorithmException
+    {
+        return DuplicateFileFinderHelper.newDuplicateFileFinder( ignoreEmptyFiles, fileDigestFactory, maxParalleleFiles );
+    }
+
     @Test(expected=IllegalArgumentException.class)
     public void testIllegalArgumentException() throws NoSuchAlgorithmException
     {
-        new DefaultDuplicateFileFinder(null, 0, false);
+        newDefaultDuplicateFileFinder( false, null, 0);
     }
 
     @Test(expected=NullPointerException.class)
     public void testNullPointerException() throws NoSuchAlgorithmException
     {
-        new DefaultDuplicateFileFinder(null, 1, false);
+        newDefaultDuplicateFileFinder(false, null, 1 );
     }
 
     @Test
     public void testCompare2Duplicates_pass1() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = new DefaultDuplicateFileFinder(this.fileDigestFactory, 1, false);
+        final DuplicateFileFinder dff = newDefaultDuplicateFileFinder(false, this.fileDigestFactory, 1 );
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -83,25 +93,24 @@ public class DefaultDuplicateFileFinderTest {
         dff.addFile( file1 );
         dff.addFile( file2 );
 
-        Status initialStatus = dff.getInitialStatus();
+        InitialStatus initialStatus = dff.getInitialStatus();
 
-        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() + file2.length() );
+        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
 
         dff.addFile( file3 );
 
         initialStatus = dff.getInitialStatus();
 
         // new file
-        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() + file2.length() );
+        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
     }
-
 
     @Test(expected=IllegalStateException.class)
     public void testCompare2Duplicates_pass2_IllegalStateException() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = new DefaultDuplicateFileFinder(this.fileDigestFactory, 1, false);
+        final DuplicateFileFinder dff = newDefaultDuplicateFileFinder( false, this.fileDigestFactory, 1 );
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -109,10 +118,10 @@ public class DefaultDuplicateFileFinderTest {
         dff.addFile( file1 );
         dff.addFile( file2 );
 
-        Status initialStatus = dff.getInitialStatus();
+        InitialStatus initialStatus = dff.getInitialStatus();
 
-        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() + file2.length() );
+        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
 
         dff.find();
 
@@ -122,7 +131,7 @@ public class DefaultDuplicateFileFinderTest {
     @Test
     public void testCompare2Duplicate_pass2() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = new DefaultDuplicateFileFinder(this.fileDigestFactory, 1, false);
+        final DuplicateFileFinder dff = newDefaultDuplicateFileFinder(false, this.fileDigestFactory, 1 );
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -135,10 +144,12 @@ public class DefaultDuplicateFileFinderTest {
         dff.addFile( file2 );
         dff.addFile( file3 ); // this file is not a duplicate.
 
-        final Status initialStatus = dff.getInitialStatus();
+        check_getStatus( dff, 0L, 0, 0 );
 
-        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() + file2.length() );
+        final InitialStatus initialStatus = dff.getInitialStatus();
+
+        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
 
         dff.find();
 
@@ -153,12 +164,27 @@ public class DefaultDuplicateFileFinderTest {
         Assertions.assertThat( setOfFiles ).containsOnly( file1, file2 );
 
         dff.removeEventListener( eventListener );
+
+        check_getStatus( dff, file1.length() * 2, 2, 1 );
+
+        dff.clear();
+
+        check_getStatus( dff, 0L, 0, 0 );
+   }
+
+    private void check_getStatus( final DuplicateFileFinder dff, final Long expected_bytes, final int expected_files, final Integer expected_sets  )
+    {
+        final Status status = dff.getStatus();
+
+        Assertions.assertThat( status.getBytes() ).isEqualTo( expected_bytes );
+        Assertions.assertThat( status.getFiles() ).isEqualTo( expected_files );
+        Assertions.assertThat( status.getSets() ).isEqualTo( expected_sets );
     }
 
     @Test
     public void testCompare3Duplicates_and_remove_one_v1() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = new DefaultDuplicateFileFinder(this.fileDigestFactory, 1, false);
+        final DuplicateFileFinder dff = newDefaultDuplicateFileFinder(false, this.fileDigestFactory, 1);
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -168,11 +194,11 @@ public class DefaultDuplicateFileFinderTest {
         dff.addFile( file2 );
         dff.addFile( file3 );
 
-        Status initialStatus = dff.getInitialStatus();
+        InitialStatus initialStatus = dff.getInitialStatus();
 
         // File 3 is expected here.
-        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 3 );
-        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() * 3 );
+        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 3 );
+        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 3 );
 
         // Delete file 3 now !
         file3.delete();
@@ -180,8 +206,8 @@ public class DefaultDuplicateFileFinderTest {
         initialStatus = dff.getInitialStatus();
 
         // File 3 no more expected here.
-        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() * 2 );
+        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 2 );
 
         dff.find();
 
@@ -199,7 +225,7 @@ public class DefaultDuplicateFileFinderTest {
     @Test
     public void testCompare3Duplicates_and_remove_one_v2() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = new DefaultDuplicateFileFinder(this.fileDigestFactory, 1, false);
+        final DuplicateFileFinder dff = newDefaultDuplicateFileFinder(false, this.fileDigestFactory, 1);
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -209,14 +235,14 @@ public class DefaultDuplicateFileFinderTest {
         dff.addFile( file2 );
         dff.addFile( file3 );
 
-        final Status initialStatus = dff.getInitialStatus();
+        final InitialStatus initialStatus = dff.getInitialStatus();
 
         // Delete file 3 now !
         file3.delete();
 
         // File 3 is still expected here.
-        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 3 );
-        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() * 3 );
+        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 3 );
+        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 3 );
 
         dff.find();
 
@@ -235,7 +261,7 @@ public class DefaultDuplicateFileFinderTest {
     @Test
     public void testCompareTwoDuplicate_xx() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = new DefaultDuplicateFileFinder(this.fileDigestFactory, 1, false);
+        final DuplicateFileFinder dff = newDefaultDuplicateFileFinder(false, this.fileDigestFactory, 1);
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -251,11 +277,11 @@ public class DefaultDuplicateFileFinderTest {
         // Delete file 3 now !
         file3.delete();
 
-        final Status initialStatus = dff.getInitialStatus();
+        final InitialStatus initialStatus = dff.getInitialStatus();
 
         // File 3 is not expected here.
-        Assertions.assertThat( initialStatus.getFilesToRead() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytesToRead() ).isEqualTo( file1.length() * 2 );
+        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 2 );
 
         dff.find();
 
