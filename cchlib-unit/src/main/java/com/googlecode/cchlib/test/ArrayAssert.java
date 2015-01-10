@@ -55,7 +55,7 @@ public class ArrayAssert
         	return; // Same content (quicker)
         	}
 
-        if( expected == null && actual != null ) {
+        if( (expected == null) && (actual != null) ) {
             final StringBuilder sb = new StringBuilder();
 
             if( message != null ) {
@@ -67,9 +67,10 @@ public class ArrayAssert
             sb.append( actual );
 
             Assert.fail( sb.toString() );
-            }
+            return;
+           }
 
-        if( expected != null && actual == null ) {
+        if( (expected != null) && (actual == null) ) {
             final StringBuilder sb = new StringBuilder();
 
             if( message != null ) {
@@ -81,67 +82,70 @@ public class ArrayAssert
             sb.append( " actual=null" );
 
             Assert.fail( sb.toString() );
+            return;
             }
 
-        if( expected.length != actual.length ) {
-            final StringBuilder sb = new StringBuilder();
+        if( expected != null ) {
+            if( expected.length != actual.length ) {
+                final StringBuilder sb = new StringBuilder();
 
-            if( message != null ) {
-                sb.append( message );
-                sb.append( ' ' );
+                if( message != null ) {
+                    sb.append( message );
+                    sb.append( ' ' );
+                    }
+
+                sb.append( "expected(size=");
+                sb.append( expected.length );
+                sb.append( ")=" );
+                sb.append( expected );
+                sb.append( " actual(size=" );
+                sb.append( actual.length );
+                sb.append( ")=" );
+                sb.append( actual );
+
+                Assert.fail( sb.toString() );
                 }
 
-            sb.append( "expected(size=");
-            sb.append( expected.length );
-            sb.append( ")=" );
-            sb.append( expected );
-            sb.append( " actual(size=" );
-            sb.append( actual.length );
-            sb.append( ")=" );
-            sb.append( actual );
+            for( int i = 0; i<expected.length; i++ ) {
+                final T e = expected[ i ];
+                final T a = actual[ i ];
 
-            Assert.fail( sb.toString() );
-            }
+                if( (e == null) && (a == null)) {
+                    continue;
+                    }
 
-        for( int i = 0; i<expected.length; i++ ) {
-            final T e = expected[ i ];
-            final T a = actual[ i ];
+                if( (e != null) && e.equals( a ) ) {
+                    continue;
+                    }
 
-            if( e == null && a == null) {
-                continue;
+                // Not match !
+                final StringBuilder sb = new StringBuilder();
+
+                if( message != null ) {
+                    sb.append( message );
+                    sb.append( ' ' );
+                    }
+
+                sb.append( "expected" );
+                sb.append( expected );
+
+                sb.append( " (item[:" );
+                sb.append( i );
+                sb.append( "]=" );
+                sb.append( e );
+
+                sb.append( ") actual=" );
+                sb.append( actual );
+
+                sb.append( " (item[:" );
+                sb.append( i );
+                sb.append( "]=" );
+                sb.append( a );
+                sb.append( ')' );
+
+                Assert.fail( sb.toString() );
                 }
-
-            if( e != null && e.equals( a ) ) {
-                continue;
-                }
-
-            // Not match !
-            final StringBuilder sb = new StringBuilder();
-
-            if( message != null ) {
-                sb.append( message );
-                sb.append( ' ' );
-                }
-
-            sb.append( "expected" );
-            sb.append( expected );
-
-            sb.append( " (item[:" );
-            sb.append( i );
-            sb.append( "]=" );
-            sb.append( e );
-
-            sb.append( ") actual=" );
-            sb.append( actual );
-
-            sb.append( " (item[:" );
-            sb.append( i );
-            sb.append( "]=" );
-            sb.append( a );
-            sb.append( ')' );
-
-            Assert.fail( sb.toString() );
-            }
+        }
     }
 
     /**
@@ -168,7 +172,7 @@ public class ArrayAssert
         	return; // Same content (quicker)
         	}
 
-        if( expected == null && actual != null ) {
+        if( (expected == null) && (actual != null) ) {
             final StringBuilder sb = new StringBuilder();
 
             if( message != null ) {
@@ -182,7 +186,7 @@ public class ArrayAssert
             Assert.fail( sb.toString() );
             }
 
-        if( expected != null && actual == null ) {
+        if( (expected != null) && (actual == null) ) {
             final StringBuilder sb = new StringBuilder();
 
             if( message != null ) {
@@ -196,32 +200,34 @@ public class ArrayAssert
 
             Assert.fail( sb.toString() );
             }
-        else if( expected.length != actual.length ) {
-            final StringBuilder sb = new StringBuilder();
+        else if( expected != null ) {
+            if( expected.length != actual.length ) {
+                final StringBuilder sb = new StringBuilder();
 
-            if( message != null ) {
-                sb.append( message );
-                sb.append( ' ' );
-                }
-
-            sb.append( "expected(size=");
-            sb.append( expected.length );
-            sb.append( ")=" );
-            sb.append( expected );
-            sb.append( " actual(size=" );
-            sb.append( actual.length );
-            sb.append( ")=" );
-            sb.append( actual );
-
-            Assert.fail( sb.toString() );
-            }
-        else {
-            for( int i=0; i<expected.length; i++ ) {
-                if( expected[ i ] == actual[ i ] ) {
-                    continue;
+                if( message != null ) {
+                    sb.append( message );
+                    sb.append( ' ' );
                     }
 
-            failBadValueAtOffset( message, i, expected[ i ], actual[ i ] );
+                sb.append( "expected(size=");
+                sb.append( expected.length );
+                sb.append( ")=" );
+                sb.append( expected );
+                sb.append( " actual(size=" );
+                sb.append( actual.length );
+                sb.append( ")=" );
+                sb.append( actual );
+
+                Assert.fail( sb.toString() );
+                }
+            else {
+                for( int i=0; i<expected.length; i++ ) {
+                    if( expected[ i ] == actual[ i ] ) {
+                        continue;
+                        }
+
+                failBadValueAtOffset( message, i, expected[ i ], actual[ i ] );
+                }
             }
         }
     }
@@ -265,7 +271,7 @@ public class ArrayAssert
         	return; // Same content (quicker)
         	}
 
-        if( expected == null && actual != null ) {
+        if( (expected == null) && (actual != null) ) {
             final StringBuilder sb = new StringBuilder();
 
             if( message != null ) {
@@ -277,7 +283,7 @@ public class ArrayAssert
 
             Assert.fail( sb.toString() );
             }
-        if( expected != null && actual == null ) {
+        if( (expected != null) && (actual == null) ) {
             final StringBuilder sb = new StringBuilder();
 
             if( message != null ) {
@@ -291,30 +297,32 @@ public class ArrayAssert
             Assert.fail( sb.toString() );
             }
 
-        if( expected.length != actual.length ) {
-            final StringBuilder sb = new StringBuilder();
+        if( expected != null ) {
+            if( expected.length != actual.length ) {
+                final StringBuilder sb = new StringBuilder();
 
-            if( message != null ) {
-                sb.append( message );
-                sb.append( ' ' );
+                if( message != null ) {
+                    sb.append( message );
+                    sb.append( ' ' );
+                    }
+                sb.append( "expected(size=");
+                sb.append( expected.length );
+                sb.append( ")=" );
+                sb.append( expected );
+                sb.append( " actual(size=" );
+                sb.append( actual.length );
+                sb.append( ")=" );
+                sb.append( actual );
+
+                Assert.fail( sb.toString() );
                 }
-            sb.append( "expected(size=");
-            sb.append( expected.length );
-            sb.append( ")=" );
-            sb.append( expected );
-            sb.append( " actual(size=" );
-            sb.append( actual.length );
-            sb.append( ")=" );
-            sb.append( actual );
 
-            Assert.fail( sb.toString() );
+            for( int i=0; i<expected.length; i++ ) {
+                if( expected[ i ] == actual[ i ] ) {
+                    continue;
+                    }
+                failBadValueAtOffset( message, i, expected[ i ], actual[ i ] );
             }
-
-        for( int i=0; i<expected.length; i++ ) {
-            if( expected[ i ] == actual[ i ] ) {
-                continue;
-                }
-            failBadValueAtOffset( message, i, expected[ i ], actual[ i ] );
         }
     }
 

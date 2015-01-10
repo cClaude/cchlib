@@ -14,9 +14,9 @@ import java.util.SortedMap;
 public class SortedMapIterator<K,V>
     implements Iterator<V>
 {
-    private SortedMap<K,V>  initialSortedMap;
-    private final Iterator<K>     iter;
-    private K               prevKey;
+    private SortedMap<K,V>      initialSortedMap;
+    private final Iterator<K>   iter;
+    private K                   prevKey;
 
     /**
      * Create a SortedMapIterator
@@ -27,21 +27,21 @@ public class SortedMapIterator<K,V>
         final SortedMap<K,V> sortedMap
         )
     {
-        initialSortedMap = sortedMap;
-        prevKey = null;
-        iter = new ComputableIterator<K>() {
+        this.initialSortedMap = sortedMap;
+        this.prevKey = null;
+        this.iter = new ComputableIterator<K>() {
                 private SortedMap<K,V> currentSortedMap = sortedMap;
 
                 @Override
                 public K computeNext() throws NoSuchElementException
                 {
-                    final K key = currentSortedMap.lastKey();
+                    final K key = this.currentSortedMap.lastKey();
 
                     if(key == null) {
                         throw new NoSuchElementException();
                         }
                     else {
-                        currentSortedMap = currentSortedMap.headMap(key);
+                        this.currentSortedMap = this.currentSortedMap.headMap(key);
                         return key;
                         }
                 }
@@ -57,7 +57,7 @@ public class SortedMapIterator<K,V>
     @Override
     public boolean hasNext()
     {
-        return iter.hasNext();
+        return this.iter.hasNext();
     }
 
     /**
@@ -69,12 +69,12 @@ public class SortedMapIterator<K,V>
     public V next() throws NoSuchElementException
     {
         try {
-            prevKey = iter.next();
+            this.prevKey = this.iter.next();
 
-            return initialSortedMap.get(prevKey);
+            return this.initialSortedMap.get(this.prevKey);
             }
         catch( final NoSuchElementException e ) {
-            prevKey = null;
+            this.prevKey = null;
             throw e;
             }
     }
@@ -86,11 +86,11 @@ public class SortedMapIterator<K,V>
      */
     public K getLastKey() throws NoSuchElementException
     {
-        if(prevKey == null) {
+        if(this.prevKey == null) {
             throw new NoSuchElementException();
             }
         else {
-            return prevKey;
+            return this.prevKey;
             }
     }
 
@@ -108,11 +108,11 @@ public class SortedMapIterator<K,V>
     @Override
     public void remove() throws IllegalStateException
     {
-        if(prevKey == null) {
+        if(this.prevKey == null) {
             throw new IllegalStateException();
             }
         else {
-            initialSortedMap.remove(prevKey);
+            this.initialSortedMap.remove(this.prevKey);
             }
     }
 }

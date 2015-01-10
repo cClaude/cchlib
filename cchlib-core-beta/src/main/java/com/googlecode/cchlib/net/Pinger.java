@@ -53,15 +53,15 @@ public class Pinger extends Thread
     private boolean pingResultReady = false;
     private boolean pingResultOk = false;
 
-    private String host;
-    private int timeout;
+    private final String host;
+    private final int timeout;
 
-    public Pinger( String host )
+    public Pinger( final String host )
     {
         this( host, DEFAULT_TIMEOUT );
     }
 
-    public Pinger( String host, int timeout )
+    public Pinger( final String host, final int timeout )
     {
         this.host    = host;
         this.timeout = timeout;
@@ -73,12 +73,12 @@ public class Pinger extends Thread
     @Override
     public void run()
     {
-        pingResultReady = false;
+        this.pingResultReady = false;
 
         try {
-            pingResultOk = ping( host, timeout );
+            this.pingResultOk = ping( this.host, this.timeout );
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             e.printStackTrace();
             }
 
@@ -111,7 +111,7 @@ public class Pinger extends Thread
      * @throws UnknownHostException
      * @throws IOException
      */
-    public static boolean ping(String host, int timeout )
+    public static boolean ping(final String host, final int timeout )
         throws UnknownHostException, IOException
     {
         return ping( InetAddress.getByName( host ), timeout );
@@ -124,7 +124,7 @@ public class Pinger extends Thread
      * @return a boolean indicating if the address is reachable.
      * @throws IOException
      */
-    public static boolean ping(InetAddress inetAddress, int timeout)
+    public static boolean ping(final InetAddress inetAddress, final int timeout)
         throws IOException
     {
         return inetAddress.isReachable( timeout );
@@ -136,7 +136,7 @@ public class Pinger extends Thread
      * @return TODOC
      * @throws PingerException
      */
-    public static boolean helloPing(String host)
+    public static boolean helloPing(final String host)
         throws PingerException
     {
         return helloPing( host, DEFAULT_PORT );
@@ -149,14 +149,14 @@ public class Pinger extends Thread
      * @return TODOC
      * @throws PingerException
      */
-    public static boolean helloPing(String host, int port) throws PingerException
+    public static boolean helloPing(final String host, final int port) throws PingerException
     {
         InetAddress inetAddress;
 
         try {
             inetAddress = InetAddress.getByName( host );
         }
-        catch( UnknownHostException e ) {
+        catch( final UnknownHostException e ) {
             throw new PingerHostException(
                     e.getMessage(),
                     e,
@@ -165,7 +165,7 @@ public class Pinger extends Thread
         }
 
         try {
-            String str = sendUDPRequest(inetAddress, port, "Hello\n\r".getBytes() );
+            final String str = sendUDPRequest(inetAddress, port, "Hello\n\r".getBytes() );
 
             if(str.equals("Hello")) {
                 //System.out.println("Alive!");
@@ -175,7 +175,7 @@ public class Pinger extends Thread
 
             return false;
             }
-        catch(java.io.IOException e) {
+        catch(final java.io.IOException e) {
             throw new PingerIOException(
                     e.getMessage(),
                     e,
@@ -215,41 +215,21 @@ public class Pinger extends Thread
             )
         throws java.io.IOException
     {
-        Socket        socket = null;
-        StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
 
-        try {
-            socket = new Socket(inetAddress, port);
+        try( final Socket socket = new Socket(inetAddress, port) ) {
+            try( final BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream())) ) {
+                try( final BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream()) ) {
+                    bos.write(sendData, 0, sendData.length);
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());
+                    String line;
 
-            bos.write(sendData, 0, sendData.length);
-
-            String line;
-
-            while((line = br.readLine()) != null) {
-                result.append(line);
-                }
-
-            try {
-                br.close();
-                }
-            catch( IOException ignore) {
-                // Ignore
-                }
-            try {
-                bos.close();
-                }
-            catch( IOException ignore) {
-                // Ignore
+                    while((line = br.readLine()) != null) {
+                        result.append(line);
+                        }
                 }
             }
-        finally {
-            if( socket != null ) {
-                socket.close();
-                }
-            }
+        }
 
         return result.toString();
     }
@@ -270,15 +250,15 @@ public class Pinger extends Thread
         throws java.io.IOException
     {
         DatagramSocket  socket = null;
-        StringBuilder   result = new StringBuilder();
+        final StringBuilder   result = new StringBuilder();
 
         try {
             //byte[] sendData     = new byte[1024];
-            byte[] receiveData  = new byte[1024];
+            final byte[] receiveData  = new byte[1024];
 
             //String sentence = inFromUser.readLine();
             //sendData = sentence.getBytes();
-            DatagramPacket sendPacket = new DatagramPacket( sendData, sendData.length, inetAddress, port );
+            final DatagramPacket sendPacket = new DatagramPacket( sendData, sendData.length, inetAddress, port );
             socket = new DatagramSocket( port, inetAddress );
             socket.send( sendPacket );
 
@@ -289,7 +269,7 @@ public class Pinger extends Thread
 //            DatagramSocket socket = new DatagramSocket();
 //            socket.send(dataSent);
 
-            DatagramPacket receivePacket = new DatagramPacket( receiveData, receiveData.length );
+            final DatagramPacket receivePacket = new DatagramPacket( receiveData, receiveData.length );
             socket.receive(receivePacket);
             System.out.println("Data recieved : " + new String( receivePacket.getData()) );
             System.out.println("From : " + receivePacket.getAddress() + ":" + receivePacket.getPort() );
