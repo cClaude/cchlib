@@ -1,13 +1,13 @@
 package cx.ath.choisnet.util;
 
-import com.googlecode.cchlib.io.EmptyInputStream;
-import cx.ath.choisnet.io.StreamCopyThread;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import com.googlecode.cchlib.io.EmptyInputStream;
+import cx.ath.choisnet.io.StreamCopyThread;
 
 /**
  *
@@ -24,22 +24,22 @@ public class ExternalApp
         @Override
         public byte[] getStdOut()
         {
-            return stdout;
+            return this.stdout;
         }
 
         @Override
         public byte[] getStdErr()
         {
-            return stderr;
+            return this.stderr;
         }
 
         @Override
         public int getReturnCode()
         {
-            return returnCode;
+            return this.returnCode;
         }
 
-        public OutputImpl(byte[] stdout, byte[] stderr, int returnCode)
+        public OutputImpl(final byte[] stdout, final byte[] stderr, final int returnCode)
         {
             this.stdout = stdout;
             this.stderr = stderr;
@@ -80,10 +80,10 @@ public class ExternalApp
         int exitValue;
 
         try {
-            Process      process = Runtime.getRuntime().exec(command); // $codepro.audit.disable commandExecution
-            InputStream  procIn  = new BufferedInputStream(process.getInputStream());
-            InputStream  procErr = new BufferedInputStream(process.getErrorStream());
-            OutputStream procOut = new BufferedOutputStream(process.getOutputStream());
+            final Process      process = Runtime.getRuntime().exec(command); // $codepro.audit.disable commandExecution
+            final InputStream  procIn  = new BufferedInputStream(process.getInputStream());
+            final InputStream  procErr = new BufferedInputStream(process.getErrorStream());
+            final OutputStream procOut = new BufferedOutputStream(process.getOutputStream());
             ExternalAppException exception = null;
             int c;
 
@@ -95,7 +95,7 @@ public class ExternalApp
                 procOut.flush();
                 procOut.close();
                 }
-            catch( IOException e ) { // $codepro.audit.disable logExceptions
+            catch( final IOException e ) { // $codepro.audit.disable logExceptions
                 exception = new ExternalAppException("IOException while running extern application", e);
                 }
 
@@ -113,7 +113,7 @@ public class ExternalApp
 
             exitValue = process.exitValue();
             }
-        catch(java.io.IOException e) {
+        catch(final java.io.IOException e) {
             throw new ExternalAppException(
                 "IOException while running extern application",
                 e
@@ -139,18 +139,11 @@ public class ExternalApp
             )
         throws ExternalAppException
     {
-        final InputStream empty = new EmptyInputStream();
-
-        try {
+        try( final InputStream empty = new EmptyInputStream() ) {
             return ExternalApp.execute(command, empty , stdout, stderr);
             }
-        finally {
-            try {
-                empty.close();
-                }
-            catch( IOException e ) {
-                throw new RuntimeException( e );
-                }
+        catch( final IOException e ) {
+            throw new RuntimeException( e );
             }
     }
 
@@ -163,15 +156,15 @@ public class ExternalApp
      * @throws ExternalAppException
      */
     public static final Output execute(
-            String command,
-            InputStream input
+            final String command,
+            final InputStream input
             )
         throws ExternalAppException
     {
-        ByteArrayOutputStream stdout = new ByteArrayOutputStream();
-        ByteArrayOutputStream stderr = new ByteArrayOutputStream();
+        final ByteArrayOutputStream stdout = new ByteArrayOutputStream();
+        final ByteArrayOutputStream stderr = new ByteArrayOutputStream();
 
-        int result = ExternalApp.execute(command, input, stdout, stderr);
+        final int result = ExternalApp.execute(command, input, stdout, stderr);
 
         return new OutputImpl(stdout.toByteArray(), stderr.toByteArray(), result);
     }
@@ -183,7 +176,7 @@ public class ExternalApp
      *         By convention, the value 0 indicates normal termination.
      * @throws ExternalAppException
      */
-    public static final Output execute(String command)
+    public static final Output execute(final String command)
         throws ExternalAppException
     {
         final InputStream empty = new EmptyInputStream();
@@ -195,7 +188,7 @@ public class ExternalApp
             try {
                 empty.close();
                 }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 throw new RuntimeException( e );
                 }
             }
@@ -223,10 +216,10 @@ public class ExternalApp
         int exitValue;
 
         try {
-            Process          process       = Runtime.getRuntime().exec(command); // $codepro.audit.disable commandExecution
-            StreamCopyThread procOutThread = new StreamCopyThread("OutputStream", input, process.getOutputStream());
-            StreamCopyThread procInThread  = new StreamCopyThread("InputStream", process.getInputStream(), stdout);
-            StreamCopyThread procErrThread = new StreamCopyThread("ErrorStream", process.getErrorStream(), stderr);
+            final Process          process       = Runtime.getRuntime().exec(command); // $codepro.audit.disable commandExecution
+            final StreamCopyThread procOutThread = new StreamCopyThread("OutputStream", input, process.getOutputStream());
+            final StreamCopyThread procInThread  = new StreamCopyThread("InputStream", process.getInputStream(), stdout);
+            final StreamCopyThread procErrThread = new StreamCopyThread("ErrorStream", process.getErrorStream(), stderr);
 
             procOutThread.start();
             procInThread.start();
@@ -238,7 +231,7 @@ public class ExternalApp
             procInThread.cancel();
             procErrThread.cancel();
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             throw new ExternalAppException(
                 "IOException while running extern application",
                 e

@@ -33,6 +33,7 @@ public final class Version
         final Properties prop     = new Properties();
 
         {
+            @SuppressWarnings("resource")
             final InputStream is = Version.class.getResourceAsStream( filename );
 
             if( is == null ) {
@@ -71,7 +72,7 @@ public final class Version
      */
     public final String getName()
     {
-        return name;
+        return this.name;
     }
 
     /**
@@ -79,7 +80,7 @@ public final class Version
      */
     public final String getVersion()
     {
-        return version;
+        return this.version;
     }
 
     /**
@@ -87,7 +88,7 @@ public final class Version
      */
     public final Date getDate()
     {
-        return new Date( date.getTime() );
+        return new Date( this.date.getTime() );
     }
 
     @Override
@@ -95,11 +96,11 @@ public final class Version
     {
         final StringBuilder builder = new StringBuilder();
         builder.append("Version [name=");
-        builder.append( name );
+        builder.append( this.name );
         builder.append(", version=");
-        builder.append( version );
+        builder.append( this.version );
         builder.append(", date=");
-        builder.append( date );
+        builder.append( this.date );
         builder.append(']');
         return builder.toString();
     }

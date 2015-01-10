@@ -53,7 +53,9 @@ public class ExtendableClassLoaderTest
             IOHelper.copy( is, sourceFile );
             }
         finally {
-            is.close();
+            if( is != null ) {
+                is.close();
+                }
             }
 
         LOGGER.info( "sourceFile = " + sourceFile );

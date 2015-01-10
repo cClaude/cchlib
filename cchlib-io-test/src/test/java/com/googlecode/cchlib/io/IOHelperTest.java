@@ -18,12 +18,11 @@ public class IOHelperTest
     @Test
     public void test_isEquals() throws IOException
     {
-        final InputStream is2;
         try (InputStream is1 = IO.createPNGInputStream()) {
-            is2 = IO.createPNGInputStream();
-            final boolean     r   = IOHelper.isEquals( is1, is2 );
-            Assert.assertTrue( r );
+            try (InputStream is2 = IO.createPNGInputStream()) {
+                final boolean r = IOHelper.isEquals( is1, is2 );
+                Assert.assertTrue( r );
+            }
         }
-        is2.close();
     }
 }
