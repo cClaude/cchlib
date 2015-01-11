@@ -1,11 +1,8 @@
-package com.googlecode.cchlib.util.duplicate;
+package com.googlecode.cchlib.util.duplicate.digest;
 
 import java.security.NoSuchAlgorithmException;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
-import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
-import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
-import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 /**
  * @since 4.2

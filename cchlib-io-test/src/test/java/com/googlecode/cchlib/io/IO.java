@@ -15,6 +15,7 @@ public final class IO
     public static final String DEFAULT_PREFIX_NAME = "cchlib-test-io";
     public static final String PNG_FILE = "test.png";
     public static final String MD5_FOR_PNG_FILE = "290F5DC06AEA8CCD8857A17AC5D4DD1E";
+    public static final String MD5_FOR_ZIP_FILE = "5F80B7C6393A92CF73A2AC67B12D82AD";
 
     /**
      * Returns an InputStream within a valid PNG file
