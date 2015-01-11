@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.util.duplicate.digest;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,6 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.Provider;
+import java.util.Arrays;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.DigestEventListener;
 
@@ -21,7 +21,7 @@ import com.googlecode.cchlib.util.duplicate.DigestEventListener;
  * @see FileDigestFactory
  * @since 4.2
  */
-public class FileDigest implements Serializable, Closeable
+public class FileDigest implements Serializable
 {
     private static final long serialVersionUID = 1L;
     private static final char[] HEX = {
@@ -32,14 +32,17 @@ public class FileDigest implements Serializable, Closeable
     private final byte[] buffer;
     /** wrapper of {@link buffer} */
     private final ByteBuffer byteBuffer;
+
+    private final StringBuilder computeDigestKeyStringBuilder = new StringBuilder();
+
     /** cancel status */
     private boolean cancel;
-    private final StringBuilder computeDigestKeyStringBuilder = new StringBuilder();
     private FileChannel fchannel;
     private File file;
     private FileInputStream fis;
     private FileDigestListener listener;
     private final FileDigestDelegator mdd;
+    private byte[] digest;
 
     /**
      * Create a {@link FileDigest} object that
@@ -53,24 +56,34 @@ public class FileDigest implements Serializable, Closeable
         final int             bufferSize
         )
     {
-        this.mdd    = new FileDigestDelegator( messageDigest );
-        this.buffer = new byte[bufferSize];
+        this.mdd        = new FileDigestDelegator( messageDigest );
+        this.buffer     = new byte[bufferSize];
         this.byteBuffer = ByteBuffer.wrap( this.buffer );
     }
 
-    @Override
-    public void close() throws IOException
+    /**
+     * TODOC XXX
+     * <p>Must be call for every succeed {@link #setFile(File, FileDigestListener)}</p>
+     * @throws IllegalStateException is state is not valid
+     * @throws IOException if any
+     */
+    public void reset() throws IOException
     {
+        if( this.fis == null ) {
+            throw new IllegalStateException( "No file, no open steam" );
+        }
+
         try {
             // Need !
             this.fis.close();
         }
         finally {
-            this.file = null;
+            this.file     = null;
             this.fchannel = null;
             this.listener = null;
-            this.cancel = false;
-            this.fis = null;
+            this.cancel   = false;
+            this.fis      = null;
+            this.digest   = null;
         }
     }
 
@@ -86,19 +99,29 @@ public class FileDigest implements Serializable, Closeable
         final byte[] digestKey
         )
     {
-        this.computeDigestKeyStringBuilder.setLength( 0 );
+        return computeDigestKeyString( this.computeDigestKeyStringBuilder, digestKey );
+    }
 
-        for( final byte b :digestKey ) {
-            this.computeDigestKeyStringBuilder.append( HEX[(b & 0x00f0)>>4 ] );
-            this.computeDigestKeyStringBuilder.append( HEX[(b & 0x000f) ] );
+    static String computeDigestKeyString( final StringBuilder stringBuilder, final byte[] digestKey )
+    {
+        stringBuilder.setLength( 0 );
+
+        for( final byte b : digestKey ) {
+            stringBuilder.append( HEX[(b & 0x00f0)>>4 ] );
+            stringBuilder.append( HEX[(b & 0x000f) ] );
             }
 
-        return this.computeDigestKeyStringBuilder.toString();
+        return stringBuilder.toString();
     }
 
     /**
      * Compute MD value for giving file
      * (use nio {@link FileChannel})
+     * <p>
+     *  Perform invocations to {@link #setFile(File, FileDigestListener)},
+     *  then to {@link #hasNext()}, {@link #computeNext()} and finally
+     *  to {@link #reset()}.
+     * </p>
      *
      * @param file File to read
      * @param listener {@link DigestEventListener} to get results
@@ -114,20 +137,15 @@ public class FileDigest implements Serializable, Closeable
         throws FileNotFoundException,
                IOException, CancelRequestException
     {
-        this.mdd.reset();
-        this.file = file;
-        this.fis = new FileInputStream(file);
-        this.fchannel = this.fis.getChannel();
-        this.listener = listener;
-        this.cancel = false;
+        setFile( file, listener );
 
         try {
             while( hasNext() ) {
-                next();
+                computeNext(false);
                 }
             }
         finally {
-            close();
+            reset();
             }
 
         if( this.cancel ) {
@@ -135,7 +153,31 @@ public class FileDigest implements Serializable, Closeable
             throw new CancelRequestException();
             }
 
-        return this.mdd.digestDelegator();
+        return this.digest;
+    }
+
+    /**
+     * Prepare to compute new file
+     *
+     * @param file
+     * @param listener
+     * @throws FileNotFoundException
+     * @throws IllegalStateException
+     */
+    public void setFile( final File file, final FileDigestListener listener ) throws FileNotFoundException
+    {
+        if( this.fis != null ) {
+            // Previous resources not close. Expecting reset()
+            throw new IllegalStateException( "Previous resources not close. Expecting reset()" );
+        }
+
+        this.mdd.reset();
+        this.file = file;
+        this.fis = new FileInputStream(file);
+        this.fchannel = this.fis.getChannel();
+        this.listener = listener;
+        this.cancel = false;
+        this.digest = null;
     }
 
     /**
@@ -181,17 +223,35 @@ public class FileDigest implements Serializable, Closeable
         return this.mdd.getProvider();
     }
 
-    private boolean hasNext() throws IOException
+    /**
+     * TODOC XXX
+     * @return XXX
+     * @throws IOException if any
+     */
+    public boolean hasNext() throws IOException
     {
-        return (this.fchannel.read(this.byteBuffer) != -1) || (this.byteBuffer.position() > 0);
+        if( (this.fchannel.read(this.byteBuffer) != -1) || (this.byteBuffer.position() > 0) ) {
+            return true;
+        } else {
+            if( this.digest == null ){
+                this.digest = this.mdd.digestDelegator();
+            }
+            return false;
+        }
     }
 
-    private void next() throws CancelRequestException
+    /**
+     * XXX
+     * @param returnCurrentBuffer
+     * @return
+     * @throws CancelRequestException XXX
+     */
+    public byte[] computeNext( final boolean returnCurrentBuffer ) throws CancelRequestException
     {
         if( this.cancel ) {
             // User ask to cancel current task
             throw new CancelRequestException();
-            }
+        }
         if( this.file == null ) {
             throw new IllegalStateException( "file is null" );
         }
@@ -200,25 +260,25 @@ public class FileDigest implements Serializable, Closeable
         }
 
         this.byteBuffer.flip();
-        this.mdd.update(this.byteBuffer);
 
+        byte[] currentBuffer;
+        if( returnCurrentBuffer ) {
+            // create a copy of current buffer (must be done before use if)
+            currentBuffer = Arrays.copyOfRange( this.byteBuffer.array(), this.byteBuffer.position(), this.byteBuffer.remaining() );
+        } else {
+            currentBuffer = null;
+        }
+        this.mdd.update( this.byteBuffer );
         this.listener.computeDigest( this.file, this.byteBuffer.position() );
+
         this.byteBuffer.compact();
 
         if( this.listener.isCancel() ) {
             // User ask to cancel current task
             this.cancel = true;
             throw new CancelRequestException();
-            }
-    }
+        }
 
-//    protected ByteBuffer getBuffer()
-//    {
-//        return this.byteBuffer;
-//    }
-//
-//    protected FileDigestDelegator getFileDigestDelegator()
-//    {
-//        return this.mdd;
-//    }
+        return currentBuffer;
+    }
 }
