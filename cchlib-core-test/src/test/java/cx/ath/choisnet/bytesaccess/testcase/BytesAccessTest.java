@@ -12,7 +12,7 @@ import org.junit.Test;
 import cx.ath.choisnet.bytesaccess.BytesAccess;
 import cx.ath.choisnet.bytesaccess.BytesAccessException;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("resource")
 public class BytesAccessTest
 {
     private static final Logger LOGGER = Logger.getLogger(BytesAccessTest.class);
@@ -269,6 +269,7 @@ public class BytesAccessTest
         ba.equals( NULL_OBJECT );
     }
 
+    @SuppressWarnings("unused")
     private static void _test_todo_Or( final BytesAccess ba, final BytesAccess orBytesAccess )
     {//TODO test case
         final byte[] orSomeBytes = orBytesAccess.getBytesCopy();
@@ -281,6 +282,7 @@ public class BytesAccessTest
         Assert.assertEquals( "or r1r3", 0, BytesAccess.compare( r1, r3 ));
     }
 
+    @SuppressWarnings("unused")
     private static void _test_todo_And( final BytesAccess ba, final BytesAccess andBytesAccess )
     {//TODO test case
         final byte[] andSomeBytes = andBytesAccess.getBytesCopy();
@@ -293,6 +295,7 @@ public class BytesAccessTest
         Assert.assertEquals( "and r1r3", 0, BytesAccess.compare( r1, r3 ));
     }
 
+    @SuppressWarnings("unused")
     private static void _test_todo_Xor( final BytesAccess ba, final BytesAccess xorBytesAccess )
     {//TODO test case
         final byte[] xorSomeBytes = xorBytesAccess.getBytesCopy();
@@ -305,6 +308,7 @@ public class BytesAccessTest
         Assert.assertEquals( "xor r1r3", 0, BytesAccess.compare( r1, r3 ));
     }
 
+    @SuppressWarnings("unused")
     private static void _test_todo_Basic( final BytesAccess ba )
     {//TODO test case
         ba.getBytesCopy();
@@ -312,6 +316,7 @@ public class BytesAccessTest
                      // == source length
     }
 
+    @SuppressWarnings("unused")
     private static void _test_todo_UInteger( final BytesAccess ba )
     {//TODO test case
         final byte mask = 0;
@@ -340,7 +345,7 @@ public class BytesAccessTest
             @Override
             public int read() throws IOException
             {
-                if( c++ < maxLen ) {
+                if( this.c++ < maxLen ) {
                     RND.nextBytes( byte1 );
                     return 0x00FF & byte1[0];
                     }
@@ -358,8 +363,8 @@ public class BytesAccessTest
             @Override
             public int read() throws IOException
             {
-                if( i < BYTES.length ) {
-                    return 0x00FF & BYTES[i++];
+                if( this.i < BYTES.length ) {
+                    return 0x00FF & BYTES[this.i++];
                     }
                 return -1;
             }

@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.EnumSet;
-
 import com.googlecode.cchlib.sql.SQLCloseException;
 
 /**
@@ -161,7 +160,7 @@ public class ExportSQL  implements Closeable
      */
     public Date getExportDate()
     {
-        return exportDate;
+        return this.exportDate;
     }
 
     /**
@@ -211,29 +210,24 @@ public class ExportSQL  implements Closeable
         throws SQLException,
                IOException
     {
-        ExportSQLPrinter export = getExportSQLPrinter( outputWriter );
-
-        try {
+        try( final ExportSQLPrinter export = getExportSQLPrinter( outputWriter ) ) {
             export.println( "-- ---------------------------" );
             export.print( "-- Export " );
 
-           if( config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
-               export.print( "`" ).print( schema ).print( "` " );
-               }
-
-           export.print( ": " ).println( getExportDateToString() );
-
-           export.println( "-- ---------------------------" );
-
-           if( config.contains( Config.ADD_USE_SCHEMA ) ) {
-               export.print( "USE `" ).print( schema ).println( "`;" );
-               }
-
-           export.println();
+            if( this.config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
+                export.print( "`" ).print( this.schema ).print( "` " );
             }
-        finally {
-            export.close();
+
+            export.print( ": " ).println( getExportDateToString() );
+
+            export.println( "-- ---------------------------" );
+
+            if( this.config.contains( Config.ADD_USE_SCHEMA ) ) {
+                export.print( "USE `" ).print( this.schema ).println( "`;" );
             }
+
+            export.println();
+        }
     }
 
     /**
@@ -247,27 +241,22 @@ public class ExportSQL  implements Closeable
         throws SQLException,
                IOException
     {
-        ExportSQLPrinter export = getExportSQLPrinter( outputWriter );
-
-        try {
+        try( final ExportSQLPrinter export = getExportSQLPrinter( outputWriter ) ) {
             export.println( "-- ---------------------------" );
             export.println( "-- Cleanup" );
             export.println( "-- ---------------------------" );
 
-            for( int i = exportTables.length - 1; i>= 0; --i ) {
-                export.doExportDeleteData( exportTables[ i ] );
-                }
+            for( int i = this.exportTables.length - 1; i >= 0; --i ) {
+                export.doExportDeleteData( this.exportTables[ i ] );
+            }
 
-//            for( TableDescription table : exportTables ) {
-//                export.doExportData( table );
-//                }
+            // for( TableDescription table : exportTables ) {
+            // export.doExportData( table );
+            // }
 
             export.println( "-- Cleanup done." );
             export.println();
-            }
-        finally {
-            export.close();
-            }
+        }
     }
 
     /**
@@ -281,15 +270,13 @@ public class ExportSQL  implements Closeable
         throws SQLException,
                IOException
     {
-        ExportSQLPrinter export = getExportSQLPrinter( outputWriter );
-
-        try {
+         try( final ExportSQLPrinter export = getExportSQLPrinter( outputWriter ) ) {
             export.println( "-- ---------------------------" );
             export.println( "-- Export tables" );
             export.println( "-- ---------------------------" );
 
             try {
-                for( TableDescription table : exportTables ) {
+                for( final TableDescription table : this.exportTables ) {
                     export.doExportData( table );
                     }
 
@@ -299,9 +286,6 @@ public class ExportSQL  implements Closeable
             finally {
                 close();
                 }
-            }
-        finally {
-            export.close();
             }
      }
 
@@ -322,19 +306,19 @@ public class ExportSQL  implements Closeable
 
     private ExportSQLPrinter getExportSQLPrinter( final Writer outputWriter )
     {
-        if( _exporter == null ) {
-            _exporter = new ExportSQLPrinter( this, outputWriter );
+        if( this._exporter == null ) {
+            this._exporter = new ExportSQLPrinter( this, outputWriter );
             }
 
-        return _exporter;
+        return this._exporter;
     }
 
     @Override
     public void close() throws SQLCloseException
     {
-        if( _exporter != null ) {
-        	_exporter.close();
-        	} 
+        if( this._exporter != null ) {
+            this._exporter.close();
+            }
     }
 
 }

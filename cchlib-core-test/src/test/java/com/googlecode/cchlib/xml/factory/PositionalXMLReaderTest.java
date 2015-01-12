@@ -31,6 +31,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import com.googlecode.cchlib.lang.ByteArrayBuilder;
 
+@SuppressWarnings("resource")
 public class PositionalXMLReaderTest
 {
     private static final Logger LOGGER = Logger.getLogger( PositionalXMLReaderTest.class );

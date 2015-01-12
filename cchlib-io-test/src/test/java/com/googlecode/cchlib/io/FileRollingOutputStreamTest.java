@@ -1,17 +1,14 @@
 // $codepro.audit.disable deleteTemporaryFiles
 package com.googlecode.cchlib.io;
 
-import com.googlecode.cchlib.lang.StringHelper;
 import java.io.File;
 import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.StringHelper;
 
-/**
- *
- *
- */
+@SuppressWarnings("resource")
 public class FileRollingOutputStreamTest
 {
     private final static Logger LOGGER = Logger.getLogger( FileRollingOutputStreamTest.class );
@@ -60,7 +57,7 @@ public class FileRollingOutputStreamTest
         LOGGER.info( "work with " + file );
         LOGGER.info( "maxsize " + maxsize );
 
-        FileRollingOutputStream os = new FileRollingOutputStream( fileRoller, maxsize );
+        final FileRollingOutputStream os = new FileRollingOutputStream( fileRoller, maxsize );
 
         os.write( BUFFER[ 0 ] );
         int l = 1;
@@ -87,7 +84,7 @@ public class FileRollingOutputStreamTest
 
         int filelen = 0;
 
-        for( File f : os.getFileList() ) {
+        for( final File f : os.getFileList() ) {
             LOGGER.info(
                 assertMsgPrefix
                     + "result in " + f

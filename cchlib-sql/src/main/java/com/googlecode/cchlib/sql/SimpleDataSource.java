@@ -139,6 +139,7 @@ public class SimpleDataSource
      * @return a new Connection from DataSource
      * @throws SQLException if any
      */
+    @SuppressWarnings("resource")
     public Connection createConnectionFromDataSource()
         throws SQLException
     {

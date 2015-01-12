@@ -17,9 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
 
-/**
- *
- */
+@SuppressWarnings("resource")
 public class URLHelperTest
 {
     private static final Logger LOGGER = Logger.getLogger( URLHelperTest.class );
@@ -29,7 +27,7 @@ public class URLHelperTest
     @Before
     public void setUp() throws MalformedURLException
     {
-        testURL = new URL( "https://code.google.com/p/cchlib/" );
+        this.testURL = new URL( "https://code.google.com/p/cchlib/" );
     }
 
     @After
@@ -42,15 +40,15 @@ public class URLHelperTest
      */
     private boolean isInternetAccessAllowed()
     {
-        LOGGER.warn( "Checking Internet connection using: " + testURL );
+        LOGGER.warn( "Checking Internet connection using: " + this.testURL );
 
         try {
-            InputStream is = testURL.openStream();
+            final InputStream is = this.testURL.openStream();
 
             is.close();
             return true;
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             LOGGER.warn( "NO INTERNET: " + e.getMessage() );
             return false;
             }
@@ -66,7 +64,7 @@ public class URLHelperTest
         // Is Internet access allowed ?
         Assume.assumeTrue( isInternetAccessAllowed() );
 
-        String s = URLHelper.toString( testURL );
+        final String s = URLHelper.toString( this.testURL );
 
         Assert.assertNotNull( s );
     }
@@ -81,10 +79,10 @@ public class URLHelperTest
         // Is Internet access allowed ?
         Assume.assumeTrue( isInternetAccessAllowed() );
 
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        URLHelper.copy( testURL, os );
+        final ByteArrayOutputStream os = new ByteArrayOutputStream();
+        URLHelper.copy( this.testURL, os );
 
-        String s = os.toString();
+        final String s = os.toString();
 
         Assert.assertNotNull( s );
     }
@@ -99,10 +97,10 @@ public class URLHelperTest
         // Is Internet access allowed ?
         Assume.assumeTrue( isInternetAccessAllowed() );
 
-        File file = File.createTempFile( "testCopyURLFile", "tmp" ); // $codepro.audit.disable deleteTemporaryFiles
-        URLHelper.copy( testURL, file );
+        final File file = File.createTempFile( "testCopyURLFile", "tmp" ); // $codepro.audit.disable deleteTemporaryFiles
+        URLHelper.copy( this.testURL, file );
 
-        String s = IOHelper.toString( file );
+        final String s = IOHelper.toString( file );
 
         Assert.assertNotNull( s );
     }
@@ -119,7 +117,7 @@ public class URLHelperTest
 
         final CharArrayWriter writer = new CharArrayWriter();
 
-        URLHelper.copy( testURL, writer );
+        URLHelper.copy( this.testURL, writer );
 
         final String s = writer.toString();
 
@@ -137,9 +135,9 @@ public class URLHelperTest
         // Is Internet access allowed ?
         Assume.assumeTrue( isInternetAccessAllowed() );
 
-        CharArrayWriter writer = new CharArrayWriter();
+        final CharArrayWriter writer = new CharArrayWriter();
 
-        URLHelper.copy( testURL, writer, Charset.defaultCharset().displayName() );
+        URLHelper.copy( this.testURL, writer, Charset.defaultCharset().displayName() );
 
         final String str = writer.toString();
 

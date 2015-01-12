@@ -1,7 +1,8 @@
 package com.googlecode.cchlib.lang;
 
-import com.googlecode.cchlib.io.SerializableHelper;
-import com.googlecode.cchlib.test.ArrayAssert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -11,15 +12,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.ReadableByteChannel;
 import org.apache.log4j.Logger;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import com.googlecode.cchlib.io.SerializableHelper;
+import com.googlecode.cchlib.test.ArrayAssert;
 
 /**
  *
  */
-@SuppressWarnings("boxing")
+@SuppressWarnings({"boxing","resource"})
 public class ByteArrayBuilderTest
 {
     private static final Logger LOGGER = Logger.getLogger( ByteArrayBuilderTest.class );
@@ -205,7 +205,7 @@ public class ByteArrayBuilderTest
 
         final ByteArrayBuilder bab = new ByteArrayBuilder( 5 );
         try (FileInputStream fis = new FileInputStream(file )) {
-            ReadableByteChannel fileChannel = fis.getChannel();
+            final ReadableByteChannel fileChannel = fis.getChannel();
 
             try {
                  bab.append( fileChannel );

@@ -1,6 +1,5 @@
 package cx.ath.choisnet.net;
 
-import com.googlecode.cchlib.io.IOHelper;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +13,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URL;
+import com.googlecode.cchlib.io.IOHelper;
 
 /**
  * Extra tools for {@link URL}
@@ -44,17 +44,9 @@ public final class URLHelper
      */
     public static String toString( final URL url ) throws IOException
     {
-        final Reader    reader = getBufferedReader( url );
-        String          content;
-
-        try {
-            content = IOHelper.toString( reader );
+        try( final Reader reader = getBufferedReader( url ) ) {
+            return IOHelper.toString( reader );
             }
-        finally {
-            reader.close();
-            }
-
-        return content;
     }
 
     /**

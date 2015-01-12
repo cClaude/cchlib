@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
-
 import com.googlecode.cchlib.lang.StringHelper;
 
 /**
@@ -29,11 +28,11 @@ public class DefaultBookmarksAccessoryConfigurator
     private static final Logger LOGGER = Logger.getLogger( DefaultBookmarksAccessoryConfigurator.class.getName() );
 
     /** @serial */
-    private File configFileProperties;
+    private final File configFileProperties;
     /** @serial */
-    private List<File> bookmarks;
+    private final List<File> bookmarks;
     /** @serial */
-    private String keysPropertyPrefix;
+    private final String keysPropertyPrefix;
 
     /**
      * Create a BookmarksAccessoryDefaultConfigurator using
@@ -93,23 +92,16 @@ public class DefaultBookmarksAccessoryConfigurator
 
     private Properties loadProperties()
     {
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
 
-        try {
-            InputStream is = new FileInputStream( configFileProperties );
-
-            try {
-                properties.load( is );
-                }
-            finally {
-                is.close();
-                }
+        try( final InputStream is = new FileInputStream( this.configFileProperties ) ) {
+            properties.load( is );
             }
-        catch( FileNotFoundException e ) {
-            LOGGER.warning( "Config file not found : " + configFileProperties + " - " + e );
+        catch( final FileNotFoundException e ) {
+            LOGGER.warning( "Config file not found : " + this.configFileProperties + " - " + e );
             }
-        catch( IOException e ) {
-            LOGGER.warning( "File error : " + configFileProperties + " - " + e );
+        catch( final IOException e ) {
+            LOGGER.warning( "File error : " + this.configFileProperties + " - " + e );
             }
 
         return properties;
@@ -120,47 +112,40 @@ public class DefaultBookmarksAccessoryConfigurator
      */
     private void loadBookmarks()
     {
-        Properties  properties  = loadProperties();
-        Set<String> keys        = properties.stringPropertyNames();
+        final Properties  properties  = loadProperties();
+        final Set<String> keys        = properties.stringPropertyNames();
 
-        for( String key : keys ) {
+        for( final String key : keys ) {
             if( key.startsWith( this.keysPropertyPrefix ) ) {
-                String  value = properties.getProperty( key );
-                File    file  = new File( value );
+                final String  value = properties.getProperty( key );
+                final File    file  = new File( value );
 
                 add( file );
                 }
             }
 
-        Collections.sort( bookmarks );
+        Collections.sort( this.bookmarks );
     }
 
     @Override
     protected void storeBookmarks()
     {
-        Properties      properties  = loadProperties();
-        StringBuilder   sb          = new StringBuilder();
+        final Properties      properties  = loadProperties();
+        final StringBuilder   sb          = new StringBuilder();
         int             i           = 0;
 
-        for( File f : bookmarks ) {
+        for( final File f : this.bookmarks ) {
             sb.setLength( 0 );
             sb.append( this.keysPropertyPrefix );
             sb.append( i++ );
             properties.put( sb.toString(), f.getPath() );
             }
 
-        try {
-            Writer writer = new FileWriter(configFileProperties);
-
-            try {
-                properties.store( writer, StringHelper.EMPTY );
-                }
-            finally {
-                writer.close();
-                }
+        try( final Writer writer = new FileWriter( this.configFileProperties ) ) {
+            properties.store( writer, StringHelper.EMPTY );
             }
-        catch( IOException e ) {
-            LOGGER.warning( "File error : " + configFileProperties + " - " + e );
+        catch( final IOException e ) {
+            LOGGER.warning( "File error : " + this.configFileProperties + " - " + e );
             }
     }
 
@@ -173,9 +158,9 @@ public class DefaultBookmarksAccessoryConfigurator
     public Collection<File> getBookmarks()
     {
         // be sure content is sorted
-        Collections.sort( bookmarks );
+        Collections.sort( this.bookmarks );
 
-        return bookmarks;
+        return this.bookmarks;
     }
 
     /**
@@ -189,14 +174,14 @@ public class DefaultBookmarksAccessoryConfigurator
         if( file.isDirectory() ) {
             boolean found = false;
 
-            for( File f : bookmarks ) {
+            for( final File f : this.bookmarks ) {
                 if( f.getPath().equals( file.getPath() ) ) {
                     found = true;
                     }
                 }
 
             if( !found ) {
-                bookmarks.add( file );
+                this.bookmarks.add( file );
                 return true;
                 }
             }
@@ -204,9 +189,9 @@ public class DefaultBookmarksAccessoryConfigurator
     }
 
     @Override
-    public boolean removeBookmark( File file )
+    public boolean removeBookmark( final File file )
     {
-        bookmarks.remove( file );
+        this.bookmarks.remove( file );
 
         storeBookmarks();
 
