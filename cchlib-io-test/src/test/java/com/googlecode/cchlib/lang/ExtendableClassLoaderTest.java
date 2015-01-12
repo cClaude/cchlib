@@ -20,6 +20,7 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.io.IOHelper;
 
+@SuppressWarnings("resource")
 public class ExtendableClassLoaderTest
 {
     private final static Logger LOGGER = Logger.getLogger( ExtendableClassLoaderTest.class );

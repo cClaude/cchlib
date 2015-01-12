@@ -8,15 +8,13 @@ import javax.swing.Icon;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- *
- */
+@SuppressWarnings("resource")
 public class ResourcesLoaderTest
 {
     @Test
     public void test_getResource()
     {
-        URL url = ResourcesLoader.getResource( ResourcesLoader.OK_ICON_32x32 );
+        final URL url = ResourcesLoader.getResource( ResourcesLoader.OK_ICON_32x32 );
 
         Assert.assertNotNull( url );
     }
@@ -25,7 +23,7 @@ public class ResourcesLoaderTest
     public void test_getResourceAsStream()
         throws ResourcesLoaderException, IOException
     {
-        InputStream is = ResourcesLoader.getResourceAsStream( ResourcesLoader.OK_ICON_32x32 );
+        final InputStream is = ResourcesLoader.getResourceAsStream( ResourcesLoader.OK_ICON_32x32 );
 
         Assert.assertNotNull( is );
         is.close();
@@ -34,7 +32,7 @@ public class ResourcesLoaderTest
     @Test
     public void test_getImageIcon() throws ResourcesLoaderException
     {
-        Icon icon = ResourcesLoader.getImageIcon( ResourcesLoader.OK_ICON_32x32 );
+        final Icon icon = ResourcesLoader.getImageIcon( ResourcesLoader.OK_ICON_32x32 );
 
         Assert.assertNotNull( icon );
     }
@@ -42,7 +40,7 @@ public class ResourcesLoaderTest
     @Test
     public void test_getImage() throws ResourcesLoaderException
     {
-        Image image = ResourcesLoader.getImage( ResourcesLoader.OK_ICON_32x32 );
+        final Image image = ResourcesLoader.getImage( ResourcesLoader.OK_ICON_32x32 );
 
         Assert.assertNotNull( image );
     }

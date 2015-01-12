@@ -8,9 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
+@SuppressWarnings("resource")
 public class InputStreamThreadTest
 {
     final private static Logger LOGGER = Logger.getLogger( InputStreamThreadTest.class );
@@ -30,16 +28,16 @@ public class InputStreamThreadTest
                     16,
                     getExceptionHandler()
             );
-            
+
             final InputStream copy = isThread.getInputStream();
-            
+
             isThread.start();
-            
+
             final InputStream sourceIS1  = IO.createPNGInputStream();
             final boolean     r          = IOHelper.isEquals( sourceIS1, copy );
-            
+
             Assert.assertTrue( r );
-            
+
             sourceIS1.close();
             copy.close();
         }

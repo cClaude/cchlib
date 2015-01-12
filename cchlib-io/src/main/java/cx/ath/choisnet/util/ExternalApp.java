@@ -179,18 +179,11 @@ public class ExternalApp
     public static final Output execute(final String command)
         throws ExternalAppException
     {
-        final InputStream empty = new EmptyInputStream();
-
-        try {
+        try( final InputStream empty = new EmptyInputStream() ) {
             return ExternalApp.execute( command, empty );
             }
-        finally {
-            try {
-                empty.close();
-                }
-            catch( final IOException e ) {
-                throw new RuntimeException( e );
-                }
+        catch( final IOException e ) {
+            throw new RuntimeException( e );
             }
     }
 

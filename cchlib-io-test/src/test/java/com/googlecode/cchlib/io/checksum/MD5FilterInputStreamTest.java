@@ -20,7 +20,7 @@ import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({ "resource", "deprecation" })
 public class MD5FilterInputStreamTest
 {
     private final static Logger LOGGER = Logger.getLogger( MD5FilterInputStreamTest.class );

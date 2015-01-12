@@ -14,10 +14,7 @@ import cx.ath.choisnet.xml.XMLParser;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
 import cx.ath.choisnet.xml.XMLParserException;
 
-/**
- *
- *
- */
+@SuppressWarnings("resource")
 public class XMLFileParserDOMImplTest
 {
     private static final Logger LOGGER = Logger.getLogger( XMLFileParserDOMImplTest.class );
@@ -45,12 +42,12 @@ public class XMLFileParserDOMImplTest
     @After
     public void cleanUpClass() throws Exception
     {
-        if( xmlFile != null ) {
-            boolean deleted = xmlFile.delete();
+        if( this.xmlFile != null ) {
+            final boolean deleted = this.xmlFile.delete();
             LOGGER.info( "XML File delete? " + deleted );
             }
-        if( xmlFile != null ) {
-            boolean deleted = xmlFile.delete();
+        if( this.xmlFile != null ) {
+            final boolean deleted = this.xmlFile.delete();
             LOGGER.info( "DTD File delete? " + deleted );
             }
     }
@@ -59,7 +56,7 @@ public class XMLFileParserDOMImplTest
     public void test_XMLFileParserDOMImpl()
         throws FileNotFoundException, XMLParserException
     {
-        XMLParserErrorHandler errorHandler =
+        final XMLParserErrorHandler errorHandler =
             new XMLParserErrorHandler(
                 new SAXErrorHandlerImpl(
                         new PrintWriter( System.err )
@@ -67,9 +64,9 @@ public class XMLFileParserDOMImplTest
                 );
 
         // Validate XML according to DTD
-        XMLFileParserDOMImpl xmlParser =
+        final XMLFileParserDOMImpl xmlParser =
             new XMLFileParserDOMImpl(
-                    xmlFile,
+                    this.xmlFile,
                     errorHandler,
                     EnumSet.of( XMLParserDOMImpl.Attributs.ENABLE_VALIDATING )
                     );

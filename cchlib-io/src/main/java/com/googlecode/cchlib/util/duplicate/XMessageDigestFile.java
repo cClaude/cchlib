@@ -292,10 +292,8 @@ public class XMessageDigestFile
     {
         reset();
 
-        try (FileInputStream fis = new FileInputStream(file)) {
-            final FileChannel fchannel = fis.getChannel();
-
-            try {
+        try (final FileInputStream fis = new FileInputStream(file)) {
+            try( final FileChannel fchannel = fis.getChannel() ) {
                 for( final ByteBuffer bb = ByteBuffer.wrap(this.buffer);
                         (fchannel.read(bb) != -1) || (bb.position() > 0);
                         bb.compact()
@@ -303,9 +301,6 @@ public class XMessageDigestFile
                     bb.flip();
                     update( bb );
                     }
-                }
-            finally {
-                fchannel.close();
                 }
             }
 
@@ -332,40 +327,34 @@ public class XMessageDigestFile
     {
         reset();
 
-        final FileInputStream fis      = new FileInputStream(file);
-        final FileChannel     fchannel = fis.getChannel();
-        boolean               cancel   = false;
+        boolean  cancel = false;
 
-        try {
-            for( final ByteBuffer bb = ByteBuffer.wrap(this.buffer);
-                    (fchannel.read(bb) != -1) || (bb.position() > 0);
-                    bb.compact()
-                    ) {
-                bb.flip();
-                update(bb);
+        try( final FileInputStream fis = new FileInputStream(file) ) {
+            try( final FileChannel fchannel = fis.getChannel() ) {
+                for( final ByteBuffer bb = ByteBuffer.wrap(this.buffer);
+                        (fchannel.read(bb) != -1) || (bb.position() > 0);
+                        bb.compact()
+                        ) {
+                    bb.flip();
+                    update(bb);
 
-                for( final DigestEventListener l:listeners ) {
-                    l.computeDigest( file, bb.position() );
+                    for( final DigestEventListener l:listeners ) {
+                        l.computeDigest( file, bb.position() );
 
-                    if( l.isCancel() ) {
+                        if( l.isCancel() ) {
+                            // User ask to cancel current task
+                            cancel = true;
+                            break;
+                            }
+                        }
+
+                    if( cancel ) {
                         // User ask to cancel current task
-                        cancel = true;
                         break;
                         }
                     }
-
-                if( cancel ) {
-                    // User ask to cancel current task
-                    break;
-                    }
                 }
-            }
-        finally {
-            // Not need
-            fchannel.close(); // TODO improve try finally
-            // Need !
-            fis.close();
-            }
+        }
 
         if( cancel ) {
             // User ask to cancel current task
@@ -395,38 +384,32 @@ public class XMessageDigestFile
     {
         reset();
 
-        final FileInputStream fis      = new FileInputStream(file);
-        final FileChannel     fchannel = fis.getChannel();
-        boolean               cancel   = false;
+        boolean cancel = false;
 
-        try {
-            for( final ByteBuffer bb = ByteBuffer.wrap(this.buffer);
-                    (fchannel.read(bb) != -1) || (bb.position() > 0);
-                    bb.compact()
-                    ) {
-                bb.flip();
-                update(bb);
+        try( final FileInputStream fis = new FileInputStream(file) ) {
+            try( final FileChannel fchannel = fis.getChannel() ) {
+                for( final ByteBuffer bb = ByteBuffer.wrap(this.buffer);
+                        (fchannel.read(bb) != -1) || (bb.position() > 0);
+                        bb.compact()
+                        ) {
+                    bb.flip();
+                    update(bb);
 
-                listener.computeDigest( file, bb.position() );
+                    listener.computeDigest( file, bb.position() );
 
-                if( listener.isCancel() ) {
-                    // User ask to cancel current task
-                    cancel = true;
-                    break;
-                    }
+                    if( listener.isCancel() ) {
+                        // User ask to cancel current task
+                        cancel = true;
+                        break;
+                        }
 
-                if( cancel ) {
-                    // User ask to cancel current task
-                    break;
+                    if( cancel ) {
+                        // User ask to cancel current task
+                        break;
+                        }
                     }
                 }
-            }
-        finally {
-            // Not need
-            fchannel.close(); // TODO improve try finally
-            // Need !
-            fis.close();
-            }
+        }
 
         if( cancel ) {
             // User ask to cancel current task

@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.net;
 
-import java.util.StringTokenizer;
-import java.io.File;
-import java.io.InputStreamReader;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 import com.googlecode.cchlib.lang.UnsupportedSystemException;
 
 /**
@@ -37,7 +37,7 @@ public class GetServiceByName
     /**
      * Create an GetServiceByName
      */
-    public GetServiceByName( Services services ) throws UnsupportedSystemException
+    public GetServiceByName( final Services services ) throws UnsupportedSystemException
     {
        this( services.getFile() );
     }
@@ -78,25 +78,25 @@ public class GetServiceByName
             )
     {
         // Parse line
-        StringTokenizer st = new StringTokenizer( line, " \t/#" );
+        final StringTokenizer st = new StringTokenizer( line, " \t/#" );
 
         // First get the name on the line (parameter 1):
         if( !st.hasMoreTokens() ) {
             return -1; // error
             }
-        String name = st.nextToken().trim();
+        final String name = st.nextToken().trim();
 
         // Next get the service name on the line (parameter 2):
         if( !st.hasMoreTokens() ) {
             return -1; // error
             }
-        String portValue = st.nextToken().trim();
+        final String portValue = st.nextToken().trim();
 
         // Finally get the class on the line (parameter 3):
         if( !st.hasMoreTokens() ) {
             return -1; // error
             }
-        String classValue = st.nextToken().trim();
+        final String classValue = st.nextToken().trim();
 
         // Class doesn't match--reject:
         if( !classValue.equals( tcpipClass ) ) {
@@ -108,7 +108,7 @@ public class GetServiceByName
             try { // Convert the port number string to integer
                 return Integer.parseInt( portValue );
                 }
-            catch( NumberFormatException nfe ) {
+            catch( final NumberFormatException nfe ) {
                 // Ignore corrupt /etc/services lines:
                 return -1; // error
                 }
@@ -175,35 +175,28 @@ public class GetServiceByName
             )
             throws GetServiceByNameException
     {
-        try {
-            BufferedReader br = new BufferedReader(
+        try( BufferedReader br = new BufferedReader(
                     new InputStreamReader(
-                        new FileInputStream( servicesFile )
+                        new FileInputStream( this.servicesFile )
                         )
-                    );
-
+                    ) ) {
             int port = -1;
 
             // Read /etc/services file.
             // Skip comments and empty lines.
-            try {
-                String line;
+            String line;
 
-                while( ((line = br.readLine()) != null) && (port == -1) ) {
-                    line = line.trim();
+            while( ((line = br.readLine()) != null) && (port == -1) ) {
+                line = line.trim();
 
-                    if( (line.length() != 0) && (line.charAt( 0 ) != '#') ) {
-                        port = parseServicesLine( line, ipService, ipClass.name() );
-                        }
+                if( (line.length() != 0) && (line.charAt( 0 ) != '#') ) {
+                    port = parseServicesLine( line, ipService, ipClass.name() );
                     }
-                }
-            finally {
-                br.close();
                 }
 
             return port;
             }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             throw new GetServiceByNameException( e );
             }
     }

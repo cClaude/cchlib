@@ -9,9 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- *
- */
+@SuppressWarnings("resource")
 public class CloneInputStreamThreadTest
 {
     private static final int BUFFER_SIZE = 16;

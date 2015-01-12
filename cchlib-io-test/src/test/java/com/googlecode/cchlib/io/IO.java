@@ -82,15 +82,10 @@ public final class IO
    public static final byte[] createPNG()
        throws FileNotFoundException, IOException
     {
-        final ByteArrayOutputStream os = new ByteArrayOutputStream();
-
-        try {
+        try( final ByteArrayOutputStream os = new ByteArrayOutputStream() ) {
             IOHelper.copy( createPNGInputStream(), os );
-            }
-        finally {
-            os.close();
-            }
 
-        return os.toByteArray();
+            return os.toByteArray();
+        }
     }
 }

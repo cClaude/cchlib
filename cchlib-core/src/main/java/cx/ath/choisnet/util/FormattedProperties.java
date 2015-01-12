@@ -180,6 +180,7 @@ public final class FormattedProperties
         }
     }
 
+    @SuppressWarnings("null")
     private void load( String line, final BufferedReader reader ) throws IOException
     {
         char    c   = 0;
