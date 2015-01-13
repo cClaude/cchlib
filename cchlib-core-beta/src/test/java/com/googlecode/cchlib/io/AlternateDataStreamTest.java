@@ -21,9 +21,9 @@ public class AlternateDataStreamTest
             System.out.printf( "AlternateDataStream supported for %s ? %b\n", r, Boolean.valueOf(ads.isSupported()) );
 
             if( ads.isSupported() ) {
-                final FileOutputStream fos = new FileOutputStream(ads.getStreamFile());
-                fos.write( "test".getBytes() );
-                fos.close();
+                try( final FileOutputStream fos = new FileOutputStream(ads.getStreamFile()) ) {
+                    fos.write( "test".getBytes() );
+                }
                 ads.getStreamSupportFile().delete();
                 }
             }

@@ -1,8 +1,5 @@
 package com.googlecode.cchlib.sql.mysql;
 
-import cx.ath.choisnet.io.ParallelOutputStream;
-import cx.ath.choisnet.util.ExternalApp;
-import cx.ath.choisnet.util.ExternalAppException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import com.googlecode.cchlib.io.ConcateInputStream;
+import cx.ath.choisnet.io.ParallelOutputStream;
+import cx.ath.choisnet.util.ExternalApp;
+import cx.ath.choisnet.util.ExternalAppException;
 
 /**
  * <p style="border:groove;">
@@ -25,10 +25,10 @@ import com.googlecode.cchlib.io.ConcateInputStream;
  */
 public class MySQLAdmin
 {
-    private String mySQLExe;
-    private String mySQLParams;
-    private String mySQLDumpExe;
-    private String mySQLDumpParams;
+    private final String mySQLExe;
+    private final String mySQLParams;
+    private final String mySQLDumpExe;
+    private final String mySQLDumpParams;
 
     /**
      * TODOC
@@ -38,10 +38,10 @@ public class MySQLAdmin
      * @param mySQLDumpParams
      */
     public MySQLAdmin(
-            String mySQLExe,
-            String mySQLParams,
-            String mySQLDumpExe,
-            String mySQLDumpParams
+            final String mySQLExe,
+            final String mySQLParams,
+            final String mySQLDumpExe,
+            final String mySQLDumpParams
             )
     {
         this.mySQLExe = mySQLExe;
@@ -55,18 +55,18 @@ public class MySQLAdmin
      * @param outputStream
      * @throws MySQLAdminException
      */
-    public void createSQLDumpFile(OutputStream outputStream)
+    public void createSQLDumpFile(final OutputStream outputStream)
         throws MySQLAdminException
     {
-        String command = (new StringBuilder())
-                            .append(mySQLDumpExe)
-                            .append(mySQLDumpParams)
+        final String command = (new StringBuilder())
+                            .append(this.mySQLDumpExe)
+                            .append(this.mySQLDumpParams)
                             .toString();
 
         try {
             ExternalApp.execute(command, outputStream, System.err);
         }
-        catch(ExternalAppException e) {
+        catch(final ExternalAppException e) {
             throw new MySQLAdminException(e);
         }
     }
@@ -76,27 +76,15 @@ public class MySQLAdmin
      * @param outputFile
      * @throws MySQLAdminException
      */
-    public void createSQLDumpFile(File outputFile)
+    public void createSQLDumpFile(final File outputFile)
         throws MySQLAdminException
     {
-        OutputStream outputStream = null;
-
-        try {
-            outputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
-
+        try( final OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( outputFile ) ) ) {
             createSQLDumpFile(outputStream);
             }
-        catch(java.io.IOException e) {
+        catch(final IOException e) {
             throw new MySQLAdminException(e);
             }
-        finally {
-            if(outputStream != null) {
-                try { outputStream.close(); } catch(Exception ignore) { }
-                }
-            if(outputStream != null) {
-                try { outputStream.close(); } catch(Exception ignore) { }
-            }
-        }
     }
 
     /**
@@ -105,103 +93,77 @@ public class MySQLAdmin
      * @param outputFile
      * @throws MySQLAdminException
      */
-    public void createSQLDumpFile(OutputStream servletOuput, File outputFile)
+    public void createSQLDumpFile(final OutputStream servletOuput, final File outputFile)
         throws MySQLAdminException
     {
-        OutputStream fileOutputStream = null;
-
-        try {
-            if(servletOuput == null) {
-                if(outputFile == null) {
-                    throw new MySQLAdminException("servletOuput & outputFile nulls");
-                    }
-                createSQLDumpFile(outputFile);
-                }
-
-            if(outputFile == null) {
-                createSQLDumpFile(servletOuput);
-                }
-
-            fileOutputStream = null;
-
-            try {
-                fileOutputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
-
-                createSQLDumpFile(servletOuput, fileOutputStream);
-                }
-            catch( IOException e) {
-                throw new MySQLAdminException(e);
-                }
+        if( servletOuput == null ) {
+            if( outputFile == null ) {
+                throw new MySQLAdminException( "servletOuput & outputFile nulls" );
             }
-        finally {
-            if(fileOutputStream != null) {
-                try { fileOutputStream.close(); } catch(Exception ignore) { }
-                }
-            }
+            createSQLDumpFile( outputFile );
+        }
+
+        if( outputFile == null ) {
+            createSQLDumpFile( servletOuput );
+        }
+
+        try (final OutputStream fileOutputStream = new BufferedOutputStream( new FileOutputStream( outputFile ) )) {
+            createSQLDumpFile( servletOuput, fileOutputStream );
+        }
+        catch( final IOException e ) {
+            throw new MySQLAdminException( e );
+        }
     }
 
     /**
      * TODOC
      * @param servletOuput
      * @param fileOutputStream
-     * @throws IOException 
+     * @throws IOException
      */
     public void createSQLDumpFile(
-            OutputStream servletOuput,
-            OutputStream fileOutputStream
+            final OutputStream servletOuput,
+            final OutputStream fileOutputStream
             )
         throws IOException
     {
-        ParallelOutputStream multipleOutputStream = new ParallelOutputStream(servletOuput, fileOutputStream);
-
-        try {
+        try( final ParallelOutputStream multipleOutputStream = new ParallelOutputStream( servletOuput, fileOutputStream ) ) {
 
             createSQLDumpFile( multipleOutputStream );
             }
-        catch(IOException e) {
+        catch(final IOException e) {
             throw new MySQLAdminException(e);
-            }
-        finally {
-            multipleOutputStream.close();
             }
     }
 
     /**
      * TODOC
      * @param inputfile
-     * @throws IOException 
+     * @throws IOException
      */
-    public void applySQL(File inputfile)
+    public void applySQL(final File inputfile)
         throws  IOException
     {
-        InputStream is = new BufferedInputStream( new FileInputStream( inputfile ) );
-        try {
+        try( final InputStream is = new BufferedInputStream( new FileInputStream( inputfile ) ) ) {
             applySQL( is );
-             }
-        finally {
-            is.close();
-        }
+            }
     }
 
     /**
      * TODOC
      * @param sqlStream
-     * @throws IOException 
+     * @throws IOException
      */
-    public void applySQL(InputStream sqlStream)
+    public void applySQL(final InputStream sqlStream)
         throws IOException
     {
-        final String command = mySQLExe + mySQLParams;
-        ConcateInputStream fullSQLStream = new ConcateInputStream(sqlStream, "quit\n");
+        final String command = this.mySQLExe + this.mySQLParams;
 
-        try {
+        try( final ConcateInputStream fullSQLStream = new ConcateInputStream( sqlStream, "quit\n" ) ) {
             ExternalApp.execute(command, fullSQLStream, System.out, System.err);
             }
-        catch(ExternalAppException e) {
+        catch(final ExternalAppException e) {
             throw new MySQLAdminException(e);
-            }
-        finally {
-            fullSQLStream.close();
             }
     }
 }

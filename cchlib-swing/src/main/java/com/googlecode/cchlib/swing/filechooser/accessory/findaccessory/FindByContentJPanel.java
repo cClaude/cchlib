@@ -96,75 +96,69 @@ class FindByContentJPanel extends JPanel implements FindFilterFactory
         @Override
         public boolean accept (final File f, final FindProgressCallback callback)
         {
-            if (f == null) {
+            if( f == null ) {
                 return false;
-                }
-            if (f.isDirectory()) {
+            }
+            if( f.isDirectory() ) {
                 return false;
-                }
-            if ((this.content == null) || (this.content.length() == 0)) {
+            }
+            if( (this.content == null) || (this.content.length() == 0) ) {
                 return true;
-                }
+            }
 
-            boolean             result  = false;
-            BufferedInputStream in      = null;
-            LocatorStream       locator = null;
+            boolean result = false;
 
-            try {
+            try (final BufferedInputStream in = new BufferedInputStream( new FileInputStream( f ) )) {
                 final long fileLength = f.length();
-                in = new BufferedInputStream(new FileInputStream(f));
                 byte[] contentBytes = null;
+
                 if( this.ignoreCase ) {
                     contentBytes = this.content.toLowerCase().getBytes();
-                    }
-                else {
+                } else {
                     contentBytes = this.content.getBytes();
-                    }
+                }
 
-                locator = new LocatorStream(contentBytes);
-                long counter = 0;
-                int callbackCounter = 20; // Only call back every 20 bytes
-                int c = -1;
+                try (final LocatorStream locator = new LocatorStream( contentBytes )) {
+                    long counter = 0;
+                    int callbackCounter = 20; // Only call back every 20 bytes
+                    int c = -1;
 
-                while((c = in.read()) != -1) {
-                    counter++;
-                    int matchChar = c;
-                    if (this.ignoreCase) {
-                        matchChar = Character.toLowerCase((char)c);
+                    while( (c = in.read()) != -1 ) {
+                        counter++;
+                        int matchChar = c;
+                        if( this.ignoreCase ) {
+                            matchChar = Character.toLowerCase( (char)c );
                         }
-                    locator.write(matchChar);
+                        locator.write( matchChar );
 
-                    // This search could be time consuming, especially since
-                    // this algorithm is not exactly the most efficient.
-                    // Report progress to search monitor and abort
-                    // if method returns false.
-                    if (callback != null) {
-                        if (--callbackCounter <= 0) {
-                            if (!callback.reportProgress(this, f,counter,fileLength)) {
-                                return false;
+                        // This search could be time consuming, especially since
+                        // this algorithm is not exactly the most efficient.
+                        // Report progress to search monitor and abort
+                        // if method returns false.
+                        if( callback != null ) {
+                            if( --callbackCounter <= 0 ) {
+                                if( !callback.reportProgress( this, f, counter, fileLength ) ) {
+                                    return false;
                                 }
-                            callbackCounter = 20;
+                                callbackCounter = 20;
                             }
                         }
                     }
                 }
+            }
             catch( final LocatedException e ) { // $codepro.audit.disable logExceptions
                 result = true;
-                }
-            catch (final Throwable e) {
+            }
+            catch( final Throwable e ) {
                 LOGGER.warn( "ContentFilter error", e );
-                }
-            finally {
-                try { if (locator != null) { locator.close(); } } catch (final IOException e){} // $codepro.audit.disable emptyCatchClause, logExceptions
-                try { if (in != null) { in.close(); } } catch (final IOException e){} // $codepro.audit.disable emptyCatchClause, logExceptions
-                }
+            }
 
             return result;
         }
 
         /**
-            Thrown when a LocatorStream object finds a byte array.
-        */
+         * Thrown when a LocatorStream object finds a byte array.
+         */
         class LocatedException extends IOException
         {
             private static final long serialVersionUID = 1L;

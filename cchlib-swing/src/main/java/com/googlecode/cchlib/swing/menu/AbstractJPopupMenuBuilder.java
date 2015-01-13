@@ -80,7 +80,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final Object          clientPropertyValue
         )
     {
-        JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
+        final JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
 
         addJMenuItem(
                 contextMenu,
@@ -138,7 +138,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final String          actionCommand
         )
     {
-        JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
+        final JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
 
         addJMenuItem(
                 contextMenu,
@@ -200,7 +200,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final Object          clientPropertyValue
         )
     {
-        JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
+        final JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
 
         addJMenuItem(
                 contextMenu,
@@ -250,7 +250,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final ActionListener  listener
         )
     {
-        JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
+        final JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
 
         addJMenuItem(
                 contextMenu,
@@ -289,7 +289,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final String        menuItemTxt
         )
     {
-        JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
+        final JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
 
         addJMenuItem( contextMenu, newMenuItem );
 
@@ -355,7 +355,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final Object          clientPropertyValue
         )
     {
-        JMenu newMenuItem = new JMenu( menuTxt );
+        final JMenu newMenuItem = new JMenu( menuTxt );
 
         addJMenu(
                 contextMenu,
@@ -413,7 +413,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final String          actionCommand
         )
     {
-        JMenu newMenuItem = new JMenu( menuTxt );
+        final JMenu newMenuItem = new JMenu( menuTxt );
 
         addJMenu(
                 contextMenu,
@@ -475,7 +475,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final Object          clientPropertyValue
         )
     {
-        JMenu newMenuItem = new JMenu( menuTxt );
+        final JMenu newMenuItem = new JMenu( menuTxt );
 
         addJMenu(
                 contextMenu,
@@ -525,7 +525,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final ActionListener  listener
         )
     {
-        JMenu newMenuItem = new JMenu( menuTxt );
+        final JMenu newMenuItem = new JMenu( menuTxt );
 
         addJMenu(
                 contextMenu,
@@ -564,7 +564,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final String        menuTxt
         )
     {
-        JMenu newMenuItem = new JMenu( menuTxt );
+        final JMenu newMenuItem = new JMenu( menuTxt );
 
         addJMenu( contextMenu, newMenuItem );
 
@@ -631,7 +631,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final Object          clientPropertyValue
         )
     {
-        JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
+        final JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
 
         addJMenuItem(
                 contextMenu,
@@ -689,7 +689,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final String          actionCommand
         )
     {
-        JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
+        final JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
 
         addJMenuItem(
                 contextMenu,
@@ -751,7 +751,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final Object          clientPropertyValue
         )
     {
-        JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
+        final JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
 
         addJMenuItem(
                 contextMenu,
@@ -801,7 +801,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final ActionListener  listener
         )
     {
-        JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
+        final JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
 
         addJMenuItem(
                 contextMenu,
@@ -840,7 +840,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final String   menuItemTxt
         )
     {
-        JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
+        final JMenuItem newMenuItem = new JMenuItem( menuItemTxt );
 
         addJMenuItem( contextMenu, newMenuItem );
 
@@ -906,7 +906,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final Object          clientPropertyValue
         )
     {
-        JMenu newMenuItem = new JMenu( menuTxt );
+        final JMenu newMenuItem = new JMenu( menuTxt );
 
         addJMenu(
                 contextMenu,
@@ -964,7 +964,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final String          actionCommand
         )
     {
-        JMenu newMenuItem = new JMenu( menuTxt );
+        final JMenu newMenuItem = new JMenu( menuTxt );
 
         addJMenu(
                 contextMenu,
@@ -1026,7 +1026,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final Object          clientPropertyValue
         )
     {
-        JMenu newMenuItem = new JMenu( menuTxt );
+        final JMenu newMenuItem = new JMenu( menuTxt );
 
         addJMenu(
                 contextMenu,
@@ -1076,7 +1076,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final ActionListener  listener
         )
     {
-        JMenu newMenuItem = new JMenu( menuTxt );
+        final JMenu newMenuItem = new JMenu( menuTxt );
 
         addJMenu(
                 contextMenu,
@@ -1115,7 +1115,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final String  menuTxt
         )
     {
-        JMenu newMenuItem = new JMenu( menuTxt );
+        final JMenu newMenuItem = new JMenu( menuTxt );
 
         addJMenu( contextMenu, newMenuItem );
 
@@ -1160,11 +1160,11 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     final
     public void addMenu()
     {
-        if( menuMouseListener != null ) {
-            removeMouseListener( menuMouseListener );
+        if( this.menuMouseListener != null ) {
+            removeMouseListener( this.menuMouseListener );
             }
-        menuMouseListener = newMenu();
-        addMouseListener( menuMouseListener );
+        this.menuMouseListener = newMenu();
+        addMouseListener( this.menuMouseListener );
     }
 
     private MouseAdapter newMenu()
@@ -1201,9 +1201,9 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final Object requestor
         )
     {
-        Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
+        final Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
                 .getContents( requestor );
-        return t != null
+        return (t != null)
                 && (t.isDataFlavorSupported( DataFlavor.stringFlavor )
                         /*|| t.isDataFlavorSupported( DataFlavor.plainTextFlavor )*/);
     }
@@ -1223,7 +1223,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         )
         throws IllegalStateException
     {
-        StringSelection selection = new StringSelection( s );
+        final StringSelection selection = new StringSelection( s );
         Toolkit.getDefaultToolkit()
                 .getSystemClipboard()
                     .setContents(
@@ -1251,15 +1251,14 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     public static String getClipboardContents( final Object requestor )
         throws IllegalStateException
     {
-        Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
+        final Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
                 .getContents( requestor );
 
         if( t != null ) {
-            DataFlavor df = DataFlavor.stringFlavor;
+            final DataFlavor df = DataFlavor.stringFlavor;
 
             if( df != null ) {
-                try {
-                    final Reader        r       = df.getReaderForText( t );
+                try( final Reader r = df.getReaderForText( t ) ) {
                     final char[]        charBuf = new char[ 512 ];
                     final StringBuilder buf     = new StringBuilder();
                     int                 n;
@@ -1267,16 +1266,13 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
                     while( (n = r.read( charBuf, 0, charBuf.length )) > 0 ) {
                         buf.append( charBuf, 0, n );
                         }
-
-                    r.close();
-
                     return buf.toString();
                     }
-                catch( IOException e ) {
+                catch( final IOException e ) {
                     // log, but ignore
                     e.printStackTrace();
                     }
-                catch( UnsupportedFlavorException e ) {
+                catch( final UnsupportedFlavorException e ) {
                     // log, but ignore
                     e.printStackTrace();
                     }

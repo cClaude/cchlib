@@ -34,38 +34,33 @@ class SimpleTextPersistenceManagerV0
     }
 
     @Override
-    public void store( File cacheFile, CacheContent cache ) throws IOException
+    public void store( final File cacheFile, final CacheContent cache ) throws IOException
     {
         // store cache using simple text file.
-        Writer w = new BufferedWriter( new FileWriter( cacheFile ) ); // $codepro.audit.disable questionableName
+        try( final Writer w = new BufferedWriter( new FileWriter( cacheFile ) ) ) {
+            for( final Entry<URI,URIDataCacheEntry> entry : cache ) {
+                final String contentHashCode = entry.getValue().getContentHashCode();
 
-        for( Entry<URI,URIDataCacheEntry> entry : cache ) {
-            final String contentHashCode = entry.getValue().getContentHashCode();
-
-            if( contentHashCode != null ) {
-                w.append( contentHashCode.trim() ).append( '\n' );
+                if( contentHashCode != null ) {
+                    w.append( contentHashCode.trim() ).append( '\n' );
+                    }
+                else {
+                    w.append( '\n' );
+                    }
+                w.append( entry.getKey().toASCIIString() ).append( '\n' );
+                w.append( Long.toString( entry.getValue().getDate().getTime() ) ).append( '\n' );
+                w.append( entry.getValue().getRelativeFilename() ).append( '\n' );
                 }
-            else {
-                w.append( '\n' );
-                }
-            w.append( entry.getKey().toASCIIString() ).append( '\n' );
-            w.append( Long.toString( entry.getValue().getDate().getTime() ) ).append( '\n' );
-            w.append( entry.getValue().getRelativeFilename() ).append( '\n' );
-            }
-        w.flush();
-        w.close();
+            w.flush();
+        }
     }
 
     /* (non-Javadoc) */
     @Override
-    public void load( File cacheFile, CacheContent cache ) // $codepro.audit.disable cyclomaticComplexity
+    public void load( final File cacheFile, final CacheContent cache ) // $codepro.audit.disable cyclomaticComplexity
             throws FileNotFoundException, IOException
     {
-        BufferedReader reader = null; // $codepro.audit.disable questionableName
-
-        try {
-            reader = new BufferedReader( new FileReader( cacheFile ) );
-
+        try( final BufferedReader reader = new BufferedReader( new FileReader( cacheFile ) ) ) {
             for(;;) {
                 String hashCode = reader.readLine();
                 if( hashCode == null ) {
@@ -84,14 +79,14 @@ class SimpleTextPersistenceManagerV0
                 try {
                     uri = new URL( line ).toURI(); // $codepro.audit.disable avoidInstantiationInLoops
                     }
-                catch( MalformedURLException e ) {
+                catch( final MalformedURLException e ) {
                     LOGGER.error( "Bad URI format (ignore) in URLCache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
                             );
                     uri = null;
                     }
-                catch( URISyntaxException e ) {
+                catch( final URISyntaxException e ) {
                     LOGGER.error( "Bad URI Syntax (ignore) in URLCache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
@@ -108,7 +103,7 @@ class SimpleTextPersistenceManagerV0
                 try {
                     date = new Date( Long.parseLong( line ) ); // $codepro.audit.disable avoidInstantiationInLoops
                     }
-                catch( NumberFormatException e ) {
+                catch( final NumberFormatException e ) {
                     LOGGER.error( "Bad DATE format (use 0) in URLCache file : " + cacheFile
                             + " value = [" + line + "]",
                             e
@@ -126,11 +121,6 @@ class SimpleTextPersistenceManagerV0
                     // Skip entry with no URL !
                     cache.put( uri, new DefaultURICacheEntry( date, hashCode, filename ) ); // $codepro.audit.disable avoidInstantiationInLoops
                     }
-                }
-            }
-        finally {
-            if( reader != null ) {
-                reader.close();
                 }
             }
     }

@@ -21,8 +21,8 @@ public class DefaultCustomProperties
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultCustomProperties.class );
 
-    private Properties properties;
-    private FileObject fileObject;
+    private final Properties properties;
+    private final FileObject fileObject;
 
     public DefaultCustomProperties(
         final FileObject  fileObject,
@@ -32,13 +32,8 @@ public class DefaultCustomProperties
         this.fileObject = fileObject;
         this.properties = new Properties( defaults );
 
-        InputStream is = new FileInputStream( fileObject.getFile() );
-
-        try {
-            properties.load( is );
-            }
-        finally {
-            is.close();
+        try( final InputStream is = new FileInputStream( fileObject.getFile() ) ) {
+            this.properties.load( is );
             }
 
         this.fileObject.setCustomProperties( this );
@@ -47,19 +42,19 @@ public class DefaultCustomProperties
     @Override
     public Set<String> stringPropertyNames()
     {
-        return properties.stringPropertyNames();
+        return this.properties.stringPropertyNames();
     }
 
     @Override
     public boolean store() throws FileNotFoundException, IOException
     {
-        if( fileObject.isReadOnly() ) {
-            LOGGER.warn( "Can't save (readOnly): " + fileObject );
+        if( this.fileObject.isReadOnly() ) {
+            LOGGER.warn( "Can't save (readOnly): " + this.fileObject );
 
             return false;
             }
         else {
-            return storeAs( fileObject.getFile() );
+            return storeAs( this.fileObject.getFile() );
             }
     }
 
@@ -69,7 +64,7 @@ public class DefaultCustomProperties
         final String comment = file.getPath();
 
         try( final FileOutputStream os = new FileOutputStream( file ) ) {
-            properties.store(
+            this.properties.store(
                     os,
                     "Created by "
                         + CompareResourcesBundleFrame.class
@@ -86,25 +81,25 @@ public class DefaultCustomProperties
     @Override
     public FileObject getFileObject()
     {
-        return fileObject;
+        return this.fileObject;
     }
 
     public Properties getProperties()
     {
-        return properties;
+        return this.properties;
     }
 
     @Override
     public String getProperty( final String key )
     {
-        return properties.getProperty( key );
+        return this.properties.getProperty( key );
     }
 
     @Override
     public void setProperty( final String key, final String value )
     {
         setEdited( true );
-        properties.setProperty( key, value );
+        this.properties.setProperty( key, value );
     }
 
     @Override

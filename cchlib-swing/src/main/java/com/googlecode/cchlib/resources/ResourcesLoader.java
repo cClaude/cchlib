@@ -23,9 +23,9 @@ public class ResourcesLoader
     }
 
     /**
-     * Find {@link URL} for resource, according to this 
+     * Find {@link URL} for resource, according to this
      * class {@link ClassLoader}
-     * 
+     *
      * @param name Resource name
      * @return {@link URL} for giving resource name
      * @see Class#getResource(String)
@@ -34,16 +34,16 @@ public class ResourcesLoader
     {
         return getResource( ResourcesLoader.class, name );
     }
-    
+
     public static URL getResource( final Class<?> clazz, final String name )
     {
         return clazz.getResource( name );
     }
 
     /**
-     * Find {@link InputStream} for resource, according to this 
-     * class {@link ClassLoader}
-     * 
+     * Find {@link InputStream} for resource, according to this
+     * class {@link ClassLoader} (never return null)
+     *
      * @param name Resource name
      * @return {@link InputStream} for giving resource name
      * @see Class#getResourceAsStream(String)
@@ -54,7 +54,15 @@ public class ResourcesLoader
     {
         return getResourceAsStream( ResourcesLoader.class, name );
     }
-    
+
+    /**
+     * Return an {@link InputStream} using {@link Class#getResourceAsStream(String)}
+     * but never return null.
+     * @param clazz class to use
+     * @param name  name of the desired resource
+     * @return a valid {@link InputStream}
+     * @throws ResourcesLoaderException if resource can not be open.
+     */
     public static InputStream getResourceAsStream( final Class<?> clazz, final String name )
             throws ResourcesLoaderException
         {
@@ -77,14 +85,14 @@ public class ResourcesLoader
     {
         return getImageIcon( ResourcesLoader.class, name );
     }
-    
+
     public static Icon getImageIcon( final Class<?> clazz, final String name )
         throws ResourcesLoaderException
     {
         try {
             return new ImageIcon( getResource( clazz, name ) );
             }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             throw new ResourcesLoaderException( "Can't find image: " + name );
             }
     }
@@ -98,7 +106,7 @@ public class ResourcesLoader
     {
         return getImage( ResourcesLoader.class, name );
     }
-    
+
     public static Image getImage( final Class<?> clazz, final String name )
         throws ResourcesLoaderException
     {

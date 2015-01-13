@@ -41,19 +41,14 @@ public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICach
         ) throws IOException
     {
         // store cache using simple text file.
-        Writer w = new BufferedWriter( new FileWriter( cacheFile ) ); // $codepro.audit.disable questionableName
+        try( final Writer w = new BufferedWriter( new FileWriter( cacheFile ) ) ) {
+            w.append( this.version ).append( '\n' );
 
-        try {
-            w.append( version ).append( '\n' );
-
-            for( Entry<URI,URIDataCacheEntry> entry : cache ) {
+            for( final Entry<URI,URIDataCacheEntry> entry : cache ) {
                 storeEntry( w, entry );
                 }
 
             w.flush();
-            }
-        finally {
-            w.close();
             }
     }
 
@@ -91,23 +86,14 @@ public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICach
     public void load( final File cacheFile, final CacheContent cache )
         throws FileNotFoundException, IOException, PersistenceFileBadVersionException
     {
-        BufferedReader reader = null;
-
-        try {
-            reader = new BufferedReader( new FileReader( cacheFile ) );
-
+        try( final BufferedReader reader = new BufferedReader( new FileReader( cacheFile ) ) ) {
             checkVersion( reader );
 
             loadContent( cacheFile, cache, reader );
             }
-        finally {
-            if( reader != null ) {
-                reader.close();
-                }
-            }
     }
 
-    protected void checkVersion( BufferedReader reader ) //
+    protected void checkVersion( final BufferedReader reader ) //
             throws IOException, PersistenceFileBadVersionException
     {
         final String checkVersion = reader.readLine();
@@ -136,14 +122,14 @@ public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICach
             try {
                 uri = convertLineToURI( line );
                 }
-            catch( MalformedURLException e ) {
+            catch( final MalformedURLException e ) {
                 LOGGER.error( "Bad URL/URI format (try next line) in cache file : " + cacheFile
                         + " value = [" + line + "]",
                         e
                         );
                 continue;
                 }
-            catch( URISyntaxException e ) {
+            catch( final URISyntaxException e ) {
                 LOGGER.error( "Bad URL/URI syntaxe (try next line) in cache file : " + cacheFile
                         + " value = [" + line + "]",
                         e
@@ -162,7 +148,7 @@ public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICach
             try {
                 date = new Date( Long.parseLong( line ) ); // $codepro.audit.disable avoidInstantiationInLoops
                 }
-            catch( NumberFormatException e ) {
+            catch( final NumberFormatException e ) {
                 LOGGER.error( "Bad DATE format (use 0) in cache file : " + cacheFile
                         + " value = [" + line + "]",
                         e
