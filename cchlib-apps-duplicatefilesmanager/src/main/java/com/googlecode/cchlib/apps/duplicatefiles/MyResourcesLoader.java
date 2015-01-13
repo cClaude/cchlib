@@ -28,7 +28,7 @@ public final class MyResourcesLoader
 
     /**
      * Find {@link InputStream} for resource, according to this
-     * class {@link ClassLoader}
+     * class {@link ClassLoader} (never return null)
      *
      * @param name Resource name
      * @return {@link InputStream} for giving resource name
@@ -84,13 +84,8 @@ public final class MyResourcesLoader
     {
         final Properties prop = new Properties();
 
-        try {
-            final InputStream is = MyResourcesLoader.getResourceAsStream( name );
-
-            if( is != null ) {
-                prop.load( is );
-                is.close();
-                }
+        try( final InputStream is = MyResourcesLoader.getResourceAsStream( name ) ) {
+            prop.load( is );
             }
         catch( IOException | ResourcesLoaderException e ) {
             LOGGER.error( "Can't load properties: " + name, e );

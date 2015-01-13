@@ -84,19 +84,16 @@ public class FileDataTypes
             initFileDataTypeMatchList();
             }
 
-        FilterDataTypes filter = new FilterDataTypes( is, fileDataTypeMatchList );
-        byte[]          buffer = new byte[ 256 ];
+        final byte[] buffer = new byte[ 256 ];
+        final FileDataTypeDescription r;
 
-        try {
+        try( final FilterDataTypes filter = new FilterDataTypes( is, fileDataTypeMatchList ) ) {
             do {
                 filter.read( buffer );
-                }while( ! filter.isReady() );
-            }
-        finally {
-            filter.close();
-            }
+                } while( ! filter.isReady() );
 
-        FileDataTypeDescription r = filter.getFileDataTypeDescription();
+            r = filter.getFileDataTypeDescription();
+            }
 
         return r;
     }
@@ -105,13 +102,13 @@ public class FileDataTypes
     {
         final List<FileDataTypeMatch> fileDataTypeMatchList = new ArrayList<>();
 
-        for( FileDataTypeMatch m : JPEG_MATCHERS ) {
+        for( final FileDataTypeMatch m : JPEG_MATCHERS ) {
             fileDataTypeMatchList.add( m );
             }
-        for( FileDataTypeMatch m : GIF_MATCHERS ) {
+        for( final FileDataTypeMatch m : GIF_MATCHERS ) {
             fileDataTypeMatchList.add( m );
             }
-        for( FileDataTypeMatch m : PNG_MATCHERS ) {
+        for( final FileDataTypeMatch m : PNG_MATCHERS ) {
             fileDataTypeMatchList.add( m );
             }
 

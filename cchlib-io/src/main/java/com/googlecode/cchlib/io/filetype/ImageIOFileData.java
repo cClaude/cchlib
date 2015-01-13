@@ -10,7 +10,7 @@ import javax.imageio.stream.ImageInputStream;
 
 /**
  * Not public * DO NOT USE
- * 
+ *
  * @since 4.1.7
  */
 public
@@ -20,23 +20,21 @@ class ImageIOFileData
     private String formatName;
 
     /**
-     * 
+     *
      * @param is
      * @throws IOException
      */
     public ImageIOFileData( final InputStream is ) throws IOException
     {
-        ImageInputStream iis = ImageIO.createImageInputStream( is );
-        
-        try {
+        try( ImageInputStream iis = ImageIO.createImageInputStream( is ) ) {
             final Iterator<ImageReader> readers = ImageIO.getImageReaders( iis );
-            
+
             if( readers.hasNext() ) {
-                ImageReader reader = readers.next();
+                final ImageReader reader = readers.next();
                 try {
                     reader.setInput( iis );
-                    formatName = reader.getFormatName();
-                    dimension  = new Dimension( reader.getWidth(0), reader.getHeight(0) );
+                    this.formatName = reader.getFormatName();
+                    this.dimension  = new Dimension( reader.getWidth(0), reader.getHeight(0) );
                     }
                 finally {
                     reader.dispose();
@@ -44,13 +42,8 @@ class ImageIOFileData
                 }
             // else { dimension = null; }
             }
-        finally {
-            if( iis != null ) {
-                iis.close();
-                }
-            }    
     }
-    
+
     /**
      * Returns {@link Dimension} of this picture
      * @return {@link Dimension} of this picture
@@ -59,16 +52,16 @@ class ImageIOFileData
      */
     public Dimension getDimension()
     {
-        return dimension;
+        return this.dimension;
     }
 
     /**
-     * Returns a String identifying the format of the input source. 
+     * Returns a String identifying the format of the input source.
      * @return the format name, as a String.
      * @see ImageReader#getFormatName()
      */
     public String getFormatName()
     {
-        return formatName;
+        return this.formatName;
     }
 }

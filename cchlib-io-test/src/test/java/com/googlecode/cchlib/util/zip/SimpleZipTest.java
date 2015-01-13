@@ -29,9 +29,7 @@ public class SimpleZipTest
     public void test_SimpleZip() throws IOException
     {
         try (FileOutputStream os = new FileOutputStream( ZIP_DESTINATION_ZIP )) {
-            final SimpleZip instance = new SimpleZip( os );
-
-            try {
+            try( final SimpleZip instance = new SimpleZip( os ) ) {
                 final ZipListener l = new ZipListener() {
                     @Override
                     public void entryPostProcessing(final ZipEntry zipEntry)
@@ -52,9 +50,6 @@ public class SimpleZipTest
                         );
                 instance.removeZipListener( l );
                 }
-            finally {
-                instance.close();
-                }
             }
 
         final boolean del = ZIP_DESTINATION_ZIP.delete();
@@ -69,8 +64,6 @@ public class SimpleZipTest
     public void test_SimpleSimpleUnZip() throws IOException
     {
         try (InputStream is = IO.createZipInputFile()) {
-            final SimpleUnZip instance = new SimpleUnZip( is );
-
             final UnZipListener l = new UnZipListener()
             {
                 @Override
@@ -98,12 +91,16 @@ public class SimpleZipTest
                             );
                 }
             };
-            instance.addZipListener( l );
-            instance.saveAll( UNZIP_DEST_DIR_FILE );
-            instance.removeZipListener( l );
-            instance.close();
 
-            final int count = instance.getFileCount();
+            final int count;
+
+            try( final SimpleUnZip instance = new SimpleUnZip( is ) ){
+                instance.addZipListener( l );
+                instance.saveAll( UNZIP_DEST_DIR_FILE );
+                instance.removeZipListener( l );
+
+                count = instance.getFileCount();
+            }
 
             LOGGER.info( "Unzip file count:" + count );
 

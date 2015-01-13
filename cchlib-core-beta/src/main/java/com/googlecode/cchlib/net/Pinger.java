@@ -249,17 +249,16 @@ public class Pinger extends Thread
             )
         throws java.io.IOException
     {
-        DatagramSocket  socket = null;
         final StringBuilder   result = new StringBuilder();
 
-        try {
+        try( final DatagramSocket socket = new DatagramSocket( port, inetAddress ) ) {
             //byte[] sendData     = new byte[1024];
             final byte[] receiveData  = new byte[1024];
 
             //String sentence = inFromUser.readLine();
             //sendData = sentence.getBytes();
             final DatagramPacket sendPacket = new DatagramPacket( sendData, sendData.length, inetAddress, port );
-            socket = new DatagramSocket( port, inetAddress );
+
             socket.send( sendPacket );
 
 //            InetAddress serveur = InetAddress.getByName(argv[0]);
@@ -306,11 +305,6 @@ public class Pinger extends Thread
                 // Ignore
                 }
 */
-            }
-        finally {
-            if( socket != null ) {
-                socket.close();
-                }
             }
 
         return result.toString();

@@ -1,7 +1,6 @@
 // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods, numericLiterals, constantNamingConvention
 package cx.ath.choisnet.bytesaccess;
 
-import cx.ath.choisnet.util.ArrayHelper;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import cx.ath.choisnet.util.ArrayHelper;
 
 /**
  * <P>
@@ -34,7 +34,7 @@ public abstract class BytesAccess implements Cloneable
     /**
      * Internal buffer
      */
-    private byte[] bytes;
+    private final byte[] bytes;
 
     /**
      * Build an array of bytes, all values will be set to 0
@@ -89,9 +89,9 @@ public abstract class BytesAccess implements Cloneable
     {
         this( length );
 
-        int len = is.read( bytes );
+        final int len = is.read( this.bytes );
 
-        if( len != bytes.length ) {
+        if( len != this.bytes.length ) {
             throw new BytesAccessException( "Can't read " + length
                     + " bytes, only found " + len );
         }
@@ -118,17 +118,13 @@ public abstract class BytesAccess implements Cloneable
     {
         this( length );
 
-        final InputStream is = new FileInputStream( file );
         int len;
 
-        try {
-            len = is.read( bytes );
-        }
-        finally {
-            is.close();
+        try( final InputStream is = new FileInputStream( file ) ) {
+            len = is.read( this.bytes );
         }
 
-        if( len != bytes.length ) {
+        if( len != this.bytes.length ) {
             throw new BytesAccessException( "Can't read " + length
                     + " bytes, only found " + len );
         }
@@ -159,7 +155,7 @@ public abstract class BytesAccess implements Cloneable
     @Override
     public int hashCode()
     {
-        return Arrays.hashCode( bytes );
+        return Arrays.hashCode( this.bytes );
     }
 
     @Override
@@ -176,9 +172,9 @@ public abstract class BytesAccess implements Cloneable
         }
 
         try {
-            return compare( bytes, BytesAccess.class.cast( obj ).bytes ) == 0;
+            return compare( this.bytes, BytesAccess.class.cast( obj ).bytes ) == 0;
         }
-        catch( IllegalArgumentException e ) { // $codepro.audit.disable
+        catch( final IllegalArgumentException e ) { // $codepro.audit.disable
                                               // logExceptions
             return false;
         }
@@ -310,7 +306,7 @@ public abstract class BytesAccess implements Cloneable
      */
     public int compareTo( final byte[] someBytes )
     {
-        long l = compare( bytes, someBytes );
+        long l = compare( this.bytes, someBytes );
 
         if( (l & 0xFFFFFFFF00000000L) != 0 ) {
             // Greater than what Integer can't store
@@ -348,7 +344,7 @@ public abstract class BytesAccess implements Cloneable
     {
         for( int i = 0; i < this.bytes.length; i++ ) {
             if( this.bytes[ i ] != someBytes[ i ] ) {
-                byte diff = (byte)(this.bytes[ i ] ^ someBytes[ i ]);
+                final byte diff = (byte)(this.bytes[ i ] ^ someBytes[ i ]);
 
                 return "0x"
                 // + BinStuffs.ubyteToHexString( i )
@@ -399,7 +395,7 @@ public abstract class BytesAccess implements Cloneable
      */
     public void save( final OutputStream os ) throws IOException
     {
-        os.write( bytes );
+        os.write( this.bytes );
     }
 
     /**
@@ -668,7 +664,7 @@ public abstract class BytesAccess implements Cloneable
         final String encodingCharset //
         ) throws UnsupportedEncodingException, IndexOutOfBoundsException
     {
-        return new String( bytes, from, (to - from) + 1, encodingCharset );
+        return new String( this.bytes, from, (to - from) + 1, encodingCharset );
     }
 
     /**
@@ -681,7 +677,7 @@ public abstract class BytesAccess implements Cloneable
     {
         final byte[] newBytes = new byte[length];
 
-        System.arraycopy( bytes, offset, newBytes, 0, length );
+        System.arraycopy( this.bytes, offset, newBytes, 0, length );
 
         return newBytes;
     }
@@ -696,13 +692,13 @@ public abstract class BytesAccess implements Cloneable
             final boolean bool )
     {
         final int umask = 0x00FF & mask; // be sure only 1 byte
-        byte saveValue = (byte)(bytes[ offset ] & ~umask);
+        byte saveValue = (byte)(this.bytes[ offset ] & ~umask);
 
         if( bool ) {
             saveValue |= umask;
         }
 
-        bytes[ offset ] = saveValue;
+        this.bytes[ offset ] = saveValue;
     }
 
     protected void setUInteger( //
@@ -712,10 +708,10 @@ public abstract class BytesAccess implements Cloneable
             final int value )
     {
         final int  umask     = 0x00FF & mask; // be sure only 1 byte
-        final byte saveValue = (byte)(bytes[ offset ] & ~umask);
+        final byte saveValue = (byte)(this.bytes[ offset ] & ~umask);
         final int  fixValue  = (value << leftRot) & umask;
 
-        bytes[ offset ] = (byte)(saveValue | fixValue);
+        this.bytes[ offset ] = (byte)(saveValue | fixValue);
     }
 
     protected void setUInteger( // $codepro.audit.disable largeNumberOfParameters
@@ -746,9 +742,9 @@ public abstract class BytesAccess implements Cloneable
 
         for( int i = 0; i < copyLen; i++ ) {
             if( i < sBytesLen ) {
-                bytes[ i + from ] = sBytes[ i + 2 ];
+                this.bytes[ i + from ] = sBytes[ i + 2 ];
             } else {
-                bytes[ i + from ] = 0;
+                this.bytes[ i + from ] = 0;
             }
         }
     }

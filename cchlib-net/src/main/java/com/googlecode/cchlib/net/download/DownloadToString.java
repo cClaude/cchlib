@@ -32,14 +32,10 @@ public class DownloadToString extends AbstractDownload
     protected void download( final InputStream inputStream )
             throws IOException, DownloadIOException // $codepro.audit.disable unnecessaryExceptions
     {
-        CharArrayWriter buffer = new CharArrayWriter();
-        Reader          r      = new InputStreamReader( inputStream ); // $codepro.audit.disable questionableName
+        final CharArrayWriter buffer = new CharArrayWriter();
 
-        try {
+        try( final Reader r = new InputStreamReader( inputStream ) ) {
             IOHelper.copy( r, buffer );
-            }
-        finally {
-            r.close();
             }
 
         final DownloadStringURL dURL = DownloadStringURL.class.cast( getDownloadURL() );

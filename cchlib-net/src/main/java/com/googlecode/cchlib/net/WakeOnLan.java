@@ -41,7 +41,7 @@ public class WakeOnLan
      * TODOC
      * @param port
      */
-    public WakeOnLan( int port )
+    public WakeOnLan( final int port )
     {
         this.port = port;
     }
@@ -73,7 +73,7 @@ public class WakeOnLan
      * @throws IOException
      */
     public void notify(
-        String       broadcastAddress, 
+        String       broadcastAddress,
         final String macAddress
         )
         throws  UnknownHostException,
@@ -89,8 +89,8 @@ public class WakeOnLan
             broadcastAddress = "255.255.255.255";
             }
 
-        byte[] macBytes = WakeOnLan.getMacAddressBytes(macAddress);
-        byte[] bytes = new byte[6 + (16 * macBytes.length)];
+        final byte[] macBytes = WakeOnLan.getMacAddressBytes(macAddress);
+        final byte[] bytes = new byte[6 + (16 * macBytes.length)];
 
         for( int i = 0; i < 6; i++ ) {
             bytes[i] = -1;
@@ -100,12 +100,12 @@ public class WakeOnLan
             System.arraycopy(macBytes, 0, bytes, i, macBytes.length);
             }
 
-        InetAddress     address = InetAddress.getByName(broadcastAddress);
-        DatagramPacket packet   = new DatagramPacket(bytes, bytes.length, address, port);
-        DatagramSocket socket   = new DatagramSocket();
+        final InetAddress     address = InetAddress.getByName(broadcastAddress);
+        final DatagramPacket packet   = new DatagramPacket(bytes, bytes.length, address, this.port);
 
-        socket.send(packet);
-        socket.close();
+        try( final DatagramSocket socket = new DatagramSocket() ) {
+            socket.send(packet);
+        }
     }
 
     /**
@@ -119,8 +119,8 @@ public class WakeOnLan
             )
         throws IllegalArgumentException
     {
-        byte[]      bytes   = new byte[6];
-        String[]    hex     = macAddress.split("(\\:|\\-)");
+        final byte[]      bytes   = new byte[6];
+        final String[]    hex     = macAddress.split("(\\:|\\-)");
 
         if( hex.length != 6 ) {
             throw new IllegalArgumentException(
@@ -133,7 +133,7 @@ public class WakeOnLan
                 bytes[i] = (byte)Integer.parseInt(hex[i], 16);
                 }
             }
-        catch( NumberFormatException e ) {
+        catch( final NumberFormatException e ) {
             throw new IllegalArgumentException(
                     "Invalid hex digit in MAC address '" + macAddress + "'."
                     );

@@ -2,21 +2,22 @@ package com.googlecode.cchlib.io;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Provide some tool to access to AlternateDataStream (Alpha)
  */
 public class AlternateDataStream
 {
-    private File    file;
-    private String  filename;
-    private String  streamname;
+    private final File    file;
+    private final String  filename;
+    private final String  streamname;
     private Boolean isSupported;
 
     public AlternateDataStream(
-            File   parent,
-            String filename,
-            String streamname
+            final File   parent,
+            final String filename,
+            final String streamname
             )
     {
         this.filename   = filename;
@@ -29,7 +30,7 @@ public class AlternateDataStream
      */
     protected File getStreamFile()
     {
-        return file;
+        return this.file;
     }
 
     /**
@@ -37,7 +38,7 @@ public class AlternateDataStream
      */
     public String getFilename()
     {
-        return filename;
+        return this.filename;
     }
 
     /**
@@ -45,7 +46,7 @@ public class AlternateDataStream
      */
     public String getStreamName()
     {
-        return streamname;
+        return this.streamname;
     }
 
     public File getParentFile()
@@ -70,20 +71,18 @@ public class AlternateDataStream
                 parent = parent.getParentFile();
             }
 
-            AlternateDataStream ads = new AlternateDataStream(
+            final AlternateDataStream ads = new AlternateDataStream(
                     parent,
                     "~ThisFileShouldNotExist." + getClass().getName() + ".tmp",
                     "Test"
                     );
             boolean isSupported;
 
-            try {
-                FileOutputStream fos = new FileOutputStream(ads.getStreamFile());
+            try( final FileOutputStream fos = new FileOutputStream(ads.getStreamFile()) ) {
                 fos.write( 1 );
-                fos.close();
                 isSupported = true;
             }
-            catch( java.io.IOException e ) {
+            catch( final IOException e ) {
                 isSupported = false;
             }
 

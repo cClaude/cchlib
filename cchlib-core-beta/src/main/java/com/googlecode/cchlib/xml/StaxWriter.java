@@ -15,28 +15,26 @@ public class StaxWriter
 {
     private String configFile;
 
-    public void setFile(String configFile) {
+    public void setFile(final String configFile) {
         this.configFile = configFile;
     }
 
     public void saveConfig() throws Exception {
         // Create a XMLOutputFactory
-        XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-        
-        FileOutputStream os = new FileOutputStream(configFile);
-        
-        try {
+        final XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+
+        try( final FileOutputStream os = new FileOutputStream(this.configFile) ) {
             // Create XMLEventWriter
-            XMLEventWriter eventWriter = outputFactory.createXMLEventWriter( os );
+            final XMLEventWriter eventWriter = outputFactory.createXMLEventWriter( os );
             // Create a EventFactory
-            XMLEventFactory eventFactory = XMLEventFactory.newInstance();
-            XMLEvent end = eventFactory.createDTD("\n");
+            final XMLEventFactory eventFactory = XMLEventFactory.newInstance();
+            final XMLEvent end = eventFactory.createDTD("\n");
             // Create and write Start Tag
-            StartDocument startDocument = eventFactory.createStartDocument();
+            final StartDocument startDocument = eventFactory.createStartDocument();
             eventWriter.add(startDocument);
 
             // Create config open tag
-            StartElement configStartElement = eventFactory.createStartElement("",
+            final StartElement configStartElement = eventFactory.createStartElement("",
                     "", "config");
             eventWriter.add(configStartElement);
             eventWriter.add(end);
@@ -51,37 +49,34 @@ public class StaxWriter
             eventWriter.add(eventFactory.createEndDocument());
             eventWriter.close();
             }
-        finally {
-            os.close();
-            }
     }
 
-    private void createNode(XMLEventWriter eventWriter, String name,
-            String value) throws XMLStreamException {
+    private void createNode(final XMLEventWriter eventWriter, final String name,
+            final String value) throws XMLStreamException {
 
-        XMLEventFactory eventFactory = XMLEventFactory.newInstance();
-        XMLEvent end = eventFactory.createDTD("\n");
-        XMLEvent tab = eventFactory.createDTD("\t");
+        final XMLEventFactory eventFactory = XMLEventFactory.newInstance();
+        final XMLEvent end = eventFactory.createDTD("\n");
+        final XMLEvent tab = eventFactory.createDTD("\t");
         // Create Start node
-        StartElement sElement = eventFactory.createStartElement("", "", name);
+        final StartElement sElement = eventFactory.createStartElement("", "", name);
         eventWriter.add(tab);
         eventWriter.add(sElement);
         // Create Content
-        Characters characters = eventFactory.createCharacters(value);
+        final Characters characters = eventFactory.createCharacters(value);
         eventWriter.add(characters);
         // Create End node
-        EndElement eElement = eventFactory.createEndElement("", "", name);
+        final EndElement eElement = eventFactory.createEndElement("", "", name);
         eventWriter.add(eElement);
         eventWriter.add(end);
 
     }
 
-    public static void main(String[] args) {
-        StaxWriter configFile = new StaxWriter();
+    public static void main(final String[] args) {
+        final StaxWriter configFile = new StaxWriter();
         configFile.setFile("config2.xml");
         try {
             configFile.saveConfig();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }
