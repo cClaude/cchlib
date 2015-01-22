@@ -2,6 +2,7 @@ package com.googlecode.cchlib.lang.reflect;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import javax.annotation.Nullable;
 import com.googlecode.cchlib.lang.Classes;
 
 
@@ -34,8 +35,8 @@ public class InvokerByName<T> extends Invoker<T>
 
     @Override
     public Object invoke(
-            final T         instance,
-            final Object[]  params
+            @Nullable final T           instance,
+            @Nullable final Object[]    params
             ) throws
                 NoSuchMethodException,
                 SecurityException,
