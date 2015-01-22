@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import javax.annotation.Nullable;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.NeedTestCases;
 import com.googlecode.cchlib.util.Wrappable;
@@ -187,7 +188,7 @@ public class Iterables
     }
 
     @NeedDoc
-    public static <T> T find( final List<T> iterable, final Selectable<T> filter )
+    public static @Nullable <T> T find( final List<T> iterable, final Selectable<T> filter )
     {
         for( final T element : iterable ) {
             if( filter.isSelected( element ) ) {

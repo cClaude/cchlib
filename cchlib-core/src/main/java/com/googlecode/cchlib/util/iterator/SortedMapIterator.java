@@ -16,7 +16,7 @@ public class SortedMapIterator<K,V>
 {
     private SortedMap<K,V>      initialSortedMap;
     private final Iterator<K>   iter;
-    private K                   prevKey;
+    private K                   previousKey;
 
     /**
      * Create a SortedMapIterator
@@ -28,7 +28,7 @@ public class SortedMapIterator<K,V>
         )
     {
         this.initialSortedMap = sortedMap;
-        this.prevKey = null;
+        reset();
         this.iter = new ComputableIterator<K>() {
                 private SortedMap<K,V> currentSortedMap = sortedMap;
 
@@ -46,6 +46,12 @@ public class SortedMapIterator<K,V>
                         }
                 }
             };
+    }
+
+    @SuppressWarnings("null")
+    private void reset()
+    {
+        this.previousKey = null;
     }
 
     /**
@@ -69,12 +75,12 @@ public class SortedMapIterator<K,V>
     public V next() throws NoSuchElementException
     {
         try {
-            this.prevKey = this.iter.next();
+            this.previousKey = this.iter.next();
 
-            return this.initialSortedMap.get(this.prevKey);
+            return this.initialSortedMap.get(this.previousKey);
             }
         catch( final NoSuchElementException e ) {
-            this.prevKey = null;
+            reset();
             throw e;
             }
     }
@@ -86,11 +92,11 @@ public class SortedMapIterator<K,V>
      */
     public K getLastKey() throws NoSuchElementException
     {
-        if(this.prevKey == null) {
+        if(this.previousKey == null) {
             throw new NoSuchElementException();
             }
         else {
-            return this.prevKey;
+            return this.previousKey;
             }
     }
 
@@ -108,11 +114,11 @@ public class SortedMapIterator<K,V>
     @Override
     public void remove() throws IllegalStateException
     {
-        if(this.prevKey == null) {
+        if(this.previousKey == null) {
             throw new IllegalStateException();
             }
         else {
-            this.initialSortedMap.remove(this.prevKey);
+            this.initialSortedMap.remove(this.previousKey);
             }
     }
 }

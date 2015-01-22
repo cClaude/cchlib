@@ -2,6 +2,7 @@ package com.googlecode.cchlib.util.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import javax.annotation.Nullable;
 
 /**
  * Abstract class for create Iterator
@@ -11,12 +12,12 @@ public abstract class ComputableIterator<T>
     implements Iterator<T>
     //Note: Can't implement Iterable<T> here - super class could do this work
 {
-    private T nextObject;
+    private @Nullable T nextObject;
 
     /** Create ComputableIterator */
     protected ComputableIterator()
     {
-        nextObject = null;
+        this.nextObject = null;
     }
 
     /**
@@ -37,11 +38,11 @@ public abstract class ComputableIterator<T>
      @Override
     public boolean hasNext()
     {
-        if( nextObject == null ) {
+        if( this.nextObject == null ) {
             try {
-                nextObject = computeNext();
+                this.nextObject = computeNext();
                 }
-            catch( NoSuchElementException e ) { // $codepro.audit.disable logExceptions
+            catch( final NoSuchElementException e ) { // $codepro.audit.disable logExceptions
                 return false;
                 }
             }
@@ -57,17 +58,17 @@ public abstract class ComputableIterator<T>
     @Override
     public T next() throws NoSuchElementException
     {
-        if(nextObject == null) {
-            nextObject = computeNext();
+        if(this.nextObject == null) {
+            this.nextObject = computeNext();
             }
 
-        T returnObject = nextObject;
+        final T returnObject = this.nextObject;
 
         try {
-            nextObject = computeNext();
+            this.nextObject = computeNext();
             }
-        catch(NoSuchElementException e) { // $codepro.audit.disable logExceptions
-            nextObject = null;
+        catch(final NoSuchElementException e) { // $codepro.audit.disable logExceptions
+            this.nextObject = null;
             }
 
         return returnObject;
@@ -89,7 +90,7 @@ public abstract class ComputableIterator<T>
         throws  UnsupportedOperationException,
                 IllegalStateException
     {
-        if(nextObject == null) {
+        if(this.nextObject == null) {
             throw new IllegalStateException();
             }
         else {

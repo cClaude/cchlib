@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+import javax.annotation.Nullable;
 import com.googlecode.cchlib.util.VisitResult;
 import com.googlecode.cchlib.util.Visitor;
 import com.googlecode.cchlib.util.Walkable;
@@ -64,7 +65,7 @@ public class NamedTree<T>
     {
         private static final long serialVersionUID = 1L;
         private String name;
-        private DefaultNamedTreeNode<T> parent;
+        private final DefaultNamedTreeNode<T> parent;
 
         /**
          * Create a NamedTreeNode
@@ -72,8 +73,8 @@ public class NamedTree<T>
          * @param parent parent node
          */
         public DefaultNamedTreeNode(
-                String                  name,
-                DefaultNamedTreeNode<T> parent
+                final String                  name,
+                final DefaultNamedTreeNode<T> parent
                 )
         {
             this.name   = name;
@@ -87,9 +88,9 @@ public class NamedTree<T>
          * @param data content of node.
          */
         public DefaultNamedTreeNode(
-                String                  name,
-                DefaultNamedTreeNode<T> parent,
-                T                       data
+                final String                  name,
+                final DefaultNamedTreeNode<T> parent,
+                final T                       data
                 )
         {
             super(data);
@@ -100,28 +101,28 @@ public class NamedTree<T>
         @Override
         public String getName()
         {
-            return name;
+            return this.name;
         }
         @Override
-        public void setName( String name )
+        public void setName( final String name )
         {
             this.name = name;
         }
         @Override
         public String getPath()
         {
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
             buildPath( sb );
             return sb.toString();
         }
 
-        private void buildPath(StringBuilder sb)
+        private void buildPath(final StringBuilder sb)
         {
-            if( parent != null ) {
-                parent.buildPath( sb );
+            if( this.parent != null ) {
+                this.parent.buildPath( sb );
                 sb.append( '.' );
             }
-            sb.append( name );
+            sb.append( this.name );
         }
 
         @Override
@@ -143,16 +144,16 @@ public class NamedTree<T>
                 @Override
                 public boolean hasNext()
                 {
-                    return n != null;
+                    return this.n != null;
                 }
                 @Override
                 public NamedTreeNode<T> next()
                 {
-                    if( n == null ) {
+                    if( this.n == null ) {
                         throw new NoSuchElementException();
                     }
-                    NamedTreeNode<T> r = n;
-                    n = (NamedTreeNode<T>)n.getRightNode();
+                    final NamedTreeNode<T> r = this.n;
+                    this.n = (NamedTreeNode<T>)this.n.getRightNode();
                     return r;
                 }
                 @Override
@@ -170,14 +171,14 @@ public class NamedTree<T>
         DefaultNamedTreeNode<T> getLastChild()
         {
             NamedTreeNode<T>           last = null;
-            for(NamedTreeNode<T> n:this) {
+            for(final NamedTreeNode<T> n:this) {
                 last = n;
             }
             return (DefaultNamedTreeNode<T>)last;
         }
 
         //@Override
-        void addChild(DefaultNamedTreeNode<T> node)
+        void addChild(final DefaultNamedTreeNode<T> node)
         {
             // Chaining
             node.setRightNode( getLeftNode() );
@@ -191,7 +192,7 @@ public class NamedTree<T>
      */
     public NamedTree()
     {
-        head = null;
+        this.head = null;
     }
 
     /**
@@ -201,7 +202,7 @@ public class NamedTree<T>
     @Override
     public NamedTreeNode<T> getRoot()
     {
-        return head;
+        return this.head;
     }
 
     /**
@@ -211,7 +212,7 @@ public class NamedTree<T>
     @Override
     public void clear()
     {
-        head = null;
+        this.head = null;
     }
 
     /**
@@ -228,13 +229,13 @@ public class NamedTree<T>
      *        or any String in path, except for root name
      *        (since SimpleTree root node name could be null)
      */
-    public T put(T content, final String...pathName)
+    public @Nullable T put(final T content, final String...pathName)
         throws BadRootNameException
     {
-        String rname = pathName[0];
+        final String rname = pathName[0];
 
-        if( head != null ) {
-            if( head.getName() == null ) {
+        if( this.head != null ) {
+            if( this.head.getName() == null ) {
                 // tree head is the only node,
                 // that can have no name
                 if( rname != null ) {
@@ -242,38 +243,38 @@ public class NamedTree<T>
                 }
             }
             else {
-                if( head.getName().equals( rname ) ) {
+                if( this.head.getName().equals( rname ) ) {
                     if( pathName.length == 1 ) {
                         //Set head !
-                        T prev = head.getData();
-                        head.setData( content );
+                        final T prev = this.head.getData();
+                        this.head.setData( content );
                         return prev;
                     }
                 }
                 else {
                     // Not in this tree !
                     throw new BadRootNameException(
-                            String.format("Found '%s' expected '%s'", rname, head.getName() )
+                            String.format("Found '%s' expected '%s'", rname, this.head.getName() )
                             );
                 }
             }
         }
         else {
             // No head
-            head = new DefaultNamedTreeNode<T>(rname, null);
+            this.head = new DefaultNamedTreeNode<T>(rname, null);
 
             if( pathName.length == 1 ) {
                 //Set head !
-                T prev = head.getData();
-                head.setData( content );
+                final T prev = this.head.getData();
+                this.head.setData( content );
                 return prev;
             }
         }
 
-        DefaultNamedTreeNode<T> n = head;
+        DefaultNamedTreeNode<T> n = this.head;
 
         // Deal with path to node (but node final node)
-        for(int i=1;i<pathName.length - 1;i++) {
+        for(int i=1;i<(pathName.length - 1);i++) {
             DefaultNamedTreeNode<T> next = lookup(n, pathName[i]);
 
             if( next != null ) {
@@ -284,7 +285,7 @@ public class NamedTree<T>
                 // Node not found.
                 next = new DefaultNamedTreeNode<T>(pathName[i], n);
 
-                DefaultNamedTreeNode<T> prev = n.getLastChild();
+                final DefaultNamedTreeNode<T> prev = n.getLastChild();
                 if( prev == null ) {
                     n.addChild( next );
                 }
@@ -297,17 +298,17 @@ public class NamedTree<T>
         }
 
         // Deal with final node
-        DefaultNamedTreeNode<T> existNode = lookup(n, pathName[pathName.length-1]);
+        final DefaultNamedTreeNode<T> existNode = lookup(n, pathName[pathName.length-1]);
 
         if( existNode != null ) {
             // Just set datas !
-            T prev = existNode.getData();
+            final T prev = existNode.getData();
             existNode.setData( content );
             return prev;
         }
         else {
-            DefaultNamedTreeNode<T> fnode = new DefaultNamedTreeNode<T>(pathName[pathName.length-1], n, content);
-            DefaultNamedTreeNode<T> prev = n.getLastChild();
+            final DefaultNamedTreeNode<T> fnode = new DefaultNamedTreeNode<T>(pathName[pathName.length-1], n, content);
+            final DefaultNamedTreeNode<T> prev = n.getLastChild();
 
             if( prev == null ) {
                 n.addChild( fnode );
@@ -322,9 +323,9 @@ public class NamedTree<T>
 
     // Look for child in this node,
     // return first child node with this name.
-    private static <T> DefaultNamedTreeNode<T> lookup(DefaultNamedTreeNode<T> node, String childName)
+    private static <T> DefaultNamedTreeNode<T> lookup(final DefaultNamedTreeNode<T> node, final String childName)
     {
-        for(NamedTreeNode<T> n : node) {
+        for(final NamedTreeNode<T> n : node) {
             if( childName.equals( n.getName() ) ) {
                 return (DefaultNamedTreeNode<T>)n;
                 }
@@ -349,22 +350,22 @@ public class NamedTree<T>
      * @param visitor
      */
     @Override
-    public void walk( Visitor<NamedTreeNode<T>> visitor )
+    public void walk( final Visitor<NamedTreeNode<T>> visitor )
     {
-        Queue<NamedTreeNode<T>> queue = new LinkedList<NamedTreeNode<T>>();
+        final Queue<NamedTreeNode<T>> queue = new LinkedList<NamedTreeNode<T>>();
 
-        if( head != null ) {
-            queue.add(head);
+        if( this.head != null ) {
+            queue.add(this.head);
         }
 
         while( queue.size() > 0 ) {
-            NamedTreeNode<T> n = queue.poll();
+            final NamedTreeNode<T> n = queue.poll();
 
-            for(NamedTreeNode<T> child:n) {
+            for(final NamedTreeNode<T> child:n) {
                 queue.offer( child );
             }
 
-            VisitResult r = visitor.visite( n );
+            final VisitResult r = visitor.visite( n );
 
             if( VisitResult.TERMINATE.equals( r ) ) {
                 return;
@@ -395,22 +396,22 @@ public class NamedTree<T>
      * @param visitor
      */
     public void walkDepthFirst(
-            Visitor<NamedTreeNode<T>> visitor
+            final Visitor<NamedTreeNode<T>> visitor
             )
     {
-        if( head != null ) {
-            walkerHelperDepthFirst( head, visitor );
+        if( this.head != null ) {
+            walkerHelperDepthFirst( this.head, visitor );
         }
     }
 
     private static <T> VisitResult walkerHelperDepthFirst(
-            NamedTreeNode<T>            node,
-            Visitor<NamedTreeNode<T>>   visitor
+            final NamedTreeNode<T>            node,
+            final Visitor<NamedTreeNode<T>>   visitor
             )
     {
         if( node.getLeftNode() == null ) {
             // No childs for this node...
-            VisitResult r = visitor.visite( node );
+            final VisitResult r = visitor.visite( node );
 
             if( VisitResult.TERMINATE.equals( r ) ) {
                 return r;
@@ -428,9 +429,9 @@ public class NamedTree<T>
         }
         else {
             // deal with all childs (first left, then right nodes)
-            for(NamedTreeNode<T> n:node) {
+            for(final NamedTreeNode<T> n:node) {
                 //recurs on nodes
-                VisitResult r = walkerHelperDepthFirst(n,visitor);
+                final VisitResult r = walkerHelperDepthFirst(n,visitor);
 
                 if( VisitResult.TERMINATE.equals( r ) ) {
                     return r;
@@ -445,7 +446,7 @@ public class NamedTree<T>
                     // when return this node
                 //}
             }
-            VisitResult r = visitor.visite( node );
+            final VisitResult r = visitor.visite( node );
 
             if( VisitResult.TERMINATE.equals( r ) ) {
                 return r;
