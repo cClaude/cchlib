@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -11,7 +12,7 @@ import java.util.Set;
 import com.googlecode.cchlib.util.iterator.CascadingIterator;
 
 /**
- * HashMapSet provide an easy and efficient way
+ * {@link HashMapSet} provide an easy and efficient way
  * to store keys-values when you need to have
  * more than one value for an unique key.
  * <br>
@@ -19,14 +20,14 @@ import com.googlecode.cchlib.util.iterator.CascadingIterator;
  * Concrete examples:
  * <p>
  * - Store File objects and grouping files with same
- *   size : HashMapSet&lt;Long,File&gt;
+ *   size : {@link HashMapSet}&lt;{@link Long},{@link File}&gt;
  *   <br>
  *   Where keys are length of files, and values are
  *   File object.
  * </p>
  * <p>
  * - Store File objects and grouping files with
- *   content size : HashMapSet&lt;<i>any_hash_code</i>,File&gt;
+ *   content size : {@link HashMapSet}&lt;<i>any_hash_code</i>,{@link File}&gt;
  *   <br>
  *   Where keys are an hash code based on content (MD5,...),
  *   and values are File object.
@@ -45,13 +46,13 @@ import com.googlecode.cchlib.util.iterator.CascadingIterator;
  *
  * </pre>
  *
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of values
+ * @param <KEY> the type of keys maintained by this map
+ * @param <VALUE> the type of values
  */
-public class HashMapSet<K,V>
-    extends HashMap<K,Set<V>>
-        implements  MapSet<K,V>,
-                    Iterable<V>,
+public class HashMapSet<KEY,VALUE>
+    extends HashMap<KEY,Set<VALUE>>
+        implements  MapSet<KEY,VALUE>,
+                    Iterable<VALUE>,
                     Serializable
 
 {
@@ -87,7 +88,7 @@ public class HashMapSet<K,V>
      * @param m the map whose mappings are to be
      *          placed in this map
      */
-    public HashMapSet( final Map<? extends K,? extends Set<V>> m )
+    public HashMapSet( final Map<? extends KEY,? extends Set<VALUE>> m )
     {
         super(m);
     }
@@ -115,7 +116,7 @@ public class HashMapSet<K,V>
      */
     public void deepClear()
     {
-        for( final Set<V> s : super.values() ) {
+        for( final Set<VALUE> s : super.values() ) {
             s.clear();
             }
 
@@ -123,8 +124,9 @@ public class HashMapSet<K,V>
     }
 
     /**
-     * Returns the number of value in this map
-     * of Set.
+     * Returns the number of value in this {@link Map}
+     * of {@link Set}. More formerly the sum of size of
+     * each {@link Set} in the {@link Map}
      * <p>
      * Computing valuesSize() is slow process comparing to
      * {@link #size()}, so you must consider to cache
@@ -136,13 +138,14 @@ public class HashMapSet<K,V>
      */
     public int valuesSize()
     {
-        int size = 0;
-
-        for( final Set<? extends V> s:super.values() ) {
-            size += s.size();
-            }
-
-        return size;
+//        int size = 0;
+//
+//        for( final Set<? extends VALUE> s:super.values() ) {
+//            size += s.size();
+//            }
+//
+//        return size;
+        return MapSetHelper.size( this );
     }
 
 //    /** CAN'T OVERWRITE containsValue() -> buggy (NOT SUPPORTED)
@@ -184,23 +187,12 @@ public class HashMapSet<K,V>
     }
 
     /**
-     * Add an couple of key value in this HashMapSet.
-     * <p>
-     * If key already exist in this HashMapSet, add value
-     * to corresponding set. If key does not exist create
-     * an new HashSet initialized with this value, and
-     * Associates this set with the specified key in this
-     * HashMapSet.
-     * </p>
-     *
-     * @param key  key with which the specified value is to be associated
-     * @param value value to be associated with the specified key
-     * @return true if Set associated with the specified key
-     *         did not already contain the specified value
+     * {@inheritDoc}
      */
-    public boolean add( final K key, final V value ) // $codepro.audit.disable booleanMethodNamingConvention
+    @Override
+    public boolean add( final KEY key, final VALUE value ) // $codepro.audit.disable booleanMethodNamingConvention
     {
-        Set<V> s = get(key);
+        Set<VALUE> s = get(key);
 
         if( s == null ) {
             s = new HashSet<>();
@@ -219,11 +211,11 @@ public class HashMapSet<K,V>
      * @return number of values add in HashMapSet.
      * @see #add(Object, Object) add(Object, Object) for more details
      */
-    public int addAll( final Map<K,V> m )
+    public int addAll( final Map<KEY,VALUE> m )
     {
         int addCount = 0;
 
-        for( final Map.Entry<K,V> e : m.entrySet() ) {
+        for( final Map.Entry<KEY,VALUE> e : m.entrySet() ) {
            if( add( e.getKey(), e.getValue() ) ) {
                addCount++;
                }
@@ -243,10 +235,10 @@ public class HashMapSet<K,V>
      *
      * @return number of values add in HashMapSet.
      */
-    public int addAll( final K key, final Collection<V> values)
+    public int addAll( final KEY key, final Collection<VALUE> values)
     {
         int     addCount = 0;
-        Set<V>  set      = get(key);
+        Set<VALUE>  set      = get(key);
 
         if( set == null ) {
             set = new HashSet<>();
@@ -254,7 +246,7 @@ public class HashMapSet<K,V>
             super.put(key,set);
             }
 
-        for(final V v:values) {
+        for(final VALUE v:values) {
            if( set.add( v ) ) {
                addCount++;
                }
@@ -273,7 +265,7 @@ public class HashMapSet<K,V>
      * @return if this set HashMapSet the specified key-value and if the value was removed
      */
     @Override
-    public boolean removeInSet( final K key, final V value ) // $codepro.audit.disable booleanMethodNamingConvention
+    public boolean removeInSet( final KEY key, final VALUE value ) // $codepro.audit.disable booleanMethodNamingConvention
     {
         return remove( key, value );
     }
@@ -291,7 +283,7 @@ public class HashMapSet<K,V>
     @Override
     public boolean remove( final Object key, final Object value )  // $codepro.audit.disable booleanMethodNamingConvention
     {
-        final Set<V> set = super.get( key );
+        final Set<VALUE> set = super.get( key );
 
         if( set != null ) {
             return set.remove( value );
@@ -320,9 +312,9 @@ public class HashMapSet<K,V>
      * @return true if this HashMapSet contains the specified element
      */
     @Override
-    public boolean containsValueInSet( final V value )
+    public boolean containsValueInSet( final VALUE value )
     {// from Collection<V>
-        for( final Set<? extends V> s : super.values() ) {
+        for( final Set<? extends VALUE> s : super.values() ) {
             if( s.contains( value )) {
                 return true;
                 }
@@ -340,9 +332,9 @@ public class HashMapSet<K,V>
      * @return true if this HashMapSet contains all
      *         of the elements in the specified collection
      */
-    public boolean containsAll( final Collection<? extends V> c )
+    public boolean containsAll( final Collection<? extends VALUE> c )
     {// from Collection<V>
-        for( final V v : c) {
+        for( final VALUE v : c) {
             if( !containsValueInSet( v ) ) {
                 return false;
                 }
@@ -361,7 +353,7 @@ public class HashMapSet<K,V>
      *         this HashMapSet
      */
     @Override //Iterable
-    public Iterator<V> iterator()
+    public Iterator<VALUE> iterator()
     {
         return new CascadingIterator<>(
                 super.values().iterator()
@@ -381,16 +373,7 @@ public class HashMapSet<K,V>
      */
     public void purge( final int minSetSize )
     {
-        final Iterator<Map.Entry<K, Set<V>>> iter = super.entrySet().iterator();
-
-        while(iter.hasNext()) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
-            final Map.Entry<K, Set<V>> e = iter.next();
-            final Set<V>               s = e.getValue();
-
-            if( (s==null) || (s.size()<minSetSize) ) {
-                iter.remove();
-                }
-            }
+        MapSetHelper.purge( this, minSetSize );
     }
 
     /**
@@ -405,6 +388,7 @@ public class HashMapSet<K,V>
         purge(1);
     }
 
+
     /**
      * Returns an <b>unmodifiable</b> Collection view
      * of V according to HashMapSet.
@@ -412,12 +396,12 @@ public class HashMapSet<K,V>
      * @return an unmodifiable Collection view
      *         of V
      */
-    public Collection<V> valuesCollection()
+    public Collection<VALUE> valuesCollection()
     {
-        return new AbstractCollection<V>()
+        return new AbstractCollection<VALUE>()
         {
             @Override
-            public Iterator<V> iterator()
+            public Iterator<VALUE> iterator()
             {
                 return HashMapSet.this.iterator();
             }
@@ -460,13 +444,13 @@ public class HashMapSet<K,V>
      *                 compute key for each value.
      * @see ComputeKeyInterface
      */
-    public void addAll( final ComputeKeyIterable<K,V> iterable )
+    public void addAll( final ComputeKeyIterable<KEY,VALUE> iterable )
     {
-        final Iterator<V> i = iterable.iterator();
+        final Iterator<VALUE> i = iterable.iterator();
 
         while(i.hasNext()) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
-            final V v = i.next();
-            final K k = iterable.computeKey( v );
+            final VALUE v = i.next();
+            final KEY k = iterable.computeKey( v );
             add(k,v);
             }
     }
@@ -477,11 +461,11 @@ public class HashMapSet<K,V>
      * @param iterator iterator used to get values and compute
      *        theirs keys.
      */
-    public void addAll( final ComputeKeyIterator<K,V> iterator )
+    public void addAll( final ComputeKeyIterator<KEY,VALUE> iterator )
     {
         while( iterator.hasNext() ) {
-            final V v = iterator.next();
-            final K k = iterator.computeKey( v );
+            final VALUE v = iterator.next();
+            final KEY k = iterator.computeKey( v );
             add(k,v);
             }
     }
@@ -562,17 +546,17 @@ public class HashMapSet<K,V>
         @Override
         public boolean hasNext()
         {
-            return iterator.hasNext();
+            return this.iterator.hasNext();
         }
         @Override
         public V next()
         {
-            return iterator.next();
+            return this.iterator.next();
         }
         @Override
         public void remove()
         {
-            iterator.remove();
+            this.iterator.remove();
         }
     }
 }

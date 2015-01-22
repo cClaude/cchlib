@@ -2,7 +2,6 @@ package com.googlecode.cchlib.util;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import javax.annotation.Nonnull;
 import com.googlecode.cchlib.util.iterator.CascadingIterator;
@@ -39,6 +38,11 @@ public final class MapSetHelper {
         return new CascadingIterator<VALUE>( mapSet.values().iterator() );
     }
 
+    /**
+     * TODOC XXX
+     * @param mapSet TODOC XXX
+     * @return TODOC XXX
+     */
     public static <KEY,VALUE> int size( @Nonnull final Map<KEY,Set<VALUE>> mapSet )
     {
         int size = 0;
@@ -65,11 +69,9 @@ public final class MapSetHelper {
      */
     public static <KEY,VALUE> Map<KEY, Set<VALUE>> purge( final Map<KEY, Set<VALUE>> mapSet, final int minSetSize )
     {
-        final Iterator<Entry<KEY, Set<VALUE>>> iterator = mapSet.entrySet().iterator();
-
-        while( iterator.hasNext() ) {
-            final Entry<KEY, Set<VALUE>> entry = iterator.next();
-            final Set<VALUE>             set   = entry.getValue();
+        for( final Iterator<Map.Entry<KEY, Set<VALUE>>> iterator = mapSet.entrySet().iterator(); iterator.hasNext(); ) {
+            final Map.Entry<KEY, Set<VALUE>> entry = iterator.next();
+            final Set<VALUE>                 set   = entry.getValue();
 
             if( (set==null) || (set.size()<minSetSize) ) {
                 iterator.remove();
