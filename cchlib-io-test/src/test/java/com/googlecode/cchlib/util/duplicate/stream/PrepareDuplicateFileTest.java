@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
+import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
@@ -21,10 +21,28 @@ import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
 public class PrepareDuplicateFileTest {
     private static final Logger LOGGER = Logger.getLogger( PrepareDuplicateFileTest.class );
 
+    private static final boolean IGNORE_EMPTY_FILES = true;
+    private static final int     MAX_DEPTH          = Integer.MAX_VALUE;
+
+    protected Logger getLogger()
+    {
+        return LOGGER;
+    }
+
+    private Path getStartPath()
+    {
+        return FileHelper.getUserHomeDirFile().toPath();
+    }
+
+    private Path[] getStartPaths()
+    {
+        return new Path[] { getStartPath() };
+    }
+
     @Test
     public void test_using_walk_and_stream() throws IOException
     {
-        final Path startPath = FileHelper.getUserHomeDirFile().toPath();
+        final Path startPath = getStartPath();
         final FileVisitOption[] options = {};
 
         try (final Stream<Path> streamPath = Files.walk( startPath, options )) {
@@ -48,12 +66,12 @@ public class PrepareDuplicateFileTest {
     @Test
     public void test_using_walker() throws IOException
     {
-        final Path[] startPaths = { FileHelper.getUserHomeDirFile().toPath() };
-        final Set<FileVisitOption> options = EnumSet.noneOf( FileVisitOption.class );
-        final int maxDepth = Integer.MAX_VALUE;
-        final FileVisitor<Path> visitor = Helper.newFileVisitor();
+        final Path[] startPaths = getStartPaths();
 
-        final Map<Long, Set<File>> files = DuplicateFileBuilder.createFromFileVisitor( visitor, options, maxDepth, false, startPaths ).compute();
+        final Set<FileVisitOption>  options = EnumSet.noneOf( FileVisitOption.class );
+        final FileVisitor<Path>     visitor = FileVisitorHelper.newFileVisitor( getLogger() );
+
+        final Map<Long, Set<File>> files = DuplicateFileBuilder.createFromFileVisitor( visitor, options, MAX_DEPTH, IGNORE_EMPTY_FILES, startPaths ).compute();
 
         LOGGER.info( "files.size() = " + files.size() );
 
@@ -64,15 +82,20 @@ public class PrepareDuplicateFileTest {
                 if( fileLength != f.length() ) {
                     LOGGER.warn( "File length has changed : " + f + " + " + fileLength + '/' + f.length() );
                 }
-                Assert.assertTrue( "No empty files", fileLength > 0 );
+
+                Assertions.assertThat( fileLength ).isGreaterThan( 0L );
             } );
         } );
 
         DuplicateHelpers.removeNonDuplicate( files );
 
         files.entrySet().forEach( entry -> {
-            Assert.assertTrue( "No empty files : " + entry, entry.getKey().longValue() > 0 );
-            Assert.assertTrue( "Not a duplicate : " + entry, entry.getValue().size() > 1 );
+            Assertions.assertThat( entry.getKey() )
+                .describedAs( "No empty files : " + entry )
+                .isGreaterThan( 0L );
+            Assertions.assertThat( entry.getValue().size() )
+                .as( "Not a duplicate : " + entry )
+                .isGreaterThan( 1 );
         } );
 
     }
