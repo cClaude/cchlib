@@ -29,7 +29,7 @@ public class InvokerByName<T> extends Invoker<T>
     {
         return String.format(
                 format,
-                getClazz().getName() + '.' + getMethodName()
+                getSafeClassName( getClazz() ) + '.' + getMethodName()
                 );
     }
 
