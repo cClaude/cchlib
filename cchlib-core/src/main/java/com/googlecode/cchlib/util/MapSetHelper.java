@@ -19,7 +19,8 @@ public final class MapSetHelper {
     /**
      * Return a {@link Iterable} with all values in all set
      *
-     * @param mapSet A {@link Map} containing {@link Set} of value
+     * @param mapSet
+     *            A {@link Map} containing {@link Set} of value
      * @return an {@link Iterable} of value
      */
     public static <KEY,VALUE> Iterable<VALUE> valuesIterable( final Map<KEY,Set<VALUE>> mapSet )
@@ -30,7 +31,8 @@ public final class MapSetHelper {
     /**
      * Return a {@link Iterator} with all values in all set
      *
-     * @param mapSet A {@link Map} containing {@link Set} of value
+     * @param mapSet
+     *            A {@link Map} containing {@link Set} of value
      * @return an {@link Iterator} of value
      */
     public static <KEY,VALUE> Iterator<VALUE> values( @Nonnull final Map<KEY,Set<VALUE>> mapSet )
@@ -39,9 +41,11 @@ public final class MapSetHelper {
     }
 
     /**
-     * TODOC XXX
-     * @param mapSet TODOC XXX
-     * @return TODOC XXX
+     * Compute number of VALUE objects.
+     *
+     * @param mapSet
+     *            source Map set
+     * @return number of VALUE item in <code>mapSet</code>
      */
     public static <KEY,VALUE> int size( @Nonnull final Map<KEY,Set<VALUE>> mapSet )
     {
@@ -55,16 +59,16 @@ public final class MapSetHelper {
     }
 
     /**
-     * Remove key-Set&lt;V&gt; pair for null or
-     * Set&lt;V&gt; like {@link Set#size()} <code>minSetSize</code>
+     * Remove key-Set&lt;V&gt; pair for null or Set&lt;V&gt; like {@link Set#size()} <code>minSetSize</code>
      *
      * <p>
-     * purge(2) : remove all key-Set&lt;V&gt; pair that
-     * not contains more than 1 value.
+     * purge(2) : remove all key-Set&lt;V&gt; pair that not contains more than 1 value.
      * </p>
-     * @param mapSet A {@link Map} containing {@link Set} of value
-     * @param minSetSize minimum size for Sets to be
-     *        keep in <code>mapSet</code>
+     *
+     * @param mapSet
+     *            A {@link Map} containing {@link Set} of value
+     * @param minSetSize
+     *            minimum size for Sets to be keep in <code>mapSet</code>
      * @return <code>mapSet</code> for chaining operations
      */
     public static <KEY,VALUE> Map<KEY, Set<VALUE>> purge( final Map<KEY, Set<VALUE>> mapSet, final int minSetSize )
