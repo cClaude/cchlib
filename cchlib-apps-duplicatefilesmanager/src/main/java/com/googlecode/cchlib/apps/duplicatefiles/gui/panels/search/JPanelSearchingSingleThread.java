@@ -18,10 +18,10 @@ import com.googlecode.cchlib.io.FileIterable;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.InitialStatus;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.Status;
-import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
-import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderHelper;
+import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 public class JPanelSearchingSingleThread extends JPanelSearching
 {
@@ -114,7 +114,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             final String                            messageDigestAlgorithm,
             final int                               messageDigestBufferSize,
             final boolean                           ignoreEmptyFiles,
-            final int                               maxParalleleFilesPerThread,
+            final int                               maxParallelFilesPerThread,
             final Collection<File>                  entriesToScans,
             final Collection<File>                  entriesToIgnore,
             final FileFilterBuilders                fileFilterBuilders,
@@ -124,7 +124,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         try {
             final FileDigestFactory fileDigestFactory = new DefaultFileDigestFactory( messageDigestAlgorithm, messageDigestBufferSize );
 
-            prepareScan( fileDigestFactory, maxParalleleFilesPerThread, ignoreEmptyFiles );
+            prepareScan( fileDigestFactory, maxParallelFilesPerThread, ignoreEmptyFiles );
         }
         catch( final NoSuchAlgorithmException e ) {
             LOGGER.fatal( "Bad messageDigestAlgorithm: " + messageDigestAlgorithm, e );
@@ -310,7 +310,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
     private void prepareScan(
         final FileDigestFactory fileDigestFactory,
-        final int               maxParalleleFiles,
+        final int               maxParallelFiles,
         final boolean           ignoreEmptyFiles
         ) throws NoSuchAlgorithmException
     {
@@ -318,7 +318,8 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
         super.prepareScan();
 
-        this.dff = DuplicateFileFinderHelper.newDuplicateFileFinder( ignoreEmptyFiles, fileDigestFactory, maxParalleleFiles );
+        //this.dff = DuplicateFileFinderHelper.newDuplicateFileFinder( ignoreEmptyFiles, fileDigestFactory );
+        this.dff = DuplicateFileFinderHelper.newDuplicateFileFinderAlgo2( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
 
         updateDisplayThread();
     }

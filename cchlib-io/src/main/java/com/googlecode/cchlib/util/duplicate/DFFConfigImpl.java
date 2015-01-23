@@ -2,6 +2,7 @@ package com.googlecode.cchlib.util.duplicate;
 
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
+import javax.annotation.Nonnull;
 import com.googlecode.cchlib.util.HashMapSet;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
@@ -9,7 +10,7 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 /**
  * @since 4.2
  */
-final class DFFConfigImpl implements DFFConfig {
+class DFFConfigImpl implements DFFConfig {
     /** Use by PASS1 */
     private final boolean ignoreEmptyFiles;
     /** Use by PASS1 and PASS2 */
@@ -19,35 +20,27 @@ final class DFFConfigImpl implements DFFConfig {
     /** Use by PASS2 */
     private final HashMapSet<String,File> mapHashFiles;
     /** Use by PASS2 */
-    private final FileDigest[] fileDigests;
-    /** Use by PASS2 */
     private int duplicateSetsCount;
     /** Use by PASS2 */
     private int duplicateFilesCount;
     /** Use by PASS2 */
     private long duplicateBytesCount;
+    private final FileDigest fileDigest;
 
     public DFFConfigImpl( //
-        final boolean           ignoreEmptyFiles, //
-        final FileDigestFactory fileDigestFactory, //
-        final int               maxParalleleFiles //
-        ) throws NoSuchAlgorithmException
+        final boolean                    ignoreEmptyFiles, //
+        @Nonnull final FileDigestFactory fileDigestFactory //
+        ) throws NoSuchAlgorithmException, IllegalArgumentException
     {
-        if( maxParalleleFiles < 1 ) {
-            throw new IllegalArgumentException( "maxParalleleFiles must be >= 1 : current value = " + maxParalleleFiles );
+        if( fileDigestFactory == null ) {
+            throw new IllegalArgumentException( "fileDigestFactory is null" );
         }
 
         this.ignoreEmptyFiles   = ignoreEmptyFiles;
         this.cancelProcess      = false;
         this.mapLengthFiles     = new HashMapSet<>();
         this.mapHashFiles       = new HashMapSet<>();
-
-        this.fileDigests = new FileDigest[ maxParalleleFiles ];
-
-        for( int i = 0; i<maxParalleleFiles; i++ ) {
-            this.fileDigests[ i ] = fileDigestFactory.newInstance();
-        }
-
+        this.fileDigest         = fileDigestFactory.newInstance();
     }
 
     @Override
@@ -81,15 +74,9 @@ final class DFFConfigImpl implements DFFConfig {
     }
 
     @Override
-    public int getFileDigestsCount()
+    public FileDigest getFileDigest()
     {
-        return this.fileDigests.length;
-    }
-
-    @Override
-    public FileDigest getFileDigests( final int index )
-    {
-        return this.fileDigests[ index ];
+        return this.fileDigest;
     }
 
     @Override
@@ -139,5 +126,4 @@ final class DFFConfigImpl implements DFFConfig {
         this.duplicateFilesCount = 0;
         this.duplicateBytesCount = 0L;
     }
-
  }

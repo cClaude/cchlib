@@ -9,14 +9,13 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import org.apache.log4j.Logger;
 
-final class Helper {
-    private static final Logger LOGGER = Logger.getLogger( Helper.class );
+final class FileVisitorHelper {
 
-    private Helper() {
+    private FileVisitorHelper() {
         // all static
     }
 
-    public static FileVisitor<Path> newFileVisitor()
+    public static FileVisitor<Path> newFileVisitor( final Logger logger )
     {
         return new FileVisitor<Path>() {
 
@@ -39,8 +38,8 @@ final class Helper {
                     return FileVisitResult.SKIP_SUBTREE; // Does not collect file
                 }
 
-                if( LOGGER.isDebugEnabled() ) {
-                    LOGGER.debug( "visitFile:" + file );
+                if( logger.isTraceEnabled() ) {
+                    logger.trace( "visitFile:" + file );
                 }
 
                 return FileVisitResult.CONTINUE;
@@ -49,7 +48,7 @@ final class Helper {
             @Override
             public FileVisitResult visitFileFailed( final Path file, final IOException exc ) throws IOException
             {
-                LOGGER.warn( "*** visitFileFailed * Can not visit " + file + " cause " + exc );
+                logger.warn( "*** visitFileFailed * Can not visit " + file + " cause " + exc );
                 return FileVisitResult.CONTINUE;
             }
 
@@ -57,7 +56,7 @@ final class Helper {
             public FileVisitResult postVisitDirectory( final Path dir, final IOException exc ) throws IOException
             {
                 if( exc != null ) {
-                    LOGGER.warn( "*** postVisitDirectory * Can not visit " + dir + " cause " + exc );
+                    logger.warn( "*** postVisitDirectory * Can not visit " + dir + " cause " + exc );
                 }
                 return FileVisitResult.CONTINUE;
             }};

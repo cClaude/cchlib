@@ -12,8 +12,7 @@ public interface DFFConfig {
     boolean isCancelProcess();
     boolean isIgnoreEmptyFiles();
 
-    int getFileDigestsCount();
-    FileDigest getFileDigests( int index );
+    FileDigest getFileDigest();
 
     void setCancelProcess( boolean cancelProcess );
 

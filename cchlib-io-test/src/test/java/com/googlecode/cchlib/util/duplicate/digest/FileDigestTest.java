@@ -14,29 +14,22 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.duplicate.DFFPass2Impl2;
 import com.googlecode.cchlib.util.duplicate.MessageDigestFileTest;
 
 /**
+ * Integreation test for {@link FileDigest}
+ *
  * @since 4.2
  */
-public class FileDigestTest {
+public class FileDigestTest extends Base {
+
     private static final Logger LOGGER = Logger.getLogger( FileDigestTest.class );
-    private static final String PNG_FILE_FIRST_MD5  = "1EF0982653832FFA93E17DBE6D63C1BA";
-    private static final String PNG_FILE_SECOND_MD5 = "BBFDB72D9136F1918553BED8F6C2D27D";
 
-    public class MyFileDigestListener implements FileDigestListener {
-
-        @Override
-        public boolean isCancel()
-        {
-            return false;
-        }
-
-        @Override
-        public void computeDigest( final File file, final int position )
-        {
-            LOGGER.info( "File:" + file + "@" + position );
-        }
+    @Override
+    protected Logger getLogger()
+    {
+         return LOGGER;
     }
 
     @Test
@@ -47,7 +40,7 @@ public class FileDigestTest {
         final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5" );
         final FileDigest instance = factory.newInstance();
 
-        final MyFileDigestListener listener = new MyFileDigestListener();
+        final FileDigestListener listener = newMyFileDigestListener();
         instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
@@ -61,7 +54,7 @@ public class FileDigestTest {
         final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5" );
         final FileDigest instance = factory.newInstance();
 
-        final FileDigestListener listener = new MyFileDigestListener();
+        final FileDigestListener listener = newMyFileDigestListener();
         instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
@@ -77,7 +70,7 @@ public class FileDigestTest {
 
         Assertions.assertThat( instance.getBufferSize() ).isEqualTo( 10 );
 
-        final FileDigestListener listener = new MyFileDigestListener();
+        final FileDigestListener listener = newMyFileDigestListener();
         instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
@@ -92,7 +85,7 @@ public class FileDigestTest {
         final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5" );
         final FileDigest instance = factory.newInstance();
 
-        final FileDigestListener listener = new MyFileDigestListener();
+        final FileDigestListener listener = newMyFileDigestListener();
         instance.setFile( filePNG, listener );
 
         while( instance.hasNext() ) {
@@ -132,7 +125,7 @@ public class FileDigestTest {
 
         final MessageDigest messageDigest = MessageDigest.getInstance( instance.getAlgorithm() );
 
-        final FileDigestListener listener = new MyFileDigestListener();
+        final FileDigestListener listener = newMyFileDigestListener();
         instance.setFile( filePNG, listener );
 
         final StringBuilder sb = new StringBuilder();
@@ -142,7 +135,7 @@ public class FileDigestTest {
 
             Assertions.assertThat( currentBuffer ).isEqualTo( bytesPNG );
 
-            final String hash = computeHash( messageDigest, sb, currentBuffer );
+            final String hash = DFFPass2Impl2.computeHash( messageDigest, sb, currentBuffer );
             LOGGER.info( "File:" + filePNG + " subHash " + hash );
 
             Assertions.assertThat( hash ).isEqualTo( IO.MD5_FOR_PNG_FILE );
@@ -150,14 +143,6 @@ public class FileDigestTest {
 
         Assertions.assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
         instance.reset();
-    }
-
-    private static String computeHash( final MessageDigest messageDigest, final StringBuilder sb, final byte[] currentBuffer )
-    {
-        messageDigest.reset();
-        messageDigest.update( currentBuffer );
-        final byte[] digest = messageDigest.digest();
-        return FileDigest.computeDigestKeyString( sb, digest );
     }
 
     @Test
@@ -169,7 +154,7 @@ public class FileDigestTest {
 
         final MessageDigest messageDigest = MessageDigest.getInstance( instance.getAlgorithm() );
 
-        final FileDigestListener listener = new MyFileDigestListener();
+        final FileDigestListener listener = newMyFileDigestListener();
         instance.setFile( filePNG, listener );
 
         final StringBuilder sb = new StringBuilder();
@@ -178,7 +163,7 @@ public class FileDigestTest {
         while( instance.hasNext() ) {
             final byte[] currentBuffer = instance.computeNext(true);
 
-            final String hash = computeHash( messageDigest, sb, currentBuffer );
+            final String hash = DFFPass2Impl2.computeHash( messageDigest, sb, currentBuffer );
             LOGGER.info( "File:" + filePNG + " subHash " + hash + " buffer.len = " + currentBuffer.length );
             hashs.add( hash );
         }
@@ -194,7 +179,7 @@ public class FileDigestTest {
         final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5", 1024 );
         final FileDigest instance = factory.newInstance();
 
-        final FileDigestListener listener = new MyFileDigestListener();
+        final FileDigestListener listener = newMyFileDigestListener();
         instance.setFile( file, listener );
 
         while( instance.hasNext() ) {

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.HashMapSet;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
@@ -15,14 +16,11 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
  */
 public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener implements DFFPass2 {
 
+    private static final Logger LOGGER = Logger.getLogger( DFFPass2Impl.class );
+
     public DFFPass2Impl( final DFFConfig config )
     {
         super( config );
-
-        // FIXME implement nested functionalities
-        if( config.getFileDigestsCount() > 1 ) {
-            throw new UnsupportedOperationException( "Multi File digest is not yet supported");
-        }
     }
 
     @Override
@@ -32,61 +30,42 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
             return;
         }
 
-        final Iterator<Map.Entry<Long, Set<File>>> iter = getConfig().getMapLengthFiles().entrySet().iterator();
+        LOGGER.info( "start pass 2" );
 
-        while( iter.hasNext() ) {
-            final Map.Entry<Long, Set<File>> entry = iter.next();
+        try {
+            final Iterator<Map.Entry<Long, Set<File>>> iter = getConfig().getMapLengthFiles().entrySet().iterator();
 
-            if( entry.getValue().size() > 1 ) {
-                handlePass2( entry );
+            while( iter.hasNext() ) {
+                final Map.Entry<Long, Set<File>> entry = iter.next();
+
+                if( entry.getValue().size() > 1 ) {
+                    find( entry );
+                }
+
+                if( getConfig().isCancelProcess() ) {
+                    return;
+                }
+
+                iter.remove();
             }
 
-            if( getConfig().isCancelProcess() ) {
-                return;
-            }
-
-            iter.remove();
+            // source must be consume !
+            assert getConfig().getMapLengthFiles().size() == 0;
         }
-
-        assert getConfig().getMapLengthFiles().size() == 0;
-
-        pass2RemoveNoneDuplicate();
-    }
-
-    private void handlePass2( final Map.Entry<Long, Set<File>> entry )
-    {
-        final Set<File> set = entry.getValue();
-
-        if( set.size() < getConfig().getFileDigestsCount() ) {
-            handlePass2ForSetAtOnce( entry );
-        } else {
-            handlePass2ForSetFilePerFile( entry );
+        finally {
+            pass2RemoveNoneDuplicate();
         }
     }
 
-    private void handlePass2ForSetAtOnce( final Map.Entry<Long, Set<File>> entryForThisLength )
-    {
-        final Set<File> setForThisLength = entryForThisLength.getValue();
-
-        for( final File file : setForThisLength ) {
-            // TODO
-
-            // Done with current file (or cancel)
-            // Check cancel state
-            if( getConfig().isCancelProcess() ) {
-                return;
-            }
-        }
-    }
-
-    private void handlePass2ForSetFilePerFile( final Map.Entry<Long, Set<File>> entryForThisLength )
+    /** Handle all files with same size */
+    protected void find( final Map.Entry<Long, Set<File>> entryForThisLength )
     {
         final Set<File>                 setForThisLength    = entryForThisLength.getValue();
         final long                      length              = entryForThisLength.getKey().longValue();
         final HashMapSet<String,File>   mapSetForThisLength = new HashMapSet<>();
 
         for( final File file : setForThisLength ) {
-            final String hashString = handlePass2ForSetFilePerFile( file );
+            final String hashString = handlePass2ForFile( file );
 
             Set<File> setForThisHash = mapSetForThisLength.get( hashString );
 
@@ -124,17 +103,17 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
             }
             entryIterator.remove();
         }
-     }
+    }
 
-    /** handle pass 2 for a single file */
-    private String handlePass2ForSetFilePerFile( final File file )
+    /** handle pass 2 for a single file (file per file) */
+    private String handlePass2ForFile( final File file )
     {
         notify_analysisStart( file );
 
         String hashString = null;
 
         try {
-            final FileDigest fd = getConfig().getFileDigests( 0 );
+            final FileDigest fd = getConfig().getFileDigest();
 
             fd.computeFile( file, getFileDigestListener() );
 
@@ -154,14 +133,8 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
 
     private void pass2RemoveNoneDuplicate()
     {
-        final Iterator<Set<File>> iter = getConfig().getMapHashFiles().values().iterator();
+        final int count = DuplicateHelpers.removeNonDuplicate( getConfig().getMapHashFiles() );
 
-        while( iter.hasNext() ) {
-            final Set<File> s = iter.next();
-
-            if( s.size() < 2 ) {
-                iter.remove();
-            }
-        }
+        assert count == 0;
     }
 }

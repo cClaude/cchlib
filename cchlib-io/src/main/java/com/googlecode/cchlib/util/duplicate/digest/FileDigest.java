@@ -10,23 +10,26 @@ import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.Provider;
 import java.util.Arrays;
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.NotThreadSafe;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.DigestEventListener;
 
 /**
  * Compute hash code for a file.
- *
+ * <br/>
+ * Basic usage:<br/>
+ * Just invoke {@link #computeFile(File, FileDigestListener)}
  * <P>This class is not thread safe</P>
  *
  * @see FileDigestFactory
  * @since 4.2
  */
+@NotThreadSafe
 public class FileDigest implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final char[] HEX = {
-        '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'
-        };
 
     /** real buffer */
     private final byte[] buffer;
@@ -48,12 +51,12 @@ public class FileDigest implements Serializable
      * Create a {@link FileDigest} object that
      * use the specified messageDigest.
      *
-     * @param messageDigest the messageDigest
-     * @param bufferSize buffer size to use
+     * @param messageDigest the messageDigest use to compute hash.
+     * @param bufferSize buffer size use to read file.
      */
     FileDigest(
-        final MessageDigest   messageDigest,
-        final int             bufferSize
+        @Nonnull final MessageDigest messageDigest,
+        @Nonnegative final int       bufferSize
         )
     {
         this.mdd        = new FileDigestDelegator( messageDigest );
@@ -63,13 +66,13 @@ public class FileDigest implements Serializable
 
     /**
      * TODOC XXX
-     * <p>Must be call for every succeed {@link #setFile(File, FileDigestListener)}</p>
+     * <p>Must be call for every succeed call to {@link #setFile(File, FileDigestListener)}</p>
      * @throws IllegalStateException is state is not valid
      * @throws IOException if any
      */
     public void reset() throws IOException
     {
-        if( this.fis == null ) {
+        if( isOpen() ) {
             throw new IllegalStateException( "No file, no open steam" );
         }
 
@@ -88,30 +91,29 @@ public class FileDigest implements Serializable
     }
 
     /**
+     * TODOC XXX
+     * @return XXX
+     */
+    public boolean isOpen()
+    {
+        return this.fis == null;
+    }
+
+    /**
      * Returns hex String value for digestKey.
      *
      * @param digestKey disgestKey to transform into String
      * @return Hex String
      * @see #computeDigestKey(String)
-     * @see #digest()
+     * @see #getDigest()
      */
     private String computeDigestKeyString(
         final byte[] digestKey
         )
     {
-        return computeDigestKeyString( this.computeDigestKeyStringBuilder, digestKey );
-    }
-
-    static String computeDigestKeyString( final StringBuilder stringBuilder, final byte[] digestKey )
-    {
-        stringBuilder.setLength( 0 );
-
-        for( final byte b : digestKey ) {
-            stringBuilder.append( HEX[(b & 0x00f0)>>4 ] );
-            stringBuilder.append( HEX[(b & 0x000f) ] );
-            }
-
-        return stringBuilder.toString();
+        this.computeDigestKeyStringBuilder.setLength( 0 );
+        FileDigestHelper.computeDigestKeyString( this.computeDigestKeyStringBuilder, digestKey );
+        return this.computeDigestKeyStringBuilder.toString();
     }
 
     /**
@@ -131,8 +133,8 @@ public class FileDigest implements Serializable
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
     public byte[] computeFile(
-            final File                file,
-            final FileDigestListener  listener
+            @Nonnull final File                file,
+            @Nonnull final FileDigestListener  listener
             )
         throws FileNotFoundException,
                IOException, CancelRequestException
@@ -164,11 +166,17 @@ public class FileDigest implements Serializable
      * @throws FileNotFoundException
      * @throws IllegalStateException
      */
-    public void setFile( final File file, final FileDigestListener listener ) throws FileNotFoundException
+    public void setFile( @Nonnull final File file, @Nonnull final FileDigestListener listener ) throws FileNotFoundException
     {
         if( this.fis != null ) {
             // Previous resources not close. Expecting reset()
             throw new IllegalStateException( "Previous resources not close. Expecting reset()" );
+        }
+        if( file == null ) {
+            throw new IllegalStateException( "file is null" );
+        }
+        if( listener == null ) {
+            throw new IllegalStateException( "listener is null" );
         }
 
         this.mdd.reset();
@@ -180,17 +188,21 @@ public class FileDigest implements Serializable
         this.digest = null;
     }
 
+    public File getFile() {
+        return this.file;
+    }
+
     /**
      * Returns Hex representation of digest
      * @return Hex representation of digest
-     * @see #digest()
+     * @see #getDigest()
      * @see #computeDigestKeyString(byte[])
      * @throws IllegalStateException if digest not yet
      *         initialized
      */
     public String digestString()
     {
-        final byte[] lastDigest = this.mdd.digest();
+        final byte[] lastDigest = this.mdd.getDigest();
 
         if( lastDigest == null ) {
             throw new IllegalStateException();
@@ -234,7 +246,7 @@ public class FileDigest implements Serializable
             return true;
         } else {
             if( this.digest == null ){
-                this.digest = this.mdd.digestDelegator();
+                this.digest = this.mdd.completesHashComputation();
             }
             return false;
         }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,42 +13,42 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.util.MapSetHelper;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.DuplicateFileFinderListener;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.MessageDigestFileBuilder;
 
-abstract class DuplicateFileFinderTestBase {
+abstract class DuplicateFileFinderTest_Common {
 
     private static final int         BUFFER_SIZE = 40960;
     private static final String      MD5         = "MD5";
     private MessageDigestFileBuilder messageDigestFileBuilder;
 
     protected abstract Logger getLogger();
+    protected abstract Path[] getStartPaths();
     protected abstract DuplicateFileFinderUsingStream newDuplicateFileFinder( MessageDigestFileBuilder messageDigestFileBuilder, DuplicateFileFinderListener listener );
 
     public void setup() throws NoSuchAlgorithmException
     {
-        messageDigestFileBuilder = MessageDigestFileBuilder.newMessageDigestFileBuilder( MD5, BUFFER_SIZE );
+        this.messageDigestFileBuilder = MessageDigestFileBuilder.newMessageDigestFileBuilder( MD5, BUFFER_SIZE );
     }
 
     public void integration_test() throws NoSuchAlgorithmException, IOException, IllegalStateException, InterruptedException, ExecutionException
     {
-        final Path[] startPaths = { FileHelper.getUserHomeDirFile().toPath() };
-
+        final Path[] startPaths = getStartPaths();
 
         getLogger().info( "*** PASS 1" );
-        getLogger().info( "*** PASS 1" );
+        getLogger().info( "*** PASS 1 : " + Arrays.toString( startPaths  ) );
         final long beginNanoTime = System.nanoTime();
         getLogger().info( "*** PASS 1 +++ beginNanoTime " + beginNanoTime );
 
-        final Map<Long, Set<File>>        mapSet   = DuplicateFileBuilder.createFromFileVisitor( Helper.newFileVisitor(), true, startPaths ).compute();
+        final Map<Long, Set<File>>        mapSet   = DuplicateFileBuilder.createFromFileVisitor( FileVisitorHelper.newFileVisitor( getLogger() ), true, startPaths ).compute();
         final DuplicateFileFinderListener listener = newDuplicateFileFinderListener( "integration_test" );
 
-        getLogger().info( "*** PASS 2" );
+        getLogger().info( "*** PASS 2 : " + MapSetHelper.size( mapSet ) );
         getLogger().info( "*** PASS 2" );
 
-        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( messageDigestFileBuilder, listener );
+        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( this.messageDigestFileBuilder, listener );
         getLogger().info( "*** PASS 2" );
         getLogger().info( "*** PASS 2" );
 
@@ -57,6 +58,7 @@ abstract class DuplicateFileFinderTestBase {
         getLogger().info( "result.size() = " + result.size() );
         getLogger().info( "endNanoTime = " + endNanoTime );
         getLogger().info( "diff = " + (endNanoTime - beginNanoTime) );
+        getLogger().info( "DONE" );
     }
 
     public void test_computeHash() throws IOException, IllegalStateException, NoSuchAlgorithmException, InterruptedException, ExecutionException
@@ -73,7 +75,7 @@ abstract class DuplicateFileFinderTestBase {
         Assert.assertEquals( 2, getEntry( mapSet, 1 ).size() );
 
         final DuplicateFileFinderListener listener = newDuplicateFileFinderListener( "test_computeHash" );
-        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( messageDigestFileBuilder, listener );
+        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( this.messageDigestFileBuilder, listener );
 
         final Map<String, Set<File>> result = dff.computeHash( mapSet );
 
@@ -89,7 +91,7 @@ abstract class DuplicateFileFinderTestBase {
         final Iterator<Set<File>> iterator = mapSet.values().iterator();
         Set<File> value = null;
 
-        for( int i = 0; i<=entryNumber && iterator.hasNext(); i++ ) {
+        for( int i = 0; (i<=entryNumber) && iterator.hasNext(); i++ ) {
             value  = iterator.next();
         }
 
@@ -126,8 +128,8 @@ abstract class DuplicateFileFinderTestBase {
             public void computeDigest( final File file )
             {
                 // GUI display name, length bytes to be read, ...
-                if( getLogger().isDebugEnabled() ) {
-                    getLogger().debug( testName + " computeDigest:" + file );
+                if( getLogger().isTraceEnabled() ) {
+                    getLogger().trace( testName + " computeDigest:" + file );
                 }
             }
 
@@ -152,8 +154,8 @@ abstract class DuplicateFileFinderTestBase {
             @Override
             public void hashString( final File file, final String hashString )
             {
-                if( getLogger().isDebugEnabled() ) {
-                    getLogger().debug(  testName + " hashString:" + file  + " * "+ hashString );
+                if( getLogger().isTraceEnabled() ) {
+                    getLogger().trace(  testName + " hashString:" + file  + " * "+ hashString );
                 }
             }
         };
