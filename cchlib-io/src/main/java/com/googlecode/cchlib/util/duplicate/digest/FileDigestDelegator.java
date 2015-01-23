@@ -8,11 +8,14 @@ import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.NotThreadSafe;
 
 /**
  * @since 4.2
  */
 // not public
+@NotThreadSafe
 final class FileDigestDelegator implements Serializable {
 
      private static final long serialVersionUID = 1L;
@@ -20,7 +23,7 @@ final class FileDigestDelegator implements Serializable {
      private byte[] lastDigest = null;
 
      FileDigestDelegator(
-         final MessageDigest messageDigest
+         @Nonnull final MessageDigest messageDigest
          )
      {
          this.md  = messageDigest;
@@ -50,19 +53,26 @@ final class FileDigestDelegator implements Serializable {
      }
 
      /**
+      * @deprecated Use {@link #completesHashComputation()} instead
+      */
+     @Deprecated
+    public byte[] digestDelegator()
+     {
+        return completesHashComputation();
+    }
+
+    /**
       * Completes the hash computation by performing final
-      * operations such as padding. The digest is reset after
-      * this call is made.
-      * <p>
-      * Cache result that could be retrieve using {@link #digest()}
-      * or {@link #digestString()}.
+      * operations such as padding. The internal digest is reset
+      * after this call is made (based on {@link MessageDigest#digest()})
+      * but cache result. Cache could be retrieve using {@link #getDigest()}.
       * <p>
       * @return the array of bytes for the resulting hash value.
       * @see java.security.MessageDigest#digest()
       * @throws IllegalStateException if digest not yet
       *         initialized
       */
-     public byte[] digestDelegator()
+     public byte[] completesHashComputation()
      {
          this.lastDigest = this.md.digest();
          return this.lastDigest;
@@ -135,13 +145,22 @@ final class FileDigestDelegator implements Serializable {
      }
 
      /**
+     * @deprecated Use {@link #getDigest()} instead
+      */
+     @Deprecated
+     public byte[] digest()
+     {
+        return getDigest();
+    }
+
+    /**
       * Return last hash computation
       *
       * @return the array of bytes for the resulting hash value.
       * @throws IllegalStateException if digest not yet
       *         initialized
       */
-     public byte[] digest()
+     public byte[] getDigest()
      {
          if( this.lastDigest == null ) {
              throw new IllegalStateException();

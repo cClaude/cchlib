@@ -187,7 +187,7 @@ final public class DuplicateFilesFrame
 
     private void updateDisplayAccordingState()
     {
-        final int maxParalleleFilesPerThread = 1; // FIXME
+        final int maxParallelFilesPerThread = 1; // FIXME
         final Runnable safeRunner = () -> {
             applyConfigMode();
 
@@ -238,7 +238,7 @@ final public class DuplicateFilesFrame
                                 getDFToolKit().getPreferences().getMessageDigestAlgorithm(),
                                 getDFToolKit().getPreferences().getMessageDigestBufferSize(),
                                 getDuplicateFilesMainPanel().getJPanel1Config().isIgnoreEmptyFiles(),
-                                maxParalleleFilesPerThread, // FIXME
+                                maxParallelFilesPerThread, // FIXME
                                 getDuplicateFilesMainPanel().getJPanel0Select().entriesToScans(),
                                 getDuplicateFilesMainPanel().getJPanel0Select().entriesToIgnore(),
                                 getDuplicateFilesMainPanel().getJPanel1Config().getFileFilterBuilders(),

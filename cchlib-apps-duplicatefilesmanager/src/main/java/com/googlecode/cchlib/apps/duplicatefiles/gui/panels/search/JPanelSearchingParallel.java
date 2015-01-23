@@ -88,7 +88,7 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
         final String                            messageDigestAlgorithm,
         final int                               messageDigestBufferSize,
         final boolean                           ignoreEmptyFiles,
-        final int                               maxParalleleFilesPerThread, // TODO
+        final int                               maxParallelFilesPerThread, // TODO
         final Collection<File>                  entriesToScans,
         final Collection<File>                  entriesToIgnore,
         final FileFilterBuilders                fileFilterBuilders,

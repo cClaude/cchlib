@@ -23,7 +23,7 @@ public abstract class JPanelSearching extends JPanelSearchingFilters implements 
             String messageDigestAlgorithm, //
             int messageDigestBufferSize, //
             boolean ignoreEmptyFiles, //
-            int maxParalleleFilesPerThread, //
+            int maxParallelFilesPerThread, //
             Collection<File> entriesToScans, //
             Collection<File> entriesToIgnore, //
             FileFilterBuilders fileFilterBuilders, //
