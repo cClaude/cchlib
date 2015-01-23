@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.NeedTestCases;
+import com.googlecode.cchlib.lang.StringHelper;
 
 @NeedDoc
 @NeedTestCases
@@ -39,7 +40,7 @@ public abstract class Invoker<T> implements Serializable
             InvocationTargetException,
             MethodResolutionException
     {
-        assert clazz.isAssignableFrom( instance.getClass() );
+        assert (this.clazz == null) || (instance == null) ? true : this.clazz.isAssignableFrom( instance.getClass() );
 
         final Collection<Method> methods = lookup();
 
@@ -64,30 +65,40 @@ public abstract class Invoker<T> implements Serializable
 
     protected MethodFilter getMethodFilter()
     {
-        return methodFilter;
+        return this.methodFilter;
     }
 
     protected Class<?> getClazz()
     {
-        return clazz;
+        return this.clazz;
     }
 
     private static String createTypesString( final Object[] params )
     {
-        final StringBuilder types = new StringBuilder();
-        boolean             first = true;
+        if( params == null ) {
+            return StringHelper.EMPTY;
+        }
+        else {
+            final StringBuilder types = new StringBuilder();
+            boolean             first = true;
 
-        for( final Object p : params ) {
-            if( first ) {
-                first = false;
+            for( final Object p : params ) {
+                if( first ) {
+                    first = false;
+                    }
+                else {
+                    types.append( ", " );
+                    }
+                types.append( getSafeClassName( p.getClass() ) );
                 }
-            else {
-                types.append( ", " );
-                }
-            types.append( p.getClass().getName() );
-            }
 
-        return types.toString();
+            return types.toString();
+        }
+    }
+
+    public static String getSafeClassName( final Class<?> clazz )
+    {
+        return clazz == null ? "NULL" : clazz.getName();
     }
 
     public static Class<?> getAutoboxingType( final Class<?> clazz )
@@ -107,10 +118,10 @@ public abstract class Invoker<T> implements Serializable
     private Collection<Method> lookup()
     {
         final ArrayList<Method> list     = new ArrayList<>();
-        final Method[]          methods = clazz.getMethods();
+        final Method[]          methods = this.clazz.getMethods();
 
         for( final Method m : methods ) {
-            if( methodFilter.isSelected( m ) ) {
+            if( this.methodFilter.isSelected( m ) ) {
                 list.add( m );
                 }
             }

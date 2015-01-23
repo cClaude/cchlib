@@ -171,8 +171,7 @@ public class InvokerByNameTest
     /**
      * Run the Object invoke(T,Object[]) method test.
      */
-    @Test(expected = java.lang.NullPointerException.class) // win old eclipse & unix bash, win maven
-    //@Test(expected = java.lang.NoSuchMethodException.class) // unix eclipse, win eclipse luna
+    @Test(expected = java.lang.NoSuchMethodException.class)
     public void testInvoke_static_NullPointerException2()
         throws Exception
     {
