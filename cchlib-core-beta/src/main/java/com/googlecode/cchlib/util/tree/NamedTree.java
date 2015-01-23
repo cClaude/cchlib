@@ -218,18 +218,18 @@ public class NamedTree<T>
     /**
      * Add an new node using is pathName
      *
-     * @param content content of node (could be null)
-     * @param pathName path name for new node.
-     * @return previous value for this node, or null if
-     * no data, or new node)
-     * @throws BadRootNameException if root name of
-     *         new node is not equal to root node
-     *         name of current tree
-     * @throws NullPointerException if pathName is null,
-     *        or any String in path, except for root name
-     *        (since SimpleTree root node name could be null)
+     * @param content
+     *            content of node (could be null)
+     * @param pathName
+     *            path name for new node.
+     * @return previous value for this node, or null if no data, or new node)
+     * @throws BadRootNameException
+     *             if root name of new node is not equal to root node name of current tree
+     * @throws NullPointerException
+     *             if pathName is null, or any String in path, except for root name (since SimpleTree root node name
+     *             could be null)
      */
-    public @Nullable T put(final T content, final String...pathName)
+    public @Nullable T put( @Nullable final T content, final String...pathName)
         throws BadRootNameException
     {
         final String rname = pathName[0];

@@ -13,33 +13,41 @@ public abstract class ComputableIterator<T>
     //Note: Can't implement Iterable<T> here - super class could do this work
 {
     private @Nullable T nextObject;
+    private Boolean noSuchElementException;
 
     /** Create ComputableIterator */
     protected ComputableIterator()
     {
+        this.noSuchElementException = null; // not yet initialized
         this.nextObject = null;
     }
 
     /**
-     * Compute next object for iterator, return next object if
-     * exist, throwing an exception if not.
+     * Compute next object for iterator, return next object if exist, throwing an exception if not.
+     *
      * @return next object if exist
-     * @throws NoSuchElementException if no more object
+     * @throws NoSuchElementException
+     *             if no more object
      */
-    protected abstract T computeNext()
+    protected abstract @Nullable T computeNext()
         throws NoSuchElementException;
 
     /**
-     * Returns true if the iteration has more elements.
-     * (In other words, returns true if next would return
-     * an element rather than throwing an exception.)
+     * Returns true if the iteration has more elements. (In other words, returns true if next would return an element
+     * rather than throwing an exception.)
+     *
      * @return true if the iteration has more elements.
      */
-     @Override
+    @Override
     public boolean hasNext()
     {
-        if( this.nextObject == null ) {
+        //if( this.nextObject == null ) {
+        if( isEnd( this.noSuchElementException ) ) {
+            return false;
+        }
+        if( this.noSuchElementException == null ) {
             try {
+                this.noSuchElementException = Boolean.FALSE;
                 this.nextObject = computeNext();
                 }
             catch( final NoSuchElementException e ) { // $codepro.audit.disable logExceptions
@@ -50,25 +58,42 @@ public abstract class ComputableIterator<T>
         return true;
     }
 
+    private static boolean isEnd( final Boolean noSuchElementException )
+    {
+        if( noSuchElementException != null ) {
+            return noSuchElementException.booleanValue();
+        }
+        return false;
+    }
+
     /**
      * Returns the next element in the iteration.
+     *
      * @return the next element in the iteration.
-     * @throws NoSuchElementException iteration has no more elements.
+     * @throws NoSuchElementException
+     *             iteration has no more elements.
      */
     @Override
     public T next() throws NoSuchElementException
     {
-        if(this.nextObject == null) {
+        if( isEnd( this.noSuchElementException ) ) {
+            throw new NoSuchElementException();
+        }
+
+        //if(this.nextObject == null) {
+        if( this.noSuchElementException == null ) {
+            this.noSuchElementException = Boolean.FALSE;
             this.nextObject = computeNext();
             }
 
-        final T returnObject = this.nextObject;
+        @Nullable final T returnObject = this.nextObject;
 
         try {
             this.nextObject = computeNext();
             }
         catch(final NoSuchElementException e) { // $codepro.audit.disable logExceptions
             this.nextObject = null;
+            this.noSuchElementException = Boolean.TRUE;
             }
 
         return returnObject;
@@ -77,25 +102,19 @@ public abstract class ComputableIterator<T>
     /**
      * Unsupported Operation.
      * <p>
-     * Since next item is read before return current
-     * item, it's not possible to support remove() operation
-     * using ComputableIterator
+     * Since next item is read before return current item, it's not possible to support remove() operation using
+     * ComputableIterator
      * </p>
      *
      * @throws UnsupportedOperationException
-     * @throws IllegalStateException
+     *             Always throw this exception.
      */
     @Override
     final public void remove()
         throws  UnsupportedOperationException,
                 IllegalStateException
     {
-        if(this.nextObject == null) {
-            throw new IllegalStateException();
-            }
-        else {
-            throw new UnsupportedOperationException();
-            }
+        throw new UnsupportedOperationException();
     }
-
 }
+

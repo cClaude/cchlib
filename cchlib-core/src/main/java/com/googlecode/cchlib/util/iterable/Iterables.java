@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.NeedTestCases;
@@ -29,12 +30,18 @@ public class Iterables
     /**
      * Create an {@link Iterable} from an {@link Enumeration}
      *
-     * @param <T> Type of the Enumeration
-     * @param enumeration {@link Enumeration} to use
+     * @param <T>
+     *            Type of the Enumeration
+     * @param enumeration
+     *            {@link Enumeration} to use
      * @return a new {@link Iterable}
-     * <P><B>Warn:</B>This {@link Iterable} object could be use only once</P>
+     *         <P>
+     *         <B>Warn:</B>This {@link Iterable} object could be use only once
+     *         </P>
      */
-    public static <T> Iterable<T> create( final Enumeration<T> enumeration )
+    public static <T> Iterable<T> create( //
+        @Nonnull final Enumeration<T> enumeration //
+        )
     {
         return new OnlyOnceIterable<>( new EnumerationIterator<>( enumeration ) );
     }
@@ -42,12 +49,16 @@ public class Iterables
     /**
      * Create an {@link Iterable} from an {@link Iterator}
      *
-     * @param <T> Type of the Iterator
-     * @param iterator {@link Iterable} to use
+     * @param <T>
+     *            Type of the Iterator
+     * @param iterator
+     *            {@link Iterable} to use
      * @return a new {@link Iterable}
-     * <P><B>Warn:</B>This {@link Iterable} object could be use only once</P>
+     *         <P>
+     *         <B>Warn:</B>This {@link Iterable} object could be use only once
+     *         </P>
      */
-    public static <T> Iterable<T> create( final Iterator<T> iterator )
+    public static <T> Iterable<T> create( @Nonnull final Iterator<T> iterator )
     {
         return new OnlyOnceIterable<>( iterator );
     }
@@ -55,16 +66,21 @@ public class Iterables
     /**
      * {@link #wrap(Iterable, Wrappable)} for {@link Iterator} objects
      *
-     * @param <S> Type of the source Iterator
-     * @param <R> Type of the result Iterator
-     * @param iterator {@link Iterable} to use
-     * @param wrapper  Wrapper to use
+     * @param <S>
+     *            Type of the source Iterator
+     * @param <R>
+     *            Type of the result Iterator
+     * @param iterator
+     *            {@link Iterable} to use
+     * @param wrapper
+     *            Wrapper to use
      * @return a new {@link Iterable}
-     * @throws WrapperException if any
+     * @throws WrapperException
+     *             if any
      */
     public static <S,R> Iterable<R> wrap(
-            final Iterator<S> iterator,
-            final Wrappable<? super S,? extends R> wrapper
+            @Nonnull final Iterator<S> iterator,
+            @Nonnull final Wrappable<? super S,? extends R> wrapper
             )
         throws WrapperException
     {
@@ -82,14 +98,22 @@ public class Iterables
     /**
      * {@link #wrap(Iterable, Wrappable)} for {@link Enumeration} objects
      *
-     * @param <S> Type of the source Iterator
-     * @param <R> Type of the result Iterator
-     * @param enumeration {@link Enumeration} to use
-     * @param wrapper  Wrapper to use
+     * @param <S>
+     *            Type of the source Iterator
+     * @param <R>
+     *            Type of the result Iterator
+     * @param enumeration
+     *            {@link Enumeration} to use
+     * @param wrapper
+     *            Wrapper to use
      * @return a new {@link Iterable}
-     * @throws WrapperException if any
+     * @throws WrapperException
+     *             if any
      */
-    public static <S,R> Iterable<R> wrap( final Enumeration<S> enumeration, final Wrappable<? super S,? extends R> wrapper )
+    public static <S,R> Iterable<R> wrap( //
+        @Nonnull final Enumeration<S>                   enumeration, //
+        @Nonnull final Wrappable<? super S,? extends R> wrapper //
+        )
             throws WrapperException
     {
         return wrap( Iterables.create( enumeration ), wrapper );
@@ -98,13 +122,20 @@ public class Iterables
     /**
      * Guava like function for {@link #wrap(Iterable, Wrappable)}
      *
-     * @param <F> Type of the source Iterator
-     * @param <T> Type of the result Iterator
-     * @param fromIterable {@link Iterable} to use
-     * @param function     Wrapper to use
+     * @param <F>
+     *            Type of the source Iterator
+     * @param <T>
+     *            Type of the result Iterator
+     * @param fromIterable
+     *            {@link Iterable} to use
+     * @param function
+     *            Wrapper to use
      * @return a new {@link Iterable}
      */
-    public static <F,T> Iterable<T> transform(final Iterable<F> fromIterable, final Wrappable<? super F,? extends T> function)
+    public static <F,T> Iterable<T> transform( //
+        @Nonnull final Iterable<F>                      fromIterable, //
+        @Nonnull final Wrappable<? super F,? extends T> function //
+        )
     {
         return wrap( fromIterable, function );
     }
@@ -112,21 +143,25 @@ public class Iterables
     /**
      * Returns an {@link Iterable} that applies <code>wrapper</code> to each element of fromIterable.
      * <p>
-     * The returned iterable's iterator supports remove() if the provided iterator does.
-     * After a successful remove() call, <code>iterable</code> no longer contains the
-     * corresponding element.
+     * The returned iterable's iterator supports remove() if the provided iterator does. After a successful remove()
+     * call, <code>iterable</code> no longer contains the corresponding element.
      * </p>
      *
-     * @param <S> Type of the source Iterator
-     * @param <R> Type of the result Iterator
-     * @param iterable Original {@link Iterable}
-     * @param wrapper  Wrapper to use
+     * @param <S>
+     *            Type of the source Iterator
+     * @param <R>
+     *            Type of the result Iterator
+     * @param iterable
+     *            Original {@link Iterable}
+     * @param wrapper
+     *            Wrapper to use
      * @return an {@link Iterable} that applies <code>wrapper</code> to each element of fromIterable.
-     * @throws WrapperException if any
+     * @throws WrapperException
+     *             if any
      */
     public static <S,R> Iterable<R> wrap(
-        final Iterable<S>                      iterable,
-        final Wrappable<? super S,? extends R> wrapper
+        @Nonnull final Iterable<S>                      iterable,
+        @Nonnull final Wrappable<? super S,? extends R> wrapper
         ) throws WrapperException
     {
         return () -> new IteratorWrapper<>(iterable.iterator(), wrapper);
@@ -135,12 +170,18 @@ public class Iterables
     /**
      * {@link #filter(Iterable, Selectable)} for {@link Iterator} objects
      *
-     * @param <T> Type of the Iterator
-     * @param iterator Original {@link Iterator}
-     * @param filter   Filter to use
+     * @param <T>
+     *            Type of the Iterator
+     * @param iterator
+     *            Original {@link Iterator}
+     * @param filter
+     *            Filter to use
      * @return a new {@link Iterable}
      */
-    public static <T> Iterable<T> filter( final Iterator<T> iterator, final Selectable<T> filter )
+    public static <T> Iterable<T> filter( //
+        @Nonnull final Iterator<T>   iterator, //
+        @Nonnull final Selectable<T> filter //
+        )
     {
         return filter( Iterables.create( iterator ), filter );
     }
@@ -148,12 +189,18 @@ public class Iterables
     /**
      * {@link #filter(Iterable, Selectable)} for {@link Enumeration} objects
      *
-     * @param <T> Type of the Enumeration
-     * @param enumeration Original {@link Enumeration}
-     * @param filter   Filter to use
+     * @param <T>
+     *            Type of the Enumeration
+     * @param enumeration
+     *            Original {@link Enumeration}
+     * @param filter
+     *            Filter to use
      * @return a new {@link Iterable}
      */
-    public static <T> Iterable<T> filter( final Enumeration<T> enumeration, final Selectable<T> filter )
+    public static <T> Iterable<T> filter( //
+        @Nonnull final Enumeration<T> enumeration, //
+        @Nonnull final Selectable<T>  filter //
+        )
     {
         return filter( Iterables.create( enumeration ), filter );
     }
@@ -162,21 +209,24 @@ public class Iterables
      * Returns the elements of <code>unfiltered<code> that satisfy a filter.
      * The resulting iterable's iterator does not support remove().
      *
-     * @param <T> Type of the Iterable
-     * @param unfiltered    Original {@link Iterable}
-     * @param filter        Filter to use
+     * @param <T>
+     *            Type of the Iterable
+     * @param unfiltered
+     *            Original {@link Iterable}
+     * @param filter
+     *            Filter to use
      * @return a new {@link Iterable}
      */
     public static <T> Iterable<T> filter(
-        final Iterable<T>           unfiltered,
-        final Selectable<? super T> filter
+        @Nonnull final Iterable<T>           unfiltered,
+        @Nonnull final Selectable<? super T> filter
         )
     {
         return () -> new IteratorFilter<>(unfiltered.iterator(), filter);
     }
 
     @NeedDoc
-    public static <T> List<T> newList( final Iterable<T> iterable )
+    public static <T> List<T> newList( @Nonnull final Iterable<T> iterable )
     {
         final ArrayList<T> list = new ArrayList<>();
 
@@ -188,7 +238,10 @@ public class Iterables
     }
 
     @NeedDoc
-    public static @Nullable <T> T find( final List<T> iterable, final Selectable<T> filter )
+    public static @Nullable <T> T find( //
+        @Nonnull final List<T>       iterable, //
+        @Nonnull final Selectable<T> filter //
+        )
     {
         for( final T element : iterable ) {
             if( filter.isSelected( element ) ) {

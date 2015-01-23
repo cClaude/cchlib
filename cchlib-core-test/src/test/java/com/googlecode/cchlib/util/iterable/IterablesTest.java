@@ -2,9 +2,8 @@
 package com.googlecode.cchlib.util.iterable;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertNotNull;
 import java.util.Collection;
 import java.util.List;
 import org.junit.After;
@@ -24,15 +23,15 @@ public class IterablesTest
     @Test
     public void testFilter_1()
     {
-        Collection<Integer> iterable = IterablesTestFactory.createIterable();
-        Selectable<Integer> filter   = IterablesTestFactory.createFilter();
+        final Collection<Integer> iterable = IterablesTestFactory.createIterable();
+        final Selectable<Integer> filter   = IterablesTestFactory.createFilter();
 
-        Iterable<Integer>   result = Iterables.filter( iterable, filter );
-        List<Integer>       list1  = Iterables.newList( result );
-        List<Integer>       list2  = Iterables.newList( result );
+        final Iterable<Integer>   result = Iterables.filter( iterable, filter );
+        final List<Integer>       list1  = Iterables.newList( result );
+        final List<Integer>       list2  = Iterables.newList( result );
 
         // add additional test code here
-        int expected_size = iterable.size() / 2;
+        final int expected_size = iterable.size() / 2;
 
         assertThat( result ).isNotNull();
         assertThat( list1 ).hasSize( expected_size );
@@ -41,12 +40,12 @@ public class IterablesTest
 
     public void testFilter_2()
     {
-        Collection<Integer> iterable = IterablesTestFactory.createIterable();
-        Selectable<Integer> filter   = IterablesTestFactory.createFilter();
+        final Collection<Integer> iterable = IterablesTestFactory.createIterable();
+        final Selectable<Integer> filter   = IterablesTestFactory.createFilter();
 
-        Iterable<Integer>   result = Iterables.filter( iterable.iterator(), filter);
-        List<Integer>       list1  = Iterables.newList( result );
-        List<Integer>       list2  = Iterables.newList( result );
+        final Iterable<Integer>   result = Iterables.filter( iterable.iterator(), filter);
+        final List<Integer>       list1  = Iterables.newList( result );
+        final List<Integer>       list2  = Iterables.newList( result );
 
         // add additional test code here
         assertNotNull(result);
@@ -56,12 +55,12 @@ public class IterablesTest
 
     public void testFilter_3()
     {
-        Collection<Integer> iterable = IterablesTestFactory.createIterable();
-        Selectable<Integer> filter   = IterablesTestFactory.createFilter();
+        final Collection<Integer> iterable = IterablesTestFactory.createIterable();
+        final Selectable<Integer> filter   = IterablesTestFactory.createFilter();
 
-        Iterable<Integer>   result = Iterables.filter( Iterators.toEnumeration( iterable.iterator() ), filter);
-        List<Integer>       list1  = Iterables.newList( result );
-        List<Integer>       list2  = Iterables.newList( result );
+        final Iterable<Integer>   result = Iterables.filter( Iterators.toEnumeration( iterable.iterator() ), filter);
+        final List<Integer>       list1  = Iterables.newList( result );
+        final List<Integer>       list2  = Iterables.newList( result );
 
         // add additional test code here
         assertNotNull(result);
@@ -75,12 +74,12 @@ public class IterablesTest
     @Test
     public void testWrappe_1()
     {
-        Collection<Integer>       iterable = IterablesTestFactory.createIterable();
-        Wrappable<Integer,String> wrapper  = IterablesTestFactory.createWrappableIntegerToString();
+        final Collection<Integer>       iterable = IterablesTestFactory.createIterable();
+        final Wrappable<Integer,String> wrapper  = IterablesTestFactory.createWrappableIntegerToString();
 
-        Iterable<String>   result = Iterables.wrap(iterable, wrapper);
-        List<String>       list1  = Iterables.newList( result );
-        List<String>       list2  = Iterables.newList( result );
+        final Iterable<String>   result = Iterables.wrap(iterable, wrapper);
+        final List<String>       list1  = Iterables.newList( result );
+        final List<String>       list2  = Iterables.newList( result );
 
         // add additional test code here
         assertNotNull(result);
@@ -92,7 +91,7 @@ public class IterablesTest
      * Perform pre-test initialization.
      */
     @Before
-    public void setUp() 
+    public void setUp()
     {
         // add additional set up code here
     }
@@ -101,7 +100,7 @@ public class IterablesTest
      * Perform post-test clean-up.
      */
     @After
-    public void tearDown() 
+    public void tearDown()
     {
         // Add additional tear down code here
     }
@@ -109,7 +108,7 @@ public class IterablesTest
     /**
      * Launch the test.
      */
-    public static void main(String[] args)
+    public static void main(final String[] args)
     {
         new org.junit.runner.JUnitCore().run(IterablesTest.class);
     }
