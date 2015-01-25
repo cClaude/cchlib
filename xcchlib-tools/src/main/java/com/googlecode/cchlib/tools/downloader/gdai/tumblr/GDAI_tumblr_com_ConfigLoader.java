@@ -10,43 +10,50 @@ import com.googlecode.cchlib.util.properties.PropertiesHelper;
 import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 
 /**
- * 
- *
+ * Configuration for tumblr like blogs to download
+ * <br>
+ * File must be a propertie within :
+ * <pre>
+ * blogsNames.0=
+ * blogsDesc_.0=
+ * blogsNames.1=
+ * blogsDesc_.1=
+ * </pre>
  */
 class GDAI_tumblr_com_ConfigLoader
 {
     private static final Logger LOGGER = Logger.getLogger( GDAI_tumblr_com_ConfigLoader.class );
-    
-    private PropertiesPopulator<GDAI_tumblr_com_ConfigLoader> pp = new PropertiesPopulator<GDAI_tumblr_com_ConfigLoader>( this.getClass() );
-    
+
+    private final PropertiesPopulator<GDAI_tumblr_com_ConfigLoader> pp = new PropertiesPopulator<GDAI_tumblr_com_ConfigLoader>( this.getClass() );
+
     @Populator
     private String[] blogsNames;
     @Populator
     private String[] blogsDesc_;
-    
-    /** load config 
+
+    /** load config
      * @throws IOException */
     public GDAI_tumblr_com_ConfigLoader()
     {
         try {
             loadConfig();
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             LOGGER.error( "Can't load config - ignore", e );
             }
     }
 
-    /** 
+    /**
      * For saver only
      */
     private GDAI_tumblr_com_ConfigLoader(
         final String[] blogsNames,
         final String[] blogsDescriptions
-        ) 
+        )
     {
         this.blogsNames = blogsNames;
         this.blogsDesc_ = blogsDescriptions;
-        
+
         if( blogsNames == null ) {
             throw new IllegalArgumentException( "blogsNames" );
             }
@@ -54,72 +61,72 @@ class GDAI_tumblr_com_ConfigLoader
             throw new IllegalArgumentException( "blogsDescriptions" );
             }
         if( blogsNames.length != blogsDescriptions.length ) {
-            throw new IllegalArgumentException( 
+            throw new IllegalArgumentException(
                 "blogsNames and blogsDescriptions not same length !"
                 );
             }
     }
-    
+
     private static File getConfigFile()
     {
-        return FileHelper.getUserHomeDirFile( 
-            "." + GDAI_tumblr_com.class.getSimpleName() + ".properties" 
+        return FileHelper.getUserHomeDirFile(
+            "." + GDAI_tumblr_com.class.getSimpleName() + ".properties"
             );
     }
-    
+
     public int getBlogsSize()
     {
-        return blogsNames.length;
+        return this.blogsNames.length;
     }
 
     public String getBlogsName( final int index )
     {
-        return blogsNames[ index ];
+        return this.blogsNames[ index ];
     }
-    
+
     public String getBlogsDescription( final int index )
     {
         try {
-            return blogsDesc_[ index ];
+            return this.blogsDesc_[ index ];
             }
-        catch( ArrayIndexOutOfBoundsException e ) {
+        catch( final ArrayIndexOutOfBoundsException e ) {
             return null;
             }
     }
-    
+
     private void loadConfig() throws IOException
     {
         try {
-            Properties properties = PropertiesHelper.loadProperties( getConfigFile() );
-            
-            pp.populateBean( properties , this );
+            final Properties properties = PropertiesHelper.loadProperties( getConfigFile() );
+
+            this.pp.populateBean( properties , this );
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             LOGGER.warn( "Can't load config", e );
             throw e;
             }
         finally {
-            if( blogsNames == null ) {
-            	blogsNames = new String[ 0 ];
+            if( this.blogsNames == null ) {
+            	this.blogsNames = new String[ 0 ];
             	}
-            if( blogsDesc_ == null ) {
-            	blogsDesc_ = new String[ 0 ];
+            if( this.blogsDesc_ == null ) {
+            	this.blogsDesc_ = new String[ 0 ];
             	}
         	}
     }
-    
+
     private void storeConfig() throws IOException
     {
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
 
-        pp.populateProperties( this, properties );
+        this.pp.populateProperties( this, properties );
 
         PropertiesHelper.saveProperties( getConfigFile(), properties );
     }
-    
-    /** 
+
+    /**
      * Save config
-     *  
+     *
      * @throws IOException
      */
     public static void save(
@@ -127,7 +134,7 @@ class GDAI_tumblr_com_ConfigLoader
         final String[] blogsDescriptions
         ) throws IOException
     {
-        final GDAI_tumblr_com_ConfigLoader saver 
+        final GDAI_tumblr_com_ConfigLoader saver
             = new GDAI_tumblr_com_ConfigLoader( blogsNames, blogsDescriptions );
 
        saver.storeConfig();

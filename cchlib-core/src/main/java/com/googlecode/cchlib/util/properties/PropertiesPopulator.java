@@ -2,6 +2,9 @@ package com.googlecode.cchlib.util.properties;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -30,13 +33,16 @@ import org.apache.log4j.Logger;
  *   <li>{@link javax.swing.JComboBox JComboBox} (Store only selected index)</li>
  * </ul>
  */
-public class PropertiesPopulator<E>
+public class PropertiesPopulator<E> implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private static final Logger LOGGER = Logger.getLogger( PropertiesPopulator.class );
 
     private static final int IS_LENGTH = 2;
     private static final int GET_SET_LENGTH = 3;
 
+    private transient Class<? extends E> clazz;
     private final Map<Field ,PropertiesPopulatorAnnotation<E,Field>>  fieldsMap      = new HashMap<>();
     private final Map<String,PropertiesPopulatorAnnotation<E,Method>> getterSetterMap = new HashMap<>();
 
@@ -47,11 +53,18 @@ public class PropertiesPopulator<E>
      */
     public PropertiesPopulator( final Class<? extends E> clazz )
     {
-        buildFieldMap( clazz.getDeclaredFields() );
-        buildMethodMaps( clazz.getDeclaredMethods() );
+        this.clazz = clazz;
+
+        init();
+    }
+
+    private void init()
+    {
+        buildFieldMap( this.clazz.getDeclaredFields() );
+        buildMethodMaps( this.clazz.getDeclaredMethods() );
 
         if( LOGGER.isTraceEnabled() ) {
-            LOGGER.trace( "Found " + this.fieldsMap.size() + " fields on " + clazz );
+            LOGGER.trace( "Found " + this.fieldsMap.size() + " fields on " + this.clazz );
 
             for( final Entry<Field, PropertiesPopulatorAnnotation<E, Field>> entry : this.fieldsMap.entrySet() ) {
                 LOGGER.trace( "Key[" + entry.getKey() + "]=" + entry.getValue() );
@@ -61,6 +74,22 @@ public class PropertiesPopulator<E>
                 LOGGER.trace( "Method[" + entry.getKey() + "]=" + entry.getValue() );
                 }
             }
+    }
+
+    //Serializable
+    private void writeObject(final ObjectOutputStream out)
+        throws IOException
+    {
+        out.defaultWriteObject();
+    }
+
+    //Serializable
+    private void readObject(final ObjectInputStream in)
+        throws IOException, ClassNotFoundException
+    {
+        in.defaultReadObject();
+
+        init();
     }
 
     private void buildMethodMaps( final Method[] methods )

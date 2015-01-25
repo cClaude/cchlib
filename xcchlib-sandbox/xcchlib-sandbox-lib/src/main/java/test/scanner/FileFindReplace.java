@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class FileFindReplace
 {
-    private Pattern p;
+    private final Pattern p;
 
     public FileFindReplace( final String pattern ) throws IOException
     {
@@ -25,12 +25,11 @@ public class FileFindReplace
 
     public boolean contain( final File file ) throws FileNotFoundException
     {
-        Scanner scan = new Scanner( file );
-        scan.useDelimiter( p );
-
         int foundCount = -1;
 
-        try {
+        try( Scanner scan = new Scanner( file ) ) {
+            scan.useDelimiter( this.p );
+
             while( scan.hasNext() ) {
                 foundCount++;
                 scan.next();
@@ -40,28 +39,21 @@ public class FileFindReplace
                     }
                 }
             }
-        finally {
-            scan.close();
-            }
 
         return false;
     }
 
     public int containCount( final File file ) throws FileNotFoundException
     {
-        Scanner scan = new Scanner( file );
-        scan.useDelimiter( p );
-
         int foundCount = -1;
 
-        try {
+        try( Scanner scan = new Scanner( file ) ) {
+            scan.useDelimiter( this.p );
+
             while( scan.hasNext() ) {
                 foundCount++;
                 scan.next();
                 }
-            }
-        finally {
-            scan.close();
             }
 
         if( foundCount == -1 ) {
@@ -74,15 +66,12 @@ public class FileFindReplace
     public int replaceAll( final File file, final File newFile, final String newValue )
         throws IOException
     {
-        final Scanner scan = new Scanner( file );
-        scan.useDelimiter( p );
-
         int foundCount = -1;
-        
-        try {
-            final Writer w = new BufferedWriter( new FileWriter( newFile ) );
 
-            try {
+        try( final Scanner scan = new Scanner( file ) ) {
+            scan.useDelimiter( this.p );
+
+            try( final Writer w = new BufferedWriter( new FileWriter( newFile ) ) ) {
                 while( scan.hasNext() ) {
                     if( foundCount >= 0 ) {
                         w.write( newValue );
@@ -91,12 +80,6 @@ public class FileFindReplace
                     w.write( scan.next() );
                     }
                 }
-            finally {
-                w.close();
-                }
-            }
-        finally {
-            scan.close();
             }
 
         if( foundCount == -1 ) {
@@ -106,30 +89,30 @@ public class FileFindReplace
         return foundCount;
     }
 
-    public static void main( String[] args ) throws IOException
+    public static void main( final String[] args ) throws IOException
     {
-        String filename      = "pom.xml";
-        String patternString = "parent";
-        String newValue      = "toto";
+        final String filename      = "pom.xml";
+        final String patternString = "parent";
+        final String newValue      = "toto";
 
-        String patternRegExp = "\\s*" + patternString + "\\s*";
-        File cd   = new File( "." ).getCanonicalFile();
-        File file = new File( cd, filename );
-        File out  = File.createTempFile( "test", ".xml" );
+        final String patternRegExp = "\\s*" + patternString + "\\s*";
+        final File cd   = new File( "." ).getCanonicalFile();
+        final File file = new File( cd, filename );
+        final File out  = File.createTempFile( "test", ".xml" );
         out.deleteOnExit();
-        
+
         System.out.println( "file = " + file );
         System.out.println( "patternRegExp = " + patternRegExp );
 
-        FileFindReplace instance = new FileFindReplace( patternRegExp );
+        final FileFindReplace instance = new FileFindReplace( patternRegExp );
 
-        boolean res1 = instance.contain( file );
+        final boolean res1 = instance.contain( file );
         System.out.println( "pattern found ? " + res1 );
 
-        int res2 = instance.containCount( file );
+        final int res2 = instance.containCount( file );
         System.out.println( "pattern found ? " + res2 );
 
-        int res3 = instance.replaceAll( file, out, newValue );
+        final int res3 = instance.replaceAll( file, out, newValue );
         System.out.println( "pattern found ? " + res3 );
         System.out.println( "result in: " + out );
     }

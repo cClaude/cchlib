@@ -13,7 +13,7 @@ public class PreferencesImpl implements Preferences
     private ConfigMode userLevel;
     private String lookAndFeelName;
     private final List<RootFile> rootFileList = new ArrayList<>();
-    private Locale locale;
+    private final Locale locale;
 
     /**
      *
@@ -28,6 +28,7 @@ public class PreferencesImpl implements Preferences
                 RootFileAction.INCLUDE_ALL_FILES
                 );
         this.rootFileList.add( testEntry  );
+        this.locale = Locale.getDefault();
     }
 
     @Override // DefaultPreferences
@@ -51,7 +52,7 @@ public class PreferencesImpl implements Preferences
     @Override
     public Collection<RootFile> getCompareRootFileCollection()
     {
-        return rootFileList;
+        return this.rootFileList;
     }
 
     @Override

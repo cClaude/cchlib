@@ -82,9 +82,9 @@ public class LoadSQLServlet extends HttpServlet {
         this.loadDirectory = new File(
                 ssc.getRequiredParameter( LOAD_DIRECTORY ) );
 
-        if( !loadDirectory.isDirectory() ) {
+        if( !this.loadDirectory.isDirectory() ) {
             throw new javax.servlet.ServletException( "parameter '"
-                    + LOAD_DIRECTORY + "' not valid : '" + loadDirectory + "'" );
+                    + LOAD_DIRECTORY + "' not valid : '" + this.loadDirectory + "'" );
         }
 
         //
@@ -103,7 +103,7 @@ public class LoadSQLServlet extends HttpServlet {
         super.init( servletConfig );
     }
 
-    @SuppressWarnings("resource")
+    @SuppressWarnings({ "resource", "null" })
     @Deprecated
     @Override
     protected void doPost( // ----------------------------------------------------
@@ -113,7 +113,7 @@ public class LoadSQLServlet extends HttpServlet {
         InputStream inputStream = null;
         String nextURL = null;
 
-        final MultipartParser aParser = new MultipartParser( request, maxPostSize );
+        final MultipartParser aParser = new MultipartParser( request, this.maxPostSize );
         Part aPart;
 
         while( (aPart = aParser.readNextPart()) != null ) {
@@ -141,7 +141,7 @@ public class LoadSQLServlet extends HttpServlet {
                 //
                 // On charge le fichier
                 //
-                final File newFile = new File( loadDirectory,
+                final File newFile = new File( this.loadDirectory,
                         SaveSQLServlet.getCurrentDateForFileName() + "_UPLOAD_"
                                 + filename );
 

@@ -45,61 +45,37 @@ public class JavaDESEncryption
 {
     private static final byte[] initialization_vector = { 22, 33, 11, 44, 55, 99, 66, 77 };
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
 
-        File folderFile    = FileHelper.getUserHomeDirFile();
-        File clearFile     = new File( folderFile, "input.txt" );
-        File encryptedFile = new File( folderFile, "encrypted.txt" );
-        File decryptedFile = new File( folderFile, "decrypted.txt" );
+        final File folderFile    = FileHelper.getUserHomeDirFile();
+        final File clearFile     = new File( folderFile, "input.txt" );
+        final File encryptedFile = new File( folderFile, "encrypted.txt" );
+        final File decryptedFile = new File( folderFile, "decrypted.txt" );
 
         try {
-            SecretKey              secret_key      = KeyGenerator.getInstance("DES").generateKey();
-            AlgorithmParameterSpec alogrithm_specs = new IvParameterSpec(initialization_vector);
+            final SecretKey              secret_key      = KeyGenerator.getInstance("DES").generateKey();
+            final AlgorithmParameterSpec alogrithm_specs = new IvParameterSpec(initialization_vector);
 
             // set encryption mode ...
-            Encrypt encrypt = new Encrypt( "DES/CBC/PKCS5Padding", secret_key, alogrithm_specs );
+            final Encrypt encrypt = new Encrypt( "DES/CBC/PKCS5Padding", secret_key, alogrithm_specs );
 
             // encrypt file
-            {
-                InputStream  is = new FileInputStream(clearFile);
-
-                try {
-                    OutputStream os = new FileOutputStream(encryptedFile);
-
-                    try {
-                        encrypt.encrypt( is, os );
-                        }
-                    finally {
-                        os.close();
-                        }
-                    }
-                finally {
-                    is.close();
+            try( final InputStream is = new FileInputStream( clearFile ) ) {
+                try( final OutputStream os = new FileOutputStream( encryptedFile ) ) {
+                    encrypt.encrypt( is, os );
                     }
             }
 
             // set decryption mode
-            Decrypt decrypt = new Decrypt( "DES/CBC/PKCS5Padding", secret_key, alogrithm_specs );
+            final Decrypt decrypt = new Decrypt( "DES/CBC/PKCS5Padding", secret_key, alogrithm_specs );
 
             // decrypt file
-            {
-                InputStream  is = new FileInputStream( encryptedFile );
-                 
-                try {
-                    OutputStream os = new FileOutputStream( decryptedFile );
-                    
-                    try {
-                        decrypt.decrypt( is, os );
-                        }
-                    finally {
-                        os.close();
-                        }
-                    }
-                finally {
-                    is.close();
+            try( final InputStream is = new FileInputStream( encryptedFile ) ) {
+                try( final OutputStream os = new FileOutputStream( decryptedFile ) ) {
+                    decrypt.decrypt( is, os );
                     }
             }
-            
+
             System.out.println("End of Encryption/Decryption procedure!");
 
         } catch (NoSuchAlgorithmException | NoSuchPaddingException
@@ -112,52 +88,52 @@ public class JavaDESEncryption
 
     private static class Encrypt
     {
-        private Cipher encrypt;
+        private final Cipher encrypt;
 
         public Encrypt(
-                String                 transformation,
-                Key                    secret_key,
-                AlgorithmParameterSpec alogrithm_specs
+                final String                 transformation,
+                final Key                    secret_key,
+                final AlgorithmParameterSpec alogrithm_specs
                 )
             throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException
         {
-            encrypt = Cipher.getInstance( transformation /*"DES/CBC/PKCS5Padding"*/ );
-            encrypt.init(Cipher.ENCRYPT_MODE, secret_key, alogrithm_specs);
+            this.encrypt = Cipher.getInstance( transformation /*"DES/CBC/PKCS5Padding"*/ );
+            this.encrypt.init(Cipher.ENCRYPT_MODE, secret_key, alogrithm_specs);
         }
 
-        void encrypt(InputStream input, OutputStream output) throws IOException
+        void encrypt(final InputStream input, OutputStream output) throws IOException
         {
-            output = new CipherOutputStream(output, encrypt);
+            output = new CipherOutputStream(output, this.encrypt);
             writeBytes(input, output);
         }
     }
 
     private static class Decrypt
     {
-        private Cipher decrypt;
+        private final Cipher decrypt;
 
         public Decrypt(
-            String                 transformation,
-            SecretKey              secret_key,
-            AlgorithmParameterSpec alogrithm_specs
+            final String                 transformation,
+            final SecretKey              secret_key,
+            final AlgorithmParameterSpec alogrithm_specs
             )
             throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException
         {
-            decrypt = Cipher.getInstance( transformation /*"DES/CBC/PKCS5Padding"*/ );
-            decrypt.init(Cipher.DECRYPT_MODE, secret_key, alogrithm_specs);
+            this.decrypt = Cipher.getInstance( transformation /*"DES/CBC/PKCS5Padding"*/ );
+            this.decrypt.init(Cipher.DECRYPT_MODE, secret_key, alogrithm_specs);
         }
 
-        void decrypt(InputStream input, OutputStream output) throws IOException
+        void decrypt(InputStream input, final OutputStream output) throws IOException
         {
-            input = new CipherInputStream(input, decrypt);
+            input = new CipherInputStream(input, this.decrypt);
             writeBytes(input, output);
         }
     }
 
-    private static void writeBytes(InputStream input, OutputStream output)
+    private static void writeBytes(final InputStream input, final OutputStream output)
         throws IOException
     {
-        byte[] writeBuffer = new byte[512];
+        final byte[] writeBuffer = new byte[512];
         int    readBytes   = 0;
 
         try {

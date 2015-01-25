@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.tools.downloader;
+package com.googlecode.cchlib.tools.downloader.connector;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -8,6 +8,11 @@ import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
 
@@ -24,7 +29,7 @@ public class DownloadI_senorgif
 
     private final GenericDownloaderAppComboBoxConfig mainComboBoxConfig;
 
-    protected DownloadI_senorgif()
+    public DownloadI_senorgif()
     {
         super(
                 SITE_NAME,
@@ -35,12 +40,12 @@ public class DownloadI_senorgif
         final String[] comboBoxValues = { "http://senorgif.memebase.com/page/%d/" , "http://senorgif.memebase.com/vote/" };
         final String[] labelStrings   = { "pages type 1"                          , "pages type 2"};
 
-        mainComboBoxConfig = new DefaultComboBoxConfig(
+        this.mainComboBoxConfig = new DefaultComboBoxConfig(
              "Page type",
              comboBoxValues,
              labelStrings
              );
-        super.addComboBoxConfig( mainComboBoxConfig );
+        super.addComboBoxConfig( this.mainComboBoxConfig );
     }
 
     @Override
@@ -54,7 +59,7 @@ public class DownloadI_senorgif
     {
         return new DefaultDownloadStringURL(
             String.format(
-                mainComboBoxConfig.getComboBoxSelectedValue(),
+                this.mainComboBoxConfig.getComboBoxSelectedValue(),
                 Integer.valueOf( pageNumber )
                 ),
             null,
@@ -92,6 +97,5 @@ public class DownloadI_senorgif
     public void setSelectedItems( final List<Item> selectedItems )
     {
         // TODO Auto-generated method stub
-
     }
 }

@@ -5,7 +5,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 
 public class AppToolKitService {
 
-    private static AppToolKitService SERVICE;
+    private static volatile AppToolKitService SERVICE;
     private final Object lock = new Object();
     private AppToolKit appToolKit;
     private PreferencesControler preferences;

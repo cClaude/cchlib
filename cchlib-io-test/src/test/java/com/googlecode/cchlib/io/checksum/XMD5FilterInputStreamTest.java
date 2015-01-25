@@ -21,9 +21,9 @@ import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 
 @SuppressWarnings({ "resource", "deprecation" })
-public class MD5FilterInputStreamTest
+public class XMD5FilterInputStreamTest
 {
-    private final static Logger LOGGER = Logger.getLogger( MD5FilterInputStreamTest.class );
+    private final static Logger LOGGER = Logger.getLogger( XMD5FilterInputStreamTest.class );
     private XMessageDigestFile mdf;
     private List<File> fileList;
     private final byte[] buffer = new byte[ 1024 ];

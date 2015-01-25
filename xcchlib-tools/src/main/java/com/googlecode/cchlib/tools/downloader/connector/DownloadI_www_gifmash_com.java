@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.tools.downloader;
+package com.googlecode.cchlib.tools.downloader.connector;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -8,6 +8,11 @@ import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
 
@@ -26,7 +31,7 @@ public class DownloadI_www_gifmash_com
     private static final int DEFAULT_MAX_PAGES = 100;
     private final GenericDownloaderAppComboBoxConfig mainComboBoxConfig;
 
-    protected DownloadI_www_gifmash_com()
+    public DownloadI_www_gifmash_com()
     {
         super(
                 SITE_NAME,
@@ -37,9 +42,9 @@ public class DownloadI_www_gifmash_com
         final String[] comboBoxValues = { "http://www.gifmash.com/blog/page/%d" };
         final String[] labelStrings   = { "pics from blog" };
 
-        mainComboBoxConfig =  new DefaultComboBoxConfig( "Main page", comboBoxValues, labelStrings );
+        this.mainComboBoxConfig =  new DefaultComboBoxConfig( "Main page", comboBoxValues, labelStrings );
 
-        super.addComboBoxConfig( mainComboBoxConfig );
+        super.addComboBoxConfig( this.mainComboBoxConfig );
     }
 
     @Override
@@ -53,7 +58,7 @@ public class DownloadI_www_gifmash_com
     {
         return new DefaultDownloadStringURL(
             String.format(
-                mainComboBoxConfig.getComboBoxSelectedValue(),
+                this.mainComboBoxConfig.getComboBoxSelectedValue(),
                 Integer.valueOf( pageNumber )
                 ),
             null,

@@ -12,7 +12,6 @@ final class AnalyserCustomTypeMethodContenerImpl extends AbstractMethodContener 
 
         this.typeInfo = typeInfo;
 
-        assert method != null;
         assert typeInfo != null;
     }
 
@@ -20,10 +19,10 @@ final class AnalyserCustomTypeMethodContenerImpl extends AbstractMethodContener 
     public boolean isSuffixValid( final String headerSuffix )
             throws GoogleContactCSVException
     {
-        final Method method = typeInfo.getMethod( headerSuffix );
+        final Method method = this.typeInfo.getMethod( headerSuffix );
 
         if( method == null ) {
-            throw new GoogleContactCSVException( "Can not find headerSuffix [" + headerSuffix + "] on " + typeInfo );
+            throw new GoogleContactCSVException( "Can not find headerSuffix [" + headerSuffix + "] on " + this.typeInfo );
         }
 
         return true;
@@ -32,6 +31,6 @@ final class AnalyserCustomTypeMethodContenerImpl extends AbstractMethodContener 
     @Override
     public TypeInfo getTypeInfo()
     {
-        return typeInfo;
+        return this.typeInfo;
     }
 }

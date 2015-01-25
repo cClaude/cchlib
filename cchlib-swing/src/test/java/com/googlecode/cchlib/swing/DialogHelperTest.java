@@ -41,37 +41,27 @@ public class DialogHelperTest
     @Test
     public void test_showMessageExceptionDialog1()
     {
-        runtest_showMessageExceptionDialog( new OpenExceptionDialog() {
-            @Override
-            public void showMessageExceptionDialog( Throwable e )
-            {
-                DialogHelper.showMessageExceptionDialog( "Just for testing", e );
-            }
-        });
+        runtest_showMessageExceptionDialog( e -> DialogHelper.showMessageExceptionDialog( "Just for testing", e ));
     }
 
     @Test
     public void test_showMessageExceptionDialog2()
     {
-        runtest_showMessageExceptionDialog( new OpenExceptionDialog() {
-            @Override
-            public void showMessageExceptionDialog( Throwable e )
-            {
-                AbstractButton[] buttons = new AbstractButton[5];
+        runtest_showMessageExceptionDialog( e -> {
+            final AbstractButton[] buttons = new AbstractButton[5];
 
-                for( int i=0; i<buttons.length; i++ ) {
-                    buttons[ i ] = new JButton( "Button " + i );
-                    }
+            for( int i=0; i<buttons.length; i++ ) {
+                buttons[ i ] = new JButton( "Button " + i );
+                }
 
-                int selectedIndex = DialogHelper.showMessageExceptionDialog(
-                    null,
-                    "Just for testing",
-                    e,
-                    buttons
-                    );
+            final int selectedIndex = DialogHelper.showMessageExceptionDialog(
+                null,
+                "Just for testing",
+                e,
+                buttons
+                );
 
-                LOGGER.info( "selected index: " + selectedIndex );
-            }
+            LOGGER.info( "selected index: " + selectedIndex );
         });
     }
 
@@ -84,29 +74,25 @@ public class DialogHelperTest
         final OpenExceptionDialog openExceptionDialog
         )
     {
-        try { crashTest(); } catch( FakeException e ) { // $codepro.audit.disable logExceptions
+        try { crashTest(); } catch( final FakeException e ) { // $codepro.audit.disable logExceptions
             final Exception exception = e;
-            new Thread( new Runnable() {
-                @Override
-                public void run()
-                {
-                    try {
-                        openExceptionDialog.showMessageExceptionDialog( exception );
-                        }
-                    catch( Exception e ) {
-                        LOGGER.fatal( "showMessageExceptionDialog Real ERROR!!!", e );
-                        }
-                }
+            new Thread( (Runnable)( ) -> {
+                try {
+                    openExceptionDialog.showMessageExceptionDialog( exception );
+                    }
+                catch( final Exception e1 ) {
+                    LOGGER.fatal( "showMessageExceptionDialog Real ERROR!!!", e1 );
+                    }
             },"test").start();
             }
     }
 
     private static class FakeException extends Exception {
-        public FakeException( String message )
+        public FakeException( final String message )
         {
             super( message );
         }
-        public FakeException( String message, Throwable cause )
+        public FakeException( final String message, final Throwable cause )
         {
             super( message, cause );
         }
@@ -115,11 +101,11 @@ public class DialogHelperTest
 
     private static void crashLoop( final int i ) throws FakeException
     {
-        if( i > 10 ) {
-            throw new FakeException( "Fake Level 1" );
+        if( i < 11 ) {
+            crashLoop( i+1 );
             }
         else {
-            crashLoop( i+1 );
+            throw new FakeException( "Fake Level 1" );
             }
     }
 
@@ -128,7 +114,7 @@ public class DialogHelperTest
         try {
             crashLoop( 0 );
             }
-        catch( FakeException e ) {
+        catch( final FakeException e ) {
             throw new FakeException( "Fake  Level 2", e );
             }
     }

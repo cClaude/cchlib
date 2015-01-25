@@ -39,6 +39,7 @@ import cx.ath.choisnet.io.ReaderHelper;
  ** @since 2.02.040
  ** @version 3.02.022
  */
+@SuppressWarnings({"null","resource"})
 public class URLHelper {
     /** */
     private int          connectRetryCount;
@@ -232,7 +233,7 @@ public class URLHelper {
                 if( this.proxy == null ) {
                     conn = url.openConnection();
                 } else {
-                    conn = url.openConnection( proxy );
+                    conn = url.openConnection( this.proxy );
                 }
 
                 // System.out.println( "getContentEncoding() = " + conn.getContentEncoding() );

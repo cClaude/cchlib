@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 import cx.ath.choisnet.tools.servlets.InitServletTaskInterface;
 
 /**
- ** 
+ **
  ** @author Claude CHOISNET
  ** @version 1.0
  */
@@ -33,7 +33,7 @@ public class PublicIPTaskUpdate implements InitServletTaskInterface
     private static String removeQuotes( final String str ) // -----------------
     {
         if( str.charAt( 0 ) == '"' ) {
-            int end = str.length() - 1;
+            final int end = str.length() - 1;
 
             if( str.charAt( end ) == '"' ) {
                 return str.substring( 1, end );
@@ -44,7 +44,7 @@ public class PublicIPTaskUpdate implements InitServletTaskInterface
     }
 
     @Override
-    public void init( ServletConfig servletConfig ) // ------------------------
+    public void init( final ServletConfig servletConfig ) // ------------------------
             throws ServletException
     {
         LOGGER.debug( " *****************************************" );
@@ -57,14 +57,14 @@ public class PublicIPTaskUpdate implements InitServletTaskInterface
         String password = null;
         String hostname = null;
 
-        String initParamValue = servletConfig
+        final String initParamValue = servletConfig
                 .getInitParameter( "PublicIPTaskUpdate" );
-        StringTokenizer coupleST = new StringTokenizer( initParamValue, " \t\n" );
+        final StringTokenizer coupleST = new StringTokenizer( initParamValue, " \t\n" );
 
         while( coupleST.hasMoreTokens() ) {
-            String couple = coupleST.nextToken();
-            String coupleToLower = couple.toLowerCase();
-            int pos = couple.indexOf( "=" );
+            final String couple = coupleST.nextToken();
+            final String coupleToLower = couple.toLowerCase();
+            final int pos = couple.indexOf( "=" );
 
             if( coupleToLower.startsWith( "system=" ) ) {
                 system = removeQuotes( couple.substring( pos + 1 ) );
@@ -88,18 +88,27 @@ public class PublicIPTaskUpdate implements InitServletTaskInterface
             system = "dyndns";
         }
 
+        if( hostname == null ) {
+            throw new ServletException( "Invalid value for hostname : null" );
+        }
+        if( login == null ) {
+            throw new ServletException( "Invalid value for login : null" );
+        }
+        if( password == null ) {
+            throw new ServletException( "Invalid value for password : null" );
+        }
+
         try {
             this.publicIP = new PublicIP(
                     PublicIPReaderFactory.getDefaultPublicIPReader() );
             PublicIP.setOnceGlobalPublicIP( this.publicIP );
 
-            this.dnsRequest = new DynDNSRequest( system, hostname.toString(),
-                    "ON", login.toString(), password.toString() );
+            this.dnsRequest = new DynDNSRequest( system, hostname, "ON", login, password );
         }
-        catch( PublicIPException e ) {
+        catch( final PublicIPException e ) {
             throw new ServletException( e );
         }
-        catch( NullPointerException e ) {
+        catch( final NullPointerException e ) {
             throw new ServletException( "Bad init value for this task", e );
         }
     }
@@ -107,11 +116,11 @@ public class PublicIPTaskUpdate implements InitServletTaskInterface
     @Override
     public void run() // ------------------------------------------------------
     {
-        if( continueRunning ) {
+        if( this.continueRunning ) {
 
             try {
-                String currentIP = this.publicIP.getCurrentPublicIP();
-                String previousIP = this.publicIP.getPreviousPublicIP();
+                final String currentIP = this.publicIP.getCurrentPublicIP();
+                final String previousIP = this.publicIP.getPreviousPublicIP();
 
                 LOGGER.debug( "IP previous: " + previousIP + " * current: "
                         + currentIP );
@@ -120,22 +129,22 @@ public class PublicIPTaskUpdate implements InitServletTaskInterface
                     log( " publicIP.hasChange{} " + previousIP + " => "
                             + currentIP );
 
-                    continueRunning = this.dnsRequest.updateIP( currentIP );
+                    this.continueRunning = this.dnsRequest.updateIP( currentIP );
 
                     LOGGER.info( "updateIP{} OK ? continueRunning "
-                            + continueRunning );
+                            + this.continueRunning );
                 } else {
                     LOGGER.debug( " + Pas de changement d'@ IP Publique : "
                             + this.publicIP.getCurrentPublicIP() );
                 }
             }
-            catch( PublicIPException e ) {
+            catch( final PublicIPException e ) {
                 LOGGER.info( "No internet connection", e );
             }
-            catch( java.io.IOException e ) {
+            catch( final java.io.IOException e ) {
                 LOGGER.error( "Can't update IP", e );
             }
-            catch( NullPointerException e ) {
+            catch( final NullPointerException e ) {
                 final String msg = "Erreur innatendue";
 
                 System.err.println( msg );
@@ -156,11 +165,11 @@ public class PublicIPTaskUpdate implements InitServletTaskInterface
     @Override
     public boolean continueRunning() // ---------------------------------------
     {
-        return continueRunning;
+        return this.continueRunning;
     }
-    
+
     @Override
-    public void log( String message ) // --------------------------------------
+    public void log( final String message ) // --------------------------------------
     {
         LOGGER.trace( message );
     }

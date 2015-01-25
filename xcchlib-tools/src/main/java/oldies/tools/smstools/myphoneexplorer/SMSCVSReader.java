@@ -27,7 +27,7 @@ public class SMSCVSReader
      public static final char CSV_SEPARATOR = ';';
 
      private CSVReader csvr;
-     private File srcFile;
+     private final File srcFile;
      private ArrayList<SMS> smsList;
 
     /**
@@ -35,11 +35,10 @@ public class SMSCVSReader
      * @throws FileNotFoundException
      *
      */
-    @SuppressWarnings("resource")
     public SMSCVSReader(final File srcFile) throws FileNotFoundException
     {
         this.srcFile = srcFile;
-        this.csvr = new CSVReader(
+        this.csvr    = new CSVReader(
                 new BufferedReader(
                         new FileReader( srcFile )
                         ),
@@ -56,7 +55,7 @@ public class SMSCVSReader
 
     private boolean readEntry() throws IOException, ParseException
     {
-        String[] line = csvr.readNext();
+        final String[] line = this.csvr.readNext();
 
         LOGGER.trace( "line:" + line );
 
@@ -66,14 +65,14 @@ public class SMSCVSReader
 
         if( (line.length != 6) && (line.length != 8)) {
             throw new IOException(
-                "Can't read entry #" + (smsList.size() + 1)
+                "Can't read entry #" + (this.smsList.size() + 1)
                 );
         }
 
         //
         // "From";"To";"Body";"Time";"Storage";"PDU"
         //
-        SMS sms = new SMS();
+        final SMS sms = new SMS();
 
         sms.setFrom( line[0] );
         sms.setTo  ( line[1] );
@@ -88,10 +87,10 @@ public class SMSCVSReader
         }
         else {
             // File source
-            sms.setXtraSource( srcFile.getName() );
+            sms.setXtraSource( this.srcFile.getName() );
         }
 
-        smsList.add( sms );
+        this.smsList.add( sms );
 
         return true;
     }
@@ -117,11 +116,11 @@ public class SMSCVSReader
      */
     public List<SMS> getSMSList() throws IOException, ParseException
     {
-        if( smsList == null ) {
-            smsList = new ArrayList<SMS>();
+        if( this.smsList == null ) {
+            this.smsList = new ArrayList<SMS>();
             readAll();
         }
 
-        return Collections.unmodifiableList( smsList );
+        return Collections.unmodifiableList( this.smsList );
     }
 }

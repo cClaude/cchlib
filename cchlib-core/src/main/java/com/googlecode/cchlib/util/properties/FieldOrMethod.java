@@ -3,52 +3,54 @@ package com.googlecode.cchlib.util.properties;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import com.googlecode.cchlib.lang.reflect.SerializableField;
+import com.googlecode.cchlib.lang.reflect.SerializableMethod;
 
 public class FieldOrMethod implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Method method;
-    private Field field;
+    private SerializableMethod method;
+    private SerializableField field;
 
     public FieldOrMethod( final Object methodOrField )
     {
         if( methodOrField instanceof Method ) {
-            this.method = (Method)methodOrField;
+            this.method = new SerializableMethod( (Method)methodOrField );
             this.field  = null;
         } else {
-            this.method  = null;
-            this.field = (Field)methodOrField;
+            this.method = null;
+            this.field  = new SerializableField( (Field)methodOrField );
         }
     }
 
     public FieldOrMethod( final Method method )
     {
-        this.method = method;
+        this.method = new SerializableMethod( method );
         this.field  = null;
     }
 
     public FieldOrMethod( final Field field )
     {
         this.method = null;
-        this.field  = field;
+        this.field  = new SerializableField( field );
     }
 
     public Method getMethod()
     {
-        return this.method;
+        return this.method.getMethod();
     }
 
     public Field getField()
     {
-        return this.field;
+        return this.field.getField();
     }
 
     public Object getFieldOrMethod()
     {
         if( this.method != null ) {
-            return this.method;
+            return this.method.getMethod();
         } else {
-            return this.field;
+            return this.field.getField();
         }
     }
 

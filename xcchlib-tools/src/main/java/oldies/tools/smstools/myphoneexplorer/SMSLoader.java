@@ -19,7 +19,7 @@ public class SMSLoader
 {
     private static final Logger LOGGER = Logger.getLogger(SMSLoader.class);
 
-    private List<SMS> smsList = new ArrayList<SMS>();
+    private final List<SMS> smsList = new ArrayList<SMS>();
 
     public SMSLoader()
     {
@@ -31,22 +31,20 @@ public class SMSLoader
      * @throws IOException
      * @throws ParseException
      */
-    public void addFile( File f ) throws IOException, ParseException
+    public void addFile( final File f ) throws IOException, ParseException
     {
         load( f );
 
-        LOGGER.info( "SMS count: " + smsList.size() );
+        LOGGER.info( "SMS count: " + this.smsList.size() );
     }
 
     private void load(final File f) throws IOException, ParseException
     {
         LOGGER.info( "reading: " + f );
 
-        SMSCVSReader r = new SMSCVSReader( f );
-
-        smsList.addAll( r.getSMSList() );
-
-        r.close();
+        try( SMSCVSReader r = new SMSCVSReader( f ) ) {
+            this.smsList.addAll( r.getSMSList() );
+        }
     }
 
     /**
@@ -59,12 +57,12 @@ public class SMSLoader
         LOGGER.info( "removeClones()" );
 
         // Remove clone
-        HashMap<String,SMS> map             = new HashMap<String,SMS>();
-        ArrayList<SMS>      badClonesList   = new ArrayList<SMS>();
+        final HashMap<String,SMS> map             = new HashMap<String,SMS>();
+        final ArrayList<SMS>      badClonesList   = new ArrayList<SMS>();
 
-        for(SMS sms:smsList) {
-            String  pdu = sms.getPdu();
-            SMS     old = map.get( pdu );
+        for(final SMS sms:this.smsList) {
+            final String  pdu = sms.getPdu();
+            final SMS     old = map.get( pdu );
 
             if( old != null ) {
                 //already a SMS with this PDU
@@ -101,14 +99,14 @@ public class SMSLoader
             }
         }
 
-        smsList.clear();
+        this.smsList.clear();
         LOGGER.info( "SMS (no clone) count: " + map.size() );
 
-        smsList.addAll( badClonesList );
+        this.smsList.addAll( badClonesList );
         badClonesList.clear();
 
-        for(SMS sms:map.values()) {
-            smsList.add( sms );
+        for(final SMS sms:map.values()) {
+            this.smsList.add( sms );
         }
 
         map.clear();
@@ -122,9 +120,9 @@ public class SMSLoader
         //
         // Sort SMS
         //
-        Collections.sort( smsList, new SMSDateComparator() );
+        Collections.sort( this.smsList, new SMSDateComparator() );
 
-        LOGGER.info( "SMS (sorted list) count: " + smsList.size() );
+        LOGGER.info( "SMS (sorted list) count: " + this.smsList.size() );
     }
 
     /**
@@ -133,17 +131,14 @@ public class SMSLoader
      * @param outputFile output File
      * @throws IOException
      */
-    public void save(File outputFile) throws IOException
+    public void save(final File outputFile) throws IOException
     {
-        Writer w = new BufferedWriter(
-                new FileWriter( outputFile )
-                );
+        try( final Writer w = new BufferedWriter( new FileWriter( outputFile ) ) ) {
 
-        for(SMS sms:smsList) {
-            sms.appendEntry( w );
-            w.append( "\r\n" );
+            for( final SMS sms : this.smsList ) {
+                sms.appendEntry( w );
+                w.append( "\r\n" );
+            }
         }
-
-        w.close();
     }
 }

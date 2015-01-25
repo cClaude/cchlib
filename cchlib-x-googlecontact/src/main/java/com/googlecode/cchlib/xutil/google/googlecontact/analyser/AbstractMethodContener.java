@@ -9,6 +9,7 @@ public abstract class AbstractMethodContener
 
     public AbstractMethodContener( final Method method )
     {
+        assert method != null;
         assert GoogleContactType.class.isAssignableFrom( method.getDeclaringClass() );
 
         this.method = method;
@@ -16,7 +17,7 @@ public abstract class AbstractMethodContener
 
     public Method getMethod()
     {
-        return method;
+        return this.method;
     }
 
     @Override
@@ -25,7 +26,7 @@ public abstract class AbstractMethodContener
         final StringBuilder builder = new StringBuilder();
         builder.append( getClass().getSimpleName() );
         builder.append( " [method=" );
-        builder.append( method );
+        builder.append( this.method );
         builder.append( ']' );
         return builder.toString();
     }

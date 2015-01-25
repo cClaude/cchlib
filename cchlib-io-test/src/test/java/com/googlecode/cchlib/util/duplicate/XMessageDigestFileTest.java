@@ -18,7 +18,7 @@ import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 @SuppressWarnings("deprecation")
-public class MessageDigestFileTest
+public class XMessageDigestFileTest
 {
     private static final long MAX_FILE_LENGTH = 10 * 1024 * 1024;
 
