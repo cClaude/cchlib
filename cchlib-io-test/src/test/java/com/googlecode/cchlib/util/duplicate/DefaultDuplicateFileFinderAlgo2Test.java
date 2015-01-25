@@ -18,9 +18,12 @@ public class DefaultDuplicateFileFinderAlgo2Test extends DefaultDuplicateFileFin
     }
 
     @Override
-    protected DuplicateFileFinder newDuplicateFileFinder( final boolean ignoreEmptyFiles, final FileDigestFactory fileDigestFactory, final int maxParallelFiles )
+    protected DuplicateFileFinder newDuplicateFileFinder( //
+        final boolean           ignoreEmptyFiles, //
+        final FileDigestFactory fileDigestFactory  //
+        )
             throws NoSuchAlgorithmException
     {
-        return DuplicateFileFinderHelper.newDuplicateFileFinderAlgo2( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
+        return DuplicateFileFinderHelper.newDuplicateFileFinderAlgo2( ignoreEmptyFiles, fileDigestFactory, MAX_PARALLEL_FILES );
     }
 }

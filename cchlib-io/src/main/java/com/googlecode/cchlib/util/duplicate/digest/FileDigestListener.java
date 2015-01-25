@@ -8,9 +8,14 @@ import java.io.File;
 public interface FileDigestListener {
 
     /**
+     * Invoke after computing current buffer content for file
      *
      * @param file
+     *            current file
      * @param length
+     *            number of bytes reading (this is not the length
+     *            since the begin of file, but this is related to
+     *            current buffer)
      */
     void computeDigest( File file, int length );
 

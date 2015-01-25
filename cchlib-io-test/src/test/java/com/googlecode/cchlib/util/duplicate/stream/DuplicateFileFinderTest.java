@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.DuplicateFileFinderListener;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.MessageDigestFileBuilder;
+import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 public class DuplicateFileFinderTest extends DuplicateFileFinderTest_Common {
     private static final Logger LOGGER = Logger.getLogger( DuplicateFileFinderTest.class );
@@ -25,12 +25,6 @@ public class DuplicateFileFinderTest extends DuplicateFileFinderTest_Common {
     protected Logger getLogger()
     {
         return LOGGER;
-    }
-
-    @Override
-    protected DuplicateFileFinderUsingStream newDuplicateFileFinder( final MessageDigestFileBuilder messageDigestFileBuilder, final DuplicateFileFinderListener listener )
-    {
-        return new DuplicateFileFinderUsingStream(messageDigestFileBuilder, listener);
     }
 
     @Override
@@ -52,5 +46,11 @@ public class DuplicateFileFinderTest extends DuplicateFileFinderTest_Common {
     public void test_computeHash() throws IOException, IllegalStateException, NoSuchAlgorithmException, InterruptedException, ExecutionException
     {
         super.test_computeHash();
+    }
+
+    @Override
+    protected DuplicateFileFinderUsingStream newDuplicateFileFinder( final FileDigestFactory fileDigestFactory, final DuplicateFileFinderEventListener listener )
+    {
+        return new DuplicateFileFinderUsingStream(fileDigestFactory, listener);
     }
 }
