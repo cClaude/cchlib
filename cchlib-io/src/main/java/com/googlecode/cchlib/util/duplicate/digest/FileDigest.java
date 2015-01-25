@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
@@ -27,10 +26,8 @@ import com.googlecode.cchlib.util.duplicate.DigestEventListener;
  * @since 4.2
  */
 @NotThreadSafe
-public class FileDigest implements Serializable
+public class FileDigest
 {
-    private static final long serialVersionUID = 1L;
-
     /** real buffer */
     private final byte[] buffer;
     /** wrapper of {@link buffer} */

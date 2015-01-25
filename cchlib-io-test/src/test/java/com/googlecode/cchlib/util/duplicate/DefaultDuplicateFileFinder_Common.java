@@ -11,39 +11,32 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.InitialStatus;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.Status;
-import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 public abstract class DefaultDuplicateFileFinder_Common extends Base {
 
-    private static final String DEFAULT_ALGORITHM = "MD5";
-    private static final int DEFAULT_BUFFER_SIZE = 128;
-
-    private final FileDigestFactory fileDigestFactory = new DefaultFileDigestFactory( DEFAULT_ALGORITHM, DEFAULT_BUFFER_SIZE );
-
     protected abstract DuplicateFileFinder newDuplicateFileFinder( //
-            final boolean ignoreEmptyFiles, //
-            final FileDigestFactory fileDigestFactory, //
-            final int maxParallelFiles //
+            final boolean           ignoreEmptyFiles, //
+            final FileDigestFactory fileDigestFactory //
             ) throws NoSuchAlgorithmException;
 
     @Test(expected=IllegalArgumentException.class)
     public void testIllegalArgumentException() throws NoSuchAlgorithmException
     {
-        newDuplicateFileFinder(false, (FileDigestFactory)null, 0);
+        newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, (FileDigestFactory)null);
     }
 
     //@Test(expected=NullPointerException.class)
     @Test(expected=IllegalArgumentException.class)
     public void testNullPointerException() throws NoSuchAlgorithmException
     {
-        newDuplicateFileFinder(false, null, 1);
+        newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, null);
     }
 
     @Test
     public void testCompare2Duplicates_pass1() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = newDuplicateFileFinder(false, this.fileDigestFactory, 1 );
+        final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -69,7 +62,7 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     @Test(expected=IllegalStateException.class)
     public void testCompare2Duplicates_pass2_IllegalStateException() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = newDuplicateFileFinder( false, this.fileDigestFactory, 1 );
+        final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -90,7 +83,7 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     @Test
     public void testCompare2Duplicate_pass2() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = newDuplicateFileFinder(false, this.fileDigestFactory, 1 );
+        final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -143,7 +136,7 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     @Test
     public void testCompare3Duplicates_and_remove_one_v1() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = newDuplicateFileFinder(false, this.fileDigestFactory, 1);
+        final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -184,7 +177,7 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     @Test
     public void testCompare3Duplicates_and_remove_one_v2() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = newDuplicateFileFinder(false, this.fileDigestFactory, 1);
+        final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );
@@ -220,7 +213,7 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     @Test
     public void testCompareTwoDuplicate_xx() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = newDuplicateFileFinder(false, this.fileDigestFactory, 1);
+        final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
         final File file1 = IO.createPNGTempFile( "dup-file1" );
         final File file2 = IO.createPNGTempFile( "dup-file2" );

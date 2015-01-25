@@ -18,8 +18,10 @@ import java.util.concurrent.Future;
 import javax.annotation.Nonnull;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
 import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
-import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 public class ParallelDuplicateFileFinder extends DuplicateFileFinderUsingStream {
 
@@ -37,7 +39,7 @@ public class ParallelDuplicateFileFinder extends DuplicateFileFinderUsingStream 
         @Override
         public String getKey()
         {
-            return key;
+            return this.key;
         }
 
         @Override
@@ -58,8 +60,10 @@ public class ParallelDuplicateFileFinder extends DuplicateFileFinderUsingStream 
     private final int nThreads;
 
     public ParallelDuplicateFileFinder( //
-        final MessageDigestFileBuilder messageDigestFileBuilder,
-        final DuplicateFileFinderListener listener, //
+        final FileDigestFactory messageDigestFileBuilder,
+        final DuplicateFileFinderEventListener listener,
+        //final MessageDigestFileBuilder messageDigestFileBuilder,
+        //final DuplicateFileFinderListener listener, //
         final int nThreads //
         )
             throws InvalidParameterException
@@ -84,7 +88,7 @@ public class ParallelDuplicateFileFinder extends DuplicateFileFinderUsingStream 
             return Collections.emptyMap();
         }
 
-        final ExecutorService                      executor = Executors.newFixedThreadPool( nThreads );
+        final ExecutorService                      executor = Executors.newFixedThreadPool( this.nThreads );
         final List<Future<Entry<String,File>>>     results = new ArrayList<>();
 
         final Map<String, Set<File>> mapHashFiles = new HashMap<>( computeMapSize( mapLengthFiles ) );
@@ -92,7 +96,7 @@ public class ParallelDuplicateFileFinder extends DuplicateFileFinderUsingStream 
         for( final Set<File> set : mapLengthFiles.values() ) {
             if( set.size() > 1 ) {
                 for( final File file : set ) {
-                    final XMessageDigestFile xMessageDigestFile = newMessageDigestFile();
+                    final FileDigest xMessageDigestFile = newMessageDigestFile();
                     final Future<Entry<String,File>> submit = executor.submit( ( ) -> computeHashForEntry( xMessageDigestFile, file ) );
 
                     results.add( submit );
@@ -113,7 +117,7 @@ public class ParallelDuplicateFileFinder extends DuplicateFileFinderUsingStream 
         return mapHashFiles;
     }
 
-    private Entry<String,File> computeHashForEntry( final XMessageDigestFile xMessageDigestFile, final File file )
+    private Entry<String,File> computeHashForEntry( final FileDigest xMessageDigestFile, final File file )
         throws CancelRequestException
     {
         final String key = computeHashForFile( xMessageDigestFile, file );

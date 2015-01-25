@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.DuplicateFileFinderListener;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.MessageDigestFileBuilder;
+import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 public class ParallelDuplicateFileFinderTest extends DuplicateFileFinderTest_Common {
     private static final Logger LOGGER = Logger.getLogger( ParallelDuplicateFileFinderTest.class );
@@ -28,7 +28,10 @@ public class ParallelDuplicateFileFinderTest extends DuplicateFileFinderTest_Com
     }
 
     @Override
-    protected DuplicateFileFinderUsingStream newDuplicateFileFinder( final MessageDigestFileBuilder messageDigestFileBuilder, final DuplicateFileFinderListener listener )
+    protected DuplicateFileFinderUsingStream newDuplicateFileFinder( //
+        final FileDigestFactory messageDigestFileBuilder, //
+        final DuplicateFileFinderEventListener listener //
+        )
     {
         final int nThreads = Runtime.getRuntime().availableProcessors();
 

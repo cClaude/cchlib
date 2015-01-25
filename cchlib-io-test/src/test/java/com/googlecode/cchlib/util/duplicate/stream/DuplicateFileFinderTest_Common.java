@@ -15,22 +15,24 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.util.MapSetHelper;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.DuplicateFileFinderListener;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.MessageDigestFileBuilder;
+import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
+import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 abstract class DuplicateFileFinderTest_Common {
 
-    private static final int         BUFFER_SIZE = 40960;
-    private static final String      MD5         = "MD5";
-    private MessageDigestFileBuilder messageDigestFileBuilder;
+    private static final int    BUFFER_SIZE = 40960;
+    private static final String MD5         = "MD5";
+    private FileDigestFactory   fileDigestFactory;
 
     protected abstract Logger getLogger();
     protected abstract Path[] getStartPaths();
-    protected abstract DuplicateFileFinderUsingStream newDuplicateFileFinder( MessageDigestFileBuilder messageDigestFileBuilder, DuplicateFileFinderListener listener );
+//    protected abstract DuplicateFileFinderUsingStream newDuplicateFileFinder( MessageDigestFileBuilder messageDigestFileBuilder, DuplicateFileFinderListener listener );
+    protected abstract DuplicateFileFinderUsingStream newDuplicateFileFinder( FileDigestFactory fileDigestFactory, DuplicateFileFinderEventListener listener );
 
     public void setup() throws NoSuchAlgorithmException
     {
-        this.messageDigestFileBuilder = MessageDigestFileBuilder.newMessageDigestFileBuilder( MD5, BUFFER_SIZE );
+        this.fileDigestFactory = new DefaultFileDigestFactory( MD5, BUFFER_SIZE );
     }
 
     public void integration_test() throws NoSuchAlgorithmException, IOException, IllegalStateException, InterruptedException, ExecutionException
@@ -43,12 +45,12 @@ abstract class DuplicateFileFinderTest_Common {
         getLogger().info( "*** PASS 1 +++ beginNanoTime " + beginNanoTime );
 
         final Map<Long, Set<File>>        mapSet   = DuplicateFileBuilder.createFromFileVisitor( FileVisitorHelper.newFileVisitor( getLogger() ), true, startPaths ).compute();
-        final DuplicateFileFinderListener listener = newDuplicateFileFinderListener( "integration_test" );
+        final DuplicateFileFinderEventListener listener = newListener( "integration_test" );
 
         getLogger().info( "*** PASS 2 : " + MapSetHelper.size( mapSet ) );
         getLogger().info( "*** PASS 2" );
 
-        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( this.messageDigestFileBuilder, listener );
+        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( this.fileDigestFactory, listener );
         getLogger().info( "*** PASS 2" );
         getLogger().info( "*** PASS 2" );
 
@@ -74,8 +76,8 @@ abstract class DuplicateFileFinderTest_Common {
         Assert.assertEquals( 2, getEntry( mapSet, 0 ).size() );
         Assert.assertEquals( 2, getEntry( mapSet, 1 ).size() );
 
-        final DuplicateFileFinderListener listener = newDuplicateFileFinderListener( "test_computeHash" );
-        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( this.messageDigestFileBuilder, listener );
+        final DuplicateFileFinderEventListener listener = newListener( "test_computeHash" );
+        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( this.fileDigestFactory, listener );
 
         final Map<String, Set<File>> result = dff.computeHash( mapSet );
 
@@ -119,31 +121,10 @@ abstract class DuplicateFileFinderTest_Common {
         return mapSet;
     }
 
-    private DuplicateFileFinderListener newDuplicateFileFinderListener( final String testName )
+    private DuplicateFileFinderEventListener newListener( final String testName )
     {
-        return new DuplicateFileFinderListener() {
+        return new DuplicateFileFinderEventListener() {
             private static final long serialVersionUID = 1L;
-
-            @Override
-            public void computeDigest( final File file )
-            {
-                // GUI display name, length bytes to be read, ...
-                if( getLogger().isTraceEnabled() ) {
-                    getLogger().trace( testName + " computeDigest:" + file );
-                }
-            }
-
-            @Override
-            public void computeDigest( final File file, final long length )
-            {
-                // GUI display length already read
-            }
-
-            @Override
-            public void ioError( final IOException ioe, final File file )
-            {
-                getLogger().warn( testName + "IOE on " + file + " - " + ioe );
-            }
 
             @Override
             public boolean isCancel()
@@ -152,11 +133,32 @@ abstract class DuplicateFileFinderTest_Common {
             }
 
             @Override
-            public void hashString( final File file, final String hashString )
+            public void analysisStart( final File file )
+            {
+                // GUI display name, length bytes to be read, ...
+                if( getLogger().isTraceEnabled() ) {
+                    getLogger().trace( testName + " computeDigest:" + file );
+                }
+            }
+
+            @Override
+            public void analysisStatus( final File file, final long length )
+            {
+                // GUI display length already read
+            }
+
+            @Override
+            public void analysisDone( final File file, final String hashString )
             {
                 if( getLogger().isTraceEnabled() ) {
                     getLogger().trace(  testName + " hashString:" + file  + " * "+ hashString );
                 }
+            }
+
+            @Override
+            public void ioError( final File file, final IOException ioe )
+            {
+                getLogger().warn( testName + "IOE on " + file + " - " + ioe );
             }
         };
     }

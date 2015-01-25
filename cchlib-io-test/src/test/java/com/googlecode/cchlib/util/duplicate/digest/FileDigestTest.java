@@ -15,7 +15,7 @@ import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.DFFPass2Impl2;
-import com.googlecode.cchlib.util.duplicate.MessageDigestFileTest;
+import com.googlecode.cchlib.util.duplicate.XMessageDigestFileTest;
 
 /**
  * Integreation test for {@link FileDigest}
@@ -34,8 +34,8 @@ public class FileDigestTest extends Base {
 
     @Test
     public void compateWithMessageDigestFile() throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final File file = IO.createPNGTempFile();
-        final String oldMD5 = MessageDigestFileTest.getMD5( file );
+        final File   file   = IO.createPNGTempFile();
+        final String oldMD5 = XMessageDigestFileTest.getMD5( file );
 
         final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5" );
         final FileDigest instance = factory.newInstance();
@@ -76,7 +76,6 @@ public class FileDigestTest extends Base {
         final String md5 = instance.digestString();
         Assertions.assertThat( md5 ).isEqualTo( IO.MD5_FOR_PNG_FILE );
     }
-
 
     @Test
     public void testComputeNext() throws NoSuchAlgorithmException, IOException, CancelRequestException {

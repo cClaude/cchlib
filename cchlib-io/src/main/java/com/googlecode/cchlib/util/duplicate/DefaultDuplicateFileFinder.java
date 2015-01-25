@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.util.duplicate;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -14,31 +13,6 @@ import javax.annotation.Nonnull;
  * @since 4.2
  */
 public class DefaultDuplicateFileFinder implements DuplicateFileFinder {
-
-    private final class PrivateStatus implements InitialStatus, Serializable {
-
-        private static final long serialVersionUID = 1L;
-        private final long bytes2Read;
-        private final int filesCount;
-
-        public PrivateStatus( final long bytes2Read, final int filesCount )
-        {
-            this.bytes2Read = bytes2Read;
-            this.filesCount = filesCount;
-        }
-
-        @Override
-        public long getBytes()
-        {
-            return this.bytes2Read;
-        }
-
-        @Override
-        public int getFiles()
-        {
-            return this.filesCount;
-        }
-    }
 
     private enum State { PASS1, PASS2, DONE };
     private final DFFConfig dffConfig;
@@ -215,7 +189,7 @@ public class DefaultDuplicateFileFinder implements DuplicateFileFinder {
             }
         }
 
-        return new PrivateStatus( bytes2Read, filesCount );
+        return new DFFStatus( bytes2Read, filesCount );
     }
 
     @Override

@@ -25,10 +25,11 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
+import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileBuilder;
 import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.DuplicateFileFinderListener;
-import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStream.MessageDigestFileBuilder;
 import com.googlecode.cchlib.util.duplicate.stream.ParallelDuplicateFileFinder;
 import com.googlecode.cchlib.util.duplicate.stream.PrepareDuplicateFile;
 
@@ -252,8 +253,8 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
             )
     {
         try {
-            final MessageDigestFileBuilder    messageDigestFileBuilder = newMessageDigestFileBuilder( messageDigestAlgorithm, messageDigestBufferSize );
-            final DuplicateFileFinderListener listener                 = newDuplicateFileFinderListener();
+            final FileDigestFactory                 messageDigestFileBuilder = newMessageDigestFileBuilder( messageDigestAlgorithm, messageDigestBufferSize );
+            final DuplicateFileFinderEventListener  listener                 = newDuplicateFileFinderListener();
 
             final DuplicateFileFinderUsingStream duplicateFileFinder = new ParallelDuplicateFileFinder(messageDigestFileBuilder, listener, getNumberOfThreads() );
 
@@ -267,7 +268,7 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
         }
     }
 
-    private DuplicateFileFinderListener newDuplicateFileFinderListener()
+    private DuplicateFileFinderEventListener newDuplicateFileFinderListener()
     {
         return new GlobalDuplicateFileFinderListener( this );
     }
@@ -277,12 +278,12 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
         return this.cancel;
     }
 
-    private MessageDigestFileBuilder newMessageDigestFileBuilder( //
+    private FileDigestFactory newMessageDigestFileBuilder( //
             final String messageDigestAlgorithm, //
             final int messageDigestBufferSize //
             ) throws NoSuchAlgorithmException
     {
-        return MessageDigestFileBuilder.newMessageDigestFileBuilder( messageDigestAlgorithm, messageDigestBufferSize );
+        return new DefaultFileDigestFactory( messageDigestAlgorithm, messageDigestBufferSize );
     }
 
     private Map<Long, Set<File>> runPass1( final boolean ignoreEmptyFiles, final Collection<File> entriesToScans, final FileVisitor<Path> fileVisitor )

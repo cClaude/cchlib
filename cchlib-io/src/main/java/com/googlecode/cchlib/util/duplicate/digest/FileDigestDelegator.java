@@ -52,15 +52,6 @@ final class FileDigestDelegator implements Serializable {
              }
      }
 
-     /**
-      * @deprecated Use {@link #completesHashComputation()} instead
-      */
-     @Deprecated
-    public byte[] digestDelegator()
-     {
-        return completesHashComputation();
-    }
-
     /**
       * Completes the hash computation by performing final
       * operations such as padding. The internal digest is reset
@@ -143,15 +134,6 @@ final class FileDigestDelegator implements Serializable {
      {
          this.md.update( input );
      }
-
-     /**
-     * @deprecated Use {@link #getDigest()} instead
-      */
-     @Deprecated
-     public byte[] digest()
-     {
-        return getDigest();
-    }
 
     /**
       * Return last hash computation
