@@ -315,17 +315,13 @@ public class FTPServlet extends HttpServlet {
             response.setHeader( "Content-Disposition", "attachement; filename=\""
                     + file.getName() + filenameExt + "\"" );
 
-            try {
-                final InputStream is = new BufferedInputStream(
-                        new FileInputStream( file ) );
+            try( final InputStream is = new BufferedInputStream( new FileInputStream( file ) ) ) {
                 final byte[] buffer = new byte[4096];
                 int len;
 
                 while( (len = is.read( buffer, 0, buffer.length )) != -1 ) {
                     out.write( buffer, 0, len );
                 }
-
-                is.close();
             }
             catch( final IOException e ) {
                 LOGGER.error( "file '" + file + "'", e );
@@ -356,17 +352,13 @@ public class FTPServlet extends HttpServlet {
             // "attachement; filename=\"" + file.getName() + filenameExt + "\""
             // );
 
-            try {
-                final InputStream is = new BufferedInputStream(
-                        new FileInputStream( file ) );
+            try( final InputStream is = new BufferedInputStream( new FileInputStream( file ) ) ) {
                 final byte[] buffer = new byte[4096];
-                int len;
+                int          len;
 
                 while( (len = is.read( buffer, 0, buffer.length )) != -1 ) {
                     out.write( buffer, 0, len );
                 }
-
-                is.close();
             }
             catch(  final IOException e ) {
                 LOGGER.error( "file '" + file + "'", e );

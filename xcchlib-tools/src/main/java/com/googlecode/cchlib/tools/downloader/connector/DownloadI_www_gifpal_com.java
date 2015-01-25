@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.tools.downloader;
+package com.googlecode.cchlib.tools.downloader.connector;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -8,6 +8,11 @@ import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
 
@@ -61,12 +66,12 @@ public class DownloadI_www_gifpal_com
 
         final String[]    comboBoxValues  = { "id"        , "top"         , "top-today"       , "top of the week"};
         final String[]    labelStrings    = { "All items" , "top items"   , "top of the day"  , "top-week"};
-        comboBoxConfig = new DefaultComboBoxConfig(
+        this.comboBoxConfig = new DefaultComboBoxConfig(
             "Filter",
             comboBoxValues,
             labelStrings
             );
-        super.addComboBoxConfig( comboBoxConfig );
+        super.addComboBoxConfig( this.comboBoxConfig );
     }
 
     @Override
@@ -82,7 +87,7 @@ public class DownloadI_www_gifpal_com
         return new DefaultDownloadStringURL(
             String.format(
                 __HTML_URL_BASE_FMT,
-                comboBoxConfig.getComboBoxSelectedValue(),
+                this.comboBoxConfig.getComboBoxSelectedValue(),
                 Integer.valueOf( pageNumber )
                 ),
             null,

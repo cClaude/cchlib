@@ -7,6 +7,8 @@ package cx.ath.choisnet.swing.introspection;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.EnumSet;
+import javax.annotation.Nonnull;
+import com.googlecode.cchlib.lang.reflect.SerializableField;
 
 /**
  * This object is created by {@link SwingIntrospector}
@@ -19,14 +21,14 @@ import java.util.EnumSet;
 public class SwingIntrospectorItem<FRAME>
     implements Serializable
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     /** @serial */
-    private Field field; // NOT SERIALIZABLE
+    private final SerializableField sField;
     /** @serial */
     private int index;
     /** @serial */
-    private boolean isRoot;
+    private final boolean isRoot;
 
     /**
      * Create a SwingIntrospectorItem
@@ -35,15 +37,15 @@ public class SwingIntrospectorItem<FRAME>
      * @param attribs
      */
     public SwingIntrospectorItem(
-            final Bean                              bean,
-            final Field                             f,
-            final EnumSet<SwingIntrospector.Attrib> attribs
+            @Nonnull final Bean                              bean,
+            @Nonnull final Field                             field,
+            @Nonnull final EnumSet<SwingIntrospector.Attrib> attribs
             )
     {
-        this.field = f;
+        this.sField = new SerializableField( field );
 
         if( ! attribs.contains( SwingIntrospector.Attrib.ONLY_ACCESSIBLE_PUBLIC_FIELDS )) {
-            this.field.setAccessible( true );
+            field.setAccessible( true );
         }
 
         if( bean.isIndexed() ) {
@@ -63,7 +65,7 @@ public class SwingIntrospectorItem<FRAME>
      */
     public Field getField()
     {
-        return this.field;
+        return this.sField.getField();
     }
 
     /**
@@ -71,7 +73,7 @@ public class SwingIntrospectorItem<FRAME>
      */
     public int getIndex()
     {
-        return index;
+        return this.index;
     }
 
     /**
@@ -79,7 +81,7 @@ public class SwingIntrospectorItem<FRAME>
      */
     public boolean isRoot()
     {
-        return isRoot;
+        return this.isRoot;
     }
 
     /**
@@ -94,10 +96,10 @@ public class SwingIntrospectorItem<FRAME>
         try {
             return this.getField().get( objectToInspect );
         }
-        catch( IllegalArgumentException e ) {
+        catch( final IllegalArgumentException e ) {
             throw new SwingIntrospectorIllegalAccessException( e );
         }
-        catch( IllegalAccessException e ) {
+        catch( final IllegalAccessException e ) {
             throw new SwingIntrospectorIllegalAccessException( e );
         }
     }
@@ -108,14 +110,14 @@ public class SwingIntrospectorItem<FRAME>
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
         builder.append( "SwingIntrospectorItem [field=" );
-        builder.append( field.getName() );
+        builder.append( this.sField.getField().getName() );
         builder.append( ", index=" );
-        builder.append( index );
+        builder.append( this.index );
         builder.append( ", isRoot=" );
-        builder.append( isRoot );
+        builder.append( this.isRoot );
         builder.append( ']' );
 
         return builder.toString();

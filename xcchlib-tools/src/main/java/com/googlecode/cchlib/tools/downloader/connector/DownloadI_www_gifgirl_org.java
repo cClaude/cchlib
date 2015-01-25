@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.tools.downloader;
+package com.googlecode.cchlib.tools.downloader.connector;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -13,6 +13,11 @@ import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
 
@@ -53,13 +58,13 @@ public class DownloadI_www_gifgirl_org
                 DEFAULT_MAX_PAGES
                 );
 
-        configMaxResults = new DefaultComboBoxConfig(
+        this.configMaxResults = new DefaultComboBoxConfig(
                 "MaxResults",   //labelString
                 4,              // min
                 99,             // max
                 "Number of results by page" // labelStrings
                 );
-        configStart = new DefaultComboBoxConfig(
+        this.configStart = new DefaultComboBoxConfig(
                 "Start",        //labelString
                 1,              // min
                 99,             // max
@@ -71,8 +76,8 @@ public class DownloadI_www_gifgirl_org
                 new String[]{ "a" }  // labelStrings
                 );
 
-        super.addComboBoxConfig( configStart );
-        super.addComboBoxConfig( configMaxResults );
+        super.addComboBoxConfig( this.configStart );
+        super.addComboBoxConfig( this.configMaxResults );
         super.addComboBoxConfig( config2 );
 
         {
@@ -177,7 +182,7 @@ public class DownloadI_www_gifgirl_org
 
         return new DefaultDownloadStringURL(
                 url ,
-                requestPropertyMap,
+                this.requestPropertyMap,
                 getProxy()
                 );
     }
@@ -187,8 +192,8 @@ public class DownloadI_www_gifgirl_org
         final int     year        = today.get( Calendar.YEAR );
         final int     month       = today.get( Calendar.MONTH ) + 1; // 0 based value
         final int     day         = today.get( Calendar.DAY_OF_MONTH );
-        final int     start       = Integer.parseInt( configStart.getComboBoxSelectedValue() );
-        final int     maxResults  = Integer.parseInt( configMaxResults.getComboBoxSelectedValue() );
+        final int     start       = Integer.parseInt( this.configStart.getComboBoxSelectedValue() );
+        final int     maxResults  = Integer.parseInt( this.configMaxResults.getComboBoxSelectedValue() );
         final String  sort        = Boolean.FALSE.toString();
 
         @SuppressWarnings("boxing")
@@ -220,7 +225,7 @@ public class DownloadI_www_gifgirl_org
     public DownloadFileURL getDownloadURLFrom( final String src, final int regexpIndex )
             throws MalformedURLException, URISyntaxException
     {
-        return new DefaultDownloadFileURL( src, requestPropertyMap, getProxy() );
+        return new DefaultDownloadFileURL( src, this.requestPropertyMap, getProxy() );
     }
 
     @Override

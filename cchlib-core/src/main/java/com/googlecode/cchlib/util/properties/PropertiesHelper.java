@@ -32,7 +32,7 @@ public final class PropertiesHelper
         final File propertiesFile
         ) throws IOException, IllegalArgumentException
    {
-       try (InputStream is = new FileInputStream( propertiesFile )) {
+       try (final InputStream is = new FileInputStream( propertiesFile )) {
            return loadProperties( is );
            }
        }
@@ -51,7 +51,7 @@ public final class PropertiesHelper
         final String      resourceName
         ) throws IOException, IllegalArgumentException
     {
-        try (InputStream is = classLoader.getResourceAsStream( resourceName )) {
+        try (final InputStream is = classLoader.getResourceAsStream( resourceName )) {
             return loadProperties( is );
             }
     }
@@ -77,7 +77,7 @@ public final class PropertiesHelper
         final String        comment
         ) throws IOException
     {
-        try (OutputStream os = new FileOutputStream( propertiesFile )) {
+        try (final OutputStream os = new FileOutputStream( propertiesFile )) {
             properties.store( os, (comment == null) ? StringHelper.EMPTY : comment );
             }
     }

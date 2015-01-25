@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import javax.annotation.Nullable;
+import com.googlecode.cchlib.Beta;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
 
@@ -14,6 +15,7 @@ import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
  *
  * @since 4.1.5
  */
+@Beta
 public class DownloadToFile extends AbstractDownload
 {
     private static final class MyInputStream extends InputStream {
@@ -99,37 +101,24 @@ public class DownloadToFile extends AbstractDownload
 
         // TODO : To test
 
-//        final InputStream           is;
-//        final FilterInputStream     filter;
-
-//        if( this.downloadFilterBuilder != null ) {
-//            is = filter = this.downloadFilterBuilder.createFilterInputStream( inputStream );
-//            }
-//        else {
-//            is     = inputStream;
-//            filter = null;
-//            }
+        final MyInputStream closedMis;
 
         try( final MyInputStream mis = new MyInputStream( this.downloadFilterBuilder, inputStream )) {
-            //IOHelper.copy( is, file );
             IOHelper.copy( mis, file );
-
-            mis.storeFilterResult( dURL );
-//            if( filter != null ) {
-//                filter.close(); // Needed ???
-//
-//                this.downloadFilterBuilder.storeFilterResult( filter, dURL );
-//                }
+            closedMis = mis;
             }
         catch( final IOException e ) {
             throw new DownloadIOException( getDownloadURL(), file, e );
             }
-//        finally {
-//            if( filter != null ) {
-//                filter.close(); // Needed ???
-//                }
-//            }
+
+        storeLocalFile( dURL, closedMis );
 
         dURL.setResultAsFile( file );
+    }
+
+    private void storeLocalFile( final DownloadFileURL dURL, final MyInputStream closedMis )
+    {
+        // InputStream must be close to be store.
+        closedMis.storeFilterResult( dURL );
     }
 }

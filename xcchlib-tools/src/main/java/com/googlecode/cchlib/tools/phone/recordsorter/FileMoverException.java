@@ -4,13 +4,16 @@ import java.io.IOException;
 import java.nio.file.Path;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 
+/**
+ *
+ */
 public class FileMoverException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    private Path file;
-    private Contact contact;
-    private Path target;
+    private final Path file;
+    private final Contact contact;
+    private final Path target;
 
     public FileMoverException(
         final String      message,
@@ -26,4 +29,18 @@ public class FileMoverException extends Exception {
         this.target  = target;
     }
 
+    public Path getFile()
+    {
+        return this.file;
+    }
+
+    public Contact getContact()
+    {
+        return this.contact;
+    }
+
+    public Path getTarget()
+    {
+        return this.target;
+    }
 }

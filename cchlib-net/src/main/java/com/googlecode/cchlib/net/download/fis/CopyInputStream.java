@@ -7,40 +7,40 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * 
+ *
  */
-//NOT public 
-class CopyInputStream extends FilterInputStream 
+//NOT public
+class CopyInputStream extends FilterInputStream
 {
-    private ByteArrayOutputStream copy = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream copy = new ByteArrayOutputStream();
     private boolean closed = false;
 
-    public CopyInputStream( InputStream is )
+    public CopyInputStream( final InputStream is )
     {
         super( is );
     }
 
     @Override
-    public int read() throws IOException 
+    public int read() throws IOException
     {
-        int got = super.read();
-        
+        final int got = super.read();
+
         if( got >-1 ) {
-            copy.write( (byte)got );
+            this.copy.write( (byte)got );
         }
-        
+
         return got;
     }
 
     @Override
-    public int read( byte[] buff, int off, int len ) throws IOException 
+    public int read( final byte[] buff, final int off, final int len ) throws IOException
     {
-        int got = super.read( buff, off, len );
-        
+        final int got = super.read( buff, off, len );
+
         if( got >-1 ) {
-            copy.write( buff, off, got );
+            this.copy.write( buff, off, got );
             }
-        
+
         return got;
     }
 
@@ -54,26 +54,29 @@ class CopyInputStream extends FilterInputStream
             this.closed  = true;
             }
     }
-    
+
     /**
-     * Returns a copy of InputStream 
+     * Returns a copy of InputStream
+     *
      * @return an array of bytes
-     * @throws IllegalStateException if original stream not
-     * yet closed.
+     * @throws IllegalStateException
+     *             if original stream not yet closed.
      */
     public byte[] toByteArray() throws IllegalStateException
     {
-        if( closed ) {
-            return copy.toByteArray();
+        if( this.closed ) {
+            return this.copy.toByteArray();
             }
-        
-        throw new IllegalStateException();
+
+        throw new IllegalStateException( "InputStream not closed" );
     }
+
     /**
-     * Returns a copy of InputStream 
+     * Returns a copy of InputStream
+     *
      * @return a new InputStream
-     * @throws IllegalStateException if original stream not
-     * yet closed.
+     * @throws IllegalStateException
+     *             if original stream not yet closed.
      */
     public InputStream toInputStream() throws IllegalStateException
     {

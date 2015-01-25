@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import cx.ath.choisnet.io.FileCopyException;
 import cx.ath.choisnet.io.InputStreamHelper;
 import cx.ath.choisnet.util.checksum.MD5TreeEntry;
 
@@ -77,8 +78,8 @@ public abstract class DefaultTask
         doIOJob();
         }
      catch( final IOException e ) {
-        if( firstime ) {
-            firstime = false;
+        if( this.firstime ) {
+            this.firstime = false;
 
             throw new TaskRetryLaterException( e );
             }
@@ -94,7 +95,7 @@ public abstract class DefaultTask
     @Override
     public String toString() // -----------------------------------------------
     {
-     return this.actionName + ":[" + destinationAbsoluteFile + "]";
+     return this.actionName + ":[" + this.destinationAbsoluteFile + "]";
     }
 
     /**
@@ -138,18 +139,18 @@ public abstract class DefaultTask
         @Override
         public void doIOJob() throws cx.ath.choisnet.io.DeleteFileException
         {
-            if( destinationAbsoluteFile.isFile() ) {
-                final boolean res =  destinationAbsoluteFile.delete();
+            if( this.destinationAbsoluteFile.isFile() ) {
+                final boolean res =  this.destinationAbsoluteFile.delete();
 
                 if( res ) {
-                    System.out.println( "OK: actionLocalDeleteFile:" + destinationAbsoluteFile  );
+                    System.out.println( "OK: actionLocalDeleteFile:" + this.destinationAbsoluteFile  );
                     }
                 else {
-                    throw new cx.ath.choisnet.io.DeleteFileException( destinationAbsoluteFile );
+                    throw new cx.ath.choisnet.io.DeleteFileException( this.destinationAbsoluteFile );
                     }
                 }
             else {
-                System.out.println( "WARN: actionLocalDeleteFile:" + destinationAbsoluteFile + " n'est pas un fichier" );
+                System.out.println( "WARN: actionLocalDeleteFile:" + this.destinationAbsoluteFile + " n'est pas un fichier" );
                 }
         }
     }
@@ -176,15 +177,15 @@ public abstract class DefaultTask
         @Override
         public void doIOJob() throws IOException
         {
-            if( ! destinationAbsoluteFile.isDirectory() ) {
-                final boolean res = destinationAbsoluteFile.mkdirs();
+            if( ! this.destinationAbsoluteFile.isDirectory() ) {
+                final boolean res = this.destinationAbsoluteFile.mkdirs();
 
                 if( res ) {
-                    System.out.println( "OK: actionLocalCreateFolder:" + destinationAbsoluteFile  );
+                    System.out.println( "OK: actionLocalCreateFolder:" + this.destinationAbsoluteFile  );
                     }
                 else {
                     throw new IOException( "can't create folder ["
-                        + destinationAbsoluteFile
+                        + this.destinationAbsoluteFile
                         + "]"
                         );
                     }
@@ -215,19 +216,19 @@ public abstract class DefaultTask
         @Override
         public void doIOJob() throws cx.ath.choisnet.io.DeleteDirectoryException
         {
-            if( destinationAbsoluteFile.isDirectory() ) {
+            if( this.destinationAbsoluteFile.isDirectory() ) {
 
-                final boolean res =  destinationAbsoluteFile.delete();
+                final boolean res =  this.destinationAbsoluteFile.delete();
 
                 if( res ) {
-                    System.out.println( "OK: actionLocalDeleteFolder:" + destinationAbsoluteFile  );
+                    System.out.println( "OK: actionLocalDeleteFolder:" + this.destinationAbsoluteFile  );
                     }
                 else {
-                    throw new cx.ath.choisnet.io.DeleteDirectoryException( destinationAbsoluteFile );
+                    throw new cx.ath.choisnet.io.DeleteDirectoryException( this.destinationAbsoluteFile );
                     }
                 }
             else {
-                System.out.println( "WARN: actionLocalDeleteFolder:" + destinationAbsoluteFile + " n'est pas un dossier" );
+                System.out.println( "WARN: actionLocalDeleteFolder:" + this.destinationAbsoluteFile + " n'est pas un dossier" );
                 }
         }
     }
@@ -261,9 +262,9 @@ public abstract class DefaultTask
         @Override
         public String toString() // -----------------------------------------------
         {
-            return "ActionLocalCopyFile from:[" + sourceAbsoluteFile
+            return "ActionLocalCopyFile from:[" + this.sourceAbsoluteFile
                         + "] to:["
-                        + destinationAbsoluteFile
+                        + this.destinationAbsoluteFile
                         + "]";
         }
 
@@ -276,24 +277,24 @@ public abstract class DefaultTask
                 TaskRetryLaterException,
                 cx.ath.choisnet.io.FileCopyException
         {
-            if( ! destinationAbsoluteFile.getParentFile().isDirectory() ) {
+            if( ! this.destinationAbsoluteFile.getParentFile().isDirectory() ) {
                 //
                 // Le dossier n'existe pas encore
                 //
                 throw new TaskRetryLaterException( "No Folder" );
                 }
 
-            System.out.println( "actionLocalCopyFile from {" + sourceAbsoluteFile + "}" );
-            System.out.println( "                      to {" + destinationAbsoluteFile + "}" );
+            System.out.println( "actionLocalCopyFile from {" + this.sourceAbsoluteFile + "}" );
+            System.out.println( "                      to {" + this.destinationAbsoluteFile + "}" );
 
             try {
-                InputStreamHelper.copy( sourceAbsoluteFile, destinationAbsoluteFile );
+                InputStreamHelper.copy( this.sourceAbsoluteFile, this.destinationAbsoluteFile );
                 }
             catch( final IOException e ) {
                 throw new cx.ath.choisnet.io.FileCopyException(
                         "actionLocalCopyFile ["
-                            + sourceAbsoluteFile + "] to ["
-                            + destinationAbsoluteFile + "]",
+                            + this.sourceAbsoluteFile + "] to ["
+                            + this.destinationAbsoluteFile + "]",
                         e
                         );
                 }
@@ -335,23 +336,18 @@ public abstract class DefaultTask
         @Override
         public void doIOJob() throws IOException
         {
-            final InputStream   input   = this.tasksFactory.getInputStreamFromSource( sourceFileDigest );
-            final OutputStream  output  = new FileOutputStream( this.destinationAbsoluteFile );
-
-            try {
-                InputStreamHelper.copy( input, output );
-                }
+            try( final InputStream input = this.tasksFactory.getInputStreamFromSource( this.sourceFileDigest ) ) {
+                try( final OutputStream output = new FileOutputStream( this.destinationAbsoluteFile ) ) {
+                    InputStreamHelper.copy( input, output );
+                    }
+            }
             catch( final IOException e ) {
-                throw new cx.ath.choisnet.io.FileCopyException(
+                throw new FileCopyException(
                         "actionCopyFileFromSource ["
-                            + sourceFileDigest + "] to ["
-                            + destinationAbsoluteFile + "]",
+                            + this.sourceFileDigest + "] to ["
+                            + this.destinationAbsoluteFile + "]",
                         e
                         );
-                }
-            finally {
-                output.close();
-                input.close();
                 }
         }
     }
@@ -386,20 +382,20 @@ public abstract class DefaultTask
         @Override
         public void doIOJob() throws TaskRetryLaterException
         {
-            if( destinationAbsoluteFile.exists() ) {
-                throw new TaskRetryLaterException( "destination file exist: " + destinationAbsoluteFile );
+            if( this.destinationAbsoluteFile.exists() ) {
+                throw new TaskRetryLaterException( "destination file exist: " + this.destinationAbsoluteFile );
                 }
 
-            if( sourceAbsoluteFile.renameTo( destinationAbsoluteFile ) ) {
+            if( this.sourceAbsoluteFile.renameTo( this.destinationAbsoluteFile ) ) {
                 System.out.println(
                     "OK: ActionLocalMoveFile:"
-                        + sourceAbsoluteFile
+                        + this.sourceAbsoluteFile
                         + " as "
-                        + destinationAbsoluteFile
+                        + this.destinationAbsoluteFile
                     );
                 }
             else {
-                throw new TaskRetryLaterException( "can't move: " + sourceAbsoluteFile );
+                throw new TaskRetryLaterException( "can't move: " + this.sourceAbsoluteFile );
                 }
         }
     }

@@ -26,46 +26,44 @@ public class SMSLoaderPass1
      * @throws ParseException
      * @throws InconsistantSMSException
      */
-    public static void main( String[] args ) throws IOException, ParseException, InconsistantSMSException
+    public static void main( final String[] args ) throws IOException, ParseException, InconsistantSMSException
     {
         LOGGER.info( "starting" );
 
-        String[] csvInFiles = {
+        final String[] csvInFiles = {
             "Export SMS 05 01 2011 14 22[INBOX-Elisabeth].csv",
             "Export SMS 05 01 2011 14 29[ARCH-Elisabeth].csv",
             "Export SMS 05 01 2011 14 30[SENT-Elisabeth].csv"
             };
-        String[] mailInFiles = {
+        final String[] mailInFiles = {
             "Elisabeth"
             };
-        String    outFile = "outputPass1.csv";
-        SMSLoader loader  = new SMSLoader();
+        final String    outFile = "outputPass1.csv";
+        final SMSLoader loader  = new SMSLoader();
 
         //
         // Read all files
         //
-        for( String fn : csvInFiles ) {
-            File f = new File( fn );
+        for( final String fn : csvInFiles ) {
+            final File f = new File( fn );
 
             LOGGER.info( "reading: " + f );
 
             loader.addFile( f );
         }
-        Charset cs = Charset.forName( "ISO-8859-1" );
+        final Charset cs = Charset.forName( "ISO-8859-1" );
 
-        for( String fn : mailInFiles ) {
-            File f = new File( fn );
+        for( final String fn : mailInFiles ) {
+            final File f = new File( fn );
 
             LOGGER.info( "reading: " + f );
 
-            MboxFile mbf = new MboxFile( f, cs );
+            try( MboxFile mbf = new MboxFile( f, cs ) ) {
+                final int msgCount = mbf.getMessageCount();
 
-            int msgCount = mbf.getMessageCount();
-
-            LOGGER.info( "Messages: " + msgCount );
-
-            mbf.close();
+                LOGGER.info( "Messages: " + msgCount );
             }
+        }
 
         loader.removeClones();
         loader.sort();

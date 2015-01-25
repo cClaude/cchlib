@@ -351,18 +351,14 @@ public enum ElementHelper implements ElementHelperInterface {
      */
     private XmlBlob readFromFile(final File f) throws IOException {
       final StringBuffer xmlBuffer = new StringBuffer();
-        BufferedReader reader = null;
-      try {
-        reader = new BufferedReader(new FileReader(f));
+
+      try(final BufferedReader reader = new BufferedReader( new FileReader( f ) ) ) {
         String line;
         while ((line = reader.readLine()) != null) {
           xmlBuffer.append(line);
         }
-      } finally {
-        if (reader != null) {
-          reader.close();
-        }
       }
+
       final XmlBlob xmlBlob = new XmlBlob();
       xmlBlob.setBlob(new String(xmlBuffer));
       return xmlBlob;

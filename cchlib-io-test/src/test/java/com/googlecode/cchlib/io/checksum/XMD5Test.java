@@ -18,9 +18,9 @@ import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 
 @SuppressWarnings("deprecation")
-public class MD5Test
+public class XMD5Test
 {
-    private final static Logger LOGGER = Logger.getLogger( MD5Test.class );
+    private final static Logger LOGGER = Logger.getLogger( XMD5Test.class );
     private XMessageDigestFile   mdf;
     private List<File>          fileList;
 

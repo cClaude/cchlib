@@ -14,9 +14,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.util.Collection;
 import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
 
 /**
  * <P>This class is not thread safe</P>
+ *
+ * @deprecated Use {@link FileDigest} instead.
  */
 @Deprecated
 public class XMessageDigestFile

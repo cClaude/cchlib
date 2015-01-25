@@ -64,11 +64,11 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
      */
     private SimpleListEntry<E> getSimpleListEntry( final int index ) // -----------------
     {
-        if( index < 0 || index >= size ) {
-            throw new IndexOutOfBoundsException( "Index: " + index + ", Size: " + size );
+        if( (index < 0) || (index >= this.size) ) {
+            throw new IndexOutOfBoundsException( "Index: " + index + ", Size: " + this.size );
         }
 
-        SimpleListEntry<E> e = firstItem;
+        SimpleListEntry<E> e = this.firstItem;
 
         for( int i = 0; i <= index; i++ ) {
             e = e.next;
@@ -104,8 +104,8 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
     @Override
     public void add( final int index, final E o ) // ---------------------------------
     {
-        if( index < 0 || index > size ) {
-            throw new IndexOutOfBoundsException( "Index: " + index + ", Size: " + size );
+        if( (index < 0) || (index > this.size) ) {
+            throw new IndexOutOfBoundsException( "Index: " + index + ", Size: " + this.size );
         }
 
         if( index == 0 ) { // Ajout en tete
@@ -114,7 +114,7 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
             return;
         }
 
-        if( index == size ) { // Ajout en queue
+        if( index == this.size ) { // Ajout en queue
             add( o );
 
             return;
@@ -260,14 +260,14 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
         int index = 0;
 
         if( o == null ) {
-            for( SimpleListEntry<E> e = firstItem; e != null; e = e.next ) {
+            for( SimpleListEntry<E> e = this.firstItem; e != null; e = e.next ) {
                 if( e.element == null ) {
                     return index;
                 }
                 index++;
             }
         } else {
-            for( SimpleListEntry<E> e = firstItem; e != null; e = e.next ) {
+            for( SimpleListEntry<E> e = this.firstItem; e != null; e = e.next ) {
                 if( o.equals( e.element ) ) {
                     return index;
                 }
@@ -317,11 +317,12 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
 
     // public Object _remove(int index)
 
+    @SuppressWarnings("null")
     @Override
     public boolean remove( final Object o ) // --------------------------------------
     {
         System.out.println( "public boolean remove( Object o )" );
-        if( size == 0 ) {
+        if( this.size == 0 ) {
             return false; // liste vide
         }
 
@@ -343,7 +344,7 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
                 if( e.element == null ) {
                     // il ne s'agit ni du premier, ni du dernier element.
                     prev.next = e.next;
-                    size--;
+                    this.size--;
 
                     return true;
                 }
@@ -370,7 +371,7 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
                 if( o.equals( e.element ) ) {
                     // il ne s'agit ni du premier, ni du dernier element.
                     prev.next = e.next;
-                    size--;
+                    this.size--;
 
                     return true;
                 }
@@ -381,6 +382,7 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
         }
     }
 
+    @SuppressWarnings("null")
     private void removeSimpleListEntry( final SimpleListEntry<E> entry ) // ------------
     {
         if( this.firstItem == entry ) {
@@ -399,7 +401,7 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
             if( e == entry ) {
                 // il ne s'agit ni du premier, ni du dernier element.
                 prev.next = e.next;
-                size--;
+                this.size--;
 
                 return;
             }
@@ -421,7 +423,7 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
     @Override
     public int size() // ------------------------------------------------------
     {
-        return size;
+        return this.size;
     }
 
     // public List subList( int fromIndex, int toIndex )
@@ -440,25 +442,26 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
      ** @throws IndexOutOfBoundsException
      *             if the specified index is out of range (<tt>index &lt; 0 || index &gt;= size()</tt>).
      */
+    @SuppressWarnings("null")
     @Override
     public E remove( final int index ) // --------------------------------------
     {
         System.out.println( "public boolean remove( int index )" );
 
-        if( (index < 0) || (index >= size) ) {
-            throw new IndexOutOfBoundsException( "Index: " + index + ", Size: " + size );
+        if( (index < 0) || (index >= this.size) ) {
+            throw new IndexOutOfBoundsException( "Index: " + index + ", Size: " + this.size );
         }
 
         if( index == 0 ) {
             return removeFirst();
         }
 
-        if( index - 1 == size ) {
+        if( (index - 1) == this.size ) {
             return removeLast();
         }
 
         SimpleListEntry<E> prev = null;
-        SimpleListEntry<E> e = firstItem;
+        SimpleListEntry<E> e = this.firstItem;
 
         for( int i = 0; i <= index; i++ ) {
             prev = e;
@@ -487,17 +490,17 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
     {
         System.out.println( "public Object removeFirst()" );
 
-        final SimpleListEntry<E> first = firstItem;
+        final SimpleListEntry<E> first = this.firstItem;
 
         if( first == null ) {
             throw new NoSuchElementException();
         }
 
-        if( size == 1 ) {
-            lastItem = firstItem = null;
+        if( this.size == 1 ) {
+            this.lastItem = this.firstItem = null;
             this.size = 0;
         } else {
-            firstItem = first.next;
+            this.firstItem = first.next;
 
             this.size--;
         }
@@ -518,22 +521,22 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
     {
         System.out.println( "public Object removeLast()" );
 
-        final SimpleListEntry<E> last = lastItem;
+        final SimpleListEntry<E> last = this.lastItem;
 
         if( last == null ) {
             throw new NoSuchElementException();
         }
 
-        if( size == 1 ) {
+        if( this.size == 1 ) {
             // il n'y a qu'un element dans la liste
-            lastItem = firstItem = null;
-            size = 0;
-        } else if( size == 2 ) {
+            this.lastItem = this.firstItem = null;
+            this.size = 0;
+        } else if( this.size == 2 ) {
             // il n'y a que deux elements dans la liste
-            lastItem = firstItem;
-            size = 1;
+            this.lastItem = this.firstItem;
+            this.size = 1;
         } else {
-            lastItem = getSimpleListEntry( size - 2 );
+            this.lastItem = getSimpleListEntry( this.size - 2 );
 
             this.size--;
         }
@@ -562,7 +565,7 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
             clone.modificationCounter = 0;
 
             // Read in all elements in the proper order.
-            for( SimpleListEntry<E> e = firstItem.next; e != null; e = e.next ) {
+            for( SimpleListEntry<E> e = this.firstItem.next; e != null; e = e.next ) {
                 clone.add( e.element );
             }
 
@@ -586,10 +589,10 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
         s.defaultWriteObject();
 
         // Write out size
-        s.writeInt( size );
+        s.writeInt( this.size );
 
         // Write out all elements in the proper order.
-        for( SimpleListEntry<E> e = firstItem.next; e != null; e = e.next ) {
+        for( SimpleListEntry<E> e = this.firstItem.next; e != null; e = e.next ) {
             s.writeObject( e.element );
         }
     }
@@ -632,36 +635,36 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
 
         public SLIterator() // ------------------------------------------------
         {
-            currentEntry = firstItem;
-            currentEntryIndex = 0;
-            iteratorMC = modificationCounter;
-            lastReturn = null;
+            this.currentEntry = SimpleList.this.firstItem;
+            this.currentEntryIndex = 0;
+            this.iteratorMC = SimpleList.this.modificationCounter;
+            this.lastReturn = null;
         }
 
         @Override
         public boolean hasNext() // -------------------------------------------
         {
-            return currentEntry != null;
+            return this.currentEntry != null;
         }
 
         @Override
         public E next() // -----------------------------------------------
         {
-            final SimpleListEntry<E> result = currentEntry;
+            final SimpleListEntry<E> result = this.currentEntry;
 
-            if( iteratorMC != modificationCounter ) {
+            if( this.iteratorMC != SimpleList.this.modificationCounter ) {
                 throw new ConcurrentModificationException();
             }
 
             try {
-                currentEntry = currentEntry.next;
+                this.currentEntry = this.currentEntry.next;
             }
             catch( final NullPointerException e ) {
                 throw new NoSuchElementException();
             }
 
-            lastReturn = result;
-            currentEntryIndex++;
+            this.lastReturn = result;
+            this.currentEntryIndex++;
 
             return result.element;
         }
@@ -669,20 +672,20 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
         @Override
         public void remove() // -----------------------------------------------
         {
-            if( lastReturn == null ) {
+            if( this.lastReturn == null ) {
                 throw new IllegalStateException();
             }
 
-            if( iteratorMC != modificationCounter ) {
+            if( this.iteratorMC != SimpleList.this.modificationCounter ) {
                 throw new ConcurrentModificationException();
             }
 
-            SimpleList.this.removeSimpleListEntry( lastReturn );
+            SimpleList.this.removeSimpleListEntry( this.lastReturn );
 
-            --currentEntryIndex; // La position courante a bougee d'un element
+            --this.currentEntryIndex; // La position courante a bougee d'un element
 
-            lastReturn = null;
-            iteratorMC = modificationCounter;
+            this.lastReturn = null;
+            this.iteratorMC = SimpleList.this.modificationCounter;
         }
 
     } // inner-class SLIterator
@@ -698,49 +701,49 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
 
         public SLListIterator( final int index ) // ---------------------------------
         {
-            currentIndex = index;
-            iteratorMC = modificationCounter;
-            lastReturned = null;
-            lastReturnedNext = null;
+            this.currentIndex = index;
+            this.iteratorMC = SimpleList.this.modificationCounter;
+            this.lastReturned = null;
+            this.lastReturnedNext = null;
         }
 
         @Override
         public void add( final E o ) // ----------------------------------------
         {
             synchronized( SimpleList.this ) {
-                if( iteratorMC != modificationCounter ) {
+                if( this.iteratorMC != SimpleList.this.modificationCounter ) {
                     throw new ConcurrentModificationException();
                 }
 
-                SimpleList.this.add( currentIndex, o );
+                SimpleList.this.add( this.currentIndex, o );
 
-                currentIndex++; // on a ajoute avant le curseur
-                iteratorMC = modificationCounter;
+                this.currentIndex++; // on a ajoute avant le curseur
+                this.iteratorMC = SimpleList.this.modificationCounter;
             }
 
-            lastReturned = lastReturnedNext = null;
+            this.lastReturned = this.lastReturnedNext = null;
         }
 
         @Override
         public boolean hasNext() // ---------------------------------------
         {
-            return currentIndex < size;
+            return this.currentIndex < SimpleList.this.size;
         }
 
         @Override
         public boolean hasPrevious() // -----------------------------------
         {
-            return currentIndex > 0;
+            return this.currentIndex > 0;
         }
 
         @Override
         public E next() // -------------------------------------------
         {
-            if( iteratorMC != modificationCounter ) {
+            if( this.iteratorMC != SimpleList.this.modificationCounter ) {
                 throw new ConcurrentModificationException();
             }
 
-            final SimpleListEntry<E> entry = getSimpleListEntry( currentIndex++ );
+            final SimpleListEntry<E> entry = getSimpleListEntry( this.currentIndex++ );
             E value;
 
             try {
@@ -750,8 +753,8 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
                 throw new NoSuchElementException();
             }
 
-            lastReturned = entry;
-            lastReturnedNext = entry.next;
+            this.lastReturned = entry;
+            this.lastReturnedNext = entry.next;
 
             return value;
         }
@@ -759,24 +762,24 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
         @Override
         public int nextIndex() // -----------------------------------------
         {
-            return currentIndex;
+            return this.currentIndex;
         }
 
         @Override
         public E previous() // ---------------------------------------
         {
-            if( iteratorMC != modificationCounter ) {
+            if( this.iteratorMC != SimpleList.this.modificationCounter ) {
                 throw new ConcurrentModificationException();
             }
 
-            if( currentIndex == 0 ) {
+            if( this.currentIndex == 0 ) {
                 throw new NoSuchElementException();
             }
 
-            final SimpleListEntry<E> entry = getSimpleListEntry( --currentIndex );
+            final SimpleListEntry<E> entry = getSimpleListEntry( --this.currentIndex );
             final E value = entry.element;
 
-            lastReturnedNext = lastReturned = entry;
+            this.lastReturnedNext = this.lastReturned = entry;
 
             return value;
         }
@@ -784,46 +787,46 @@ public class SimpleList<E> extends AbstractSequentialList<E> implements List<E>,
         @Override
         public int previousIndex() // -------------------------------------
         {
-            return currentIndex - 1;
+            return this.currentIndex - 1;
         }
 
         @Override
         public void remove() // -------------------------------------------
         {
             synchronized( SimpleList.this ) {
-                if( iteratorMC != modificationCounter ) {
+                if( this.iteratorMC != SimpleList.this.modificationCounter ) {
                     throw new ConcurrentModificationException();
                 }
 
-                if( lastReturned == null ) {
+                if( this.lastReturned == null ) {
                     throw new IllegalStateException();
                 }
 
-                if( lastReturnedNext != lastReturned ) {
-                    --currentIndex;
+                if( this.lastReturnedNext != this.lastReturned ) {
+                    --this.currentIndex;
                 }
 
-                SimpleList.this.remove( lastReturned );
+                SimpleList.this.remove( this.lastReturned );
 
-                iteratorMC = modificationCounter;
+                this.iteratorMC = SimpleList.this.modificationCounter;
             }
 
-            lastReturned = lastReturnedNext = null;
+            this.lastReturned = this.lastReturnedNext = null;
         }
 
         @Override
         public void set( final E o ) // ------------------------------------
         {
-            if( iteratorMC != modificationCounter ) {
+            if( this.iteratorMC != SimpleList.this.modificationCounter ) {
                 throw new ConcurrentModificationException();
             }
 
-            if( lastReturned == null ) {
+            if( this.lastReturned == null ) {
                 throw new IllegalStateException();
             }
 
-            lastReturned.element = o;
-            lastReturned = null;
+            this.lastReturned.element = o;
+            this.lastReturned = null;
         }
     }
 

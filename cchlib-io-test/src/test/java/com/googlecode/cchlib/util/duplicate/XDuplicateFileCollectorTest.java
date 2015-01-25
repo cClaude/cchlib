@@ -12,9 +12,9 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
 
 @Deprecated
-public class DuplicateFileCollectorTest
+public class XDuplicateFileCollectorTest
 {
-    private static final Logger LOGGER = Logger.getLogger( DuplicateFileCollectorTest.class );
+    private static final Logger LOGGER = Logger.getLogger( XDuplicateFileCollectorTest.class );
 
     private static final int MAX_FILES_COUNT = 50;
     private static final long FILE_MAX_LENGTH = 2 * 1024 * 1024;
@@ -25,10 +25,10 @@ public class DuplicateFileCollectorTest
                 FileNotFoundException,
                 IOException
     {
-        final XMessageDigestFile       xMessageDigestFile = new XMessageDigestFile("MD5");
-        final XDuplicateFileCollector  instance          = new XDuplicateFileCollector( xMessageDigestFile, true );
-        final File                    root              = FileHelper.getUserHomeDirFile();
-        final Iterable<File>          files             = FileIteratorBuilder.createFileIterator(root, FILE_MAX_LENGTH, MAX_FILES_COUNT * 2);
+        final XMessageDigestFile      xMessageDigestFile = new XMessageDigestFile("MD5");
+        final XDuplicateFileCollector instance           = new XDuplicateFileCollector( xMessageDigestFile, true );
+        final File                    root               = FileHelper.getUserHomeDirFile();
+        final Iterable<File>          files              = FileIteratorBuilder.createFileIterator(root, FILE_MAX_LENGTH, MAX_FILES_COUNT * 2);
 
         instance.addDigestEventListener(
                 new DigestEventListener()

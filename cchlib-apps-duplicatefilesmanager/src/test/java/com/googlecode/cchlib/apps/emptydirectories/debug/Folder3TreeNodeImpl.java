@@ -7,8 +7,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class Folder3TreeNodeImpl extends DefaultMutableTreeNode implements Folder3TreeNode {
 
     private static final long serialVersionUID = 1L;
-    private File file;
-    private Folder3TreeImpl tree;
+    private final File file;
+    private final Folder3TreeImpl tree;
     private boolean marked;
 
     /**
@@ -27,7 +27,6 @@ public class Folder3TreeNodeImpl extends DefaultMutableTreeNode implements Folde
         super( file.getName() );
 
         assert tree != null;
-        assert file != null;
 
         this.tree = tree;
         this.file = file;
@@ -75,7 +74,7 @@ public class Folder3TreeNodeImpl extends DefaultMutableTreeNode implements Folde
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "Folder3TreeNodeImpl [this.file=" );
         builder.append( this.file );
         builder.append( ", isSelected()=" );
@@ -89,7 +88,7 @@ public class Folder3TreeNodeImpl extends DefaultMutableTreeNode implements Folde
     @Override
     public boolean isMarked()
     {
-        return marked;
+        return this.marked;
     }
 
     @Override
@@ -101,7 +100,7 @@ public class Folder3TreeNodeImpl extends DefaultMutableTreeNode implements Folde
     @Override
     public String getText()
     {
-        return file != null ? file.getName() : null;
+        return this.file != null ? this.file.getName() : null;
     }
 
 }

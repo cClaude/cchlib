@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.tools.downloader;
+package com.googlecode.cchlib.tools.downloader.connector;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -10,6 +10,9 @@ import java.util.List;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
 
@@ -38,7 +41,7 @@ public class DownloadI_www_epins_fr
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 10;
     private static final int DEFAULT_MAX_PAGES = 10;
 
-    protected DownloadI_www_epins_fr()
+    public DownloadI_www_epins_fr()
     {
         super(
                 SITE_NAME,
@@ -81,13 +84,13 @@ public class DownloadI_www_epins_fr
                     @Override
                     public boolean hasNext()
                     {
-                        return i<MAX;
+                        return this.i<MAX;
                     }
                     @Override
                     public DownloadFileURL next()
                     {
                         try {
-                            return buildDownloadURL( i++ );
+                            return buildDownloadURL( this.i++ );
                             }
                         catch( MalformedURLException | URISyntaxException e ) {
                             throw new RuntimeException( e );
@@ -101,20 +104,20 @@ public class DownloadI_www_epins_fr
                     private DownloadFileURL buildDownloadURL( final int i ) throws MalformedURLException, URISyntaxException
                     {
 
-                        buildURL_sb1.setLength( 0 );
+                        this.buildURL_sb1.setLength( 0 );
                         //buildURL_sb2.setLength( 0 );
 
-                        buildURL_sb1.append( htmlURLFmt0 );
+                        this.buildURL_sb1.append( htmlURLFmt0 );
 
-                        buildURL_sb1.append( i );
+                        this.buildURL_sb1.append( i );
                         //buildURL_sb2.append( htmlURLFmt1 ).append( i );
                         //int end     = buildURL_sb2.length();
                         //int start   = end - htmlURLFmt1.length();
 
                         //buildURL_sb1.append( buildURL_sb2.substring( start, end ) );
-                        buildURL_sb1.append( htmlURLFmt2 );
+                        this.buildURL_sb1.append( htmlURLFmt2 );
 
-                        return new DefaultDownloadFileURL( buildURL_sb1.toString(), null, getProxy() );
+                        return new DefaultDownloadFileURL( this.buildURL_sb1.toString(), null, getProxy() );
                     }
                 };
             }

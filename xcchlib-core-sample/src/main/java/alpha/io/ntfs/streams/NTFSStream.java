@@ -19,15 +19,15 @@ import com.googlecode.cchlib.lang.StringHelper;
 public class NTFSStream
 {
 
-    private StringBuilder sb;
-    private CharBuffer cb;
-    private char[] cbuf;
+    private final StringBuilder sb;
+    private final CharBuffer cb;
+    private final char[] cbuf;
 
     public NTFSStream()
     {
-        sb = new StringBuilder();
-        cb = CharBuffer.wrap(sb);
-        cbuf = new char[1024];
+        this.sb = new StringBuilder();
+        this.cb = CharBuffer.wrap(this.sb);
+        this.cbuf = new char[1024];
     }
 
     public void read( final Reader reader )
@@ -36,11 +36,11 @@ public class NTFSStream
 //        cb.clear();
 //        reader.read( cb );
 //        cb.flip();
-        sb.setLength( 0 );
-        int len = reader.read( cbuf, 0, cbuf.length );
+        this.sb.setLength( 0 );
+        final int len = reader.read( this.cbuf, 0, this.cbuf.length );
 
         if( len > 0 ) {
-            sb.append( cbuf, 0, len );
+            this.sb.append( this.cbuf, 0, len );
         }
     }
 
@@ -49,44 +49,44 @@ public class NTFSStream
     {
         read( reader );
 
-        return cb.toString();
+        return this.cb.toString();
     }
 
-    public String getBegin(File file) throws IOException
+    public String getBegin(final File file) throws IOException
     {
-        FileReader reader = new FileReader( file );
-        read( reader );
-        reader.close();
+        try( final FileReader reader = new FileReader( file ) ) {
+            read( reader );
+        }
 
-        return sb.toString();
+        return this.sb.toString();
     }
 
     /**
      * @param args
      * @throws IOException
      */
-    public static void main( String[] args ) throws IOException
+    public static void main( final String[] args ) throws IOException
     {
-        File   path       = new File("C:/");
-        String filename   = "support.txt";
-        String streamname = "test";
+        final File   path       = new File("C:/");
+        final String filename   = "support.txt";
+        final String streamname = "test";
 
-        File testFile   = new File(path,filename);
-        File testStream = new File(path,filename + ':' + streamname);
+        final File testFile   = new File(path,filename);
+        final File testStream = new File(path,filename + ':' + streamname);
 
         System.out.printf( "Create %s\n", testFile );
 
-        Writer wf = new FileWriter( testFile );
-        wf.write( "File content !" );
-        wf.close();
+        try( final Writer wf = new FileWriter( testFile ) ) {
+            wf.write( "File content !" );
+        }
 
         System.out.printf( "Create %s\n", testStream );
 
-        Writer ws = new FileWriter( testStream );
-        ws.write( "Stream content" );
-        ws.close();
+        try( final Writer ws = new FileWriter( testStream ) ) {
+            ws.write( "Stream content" );
+        }
 
-        NTFSStream ntfsStream = new NTFSStream();
+        final NTFSStream ntfsStream = new NTFSStream();
         System.out.printf( "Content of %s is [%s]\n",
                     testFile,
                     ntfsStream.getBegin(testFile)
@@ -106,78 +106,63 @@ public class NTFSStream
                 );
     }
 
-    private static String fastStreamCopy1( File filename )
+    private static String fastStreamCopy1( final File filename )
     {
-        FileChannel fc  = null;
         String      s   = StringHelper.EMPTY;
-        
-        try {
-            FileInputStream fis = new FileInputStream( filename );
-            
-            try {
-                fc = fis.getChannel();
 
-                try {
-                    // int length = (int)fc.size();
+        try( final FileInputStream fis = new FileInputStream( filename ) ) {
+             try( final FileChannel fc = fis.getChannel() ) {
 
-                    MappedByteBuffer byteBuffer = fc.map(
-                            FileChannel.MapMode.READ_ONLY, 0, fc.size() );
-                    // CharBuffer charBuffer =
-                    // Charset.forName("ISO-8859-1").newDecoder().decode(byteBuffer);
+                 // int length = (int)fc.size();
 
-                    // ByteBuffer byteBuffer = ByteBuffer.allocate(length);
-                    // ByteBuffer byteBuffer = ByteBuffer.allocateDirect(length);
-                    // CharBuffer charBuffer = byteBuffer.asCharBuffer();
+                 final MappedByteBuffer byteBuffer = fc.map(
+                         FileChannel.MapMode.READ_ONLY, 0, fc.size() );
+                 // CharBuffer charBuffer =
+                 // Charset.forName("ISO-8859-1").newDecoder().decode(byteBuffer);
 
-                    // CharBuffer charBuffer =
-                    // ByteBuffer.allocateDirect(length).asCharBuffer();
-                    /*int size = charBuffer.length(); if (size > 0) { StringBuffer sb =
-                     * new StringBuffer(size); for (int count=0; count<size; count++)
-                     * sb.append(charBuffer.get()); s = sb.toString(); }
-                     *
-                     * if (length > 0) { StringBuffer sb = new StringBuffer(length); for
-                     * (int count=0; count<length; count++) {
-                     * sb.append(byteBuffer.get()); } s = sb.toString(); } */
-                    int size = byteBuffer.capacity();
-                    if( size > 0 ) {
-                        // Retrieve all bytes in the buffer
-                        byteBuffer.clear();
-                        byte[] bytes = new byte[size];
-                        byteBuffer.get( bytes, 0, bytes.length );
-                        s = new String( bytes );
-                        }
-                    }
-                finally {
-                    fc.close();
-                    fc = null;
-                    }
-                }
-            finally {
-                fis.close();
+                 // ByteBuffer byteBuffer = ByteBuffer.allocate(length);
+                 // ByteBuffer byteBuffer = ByteBuffer.allocateDirect(length);
+                 // CharBuffer charBuffer = byteBuffer.asCharBuffer();
+
+                 // CharBuffer charBuffer =
+                 // ByteBuffer.allocateDirect(length).asCharBuffer();
+                 /*int size = charBuffer.length(); if (size > 0) { StringBuffer sb =
+                  * new StringBuffer(size); for (int count=0; count<size; count++)
+                  * sb.append(charBuffer.get()); s = sb.toString(); }
+                  *
+                  * if (length > 0) { StringBuffer sb = new StringBuffer(length); for
+                  * (int count=0; count<length; count++) {
+                  * sb.append(byteBuffer.get()); } s = sb.toString(); } */
+                 final int size = byteBuffer.capacity();
+
+                 if( size > 0 ) {
+                     // Retrieve all bytes in the buffer
+                     byteBuffer.clear();
+                     final byte[] bytes = new byte[size];
+                     byteBuffer.get( bytes, 0, bytes.length );
+                     s = new String( bytes );
+                     }
                 }
             }
-        catch( FileNotFoundException fnfx ) {
+        catch( final FileNotFoundException fnfx ) {
             System.err.printf( "File not found: %s\n", fnfx );
             }
-        catch( IOException iox ) {
+        catch( final IOException iox ) {
             System.err.printf( "I/O problems: %s\n", iox );
             }
 
         return s;
     }
 
-    private static String fastStreamCopy2( File filename ) throws IOException
+    private static String fastStreamCopy2( final File filename ) throws IOException
     {
-        String      s;
+        final String s;
 
-        FileInputStream fis_ = new FileInputStream( filename );
-        try {
-            FileChannel fc = fis_.getChannel();
-            
-            try {
+        try( final FileInputStream fis_ = new FileInputStream( filename ) ) {
+             try( final FileChannel fc = fis_.getChannel() ) {
                 // int length = (int)fc.size();
 
-                MappedByteBuffer byteBuffer = fc.map(
+                final MappedByteBuffer byteBuffer = fc.map(
                         FileChannel.MapMode.READ_ONLY, 0, fc.size() );
                 // CharBuffer charBuffer =
                 // Charset.forName("ISO-8859-1").newDecoder().decode(byteBuffer);
@@ -195,11 +180,12 @@ public class NTFSStream
                  * if (length > 0) { StringBuffer sb = new StringBuffer(length); for
                  * (int count=0; count<length; count++) {
                  * sb.append(byteBuffer.get()); } s = sb.toString(); } */
-                int size = byteBuffer.capacity();
+                final int size = byteBuffer.capacity();
+
                 if( size > 0 ) {
                     // Retrieve all bytes in the buffer
                     byteBuffer.clear();
-                    byte[] bytes = new byte[size];
+                    final byte[] bytes = new byte[size];
                     byteBuffer.get( bytes, 0, bytes.length );
                     s = new String( bytes );
                     }
@@ -207,12 +193,6 @@ public class NTFSStream
                     s = StringHelper.EMPTY;
                     }
                 }
-            finally {
-                fc.close();
-                }
-            }
-        finally {
-            fis_.close();
             }
 
         return s;

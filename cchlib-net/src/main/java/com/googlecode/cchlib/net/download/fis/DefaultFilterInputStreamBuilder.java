@@ -74,7 +74,7 @@ public class DefaultFilterInputStreamBuilder
         final DownloadFileURL   dURL
         )
     {
-        final DefaultFilterInputStream f = DefaultFilterInputStream.class.cast( filter );
+        final DefaultFilterInputStream f = (DefaultFilterInputStream)filter;
 
         try {
             final ImageIOFileData infos = f.geImageIOFileData();

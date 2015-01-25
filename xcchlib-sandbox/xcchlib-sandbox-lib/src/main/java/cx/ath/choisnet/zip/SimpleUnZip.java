@@ -15,6 +15,7 @@ package cx.ath.choisnet.zip;
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,6 +72,7 @@ public class SimpleUnZip implements Closeable {
      **
      ** @return the last File object saved, or null if there are no more entries.
      */
+    @SuppressWarnings({ "null", "resource" })
     public File saveNextEntry( final File folderFile ) // ---------------------
             throws java.io.IOException
     {
@@ -105,7 +107,7 @@ public class SimpleUnZip implements Closeable {
         int len;
 
         while( (len = this.zis.read( this.buffer, 0, this.buffer.length )) != -1 ) {
-            output.write( buffer, 0, len );
+            output.write( this.buffer, 0, len );
         }
 
         if( output != null ) {
@@ -115,19 +117,11 @@ public class SimpleUnZip implements Closeable {
         return file;
     }
 
-    /**
-**
-*/
     public void saveAll( final File folderFile ) // ---------------------------
             throws IOException
     {
-        File f;
-
-        // if( ! folderFile.isDirectory() ) {
-        // folderFile.mkdirs();
-        // }
-        while( (f = saveNextEntry( folderFile )) != null ) {
-            // System.out.println( "f " + f );
+        while( (saveNextEntry( folderFile )) != null ) {
+            ;
         }
     }
 
@@ -135,15 +129,13 @@ public class SimpleUnZip implements Closeable {
      ** java -cp build/classes cx.ath.choisnet.zip.SimpleUnZip <zipfile> <destinationfolder>
      **
      */
-    @SuppressWarnings("resource")
     public static void main( final String[] arg ) // --------------------------------
             throws IOException
     // %JAVA_1_5_HOME%\bin\java -cp build/classes cx.ath.choisnet.zip.SimpleUnZip c:\testzip.zip D:/test1/test2
     {
-        final SimpleUnZip instance = new SimpleUnZip( new java.io.FileInputStream( arg[ 0 ] ) );
-
-        instance.saveAll( new File( arg[ 1 ] ) );
-        instance.close();
+        try( final SimpleUnZip instance = new SimpleUnZip( new FileInputStream( arg[ 0 ] ) ) ) {
+            instance.saveAll( new File( arg[ 1 ] ) );
+        }
     }
 
 }
