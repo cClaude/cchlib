@@ -1,18 +1,18 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTree;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellRenderer;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel2;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
-import com.googlecode.cchlib.io.FileHelper;
+import static org.mockito.BDDMockito.given;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import static org.mockito.BDDMockito.given;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTree;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellRenderer;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel2;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
+import com.googlecode.cchlib.io.FileHelper;
 
 public class DebugJTree {
     private static final Logger LOGGER = Logger.getLogger( DebugJTree.class );
@@ -24,20 +24,25 @@ public class DebugJTree {
 
     private DebugJTree()
     {
+        init();
+    }
+
+    private void init()
+    {
         MockitoAnnotations.initMocks( this );
 
-        File empty0File = FileHelper.createTempDir();
+        final File empty0File = FileHelper.createTempDir();
 
-        given( emptyFolder0.getPath() ).willReturn( empty0File.toPath() );
+        given( this.emptyFolder0.getPath() ).willReturn( empty0File.toPath() );
 
-        File empty1File = new File( empty0File, "empty" );
+        final File empty1File = new File( empty0File, "empty" );
         empty1File.mkdir();
 
-        given( emptyFolder1.getPath() ).willReturn( empty1File.toPath() );
+        given( this.emptyFolder1.getPath() ).willReturn( empty1File.toPath() );
     }
 
     private void createAndShowUI() {
-        JFrame frame = new JFrame();
+        final JFrame frame = new JFrame();
         final FolderTreeModelable2 model = buildDebugModel();
         final EmptyDirectoryTree tree = new EmptyDirectoryTree( model );
 
@@ -57,8 +62,8 @@ public class DebugJTree {
 
         LOGGER.info( "model.size() = " + model.size() );
 
-        model.add( emptyFolder0 );
-        model.add( emptyFolder1 );
+        model.add( this.emptyFolder0 );
+        model.add( this.emptyFolder1 );
 
         LOGGER.info( "model.size() = " + model.size() );
 
@@ -75,7 +80,7 @@ public class DebugJTree {
 //        return new DefaultTreeModel(root);
 //    }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SwingUtilities.invokeLater(new DebugJTree()::createAndShowUI);
     }
 }

@@ -20,6 +20,7 @@ import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -27,10 +28,12 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import org.apache.log4j.Logger;
 
 public class FileTreeViewer extends JFrame
 {
     private static final long                  serialVersionUID    = 1L;
+    private static final Logger                LOGGER              = Logger.getLogger( FileTreeViewer.class );
 
     public static final ImageIcon              ICON_COMPUTER       = new ImageIcon( "" );
     public static final ImageIcon              ICON_DISK           = new ImageIcon( "defaults1.png" );
@@ -176,13 +179,15 @@ public class FileTreeViewer extends JFrame
         {}
     }
 
-    public static void main( final String argv[] )
+    public static void main( final String[] argv )
     {
         try {
-            UIManager
-                    .setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
+            UIManager.setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
         }
-        catch( final Exception evt ) {}
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e ) {
+            LOGGER.warn( "UIManager.setLookAndFeel", e );;
+        }
+
         new FileTreeViewer();
     }
 }
