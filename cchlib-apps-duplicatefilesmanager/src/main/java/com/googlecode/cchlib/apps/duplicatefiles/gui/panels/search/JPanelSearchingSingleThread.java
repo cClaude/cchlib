@@ -78,7 +78,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
     private static final int THREAD_NUMBER = 0;
     private static final int NUMBER_OF_THREADS = 1;
 
-    private DuplicateFileFinder     dff;
+    private DuplicateFileFinder dff;
 
     @I18nString private String txtDuplicateSetsFound;
     @I18nString private String txtDuplicateFilesFound;
@@ -214,7 +214,6 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         getjProgressBarFiles().setMaximum( getPass1FilesCount() );
         getjProgressBarOctets().setMaximum( (int)(getPass1BytesCount()/1024) );
 
-        //duplicateFC.pass2();
         this.dff.find();
 
         setDisplayFile( null );

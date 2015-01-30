@@ -87,7 +87,7 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
 
         while( entryIterator.hasNext() ) {
             final Map.Entry<String, Set<File>> entry = entryIterator.next();
-            final Set<File> set = entry.getValue();
+            final Set<File>                    set   = entry.getValue();
 
             if( set.size() > 1 ) {
                 final String hashString = entry.getKey();
