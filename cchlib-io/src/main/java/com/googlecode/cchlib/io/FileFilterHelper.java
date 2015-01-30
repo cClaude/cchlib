@@ -1,5 +1,11 @@
 package com.googlecode.cchlib.io;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.nio.file.DirectoryStream.Filter;
+import java.nio.file.Path;
+import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.io.filefilter.ANDFileFilter;
 import com.googlecode.cchlib.io.filefilter.DirectoryFileFilter;
 import com.googlecode.cchlib.io.filefilter.FalseFileFilter;
@@ -10,8 +16,6 @@ import com.googlecode.cchlib.io.filefilter.NoneZeroLengthFileFilter;
 import com.googlecode.cchlib.io.filefilter.ORFileFilter;
 import com.googlecode.cchlib.io.filefilter.TrueFileFilter;
 import com.googlecode.cchlib.io.filefilter.XORFileFilter;
-import java.io.File;
-import java.io.FileFilter;
 
 /**
  * Build commons {@link FileFilter} that are {@link java.io.Serializable}
@@ -26,6 +30,15 @@ import java.io.FileFilter;
 */
 public final class FileFilterHelper
 {
+    /**
+     * @since 4.2
+     */
+    @NeedDoc
+    public interface ErrorHandler {
+        @NeedDoc
+        boolean handleIOException( File file, IOException ioe );
+    }
+
     private FileFilterHelper()
     {
         // All static
@@ -155,4 +168,23 @@ public final class FileFilterHelper
     {
         return new NoneZeroLengthFileFilter();
     }
+
+    @NeedDoc
+    public static FileFilter toFileFilter( final Filter<Path> filter, final ErrorHandler errorHandler )
+    {
+        return pathname -> {
+            try {
+                return filter.accept( pathname.toPath() );
+            }
+            catch( final IOException e ) {
+                return errorHandler.handleIOException( pathname, e );
+            }
+        };
+    }
+
+    public static ErrorHandler returnFalseOnError()
+    {
+        return ( file, ioe ) -> false;
+    }
+
 }
