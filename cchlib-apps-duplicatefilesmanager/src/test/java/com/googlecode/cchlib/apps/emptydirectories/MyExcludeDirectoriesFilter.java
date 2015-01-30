@@ -11,14 +11,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-final class MyExcludeDirectoriesFilter implements FolderFilter, Filter<Path>, FileFilter
+public final class MyExcludeDirectoriesFilter
 {
     private static final String[] TRASH = { "$Recycle.Bin", "Trash" };
 
     private final List<Path> pathList = new ArrayList<>();
     private final List<File> fileList = new ArrayList<>();
 
-    @Override
     public boolean accept( final Path entry ) throws IOException
     {
         if( souldBeExclude( entry ) ) {
@@ -41,7 +40,6 @@ final class MyExcludeDirectoriesFilter implements FolderFilter, Filter<Path>, Fi
         }
     }
 
-    @Override
     public boolean accept( final File file )
     {
         if( souldBeExclude( file.toPath() ) ) {
@@ -65,33 +63,48 @@ final class MyExcludeDirectoriesFilter implements FolderFilter, Filter<Path>, Fi
 
     public List<Path> getPathList()
     {
-        return pathList;
+        return this.pathList;
     }
 
     public List<File> getFileList()
     {
-        return fileList;
+        return this.fileList;
     }
 
     public Set<Path> createPathSet()
     {
-        return new HashSet<>( pathList );
+        return new HashSet<>( this.pathList );
     }
 
     public Set<File> createFileSet()
     {
-        return new HashSet<>( fileList );
+        return new HashSet<>( this.fileList );
     }
 
-    @Override
     public Filter<Path> toFilter()
     {
-        return this;
+        return entry -> MyExcludeDirectoriesFilter.this.accept( entry );
     }
 
-    @Override
     public FileFilter toFileFilter()
     {
-        return this;
+        return pathname -> MyExcludeDirectoriesFilter.this.accept( pathname );
     }
+
+//    public FolderFilter toFolderFilter()
+//    {
+//        return new FolderFilter() {
+//            @Override
+//            public Filter<Path> toFilter()
+//            {
+//                return MyExcludeDirectoriesFilter.this.toFilter();
+//            }
+//
+//            @Override
+//            public FileFilter toFileFilter()
+//            {
+//                return MyExcludeDirectoriesFilter.this.toFileFilter();
+//            }
+//        };
+//    }
 }

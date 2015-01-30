@@ -1,10 +1,12 @@
 package com.googlecode.cchlib.apps.emptydirectories.path.lookup;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.DirectoryStream;
+import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.NotDirectoryException;
@@ -12,27 +14,32 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptydirectories.AbstractEmptyDirectoriesLookup;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.FolderFilter;
 import com.googlecode.cchlib.apps.emptydirectories.Folders;
 import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
 import com.googlecode.cchlib.lang.Enumerable;
+import com.googlecode.cchlib.nio.file.FilterHelper;
 import com.googlecode.cchlib.util.CancelRequestException;
 
-@Deprecated
+
+/**
+ * Find empty directories solution base on {@link FileFilter}
+ */
 public class DefaultEmptyDirectoriesLookup
-    implements EmptyDirectoriesLookup, Serializable
+    extends AbstractEmptyDirectoriesLookup<Filter<Path>>
+        implements EmptyDirectoriesLookup<Filter<Path>>, Serializable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
 
     private final List<Path> rootFilesForScan;
-    private DirectoryStream.Filter<Path> excludeDirectoriesFile;
-    private final List<EmptyDirectoriesListener> listeners = new ArrayList<>();
-    private final LinkOption[] linkOption = new LinkOption[0]; // TODO Future extension
+    private DirectoryStream.Filter<Path> excludeDirectories;
+    private final LinkOption[] linkOption = new LinkOption[0];
+
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
      * <br>
@@ -83,32 +90,6 @@ public class DefaultEmptyDirectoriesLookup
             }
     }
 
-    /**
-     * Add listener to this object.
-     *
-     * @param listener A valid {@link EmptyDirectoriesListener}
-     * @throws NullPointerException if listener is null.
-     */
-    @Override
-    public void addListener( final EmptyDirectoriesListener listener )
-    {
-        if( listener == null ) {
-            throw new NullPointerException();
-            }
-
-        this.listeners.add( listener );
-    }
-
-    /**
-     * Remove listener to this object
-     *
-     * @param listener A {@link EmptyDirectoriesListener} object
-     */
-    @Override
-    public void removeListener( final EmptyDirectoriesListener listener )
-    {
-        this.listeners.remove( listener );
-    }
 
     /**
      * Clear previous list and compute current list of empty directories
@@ -119,37 +100,17 @@ public class DefaultEmptyDirectoriesLookup
     @Override
     public void lookup() throws CancelRequestException, ScanIOException
     {
-        //lookup( FileFilterHelper.falseFileFilter() );
-        //lookup( FilterHelper.newAcceptAllFilter() );
-        lookup( null );
+        lookup( FilterHelper.falseFilter() );
     }
 
-
-    /**
-     * Clear previous list and compute current list of empty directories
-     * @param excludeFolderFilter {@link FolderFilter} to identify directories to exclude.
-     * @throws CancelRequestException if any listeners ask to cancel operation
-     * @throws ScanIOException
-     */
     @Override
-    //public void lookup( final Filter<Path> excludeDirectoriesFile )
-    public void lookup( final FolderFilter excludeFolderFilter )
-        throws CancelRequestException, ScanIOException
+    public void lookup( @Nonnull final Filter<Path> filter ) throws CancelRequestException, ScanIOException
     {
-        for( final EmptyDirectoriesListener l : this.listeners ) {
+        for( final EmptyDirectoriesListener l : getListeners() ) {
             l.findStarted();
             }
 
-        this.excludeDirectoriesFile = excludeFolderFilter.toFilter();
-//        if( excludeDirectoriesFile == null ) {
-//            this.directoriesFilter = FilterHelper.newDirectoriesFilter();
-//            }
-//        else {
-//            this.directoriesFilter = FilterHelper.and(
-//                    FilterHelper.newDirectoriesFilter(),
-//                    FilterHelper.not( excludeDirectoriesFile )
-//                    );
-//            }
+        this.excludeDirectories = filter;
 
         for( final Path p : this.rootFilesForScan ) {
             if( LOGGER.isDebugEnabled() ) {
@@ -157,12 +118,12 @@ public class DefaultEmptyDirectoriesLookup
                 }
 
             //if( f.isDirectory() ) {
-            if( Files.isDirectory( p, linkOption ) ) {
+            if( Files.isDirectory( p, this.linkOption ) ) {
                 doScan( p );
                 }
             }
 
-        for( final EmptyDirectoriesListener l : this.listeners ) {
+        for( final EmptyDirectoriesListener l : getListeners() ) {
             l.findDone();
             }
     }
@@ -188,11 +149,11 @@ public class DefaultEmptyDirectoriesLookup
 
     private boolean canBeEmpty( final Path folder ) throws CancelRequestException, ScanIOException
     {
-        assert Files.isDirectory( folder, linkOption ) : "Not a directory=" + folder;
+        assert Files.isDirectory( folder, this.linkOption ) : "Not a directory=" + folder;
 
 
         if( canBeScan( folder ) ) {
-            for( final EmptyDirectoriesListener l : this.listeners ) {
+            for( final EmptyDirectoriesListener l : getListeners() ) {
                 if( l.isCancel() ) {
                     throw new CancelRequestException();
                     }
@@ -207,9 +168,9 @@ public class DefaultEmptyDirectoriesLookup
 
     private boolean canBeScan( final Path folder ) throws ScanIOException // $codepro.audit.disable blockDepth
     {
-        if( excludeDirectoriesFile != null ) {
+        if( this.excludeDirectories != null ) {
             try {
-                if( excludeDirectoriesFile.accept( folder ) ) {
+                if( this.excludeDirectories.accept( folder ) ) {
                     if( LOGGER.isDebugEnabled() ) {
                         LOGGER.debug( "Ignore: " + folder );
                         }
@@ -295,13 +256,6 @@ public class DefaultEmptyDirectoriesLookup
                 }
 
             return false;
-            }
-    }
-
-    private void notify( final EmptyFolder emptyFolder )
-    {
-        for( final EmptyDirectoriesListener l : this.listeners ) {
-            l.newEntry( emptyFolder );
             }
     }
 }
