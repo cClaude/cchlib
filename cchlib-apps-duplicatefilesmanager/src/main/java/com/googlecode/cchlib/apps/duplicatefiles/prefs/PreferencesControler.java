@@ -437,4 +437,24 @@ public class PreferencesControler implements Serializable
     {
         return Integer.valueOf( DEFAULT_DELETE_SLEEP_DISPLAY_MAX_ENTRIES );
     }
+
+    public int getMaxParallelFilesPerThread()
+    {
+        int maxParallelFilesPerThread = this.preferences.getMaxParallelFilesPerThread();
+
+        if( maxParallelFilesPerThread < 1 ) {
+            maxParallelFilesPerThread = 1;
+        }
+
+        return maxParallelFilesPerThread;
+    }
+
+    public void setMaxParallelFilesPerThread( int maxParallelFilesPerThread )
+    {
+        if( maxParallelFilesPerThread < 1 ) {
+            maxParallelFilesPerThread = 1;
+        }
+
+        this.preferences.setMaxParallelFilesPerThread( maxParallelFilesPerThread );
+    }
 }

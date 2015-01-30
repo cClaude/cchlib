@@ -320,5 +320,17 @@ final class PreferencesProperties implements Preferences, Serializable
     {
         this.preferences.setNumberOfThreads( maxThreads );
     }
+
+    @Override
+    public int getMaxParallelFilesPerThread()
+    {
+        return this.preferences.getMaxParallelFilesPerThread();
+    }
+
+    @Override
+    public void setMaxParallelFilesPerThread( final int maxParallelFilesPerThread )
+    {
+        this.preferences.setMaxParallelFilesPerThread( maxParallelFilesPerThread );
+    }
 }
 

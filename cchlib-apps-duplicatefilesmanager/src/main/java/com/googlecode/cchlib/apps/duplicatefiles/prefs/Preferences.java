@@ -67,4 +67,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.util.SerializableDimensio
 
     int getNumberOfThreads();
     void setNumberOfThreads( int maxThreads );
+
+    int getMaxParallelFilesPerThread();
+    void setMaxParallelFilesPerThread( int maxParallelFilesPerThread );
 }

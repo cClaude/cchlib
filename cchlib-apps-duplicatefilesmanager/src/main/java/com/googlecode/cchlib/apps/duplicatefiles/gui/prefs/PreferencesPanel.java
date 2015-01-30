@@ -3,8 +3,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui.prefs;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.util.Locale;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -63,6 +61,9 @@ public class PreferencesPanel extends JPanel {
     private JLabel numberOfThreadsLabel;
     private JSlider numberOfThreadsJSlider;
     private JTextField numberOfThreadsTF;
+    private JLabel maxParallelFilesPerThreadLabel;
+    private JSlider maxParallelFilesPerThreadJSlider;
+    private JTextField maxParallelFilesPerThreadTF;
 
     public PreferencesPanel()
     {
@@ -76,161 +77,161 @@ public class PreferencesPanel extends JPanel {
 
         final GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[]{0, 40, 0, 0, 0};
-        gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         gbl_panel.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
         this.setLayout(gbl_panel);
 
-        jPanelTitle = new TitledBorder(null, i18n.getTxtJPanelTitle(), TitledBorder.LEADING, TitledBorder.TOP, null, null);
-        this.setBorder( jPanelTitle );
+        this.jPanelTitle = new TitledBorder(null, i18n.getTxtJPanelTitle(), TitledBorder.LEADING, TitledBorder.TOP, null, null);
+        this.setBorder( this.jPanelTitle );
         //--------------
         {
-            jLabelUserLevel = new JLabel("User level");
+            this.jLabelUserLevel = new JLabel("User level");
             final GridBagConstraints gbc_jLabelUserLevel = new GridBagConstraints();
             gbc_jLabelUserLevel.anchor = GridBagConstraints.EAST;
             gbc_jLabelUserLevel.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelUserLevel.gridx = 0;
             gbc_jLabelUserLevel.gridy = 0;
-            this.add(jLabelUserLevel, gbc_jLabelUserLevel);
+            this.add(this.jLabelUserLevel, gbc_jLabelUserLevel);
         }
         {
-            jComboBoxUserLevel = new JComboBox<>();
+            this.jComboBoxUserLevel = new JComboBox<>();
             final GridBagConstraints gbc_jComboBoxUserLevel = new GridBagConstraints();
             gbc_jComboBoxUserLevel.insets = new Insets(0, 0, 5, 5);
             gbc_jComboBoxUserLevel.fill = GridBagConstraints.HORIZONTAL;
             gbc_jComboBoxUserLevel.gridx = 1;
             gbc_jComboBoxUserLevel.gridy = 0;
-            this.add(jComboBoxUserLevel, gbc_jComboBoxUserLevel);
+            this.add(this.jComboBoxUserLevel, gbc_jComboBoxUserLevel);
         }
         //--------------
         {
-            jLabeMessageDigestBufferSize = new JLabel("Hash code buffer size");
+            this.jLabeMessageDigestBufferSize = new JLabel("Hash code buffer size");
             final GridBagConstraints gbc_jLabeMessageDigestBufferSize = new GridBagConstraints();
             gbc_jLabeMessageDigestBufferSize.anchor = GridBagConstraints.EAST;
             gbc_jLabeMessageDigestBufferSize.insets = new Insets(0, 0, 5, 5);
             gbc_jLabeMessageDigestBufferSize.gridx = 0;
             gbc_jLabeMessageDigestBufferSize.gridy = 1;
-            this.add(jLabeMessageDigestBufferSize, gbc_jLabeMessageDigestBufferSize);
+            this.add(this.jLabeMessageDigestBufferSize, gbc_jLabeMessageDigestBufferSize);
         }
         {
-            messageDigestBufferSizeTF = new LimitedIntegerJTextField();
-            messageDigestBufferSizeTF.setValue( preferencesControler.getMessageDigestBufferSize() );
+            this.messageDigestBufferSizeTF = new LimitedIntegerJTextField();
+            this.messageDigestBufferSizeTF.setValue( this.preferencesControler.getMessageDigestBufferSize() );
             final GridBagConstraints gbc_messageDigestBufferSizeTF = new GridBagConstraints();
             gbc_messageDigestBufferSizeTF.insets = new Insets(0, 0, 5, 5);
             gbc_messageDigestBufferSizeTF.fill = GridBagConstraints.HORIZONTAL;
             gbc_messageDigestBufferSizeTF.gridx = 1;
             gbc_messageDigestBufferSizeTF.gridy = 1;
-            this.add(messageDigestBufferSizeTF, gbc_messageDigestBufferSizeTF);
-            messageDigestBufferSizeTF.setColumns(10);
+            this.add(this.messageDigestBufferSizeTF, gbc_messageDigestBufferSizeTF);
+            this.messageDigestBufferSizeTF.setColumns(10);
         }
         {
-            jLabelDefaultMessageDigestBufferSize = new JLabel();
+            this.jLabelDefaultMessageDigestBufferSize = new JLabel();
             final GridBagConstraints gbc_jLabelDefaultMessageDigestBufferSize = new GridBagConstraints();
             gbc_jLabelDefaultMessageDigestBufferSize.gridwidth = 2;
             gbc_jLabelDefaultMessageDigestBufferSize.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDefaultMessageDigestBufferSize.insets = new Insets(0, 0, 5, 0);
             gbc_jLabelDefaultMessageDigestBufferSize.gridx = 2;
             gbc_jLabelDefaultMessageDigestBufferSize.gridy = 1;
-            this.add(jLabelDefaultMessageDigestBufferSize, gbc_jLabelDefaultMessageDigestBufferSize);
+            this.add(this.jLabelDefaultMessageDigestBufferSize, gbc_jLabelDefaultMessageDigestBufferSize);
         }
         //--------------
         {
-            jLabelDeleteSleepDisplay = new JLabel("Delete delais");
+            this.jLabelDeleteSleepDisplay = new JLabel("Delete delais");
             final GridBagConstraints gbc_jLabelDeleteSleepDisplay = new GridBagConstraints();
             gbc_jLabelDeleteSleepDisplay.anchor = GridBagConstraints.EAST;
             gbc_jLabelDeleteSleepDisplay.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelDeleteSleepDisplay.gridx = 0;
             gbc_jLabelDeleteSleepDisplay.gridy = 2;
-            this.add(jLabelDeleteSleepDisplay, gbc_jLabelDeleteSleepDisplay);
+            this.add(this.jLabelDeleteSleepDisplay, gbc_jLabelDeleteSleepDisplay);
         }
         {
-            deleteSleepDisplayTF = new LimitedIntegerJTextField();
-            deleteSleepDisplayTF.setValue( preferencesControler.getDeleteSleepDisplay() );
+            this.deleteSleepDisplayTF = new LimitedIntegerJTextField();
+            this.deleteSleepDisplayTF.setValue( this.preferencesControler.getDeleteSleepDisplay() );
             final GridBagConstraints gbc_deleteSleepDisplayTF = new GridBagConstraints();
             gbc_deleteSleepDisplayTF.insets = new Insets(0, 0, 5, 5);
             gbc_deleteSleepDisplayTF.fill = GridBagConstraints.HORIZONTAL;
             gbc_deleteSleepDisplayTF.gridx = 1;
             gbc_deleteSleepDisplayTF.gridy = 2;
-            this.add(deleteSleepDisplayTF, gbc_deleteSleepDisplayTF);
-            deleteSleepDisplayTF.setColumns(10);
+            this.add(this.deleteSleepDisplayTF, gbc_deleteSleepDisplayTF);
+            this.deleteSleepDisplayTF.setColumns(10);
         }
         {
-            jLabelDefaultDeleteDelais = new JLabel();
+            this.jLabelDefaultDeleteDelais = new JLabel();
             final GridBagConstraints gbc_jLabelDefaultDeleteDelais = new GridBagConstraints();
             gbc_jLabelDefaultDeleteDelais.gridwidth = 2;
             gbc_jLabelDefaultDeleteDelais.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDefaultDeleteDelais.insets = new Insets(0, 0, 5, 0);
             gbc_jLabelDefaultDeleteDelais.gridx = 2;
             gbc_jLabelDefaultDeleteDelais.gridy = 2;
-            this.add(jLabelDefaultDeleteDelais, gbc_jLabelDefaultDeleteDelais);
+            this.add(this.jLabelDefaultDeleteDelais, gbc_jLabelDefaultDeleteDelais);
         }
         {
-            jLabelDeleteSleepDisplayMaxEntries = new JLabel("Delete display max entries");
+            this.jLabelDeleteSleepDisplayMaxEntries = new JLabel("Delete display max entries");
             final GridBagConstraints gbc_jLabelDeleteSleepDisplayMaxEntries = new GridBagConstraints();
             gbc_jLabelDeleteSleepDisplayMaxEntries.anchor = GridBagConstraints.EAST;
             gbc_jLabelDeleteSleepDisplayMaxEntries.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelDeleteSleepDisplayMaxEntries.gridx = 0;
             gbc_jLabelDeleteSleepDisplayMaxEntries.gridy = 3;
-            this.add(jLabelDeleteSleepDisplayMaxEntries, gbc_jLabelDeleteSleepDisplayMaxEntries);
+            this.add(this.jLabelDeleteSleepDisplayMaxEntries, gbc_jLabelDeleteSleepDisplayMaxEntries);
         }
         {
-            deleteSleepDisplayMaxEntriesTF = new LimitedIntegerJTextField();
-            deleteSleepDisplayMaxEntriesTF.setValue( preferencesControler.getDeleteSleepDisplayMaxEntries() );
+            this.deleteSleepDisplayMaxEntriesTF = new LimitedIntegerJTextField();
+            this.deleteSleepDisplayMaxEntriesTF.setValue( this.preferencesControler.getDeleteSleepDisplayMaxEntries() );
             final GridBagConstraints gbc_deleteSleepDisplayMaxEntriesTF = new GridBagConstraints();
             gbc_deleteSleepDisplayMaxEntriesTF.insets = new Insets(0, 0, 5, 5);
             gbc_deleteSleepDisplayMaxEntriesTF.fill = GridBagConstraints.HORIZONTAL;
             gbc_deleteSleepDisplayMaxEntriesTF.gridx = 1;
             gbc_deleteSleepDisplayMaxEntriesTF.gridy = 3;
-            this.add(deleteSleepDisplayMaxEntriesTF, gbc_deleteSleepDisplayMaxEntriesTF);
-            deleteSleepDisplayMaxEntriesTF.setColumns(10);
+            this.add(this.deleteSleepDisplayMaxEntriesTF, gbc_deleteSleepDisplayMaxEntriesTF);
+            this.deleteSleepDisplayMaxEntriesTF.setColumns(10);
         }
         {
-            jLabelDefaultDeleteSleepDisplayMaxEntries = new JLabel();
+            this.jLabelDefaultDeleteSleepDisplayMaxEntries = new JLabel();
             final GridBagConstraints gbc_jLabelDefaultDeleteSleepDisplayMaxEntries = new GridBagConstraints();
             gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.gridwidth = 2;
             gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.insets = new Insets(0, 0, 5, 0);
             gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.gridx = 2;
             gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.gridy = 3;
-            this.add(jLabelDefaultDeleteSleepDisplayMaxEntries, gbc_jLabelDefaultDeleteSleepDisplayMaxEntries);
+            this.add(this.jLabelDefaultDeleteSleepDisplayMaxEntries, gbc_jLabelDefaultDeleteSleepDisplayMaxEntries);
         }
         {
-            jLabelLocale = new JLabel("Language");
+            this.jLabelLocale = new JLabel("Language");
             final GridBagConstraints gbc_jLabelLocale = new GridBagConstraints();
             gbc_jLabelLocale.anchor = GridBagConstraints.EAST;
             gbc_jLabelLocale.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelLocale.gridx = 0;
             gbc_jLabelLocale.gridy = 4;
-            this.add(jLabelLocale, gbc_jLabelLocale);
+            this.add(this.jLabelLocale, gbc_jLabelLocale);
         }
         {
-            jComboBoxLocal = new JComboBox<>();
+            this.jComboBoxLocal = new JComboBox<>();
             final GridBagConstraints gbc_jComboBoxLocal = new GridBagConstraints();
             gbc_jComboBoxLocal.gridwidth = 2;
             gbc_jComboBoxLocal.insets = new Insets(0, 0, 5, 5);
             gbc_jComboBoxLocal.fill = GridBagConstraints.HORIZONTAL;
             gbc_jComboBoxLocal.gridx = 1;
             gbc_jComboBoxLocal.gridy = 4;
-            this.add(jComboBoxLocal, gbc_jComboBoxLocal);
+            this.add(this.jComboBoxLocal, gbc_jComboBoxLocal);
         }
         {
-            jLabelLookAndFeel = new JLabel("Look and feel");
+            this.jLabelLookAndFeel = new JLabel("Look and feel");
             final GridBagConstraints gbc_jLabelLookAndFeel = new GridBagConstraints();
             gbc_jLabelLookAndFeel.anchor = GridBagConstraints.EAST;
             gbc_jLabelLookAndFeel.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelLookAndFeel.gridx = 0;
             gbc_jLabelLookAndFeel.gridy = 5;
-            this.add(jLabelLookAndFeel, gbc_jLabelLookAndFeel);
+            this.add(this.jLabelLookAndFeel, gbc_jLabelLookAndFeel);
         }
         {
-            jComboBoxLookAndFeel = new JComboBox<>();
+            this.jComboBoxLookAndFeel = new JComboBox<>();
             final GridBagConstraints gbc_jComboBoxLookAndFeel = new GridBagConstraints();
             gbc_jComboBoxLookAndFeel.gridwidth = 3;
             gbc_jComboBoxLookAndFeel.insets = new Insets(0, 0, 5, 0);
             gbc_jComboBoxLookAndFeel.fill = GridBagConstraints.HORIZONTAL;
             gbc_jComboBoxLookAndFeel.gridx = 1;
             gbc_jComboBoxLookAndFeel.gridy = 5;
-            this.add(jComboBoxLookAndFeel, gbc_jComboBoxLookAndFeel);
+            this.add(this.jComboBoxLookAndFeel, gbc_jComboBoxLookAndFeel);
         }
         {
             this.numberOfThreadsLabel = new JLabel("Number of threads");
@@ -242,28 +243,9 @@ public class PreferencesPanel extends JPanel {
             add(this.numberOfThreadsLabel, gbc_numberOfThreadsLabel);
         }
         {
-            this.numberOfThreadsJSlider = new JSlider();
-            this.numberOfThreadsJSlider.setMinimum( 1 );
-            this.numberOfThreadsJSlider.setMaximum( getMaxNumberOfThreads() );
-            this.numberOfThreadsJSlider.setValue( preferencesControler.getNumberOfThreads() );
-            this.numberOfThreadsJSlider.addMouseMotionListener(new MouseMotionAdapter() {
-                @Override
-                public void mouseDragged(final MouseEvent e) {
-                    setNumberOfThreads( Integer.toString( numberOfThreadsJSlider.getValue() ) );
-                }
-
-            });
-            final GridBagConstraints gbc_numberOfThreadsJSlider = new GridBagConstraints();
-            gbc_numberOfThreadsJSlider.fill = GridBagConstraints.HORIZONTAL;
-            gbc_numberOfThreadsJSlider.insets = new Insets(0, 0, 5, 5);
-            gbc_numberOfThreadsJSlider.gridx = 1;
-            gbc_numberOfThreadsJSlider.gridy = 6;
-            add(this.numberOfThreadsJSlider, gbc_numberOfThreadsJSlider);
-        }
-        {
             this.numberOfThreadsTF = new JTextField();
             this.numberOfThreadsTF.setEditable(false);
-            setNumberOfThreads( Integer.toString( preferencesControler.getNumberOfThreads() ) );
+            setNumberOfThreads( Integer.toString( this.preferencesControler.getNumberOfThreads() ) );
             final GridBagConstraints gbc_numberOfThreadsTF = new GridBagConstraints();
             gbc_numberOfThreadsTF.insets = new Insets(0, 0, 5, 5);
             gbc_numberOfThreadsTF.fill = GridBagConstraints.HORIZONTAL;
@@ -273,131 +255,182 @@ public class PreferencesPanel extends JPanel {
             this.numberOfThreadsTF.setColumns(10);
         }
         {
-            jCheckBoxWindowDimension = new JCheckBox("Save current Windows size");
+            this.numberOfThreadsJSlider = new JSlider();
+            this.numberOfThreadsJSlider.setMinimum( 1 );
+            this.numberOfThreadsJSlider.setMaximum( getMaxNumberOfThreads() );
+            this.numberOfThreadsJSlider.setValue( this.preferencesControler.getNumberOfThreads() );
+            this.numberOfThreadsJSlider.addChangeListener(e -> setNumberOfThreads( Integer.toString( PreferencesPanel.this.numberOfThreadsJSlider.getValue() ) ));
+            final GridBagConstraints gbc_numberOfThreadsJSlider = new GridBagConstraints();
+            gbc_numberOfThreadsJSlider.fill = GridBagConstraints.HORIZONTAL;
+            gbc_numberOfThreadsJSlider.insets = new Insets(0, 0, 5, 5);
+            gbc_numberOfThreadsJSlider.gridx = 1;
+            gbc_numberOfThreadsJSlider.gridy = 6;
+            add(this.numberOfThreadsJSlider, gbc_numberOfThreadsJSlider);
+        }
+        {
+            this.maxParallelFilesPerThreadLabel = new JLabel("Max parallel files per thread");
+            final GridBagConstraints gbc_maxParallelFilesPerThreadLabel = new GridBagConstraints();
+            gbc_maxParallelFilesPerThreadLabel.insets = new Insets(0, 0, 5, 5);
+            gbc_maxParallelFilesPerThreadLabel.gridx = 0;
+            gbc_maxParallelFilesPerThreadLabel.gridy = 7;
+            add(this.maxParallelFilesPerThreadLabel, gbc_maxParallelFilesPerThreadLabel);
+        }
+        { // maxParallelFilesPerThreadTF must be init before maxParallelFilesPerThreadJSlider
+            this.maxParallelFilesPerThreadTF = new JTextField();
+            this.maxParallelFilesPerThreadTF.setEditable(false);
+            //this.maxParallelFilesPerThreadTF.setText("10");
+            final GridBagConstraints gbc_maxParallelFilesPerThreadTF = new GridBagConstraints();
+            gbc_maxParallelFilesPerThreadTF.insets = new Insets(0, 0, 5, 5);
+            gbc_maxParallelFilesPerThreadTF.fill = GridBagConstraints.HORIZONTAL;
+            gbc_maxParallelFilesPerThreadTF.gridx = 2;
+            gbc_maxParallelFilesPerThreadTF.gridy = 7;
+            add(this.maxParallelFilesPerThreadTF, gbc_maxParallelFilesPerThreadTF);
+            this.maxParallelFilesPerThreadTF.setColumns(10);
+        }
+        { // maxParallelFilesPerThreadTF must be init before maxParallelFilesPerThreadJSlider
+            this.maxParallelFilesPerThreadJSlider = new JSlider();
+            this.maxParallelFilesPerThreadJSlider.addChangeListener(e -> setMaxParallelFilesPerThread( Integer.toString( PreferencesPanel.this.maxParallelFilesPerThreadJSlider.getValue() ) ));
+            this.maxParallelFilesPerThreadJSlider.setValue( this.preferencesControler.getMaxParallelFilesPerThread() );
+            this.maxParallelFilesPerThreadJSlider.setMinimum(1);
+            this.maxParallelFilesPerThreadJSlider.setMaximum(99);
+            final GridBagConstraints gbc_maxParallelFilesPerThreadJSlider = new GridBagConstraints();
+            gbc_maxParallelFilesPerThreadJSlider.fill = GridBagConstraints.HORIZONTAL;
+            gbc_maxParallelFilesPerThreadJSlider.insets = new Insets(0, 0, 5, 5);
+            gbc_maxParallelFilesPerThreadJSlider.gridx = 1;
+            gbc_maxParallelFilesPerThreadJSlider.gridy = 7;
+            add(this.maxParallelFilesPerThreadJSlider, gbc_maxParallelFilesPerThreadJSlider);
+        }
+        {
+            this.jCheckBoxWindowDimension = new JCheckBox("Save current Windows size");
             final GridBagConstraints gbc_jCheckBoxWindowDimension = new GridBagConstraints();
             gbc_jCheckBoxWindowDimension.gridwidth = 3;
             gbc_jCheckBoxWindowDimension.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBoxWindowDimension.insets = new Insets(0, 0, 5, 0);
             gbc_jCheckBoxWindowDimension.gridx = 1;
-            gbc_jCheckBoxWindowDimension.gridy = 7;
-            this.add(jCheckBoxWindowDimension, gbc_jCheckBoxWindowDimension);
+            gbc_jCheckBoxWindowDimension.gridy = 8;
+            this.add(this.jCheckBoxWindowDimension, gbc_jCheckBoxWindowDimension);
         }
         {
-            jLabelWindowDimension = new JLabel("Main Window dimentions");
+            this.jLabelWindowDimension = new JLabel("Main Window dimentions");
             final GridBagConstraints gbc_jLabelWindowDimension = new GridBagConstraints();
             gbc_jLabelWindowDimension.anchor = GridBagConstraints.EAST;
             gbc_jLabelWindowDimension.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelWindowDimension.gridx = 0;
-            gbc_jLabelWindowDimension.gridy = 7;
-            this.add(jLabelWindowDimension, gbc_jLabelWindowDimension);
+            gbc_jLabelWindowDimension.gridy = 8;
+            this.add(this.jLabelWindowDimension, gbc_jLabelWindowDimension);
         }
         {
-            jCheckBox_ignoreHiddenFiles = new JCheckBox("Ignore hidden files");
-            jCheckBox_ignoreHiddenFiles.setSelected( preferencesControler.isIgnoreHiddenFiles() );
+            this.jCheckBox_ignoreHiddenFiles = new JCheckBox("Ignore hidden files");
+            this.jCheckBox_ignoreHiddenFiles.setSelected( this.preferencesControler.isIgnoreHiddenFiles() );
             final GridBagConstraints gbc_jCheckBox_ignoreHiddenFiles = new GridBagConstraints();
             gbc_jCheckBox_ignoreHiddenFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreHiddenFiles.insets = new Insets(0, 0, 5, 5);
             gbc_jCheckBox_ignoreHiddenFiles.gridx = 1;
-            gbc_jCheckBox_ignoreHiddenFiles.gridy = 8;
-            this.add(jCheckBox_ignoreHiddenFiles, gbc_jCheckBox_ignoreHiddenFiles);
+            gbc_jCheckBox_ignoreHiddenFiles.gridy = 9;
+            this.add(this.jCheckBox_ignoreHiddenFiles, gbc_jCheckBox_ignoreHiddenFiles);
         }
         {
-            jCheckBox_ignoreReadOnlyFiles = new JCheckBox("Ignore read only files");
-            jCheckBox_ignoreReadOnlyFiles.setSelected( preferencesControler.isIgnoreReadOnlyFiles() );
+            this.jCheckBox_ignoreReadOnlyFiles = new JCheckBox("Ignore read only files");
+            this.jCheckBox_ignoreReadOnlyFiles.setSelected( this.preferencesControler.isIgnoreReadOnlyFiles() );
             final GridBagConstraints gbc_jCheckBox_ignoreReadOnlyFiles = new GridBagConstraints();
             gbc_jCheckBox_ignoreReadOnlyFiles.gridwidth = 2;
             gbc_jCheckBox_ignoreReadOnlyFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreReadOnlyFiles.insets = new Insets(0, 0, 5, 0);
             gbc_jCheckBox_ignoreReadOnlyFiles.gridx = 2;
-            gbc_jCheckBox_ignoreReadOnlyFiles.gridy = 8;
-            this.add(jCheckBox_ignoreReadOnlyFiles, gbc_jCheckBox_ignoreReadOnlyFiles);
+            gbc_jCheckBox_ignoreReadOnlyFiles.gridy = 9;
+            this.add(this.jCheckBox_ignoreReadOnlyFiles, gbc_jCheckBox_ignoreReadOnlyFiles);
         }
         {
-            jCheckBox_ignoreHiddenDirectories = new JCheckBox("Ignore hidden directories");
-            jCheckBox_ignoreHiddenDirectories.setSelected( preferencesControler.isIgnoreHiddenDirectories() );
+            this.jCheckBox_ignoreHiddenDirectories = new JCheckBox("Ignore hidden directories");
+            this.jCheckBox_ignoreHiddenDirectories.setSelected( this.preferencesControler.isIgnoreHiddenDirectories() );
             final GridBagConstraints gbc_jCheckBox_ignoreHiddenDirectories = new GridBagConstraints();
             gbc_jCheckBox_ignoreHiddenDirectories.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreHiddenDirectories.insets = new Insets(0, 0, 5, 5);
             gbc_jCheckBox_ignoreHiddenDirectories.gridx = 1;
-            gbc_jCheckBox_ignoreHiddenDirectories.gridy = 9;
-            this.add(jCheckBox_ignoreHiddenDirectories, gbc_jCheckBox_ignoreHiddenDirectories);
+            gbc_jCheckBox_ignoreHiddenDirectories.gridy = 10;
+            this.add(this.jCheckBox_ignoreHiddenDirectories, gbc_jCheckBox_ignoreHiddenDirectories);
         }
         {
-            jCheckBox_ignoreEmptyFiles = new JCheckBox("Ignore empty files");
-            jCheckBox_ignoreEmptyFiles.setSelected( preferencesControler.isIgnoreEmptyFiles() );
+            this.jCheckBox_ignoreEmptyFiles = new JCheckBox("Ignore empty files");
+            this.jCheckBox_ignoreEmptyFiles.setSelected( this.preferencesControler.isIgnoreEmptyFiles() );
             final GridBagConstraints gbc_jCheckBox_ignoreEmptyFiles = new GridBagConstraints();
             gbc_jCheckBox_ignoreEmptyFiles.gridwidth = 2;
             gbc_jCheckBox_ignoreEmptyFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreEmptyFiles.insets = new Insets(0, 0, 5, 0);
             gbc_jCheckBox_ignoreEmptyFiles.gridx = 2;
-            gbc_jCheckBox_ignoreEmptyFiles.gridy = 9;
-            this.add(jCheckBox_ignoreEmptyFiles, gbc_jCheckBox_ignoreEmptyFiles);
+            gbc_jCheckBox_ignoreEmptyFiles.gridy = 10;
+            this.add(this.jCheckBox_ignoreEmptyFiles, gbc_jCheckBox_ignoreEmptyFiles);
         }
+    }
+
+    private void setMaxParallelFilesPerThread( final String maxParallelFilesPerThread )
+    {
+        this.maxParallelFilesPerThreadTF.setText( maxParallelFilesPerThread );
     }
 
     private void setNumberOfThreads( final String nThreads )
     {
-        numberOfThreadsTF.setText( nThreads );
+        this.numberOfThreadsTF.setText( nThreads );
     }
 
     private int getMaxNumberOfThreads()
     {
-        return  Runtime.getRuntime().availableProcessors();
+        return Runtime.getRuntime().availableProcessors();
     }
 
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         this.jLabelDefaultMessageDigestBufferSize.setText( //
-                String.format( i18n.getTxtJLabelDefaultMessageDigestBufferSize(), preferencesControler.getDefaultMessageDigestBufferSize() ) //
+                String.format( this.i18n.getTxtJLabelDefaultMessageDigestBufferSize(), this.preferencesControler.getDefaultMessageDigestBufferSize() ) //
                 );
         this.jLabelDefaultDeleteDelais.setText( //
-            String.format( i18n.getTxtJLabelDefaultDeleteDelais(), preferencesControler.getDefaultDeleteSleepDisplay() ) //
+            String.format( this.i18n.getTxtJLabelDefaultDeleteDelais(), this.preferencesControler.getDefaultDeleteSleepDisplay() ) //
             );
         this.jLabelDefaultDeleteSleepDisplayMaxEntries.setText( //
-            String.format( i18n.getTxtJLabelDefaultDeleteSleepDisplayMaxEntries(), preferencesControler.getDefaultDeleteSleepDisplayMaxEntries() ) //
+            String.format( this.i18n.getTxtJLabelDefaultDeleteSleepDisplayMaxEntries(), this.preferencesControler.getDefaultDeleteSleepDisplayMaxEntries() ) //
             );
         //------------------
         {
-            jComboBoxUserLevel.removeAllItems();
+            this.jComboBoxUserLevel.removeAllItems();
 
             for( final ConfigMode cm : ConfigMode.values() ) {
-                jComboBoxUserLevel.addItem( cm );
+                this.jComboBoxUserLevel.addItem( cm );
                 }
-            jComboBoxUserLevel.setSelectedItem( preferencesControler.getConfigMode() );
+            this.jComboBoxUserLevel.setSelectedItem( this.preferencesControler.getConfigMode() );
         }
         //------------------
         {
-            jComboBoxLocal.removeAllItems();
+            this.jComboBoxLocal.removeAllItems();
 
-            final Locale locale = i18n.getPreferencesControler().getLocale();
-            final LocaleList localeList = new LocaleList( i18n.getTxtStringDefaultLocale() );
+            final Locale locale = this.i18n.getPreferencesControler().getLocale();
+            final LocaleList localeList = new LocaleList( this.i18n.getTxtStringDefaultLocale() );
 
             for( final ListInfo<Locale> li : localeList ) {
-                jComboBoxLocal.addItem( li );
+                this.jComboBoxLocal.addItem( li );
 
                 if( locale == null ) {
                     if( li.getContent() == null ) {
-                        jComboBoxLocal.setSelectedItem( li );
+                        this.jComboBoxLocal.setSelectedItem( li );
                         }
                     }
                 else if( locale.equals( li.getContent() ) ) {
-                    jComboBoxLocal.setSelectedItem( li );
+                    this.jComboBoxLocal.setSelectedItem( li );
                     }
                 }
         }
         //------------------
         {
-            jComboBoxLookAndFeel.removeAllItems();
+            this.jComboBoxLookAndFeel.removeAllItems();
 
             final LookAndFeel         currentLAF          = UIManager.getLookAndFeel();
             final LookAndFeelInfoList list                = new LookAndFeelInfoList();
             final String              currentLAFClassName = currentLAF.getClass().getName();
 
             for( final ListInfo<LookAndFeelInfo> info : list ) {
-                jComboBoxLookAndFeel.addItem( info );
+                this.jComboBoxLookAndFeel.addItem( info );
 
                 if( info.getContent().getClassName().equals( currentLAFClassName  ) ) {
-                    jComboBoxLookAndFeel.setSelectedItem( info );
+                    this.jComboBoxLookAndFeel.setSelectedItem( info );
                     }
                 }
         }
@@ -406,62 +439,66 @@ public class PreferencesPanel extends JPanel {
 
     JComboBox<ConfigMode> getjComboBoxUserLevel()
     {
-        return jComboBoxUserLevel;
+        return this.jComboBoxUserLevel;
     }
 
     LimitedIntegerJTextField getDeleteSleepDisplayTF()
     {
-        return deleteSleepDisplayTF;
+        return this.deleteSleepDisplayTF;
     }
 
     LimitedIntegerJTextField getDeleteSleepDisplayMaxEntriesTF()
     {
-        return deleteSleepDisplayMaxEntriesTF;
+        return this.deleteSleepDisplayMaxEntriesTF;
     }
 
     LimitedIntegerJTextField getMessageDigestBufferSizeTF()
     {
-        return messageDigestBufferSizeTF;
+        return this.messageDigestBufferSizeTF;
     }
 
     public JComboBox<ListInfo<Locale>> getjComboBoxLocal()
     {
-        return jComboBoxLocal;
+        return this.jComboBoxLocal;
     }
 
     public JComboBox<ListInfo<LookAndFeelInfo>> getjComboBoxLookAndFeel()
     {
-        return jComboBoxLookAndFeel;
+        return this.jComboBoxLookAndFeel;
     }
 
     public boolean isIgnoreHiddenDirectories()
     {
-        return jCheckBox_ignoreHiddenDirectories.isSelected();
+        return this.jCheckBox_ignoreHiddenDirectories.isSelected();
     }
 
     public JCheckBox getjCheckBox_ignoreReadOnlyFiles()
     {
-        return jCheckBox_ignoreReadOnlyFiles;
+        return this.jCheckBox_ignoreReadOnlyFiles;
     }
 
     public JCheckBox getjCheckBoxWindowDimension()
     {
-        return jCheckBoxWindowDimension;
+        return this.jCheckBoxWindowDimension;
     }
 
     public int getNumberOfThreads()
     {
-        return numberOfThreadsJSlider.getValue();
+        return this.numberOfThreadsJSlider.getValue();
     }
 
     public boolean isIgnoreHiddenFiles()
     {
-        return jCheckBox_ignoreHiddenFiles.isSelected();
+        return this.jCheckBox_ignoreHiddenFiles.isSelected();
     }
 
     public boolean isIgnoreEmptyFiles()
     {
-        return jCheckBox_ignoreEmptyFiles.isSelected();
+        return this.jCheckBox_ignoreEmptyFiles.isSelected();
     }
 
+    public int getMaxParallelFilesPerThread()
+    {
+        return this.maxParallelFilesPerThreadJSlider.getValue();
+    }
 }

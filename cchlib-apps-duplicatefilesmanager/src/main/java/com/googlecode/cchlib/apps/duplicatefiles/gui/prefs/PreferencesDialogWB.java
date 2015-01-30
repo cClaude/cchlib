@@ -9,8 +9,8 @@ import java.awt.event.ActionEvent;
 import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
@@ -36,9 +36,9 @@ public final class PreferencesDialogWB
     {
         autoI18n.performeI18n( this, this.getClass() );
 
-        panel.performeI18n( autoI18n );
+        this.panel.performeI18n( autoI18n );
 
-        setMaxWidthOf( jButtonCancel, jButtonSave );
+        setMaxWidthOf( this.jButtonCancel, this.jButtonSave );
     }
 
     /**
@@ -57,11 +57,11 @@ public final class PreferencesDialogWB
         super();
 
         setTitle("Preferences");
-        setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
+        setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
         setBounds( 100, 100, 550, 380 );
-        contentPanel = new JPanel();
-        contentPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-        setContentPane( contentPanel );
+        this.contentPanel = new JPanel();
+        this.contentPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        setContentPane( this.contentPanel );
 
         final GridBagLayout gbl_contentPanel = new GridBagLayout();
         gbl_contentPanel.columnWidths = new int[]{40, 484, 40, 0};
@@ -69,9 +69,9 @@ public final class PreferencesDialogWB
         gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
         gbl_contentPanel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 
-        contentPanel.setLayout(gbl_contentPanel);
+        this.contentPanel.setLayout(gbl_contentPanel);
         {
-            panel = new PreferencesPanel( this );
+            this.panel = new PreferencesPanel( this );
 
             final GridBagConstraints gbc_panel = new GridBagConstraints();
             gbc_panel.fill = GridBagConstraints.BOTH;
@@ -79,28 +79,28 @@ public final class PreferencesDialogWB
             gbc_panel.insets = new Insets(0, 0, 5, 0);
             gbc_panel.gridx = 0;
             gbc_panel.gridy = 0;
-            contentPanel.add(panel, gbc_panel);
+            this.contentPanel.add(this.panel, gbc_panel);
         }
         {
-            jButtonCancel = new JButton("Cancel");
+            this.jButtonCancel = new JButton("Cancel");
             final GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
             gbc_jButtonCancel.fill = GridBagConstraints.BOTH;
             gbc_jButtonCancel.insets = new Insets(0, 0, 0, 5);
             gbc_jButtonCancel.gridx = 0;
             gbc_jButtonCancel.gridy = 1;
-            contentPanel.add(jButtonCancel, gbc_jButtonCancel);
-            jButtonCancel.addActionListener((final ActionEvent e) -> {
+            this.contentPanel.add(this.jButtonCancel, gbc_jButtonCancel);
+            this.jButtonCancel.addActionListener((final ActionEvent e) -> {
                 PreferencesDialogWB.this.dispose();
             });
         }
         {
-            jButtonSave = new JButton("Save");
+            this.jButtonSave = new JButton("Save");
             final GridBagConstraints gbc_jButtonSave = new GridBagConstraints();
             gbc_jButtonSave.fill = GridBagConstraints.BOTH;
             gbc_jButtonSave.gridx = 2;
             gbc_jButtonSave.gridy = 1;
-            contentPanel.add(jButtonSave, gbc_jButtonSave);
-            jButtonSave.addActionListener((final ActionEvent event) -> save( mainWindowDimension ) );
+            this.contentPanel.add(this.jButtonSave, gbc_jButtonSave);
+            this.jButtonSave.addActionListener((final ActionEvent event) -> save( mainWindowDimension ) );
         }
     }
 
@@ -108,22 +108,23 @@ public final class PreferencesDialogWB
     {
         final PreferencesControler prefs = getPreferencesControler();
 
-        prefs.setConfigMode( getSelectedItem( panel.getjComboBoxUserLevel() ) );
-        prefs.setDeleteSleepDisplay( panel.getDeleteSleepDisplayTF().getValue() );
-        prefs.setDeleteSleepDisplayMaxEntries( panel.getDeleteSleepDisplayMaxEntriesTF().getValue() );
-        prefs.setMessageDigestBufferSize( panel.getMessageDigestBufferSizeTF().getValue() );
+        prefs.setConfigMode( getSelectedItem( this.panel.getjComboBoxUserLevel() ) );
+        prefs.setDeleteSleepDisplay( this.panel.getDeleteSleepDisplayTF().getValue() );
+        prefs.setDeleteSleepDisplayMaxEntries( this.panel.getDeleteSleepDisplayMaxEntriesTF().getValue() );
+        prefs.setMessageDigestBufferSize( this.panel.getMessageDigestBufferSizeTF().getValue() );
         //prefs.setLastDirectory( file );
-        prefs.setLocale( getSelectedItem( panel.getjComboBoxLocal() ).getContent() );
-        prefs.setLookAndFeelInfo( getSelectedItem( panel.getjComboBoxLookAndFeel() ).getContent() );
+        prefs.setLocale( getSelectedItem( this.panel.getjComboBoxLocal() ).getContent() );
+        prefs.setLookAndFeelInfo( getSelectedItem( this.panel.getjComboBoxLookAndFeel() ).getContent() );
 
-        prefs.setIgnoreHiddenFiles( panel.isIgnoreHiddenFiles() );
-        prefs.setIgnoreHiddenDirectories( panel.isIgnoreHiddenDirectories() );
-        prefs.setIgnoreReadOnlyFiles( panel.getjCheckBox_ignoreReadOnlyFiles().isSelected() );
-        prefs.setIgnoreEmptyFiles( panel.isIgnoreEmptyFiles() );
+        prefs.setIgnoreHiddenFiles( this.panel.isIgnoreHiddenFiles() );
+        prefs.setIgnoreHiddenDirectories( this.panel.isIgnoreHiddenDirectories() );
+        prefs.setIgnoreReadOnlyFiles( this.panel.getjCheckBox_ignoreReadOnlyFiles().isSelected() );
+        prefs.setIgnoreEmptyFiles( this.panel.isIgnoreEmptyFiles() );
 
-        prefs.setNumberOfThreads( panel.getNumberOfThreads() );
+        prefs.setNumberOfThreads( this.panel.getNumberOfThreads() );
+        prefs.setMaxParallelFilesPerThread( this.panel.getMaxParallelFilesPerThread() );
 
-        if( panel.getjCheckBoxWindowDimension().isSelected() ) {
+        if( this.panel.getjCheckBoxWindowDimension().isSelected() ) {
             prefs.setWindowDimension( mainWindowDimension );
         }
 
