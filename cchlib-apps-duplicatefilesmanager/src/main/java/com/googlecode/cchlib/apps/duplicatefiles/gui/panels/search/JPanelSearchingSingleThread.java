@@ -80,10 +80,10 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
     private DuplicateFileFinder     dff;
 
-    @I18nString private final String txtDuplicateSetsFound = "%,d";
-    @I18nString private final String txtDuplicateFilesFound = "%,d";
-    @I18nString private final String txtNumberOfFilesProcessed = "Number of files processed: %,d";
-    @I18nString private final String txtOctectsToCheck = "Octects to check: %,d";
+    @I18nString private String txtDuplicateSetsFound;
+    @I18nString private String txtDuplicateFilesFound;
+    @I18nString private String txtNumberOfFilesProcessed;
+    @I18nString private String txtOctectsToCheck;
 
     private int     pass2CountFile;
     private long    pass2BytesCount;
@@ -100,6 +100,16 @@ public class JPanelSearchingSingleThread extends JPanelSearching
     public JPanelSearchingSingleThread()
     {
         super( NUMBER_OF_THREADS );
+
+        initI18N();
+    }
+
+    private void initI18N()
+    {
+        this.txtDuplicateSetsFound = "%,d";
+        this.txtDuplicateFilesFound = "%,d";
+        this.txtNumberOfFilesProcessed = "Number of files processed: %,d";
+        this.txtOctectsToCheck = "Octects to check: %,d";
     }
 
     @Override
