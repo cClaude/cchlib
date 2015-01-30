@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.EventCause;
-import com.googlecode.cchlib.i18n.I18nStringIsStaticException;
+import com.googlecode.cchlib.i18n.I18nStringIsFinalException;
 import com.googlecode.cchlib.i18n.I18nStringNotAStringException;
 import com.googlecode.cchlib.i18n.I18nSyntaxeException;
 import com.googlecode.cchlib.i18n.MethodProviderNoSuchMethodException;
@@ -181,7 +181,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     @Override
     public Class<? extends T> getObjectToI18nClass()
     {
-        return objectToI18nClass;
+        return this.objectToI18nClass;
     }
 
     private void addValueToCustomizeForToolTipText(
@@ -199,7 +199,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 methodContener = null;
                 }
             else {
-                methodContener = MethodProviderFactory.getMethodProvider( i18nDelegator ).getMethods( this.objectToI18nClass, field, method );
+                methodContener = MethodProviderFactory.getMethodProvider( this.i18nDelegator ).getMethods( this.objectToI18nClass, field, method );
                 }
 
             final I18nField i18nfield = I18nFieldFactory.createI18nFieldToolTipText( this.i18nDelegator, this.i18nKeyFactory, field, id, methodContener );
@@ -207,7 +207,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             this.fieldList.add( i18nfield );
             }
         else {
-            i18nDelegator.fireIgnoreField( field, id, EventCause.ERR_TOOL_TIP_NOT_A_JCOMPONENT, null );
+            this.i18nDelegator.fireIgnoreField( field, id, EventCause.ERR_TOOL_TIP_NOT_A_JCOMPONENT, null );
             }
     }
 
@@ -227,7 +227,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
 
         if( i18n != null ) {
             if( alreadyHandle ) {
-                i18nDelegator.fireIgnoreAnnotation( field, i18n, EventCause.OTHER_ANNOTATION_ALREADY_EXIST );
+                this.i18nDelegator.fireIgnoreAnnotation( field, i18n, EventCause.OTHER_ANNOTATION_ALREADY_EXIST );
                 }
             else {
                 alreadyHandle = true;
@@ -244,7 +244,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 addValueToCustomizeAndHandleErrors( field, type );
                 }
             else {
-                i18nDelegator.fireIgnoreField( field, null, EventCause.NOT_HANDLED, null );
+                this.i18nDelegator.fireIgnoreField( field, null, EventCause.NOT_HANDLED, null );
                 }
           }
     }
@@ -256,14 +256,14 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             }
         catch( final MethodProviderSecurityException e ) {
             // Should not occur (no reflexion here)
-            i18nDelegator.handleSecurityException( e, field );
+            this.i18nDelegator.handleSecurityException( e, field );
             }
         catch( final MethodProviderNoSuchMethodException e ) {
             // Should not occur (no reflexion here)
-            i18nDelegator.handleNoSuchMethodException( e, field );
+            this.i18nDelegator.handleNoSuchMethodException( e, field );
             }
         catch( final I18nSyntaxeException e ) {
-            i18nDelegator.handleI18nSyntaxeException( e, field );
+            this.i18nDelegator.handleI18nSyntaxeException( e, field );
             }
     }
 
@@ -274,13 +274,13 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             addValueToCustomize( field, i18n.id(), i18n.method(), type );
             }
         catch( final MethodProviderSecurityException e ) {
-            i18nDelegator.handleSecurityException( e, field );
+            this.i18nDelegator.handleSecurityException( e, field );
             }
         catch( final MethodProviderNoSuchMethodException e ) {
-            i18nDelegator.handleNoSuchMethodException( e, field );
+            this.i18nDelegator.handleNoSuchMethodException( e, field );
             }
         catch( final I18nSyntaxeException e ) {
-            i18nDelegator.handleI18nSyntaxeException( e, field );
+            this.i18nDelegator.handleI18nSyntaxeException( e, field );
             }
     }
 
@@ -290,13 +290,13 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             addValueToCustomizeForString( field, i18nString.id(), i18nString.method() );
             }
         catch( final MethodProviderSecurityException e ) {
-            i18nDelegator.handleSecurityException( e, field );
+            this.i18nDelegator.handleSecurityException( e, field );
             }
         catch( final MethodProviderNoSuchMethodException e ) {
-            i18nDelegator.handleNoSuchMethodException( e, field );
+            this.i18nDelegator.handleNoSuchMethodException( e, field );
             }
         catch( final I18nSyntaxeException e ) {
-            i18nDelegator.handleI18nSyntaxeException( e, field );
+            this.i18nDelegator.handleI18nSyntaxeException( e, field );
             }
     }
 
@@ -318,9 +318,9 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         }
 
         if( String.class.isAssignableFrom( field.getType() ) ) {
-            // A String field should not be static
+            // A String field should not be final
             if( Modifier.isFinal( field.getModifiers() ) ) {
-                throw new I18nStringIsStaticException( field );
+                throw new I18nStringIsFinalException( field );
             }
         }
 
@@ -329,7 +329,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         if( methodName.isEmpty() ) {
             methodContener = null;
         } else {
-            methodContener = MethodProviderFactory.getMethodProvider( i18nDelegator ).getMethods( objectToI18nClass, field, methodName );
+            methodContener = MethodProviderFactory.getMethodProvider( this.i18nDelegator ).getMethods( this.objectToI18nClass, field, methodName );
         }
 
         final I18nField i18nfield = I18nFieldFactory.createI18nStringField( this.i18nDelegator, this.i18nKeyFactory, field, id, methodContener );
@@ -350,7 +350,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             methodContener = null;
             }
         else {
-            methodContener = MethodProviderFactory.getMethodProvider( i18nDelegator ).getMethods( objectToI18nClass, field, method );
+            methodContener = MethodProviderFactory.getMethodProvider( this.i18nDelegator ).getMethods( this.objectToI18nClass, field, method );
             }
 
         this.fieldList.add(
