@@ -23,6 +23,9 @@ import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderHelper;
 import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
+/***
+ * This class is use if number of Thread is equal to 1
+ */
 public class JPanelSearchingSingleThread extends JPanelSearching
 {
     private final class MyDuplicateFileFinderEventListener implements DuplicateFileFinderEventListener {
@@ -261,7 +264,6 @@ public class JPanelSearchingSingleThread extends JPanelSearching
                 String.format(
                     locale,
                     this.txtDuplicateFilesFound,
-                    //Integer.valueOf( duplicateFC.getDuplicateFilesCount() )
                     Integer.valueOf( status.getFiles() )
                     )
                 );
@@ -318,7 +320,6 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
         super.prepareScan();
 
-        //this.dff = DuplicateFileFinderHelper.newDuplicateFileFinder( ignoreEmptyFiles, fileDigestFactory );
         this.dff = DuplicateFileFinderHelper.newDuplicateFileFinderAlgo2( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
 
         updateDisplayThread();

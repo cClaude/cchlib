@@ -17,6 +17,11 @@ public class ArrayAssert
     {//All static
     }
 
+    private static <T> void rowAppend( final StringBuilder sb, final Object array )
+    {
+        sb.append( array );
+    }
+
     /**
      * Asserts that two arrays are equal. If they
      * are not, an AssertionError is thrown.
@@ -64,7 +69,7 @@ public class ArrayAssert
                 }
 
             sb.append( "expected=null actual=" );
-            sb.append( actual );
+            rowAppend( sb, actual );
 
             Assert.fail( sb.toString() );
             return;
@@ -78,7 +83,7 @@ public class ArrayAssert
                 sb.append( ' ' );
                 }
             sb.append( "expected=");
-            sb.append( expected );
+            rowAppend( sb, expected );
             sb.append( " actual=null" );
 
             Assert.fail( sb.toString() );
@@ -97,11 +102,11 @@ public class ArrayAssert
                 sb.append( "expected(size=");
                 sb.append( expected.length );
                 sb.append( ")=" );
-                sb.append( expected );
+                rowAppend( sb, expected );
                 sb.append( " actual(size=" );
                 sb.append( actual.length );
                 sb.append( ")=" );
-                sb.append( actual );
+                rowAppend( sb, actual );
 
                 Assert.fail( sb.toString() );
                 }
@@ -127,7 +132,7 @@ public class ArrayAssert
                     }
 
                 sb.append( "expected" );
-                sb.append( expected );
+                rowAppend( sb, expected );
 
                 sb.append( " (item[:" );
                 sb.append( i );
@@ -135,7 +140,7 @@ public class ArrayAssert
                 sb.append( e );
 
                 sb.append( ") actual=" );
-                sb.append( actual );
+                rowAppend( sb, actual );
 
                 sb.append( " (item[:" );
                 sb.append( i );
@@ -181,7 +186,7 @@ public class ArrayAssert
                 }
 
             sb.append( "expected=null actual=" );
-            sb.append( actual );
+            rowAppend( sb, actual );
 
             Assert.fail( sb.toString() );
             }
@@ -195,7 +200,7 @@ public class ArrayAssert
                 }
 
             sb.append( "expected=");
-            sb.append( expected );
+            rowAppend( sb, expected );
             sb.append( " actual=null" );
 
             Assert.fail( sb.toString() );
@@ -212,11 +217,11 @@ public class ArrayAssert
                 sb.append( "expected(size=");
                 sb.append( expected.length );
                 sb.append( ")=" );
-                sb.append( expected );
+                rowAppend( sb, expected );
                 sb.append( " actual(size=" );
                 sb.append( actual.length );
                 sb.append( ")=" );
-                sb.append( actual );
+                rowAppend( sb, actual );
 
                 Assert.fail( sb.toString() );
                 }

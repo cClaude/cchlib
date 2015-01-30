@@ -33,6 +33,9 @@ import com.googlecode.cchlib.util.duplicate.stream.DuplicateFileFinderUsingStrea
 import com.googlecode.cchlib.util.duplicate.stream.ParallelDuplicateFileFinder;
 import com.googlecode.cchlib.util.duplicate.stream.PrepareDuplicateFile;
 
+/***
+ * This class is use if number of Thread is greater than 1
+ */
 public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurrentFile
 {
     private static final class Stats {
