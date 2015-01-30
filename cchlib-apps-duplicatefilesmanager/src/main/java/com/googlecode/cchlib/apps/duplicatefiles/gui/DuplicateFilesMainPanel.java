@@ -10,6 +10,7 @@ import java.util.TooManyListenersException;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.JPanelConfig;
@@ -30,6 +31,7 @@ public class DuplicateFilesMainPanel
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger( DuplicateFilesMainPanel.class );
 
     public static final String ACTIONCMD_RESTART = "ACTIONCMD_RESTART";
     public static final String ACTIONCMD_NEXT = "ACTIONCMD_NEXT";
@@ -218,6 +220,10 @@ public class DuplicateFilesMainPanel
      */
     public JPanelSearching createJPanel2Searching()
     {
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "NumberOfThreads : " + getAppToolKit().getPreferences().getNumberOfThreads() );
+        }
+
         if( getAppToolKit().getPreferences().getNumberOfThreads() < 2 ) {
             return new JPanelSearchingSingleThread();
         } else {
