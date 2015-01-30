@@ -35,6 +35,7 @@ class PreferencesBean implements Preferences, Serializable
     private int deleteSleepDisplayMaxEntries = INT_NOT_SET;
     private int messageDigestBufferSize = INT_NOT_SET;
     private int maxThreads;
+    private int maxParallelFilesPerThread;
 
     @Override
     public final ConfigMode getConfigMode()
@@ -316,12 +317,24 @@ class PreferencesBean implements Preferences, Serializable
     @Override
     public int getNumberOfThreads()
     {
-        return maxThreads;
+        return this.maxThreads;
     }
 
     @Override
     public void setNumberOfThreads( final int maxThreads )
     {
         this.maxThreads = maxThreads;
+    }
+
+    @Override
+    public int getMaxParallelFilesPerThread()
+    {
+        return this.maxParallelFilesPerThread;
+    }
+
+    @Override
+    public void setMaxParallelFilesPerThread( final int maxParallelFilesPerThread )
+    {
+        this.maxParallelFilesPerThread = maxParallelFilesPerThread;
     }
 }
