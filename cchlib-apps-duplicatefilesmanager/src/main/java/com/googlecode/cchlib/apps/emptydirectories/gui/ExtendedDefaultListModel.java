@@ -1,14 +1,14 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
-import com.googlecode.cchlib.lang.Enumerable;
 import java.util.Enumeration;
 import javax.swing.DefaultListModel;
+import com.googlecode.cchlib.lang.Enumerable;
 
 /**
  * @see DefaultListModel
  * @see Enumerable
  */
-public class MyDefaultListModel<E>
+public class ExtendedDefaultListModel<E>
     extends DefaultListModel<E>
         implements Enumerable<E>
 {
@@ -17,7 +17,7 @@ public class MyDefaultListModel<E>
     /**
      * @see DefaultListModel
      */
-    public MyDefaultListModel()
+    public ExtendedDefaultListModel()
     {
         super();
     }
