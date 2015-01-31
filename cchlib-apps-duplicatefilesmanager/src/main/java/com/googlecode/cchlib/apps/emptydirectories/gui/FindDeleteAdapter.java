@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
-import java.io.File;
 import java.io.FileFilter;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.AccessDeniedException;
@@ -28,18 +27,18 @@ public class FindDeleteAdapter
 {
     private static final Logger LOGGER = Logger.getLogger( FindDeleteAdapter.class );
 
-    private final MyDefaultListModel<File> listModel;
+    private final FileListModel        listModel;
     private final FolderTreeModelable1 treeModel;
-    private final FindDeleteListener listener;
+    private final FindDeleteListener   listener;
     private boolean isCancel;
 
     /**
      *
      */
     public FindDeleteAdapter(
-        final MyDefaultListModel<File>  listModel,
-        final FolderTreeModelable1      treeModel,
-        final FindDeleteListener        listener
+        final FileListModel         listModel,
+        final FolderTreeModelable1  treeModel,
+        final FindDeleteListener    listener
         )
     {
         if( listModel == null ) {
