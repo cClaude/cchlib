@@ -33,6 +33,7 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
+import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 import com.googlecode.cchlib.util.iterator.Iterators;
 
 @I18nName("duplicatefiles.JPanelResult")
@@ -124,10 +125,10 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
         this.dFToolKit = AppToolKitService.getInstance().getAppToolKit();
 
-        duplicateSetListContextualMenu = new DuplicateSetListContextualMenu( this );
+        this.duplicateSetListContextualMenu = new DuplicateSetListContextualMenu( this );
         createPopupMenus();
 
-        SwingUtilities.invokeLater( () -> setDividersLocation( dFToolKit.getPreferences().getJPaneResultDividerLocations() ) );
+        SwingUtilities.invokeLater( () -> setDividersLocation( this.dFToolKit.getPreferences().getJPaneResultDividerLocations() ) );
     }
 
     private void beSurNonFinal()
@@ -279,7 +280,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
             }
         else {
             final File    f       = kf.getFile();
-            final Locale  locale  = dFToolKit.getValidLocale();
+            final Locale  locale  = this.dFToolKit.getValidLocale();
 
             final String date = DateFormat.getDateTimeInstance(
                     DateFormat.FULL,
@@ -295,9 +296,9 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                         f.getName(),
                         Long.valueOf( f.length() ),
                         //f.canExecute()?txtCanExecuteFirstLetter:"-",
-                        f.canRead()?txtCanReadFirstLetter:"-",
-                        f.canWrite()?txtCanWriteFirstLetter:"-",
-                        f.isHidden()?txtHiddenFirstLetter:"-",
+                        f.canRead()?this.txtCanReadFirstLetter:"-",
+                        f.canWrite()?this.txtCanWriteFirstLetter:"-",
+                        f.isHidden()?this.txtHiddenFirstLetter:"-",
                         date,
                         kf.getKey()
                         )
@@ -319,7 +320,9 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
     private void updateDisplayKeptDelete( final String key )
     {
-        LOGGER.info( "updateDisplayKeptDelete: " + key );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "updateDisplayKeptDelete: " + key );
+        }
 
         displayFileInfo( null );
         final Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( key );
@@ -351,7 +354,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
     private ActionListener createOpenFileActionListener( final File file )
     {
-        return e ->  dFToolKit.openDesktop( file );
+        return e ->  this.dFToolKit.openDesktop( file );
     }
 
     private void createPopupMenus()
@@ -359,12 +362,12 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         createKeyFileStatePopupMenu( getJListKeptIntact() );
         createKeyFileStatePopupMenu( getJListWillBeDeleted() );
 
-        duplicateSetListContextualMenu.setPopupMenu();
+        this.duplicateSetListContextualMenu.setPopupMenu();
    }
 
     private void createKeyFileStatePopupMenu( final JList<KeyFileState> jList_ )
     {
-        final JPopupMenuForJList<KeyFileState> menu = new JPopupMenuForJList<KeyFileState>( jList_ )
+        final JPopupMenuForJList<KeyFileState> menu = new JPopupMenuForJList<KeyFileState>( jList_, AbstractJPopupMenuBuilder.Attributs.MUST_BE_SELECTED )
         {
             private static final long serialVersionUID = 1L;
             @Override
@@ -381,19 +384,19 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                     // Only one file selected...
                     kf = getListModel().getElementAt( selectedIndices[ 0 ] );
 
-                    addCopyMenuItem( cm, new JMenuItem( txtCopy ), rowIndex );
+                    addCopyMenuItem( cm, new JMenuItem( JPanelResult.this.txtCopy ), rowIndex );
 
                     addJMenuItem(
                             cm,
-                            txtOpenFile,
+                            JPanelResult.this.txtOpenFile,
                             createOpenFileActionListener( kf.getFile() )
                             );
-                        addJMenuItem(
-                                cm,
-                                txtOpenParentDirectory,
-                                createOpenFileActionListener( kf.getFile().getParentFile() )
-                                );
-                        cm.addSeparator();
+                    addJMenuItem(
+                            cm,
+                            JPanelResult.this.txtOpenParentDirectory,
+                            createOpenFileActionListener( kf.getFile().getParentFile() )
+                            );
+                    cm.addSeparator();
                     }
                 else {
                     kf = null;
@@ -404,7 +407,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                     addContextSubMenuActionCommand(
                         this,
                         cm,
-                        new JMenuItem(txtDeleteThisFile),
+                        new JMenuItem(JPanelResult.this.txtDeleteThisFile),
                         ACTION_COMMAND_DeleteTheseFiles,
                         selected
                         );
@@ -412,7 +415,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                     addContextSubMenuActionCommand(
                         this,
                         cm,
-                        new JMenuItem(txtDeleteAllExceptThisFile),
+                        new JMenuItem(JPanelResult.this.txtDeleteAllExceptThisFile),
                         ACTION_COMMAND_DeleteAllExceptTheseFiles,
                         selected
                         );
@@ -422,7 +425,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                     addContextSubMenuActionCommand(
                         this,
                         cm,
-                        new JMenuItem(txtKeepThisFile ),
+                        new JMenuItem(JPanelResult.this.txtKeepThisFile ),
                         ACTION_COMMAND_KeepTheseFiles,
                         selected
                         );
@@ -430,7 +433,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                     addContextSubMenuActionCommand(
                         this,
                         cm,
-                        new JMenuItem(txtKeepAllExceptThisFile),
+                        new JMenuItem(JPanelResult.this.txtKeepAllExceptThisFile),
                         ACTION_COMMAND_KeepAllExceptTheseFiles,
                         selected
                         );
@@ -440,28 +443,28 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                     addContextSubMenuActionCommandRec(
                             this,
                             cm,
-                            new JMenu(txtDeleteDuplicateIn),
+                            new JMenu(JPanelResult.this.txtDeleteDuplicateIn),
                             ACTION_COMMAND_DeleteDuplicateInDir,
                             kf
                             );
                     addContextSubMenuActionCommandRec(
                             this,
                             cm,
-                            new JMenu(txtKeepNonDuplicateIn),
+                            new JMenu(JPanelResult.this.txtKeepNonDuplicateIn),
                             ACTION_COMMAND_KeepNonDuplicateInDir,
                             kf
                             );
                     addContextSubMenuActionCommandRec(
                             this,
                             cm,
-                            new JMenu(txtKeepAllInDir),
+                            new JMenu(JPanelResult.this.txtKeepAllInDir),
                             ACTION_COMMAND_KeepAllInDir,
                             kf
                             );
                     addContextSubMenuActionCommandRec(
                             this,
                             cm,
-                            new JMenu(txtDeleteAllInDir),
+                            new JMenu(JPanelResult.this.txtDeleteAllInDir),
                             ACTION_COMMAND_DeleteAllInDir,
                             kf
                             );
@@ -476,7 +479,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
     private ActionListener getActionListenerContextSubMenu()
     {
-        if( actionListenerContextSubMenu == null ) {
+        if( this.actionListenerContextSubMenu == null ) {
             this.actionListenerContextSubMenu = (final ActionEvent e) -> {
                 final JMenuItem    sourceItem   = (JMenuItem) e.getSource();
                 final Object       actionObject = sourceItem.getClientProperty(ACTION_OBJECT);
@@ -515,7 +518,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                 }
             };
         }
-        return actionListenerContextSubMenu;
+        return this.actionListenerContextSubMenu;
     }
 
     private void onDeleteAllInDir( final Object actionObject )
@@ -710,7 +713,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
             finally {
                 enableAllWidgets();
 
-                dFToolKit.setEnabledJButtonCancel( true );
+                this.dFToolKit.setEnabledJButtonCancel( true );
             }
         }, "clearSelected()" ).start();
     }
@@ -751,8 +754,8 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, getClass() );
-        autoI18n.performeI18n( duplicateSetListContextualMenu, DuplicateSetListContextualMenu.class );
-        duplicateSetListContextualMenu.setPopupMenu();
+        autoI18n.performeI18n( this.duplicateSetListContextualMenu, DuplicateSetListContextualMenu.class );
+        this.duplicateSetListContextualMenu.setPopupMenu();
 
         super.getSelectorsJPanel().performeI18n( autoI18n );
     }
