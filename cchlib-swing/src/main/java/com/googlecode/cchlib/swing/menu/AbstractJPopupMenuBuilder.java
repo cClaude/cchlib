@@ -10,8 +10,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Reader;
 import java.io.Serializable;
+import java.util.EnumSet;
+import javax.annotation.Nullable;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -21,9 +24,63 @@ import javax.swing.JPopupMenu;
  */
 public abstract class AbstractJPopupMenuBuilder implements Serializable
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
+    // see readObject()
     private transient MouseListener menuMouseListener;
+
+    private final EnumSet<Attributs> attributes;
+
+    /**
+     * @since 4.2
+     */
+    public enum Attributs {
+        /**
+         * Line or Cell should be selected to activate menu
+         */
+        MUST_BE_SELECTED,
+    }
+
+    @Deprecated
+    protected AbstractJPopupMenuBuilder() {this(null);}
+
+    /**
+     * @param attributes configuration
+     * @since 4.2
+     */
+    protected AbstractJPopupMenuBuilder(
+        @Nullable final EnumSet<Attributs> attributes
+        )
+    {
+        if( attributes == null) {
+            this.attributes = EnumSet.noneOf( Attributs.class );
+        }
+        else {
+            this.attributes = EnumSet.copyOf( attributes );
+        }
+    }
+
+    /**
+     * Return configuration, must be handle by super class
+     * @return Returns configuration
+     * @since 4.2
+     */
+    protected EnumSet<Attributs> getAttributs()
+    {
+        return this.attributes;
+    }
+
+    /**
+     * @since 4.2
+     */
+   private void readObject( final ObjectInputStream in ) //
+        throws IOException, ClassNotFoundException
+    {
+        in.defaultReadObject();
+
+        // restore menu (if needed)
+        addMenu();
+    }
 
     /**
      * Add a {@link JMenuItem} on a {@link JPopupMenu}
@@ -40,8 +97,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#addActionListener(ActionListener)
      * @see JMenuItem#setActionCommand(String)
      */
-    final
-    public void addJMenuItem(
+   public final void addJMenuItem(
         final JPopupMenu      contextMenu,
         final JMenuItem       menuItem,
         final ActionListener  listener,
@@ -70,8 +126,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#addActionListener(ActionListener)
      * @see JMenuItem#setActionCommand(String)
      */
-    final
-    public JMenuItem addJMenuItem(
+    public final JMenuItem addJMenuItem(
         final JPopupMenu      contextMenu,
         final String          menuItemTxt,
         final ActionListener  listener,
@@ -105,8 +160,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#addActionListener(ActionListener)
      * @see JMenuItem#setActionCommand(String)
      */
-    final
-    public void addJMenuItem(
+    public final void addJMenuItem(
         final JPopupMenu      contextMenu,
         final JMenuItem       menuItem,
         final ActionListener  listener,
@@ -1157,7 +1211,6 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see #addMouseListener(MouseListener)
      * @see #maybeShowPopup(MouseEvent)
      */
-    final
     public void addMenu()
     {
         if( this.menuMouseListener != null ) {

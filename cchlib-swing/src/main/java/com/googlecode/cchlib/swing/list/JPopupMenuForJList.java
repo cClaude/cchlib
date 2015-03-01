@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.swing.list;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.EnumSet;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -87,18 +87,57 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 public abstract class JPopupMenuForJList<E>
     extends AbstractJPopupMenuBuilder
 {
-    private static final long serialVersionUID = 1L;
-    private JList<E> jList;
+    private static final long serialVersionUID = 2L;
+    private final JList<E> jList;
+
+    /**
+     * Create JPopupMenuForJList
+     *
+     * @param jList to use.
+     * @param attributes Configuration
+     * @since 4.2
+     * @see #isListMustBeSelected()
+     * @see Attributs#MUST_BE_SELECTED
+     */
+    public JPopupMenuForJList( //
+        final JList<E>              jList, //
+        final EnumSet<Attributs>    attributes //
+        )
+    {
+        super( attributes );
+
+        this.jList = jList;
+    }
+
+  /**
+   * Create JPopupMenuForJList
+   *
+   * @param jList to use.
+   * @param first First attribute for configuration
+   * @param rest  others attributes for configuration
+   * @since 4.2
+   */
+    public JPopupMenuForJList( //
+        final JList<E>      jList, //
+        final Attributs     first, //
+        final Attributs...  rest )
+    {
+        this( jList, EnumSet.of( first, rest ) );
+    }
 
     /**
      * Create JPopupMenuForJList
      *
      * @param jList to use.
      */
-    public JPopupMenuForJList( final JList<E> jList )
+    @Deprecated
+    public JPopupMenuForJList(
+        final JList<E> jList
+        )
     {
-        this.jList = jList;
+        this( jList, null );
     }
+
 
     /**
      * Returns current JList
@@ -106,7 +145,7 @@ public abstract class JPopupMenuForJList<E>
      */
     protected JList<E> getJList()
     {
-        return jList;
+        return this.jList;
     }
 
     /**
@@ -115,7 +154,7 @@ public abstract class JPopupMenuForJList<E>
      */
     protected ListModel<E> getListModel()
     {
-        return jList.getModel();
+        return this.jList.getModel();
     }
 
     /**
@@ -125,8 +164,8 @@ public abstract class JPopupMenuForJList<E>
      */
     protected int[] getSelectedIndices()
     {
-        int[] selectedIndices = jList.getSelectedIndices();
-        int[] copy            = new int[ selectedIndices.length ];
+        final int[] selectedIndices = this.jList.getSelectedIndices();
+        final int[] copy            = new int[ selectedIndices.length ];
         System.arraycopy( selectedIndices, 0, copy, 0, selectedIndices.length );
 
         return copy;
@@ -146,34 +185,69 @@ public abstract class JPopupMenuForJList<E>
     @Override
     protected void addMouseListener( final MouseListener l )
     {
-        jList.addMouseListener( l );
+        this.jList.addMouseListener( l );
     }
-    
+
     @Override
     protected void removeMouseListener( final MouseListener l )
     {
-        jList.removeMouseListener( l );
+        this.jList.removeMouseListener( l );
     }
 
     @Override
-    protected void maybeShowPopup( final MouseEvent e )
+    protected void maybeShowPopup( final MouseEvent event )
     {
-        if( e.isPopupTrigger() && jList.isEnabled() ) {
-            // get the list item on which the user right-clicked
-            Point   p   = new Point( e.getX(), e.getY() );
-            int     row = jList.locationToIndex( p );
+        if( event.isPopupTrigger() && this.jList.isEnabled() ) {
+            final Point point   = new Point( event.getX(), event.getY() );
+            final int   row     = getRow( point );
 
             if( row >= 0 ) {
                 // create popup menu...
-                JPopupMenu contextMenu = createContextMenu( row );
+                final JPopupMenu contextMenu = createContextMenu( row );
 
                 // ... and show it
-                if( contextMenu != null
-                        && contextMenu.getComponentCount() > 0 ) {
-                    contextMenu.show( jList, p.x, p.y );
+                if( (contextMenu != null)
+                        && (contextMenu.getComponentCount() > 0) ) {
+                    contextMenu.show( this.jList, point.x, point.y );
                     }
                 }
             }
+    }
+
+    /**
+     * Return row for the current mouse location (or selection)
+     * @param location the coordinates of the point
+     * @return Returns -1 if there is no selection.
+     */
+    private int getRow( final Point location )
+    {
+        // get the list item on which the user right-clicked
+        final int row = this.jList.locationToIndex( location );
+
+        if( row >=0 ) {
+            // use the selected item
+            if( isListMustBeSelected() ) {
+                if( this.jList.getSelectedIndex() >=0 ) {
+                    return row;
+                }
+            }
+            else {
+                // use the list item on which the user right-clicked
+                return row;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Could be override to change
+     * @return true to use selected entry to create menu (is no selected
+     *         entry, menu is not created)
+     * @since 4.2
+     */
+    public boolean isListMustBeSelected()
+    {
+        return getAttributs().contains( Attributs.MUST_BE_SELECTED );
     }
 
     /**
@@ -268,17 +342,12 @@ public abstract class JPopupMenuForJList<E>
         final int rowIndex
         )
     {
-        return new ActionListener()
-        {
-            @Override
-            public void actionPerformed( ActionEvent e )
-            {
-                E value = getListModel().getElementAt( rowIndex );
+        return e -> {
+            final E value = getListModel().getElementAt( rowIndex );
 
-                setClipboardContents(
-                        value == null ? StringHelper.EMPTY : value.toString()
-                        );
-            }
+            setClipboardContents(
+                    value == null ? StringHelper.EMPTY : value.toString()
+                    );
         };
     }
 }
