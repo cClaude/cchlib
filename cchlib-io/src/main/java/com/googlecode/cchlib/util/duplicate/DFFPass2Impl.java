@@ -2,7 +2,6 @@ package com.googlecode.cchlib.util.duplicate;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -67,13 +66,18 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
         for( final File file : setForThisLength ) {
             final String hashString = handlePass2ForFile( file );
 
-            Set<File> setForThisHash = mapSetForThisLength.get( hashString );
-
-            if( setForThisHash == null ) {
-                setForThisHash = new HashSet<>();
-                mapSetForThisLength.put( hashString, setForThisHash );
+            // if hashString is null, then file is lock or user has cancel task
+            if( hashString != null ) {
+//                Set<File> setForThisHash = mapSetForThisLength.get( hashString );
+//
+//                if( setForThisHash == null ) {
+//                    setForThisHash = new HashSet<>();
+//                    mapSetForThisLength.put( hashString, setForThisHash );
+//                }
+//
+//                setForThisHash.add( file );
+                mapSetForThisLength.add( hashString, file );
             }
-            setForThisHash.add( file );
 
             // Done with current file (or cancel)
             // Check cancel state
@@ -92,7 +96,8 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
             if( set.size() > 1 ) {
                 final String hashString = entry.getKey();
 
-                assert ! getConfig().getMapHashFiles().containsKey( hashString ) : "Error already found hash for a other size !";
+                assert hashString != null : "hashString is null";
+                assert ! getConfig().getMapHashFiles().containsKey( hashString ) : getAssertErrorMsg( hashString, getConfig().getMapHashFiles().get( hashString ), set );
 
                 getConfig().getMapHashFiles().put( hashString, set );
                 getConfig().duplicateSetsCountAdd( 1 );
@@ -103,6 +108,20 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
             }
             entryIterator.remove();
         }
+    }
+
+    private String getAssertErrorMsg( final String hashString, final Set<File> set1, final Set<File> set2 )
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append( "Error already found hash for a other size !\n" );
+        sb.append( hashString );
+        sb.append( "\n => \n" );
+        sb.append( set1 );
+        sb.append( "\n <=> \n" );
+        sb.append( set2 );
+
+        return sb.toString();
     }
 
     /** handle pass 2 for a single file (file per file) */

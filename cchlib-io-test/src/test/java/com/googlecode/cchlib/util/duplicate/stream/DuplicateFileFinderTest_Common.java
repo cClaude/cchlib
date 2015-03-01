@@ -44,15 +44,14 @@ abstract class DuplicateFileFinderTest_Common {
         final long beginNanoTime = System.nanoTime();
         getLogger().info( "*** PASS 1 +++ beginNanoTime " + beginNanoTime );
 
-        final Map<Long, Set<File>>        mapSet   = DuplicateFileBuilder.createFromFileVisitor( FileVisitorHelper.newFileVisitor( getLogger() ), true, startPaths ).compute();
+        final Map<Long, Set<File>>             mapSet   = DuplicateFileBuilder.createFromFileVisitor( FileVisitorHelper.newFileVisitor( getLogger() ), true, startPaths ).compute();
         final DuplicateFileFinderEventListener listener = newListener( "integration_test" );
 
         getLogger().info( "*** PASS 2 : " + MapSetHelper.size( mapSet ) );
         getLogger().info( "*** PASS 2" );
 
         final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( this.fileDigestFactory, listener );
-        getLogger().info( "*** PASS 2" );
-        getLogger().info( "*** PASS 2" );
+        getLogger().info( "*** PASS 2 - fileDigestFactory = " + this.fileDigestFactory );
 
         final Map<String, Set<File>> result = dff.computeHash( mapSet );
 
@@ -77,7 +76,7 @@ abstract class DuplicateFileFinderTest_Common {
         Assert.assertEquals( 2, getEntry( mapSet, 1 ).size() );
 
         final DuplicateFileFinderEventListener listener = newListener( "test_computeHash" );
-        final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( this.fileDigestFactory, listener );
+        final DuplicateFileFinderUsingStream   dff      = newDuplicateFileFinder( this.fileDigestFactory, listener );
 
         final Map<String, Set<File>> result = dff.computeHash( mapSet );
 
