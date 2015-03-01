@@ -58,9 +58,9 @@ public class SelectByRegExp extends SelectorPanel
             setLayout(gridBagLayout);
         }
         {
-            xComboBoxPatternRegEx = new XComboBoxPattern();
-            xComboBoxPatternRegEx.setErrorBackGroundColor( errorColor );
-            xComboBoxPatternRegEx.setModel(
+            this.xComboBoxPatternRegEx = new XComboBoxPattern();
+            this.xComboBoxPatternRegEx.setErrorBackGroundColor( errorColor );
+            this.xComboBoxPatternRegEx.setModel(
                 new DefaultComboBoxModel<>(new String[] { ".*\\.jpg", ".*\\.gif", ".*\\.tmp" })
                 );
 
@@ -70,7 +70,7 @@ public class SelectByRegExp extends SelectorPanel
             gbc_xComboBoxPatternRegEx.gridx = 0;
             gbc_xComboBoxPatternRegEx.gridy = 0;
 
-            add( xComboBoxPatternRegEx, gbc_xComboBoxPatternRegEx );
+            add( this.xComboBoxPatternRegEx, gbc_xComboBoxPatternRegEx );
         }
         {
             final GridBagConstraints gbc_jCheckBoxKeepOne = new GridBagConstraints();
@@ -79,9 +79,9 @@ public class SelectByRegExp extends SelectorPanel
             gbc_jCheckBoxKeepOne.gridx = 1;
             gbc_jCheckBoxKeepOne.gridy = 0;
 
-            jCheckBoxKeepOne = new JCheckBox( "Preserve one file" );
-            jCheckBoxKeepOne.setSelected( true );
-            add( jCheckBoxKeepOne, gbc_jCheckBoxKeepOne );
+            this.jCheckBoxKeepOne = new JCheckBox( "Preserve one file" );
+            this.jCheckBoxKeepOne.setSelected( true );
+            add( this.jCheckBoxKeepOne, gbc_jCheckBoxKeepOne );
         }
         {
             final GridBagConstraints gbc_jButtonRegExDelete = new GridBagConstraints();
@@ -90,11 +90,11 @@ public class SelectByRegExp extends SelectorPanel
             gbc_jButtonRegExDelete.gridx = 2;
             gbc_jButtonRegExDelete.gridy = 0;
 
-            jButtonRegExDelete = new JButton( "Delete" );
+            this.jButtonRegExDelete = new JButton( "Delete" );
             this.jButtonRegExDelete.addActionListener((final ActionEvent event) -> {
                 onButtonRegExDelete();
             });
-            add(jButtonRegExDelete, gbc_jButtonRegExDelete);
+            add(this.jButtonRegExDelete, gbc_jButtonRegExDelete);
         }
         {
             final GridBagConstraints gbc_jButtonRegExRestore = new GridBagConstraints();
@@ -102,11 +102,11 @@ public class SelectByRegExp extends SelectorPanel
             gbc_jButtonRegExRestore.gridx = 3;
             gbc_jButtonRegExRestore.gridy = 0;
 
-            jButtonRegExRestore = new JButton( "Restore" );
-            jButtonRegExRestore.addActionListener((final ActionEvent event) -> {
+            this.jButtonRegExRestore = new JButton( "Restore" );
+            this.jButtonRegExRestore.addActionListener((final ActionEvent event) -> {
                 onButtonRegExRestore();
             });
-            add( jButtonRegExRestore, gbc_jButtonRegExRestore );
+            add( this.jButtonRegExRestore, gbc_jButtonRegExRestore );
         }
     }
 
@@ -118,13 +118,13 @@ public class SelectByRegExp extends SelectorPanel
     private Pattern getCurrentPattern()
     {
         try {
-            return xComboBoxPatternRegEx.getSelectedPattern();
+            return this.xComboBoxPatternRegEx.getSelectedPattern();
             }
         catch( final java.util.regex.PatternSyntaxException e ) {
           JOptionPane.showMessageDialog(
                       this,
                       e.getLocalizedMessage(),
-                      txtPatternSyntaxExceptionTitle ,
+                      this.txtPatternSyntaxExceptionTitle ,
                       JOptionPane.ERROR_MESSAGE
                       );
           return null;
@@ -138,12 +138,12 @@ public class SelectByRegExp extends SelectorPanel
         if( p == null ) {
             return;
             }
-        final boolean keepOne = jCheckBoxKeepOne.isSelected();
+        final boolean keepOne = this.jCheckBoxKeepOne.isSelected();
 
         for( final KeyFileState f : this.duplicateData.getListModelDuplicatesFiles().getAllDuplicates() ) {
             if( !f.isSelectedToDelete() ) {
-                LOGGER.info( p.matcher( f.getFile().getPath() ).matches() + "=" + f.getFile().getPath() );
-                if( p.matcher( f.getFile().getPath() ).matches() ) {
+                LOGGER.info( p.matcher( f.getPath() ).matches() + "=" + f.getPath() );
+                if( p.matcher( f.getPath() ).matches() ) {
                     if( keepOne ) {
                         final String            k = f.getKey();
                         final Set<KeyFileState> s = this.duplicateData.getListModelDuplicatesFiles().getStateSet( k );
@@ -179,7 +179,7 @@ public class SelectByRegExp extends SelectorPanel
 
         for( final KeyFileState f : this.duplicateData.getListModelDuplicatesFiles().getAllDuplicates() ) {
             if( f.isSelectedToDelete() ) {
-                if( p.matcher( f.getFile().getPath() ).matches() ) {
+                if( p.matcher( f.getPath() ).matches() ) {
                     f.setSelectedToDelete( false );
                     }
                 }
@@ -191,11 +191,11 @@ public class SelectByRegExp extends SelectorPanel
     @Override
     public void updateDisplay()
     {
-        final boolean b = !( dFToolKit.getPreferences().getConfigMode() == ConfigMode.BEGINNER );
+        final boolean b = !( this.dFToolKit.getPreferences().getConfigMode() == ConfigMode.BEGINNER );
 
-        xComboBoxPatternRegEx.setEnabled( b );
-        jCheckBoxKeepOne.setEnabled( b );
-        jButtonRegExDelete.setEnabled( b );
-        jButtonRegExRestore.setEnabled( b );
+        this.xComboBoxPatternRegEx.setEnabled( b );
+        this.jCheckBoxKeepOne.setEnabled( b );
+        this.jButtonRegExDelete.setEnabled( b );
+        this.jButtonRegExRestore.setEnabled( b );
     }
 }

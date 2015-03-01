@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import java.io.File;
-import java.util.Collection;
 import java.util.Iterator;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
@@ -23,19 +21,19 @@ abstract class AbstractKeyFiles
     @Override
     public String toString()
     {
-        return getFirstFile().getName();
+        return getFirstFileInSet().getName();
     }
 
     @Override
     public long length()
     {
-        return getFirstFile().length();
+        return getFirstFileInSet().getLength();
     }
 
     @Override
     public String getKey()
     {
-        return key;
+        return this.key;
     }
 
     @Override
@@ -43,11 +41,4 @@ abstract class AbstractKeyFiles
     {
         return getFiles().iterator();
     }
-
-    @Override
-    public abstract File getFirstFile();
-
-    @Override
-    public abstract Collection<KeyFileState> getFiles();
-
 }

@@ -1,8 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.list.DefaultListCellRenderer;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.Serializable;
@@ -13,6 +10,9 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.list.DefaultListCellRenderer;
 
 /**
  *
@@ -26,10 +26,10 @@ class KeyFileStateListCellRenderer
     {
         public static <T extends Enum<T>> String toString( final Set<T> set )
         {
-            StringBuilder sb    = new StringBuilder();
+            final StringBuilder sb    = new StringBuilder();
             boolean       first = true;
 
-            for( T v : set ) {
+            for( final T v : set ) {
                 if( first ) {
                     first = false;
                     }
@@ -65,28 +65,28 @@ class KeyFileStateListCellRenderer
             final boolean                       cellHasFocus
             )
     {
-        Path    path  = value.getFile().toPath();
+        final Path    path  = value.toPath();
         String  permStr;
         String  sizeStr;
 
         try {
             try {
-                Set<PosixFilePermission> perms = Files.getPosixFilePermissions( path, DEFAULT_LINK_OPTIONS );
+                final Set<PosixFilePermission> perms = Files.getPosixFilePermissions( path, DEFAULT_LINK_OPTIONS );
 
                 permStr = Enums.toString( perms );
                 }
-            catch( UnsupportedOperationException e ) { // $codepro.audit.disable logExceptions
+            catch( final UnsupportedOperationException e ) { // $codepro.audit.disable logExceptions
                 permStr = getPermsString( path );
                 }
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             permStr = e.getMessage();
             }
 
         try {
             sizeStr = Long.toString( Files.size( path ) ) + " o";
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             sizeStr = e.getMessage();
             }
 
@@ -97,36 +97,36 @@ class KeyFileStateListCellRenderer
 
     private String getPermsString( final Path path ) throws IOException
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         if( Files.isExecutable( path ) ) {
-            sb.append( executableStr );
+            sb.append( this.executableStr );
         } else {
-            sb.append( notExecutableStr );
+            sb.append( this.notExecutableStr );
         }
 
         sb.append( ',' );
 
         if( Files.isHidden( path ) ) {
-            sb.append( hiddenStr );
+            sb.append( this.hiddenStr );
         } else {
-            sb.append( notHiddenStr );
+            sb.append( this.notHiddenStr );
         }
 
         sb.append( ',' );
 
         if( Files.isReadable( path ) ) {
-            sb.append( readableStr );
+            sb.append( this.readableStr );
         } else {
-            sb.append( notReadableStr );
+            sb.append( this.notReadableStr );
         }
 
         sb.append( ',' );
 
         if( Files.isWritable( path ) ) {
-            sb.append( writableStr );
+            sb.append( this.writableStr );
         } else {
-            sb.append( notWritableStr );
+            sb.append( this.notWritableStr );
         }
 
         return sb.toString();

@@ -221,7 +221,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     {
         m.addJMenuItem(
             parentMenu,
-            new JMenuItem( kf.getFile().getPath() ),
+            new JMenuItem( kf.getPath() ),
             getActionListenerContextSubMenu(),
             actionCommand,
             ACTION_OBJECT,
@@ -258,7 +258,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         m.addJMenuItem( parentMenu, menu );
 
         final String k = kf.getKey();
-        File         f = kf.getFile().getParentFile();
+        File         f = kf.getParentFile();
 
         while( f != null ) {
             addContextSubMenuActionCommand(
@@ -394,7 +394,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                     addJMenuItem(
                             cm,
                             JPanelResult.this.txtOpenParentDirectory,
-                            createOpenFileActionListener( kf.getFile().getParentFile() )
+                            createOpenFileActionListener( kf.getParentFile() )
                             );
                     cm.addSeparator();
                     }
@@ -526,7 +526,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         final KeyFileState kf = (KeyFileState)actionObject;
 
         final String k       = kf.getKey();
-        final String dirPath = kf.getFile().getPath() + File.separator;
+        final String dirPath = kf.getPath() + File.separator;
 
         for( final KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
             if( f.isInDirectory( dirPath ) ) {
@@ -541,7 +541,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         final KeyFileState kf = (KeyFileState)actionObject;
 
         final String k       = kf.getKey();
-        final String dirPath = kf.getFile().getPath() + File.separator;
+        final String dirPath = kf.getPath() + File.separator;
 
         for( final KeyFileState f : getListModelDuplicatesFiles().getStateSet( k ) ) {
             if( f.isInDirectory( dirPath ) ) {
@@ -557,7 +557,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
         // Keep at least on file in this dir.
         // TODO should keep first one OR last one according to current sort order !
-       final String dirPath = kf.getFile().getPath() + File.separator;
+       final String dirPath = kf.getPath() + File.separator;
 
         //Look for all files in this dir !
         for( final Entry<String,Set<KeyFileState>> entry : getListModelDuplicatesFiles().getStateEntrySet() ) {
@@ -596,7 +596,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
         // Delete all files in this dir, but keep one (globally)
         // TODO should keep first one OR last one according to current sort order !
-        final String dirPath = kf.getFile().getPath() + File.separator;
+        final String dirPath = kf.getPath() + File.separator;
 
         //Look for all files in this dir !
         // FIXME NEED CODE REVIEW !!!!

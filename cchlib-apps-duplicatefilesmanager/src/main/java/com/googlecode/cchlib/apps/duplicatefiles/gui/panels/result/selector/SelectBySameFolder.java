@@ -1,10 +1,6 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.util.HashMapSet;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -18,14 +14,18 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.util.HashMapSet;
 
 @I18nName("JPanelResult.SelectBySameFolder")
 public class SelectBySameFolder extends SelectorPanel
 {
     private static final Comparator<KeyFileState> FIRST_NAME_ALPHA_ORDER_IGNORE_EXT_COMPARATOR = (final KeyFileState o1, final KeyFileState o2) -> o1.getFileNameWithoutExtention().compareTo( o2.getFileNameWithoutExtention() );
-        private static final Comparator<KeyFileState> FIRST_NAME_ALPHA_ORDER_INCLUDE_EXTENTION_COMPARATOR = (final KeyFileState o1, final KeyFileState o2) -> o1.getFileNameWithExtention().compareTo( o2.getFileNameWithExtention() );
-    private static final Comparator<KeyFileState> MOST_RECENT_COMPARATOR = (final KeyFileState o1, final KeyFileState o2) -> (o1.getFile().lastModified() > o2.getFile().lastModified()) ? 1 : -1;
-    private static final Comparator<KeyFileState> OLDEST_COMPARATOR = (final KeyFileState o1, final KeyFileState o2) -> (o1.getFile().lastModified() < o2.getFile().lastModified()) ? 1 : -1;
+    private static final Comparator<KeyFileState> FIRST_NAME_ALPHA_ORDER_INCLUDE_EXTENTION_COMPARATOR = (final KeyFileState o1, final KeyFileState o2) -> o1.getFileNameWithExtention().compareTo( o2.getFileNameWithExtention() );
+    private static final Comparator<KeyFileState> MOST_RECENT_COMPARATOR = (final KeyFileState o1, final KeyFileState o2) -> (o1.getLastModified() > o2.getLastModified()) ? 1 : -1;
+    private static final Comparator<KeyFileState> OLDEST_COMPARATOR = (final KeyFileState o1, final KeyFileState o2) -> (o1.getLastModified() < o2.getLastModified()) ? 1 : -1;
 
     private enum Mode {
         KEEP_FIRST_NAME_ALPHA_ORDER_IGNORE_EXT(FIRST_NAME_ALPHA_ORDER_IGNORE_EXT_COMPARATOR),
@@ -35,14 +35,14 @@ public class SelectBySameFolder extends SelectorPanel
         ;
         private final Comparator<KeyFileState> comparator;
 
-        private Mode(Comparator<KeyFileState> comparator)
+        private Mode(final Comparator<KeyFileState> comparator)
         {
             this.comparator = comparator;
         }
 
         protected Comparator<KeyFileState> getComparator()
         {
-            return comparator;
+            return this.comparator;
         }
     }
 
@@ -52,11 +52,11 @@ public class SelectBySameFolder extends SelectorPanel
     }
 
     public static final ActionPerform DELETE_ACTION = (final Set<KeyFileState> set, final KeyFileState      selected) -> {
-        for( KeyFileState f : set ) {
+        for( final KeyFileState f : set ) {
             selected.setSelectedToDelete( f != selected ); // $codepro.audit.disable useEquals
         }
     };
-    public static final ActionPerform RESTORE_ACTION = (Set<KeyFileState> set, KeyFileState selected) -> {
+    public static final ActionPerform RESTORE_ACTION = (final Set<KeyFileState> set, final KeyFileState selected) -> {
         selected.setSelectedToDelete( false );
     };
 
@@ -69,7 +69,7 @@ public class SelectBySameFolder extends SelectorPanel
         {
             this.actionPerform = actionPerform;
         }
-        public void perform( Set<KeyFileState> set, KeyFileState selected )
+        public void perform( final Set<KeyFileState> set, final KeyFileState selected )
         {
             this.actionPerform.perform( set, selected );
         }
@@ -90,13 +90,13 @@ public class SelectBySameFolder extends SelectorPanel
     private final JButton deleteButton;
     private final JButton retoreButton;
 
-    public SelectBySameFolder( DuplicateData duplicateData )
+    public SelectBySameFolder( final DuplicateData duplicateData )
     {
-        assert Mode.values().length == modes.length;
+        assert Mode.values().length == this.modes.length;
 
         this.duplicateData = duplicateData;
 
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{80, 10, 0, 0, 80, 0};
         gridBagLayout.rowHeights = new int[]{23, 0};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -105,8 +105,8 @@ public class SelectBySameFolder extends SelectorPanel
 
         {
             this.modeComboBox = new JComboBox<>();
-            this.modeComboBox.setModel(new DefaultComboBoxModel<>(modes));
-            GridBagConstraints gbc_modeComboBox = new GridBagConstraints();
+            this.modeComboBox.setModel(new DefaultComboBoxModel<>(this.modes));
+            final GridBagConstraints gbc_modeComboBox = new GridBagConstraints();
             gbc_modeComboBox.fill = GridBagConstraints.HORIZONTAL;
             gbc_modeComboBox.insets = new Insets(0, 0, 0, 5);
             gbc_modeComboBox.gridx = 0;
@@ -116,10 +116,10 @@ public class SelectBySameFolder extends SelectorPanel
         {
             this.deleteButton = new JButton("Delete");
             this.deleteButton.setToolTipText("Move files to the to delete list");
-            this.deleteButton.addActionListener((ActionEvent e) -> {
+            this.deleteButton.addActionListener((final ActionEvent e) -> {
                 onDelete();
             });
-            GridBagConstraints gbc_deleteButton = new GridBagConstraints();
+            final GridBagConstraints gbc_deleteButton = new GridBagConstraints();
             gbc_deleteButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_deleteButton.anchor = GridBagConstraints.NORTH;
             gbc_deleteButton.gridx = 4;
@@ -128,10 +128,10 @@ public class SelectBySameFolder extends SelectorPanel
         }
         {
             this.retoreButton = new JButton("Restore");
-            this.retoreButton.addActionListener((ActionEvent e) -> {
+            this.retoreButton.addActionListener((final ActionEvent e) -> {
                 onRestore();
             });
-            GridBagConstraints gbc_retoreButton = new GridBagConstraints();
+            final GridBagConstraints gbc_retoreButton = new GridBagConstraints();
             gbc_retoreButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_retoreButton.insets = new Insets(0, 0, 0, 5);
             gbc_retoreButton.gridx = 3;
@@ -142,7 +142,7 @@ public class SelectBySameFolder extends SelectorPanel
 
     private Mode getMode()
     {
-        return Mode.values()[ modeComboBox.getSelectedIndex() ];
+        return Mode.values()[ this.modeComboBox.getSelectedIndex() ];
     }
 
     private void onApply(final Action action, final Mode mode)
@@ -152,20 +152,20 @@ public class SelectBySameFolder extends SelectorPanel
             }
         final HashMapSet<File,KeyFileState> byFolderMapSet = new HashMapSet<>();
 
-        for( Entry<String,Set<KeyFileState>> duplicateEntry : this.duplicateData.getListModelDuplicatesFiles().getStateEntrySet() ) {
+        for( final Entry<String,Set<KeyFileState>> duplicateEntry : this.duplicateData.getListModelDuplicatesFiles().getStateEntrySet() ) {
             final Set<KeyFileState> duplicateFiles = duplicateEntry.getValue();
 
             byFolderMapSet.clear();
 
             // Sort file by folders
-            for( KeyFileState f : duplicateFiles ) {
-                File folder = f.getFile().getParentFile();
+            for( final KeyFileState f : duplicateFiles ) {
+                final File folder = f.getParentFile();
 
                 byFolderMapSet.add( folder, f );
                 }
 
             //
-            for( Set<KeyFileState> set : byFolderMapSet.values() ) {
+            for( final Set<KeyFileState> set : byFolderMapSet.values() ) {
                 if( set.size() > 1 ) {
                     // More than duplicate in this folder
 
@@ -205,7 +205,7 @@ public class SelectBySameFolder extends SelectorPanel
     {
         KeyFileState max = null;
 
-        for( KeyFileState entry : collection ) {
+        for( final KeyFileState entry : collection ) {
             if( max == null ) {
                 max = entry;
             } else if( comparator.compare( entry, max ) > 0 ) {

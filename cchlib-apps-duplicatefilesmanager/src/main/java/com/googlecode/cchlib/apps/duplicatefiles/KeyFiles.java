@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
@@ -13,16 +12,32 @@ public interface KeyFiles
             Iterable<KeyFileState>
 {
     /**
-     * @return String use by UI display
+     * Returns depth of file
+     * @return depth of file
      */
-    @Override
-    String toString();
+    int getDepth();
 
     /**
-     * Returns 'first' File for this KeyFile
-     * @return 'first' File for this KeyFile
+     * @return the file collection
      */
-    File getFirstFile();
+    Collection<KeyFileState> getFiles();
+
+    /**
+     * Returns 'first' {@link KeyFileState} for this KeyFile
+     * @return 'first' entry {@link KeyFileState} in set.
+     */
+    KeyFileState getFirstFileInSet();
+
+    /**
+     * @return the key
+     */
+    String getKey();
+
+    /**
+     * @return {@link Iterator} all overs {@link KeyFileState}.
+     */
+    @Override
+    Iterator<KeyFileState> iterator();
 
     /**
      * Returns length for theses files
@@ -31,25 +46,8 @@ public interface KeyFiles
     long length();
 
     /**
-     * Returns depth of file
-     * @return depth of file
-     */
-    int getDepth();
-
-    /**
-     * @return the key
-     */
-    String getKey();
-
-    /**
-     * @return the file collection
-     */
-    Collection<KeyFileState> getFiles();
-
-    /**
-     * @return {@link Iterator} all overs {@link KeyFileState}.
+     * @return String use by UI display
      */
     @Override
-    Iterator<KeyFileState> iterator();
-
+    String toString();
 }
