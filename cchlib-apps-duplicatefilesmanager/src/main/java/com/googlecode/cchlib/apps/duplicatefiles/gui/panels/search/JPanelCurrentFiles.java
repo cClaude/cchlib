@@ -78,6 +78,7 @@ public class JPanelCurrentFiles extends JPanel
 
     public void clearCurrentFile( final int threadNumber )
     {
-        setCurrentFile( StringHelper.EMPTY + "**** FIXME ***", threadNumber );
+        // FXIME: ? Leave name ?
+        setCurrentFile( StringHelper.EMPTY, threadNumber );
     }
 }

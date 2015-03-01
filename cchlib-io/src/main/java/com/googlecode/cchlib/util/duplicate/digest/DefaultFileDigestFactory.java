@@ -51,4 +51,10 @@ public class DefaultFileDigestFactory implements FileDigestFactory {
 
         return new FileDigest( messageDigest, this.bufferSize );
     }
+
+    @Override
+    public String toString()
+    {
+        return "DefaultFileDigestFactory [algorithm=" + this.algorithm + ", bufferSize=" + this.bufferSize + "]";
+    }
 }

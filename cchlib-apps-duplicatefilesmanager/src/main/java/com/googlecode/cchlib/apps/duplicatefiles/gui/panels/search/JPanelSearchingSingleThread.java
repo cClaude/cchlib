@@ -28,6 +28,7 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
  */
 public class JPanelSearchingSingleThread extends JPanelSearching
 {
+    /** TODO try to use {@link GlobalDuplicateFileFinderListener} instead */
     private final class MyDuplicateFileFinderEventListener implements DuplicateFileFinderEventListener {
         private static final long serialVersionUID = 1L;
 
@@ -48,8 +49,8 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         @Override
          public void analysisDone( final File file, final String hashString )
          {
-             if( LOGGER.isDebugEnabled() ) {
-                 LOGGER.debug( "Hash for " + file + " is " + hashString );
+             if( LOGGER.isTraceEnabled() ) {
+                 LOGGER.trace( "Hash for " + file + " is " + hashString );
              }
          }
 
