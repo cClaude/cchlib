@@ -2,6 +2,8 @@ package com.googlecode.cchlib.apps.duplicatefiles;
 
 import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Path;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -10,12 +12,16 @@ public final class KeyFileState
     implements  Serializable,
                 Comparable<KeyFileState>
 {
+    private static final Logger LOGGER = Logger.getLogger( KeyFileState.class );
     private static final long serialVersionUID = 1L;
-    private final String  key;
-    private final File    file;
-    private String  path;
-    private boolean selectedToDelete;
-    private Integer depth;
+
+    private Integer             depth;
+    private final File          file;
+    private final String        key;
+    private final long          length;
+    private final String        name;
+    private final String        path;
+    private boolean             selectedToDelete;
 
     /**
      * File object
@@ -23,96 +29,38 @@ public final class KeyFileState
      * @param key
      * @param file
      */
-    public KeyFileState(String key, File file)
+    public KeyFileState(final String key, final File file)
     {
-        this.key  = key;
-        this.file = file;
+        this.key    = key;
+        this.file   = file;
+        this.path   = file.getPath();
+        this.name   = file.getName();
+        this.length = file.length();
         this.selectedToDelete = false;
      }
 
     @Override
-    public String toString()
+    public int compareTo( final KeyFileState kfs )
     {
-        return this.file.getPath();
+        return this.file.compareTo( kfs.file );
     }
 
-    /**
-     * @return the key
-     */
-    public String getKey()
+    public boolean delete()
     {
-        return key;
-    }
-
-    /**
-     * @return the file
-     */
-    public File getFile()
-    {
-        return file;
-    }
-
-    /**
-     * Returns depth of file
-     * @return depth of file
-     */
-    public int getDepth()
-    {
-        if( depth == null ) {
-            int  d = 0;
-            File f = file.getParentFile();
-
-            while( f != null ) {
-                f = f.getParentFile();
-                d++;
-                }
-            depth = Integer.valueOf( d );
-            }
-        return depth.intValue();
-    }
-
-    public boolean isInDirectory( String dirPath )
-    {
-        if( path == null ) {
-            path = file.getPath();
-            }
-
-        return path.startsWith( dirPath );
-    }
-
-    /**
-     * @return the selectedToDelete
-     */
-    public final boolean isSelectedToDelete()
-    {
-        return selectedToDelete;
-    }
-
-    /**
-     * @param selectedToDelete the selectedToDelete to set
-     */
-    public final void setSelectedToDelete( boolean selectedToDelete )
-    {
-        this.selectedToDelete = selectedToDelete;
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31; // $codepro.audit.disable numericLiterals
-        int result = 1;
-        result = (prime * result) + ((file == null) ? 0 : file.hashCode());
-        return result;
+        if( this.file.length() != this.length ) {
+            LOGGER.info( "File has change, can not delete :" + this.path );
+            return false;
+        }
+        else {
+            return this.file.delete();
+        }
     }
 
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals( Object obj )
+    public boolean equals( final Object obj )
     {
         if( this == obj ) {
             return true;
@@ -123,21 +71,49 @@ public final class KeyFileState
         if( !(obj instanceof KeyFileState) ) {
             return false;
         }
-        KeyFileState other = (KeyFileState)obj;
-        if( file == null ) {
+        final KeyFileState other = (KeyFileState)obj;
+        if( this.file == null ) {
             if( other.file != null ) {
                 return false;
             }
-        } else if( !file.equals( other.file ) ) {
+        } else if( !this.file.equals( other.file ) ) {
             return false;
         }
         return true;
     }
 
-    @Override
-    public int compareTo( KeyFileState kfs )
+    /**
+     * Returns depth of file
+     * @return depth of file
+     */
+    public int getDepth()
     {
-        return file.compareTo( kfs.file );
+        if( this.depth == null ) {
+            int  d = 0;
+            File f = this.file.getParentFile();
+
+            while( f != null ) {
+                f = f.getParentFile();
+                d++;
+                }
+            this.depth = Integer.valueOf( d );
+            }
+        return this.depth.intValue();
+    }
+
+    /**
+     * @return the file
+     * @deprecated use {@link #getPath()}
+     */
+    @Deprecated
+    public File getFile()
+    {
+        return this.file;
+    }
+
+    public String getFileNameWithExtention()
+    {
+        return this.file.getName();
     }
 
     public String getFileNameWithoutExtention()
@@ -159,8 +135,92 @@ public final class KeyFileState
         return name.substring( 0, index );
     }
 
-    public String getFileNameWithExtention()
+    /**
+     * @return the key
+     */
+    public String getKey()
     {
-        return getFile().getName();
+        return this.key;
+    }
+
+    public long getLastModified()
+    {
+        return this.file.lastModified();
+    }
+
+    public long getLength()
+    {
+        return this.length;
+    }
+
+    public String getName()
+    {
+        return this.name;
+    }
+
+    public File getParentFile()
+    {
+        return this.file.getParentFile();
+    }
+
+    /**
+     * @return the file path
+     */
+    public String getPath()
+    {
+        return this.path;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31; // $codepro.audit.disable numericLiterals
+        int result = 1;
+        result = (prime * result) + ((this.file == null) ? 0 : this.file.hashCode());
+        return result;
+    }
+
+    public boolean isFileExists()
+    {
+        return this.file.exists();
+    }
+
+    public boolean isInDirectory( final String dirPath )
+    {
+//        if( path == null ) {
+//            path = file.getPath();
+//            }
+//
+        return this.path.startsWith( dirPath );
+    }
+
+    /**
+     * @return the selectedToDelete
+     */
+    public final boolean isSelectedToDelete()
+    {
+        return this.selectedToDelete;
+    }
+
+    /**
+     * @param selectedToDelete the selectedToDelete to set
+     */
+    public final void setSelectedToDelete( final boolean selectedToDelete )
+    {
+        this.selectedToDelete = selectedToDelete;
+    }
+
+    public Path toPath()
+    {
+        return this.file.toPath();
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.path;
     }
 }

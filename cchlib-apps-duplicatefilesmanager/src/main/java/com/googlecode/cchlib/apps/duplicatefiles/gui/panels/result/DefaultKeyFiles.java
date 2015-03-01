@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import java.io.File;
 import java.util.Collection;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
@@ -29,16 +28,22 @@ final class DefaultKeyFiles extends AbstractKeyFiles
         this.firstFileCache = firstFileCache;
     }
 
+//    @Override
+//    public File getFirstFile()
+//    {
+//        return this.firstFileCache.getFile();
+//    }
+
     @Override
-    public File getFirstFile()
+    public KeyFileState getFirstFileInSet()
     {
-        return this.firstFileCache.getFile();
+        return this.firstFileCache;
     }
 
     @Override
     public Collection<KeyFileState> getFiles()
     {
-        return files;
+        return this.files;
     }
 
     @Override

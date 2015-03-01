@@ -1,9 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.util.HashMapSet;
-import com.googlecode.cchlib.util.MapSetHelper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +12,10 @@ import java.util.TreeSet;
 import javax.swing.AbstractListModel;
 import javax.swing.ListCellRenderer;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.util.HashMapSet;
+import com.googlecode.cchlib.util.MapSetHelper;
 
 //NOT public
 class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements JPanelResultListModel
@@ -52,7 +52,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
             prevLastIndex = this.duplicatesFileCacheList.size() - 1;
             }
 
-        duplicatesFileCacheList.clear();
+        this.duplicatesFileCacheList.clear();
 
 //        for( final Map.Entry<String,Set<KeyFileState>> e : getDuplicateFiles().entrySet() ) {
 //            final Collection<KeyFileState> files     = this.selectFirstMode.sort( e.getValue() );
@@ -66,22 +66,22 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
             final Collection<KeyFileState> files     = this.selectFirstMode.sort( e.getValue() );
             final KeyFileState             firstFile = this.selectFirstMode.getFileToDisplay( files );
 
-            duplicatesFileCacheList.add(
+            this.duplicatesFileCacheList.add(
                 new DefaultKeyFiles( e.getKey(), files, firstFile )
                 );
             });
 
-        if( sortMode != null ) {
+        if( this.sortMode != null ) {
             try {
-                Collections.sort( duplicatesFileCacheList, sortMode );
+                Collections.sort( this.duplicatesFileCacheList, this.sortMode );
                 }
             catch( final IllegalArgumentException e ) {
-                LOGGER.error( "Can not sort : sortMode = " + sortMode, e );
+                LOGGER.error( "Can not sort : sortMode = " + this.sortMode, e );
                 }
             }
 
         super.fireIntervalRemoved( this, 0, prevLastIndex );
-        super.fireContentsChanged( this, 0, duplicatesFileCacheList.size() );
+        super.fireContentsChanged( this, 0, this.duplicatesFileCacheList.size() );
     }
 
     @Override
@@ -119,13 +119,13 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     @Override
     public int getSize()
     {
-        return duplicatesFileCacheList.size();
+        return this.duplicatesFileCacheList.size();
     }
 
     @Override
     public KeyFiles getElementAt( final int index )
     {
-        return duplicatesFileCacheList.get( index );
+        return this.duplicatesFileCacheList.get( index );
     }
 
     @Override
@@ -144,7 +144,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     public Iterable<KeyFileState> getAllDuplicates()
     {
         //return getDuplicateFiles()::iterator;
-        return MapSetHelper.valuesIterable( duplicateFiles );
+        return MapSetHelper.valuesIterable( this.duplicateFiles );
     }
 
     /**
@@ -153,7 +153,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     @Override
     public Map<String, Set<KeyFileState>> getDuplicateFiles()
     {
-        return duplicateFiles;
+        return this.duplicateFiles;
     }
 
     private KeyFileStateListModelImpl listModelKeptIntact;
@@ -165,44 +165,44 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     //not public
     KeyFileStateListModel getKeptIntactListModel()
     {
-        if( listModelKeptIntact == null ) {
-            listModelKeptIntact = new KeyFileStateListModelImpl();
+        if( this.listModelKeptIntact == null ) {
+            this.listModelKeptIntact = new KeyFileStateListModelImpl();
             }
-        return listModelKeptIntact;
+        return this.listModelKeptIntact;
     }
 
     //not public
     ListCellRenderer<? super KeyFileState> getKeptIntactListCellRenderer()
     {
-        if( listCellRendererlKeptIntact == null ) {
-            listCellRendererlKeptIntact = new KeyFileStateListCellRenderer();
+        if( this.listCellRendererlKeptIntact == null ) {
+            this.listCellRendererlKeptIntact = new KeyFileStateListCellRenderer();
             }
-        return listCellRendererlKeptIntact;
+        return this.listCellRendererlKeptIntact;
     }
 
     //not public
     KeyFileStateListModel getWillBeDeletedListModel()
     {
-        if( listModelWillBeDeleted == null ) {
-            listModelWillBeDeleted = new KeyFileStateListModelImpl();
+        if( this.listModelWillBeDeleted == null ) {
+            this.listModelWillBeDeleted = new KeyFileStateListModelImpl();
             }
-        return listModelWillBeDeleted;
+        return this.listModelWillBeDeleted;
     }
 
     //not public
     ListCellRenderer<KeyFileState> getWillBeDeletedListCellRenderer()
     {
-        if( listCellRendererlWillBeDeleted == null ) {
-            listCellRendererlWillBeDeleted = new KeyFileStateListCellRenderer();
+        if( this.listCellRendererlWillBeDeleted == null ) {
+            this.listCellRendererlWillBeDeleted = new KeyFileStateListCellRenderer();
             }
-        return listCellRendererlWillBeDeleted;
+        return this.listCellRendererlWillBeDeleted;
     }
 
     @Override
     public void clearKeepDelete()
     {
-        listModelKeptIntact.clear();
-        listModelWillBeDeleted.clear();
+        this.listModelKeptIntact.clear();
+        this.listModelWillBeDeleted.clear();
     }
 
     @Override
@@ -220,20 +220,20 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
 
         ss.addAll( s );
 
-        listModelWillBeDeleted.clear();
-        listModelKeptIntact.clear();
+        this.listModelWillBeDeleted.clear();
+        this.listModelKeptIntact.clear();
 
         for( final KeyFileState sf : ss ) {
             if( sf.isSelectedToDelete() ) {
-                listModelWillBeDeleted.private_add( sf );
+                this.listModelWillBeDeleted.private_add( sf );
                   }
             else {
-                listModelKeptIntact.private_add( sf );
+                this.listModelKeptIntact.private_add( sf );
                   }
               }
 
-        listModelWillBeDeleted.private_fireAddedAll();
-        listModelKeptIntact.private_fireAddedAll();
+        this.listModelWillBeDeleted.private_fireAddedAll();
+        this.listModelKeptIntact.private_fireAddedAll();
 
         ss.clear();
     }
@@ -280,7 +280,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
             while( kfsIterator.hasNext() ) {
                 final KeyFileState kfs = kfsIterator.next();
 
-                if( ! kfs.getFile().exists() ) {
+                if( ! kfs.isFileExists() ) {
                     // File no more exist (delete by an other process)
                     LOGGER.info( "refreshList() : File \"" + kfs + "\" no more exist" );
                     kfsIterator.remove();

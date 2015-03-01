@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -34,6 +35,73 @@ import com.googlecode.cchlib.util.MapSetHelper;
 
 public class JPanelConfirm extends JPanel
 {
+    private static final class Model extends AbstractTableModel {
+        private static final long serialVersionUID = 1L;
+        private final JPanelConfirm jPanelConfirm;
+        private final Map<String, Set<KeyFileState>> duplicateFiles;
+
+        private Model( //
+            final JPanelConfirm                   jPanelConfirm, //
+            final Map<String, Set<KeyFileState>>  duplicateFiles //
+            )
+        {
+            this.jPanelConfirm  = jPanelConfirm;
+            this.duplicateFiles = duplicateFiles;
+        }
+
+        @Override
+        public int getColumnCount()
+        {
+            return this.jPanelConfirm.columnsHeaders.length;
+        }
+
+        @Override
+        public String getColumnName(final int column)
+        {
+            return this.jPanelConfirm.columnsHeaders[column];
+        }
+
+        @Override
+        public int getRowCount()
+        {
+            return this.jPanelConfirm.tableDts_toDelete.size();
+        }
+
+        @Override
+        public Class<?> getColumnClass(final int columnIndex)
+        {
+            switch(columnIndex) {
+                case 1:
+                    return Long.class;
+                case 2:
+                case 3:
+                    return Integer.class;
+                default:
+                    return String.class;
+            }
+        }
+
+        @Override
+        public Object getValueAt(final int rowIndex, final int columnIndex)
+        {
+            if( columnIndex == 1 ) {
+                //return tableDts_length[rowIndex];
+                return this.jPanelConfirm.tableDts_toDelete.getFileLength( rowIndex );
+                }
+            else {
+                final KeyFileState f = this.jPanelConfirm.tableDts_toDelete.get( rowIndex );
+
+                switch(columnIndex) {
+                    case 0 : return f.getPath();
+                    //case 1 : return f.getFile().length();
+                    case 2 : return computeKept( this.duplicateFiles,f.getKey() );
+                    case 3 : return computeDeleted( this.duplicateFiles,f.getKey() );
+                }
+                return null;
+            }
+        }
+    }
+
     private final class ConfirmTableCellRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 1L;
 
@@ -49,7 +117,7 @@ public class JPanelConfirm extends JPanel
         {
             if( row == 0 ) {
                 final KeyFileState f = JPanelConfirm.this.tableDts_toDelete.get( row );
-                setText( f.getFile().getPath() );
+                setText( f.getPath() );
 
                 final Boolean b = JPanelConfirm.this.tableDts_toDelete.getDeleted( row );
 
@@ -60,7 +128,7 @@ public class JPanelConfirm extends JPanel
                         setIcon( JPanelConfirm.this.iconOk );
                         }
                     else {
-                        if( f.getFile().exists() ) {
+                        if( f.isFileExists() ) {
                             setIcon( JPanelConfirm.this.iconKo );
                             setToolTipText( JPanelConfirm.this.txtIconKo );
                             }
@@ -246,57 +314,7 @@ public class JPanelConfirm extends JPanel
 
     private AbstractTableModel newAbstractTableModel( final Map<String, Set<KeyFileState>> duplicateFiles )
     {
-        return new AbstractTableModel()
-        {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public int getColumnCount()
-            {
-                return JPanelConfirm.this.columnsHeaders.length;
-            }
-            @Override
-            public String getColumnName(final int column)
-            {
-                return JPanelConfirm.this.columnsHeaders[column];
-            }
-            @Override
-            public int getRowCount()
-            {
-                return JPanelConfirm.this.tableDts_toDelete.size();
-            }
-            @Override
-            public Class<?> getColumnClass(final int columnIndex)
-            {
-                switch(columnIndex) {
-                    case 1:
-                        return Long.class;
-                    case 2:
-                    case 3:
-                        return Integer.class;
-                    default:
-                        return String.class;
-                }
-            }
-            @Override
-            public Object getValueAt(final int rowIndex, final int columnIndex)
-            {
-                if( columnIndex == 1 ) {
-                    //return tableDts_length[rowIndex];
-                    return JPanelConfirm.this.tableDts_toDelete.getFileLength( rowIndex );
-                    }
-                else {
-                    final KeyFileState f = JPanelConfirm.this.tableDts_toDelete.get( rowIndex );
-
-                    switch(columnIndex) {
-                        case 0 : return f.getFile().getPath();
-                        //case 1 : return f.getFile().length();
-                        case 2 : return computeKept( duplicateFiles,f.getKey() );
-                        case 3 : return computeDeleted( duplicateFiles,f.getKey() );
-                    }
-                    return null;
-                }
-            }
-         };
+        return new Model( this, duplicateFiles );
     }
 
     private DefaultTableCellRenderer newDefaultTableCellRenderer()
@@ -315,14 +333,25 @@ public class JPanelConfirm extends JPanel
         final String                            k
         )
     {
-        final AtomicInteger     count = new AtomicInteger();
-        final Set<KeyFileState> set   = duplicateFiles.get( k );
+        final Set<KeyFileState>                 set         = duplicateFiles.get( k );
+        final Function<KeyFileState, Boolean>   function    = file -> Boolean.valueOf( !file.isSelectedToDelete() );
+
+        return computeKeepDelete( set, function  );
+    }
+
+    public static Integer computeKeepDelete( //
+        final Set<KeyFileState>                 set, //
+        final Function<KeyFileState, Boolean>   function //
+        )
+    {
+        final AtomicInteger count = new AtomicInteger();
         //int                     c = 0;
 
         if( set != null ) {
 
             set.stream().forEach( file -> {
-                if( !file.isSelectedToDelete() ) {
+                //if( !file.isSelectedToDelete() ) {
+                if( function.apply( file ) ) {
                     count.incrementAndGet();
                 }
             } );
@@ -337,12 +366,16 @@ public class JPanelConfirm extends JPanel
         //return Integer.valueOf( c );
     }
 
-    private Integer computeDeleted(
+    private static Integer computeDeleted(
         final Map<String, Set<KeyFileState>> duplicateFiles,
-        final String                         k
+        final String                         key
         )
     {
-        final Set<KeyFileState> s = duplicateFiles.get( k );
+        final Set<KeyFileState>                 set         = duplicateFiles.get( key );
+        final Function<KeyFileState, Boolean>   function    = file -> Boolean.valueOf( file.isSelectedToDelete() );
+
+        return computeKeepDelete( set, function  );
+        /*
         int                     c = 0;
 
         if( s != null ) {
@@ -354,10 +387,11 @@ public class JPanelConfirm extends JPanel
         }
 
         return Integer.valueOf( c );
+        */
     }
 
-    public void doDelete(
-        final Map<String, Set<KeyFileState>> duplicateFiles
+    public void doDelete( //
+        final Map<String, Set<KeyFileState>> duplicateFiles //
         )
     {
         final Runnable task = () -> {
@@ -377,13 +411,13 @@ public class JPanelConfirm extends JPanel
         new Thread( task, "doDelete()" ).start();
     }
 
-    private void private_doDelete(
-            final Map<String, Set<KeyFileState>> duplicateFiles
-            )
+    private void private_doDelete( //
+        final Map<String, Set<KeyFileState>> duplicateFiles //
+        )
     {
-        int                     deleteCount = 0;
-        final int               size = this.tableDts_toDelete.size();
-        final long deleteSleepDisplay =
+        int         deleteCount         = 0;
+        final int   size                = this.tableDts_toDelete.size();
+        final long  deleteSleepDisplay  = //
             (size < this.dfToolKit.getPreferences().getDeleteSleepDisplayMaxEntries()) ?
                     this.dfToolKit.getPreferences().getDeleteSleepDisplay()
                     :
@@ -392,13 +426,13 @@ public class JPanelConfirm extends JPanel
         LOGGER.info( "private_doDelete: Selected count: " + this.tableDts_toDelete.size() );
 
         for( int i=0; i<size; i++ ) {
-            final KeyFileState kf = this.tableDts_toDelete.get( i );
-            final String msg = kf.getFile().getPath();
+            final KeyFileState  kf  = this.tableDts_toDelete.get( i );
+            final String        msg = kf.getPath();
 
             updateProgressBar(deleteCount,msg);
 
             // Delete file
-            final boolean isDel = kf.getFile().delete();
+            final boolean isDel = kf.delete();
 
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace("Delete=" + isDel + ':' + kf + " - i=" + i);
@@ -444,7 +478,7 @@ public class JPanelConfirm extends JPanel
         while( iter.hasNext() ) {
             final KeyFileState f = iter.next();
 
-            if( !f.getFile().exists() ) {
+            if( !f.isFileExists() ) {
                 iter.remove();
                 }
             }

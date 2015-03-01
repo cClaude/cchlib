@@ -38,10 +38,10 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
     {
         int index = 0;
 
-        for( final KeyFileState f : MapSetHelper.valuesIterable( dupFiles ) ) {
+        for( final KeyFileState f : MapSetHelper.valuesIterable( this.dupFiles ) ) {
             if( f.isSelectedToDelete() ) {
                 this.cache.add( f );
-                this.cacheFileLength.add( Long.valueOf( f.getFile().length() ) );
+                this.cacheFileLength.add( Long.valueOf( f.getLength() ) );
                 index++;
                 }
             }
@@ -91,7 +91,7 @@ class JPanelConfirmModel extends AbstractList<KeyFileState>
      */
     public Boolean getDeleted( final int index )
     {
-        return deleted[ index ];
+        return this.deleted[ index ];
     }
 
     /**

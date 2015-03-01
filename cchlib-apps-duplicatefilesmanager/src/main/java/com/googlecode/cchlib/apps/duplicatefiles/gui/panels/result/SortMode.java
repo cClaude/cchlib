@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 import java.util.Comparator;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
 
 /**
  *
@@ -30,7 +30,7 @@ public enum SortMode implements Comparator<KeyFiles>
     @Override
     public int compare( final KeyFiles o1, final KeyFiles o2 )
     {
-        return comparator.compare( o1, o2 );
+        return this.comparator.compare( o1, o2 );
     }
 
     private static final class FilenameComparator implements Comparator<KeyFiles> {
@@ -61,8 +61,8 @@ public enum SortMode implements Comparator<KeyFiles>
         @Override
         public int compare( final KeyFiles o1, final KeyFiles o2 )
         {
-            return o1.getFirstFile().getPath().compareTo(
-                    o2.getFirstFile().getPath()
+            return o1.getFirstFileInSet().getPath().compareTo(
+                    o2.getFirstFileInSet().getPath()
                     );
         }
     }
@@ -72,8 +72,8 @@ public enum SortMode implements Comparator<KeyFiles>
         public int compare( final KeyFiles o1, final KeyFiles o2 )
         {
             return (int)(
-                o1.getFirstFile().length() -
-                    o2.getFirstFile().length()
+                o1.getFirstFileInSet().getLength() -
+                    o2.getFirstFileInSet().getLength()
                     );
         }
     }
