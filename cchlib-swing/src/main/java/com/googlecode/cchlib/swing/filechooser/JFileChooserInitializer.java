@@ -1,18 +1,16 @@
 package com.googlecode.cchlib.swing.filechooser;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.EventObject;
 import java.util.concurrent.TimeUnit;
-
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.event.EventListenerList;
 import javax.swing.filechooser.FileFilter;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -24,13 +22,15 @@ import org.apache.log4j.Logger;
 public class JFileChooserInitializer
     implements Serializable
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger(JFileChooserInitializer.class);
 
     /** @serial */
     private JFileChooser jFileChooser;
     /** @serial */
-    private JFileChooserInitializerCustomize configurator;
+    private final Object lock = new Object();
+    /** @serial */
+    private final JFileChooserInitializerCustomize configurator;
     /** @serial */
     private boolean init0Lauched = false;
     /** @serial
@@ -107,9 +107,9 @@ public class JFileChooserInitializer
      * @param attribSet
      */
     public JFileChooserInitializer(
-            final File          currentDirectory,
-            final FileFilter    fileFilter,
-            EnumSet<Attrib>     attribSet
+            final File              currentDirectory,
+            final FileFilter        fileFilter,
+            @Nullable final EnumSet<Attrib>   attribSet
             )
     {
         this(
@@ -128,7 +128,7 @@ public class JFileChooserInitializer
      * @throws NullPointerException if configurator is null
      */
     public JFileChooserInitializer(
-        final JFileChooserInitializerCustomize configurator
+        @Nonnull final JFileChooserInitializerCustomize configurator
         )
     throws NullPointerException
     {
@@ -141,25 +141,22 @@ public class JFileChooserInitializer
         init();
 
         UIManager.addPropertyChangeListener(
-                new PropertyChangeListener()
-                {
-                    @Override
-                    public void propertyChange( PropertyChangeEvent e )
-                    {
-                        if( jFileChooser != null ) {
+                e -> {
+                    synchronized( this.lock ) {
+                        if( JFileChooserInitializer.this.jFileChooser != null ) {
                             // Save Current directory
                             JFileChooserInitializer.this.configurator.restoreCurrentDirectory(
-                                    jFileChooser.getCurrentDirectory()
+                                    JFileChooserInitializer.this.jFileChooser.getCurrentDirectory()
                                     );
 
                             // LookAndFeel has change, JFileChooser is
                             // no more valid. Build a new one !
-                            jFileChooser = null;
-                            init0Lauched = false;
+                            JFileChooserInitializer.this.jFileChooser = null;
+                            JFileChooserInitializer.this.init0Lauched = false;
                         }
-
-                        init();
                     }
+
+                    init();
                 });
     }
 
@@ -168,9 +165,9 @@ public class JFileChooserInitializer
      * @param l
      * @since 4.1.6
      */
-    public void addFooListener( JFileChooserInitializerListener l )
+    public void addFooListener( final JFileChooserInitializerListener l )
     {
-        listenerList.add( JFileChooserInitializerListener.class, l );
+        this.listenerList.add( JFileChooserInitializerListener.class, l );
     }
 
     /**
@@ -178,9 +175,9 @@ public class JFileChooserInitializer
      * @param l
      * @since 4.1.6
      */
-    public void removeFooListener( JFileChooserInitializerListener l )
+    public void removeFooListener( final JFileChooserInitializerListener l )
     {
-        listenerList.remove( JFileChooserInitializerListener.class, l );
+        this.listenerList.remove( JFileChooserInitializerListener.class, l );
     }
 
     /**
@@ -195,7 +192,7 @@ public class JFileChooserInitializer
         JFileChooserInitializerEvent event = null;
 
         // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
+        final Object[] listeners = this.listenerList.getListenerList();
 
         // Process the listeners last to first, notifying
         // those that are interested in this event
@@ -222,7 +219,7 @@ public class JFileChooserInitializer
         JFileChooserInitializerEvent event = null;
 
         // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
+        final Object[] listeners = this.listenerList.getListenerList();
 
         // Process the listeners last to first, notifying
         // those that are interested in this event
@@ -243,7 +240,7 @@ public class JFileChooserInitializer
      */
     public int getAttemptDelay()
     {
-        return attemptDelay;
+        return this.attemptDelay;
     }
 
     /**
@@ -263,7 +260,7 @@ public class JFileChooserInitializer
      */
     public int getAttemptMax()
     {
-        return attemptMax;
+        return this.attemptMax;
     }
 
     /**
@@ -282,7 +279,7 @@ public class JFileChooserInitializer
      */
     public boolean isReady()
     {
-        return jFileChooser != null;
+        return this.jFileChooser != null;
     }
 
     /**
@@ -292,23 +289,23 @@ public class JFileChooserInitializer
      */
     public JFileChooser getJFileChooser() throws JFileChooserInitializerException
     {
-        if( jFileChooser == null ) {
+        if( this.jFileChooser == null ) {
             // be sure init() has been call
             init();
 
             int count = 0;
 
-            while( jFileChooser == null ) {
+            while( this.jFileChooser == null ) {
                 try {
                     TimeUnit.MILLISECONDS.sleep( this.attemptDelay ); // default: 500
                     //Thread.sleep( this.attemptDelay ); // default: 500
                     }
-                catch( InterruptedException ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
+                catch( final InterruptedException ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
                     }
 
                 count++;
 
-                if( attemptMax > 0 ) {
+                if( this.attemptMax > 0 ) {
                     if( count > this.attemptMax ) {
                         throw new JFileChooserInitializerException();
                         }
@@ -316,15 +313,15 @@ public class JFileChooserInitializer
                 }
             }
 
-        return jFileChooser;
+        return this.jFileChooser;
     }
     /**
      * Prepare to start initialization
      */
     private synchronized void init()
     {
-        if(!init0Lauched ) {
-            init0Lauched = true;
+        if(!this.init0Lauched ) {
+            this.init0Lauched = true;
             init0();
             }
     }
@@ -335,15 +332,12 @@ public class JFileChooserInitializer
     private void init0()
     {
         if( this.jFileChooser == null ) {
-            Runnable r = new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    try {
-                        JFileChooser jfc = new JFileChooser();
+            final Runnable r = ( ) -> {
+                try {
+                    final JFileChooser jfc = new JFileChooser();
 
-                        if( jFileChooser != null ) {
+                    synchronized( this.lock ) {
+                        if( JFileChooserInitializer.this.jFileChooser != null ) {
                             // JFileChooser initialization error
                             final String msg = "JFileChooser initialization error";
 
@@ -355,14 +349,14 @@ public class JFileChooserInitializer
                             throw new RuntimeException( msg );
                             }
 
-                        configurator.perfomeConfig( jfc );
+                        JFileChooserInitializer.this.configurator.perfomeConfig( jfc );
 
-                        jFileChooser = jfc;
-
-                        fireJFileChooserInitializerJFileChooserReady();
-                    } catch( Throwable e ) {
-                        LOGGER.fatal("JFileChooserInitializer.init0()",e);
+                        JFileChooserInitializer.this.jFileChooser = jfc;
                     }
+
+                    fireJFileChooserInitializerJFileChooserReady();
+                } catch( final Throwable e ) {
+                    LOGGER.fatal("JFileChooserInitializer.init0()",e);
                 }
             };
 
@@ -383,7 +377,7 @@ public class JFileChooserInitializer
     {
         private static final long serialVersionUID = 1L;
 
-        public DefaultJFileChooserInitializerEvent( JFileChooserInitializer source )
+        public DefaultJFileChooserInitializerEvent( final JFileChooserInitializer source )
         {
             super( source );
         }
