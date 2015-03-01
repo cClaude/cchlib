@@ -2,6 +2,8 @@ package com.googlecode.cchlib.swing.filechooser;
 
 import java.io.File;
 import java.util.EnumSet;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
@@ -21,7 +23,7 @@ public class DefaultJFCCustomizer
     /** @serial */
     private FileFilter fileFilter; // NOT SERIALISABLE !
     /** @serial */
-    private EnumSet<JFileChooserInitializer.Attrib> attributes;
+    private final EnumSet<JFileChooserInitializer.Attrib> attributes;
     /** @serial */
     private JComponent accessory;
     /** @serial */
@@ -38,14 +40,16 @@ public class DefaultJFCCustomizer
     }
 
     /**
-     * @param attribSet
+     * @param attributes TODOC
      */
-    public DefaultJFCCustomizer( EnumSet<JFileChooserInitializer.Attrib> attribSet )
+    public DefaultJFCCustomizer( @Nullable final EnumSet<JFileChooserInitializer.Attrib> attributes )
     {
-        if( attribSet == null ) {
-            attribSet = EnumSet.noneOf( JFileChooserInitializer.Attrib.class );
+        if( attributes == null ) {
+            this.attributes = EnumSet.noneOf( JFileChooserInitializer.Attrib.class );
             }
-        this.attributes = attribSet;
+        else {
+            this.attributes = EnumSet.copyOf( attributes );
+        }
     }
 
     /**
@@ -54,7 +58,10 @@ public class DefaultJFCCustomizer
      * @param rest  Others attributes
      * @since 4.1.6
      */
-    public DefaultJFCCustomizer( JFileChooserInitializer.Attrib first, JFileChooserInitializer.Attrib...rest )
+    public DefaultJFCCustomizer(
+            @Nonnull final JFileChooserInitializer.Attrib first,
+            @Nonnull final JFileChooserInitializer.Attrib...rest
+            )
     {
         this.attributes = EnumSet.of( first, rest );
     }
@@ -66,15 +73,15 @@ public class DefaultJFCCustomizer
             LOGGER.trace( "perfomeConfig" );
             }
 
-        if( attributes.contains( JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER ) ) {
+        if( this.attributes.contains( JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER ) ) {
             // workaround:
             // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6317789
             jfc.putClientProperty( "FileChooser.useShellFolder",
                     Boolean.FALSE );
             }
 
-        if( currentDirectory != null ) {
-            jfc.setCurrentDirectory( currentDirectory );
+        if( this.currentDirectory != null ) {
+            jfc.setCurrentDirectory( this.currentDirectory );
             }
         else if( this.directoryType == JFileChooserInitializer.DirectoryType.CURRENT_DIR ) {
             jfc.setCurrentDirectory( new File( "." ) );
@@ -87,27 +94,27 @@ public class DefaultJFCCustomizer
 //            jfc.setFileSystemView( FileSystemView.getFileSystemView() );
 //        }
 
-        if( fileFilter != null ) {
-            jfc.setFileFilter( fileFilter );
+        if( this.fileFilter != null ) {
+            jfc.setFileFilter( this.fileFilter );
             }
 
-        if( accessory != null ) {
-            jfc.setAccessory( accessory );
-            }
-
-        if( LOGGER.isTraceEnabled() ) {
-            LOGGER.trace( "setFileSelectionMode: " + mode );
-            }
-        if( mode != null ) {
-            jfc.setFileSelectionMode( mode.intValue() );
+        if( this.accessory != null ) {
+            jfc.setAccessory( this.accessory );
             }
 
         if( LOGGER.isTraceEnabled() ) {
-            LOGGER.trace( "setMultiSelectionEnabled: " + isMultiSelectionEnabled );
+            LOGGER.trace( "setFileSelectionMode: " + this.mode );
             }
-        if( isMultiSelectionEnabled != null ) {
+        if( this.mode != null ) {
+            jfc.setFileSelectionMode( this.mode.intValue() );
+            }
+
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "setMultiSelectionEnabled: " + this.isMultiSelectionEnabled );
+            }
+        if( this.isMultiSelectionEnabled != null ) {
             jfc.setMultiSelectionEnabled(
-                isMultiSelectionEnabled.booleanValue()
+                this.isMultiSelectionEnabled.booleanValue()
                 );
             }
     }
@@ -116,14 +123,14 @@ public class DefaultJFCCustomizer
      * @param currentDirectory the currentDirectory to set
      * @return the caller. This allows for easy chaining of invocations.
      */
-    public DefaultJFCCustomizer setCurrentDirectory( File currentDirectory )
+    public DefaultJFCCustomizer setCurrentDirectory( final File currentDirectory )
     {
         this.currentDirectory = currentDirectory;
         return this;
     }
 
     @Override
-    public void restoreCurrentDirectory( File currentDirectory )
+    public void restoreCurrentDirectory( @Nullable final File currentDirectory )
     {
         setCurrentDirectory(currentDirectory);
     }
@@ -137,7 +144,7 @@ public class DefaultJFCCustomizer
      * @param fileFilter the fileFilter to set
      * @return the caller. This allows for easy chaining of invocations.
      */
-    public DefaultJFCCustomizer setFileFilter( FileFilter fileFilter )
+    public DefaultJFCCustomizer setFileFilter( @Nullable final FileFilter fileFilter )
     {
         this.fileFilter = fileFilter;
         return this;
@@ -147,7 +154,7 @@ public class DefaultJFCCustomizer
      * @param accessory the accessory to set
      * @return the caller. This allows for easy chaining of invocations.
      */
-    public DefaultJFCCustomizer setAccessory( JComponent accessory )
+    public DefaultJFCCustomizer setAccessory( @Nonnull final JComponent accessory )
     {
         this.accessory = accessory;
         return this;
@@ -197,7 +204,7 @@ public class DefaultJFCCustomizer
      * @since 4.1.7
      * @see JFileChooser#setMultiSelectionEnabled(boolean)
      */
-    public JFileChooserInitializerCustomize setMultiSelectionEnabled( boolean b )
+    public JFileChooserInitializerCustomize setMultiSelectionEnabled( final boolean b )
     {
         this.isMultiSelectionEnabled = Boolean.valueOf( b );
         return this;
