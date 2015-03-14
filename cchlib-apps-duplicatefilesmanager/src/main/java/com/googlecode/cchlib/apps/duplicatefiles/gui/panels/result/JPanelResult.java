@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.JList;
@@ -73,14 +73,21 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
             return this.selectedList.get( 0 ).getKey();
         }
 
-        public List<File> toFileList()
+        @Deprecated
+        public List<File> _toFileList()
         {
             return toFiles().collect( Collectors.toList() );
         }
 
+        @Deprecated
         public Stream<File> toFiles()
         {
             return this.selectedList.stream().map( kf -> kf.getFile() );
+        }
+
+        public Stream<KeyFileState> toKeyFileStateStream()
+        {
+            return this.selectedList.stream();
         }
     }
 
@@ -632,49 +639,80 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
     private void onKeepAllExceptTheseFiles( final Object actionObject )
     {
-        final Selected         selected      = Selected.class.cast( actionObject );
-        final String           k             = selected.getKey();
-        final Collection<File> selectedFiles = selected.toFileList();
+        final Selected             selected      = Selected.class.cast( actionObject );
+        final String               key           = selected.getKey();
+        final Stream<KeyFileState> selectedFiles = selected.toKeyFileStateStream();
+        final Set<KeyFileState>    modelSet      = getListModelDuplicatesFiles().getStateSet(     key );
+        //final Collection<File> selectedFiles = selected.toFileList();
 
-        final Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
+//        if( modelSet != null ) {
+//            for( final KeyFileState modelEntry : modelSet ) {
+//                //if( selectedFiles.contains( modelEntry.getFile() ) ) {
+//                if( selectedFiles.anyMatch( e -> e.getFile().equals( modelEntry.getFile() ) ) ) {
+//                    modelEntry.setSelectedToDelete( true );
+//                    }
+//                else {
+//                    modelEntry.setSelectedToDelete( false );
+//                    }
+//                }
+//            }
+        final Consumer<KeyFileState> actionTrue = modelEntry -> {
+            modelEntry.setSelectedToDelete( true );
+        };
+        final Consumer<KeyFileState> actionFalse = modelEntry -> {
+            modelEntry.setSelectedToDelete( false );
+        };
 
-        if( s != null ) {
-            for(final KeyFileState f:s) {
-                //if( file.equals( f.getFile() ) ) {
-                if( selectedFiles.contains( f.getFile() ) ) {
-                    f.setSelectedToDelete( true );
-                    }
-                else {
-                    f.setSelectedToDelete( false );
-                    }
-                }
-            }
-        updateDisplayKeptDelete( k );
+        doActionOnAllExceptTheseFiles( modelSet, selectedFiles, actionTrue, actionFalse );
+
+        updateDisplayKeptDelete( key );
     }
 
     private void onDeleteAllExceptTheseFiles( final Object actionObject )
     {
-        //final String k    = kf.getKey();
-        //final File   file = kf.getFile();
-        final Selected         selected      = Selected.class.cast( actionObject );
-        final String           k             = selected.getKey();
-        final Collection<File> selectedFiles = selected.toFileList();
+        final Selected             selected      = Selected.class.cast( actionObject );
+        final String               key           = selected.getKey();
+        final Stream<KeyFileState> selectedFiles = selected.toKeyFileStateStream();
+        final Set<KeyFileState>    modelSet      = getListModelDuplicatesFiles().getStateSet( key );
+        //final Collection<File> selectedFiles = selected.toFileList();
 
-        final Set<KeyFileState> s = getListModelDuplicatesFiles().getStateSet( k );
-        //Set<KeyFileState> s = duplicateFiles.get( k );
+        final Consumer<KeyFileState> actionTrue = modelEntry -> {
+            modelEntry.setSelectedToDelete( false );
+        };
+        final Consumer<KeyFileState> actionFalse = modelEntry -> {
+            modelEntry.setSelectedToDelete( true );
+        };
 
-        if( s != null ) {
-            for(final KeyFileState f:s) {
-                //if( file.equals( f.getFile() ) ) {
-                if( selectedFiles.contains( f.getFile() ) ) {
-                    f.setSelectedToDelete( false );
+       doActionOnAllExceptTheseFiles( modelSet, selectedFiles, actionTrue, actionFalse );
+
+       updateDisplayKeptDelete( key );
+    }
+
+    private void doActionOnAllExceptTheseFiles( //
+        final Set<KeyFileState>      modelSet, //
+        final Stream<KeyFileState>   selectedFiles, //
+        final Consumer<KeyFileState> actionTrue,  //
+        final Consumer<KeyFileState> actionFalse  //
+        )
+    {
+        if( modelSet != null ) {
+                modelSet.forEach( (Consumer<KeyFileState>)modelEntry -> {
+                if( selectedFiles.anyMatch( e -> e.getFile().equals( modelEntry.getFile() ) ) ) {
+                    actionTrue.accept( modelEntry );
                     }
                 else {
-                    f.setSelectedToDelete( true );
+                    actionFalse.accept( modelEntry );
                     }
+            } );
+//            for(final KeyFileState modelEntry : modelSet) {
+//                if( selectedFiles.anyMatch( e -> e.getFile().equals( modelEntry.getFile() ) ) ) {
+//                    modelEntry.setSelectedToDelete( false );
+//                    }
+//                else {
+//                    modelEntry.setSelectedToDelete( true );
+//                    }
+//                }
                 }
-            }
-        updateDisplayKeptDelete( k );
     }
 
     private void onKeepTheseFiles( final Object actionObject )
