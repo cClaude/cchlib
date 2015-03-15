@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -73,17 +72,17 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
             return this.selectedList.get( 0 ).getKey();
         }
 
-        @Deprecated
-        public List<File> _toFileList()
-        {
-            return toFiles().collect( Collectors.toList() );
-        }
+//        @Deprecated
+//        public List<File> _toFileList()
+//        {
+//            return toFiles().collect( Collectors.toList() );
+//        }
 
-        @Deprecated
-        public Stream<File> toFiles()
-        {
-            return this.selectedList.stream().map( kf -> kf.getFile() );
-        }
+//        @Deprecated
+//        public Stream<File> toFiles()
+//        {
+//            return this.selectedList.stream().map( kf -> kf.getFile() );
+//        }
 
         public Stream<KeyFileState> toKeyFileStateStream()
         {
@@ -286,7 +285,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
             getJTextFieldFileInfo().setText( StringHelper.EMPTY );
             }
         else {
-            final File    f       = kf.getFile();
+            final File    f       = kf.getCurrentFile();
             final Locale  locale  = this.dFToolKit.getValidLocale();
 
             final String date = DateFormat.getDateTimeInstance(
@@ -396,7 +395,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
                     addJMenuItem(
                             cm,
                             JPanelResult.this.txtOpenFile,
-                            createOpenFileActionListener( kf.getFile() )
+                            createOpenFileActionListener( kf.getCurrentFile() )
                             );
                     addJMenuItem(
                             cm,

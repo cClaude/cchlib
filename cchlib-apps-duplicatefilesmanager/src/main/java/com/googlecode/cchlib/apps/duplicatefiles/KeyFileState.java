@@ -223,4 +223,13 @@ public final class KeyFileState
     {
         return this.path;
     }
+
+    /**
+     * Returns current {@link File} object associate to this object.
+     * @return current {@link File} object
+     */
+    public File getCurrentFile()
+    {
+        return this.file;
+    }
 }

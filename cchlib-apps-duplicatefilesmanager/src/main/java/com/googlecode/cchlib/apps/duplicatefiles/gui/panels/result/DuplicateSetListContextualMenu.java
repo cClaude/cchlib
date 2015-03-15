@@ -65,7 +65,7 @@ final class DuplicateSetListContextualMenu implements Serializable
 
         private PopupMenu()
         {
-            super( jPanelResult.getJListDuplicatesFiles() );
+            super( DuplicateSetListContextualMenu.this.jPanelResult.getJListDuplicatesFiles(), Attributs.MUST_BE_SELECTED );
         }
 
         @Override
@@ -82,7 +82,7 @@ final class DuplicateSetListContextualMenu implements Serializable
 
         private void createIgnoreThisSetMenu( final JPopupMenu cm, final int rowIndex )
         {
-            final JMenuItem ignoreThisSetMenuItem = addJMenuItem( cm, txtMenuIgnoreThisSetMen );
+            final JMenuItem ignoreThisSetMenuItem = addJMenuItem( cm, DuplicateSetListContextualMenu.this.txtMenuIgnoreThisSetMen );
 
 //            ignoreThisSetMenuItem.addActionListener( new ActionListener()
 //            {
@@ -110,13 +110,13 @@ final class DuplicateSetListContextualMenu implements Serializable
 //            } );
             ignoreThisSetMenuItem.addActionListener( event -> {
 
-                jPanelResult.lockGUI( true );
+                DuplicateSetListContextualMenu.this.jPanelResult.lockGUI( true );
                 new Thread( ( ) -> {
                     try {
                         doIgnoreThisSetOfFiles( rowIndex );
                     }
                     finally {
-                        jPanelResult.lockGUI( false );
+                        DuplicateSetListContextualMenu.this.jPanelResult.lockGUI( false );
                     }
                 }, "doIgnoreThisSetOfFiles" ).start();
             } );
@@ -127,7 +127,7 @@ final class DuplicateSetListContextualMenu implements Serializable
          */
         private void createSelectFirstMenu( final JPopupMenu cm )
         {
-            final JMenu sortFirstFileMenu = addJMenu( cm, txtMenuSortFirstFile );
+            final JMenu sortFirstFileMenu = addJMenu( cm, DuplicateSetListContextualMenu.this.txtMenuSortFirstFile );
 
 //            final ActionListener sortByListener = new ActionListener()
 //            {
@@ -146,20 +146,20 @@ final class DuplicateSetListContextualMenu implements Serializable
                     final SelectFirstMode selectFirstMode = SelectFirstMode.class.cast(
                             menu.getClientProperty( SelectFirstMode.class )
                             );
-                    jPanelResult.getListModelDuplicatesFiles().setSelectFirstMode( selectFirstMode );
-                    jPanelResult.getListModelDuplicatesFiles().updateCache();
+                    DuplicateSetListContextualMenu.this.jPanelResult.getListModelDuplicatesFiles().setSelectFirstMode( selectFirstMode );
+                    DuplicateSetListContextualMenu.this.jPanelResult.getListModelDuplicatesFiles().updateCache();
             };
-            final SelectFirstMode sortMode = jPanelResult.getListModelDuplicatesFiles().getSelectFirstMode();
+            final SelectFirstMode sortMode = DuplicateSetListContextualMenu.this.jPanelResult.getListModelDuplicatesFiles().getSelectFirstMode();
             final ButtonGroup gb           = new ButtonGroup();
 
-            addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileRandom, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.QUICK, sortMode );
-            addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileDepthAscendingOrder, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.FILEDEPTH_ASCENDING_ORDER, sortMode );
-            addJCheckBoxMenuItem( sortFirstFileMenu, txtMenuFirstFileDepthDescendingOrder, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.FILEDEPTH_DESCENDING_ORDER, sortMode );
+            addJCheckBoxMenuItem( sortFirstFileMenu, DuplicateSetListContextualMenu.this.txtMenuFirstFileRandom, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.QUICK, sortMode );
+            addJCheckBoxMenuItem( sortFirstFileMenu, DuplicateSetListContextualMenu.this.txtMenuFirstFileDepthAscendingOrder, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.FILEDEPTH_ASCENDING_ORDER, sortMode );
+            addJCheckBoxMenuItem( sortFirstFileMenu, DuplicateSetListContextualMenu.this.txtMenuFirstFileDepthDescendingOrder, gb, sortByListener, SelectFirstMode.class, SelectFirstMode.FILEDEPTH_DESCENDING_ORDER, sortMode );
         }
 
         private void createSortByMenu( final JPopupMenu cm )
         {
-            final JMenu sortListMenu = addJMenu( cm, txtMenuSortList );
+            final JMenu sortListMenu = addJMenu( cm, DuplicateSetListContextualMenu.this.txtMenuSortList );
 
 //            final ActionListener sortByListener = new ActionListener()
 //            {
@@ -174,19 +174,19 @@ final class DuplicateSetListContextualMenu implements Serializable
 //                }
 //            };
             final ActionListener sortByListener = event -> {
-                jPanelResult.getListModelDuplicatesFiles().setSortMode(
+                DuplicateSetListContextualMenu.this.jPanelResult.getListModelDuplicatesFiles().setSortMode(
                         SortMode.class.cast( JMenuItem.class.cast( event.getSource() ).getClientProperty( SortMode.class ) ) );
-                jPanelResult.getListModelDuplicatesFiles().updateCache();
+                DuplicateSetListContextualMenu.this.jPanelResult.getListModelDuplicatesFiles().updateCache();
             };
 
-            final SortMode    sortMode = jPanelResult.getListModelDuplicatesFiles().getSortMode();
+            final SortMode    sortMode = DuplicateSetListContextualMenu.this.jPanelResult.getListModelDuplicatesFiles().getSortMode();
             final ButtonGroup gb       = new ButtonGroup();
 
-            addJCheckBoxMenuItem( sortListMenu, txtMenuSortBySize , gb, sortByListener, SortMode.class, SortMode.FILESIZE, sortMode );
-            addJCheckBoxMenuItem( sortListMenu, txtMenuSortByName , gb, sortByListener, SortMode.class, SortMode.FIRST_FILENAME, sortMode );
-            addJCheckBoxMenuItem( sortListMenu, txtMenuSortByPath , gb, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH, sortMode );
-            addJCheckBoxMenuItem( sortListMenu, txtMenuSortByDepth, gb, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH, sortMode );
-            addJCheckBoxMenuItem( sortListMenu, txtMenuSortByNumberOfDuplicate, gb, sortByListener, SortMode.class, SortMode.NUMBER_OF_DUPLICATE, sortMode );
+            addJCheckBoxMenuItem( sortListMenu, DuplicateSetListContextualMenu.this.txtMenuSortBySize , gb, sortByListener, SortMode.class, SortMode.FILESIZE, sortMode );
+            addJCheckBoxMenuItem( sortListMenu, DuplicateSetListContextualMenu.this.txtMenuSortByName , gb, sortByListener, SortMode.class, SortMode.FIRST_FILENAME, sortMode );
+            addJCheckBoxMenuItem( sortListMenu, DuplicateSetListContextualMenu.this.txtMenuSortByPath , gb, sortByListener, SortMode.class, SortMode.FIRST_FILEPATH, sortMode );
+            addJCheckBoxMenuItem( sortListMenu, DuplicateSetListContextualMenu.this.txtMenuSortByDepth, gb, sortByListener, SortMode.class, SortMode.FIRST_FILEDEPTH, sortMode );
+            addJCheckBoxMenuItem( sortListMenu, DuplicateSetListContextualMenu.this.txtMenuSortByNumberOfDuplicate, gb, sortByListener, SortMode.class, SortMode.NUMBER_OF_DUPLICATE, sortMode );
         }
 
         private <E> void addJCheckBoxMenuItem( // $codepro.audit.disable largeNumberOfParameters
@@ -208,13 +208,13 @@ final class DuplicateSetListContextualMenu implements Serializable
 
     private void doIgnoreThisSetOfFiles( final int rowIndex )
     {
-        final KeyFiles                       element = jPanelResult.getJListDuplicatesFiles().getModel().getElementAt( rowIndex );
+        final KeyFiles                       element = this.jPanelResult.getJListDuplicatesFiles().getModel().getElementAt( rowIndex );
         final String                         setKey  = element.getKey();
-        final Map<String, Set<KeyFileState>> hashMap = jPanelResult.getListModelDuplicatesFiles().getDuplicateFiles();
+        final Map<String, Set<KeyFileState>> hashMap = this.jPanelResult.getListModelDuplicatesFiles().getDuplicateFiles();
 
         hashMap.remove( setKey );
 
-        jPanelResult.getListModelDuplicatesFiles().updateCache();
+        this.jPanelResult.getListModelDuplicatesFiles().updateCache();
     }
 
     public void setPopupMenu()
