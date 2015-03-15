@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Serializable;
@@ -13,159 +15,147 @@ import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import javax.annotation.Nonnull;
 
 
-
-
-
+/**
+ *
+ *
+ */
 public class PropertiesMap implements Map<String,String>, Serializable
 {
-    private static final long serialVersionUID = 1L;
-    private Properties properties;
-    private Wrappable<Object,String> keyOrValueWrapper = new Wrappable<Object,String>() {
-        @Override
-        public String wrap( Object obj ) throws WrapperException
-        {
-            return (String)obj;
-        }
-    };
-    private Wrappable<String,Object> keyOrValueUnwrapper  = new Wrappable<String,Object>() {
-        @Override
-        public Object wrap( String obj ) throws WrapperException
-        {
-            return obj;
-        }
-    };
-    private Wrappable<Map.Entry<Object,Object>,Map.Entry<String,String>> entryWrapper = new Wrappable<Map.Entry<Object,Object>,Map.Entry<String,String>>() {
-        @Override
-        public Map.Entry<String,String> wrap( Map.Entry<Object,Object> obj )
-            throws WrapperException
-        {
-            return new XEntry<String,String>( (String)obj.getKey(), (String)obj.getValue() );
-        }
-    };
-    private Wrappable<Map.Entry<String,String>,Map.Entry<Object,Object>> entryUnwrapper = new Wrappable<Map.Entry<String,String>,Map.Entry<Object,Object>>() {
-        @Override
-        public Map.Entry<Object,Object> wrap( Map.Entry<String,String> obj )
-            throws WrapperException
-        {
-            return new XEntry<Object,Object>( obj.getKey(), obj.getValue() );
-        }
-    };
+    private static final long serialVersionUID = 2L;
 
-    public PropertiesMap( Properties properties )
+    private final Properties properties;
+
+    private transient Wrappable<Object,String> keyOrValueWrapper;
+    private transient Wrappable<String,Object> keyOrValueUnwrapper;
+    private transient Wrappable<Map.Entry<Object,Object>,Map.Entry<String,String>> entryWrapper;
+    private transient Wrappable<Map.Entry<String,String>,Map.Entry<Object,Object>> entryUnwrapper;
+
+    public PropertiesMap( final Properties properties )
     {
         this.properties = properties;
+
+        initTransient();
     }
-    
+
     public PropertiesMap()
     {
         this( new Properties() );
     }
 
+    private void initTransient()
+    {
+        this.keyOrValueWrapper = obj -> (String)obj;
+        this.keyOrValueUnwrapper  = obj -> obj;
+        this.entryWrapper = obj -> new XEntry<String,String>( (String)obj.getKey(), (String)obj.getValue() );
+        this.entryUnwrapper = obj -> new XEntry<Object,Object>( obj.getKey(), obj.getValue() );
+    }
+
     @Override
     public int size()
     {
-        return properties.size();
+        return this.properties.size();
     }
 
     @Override
     public boolean isEmpty()
     {
-        return properties.isEmpty();
+        return this.properties.isEmpty();
     }
 
     @Override
-    public boolean containsKey( Object key )
+    public boolean containsKey( final Object key )
     {
-        return properties.containsKey( key );
+        return this.properties.containsKey( key );
     }
 
     @Override
-    public boolean containsValue( Object value )
+    public boolean containsValue( final Object value )
     {
-        return properties.containsValue( value );
+        return this.properties.containsValue( value );
     }
 
     @Override
-    public String get( Object key )
+    public String get( final Object key )
     {
-        return (String)properties.get( key );
+        return (String)this.properties.get( key );
     }
 
     @Override
-    public String put( String key, String value )
+    public String put( final String key, final String value )
     {
-        return (String)properties.put( key, value );
+        return (String)this.properties.put( key, value );
     }
 
     @Override
-    public String remove( Object key )
+    public String remove( final Object key )
     {
-        return (String)properties.remove( key );
+        return (String)this.properties.remove( key );
     }
 
     @Override
-    public void putAll( Map<? extends String, ? extends String> m )
+    public void putAll( final Map<? extends String, ? extends String> m )
     {
-        properties.putAll( m );
+        this.properties.putAll( m );
     }
 
     @Override
     public void clear()
     {
-        properties.clear();
+        this.properties.clear();
     }
 
     @Override
     public Set<String> keySet()
     {
-        return new SetWrapper<Object,String>(properties.keySet(), keyOrValueWrapper, keyOrValueUnwrapper);
+        return new SetWrapper<Object,String>(this.properties.keySet(), this.keyOrValueWrapper, this.keyOrValueUnwrapper);
     }
 
     @Override
     public Collection<String> values()
     {
-        return new CollectionWrapper<Object,String>(properties.values(), keyOrValueWrapper, keyOrValueUnwrapper);
+        return new CollectionWrapper<Object,String>(this.properties.values(), this.keyOrValueWrapper, this.keyOrValueUnwrapper);
     }
 
     @Override
     public Set<Map.Entry<String,String>> entrySet()
     {
-        return new SetWrapper<Map.Entry<Object,Object>,Map.Entry<String,String>>( properties.entrySet(), entryWrapper, entryUnwrapper);
+        return new SetWrapper<Map.Entry<Object,Object>,Map.Entry<String,String>>( this.properties.entrySet(), this.entryWrapper, this.entryUnwrapper);
     }
 
-    public void store(Writer w, String comment) throws IOException
+    public void store(final Writer w, final String comment) throws IOException
     {
         this.properties.store( w, comment );
     }
 
-    public void store(OutputStream os, String comment) throws IOException
+    public void store(final OutputStream os, final String comment) throws IOException
     {
         this.properties.store( os, comment );
     }
 
-    public void storeToXML(OutputStream os, String comment) throws IOException
+    public void storeToXML(final OutputStream os, final String comment) throws IOException
     {
         this.properties.storeToXML( os, comment );
     }
 
-    public void storeToXML(OutputStream os, String comment, String encoding) throws IOException
+    public void storeToXML(final OutputStream os, final String comment, final String encoding) throws IOException
     {
         this.properties.storeToXML( os, comment, encoding );
     }
 
-    public void load(Reader r) throws IOException
+    public void load(final Reader r) throws IOException
     {
         this.properties.load( r );
     }
 
-    public void load(InputStream inStream) throws IOException
+    public void load(final InputStream inStream) throws IOException
     {
         this.properties.load( inStream );
     }
 
-    public void loadFromXML(InputStream in) throws InvalidPropertiesFormatException, IOException
+    public void loadFromXML(final InputStream in) throws InvalidPropertiesFormatException, IOException
     {
         this.properties.loadFromXML( in );
     }
@@ -173,10 +163,10 @@ public class PropertiesMap implements Map<String,String>, Serializable
     private static class XEntry<K,V> implements Map.Entry<K,V>, Serializable
     {
         private static final long serialVersionUID = 1L;
-        private K key;
-        private V value;
+        private final K key;
+        private final V value;
 
-        public XEntry( K key, V value )
+        public XEntry( final K key, final V value )
         {
             this.key   = key;
             this.value = value;
@@ -185,30 +175,42 @@ public class PropertiesMap implements Map<String,String>, Serializable
         @Override
         public K getKey()
         {
-            return key;
+            return this.key;
         }
 
         @Override
         public V getValue()
         {
-            return value;
+            return this.value;
         }
 
         @Override
-        public V setValue( V value )
+        public V setValue( final V value )
         {
             throw new UnsupportedOperationException();
         }
     }
 
-    public static PropertiesMap load( File confFile ) throws IOException
+    public static PropertiesMap load( final File confFile ) throws IOException
     {
-        PropertiesMap prop = new PropertiesMap();
-        
+        final PropertiesMap prop = new PropertiesMap();
+
         try( FileInputStream inStream = new FileInputStream( confFile ) ) {
             prop.load( inStream );
         }
-        
+
         return prop;
+    }
+
+    private void writeObject( @Nonnull final ObjectOutputStream stream ) throws IOException
+    {
+        stream.defaultWriteObject();
+    }
+
+    private void readObject( @Nonnull final ObjectInputStream stream ) throws IOException, ClassNotFoundException
+    {
+        stream.defaultReadObject();
+
+        initTransient();
     }
 }
