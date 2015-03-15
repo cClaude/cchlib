@@ -2,6 +2,7 @@ package com.googlecode.cchlib.apps.emptydirectories.lookup;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -89,7 +90,7 @@ public class DefaultEmptyDirectoriesLookupTest
     @Test
     public void testLookup() throws CancelRequestException, IOException, ScanIOException
     {
-        final EmptyDirectoriesLookup edl = new DefaultEmptyDirectoriesLookup( this.rootPath );
+        final EmptyDirectoriesLookup<FileFilter> edl = new DefaultEmptyDirectoriesLookup( this.rootPath );
 
         edl.addListener( this.emptyDirectoriesListener );
         edl.lookup();
