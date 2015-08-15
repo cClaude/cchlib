@@ -1225,14 +1225,14 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         return new MouseAdapter()
         {
             @Override
-            public void mousePressed( final MouseEvent e )
+            public void mousePressed( final MouseEvent event )
             {
-                maybeShowPopup( e );
+                maybeShowPopup( event );
             }
             @Override
-            public void mouseReleased( final MouseEvent e )
+            public void mouseReleased( final MouseEvent event )
             {
-                maybeShowPopup( e );
+                maybeShowPopup( event );
             }
         };
     }
@@ -1264,25 +1264,18 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     /**
      * Set String content to clipboard
      *
-     * @param s String to put in clipboard
+     * @param str String to put in clipboard
      *
      * @throws IllegalStateException if the clipboard is currently
      * unavailable. For example, on some platforms, the system clipboard
      * is unavailable while it is accessed by another application.
      */
-    final
-    public static void setClipboardContents(
-        final String s
-        )
-        throws IllegalStateException
+    public final static void setClipboardContents( final String str ) //
+            throws IllegalStateException
     {
-        final StringSelection selection = new StringSelection( s );
-        Toolkit.getDefaultToolkit()
-                .getSystemClipboard()
-                    .setContents(
-                            selection,
-                            selection
-                            );
+        final StringSelection selection = new StringSelection( str );
+
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents( selection, selection );
     }
 
     /**
@@ -1300,8 +1293,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *         clipboard is unavailable while it is accessed by another
      *         application.
      */
-    final
-    public static String getClipboardContents( final Object requestor )
+    public final static String getClipboardContents( final Object requestor )
         throws IllegalStateException
     {
         final Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
