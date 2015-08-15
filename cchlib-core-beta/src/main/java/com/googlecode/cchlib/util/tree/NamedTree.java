@@ -48,7 +48,6 @@ import com.googlecode.cchlib.util.Walkable;
 public class NamedTree<T>
     extends BinaryTree<T>
         implements Walkable<NamedTreeNode<T>>
-        //Iterable<NamedTreeNode<T>>
 {
     private static final long serialVersionUID = 1L;
 

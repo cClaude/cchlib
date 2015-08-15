@@ -542,18 +542,18 @@ public class DHCPOptions implements Serializable {
     }
 
     /** Calculer lors du premier appel */
-    private transient static Properties prop;
+    private transient /*static*/ Properties properties;
 
     /** TODOC */
     public String getProperty( final String name ) // -------------------------
     {
-        if( DHCPOptions.prop == null ) {
+        if( this.properties == null ) {
             final String ressourceName = DHCP_OPTIONS_PROPERTIES;
 
-            DHCPOptions.prop = new Properties();
+            this.properties = new Properties();
 
             try( final InputStream is = getClass().getResourceAsStream( ressourceName ) ) {
-                DHCPOptions.prop.load( is );
+                this.properties.load( is );
 
                 is.close();
             }
@@ -565,7 +565,7 @@ public class DHCPOptions implements Serializable {
             }
         }
 
-        return DHCPOptions.prop.getProperty( name );
+        return this.properties.getProperty( name );
     }
 
     /** TODOC */
