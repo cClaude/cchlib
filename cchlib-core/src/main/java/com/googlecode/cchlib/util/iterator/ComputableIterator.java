@@ -12,7 +12,7 @@ public abstract class ComputableIterator<T>
     implements Iterator<T>
     //Note: Can't implement Iterable<T> here - super class could do this work
 {
-    private @Nullable T nextObject;
+    @Nullable private T nextObject;
     private Boolean noSuchElementException;
 
     /** Create ComputableIterator */
@@ -22,6 +22,14 @@ public abstract class ComputableIterator<T>
         this.nextObject = null;
     }
 
+    private static boolean isEnd( final Boolean noSuchElementException )
+    {
+        if( noSuchElementException != null ) {
+            return noSuchElementException.booleanValue();
+        }
+        return false;
+    }
+
     /**
      * Compute next object for iterator, return next object if exist, throwing an exception if not.
      *
@@ -29,7 +37,7 @@ public abstract class ComputableIterator<T>
      * @throws NoSuchElementException
      *             if no more object
      */
-    protected abstract @Nullable T computeNext()
+    @Nullable protected abstract T computeNext()
         throws NoSuchElementException;
 
     /**
@@ -41,7 +49,6 @@ public abstract class ComputableIterator<T>
     @Override
     public boolean hasNext()
     {
-        //if( this.nextObject == null ) {
         if( isEnd( this.noSuchElementException ) ) {
             return false;
         }
@@ -58,14 +65,6 @@ public abstract class ComputableIterator<T>
         return true;
     }
 
-    private static boolean isEnd( final Boolean noSuchElementException )
-    {
-        if( noSuchElementException != null ) {
-            return noSuchElementException.booleanValue();
-        }
-        return false;
-    }
-
     /**
      * Returns the next element in the iteration.
      *
@@ -80,7 +79,6 @@ public abstract class ComputableIterator<T>
             throw new NoSuchElementException();
         }
 
-        //if(this.nextObject == null) {
         if( this.noSuchElementException == null ) {
             this.noSuchElementException = Boolean.FALSE;
             this.nextObject = computeNext();
@@ -110,7 +108,7 @@ public abstract class ComputableIterator<T>
      *             Always throw this exception.
      */
     @Override
-    final public void remove()
+    public final void remove()
         throws  UnsupportedOperationException,
                 IllegalStateException
     {
