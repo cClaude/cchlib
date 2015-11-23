@@ -69,11 +69,12 @@ public class LimitedIntegerJTextField extends JTextField
 
             // Get new value, check it
             final String   newValue = rdoc.getText( 0, rdoc.getLength() );
-            int      intValue;
-            try {
-                intValue = Integer.parseInt( newValue, radix );
+            int            intValue;
 
-                if( intValue <= maxValue ) {
+            try {
+                intValue = Integer.parseInt( newValue, LimitedIntegerJTextField.this.radix );
+
+                if( intValue <= LimitedIntegerJTextField.this.maxValue ) {
                     if( intValue >=0 ) {
                         // All OK, bye, bye
                         return;
@@ -149,7 +150,7 @@ public class LimitedIntegerJTextField extends JTextField
      */
     public int getRadix()
     {
-        return radix;
+        return this.radix;
     }
 
     /**
@@ -159,7 +160,7 @@ public class LimitedIntegerJTextField extends JTextField
     public int getValue()
     {
         try {
-            final int value = Integer.parseInt( super.getText(), radix );
+            final int value = Integer.parseInt( super.getText(), this.radix );
 
             if( value >=0 ) {
                 return value;

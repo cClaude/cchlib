@@ -87,14 +87,6 @@ public class Iterables
         return wrap( Iterables.create( iterator ), wrapper );
     }
 
-//    public static <S,R> Iterable<R> wrap(
-//            final S[] array,
-//            final Wrappable<? super S,? extends R> wrapper )
-//        throws WrapperException
-//    {
-//        return wrap( Iterables.create( iterator ), wrapper );
-//    }
-
     /**
      * {@link #wrap(Iterable, Wrappable)} for {@link Enumeration} objects
      *
@@ -239,7 +231,7 @@ public class Iterables
 
     @NeedDoc
     public static @Nullable <T> T find( //
-        @Nonnull final List<T>       iterable, //
+        @Nonnull final Iterable<T>   iterable, //
         @Nonnull final Selectable<T> filter //
         )
     {
