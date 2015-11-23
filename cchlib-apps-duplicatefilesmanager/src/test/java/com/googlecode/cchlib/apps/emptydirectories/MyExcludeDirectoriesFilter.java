@@ -31,7 +31,11 @@ public final class MyExcludeDirectoriesFilter
 
     private boolean souldBeExclude( final Path path )
     {
-        if( isInTrash( path.getFileName().toString() ) ) {
+        final Path fileName = path.getFileName();
+
+        if( fileName == null ) {
+            return true;
+        } else if( isInTrash( fileName.toString() ) ) {
             return true;
         } else if( Files.isSymbolicLink( path ) ) {
             return true;

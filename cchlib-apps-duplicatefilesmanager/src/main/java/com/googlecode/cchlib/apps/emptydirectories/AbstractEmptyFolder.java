@@ -3,6 +3,7 @@ package com.googlecode.cchlib.apps.emptydirectories;
 import java.io.File;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.NotDirectoryException;
+import javax.annotation.Nonnull;
 
 public abstract class AbstractEmptyFolder implements EmptyFolder
 {
@@ -20,7 +21,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
     @Override
     public final boolean isEmpty()
     {
-        return type.equals( EmptyFolderType.IS_EMPTY );
+        return this.type.equals( EmptyFolderType.IS_EMPTY );
     }
 
     /**
@@ -29,7 +30,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
     @Override
     public final boolean isContaintOnlyEmptyFolders()
     {
-        return type.equals( EmptyFolderType.CONTAINT_ONLY_EMPTY_FOLDERS );
+        return this.type.equals( EmptyFolderType.CONTAINT_ONLY_EMPTY_FOLDERS );
     }
 
     @Override
@@ -39,7 +40,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
         builder.append( "EmptyFolder [path=" );
         builder.append( getPath() );
         builder.append( ", type=" );
-        builder.append( type );
+        builder.append( this.type );
         builder.append( ']' );
         return builder.toString();
     }
@@ -78,7 +79,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
             throw new NotDirectoryException( file.getPath() );
             }
 
-        final File[] files = file.listFiles();
+        @Nonnull final File[] files = file.listFiles();
 
         for( final File f : files ) {
             if( ! f.isDirectory() ) {
@@ -87,11 +88,11 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
             }
 
         if( files.length == 0 ) {
-            type = EmptyFolderType.IS_EMPTY;
+            this.type = EmptyFolderType.IS_EMPTY;
             }
         else {
             // Child folders are not checked !
-            type = EmptyFolderType.CONTAINT_ONLY_EMPTY_FOLDERS;
+            this.type = EmptyFolderType.CONTAINT_ONLY_EMPTY_FOLDERS;
             }
     }
 }
