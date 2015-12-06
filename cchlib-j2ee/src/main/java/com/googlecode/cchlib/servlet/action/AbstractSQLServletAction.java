@@ -47,10 +47,10 @@ public abstract class AbstractSQLServletAction
     public Connection getConnection()
         throws SQLException, NamingException
     {
-        if( connection == null ) {
-            connection = getDataSource().getConnection();
+        if( this.connection == null ) {
+            this.connection = getDataSource().getConnection();
             }
-        return connection;
+        return this.connection;
     }
 
     /**
@@ -62,10 +62,10 @@ public abstract class AbstractSQLServletAction
     public Statement getStatement()
         throws SQLException, NamingException
     {
-        if( statement == null ) {
-            statement = getConnection().createStatement();
+        if( this.statement == null ) {
+            this.statement = getConnection().createStatement();
             }
-        return statement;
+        return this.statement;
     }
 
     /**
@@ -82,18 +82,26 @@ public abstract class AbstractSQLServletAction
         try {
             nextAction= doSQL();
             }
-        catch( NamingException e ) {
+        catch( final NamingException e ) {
             throw new ServletActionException( e );
             }
-        catch( SQLException e ) {
+        catch( final SQLException e ) {
             throw new ServletActionException( e );
             }
         finally {
-            if( statement  != null ) { try{ statement.close();  } catch(Exception ignore) {}}
-            if( connection != null ) { try{ connection.close(); } catch(Exception ignore) {}}
+            if( this.statement  != null ) { silentClose( this.statement  ); }
+            if( this.connection != null ) { silentClose( this.connection ); }
             }
 
         return nextAction;
+    }
+
+    private static void silentClose( final AutoCloseable closeable )
+    {
+        try {
+            closeable.close();
+        }
+        catch( final Exception ignore ) {}
     }
 
     /**

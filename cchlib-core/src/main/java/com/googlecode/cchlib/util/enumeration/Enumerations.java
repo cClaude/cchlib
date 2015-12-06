@@ -83,8 +83,7 @@ public class Enumerations
                 return enumeration.hasMoreElements();
             }
             @Override
-            public O nextElement()
-                throws java.util.NoSuchElementException
+            public O nextElement() throws NoSuchElementException
             {
                 return wrapper.wrap( enumeration.nextElement() );
             }

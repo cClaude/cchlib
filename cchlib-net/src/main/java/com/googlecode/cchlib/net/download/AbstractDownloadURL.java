@@ -112,15 +112,15 @@ public abstract class AbstractDownloadURL // $codepro.audit.disable com.instanti
     }
 
     @Override
-    final public URI getURI()
+    public final URI getURI()
     {
-        return uri;
+        return this.uri;
     }
 
     @Override
-    final public URL getURL()
+    public final URL getURL()
     {
-        return url;
+        return this.url;
     }
 
     /**
@@ -131,21 +131,21 @@ public abstract class AbstractDownloadURL // $codepro.audit.disable com.instanti
      */
     protected URLConnection getURLConnection() throws IOException
     {
-        if( proxy == null ) {
+        if( this.proxy == null ) {
             return getURL().openConnection();
             }
         else {
-            return getURL().openConnection( proxy );
+            return getURL().openConnection( this.proxy );
             }
     }
 
     @Override
     public InputStream getInputStream() throws IOException
     {
-        URLConnection uc = getURLConnection();
+        final URLConnection uc = getURLConnection();
 
-        if( requestPropertyMap != null ) {
-            for( Map.Entry<String,String> prop : requestPropertyMap.entrySet() ) {
+        if( this.requestPropertyMap != null ) {
+            for( final Map.Entry<String,String> prop : this.requestPropertyMap.entrySet() ) {
                 uc.addRequestProperty( prop.getKey(), prop.getValue() );
                 }
             }
@@ -154,10 +154,10 @@ public abstract class AbstractDownloadURL // $codepro.audit.disable com.instanti
             LOGGER.trace( "URLConnection: " + uc );
             LOGGER.trace( "URLConnection.getHeaderFields() " );
 
-            for( Map.Entry<String,List<String>> entry : uc.getHeaderFields().entrySet() ) {
+            for( final Map.Entry<String,List<String>> entry : uc.getHeaderFields().entrySet() ) {
                 LOGGER.trace( "Header name:" + entry.getKey() );
 
-                for( String v : entry.getValue() ) {
+                for( final String v : entry.getValue() ) {
                     LOGGER.trace( "Header value:" + v );
                     }
                 }
