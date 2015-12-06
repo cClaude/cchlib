@@ -1,12 +1,12 @@
 package cx.ath.choisnet.util;
 
-import com.googlecode.cchlib.NeedTestCases;
-import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
-import com.googlecode.cchlib.util.iterator.ArrayIterator;
 import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import com.googlecode.cchlib.NeedTestCases;
+import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
 
 /**
@@ -136,20 +136,17 @@ public final class ArrayHelper
             @Override
             public boolean hasMoreElements()
             {
-                return index < enumLen;
+                return this.index < enumLen;
             }
 
             @Override
             public T nextElement()
-                throws java.util.NoSuchElementException
+                throws NoSuchElementException
             {
-                if( index < enumLen ) {
-                    //try {
-                        return array[index++];
-                    //    }
-                    //catch(IndexOutOfBoundsException ignore) {}
+                if( this.index < enumLen ) {
+                    return array[this.index++];
                 }
-                throw new NoSuchElementException( "index = " + index );
+                throw new NoSuchElementException( "index = " + this.index );
             }
         };
     }

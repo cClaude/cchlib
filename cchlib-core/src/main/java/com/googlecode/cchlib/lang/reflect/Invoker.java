@@ -63,6 +63,21 @@ public abstract class Invoker<T> implements Serializable
         return method.invoke( instance, params );
     }
 
+    public final Object invoke(
+            final Object[]  params
+            ) throws
+                NoSuchMethodException,
+                SecurityException,
+                IllegalAccessException,
+                IllegalArgumentException,
+                InvocationTargetException,
+                MethodResolutionException
+    {
+        @SuppressWarnings("null")
+        final T instance = null;
+        return invoke(instance , params );
+    }
+
     protected MethodFilter getMethodFilter()
     {
         return this.methodFilter;

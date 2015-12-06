@@ -163,7 +163,7 @@ public class InvokerByNameTest
         final InvokerByName<?> fixture = InvokerByNameFactory.createInvokerByName();
         final Object[] params = new Object[] {}; // No params
 
-        final Object result = fixture.invoke(null, params); // No 'static' method like these
+        final Object result = fixture.invoke( params ); // No 'static' method like these
 
         Assertions.assertThat( result ).isNotNull();
     }
@@ -178,7 +178,7 @@ public class InvokerByNameTest
         final InvokerByName<?> fixture = InvokerByNameFactory.createInvokerByName();
         final Object[] params = new Object[] { "A" };
 
-        final Object result = fixture.invoke(null, params); // No 'static' method like these
+        final Object result = fixture.invoke( params ); // No 'static' method like these
 
         Assertions.assertThat( result ).isNotNull();
     }

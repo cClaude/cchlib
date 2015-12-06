@@ -23,7 +23,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
     private static final int AUTOSTORE_DEFAULT_THRESHOLD = 50;
 
     /** The listeners waiting for object changes. */
-    private EventListenerList listenerList = new EventListenerList();
+    private final EventListenerList listenerList = new EventListenerList();
 
     /** Cache all access should be synchronized on this object */
     private final CacheContent theCache;
@@ -38,7 +38,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
     private boolean autostore;
     private int autostoreThreshold = AUTOSTORE_DEFAULT_THRESHOLD;
     private int modificationCount = 0;
-    private URICachePersistenceManager persistenceManager = new SimpleTextPersistenceManagerV2();
+    private final URICachePersistenceManager persistenceManager = new SimpleTextPersistenceManagerV2();
 
     /**
      * Create a new URLCache using a default cache {@link File} stored
@@ -134,12 +134,12 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
      */
     public boolean isInCache( final URI uri )
     {
-        URIDataCacheEntry entry = get( uri );
+        final URIDataCacheEntry entry = get( uri );
 
         if( entry != null ) {
             // TODO: allow to define a relative filename
             // (add set/get cacheHomeDirectory File)
-            File f = new File( cacheRootDirFile, entry.getRelativeFilename() );
+            final File f = new File( this.cacheRootDirFile, entry.getRelativeFilename() );
 
             return f.isFile();
             }
@@ -156,7 +156,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
      *   false otherwise
      * @throws URISyntaxException
      */
-    public boolean isInCacheIndex( URL url ) throws URISyntaxException
+    public boolean isInCacheIndex( final URL url ) throws URISyntaxException
     {
         return isInCache( url.toURI() );
     }
@@ -195,8 +195,8 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
         final String filename
         )
     {
-        synchronized( theCache ) {
-            theCache.put( uri, new DefaultURICacheEntry( date, contentHashCode, filename ) );
+        synchronized( this.theCache ) {
+            this.theCache.put( uri, new DefaultURICacheEntry( date, contentHashCode, filename ) );
 
             this.modificationCount++;
             }
@@ -212,8 +212,8 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
      */
     public URIDataCacheEntry get( final URI uri )
     {
-        synchronized( theCache ) {
-            return theCache.getDataCacheEntry( uri );
+        synchronized( this.theCache ) {
+            return this.theCache.getDataCacheEntry( uri );
             }
     }
 
@@ -224,8 +224,8 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
      */
     public URI findURI( final String hashCode )
     {
-        synchronized( theCache ) {
-            return theCache.getURI( hashCode );
+        synchronized( this.theCache ) {
+            return this.theCache.getURI( hashCode );
             }
     }
 
@@ -235,8 +235,8 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
      */
     public int size()
     {
-        synchronized( theCache ) {
-            return theCache.size();
+        synchronized( this.theCache ) {
+            return this.theCache.size();
             }
     }
 
@@ -255,7 +255,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
 
     public String getRelativeFilename( final URI uri )
     {
-        URIDataCacheEntry entry = get( uri );
+        final URIDataCacheEntry entry = get( uri );
 
         if( entry != null ) {
             return entry.getRelativeFilename();
@@ -302,7 +302,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
             throw new NullPointerException( "cacheFilename is null" );
             }
 
-        setCacheFile( new File( cacheRootDirFile, cacheFilename ) ) ;
+        setCacheFile( new File( this.cacheRootDirFile, cacheFilename ) ) ;
     }
 
     /**
@@ -377,21 +377,21 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
      */
     public void load() throws FileNotFoundException, IOException
     {
-        synchronized( theCache ) {
+        synchronized( this.theCache ) {
             try {
-                persistenceManager.load( getCacheFile(), theCache );
+                this.persistenceManager.load( getCacheFile(), this.theCache );
                 }
-            catch( PersistenceFileBadVersionException retry ) { // $codepro.audit.disable logExceptions
-                new SimpleTextPersistenceManagerV0().load( getCacheFile(), theCache );
+            catch( final PersistenceFileBadVersionException retry ) { // $codepro.audit.disable logExceptions
+                new SimpleTextPersistenceManagerV0().load( getCacheFile(), this.theCache );
                 }
-            catch( IOException retry ) {
+            catch( final IOException retry ) {
                 LOGGER.warn( "Can load: " +  getCacheFile() + " trying " +  getBackupCacheFile(), retry );
 
                 try {
-                    persistenceManager.load( getBackupCacheFile(), theCache );
+                    this.persistenceManager.load( getBackupCacheFile(), this.theCache );
                     }
-                catch( PersistenceFileBadVersionException e ) { // $codepro.audit.disable logExceptions
-                    new SimpleTextPersistenceManagerV0().load( getBackupCacheFile(), theCache );
+                catch( final PersistenceFileBadVersionException e ) { // $codepro.audit.disable logExceptions
+                    new SimpleTextPersistenceManagerV0().load( getBackupCacheFile(), this.theCache );
                     }
                 }
             }
@@ -420,7 +420,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
             backupFile.delete();
 
             // Rename previous version of cache file to backup file.
-            boolean b = cacheFile.renameTo( backupFile );
+            final boolean b = cacheFile.renameTo( backupFile );
 
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( "Rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
@@ -432,9 +432,8 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
             }
 
         // store cache
-        synchronized( theCache ) {
-            //storeSimpleTxt( cacheFile, _cache );
-            persistenceManager.store( cacheFile, theCache );
+        synchronized( this.theCache ) {
+            this.persistenceManager.store( cacheFile, this.theCache );
             }
 
         // Cache stored successfully
@@ -444,30 +443,29 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
             // Loose data in cache !
             LOGGER.warn( "Loose data append previous file" );
 
-            CacheContent tmpCache = new URICacheContent();
+            final CacheContent tmpCache = new URICacheContent();
 
             try {
-                persistenceManager.load( backupFile, tmpCache );
+                this.persistenceManager.load( backupFile, tmpCache );
                 }
-            catch( PersistenceFileBadVersionException e ) {
+            catch( final PersistenceFileBadVersionException e ) {
                 // unexpected cache content
                 throw new IOException( "Unexpected cache file", e );
                 }
 
-            synchronized( theCache ) {
+            synchronized( this.theCache ) {
                 // Add in tmpCache current values
-                for( Entry<URI,URIDataCacheEntry> entry : theCache ) {
+                for( final Entry<URI,URIDataCacheEntry> entry : this.theCache ) {
                     tmpCache.put( entry.getKey(), entry.getValue() );
                     }
 
                 // Update cache using tmpCache
-                for( Entry<URI,URIDataCacheEntry> entry : tmpCache ) {
-                    theCache.put( entry.getKey(), entry.getValue() );
+                for( final Entry<URI,URIDataCacheEntry> entry : tmpCache ) {
+                    this.theCache.put( entry.getKey(), entry.getValue() );
                     }
 
                 tmpCache.clear();
-                //storeSimpleTxt( cacheFile, _cache );
-                persistenceManager.store( cacheFile, theCache );
+                this.persistenceManager.store( cacheFile, this.theCache );
                 }
 
             }
@@ -485,7 +483,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
                     store();
                     fireAutoStore();
                     }
-                catch( IOException e ) {
+                catch( final IOException e ) {
                     fireIOException( e );
                     }
                 }
@@ -499,9 +497,9 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
      *
      * @param l the {@link URLCacheListener} to add
      */
-    public void addURLCacheListener( URICacheListener l )
+    public void addURLCacheListener( final URICacheListener l )
     {
-        listenerList.add( URICacheListener.class, l );
+        this.listenerList.add( URICacheListener.class, l );
     }
 
     /**
@@ -510,9 +508,9 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
      *
      * @param l the {@link URLCacheListener} to remove
      */
-    public void removeURLCacheListener( URICacheListener l )
+    public void removeURLCacheListener( final URICacheListener l )
     {
-        listenerList.remove( URICacheListener.class, l );
+        this.listenerList.remove( URICacheListener.class, l );
     }
 
     /**
@@ -524,7 +522,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
             final IOException ioe
         )
     {
-        Object[] listeners = listenerList.getListenerList();
+        final Object[] listeners = this.listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) { // $codepro.audit.disable numericLiterals
             if( listeners[i] == URICacheListener.class ) { // $codepro.audit.disable useEquals
@@ -540,7 +538,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
      */
     protected void fireAutoStore()
     {
-        Object[] listeners = listenerList.getListenerList();
+        final Object[] listeners = this.listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) { // $codepro.audit.disable numericLiterals
             if( listeners[i] == URICacheListener.class ) { // $codepro.audit.disable useEquals
@@ -552,19 +550,19 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "URLCache [cacheRootDirFile=" );
-        builder.append( cacheRootDirFile );
+        builder.append( this.cacheRootDirFile );
         builder.append( ", cacheFile=" );
         builder.append( getCacheFile() );
         builder.append( ", autostore=" );
-        builder.append( autostore );
+        builder.append( this.autostore );
         builder.append( ", autostoreThreshold=" );
-        builder.append( autostoreThreshold );
+        builder.append( this.autostoreThreshold );
         builder.append( ", modificationCount=" );
-        builder.append( modificationCount );
+        builder.append( this.modificationCount );
         builder.append( ", cache size=" );
-        builder.append( theCache.size() );
+        builder.append( this.theCache.size() );
         builder.append( ']' );
 
         return builder.toString();

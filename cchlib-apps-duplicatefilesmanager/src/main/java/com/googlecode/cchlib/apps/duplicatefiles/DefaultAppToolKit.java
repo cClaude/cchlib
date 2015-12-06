@@ -39,7 +39,7 @@ final class DefaultAppToolKit
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultAppToolKit.class );
 
-    private final Map<Component,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>(); // parentComponent,jFileChooserInitializer;
+    private final Map<Component,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>();
     private final PreferencesControler preferences;
     private DuplicateFilesFrame mainWindow;
     private Set<AutoI18nConfig> autoI18nConfig;
@@ -83,10 +83,10 @@ final class DefaultAppToolKit
     @Override
     public Set<AutoI18nConfig> getAutoI18nConfig()
     {
-        if( autoI18nConfig == null ) {
-            autoI18nConfig = AutoI18nConfig.newAutoI18nConfig( AutoI18nConfig.DO_DEEP_SCAN );
+        if( this.autoI18nConfig == null ) {
+            this.autoI18nConfig = AutoI18nConfig.newAutoI18nConfig( AutoI18nConfig.DO_DEEP_SCAN );
             }
-        return autoI18nConfig;
+        return this.autoI18nConfig;
     }
 
     public void setMainWindow( final DuplicateFilesFrame mainWindow )
@@ -155,8 +155,8 @@ final class DefaultAppToolKit
             jFileChooserInitializer = new WaitingJFileChooserInitializer(
                     configurator,
                     parentWindow,
-                    jFileChooserInitializerTitle,
-                    jFileChooserInitializerMessage
+                    this.jFileChooserInitializerTitle,
+                    this.jFileChooserInitializerMessage
                     );
             this.jFileChooserInitializerMap.put( refComponent, jFileChooserInitializer );
         }
@@ -167,6 +167,7 @@ final class DefaultAppToolKit
     public void beep()
     {
         Toolkit.getDefaultToolkit().beep();
+        LOGGER.info( "beep()", new RuntimeException( "DEBUG" ) ); // TODO remove this
     }
 
     @Override // DFToolKit
@@ -181,7 +182,7 @@ final class DefaultAppToolKit
         catch( final IOException e ) {
             DialogHelper.showMessageExceptionDialog(
                     getMainFrame(),
-                    txtOpenDesktopExceptionTitle,
+                    this.txtOpenDesktopExceptionTitle,
                     e
                     );
             }
@@ -200,7 +201,7 @@ final class DefaultAppToolKit
     @Override // DFToolKit
     public PreferencesControler getPreferences()
     {
-        return preferences;
+        return this.preferences;
     }
 
     @Override // DFToolKit

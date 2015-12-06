@@ -33,7 +33,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
     @I18nString
     private String                          txtHiddenFirstLetter;
-    // @I18nString private String txtCanExecuteFirstLetter = "E";
+    // TODO: @I18nString private String txtCanExecuteFirstLetter = "E";
     @I18nString
     private String                          txtCanWriteFirstLetter;
     @I18nString
@@ -56,7 +56,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     private void beSurNonFinal()
     {
         this.txtHiddenFirstLetter = "H";
-        // @I18nString private String txtCanExecuteFirstLetter = "E";
+        // TODO: @I18nString private String txtCanExecuteFirstLetter = "E";
         this.txtCanWriteFirstLetter = "W";
         this.txtCanReadFirstLetter = "R";
     }
@@ -193,10 +193,10 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         this.duplicatesContextualMenu.setPopupMenu();
     }
 
-    private void createKeyFileStatePopupMenu( final JList<KeyFileState> jList_ )
+    private void createKeyFileStatePopupMenu( final JList<KeyFileState> jList )
     {
         final JPopupMenuForJList<KeyFileState> menu //
-            = new FilesContextualMenu( this, jList_, AbstractJPopupMenuBuilder.Attributs.MUST_BE_SELECTED, new Attributs[] {} );
+            = new FilesContextualMenu( this, jList, AbstractJPopupMenuBuilder.Attributs.MUST_BE_SELECTED, new Attributs[] {} );
         menu.addMenu();
     }
 
