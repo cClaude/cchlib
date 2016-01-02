@@ -318,7 +318,7 @@ public class JPanelConfirm extends JPanel
         int               c = 0;
 
         if( s != null ) {
-            for( final KeyFileState f:s ) {
+            for( final KeyFileState f:s ) { // FIXME : java.util.ConcurrentModificationException could occur here
                 if(!f.isSelectedToDelete()) {
                     c++;
                 }
@@ -337,7 +337,7 @@ public class JPanelConfirm extends JPanel
         int               c = 0;
 
         if( s != null ) {
-            for(final KeyFileState f:s) {
+            for(final KeyFileState f:s) { // FIXME : java.util.ConcurrentModificationException could occur here
                 if(f.isSelectedToDelete()) {
                     c++;
                 }

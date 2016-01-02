@@ -3,7 +3,11 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,12 +19,15 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.errors.ErrorT
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 
 //NOT public
 abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingLayout.class );
+    protected static final String ACTION_REMOVE_ERROR_ENTRY = "ACTION_REMOVE_ERROR_ENTRY";
+    protected static final String REMOVE_ERROR_ENTRY_CLIENT_PROPERTY_KEY = "REMOVE_ERROR_ENTRY_CLIENT_PROPERTY_KEY";
 
     private final int nThreads;
 
@@ -37,6 +44,7 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
     @I18nIgnore private final JLabel jLabelDuplicateFilesFoundValue;
 
     private final JPanelCurrentFiles panelCurrentFiles;
+    protected JMenuItem txtMenuRemoveError;
 
     /**
      * @wbp.parser.constructor
@@ -198,8 +206,49 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
 //        tableModelErrorList.addColumn( "Errors" );
         jTableErrorList.setModel( tableModelErrorList );
 
+        final JPopupMenuForJTable popupMenu = newJPopupMenuForJTable();
+        popupMenu.addMenu();
+
         getjProgressBarFiles().setStringPainted( true );
         jProgressBarOctets.setStringPainted( true );
+    }
+
+    private JPopupMenuForJTable newJPopupMenuForJTable()
+    {
+        final ActionListener removeErrorListener = actionEvent -> removeErrorEntry( actionEvent );
+
+        return new JPopupMenuForJTable(jTableErrorList)
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected JPopupMenu createContextMenu(
+                    final int rowIndex,
+                    final int columnIndex
+                    )
+            {
+                final JPopupMenu contextMenu = new JPopupMenu();
+
+                if( rowIndex == 0 ) {
+                    addJMenuItem(
+                            contextMenu,
+                            txtMenuRemoveError,
+                            removeErrorListener,
+                            ACTION_REMOVE_ERROR_ENTRY,              // actionCommand,
+                            REMOVE_ERROR_ENTRY_CLIENT_PROPERTY_KEY, // clientPropertyKey
+                            Integer.valueOf( rowIndex )             // clientPropertyValue
+                            );
+                }
+
+                return contextMenu;
+            }
+        };
+    }
+
+    private void removeErrorEntry( final ActionEvent actionEvent )
+    {
+        // TODO Auto-generated method stub
+
     }
 
     protected void prepareScan()
