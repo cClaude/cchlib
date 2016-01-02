@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
+import com.googlecode.cchlib.util.properties.PropertiesPopulatorException;
 
 
 public final class PreferencesControlerFactory
@@ -101,7 +102,16 @@ public final class PreferencesControlerFactory
 
         final PreferencesProperties preferencesProperties = new PreferencesProperties( preferencesFile, new PreferencesBean() );
 
-        preferencesProperties.load( properties );
+        try {
+            preferencesProperties.load( properties );
+        }
+        catch( final PropertiesPopulatorException e ) {
+            final String message = "Can't load configuration: " + preferencesFile;
+
+            LOGGER.fatal( message, e );
+
+            DialogHelper.showMessageExceptionDialog( null, message, e );
+       }
 
         return preferencesProperties;
     }
