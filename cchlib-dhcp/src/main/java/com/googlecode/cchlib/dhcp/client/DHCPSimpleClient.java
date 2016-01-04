@@ -62,14 +62,14 @@ public class DHCPSimpleClient extends Thread {
             while( this.running ) {
                 final byte messageType = this.dhcpMessageReceived.getMessageType();
 
-                logger.println( "<< receving <<", this.dhcpMessageReceived );
+                this.logger.println( "<< receving <<", this.dhcpMessageReceived );
 
                 switch( messageType ) {
 
                     case DHCPOptions.MESSAGE_TYPE_DHCPOFFER: {
                         final String ip = DHCPParameters.ip4AddrToString( this.dhcpMessageReceived.getDHCPParameters().getYIAddr() );
 
-                        logger.println( getName() + " received a DHCPOFFER for " + ip );
+                        this.logger.println( getName() + " received a DHCPOFFER for " + ip );
 
                         sendRequest();
                     }
@@ -80,23 +80,23 @@ public class DHCPSimpleClient extends Thread {
                         final long t2 = DHCPParameters.byteToLong( this.dhcpMessageReceived.getDHCPParameters().getOption( DHCPOptions.T2_TIME ) );
                         final String ip = DHCPParameters.ip4AddrToString( this.dhcpMessageReceived.getDHCPParameters().getYIAddr() );
 
-                        logger.println( getName() + " received an DHCPACK and a leasetime." );
-                        logger.println( "Binding to IP address: " + ip );
+                        this.logger.println( getName() + " received an DHCPACK and a leasetime." );
+                        this.logger.println( "Binding to IP address: " + ip );
 
-                        logger.println( "Goodnight for " + t1 + " seconds (t1/t2)=(" + t1 + "/" + t2 + ")" );
+                        this.logger.println( "Goodnight for " + t1 + " seconds (t1/t2)=(" + t1 + "/" + t2 + ")" );
 
                         t1 = 15; // *******************
 
                         sleepFor( t1 );
 
-                        logger.println( getName() + " sending ReNew Message to server..." );
+                        this.logger.println( getName() + " sending ReNew Message to server..." );
 
                         reNew();
                     }
                         break;
 
                     case DHCPOptions.MESSAGE_TYPE_DHCPNAK:
-                        logger.println( getName() + " Revieded DHCPNAK... " );
+                        this.logger.println( getName() + " Revieded DHCPNAK... " );
 
                         sendDHCPDISCOVER();
                         break;
@@ -152,7 +152,7 @@ public class DHCPSimpleClient extends Thread {
                     //
                     sentinal = false;
                 } else {
-                    logger.println( "<< receving ERROR <<", this.dhcpMessageReceived );
+                    this.logger.println( "<< receving ERROR <<", this.dhcpMessageReceived );
 
                     this.bindDHCPSocket.send( dhcpMessageSend );
                 }
@@ -160,7 +160,7 @@ public class DHCPSimpleClient extends Thread {
                 //
                 // Time out
                 //
-                bindDHCPSocket.send( dhcpMessageSend );
+                this.bindDHCPSocket.send( dhcpMessageSend );
             }
 
         } // while
@@ -235,9 +235,9 @@ public class DHCPSimpleClient extends Thread {
         dhcpMessageSend.getDHCPParameters().setOp( DHCPParameters.OP_OPTION_BOOTREQUEST );
 
         // should be a random int
-        dhcpMessageSend.getDHCPParameters().setXId( ranXid.nextInt() );
+        dhcpMessageSend.getDHCPParameters().setXId( this.ranXid.nextInt() );
 
-        logger.println( ">> Sending >> DHCPDISCOVER", dhcpMessageSend );
+        this.logger.println( ">> Sending >> DHCPDISCOVER", dhcpMessageSend );
 
         // send DHCPDISCOVER
         send( dhcpMessageSend );
@@ -290,7 +290,7 @@ public class DHCPSimpleClient extends Thread {
         // set new IP value
         dhcpMessageSend.getDHCPParameters().setOption( DHCPOptions.REQUESTED_IP, this.dhcpMessageReceived.getDHCPParameters().getYIAddr() );
 
-        logger.println( ">> DHCPOFFER >>", dhcpMessageSend );
+        this.logger.println( ">> DHCPOFFER >>", dhcpMessageSend );
 
         System.out.print( this.getName() + " sending DHCPREQUEST for "
                 + DHCPParameters.ip4AddrToString( dhcpMessageSend.getDHCPParameters().getOption( DHCPOptions.REQUESTED_IP ) ) );
@@ -356,7 +356,7 @@ public class DHCPSimpleClient extends Thread {
         dhcpMessageSend.setInetAddress( InetAddress.getByName( dhcpServer ) );
 
         if( !send( dhcpMessageSend, t1, 15 /* t2 */) ) {
-            logger.println( this.getName() + " rebinding, T1 has ran out... " + dhcpServer );
+            this.logger.println( this.getName() + " rebinding, T1 has ran out... " + dhcpServer );
 
             reBind();
         }
@@ -414,8 +414,8 @@ public class DHCPSimpleClient extends Thread {
         // int elpstime = 1;
 
         if( !send( dhcpMessageSend, t2, /* leaseTime */20 ) ) {
-            logger.println( this.getName() + " is sending DHCPRELEASE, T2 has ran out " );
-            logger.println( "shuttingdown." );
+            this.logger.println( this.getName() + " is sending DHCPRELEASE, T2 has ran out " );
+            this.logger.println( "shuttingdown." );
 
             sendRelease();
         }

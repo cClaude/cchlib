@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.nio.file;
 
+import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -8,8 +9,7 @@ import java.nio.file.Path;
 import javax.annotation.Nonnull;
 
 /**
- * TODOC
- *
+ * Helper class for {@link File} (nio) manipulations
  */
 public final class FilterHelper
 {

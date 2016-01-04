@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.io;
 
 import java.io.File;
+import java.nio.file.NotDirectoryException;
+import javax.annotation.Nonnull;
 
 /**
  * Miscellaneous tools to create commons {@link File} objects
@@ -72,19 +74,19 @@ public final class FileHelper
      * (as defined by the java.io.tmpdir system property), and returns its name.
      * <BR>
      * This method assumes that the temporary volume is writable, has free inodes and free blocks.
-     * 
+     *
      * @return the newly-created directory
      * @throws IllegalStateException if the directory could not be created
      * @since 4.1.7
      */
-    public static File createTempDir() 
+    public static File createTempDir()
     {
-        File   baseDir  = new File( System.getProperty("java.io.tmpdir") );
-        String baseName = System.currentTimeMillis() + "-";
-        
+        final File   baseDir  = new File( System.getProperty("java.io.tmpdir") );
+        final String baseName = System.currentTimeMillis() + "-";
+
         for( int counter = 0; counter < TEMP_DIR_ATTEMPTS; counter++ ) {
-            File tempDir = new File( baseDir, baseName + counter); // $codepro.audit.disable avoidInstantiationInLoops
-            
+            final File tempDir = new File( baseDir, baseName + counter); // $codepro.audit.disable avoidInstantiationInLoops
+
             if( tempDir.mkdir() ) {
                 return tempDir;
                 }
@@ -93,5 +95,33 @@ public final class FileHelper
         throw new IllegalStateException("Failed to create directory within "
                 + TEMP_DIR_ATTEMPTS + " attempts (tried "
                 + baseName + "0 to " + baseName + (TEMP_DIR_ATTEMPTS - 1) + ')');
+    }
+
+    /**
+     * Returns an array of abstract pathnames denoting the files in the directory
+     * denoted by parameter {@code directoryFile}.
+     *
+     * @param directoryFile {@link File} instance
+     * @return an array of abstract pathnames denoting the files in the directory
+     *         denoted by this abstract pathname.
+     * @throws NotDirectoryException if parameter {@code directoryFile} is not a folder.
+     * @since 4.2
+     * @see File#listFiles()
+     */
+    @Nonnull
+    public static File[] getFiles( @Nonnull final File directoryFile ) throws NotDirectoryException
+    {
+        if( ! directoryFile.isDirectory() ) {
+            throw new NotDirectoryException( directoryFile.getPath() );
+            }
+
+        final File[] files = directoryFile.listFiles();
+
+        if( files == null ) {
+            // Stupid line for tools like SonarQube and BugFix
+            return new File[0];
+        }
+
+        return files;
     }
 }

@@ -96,12 +96,14 @@ public abstract class AbstractSQLServletAction
         return nextAction;
     }
 
-    private static void silentClose( final AutoCloseable closeable )
+    private void silentClose( final AutoCloseable closeable )
     {
         try {
             closeable.close();
         }
-        catch( final Exception ignore ) {}
+        catch( final Exception ignore ) {
+            log( "Exception: " + ignore, ignore );
+        }
     }
 
     /**
