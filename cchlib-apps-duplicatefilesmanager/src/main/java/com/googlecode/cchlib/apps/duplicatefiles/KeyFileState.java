@@ -31,11 +31,11 @@ public final class KeyFileState
      */
     public KeyFileState(final String key, final File file)
     {
-        this.key    = key;
-        this.file   = file;
-        this.path   = file.getPath();
-        this.name   = file.getName();
-        this.length = file.length();
+        this.key              = key;
+        this.file             = file;
+        this.path             = file.getPath();
+        this.name             = file.getName();
+        this.length           = file.length();
         this.selectedToDelete = false;
      }
 
@@ -65,10 +65,10 @@ public final class KeyFileState
         if( this == obj ) {
             return true;
         }
-        if( obj == null ) {
+        else if( obj == null ) {
             return false;
         }
-        if( !(obj instanceof KeyFileState) ) {
+        else if( !(obj instanceof KeyFileState) ) {
             return false;
         }
         final KeyFileState other = (KeyFileState)obj;
@@ -103,9 +103,9 @@ public final class KeyFileState
 
     /**
      * @return the file
-     * @deprecated use {@link #getPath()}
      */
-    @Deprecated
+//    * @deprecated use {@link #getPath()}
+//    @Deprecated
     public File getFile()
     {
         return this.file;
@@ -118,21 +118,21 @@ public final class KeyFileState
 
     public String getFileNameWithoutExtention()
     {
-        final String name = getFileNameWithExtention();
+        final String filename = getFileNameWithExtention();
 
-        if( name.indexOf( 0 ) == '.' ) {
+        if( filename.indexOf( 0 ) == '.' ) {
             // File start with DOT, so it's a hidden file (or system file) - no extention
-            return name;
+            return filename;
             }
 
-        final int index = name.lastIndexOf( '.' );
+        final int index = filename.lastIndexOf( '.' );
 
         if( index < 0 ) {
             // No extention
-            return name;
+            return filename;
             }
 
-        return name.substring( 0, index );
+        return filename.substring( 0, index );
     }
 
     /**
@@ -190,10 +190,6 @@ public final class KeyFileState
 
     public boolean isInDirectory( final String dirPath )
     {
-//        if( path == null ) {
-//            path = file.getPath();
-//            }
-//
         return this.path.startsWith( dirPath );
     }
 
