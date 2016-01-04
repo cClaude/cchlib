@@ -3,79 +3,23 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.ListModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
-import com.googlecode.cchlib.util.iterator.Iterators;
 
 final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState> {
-    private static class Selected implements Iterable<KeyFileState> {
-        private final List<KeyFileState> selectedList;
-
-        Selected( final ListModel<KeyFileState> listModel, final int[] selectedIndices )
-        {
-            if( selectedIndices == null ) {
-                throw new IllegalArgumentException( "selectedIndices is null - Illegal value" );
-            }
-
-            this.selectedList = new ArrayList<>( selectedIndices.length );
-
-            for( final int index : selectedIndices ) {
-                this.selectedList.add( listModel.getElementAt( index ) );
-            }
-        }
-
-        public String getKey()
-        {
-            return this.selectedList.get( 0 ).getKey();
-        }
-
-        @Override
-        public Iterator<KeyFileState> iterator()
-        {
-            return Iterators.unmodifiableIterator( this.selectedList.iterator() );
-        }
-
-        public Collection<KeyFileState> getSelectedList()
-        {
-            return Collections.unmodifiableList( this.selectedList );
-        }
-
-        // @Deprecated
-        // public List<File> _toFileList()
-        // {
-        // return toFiles().collect( Collectors.toList() );
-        // }
-
-        // @Deprecated
-        // public Stream<File> toFiles()
-        // {
-        // return this.selectedList.stream().map( kf -> kf.getFile() );
-        // }
-
-        public Stream<KeyFileState> toKeyFileStateStream()
-        {
-            return this.selectedList.stream();
-        }
-    }
-
     private static final String ACTION_COMMAND_DeleteAllExceptTheseFiles = "DeleteAllExceptTheseFiles";
     private static final String ACTION_COMMAND_DeleteAllInDir            = "DeleteAllInDir";
     private static final String ACTION_COMMAND_DeleteDuplicateInDir      = "DeleteDuplicateInDir";
@@ -89,9 +33,9 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState> {
     private static final Logger LOGGER                                   = Logger.getLogger( FilesContextualMenu.class );
     private static final long   serialVersionUID                         = 1L;
 
-    private ActionListener      actionListenerContextSubMenu;
-    private final AppToolKit    dFToolKit;
-    private final JPanelResult  jPanelResult;
+    private transient ActionListener    actionListenerContextSubMenu;
+    private final AppToolKit            dFToolKit;
+    private final JPanelResult          jPanelResult;
 
     @I18nString
     private String              txtCopy;
@@ -259,45 +203,51 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState> {
     private ActionListener getActionListenerContextSubMenu()
     {
         if( this.actionListenerContextSubMenu == null ) {
-            this.actionListenerContextSubMenu = ( final ActionEvent e ) -> {
-                final JMenuItem sourceItem = (JMenuItem)e.getSource();
-                final Object actionObject = sourceItem.getClientProperty( ACTION_OBJECT );
-                final String cmd = sourceItem.getActionCommand();
-                LOGGER.info( "cmd:" + cmd + " - " + actionObject );
-                if( null != cmd ) {
-                    switch( cmd ) {
-                        case ACTION_COMMAND_DeleteTheseFiles:
-                            onDeleteTheseFiles( actionObject );
-                            break;
-                        case ACTION_COMMAND_KeepTheseFiles:
-                            onKeepTheseFiles( actionObject );
-                            break;
-                        case ACTION_COMMAND_DeleteAllExceptTheseFiles:
-                            onDeleteAllExceptTheseFiles( actionObject );
-                            break;
-                        case ACTION_COMMAND_KeepAllExceptTheseFiles:
-                            onKeepAllExceptTheseFiles( actionObject );
-                            break;
-                        case ACTION_COMMAND_DeleteDuplicateInDir:
-                            onDeleteDuplicateInDir( actionObject );
-                            break;
-                        case ACTION_COMMAND_KeepNonDuplicateInDir:
-                            onKeepNonDuplicateInDir( actionObject );
-                            break;
-                        case ACTION_COMMAND_KeepAllInDir:
-                            onKeepAllInDir( actionObject );
-                            break;
-                        case ACTION_COMMAND_DeleteAllInDir:
-                            onDeleteAllInDir( actionObject );
-                            break;
-                        default:
-                            LOGGER.error( "Don't known how to handle: " + cmd );
-                            break;
-                    }
-                }
-            };
+            this.actionListenerContextSubMenu = ( final ActionEvent e ) -> actionPerformedContextSubMenu( e );
         }
+
         return this.actionListenerContextSubMenu;
+    }
+
+    private void actionPerformedContextSubMenu( final ActionEvent event )
+    {
+        final JMenuItem sourceItem = (JMenuItem)event.getSource();
+        final Object actionObject = sourceItem.getClientProperty( ACTION_OBJECT );
+        final String cmd = sourceItem.getActionCommand();
+
+        LOGGER.info( "cmd:" + cmd + " - " + actionObject );
+
+        if( null != cmd ) {
+            switch( cmd ) {
+                case ACTION_COMMAND_DeleteTheseFiles:
+                    onDeleteTheseFiles( actionObject );
+                    break;
+                case ACTION_COMMAND_KeepTheseFiles:
+                    onKeepTheseFiles( actionObject );
+                    break;
+                case ACTION_COMMAND_DeleteAllExceptTheseFiles:
+                    onDeleteAllExceptTheseFiles( actionObject );
+                    break;
+                case ACTION_COMMAND_KeepAllExceptTheseFiles:
+                    onKeepAllExceptTheseFiles( actionObject );
+                    break;
+                case ACTION_COMMAND_DeleteDuplicateInDir:
+                    onDeleteDuplicateInDir( actionObject );
+                    break;
+                case ACTION_COMMAND_KeepNonDuplicateInDir:
+                    onKeepNonDuplicateInDir( actionObject );
+                    break;
+                case ACTION_COMMAND_KeepAllInDir:
+                    onKeepAllInDir( actionObject );
+                    break;
+                case ACTION_COMMAND_DeleteAllInDir:
+                    onDeleteAllInDir( actionObject );
+                    break;
+                default:
+                    LOGGER.error( "Don't known how to handle: " + cmd );
+                    break;
+            }
+        }
     }
 
     private void onDeleteAllExceptTheseFiles( final Object actionObject )
