@@ -1,4 +1,3 @@
-// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods, numericLiterals, constantNamingConvention
 package cx.ath.choisnet.bytesaccess;
 
 import java.io.File;
@@ -194,14 +193,7 @@ public abstract class BytesAccess implements Cloneable
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final long  CMP_FF00_MASK_BYTE_VALUE = 0x000000000000FF00;
-
-    // /**
-    // * @see #compare(byte[], byte[])
-    // * @deprecated Use {@link #CMP_FF00_MASK_BYTE_VALUE} instead
-    // */
-    // @Deprecated
-    // public static final long CMP_MASK_BYTE0_VALUE = CMP_FF00_MASK_BYTE_VALUE;
+    public static final long  CMP_FF00_MASK_BYTE_VALUE = 0x000000000000FF00L;
 
     /**
      * @see #compare(byte[], byte[])
@@ -212,13 +204,6 @@ public abstract class BytesAccess implements Cloneable
      * @see #compare(byte[], byte[])
      */
     public static final long  CMP_00FF_MASK_BYTE_VALUE = 0x00000000000000FFL;
-
-    // /**
-    // * @see #compare(byte[], byte[])
-    // * @deprecated Use {@link #CMP_00FF_MASK_BYTE_VALUE} instead
-    // */
-    // @Deprecated
-    // public static final long CMP_MASK_BYTE1_VALUE = CMP_00FF_MASK_BYTE_VALUE;
 
     /**
      * @see #compare(byte[], byte[])

@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.NotDirectoryException;
 import javax.annotation.Nonnull;
+import com.googlecode.cchlib.io.FileHelper;
 
 public abstract class AbstractEmptyFolder implements EmptyFolder
 {
@@ -76,7 +77,7 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
         final File file = getFile();
 
         @Nonnull
-        final File[] files = getDirectoryContent( file );
+        final File[] files = FileHelper.getFiles( file );
 
         for( final File f : files ) {
             if( ! f.isDirectory() ) {
@@ -91,21 +92,5 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
             // Child folders are not checked !
             this.type = EmptyFolderType.CONTAINT_ONLY_EMPTY_FOLDERS;
             }
-    }
-
-    @Nonnull
-    private static File[] getDirectoryContent( @Nonnull final File file ) throws NotDirectoryException
-    {
-        if( ! file.isDirectory() ) {
-            throw new NotDirectoryException( file.getPath() );
-            }
-
-        final File[] files = file.listFiles();
-
-        if( files == null ) {
-            // Stupid line for SoarQube and BugFix
-            return new File[0];
-        }
-        return files;
     }
 }

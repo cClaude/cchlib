@@ -120,7 +120,7 @@ public class DefaultEmptyDirectoriesLookupTest
                 LOGGER.warn( "Unexpected entry: " + ef );
 
                 final File[] subFiles = ef.getFile().listFiles();
-                LOGGER.warn( "subFiles=" + subFiles );
+                LOGGER.warn( "subFiles=" + hideArray(subFiles) );
 
                 if( subFiles != null ) {
                     LOGGER.warn( "subFiles.length=" + subFiles.length );
@@ -155,6 +155,11 @@ public class DefaultEmptyDirectoriesLookupTest
         Assert.assertEquals( 0, this.emptyDirectoriesListener.getEmptyFolderList().size() );
 
         LOGGER.info( "done" );
+    }
+
+    private Object hideArray( final File[] subFiles )
+    {
+        return subFiles;
     }
 
     private static class LoggerEmptyDirectoriesListener implements EmptyDirectoriesListener

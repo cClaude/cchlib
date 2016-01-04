@@ -18,8 +18,7 @@ public abstract class ComputableIterator<T>
     /** Create ComputableIterator */
     protected ComputableIterator()
     {
-        this.noSuchElementException = null; // not yet initialized
-        this.nextObject = null;
+        // noSuchElementException and nextObject are null
     }
 
     private static boolean isEnd( final Boolean noSuchElementException )
