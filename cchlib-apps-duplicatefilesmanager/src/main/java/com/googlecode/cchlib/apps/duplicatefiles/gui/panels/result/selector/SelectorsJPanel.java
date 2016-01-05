@@ -65,4 +65,14 @@ public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
             }
     }
 
+    public void disableAllWidgets()
+    {
+        // TODO : disable all widgets
+    }
+
+    public void enableAllWidgets()
+    {
+        // TODO : enable all widgets
+    }
+
 }

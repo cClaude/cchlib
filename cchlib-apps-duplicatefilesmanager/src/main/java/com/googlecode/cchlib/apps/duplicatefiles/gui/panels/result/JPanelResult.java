@@ -219,16 +219,6 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         }, "clearSelected()" ).start();
     }
 
-    private void disableAllWidgets()
-    {
-        // TODO : disable all widgets
-    }
-
-    private void enableAllWidgets()
-    {
-        // TODO : enable all widgets
-    }
-
     @Override
     protected void onRefresh()
     {
