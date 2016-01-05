@@ -22,7 +22,7 @@ import com.googlecode.cchlib.NeedDoc;
 @NeedDoc
 public final class DuplicateFileBuilder
 {
-    private final static class FileVisitorCollector<T> implements FileVisitor<T> {
+    private static final class FileVisitorCollector<T> implements FileVisitor<T> {
 
         private final FileVisitor<T> visitor;
         private final List<T> collector = new ArrayList<>();
@@ -48,7 +48,7 @@ public final class DuplicateFileBuilder
         {
             final FileVisitResult result = visitor.visitFile( file, attrs );
 
-            if( result == FileVisitResult.CONTINUE || result == FileVisitResult.TERMINATE) {
+            if( (result == FileVisitResult.CONTINUE) || (result == FileVisitResult.TERMINATE)) {
                 collector.add( file );
             }
             return result;
