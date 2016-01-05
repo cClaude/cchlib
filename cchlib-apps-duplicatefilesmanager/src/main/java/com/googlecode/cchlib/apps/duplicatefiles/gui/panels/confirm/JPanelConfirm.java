@@ -396,15 +396,21 @@ public class JPanelConfirm extends JPanel
     {
         final Runnable task = () -> {
             try {
+                // TODO disable gadgets
+
                 private_doDelete( duplicateFiles );
             }
             catch( final Exception e ) {
                 LOGGER.fatal( "*** Error catched while delete files", e );
+
                 DialogHelper.showMessageExceptionDialog(
-                        this.dfToolKit.getMainFrame(), //.getMainWindow(),
+                        this.dfToolKit.getMainFrame(),
                         this.msgStr_doDeleteExceptiontitle,
                         e
                 );
+            }
+            finally {
+                // TODO enable gadgets
             }
         };
 

@@ -266,11 +266,11 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     {
         final Iterator<Map.Entry<String, Set<KeyFileState>>> mainIterator = getDuplicateFiles().entrySet().iterator();
 
-        int index  = 0;
+        int duplicatesCurrentIndex  = 0;
         int index0 = -1;
         int index1 = -1;
 
-        LOGGER.info( "refreshList() : duplicateFiles.size() = " + getDuplicateFiles().size() );
+        LOGGER.info( "refreshList() begin : duplicateFiles.size() = " + getDuplicateFiles().size() );
 
         while( mainIterator.hasNext() ) {
             final Map.Entry<String,Set<KeyFileState>> entry       = mainIterator.next();
@@ -287,22 +287,24 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
                     }
                 }
 
-            LOGGER.info( "refreshList() : kfsSet.size() = " + kfsSet.size() );
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "refreshList() : kfsSet.size() = " + kfsSet.size() );
+            }
 
             if( kfsSet.size() < 2 ) { // $codepro.audit.disable numericLiterals
                 // No more duplicate here !
                 mainIterator.remove();
 
                 if( index0 < 0 ) {
-                    index0 = index;
+                    index0 = duplicatesCurrentIndex;
                     }
-                index1 = index;
+                index1 = duplicatesCurrentIndex;
                 }
 
-            index++;
+            duplicatesCurrentIndex++;
             }
 
-        LOGGER.info( "refreshList() : duplicateFiles.size() = " + getDuplicateFiles().size() + " * index0=" + index0 + " index1=" + index1 );
+        LOGGER.info( "refreshList() end : duplicateFiles.size() = " + getDuplicateFiles().size() + " * index0=" + index0 + " index1=" + index1 );
 
         if( index0 >= 0 ) {
             updateCache();

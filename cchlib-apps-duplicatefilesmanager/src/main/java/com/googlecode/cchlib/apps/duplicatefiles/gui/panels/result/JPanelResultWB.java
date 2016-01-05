@@ -371,6 +371,38 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
         return this.selectorsJPanel;
     }
 
+    protected void disableAllWidgets()
+    {
+        getSelectorsJPanel().disableAllWidgets();
+
+        jButtonPrevSet.setEnabled( false );
+        jButtonNextSet.setEnabled( false );
+        refreshButton.setEnabled( false );
+        jTextFieldFileInfo.setText( "****** REFRESH *****" ); // TODO Localization
+
+        jListDuplicatesFiles.setEnabled( false );
+        jListKeptIntact.setEnabled( false );
+        jListWillBeDeleted.setEnabled( false );
+
+        // TODO : disable all widgets
+    }
+
+    protected void enableAllWidgets()
+    {
+        getSelectorsJPanel().enableAllWidgets();
+
+        jButtonPrevSet.setEnabled( true );
+        jButtonNextSet.setEnabled( true );
+        refreshButton.setEnabled( true );
+        jTextFieldFileInfo.setText( "" ); // TODO Localization
+
+        jListDuplicatesFiles.setEnabled( true );
+        jListKeptIntact.setEnabled( true );
+        jListWillBeDeleted.setEnabled( true );
+
+        // TODO : enable all widgets
+    }
+
     protected abstract void onNextSet();
     protected abstract void onPrevSet();
     protected abstract void onRefresh();
