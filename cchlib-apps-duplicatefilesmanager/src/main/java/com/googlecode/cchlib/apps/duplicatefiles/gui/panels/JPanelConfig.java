@@ -145,67 +145,18 @@ private Scanner s;
         final boolean isModeChanged = !this.mode.equals( prevMode );
 
         if( isModeChanged ) {
-            if( mode == ConfigMode.BEGINNER ) {
-                getJComboBoxFilesFilters().setModel(
-                        new DefaultComboBoxModel<>(
-                            new String[] {
-                                getTxtDisableFilesFilters()
-                                }
-                            )
-                        );
-                getJComboBoxFilesFilters().setEnabled( false );
-                getJComboBoxDirsFilters().setModel(
-                        new DefaultComboBoxModel<>(
-                            new String[] {
-                                getTxtDisableDirsFilters()
-                                }
-                            )
-                        );
-                getJComboBoxDirsFilters().setEnabled( false );
-                }
-            else if( mode == ConfigMode.ADVANCED ) {
-                getJComboBoxFilesFilters().setModel(
-                        new DefaultComboBoxModel<>(
-                            new String[] {
-                                getTxtDisableFilesFilters(),
-                                getTxtIncludeFilesFilters(),
-                                getTxtExcludeFilesFilters()
-                                }
-                            )
-                        );
-                getJComboBoxFilesFilters().setEnabled( true );
-                getJComboBoxDirsFilters().setModel(
-                        new DefaultComboBoxModel<>(
-                            new String[] {
-                                getTxtDisableDirsFilters()
-                                }
-                            )
-                        );
-                getJComboBoxDirsFilters().setEnabled( false );
-                }
-            else { // if( mode == ConfigMode.EXPERT )
-                getJComboBoxFilesFilters().setModel(
-                        new DefaultComboBoxModel<>(
-                            new String[] {
-                                getTxtDisableFilesFilters(),
-                                getTxtIncludeFilesFilters(),
-                                getTxtExcludeFilesFilters()
-                                }
-                            )
-                        );
-                getJComboBoxFilesFilters().setEnabled( true );
-                getJComboBoxDirsFilters().setModel(
-                        new DefaultComboBoxModel<>(
-                            new String[] {
-                                getTxtDisableDirsFilters(),
-                                getTxtExcludeDirsFilters(),
-                                getTxtIncludeDirsFilters()
-                                }
-                            )
-                        );
-                getJComboBoxDirsFilters().setEnabled( true );
-                }
+            switch( mode ) {
+                case BEGINNER:
+                    updateDisplayBeginner();
+                    break;
+                case ADVANCED:
+                    updateDisplayAdvanced();
+                    break;
+                case EXPERT:
+                    updateDisplayExpert();
+                    break;
             }
+        }
 
         // private_updateDisplayMode( final boolean doRepaint )
         {
@@ -263,6 +214,72 @@ private Scanner s;
                 LOGGER.debug( "repaint MainWindow" );
                 }
         }
+    }
+
+    private void updateDisplayBeginner()
+    {
+        getJComboBoxFilesFilters().setModel(
+                new DefaultComboBoxModel<>(
+                    new String[] {
+                        getTxtDisableFilesFilters()
+                        }
+                    )
+                );
+        getJComboBoxFilesFilters().setEnabled( false );
+        getJComboBoxDirsFilters().setModel(
+                new DefaultComboBoxModel<>(
+                    new String[] {
+                        getTxtDisableDirsFilters()
+                        }
+                    )
+                );
+        getJComboBoxDirsFilters().setEnabled( false );
+    }
+
+    private void updateDisplayAdvanced()
+    {
+        getJComboBoxFilesFilters().setModel(
+                new DefaultComboBoxModel<>(
+                    new String[] {
+                        getTxtDisableFilesFilters(),
+                        getTxtIncludeFilesFilters(),
+                        getTxtExcludeFilesFilters()
+                        }
+                    )
+                );
+        getJComboBoxFilesFilters().setEnabled( true );
+        getJComboBoxDirsFilters().setModel(
+                new DefaultComboBoxModel<>(
+                    new String[] {
+                        getTxtDisableDirsFilters()
+                        }
+                    )
+                );
+        getJComboBoxDirsFilters().setEnabled( false );
+    }
+
+    private void updateDisplayExpert()
+    {
+        getJComboBoxFilesFilters().setModel(
+                new DefaultComboBoxModel<>(
+                    new String[] {
+                        getTxtDisableFilesFilters(),
+                        getTxtIncludeFilesFilters(),
+                        getTxtExcludeFilesFilters()
+                        }
+                    )
+                );
+        getJComboBoxFilesFilters().setEnabled( true );
+        getJComboBoxDirsFilters().setModel(
+                new DefaultComboBoxModel<>(
+                    new String[] {
+                        getTxtDisableDirsFilters(),
+                        getTxtExcludeDirsFilters(),
+                        getTxtIncludeDirsFilters()
+                        }
+                    )
+                );
+        getJComboBoxDirsFilters().setEnabled( true );
     }
 
     /**
