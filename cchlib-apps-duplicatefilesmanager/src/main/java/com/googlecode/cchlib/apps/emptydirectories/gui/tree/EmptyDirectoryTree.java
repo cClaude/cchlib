@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 
 public class EmptyDirectoryTree extends JTree
 {
@@ -27,7 +27,7 @@ public class EmptyDirectoryTree extends JTree
 
     protected final void fireStructureChanged()
     {
-        Object root = model.getRoot();
+        final Object root = model.getRoot();
 
         if( root != null ) {
             fireTreeStructureChanged(new TreePath( root ));
@@ -49,7 +49,7 @@ public class EmptyDirectoryTree extends JTree
             }
 
         try {
-            Object[]        pairs   = listenerList.getListenerList();
+            final Object[]        pairs   = listenerList.getListenerList();
             TreeModelEvent  e       = null;
 
             for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
@@ -58,13 +58,13 @@ public class EmptyDirectoryTree extends JTree
                         e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
                         }
 
-                    TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
+                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
 
                     l.treeStructureChanged( e );
                     }
                 }
             }
-        catch( RuntimeException e ) {
+        catch( final RuntimeException e ) {
             LOGGER.error( "UI Error : parentPath=" + parentPath, e );
             }
     }
@@ -85,7 +85,7 @@ public class EmptyDirectoryTree extends JTree
                 //Expend all nodes
                 expandAllRowsUnsynchronized();
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.error( "expandAllRows()", e );
                 }
             }
@@ -97,7 +97,7 @@ public class EmptyDirectoryTree extends JTree
             try {
                 this.expandRow( i );
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.error( "expandRow( " + i + " )", e );
                 }
              }

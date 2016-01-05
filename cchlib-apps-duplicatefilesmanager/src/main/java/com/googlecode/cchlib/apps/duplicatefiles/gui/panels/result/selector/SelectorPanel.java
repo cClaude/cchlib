@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector;
 
+import javax.swing.JPanel;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import javax.swing.JPanel;
 
 public abstract class SelectorPanel extends JPanel implements I18nAutoCoreUpdatable // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses
 {

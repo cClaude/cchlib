@@ -512,11 +512,11 @@ private Scanner s;
 
     public FileFilterBuilders getFileFilterBuilders()
     {
-        final int   FFtype  = getJComboBoxFilesFilters().getSelectedIndex();
-        final int   EFtype  = getJComboBoxDirsFilters().getSelectedIndex();
+        final int   ffType  = getJComboBoxFilesFilters().getSelectedIndex();
+        final int   efType  = getJComboBoxDirsFilters().getSelectedIndex();
 
-        LOGGER.info( "FFtype = " + FFtype );
-        LOGGER.info( "EFtype = " + EFtype);
+        LOGGER.info( "FFtype = " + ffType );
+        LOGGER.info( "EFtype = " + efType);
 
         // Special cases
         final boolean ignoreEmptyFiles      = getjCheckBoxIgnoreEmptyFiles().isSelected();
@@ -534,7 +534,7 @@ private Scanner s;
             @Override
             public FileFilterBuilder getIncludeDirs()
             {
-                if( EFtype == DIRS_FILTER_INCLUDE ) {
+                if( efType == DIRS_FILTER_INCLUDE ) {
                     return createIncludeDirectoriesFileFilterBuilder();
                     }
                 else {
@@ -544,7 +544,7 @@ private Scanner s;
             @Override
             public FileFilterBuilder getExcludeDirs()
             {
-                if( EFtype == DIRS_FILTER_EXCLUDE ) {
+                if( efType == DIRS_FILTER_EXCLUDE ) {
                     return createExcludeDirectoriesFileFilterBuilder();
                     }
                 else {
@@ -554,7 +554,7 @@ private Scanner s;
             @Override
             public FileFilterBuilder getIncludeFiles()
             {
-                if( FFtype == FILES_FILTER_INCLUDE ) {
+                if( ffType == FILES_FILTER_INCLUDE ) {
                     return createIncludeFilesFileFilterBuilder();
                     }
                 else {
@@ -564,7 +564,7 @@ private Scanner s;
             @Override
             public FileFilterBuilder getExcludeFiles()
             {
-                if( FFtype == FILES_FILTER_EXCLUDE ) {
+                if( ffType == FILES_FILTER_EXCLUDE ) {
                     return createExcludeFilesFileFilterBuilder();
                     }
                 else {

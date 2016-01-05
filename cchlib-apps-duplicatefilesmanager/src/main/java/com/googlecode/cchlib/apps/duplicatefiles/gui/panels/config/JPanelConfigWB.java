@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config;
 
 import java.awt.GridBagConstraints;

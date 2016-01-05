@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.apps.emptydirectories.path.folders;
 
+import java.io.File;
+import java.nio.file.Path;
 import com.googlecode.cchlib.apps.emptydirectories.AbstractEmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import java.io.File;
-import java.nio.file.Path;
 
 @Deprecated
 public class PathEmptyFolder extends AbstractEmptyFolder
@@ -15,7 +15,7 @@ public class PathEmptyFolder extends AbstractEmptyFolder
     protected PathEmptyFolder( final Path path, final EmptyFolderType type )
     {
         super( type );
-        
+
         this.path = path;
     }
 
@@ -34,8 +34,8 @@ public class PathEmptyFolder extends AbstractEmptyFolder
     @Override
     public int compareTo( final Folder aEmptyFolder )
     {
-        PathFolder other = PathFolder.class.cast( aEmptyFolder );
-        
+        final PathFolder other = PathFolder.class.cast( aEmptyFolder );
+
         return this.path.compareTo( other.getPath() );
     }
 
@@ -72,9 +72,9 @@ public class PathEmptyFolder extends AbstractEmptyFolder
 //    {
 //        if( aFolder instanceof EmptyFolder ) {
 //            EmptyFolder aEmptyFolder = EmptyFolder.class.cast( aFolder );
-//            
+//
 //            if( this.isEmpty() == aEmptyFolder.isEmpty() ) {
-//                return compareTo( aEmptyFolder ); 
+//                return compareTo( aEmptyFolder );
 //                }
 //            else {
 //                return -2;
@@ -89,7 +89,7 @@ public class PathEmptyFolder extends AbstractEmptyFolder
 //     * Check current directory and change state if needed, state is not change if
 //     * any exception occur.
 //     * <p>Child directories are not checked !</p>
-//     * 
+//     *
 //     * @throws NotDirectoryException if EmptyFolder is no more a valid directory
 //     * @throws DirectoryNotEmptyException if there is at least one file in this directory
 //     */
@@ -97,19 +97,19 @@ public class PathEmptyFolder extends AbstractEmptyFolder
 //    public void check() throws NotDirectoryException, DirectoryNotEmptyException
 //    {
 //        final File file = getPath().toFile();
-//        
+//
 //        if( ! file.isDirectory() ) {
-//            throw new NotDirectoryException( file.getPath() ); 
+//            throw new NotDirectoryException( file.getPath() );
 //            }
-//        
+//
 //        final File[] files = file.listFiles();
-//        
+//
 //        for( File f : files ) {
 //            if( ! f.isDirectory() ) {
-//                throw new DirectoryNotEmptyException( file.getPath() ); 
+//                throw new DirectoryNotEmptyException( file.getPath() );
 //                }
 //            }
-//        
+//
 //        if( files.length == 0 ) {
 //            this.type = EmptyFolderType.IS_EMPTY;
 //            }

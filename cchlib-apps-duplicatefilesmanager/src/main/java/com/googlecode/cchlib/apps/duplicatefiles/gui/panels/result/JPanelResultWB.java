@@ -1,18 +1,6 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
-import com.googlecode.cchlib.apps.duplicatefiles.Resources;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.DuplicateData;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.SelectorComboBox;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.SelectorsJPanel;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.DividersLocation;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.swing.JSplitPane.JSplitPanes;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -27,6 +15,18 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFiles;
+import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.DuplicateData;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.SelectorComboBox;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector.SelectorsJPanel;
+import com.googlecode.cchlib.apps.duplicatefiles.prefs.DividersLocation;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.swing.JSplitPane.JSplitPanes;
 
 @I18nName("JPanelResult")
 public abstract class JPanelResultWB extends JPanel implements DuplicateData // $codepro.audit.disable largeNumberOfFields
@@ -46,19 +46,19 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
         {
             if( event.getClickCount() > 0 ) {
                 getToJList().clearSelection();
-                int index = getFromJList().locationToIndex( event.getPoint() );
+                final int index = getFromJList().locationToIndex( event.getPoint() );
 
                 if( index >= 0 ) {
-                    KeyFileState kf = fromJListModel.getElementAt( index );
+                    final KeyFileState kf = fromJListModel.getElementAt( index );
 
                     displayFileInfo( kf );
                     }
                 }
             if( event.getClickCount() == 2 ) { // Double-click
-                int index = getFromJList().locationToIndex( event.getPoint() );
+                final int index = getFromJList().locationToIndex( event.getPoint() );
 
                 if( index >= 0 ) {
-                    KeyFileState kf = fromJListModel.remove( index );
+                    final KeyFileState kf = fromJListModel.remove( index );
 
                     //onKeepThisFile( kf, true );
                     doAction( kf, true );
@@ -96,7 +96,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
         listModelDuplicatesFiles = new JPanelResultListModelImpl();
 
         {
-            GridBagLayout gridBagLayout = new GridBagLayout();
+            final GridBagLayout gridBagLayout = new GridBagLayout();
             gridBagLayout.columnWidths = new int[]{32, 0, 0};
             gridBagLayout.rowHeights = new int[]{25, 0, 0, 0};
             gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
@@ -104,7 +104,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             setLayout(gridBagLayout);
         }
         {
-            GridBagConstraints gbc_jTextFieldFileInfo = new GridBagConstraints();
+            final GridBagConstraints gbc_jTextFieldFileInfo = new GridBagConstraints();
             gbc_jTextFieldFileInfo.fill = GridBagConstraints.HORIZONTAL;
             gbc_jTextFieldFileInfo.insets = new Insets(0, 0, 5, 0);
             gbc_jTextFieldFileInfo.gridx = 1;
@@ -116,7 +116,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             add(jTextFieldFileInfo, gbc_jTextFieldFileInfo);
         }
         {
-            GridBagConstraints gbc_jSplitPaneResultMain = new GridBagConstraints();
+            final GridBagConstraints gbc_jSplitPaneResultMain = new GridBagConstraints();
             gbc_jSplitPaneResultMain.gridwidth = 2;
             gbc_jSplitPaneResultMain.fill = GridBagConstraints.BOTH;
             gbc_jSplitPaneResultMain.insets = new Insets(0, 0, 5, 0);
@@ -126,15 +126,15 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
         }
         {
             this.selectorsJPanel = new SelectorsJPanel( this );
-            GridBagConstraints gbc_selectorsJPanel = new GridBagConstraints();
+            final GridBagConstraints gbc_selectorsJPanel = new GridBagConstraints();
             gbc_selectorsJPanel.fill = GridBagConstraints.BOTH;
             gbc_selectorsJPanel.gridx = 1;
             gbc_selectorsJPanel.gridy = 2;
             add(this.selectorsJPanel, gbc_selectorsJPanel);
         }
         {
-            SelectorComboBox jComboBoxSelectMode = this.selectorsJPanel.getSelectorComboBox();
-            GridBagConstraints gbc_jComboBoxSelectMode = new GridBagConstraints();
+            final SelectorComboBox jComboBoxSelectMode = this.selectorsJPanel.getSelectorComboBox();
+            final GridBagConstraints gbc_jComboBoxSelectMode = new GridBagConstraints();
             gbc_jComboBoxSelectMode.insets = new Insets(0, 0, 0, 5);
             gbc_jComboBoxSelectMode.fill = GridBagConstraints.HORIZONTAL;
             gbc_jComboBoxSelectMode.gridx = 0;
@@ -145,12 +145,12 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             jListDuplicatesFiles.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
             jListDuplicatesFiles.setModel( listModelDuplicatesFiles );
             jListDuplicatesFiles.addListSelectionListener(
-                (ListSelectionEvent event) -> {
+                (final ListSelectionEvent event) -> {
                     LOGGER.info( "valueChanged: " + event );
-                    
+
                     if( ! event.getValueIsAdjusting() ) {
-                        int i = jListDuplicatesFiles.getSelectedIndex();
-                        
+                        final int i = jListDuplicatesFiles.getSelectedIndex();
+
                         updateDisplayKeptDelete( i );
                     }
             });
@@ -176,17 +176,17 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
         if (jSplitPaneResultMain == null) {
             jSplitPaneResultMain = new JSplitPane();
 
-            JPanel leftPanel = new JPanel();
+            final JPanel leftPanel = new JPanel();
 
             jSplitPaneResultMain.setLeftComponent( leftPanel );
-            GridBagLayout gbl_leftPanel = new GridBagLayout();
+            final GridBagLayout gbl_leftPanel = new GridBagLayout();
             gbl_leftPanel.columnWidths = new int[]{64, 64, 64, 0};
             gbl_leftPanel.rowHeights = new int[]{24, 20, 0};
             gbl_leftPanel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
             gbl_leftPanel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
             leftPanel.setLayout(gbl_leftPanel);
             {
-                GridBagConstraints gbc_jButtonPrevSet = new GridBagConstraints();
+                final GridBagConstraints gbc_jButtonPrevSet = new GridBagConstraints();
                 gbc_jButtonPrevSet.fill = GridBagConstraints.BOTH;
                 gbc_jButtonPrevSet.insets = new Insets(0, 0, 5, 5);
                 gbc_jButtonPrevSet.gridx = 0;
@@ -215,7 +215,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
 //                });
                 this.refreshButton.addActionListener( e -> onRefresh() );
 
-                GridBagConstraints gbc_refreshButton = new GridBagConstraints();
+                final GridBagConstraints gbc_refreshButton = new GridBagConstraints();
                 gbc_refreshButton.fill = GridBagConstraints.BOTH;
                 gbc_refreshButton.insets = new Insets(0, 0, 5, 5);
                 gbc_refreshButton.gridx = 1;
@@ -223,7 +223,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
                 leftPanel.add(this.refreshButton, gbc_refreshButton);
             }
             {
-                GridBagConstraints gbc_jButtonNextSet = new GridBagConstraints();
+                final GridBagConstraints gbc_jButtonNextSet = new GridBagConstraints();
                 gbc_jButtonNextSet.fill = GridBagConstraints.BOTH;
                 gbc_jButtonNextSet.insets = new Insets(0, 0, 5, 5);
                 gbc_jButtonNextSet.gridx = 2;
@@ -242,9 +242,9 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
                 leftPanel.add(this.jButtonNextSet, gbc_jButtonNextSet);
             }
             {
-                JScrollPane jScrollPaneDuplicatesFiles = new JScrollPane();
+                final JScrollPane jScrollPaneDuplicatesFiles = new JScrollPane();
                 jScrollPaneDuplicatesFiles.setViewportView(getJListDuplicatesFiles());
-                GridBagConstraints gbc_panel = new GridBagConstraints();
+                final GridBagConstraints gbc_panel = new GridBagConstraints();
                 gbc_panel.fill = GridBagConstraints.BOTH;
                 gbc_panel.gridwidth = 3;
                 gbc_panel.gridx = 0;
@@ -263,7 +263,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             jSplitPaneResultRight.setDividerLocation( 0.5 ); // Proportional
             jSplitPaneResultRight.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
-            JScrollPane jScrollPaneKeptIntact = new JScrollPane();
+            final JScrollPane jScrollPaneKeptIntact = new JScrollPane();
             final KeyFileStateListModel jListKeptIntactListModel = listModelDuplicatesFiles.getKeptIntactListModel();
             jListKeptIntact = new JList<>();
             this.jListKeptIntact.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -273,7 +273,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             jListKeptIntact.addMouseListener(
                 new ClickedOnFileListsMouseAdapter( jListKeptIntactListModel ) {
                     @Override
-                    void doAction( KeyFileState kf, boolean b )
+                    void doAction( final KeyFileState kf, final boolean b )
                     {
                         onDeleteThisFile( kf, true );
                     }
@@ -290,7 +290,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             jScrollPaneKeptIntact.setViewportView( jListKeptIntact );
             jSplitPaneResultRight.setTopComponent( jScrollPaneKeptIntact );
 
-            JScrollPane jScrollPaneWillBeDeleted = new JScrollPane();
+            final JScrollPane jScrollPaneWillBeDeleted = new JScrollPane();
             jListWillBeDeleted = new JList<>();
             this.jListWillBeDeleted.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
@@ -300,7 +300,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             jListWillBeDeleted.addMouseListener(
                     new ClickedOnFileListsMouseAdapter( jListWillBeDeletedListModel ) {
                         @Override
-                        void doAction( KeyFileState kf, boolean b )
+                        void doAction( final KeyFileState kf, final boolean b )
                         {
                             onKeepThisFile( kf, true );
                         }
@@ -326,7 +326,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             jListDuplicatesFiles = new JList<>();
             jListDuplicatesFiles.addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mouseClicked(final MouseEvent e) {
                     if( e.getClickCount() == 2 ) {
                         // TODO: move current file to other list !
                         }
@@ -346,7 +346,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
         final DividersLocation dividersLocation
         )
     {
-        Integer mainDividerLocation = dividersLocation.getMainDividerLocation();
+        final Integer mainDividerLocation = dividersLocation.getMainDividerLocation();
         if( mainDividerLocation != null ) {
             this.jSplitPaneResultMain.setDividerLocation( mainDividerLocation.intValue() );
             }
@@ -355,7 +355,7 @@ public abstract class JPanelResultWB extends JPanel implements DuplicateData // 
             JSplitPanes.setJSplitPaneDividerLocation( jSplitPaneResultMain, 0.10 ); // Proportional
             }
 
-        Integer rightDividerLocation = dividersLocation.getRightDividerLocation();
+        final Integer rightDividerLocation = dividersLocation.getRightDividerLocation();
         if( rightDividerLocation != null ) {
             this.jSplitPaneResultRight.setDividerLocation( rightDividerLocation.intValue() );
             }

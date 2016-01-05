@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
-import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +8,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
 public class PropertiesXComboBoxPatternBuilder
     extends XComboBoxPatternBuilder

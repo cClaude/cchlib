@@ -37,9 +37,10 @@ public class Folder3TreeNodeImpl extends DefaultMutableTreeNode implements Folde
         this( tree, path.toFile() );
     }
 
-    @Override
+    @Override // $codepro.audit.disable unnecessaryOverride
     public void add( final Folder3TreeNode node )
     {
+        // add only a sub-type
         super.add( node );
     }
 
@@ -100,7 +101,7 @@ public class Folder3TreeNodeImpl extends DefaultMutableTreeNode implements Folde
     @Override
     public String getText()
     {
-        return this.file != null ? this.file.getName() : null;
+        return (this.file != null) ? this.file.getName() : null;
     }
 
 }

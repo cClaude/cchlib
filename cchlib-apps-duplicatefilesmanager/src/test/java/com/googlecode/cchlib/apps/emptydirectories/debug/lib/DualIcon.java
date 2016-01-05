@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
 public class DualIcon implements Icon, SwingConstants
 {
     private Icon icon1;
-    private Icon icon2;
+    private final Icon icon2;
     private int  width;
     private int  height;
     private int  icon1HOffset;
@@ -79,7 +79,7 @@ public class DualIcon implements Icon, SwingConstants
         int        verticalPosition,
         final int  iconIconGap )
     {
-        if( icon1 == null || icon2 == null ) {
+        if( (icon1 == null) || (icon2 == null) ) {
             throw new NullPointerException( "Icons cannot be null" );
             }
         horizontalPosition = checkHorizontalKey( horizontalPosition,
@@ -97,7 +97,7 @@ public class DualIcon implements Icon, SwingConstants
             width = icon1.getIconWidth() + iconIconGap + icon2.getIconWidth();
         }
 
-        if( verticalPosition == CENTER || horizontalPosition != CENTER ) {
+        if( (verticalPosition == CENTER) || (horizontalPosition != CENTER) ) {
             height = Math.max( icon1.getIconHeight(), icon2.getIconHeight() );
         } else {
             height = icon1.getIconHeight() + iconIconGap
@@ -124,14 +124,14 @@ public class DualIcon implements Icon, SwingConstants
             icon2VOffset = (height - icon2.getIconHeight()) / 2;
         } else {
             if( horizontalPosition == CENTER ) {
-                icon1VOffset = verticalPosition == TOP ? 0 : icon2
+                icon1VOffset = (verticalPosition == TOP) ? 0 : icon2
                         .getIconHeight() + iconIconGap;
-                icon2VOffset = verticalPosition == TOP ? icon1.getIconHeight()
+                icon2VOffset = (verticalPosition == TOP) ? icon1.getIconHeight()
                         + iconIconGap : 0;
             } else {
-                icon1VOffset = verticalPosition == TOP ? 0 : height
+                icon1VOffset = (verticalPosition == TOP) ? 0 : height
                         - icon1.getIconHeight();
-                icon2VOffset = verticalPosition == TOP ? 0 : height
+                icon2VOffset = (verticalPosition == TOP) ? 0 : height
                         - icon2.getIconHeight();
             }
         }

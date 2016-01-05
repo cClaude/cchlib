@@ -1,3 +1,4 @@
+// $codepro.audit.disable avoidInstantiationInLoops, returnValue
 package com.googlecode.cchlib.apps.emptydirectories.debug.sample;
 
 import java.awt.BorderLayout;
@@ -43,7 +44,7 @@ public class FileTreeViewer extends JFrame
     protected JTree                            m_tree;
     protected DefaultTreeModel                 m_model;
 
-    AddCheckBoxToTree                          AddCh               = new AddCheckBoxToTree();
+    AddCheckBoxToTree                          addCh               = new AddCheckBoxToTree();
 
     private AddCheckBoxToTree.CheckTreeManager checkTreeManager;
 
@@ -52,14 +53,17 @@ public class FileTreeViewer extends JFrame
     public FileTreeViewer()
     {
         super( "Demo tree check box" );
-        setSize( 400, 300 );
+
+        setSize( 400, 300 ); // $codepro.audit.disable numericLiterals
 
         final DefaultMutableTreeNode top = new DefaultMutableTreeNode(
                 new IconData( ICON_COMPUTER, null, "Computer" )
                 );
 
         DefaultMutableTreeNode node;
+
         final File[] roots = File.listRoots();
+
         for (final File root : roots) {
             node = new DefaultMutableTreeNode(new IconData(ICON_DISK, null, new FileNode(root)));
             top.add( node );
@@ -85,7 +89,7 @@ public class FileTreeViewer extends JFrame
                         return null;
                     }
                     final File f = fnode.getFile();
-                    return (f == null ? null : f.getPath());
+                    return (f == null) ? null : f.getPath();
                 }
                 return null;
             }
@@ -105,7 +109,7 @@ public class FileTreeViewer extends JFrame
         this.m_tree.setShowsRootHandles( true );
         this.m_tree.setEditable( false );
 
-        this.checkTreeManager = this.AddCh.new CheckTreeManager( this.m_tree, null );
+        this.checkTreeManager = this.addCh.new CheckTreeManager( this.m_tree, null );
 
         final JScrollPane s = new JScrollPane();
         s.getViewport().add( this.m_tree );
@@ -185,7 +189,7 @@ public class FileTreeViewer extends JFrame
             UIManager.setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
         }
         catch( ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e ) {
-            LOGGER.warn( "UIManager.setLookAndFeel", e );;
+            LOGGER.warn( "UIManager.setLookAndFeel", e );
         }
 
         new FileTreeViewer();
@@ -294,7 +298,7 @@ class IconData {
 
     public Icon getExpandedIcon()
     {
-        return this.m_expandedIcon != null ? this.m_expandedIcon : this.m_icon;
+        return (this.m_expandedIcon != null) ? this.m_expandedIcon : this.m_icon;
     }
 
     public Object getObject()
@@ -325,7 +329,7 @@ class FileNode {
     @Override
     public String toString()
     {
-        return this.m_file.getName().length() > 0 ? this.m_file.getName() : this.m_file
+        return (this.m_file.getName().length() > 0) ? this.m_file.getName() : this.m_file
                 .getPath();
     }
 

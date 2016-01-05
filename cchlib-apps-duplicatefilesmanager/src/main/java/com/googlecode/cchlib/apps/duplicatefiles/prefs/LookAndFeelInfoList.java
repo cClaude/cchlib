@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
-import com.googlecode.cchlib.util.WrapperException;
-import com.googlecode.cchlib.util.iterator.AbstractIteratorWrapper;
-import com.googlecode.cchlib.util.iterator.ArrayIterator;
 import java.util.Iterator;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import com.googlecode.cchlib.util.WrapperException;
+import com.googlecode.cchlib.util.iterator.AbstractIteratorWrapper;
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
 /**
  *
@@ -58,5 +58,5 @@ public class LookAndFeelInfoList
     {
         return this::getContentIterator;
     }
-    
+
 }

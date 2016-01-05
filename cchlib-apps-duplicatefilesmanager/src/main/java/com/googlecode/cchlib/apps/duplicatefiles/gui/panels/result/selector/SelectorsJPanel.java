@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector;
 
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import java.awt.CardLayout;
 import java.util.EnumMap;
 import java.util.Map;
 import javax.swing.JPanel;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
 {
@@ -22,8 +22,8 @@ public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
         this.layout   = new CardLayout(0, 0);
         setLayout( layout );
 
-        for( Selectors s : Selectors.values() ) {
-            SelectorPanel item = s.newSelectorPanel( duplicateData );
+        for( final Selectors s : Selectors.values() ) {
+            final SelectorPanel item = s.newSelectorPanel( duplicateData );
 
             this.map.put( s, item );
 
@@ -48,7 +48,7 @@ public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
         item.updateDisplay();
     }
 
-    private String getNameFor( SelectorPanel item )
+    private String getNameFor( final SelectorPanel item )
     {
         assert item != null;
 
@@ -60,7 +60,7 @@ public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
     {
         autoI18n.performeI18n( this, getClass() );
 
-        for( SelectorPanel p : this.map.values() ) {
+        for( final SelectorPanel p : this.map.values() ) {
             p.performeI18n( autoI18n );
             }
     }

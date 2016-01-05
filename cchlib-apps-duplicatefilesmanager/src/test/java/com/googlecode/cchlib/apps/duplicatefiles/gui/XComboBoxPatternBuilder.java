@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui;
 
-import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
+import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
 /**
  *
@@ -48,7 +48,7 @@ public class XComboBoxPatternBuilder implements Serializable
         final String...regExps
         )
     {
-        for( String s : regExps ) {
+        for( final String s : regExps ) {
             this.regExpList.add( s );
             }
 
@@ -89,7 +89,7 @@ public class XComboBoxPatternBuilder implements Serializable
         final Collection<Pattern> patternCollection
         )
     {
-        for( Pattern p : patternCollection ) {
+        for( final Pattern p : patternCollection ) {
             this.regExpList.add( p.pattern() );
             }
         return this;
@@ -108,7 +108,7 @@ public class XComboBoxPatternBuilder implements Serializable
             xcbp.setErrorBackGroundColor( errorColor );
             }
 
-        for( String regExp : regExpList ) {
+        for( final String regExp : regExpList ) {
             xcbp.addItem( regExp );
             }
 

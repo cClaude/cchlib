@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.emptyfiles.tasks;
 
-import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
@@ -14,6 +13,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collection;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 
 public class FindTask
 {
@@ -37,13 +37,13 @@ public class FindTask
         this.linkOption      = linkOption;
     }
 
-    public void start( Collection<File> directoryFiles )
+    public void start( final Collection<File> directoryFiles )
     {
-        for( File directoryFile : directoryFiles ) {
+        for( final File directoryFile : directoryFiles ) {
             try {
                 findFiles( directoryFile.toPath() );
                 }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 LOGGER.error( "FindTask.start(): " + directoryFile, e );
                 }
             }
@@ -53,14 +53,14 @@ public class FindTask
     {
         Files.walkFileTree( directoryPath, fileVisitOption, maxDepth, new SimpleFileVisitor<Path>() {
             @Override
-            public FileVisitResult preVisitDirectory( Path dir, BasicFileAttributes attrs )
+            public FileVisitResult preVisitDirectory( final Path dir, final BasicFileAttributes attrs )
                 throws IOException
             {
                 return FileVisitResult.CONTINUE;
             }
 
             @Override
-            public FileVisitResult visitFile( Path file, BasicFileAttributes attrs )
+            public FileVisitResult visitFile( final Path file, final BasicFileAttributes attrs )
                 throws IOException
             {
                 if( ! Files.isDirectory( file, linkOption ) ) {
@@ -72,7 +72,7 @@ public class FindTask
             }
 
             @Override
-            public FileVisitResult visitFileFailed( Path file, IOException exc )
+            public FileVisitResult visitFileFailed( final Path file, final IOException exc )
                 throws IOException
             {
                 if( exc instanceof AccessDeniedException ) {
@@ -85,7 +85,7 @@ public class FindTask
             }
 
             @Override
-            public FileVisitResult postVisitDirectory( Path dir, IOException exc )
+            public FileVisitResult postVisitDirectory( final Path dir, final IOException exc )
                 throws IOException
             {
                 return FileVisitResult.CONTINUE;

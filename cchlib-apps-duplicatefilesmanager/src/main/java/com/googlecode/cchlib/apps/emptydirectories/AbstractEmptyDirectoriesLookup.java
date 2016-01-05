@@ -35,13 +35,11 @@ public abstract class AbstractEmptyDirectoriesLookup<FILTER> implements EmptyDir
     {
         this.getListeners().remove( listener );
     }
-    final
-    protected Collection<EmptyDirectoriesListener> getListeners()
+    protected final Collection<EmptyDirectoriesListener> getListeners()
     {
         return this.listeners;
     }
-    final
-    protected void notify( final EmptyFolder emptyFolder )
+    protected final void notify( final EmptyFolder emptyFolder )
     {
         for( final EmptyDirectoriesListener l : getListeners() ) {
             l.newEntry( emptyFolder );

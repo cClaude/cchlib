@@ -1,15 +1,15 @@
 package com.googlecode.cchlib.apps.emptydirectories.path.folders;
 
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import java.io.File;
 import java.io.Serializable;
 import java.nio.file.Path;
+import com.googlecode.cchlib.apps.emptydirectories.Folder;
 
 @Deprecated
 public class PathFolder implements Folder, Serializable, Comparable<Folder>
 {
     private static final long serialVersionUID = 1L;
-    private Path path;
+    private final Path path;
     //private transient FilePath transientFilePath;
 
     protected PathFolder( final Path folderPath )
@@ -44,7 +44,7 @@ public class PathFolder implements Folder, Serializable, Comparable<Folder>
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "Folder [path=" );
         builder.append( path );
         builder.append( ']' );
@@ -64,7 +64,7 @@ public class PathFolder implements Folder, Serializable, Comparable<Folder>
     @Override
     public int compareTo( final Folder aEmptyFolder )
     {
-        PathFolder other = PathFolder.class.cast( aEmptyFolder );
+        final PathFolder other = PathFolder.class.cast( aEmptyFolder );
 
         return this.path.compareTo( other.path );
     }
