@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.emptydirectories.file.folder;
 
+import java.io.File;
+import java.nio.file.Path;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import com.googlecode.cchlib.apps.emptydirectories.FolderFactory;
-import java.io.File;
-import java.nio.file.Path;
 
 /**
  * Create a Folder or an EmptyFolder base on {@link Path} or on a {@link File}
@@ -17,7 +17,7 @@ public class FileFolderFactory implements FolderFactory
         //All static
     }
 
-    @Override 
+    @Override
     public Folder createFolder( final Path folder )
     {
         return createFolder( folder.toFile() );
@@ -29,18 +29,18 @@ public class FileFolderFactory implements FolderFactory
         return new FileFolder( file );
     }
 
-    @Override 
+    @Override
     public EmptyFolder createEmptyFolder( final Path folder )
     {
         return createEmptyFolder( folder.toFile() );
     }
-    
+
     @Override
-    public EmptyFolder createEmptyFolder( File folder )
+    public EmptyFolder createEmptyFolder( final File folder )
     {
         return new FileEmptyFolder( folder, EmptyFolderType.IS_EMPTY );
     }
-    
+
     @Override
     public EmptyFolder createCouldBeEmptyFolder( final Path folder )
     {

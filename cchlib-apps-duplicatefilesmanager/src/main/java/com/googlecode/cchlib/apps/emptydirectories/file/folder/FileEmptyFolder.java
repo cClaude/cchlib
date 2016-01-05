@@ -1,20 +1,20 @@
 package com.googlecode.cchlib.apps.emptydirectories.file.folder;
 
+import java.io.File;
+import java.nio.file.Path;
 import com.googlecode.cchlib.apps.emptydirectories.AbstractEmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import java.io.File;
-import java.nio.file.Path;
 
 public class FileEmptyFolder extends AbstractEmptyFolder// implements EmptyFolder
 {
     private static final long serialVersionUID = 1L;
     private final File file;
 
-    protected FileEmptyFolder( File emptyDirectoryFile, EmptyFolderType type )
+    protected FileEmptyFolder( final File emptyDirectoryFile, final EmptyFolderType type )
     {
         super( type );
-        
+
         this.file = emptyDirectoryFile;
     }
 
@@ -31,9 +31,9 @@ public class FileEmptyFolder extends AbstractEmptyFolder// implements EmptyFolde
     }
 
     @Override
-    public int compareTo( Folder otherFolder )
+    public int compareTo( final Folder otherFolder )
     {
-        FileEmptyFolder other = FileEmptyFolder.class.cast( otherFolder );
+        final FileEmptyFolder other = FileEmptyFolder.class.cast( otherFolder );
 
         return this.file.compareTo( other.file );
     }

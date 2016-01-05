@@ -1,3 +1,4 @@
+// $codepro.audit.disable avoidInstantiationInLoops, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
 import java.awt.GridBagConstraints;

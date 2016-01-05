@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
-import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractListModel;
+import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
 //NOT public
 class KeyFileStateListModelImpl
@@ -32,7 +32,7 @@ class KeyFileStateListModelImpl
     @Override
     public KeyFileState remove( final int index )
     {
-        KeyFileState value = dataList.remove( index );
+        final KeyFileState value = dataList.remove( index );
 
         super.fireIntervalRemoved( this, index, index );
 
@@ -46,7 +46,7 @@ class KeyFileStateListModelImpl
 
     void private_fireAddedAll()
     {
-        int size = dataList.size();
+        final int size = dataList.size();
 
         if( size > 0 ) {
             fireIntervalAdded( this, 0, size - 1 );

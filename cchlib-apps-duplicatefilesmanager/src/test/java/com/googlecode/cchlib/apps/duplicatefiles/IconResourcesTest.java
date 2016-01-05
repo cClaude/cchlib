@@ -1,8 +1,6 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import com.googlecode.cchlib.lang.Objects;
-import com.googlecode.cchlib.lang.reflect.Methods;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -13,6 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.Objects;
+import com.googlecode.cchlib.lang.reflect.Methods;
 
 /**
  * The class <code>MyStaticResourcesTest</code> contains tests for the class <code>{@link IconResources}</code>.
@@ -27,12 +27,12 @@ public class IconResourcesTest
     @Ignore// No more that way (keep code as exemple)
     public void test_AllStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
-        for( Method method : staticMethodsList ) {
+        for( final Method method : staticMethodsList ) {
             LOGGER.info( "m: " + method );
-            Object o = method.invoke( null, Objects.emptyArray() );
+            final Object o = method.invoke( null, Objects.emptyArray() );
 
             LOGGER.info( "m: " + method + " => " + o );
-            Icon result = (Icon)o;
+            final Icon result = (Icon)o;
 
             // add additional test code here
             Assertions.assertThat( result ).isNotNull();
@@ -44,16 +44,16 @@ public class IconResourcesTest
       @Test
       public void test_AllNoneStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
       {
-          IconResources intance = IconResources.getInstance();
+          final IconResources intance = IconResources.getInstance();
 
-          for( Method method : methodsList ) {
+          for( final Method method : methodsList ) {
               LOGGER.info( "m: " + method );
-              
+
               if( method.getReturnType().equals( Icon.class ) ) {
-                  Object o = method.invoke( intance, Objects.emptyArray() );
+                  final Object o = method.invoke( intance, Objects.emptyArray() );
 
                   LOGGER.info( "m: " + method + " => " + o );
-                  Icon result = (Icon)o;
+                  final Icon result = (Icon)o;
 
                   // add additional test code here
                   Assertions.assertThat( result ).isNotNull();

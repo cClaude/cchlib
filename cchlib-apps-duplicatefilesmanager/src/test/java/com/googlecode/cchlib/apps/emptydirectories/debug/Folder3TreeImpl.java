@@ -34,7 +34,7 @@ public class Folder3TreeImpl extends JTree
                 return null;
                 }
             final File file = node.getFile();
-            return (file == null ? null : file.getPath());
+            return (file == null) ? null : file.getPath();
         }
         return null;
     }

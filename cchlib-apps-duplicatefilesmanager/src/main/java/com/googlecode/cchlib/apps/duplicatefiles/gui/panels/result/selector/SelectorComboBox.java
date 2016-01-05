@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.selector;
 
-import com.googlecode.cchlib.swing.combobox.XEnumComboBox;
 import java.awt.event.ActionEvent;
+import com.googlecode.cchlib.swing.combobox.XEnumComboBox;
 
 /**
  *
@@ -14,7 +14,7 @@ public class SelectorComboBox extends XEnumComboBox<Selectors>
     {
         super( Selectors.NONE, Selectors.class );
 
-        addActionListener((ActionEvent e) -> {
+        addActionListener((final ActionEvent e) -> {
             selectorsJPanel.updateDisplay();
         });
     }

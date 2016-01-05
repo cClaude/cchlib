@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.emptydirectories.path.folders;
 
+import java.io.File;
+import java.nio.file.Path;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
 import com.googlecode.cchlib.apps.emptydirectories.Folder;
 import com.googlecode.cchlib.apps.emptydirectories.FolderFactory;
-import java.io.File;
-import java.nio.file.Path;
 
 @Deprecated
 public class PathFolderFactory implements FolderFactory
@@ -39,13 +39,13 @@ public class PathFolderFactory implements FolderFactory
     }
 
     @Override
-    public EmptyFolder createCouldBeEmptyFolder( Path folder )
+    public EmptyFolder createCouldBeEmptyFolder( final Path folder )
     {
         return new PathEmptyFolder( folder, EmptyFolderType.CONTAINT_ONLY_EMPTY_FOLDERS );
     }
 
     @Override
-    public EmptyFolder createCouldBeEmptyFolder( File folder )
+    public EmptyFolder createCouldBeEmptyFolder( final File folder )
     {
         return createCouldBeEmptyFolder( folder.toPath() );
     }

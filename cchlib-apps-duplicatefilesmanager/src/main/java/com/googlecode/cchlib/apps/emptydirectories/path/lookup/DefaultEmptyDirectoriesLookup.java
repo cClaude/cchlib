@@ -33,12 +33,13 @@ public class DefaultEmptyDirectoriesLookup
     extends AbstractEmptyDirectoriesLookup<Filter<Path>>
         implements EmptyDirectoriesLookup<Filter<Path>>, Serializable
 {
+    private static final LinkOption[] EMPTY_LINK_OPTIONS_ARRAY = new LinkOption[0];
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
 
     private final List<Path> rootFilesForScan;
     private DirectoryStream.Filter<Path> excludeDirectories;
-    private final LinkOption[] linkOption = new LinkOption[0];
+    private final LinkOption[] linkOption = EMPTY_LINK_OPTIONS_ARRAY;
 
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.

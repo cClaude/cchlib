@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.apps.emptydirectories.Folders;
 
 //not public
 final class FolderTreeBuilder
@@ -77,13 +77,13 @@ final class FolderTreeBuilder
         )
     {
        if( emptyFolderPathNameIndex < emptyFolderPath.getNameCount() ) {
-           Enumeration<?> enu                      = parentFolderTreeNode.children();
-           Path           emptyFolderPathName      = emptyFolderPath.getName( emptyFolderPathNameIndex );
+           final Enumeration<?> enu                      = parentFolderTreeNode.children();
+           final Path           emptyFolderPathName      = emptyFolderPath.getName( emptyFolderPathNameIndex );
 
             while( enu.hasMoreElements() ) {
-                FolderTreeNode childNode     = FolderTreeNode.class.cast( enu.nextElement() );
-                Path           childNodePath = childNode.getFolder().getPath();
-                Path           childNodeName = childNodePath.getName( childNodePath.getNameCount() -1 );
+                final FolderTreeNode childNode     = FolderTreeNode.class.cast( enu.nextElement() );
+                final Path           childNodePath = childNode.getFolder().getPath();
+                final Path           childNodeName = childNodePath.getName( childNodePath.getNameCount() -1 );
 
                 if( childNodeName.equals( emptyFolderPathName ) ) {
                     return findBestParentRec( childNode, emptyFolderPath, emptyFolderPathNameIndex + 1 );

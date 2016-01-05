@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
 import java.awt.GridBagConstraints;
@@ -22,7 +23,7 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 
 //NOT public
-abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implements I18nAutoCoreUpdatable
+abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implements I18nAutoCoreUpdatable // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingLayout.class );

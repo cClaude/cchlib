@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.io.Serializable;
 
 //NOT public
-final class FileError implements Serializable
+final class FileErrorCause implements Serializable
 {
     private static final long serialVersionUID = 1L;
     private final File file;
     private final IOException cause;
 
-    public FileError( final File file, final IOException cause )
+    public FileErrorCause( final File file, final IOException cause )
     {
         this.file  = file;
         this.cause = cause;

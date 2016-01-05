@@ -20,7 +20,7 @@ public final class ErrorTableModel extends AbstractTableModel
 
     @I18nString private final String[] columnNames = { "Files", "Errors class" };
 
-    private final List<FileError> fileErrors = new ArrayList<>();
+    private final List<FileErrorCause> fileErrors = new ArrayList<>();
 
     public ErrorTableModel()
     {
@@ -53,7 +53,7 @@ public final class ErrorTableModel extends AbstractTableModel
     @Override
     public Object getValueAt( final int rowIndex, final int columnIndex )
     {
-        final FileError fileError;
+        final FileErrorCause fileError;
 
         synchronized( fileErrors ) {
             if( rowIndex < fileErrors.size() ) {
@@ -91,6 +91,6 @@ public final class ErrorTableModel extends AbstractTableModel
 
     public void addRow( final File file, final IOException cause )
     {
-        this.fileErrors.add( new FileError( file, cause ) );
+        this.fileErrors.add( new FileErrorCause( file, cause ) );
     }
 }

@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
+import java.util.Iterator;
+import java.util.Locale;
 import com.googlecode.cchlib.util.WrapperException;
 import com.googlecode.cchlib.util.iterator.AbstractIteratorWrapper;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
-import java.util.Iterator;
-import java.util.Locale;
 
 /**
  *

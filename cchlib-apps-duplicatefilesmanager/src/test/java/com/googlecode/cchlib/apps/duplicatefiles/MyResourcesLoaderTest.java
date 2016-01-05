@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import com.googlecode.cchlib.lang.Objects;
-import com.googlecode.cchlib.lang.reflect.Methods;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -12,6 +10,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.Objects;
+import com.googlecode.cchlib.lang.reflect.Methods;
 
 public class MyResourcesLoaderTest
 {
@@ -46,8 +46,8 @@ public class MyResourcesLoaderTest
         final Resources resources = MyResourcesLoader.getResources();
         final Method[]  methods   = Resources.class.getDeclaredMethods();
 
-        for( Method m : methods ) {
-            Object result = m.invoke( resources, (Object[])null );
+        for( final Method m : methods ) {
+            final Object result = m.invoke( resources, (Object[])null );
 
             LOGGER.info( "getResources() - m: " + m + " => " + result );
 
@@ -61,8 +61,8 @@ public class MyResourcesLoaderTest
     @Test
     public void test_AllStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
-        for( Method m : methodList ) {
-            Object result = m.invoke( null, Objects.emptyArray() );
+        for( final Method m : methodList ) {
+            final Object result = m.invoke( null, Objects.emptyArray() );
 
             LOGGER.info( "m: " + m + " => " + result );
 

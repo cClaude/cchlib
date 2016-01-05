@@ -38,27 +38,27 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState> {
     private final JPanelResult          jPanelResult;
 
     @I18nString
-    private String              txtCopy;
+    private String  txtCopy;
     @I18nString
-    private String              txtDeleteAllExceptThisFile;
+    private String  txtDeleteAllExceptThisFile;
     @I18nString
-    private String              txtDeleteAllInDir;
+    private String  txtDeleteAllInDir;
     @I18nString
-    private String              txtDeleteDuplicateIn;
+    private String  txtDeleteDuplicateIn;
     @I18nString
-    private String              txtDeleteThisFile;
+    private String  txtDeleteThisFile;
     @I18nString
-    private String              txtKeepAllExceptThisFile;
+    private String  txtKeepAllExceptThisFile;
     @I18nString
-    private String              txtKeepAllInDir;
+    private String  txtKeepAllInDir;
     @I18nString
-    private String              txtKeepNonDuplicateIn;
+    private String  txtKeepNonDuplicateIn;
     @I18nString
-    private String              txtKeepThisFile;
+    private String  txtKeepThisFile;
     @I18nString
-    private String              txtOpenFile;
+    private String  txtOpenFile;
     @I18nString
-    private String              txtOpenParentDirectory;
+    private String  txtOpenParentDirectory;
 
     FilesContextualMenu( final JPanelResult jPanelResult, final JList<KeyFileState> jList, final Attributs first, final Attributs[] rest )
     {
@@ -91,8 +91,7 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState> {
         File filedir = kf.getParentFile();
 
         while( filedir != null ) {
-            addContextSubMenuActionCommand( m, menu, actionCommand, new KeyFileState( key, filedir ) );
-
+            addContextSubMenuActionCommand( m, menu, actionCommand, new KeyFileState( key, filedir ) );  // $codepro.audit.disable avoidInstantiationInLoops
             filedir = filedir.getParentFile();
         }
     }
@@ -217,7 +216,7 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState> {
 
         LOGGER.info( "cmd:" + cmd + " - " + actionObject );
 
-        if( null != cmd ) {
+        if( cmd != null ) {
             switch( cmd ) {
                 case ACTION_COMMAND_DeleteTheseFiles:
                     onDeleteTheseFiles( actionObject );
@@ -297,33 +296,38 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState> {
         // Look for all files in this dir !
         // FIXME NEED CODE REVIEW !!!!
         for( final Entry<String, Set<KeyFileState>> entry : this.jPanelResult.getListModelDuplicatesFiles().getStateEntrySet() ) {
-            final Set<KeyFileState> s = entry.getValue();
-            int c = 0;
-
-            for( final KeyFileState f : s ) {
-                if( !f.isSelectedToDelete() ) {
-                    c++;
-                }
-            }
-
-            // Keep one file !
-            final int maxDel = c - 1;
-            c = 0;
-
-            for( final KeyFileState f : s ) {
-                if( !f.isSelectedToDelete() ) {
-                    if( f.isInDirectory( dirPath ) ) {
-                        if( c < maxDel ) {
-                            f.setSelectedToDelete( true );
-                            c++;
-                        }
-                    }
-                }
-            }
+            onDeleteDuplicateInDir( dirPath, entry );
         }
 
         // Update display for current file
         this.jPanelResult.updateDisplayKeptDelete( kf.getKey() );
+    }
+
+    private void onDeleteDuplicateInDir( final String dirPath, final Entry<String, Set<KeyFileState>> entry )
+    {
+        final Set<KeyFileState> s = entry.getValue();
+        int c = 0;
+
+        for( final KeyFileState f : s ) {
+            if( !f.isSelectedToDelete() ) {
+                c++;
+            }
+        }
+
+        // Keep one file !
+        final int maxDel = c - 1;
+        c = 0;
+
+        for( final KeyFileState f : s ) {
+            if( !f.isSelectedToDelete() ) {
+                if( f.isInDirectory( dirPath ) ) {
+                    if( c < maxDel ) {
+                        f.setSelectedToDelete( true );
+                        c++;
+                    }
+                }
+            }
+        }
     }
 
     private void onDeleteTheseFiles( final Object actionObject )
