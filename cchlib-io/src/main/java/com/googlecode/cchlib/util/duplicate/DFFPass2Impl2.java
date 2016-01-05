@@ -37,7 +37,7 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
         public FileDigestCollection()
         {
             this.nextList    = new ArrayList<>();
-            this.currentList = new ArrayList<>();;
+            this.currentList = new ArrayList<>();
         }
 
         public Iterator<? extends Collection<FileDigest>> getSameBeginFileDigestCollectionIterator()
@@ -189,7 +189,7 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
             fileDigest.reset();
         }
         catch( final IOException ioe ) {
-            LOGGER.error( "Can not close : " + file, ioe );;
+            LOGGER.error( "Can not close : " + file, ioe );
         }
     }
 
@@ -299,7 +299,7 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
             }
          }
 
-        return hasNext == null ? false : hasNext.booleanValue();
+        return (hasNext == null) ? false : hasNext.booleanValue();
     }
 
     private void ignoreFile( final Iterator<FileDigest> fileDigestsIterator, final FileDigest fd, final IOException ioe  )
