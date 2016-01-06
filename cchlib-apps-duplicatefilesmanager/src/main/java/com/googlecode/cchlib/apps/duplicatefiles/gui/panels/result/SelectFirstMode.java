@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
 public enum SelectFirstMode
@@ -45,15 +46,23 @@ public enum SelectFirstMode
 
     public Collection<KeyFileState> sort( final Collection<KeyFileState> files )
     {
-        return computeForMode.sort( files );
+        return this.computeForMode.sort( files );
     }
 
-    public KeyFileState getFileToDisplay( final Collection<KeyFileState> files )
+    public KeyFileState getFileToDisplay( //
+            final Collection<KeyFileState> files //
+            ) throws SelectException
     {
         if( files instanceof List ) {
             return ((List<KeyFileState>)files).get( 0 );
         } else {
-            return files.iterator().next();
+            try {
+                return files.iterator().next();
+            }
+            catch( final NoSuchElementException e ) {
+                // File has been removed
+                throw new SelectException( e );
+            }
         }
     }
 

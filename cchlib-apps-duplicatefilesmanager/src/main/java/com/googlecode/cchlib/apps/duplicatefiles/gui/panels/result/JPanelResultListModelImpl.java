@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -54,22 +55,23 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
 
         this.duplicatesFileCacheList.clear();
 
-//        for( final Map.Entry<String,Set<KeyFileState>> e : getDuplicateFiles().entrySet() ) {
-//            final Collection<KeyFileState> files     = this.selectFirstMode.sort( e.getValue() );
-//            final KeyFileState             firstFile = this.selectFirstMode.getFileToDisplay( files );
-//
-//            duplicatesFileCacheList.add(
-//                new DefaultKeyFiles( e.getKey(), files, firstFile )
-//                );
-//            }
-        getDuplicateFiles().entrySet().stream().forEach( e -> {
-            final Collection<KeyFileState> files     = this.selectFirstMode.sort( e.getValue() );
-            final KeyFileState             firstFile = this.selectFirstMode.getFileToDisplay( files );
+        final Iterator<Entry<String, Set<KeyFileState>>> entryIterator = getDuplicateFiles().entrySet().iterator();
 
-            this.duplicatesFileCacheList.add(
-                new DefaultKeyFiles( e.getKey(), files, firstFile )
-                );
-            });
+        while( entryIterator.hasNext() ) {
+            final Map.Entry<String, Set<KeyFileState>> entry = entryIterator.next();
+
+            try {
+                final Collection<KeyFileState> files = this.selectFirstMode.sort( entry.getValue() );
+                final KeyFileState firstFile = this.selectFirstMode.getFileToDisplay( files );
+
+                this.duplicatesFileCacheList.add( new DefaultKeyFiles( entry.getKey(), files, firstFile ) );
+            }
+            catch( final SelectException e ) {
+                LOGGER.warn( "Entry is empty", e );
+
+                entryIterator.remove();
+            }
+        }
 
         if( this.sortMode != null ) {
             try {
