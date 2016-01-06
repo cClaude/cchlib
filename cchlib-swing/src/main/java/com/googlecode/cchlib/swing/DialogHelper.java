@@ -3,7 +3,7 @@ package com.googlecode.cchlib.swing;
 import java.awt.Window;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 import com.googlecode.cchlib.lang.ExceptionHelper;
 import com.googlecode.cchlib.resources.ResourcesLoader;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
@@ -51,7 +51,7 @@ public final class DialogHelper
         final Throwable exception
         )
     {
-        AbstractButton[] buttons = {
+        final AbstractButton[] buttons = {
                 buildJButtonIconOrText(
                         ResourcesLoader.OK_ICON_16x16,
                         "OK"
@@ -91,8 +91,8 @@ public final class DialogHelper
         return showMessageExceptionDialog(parentWindow, title, exception, buttons);
     }
 
-    
-    
+
+
     /**
      * Open a message exception dialog, and wait for user input
      *
@@ -116,7 +116,7 @@ public final class DialogHelper
         msg.append( exception.getLocalizedMessage() );
         msg.append( "</b><br/>\n" );
 
-        for( String l : ExceptionHelper.getStackTraceLines( exception ) ) {
+        for( final String l : ExceptionHelper.getStackTraceLines( exception ) ) {
             msg.append( "<pre>" );
             msg.append( l );
             msg.append( "</pre>\n" );
@@ -134,7 +134,7 @@ public final class DialogHelper
 
         dialog.getJLabelMessage().setText( msg.toString() );
 
-        dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
+        dialog.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
         dialog.setModal( true );
         dialog.setVisible( true );
 
@@ -146,7 +146,7 @@ public final class DialogHelper
             final String    textIfError
             )
     {
-        JButton button = new JButton();
+        final JButton button = new JButton();
 
         setAbstractButtonIconOrText( button, iconResourceName, textIfError );
 
@@ -164,7 +164,7 @@ public final class DialogHelper
                 ResourcesLoader.getImageIcon( iconResourceName )
                 );
             }
-        catch( ResourcesLoaderException e ) { // $codepro.audit.disable logExceptions
+        catch( final ResourcesLoaderException e ) { // $codepro.audit.disable logExceptions
             button.setText( textIfError );
             }
     }
