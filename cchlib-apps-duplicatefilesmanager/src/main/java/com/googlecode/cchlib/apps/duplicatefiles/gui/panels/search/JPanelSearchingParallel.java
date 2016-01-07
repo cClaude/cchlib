@@ -3,6 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.FileVisitOption;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
@@ -25,6 +26,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.lang.SerializableObject;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
 import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
@@ -69,7 +71,7 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
     private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingParallel.class );
     private static final int NOT_ENOUGH_FOR_DUPLICATE = 2;
-    private final Object lockpass1StatsAdd = new Object();
+    private final Serializable lockpass1StatsAdd = new SerializableObject();
 
     private final AtomicInteger pass2FilesCount = new AtomicInteger();
     private final AtomicLong    pass2BytesCount = new AtomicLong();
@@ -338,16 +340,14 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
             @Override
             public FileVisitResult visitFile( final Path file, final BasicFileAttributes attrs ) throws IOException
             {
-                {
-                    final File fileFile = file.toFile();
+                final File fileFile = file.toFile();
 
-                    if( fileFilter.accept( fileFile ) ) {
-                        pass1StatsAdd( fileFile );
+                if( fileFilter.accept( fileFile ) ) {
+                    pass1StatsAdd( fileFile );
 
-                        return FileVisitResult.CONTINUE;
-                    }
-                    return FileVisitResult.SKIP_SUBTREE;
-                 }
+                    return FileVisitResult.CONTINUE;
+                }
+                return FileVisitResult.SKIP_SUBTREE;
             }
 
             @Override
@@ -460,10 +460,10 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
 
     private void updateDisplayPass2( final Locale locale )
     {
-        //jLabelBytesReadFromDisk.setText( String.format( txtBytesReadFromDisk, pass2BytesCount ) );
+        //jLabelBytesReadFromDisk.setText( String.format( txtBytesReadFromDisk, pass2BytesCount ) ); // NOSONAR
         getjProgressBarFiles().setValue( this.pass2FilesCount.get() );
         getjProgressBarFiles().setString( String.format( locale, "%,d / %,d", Integer.valueOf( this.pass2FilesCount.get() ), Integer.valueOf( getPass1FilesCount() ) ) );
-        // jProgressBarOctets.setValue( Math.round( pass2BytesCount/1024) );
+        // jProgressBarOctets.setValue( Math.round( pass2BytesCount/1024) ); // NOSONAR
         getjProgressBarOctets().setValue( (int)(this.pass2BytesCount.get() / 1024) );
         getjProgressBarOctets().setString( String.format( locale, "%,d / %,d", Long.valueOf( this.pass2BytesCount.get() ), Long.valueOf( getPass1BytesCount() ) ) );
     }

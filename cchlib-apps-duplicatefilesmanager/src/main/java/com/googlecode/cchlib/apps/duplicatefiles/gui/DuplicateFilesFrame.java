@@ -382,6 +382,7 @@ final public class DuplicateFilesFrame
     }
 
     @Override
+    @SuppressWarnings("squid:S1147")
     protected void exitApplication()
     {
         // TODO Perform some checks: running : this frame ?
