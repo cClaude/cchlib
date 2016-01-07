@@ -24,9 +24,9 @@ import java.util.NoSuchElementException;
  */
 public class FileIterator implements  Iterator<File>
 {
-    private DirectoryIterator directoryIterator;
-    private LinkedList<File>  currentDirFilesList = new LinkedList<>();
-    private FileFilter fileFilter;
+    private final DirectoryIterator directoryIterator;
+    private final LinkedList<File>  currentDirFilesList = new LinkedList<>();
+    private final FileFilter        fileFilter;
 
     /**
      * Create a FileIterator starting from rootFolderFile
@@ -34,7 +34,7 @@ public class FileIterator implements  Iterator<File>
      * @param rootFolderFile root File directory for this Iterator
      * @throws NullPointerException if rootFolderFile is null
      */
-    public FileIterator(File rootFolderFile)
+    public FileIterator(final File rootFolderFile)
     {
         this(rootFolderFile,null,null);
     }
@@ -49,8 +49,8 @@ public class FileIterator implements  Iterator<File>
      * @throws NullPointerException if rootFolderFile is null
      */
     public FileIterator(
-            File        rootFolderFile,
-            FileFilter  fileFilter
+            final File        rootFolderFile,
+            final FileFilter  fileFilter
             )
     {
         this(rootFolderFile,fileFilter,null);
@@ -69,9 +69,9 @@ public class FileIterator implements  Iterator<File>
      * @throws IllegalArgumentException if rootFolderFile is not a directory
      */
     public FileIterator(
-            File        rootFolderFile,
-            FileFilter  fileFilter,
-            FileFilter  directoryFilter
+            final File        rootFolderFile,
+            final FileFilter  fileFilter,
+            final FileFilter  directoryFilter
             )
         throws IllegalArgumentException
     {
@@ -99,8 +99,8 @@ public class FileIterator implements  Iterator<File>
             return true;
             }
         else if( directoryIterator.hasNext() ) {
-            File   dir     = directoryIterator.next();
-            File[] content = dir.listFiles(this.fileFilter);
+            final File   dir     = directoryIterator.next();
+            final File[] content = dir.listFiles(this.fileFilter);
 
             if( content != null ) {
                 currentDirFilesList.addAll( Arrays.asList( content ) );

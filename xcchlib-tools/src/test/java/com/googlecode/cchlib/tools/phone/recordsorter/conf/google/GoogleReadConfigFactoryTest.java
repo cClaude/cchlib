@@ -28,11 +28,12 @@ public class GoogleReadConfigFactoryTest {
     }
 
     @Test
+    @Ignore // FIXME @Ignore Add sample in source code...
     public void test_load() throws FileNotFoundException, IOException
     {
-        File file = FileHelper.getUserHomeDirFile( "Dropbox/#CallRecorder/#Config/google-contacts.csv" );
+        final File file = FileHelper.getUserHomeDirFile( "Dropbox/#CallRecorder/#Config/google-contacts.csv" );
 
-        Config config = instance.load( file );
+        final Config config = instance.load( file );
 
         Assert.assertNotNull( config );
         Assert.assertEquals( 580, config.getContacts().size() );
@@ -46,7 +47,7 @@ public class GoogleReadConfigFactoryTest {
         try(final InputStream inStream = this.getClass().getResourceAsStream( resourceName )) {
             Assert.assertNotNull( "File not found : " + resourceName, inStream );
 
-            Config config = instance.load( inStream );
+            final Config config = instance.load( inStream );
 
             Assert.assertNotNull( config );
             Assert.assertEquals( 1, config.getContacts().size() );
