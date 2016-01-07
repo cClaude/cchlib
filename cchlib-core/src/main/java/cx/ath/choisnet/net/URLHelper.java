@@ -76,7 +76,7 @@ public final class URLHelper
      * @throws IOException
      */
     public static void copy( final URL url, final File file )
-        throws FileNotFoundException, IOException
+        throws FileNotFoundException, IOException // NOSONAR
     {
         try (InputStream input = url.openStream(); OutputStream output = new BufferedOutputStream(
                 new FileOutputStream( file )
@@ -114,7 +114,7 @@ public final class URLHelper
             final Writer    output,
             final String    charsetName
             )
-        throws UnsupportedEncodingException, IOException
+        throws UnsupportedEncodingException, IOException // NOSONAR
     {
         try (Reader input = getBufferedReader( url, charsetName )) {
             IOHelper.copy(input, output);

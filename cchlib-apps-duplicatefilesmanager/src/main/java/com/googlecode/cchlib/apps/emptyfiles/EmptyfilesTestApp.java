@@ -15,14 +15,15 @@ public class EmptyfilesTestApp extends JFrame
     /**
      * Launch the application.
      */
-    public static void main( String[] args )
+    @SuppressWarnings("squid:S1148")
+    public static void main( final String[] args )
     {
         EventQueue.invokeLater( () -> {
             try {
-                EmptyfilesTestApp frame = new EmptyfilesTestApp();
+                final EmptyfilesTestApp frame = new EmptyfilesTestApp();
                 frame.setVisible( true );
             }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 e.printStackTrace();
             }
         });
@@ -41,7 +42,7 @@ public class EmptyfilesTestApp extends JFrame
         setContentPane( this.contentPane );
 
         //DFToolKit fake = new FakeDFToolKit();
-        RemoveEmptyFilesJPanel testPanel = new RemoveEmptyFilesJPanel();
+        final RemoveEmptyFilesJPanel testPanel = new RemoveEmptyFilesJPanel();
         this.contentPane.add( testPanel );
     }
 }
