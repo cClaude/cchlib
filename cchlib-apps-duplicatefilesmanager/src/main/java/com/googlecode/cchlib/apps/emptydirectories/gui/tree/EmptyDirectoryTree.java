@@ -9,10 +9,9 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeMode
 
 public class EmptyDirectoryTree extends JTree
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( EmptyDirectoryTree.class );
 
-    private final Object lock = new Object();
     private final FolderTreeModelable2 model;
 
     public EmptyDirectoryTree( final FolderTreeModelable2 model )
@@ -27,14 +26,14 @@ public class EmptyDirectoryTree extends JTree
 
     protected final void fireStructureChanged()
     {
-        final Object root = model.getRoot();
+        final Object root = this.model.getRoot();
 
         if( root != null ) {
             fireTreeStructureChanged(new TreePath( root ));
             }
         else {
             // An other way to refresh view (reload model)
-            model.reload();
+            this.model.reload();
             }
     }
 
@@ -49,7 +48,7 @@ public class EmptyDirectoryTree extends JTree
             }
 
         try {
-            final Object[]        pairs   = listenerList.getListenerList();
+            final Object[]  pairs   = this.listenerList.getListenerList();
             TreeModelEvent  e       = null;
 
             for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
@@ -80,7 +79,7 @@ public class EmptyDirectoryTree extends JTree
 
     protected void expandAllRows()
     {
-        synchronized( lock ) {
+        synchronized( getTreeLock() ) {
             try {
                 //Expend all nodes
                 expandAllRowsUnsynchronized();

@@ -5,9 +5,9 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 
 public class AppToolKitService {
 
-    private static volatile AppToolKitService SERVICE;
+    private static volatile AppToolKitService service;
     private final Object lock = new Object();
-    private AppToolKit appToolKit;
+    private volatile AppToolKit appToolKit;
     private PreferencesControler preferences;
     private DuplicateFilesFrame mainWindow;
 
@@ -20,7 +20,9 @@ public class AppToolKitService {
     {
         if( this.appToolKit == null ) {
             synchronized( this.lock ) {
-                createAppToolKit();
+                if( this.appToolKit == null ) {
+                    createAppToolKit();
+                }
             }
         }
 
@@ -58,10 +60,14 @@ public class AppToolKitService {
 
     public static AppToolKitService getInstance()
     {
-        if( SERVICE == null ) {
-            SERVICE = new AppToolKitService();
+        if( service == null ) {
+            synchronized( AppToolKitService.class ) {
+                if( service == null ) {
+                    service = new AppToolKitService();
+                }
+            }
         }
 
-        return SERVICE;
+        return service;
     }
 }

@@ -90,27 +90,24 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
     }
 
     @Override
-    public void startScan(
-        final String                            messageDigestAlgorithm,
-        final int                               messageDigestBufferSize,
-        final boolean                           ignoreEmptyFiles,
-        final int                               maxParallelFilesPerThread, // TODO
-        final Collection<File>                  entriesToScans,
-        final Collection<File>                  entriesToIgnore,
-        final FileFilterBuilders                fileFilterBuilders,
-        final Map<String, Set<KeyFileState>>    duplicateFiles
-        )
+    public void startScan( final ScanParams scanParams )
+        //final int                               maxParallelFilesPerThread, // TODO
     {
         this.cancel = false;
 
-        beforePass1( duplicateFiles );
+        beforePass1( scanParams.getDuplicateFiles() );
 
-        final FileVisitor<Path> fileVisitor = newFileVisitorPass1( entriesToIgnore, fileFilterBuilders );
+        final FileVisitor<Path> fileVisitor = newFileVisitorPass1( //
+                scanParams.getEntriesToIgnore(), //
+                scanParams.getFileFilterBuilders() );
 
         updateDisplayThread();
 
         LOGGER.info( "pass1" );
-        final Map<Long, Set<File>> computePass1 = runPass1( ignoreEmptyFiles, entriesToScans, fileVisitor );
+        final Map<Long, Set<File>> computePass1 = runPass1( //
+                scanParams.isIgnoreEmptyFiles(), //
+                scanParams.getEntriesToScans(), //
+                fileVisitor );
         LOGGER.info( "pass1 done" );
 
         LOGGER.info( "pass1: getPass1BytesCount() = " + super.getPass1BytesCount() );
@@ -129,13 +126,18 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
 
         beforePass2();
 
-        final Map<String, Set<File>> computePass2 = runPass2( messageDigestAlgorithm, messageDigestBufferSize, computePass1 );
+        final Map<String, Set<File>> computePass2 = runPass2( //
+                scanParams.getMessageDigestAlgorithm(), //
+                scanParams.getMessageDigestBufferSize(), //
+                computePass1 );
 
         purgePass2AndUpdateStats( computePass2 );
 
         afterPass2();
 
-        populateDuplicate(duplicateFiles,computePass2);
+        populateDuplicate( //
+                scanParams.getDuplicateFiles(), //
+                computePass2);
 
         afterPopulate();
     }

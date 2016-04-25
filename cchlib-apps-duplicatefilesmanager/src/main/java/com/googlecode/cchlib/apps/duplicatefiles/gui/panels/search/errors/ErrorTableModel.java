@@ -35,13 +35,13 @@ public final class ErrorTableModel extends AbstractTableModel
 
     @Override
     public String getColumnName(final int column) {
-        return columnNames[ column ];
+        return this.columnNames[ column ];
     }
 
     @Override
     public int getColumnCount()
     {
-        return columnNames.length;
+        return this.columnNames.length;
     }
 
     @Override
@@ -55,11 +55,11 @@ public final class ErrorTableModel extends AbstractTableModel
     {
         final FileErrorCause fileError;
 
-        synchronized( fileErrors ) {
-            if( rowIndex < fileErrors.size() ) {
-                fileError = fileErrors.get( rowIndex );
+        synchronized( this.fileErrors ) {
+            if( rowIndex < this.fileErrors.size() ) {
+                fileError = this.fileErrors.get( rowIndex );
             } else {
-                LOGGER.warn( "GUI out of sync : rowIndex=" + rowIndex + " >= content.size()=" + fileErrors.size() );
+                LOGGER.warn( "GUI out of sync : rowIndex=" + rowIndex + " >= content.size()=" + this.fileErrors.size() );
                 return null; // Ignore, just vector out of sync
             }
         }
