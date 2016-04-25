@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import org.apache.log4j.Logger;
 
 /**
  * Library Version object
@@ -15,7 +16,8 @@ import java.util.Properties;
  */
 public final class Version
 {
-    private static Version service;
+    private static volatile Version service;
+    private final static Logger LOGGER = Logger.getLogger( Version.class );
     private final String name;
     private final String version;
     private final Date date;
@@ -115,23 +117,32 @@ public final class Version
         try {
             final Version instance = Version.getInstance();
 
-            System.out.println( instance );
+            System.out.println( instance ); // NOSONAR
             }
-        catch( final Exception e ) {
-            e.printStackTrace( System.err );
+        catch( final Exception e ) { // NOSONAR
+            e.printStackTrace( System.err ); // NOSONAR
             }
     }
 
     public static Version getInstance()
     {
         if( service == null ) {
-            try {
-                service = new Version();
-            }
-            catch( IOException | ParseException e ) {
-                throw new RuntimeException( e );
+            synchronized( Version.class ) {
+                if( service == null ) {
+                    try {
+                        service = new Version();
+                    }
+                    catch( IOException | ParseException e ) {
+                        final String message = "Can't get version";
+
+                        LOGGER.warn( message , e );
+
+                        throw new RuntimeException( message, e );
+                    }
+                }
             }
         }
+
         return service;
     }
 }
