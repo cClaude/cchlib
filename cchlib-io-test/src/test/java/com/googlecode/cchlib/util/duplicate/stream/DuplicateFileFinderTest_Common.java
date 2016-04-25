@@ -85,7 +85,7 @@ abstract class DuplicateFileFinderTest_Common {
         Assert.assertEquals( 2, result.size() );
     }
 
-    private Set<File> getEntry( final Map<Long, Set<File>> mapSet, final int entryNumber )
+    protected Set<File> getEntry( final Map<Long, Set<File>> mapSet, final int entryNumber )
     {
         assert mapSet.size() > entryNumber;
 
@@ -102,7 +102,7 @@ abstract class DuplicateFileFinderTest_Common {
 
     }
 
-    private Map<Long, Set<File>> newHashMap( final File... files )
+    protected Map<Long, Set<File>> newHashMap( final File... files )
     {
         final Map<Long, Set<File>> mapSet = new HashMap<>();
 
