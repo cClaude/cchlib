@@ -16,6 +16,8 @@ import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
+import com.googlecode.cchlib.apps.duplicatefiles.tools.MyResourcesLoader;
+import com.googlecode.cchlib.apps.duplicatefiles.tools.Resources;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
@@ -75,7 +77,7 @@ final class DefaultAppToolKit
     public I18nResourceBundleName getI18nResourceBundleName()
     {
         return new DefaultI18nResourceBundleName(
-                MyResourcesLoader.class,
+                RessourcesPath.class,
                 DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME
                 );
     }
@@ -167,7 +169,7 @@ final class DefaultAppToolKit
     public void beep()
     {
         Toolkit.getDefaultToolkit().beep();
-        LOGGER.info( "beep()", new RuntimeException( "DEBUG" ) ); // TODO remove this
+        LOGGER.fatal( "beep()", new RuntimeException( "DEBUG" ) ); // TODO remove this
     }
 
     @Override // DFToolKit

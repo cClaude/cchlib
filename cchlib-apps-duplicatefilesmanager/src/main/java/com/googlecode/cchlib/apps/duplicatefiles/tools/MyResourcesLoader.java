@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles;
+package com.googlecode.cchlib.apps.duplicatefiles.tools;
 
 import java.awt.Image;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import java.util.Properties;
 import javax.swing.Icon;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.Version;
+import com.googlecode.cchlib.apps.duplicatefiles.RessourcesPath;
 import com.googlecode.cchlib.resources.ResourcesLoader;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
@@ -37,7 +38,7 @@ public final class MyResourcesLoader
      */
     private static InputStream getResourceAsStream( final String name ) throws ResourcesLoaderException
     {
-        return ResourcesLoader.getResourceAsStream( MyResourcesLoader.class, name );
+        return ResourcesLoader.getResourceAsStream( RessourcesPath.class, name );
     }
 
     /**
@@ -45,10 +46,10 @@ public final class MyResourcesLoader
      * @param name Resource name
      * @return {@link Icon} for giving resource name
      */
-    static Icon getImageIcon( final String name )
+    public static Icon getImageIcon( final String name )
     {
         try {
-            return ResourcesLoader.getImageIcon( MyResourcesLoader.class, name );
+            return ResourcesLoader.getImageIcon( RessourcesPath.class, name );
             }
         catch( final ResourcesLoaderException e ) {
             LOGGER.error( "Can't load Icon: " + name, e );
@@ -65,7 +66,7 @@ public final class MyResourcesLoader
     private static Image getImage( final String name )
     {
         try {
-            return ResourcesLoader.getImage( MyResourcesLoader.class, name );
+            return ResourcesLoader.getImage( RessourcesPath.class, name );
             }
         catch( final ResourcesLoaderException e ) {
             LOGGER.error( "Can't load Image: " + name, e );
@@ -126,16 +127,6 @@ public final class MyResourcesLoader
             public Image getAppImage()
             {
                 return getImage( "icon.png" );
-            }
-            @Override
-            public Icon getContinueIcon()
-            {
-                return getImageIcon( "continue.png" );
-            }
-            @Override
-            public Icon getRestartIcon()
-            {
-                return getImageIcon( "restart.png" );
             }
             @Override
             public Icon getFolderRemoveIcon()
@@ -231,6 +222,16 @@ public final class MyResourcesLoader
             public Icon getSelectAllIcon()
             {
                 return getImageIcon( "selectAll.png" );
+            }
+            @Override
+            public SerializableIcon getContinueSerializableIcon()
+            {
+                return new MySerializableIcon( "continue.png" );
+            }
+             @Override
+            public SerializableIcon getRestartSerializableIcon()
+            {
+                return new MySerializableIcon( "restart.png" );
             }
         };
     }

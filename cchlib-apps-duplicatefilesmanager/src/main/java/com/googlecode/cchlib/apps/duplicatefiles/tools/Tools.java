@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles;
+package com.googlecode.cchlib.apps.duplicatefiles.tools;
 
 import org.apache.log4j.Logger;
 
@@ -8,6 +8,11 @@ import org.apache.log4j.Logger;
 public class Tools
 {
     private static final Logger LOGGER = Logger.getLogger( Tools.class );
+
+    private Tools()
+    {
+        // All static
+    }
 
     /**
      * Launch task in a new thread and log errors
@@ -19,7 +24,7 @@ public class Tools
             try {
                 runner.run();
             }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.warn( "Unexpected error", e );
             }
         }, threadName).start();

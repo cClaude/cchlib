@@ -2,10 +2,11 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import javax.swing.Icon;
+import com.googlecode.cchlib.apps.duplicatefiles.tools.MyResourcesLoader;
 
 public class IconResources
 {
-    private static IconResources instance;
+    private static volatile IconResources instance;
 
     private Icon emptyIcon;
     private Icon emptySelectedIcon;
@@ -25,118 +26,123 @@ public class IconResources
 
     private IconResources() {}
 
-    public static IconResources getInstance() {
+    public static IconResources getInstance()
+    {
         if( instance == null ) {
-            instance = new IconResources();
+            synchronized( IconResources.class ) {
+                if( instance == null ) {
+                    instance = new IconResources();
+                }
             }
+        }
         return instance;
     }
 
     public Icon getEmptyIcon()
     {
-        if( emptyIcon == null ) {
-            emptyIcon = MyResourcesLoader.getImageIcon( "emptyIcon.png" );
+        if( this.emptyIcon == null ) {
+            this.emptyIcon = MyResourcesLoader.getImageIcon( "emptyIcon.png" );
             }
-        return emptyIcon;
+        return this.emptyIcon;
     }
 
     public Icon getEmptySelectedIcon()
     {
-        if( emptySelectedIcon == null ) {
-            emptySelectedIcon = MyResourcesLoader.getImageIcon( "emptySelectedIcon.png" );
+        if( this.emptySelectedIcon == null ) {
+            this.emptySelectedIcon = MyResourcesLoader.getImageIcon( "emptySelectedIcon.png" );
             }
-        return emptySelectedIcon;
+        return this.emptySelectedIcon;
     }
 
     public Icon getEmptyLeafIcon()
     {
-        if( emptyLeafIcon == null ) {
-            emptyLeafIcon = MyResourcesLoader.getImageIcon( "emptyLeafIcon.png" );
+        if( this.emptyLeafIcon == null ) {
+            this.emptyLeafIcon = MyResourcesLoader.getImageIcon( "emptyLeafIcon.png" );
             }
-        return emptyLeafIcon;
+        return this.emptyLeafIcon;
     }
 
     public Icon getEmptyLeafSelectedIcon()
     {
-        if( emptyLeafSelectedIcon == null ) {
-            emptyLeafSelectedIcon = MyResourcesLoader.getImageIcon( "emptyLeafSelectedIcon.png" );
+        if( this.emptyLeafSelectedIcon == null ) {
+            this.emptyLeafSelectedIcon = MyResourcesLoader.getImageIcon( "emptyLeafSelectedIcon.png" );
             }
-        return emptyLeafSelectedIcon;
+        return this.emptyLeafSelectedIcon;
     }
 
     public Icon getDuplicateFilesPanelIcon()
     {
-        if( duplicateFilesPanelIcon == null ) {
-            duplicateFilesPanelIcon = MyResourcesLoader.getImageIcon( "duplicateFilesPanelIcon.png" );
+        if( this.duplicateFilesPanelIcon == null ) {
+            this.duplicateFilesPanelIcon = MyResourcesLoader.getImageIcon( "duplicateFilesPanelIcon.png" );
             }
-        return duplicateFilesPanelIcon;
+        return this.duplicateFilesPanelIcon;
     }
 
     public Icon getRemoveEmptyDirectoriesPanelIcon()
     {
-        if( removeEmptyDirectoriesPanelIcon == null ) {
-            removeEmptyDirectoriesPanelIcon = MyResourcesLoader.getImageIcon( "removeEmptyDirectoriesPanelIcon.png" );
+        if( this.removeEmptyDirectoriesPanelIcon == null ) {
+            this.removeEmptyDirectoriesPanelIcon = MyResourcesLoader.getImageIcon( "removeEmptyDirectoriesPanelIcon.png" );
             }
-        return removeEmptyDirectoriesPanelIcon;
+        return this.removeEmptyDirectoriesPanelIcon;
     }
 
     public Icon getDeleteEmptyFilesPanelIcon()
     {
-        if( deleteEmptyFilesPanelIcon == null ) {
-            deleteEmptyFilesPanelIcon = MyResourcesLoader.getImageIcon( "deleteEmptyFilesPanelIcon.png" );
+        if( this.deleteEmptyFilesPanelIcon == null ) {
+            this.deleteEmptyFilesPanelIcon = MyResourcesLoader.getImageIcon( "deleteEmptyFilesPanelIcon.png" );
             }
-        return deleteEmptyFilesPanelIcon;
+        return this.deleteEmptyFilesPanelIcon;
     }
 
     public Icon getDeletedFileIcon()
     {
-        if( deletedFileIcon == null ) {
-            deletedFileIcon = MyResourcesLoader.getImageIcon( "deletedFileIcon.png" );
+        if( this.deletedFileIcon == null ) {
+            this.deletedFileIcon = MyResourcesLoader.getImageIcon( "deletedFileIcon.png" );
             }
-        return deletedFileIcon;
+        return this.deletedFileIcon;
     }
 
     public Icon getFileIcon()
     {
-        if( fileIcon == null ) {
-            fileIcon = MyResourcesLoader.getImageIcon( "fileIcon.png" );
+        if( this.fileIcon == null ) {
+            this.fileIcon = MyResourcesLoader.getImageIcon( "fileIcon.png" );
             }
-        return fileIcon;
+        return this.fileIcon;
     }
 
     @Deprecated
     public Icon getEmptySelectedByUserIcon()
     {
-        if( emptySelectedByUserIcon == null ) {
-            emptySelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptySelectedByUserIcon.png" );
+        if( this.emptySelectedByUserIcon == null ) {
+            this.emptySelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptySelectedByUserIcon.png" );
             }
-        return emptySelectedByUserIcon;
+        return this.emptySelectedByUserIcon;
     }
 
     @Deprecated
     public Icon getEmptySelectedAndSelectedByUserIcon()
     {
-        if( emptySelectedAndSelectedByUserIcon == null ) {
-            emptySelectedAndSelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptySelectedAndSelectedByUserIcon.png" );
+        if( this.emptySelectedAndSelectedByUserIcon == null ) {
+            this.emptySelectedAndSelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptySelectedAndSelectedByUserIcon.png" );
             }
-        return emptySelectedAndSelectedByUserIcon;
+        return this.emptySelectedAndSelectedByUserIcon;
     }
 
     @Deprecated
     public Icon getEmptyLeafSelectedByUserIcon()
     {
-        if( emptyLeafSelectedByUserIcon == null ) {
-            emptyLeafSelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptyLeafSelectedByUserIcon.png" );
+        if( this.emptyLeafSelectedByUserIcon == null ) {
+            this.emptyLeafSelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptyLeafSelectedByUserIcon.png" );
             }
-        return emptyLeafSelectedByUserIcon;
+        return this.emptyLeafSelectedByUserIcon;
     }
 
     @Deprecated
     public Icon getEmptyLeafSelectedAndSelectedByUserIcon()
     {
-        if( emptyLeafSelectedAndSelectedByUserIcon == null ) {
-            emptyLeafSelectedAndSelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptyLeafSelectedAndSelectedByUserIcon.png" );
+        if( this.emptyLeafSelectedAndSelectedByUserIcon == null ) {
+            this.emptyLeafSelectedAndSelectedByUserIcon = MyResourcesLoader.getImageIcon( "emptyLeafSelectedAndSelectedByUserIcon.png" );
             }
-        return emptyLeafSelectedAndSelectedByUserIcon;
+        return this.emptyLeafSelectedAndSelectedByUserIcon;
     }
 }

@@ -7,7 +7,6 @@ import java.util.concurrent.ExecutionException;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
@@ -17,8 +16,7 @@ public class DuplicateFileFinderTest extends DuplicateFileFinderTest_Common {
     @Override
     protected Path[] getStartPaths()
     {
-        // TODO implements a better solution to avoid very long test !
-        return new Path[] { FileHelper.getUserHomeDirFile().toPath() };
+        return StartPathsHelper.getStartPaths();
     }
 
     @Override

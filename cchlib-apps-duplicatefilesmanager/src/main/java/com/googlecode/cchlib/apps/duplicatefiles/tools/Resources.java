@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles;
+package com.googlecode.cchlib.apps.duplicatefiles.tools;
 
 import java.awt.Image;
 import java.net.URI;
@@ -12,7 +12,6 @@ public interface Resources
 {
     Icon getAddIcon();
     Icon getAppIcon();
-    Icon getContinueIcon();
     Icon getDeselectAllIcon();
     Icon getFileIcon();
     Icon getFolderImportIcon();
@@ -22,7 +21,6 @@ public interface Resources
     Icon getNextIcon();
     Icon getPrevIcon();
     Icon getRefreshIcon();
-    Icon getRestartIcon();
     Icon getSelectAllIcon();
     Icon getSmallKOIcon();
     Icon getSmallOKButOKIcon();
@@ -37,4 +35,7 @@ public interface Resources
     String getAuthorName();
 
     URI getSiteURI();
+
+    SerializableIcon getContinueSerializableIcon();
+    SerializableIcon getRestartSerializableIcon();
 }

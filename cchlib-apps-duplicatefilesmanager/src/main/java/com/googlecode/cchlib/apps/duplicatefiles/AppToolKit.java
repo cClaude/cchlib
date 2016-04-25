@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Set;
 import javax.swing.JFileChooser;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
+import com.googlecode.cchlib.apps.duplicatefiles.tools.Resources;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;

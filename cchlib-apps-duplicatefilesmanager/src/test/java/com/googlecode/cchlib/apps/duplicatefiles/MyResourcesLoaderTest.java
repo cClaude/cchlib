@@ -10,6 +10,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.apps.duplicatefiles.tools.MyResourcesLoader;
+import com.googlecode.cchlib.apps.duplicatefiles.tools.Resources;
 import com.googlecode.cchlib.lang.Objects;
 import com.googlecode.cchlib.lang.reflect.Methods;
 
@@ -30,7 +32,7 @@ public class MyResourcesLoaderTest
     @Before
     public void setUp() throws Exception
     {
-        methodList = Methods.getStaticMethods( MyResourcesLoader.class );
+        this.methodList = Methods.getStaticMethods( MyResourcesLoader.class );
     }
 
     @After
@@ -59,9 +61,10 @@ public class MyResourcesLoaderTest
     }
 
     @Test
+    //@Ignore
     public void test_AllStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
-        for( final Method m : methodList ) {
+        for( final Method m : this.methodList ) {
             final Object result = m.invoke( null, Objects.emptyArray() );
 
             LOGGER.info( "m: " + m + " => " + result );

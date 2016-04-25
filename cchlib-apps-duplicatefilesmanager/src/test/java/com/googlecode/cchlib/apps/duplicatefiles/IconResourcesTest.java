@@ -8,8 +8,8 @@ import javax.swing.Icon;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.Objects;
 import com.googlecode.cchlib.lang.reflect.Methods;
@@ -20,37 +20,39 @@ import com.googlecode.cchlib.lang.reflect.Methods;
 public class IconResourcesTest
 {
     private static final Logger LOGGER = Logger.getLogger( IconResourcesTest.class );
-    private List<Method> staticMethodsList;
-    private List<Method> methodsList;
+    private List<Method>  staticMethodsList;
+    private List<Method>  methodsList;
+    private IconResources iconResourcesIntance;
 
     @Test
-    @Ignore// No more that way (keep code as exemple)
     public void test_AllStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
-        for( final Method method : staticMethodsList ) {
+        for( final Method method : this.staticMethodsList ) {
             LOGGER.info( "m: " + method );
-            final Object o = method.invoke( null, Objects.emptyArray() );
+            final Object methodResult = method.invoke( null, Objects.emptyArray() );
 
-            LOGGER.info( "m: " + method + " => " + o );
-            final Icon result = (Icon)o;
+            LOGGER.info( "m: " + method + " => " + methodResult );
 
-            // add additional test code here
-            Assertions.assertThat( result ).isNotNull();
-            Assertions.assertThat( result.getIconWidth() ).isEqualTo( 16 );
-            Assertions.assertThat( result.getIconHeight() ).isEqualTo( 16 );
+            if( methodResult instanceof IconResources ) {
+                LOGGER.info( "IconResources: " + methodResult );
+                LOGGER.info( "this.iconResourcesIntance: " + this.iconResourcesIntance );
+
+               Assertions.assertThat( methodResult == this.iconResourcesIntance ).isTrue();
+            } else {
+                Assert.fail();
             }
+        }
     }
 
       @Test
       public void test_AllNoneStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
       {
-          final IconResources intance = IconResources.getInstance();
 
-          for( final Method method : methodsList ) {
+          for( final Method method : this.methodsList ) {
               LOGGER.info( "m: " + method );
 
               if( method.getReturnType().equals( Icon.class ) ) {
-                  final Object o = method.invoke( intance, Objects.emptyArray() );
+                  final Object o = method.invoke( this.iconResourcesIntance, Objects.emptyArray() );
 
                   LOGGER.info( "m: " + method + " => " + o );
                   final Icon result = (Icon)o;
@@ -66,8 +68,9 @@ public class IconResourcesTest
     @Before
     public void setUp() throws Exception
     {
-        staticMethodsList = Methods.getStaticMethods( IconResources.class );
-        methodsList       = Methods.getPublicMethods( IconResources.class );
+        this.staticMethodsList    = Methods.getStaticMethods( IconResources.class );
+        this.methodsList          = Methods.getPublicMethods( IconResources.class );
+        this.iconResourcesIntance = IconResources.getInstance();
     }
 
     @After
