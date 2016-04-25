@@ -7,20 +7,20 @@ import cx.ath.choisnet.lang.ToStringBuilder;
 final class ConfigFileFilterBuilders implements FileFilterBuilders {
     private final JPanelConfig  jPanelConfig;
     private final boolean       ignoreHiddedFiles;
-    private final int           efType;
+    private final FilterType    efType;
     private final boolean       ignoreHiddedDirs;
-    private final int           ffType;
+    private final FilterType    ffType;
     private final boolean       ignoreEmptyFiles;
     private final boolean       ignoreReadOnlyFiles;
 
     ConfigFileFilterBuilders( //
-        final JPanelConfig jPanelConfig, //
-        final boolean ignoreHiddedFiles, //
-        final int efType, //
-        final boolean ignoreHiddedDirs, //
-        final int ffType, //
-        final boolean ignoreEmptyFiles, //
-        final boolean ignoreReadOnlyFiles //
+        final JPanelConfig  jPanelConfig, //
+        final boolean       ignoreHiddedFiles, //
+        final FilterType    efType, //
+        final boolean       ignoreHiddedDirs, //
+        final FilterType    ffType, //
+        final boolean       ignoreEmptyFiles, //
+        final boolean       ignoreReadOnlyFiles //
         )
     {
         this.jPanelConfig           = jPanelConfig;
@@ -35,7 +35,7 @@ final class ConfigFileFilterBuilders implements FileFilterBuilders {
     @Override
     public FileFilterBuilder getIncludeDirs()
     {
-        if( this.efType == JPanelConfig.DIRS_FILTER_INCLUDE ) {
+        if( this.efType == FilterType.INCLUDE_FILTER ) {
             return this.jPanelConfig.createIncludeDirectoriesFileFilterBuilder();
             }
         else {
@@ -46,7 +46,7 @@ final class ConfigFileFilterBuilders implements FileFilterBuilders {
     @Override
     public FileFilterBuilder getExcludeDirs()
     {
-        if( this.efType == JPanelConfig.DIRS_FILTER_EXCLUDE ) {
+        if( this.efType == FilterType.EXCLUDE_FILTER ) {
             return this.jPanelConfig.createExcludeDirectoriesFileFilterBuilder();
             }
         else {
@@ -57,7 +57,7 @@ final class ConfigFileFilterBuilders implements FileFilterBuilders {
     @Override
     public FileFilterBuilder getIncludeFiles()
     {
-        if( this.ffType == JPanelConfig.FILES_FILTER_INCLUDE ) {
+        if( this.ffType == FilterType.INCLUDE_FILTER ) {
             return this.jPanelConfig.createIncludeFilesFileFilterBuilder();
             }
         else {
@@ -68,7 +68,7 @@ final class ConfigFileFilterBuilders implements FileFilterBuilders {
     @Override
     public FileFilterBuilder getExcludeFiles()
     {
-        if( this.ffType == JPanelConfig.FILES_FILTER_EXCLUDE ) {
+        if( this.ffType == FilterType.EXCLUDE_FILTER ) {
             return this.jPanelConfig.createExcludeFilesFileFilterBuilder();
             }
         else {

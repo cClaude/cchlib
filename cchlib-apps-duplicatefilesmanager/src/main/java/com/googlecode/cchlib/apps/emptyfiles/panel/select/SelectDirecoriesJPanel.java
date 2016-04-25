@@ -69,7 +69,7 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
             this.panel.add(this.scrollPane, gbc_scrollPane);
             this.list = new JList<>();
             this.scrollPane.setViewportView(this.list);
-            this.list.setModel( directoriesJListModel );
+            this.list.setModel( this.directoriesJListModel );
 
             SimpleFileDrop.createSimpleFileDrop(
                 this.list,
@@ -79,11 +79,11 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
 
             // Handle selection change
             this.list.addListSelectionListener( (final ListSelectionEvent event) -> {
-                if( list.getSelectedIndices().length > 0 ) {
-                    removeButton.setEnabled( true );
+                if( this.list.getSelectedIndices().length > 0 ) {
+                    this.removeButton.setEnabled( true );
                 }
                 else {
-                    removeButton.setEnabled( false );
+                    this.removeButton.setEnabled( false );
                 }
             });
         }
@@ -93,10 +93,10 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
             this.directoriesJListModel.addListDataListener( new ListDataListener() {
                 private void onChange()
                 {
-                    if( directoriesJListModel.size() > 0 ) {
-                        startButton.setEnabled( true );
+                    if( SelectDirecoriesJPanel.this.directoriesJListModel.size() > 0 ) {
+                        SelectDirecoriesJPanel.this.startButton.setEnabled( true );
                     } else {
-                        startButton.setEnabled( false );
+                        SelectDirecoriesJPanel.this.startButton.setEnabled( false );
                     }
                 }
                 @Override
@@ -162,7 +162,7 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
         }
         {
             this.startButton = new JButton( "Start" );
-            this.startButton.setIcon( removeEmptyFilesJPanel.getResources().getContinueIcon() );
+            this.startButton.setIcon( removeEmptyFilesJPanel.getResources().getContinueSerializableIcon().getIcon() );
             this.startButton.addActionListener((final ActionEvent e) -> {
                 doStart( removeEmptyFilesJPanel );
             });
@@ -192,21 +192,21 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
         final Collection<File> directoriesFiles = new HashSet<>();
 
         {
-            final Enumeration<File> enumeration = directoriesJListModel.elements();
+            final Enumeration<File> enumeration = this.directoriesJListModel.elements();
 
             while( enumeration.hasMoreElements() ) {
                 directoriesFiles.add( enumeration.nextElement() );
                 }
         }
 
-        list.setEnabled( false );
-        addButton.setEnabled( false );
-        removeButton.setEnabled( false );
-        startButton.setEnabled( false );
-        importButton.setEnabled( false );
+        this.list.setEnabled( false );
+        this.addButton.setEnabled( false );
+        this.removeButton.setEnabled( false );
+        this.startButton.setEnabled( false );
+        this.importButton.setEnabled( false );
 
         new Thread( () -> {
-            removeEmptyFilesJPanel.doFindFiles( directoriesFiles, progressBar );
+            removeEmptyFilesJPanel.doFindFiles( directoriesFiles, this.progressBar );
         }, "doStart()" ).start();
     }
 

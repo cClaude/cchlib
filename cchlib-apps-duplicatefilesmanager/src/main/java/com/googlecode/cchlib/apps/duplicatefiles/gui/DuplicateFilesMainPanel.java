@@ -35,10 +35,10 @@ public class DuplicateFilesMainPanel
     private static final Logger LOGGER = Logger.getLogger( DuplicateFilesMainPanel.class );
 
     public static final String ACTIONCMD_RESTART = "ACTIONCMD_RESTART";
-    public static final String ACTIONCMD_NEXT = "ACTIONCMD_NEXT";
-    public static final String ACTIONCMD_CANCEL = "ACTIONCMD_CANCEL";
+    public static final String ACTIONCMD_NEXT    = "ACTIONCMD_NEXT";
+    public static final String ACTIONCMD_CANCEL  = "ACTIONCMD_CANCEL";
 
-    private ActionListener              mainActionListener;
+    private DuplicateFilesFrameWB       mainActionListenerSupport;
     private CardLayout                  jPanelMainCardLayout;
     private JButton                     jButtonCancel;
     private JButton                     jButtonNextStep;
@@ -65,11 +65,11 @@ public class DuplicateFilesMainPanel
      * @throws HeadlessException
      */
     public DuplicateFilesMainPanel(
-        final ActionListener mainActionListener
+        final DuplicateFilesFrameWB mainActionListenerSupport
         )
         throws HeadlessException, TooManyListenersException
     {
-        this.mainActionListener = mainActionListener;
+        this.mainActionListenerSupport = mainActionListenerSupport;
 
         final GridBagLayout gbl_contentPane = new GridBagLayout();
         gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0};
@@ -140,7 +140,7 @@ public class DuplicateFilesMainPanel
 
     private ActionListener getActionListener()
     {
-        return this.mainActionListener;
+        return this.mainActionListenerSupport.getActionListener();
     }
 
     protected JButton getJButtonNextStep()
@@ -187,7 +187,6 @@ public class DuplicateFilesMainPanel
     {
         this.jPanelMainCardLayout.show(
                 this.jPanelMain,
-                //Integer.toString( state )
                 state.name()
                 );
     }

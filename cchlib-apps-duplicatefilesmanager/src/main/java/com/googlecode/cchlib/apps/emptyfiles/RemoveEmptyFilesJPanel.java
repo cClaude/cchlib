@@ -18,7 +18,7 @@ import javax.swing.event.TableModelListener;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.apps.duplicatefiles.tools.Resources;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;

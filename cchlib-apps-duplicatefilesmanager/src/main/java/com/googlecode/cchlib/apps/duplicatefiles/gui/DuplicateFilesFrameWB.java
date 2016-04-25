@@ -26,6 +26,13 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
  */
 public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses, largeNumberOfFields
 {
+    private final class DuplicateFilesFrameWindowAdapter extends WindowAdapter {
+        @Override
+        public void windowClosing(final WindowEvent e) {
+            exitApplication();
+        }
+    }
+
     private static final long serialVersionUID = 3L;
     private final AppToolKit dfToolKit;
 
@@ -49,7 +56,7 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // $
     private final JMenuItem                   jMenuItemExit;
     private final JMenuItem                   jMenuItem_Preferences;
 
-    private DuplicateFilesMainPanel     jPanel_DuplicateFiles;
+    private DuplicateFilesMainPanel           jPanel_DuplicateFiles;
     private final RemoveEmptyDirectoriesPanel jPanel_RemoveEmptyDirectories;
     private final RemoveEmptyFilesJPanel      jPanel_DeleteEmptyFiles;
 
@@ -59,7 +66,7 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // $
 
     @I18nToolTipText private final JTabbedPane contentJTabbedPane;
 
-    private final JMenu jMenuHelp;
+    private final JMenu     jMenuHelp;
     private final JMenuItem jMenuItem_About;
 
     /**
@@ -73,80 +80,77 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // $
     {
         this.dfToolKit = AppToolKitService.getInstance().createAppToolKit( preferences, (DuplicateFilesFrame)this );
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(final WindowEvent e) {
-                exitApplication();
-            }
-        });
+        addWindowListener(new DuplicateFilesFrameWindowAdapter());
 
         setSize(650, 500); // Just for design // $codepro.audit.disable numericLiterals
 
         final JMenuBar jMenuBarMain = new JMenuBar();
         setJMenuBar(jMenuBarMain);
 
-        jMenuFile = new JMenu("File");
-        jMenuBarMain.add(jMenuFile);
+        this.jMenuFile = new JMenu("File");
+        jMenuBarMain.add(this.jMenuFile);
 
-        jMenuItemExit = new JMenuItem("Exit");
-        jMenuItemExit.setActionCommand( ACTIONCMD_EXIT );
-        jMenuItemExit.addActionListener( getActionListener() );
-        jMenuFile.add( jMenuItemExit );
+        this.jMenuItemExit = new JMenuItem("Exit");
+        this.jMenuItemExit.setActionCommand( ACTIONCMD_EXIT );
+        this.jMenuItemExit.addActionListener( getActionListener() );
+        this.jMenuFile.add( this.jMenuItemExit );
 
-        jMenuConfig = new JMenu("Configuration");
-        jMenuBarMain.add(jMenuConfig);
+        this.jMenuConfig = new JMenu("Configuration");
+        jMenuBarMain.add(this.jMenuConfig);
 
-        jMenuConfigMode = new JMenu("Mode");
-        jMenuConfig.add(jMenuConfigMode);
+        this.jMenuConfigMode = new JMenu("Mode");
+        this.jMenuConfig.add(this.jMenuConfigMode);
 
-        jMenuItemModeBeginner = new JRadioButtonMenuItem( "Beginner" );
-        buttonGroupConfigMode.add( jMenuItemModeBeginner );
-        jMenuItemModeBeginner.setActionCommand( ACTIONCMD_SET_MODE );
-        jMenuItemModeBeginner.putClientProperty( ConfigMode.class, ConfigMode.BEGINNER );
-        jMenuItemModeBeginner.addActionListener( getActionListener() );
-        jMenuConfigMode.add( jMenuItemModeBeginner );
+        this.jMenuItemModeBeginner = new JRadioButtonMenuItem( "Beginner" );
+        this.buttonGroupConfigMode.add( this.jMenuItemModeBeginner );
+        this.jMenuItemModeBeginner.setActionCommand( ACTIONCMD_SET_MODE );
+        this.jMenuItemModeBeginner.putClientProperty( ConfigMode.class, ConfigMode.BEGINNER );
+        this.jMenuItemModeBeginner.addActionListener( getActionListener() );
+        this.jMenuConfigMode.add( this.jMenuItemModeBeginner );
 
-        jMenuItemModeAdvance = new JRadioButtonMenuItem( "Advance" );
-        buttonGroupConfigMode.add( jMenuItemModeAdvance );
-        jMenuItemModeAdvance.setActionCommand( ACTIONCMD_SET_MODE );
-        jMenuItemModeAdvance.putClientProperty( ConfigMode.class, ConfigMode.ADVANCED );
-        jMenuItemModeAdvance.addActionListener( getActionListener() );
-        jMenuConfigMode.add( jMenuItemModeAdvance );
+        this.jMenuItemModeAdvance = new JRadioButtonMenuItem( "Advance" );
+        this.buttonGroupConfigMode.add( this.jMenuItemModeAdvance );
+        this.jMenuItemModeAdvance.setActionCommand( ACTIONCMD_SET_MODE );
+        this.jMenuItemModeAdvance.putClientProperty( ConfigMode.class, ConfigMode.ADVANCED );
+        this.jMenuItemModeAdvance.addActionListener( getActionListener() );
+        this.jMenuConfigMode.add( this.jMenuItemModeAdvance );
 
-        jMenuItemModeExpert = new JRadioButtonMenuItem( "Expert" );
-        buttonGroupConfigMode.add( jMenuItemModeExpert );
-        jMenuItemModeExpert.setActionCommand( ACTIONCMD_SET_MODE );
-        jMenuItemModeExpert.putClientProperty( ConfigMode.class, ConfigMode.EXPERT );
-        jMenuItemModeExpert.addActionListener( getActionListener() );
-        jMenuConfigMode.add( jMenuItemModeExpert );
+        this.jMenuItemModeExpert = new JRadioButtonMenuItem( "Expert" );
+        this.buttonGroupConfigMode.add( this.jMenuItemModeExpert );
+        this.jMenuItemModeExpert.setActionCommand( ACTIONCMD_SET_MODE );
+        this.jMenuItemModeExpert.putClientProperty( ConfigMode.class, ConfigMode.EXPERT );
+        this.jMenuItemModeExpert.addActionListener( getActionListener() );
+        this.jMenuConfigMode.add( this.jMenuItemModeExpert );
 
-        jMenuConfig.addSeparator();
+        this.jMenuConfig.addSeparator();
 
-        jMenuItem_Preferences = new JMenuItem("Preferences");
-        jMenuItem_Preferences.setActionCommand( ACTIONCMD_PREFS );
-        jMenuItem_Preferences.addActionListener( getActionListener() );
-        jMenuConfig.add(jMenuItem_Preferences);
+        this.jMenuItem_Preferences = new JMenuItem("Preferences");
+        this.jMenuItem_Preferences.setActionCommand( ACTIONCMD_PREFS );
+        this.jMenuItem_Preferences.addActionListener( getActionListener() );
+        this.jMenuConfig.add(this.jMenuItem_Preferences);
 
-        jMenuHelp = new JMenu("Help");
-        jMenuBarMain.add(jMenuHelp);
+        this.jMenuHelp = new JMenu("Help");
+        jMenuBarMain.add(this.jMenuHelp);
 
-        jMenuItem_About = new JMenuItem("About");
-        jMenuItem_About.setActionCommand( ACTIONCMD_ABOUT );
-        jMenuItem_About.addActionListener( getActionListener() );
-        jMenuHelp.add(jMenuItem_About);
+        this.jMenuItem_About = new JMenuItem("About");
+        this.jMenuItem_About.setActionCommand( ACTIONCMD_ABOUT );
+        this.jMenuItem_About.addActionListener( getActionListener() );
+        this.jMenuHelp.add(this.jMenuItem_About);
 
-        jMenuLookAndFeel = new JMenu("Look and Feel");
+        this.jMenuLookAndFeel = new JMenu("Look and Feel");
         jMenuBarMain.add( Box.createHorizontalGlue() );
-        jMenuBarMain.add(jMenuLookAndFeel);
+        jMenuBarMain.add(this.jMenuLookAndFeel);
 
         {
         this.contentJTabbedPane = new JTabbedPane();
         setContentPane( this.contentJTabbedPane );
 
         // Workaround for WindowBuilder
-        if( dfToolKit == null ) {this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel();}
+        if( this.dfToolKit == null ) {
+            this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel();
+            }
         // $hide>>$
-        this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel( getActionListener() );
+        this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel( this );
         // $hide<<$
         this.contentJTabbedPane.addTab("Duplicate files", this.iconResources.getDuplicateFilesPanelIcon(), this.jPanel_DuplicateFiles, "Find and remove Duplicate files");
 
@@ -167,32 +171,32 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // $
 
     protected ButtonGroup getButtonGroupConfigMode()
     {
-        return buttonGroupConfigMode;
+        return this.buttonGroupConfigMode;
     }
 
     protected ButtonGroup getButtonGroupLanguage()
     {
-        return buttonGroupLanguage;
+        return this.buttonGroupLanguage;
     }
 
     protected JMenu getJMenuLookAndFeel()
     {
-        return jMenuLookAndFeel;
+        return this.jMenuLookAndFeel;
     }
 
     public DuplicateFilesMainPanel getDuplicateFilesMainPanel()
     {
-        return jPanel_DuplicateFiles;
+        return this.jPanel_DuplicateFiles;
     }
 
     RemoveEmptyDirectoriesPanel getRemoveEmptyDirectoriesPanel()
     {
-        return jPanel_RemoveEmptyDirectories;
+        return this.jPanel_RemoveEmptyDirectories;
     }
 
     RemoveEmptyFilesJPanel getDeleteEmptyFilesPanel()
     {
-        return jPanel_DeleteEmptyFiles;
+        return this.jPanel_DeleteEmptyFiles;
     }
 
     public abstract ActionListener getActionListener();

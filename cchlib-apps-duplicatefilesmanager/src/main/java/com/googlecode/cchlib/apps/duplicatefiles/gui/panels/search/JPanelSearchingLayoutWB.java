@@ -18,10 +18,10 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 //NOT public
-abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implements I18nAutoCoreUpdatable // $codepro.audit.disable largeNumberOfFields
+abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implements I18nAutoCoreUpdatable // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger( JPanelSearchingLayout.class );
+    private static final Logger LOGGER = Logger.getLogger( JPanelSearchingLayoutWB.class );
 
     private final int nThreads;
 
@@ -42,12 +42,12 @@ abstract class JPanelSearchingLayout extends JPanelSearchingDisplayI18n implemen
     /**
      * @wbp.parser.constructor
      */
-    public JPanelSearchingLayout()
+    public JPanelSearchingLayoutWB()
     {
         this( 2 );
     }
 
-    public JPanelSearchingLayout( final int nThreads )
+    public JPanelSearchingLayoutWB( final int nThreads )
     {
         this.nThreads = nThreads;
 

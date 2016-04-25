@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
@@ -94,6 +93,8 @@ public class JPanelSearchingSingleThread extends JPanelSearching
     private File    displayFile;
 
     private final DuplicateFileFinderEventListener eventListener = new MyDuplicateFileFinderEventListener();
+    private long pass1currentTimeMillis;
+    private long pass2currentTimeMillis;
 
     /**
      * Create the panel.
@@ -124,29 +125,28 @@ public class JPanelSearchingSingleThread extends JPanelSearching
     }
 
     @Override
-    public void startScan(
-            final String                            messageDigestAlgorithm,
-            final int                               messageDigestBufferSize,
-            final boolean                           ignoreEmptyFiles,
-            final int                               maxParallelFilesPerThread,
-            final Collection<File>                  entriesToScans,
-            final Collection<File>                  entriesToIgnore,
-            final FileFilterBuilders                fileFilterBuilders,
-            final Map<String, Set<KeyFileState>>    duplicateFiles
-            )
+    public void startScan( final ScanParams scanParams )
     {
         try {
-            final FileDigestFactory fileDigestFactory = new DefaultFileDigestFactory( messageDigestAlgorithm, messageDigestBufferSize );
+            final FileDigestFactory fileDigestFactory = new DefaultFileDigestFactory( //
+                    scanParams.getMessageDigestAlgorithm(), //
+                    scanParams.getMessageDigestBufferSize() );
 
-            prepareScan( fileDigestFactory, maxParallelFilesPerThread, ignoreEmptyFiles );
+            prepareScan( //
+                    fileDigestFactory, //
+                    scanParams.getMaxParallelFilesPerThread(),
+                    scanParams.isIgnoreEmptyFiles() );
         }
         catch( final NoSuchAlgorithmException e ) {
-            LOGGER.fatal( "Bad messageDigestAlgorithm: " + messageDigestAlgorithm, e );
+            LOGGER.fatal( "Bad messageDigestAlgorithm: " + scanParams.getMessageDigestAlgorithm(), e );
             // This exception should not occur.
             throw new RuntimeException( e );
         }
 
-        doScan(entriesToScans, entriesToIgnore, fileFilterBuilders, duplicateFiles);
+        doScan( scanParams.getEntriesToScans(), //
+                scanParams.getEntriesToIgnore(), //
+                scanParams.getFileFilterBuilders(), //
+                scanParams.getDuplicateFiles());
     }
 
     private void doScanPass1Prepare(
@@ -315,7 +315,9 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         setPass1FilesCount( 0 );
         setPass1BytesCount( 0 );
         this.pass2CountFile = 0;
-        this.pass2BytesCount = 0;
+        this.pass2BytesCount = 0L;
+        this.pass1currentTimeMillis = 0L;
+        this.pass2currentTimeMillis = 0L;
 
         super.clearErrors();
     }
@@ -342,7 +344,9 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             final Map<String,Set<KeyFileState>>   duplicateFiles
             )
     {
-        LOGGER.info( "pass1" );
+        this.pass1currentTimeMillis = System.currentTimeMillis();
+        LOGGER.info( "pass1 : " + this.pass1currentTimeMillis );
+
         duplicateFiles.clear();
         doScanPass1Prepare(
                 entriesToScans,
@@ -359,7 +363,9 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         setCurrentFileLabels( getTxtCurrentFile() );
         clearCurrentFiles();
 
-        LOGGER.info( "pass2" );
+        this.pass2currentTimeMillis = System.currentTimeMillis();
+        LOGGER.info( "pass2 : " + this.pass2currentTimeMillis );
+
         setDisplayFile( null );
 
         this.displayPass = 2;
@@ -369,7 +375,6 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         //
         // Populate duplicateFiles
         //
-        //final Map<String,Set<File>> filesMap = duplicateFC.getFiles();
         final Map<String,Set<File>> filesMap = this.dff.getFiles();
 
         for(final Map.Entry<String,Set<File>> e:filesMap.entrySet()) {

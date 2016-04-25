@@ -62,7 +62,6 @@ public class DuplicateFilesApp
                     frame.addEntry( line.getOptionValue( ENTRY_TO_ADD ) );
                 }
 
-                //frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
                 frame.setTitle( title );
                 frame.getContentPane().setPreferredSize( frame.getSize() );
                 frame.pack();
