@@ -189,7 +189,7 @@ public final class FormattedProperties
         // Leading whitespace must be deleted first.
         final int lineLength = line.length();
         while ( (pos < lineLength)
-                && Character.isWhitespace(c = line.charAt(pos))) {
+                && Character.isWhitespace(c = line.charAt(pos))) { // NOSONAR
             pos++;
             }
 
@@ -210,7 +210,7 @@ public final class FormattedProperties
         final StringBuilder key = needsEscape ? new StringBuilder() : null; // $codepro.audit.disable avoidInstantiationInLoops
 
         while ( (pos < lineLength)
-                && ! Character.isWhitespace(c = line.charAt(pos++))
+                && ! Character.isWhitespace(c = line.charAt(pos++)) // NOSONAR
                 && (c != '=') && (c != ':')) {
             if (needsEscape && (c == '\\')) {
                 if (pos == lineLength) {
@@ -220,7 +220,7 @@ public final class FormattedProperties
                     line = readLine( reader );
                     pos = 0;
                     while( (pos < lineLength)
-                            && Character.isWhitespace(c = line.charAt(pos))) {
+                            && Character.isWhitespace(c = line.charAt(pos))) { // NOSONAR
                         pos++;
                         }
                     }
@@ -269,14 +269,14 @@ public final class FormattedProperties
             }
 
         while ( (pos < lineLength)
-                && Character.isWhitespace(c = line.charAt(pos))) {
+                && Character.isWhitespace(c = line.charAt(pos))) { // NOSONAR
             pos++;
             }
 
         if (! isDelim && ((c == ':') || (c == '='))) {
             pos++;
             while ( (pos < lineLength)
-                    && Character.isWhitespace(c = line.charAt(pos))) {
+                    && Character.isWhitespace(c = line.charAt(pos))) { // NOSONAR
                 pos++;
                 }
             }
@@ -496,7 +496,7 @@ public final class FormattedProperties
                 case ':':
                     buffer.append('\\').append(c);
                     break;
-                case '<':
+                case '<': // NOSONAR
                     if( !isKey ) {
                         if( !isAlreadyFormatted ) {
                             boolean cutLine = false;

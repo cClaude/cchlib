@@ -111,7 +111,7 @@ final class FormattedPropertiesHelper {
                         }
 
                     pos = 0;
-                    while ( (pos < line.length()) && Character.isWhitespace(c = line.charAt(pos))) {
+                    while ( (pos < line.length()) && Character.isWhitespace(c = line.charAt(pos))) { // NOSONAR
                         pos++;
                         }
                     element.ensureCapacity( (line.length() - pos) + element.length() );
@@ -130,7 +130,7 @@ final class FormattedPropertiesHelper {
                             break;
                         case 'u':
                             if( (pos + HEXA_LENGTH) <= line.length() ) {
-                                char uni = (char) Integer.parseInt(line.substring(pos, pos + HEXA_LENGTH), HEXA_DECIMAL);
+                                final char uni = (char) Integer.parseInt(line.substring(pos, pos + HEXA_LENGTH), HEXA_DECIMAL);
                                 element.append(uni);
                                 pos += HEXA_LENGTH;
                                 }
