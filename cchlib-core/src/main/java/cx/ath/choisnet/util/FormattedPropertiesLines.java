@@ -8,14 +8,62 @@ import java.util.List;
 class FormattedPropertiesLines
     implements Iterable<FormattedPropertiesLine>, Serializable
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
-    private final FormattedProperties formattedProperties;
-    private final List<FormattedPropertiesLine> lines = new ArrayList<>();
+    private final FormattedProperties                formattedProperties;
+    private final ArrayList<FormattedPropertiesLine> lines = new ArrayList<>();
 
-    FormattedPropertiesLines(FormattedProperties formattedProperties)
+    FormattedPropertiesLines(final FormattedProperties formattedProperties)
     {
         this.formattedProperties = formattedProperties; // Can't build lines outside this class
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = (prime * result) + ((this.formattedProperties == null) ? 0 : this.formattedProperties.hashCode());
+        result = (prime * result) + ((this.lines == null) ? 0 : this.lines.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals( final Object obj )
+    {
+        if( this == obj ) {
+            return true;
+        }
+        if( obj == null ) {
+            return false;
+        }
+        if( getClass() != obj.getClass() ) {
+            return false;
+        }
+        final FormattedPropertiesLines other = (FormattedPropertiesLines)obj;
+        if( this.formattedProperties == null ) {
+            if( other.formattedProperties != null ) {
+                return false;
+            }
+        }
+
+        if( this.lines == null ) {
+            if( other.lines != null ) {
+                return false;
+            }
+        } else if( ! isArraysEquals( this.lines, other.lines ) ) {
+            return false;
+        }
+        return true;
+    }
+
+    private static <T> boolean isArraysEquals( final List<T> array1, final List<T> array2 )
+    {
+        if( array1.size() != array2.size() ) {
+            return false;
+        }
+
+        return array1.containsAll( array2 );
     }
 
     private FormattedPropertiesLine buildCommentLine(
@@ -36,7 +84,7 @@ class FormattedPropertiesLines
 
     public void addKey( final String key )
     {
-        lines.add( buildPropertiesLine( size() + 1, key ) );
+        this.lines.add( buildPropertiesLine( size() + 1, key ) );
     }
 
     public int size()
@@ -46,12 +94,12 @@ class FormattedPropertiesLines
 
     public void addCommentLine( final String comment )
     {
-        lines.add( buildCommentLine( size() + 1, comment ) );
+        this.lines.add( buildCommentLine( size() + 1, comment ) );
     }
 
     public boolean contains( final Object key )
     {
-        for( FormattedPropertiesLine line : lines ) {
+        for( final FormattedPropertiesLine line : this.lines ) {
             if( ! line.isComment() ) {
                 if( line.getContent().equals( key )) {
                     return true;
@@ -64,7 +112,7 @@ class FormattedPropertiesLines
 
     public FormattedPropertiesLine remove( final Object key )
     {
-        final Iterator<FormattedPropertiesLine> iter = lines.iterator();
+        final Iterator<FormattedPropertiesLine> iter = this.lines.iterator();
 
         while( iter.hasNext() ) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
             final FormattedPropertiesLine line = iter.next();
@@ -83,59 +131,16 @@ class FormattedPropertiesLines
     @Override
     public Iterator<FormattedPropertiesLine> iterator()
     {
-        return lines.iterator();
+        return this.lines.iterator();
     }
 
     public void clear()
     {
-        lines.clear();
+        this.lines.clear();
     }
 
     public List<FormattedPropertiesLine> getLines()
     {
-        return lines;
+        return this.lines;
     }
-
-//    /* (non-Javadoc)
-//     * @see java.lang.Object#hashCode()
-//     */
-//    @Override
-//    public int hashCode()
-//    {
-//        final int prime = 31;
-//        int result = 1;
-//        result = (prime * result) + super.hashCode();
-//        result = (prime * result) + ((lines == null) ? 0 : lines.hashCode());
-//        return result;
-//    }
-//
-//    /* (non-Javadoc)
-//     * @see java.lang.Object#equals(java.lang.Object)
-//     */
-//    @Override
-//    public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
-//    {
-//        if( this == obj ) {
-//            return true;
-//            }
-//        if( obj == null ) {
-//            return false;
-//            }
-//        if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
-//            return false;
-//            }
-//        FormattedPropertiesLines other = (FormattedPropertiesLines)obj;
-//
-//        if( lines == null ) {
-//            if( other.lines != null ) {
-//                return false;
-//                }
-//            }
-//        else if( !lines.equals( other.lines ) ) {
-//            return false;
-//            }
-//
-//        return true;
-//    }
 }
-// ---------------------------------------------

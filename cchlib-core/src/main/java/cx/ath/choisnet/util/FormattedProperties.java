@@ -851,7 +851,7 @@ public final class FormattedProperties
      *         to this FormattedProperties
      */
     @Override
-    synchronized public boolean equals( final Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
+    public synchronized boolean equals( final Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
     {
         if( this == obj ) {
             return true;
