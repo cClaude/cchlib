@@ -1,11 +1,9 @@
 // $codepro.audit.disable avoidAutoBoxing, questionableName, numericLiterals
-package cx.ath.choisnet.util;
+package com.googlecode.cchlib.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -26,11 +25,14 @@ import org.junit.Ignore;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.lang.StringHelper;
+import cx.ath.choisnet.util.FormattedProperties;
+import cx.ath.choisnet.util.FormattedPropertiesLine;
 
 @SuppressWarnings("resource")
 public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMethods
 {
-    private static final String REF = "tstref.properties";
+    private static final String ISO_8859_1 = "ISO-8859-1";
+    private static final String REF = "FormattedPropertiesTest.properties";
     private Properties          refPropertiesStream;
     private Properties          refPropertiesReader;
 
@@ -38,8 +40,8 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     @Test
     public void setUp() throws IOException
     {
-        this.refPropertiesStream = getProperties( getClass().getResourceAsStream( REF ) );
-        this.refPropertiesReader = getProperties( new InputStreamReader( getClass().getResourceAsStream( REF ), "ISO-8859-1" ) );
+        this.refPropertiesStream = getProperties( getStreamForProperties() );
+        this.refPropertiesReader = getProperties( getReaderForProperties() );
         // File f = storeOutputStream(refPropertiesReader);
         // System.out.println("ref="+f);//TO DO
         // final String key = "multi.lines.message";
@@ -57,12 +59,41 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         compare( this.refPropertiesStream, this.refPropertiesReader );
     }
 
+    private static InputStream getStreamForProperties()
+    {
+        return FormattedPropertiesTest.class.getResourceAsStream( REF );
+    }
+
+    private static InputStream getStreamForProperties( final File file ) //
+            throws FileNotFoundException
+    {
+        return new java.io.FileInputStream( file );
+    }
+
+    private static Reader getReaderForProperties() //
+            throws UnsupportedEncodingException
+    {
+        return new InputStreamReader( //
+                FormattedPropertiesTest.class.getResourceAsStream( REF ), //
+                ISO_8859_1 //
+                );
+    }
+
+    private static Reader getReaderForProperties( final File file ) //
+            throws UnsupportedEncodingException, FileNotFoundException
+    {
+        return new InputStreamReader( //
+                new java.io.FileInputStream( file ), //
+                ISO_8859_1 //
+                );
+    }
+
     @Test
     @Ignore // FIXME must be activated - but with a fix around encoding
     public void test_Reader_load_save() throws IOException
     {
         final File copy = getCopy();
-        final FormattedProperties prop = getFormattedProperties( new FileReader( copy ) );
+        final FormattedProperties prop = getFormattedProperties( getReaderForProperties( copy ) );
 
         System.out.println( "->Reader" );
         compare( this.refPropertiesStream, prop );
@@ -90,7 +121,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     public void test_Stream_load_save() throws IOException
     {
         final File copy = getCopy();
-        final FormattedProperties prop = getFormattedProperties( new FileInputStream( copy ) );
+        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
         System.out.println( "->Stream" );
         compare( this.refPropertiesStream, prop );
 
@@ -111,7 +142,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     public void test_clear() throws FileNotFoundException, IOException
     {
         final File copy = getCopy();
-        final FormattedProperties prop = getFormattedProperties( new FileInputStream( copy ) );
+        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
 
         prop.clear();
         Assert.assertEquals( "must be empty", 0, prop.size() );
@@ -124,7 +155,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     public void test_add() throws IOException
     {
         final File copy = getCopy();
-        final FormattedProperties prop = getFormattedProperties( new FileInputStream( copy ) );
+        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
         prop.addBlankLine();
         prop.addCommentLine( StringHelper.EMPTY );
         prop.addCommentLine( "# New entries" );
@@ -159,7 +190,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     public void test_getLines() throws FileNotFoundException, IOException
     {
         final File copy = getCopy();
-        final FormattedProperties prop = getFormattedProperties( new FileInputStream( copy ) );
+        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
         final List<FormattedPropertiesLine> lines = prop.getLines();
         int i = 1;
         final PrintStream ps = System.out;
@@ -182,8 +213,8 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     public void test_equals() throws FileNotFoundException, IOException
     {
         final File copy = getCopy();
-        final FormattedProperties prop1 = getFormattedProperties( new FileInputStream( copy ) );
-        final FormattedProperties prop2 = getFormattedProperties( new FileInputStream( copy ) );
+        final FormattedProperties prop1 = getFormattedProperties( getStreamForProperties( copy ) );
+        final FormattedProperties prop2 = getFormattedProperties( getStreamForProperties( copy ) );
 
         boolean r = prop1.equals( prop1 );
         Assert.assertTrue( "Must be equals (same object)", r );
@@ -239,7 +270,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     public void test_clone() throws FileNotFoundException, IOException
     {
         final File                copy = getCopy();
-        final FormattedProperties prop = getFormattedProperties( new FileInputStream( copy ) );
+        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
         final FormattedProperties clone = (FormattedProperties)prop.clone();
 
         final List<FormattedPropertiesLine> lines  = prop.getLines();
@@ -282,7 +313,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     {
         final File copy = getCopy();
         final File file = getTmpFile( "formatall" );
-        final FormattedProperties prop = getFormattedProperties( new FileInputStream( copy ) );
+        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
         final Writer out = new FileWriter( file );
         prop.store( out, EnumSet.allOf( FormattedProperties.Store.class ) );
         out.close();
@@ -318,22 +349,22 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     private static void compare( final Properties propRef, final File propFile ) throws FileNotFoundException, IOException
     {
-        Properties propS = getProperties( new FileInputStream( propFile ) );
+        Properties propS = getProperties( getStreamForProperties( propFile ) );
         compare( propRef, propS );
         propS.clear();
         propS = null;
 
-        Properties propR = getProperties( new FileReader( propFile ) );
+        Properties propR = getProperties( getReaderForProperties() );
         compare( propRef, propR );
         propR.clear();
         propR = null;
 
-        FormattedProperties propS2 = getFormattedProperties( new FileInputStream( propFile ) );
+        FormattedProperties propS2 = getFormattedProperties( getStreamForProperties( propFile ) );
         compare( propRef, propS2 );
         propS2.clear();
         propS2 = null;
 
-        FormattedProperties propR2 = getFormattedProperties( new FileReader( propFile ) );
+        FormattedProperties propR2 = getFormattedProperties( getReaderForProperties( propFile ) );
         compare( propRef, propR2 );
         propR2.clear();
         propR2 = null;
