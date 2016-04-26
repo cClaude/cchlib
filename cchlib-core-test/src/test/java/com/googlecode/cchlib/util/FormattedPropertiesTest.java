@@ -34,58 +34,80 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     private static final String ISO_8859_1 = "ISO-8859-1";
     private static final String REF        = "FormattedPropertiesTest.properties";
 
-    private static void compare( final Properties propRef, final File propFile ) throws FileNotFoundException, IOException
+    /**
+     * Test content of one {@link Properties} with content of a {@link File}.
+     * Verify that the file give same result than the standard {@link Properties}
+     * using both {@link InputStream} an {@link Reader}, also verify
+      *that the file give same result than the standard {@link FormattedProperties}
+     * using both {@link InputStream} an {@link Reader}
+     *
+     * @param referenceProperties actual Properties
+     * @param expectedProperties expected Properties
+     */
+    private static void compare( //
+        final Properties    referenceProperties,
+        final File          actualdFile //
+        ) throws FileNotFoundException, IOException
     {
-        {
-            final Properties propS = getProperties( getStreamForProperties( propFile ) );
-            compare( propRef, propS );
-            propS.clear();
+       { // Compare using an InputStream
+            final Properties actualPropertiesUsingAnInputStream = getProperties( getStreamForProperties( actualdFile ) );
+
+            compare( referenceProperties, actualPropertiesUsingAnInputStream );
+            actualPropertiesUsingAnInputStream.clear();
         }
-        {
-            final Properties propR = getProperties( getReaderForProperties() );
-            // compare( propRef, propR ); FIXME this part fail !!!
-            propR.clear();
+        { // Compare using an Reader
+            final Properties actualPropertiesUsingAReader = getProperties( getReaderForProperties( actualdFile ) );
+            compare( referenceProperties, actualPropertiesUsingAReader );
+            actualPropertiesUsingAReader.clear();
         }
-        {
-            final FormattedProperties propS2 = getFormattedProperties( getStreamForProperties( propFile ) );
-            compare( propRef, propS2 );
-            propS2.clear();
+        { // Compare using an InputStream
+            final FormattedProperties actualFormattedPropertiesUsingAnInputStream = getFormattedProperties( getStreamForProperties( actualdFile ) );
+            compare( referenceProperties, actualFormattedPropertiesUsingAnInputStream );
+            actualFormattedPropertiesUsingAnInputStream.clear();
         }
-        {
-            final FormattedProperties propR2 = getFormattedProperties( getReaderForProperties( propFile ) );
-            compare( propRef, propR2 );
-            propR2.clear();
+        { // Compare using an Reader
+            final FormattedProperties actualFormattedPropertiesUsingAReader = getFormattedProperties( getReaderForProperties( actualdFile ) );
+            compare( referenceProperties, actualFormattedPropertiesUsingAReader );
+            actualFormattedPropertiesUsingAReader.clear();
         }
     }
-    // ---------------------------------------------------
-    // ---------------------------------------------------
-    private static void compare( final Properties propRef, final Properties prop )
+
+    /**
+     * Test content of two {@link Properties}. Verify standard Properties
+     * have same content.
+     *
+     * @param referenceProperties expected Properties
+     * @param actualProperties actual Properties
+     */
+    private static void compare( //
+            final Properties referenceProperties, //
+            final Properties actualProperties //
+            )
     {
-        // Verify standard Properties
-        // give same result using Steam and Reader
-        // for giving file
+        final Set<String> referenceNames = referenceProperties.stringPropertyNames();
+        final Set<String> actualNames    = actualProperties.stringPropertyNames();
 
-        final Set<String> namesRef = propRef.stringPropertyNames();
-        final Set<String> names    = prop.stringPropertyNames();
-
-        for( final String name : namesRef ) {
-            Assert.assertTrue( "Missing name entry : " + name, names.contains( name ) );
+        for( final String name : referenceNames ) {
+            Assert.assertTrue( "Missing name entry : " + name, actualNames.contains( name ) );
         }
-        for( final String name : names ) {
-            Assert.assertTrue( "Unexpected name entry : " + name, namesRef.contains( name ) );
+        for( final String name : actualNames ) {
+            Assert.assertTrue( "Unexpected name entry : " + name, referenceNames.contains( name ) );
         }
 
-        Assert.assertTrue( "missing name", namesRef.containsAll( names ) );
-        Assert.assertTrue( "missing name", names.containsAll( namesRef ) );
+        Assert.assertTrue( "missing name", referenceNames.containsAll( actualNames ) );
+        Assert.assertTrue( "missing name", actualNames.containsAll( referenceNames ) );
 
-        for( final String key : namesRef ) {
-            final String expecting = propRef.getProperty( key );
-            final String actual    = prop.getProperty( key );
+        for( final String key : referenceNames ) {
+            final String expecting = referenceProperties.getProperty( key );
+            final String actual    = actualProperties.getProperty( key );
 
-            org.fest.assertions.Assertions.assertThat( actual ).isEqualTo( expecting );
+            Assertions.assertThat( actual ).isEqualTo( expecting );
         }
 
-        Assertions.assertThat( prop.size() ).as( "bad size()" ).isEqualTo( propRef.size() );
+        final int actual   = actualProperties.size();
+        final int expected = referenceProperties.size();
+
+        Assertions.assertThat( actual  ).as( "bad size()" ).isEqualTo( expected );
     }
 
     private static void delete( final File file )
@@ -130,6 +152,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
         return prop;
     }
+
     private static Object getNull()
     {// Just to remove warning
         return null;
@@ -193,14 +216,15 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
 
     private static File getTmpFile( final String tag ) throws IOException
     {
-        final File f = File.createTempFile( FormattedPropertiesTest.class.getSimpleName(), tag ); // $codepro.audit.disable
-        // deleteTemporaryFiles
-        //f.deleteOnExit();
+        final File file = File.createTempFile( FormattedPropertiesTest.class.getSimpleName(), tag ); // $codepro.audit.disable
 
-        return f;
+        // delete temporary file on JVM exit
+        file.deleteOnExit();
+
+        return file;
     }
 
-    protected static void keepFile( final File file )
+    static void keepFile( final File file )
     {// Just for debugging!
         final File n = new File( file.getParent(), file.getName() + ".keep" );
 
@@ -235,6 +259,9 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         return tmpFile;
     }
 
+    // ---------------------------------------------------
+    // ---------------------------------------------------
+
     private Properties  refPropertiesReader;
     private Properties  refPropertiesStream;
 
@@ -254,6 +281,9 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         // for giving file
         compare( this.refPropertiesStream, this.refPropertiesReader );
     }
+
+    // ---------------------------------------------------
+    // ---------------------------------------------------
 
     @Test
     public void test_add() throws IOException
@@ -339,8 +369,6 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
             if( i < clinesSize ) {
                 cl = clines.get( i );
             }
-            // System.out.printf("%d - 1>%s\n",i, l );
-            // System.out.printf("%d - 2>%s\n",i, cl );
 
             Assert.assertEquals( "Lines a diff !", l, cl );
         }
