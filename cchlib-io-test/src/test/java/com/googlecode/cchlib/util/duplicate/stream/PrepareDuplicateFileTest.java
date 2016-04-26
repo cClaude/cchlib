@@ -39,7 +39,7 @@ public class PrepareDuplicateFileTest {
         return new Path[] { getStartPath() };
     }
 
-    @Test
+    @Test // could take to much time / memory
     public void test_using_walk_and_stream() throws IOException
     {
         final Path startPath = getStartPath();
@@ -63,7 +63,7 @@ public class PrepareDuplicateFileTest {
         }
     }
 
-    @Test
+    @Test // could take to much time / memory
     public void test_using_walker() throws IOException
     {
         final Path[] startPaths = getStartPaths();
