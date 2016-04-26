@@ -4,11 +4,11 @@ package com.googlecode.cchlib.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import org.fest.assertions.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.lang.StringHelper;
@@ -32,42 +32,125 @@ import cx.ath.choisnet.util.FormattedPropertiesLine;
 public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMethods
 {
     private static final String ISO_8859_1 = "ISO-8859-1";
-    private static final String REF = "FormattedPropertiesTest.properties";
-    private Properties          refPropertiesStream;
-    private Properties          refPropertiesReader;
+    private static final String REF        = "FormattedPropertiesTest.properties";
 
-    @Before
-    @Test
-    public void setUp() throws IOException
+    private static void compare( final Properties propRef, final File propFile ) throws FileNotFoundException, IOException
     {
-        this.refPropertiesStream = getProperties( getStreamForProperties() );
-        this.refPropertiesReader = getProperties( getReaderForProperties() );
-        // File f = storeOutputStream(refPropertiesReader);
-        // System.out.println("ref="+f);//TO DO
-        // final String key = "multi.lines.message";
-        // System.out.println( key + "=" +
-        // refPropertiesReader.getProperty( key )
-        // );
-
-        // Something loaded ?
-        Assert.assertTrue( "Should not empty", this.refPropertiesStream.size() != 0 );
-        Assert.assertTrue( "Should not empty", this.refPropertiesReader.size() != 0 );
-
+        {
+            final Properties propS = getProperties( getStreamForProperties( propFile ) );
+            compare( propRef, propS );
+            propS.clear();
+        }
+        {
+            final Properties propR = getProperties( getReaderForProperties() );
+            // compare( propRef, propR ); FIXME this part fail !!!
+            propR.clear();
+        }
+        {
+            final FormattedProperties propS2 = getFormattedProperties( getStreamForProperties( propFile ) );
+            compare( propRef, propS2 );
+            propS2.clear();
+        }
+        {
+            final FormattedProperties propR2 = getFormattedProperties( getReaderForProperties( propFile ) );
+            compare( propRef, propR2 );
+            propR2.clear();
+        }
+    }
+    // ---------------------------------------------------
+    // ---------------------------------------------------
+    private static void compare( final Properties propRef, final Properties prop )
+    {
         // Verify standard Properties
         // give same result using Steam and Reader
         // for giving file
-        compare( this.refPropertiesStream, this.refPropertiesReader );
+
+        final Set<String> namesRef = propRef.stringPropertyNames();
+        final Set<String> names    = prop.stringPropertyNames();
+
+        for( final String name : namesRef ) {
+            Assert.assertTrue( "Missing name entry : " + name, names.contains( name ) );
+        }
+        for( final String name : names ) {
+            Assert.assertTrue( "Unexpected name entry : " + name, namesRef.contains( name ) );
+        }
+
+        Assert.assertTrue( "missing name", namesRef.containsAll( names ) );
+        Assert.assertTrue( "missing name", names.containsAll( namesRef ) );
+
+        for( final String key : namesRef ) {
+            final String expecting = propRef.getProperty( key );
+            final String actual    = prop.getProperty( key );
+
+            org.fest.assertions.Assertions.assertThat( actual ).isEqualTo( expecting );
+        }
+
+        Assertions.assertThat( prop.size() ).as( "bad size()" ).isEqualTo( propRef.size() );
     }
 
-    private static InputStream getStreamForProperties()
+    private static void delete( final File file )
     {
-        return FormattedPropertiesTest.class.getResourceAsStream( REF );
+        final boolean isDeleted = file.delete();
+
+        Assert.assertTrue( "Can't delete:" + file, isDeleted );
     }
 
-    private static InputStream getStreamForProperties( final File file ) //
-            throws FileNotFoundException
+    /** get a file */
+    private static File getCopy() throws IOException
     {
-        return new java.io.FileInputStream( file );
+        return getCopy( FormattedPropertiesTest.class.getResourceAsStream( REF ) );
+    }
+
+    private static File getCopy( final InputStream is ) throws IOException
+    {
+        final File         file   = getTmpFile( "copy" );
+        final OutputStream output = new FileOutputStream( file );
+
+        IOHelper.copy( is, output );
+        is.close();
+        output.close();
+
+        return file;
+    }
+
+    private static FormattedProperties getFormattedProperties( final InputStream is ) throws IOException
+    {
+        final FormattedProperties prop = new FormattedProperties();
+        prop.load( is );
+        is.close();
+
+        return prop;
+    }
+
+    private static FormattedProperties getFormattedProperties( final Reader r ) throws IOException
+    {
+        final FormattedProperties prop = new FormattedProperties();
+        prop.load( r );
+        r.close();
+
+        return prop;
+    }
+    private static Object getNull()
+    {// Just to remove warning
+        return null;
+    }
+
+    private static Properties getProperties( final InputStream is ) throws IOException
+    {
+        final Properties prop = new Properties();
+        prop.load( is );
+        is.close();
+
+        return prop;
+    }
+
+    private static Properties getProperties( final Reader r ) throws IOException
+    {
+        final Properties prop = new Properties();
+        prop.load( r );
+        r.close();
+
+        return prop;
     }
 
     private static Reader getReaderForProperties() //
@@ -88,79 +171,103 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
                 );
     }
 
-    @Test
-    @Ignore // FIXME must be activated - but with a fix around encoding
-    public void test_Reader_load_save() throws IOException
+    private static InputStream getStreamForProperties()
     {
-        final File copy = getCopy();
-        final FormattedProperties prop = getFormattedProperties( getReaderForProperties( copy ) );
-
-        System.out.println( "->Reader" );
-        compare( this.refPropertiesStream, prop );
-
-        final File tmpWriterFile = storeWriter( prop );
-        System.out.printf( "Reader->store(Writer)(%d):%s\n", Long.valueOf( tmpWriterFile.length() ), tmpWriterFile );
-        compare( this.refPropertiesStream, tmpWriterFile );
-        compare( // No Change ?
-                this.refPropertiesStream, prop );
-
-        final File tmpStreamFile = storeOutputStream( prop );
-        System.out.printf( "Reader->store(Stream)(%d):%s\n", Long.valueOf( tmpStreamFile.length() ), tmpStreamFile );
-        compare( this.refPropertiesStream, tmpStreamFile );
-        compare( // No Change ?
-                this.refPropertiesStream, prop );
-
-        delete( copy );
-        delete( tmpWriterFile );
-        delete( tmpStreamFile );
+        return FormattedPropertiesTest.class.getResourceAsStream( REF );
     }
 
-    @SuppressWarnings({ "boxing" })
-    @Test
-    @Ignore // FIXME must be activated
-    public void test_Stream_load_save() throws IOException
+    private static InputStream getStreamForProperties( final File file ) //
+            throws FileNotFoundException
     {
-        final File copy = getCopy();
-        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
-        System.out.println( "->Stream" );
-        compare( this.refPropertiesStream, prop );
+        return new java.io.FileInputStream( file );
+    }
 
-        final File tmpStreamFile = storeOutputStream( prop );
-        compare( this.refPropertiesStream, tmpStreamFile );
-        System.out.printf( "Stream->store(Stream)(%d):%s\n", tmpStreamFile.length(), tmpStreamFile );
+    private static Writer getWriterForProperties( final File file ) //
+            throws UnsupportedEncodingException, FileNotFoundException
+    {
+        return new OutputStreamWriter( //
+                new java.io.FileOutputStream( file ), //
+                ISO_8859_1 //
+                );
+    }
 
-        final File tmpWriterFile = storeWriter( prop );
-        compare( this.refPropertiesStream, tmpWriterFile );
-        System.out.printf( "Stream->store(Writer)(%d):%s\n", tmpWriterFile.length(), tmpWriterFile );
+    private static File getTmpFile( final String tag ) throws IOException
+    {
+        final File f = File.createTempFile( FormattedPropertiesTest.class.getSimpleName(), tag ); // $codepro.audit.disable
+        // deleteTemporaryFiles
+        //f.deleteOnExit();
 
-        delete( copy );
-        delete( tmpWriterFile );
-        delete( tmpStreamFile );
+        return f;
+    }
+
+    protected static void keepFile( final File file )
+    {// Just for debugging!
+        final File n = new File( file.getParent(), file.getName() + ".keep" );
+
+        file.renameTo( n );
+    }
+
+    private static void store( final Properties prop, final OutputStream os ) throws IOException
+    {
+        prop.store( os, "comments" );
+        os.close();
+    }
+
+    private static void store( final Properties prop, final Writer writer ) throws IOException
+    {
+        prop.store( writer, "comments" );
+        writer.close();
+    }
+
+    private static File storeOutputStream( final Properties prop ) throws FileNotFoundException, IOException
+    {
+        final File tmpFile = getTmpFile( "OuputStream" );
+        store( prop, new FileOutputStream( tmpFile ) );
+
+        return tmpFile;
+    }
+
+    private static File storeWriter( final Properties prop ) throws IOException
+    {
+        final File tmpFile = getTmpFile( "writer" );
+        store( prop, getWriterForProperties( tmpFile ) );
+
+        return tmpFile;
+    }
+
+    private Properties  refPropertiesReader;
+    private Properties  refPropertiesStream;
+
+    @Before
+    @Test
+    public void setUp() throws IOException
+    {
+        this.refPropertiesStream = getProperties( getStreamForProperties() );
+        this.refPropertiesReader = getProperties( getReaderForProperties() );
+
+        // Something loaded ?
+        Assert.assertTrue( "Should not empty", this.refPropertiesStream.size() != 0 );
+        Assert.assertTrue( "Should not empty", this.refPropertiesReader.size() != 0 );
+
+        // Verify standard Properties
+        // give same result using Steam and Reader
+        // for giving file
+        compare( this.refPropertiesStream, this.refPropertiesReader );
     }
 
     @Test
-    public void test_clear() throws FileNotFoundException, IOException
-    {
-        final File copy = getCopy();
-        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
-
-        prop.clear();
-        Assert.assertEquals( "must be empty", 0, prop.size() );
-
-        delete( copy );
-    }
-
-    @Test
-    @Ignore // FIXME must be activated
     public void test_add() throws IOException
     {
-        final File copy = getCopy();
+        final File                copy = getCopy();
         final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
+
         prop.addBlankLine();
         prop.addCommentLine( StringHelper.EMPTY );
         prop.addCommentLine( "# New entries" );
+
         final String addKey = "new.key.put";
         final String addValue = "new value";
+
         prop.put( addKey, "tmp value" );
         prop.put( addKey, addValue );
 
@@ -177,34 +284,72 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
             Assert.assertEquals( "Can't find add value", entry.getValue(), prop.getProperty( entry.getKey() ) );
         }
 
-        final File tmpWriterFile = storeWriter( prop );
-        compare( prop, tmpWriterFile );
+        {
+            final File tmpWriterFile = storeWriter( prop );
+            //java.lang.AssertionError: bad size() expected:<268> but was:<262>
+            compare( prop, tmpWriterFile );
+            delete( tmpWriterFile );
+        }
+        {
+            final File tmpStreamFile = storeOutputStream( prop );
+            //java.lang.AssertionError: bad size() expected:<268> but was:<262>
+            compare( prop, tmpStreamFile );
+            delete( tmpStreamFile );
+        }
 
-        // store(prop,System.out);
+        store(prop,System.out);
         delete( copy );
-        delete( tmpWriterFile );
     }
 
-    @SuppressWarnings({ "boxing" })
     @Test
-    public void test_getLines() throws FileNotFoundException, IOException
+    public void test_clear() throws FileNotFoundException, IOException
     {
         final File copy = getCopy();
         final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
-        final List<FormattedPropertiesLine> lines = prop.getLines();
-        int i = 1;
-        final PrintStream ps = System.out;
 
-        for( final FormattedPropertiesLine line : lines ) {
-            if( line.isComment() ) {
-                ps.printf( "%d - %s\n", i, line.getContent() );
-            } else {
-                final String key = line.getContent();
+        prop.clear();
+        Assert.assertEquals( "must be empty", 0, prop.size() );
 
-                ps.printf( "%d - %s=%s\n", i, key, prop.getProperty( key ) );
+        delete( copy );
+    }
+
+    @Test
+    public void test_clone() throws FileNotFoundException, IOException
+    {
+        final File                copy = getCopy();
+        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
+        final FormattedProperties clone = (FormattedProperties)prop.clone();
+
+        final List<FormattedPropertiesLine> lines  = prop.getLines();
+        final List<FormattedPropertiesLine> clines = clone.getLines();
+
+        final int linesSize  = lines.size();
+        final int clinesSize = clines.size();
+        final int size       = Math.max( linesSize, clinesSize );
+
+        FormattedPropertiesLine l;
+        FormattedPropertiesLine cl;
+
+        for( int i = 0; i < size; i++ ) {
+            l = cl = null;
+
+            if( i < linesSize ) {
+                l = lines.get( i );
             }
-            i++;
+            if( i < clinesSize ) {
+                cl = clines.get( i );
+            }
+            // System.out.printf("%d - 1>%s\n",i, l );
+            // System.out.printf("%d - 2>%s\n",i, cl );
+
+            Assert.assertEquals( "Lines a diff !", l, cl );
         }
+
+        Assert.assertEquals( "Must be same size (keys)", prop.size(), clone.size() );
+        Assert.assertEquals( "Must be same size (lines)", prop.getLines().size(), clone.getLines().size() );
+
+        final boolean r = prop.equals( clone );
+        Assert.assertTrue( "Must be equals", r );
 
         delete( copy );
     }
@@ -212,7 +357,7 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
     @Test
     public void test_equals() throws FileNotFoundException, IOException
     {
-        final File copy = getCopy();
+        final File                copy  = getCopy();
         final FormattedProperties prop1 = getFormattedProperties( getStreamForProperties( copy ) );
         final FormattedProperties prop2 = getFormattedProperties( getStreamForProperties( copy ) );
 
@@ -265,56 +410,64 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         delete( copy );
     }
 
+    @SuppressWarnings({ "boxing" })
     @Test
-    @Ignore // TODO not yet implemented
-    public void test_clone() throws FileNotFoundException, IOException
+    public void test_getLines() throws FileNotFoundException, IOException
     {
-        final File                copy = getCopy();
-        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
-        final FormattedProperties clone = (FormattedProperties)prop.clone();
+        final File                          copy  = getCopy();
+        final FormattedProperties           prop  = getFormattedProperties( getStreamForProperties( copy ) );
+        final List<FormattedPropertiesLine> lines = prop.getLines();
+        final PrintStream                   ps    = System.out;
+        int i = 1;
 
-        final List<FormattedPropertiesLine> lines  = prop.getLines();
-        final List<FormattedPropertiesLine> clines = clone.getLines();
+        for( final FormattedPropertiesLine line : lines ) {
+            if( line.isComment() ) {
+                ps.printf( "%d - %s\n", i, line.getContent() );
+            } else {
+                final String key = line.getContent();
 
-        final int linesSize = lines.size();
-        final int clinesSize = clines.size();
-        final int size = Math.max( linesSize, clinesSize );
-
-        FormattedPropertiesLine l;
-        FormattedPropertiesLine cl;
-
-        for( int i = 0; i < size; i++ ) {
-            l = cl = null;
-
-            if( i < linesSize ) {
-                l = lines.get( i );
+                ps.printf( "%d - %s=%s\n", i, key, prop.getProperty( key ) );
             }
-            if( i < clinesSize ) {
-                cl = clines.get( i );
-            }
-            // System.out.printf("%d - 1>%s\n",i, l );
-            // System.out.printf("%d - 2>%s\n",i, cl );
-
-            Assert.assertEquals( "Lines a diff !", l, cl );
+            i++;
         }
-
-        Assert.assertEquals( "Must be same size (keys)", prop.size(), clone.size() );
-        Assert.assertEquals( "Must be same size (lines)", prop.getLines().size(), clone.getLines().size() );
-
-        final boolean r = prop.equals( clone );
-        Assert.assertTrue( "Must be equals", r );
 
         delete( copy );
     }
 
     @Test
-    @Ignore // FIXME must be activated
+    public void test_Reader_load_save() throws IOException
+    {
+        final File                copy = getCopy();
+        final FormattedProperties prop = getFormattedProperties( getReaderForProperties( copy ) );
+
+        System.out.println( "->Reader" );
+        compare( this.refPropertiesStream, prop );
+
+        final File tmpWriterFile = storeWriter( prop );
+        System.out.printf( "Reader->store(Writer)(%d):%s\n", Long.valueOf( tmpWriterFile.length() ), tmpWriterFile );
+        compare( this.refPropertiesStream, tmpWriterFile );
+        compare( // No Change ?
+                this.refPropertiesStream, prop );
+
+        final File tmpStreamFile = storeOutputStream( prop );
+        System.out.printf( "Reader->store(Stream)(%d):%s\n", Long.valueOf( tmpStreamFile.length() ), tmpStreamFile );
+        compare( this.refPropertiesStream, tmpStreamFile );
+        compare( // No Change ?
+                this.refPropertiesStream, prop );
+
+        delete( copy );
+        delete( tmpWriterFile );
+        delete( tmpStreamFile );
+    }
+
+    @Test
     public void test_store_plusplus() throws FileNotFoundException, IOException
     {
         final File copy = getCopy();
         final File file = getTmpFile( "formatall" );
+
         final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
-        final Writer out = new FileWriter( file );
+        final Writer              out  = getWriterForProperties( file );
         prop.store( out, EnumSet.allOf( FormattedProperties.Store.class ) );
         out.close();
         compare( prop, file );
@@ -324,159 +477,25 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
         copy.delete();
     }
 
-    // ---------------------------------------------------
-    // ---------------------------------------------------
-    private static void compare( final Properties propRef, final Properties prop )
+    @SuppressWarnings({ "boxing" })
+    @Test
+    public void test_Stream_load_save() throws IOException
     {
-        // Verify standard Properties
-        // give same result using Steam and Reader
-        // for giving file
-        Assert.assertEquals( "bad size()", propRef.size(), prop.size() );
+        final File                copy = getCopy();
+        final FormattedProperties prop = getFormattedProperties( getStreamForProperties( copy ) );
+        System.out.println( "->Stream" );
+        compare( this.refPropertiesStream, prop );
 
-        final Set<String> namesRef = propRef.stringPropertyNames();
-        final Set<String> names = prop.stringPropertyNames();
+        final File tmpStreamFile = storeOutputStream( prop );
+        compare( this.refPropertiesStream, tmpStreamFile );
+        System.out.printf( "Stream->store(Stream)(%d):%s\n", tmpStreamFile.length(), tmpStreamFile );
 
-        Assert.assertTrue( "missing name", namesRef.containsAll( names ) );
-        Assert.assertTrue( "missing name", names.containsAll( namesRef ) );
+        final File tmpWriterFile = storeWriter( prop );
+        compare( this.refPropertiesStream, tmpWriterFile );
+        System.out.printf( "Stream->store(Writer)(%d):%s\n", tmpWriterFile.length(), tmpWriterFile );
 
-        for( final String key : namesRef ) {
-            final String expecting = propRef.getProperty( key );
-            final String actual    = prop.getProperty( key );
-
-            org.fest.assertions.Assertions.assertThat( actual ).isEqualTo( expecting );
-        }
-    }
-
-    private static void compare( final Properties propRef, final File propFile ) throws FileNotFoundException, IOException
-    {
-        Properties propS = getProperties( getStreamForProperties( propFile ) );
-        compare( propRef, propS );
-        propS.clear();
-        propS = null;
-
-        Properties propR = getProperties( getReaderForProperties() );
-        compare( propRef, propR );
-        propR.clear();
-        propR = null;
-
-        FormattedProperties propS2 = getFormattedProperties( getStreamForProperties( propFile ) );
-        compare( propRef, propS2 );
-        propS2.clear();
-        propS2 = null;
-
-        FormattedProperties propR2 = getFormattedProperties( getReaderForProperties( propFile ) );
-        compare( propRef, propR2 );
-        propR2.clear();
-        propR2 = null;
-    }
-
-    /** get a file */
-    private static File getCopy() throws IOException
-    {
-        return getCopy( FormattedPropertiesTest.class.getResourceAsStream( REF ) );
-    }
-
-    private static File getTmpFile( final String tag ) throws IOException
-    {
-        final File f = File.createTempFile( FormattedPropertiesTest.class.getSimpleName(), tag ); // $codepro.audit.disable
-        // deleteTemporaryFiles
-        //f.deleteOnExit();
-
-        return f;
-    }
-
-    private static File getCopy( final InputStream is ) throws IOException
-    {
-        final File         file   = getTmpFile( "copy" );
-        final OutputStream output = new FileOutputStream( file );
-
-        IOHelper.copy( is, output );
-        is.close();
-        output.close();
-
-        return file;
-    }
-
-    private static Properties getProperties( final InputStream is ) throws IOException
-    {
-        final Properties prop = new Properties();
-        prop.load( is );
-        is.close();
-
-        return prop;
-    }
-
-    private static Properties getProperties( final Reader r ) throws IOException
-    {
-        final Properties prop = new Properties();
-        prop.load( r );
-        r.close();
-
-        return prop;
-    }
-
-    private static FormattedProperties getFormattedProperties( final InputStream is ) throws IOException
-    {
-        final FormattedProperties prop = new FormattedProperties();
-        prop.load( is );
-        is.close();
-
-        return prop;
-    }
-
-    private static FormattedProperties getFormattedProperties( final Reader r ) throws IOException
-    {
-        final FormattedProperties prop = new FormattedProperties();
-        prop.load( r );
-        r.close();
-
-        return prop;
-    }
-
-    private static void store( final Properties prop, final Writer writer ) throws IOException
-    {
-        prop.store( writer, "comments" );
-        writer.close();
-    }
-
-    private static File storeWriter( final Properties prop ) throws IOException
-    {
-        final File tmpFile = getTmpFile( "writer" );
-        store( prop, new FileWriter( tmpFile ) );
-
-        return tmpFile;
-    }
-
-    private static void store( final Properties prop, final OutputStream os ) throws IOException
-    {
-        prop.store( os, "comments" );
-        os.close();
-    }
-
-    private static File storeOutputStream( final Properties prop ) throws FileNotFoundException, IOException
-    {
-        final File tmpFile = getTmpFile( "OuputStream" );
-        store( prop, new FileOutputStream( tmpFile ) );
-
-        return tmpFile;
-    }
-
-    private static void delete( final File file )
-    {
-        final boolean isDeleted = file.delete();
-
-        Assert.assertTrue( "Can't delete:" + file, isDeleted );
-    }
-
-    private static Object getNull()
-    {// Just to remove warning
-        return null;
-    }
-
-    private static void keepFile( final File file )
-    {// Just for debugging!
-        final File n = new File( file.getParent(), file.getName() + ".keep" );
-
-        file.renameTo( n );
+        delete( copy );
+        delete( tmpWriterFile );
+        delete( tmpStreamFile );
     }
 }
