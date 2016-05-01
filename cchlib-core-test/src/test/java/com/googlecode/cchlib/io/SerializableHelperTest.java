@@ -77,17 +77,27 @@ public class SerializableHelperTest
      * Run the Serializable loadObject(File,Class<? extends T>) method test.
      */
     @Test
-    @Ignore // TODO create a test
+    @Ignore // TODO need to be done!!!
     public void testLoadObject_1()
         throws Exception
     {
-        final File aFile = new File("need a file here !");
+        final File aFile = newFile( "testLoadObject_1" );
         final Class<? extends Serializable> clazz = Serializable.class;
 
         final Serializable result = SerializableHelper.loadObject(aFile, clazz);
 
-        // add additional test code here
+        // TODO add additional test code here
         assertNotNull(result);
+    }
+
+    private File newFile( final String tag ) throws IOException
+    {
+        final File file = File.createTempFile( this.getClass().getSimpleName(), tag ); // $codepro.audit.disable
+
+        // delete temporary file on JVM exit
+        file.deleteOnExit();
+
+        return file;
     }
 
     /**

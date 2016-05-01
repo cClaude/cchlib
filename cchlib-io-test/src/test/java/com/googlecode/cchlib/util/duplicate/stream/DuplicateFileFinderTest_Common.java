@@ -25,10 +25,21 @@ abstract class DuplicateFileFinderTest_Common {
     private static final String MD5         = "MD5";
     private FileDigestFactory   fileDigestFactory;
 
-    protected abstract Logger getLogger();
+    private final Logger logger;
+
+    public DuplicateFileFinderTest_Common( final Logger logger )
+    {
+        this.logger = logger;
+    }
+
     protected abstract Path[] getStartPaths();
 //    protected abstract DuplicateFileFinderUsingStream newDuplicateFileFinder( MessageDigestFileBuilder messageDigestFileBuilder, DuplicateFileFinderListener listener );
     protected abstract DuplicateFileFinderUsingStream newDuplicateFileFinder( FileDigestFactory fileDigestFactory, DuplicateFileFinderEventListener listener );
+
+    final protected Logger getLogger()
+    {
+        return this.logger;
+    }
 
     public void setup() throws NoSuchAlgorithmException
     {
@@ -52,6 +63,7 @@ abstract class DuplicateFileFinderTest_Common {
 
         final DuplicateFileFinderUsingStream dff = newDuplicateFileFinder( this.fileDigestFactory, listener );
         getLogger().info( "*** PASS 2 - fileDigestFactory = " + this.fileDigestFactory );
+        getLogger().info( "*** PASS 2 - mapSet.size() = " + mapSet.size() );
 
         final Map<String, Set<File>> result = dff.computeHash( mapSet );
 

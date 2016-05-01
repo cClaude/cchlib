@@ -61,17 +61,20 @@ public class MyResourcesLoaderTest
     }
 
     @Test
-    //@Ignore
     public void test_AllStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
         for( final Method m : this.methodList ) {
-            final Object result = m.invoke( null, Objects.emptyArray() );
+            LOGGER.info( "m: " + m );
 
-            LOGGER.info( "m: " + m + " => " + result );
+            if( m.getParameterCount() == 0 ) {
+                final Object result = m.invoke( null, Objects.emptyArray() );
 
-            // add additional test code here
-            Assertions.assertThat( result ).isNotNull();
+                LOGGER.info( "m: " + m + " => " + result );
+
+                // add additional test code here
+                Assertions.assertThat( result ).isNotNull();
             }
+        }
     }
 
 }

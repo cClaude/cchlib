@@ -13,16 +13,15 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 public class DuplicateFileFinderTest extends DuplicateFileFinderTest_Common {
     private static final Logger LOGGER = Logger.getLogger( DuplicateFileFinderTest.class );
 
+    public DuplicateFileFinderTest()
+    {
+        super( LOGGER );
+    }
+
     @Override
     protected Path[] getStartPaths()
     {
         return StartPathsHelper.getStartPaths();
-    }
-
-    @Override
-    protected Logger getLogger()
-    {
-        return LOGGER;
     }
 
     @Override

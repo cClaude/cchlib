@@ -17,12 +17,12 @@ import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 public class ParallelDuplicateFileFinderTest extends DuplicateFileFinderTest_Common {
+
     private static final Logger LOGGER = Logger.getLogger( ParallelDuplicateFileFinderTest.class );
 
-    @Override
-    protected Logger getLogger()
+    public ParallelDuplicateFileFinderTest()
     {
-        return LOGGER;
+        super( LOGGER );
     }
 
     @Override
