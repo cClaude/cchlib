@@ -4,10 +4,14 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nonnull;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 
 public class ScanParams {
+    private static final Logger LOGGER = Logger.getLogger( ScanParams.class );
+
     private final String                          messageDigestAlgorithm;
     private final int                             messageDigestBufferSize;
     private final boolean                         ignoreEmptyFiles;
@@ -18,14 +22,14 @@ public class ScanParams {
     private final Map<String, Set<KeyFileState>>  duplicateFiles;
 
     public ScanParams( // NOSONAR
-            final String messageDigestAlgorithm,
-            final int messageDigestBufferSize,
-            final boolean ignoreEmptyFiles,
-            final int maxParallelFilesPerThread,
-            final Collection<File> entriesToScans,
-            final Collection<File> entriesToIgnore,
-            final FileFilterBuilders fileFilterBuilders,
-            final Map<String, Set<KeyFileState>> duplicateFiles )
+            @Nonnull final String messageDigestAlgorithm,
+            @Nonnull final int messageDigestBufferSize,
+            @Nonnull final boolean ignoreEmptyFiles,
+            @Nonnull final int maxParallelFilesPerThread,
+            @Nonnull final Collection<File> entriesToScans,
+            @Nonnull final Collection<File> entriesToIgnore,
+            @Nonnull final FileFilterBuilders fileFilterBuilders,
+            @Nonnull final Map<String, Set<KeyFileState>> duplicateFiles )
     {
         this.messageDigestAlgorithm     = messageDigestAlgorithm;
         this.messageDigestBufferSize    = messageDigestBufferSize;
@@ -35,6 +39,17 @@ public class ScanParams {
         this.entriesToIgnore            = entriesToIgnore;
         this.fileFilterBuilders         = fileFilterBuilders;
         this.duplicateFiles             = duplicateFiles;
+
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "entriesToScans: #" + entriesToScans.size() );
+            for( final File file : entriesToScans ) {
+                LOGGER.debug( "entriesToScans: " + file );
+            }
+            LOGGER.debug( "entriesToIgnore: #" + entriesToIgnore.size() );
+            for( final File file : entriesToIgnore ) {
+                LOGGER.debug( "entriesToIgnore: " + file );
+            }
+        }
     }
 
     public String getMessageDigestAlgorithm()

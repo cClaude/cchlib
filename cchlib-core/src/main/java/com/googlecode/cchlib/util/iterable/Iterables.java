@@ -105,8 +105,7 @@ public class Iterables
     public static <S,R> Iterable<R> wrap( //
         @Nonnull final Enumeration<S>                   enumeration, //
         @Nonnull final Wrappable<? super S,? extends R> wrapper //
-        )
-            throws WrapperException
+        ) throws WrapperException
     {
         return wrap( Iterables.create( enumeration ), wrapper );
     }

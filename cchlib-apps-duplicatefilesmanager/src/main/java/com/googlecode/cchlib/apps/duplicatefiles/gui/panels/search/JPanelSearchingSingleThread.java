@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.io.FileIterable;
@@ -28,25 +28,32 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 public class JPanelSearchingSingleThread extends JPanelSearching
 {
     /** TODO try to use {@link GlobalDuplicateFileFinderListener} instead */
-    private final class MyDuplicateFileFinderEventListener implements DuplicateFileFinderEventListener {
+    private final static class MyDuplicateFileFinderEventListener implements DuplicateFileFinderEventListener {
         private static final long serialVersionUID = 1L;
+        private static final Logger LOGGER = Logger.getLogger( JPanelSearchingSingleThread.class );
+        private final JPanelSearchingSingleThread jPanelSearching;
+
+        public MyDuplicateFileFinderEventListener( final JPanelSearchingSingleThread jPanelSearchingSingleThread )
+        {
+            this.jPanelSearching = jPanelSearchingSingleThread;
+        }
 
         @Override
-         public void analysisStart( final File file )
+         public void analysisStart( @Nonnull final File file )
          {
-             setPass1DisplayFile( file );
+            this.jPanelSearching.setPass1DisplayFile( file );
 
-             JPanelSearchingSingleThread.this.pass2CountFile++;
+            this.jPanelSearching.pass2CountFile++;
          }
 
         @Override
-         public void analysisStatus( final File file, final long length )
+         public void analysisStatus( @Nonnull final File file, final long length )
          {
-             JPanelSearchingSingleThread.this.pass2BytesCount += length;
+            this.jPanelSearching.pass2BytesCount += length;
          }
 
         @Override
-         public void analysisDone( final File file, final String hashString )
+         public void analysisDone( @Nonnull final File file, @Nonnull final String hashString )
          {
              if( LOGGER.isTraceEnabled() ) {
                  LOGGER.trace( "Hash for " + file + " is " + hashString );
@@ -54,19 +61,19 @@ public class JPanelSearchingSingleThread extends JPanelSearching
          }
 
         @Override
-         public void ioError( final File file, final IOException ioe )
+         public void ioError( @Nonnull final File file, @Nonnull final IOException ioe )
          {
              LOGGER.warn( String.format( "IOException %s : %s\n", file,
                      ioe.getMessage() ) );
 
-             getTableModelErrorList().addRow( file, ioe );
+             this.jPanelSearching.getTableModelErrorList().addRow( file, ioe );
          }
 
         @Override
          public boolean isCancel()
          {
-            if( JPanelSearchingSingleThread.this.dff != null ) {
-                return JPanelSearchingSingleThread.this.dff.isCancelProcess();
+            if( this.jPanelSearching.dff != null ) {
+                return this.jPanelSearching.dff.isCancelProcess();
                }
 
             return false;
@@ -92,7 +99,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
     private boolean displayRunning;
     private File    displayFile;
 
-    private final DuplicateFileFinderEventListener eventListener = new MyDuplicateFileFinderEventListener();
+    private final DuplicateFileFinderEventListener eventListener = new MyDuplicateFileFinderEventListener( this );
     private long pass1currentTimeMillis;
     private long pass2currentTimeMillis;
 
@@ -143,48 +150,13 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             throw new RuntimeException( e );
         }
 
-        doScan( scanParams.getEntriesToScans(), //
-                scanParams.getEntriesToIgnore(), //
-                scanParams.getFileFilterBuilders(), //
-                scanParams.getDuplicateFiles());
+        doScan( scanParams );
     }
 
-    private void doScanPass1Prepare(
-        final Iterable<File>      entriesToScans,
-        final Iterable<File>      entriesToIgnore,
-        final FileFilterBuilders  fileFilterBuilders
-        )
-    {
-        this.displayPass = 1;
-
-        LOGGER.info( "doScanPass1Prepare: begin" );
-
-        // FileFilter and Listener for pass 1
-        final FileFilter dirFilter = createDirectoriesFileFilter(
-                fileFilterBuilders
-                );
-        final FileFilter fileFilter = createFilesFileFilter(
-                fileFilterBuilders
-                );
-
-        // Listener for pass 2
-        this.dff.addEventListener( this.eventListener );
-
-        doScanPass1( entriesToScans, dirFilter, fileFilter );
-
-        final InitialStatus initialStatus = this.dff.getInitialStatus();
-        setPass1FilesCount( initialStatus.getFiles() );
-        setPass1BytesCount( initialStatus.getBytes() );
-
-        if( LOGGER.isInfoEnabled() ) {
-            LOGGER.info( "doScanPass1Prepare + doScanPass1: pass1CountFile = " + getPass1FilesCount() );
-            LOGGER.info( "doScanPass1Prepare + doScanPass1: pass1BytesCount = " + getPass1BytesCount() );
-
-            LOGGER.info( "doScanPass1Prepare + doScanPass1: done" );
-        }
-    }
-
-    private void doScanPass1( final Iterable<File> rootFiles, final FileFilter dirFilter, final FileFilter fileFilter )
+    private void doScanPass1( //
+            final Iterable<File> rootFiles, //
+            final FileFilter dirFilter, //
+            final FileFilter fileFilter )
     {
         for( final File rootFile : rootFiles ) {
             final Iterable<File> files;
@@ -337,22 +309,24 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         updateDisplayThread();
     }
 
-    private void doScan(
-            final Iterable<File>                  entriesToScans,
-            final Iterable<File>                  entriesToIgnore,
-            final FileFilterBuilders              fileFilterBuilders,
-            final Map<String,Set<KeyFileState>>   duplicateFiles
-            )
+    private void doScan( final ScanParams scanParams )
     {
+//        // TODO Auto-generated method stub
+//
+//    }
+//
+//    private void doScan(
+//            final Iterable<File>                  entriesToScans,
+//            final Iterable<File>                  entriesToIgnore,
+//            final FileFilterBuilders              fileFilterBuilders,
+//            final Map<String,Set<KeyFileState>>   duplicateFiles
+//            )
+//    {
         this.pass1currentTimeMillis = System.currentTimeMillis();
         LOGGER.info( "pass1 : " + this.pass1currentTimeMillis );
 
-        duplicateFiles.clear();
-        doScanPass1Prepare(
-                entriesToScans,
-                entriesToIgnore,
-                fileFilterBuilders
-                );
+        scanParams.getDuplicateFiles().clear();
+        doScanPass1Prepare( scanParams );
         LOGGER.info( "pass1 done" );
 
         //jProgressBarFiles.setStringPainted( true );
@@ -386,7 +360,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
                 skfs.add( new KeyFileState(k,f) );
             }
 
-            duplicateFiles.put( k, skfs );
+            scanParams.getDuplicateFiles().put( k, skfs );
         }
 
         //Stop display !
@@ -406,6 +380,47 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
         // Populate next panel now !!
         getAppToolKit().initComponentsJPanelConfirm();
+    }
+
+    private void doScanPass1Prepare( final ScanParams scanParams )
+    {
+//        // TODO Auto-generated method stub
+//        x
+//    }
+//
+//    private void doScanPass1Prepare(x
+//        final Iterable<File>      entriesToScans,
+//        final Iterable<File>      entriesToIgnore,
+//        final FileFilterBuilders  fileFilterBuilders
+//        )
+//    {
+        this.displayPass = 1;
+
+        LOGGER.info( "doScanPass1Prepare: begin" );
+
+        // FileFilter and Listener for pass 1
+        final FileFilter dirFilter = createDirectoriesFileFilter(
+                scanParams.getFileFilterBuilders()
+                );
+        final FileFilter fileFilter = createFilesFileFilter(
+                scanParams.getFileFilterBuilders()
+                );
+
+        // Listener for pass 2
+        this.dff.addEventListener( this.eventListener );
+
+        doScanPass1( scanParams.getEntriesToScans(), dirFilter, fileFilter );
+
+        final InitialStatus initialStatus = this.dff.getInitialStatus();
+        setPass1FilesCount( initialStatus.getFiles() );
+        setPass1BytesCount( initialStatus.getBytes() );
+
+        if( LOGGER.isInfoEnabled() ) {
+            LOGGER.info( "doScanPass1Prepare + doScanPass1: pass1CountFile = " + getPass1FilesCount() );
+            LOGGER.info( "doScanPass1Prepare + doScanPass1: pass1BytesCount = " + getPass1BytesCount() );
+
+            LOGGER.info( "doScanPass1Prepare + doScanPass1: done" );
+        }
     }
 
     @Override
