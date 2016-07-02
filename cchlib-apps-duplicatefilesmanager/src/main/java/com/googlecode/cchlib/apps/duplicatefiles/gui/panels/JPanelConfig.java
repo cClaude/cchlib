@@ -14,28 +14,67 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
+import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilderConfigurator;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigFilter;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
+import com.googlecode.cchlib.apps.duplicatefiles.tools.FileFilterBuilderImpl;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
-import cx.ath.choisnet.lang.ToStringBuilder;
 
 @I18nName("duplicatefiles.JPanelConfig")
 public class JPanelConfig
     extends JPanelConfigI18n
         implements LookAndFeelListener
 {
+    private final class FileFilterBuilderConfiguratorImpl implements FileFilterBuilderConfigurator {
+        @Override
+        public FileFilterBuilder createIncludeFilesFileFilterBuilder()
+        {
+            return createIncludeFileFilter(
+                getJComboBoxFilesFilters().getSelectedIndex() == FilterType.INCLUDE_FILTER.ordinal(),
+                JPanelConfig.this.jPanelIncFilesFilter
+                );
+        }
+
+        @Override
+        public FileFilterBuilder createExcludeFilesFileFilterBuilder()
+        {
+            return createIncludeFileFilter(
+                getJComboBoxFilesFilters().getSelectedIndex() == FilterType.EXCLUDE_FILTER.ordinal(),
+                JPanelConfig.this.jPanelExcFilesFilter
+                );
+        }
+
+        @Override
+        public FileFilterBuilder createIncludeDirectoriesFileFilterBuilder()
+        {
+            return createIncludeFileFilter(
+                getJComboBoxDirsFilters().getSelectedIndex() == FilterType.INCLUDE_FILTER.ordinal(),
+                JPanelConfig.this.jPanelIncDirsFilter
+                );
+        }
+
+        @Override
+        public FileFilterBuilder createExcludeDirectoriesFileFilterBuilder()
+        {
+            return createExcludeFileFilter(
+                getJComboBoxDirsFilters().getSelectedIndex() == FilterType.EXCLUDE_FILTER.ordinal(),
+                JPanelConfig.this.jPanelExcDirsFilter
+                );
+        }
+    }
+
     private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( JPanelConfig.class );
 
-    private ActionListener actionListener;
+    //private ActionListener actionListener;
     private ConfigMode mode;
 
     private PathMatcher tryToUseThis; // TODO - http://docs.oracle.com/javase/tutorial/essential/io/find.html
-private Scanner s;
+    private Scanner scanner;
 
     private JPanelConfigFilter jPanelIncFilesFilter;
     private JPanelConfigFilter jPanelExcDirsFilter;
@@ -67,10 +106,11 @@ private Scanner s;
     @Override
     protected ActionListener getActionListener()
     {
-        if( this.actionListener == null ) {
-            this.actionListener = event -> SafeSwingUtilities.invokeLater( () -> updateDisplay( true ), "updateDisplay()" );
-            }
-        return this.actionListener;
+//        if( this.actionListener == null ) {
+//            this.actionListener = event -> SafeSwingUtilities.invokeLater( () -> updateDisplay( true ), "updateDisplay()" );
+//            }
+//        return this.actionListener;
+        return event -> SafeSwingUtilities.invokeLater( () -> updateDisplay( true ), "updateDisplay()" );
     }
 
     /**
@@ -92,10 +132,10 @@ private Scanner s;
                 getActionListener()
                 );
 
-//        for( String exp : prefs.getIncFilesFilterPatternRegExpList() ) {
-//            jPanelIncFilesFilter.addPatternRegExp( exp );
-//            }
-        prefs.getIncFilesFilterPatternRegExpList().stream().forEach( exp -> this.jPanelIncFilesFilter.addPatternRegExp( exp ) );
+        for( final String exp : prefs.getIncFilesFilterPatternRegExpList() ) {
+            this.jPanelIncFilesFilter.addPatternRegExp( exp );
+            }
+//        prefs.getIncFilesFilterPatternRegExpList().stream().forEach( exp -> this.jPanelIncFilesFilter.addPatternRegExp( exp ) );
 
         this.jPanelExcFilesFilter = new JPanelConfigFilter(
                 getjPanelExcFilesFilterTitle(),
@@ -147,65 +187,69 @@ private Scanner s;
                 case EXPERT:
                     updateDisplayExpert();
                     break;
+                default:
+                    throw new IllegalStateException( "Unexpected mode: " + this.mode );
             }
         }
 
-        // private_updateDisplayMode( final boolean doRepaint )
-        {
-            final JPanel jp = getJPanelFilters();
+        updateDisplayCommon( doRepaint );
+    }
 
-            if( this.jPanelIncFilesFilter != null ) {
-                jp.remove( this.jPanelIncFilesFilter );
-                }
-            if( this.jPanelExcFilesFilter != null ) {
-                jp.remove( this.jPanelExcFilesFilter );
-                }
-            if( this.jPanelIncDirsFilter != null ) {
-                jp.remove( this.jPanelIncDirsFilter );
-                }
-            if( this.jPanelExcDirsFilter != null ) {
-                jp.remove( this.jPanelExcDirsFilter );
-                }
+    private void updateDisplayCommon( final boolean doRepaint )
+    {
+        final JPanel jp = getJPanelFilters();
 
-            //jsp.revalidate();
-            //this.repaint();//repaint a JFrame jframe in this case
+        if( this.jPanelIncFilesFilter != null ) {
+            jp.remove( this.jPanelIncFilesFilter );
+            }
+        if( this.jPanelExcFilesFilter != null ) {
+            jp.remove( this.jPanelExcFilesFilter );
+            }
+        if( this.jPanelIncDirsFilter != null ) {
+            jp.remove( this.jPanelIncDirsFilter );
+            }
+        if( this.jPanelExcDirsFilter != null ) {
+            jp.remove( this.jPanelExcDirsFilter );
+            }
 
-            if( getJComboBoxFilesFilters().getSelectedIndex() == FilterType.INCLUDE_FILTER.ordinal() ) {
-                jp.add( this.jPanelIncFilesFilter );
-                LOGGER.debug( "Display jPanelIncFilesFilter" );
-                }
-            else if( getJComboBoxFilesFilters().getSelectedIndex() == FilterType.EXCLUDE_FILTER.ordinal() ) {
-                jp.add( this.jPanelExcFilesFilter );
-                LOGGER.debug( "Display jPanelExcFilesFilter" );
-                }
-            else { // FILES_FILTER_DISABLED
-                LOGGER.debug(
-                    "No Display getJComboBoxFilesFilters()="
-                        + getJComboBoxFilesFilters().getSelectedIndex()
-                    );
-                }
+        //jsp.revalidate();
+        //this.repaint();//repaint a JFrame jframe in this case
 
-            if( getJComboBoxDirsFilters().getSelectedIndex() == FilterType.EXCLUDE_FILTER.ordinal() ) {
-                jp.add( this.jPanelIncDirsFilter );
-                LOGGER.debug( "Display jPanelIncDirsFilter" );
-                }
-            else if( getJComboBoxDirsFilters().getSelectedIndex() == FilterType.INCLUDE_FILTER.ordinal() ) {
-                jp.add( this.jPanelExcDirsFilter );
-                LOGGER.debug( "Display jPanelExcDirsFilter" );
-                }
-            else { // DIRS_FILTER_DISABLED
-                LOGGER.debug( "No Display" );
-                }
+        if( getJComboBoxFilesFilters().getSelectedIndex() == FilterType.INCLUDE_FILTER.ordinal() ) {
+            jp.add( this.jPanelIncFilesFilter );
+            LOGGER.debug( "Display jPanelIncFilesFilter" );
+            }
+        else if( getJComboBoxFilesFilters().getSelectedIndex() == FilterType.EXCLUDE_FILTER.ordinal() ) {
+            jp.add( this.jPanelExcFilesFilter );
+            LOGGER.debug( "Display jPanelExcFilesFilter" );
+            }
+        else { // FILES_FILTER_DISABLED
+            LOGGER.debug(
+                "No Display getJComboBoxFilesFilters()="
+                    + getJComboBoxFilesFilters().getSelectedIndex()
+                );
+            }
 
-            if( doRepaint ) {
-                jp.revalidate();
+        if( getJComboBoxDirsFilters().getSelectedIndex() == FilterType.EXCLUDE_FILTER.ordinal() ) {
+            jp.add( this.jPanelIncDirsFilter );
+            LOGGER.debug( "Display jPanelIncDirsFilter" );
+            }
+        else if( getJComboBoxDirsFilters().getSelectedIndex() == FilterType.INCLUDE_FILTER.ordinal() ) {
+            jp.add( this.jPanelExcDirsFilter );
+            LOGGER.debug( "Display jPanelExcDirsFilter" );
+            }
+        else { // DIRS_FILTER_DISABLED
+            LOGGER.debug( "No Display" );
+            }
 
-                // repaint a JFrame jframe in this case
-                getAppToolKit().getMainFrame().repaint();
+        if( doRepaint ) {
+            jp.revalidate();
 
-                LOGGER.debug( "repaint MainWindow" );
-                }
-        }
+            // repaint a JFrame jframe in this case
+            getAppToolKit().getMainFrame().repaint();
+
+            LOGGER.debug( "repaint MainWindow" );
+            }
     }
 
     private void updateDisplayBeginner()
@@ -283,7 +327,7 @@ private Scanner s;
         return getjCheckBoxIgnoreEmptyFiles().isSelected();
     }
 
-    private static final void addExtIf(
+    private static final void addExtIfItMakeSense(
         final Collection<String> c,
         final FileTypeCheckBox   ft
         )
@@ -291,188 +335,44 @@ private Scanner s;
         if( ft.getJCheckBox().isSelected() ) {
             for(final String s:ft.getData().split( "," )) {
                 if(s.length()>0) {
-                    c.add( "." + s.toLowerCase() ); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
+                    c.add( "." + s.toLowerCase() );
                 }
             }
         }
     }
 
-    FileFilterBuilder createIncludeFilesFileFilterBuilder()
-    {
-        final Set<String>   extsList = new HashSet<>();
-        Pattern             pattern  = null;
-
-        final boolean userIncFilesFilers =
-            (getJComboBoxFilesFilters().getSelectedIndex()
-                == FilterType.INCLUDE_FILTER.ordinal());
-
-        if( userIncFilesFilers ) {
-            for( final FileTypeCheckBox ft : this.jPanelIncFilesFilter ) {
-                addExtIf( extsList, ft );
-                }
-
-            final boolean useRegExp = this.jPanelIncFilesFilter.getJCheckBoxRegExp().isSelected();
-
-            if( useRegExp ) {
-                try {
-                    pattern = this.jPanelIncFilesFilter.getSelectedPattern();
-                    }
-                catch( final Exception ignore ) {
-                    LOGGER.error( ignore );
-                    }
-                }
-            }
-        final Pattern sPattern = pattern;
-
-        return new FileFilterBuilder()
-        {
-            @Override
-            public Collection<String> getNamePart()
-            {
-                return extsList;
-            }
-            @Override
-            public Pattern getRegExp()
-            {
-                return sPattern;
-            }
-            @Override
-            public String toString()
-            {
-                return ToStringBuilder.toString( this, FileFilterBuilder.class );
-            }
-        };
-    }
-
-    FileFilterBuilder createExcludeFilesFileFilterBuilder()
-    {
-        final Set<String>   extsList = new HashSet<>();
-        Pattern             pattern  = null;
-
-        final boolean userExcFilesFilers =
-            (getJComboBoxFilesFilters().getSelectedIndex()
-                == FilterType.EXCLUDE_FILTER.ordinal());
-
-        if( userExcFilesFilers ) {
-            for( final FileTypeCheckBox ft : this.jPanelExcFilesFilter ) {
-                addExtIf( extsList, ft );
-                }
-
-            final boolean useRegExp = this.jPanelExcFilesFilter.getJCheckBoxRegExp().isSelected();
-
-            if( useRegExp ) {
-                try {
-                    pattern = this.jPanelExcFilesFilter.getSelectedPattern();
-                    }
-                catch( final Exception ignore ) {
-                    LOGGER.error( ignore );
-                    }
-                }
-        }
-        final Pattern sPattern = pattern;
-
-        return new FileFilterBuilder()
-        {
-            @Override
-            public Collection<String> getNamePart()
-            {
-                return extsList;
-            }
-            @Override
-            public Pattern getRegExp()
-            {
-                return sPattern;
-            }
-            @Override
-            public String toString()
-            {
-                return ToStringBuilder.toString( this, FileFilterBuilder.class );
-            }
-        };
-    }
-
-    private static final void addNameIf(
-            final Collection<String>    c,
-            final FileTypeCheckBox      ft
-            )
+    private static final void addNameIfItMakeSense( //
+        final Collection<String>    c, //
+        final FileTypeCheckBox      ft //
+        )
     {
         if( ft.getJCheckBox().isSelected() ) {
             for(final String s:ft.getData().split( "," )) {
                 if( s.length() > 0 ) {
-                    c.add( s.toLowerCase() ); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
+                    c.add( s.toLowerCase() );
                 }
             }
         }
     }
 
-    FileFilterBuilder createIncludeDirectoriesFileFilterBuilder()
+    private static FileFilterBuilderImpl createExcludeFileFilter( //
+            final boolean            userExcludeFileFilter,
+            final JPanelConfigFilter jPanelConfigFilter
+            )
     {
         final Set<String>   namesList = new HashSet<>();
         Pattern             pattern   = null;
 
-        final boolean useIncDirsFilters  =
-            (getJComboBoxDirsFilters().getSelectedIndex()
-                    == FilterType.EXCLUDE_FILTER.ordinal());
-
-        if( useIncDirsFilters ) {
-            //TODO need to be studies, not really useful like this !
-            for( final FileTypeCheckBox ft : this.jPanelIncDirsFilter ) {
-                addNameIf( namesList, ft );
+        if( userExcludeFileFilter ) {
+            for( final FileTypeCheckBox ft : jPanelConfigFilter ) {
+                addNameIfItMakeSense(namesList,ft);
                 }
 
-            final boolean useRegExp = this.jPanelIncDirsFilter.getJCheckBoxRegExp().isSelected();
+            final boolean useRegExp = jPanelConfigFilter.getJCheckBoxRegExp().isSelected();
 
             if( useRegExp ) {
                 try {
-                    pattern = this.jPanelIncDirsFilter.getSelectedPattern();
-                    }
-                catch( final Exception ignore ) {
-                    LOGGER.error( ignore );
-                    }
-                }
-            }
-
-        final Pattern sPattern = pattern;
-
-        return new FileFilterBuilder()
-        {
-            @Override
-            public Collection<String> getNamePart()
-            {
-                return namesList;
-            }
-            @Override
-            public Pattern getRegExp()
-            {
-                return sPattern;
-            }
-            @Override
-            public String toString()
-            {
-                return ToStringBuilder.toString( this, FileFilterBuilder.class );
-            }
-        };
-    }
-
-    FileFilterBuilder createExcludeDirectoriesFileFilterBuilder()
-    {
-        final Set<String>   namesList = new HashSet<>();
-        Pattern             pattern   = null;
-
-        final boolean useExcDirsFilters  =
-            (getJComboBoxDirsFilters().getSelectedIndex()
-                    == FilterType.INCLUDE_FILTER.ordinal());
-
-        if( useExcDirsFilters ) {
-            for( final FileTypeCheckBox ft : this.jPanelExcDirsFilter ) {
-                addNameIf(namesList,ft);
-                }
-
-            final boolean useRegExp = this.jPanelExcDirsFilter.getJCheckBoxRegExp().isSelected();
-
-            if( useRegExp ) {
-                try {
-                    pattern = this.jPanelExcDirsFilter.getSelectedPattern();
+                    pattern = jPanelConfigFilter.getSelectedPattern();
                     }
                 catch( final Exception ignore ){
                     LOGGER.error( ignore );
@@ -480,26 +380,35 @@ private Scanner s;
                 }
             }
 
-        final Pattern sPattern = pattern;
+        return new FileFilterBuilderImpl( namesList, pattern );
+    }
 
-        return new FileFilterBuilder()
-        {
-            @Override
-            public Collection<String> getNamePart()
-            {
-                return namesList;
+    private static FileFilterBuilderImpl createIncludeFileFilter( //
+        final boolean            userIncludeFileFilter,
+        final JPanelConfigFilter jPanelConfigFilter
+        )
+    {
+        final Set<String>   extsList = new HashSet<>();
+        Pattern             pattern  = null;
+
+        if( userIncludeFileFilter ) {
+            for( final FileTypeCheckBox ft : jPanelConfigFilter ) {
+                addExtIfItMakeSense( extsList, ft );
+                }
+
+            final boolean useRegExp = jPanelConfigFilter.getJCheckBoxRegExp().isSelected();
+
+            if( useRegExp ) {
+                try {
+                    pattern = jPanelConfigFilter.getSelectedPattern();
+                    }
+                catch( final Exception ignore ) {
+                    LOGGER.error( ignore );
+                    }
+                }
             }
-            @Override
-            public Pattern getRegExp()
-            {
-                return sPattern;
-            }
-            @Override
-            public String toString()
-            {
-                return ToStringBuilder.toString( this, FileFilterBuilder.class );
-            }
-        };
+
+        return new FileFilterBuilderImpl( extsList, pattern );
     }
 
     public FileFilterBuilders getFileFilterBuilders()
@@ -516,12 +425,32 @@ private Scanner s;
         final boolean ignoreReadOnlyFiles   = getjCheckBoxIgnoreReadOnlyFiles().isSelected();
         final boolean ignoreHiddedDirs      = getjCheckBoxFDIgnoreHidden().isSelected();
 
-        LOGGER.info( "ignoreEmptyFiles = " + ignoreEmptyFiles);
-        LOGGER.info( "ignoreHiddedFiles = " + ignoreHiddedFiles);
-        LOGGER.info( "ignoreReadOnlyFiles = " + ignoreReadOnlyFiles);
-        LOGGER.info( "ignoreHiddedDirs = " + ignoreHiddedDirs);
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "ignoreEmptyFiles    = " + ignoreEmptyFiles);
+            LOGGER.debug( "ignoreHiddedFiles   = " + ignoreHiddedFiles);
+            LOGGER.debug( "ignoreReadOnlyFiles = " + ignoreReadOnlyFiles);
+            LOGGER.debug( "ignoreHiddedDirs    = " + ignoreHiddedDirs);
+        }
 
-        return new ConfigFileFilterBuilders( this, ignoreHiddedFiles, efType, ignoreHiddedDirs, ffType, ignoreEmptyFiles, ignoreReadOnlyFiles );
+        final FileFilterBuilderConfigurator configurator = this.toFileFilterBuilderConfigurator();
+
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "X createExcludeDirectoriesFileFilterBuilder() = " + configurator.createExcludeDirectoriesFileFilterBuilder() );
+            LOGGER.debug( "X createIncludeDirectoriesFileFilterBuilder() = " + configurator.createIncludeDirectoriesFileFilterBuilder() );
+            LOGGER.debug( "X createExcludeFilesFileFilterBuilder() = " + configurator.createExcludeFilesFileFilterBuilder() );
+            LOGGER.debug( "X createIncludeFilesFileFilterBuilder() = " + configurator.createIncludeFilesFileFilterBuilder() );
+        }
+
+        final ConfigFileFilterBuilders configFileFilterBuilders = new ConfigFileFilterBuilders( configurator, ignoreHiddedFiles, efType, ignoreHiddedDirs, ffType, ignoreEmptyFiles, ignoreReadOnlyFiles );
+
+        LOGGER.info( "configFileFilterBuilders = " + configFileFilterBuilders);
+
+        return configFileFilterBuilders;
+    }
+
+    private FileFilterBuilderConfigurator toFileFilterBuilderConfigurator()
+    {
+        return new FileFilterBuilderConfiguratorImpl();
     }
 }
 

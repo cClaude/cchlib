@@ -1,5 +1,8 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+/**
+ *
+ */
 public interface FileFilterBuilders
 {
     boolean isIgnoreHiddenDirs();
