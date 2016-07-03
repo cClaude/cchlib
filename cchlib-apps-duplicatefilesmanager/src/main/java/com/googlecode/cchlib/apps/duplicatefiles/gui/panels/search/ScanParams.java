@@ -17,18 +17,16 @@ public class ScanParams {
     private final boolean                         ignoreEmptyFiles;
     private final int                             maxParallelFilesPerThread;
     private final Collection<File>                entriesToScans;
-    private final Collection<File>                entriesToIgnore;
     private final FileFilterBuilders              fileFilterBuilders;
     private final Map<String, Set<KeyFileState>>  duplicateFiles;
 
     public ScanParams( // NOSONAR
-            @Nonnull final String messageDigestAlgorithm,
-            @Nonnull final int messageDigestBufferSize,
-            @Nonnull final boolean ignoreEmptyFiles,
-            @Nonnull final int maxParallelFilesPerThread,
-            @Nonnull final Collection<File> entriesToScans,
-            @Nonnull final Collection<File> entriesToIgnore,
-            @Nonnull final FileFilterBuilders fileFilterBuilders,
+            @Nonnull final String                         messageDigestAlgorithm,
+            @Nonnull final int                            messageDigestBufferSize,
+            @Nonnull final boolean                        ignoreEmptyFiles,
+            @Nonnull final int                            maxParallelFilesPerThread,
+            @Nonnull final Collection<File>               entriesToScans,
+            @Nonnull final FileFilterBuilders             fileFilterBuilders,
             @Nonnull final Map<String, Set<KeyFileState>> duplicateFiles )
     {
         this.messageDigestAlgorithm     = messageDigestAlgorithm;
@@ -36,7 +34,6 @@ public class ScanParams {
         this.ignoreEmptyFiles           = ignoreEmptyFiles;
         this.maxParallelFilesPerThread  = maxParallelFilesPerThread;
         this.entriesToScans             = entriesToScans;
-        this.entriesToIgnore            = entriesToIgnore;
         this.fileFilterBuilders         = fileFilterBuilders;
         this.duplicateFiles             = duplicateFiles;
 
@@ -44,10 +41,6 @@ public class ScanParams {
             LOGGER.debug( "entriesToScans: #" + entriesToScans.size() );
             for( final File file : entriesToScans ) {
                 LOGGER.debug( "entriesToScans: " + file );
-            }
-            LOGGER.debug( "entriesToIgnore: #" + entriesToIgnore.size() );
-            for( final File file : entriesToIgnore ) {
-                LOGGER.debug( "entriesToIgnore: " + file );
             }
         }
     }
@@ -75,11 +68,6 @@ public class ScanParams {
     public Collection<File> getEntriesToScans()
     {
         return this.entriesToScans;
-    }
-
-    public Collection<File> getEntriesToIgnore()
-    {
-        return this.entriesToIgnore;
     }
 
     public FileFilterBuilders getFileFilterBuilders()

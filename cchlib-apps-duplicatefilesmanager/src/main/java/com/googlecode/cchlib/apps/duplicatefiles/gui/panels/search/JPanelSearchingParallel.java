@@ -98,8 +98,8 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
         beforePass1( scanParams.getDuplicateFiles() );
 
         final FileVisitor<Path> fileVisitor = newFileVisitorPass1( //
-                scanParams.getEntriesToIgnore(), //
-                scanParams.getFileFilterBuilders() );
+                scanParams.getFileFilterBuilders() //
+                );
 
         updateDisplayThread();
 
@@ -316,7 +316,6 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
     }
 
     private FileVisitor<Path> newFileVisitorPass1( //
-            final Collection<File>   entriesToIgnore, //
             final FileFilterBuilders fileFilterBuilders //
             )
     {

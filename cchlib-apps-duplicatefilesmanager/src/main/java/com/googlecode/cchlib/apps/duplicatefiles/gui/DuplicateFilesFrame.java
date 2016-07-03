@@ -36,7 +36,7 @@ import com.googlecode.cchlib.util.HashMapSet;
  *
  */
 @I18nName("DuplicateFilesFrame")
-public final class DuplicateFilesFrame
+public final class DuplicateFilesFrame // NOSONAR
     extends DuplicateFilesFrameWB
         implements I18nAutoCoreUpdatable
 {
@@ -75,6 +75,9 @@ public final class DuplicateFilesFrame
                 case STATE_SELECT_DIRS:
                     refreshSelectDirs();
                     break;
+
+                default:
+                    throw new IllegalArgumentException( "DuplicateFilesFrame.mainState: " + DuplicateFilesFrame.this.mainState );
             }
         }
 
@@ -106,7 +109,6 @@ public final class DuplicateFilesFrame
                         getDuplicateFilesMainPanel().getJPanel1Config().isIgnoreEmptyFiles(), //
                         getDFToolKit().getPreferences().getMaxParallelFilesPerThread(), //
                         getDuplicateFilesMainPanel().getJPanel0Select().entriesToScans(), //
-                        getDuplicateFilesMainPanel().getJPanel0Select().entriesToIgnore(), //
                         getDuplicateFilesMainPanel().getJPanel1Config().getFileFilterBuilders(), //
                         DuplicateFilesFrame.this.duplicateFiles );
                 getDuplicateFilesMainPanel().getJPanel2Searching().startScan( scanParan );
@@ -187,42 +189,45 @@ public final class DuplicateFilesFrame
 
     private AutoI18nCore initI18n()
     {
-        final AutoI18nCore autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+        final AutoI18nCore autoI18nCore = AutoI18nCoreFactory.createAutoI18nCore(
                 getDFToolKit().getAutoI18nConfig(),
                 getDFToolKit().getI18nResourceBundleName(),
                 getDFToolKit().getValidLocale()
                 );
-        performeI18n( autoI18n );
+        performeI18n( autoI18nCore );
 
-        return autoI18n;
+        return autoI18nCore;
     }
 
     private void buildLocaleMenu()
     {
-        final Locale locale = getDFToolKit().getPreferences().getLocale();
+        final Locale currentLocale = getDFToolKit().getPreferences().getLocale();
 
-        {
-            final Enumeration<AbstractButton> localEntriesEnum = getButtonGroupLanguage().getElements();
-
-            while( localEntriesEnum.hasMoreElements() ) {
-                final AbstractButton  entry   = localEntriesEnum.nextElement();
-                final Object          l       = entry.getClientProperty( Locale.class );
-
-                if( locale == null ) {
-                    entry.setSelected( l == null );
-                    }
-                else {
-                    entry.setSelected( locale.equals( l ) );
-                    }
-                }
-        }
+        buildLocaleMenu( currentLocale );
 
         // Init i18n
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
-            LOGGER.info( "I18n Init: locale = " + locale );
+            LOGGER.info( "I18n Init: locale = " + currentLocale );
             LOGGER.info( "I18n Init: getValidLocale() = " + getDFToolKit().getValidLocale() );
             LOGGER.info( "I18n Init: getI18nResourceBundleName() = " + getDFToolKit().getI18nResourceBundleName() );
+            }
+    }
+
+    private void buildLocaleMenu( final Locale currentLocale )
+    {
+        final Enumeration<AbstractButton> localEntriesEnum = getButtonGroupLanguage().getElements();
+
+        while( localEntriesEnum.hasMoreElements() ) {
+            final AbstractButton  entry   = localEntriesEnum.nextElement();
+            final Object          l       = entry.getClientProperty( Locale.class );
+
+            if( currentLocale == null ) {
+                entry.setSelected( l == null );
+                }
+            else {
+                entry.setSelected( currentLocale.equals( l ) );
+                }
             }
     }
 
@@ -484,6 +489,6 @@ public final class DuplicateFilesFrame
     {
         final File entryFile = new File( entry );
 
-        getDuplicateFilesMainPanel().getJPanel0Select().addEntry( entryFile , false );
+        getDuplicateFilesMainPanel().getJPanel0Select().addEntry( entryFile );
     }
 }

@@ -70,7 +70,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
         this.selecDirecoriesJPanel = new SelectDirecoriesJPanel( this );
         this.mainJPanel.add( this.selecDirecoriesJPanel, "SelecDirecoriesJPanel" );
 
-        this.workingJPanel = new WorkingJPanel( this, tableModel );
+        this.workingJPanel = new WorkingJPanel( this, this.tableModel );
         this.mainJPanel.add( this.workingJPanel, "WorkingJPanel" );
      }
 
@@ -98,13 +98,13 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
             @Override
             public String formatAttributsDelete()
             {
-                return fileAttributsDelete;
+                return RemoveEmptyFilesJPanel.this.fileAttributsDelete;
             }
 
             @Override
             public String formatLength( final File file )
             {
-                return String.format( fileLengthFmt, Long.valueOf( file.length() ) );
+                return String.format( RemoveEmptyFilesJPanel.this.fileLengthFmt, Long.valueOf( file.length() ) );
             }
         };
         this.tableModel = new WorkingTableModel( fileInfoFormater );
@@ -121,7 +121,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
         progressBar.setStringPainted( true );
 
         final TableModelListener tableModelListener = (final TableModelEvent e) -> {
-            progressBar.setString( String.format( findFilesFmt, Integer.valueOf( tableModel.getRowCount() ) ) );
+            progressBar.setString( String.format( this.findFilesFmt, Integer.valueOf( this.tableModel.getRowCount() ) ) );
         };
         this.tableModel.addTableModelListener( tableModelListener  );
 
@@ -149,7 +149,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
 
     protected AppToolKit getDFToolKit()
     {
-        return dfToolKit;
+        return this.dfToolKit;
     }
 
     public Resources getResources()
@@ -175,7 +175,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
 
     public JFileChooser getJFileChooser()
     {
-        return getDFToolKit().getJFileChooser( dfToolKit.getMainFrame(), this );
+        return getDFToolKit().getJFileChooser( this.dfToolKit.getMainFrame(), AppToolKit.REMOVE_EMPTY_FILES );
     }
 
     @Override
