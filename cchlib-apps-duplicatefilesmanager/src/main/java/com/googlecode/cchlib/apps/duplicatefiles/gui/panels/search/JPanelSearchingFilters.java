@@ -66,8 +66,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
                     // RegEx
                     if( regex != null ) {
                         if( regex.matcher(f.getName()).matches() ) {
-                            pass1FilesCount++;
-                            pass1BytesCount += f.length();
+                            this.pass1FilesCount++;
+                            this.pass1BytesCount += f.length();
                             return true;
                             }
                         }
@@ -77,8 +77,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
 
                     for(int i=0;i<fileExtsL;i++) {
                         if(name.endsWith( fileExts[i] )) {
-                            pass1FilesCount++;
-                            pass1BytesCount += f.length();
+                            this.pass1FilesCount++;
+                            this.pass1BytesCount += f.length();
                             return true;
                             }
                         }
@@ -133,8 +133,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
                                 return false;
                             }
                         }
-                        pass1FilesCount++;
-                        pass1BytesCount += f.length();
+                        this.pass1FilesCount++;
+                        this.pass1BytesCount += f.length();
                         return true;
                     }
                     return false;
@@ -156,8 +156,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
                                 return false;
                             }
                         }
-                        pass1FilesCount++;
-                        pass1BytesCount += f.length();
+                        this.pass1FilesCount++;
+                        this.pass1BytesCount += f.length();
                         return true;
                     }
                     return false;
@@ -167,8 +167,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
     }
 
     protected FileFilter createDirectoriesFileFilter(
-            final FileFilterBuilders fileFilterBuilders
-            )
+        final FileFilterBuilders fileFilterBuilders
+        )
     {
         final boolean skipHidden = fileFilterBuilders.isIgnoreHiddenDirs();
 
@@ -182,37 +182,12 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
             final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
             final int      dirNamesL = dirNames.length;
 
-            LOGGER.info( "dirs regex=" + regex );
-            LOGGER.info( "dirs skipHidden=" + skipHidden );
-            LOGGER.info( "dirNamesL=" + dirNamesL );
-            LOGGER.info( "dirNames=" + excludeDirectoriesFileFilterBuilder.getNamePart() );
+            LOGGER.info( "directoriesFileFilter1 dirs regex=" + regex );
+            LOGGER.info( "directoriesFileFilter1 dirs skipHidden=" + skipHidden );
+            LOGGER.info( "directoriesFileFilter1 dirNamesL=" + dirNamesL );
+            LOGGER.info( "directoriesFileFilter1 dirNames=" + excludeDirectoriesFileFilterBuilder.getNamePart() );
 
-            return f -> {
-                // Hidden files
-                if( skipHidden ) {
-                    if( f.isHidden() ) {
-                        return false;
-                    }
-                }
-                // RegEx
-                if( regex != null ) {
-                    if( regex.matcher(f.getName()).matches() ) {
-                        return false;
-                    }
-                }
-                // Test names ?
-                final String name = f.getName().toLowerCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
-
-                for(int i=0;i<dirNamesL;i++) {
-                    if(name.equals( dirNames[i] )) {
-                        return false;
-                    }
-                }
-
-                setPass1DisplayFile( f );
-
-                return true;
-            };
+            return f -> directoriesFileFilter1( skipHidden, regex, dirNames, dirNamesL, f );
         }
         else {
             final FileFilterBuilder includeDirectoriesFileFilterBuilder = fileFilterBuilders.getIncludeDirs();
@@ -225,56 +200,108 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
                 final String[] dirNames  = includeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
                 final int      dirNamesL = dirNames.length;
 
-                LOGGER.info( "dirs regex=" + regex );
-                LOGGER.info( "dirs skipHidden=" + skipHidden );
-                LOGGER.info( "dirNamesL=" + dirNamesL );
-                LOGGER.info( "dirNames=" + includeDirectoriesFileFilterBuilder.getNamePart() );
+                LOGGER.info( "directoriesFileFilter2 dirs regex=" + regex );
+                LOGGER.info( "directoriesFileFilter2 dirs skipHidden=" + skipHidden );
+                LOGGER.info( "directoriesFileFilter2 dirNamesL=" + dirNamesL );
+                LOGGER.info( "directoriesFileFilter2 dirNames=" + includeDirectoriesFileFilterBuilder.getNamePart() );
 
-                return f -> {
-                    // Hidden files
-                    if( skipHidden ) {
-                        if( f.isHidden() ) {
-                            return false;
-                        }
-                    }
-                    // RegEx
-                    if( regex != null ) {
-                        if( regex.matcher(f.getName()).matches() ) {
-                            return false;
-                        }
-                    }
-                    // Test names ?
-                    final String name = f.getName().toLowerCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
-
-                    for(int i=0;i<dirNamesL;i++) {
-                        if(name.equals( dirNames[i] )) {
-                            setPass1DisplayFile( f );
-                            return true;
-                        }
-                    }
-                    return false;
-                };
+                return f -> directoriesFileFilter2( skipHidden, regex, dirNames, dirNamesL, f );
             }
             else {
-                LOGGER.info( "dirs skipHidden=" + skipHidden );
+                LOGGER.info( "directoriesFileFilter dirs skipHidden=" + skipHidden );
 
-                return f -> {
-                    // Hidden files
-                    if( skipHidden ) {
-                        if( f.isHidden() ) {
-                            return false;
-                        }
-                    }
-                    setPass1DisplayFile( f );
-                    return true;
-                };
+                return f -> directoriesFileFilter( skipHidden, f );
             }
         }
     }
 
+    private boolean directoriesFileFilter( final boolean skipHidden, final File file )
+    {
+        // Hidden files-*----------------------------------------------------------------&
+        if( skipHidden ) {
+            if( file.isHidden() ) {
+                return false;
+            }
+        }
+
+        setPass1DisplayFile( file );
+
+        return true;
+    }
+
+    private boolean directoriesFileFilter2( //
+        final boolean  skipHidden, //
+        final Pattern  regex, //
+        final String[] dirNames, //
+        final int      dirNamesL, //
+        final File     file //
+        )
+    {
+        // Hidden files
+        if( skipHidden ) {
+            if( file.isHidden() ) {
+                return false;
+            }
+        }
+
+        // RegEx
+        if( regex != null ) {
+            if( regex.matcher(file.getName()).matches() ) {
+                return false;
+            }
+        }
+
+        // Test names ?
+        final String name = file.getName().toLowerCase();
+
+        for(int i=0;i<dirNamesL;i++) {
+            if(name.equals( dirNames[i] )) {
+                setPass1DisplayFile( file );
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean directoriesFileFilter1( //
+        final boolean  skipHidden, //
+        final Pattern  regex, //
+        final String[] dirNames, //
+        final int      dirNamesL, //
+        final File     file //
+        )
+    {
+        // Hidden files
+        if( skipHidden ) {
+            if( file.isHidden() ) {
+                return false;
+            }
+        }
+
+        // RegEx
+        if( regex != null ) {
+            if( regex.matcher(file.getName()).matches() ) {
+                return false;
+            }
+        }
+
+        // Test names ?
+        final String name = file.getName().toLowerCase();
+
+        for(int i=0;i<dirNamesL;i++) {
+            if(name.equals( dirNames[i] )) {
+                return false;
+            }
+        }
+
+        setPass1DisplayFile( file );
+
+        return true;
+    }
+
     protected final int getPass1FilesCount()
     {
-        return pass1FilesCount;
+        return this.pass1FilesCount;
     }
 
     protected final void setPass1FilesCount( final int pass1FilesCount )
@@ -284,7 +311,7 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
 
     protected final long getPass1BytesCount()
     {
-        return pass1BytesCount;
+        return this.pass1BytesCount;
     }
 
     protected final void setPass1BytesCount( final long pass1BytesCount )

@@ -158,12 +158,14 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             final FileFilter dirFilter, //
             final FileFilter fileFilter )
     {
-        LOGGER.debug( "soScanPass1: begin" );
+        LOGGER.debug( "doScanPass1: begin" );
         for( final File rootFile : rootFiles ) {
             final Iterable<File> files;
 
             if( rootFile.isDirectory() ) {
                 LOGGER.info( "doScanPass1: examin folder:" + rootFile );
+                LOGGER.info( "doScanPass1: examin fileFilter:" + fileFilter );
+                LOGGER.info( "doScanPass1: examin dirFilter:" + dirFilter );
 
                 files = new FileIterable(
                         rootFile,
@@ -180,7 +182,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             this.dff.addFiles( files );
         }
 
-        LOGGER.debug( "soScanPass1: end" );
+        LOGGER.debug( "doScanPass1: end" );
     }
 
     private void doScanPass2()
@@ -387,16 +389,6 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
     private void doScanPass1Prepare( final ScanParams scanParams )
     {
-//        // TODO Auto-generated method stub
-//        x
-//    }
-//
-//    private void doScanPass1Prepare(x
-//        final Iterable<File>      entriesToScans,
-//        final Iterable<File>      entriesToIgnore,
-//        final FileFilterBuilders  fileFilterBuilders
-//        )
-//    {
         this.displayPass = 1;
 
         LOGGER.info( "doScanPass1Prepare: begin" );
