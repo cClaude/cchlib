@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Window;
 import java.io.File;
@@ -20,10 +19,13 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
  */
 public interface AppToolKit extends Serializable
 {
+    public static final String DUPLICATES = "DUPLICATES";
+    public static final String REMOVE_EMPTY_FILES = "REMOVE_EMPTY_FILES";
+
     void initJFileChooser();
 
-    JFileChooserInitializer getJFileChooserInitializer( Window parentWindow, Component refComponent );
-    JFileChooser getJFileChooser( Window parentWindow, Component refComponent );
+    JFileChooserInitializer getJFileChooserInitializer( Window parentWindow, String componentName );
+    JFileChooser getJFileChooser( Window parentWindow, String componentName );
 
     void beep();
     void openDesktop( File file );

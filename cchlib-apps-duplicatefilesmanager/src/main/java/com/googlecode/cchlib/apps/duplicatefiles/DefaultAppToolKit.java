@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.Window;
@@ -41,7 +40,7 @@ final class DefaultAppToolKit
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultAppToolKit.class );
 
-    private final Map<Component,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>();
+    private final Map<String,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>();
     private final PreferencesControler preferences;
     private DuplicateFilesFrame mainWindow;
     private Set<AutoI18nConfig> autoI18nConfig;
@@ -115,27 +114,31 @@ final class DefaultAppToolKit
     public void initJFileChooser()
     {
         final Window win = getMainFrame();
-        getJFileChooserInitializer( win , win );
+        getJFileChooserInitializer( win , DUPLICATES );
     }
 
     @Override // DFToolKit
     public JFileChooser getJFileChooser(
-        final Window    parentWindow,
-        final Component refComponent
+        final Window parentWindow,
+        final String componentName
         )
     {
-        return getJFileChooserInitializer( parentWindow, refComponent ).getJFileChooser();
+        return getJFileChooserInitializer( parentWindow, componentName ).getJFileChooser();
     }
 
     @Override
     public JFileChooserInitializer getJFileChooserInitializer(
-        final Window    parentWindow,
-        final Component refComponent
+        final Window parentWindow,
+        final String componentName
         )
     {
-        JFileChooserInitializer jFileChooserInitializer = this.jFileChooserInitializerMap.get( refComponent );
+        JFileChooserInitializer jFileChooserInitializer = this.jFileChooserInitializerMap.get( componentName );
 
         if( jFileChooserInitializer == null ) {
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "Prepare JFileChooser for : " + componentName );
+            }
+
             final DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
             {
                 private static final long serialVersionUID = 1L;
@@ -160,7 +163,7 @@ final class DefaultAppToolKit
                     this.jFileChooserInitializerTitle,
                     this.jFileChooserInitializerMessage
                     );
-            this.jFileChooserInitializerMap.put( refComponent, jFileChooserInitializer );
+            this.jFileChooserInitializerMap.put( componentName, jFileChooserInitializer );
         }
 
         return jFileChooserInitializer;

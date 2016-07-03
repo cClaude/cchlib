@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.awt.Component;
 import java.awt.Frame;
 import java.awt.Window;
 import java.io.File;
@@ -21,46 +20,47 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 public class FakeAppToolKit implements AppToolKit
 {
     private static final long serialVersionUID = 1L;
+
     private JFileChooserInitializer jFileChooserInitializer;
     private final DefaultAppToolKit delegator;
 
     public FakeAppToolKit()
     {
-        delegator = new DefaultAppToolKit(null);
+        this.delegator = new DefaultAppToolKit(null);
     }
 
     @Override
     public void initJFileChooser()
     {
         final Window win = getMainFrame();
-        getJFileChooserInitializer( win , win );
+        getJFileChooserInitializer( win , AppToolKit.DUPLICATES );
     }
 
     @Override
     public JFileChooserInitializer getJFileChooserInitializer(
         final Window parentWindow,
-        final Component refComponent
+        final String componentName
         )
     {
-        if( jFileChooserInitializer == null ) {
-            jFileChooserInitializer = new JFileChooserInitializer();
+        if( this.jFileChooserInitializer == null ) {
+            this.jFileChooserInitializer = new JFileChooserInitializer();
             }
-        return jFileChooserInitializer;
+        return this.jFileChooserInitializer;
     }
 
     @Override
     public JFileChooser getJFileChooser(
         final Window parentWindow,
-        final Component refComponent
+        final String componentName
         )
     {
-        return getJFileChooserInitializer( parentWindow, refComponent ).getJFileChooser();
+        return getJFileChooserInitializer( parentWindow, componentName ).getJFileChooser();
     }
 
     @Override
     public void beep()
     {
-        delegator.beep();
+        this.delegator.beep();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class FakeAppToolKit implements AppToolKit
     @Override
     public void sleep( final long ms )
     {
-        delegator.sleep( ms );
+        this.delegator.sleep( ms );
     }
 
     @Override
@@ -117,7 +117,7 @@ public class FakeAppToolKit implements AppToolKit
     @Override
     public Resources getResources()
     {
-        return delegator.getResources();
+        return this.delegator.getResources();
     }
 
     @Override
@@ -129,12 +129,12 @@ public class FakeAppToolKit implements AppToolKit
     @Override
     public I18nResourceBundleName getI18nResourceBundleName()
     {
-        return delegator.getI18nResourceBundleName();
+        return this.delegator.getI18nResourceBundleName();
     }
 
     @Override
     public Set<AutoI18nConfig> getAutoI18nConfig()
     {
-        return delegator.getAutoI18nConfig();
+        return this.delegator.getAutoI18nConfig();
     }
 }
