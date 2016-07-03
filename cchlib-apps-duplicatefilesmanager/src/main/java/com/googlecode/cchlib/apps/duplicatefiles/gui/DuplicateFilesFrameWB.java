@@ -24,7 +24,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 /**
  * Main frame layout.
  */
-public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.preferInterfacesToAbstractClasses, largeNumberOfFields
+public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // NOSONAR
 {
     private final class DuplicateFilesFrameWindowAdapter extends WindowAdapter {
         @Override

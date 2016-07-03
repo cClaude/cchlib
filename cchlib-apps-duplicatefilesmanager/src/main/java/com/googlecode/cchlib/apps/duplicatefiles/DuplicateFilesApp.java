@@ -24,8 +24,13 @@ public class DuplicateFilesApp
 {
     private static final Logger LOGGER = Logger.getLogger( DuplicateFilesApp.class );
 
-    private static final String ENTRY_TO_ADD = "entry-to-add";
+    private static final String ENTRY_TO_ADD    = "entry-to-add";
     private static final String PREFERENCE_FILE = "preference-file";
+
+    private DuplicateFilesApp()
+    {
+        // static only
+    }
 
     /**
      * Launch application
@@ -54,29 +59,36 @@ public class DuplicateFilesApp
 
         preferences.applyLookAndFeel();
 
-        SwingUtilities.invokeLater( () -> {
-            try {
-                final DuplicateFilesFrame frame = new DuplicateFilesFrame( preferences );
+        SwingUtilities.invokeLater( () -> launchGUI( preferences, title, line ) );
+    }
 
-                if( line.hasOption( ENTRY_TO_ADD ) ) {
-                    frame.addEntry( line.getOptionValue( ENTRY_TO_ADD ) );
-                }
+    private static void launchGUI( //
+        final PreferencesControler preferences, //
+        final String               title, //
+        final CommandLine          line //
+        )
+    {
+        try {
+            final DuplicateFilesFrame frame = new DuplicateFilesFrame( preferences );
 
-                frame.setTitle( title );
-                frame.getContentPane().setPreferredSize( frame.getSize() );
-                frame.pack();
-                frame.setLocationRelativeTo( null );
-                frame.setVisible( true );
-                frame.getDFToolKit().initJFileChooser();
-
-                JFrames.handleMinimumSize(frame, preferences.getMinimumWindowDimension());
+            if( line.hasOption( ENTRY_TO_ADD ) ) {
+                frame.addEntry( line.getOptionValue( ENTRY_TO_ADD ) );
             }
-            catch( final Throwable e ) {
-                LOGGER.fatal( "Can't load application", e );
 
-                DialogHelper.showMessageExceptionDialog( title, e );
-            }
-        });
+            frame.setTitle( title );
+            frame.getContentPane().setPreferredSize( frame.getSize() );
+            frame.pack();
+            frame.setLocationRelativeTo( null );
+            frame.setVisible( true );
+            frame.getDFToolKit().initJFileChooser();
+
+            JFrames.handleMinimumSize(frame, preferences.getMinimumWindowDimension());
+        }
+        catch( final Throwable e ) { // NOSONAR
+            LOGGER.fatal( "Can't load application", e );
+
+            DialogHelper.showMessageExceptionDialog( title, e );
+        }
     }
 
     private static File getPreferenceFile( final CommandLine line )

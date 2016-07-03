@@ -1,12 +1,15 @@
 // $codepro.audit.disable staticFieldNamingConvention
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+import java.io.Serializable;
 import javax.swing.Icon;
 import com.googlecode.cchlib.apps.duplicatefiles.tools.MyResourcesLoader;
 
-public class IconResources
+public class IconResources implements Serializable
 {
-    private static volatile IconResources instance;
+    private static final long serialVersionUID = 1L;
+
+    private static volatile IconResources INSTANCE;
 
     private Icon emptyIcon;
     private Icon emptySelectedIcon;
@@ -28,14 +31,14 @@ public class IconResources
 
     public static IconResources getInstance()
     {
-        if( instance == null ) {
+        if( INSTANCE == null ) {
             synchronized( IconResources.class ) {
-                if( instance == null ) {
-                    instance = new IconResources();
+                if( INSTANCE == null ) {
+                    INSTANCE = new IconResources();
                 }
             }
         }
-        return instance;
+        return INSTANCE;
     }
 
     public Icon getEmptyIcon()

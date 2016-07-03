@@ -158,6 +158,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             final FileFilter dirFilter, //
             final FileFilter fileFilter )
     {
+        LOGGER.debug( "soScanPass1: begin" );
         for( final File rootFile : rootFiles ) {
             final Iterable<File> files;
 
@@ -177,7 +178,9 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             }
 
             this.dff.addFiles( files );
-       }
+        }
+
+        LOGGER.debug( "soScanPass1: end" );
     }
 
     private void doScanPass2()

@@ -356,9 +356,9 @@ public class JPanelConfig
     }
 
     private static FileFilterBuilderImpl createExcludeFileFilter( //
-            final boolean            userExcludeFileFilter,
-            final JPanelConfigFilter jPanelConfigFilter
-            )
+        final boolean            userExcludeFileFilter,
+        final JPanelConfigFilter jPanelConfigFilter
+        )
     {
         final Set<String>   namesList = new HashSet<>();
         Pattern             pattern   = null;
