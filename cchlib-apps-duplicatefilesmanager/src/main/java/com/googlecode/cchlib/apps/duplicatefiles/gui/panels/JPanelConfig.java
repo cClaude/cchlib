@@ -416,8 +416,10 @@ public class JPanelConfig
         final FilterType ffType  = FilterType.buildFromOrdinal( getJComboBoxFilesFilters().getSelectedIndex() );
         final FilterType efType  = FilterType.buildFromOrdinal( getJComboBoxDirsFilters().getSelectedIndex() );
 
-        LOGGER.info( "FFtype = " + ffType );
-        LOGGER.info( "EFtype = " + efType);
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "FFtype = " + ffType );
+            LOGGER.debug( "EFtype = " + efType);
+        }
 
         // Special cases
         final boolean ignoreEmptyFiles      = getjCheckBoxIgnoreEmptyFiles().isSelected();
@@ -443,7 +445,9 @@ public class JPanelConfig
 
         final ConfigFileFilterBuilders configFileFilterBuilders = new ConfigFileFilterBuilders( configurator, ignoreHiddedFiles, efType, ignoreHiddedDirs, ffType, ignoreEmptyFiles, ignoreReadOnlyFiles );
 
-        LOGGER.info( "configFileFilterBuilders = " + configFileFilterBuilders);
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "configFileFilterBuilders = " + configFileFilterBuilders);
+        }
 
         return configFileFilterBuilders;
     }
