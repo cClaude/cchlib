@@ -80,3 +80,4 @@ xcchlib-sandbox/xcchlib-sandbox-tools/target/
 xcchlib-tools/.classpath
 xcchlib-tools/output/
 xcchlib-tools/target/
+.sonar_lock

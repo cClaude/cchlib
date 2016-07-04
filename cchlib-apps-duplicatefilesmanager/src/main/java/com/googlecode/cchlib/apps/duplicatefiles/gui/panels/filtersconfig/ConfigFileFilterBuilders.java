@@ -33,6 +33,10 @@ final class ConfigFileFilterBuilders implements FileFilterBuilders {
         this.ignoreReadOnlyFiles    = ignoreReadOnlyFiles;
 
         switch( efType ) {
+            case DISABLED:
+                this.excludeDirs = null;
+                this.includeDirs = null;
+                break;
             case EXCLUDE_FILTER:
                 this.excludeDirs = configurator.createExcludeDirectoriesFileFilterBuilder();
                 this.includeDirs = null;
@@ -46,6 +50,10 @@ final class ConfigFileFilterBuilders implements FileFilterBuilders {
         }
 
         switch( ffType ) {
+            case DISABLED:
+                this.includeFiles = null;
+                this.excludeFiles = null;
+                break;
             case EXCLUDE_FILTER:
                 this.includeFiles = null;
                 this.excludeFiles = configurator.createExcludeFilesFileFilterBuilder();

@@ -16,13 +16,13 @@ public class AutoI18nCoreService {
 
     private static AutoI18nCore initI18n()
     {
-        final AppToolKit   appToolKit = AppToolKitService.getInstance().getAppToolKit();
-        final AutoI18nCore value      = AutoI18nCoreFactory.createAutoI18nCore(
+        final AppToolKit appToolKit = AppToolKitService.getInstance().getAppToolKit();
+
+        return AutoI18nCoreFactory.createAutoI18nCore(
                 AutoI18nConfigService.getInstance().getAutoI18nConfig(),
                 appToolKit.getI18nResourceBundleName(),
                 appToolKit.getValidLocale()
                 );
-        return value;
     }
 
     public AutoI18nCore getAutoI18nCore()
