@@ -1,6 +1,5 @@
-package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
+package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.filtersconfig;
 
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigWB;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
 public abstract class JPanelConfigI18n extends JPanelConfigWB

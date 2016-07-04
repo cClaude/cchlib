@@ -40,6 +40,7 @@ abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implem
     private final JPanelCurrentFiles panelCurrentFiles;
 
     /**
+     * Do not use - only for WindowBuilder Editor
      * @wbp.parser.constructor
      */
     public JPanelSearchingLayoutWB()
@@ -71,7 +72,7 @@ abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implem
             add(lblFilesReads, gbc_lblFilesReads);
         }
         {// line 0
-            jProgressBarFiles = new JProgressBar();
+            this.jProgressBarFiles = new JProgressBar();
             final GridBagConstraints gbc_jProgressBarFiles = new GridBagConstraints();
             gbc_jProgressBarFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jProgressBarFiles.insets = new Insets(0, 0, 5, 0);
@@ -81,65 +82,65 @@ abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implem
         }
 
         {// line 1
-            jLabelBytesReadFromDisk = new JLabel("Bytes reads :");
-            jLabelBytesReadFromDisk.setHorizontalAlignment(SwingConstants.RIGHT);
+            this.jLabelBytesReadFromDisk = new JLabel("Bytes reads :");
+            this.jLabelBytesReadFromDisk.setHorizontalAlignment(SwingConstants.RIGHT);
             final GridBagConstraints gbc_jLabelBytesReadFromDisk = new GridBagConstraints();
             gbc_jLabelBytesReadFromDisk.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelBytesReadFromDisk.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelBytesReadFromDisk.gridx = 0;
             gbc_jLabelBytesReadFromDisk.gridy = 1;
-            add(jLabelBytesReadFromDisk, gbc_jLabelBytesReadFromDisk);
+            add(this.jLabelBytesReadFromDisk, gbc_jLabelBytesReadFromDisk);
         }
         {// line 1
-            jProgressBarOctets = new JProgressBar();
+            this.jProgressBarOctets = new JProgressBar();
             final GridBagConstraints gbc_jProgressBarOctets = new GridBagConstraints();
             gbc_jProgressBarOctets.fill = GridBagConstraints.HORIZONTAL;
             gbc_jProgressBarOctets.insets = new Insets(0, 0, 5, 0);
             gbc_jProgressBarOctets.gridx = 1;
             gbc_jProgressBarOctets.gridy = 1;
-            add(jProgressBarOctets, gbc_jProgressBarOctets);
+            add(this.jProgressBarOctets, gbc_jProgressBarOctets);
         }
 
         {// line 2
-            jLabelDuplicateSetsFound = new JLabel("Duplicate sets found :");
-            jLabelDuplicateSetsFound.setHorizontalAlignment(SwingConstants.RIGHT);
+            this.jLabelDuplicateSetsFound = new JLabel("Duplicate sets found :");
+            this.jLabelDuplicateSetsFound.setHorizontalAlignment(SwingConstants.RIGHT);
             final GridBagConstraints gbc_jLabelDuplicateSetsFound = new GridBagConstraints();
             gbc_jLabelDuplicateSetsFound.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDuplicateSetsFound.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelDuplicateSetsFound.gridx = 0;
             gbc_jLabelDuplicateSetsFound.gridy = 2;
-            add(jLabelDuplicateSetsFound, gbc_jLabelDuplicateSetsFound);
+            add(this.jLabelDuplicateSetsFound, gbc_jLabelDuplicateSetsFound);
         }
         {// line 2
-            jLabelDuplicateSetsFoundValue = new JLabel();
+            this.jLabelDuplicateSetsFoundValue = new JLabel();
             final GridBagConstraints gbc_jLabelDuplicateSetsFoundValue = new GridBagConstraints();
             gbc_jLabelDuplicateSetsFoundValue.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDuplicateSetsFoundValue.insets = new Insets(0, 0, 5, 0);
             gbc_jLabelDuplicateSetsFoundValue.gridx = 1;
             gbc_jLabelDuplicateSetsFoundValue.gridy = 2;
-            add(jLabelDuplicateSetsFoundValue, gbc_jLabelDuplicateSetsFoundValue);
+            add(this.jLabelDuplicateSetsFoundValue, gbc_jLabelDuplicateSetsFoundValue);
         }
 
         {// line 3
-            jLabelDuplicateFilesFound = new JLabel();
-            jLabelDuplicateFilesFound.setHorizontalAlignment(SwingConstants.RIGHT);
-            jLabelDuplicateFilesFound.setText("DuplicateFilesFound :");
+            this.jLabelDuplicateFilesFound = new JLabel();
+            this.jLabelDuplicateFilesFound.setHorizontalAlignment(SwingConstants.RIGHT);
+            this.jLabelDuplicateFilesFound.setText("DuplicateFilesFound :");
             final GridBagConstraints gbc_jLabelDuplicateFilesFound = new GridBagConstraints();
             gbc_jLabelDuplicateFilesFound.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDuplicateFilesFound.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelDuplicateFilesFound.gridx = 0;
             gbc_jLabelDuplicateFilesFound.gridy = 3;
-            add(jLabelDuplicateFilesFound, gbc_jLabelDuplicateFilesFound);
+            add(this.jLabelDuplicateFilesFound, gbc_jLabelDuplicateFilesFound);
         }
         {// line 3
-            jLabelDuplicateFilesFoundValue = new JLabel();
-            jLabelDuplicateFilesFoundValue.setHorizontalAlignment(SwingConstants.LEFT);
+            this.jLabelDuplicateFilesFoundValue = new JLabel();
+            this.jLabelDuplicateFilesFoundValue.setHorizontalAlignment(SwingConstants.LEFT);
             final GridBagConstraints gbc_jLabelDuplicateFilesFoundValue = new GridBagConstraints();
             gbc_jLabelDuplicateFilesFoundValue.fill = GridBagConstraints.BOTH;
             gbc_jLabelDuplicateFilesFoundValue.insets = new Insets(0, 0, 5, 0);
             gbc_jLabelDuplicateFilesFoundValue.gridx = 1;
             gbc_jLabelDuplicateFilesFoundValue.gridy = 3;
-            add(jLabelDuplicateFilesFoundValue, gbc_jLabelDuplicateFilesFoundValue);
+            add(this.jLabelDuplicateFilesFoundValue, gbc_jLabelDuplicateFilesFoundValue);
         }
 
         {// line 4
@@ -162,8 +163,8 @@ abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implem
             gbc_scrollPane.gridy = 5;
             add(scrollPane, gbc_scrollPane);
 
-            jTableErrorList = new JTable();
-            scrollPane.setViewportView(jTableErrorList);
+            this.jTableErrorList = new JTable();
+            scrollPane.setViewportView(this.jTableErrorList);
         }
     }
 
@@ -181,7 +182,7 @@ abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implem
     public final void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
-        autoI18n.performeI18n( tableModelErrorList, ErrorTableModel.class );
+        autoI18n.performeI18n( this.tableModelErrorList, ErrorTableModel.class );
     }
 
     public void initFixComponents()
@@ -197,16 +198,16 @@ abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implem
 //        };
 //        tableModelErrorList.addColumn( "Files" );
 //        tableModelErrorList.addColumn( "Errors" );
-        jTableErrorList.setModel( tableModelErrorList );
+        this.jTableErrorList.setModel( this.tableModelErrorList );
 
         getjProgressBarFiles().setStringPainted( true );
-        jProgressBarOctets.setStringPainted( true );
+        this.jProgressBarOctets.setStringPainted( true );
     }
 
     protected void prepareScan()
     {
         getjProgressBarFiles().setIndeterminate( true );
-        jProgressBarOctets.setIndeterminate( true );
+        this.jProgressBarOctets.setIndeterminate( true );
 
         clearCurrentFiles();
         setCurrentDir( getTxtCurrentDir() );
@@ -219,62 +220,62 @@ abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implem
 
     protected void clearErrors()
     {
-        tableModelErrorList.clear();
+        this.tableModelErrorList.clear();
     }
 
     protected ErrorTableModel getTableModelErrorList()
     {
-        return tableModelErrorList;
+        return this.tableModelErrorList;
     }
 
     protected JProgressBar getjProgressBarFiles()
     {
-        return jProgressBarFiles;
+        return this.jProgressBarFiles;
     }
 
     protected JProgressBar getjProgressBarOctets()
     {
-        return jProgressBarOctets;
+        return this.jProgressBarOctets;
     }
 
     protected JLabel getjLabelDuplicateSetsFoundValue()
     {
-        return jLabelDuplicateSetsFoundValue;
+        return this.jLabelDuplicateSetsFoundValue;
     }
 
     protected JLabel getjLabelDuplicateFilesFoundValue()
     {
-        return jLabelDuplicateFilesFoundValue;
+        return this.jLabelDuplicateFilesFoundValue;
     }
 
     protected void setCurrentFile( final String currentFileText, final int threadNumber )
     {
-        panelCurrentFiles.setCurrentFile( currentFileText, threadNumber );
+        this.panelCurrentFiles.setCurrentFile( currentFileText, threadNumber );
     }
 
     protected void setCurrentFileLabels( final String label )
     {
-        panelCurrentFiles.setCurrentFileLabels( label );
+        this.panelCurrentFiles.setCurrentFileLabels( label );
     }
 
     protected void clearCurrentFiles()
     {
-        panelCurrentFiles.clearCurrentFiles();
+        this.panelCurrentFiles.clearCurrentFiles();
     }
 
     protected void clearCurrentFile( final int threadNumber )
     {
-        panelCurrentFiles.clearCurrentFile( threadNumber );
+        this.panelCurrentFiles.clearCurrentFile( threadNumber );
     }
 
     protected void clearCurrentFileLabels()
     {
-        panelCurrentFiles.clearCurrentFileLabels();
+        this.panelCurrentFiles.clearCurrentFileLabels();
     }
 
     private void setCurrentDir( final String currentDir )
     {
-        panelCurrentFiles.setCurrentDir( currentDir );
+        this.panelCurrentFiles.setCurrentDir( currentDir );
     }
 
 //    public void clear()

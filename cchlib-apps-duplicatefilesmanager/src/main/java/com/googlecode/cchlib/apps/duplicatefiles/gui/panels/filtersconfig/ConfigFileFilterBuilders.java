@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
+package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.filtersconfig;
 
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilderConfigurator;

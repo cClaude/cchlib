@@ -16,6 +16,7 @@ public class JPanelCurrentFile extends JPanel
     private final JTextField[] jTextFieldCurrentFiles;
 
     /**
+     * Do not use - only for WindowBuilder Editor
      * @wbp.parser.constructor
      */
     public JPanelCurrentFile()
@@ -25,8 +26,8 @@ public class JPanelCurrentFile extends JPanel
 
     JPanelCurrentFile( final int nThread )
     {
-        jLabelCurrentFiles     = new JLabel[nThread];
-        jTextFieldCurrentFiles = new JTextField[nThread];
+        this.jLabelCurrentFiles     = new JLabel[nThread];
+        this.jTextFieldCurrentFiles = new JTextField[nThread];
 
         final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 200, 0};
@@ -56,8 +57,8 @@ public class JPanelCurrentFile extends JPanel
             gbc_jTextFieldCurrentFile.gridy = i;
             add( jTextField, gbc_jTextFieldCurrentFile );
 
-            jLabelCurrentFiles[ i ] = jLabel;
-            jTextFieldCurrentFiles[ i ] = jTextField;
+            this.jLabelCurrentFiles[ i ] = jLabel;
+            this.jTextFieldCurrentFiles[ i ] = jTextField;
         }
     }
 
@@ -106,12 +107,12 @@ public class JPanelCurrentFile extends JPanel
 
     public void setCurrentFile( final String currentFileText, final int threadNumber )
     {
-        jTextFieldCurrentFiles[ threadNumber ].setText( currentFileText );
+        this.jTextFieldCurrentFiles[ threadNumber ].setText( currentFileText );
     }
 
     public void setCurrentFileLabel( final String label, final int threadNumber )
     {
-        jLabelCurrentFiles[ threadNumber ].setText( label );
+        this.jLabelCurrentFiles[ threadNumber ].setText( label );
     }
 
 }

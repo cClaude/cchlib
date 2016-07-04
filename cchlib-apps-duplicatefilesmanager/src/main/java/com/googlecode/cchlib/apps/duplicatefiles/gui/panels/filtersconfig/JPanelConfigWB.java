@@ -1,5 +1,5 @@
 // $codepro.audit.disable numericLiterals
-package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config;
+package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.filtersconfig;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -21,8 +21,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 public abstract class JPanelConfigWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
-    private final JComboBox<String> jComboBoxFilesFilters;
-    private final JComboBox<String> jComboBoxDirsFilters;
+    private final JComboBox<FilterType> jComboBoxFilesFilters;
+    private final JComboBox<FilterType> jComboBoxDirsFilters;
     private final JCheckBox jCheckBoxFFIgnoreHidden;
     private final JCheckBox jCheckBoxFDIgnoreHidden;
     private final JCheckBox jCheckBoxIgnoreReadOnlyFiles;
@@ -53,103 +53,103 @@ public abstract class JPanelConfigWB extends JPanel
         setLayout(gridBagLayout);
 
         {
-            jPanelFilesFilers = new JPanel();
-            jPanelFilesFilers.setBorder( jPanelFilesFilersTitledBorder );
+            this.jPanelFilesFilers = new JPanel();
+            this.jPanelFilesFilers.setBorder( this.jPanelFilesFilersTitledBorder );
             final GridBagConstraints gbc_jPanelFilesFilers = new GridBagConstraints();
             gbc_jPanelFilesFilers.fill = GridBagConstraints.BOTH;
             gbc_jPanelFilesFilers.insets = new Insets(0, 0, 5, 5);
             gbc_jPanelFilesFilers.gridx = 0;
             gbc_jPanelFilesFilers.gridy = 0;
-            add(jPanelFilesFilers, gbc_jPanelFilesFilers);
+            add(this.jPanelFilesFilers, gbc_jPanelFilesFilers);
             final GridBagLayout gbl_jPanelFilesFilers = new GridBagLayout();
             gbl_jPanelFilesFilers.columnWidths = new int[]{0, 0};
             gbl_jPanelFilesFilers.rowHeights = new int[]{0, 0};
             gbl_jPanelFilesFilers.columnWeights = new double[]{1.0, Double.MIN_VALUE};
             gbl_jPanelFilesFilers.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-            jPanelFilesFilers.setLayout(gbl_jPanelFilesFilers);
+            this.jPanelFilesFilers.setLayout(gbl_jPanelFilesFilers);
         }
 
-        jComboBoxFilesFilters = createJComboBoxString();
-        jComboBoxFilesFilters.addActionListener( getActionListener() );
+        this.jComboBoxFilesFilters = createJComboBoxFilterType();
+        this.jComboBoxFilesFilters.addActionListener( getActionListener() );
         final GridBagConstraints gbc_jComboBoxFilesFilters = new GridBagConstraints();
         gbc_jComboBoxFilesFilters.fill = GridBagConstraints.HORIZONTAL;
         gbc_jComboBoxFilesFilters.gridx = 0;
         gbc_jComboBoxFilesFilters.gridy = 0;
-        jPanelFilesFilers.add(jComboBoxFilesFilters, gbc_jComboBoxFilesFilters);
+        this.jPanelFilesFilers.add(this.jComboBoxFilesFilters, gbc_jComboBoxFilesFilters);
 
-        jPanelIgnore = new JPanel();
-        jPanelIgnore.setBorder( jPanelIgnoreTitledBorder  );
+        this.jPanelIgnore = new JPanel();
+        this.jPanelIgnore.setBorder( this.jPanelIgnoreTitledBorder  );
         final GridBagConstraints gbc_jPanelIgnore = new GridBagConstraints();
         gbc_jPanelIgnore.insets = new Insets(0, 0, 5, 0);
         gbc_jPanelIgnore.gridheight = 2;
         gbc_jPanelIgnore.fill = GridBagConstraints.BOTH;
         gbc_jPanelIgnore.gridx = 1;
         gbc_jPanelIgnore.gridy = 0;
-        add(jPanelIgnore, gbc_jPanelIgnore);
+        add(this.jPanelIgnore, gbc_jPanelIgnore);
         final GridBagLayout gbl_jPanelIgnore = new GridBagLayout();
         gbl_jPanelIgnore.columnWidths = new int[]{0, 0, 0};
         gbl_jPanelIgnore.rowHeights = new int[]{0, 0, 0};
         gbl_jPanelIgnore.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
         gbl_jPanelIgnore.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-        jPanelIgnore.setLayout(gbl_jPanelIgnore);
+        this.jPanelIgnore.setLayout(gbl_jPanelIgnore);
 
-        jCheckBoxFFIgnoreHidden = new JCheckBox("Hidden files");
-        jCheckBoxFFIgnoreHidden.setSelected( prefs.isIgnoreHiddenFiles() );
+        this.jCheckBoxFFIgnoreHidden = new JCheckBox("Hidden files");
+        this.jCheckBoxFFIgnoreHidden.setSelected( prefs.isIgnoreHiddenFiles() );
         final GridBagConstraints gbc_jCheckBoxFFIgnoreHidden = new GridBagConstraints();
         gbc_jCheckBoxFFIgnoreHidden.fill = GridBagConstraints.HORIZONTAL;
         gbc_jCheckBoxFFIgnoreHidden.insets = new Insets(0, 0, 5, 5);
         gbc_jCheckBoxFFIgnoreHidden.gridx = 0;
         gbc_jCheckBoxFFIgnoreHidden.gridy = 0;
-        jPanelIgnore.add(jCheckBoxFFIgnoreHidden, gbc_jCheckBoxFFIgnoreHidden);
+        this.jPanelIgnore.add(this.jCheckBoxFFIgnoreHidden, gbc_jCheckBoxFFIgnoreHidden);
 
-        jCheckBoxIgnoreReadOnlyFiles = new JCheckBox("Read only files");
-        jCheckBoxIgnoreReadOnlyFiles.setSelected( prefs.isIgnoreReadOnlyFiles() );
+        this.jCheckBoxIgnoreReadOnlyFiles = new JCheckBox("Read only files");
+        this.jCheckBoxIgnoreReadOnlyFiles.setSelected( prefs.isIgnoreReadOnlyFiles() );
         final GridBagConstraints gbc_jCheckBoxIgnoreReadOnlyFiles = new GridBagConstraints();
         gbc_jCheckBoxIgnoreReadOnlyFiles.fill = GridBagConstraints.HORIZONTAL;
         gbc_jCheckBoxIgnoreReadOnlyFiles.insets = new Insets(0, 0, 5, 0);
         gbc_jCheckBoxIgnoreReadOnlyFiles.gridx = 1;
         gbc_jCheckBoxIgnoreReadOnlyFiles.gridy = 0;
-        jPanelIgnore.add(jCheckBoxIgnoreReadOnlyFiles, gbc_jCheckBoxIgnoreReadOnlyFiles);
+        this.jPanelIgnore.add(this.jCheckBoxIgnoreReadOnlyFiles, gbc_jCheckBoxIgnoreReadOnlyFiles);
 
-        jCheckBoxFDIgnoreHidden = new JCheckBox("Hidden directories");
-        jCheckBoxFDIgnoreHidden.setSelected( prefs.isIgnoreHiddenDirectories() );
+        this.jCheckBoxFDIgnoreHidden = new JCheckBox("Hidden directories");
+        this.jCheckBoxFDIgnoreHidden.setSelected( prefs.isIgnoreHiddenDirectories() );
         final GridBagConstraints gbc_jCheckBoxFDIgnoreHidden = new GridBagConstraints();
         gbc_jCheckBoxFDIgnoreHidden.fill = GridBagConstraints.HORIZONTAL;
         gbc_jCheckBoxFDIgnoreHidden.insets = new Insets(0, 0, 0, 5);
         gbc_jCheckBoxFDIgnoreHidden.gridx = 0;
         gbc_jCheckBoxFDIgnoreHidden.gridy = 1;
-        jPanelIgnore.add(jCheckBoxFDIgnoreHidden, gbc_jCheckBoxFDIgnoreHidden);
+        this.jPanelIgnore.add(this.jCheckBoxFDIgnoreHidden, gbc_jCheckBoxFDIgnoreHidden);
 
-        jCheckBoxIgnoreEmptyFiles = new JCheckBox("Empty files");
-        jCheckBoxIgnoreEmptyFiles.setSelected( prefs.isIgnoreEmptyFiles() );
+        this.jCheckBoxIgnoreEmptyFiles = new JCheckBox("Empty files");
+        this.jCheckBoxIgnoreEmptyFiles.setSelected( prefs.isIgnoreEmptyFiles() );
         final GridBagConstraints gbc_jCheckBoxIgnoreEmptyFiles = new GridBagConstraints();
         gbc_jCheckBoxIgnoreEmptyFiles.fill = GridBagConstraints.HORIZONTAL;
         gbc_jCheckBoxIgnoreEmptyFiles.gridx = 1;
         gbc_jCheckBoxIgnoreEmptyFiles.gridy = 1;
-        jPanelIgnore.add(jCheckBoxIgnoreEmptyFiles, gbc_jCheckBoxIgnoreEmptyFiles);
+        this.jPanelIgnore.add(this.jCheckBoxIgnoreEmptyFiles, gbc_jCheckBoxIgnoreEmptyFiles);
 
-        jPanelDirectoryFilters = new JPanel();
-        jPanelDirectoryFilters.setBorder( jPanelDirectoryFiltersTitledBorder  );
+        this.jPanelDirectoryFilters = new JPanel();
+        this.jPanelDirectoryFilters.setBorder( this.jPanelDirectoryFiltersTitledBorder  );
         final GridBagConstraints gbc_jPanelDirectoryFilters = new GridBagConstraints();
         gbc_jPanelDirectoryFilters.fill = GridBagConstraints.BOTH;
         gbc_jPanelDirectoryFilters.insets = new Insets(0, 0, 5, 5);
         gbc_jPanelDirectoryFilters.gridx = 0;
         gbc_jPanelDirectoryFilters.gridy = 1;
-        add(jPanelDirectoryFilters, gbc_jPanelDirectoryFilters);
+        add(this.jPanelDirectoryFilters, gbc_jPanelDirectoryFilters);
         final GridBagLayout gbl_jPanelDirectoryFilters = new GridBagLayout();
         gbl_jPanelDirectoryFilters.columnWidths = new int[]{0, 0};
         gbl_jPanelDirectoryFilters.rowHeights = new int[]{0, 0};
         gbl_jPanelDirectoryFilters.columnWeights = new double[]{1.0, Double.MIN_VALUE};
         gbl_jPanelDirectoryFilters.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-        jPanelDirectoryFilters.setLayout(gbl_jPanelDirectoryFilters);
+        this.jPanelDirectoryFilters.setLayout(gbl_jPanelDirectoryFilters);
 
-        jComboBoxDirsFilters = createJComboBoxString();
-        jComboBoxDirsFilters.addActionListener( getActionListener() );
+        this.jComboBoxDirsFilters = createJComboBoxFilterType();
+        this.jComboBoxDirsFilters.addActionListener( getActionListener() );
         final GridBagConstraints gbc_jComboBoxDirsFilters = new GridBagConstraints();
         gbc_jComboBoxDirsFilters.fill = GridBagConstraints.HORIZONTAL;
         gbc_jComboBoxDirsFilters.gridx = 0;
         gbc_jComboBoxDirsFilters.gridy = 0;
-        jPanelDirectoryFilters.add(jComboBoxDirsFilters, gbc_jComboBoxDirsFilters);
+        this.jPanelDirectoryFilters.add(this.jComboBoxDirsFilters, gbc_jComboBoxDirsFilters);
 
         final JScrollPane jScrollPanelFilters = new JScrollPane();
         final GridBagConstraints gbc_jScrollPanelFilters = new GridBagConstraints();
@@ -159,9 +159,9 @@ public abstract class JPanelConfigWB extends JPanel
         gbc_jScrollPanelFilters.gridwidth = 2;
         add(jScrollPanelFilters, gbc_jScrollPanelFilters);
 
-        jPanelFilters = new JPanel();
-        jScrollPanelFilters.setViewportView(jPanelFilters);
-        jPanelFilters.setLayout(new BoxLayout(jPanelFilters, BoxLayout.Y_AXIS));
+        this.jPanelFilters = new JPanel();
+        jScrollPanelFilters.setViewportView(this.jPanelFilters);
+        this.jPanelFilters.setLayout(new BoxLayout(this.jPanelFilters, BoxLayout.Y_AXIS));
     }
 
     public final AppToolKit getAppToolKit()
@@ -174,58 +174,91 @@ public abstract class JPanelConfigWB extends JPanel
     /**
      * @wbp.factory
      */
-    public static JComboBox<String> createJComboBoxString()
+    public static JComboBox<FilterType> createJComboBoxFilterType()
     {
         return new JComboBox<>();
     }
 
-    protected final JComboBox<String> getJComboBoxFilesFilters()
+    protected final FilterType getJComboBoxFilesFiltersSelectedItem()
     {
-        return jComboBoxFilesFilters;
+        return (FilterType)this.jComboBoxFilesFilters.getSelectedItem();
     }
 
-    protected final JComboBox<String> getJComboBoxDirsFilters()
+    protected void setJComboBoxFilesFiltersEnabled( final boolean b )
     {
-        return jComboBoxDirsFilters;
+        this.jComboBoxFilesFilters.setEnabled( b );
+    }
+
+    protected void setJComboBoxFilesFiltersModel( final FilterType...values )
+    {
+        this.jComboBoxFilesFilters.setModel( newModelFromEnum( values ) );
+//      new DefaultComboBoxModel<>(
+//      new String[] {
+//          getTxtDisableFilesFilters(),
+//          getTxtIncludeFilesFilters(),
+//          getTxtExcludeFilesFilters()
+//          }
+//      )
+//  );
+    }
+
+    private EnumComboBoxModel<FilterType> newModelFromEnum( final FilterType...values )
+    {
+        return new EnumComboBoxModel<>( FilterType.class, values );
+    }
+
+    protected final FilterType getJComboBoxDirsFiltersSelectedItem()
+    {
+        return (FilterType)this.jComboBoxDirsFilters.getSelectedItem();
+    }
+
+    protected final void setJComboBoxDirsFiltersModel( final FilterType...values )
+    {
+        this.jComboBoxDirsFilters.setModel( newModelFromEnum( values ) );
+    }
+
+    protected final void setJComboBoxDirsFiltersEnabled( final boolean b )
+    {
+        this.jComboBoxDirsFilters.setEnabled( b );
     }
 
     protected final JPanel getJPanelFilters()
     {
-        return jPanelFilters;
+        return this.jPanelFilters;
     }
 
     protected JPanel getJPanelFilesFilers()
     {
-        return jPanelFilesFilers;
+        return this.jPanelFilesFilers;
     }
 
     protected final JPanel getJPanelDirectoryFilters()
     {
-        return jPanelDirectoryFilters;
+        return this.jPanelDirectoryFilters;
     }
 
     protected final JPanel getJPanelIgnore()
     {
-        return jPanelIgnore;
+        return this.jPanelIgnore;
     }
 
     protected final JCheckBox getjCheckBoxFFIgnoreHidden()
     {
-        return jCheckBoxFFIgnoreHidden;
+        return this.jCheckBoxFFIgnoreHidden;
     }
 
     protected final JCheckBox getjCheckBoxFDIgnoreHidden()
     {
-        return jCheckBoxFDIgnoreHidden;
+        return this.jCheckBoxFDIgnoreHidden;
     }
 
     protected final JCheckBox getjCheckBoxIgnoreReadOnlyFiles()
     {
-        return jCheckBoxIgnoreReadOnlyFiles;
+        return this.jCheckBoxIgnoreReadOnlyFiles;
     }
 
     protected final JCheckBox getjCheckBoxIgnoreEmptyFiles()
     {
-        return jCheckBoxIgnoreEmptyFiles;
+        return this.jCheckBoxIgnoreEmptyFiles;
     }
 }

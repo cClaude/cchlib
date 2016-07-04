@@ -1,5 +1,5 @@
 // $codepro.audit.disable
-package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config;
+package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.filtersconfig;
 
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.FileTypeCheckBox;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;

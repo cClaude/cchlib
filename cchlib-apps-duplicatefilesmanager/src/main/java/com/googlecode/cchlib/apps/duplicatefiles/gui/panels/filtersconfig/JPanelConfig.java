@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.gui.panels;
+package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.filtersconfig;
 
 import java.awt.event.ActionListener;
 import java.nio.file.PathMatcher;
@@ -8,7 +8,6 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Pattern;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
@@ -16,7 +15,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilderConfigurator;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.config.JPanelConfigFilter;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.FileTypeCheckBox;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.tools.FileFilterBuilderImpl;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
@@ -34,7 +33,7 @@ public class JPanelConfig
         public FileFilterBuilder createIncludeFilesFileFilterBuilder()
         {
             return createIncludeFileFilter(
-                getJComboBoxFilesFilters().getSelectedIndex() == FilterType.INCLUDE_FILTER.ordinal(),
+                getJComboBoxFilesFiltersSelectedItem() == FilterType.INCLUDE_FILTER,
                 JPanelConfig.this.jPanelIncFilesFilter
                 );
         }
@@ -43,7 +42,7 @@ public class JPanelConfig
         public FileFilterBuilder createExcludeFilesFileFilterBuilder()
         {
             return createIncludeFileFilter(
-                getJComboBoxFilesFilters().getSelectedIndex() == FilterType.EXCLUDE_FILTER.ordinal(),
+                getJComboBoxFilesFiltersSelectedItem() == FilterType.EXCLUDE_FILTER,
                 JPanelConfig.this.jPanelExcFilesFilter
                 );
         }
@@ -52,7 +51,7 @@ public class JPanelConfig
         public FileFilterBuilder createIncludeDirectoriesFileFilterBuilder()
         {
             return createIncludeFileFilter(
-                getJComboBoxDirsFilters().getSelectedIndex() == FilterType.INCLUDE_FILTER.ordinal(),
+                getJComboBoxDirsFiltersSelectedItem() == FilterType.INCLUDE_FILTER,
                 JPanelConfig.this.jPanelIncDirsFilter
                 );
         }
@@ -61,7 +60,7 @@ public class JPanelConfig
         public FileFilterBuilder createExcludeDirectoriesFileFilterBuilder()
         {
             return createExcludeFileFilter(
-                getJComboBoxDirsFilters().getSelectedIndex() == FilterType.EXCLUDE_FILTER.ordinal(),
+                getJComboBoxDirsFiltersSelectedItem() == FilterType.EXCLUDE_FILTER,
                 JPanelConfig.this.jPanelExcDirsFilter
                 );
         }
@@ -215,26 +214,26 @@ public class JPanelConfig
         //jsp.revalidate();
         //this.repaint();//repaint a JFrame jframe in this case
 
-        if( getJComboBoxFilesFilters().getSelectedIndex() == FilterType.INCLUDE_FILTER.ordinal() ) {
+        if( getJComboBoxFilesFiltersSelectedItem() == FilterType.INCLUDE_FILTER ) {
             jp.add( this.jPanelIncFilesFilter );
             LOGGER.debug( "Display jPanelIncFilesFilter" );
             }
-        else if( getJComboBoxFilesFilters().getSelectedIndex() == FilterType.EXCLUDE_FILTER.ordinal() ) {
+        else if( getJComboBoxFilesFiltersSelectedItem() == FilterType.EXCLUDE_FILTER ) {
             jp.add( this.jPanelExcFilesFilter );
             LOGGER.debug( "Display jPanelExcFilesFilter" );
             }
         else { // FILES_FILTER_DISABLED
             LOGGER.debug(
-                "No Display getJComboBoxFilesFilters()="
-                    + getJComboBoxFilesFilters().getSelectedIndex()
+                "No Display getJComboBoxFilesFiltersSelectedItem()="
+                    + getJComboBoxFilesFiltersSelectedItem()
                 );
             }
 
-        if( getJComboBoxDirsFilters().getSelectedIndex() == FilterType.EXCLUDE_FILTER.ordinal() ) {
+        if( getJComboBoxDirsFiltersSelectedItem() == FilterType.EXCLUDE_FILTER ) {
             jp.add( this.jPanelIncDirsFilter );
             LOGGER.debug( "Display jPanelIncDirsFilter" );
             }
-        else if( getJComboBoxDirsFilters().getSelectedIndex() == FilterType.INCLUDE_FILTER.ordinal() ) {
+        else if( getJComboBoxDirsFiltersSelectedItem() == FilterType.INCLUDE_FILTER ) {
             jp.add( this.jPanelExcDirsFilter );
             LOGGER.debug( "Display jPanelExcDirsFilter" );
             }
@@ -254,68 +253,29 @@ public class JPanelConfig
 
     private void updateDisplayBeginner()
     {
-        getJComboBoxFilesFilters().setModel(
-                new DefaultComboBoxModel<>(
-                    new String[] {
-                        getTxtDisableFilesFilters()
-                        }
-                    )
-                );
-        getJComboBoxFilesFilters().setEnabled( false );
-        getJComboBoxDirsFilters().setModel(
-                new DefaultComboBoxModel<>(
-                    new String[] {
-                        getTxtDisableDirsFilters()
-                        }
-                    )
-                );
-        getJComboBoxDirsFilters().setEnabled( false );
+        setJComboBoxFilesFiltersModel( FilterType.DISABLED );
+        setJComboBoxFilesFiltersEnabled( false );
+
+        setJComboBoxDirsFiltersModel( FilterType.DISABLED );
+        setJComboBoxDirsFiltersEnabled( false );
     }
 
     private void updateDisplayAdvanced()
     {
-        getJComboBoxFilesFilters().setModel(
-                new DefaultComboBoxModel<>(
-                    new String[] {
-                        getTxtDisableFilesFilters(),
-                        getTxtIncludeFilesFilters(),
-                        getTxtExcludeFilesFilters()
-                        }
-                    )
-                );
-        getJComboBoxFilesFilters().setEnabled( true );
-        getJComboBoxDirsFilters().setModel(
-                new DefaultComboBoxModel<>(
-                    new String[] {
-                        getTxtDisableDirsFilters()
-                        }
-                    )
-                );
-        getJComboBoxDirsFilters().setEnabled( false );
+        setJComboBoxFilesFiltersModel( FilterType.values() );
+        setJComboBoxFilesFiltersEnabled( true );
+
+        setJComboBoxDirsFiltersModel( FilterType.DISABLED );
+        setJComboBoxDirsFiltersEnabled( false );
     }
 
     private void updateDisplayExpert()
     {
-        getJComboBoxFilesFilters().setModel(
-                new DefaultComboBoxModel<>(
-                    new String[] {
-                        getTxtDisableFilesFilters(),
-                        getTxtIncludeFilesFilters(),
-                        getTxtExcludeFilesFilters()
-                        }
-                    )
-                );
-        getJComboBoxFilesFilters().setEnabled( true );
-        getJComboBoxDirsFilters().setModel(
-                new DefaultComboBoxModel<>(
-                    new String[] {
-                        getTxtDisableDirsFilters(),
-                        getTxtExcludeDirsFilters(),
-                        getTxtIncludeDirsFilters()
-                        }
-                    )
-                );
-        getJComboBoxDirsFilters().setEnabled( true );
+        setJComboBoxFilesFiltersModel( FilterType.values() );
+        setJComboBoxFilesFiltersEnabled( true );
+
+        setJComboBoxDirsFiltersModel( FilterType.values() );
+        setJComboBoxDirsFiltersEnabled( true );
     }
 
     /**
@@ -413,8 +373,8 @@ public class JPanelConfig
 
     public FileFilterBuilders getFileFilterBuilders()
     {
-        final FilterType ffType  = FilterType.buildFromOrdinal( getJComboBoxFilesFilters().getSelectedIndex() );
-        final FilterType efType  = FilterType.buildFromOrdinal( getJComboBoxDirsFilters().getSelectedIndex() );
+        final FilterType ffType  = getJComboBoxFilesFiltersSelectedItem();
+        final FilterType efType  = getJComboBoxDirsFiltersSelectedItem();
 
         if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "FFtype = " + ffType );
