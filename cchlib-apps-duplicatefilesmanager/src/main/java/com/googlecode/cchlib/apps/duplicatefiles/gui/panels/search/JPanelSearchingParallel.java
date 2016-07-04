@@ -320,10 +320,10 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
             )
     {
         // FileFilter and Listener for pass 1
-        final FileFilter dirFilter = createDirectoriesFileFilter(
+        final FileFilter dirFilter = newDirectoriesFileFilter(
                 fileFilterBuilders
                 );
-        final FileFilter fileFilter = createFilesFileFilter(
+        final FileFilter fileFilter = newFilesFileFilter(
                 fileFilterBuilders
                 );
 

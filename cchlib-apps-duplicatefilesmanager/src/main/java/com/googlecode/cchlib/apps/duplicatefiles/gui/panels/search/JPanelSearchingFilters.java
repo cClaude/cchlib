@@ -2,6 +2,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilder;
@@ -9,7 +10,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.lang.StringHelper;
 
 //NOT public
-abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
+abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB // NOSONAR
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingFilters.class );
@@ -24,7 +25,7 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
 
     protected abstract void setPass1DisplayFile( final File file );
 
-    protected FileFilter createFilesFileFilter(
+    protected FileFilter newFilesFileFilter(
         final FileFilterBuilders fbs
         )
     {
@@ -32,141 +33,165 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
         final boolean skipReadOnly = fbs.isIgnoreReadOnlyFiles();
 
         final FileFilterBuilder includeFilesFileFilterBuilder = fbs.getIncludeFiles();
-        LOGGER.info( "includeFilesFileFilterBuilder="+includeFilesFileFilterBuilder);
+
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "includeFilesFileFilterBuilder="+includeFilesFileFilterBuilder);
+        }
 
         if( includeFilesFileFilterBuilder != null ) {
-            final Pattern regex        = includeFilesFileFilterBuilder.getRegExp();
-            final String[] fileExts     = includeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
-            final int      fileExtsL    = fileExts.length;
+            final Pattern  regex    = includeFilesFileFilterBuilder.getRegExp();
+            final String[] fileExts = includeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
 
-            LOGGER.info( "createFilesFileFilter: case1");
-            LOGGER.info( "files regex=" + regex );
-            LOGGER.info( "files skipHidden=" + skipHidden );
-            LOGGER.info( "files skipReadOnly=" + skipReadOnly );
-            LOGGER.info( "fileExtsL=" + fileExtsL);
-            LOGGER.info( "fileExts=" + includeFilesFileFilterBuilder.getNamePart() );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "newFilesFileFilter 1: regex=" + regex );
+                LOGGER.debug( "newFilesFileFilter 1: skipHidden=" + skipHidden );
+                LOGGER.debug( "newFilesFileFilter 1: skipReadOnly=" + skipReadOnly );
+                LOGGER.debug( "newFilesFileFilter 1: fileExts=" + Arrays.toString( fileExts ) );
+            }
 
-            final FileFilter ff = f -> {
-                if( f.isFile() ) {
-
-                    // Hidden files
-                    if( skipHidden ) {
-                        if( f.isHidden() ) {
-                            return false;
-                            }
-                        }
-
-                    // ReadOnly files
-                    if( skipReadOnly ) {
-                        if( !f.canWrite() ) {
-                            return false;
-                            }
-                        }
-
-                    // RegEx
-                    if( regex != null ) {
-                        if( regex.matcher(f.getName()).matches() ) {
-                            this.pass1FilesCount++;
-                            this.pass1BytesCount += f.length();
-                            return true;
-                            }
-                        }
-
-                    // Extensions
-                    final String name = f.getName().toLowerCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
-
-                    for(int i=0;i<fileExtsL;i++) {
-                        if(name.endsWith( fileExts[i] )) {
-                            this.pass1FilesCount++;
-                            this.pass1BytesCount += f.length();
-                            return true;
-                            }
-                        }
-
-                    return false;
-                }
-                return false;
-            };
-
-            return ff;
+            return f -> acceptForIncludeFilesFileFilter( skipHidden, skipReadOnly, regex, fileExts, f );
         }
         else {
             final FileFilterBuilder excludeFilesFileFilterBuilder = fbs.getExcludeFiles();
 
             if( excludeFilesFileFilterBuilder != null ) {
-                final Pattern regex        = excludeFilesFileFilterBuilder.getRegExp();
+                final Pattern  regex    = excludeFilesFileFilterBuilder.getRegExp();
+                final String[] fileExts = excludeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
 
-                final String[] fileExts  = excludeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
-                final int      fileExtsL = fileExts.length;
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "newFilesFileFilter 2: regex=" + regex );
+                    LOGGER.debug( "newFilesFileFilter 2: skipHidden=" + skipHidden );
+                    LOGGER.debug( "newFilesFileFilter 2: skipReadOnly=" + skipReadOnly );
+                    LOGGER.debug( "newFilesFileFilter 2: fileExts=" + Arrays.toString( fileExts ) );
+                }
 
-                LOGGER.info( "createFilesFileFilter: case2");
-                LOGGER.info( "files regex=" + regex );
-                LOGGER.info( "files skipHidden=" + skipHidden );
-                LOGGER.info( "files skipReadOnly=" + skipReadOnly );
-                LOGGER.info( "fileExtsL=" + fileExtsL);
-                LOGGER.info( "fileExts=" + excludeFilesFileFilterBuilder.getNamePart() );
-
-                return f -> {
-                    if( f.isFile() ) {
-                        // Hidden files
-                        if( skipHidden ) {
-                            if( f.isHidden() ) {
-                                return false;
-                            }
-                        }
-                        if( skipReadOnly ) {
-                            if( !f.canWrite() ) {
-                                return false;
-                            }
-                        }
-                        // RegEx
-                        if( regex != null ) {
-                            if( ! regex.matcher(f.getName()).matches() ) {
-                                return false;
-                            }
-                        }
-                        // Extensions
-                        final String name = f.getName().toLowerCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
-
-                        for(int i=0;i<fileExtsL;i++) {
-                            if(name.endsWith( fileExts[i] )) {
-                                return false;
-                            }
-                        }
-                        this.pass1FilesCount++;
-                        this.pass1BytesCount += f.length();
-                        return true;
-                    }
-                    return false;
-                };
+                return f -> acceptForExcludeFilesFileFilter( skipHidden, skipReadOnly, regex, fileExts, f );
             }
             else {
-                LOGGER.info( "createFilesFileFilter: case3");
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "newFilesFileFilter 3: skipHidden=" + skipHidden );
+                    LOGGER.debug( "newFilesFileFilter 3: skipReadOnly=" + skipReadOnly );
+                }
+
                 // Minimum file filter
-                return f -> {
-                    if( f.isFile() ) {
-                        // Hidden files
-                        if( skipHidden ) {
-                            if( f.isHidden() ) {
-                                return false;
-                            }
-                        }
-                        if( skipReadOnly ) {
-                            if( !f.canWrite() ) {
-                                return false;
-                            }
-                        }
-                        this.pass1FilesCount++;
-                        this.pass1BytesCount += f.length();
-                        return true;
-                    }
-                    return false;
-                };
+                return f -> acceptForDefaultFilesFileFilter( skipHidden, skipReadOnly, f );
             }
         }
     }
 
-    protected FileFilter createDirectoriesFileFilter(
+    private boolean acceptForDefaultFilesFileFilter( //
+        final boolean skipHiddenFiles, //
+        final boolean skipReadOnlyFiles, //
+        final File    currentFile //
+        )
+    {
+        if( currentFile.isFile() ) {
+
+            // Hidden files
+            if( skipHiddenFiles && currentFile.isHidden() ) {
+                return false;
+            }
+
+            if( skipReadOnlyFiles&& !currentFile.canWrite() ) {
+                return false;
+            }
+
+            this.pass1FilesCount++;
+            this.pass1BytesCount += currentFile.length();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean acceptForExcludeFilesFileFilter( //
+        final boolean  skipHiddenFiles, //
+        final boolean  skipReadOnlyFiles, //
+        final Pattern  regex, //
+        final String[] fileExts, //
+        final File     currentFile //
+        )
+    {
+        if( currentFile.isFile() ) {
+
+            // Hidden files
+            if( skipHiddenFiles && currentFile.isHidden() ) {
+                return false;
+            }
+
+            if( skipReadOnlyFiles && !currentFile.canWrite() ) {
+                return false;
+            }
+
+            // RegEx
+            if( (regex != null) && ! regex.matcher(currentFile.getName()).matches() ) {
+                return false;
+            }
+
+            // Extensions
+            final String name = currentFile.getName().toLowerCase();
+
+            for( int i=0; i<fileExts.length; i++ ) {
+                if( name.endsWith( fileExts[i] ) ) {
+                    return false;
+                }
+            }
+
+            this.pass1FilesCount++;
+            this.pass1BytesCount += currentFile.length();
+
+            return true;
+        }
+        return false;
+    }
+
+    private boolean acceptForIncludeFilesFileFilter( //
+        final boolean  skipHiddenFiles, //
+        final boolean  skipReadOnlyFiles, //
+        final Pattern  regex, //
+        final String[] fileExts, //
+        final File     currentFile //
+        )
+    {
+        if( currentFile.isFile() ) {
+
+            // Hidden files
+            if( skipHiddenFiles && currentFile.isHidden() ) {
+                return false;
+                }
+
+            // ReadOnly files
+            if( skipReadOnlyFiles && !currentFile.canWrite() ) {
+                return false;
+                }
+
+            // RegEx
+            if( (regex != null) && regex.matcher(currentFile.getName()).matches() ) {
+                this.pass1FilesCount++;
+                this.pass1BytesCount += currentFile.length();
+
+                return true;
+                }
+
+            // Extensions
+            final String name = currentFile.getName().toLowerCase();
+
+            for( int i=0; i<fileExts.length; i++ ) {
+                if( name.endsWith( fileExts[i] ) ) {
+                    this.pass1FilesCount++;
+                    this.pass1BytesCount += currentFile.length();
+
+                    return true;
+                    }
+                }
+
+            return false;
+        }
+        return false;
+    }
+
+    protected FileFilter newDirectoriesFileFilter(
         final FileFilterBuilders fileFilterBuilders
         )
     {
@@ -180,14 +205,14 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
             //TODO: construire un automate pour tester
             //      une chaîne par rapport à un groupe de motif
             final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
-            final int      dirNamesL = dirNames.length;
 
-            LOGGER.info( "directoriesFileFilter1 dirs regex=" + regex );
-            LOGGER.info( "directoriesFileFilter1 dirs skipHidden=" + skipHidden );
-            LOGGER.info( "directoriesFileFilter1 dirNamesL=" + dirNamesL );
-            LOGGER.info( "directoriesFileFilter1 dirNames=" + excludeDirectoriesFileFilterBuilder.getNamePart() );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "newDirectoriesFileFilter 1: regex=" + regex );
+                LOGGER.debug( "newDirectoriesFileFilter 1: skipHidden=" + skipHidden );
+                LOGGER.debug( "newDirectoriesFileFilter 1: dirNames=" + Arrays.toString( dirNames ) );
+            }
 
-            return f -> directoriesFileFilter1( skipHidden, regex, dirNames, dirNamesL, f );
+            return f -> acceptForDirectoriesFileFilter1( skipHidden, regex, dirNames, f );
         }
         else {
             final FileFilterBuilder includeDirectoriesFileFilterBuilder = fileFilterBuilders.getIncludeDirs();
@@ -198,103 +223,95 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
                 //TODO: construire un automate pour tester
                 //      une chaîne par rapport à un groupe de motif
                 final String[] dirNames  = includeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
-                final int      dirNamesL = dirNames.length;
 
-                LOGGER.info( "directoriesFileFilter2 dirs regex=" + regex );
-                LOGGER.info( "directoriesFileFilter2 dirs skipHidden=" + skipHidden );
-                LOGGER.info( "directoriesFileFilter2 dirNamesL=" + dirNamesL );
-                LOGGER.info( "directoriesFileFilter2 dirNames=" + includeDirectoriesFileFilterBuilder.getNamePart() );
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "newDirectoriesFileFilter 2: regex=" + regex );
+                    LOGGER.debug( "newDirectoriesFileFilter 2: skipHidden=" + skipHidden );
+                    LOGGER.debug( "newDirectoriesFileFilter 2: dirNames=" + Arrays.toString( dirNames ) );
+                }
 
-                return f -> directoriesFileFilter2( skipHidden, regex, dirNames, dirNamesL, f );
+                return f -> acceptForDirectoriesFileFilter2( skipHidden, regex, dirNames, f );
             }
             else {
-                LOGGER.info( "directoriesFileFilter dirs skipHidden=" + skipHidden );
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "newDirectoriesFileFilter 3: skipHidden=" + skipHidden );
+                }
 
-                return f -> directoriesFileFilter( skipHidden, f );
+                return f -> acceptForDirectoriesFileFilter( skipHidden, f );
             }
         }
     }
 
-    private boolean directoriesFileFilter( final boolean skipHidden, final File file )
+    private boolean acceptForDirectoriesFileFilter( final boolean skipHidden, final File currentFile )
     {
-        // Hidden files-*----------------------------------------------------------------&
-        if( skipHidden ) {
-            if( file.isHidden() ) {
-                return false;
-            }
+        // Hidden files
+        if( skipHidden  && currentFile.isHidden() ) {
+            return false;
         }
 
-        setPass1DisplayFile( file );
+        setPass1DisplayFile( currentFile );
 
         return true;
     }
 
-    private boolean directoriesFileFilter2( //
-        final boolean  skipHidden, //
+    private boolean acceptForDirectoriesFileFilter2( //
+        final boolean  skipHiddenFolders, //
         final Pattern  regex, //
         final String[] dirNames, //
-        final int      dirNamesL, //
-        final File     file //
+        final File     currentFile //
         )
     {
         // Hidden files
-        if( skipHidden ) {
-            if( file.isHidden() ) {
-                return false;
-            }
+        if( skipHiddenFolders && currentFile.isHidden() ) {
+            return false;
         }
 
         // RegEx
-        if( regex != null ) {
-            if( regex.matcher(file.getName()).matches() ) {
-                return false;
-            }
+        if( (regex != null) && regex.matcher(currentFile.getName()).matches() ) {
+            return false;
         }
 
         // Test names ?
-        final String name = file.getName().toLowerCase();
+        final String name = currentFile.getName().toLowerCase();
 
-        for(int i=0;i<dirNamesL;i++) {
-            if(name.equals( dirNames[i] )) {
-                setPass1DisplayFile( file );
+        for( int i=0; i<dirNames.length; i++ ) {
+            if( name.equals( dirNames[i] ) ) {
+                setPass1DisplayFile( currentFile );
+
                 return true;
             }
         }
+
         return false;
     }
 
-    private boolean directoriesFileFilter1( //
+    private boolean acceptForDirectoriesFileFilter1( //
         final boolean  skipHidden, //
         final Pattern  regex, //
         final String[] dirNames, //
-        final int      dirNamesL, //
-        final File     file //
+        final File     currentFile //
         )
     {
         // Hidden files
-        if( skipHidden ) {
-            if( file.isHidden() ) {
-                return false;
-            }
+        if( skipHidden && currentFile.isHidden() ) {
+            return false;
         }
 
         // RegEx
-        if( regex != null ) {
-            if( regex.matcher(file.getName()).matches() ) {
-                return false;
-            }
+        if( (regex != null) && regex.matcher(currentFile.getName()).matches() ) {
+            return false;
         }
 
         // Test names ?
-        final String name = file.getName().toLowerCase();
+        final String name = currentFile.getName().toLowerCase();
 
-        for(int i=0;i<dirNamesL;i++) {
-            if(name.equals( dirNames[i] )) {
+        for( int i=0; i<dirNames.length; i++ ) {
+            if( name.equals( dirNames[i] ) ) {
                 return false;
             }
         }
 
-        setPass1DisplayFile( file );
+        setPass1DisplayFile( currentFile );
 
         return true;
     }

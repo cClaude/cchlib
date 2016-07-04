@@ -394,10 +394,10 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         LOGGER.info( "doScanPass1Prepare: begin" );
 
         // FileFilter and Listener for pass 1
-        final FileFilter dirFilter = createDirectoriesFileFilter(
+        final FileFilter dirFilter = newDirectoriesFileFilter(
                 scanParams.getFileFilterBuilders()
                 );
-        final FileFilter fileFilter = createFilesFileFilter(
+        final FileFilter fileFilter = newFilesFileFilter(
                 scanParams.getFileFilterBuilders()
                 );
 
