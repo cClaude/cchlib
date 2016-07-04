@@ -24,6 +24,7 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.FileChooserEntryPoint;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
@@ -293,7 +294,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     private void onJButtonSelectDir()
     {
         final Runnable doJob = () -> {
-            final JFileChooser jfc = this.dFToolKit.getJFileChooser( this.dFToolKit.getMainFrame(), AppToolKit.DUPLICATES );
+            final JFileChooser jfc = this.dFToolKit.getJFileChooser( this.dFToolKit.getMainFrame(), FileChooserEntryPoint.DUPLICATES );
             jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
             final int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
 
@@ -313,7 +314,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     private void onJButtonSelectFile()
     {
         final Runnable doJob = () -> {
-            final JFileChooser jfc = this.dFToolKit.getJFileChooser( this.dFToolKit.getMainFrame(), AppToolKit.DUPLICATES );
+            final JFileChooser jfc = this.dFToolKit.getJFileChooser( this.dFToolKit.getMainFrame(), FileChooserEntryPoint.DUPLICATES );
             jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
             final int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
 

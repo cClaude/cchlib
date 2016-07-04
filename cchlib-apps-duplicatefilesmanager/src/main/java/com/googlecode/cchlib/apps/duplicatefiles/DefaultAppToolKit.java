@@ -6,7 +6,7 @@ import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -40,7 +40,7 @@ final class DefaultAppToolKit
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultAppToolKit.class );
 
-    private final Map<String,JFileChooserInitializer> jFileChooserInitializerMap= new HashMap<>();
+    private final Map<FileChooserEntryPoint,JFileChooserInitializer> jFileChooserInitializerMap= new EnumMap<>( FileChooserEntryPoint.class );
     private final PreferencesControler preferences;
     private DuplicateFilesFrame mainWindow;
     private Set<AutoI18nConfig> autoI18nConfig;
@@ -114,13 +114,14 @@ final class DefaultAppToolKit
     public void initJFileChooser()
     {
         final Window win = getMainFrame();
-        getJFileChooserInitializer( win , DUPLICATES );
+
+        getJFileChooserInitializer( win , FileChooserEntryPoint.DUPLICATES );
     }
 
     @Override // DFToolKit
     public JFileChooser getJFileChooser(
-        final Window parentWindow,
-        final String componentName
+        final Window                parentWindow,
+        final FileChooserEntryPoint componentName
         )
     {
         return getJFileChooserInitializer( parentWindow, componentName ).getJFileChooser();
@@ -128,8 +129,8 @@ final class DefaultAppToolKit
 
     @Override
     public JFileChooserInitializer getJFileChooserInitializer(
-        final Window parentWindow,
-        final String componentName
+        final Window                parentWindow,
+        final FileChooserEntryPoint componentName
         )
     {
         JFileChooserInitializer jFileChooserInitializer = this.jFileChooserInitializerMap.get( componentName );

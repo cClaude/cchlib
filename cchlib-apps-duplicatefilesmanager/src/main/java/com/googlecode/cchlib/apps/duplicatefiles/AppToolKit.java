@@ -19,13 +19,10 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
  */
 public interface AppToolKit extends Serializable
 {
-    public static final String DUPLICATES = "DUPLICATES";
-    public static final String REMOVE_EMPTY_FILES = "REMOVE_EMPTY_FILES";
-
     void initJFileChooser();
 
-    JFileChooserInitializer getJFileChooserInitializer( Window parentWindow, String componentName );
-    JFileChooser getJFileChooser( Window parentWindow, String componentName );
+    JFileChooserInitializer getJFileChooserInitializer( Window parentWindow, FileChooserEntryPoint componentName );
+    JFileChooser getJFileChooser( Window parentWindow, FileChooserEntryPoint componentName );
 
     void beep();
     void openDesktop( File file );

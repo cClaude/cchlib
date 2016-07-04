@@ -18,6 +18,7 @@ import javax.swing.event.TableModelListener;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.FileChooserEntryPoint;
 import com.googlecode.cchlib.apps.duplicatefiles.tools.Resources;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
@@ -175,7 +176,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdata
 
     public JFileChooser getJFileChooser()
     {
-        return getDFToolKit().getJFileChooser( this.dfToolKit.getMainFrame(), AppToolKit.REMOVE_EMPTY_FILES );
+        return getDFToolKit().getJFileChooser( this.dfToolKit.getMainFrame(), FileChooserEntryPoint.REMOVE_EMPTY_FILES );
     }
 
     @Override

@@ -33,13 +33,14 @@ public class FakeAppToolKit implements AppToolKit
     public void initJFileChooser()
     {
         final Window win = getMainFrame();
-        getJFileChooserInitializer( win , AppToolKit.DUPLICATES );
+
+        getJFileChooserInitializer( win , FileChooserEntryPoint.DUPLICATES );
     }
 
     @Override
     public JFileChooserInitializer getJFileChooserInitializer(
-        final Window parentWindow,
-        final String componentName
+        final Window                parentWindow,
+        final FileChooserEntryPoint componentName
         )
     {
         if( this.jFileChooserInitializer == null ) {
@@ -50,8 +51,8 @@ public class FakeAppToolKit implements AppToolKit
 
     @Override
     public JFileChooser getJFileChooser(
-        final Window parentWindow,
-        final String componentName
+        final Window                parentWindow,
+        final FileChooserEntryPoint componentName
         )
     {
         return getJFileChooserInitializer( parentWindow, componentName ).getJFileChooser();
