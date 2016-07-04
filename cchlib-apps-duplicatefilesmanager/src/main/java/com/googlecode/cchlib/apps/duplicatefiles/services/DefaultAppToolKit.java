@@ -10,7 +10,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
@@ -20,7 +19,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.tools.MyResourcesLoader;
 import com.googlecode.cchlib.apps.duplicatefiles.tools.Resources;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -46,7 +44,6 @@ final class DefaultAppToolKit
     private final Map<FileChooserEntryPoint,JFileChooserInitializer> jFileChooserInitializerMap= new EnumMap<>( FileChooserEntryPoint.class );
     private final PreferencesControler preferences;
     private DuplicateFilesFrame mainWindow;
-    private Set<AutoI18nConfig> autoI18nConfig;
 
     @I18nString private String jFileChooserInitializerTitle;
     @I18nString private String jFileChooserInitializerMessage;

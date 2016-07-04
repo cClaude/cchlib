@@ -35,7 +35,7 @@ public class EnumerationIterator<T>
     @Override
     public boolean hasNext()
     {
-        return enumeration.hasMoreElements();
+        return this.enumeration.hasMoreElements();
     }
 
     /**
@@ -45,8 +45,9 @@ public class EnumerationIterator<T>
      */
     @Override
     public T next()
+        throws NoSuchElementException // NOSONAR
     {
-        return enumeration.nextElement();
+        return this.enumeration.nextElement();
     }
 
     /**

@@ -31,8 +31,8 @@ import java.util.Arrays;
     public static short readLittleEndianShort( final DataInput in )
         throws IOException
     {
-        int low = in.readUnsignedByte() & 0xff;
-        int high = in.readUnsignedByte();
+        final int low = in.readUnsignedByte() & 0xff;
+        final int high = in.readUnsignedByte();
 
         return (short )((high << 8) | low);
     }
@@ -52,7 +52,7 @@ import java.util.Arrays;
 
     public static short littleEndian( final short value )
     {
-        short num1 = value;
+        final short num1 = value;
         short mask = (short)0xff;
 
         short num2 = (short)(num1&mask);
@@ -66,7 +66,7 @@ import java.util.Arrays;
 
     public static int littleEndian( final int value )
     {
-        int num1 = value;
+        final int num1 = value;
         int mask = 0xff;
         int num2 = 0x00;
 
@@ -81,13 +81,13 @@ import java.util.Arrays;
         return num2;
     }
 
-    public static byte[] textPadding( String text, String characterSetName, int length)
+    public static byte[] textPadding( final String text, final String characterSetName, final int length)
         throws java.io.UnsupportedEncodingException
     {
         return textPadding( text, characterSetName, length, Utils.ALIGN_LEFT);
     }
 
-    public static byte[] textPadding( String text, String characterSetName, int length, int alignment)
+    public static byte[] textPadding( final String text, final String characterSetName, final int length, final int alignment)
         throws java.io.UnsupportedEncodingException
     {
 
@@ -95,11 +95,11 @@ import java.util.Arrays;
     }
 
     public static byte[] textPadding(
-            String  text,
-            String  characterSetName,
-            int     length,
-            int     alignment,
-            byte    paddingByte
+            final String  text,
+            final String  characterSetName,
+            final int     length,
+            final int     alignment,
+            final byte    paddingByte
             )
         throws java.io.UnsupportedEncodingException
     {
@@ -110,13 +110,13 @@ import java.util.Arrays;
         final byte[] byte_array = new byte[ length];
         Arrays.fill( byte_array, paddingByte);
 
-        switch( alignment) {
+        switch( alignment ) {
             case ALIGN_LEFT:
                 System.arraycopy( text.getBytes( characterSetName), 0, byte_array, 0, text.length());
                 break;
 
             case ALIGN_RIGHT:
-                int t_offset = length - text.length();
+                final int t_offset = length - text.length();
                 System.arraycopy( text.getBytes( characterSetName), 0, byte_array, t_offset, text.length());
                 break;
             }
@@ -124,7 +124,7 @@ import java.util.Arrays;
         return byte_array;
     }
 
-    public static byte[] doubleFormating( Double doubleNum, String characterSetName, int fieldLength, int sizeDecimalPart )
+    public static byte[] doubleFormating( final Double doubleNum, final String characterSetName, final int fieldLength, final int sizeDecimalPart )
         throws java.io.UnsupportedEncodingException
     {
         final int sizeWholePart = fieldLength - ((sizeDecimalPart>0)?( sizeDecimalPart + 1):0);
@@ -147,7 +147,7 @@ import java.util.Arrays;
         return textPadding( df.format( doubleNum.doubleValue()).toString(), characterSetName, fieldLength, ALIGN_RIGHT);
     }
 
-    public static boolean contains( byte[] arr, byte value) // $codepro.audit.disable booleanMethodNamingConvention
+    public static boolean contains( final byte[] arr, final byte value) // $codepro.audit.disable booleanMethodNamingConvention
     {
         boolean found = false;
 

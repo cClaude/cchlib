@@ -18,24 +18,6 @@ public final class ArrayHelper
     {//All static
     }
 
-//    /**
-//     * Convert varargs in a Array.
-//     *
-//     * @param <T>       Type of array
-//     * @param entries   List of entry for the array
-//     * @return the varargs Array (documented as a new
-//     *         arrays in previous versions)
-//     * @since 4.1.5
-//     * @deprecated does not check entries content, and did
-//     *             not create a shadow copy given values.
-//     */
-//    //Java 1.7 @SafeVarargs
-//    @Deprecated
-//    public static <T> T[] createArray( T...entries )
-//    {
-//        return entries;
-//    }
-
     /**
      * Create an Array from giving values
      *
@@ -48,7 +30,7 @@ public final class ArrayHelper
     @NeedTestCases
     public static <T> T[] createArray( final Class<T> clazz, final T...entries )
     {
-        //Workaround for: T[] array = new T[ entries.length ];
+        // Workaround for: " T[] array = new T[ entries.length ]; "
         return cloneArray( clazz, entries );
     }
 
@@ -141,7 +123,7 @@ public final class ArrayHelper
 
             @Override
             public T nextElement()
-                throws NoSuchElementException
+                throws NoSuchElementException // NOSONAR
             {
                 if( this.index < enumLen ) {
                     return array[this.index++];

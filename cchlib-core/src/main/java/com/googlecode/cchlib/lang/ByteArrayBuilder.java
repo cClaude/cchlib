@@ -48,8 +48,8 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     public ByteArrayBuilder(final int capacity)
     {
-        buffer = new byte[capacity];
-        lastPos = 0;
+        this.buffer = new byte[capacity];
+        this.lastPos = 0;
     }
 
     /**
@@ -61,13 +61,13 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     public ByteArrayBuilder(@Nullable final byte[] bytes)
     {
-        lastPos = 0;
+        this.lastPos = 0;
 
         if( bytes == null ) {
-            buffer = new byte[DEFAULT_SIZE];
+            this.buffer = new byte[DEFAULT_SIZE];
             }
         else {
-            buffer = new byte[DEFAULT_SIZE + bytes.length];
+            this.buffer = new byte[DEFAULT_SIZE + bytes.length];
 
             append(bytes, 0, bytes.length);
             }
@@ -78,7 +78,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     public void reset()
     {
-        lastPos = 0;
+        this.lastPos = 0;
     }
 
     /**
@@ -95,17 +95,17 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
             throw new IndexOutOfBoundsException();
             }
 
-        if(newLength < lastPos) {
-            lastPos = newLength;
+        if(newLength < this.lastPos) {
+            this.lastPos = newLength;
             }
         else {
             ensureCapacity(newLength);
 
-            for(int i = lastPos; i < newLength; i++) {
-                buffer[i] = 0;
+            for(int i = this.lastPos; i < newLength; i++) {
+                this.buffer[i] = 0;
                 }
 
-            lastPos = newLength;
+            this.lastPos = newLength;
             }
     }
 
@@ -114,7 +114,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     public int length()
     {
-        return lastPos;
+        return this.lastPos;
     }
 
     /**
@@ -122,7 +122,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     public int capacity()
     {
-        return buffer.length;
+        return this.buffer.length;
     }
 
     /**
@@ -135,15 +135,15 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
         if(minimumCapacity > capacity()) {
             int newLength;
 
-            for(newLength = buffer.length; newLength < minimumCapacity; ) {
+            for(newLength = this.buffer.length; newLength < minimumCapacity; ) {
                 newLength = (newLength + 1) << 1;
                 }
 
             final byte[] newBuffer = new byte[newLength];
 
-            System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
+            System.arraycopy(this.buffer, 0, newBuffer, 0, this.buffer.length);
 
-            buffer = newBuffer;
+            this.buffer = newBuffer;
             }
     }
 
@@ -170,8 +170,8 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     {
         // this method is final because: use in constructor
         ensureCapacity(length() + len);
-        System.arraycopy(bytes, offset, buffer, lastPos, len);
-        lastPos += len;
+        System.arraycopy(bytes, offset, this.buffer, this.lastPos, len);
+        this.lastPos += len;
 
         return this;
     }
@@ -184,14 +184,14 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     public ByteArrayBuilder append(final byte b)
     {
         try {
-            buffer[lastPos] = b;
+            this.buffer[this.lastPos] = b;
             }
         catch(final ArrayIndexOutOfBoundsException e) { // $codepro.audit.disable logExceptions
             ensureCapacity(capacity() + 1);
-            buffer[lastPos] = b;
+            this.buffer[this.lastPos] = b;
             }
 
-        lastPos++;
+        this.lastPos++;
 
         return this;
     }
@@ -311,9 +311,9 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     public byte[] array()
     {
-        final byte[] bufferCopy = new byte[lastPos];
+        final byte[] bufferCopy = new byte[this.lastPos];
 
-        System.arraycopy(buffer, 0, bufferCopy, 0, bufferCopy.length);
+        System.arraycopy(this.buffer, 0, bufferCopy, 0, bufferCopy.length);
 
         return bufferCopy;
     }
@@ -341,12 +341,12 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     public boolean startsWith(@Nonnull final byte[] prefix)
     {
-        if( prefix.length > lastPos ) {
+        if( prefix.length > this.lastPos ) {
             return false;
             }
 
         for(int i = 0; i < prefix.length; i++) {
-            if(buffer[i] != prefix[i]) {
+            if(this.buffer[i] != prefix[i]) {
                 return false;
                 }
             }
@@ -381,14 +381,14 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     public boolean endsWith(@Nonnull final byte[] suffix)
     {
-        if( suffix.length > lastPos ) {
+        if( suffix.length > this.lastPos ) {
             return false;
             }
 
-        int j = lastPos - suffix.length;
+        int j = this.lastPos - suffix.length;
 
         for( int i = 0; i < suffix.length; i++ ) {
-            if( buffer[j++] != suffix[i] ) {
+            if( this.buffer[j++] != suffix[i] ) {
                 return false;
                 }
             }
@@ -406,19 +406,19 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     @Override
     public int compareTo(@Nonnull final ByteArrayBuilder aByteArrayBuilder)
     {
-        final int length = (lastPos >= aByteArrayBuilder.lastPos)
+        final int length = (this.lastPos >= aByteArrayBuilder.lastPos)
                         ? aByteArrayBuilder.lastPos
-                        : lastPos;
+                        : this.lastPos;
 
         for( int i = 0; i < length; i++ ) {
-            final int cmp = buffer[i] - aByteArrayBuilder.buffer[i];
+            final int cmp = this.buffer[i] - aByteArrayBuilder.buffer[i];
 
             if(cmp != 0) {
                 return cmp;
                 }
             }
 
-        return lastPos - aByteArrayBuilder.lastPos;
+        return this.lastPos - aByteArrayBuilder.lastPos;
     }
 
     @Override
@@ -452,7 +452,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     @Override
     public String toString()
     {
-        return new String(buffer, 0, lastPos);
+        return new String(this.buffer, 0, this.lastPos);
     }
 
     /**
@@ -464,21 +464,21 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     public String toString( final Charset charset )
     {
-        return new String(buffer, 0, lastPos, charset);
+        return new String(this.buffer, 0, this.lastPos, charset);
     }
 
     @Override
-    public ByteArrayBuilder clone()
+    public ByteArrayBuilder clone() // NOSONAR
         throws CloneNotSupportedException
     {
         final ByteArrayBuilder newByteBuffer = (ByteArrayBuilder)super.clone();
 
-        newByteBuffer.buffer = new byte[buffer.length];
+        newByteBuffer.buffer = new byte[this.buffer.length];
 
-        final int max = lastPos;
+        final int max = this.lastPos;
         newByteBuffer.lastPos = max;
 
-        System.arraycopy(buffer, 0, newByteBuffer.buffer, 0, max);
+        System.arraycopy(this.buffer, 0, newByteBuffer.buffer, 0, max);
 
         return newByteBuffer;
     }
@@ -577,29 +577,29 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     private void writeObject( @Nonnull final ObjectOutputStream stream ) throws IOException
     {
         stream.defaultWriteObject();
-        stream.writeInt(buffer.length);
+        stream.writeInt(this.buffer.length);
 
-        final int max = lastPos;
+        final int max = this.lastPos;
 
         stream.writeInt(max);
 
         for(int i = 0; i < max; i++) {
-            stream.writeByte(buffer[i]);
+            stream.writeByte(this.buffer[i]);
         }
     }
 
     private void readObject( @Nonnull final ObjectInputStream stream ) throws IOException, ClassNotFoundException
     {
         stream.defaultReadObject();
-        buffer = new byte[stream.readInt()];
+        this.buffer = new byte[stream.readInt()];
 
         final int max = stream.readInt();
 
         for(int i = 0; i < max; i++) {
-            buffer[i] = stream.readByte();
+            this.buffer[i] = stream.readByte();
             }
 
-        lastPos = max;
+        this.lastPos = max;
     }
 
 

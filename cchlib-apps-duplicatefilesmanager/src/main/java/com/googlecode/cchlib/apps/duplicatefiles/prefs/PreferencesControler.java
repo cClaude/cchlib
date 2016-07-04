@@ -155,7 +155,7 @@ public class PreferencesControler implements Serializable
     {
         final Dimension dimension = Dimensions.toDimension( this.preferences.getMinimumWindowDimension() );
 
-        final Dimension newDimension = fixMinDimension( dimension, MINIMUM_WINDOW_WIDTH, MINIMUM_WINDOW_HEIGHT );
+        final Dimension newDimension = createFixedMinDimension( dimension, MINIMUM_WINDOW_WIDTH, MINIMUM_WINDOW_HEIGHT );
 
         // TODO remove this later...
         this.preferences.setMinimumWindowDimension( Dimensions.toSerializableDimension( newDimension ) );
@@ -163,19 +163,35 @@ public class PreferencesControler implements Serializable
         return newDimension;
     }
 
-    private Dimension fixMinDimension( Dimension dimension, final int minWidth, final int minHeight )
+    private static Dimension createFixedMinDimension( //
+            final Dimension dimension, //
+            final int       minWidth, //
+            final int       minHeight //
+            )
     {
-        if( dimension == null ) {
-            dimension = new Dimension(minWidth, minHeight);
+       if( dimension == null ) {
+            return new Dimension(minWidth, minHeight);
         } else {
+            final int dimensionWidth;
+
             if( dimension.width < minWidth ) {
-                dimension.width = minWidth;
+                dimensionWidth = minWidth;
             }
+            else {
+                dimensionWidth = dimension.width;
+            }
+
+            final int dimensionHeight;
+
             if( dimension.height < minHeight ) {
-                dimension.height = minHeight;
+                dimensionHeight = minHeight;
             }
+            else {
+                dimensionHeight = dimension.height;
+            }
+
+            return new Dimension(dimensionWidth, dimensionHeight);
         }
-        return dimension;
     }
 
     public Dimension getWindowDimension()
@@ -209,7 +225,7 @@ public class PreferencesControler implements Serializable
     {
         final Dimension dimension = Dimensions.toDimension( this.preferences.getMinimumPreferenceDimension() );
 
-        final Dimension newDimension = fixMinDimension( dimension, MINIMUM_PREFERENCE_WIDTH, MINIMUM_PREFERENCE_HEIGHT );
+        final Dimension newDimension = createFixedMinDimension( dimension, MINIMUM_PREFERENCE_WIDTH, MINIMUM_PREFERENCE_HEIGHT );
 
         // TODO remove this later...
         this.preferences.setMinimumPreferenceDimension( Dimensions.toSerializableDimension( newDimension ) );

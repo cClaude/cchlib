@@ -198,7 +198,7 @@ public class SelectBySameFolder extends SelectorPanel
         // Empty (Nothing specific according user level?)
     }
 
-    private KeyFileState findMax(
+    private static KeyFileState findMax(
         final Collection<KeyFileState> collection,
         final Comparator<KeyFileState> comparator
         )

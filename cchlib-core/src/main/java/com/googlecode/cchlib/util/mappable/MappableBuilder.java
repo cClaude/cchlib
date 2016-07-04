@@ -86,7 +86,7 @@ public class MappableBuilder
 
         for( final Method method : methods ) {
             if( (method.getParameterTypes().length == 0)
-                && methodesNamePattern.matcher( method.getName() ).matches()
+                && this.methodesNamePattern.matcher( method.getName() ).matches()
                 ) {
                 handleMethodWithValueForToMap( object, map, method );
                 }
@@ -115,25 +115,25 @@ public class MappableBuilder
                 MappableBuilder.addRec(
                         map,
                         method.getName() + "().",
-                        ((Mappable) (result0) )
+                        (Mappable) result0
                         );
             }
             return;
         }
 
-        if( mappableItemSet.contains(MappableItem.DO_ITERATOR) && Iterator.class.isAssignableFrom(returnType)) {
+        if( this.mappableItemSet.contains(MappableItem.DO_ITERATOR) && Iterator.class.isAssignableFrom(returnType)) {
             handleIteratorForMap( object, map, method );
             return;
         }
 
-        if( mappableItemSet.contains( MappableItem.DO_ITERABLE ) &&
+        if( this.mappableItemSet.contains( MappableItem.DO_ITERABLE ) &&
                 Iterable.class.isAssignableFrom( returnType )
                 ) {
             handleIterableForMap( object, map, method );
             return;
         }
 
-        if( mappableItemSet.contains(MappableItem.DO_ENUMERATION) && Enumeration.class.isAssignableFrom(returnType)) {
+        if( this.mappableItemSet.contains(MappableItem.DO_ENUMERATION) && Enumeration.class.isAssignableFrom(returnType)) {
             handleEnumerationForMap( object, map, method );
             return;
         }
@@ -378,7 +378,7 @@ public class MappableBuilder
     /** Build methods list to handle */
     private final Method[] getDeclaredMethods( final Class<?> clazz )
     {
-        if( !mappableItemSet.contains( MappableItem.DO_PARENT_CLASSES ) ) {
+        if( !this.mappableItemSet.contains( MappableItem.DO_PARENT_CLASSES ) ) {
             return clazz.getDeclaredMethods();
             }
 
@@ -405,7 +405,7 @@ public class MappableBuilder
      */
     protected final boolean isMappable( final Class<?> clazz )
     {
-        if(!mappableItemSet.contains(MappableItem.DO_RECURSIVE)) {
+        if(!this.mappableItemSet.contains(MappableItem.DO_RECURSIVE)) {
             return false;
             }
 
@@ -421,22 +421,22 @@ public class MappableBuilder
     {
         final int modifier = returnType.getModifiers();
 
-        if(Modifier.isPrivate(modifier) && !mappableItemSet.contains(MappableItem.TRY_PRIVATE_METHODS)) {
+        if(Modifier.isPrivate(modifier) && !this.mappableItemSet.contains(MappableItem.TRY_PRIVATE_METHODS)) {
             return false;
             }
 
-        if(Modifier.isProtected(modifier) && !mappableItemSet.contains(MappableItem.TRY_PROTECTED_METHODS)) {
+        if(Modifier.isProtected(modifier) && !this.mappableItemSet.contains(MappableItem.TRY_PROTECTED_METHODS)) {
             return false;
             }
-        if(mappableItemSet.contains(MappableItem.ALL_PRIMITIVE_TYPE) && returnType.isPrimitive()) {
+        if(this.mappableItemSet.contains(MappableItem.ALL_PRIMITIVE_TYPE) && returnType.isPrimitive()) {
             return true;
             }
 
-        if(mappableItemSet.contains(MappableItem.DO_ARRAYS) && returnType.isArray()) {
+        if(this.mappableItemSet.contains(MappableItem.DO_ARRAYS) && returnType.isArray()) {
             return true;
             }
 
-        for( final Class<?> c : returnTypeClasses ) {
+        for( final Class<?> c : this.returnTypeClasses ) {
             if( c.isAssignableFrom( returnType ) ) {
                 return true;
                 }
@@ -448,10 +448,10 @@ public class MappableBuilder
     private String toString( final Object object )
     {
         if( object == null ) {
-            return toStringNullValue;
+            return this.toStringNullValue;
             }
         else {
-            return toString( mappableItemSet, object );
+            return toString( this.mappableItemSet, object );
             }
     }
 
@@ -601,7 +601,7 @@ public class MappableBuilder
             if( result == null ) {
                 hashMap.put(
                         formatMethodName( method.getName() ),
-                        toStringNullValue
+                        this.toStringNullValue
                         );
 
                 return null;

@@ -15,18 +15,18 @@ import java.io.InputStream;
  */
 public abstract class BytesAccessDebug extends BytesAccess
 {
-    public BytesAccessDebug( int bytesLength )
+    public BytesAccessDebug( final int bytesLength )
     {
         super( bytesLength );
     }
 
-    public BytesAccessDebug( byte[] bytes, final int offset, final int length )
+    public BytesAccessDebug( final byte[] bytes, final int offset, final int length )
         throws IllegalArgumentException
     {
         super(bytes,offset,length);
     }
 
-    public BytesAccessDebug( File file, int bytesLength )
+    public BytesAccessDebug( final File file, final int bytesLength )
         throws NullPointerException, FileNotFoundException, IOException
     {
         super( file, bytesLength );
@@ -54,7 +54,7 @@ public abstract class BytesAccessDebug extends BytesAccess
     protected boolean getBoolean( final int offset, final byte mask )
     {
         // Verify mask has only 1 bit
-        int countBit= countBit( mask );
+        final int countBit= countBit( mask );
 
         if( countBit != 1) {
             throw new RuntimeException( "getBoolean() mask should had (only) 1 bit: found " + countBit + " for (" + offset + ':' + mask +  ')' );
@@ -70,7 +70,7 @@ public abstract class BytesAccessDebug extends BytesAccess
         }
         // TODO: (Verify mask has at least 2 bits???)
 
-        int v = super.getUInteger(offset,mask,rightRot);
+        final int v = super.getUInteger(offset,mask,rightRot);
 
         if( v<0 ) {
             throw new RuntimeException( "getUInteger() 1byte - return: " + v + " for (" + offset + ':' + mask + '/' + rightRot + ')' );
@@ -90,7 +90,7 @@ public abstract class BytesAccessDebug extends BytesAccess
         }
         // TODO: Verify mask0 is right align + Verify mask1 is left align
 
-        int v = super.getUInteger( offset, mask0, leftRot, mask1, rightRot );
+        final int v = super.getUInteger( offset, mask0, leftRot, mask1, rightRot );
 
         if( v<0 ) {
             throw new RuntimeException( "getUInteger() 2bytes - return: " + v + " for (" + offset + ':' + mask0 + '/' + leftRot + ',' + mask1 + '/' + rightRot + ')' );
@@ -107,7 +107,7 @@ public abstract class BytesAccessDebug extends BytesAccess
     protected void setBoolean( final int offset, final byte mask, final boolean bool )
     {
         // Verify mask has only 1 bit
-        int countBit= countBit( mask );
+        final int countBit= countBit( mask );
 
         if( countBit != 1) {
             throw new RuntimeException( "getBoolean() mask should had (only) 1 bit: found " + countBit + " for (" + offset + ':' + mask +  ')' );
@@ -144,7 +144,7 @@ public abstract class BytesAccessDebug extends BytesAccess
         super.setUInteger( offset, mask0, rightRot, mask1, leftRot, value );
    }
 
-    private int countBit( final byte byteValue )
+    private static int countBit( final byte byteValue )
     {
         int  count = 0;
         byte b     = 0x01;

@@ -117,7 +117,7 @@ public class ArrayIterator<T>
     @Override
     public boolean hasNext()
     {
-        return index < len;
+        return this.index < this.len;
     }
 
     /**
@@ -129,7 +129,7 @@ public class ArrayIterator<T>
     public T next()
     {
         try {
-            return array[index++];
+            return this.array[this.index++];
             }
         catch(final IndexOutOfBoundsException e) {
             final NoSuchElementException ee = new NoSuchElementException();

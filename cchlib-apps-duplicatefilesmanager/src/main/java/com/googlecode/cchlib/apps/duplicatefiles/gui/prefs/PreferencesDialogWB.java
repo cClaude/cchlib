@@ -26,21 +26,29 @@ public final class PreferencesDialogWB
 {
     private static final long serialVersionUID = 3L;
 
+    private static <T> T getSelectedItem( final JComboBox<T> c )
+    {
+        return c.getItemAt( c.getSelectedIndex() );
+    }
+    private static void setMaxWidthOf( final Component c1, final Component c2 )
+    {
+        final int w1 = c1.getMinimumSize().width;
+        final int w2 = c2.getMinimumSize().width;
+
+        if( w1 > w2 ) {
+            c2.setSize( w1, c2.getSize().height );
+            }
+        else if( w2 > w1 ) {
+            c1.setSize( w2, c1.getSize().height );
+            }
+    }
+
+    private final JPanel contentPanel;
     private JButton jButtonCancel;
+
     private JButton jButtonSave;
 
     private PreferencesPanel panel;
-    private final JPanel contentPanel;
-
-    @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
-    {
-        autoI18n.performeI18n( this, this.getClass() );
-
-        this.panel.performeI18n( autoI18n );
-
-        setMaxWidthOf( this.jButtonCancel, this.jButtonSave );
-    }
 
     /**
      * For Windows Builder ONLY (and I18N)
@@ -105,6 +113,16 @@ public final class PreferencesDialogWB
         }
     }
 
+    @Override // I18nAutoUpdatable
+    public void performeI18n( final AutoI18nCore autoI18n )
+    {
+        autoI18n.performeI18n( this, this.getClass() );
+
+        this.panel.performeI18n( autoI18n );
+
+        setMaxWidthOf( this.jButtonCancel, this.jButtonSave );
+    }
+
     private void save( final Dimension mainWindowDimension )
     {
         final PreferencesControler prefs = getPreferencesControler();
@@ -142,24 +160,6 @@ public final class PreferencesDialogWB
             );
         }
         PreferencesDialogWB.this.dispose();
-    }
-
-    private static void setMaxWidthOf( final Component c1, final Component c2 )
-    {
-        final int w1 = c1.getMinimumSize().width;
-        final int w2 = c2.getMinimumSize().width;
-
-        if( w1 > w2 ) {
-            c2.setSize( w1, c2.getSize().height );
-            }
-        else if( w2 > w1 ) {
-            c1.setSize( w2, c1.getSize().height );
-            }
-    }
-
-    private static <T> T getSelectedItem( final JComboBox<T> c )
-    {
-        return c.getItemAt( c.getSelectedIndex() );
     }
 
 }
