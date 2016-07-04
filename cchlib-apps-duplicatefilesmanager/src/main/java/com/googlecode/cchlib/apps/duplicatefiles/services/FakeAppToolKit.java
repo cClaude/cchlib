@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles;
+package com.googlecode.cchlib.apps.duplicatefiles.services;
 
 import java.awt.Frame;
 import java.awt.Window;
@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.JFileChooser;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.FileChooserEntryPoint;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.tools.Resources;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;

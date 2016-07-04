@@ -1,5 +1,6 @@
-package com.googlecode.cchlib.apps.duplicatefiles;
+package com.googlecode.cchlib.apps.duplicatefiles.services;
 
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 

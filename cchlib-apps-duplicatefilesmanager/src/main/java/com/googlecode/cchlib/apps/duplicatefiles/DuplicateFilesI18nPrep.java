@@ -11,6 +11,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.prefs.PreferencesDialogWB;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControlerFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.services.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.services.AutoI18nConfigService;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;

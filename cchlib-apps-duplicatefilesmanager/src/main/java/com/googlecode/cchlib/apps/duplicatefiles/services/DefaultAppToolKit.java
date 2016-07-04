@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles;
+package com.googlecode.cchlib.apps.duplicatefiles.services;
 
 import java.awt.Frame;
 import java.awt.Toolkit;
@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Set;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
+import com.googlecode.cchlib.apps.duplicatefiles.FileChooserEntryPoint;
+import com.googlecode.cchlib.apps.duplicatefiles.RessourcesPath;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.tools.MyResourcesLoader;

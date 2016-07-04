@@ -1,5 +1,6 @@
-package com.googlecode.cchlib.apps.duplicatefiles;
+package com.googlecode.cchlib.apps.duplicatefiles.services;
 
+import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 

@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles;
+package com.googlecode.cchlib.apps.duplicatefiles.services;
 
 import java.util.EnumSet;
 import java.util.Set;

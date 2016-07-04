@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.confirm.JPanelConfirm;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.filtersconfig.JPanelConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.JPanelResult;
@@ -21,6 +20,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearchi
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearchingParallel;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.search.JPanelSearchingSingleThread;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.select.JPanelSelectFoldersOrFiles;
+import com.googlecode.cchlib.apps.duplicatefiles.services.AppToolKitService;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 

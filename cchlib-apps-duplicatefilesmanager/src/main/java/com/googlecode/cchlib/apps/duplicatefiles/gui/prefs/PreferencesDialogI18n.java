@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.apps.duplicatefiles.gui.prefs;
 
 import javax.swing.JDialog;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
+import com.googlecode.cchlib.apps.duplicatefiles.services.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
 public class PreferencesDialogI18n extends JDialog

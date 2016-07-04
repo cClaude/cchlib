@@ -4,8 +4,8 @@ import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.AutoI18nCoreService;
+import com.googlecode.cchlib.apps.duplicatefiles.services.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.services.AutoI18nCoreService;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 

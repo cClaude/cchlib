@@ -14,8 +14,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
-import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
+import com.googlecode.cchlib.apps.duplicatefiles.services.AppToolKitService;
 
 
 public abstract class JPanelConfigWB extends JPanel
