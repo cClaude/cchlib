@@ -14,19 +14,16 @@ enum FilterType {
      * Include entries define by filter
      */
     INCLUDE_FILTER,
+
     /**
      * Exclude entries define by filter
      */
-    EXCLUDE_FILTER,;
+    EXCLUDE_FILTER,
+    ;
 
-    /**
-     * Return value according to <code>ordinal</code>
-     *
-     * @param ordinal
-     * @return
-     */
-    public static FilterType buildFromOrdinal( final int ordinal )
+    @Override
+    public String toString()
     {
-        return FilterType.values()[ ordinal ];
+        return "*"+super.toString();
     }
 }

@@ -192,14 +192,6 @@ public abstract class JPanelConfigWB extends JPanel
     protected void setJComboBoxFilesFiltersModel( final FilterType...values )
     {
         this.jComboBoxFilesFilters.setModel( newModelFromEnum( values ) );
-//      new DefaultComboBoxModel<>(
-//      new String[] {
-//          getTxtDisableFilesFilters(),
-//          getTxtIncludeFilesFilters(),
-//          getTxtExcludeFilesFilters()
-//          }
-//      )
-//  );
     }
 
     private EnumComboBoxModel<FilterType> newModelFromEnum( final FilterType...values )
