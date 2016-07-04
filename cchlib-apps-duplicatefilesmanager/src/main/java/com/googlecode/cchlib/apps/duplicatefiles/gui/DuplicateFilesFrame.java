@@ -15,6 +15,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.AutoI18nCoreService;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.common.AboutDialog;
@@ -25,7 +26,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.tools.SerializableIcon;
 import com.googlecode.cchlib.apps.duplicatefiles.tools.Tools;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.swing.JFrames;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
@@ -158,8 +158,6 @@ public final class DuplicateFilesFrame // NOSONAR
     private static final int    SUBSTATE_CONFIRM_INIT  = 0;
     private static final int    SUBSTATE_CONFIRM_DONE  = 1;
 
-    private final AutoI18nCore autoI18n;
-
     private SerializableIcon iconContinue;
     private SerializableIcon iconRestart;
 
@@ -177,7 +175,7 @@ public final class DuplicateFilesFrame // NOSONAR
         buildLocaleMenu();
 
         // Apply i18n !
-        this.autoI18n = initI18n();
+        performeI18n( AutoI18nCoreService.getInstance().getAutoI18nCore() );
 
         setSize( getDFToolKit().getPreferences().getWindowDimension() );
 
@@ -185,18 +183,6 @@ public final class DuplicateFilesFrame // NOSONAR
         initFixComponents();
         updateDisplayAccordingState();
         LOGGER.info( "DuplicateFilesFrame() done." );
-    }
-
-    private AutoI18nCore initI18n()
-    {
-        final AutoI18nCore autoI18nCore = AutoI18nCoreFactory.createAutoI18nCore(
-                getDFToolKit().getAutoI18nConfig(),
-                getDFToolKit().getI18nResourceBundleName(),
-                getDFToolKit().getValidLocale()
-                );
-        performeI18n( autoI18nCore );
-
-        return autoI18nCore;
     }
 
     private void buildLocaleMenu()
@@ -245,7 +231,7 @@ public final class DuplicateFilesFrame // NOSONAR
     }
 
     @Override // I18nPrepHelperAutoUpdatable
-    public void performeI18n(final AutoI18nCore autoI18n)
+    public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(getDFToolKit(),getDFToolKit().getClass());
@@ -434,7 +420,7 @@ public final class DuplicateFilesFrame // NOSONAR
         final PreferencesDialogWB dialog = new PreferencesDialogWB(
                 getSize()
                 );
-        dialog.performeI18n( this.autoI18n );
+        dialog.performeI18n( AutoI18nCoreService.getInstance().getAutoI18nCore() );
         dialog.setVisible( true );
 
         JFrames.handleMinimumSize(dialog, preferences.getMinimumPreferenceDimension());
@@ -444,7 +430,7 @@ public final class DuplicateFilesFrame // NOSONAR
 
     public void openAbout()
     {
-        AboutDialog.open( this.autoI18n );
+        AboutDialog.open();
 
         LOGGER.info( "openAbout done" );
     }

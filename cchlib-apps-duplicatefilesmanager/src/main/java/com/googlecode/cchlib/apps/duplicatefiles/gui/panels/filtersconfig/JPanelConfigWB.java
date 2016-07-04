@@ -21,12 +21,15 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 public abstract class JPanelConfigWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
+
     private final JComboBox<FilterType> jComboBoxFilesFilters;
     private final JComboBox<FilterType> jComboBoxDirsFilters;
+
     private final JCheckBox jCheckBoxFFIgnoreHidden;
     private final JCheckBox jCheckBoxFDIgnoreHidden;
     private final JCheckBox jCheckBoxIgnoreReadOnlyFiles;
     private final JCheckBox jCheckBoxIgnoreEmptyFiles;
+
     private final JPanel jPanelFilters;
 
     private final JPanel jPanelFilesFilers;

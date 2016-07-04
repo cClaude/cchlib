@@ -1,16 +1,18 @@
 package com.googlecode.cchlib.apps.duplicatefiles.common;
 
 import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.AutoI18nCoreService;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
  * Display about dialog
  */
-public class AboutDialog
+public class AboutDialog // NOSONAR
     extends JDialog
         implements I18nAutoCoreUpdatable, AboutPanelAction
 {
@@ -23,15 +25,15 @@ public class AboutDialog
     /**
      * Launch the application.
      */
-    public static void open(
-        final AutoI18nCore  autoI18n
-        )
+    public static void open()
     {
+        final AutoI18nCore autoI18n = AutoI18nCoreService.getInstance().getAutoI18nCore();
+
         try {
             final AboutDialog dialog = new AboutDialog();
 
             dialog.performeI18n( autoI18n );
-            dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
+            dialog.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
             dialog.setVisible( true );
             }
         catch( final Exception e ) {
@@ -50,7 +52,7 @@ public class AboutDialog
 
         this.contentPanel = new AboutPanel( getAppToolKit().getResources(), this );
 
-        super.setContentPane( contentPanel );
+        super.setContentPane( this.contentPanel );
         super.setSize( ABOUT_FRAME_WIDTH, ABOUT_FRAME_HEIGTH );
     }
 
@@ -62,7 +64,7 @@ public class AboutDialog
     @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
-        autoI18n.performeI18n( contentPanel, contentPanel.getClass() );
+        autoI18n.performeI18n( this.contentPanel, this.contentPanel.getClass() );
     }
 
     @Override

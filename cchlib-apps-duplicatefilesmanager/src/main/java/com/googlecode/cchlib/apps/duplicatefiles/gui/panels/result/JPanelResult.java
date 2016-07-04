@@ -241,8 +241,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         }, "onRefresh()" ).start();
     }
 
-    @Override
-    // I18nAutoCoreUpdatable
+    @Override // I18nAutoCoreUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, getClass() );

@@ -81,15 +81,6 @@ final class DefaultAppToolKit
                 );
     }
 
-    @Override
-    public Set<AutoI18nConfig> getAutoI18nConfig()
-    {
-        if( this.autoI18nConfig == null ) {
-            this.autoI18nConfig = AutoI18nConfig.newAutoI18nConfig( AutoI18nConfig.DO_DEEP_SCAN );
-            }
-        return this.autoI18nConfig;
-    }
-
     public void setMainWindow( final DuplicateFilesFrame mainWindow )
     {
         this.mainWindow = mainWindow;

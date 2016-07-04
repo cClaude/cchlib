@@ -6,11 +6,9 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import javax.swing.JFileChooser;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.tools.Resources;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 
@@ -131,11 +129,5 @@ public class FakeAppToolKit implements AppToolKit
     public I18nResourceBundleName getI18nResourceBundleName()
     {
         return this.delegator.getI18nResourceBundleName();
-    }
-
-    @Override
-    public Set<AutoI18nConfig> getAutoI18nConfig()
-    {
-        return this.delegator.getAutoI18nConfig();
     }
 }
