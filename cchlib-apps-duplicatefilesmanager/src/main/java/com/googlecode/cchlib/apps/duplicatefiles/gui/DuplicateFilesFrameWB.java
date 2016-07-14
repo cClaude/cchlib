@@ -54,11 +54,11 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // N
     private final JMenu                       jMenuFile;
     private final JMenu                       jMenuLookAndFeel;
     private final JMenuItem                   jMenuItemExit;
-    private final JMenuItem                   jMenuItem_Preferences;
+    private final JMenuItem                   jMenuItemPreferences;
 
-    private DuplicateFilesMainPanel           jPanel_DuplicateFiles;
-    private final RemoveEmptyDirectoriesPanel jPanel_RemoveEmptyDirectories;
-    private final RemoveEmptyFilesJPanel      jPanel_DeleteEmptyFiles;
+    private DuplicateFilesMainPanel           jPanelDuplicateFiles;
+    private final RemoveEmptyDirectoriesPanel jPanelRemoveEmptyDirectories;
+    private final RemoveEmptyFilesJPanel      jPanelDeleteEmptyFiles;
 
     private final JRadioButtonMenuItem        jMenuItemModeAdvance;
     private final JRadioButtonMenuItem        jMenuItemModeBeginner;
@@ -67,7 +67,7 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // N
     @I18nToolTipText private final JTabbedPane contentJTabbedPane;
 
     private final JMenu     jMenuHelp;
-    private final JMenuItem jMenuItem_About;
+    private final JMenuItem jMenuItemAbout;
 
     /**
      * Create the frame.
@@ -76,7 +76,9 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // N
      * @throws HeadlessException
      */
     public DuplicateFilesFrameWB( final PreferencesControler preferences )
-        throws HeadlessException, TooManyListenersException
+        throws
+            HeadlessException, // NOSONAR
+            TooManyListenersException
     {
         this.dfToolKit = AppToolKitService.getInstance().createAppToolKit( preferences, (DuplicateFilesFrame)this );
 
@@ -124,42 +126,42 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // N
 
         this.jMenuConfig.addSeparator();
 
-        this.jMenuItem_Preferences = new JMenuItem("Preferences");
-        this.jMenuItem_Preferences.setActionCommand( ACTIONCMD_PREFS );
-        this.jMenuItem_Preferences.addActionListener( getActionListener() );
-        this.jMenuConfig.add(this.jMenuItem_Preferences);
+        this.jMenuItemPreferences = new JMenuItem("Preferences");
+        this.jMenuItemPreferences.setActionCommand( ACTIONCMD_PREFS );
+        this.jMenuItemPreferences.addActionListener( getActionListener() );
+        this.jMenuConfig.add(this.jMenuItemPreferences);
 
         this.jMenuHelp = new JMenu("Help");
         jMenuBarMain.add(this.jMenuHelp);
 
-        this.jMenuItem_About = new JMenuItem("About");
-        this.jMenuItem_About.setActionCommand( ACTIONCMD_ABOUT );
-        this.jMenuItem_About.addActionListener( getActionListener() );
-        this.jMenuHelp.add(this.jMenuItem_About);
+        this.jMenuItemAbout = new JMenuItem("About");
+        this.jMenuItemAbout.setActionCommand( ACTIONCMD_ABOUT );
+        this.jMenuItemAbout.addActionListener( getActionListener() );
+        this.jMenuHelp.add(this.jMenuItemAbout);
 
         this.jMenuLookAndFeel = new JMenu("Look and Feel");
         jMenuBarMain.add( Box.createHorizontalGlue() );
         jMenuBarMain.add(this.jMenuLookAndFeel);
 
-        {
+        { // NOSONAR
         this.contentJTabbedPane = new JTabbedPane();
         setContentPane( this.contentJTabbedPane );
 
         // Workaround for WindowBuilder
         if( this.dfToolKit == null ) {
-            this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel();
+            this.jPanelDuplicateFiles = new DuplicateFilesMainPanel();
             }
         // $hide>>$
-        this.jPanel_DuplicateFiles = new DuplicateFilesMainPanel( this );
+        this.jPanelDuplicateFiles = new DuplicateFilesMainPanel( this );
         // $hide<<$
-        this.contentJTabbedPane.addTab("Duplicate files", this.iconResources.getDuplicateFilesPanelIcon(), this.jPanel_DuplicateFiles, "Find and remove Duplicate files");
+        this.contentJTabbedPane.addTab("Duplicate files", this.iconResources.getDuplicateFilesPanelIcon(), this.jPanelDuplicateFiles, "Find and remove Duplicate files");
 
-        this.jPanel_RemoveEmptyDirectories = new RemoveEmptyDirectoriesPanel( this );
-        this.contentJTabbedPane.addTab("Remove empty directories", this.iconResources.getRemoveEmptyDirectoriesPanelIcon(), this.jPanel_RemoveEmptyDirectories, "Find and delete empty directories" );
+        this.jPanelRemoveEmptyDirectories = new RemoveEmptyDirectoriesPanel( this );
+        this.contentJTabbedPane.addTab("Remove empty directories", this.iconResources.getRemoveEmptyDirectoriesPanelIcon(), this.jPanelRemoveEmptyDirectories, "Find and delete empty directories" );
         assert (this.contentJTabbedPane.getTabCount() - 1) == REMOVE_EMPTY_DIRECTORIES_TAB;
 
-        this.jPanel_DeleteEmptyFiles = new RemoveEmptyFilesJPanel();
-        this.contentJTabbedPane.addTab("Remove empty files", this.iconResources.getDeleteEmptyFilesPanelIcon(), this.jPanel_DeleteEmptyFiles, "Find and delete empty files");
+        this.jPanelDeleteEmptyFiles = new RemoveEmptyFilesJPanel();
+        this.contentJTabbedPane.addTab("Remove empty files", this.iconResources.getDeleteEmptyFilesPanelIcon(), this.jPanelDeleteEmptyFiles, "Find and delete empty files");
         assert (this.contentJTabbedPane.getTabCount() - 1) == DELETE_EMPTY_FILES_TAB;
         }
     }
@@ -186,17 +188,17 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // N
 
     public DuplicateFilesMainPanel getDuplicateFilesMainPanel()
     {
-        return this.jPanel_DuplicateFiles;
+        return this.jPanelDuplicateFiles;
     }
 
     RemoveEmptyDirectoriesPanel getRemoveEmptyDirectoriesPanel()
     {
-        return this.jPanel_RemoveEmptyDirectories;
+        return this.jPanelRemoveEmptyDirectories;
     }
 
     RemoveEmptyFilesJPanel getDeleteEmptyFilesPanel()
     {
-        return this.jPanel_DeleteEmptyFiles;
+        return this.jPanelDeleteEmptyFiles;
     }
 
     public abstract ActionListener getActionListener();

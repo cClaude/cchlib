@@ -20,28 +20,11 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 
 @I18nName("PreferencesDialogWB")
-public final class PreferencesDialogWB
+public final class PreferencesDialogWB // NOSONAR
     extends PreferencesDialogI18n
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 3L;
-
-    private static <T> T getSelectedItem( final JComboBox<T> c )
-    {
-        return c.getItemAt( c.getSelectedIndex() );
-    }
-    private static void setMaxWidthOf( final Component c1, final Component c2 )
-    {
-        final int w1 = c1.getMinimumSize().width;
-        final int w2 = c2.getMinimumSize().width;
-
-        if( w1 > w2 ) {
-            c2.setSize( w1, c2.getSize().height );
-            }
-        else if( w2 > w1 ) {
-            c1.setSize( w2, c1.getSize().height );
-            }
-    }
 
     private final JPanel contentPanel;
     private JButton jButtonCancel;
@@ -160,6 +143,24 @@ public final class PreferencesDialogWB
             );
         }
         PreferencesDialogWB.this.dispose();
+    }
+
+    private static <T> T getSelectedItem( final JComboBox<T> c )
+    {
+        return c.getItemAt( c.getSelectedIndex() );
+    }
+
+    private static void setMaxWidthOf( final Component c1, final Component c2 )
+    {
+        final int w1 = c1.getMinimumSize().width;
+        final int w2 = c2.getMinimumSize().width;
+
+        if( w1 > w2 ) {
+            c2.setSize( w1, c2.getSize().height );
+            }
+        else if( w2 > w1 ) {
+            c1.setSize( w2, c1.getSize().height );
+            }
     }
 
 }
