@@ -1,12 +1,14 @@
 package com.googlecode.cchlib.apps.duplicatefiles.prefs;
 
+import java.io.Serializable;
 import java.util.Collection;
 import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.util.SerializableDimension;
+import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 
- interface Preferences
+ interface Preferences extends Serializable
 {
     ConfigMode getConfigMode();
     void setConfigMode( ConfigMode configMode );
@@ -29,8 +31,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.util.SerializableDimensio
     DividersLocation getPanelResultDividerLocations();
     void setPanelResultDividerLocations( DividersLocation dividersLocation );
 
-    String getMessageDigestAlgorithm();
-    void setMessageDigestAlgorithm( String messageDigestAlgorithm );
+    MessageDigestAlgorithms getMessageDigestAlgorithm();
+    void setMessageDigestAlgorithm( MessageDigestAlgorithms messageDigestAlgorithm );
 
     int getMessageDigestBufferSize();
     void setMessageDigestBufferSize( int messageDigestBufferSize );

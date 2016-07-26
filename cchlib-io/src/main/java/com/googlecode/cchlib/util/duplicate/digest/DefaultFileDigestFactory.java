@@ -23,6 +23,12 @@ public class DefaultFileDigestFactory implements FileDigestFactory {
         this.bufferSize = bufferSize;
     }
 
+    public DefaultFileDigestFactory( final MessageDigestAlgorithms algorithm, final int bufferSize )
+    {
+        this.algorithm  = algorithm.getAlgorithm();
+        this.bufferSize = bufferSize;
+    }
+
     /**
      * Create a {@link FileDigest} object that based on
      * specified algorithm and using default buffer size.
@@ -34,11 +40,20 @@ public class DefaultFileDigestFactory implements FileDigestFactory {
 
     /**
      * Create a {@link FileDigest} object that based on
+     * specified algorithm and using default buffer size.
+     */
+    public DefaultFileDigestFactory( final MessageDigestAlgorithms algorithm )
+    {
+        this( algorithm, DEFAULT_BUFFER_SIZE );
+    }
+
+    /**
+     * Create a {@link FileDigest} object that based on
      * MD5 algorithm and using default buffer size.
      */
     public DefaultFileDigestFactory()
     {
-        this( "MD5", DEFAULT_BUFFER_SIZE );
+        this( MessageDigestAlgorithms.MD5, DEFAULT_BUFFER_SIZE );
     }
 
     /**

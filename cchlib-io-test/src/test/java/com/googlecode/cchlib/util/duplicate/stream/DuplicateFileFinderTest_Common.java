@@ -33,7 +33,7 @@ abstract class DuplicateFileFinderTest_Common {
     }
 
     protected abstract Path[] getStartPaths();
-//    protected abstract DuplicateFileFinderUsingStream newDuplicateFileFinder( MessageDigestFileBuilder messageDigestFileBuilder, DuplicateFileFinderListener listener );
+
     protected abstract DuplicateFileFinderUsingStream newDuplicateFileFinder( FileDigestFactory fileDigestFactory, DuplicateFileFinderEventListener listener );
 
     final protected Logger getLogger()

@@ -7,6 +7,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMode;
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.util.SerializableDimension;
+import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 
 class PreferencesBean implements Preferences, Serializable
 {
@@ -26,7 +27,7 @@ class PreferencesBean implements Preferences, Serializable
     private String localeLanguage;
     private String lookAndFeelClassName;
     private String lookAndFeelName;
-    private String messageDigestAlgorithm = "MD5";
+    private MessageDigestAlgorithms messageDigestAlgorithm = PreferencesProperties.DEFAULT_MESSAGE_DIGEST_ALGORITHM;
     private boolean ignoreEmptyFiles = true;
     private boolean ignoreHiddenDirectories = true;
     private boolean ignoreHiddenFiles = true;
@@ -122,13 +123,13 @@ class PreferencesBean implements Preferences, Serializable
     }
 
     @Override
-    public final String getMessageDigestAlgorithm()
+    public final MessageDigestAlgorithms getMessageDigestAlgorithm()
     {
         return this.messageDigestAlgorithm;
     }
 
     @Override
-    public final void setMessageDigestAlgorithm( final String messageDigestAlgorithm )
+    public final void setMessageDigestAlgorithm( final MessageDigestAlgorithms messageDigestAlgorithm )
     {
         this.messageDigestAlgorithm = messageDigestAlgorithm;
     }

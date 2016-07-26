@@ -11,21 +11,25 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SelectFirstMo
 import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.util.SerializableDimension;
 import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 import com.googlecode.cchlib.util.properties.Populator;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
 import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 
-//NOT
-public
+//NOT public
 final class PreferencesProperties implements Preferences, Serializable
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private static final Logger LOGGER = Logger.getLogger( PreferencesProperties.class );
+
+    private static final String DEFAULT_MESSAGE_DIGEST_ALGORITHM_NAME = "MD5";
+    static final MessageDigestAlgorithms DEFAULT_MESSAGE_DIGEST_ALGORITHM = MessageDigestAlgorithms.valueOf( DEFAULT_MESSAGE_DIGEST_ALGORITHM_NAME );
 
     private final PropertiesPopulator<PreferencesProperties> pp = new PropertiesPopulator<>(PreferencesProperties.class);
     private final File              preferencesFile;
     private final PreferencesBean   preferences;
+
 
     PreferencesProperties(
             final File              preferencesFile,
@@ -148,14 +152,14 @@ final class PreferencesProperties implements Preferences, Serializable
     }
 
     @Override
-    @Populator(defaultValue="MD5")
-    public final String getMessageDigestAlgorithm()
+    @Populator(defaultValue=DEFAULT_MESSAGE_DIGEST_ALGORITHM_NAME)
+    public final MessageDigestAlgorithms getMessageDigestAlgorithm()
     {
         return this.preferences.getMessageDigestAlgorithm();
     }
 
     @Override
-    public final void setMessageDigestAlgorithm( final String messageDigestAlgorithm )
+    public final void setMessageDigestAlgorithm( final MessageDigestAlgorithms messageDigestAlgorithm )
     {
         this.preferences.setMessageDigestAlgorithm( messageDigestAlgorithm );
     }

@@ -37,7 +37,7 @@ public class FileDigestTest extends Base {
         final File   file   = IO.createPNGTempFile();
         final String oldMD5 = XMessageDigestFileTest.getMD5( file );
 
-        final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5" );
+        final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5 );
         final FileDigest instance = factory.newInstance();
 
         final FileDigestListener listener = newMyFileDigestListener();
@@ -51,7 +51,7 @@ public class FileDigestTest extends Base {
     public void testComputeFile() throws NoSuchAlgorithmException, IOException, CancelRequestException {
         final File file = IO.createPNGTempFile();
 
-        final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5" );
+        final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5 );
         final FileDigest instance = factory.newInstance();
 
         final FileDigestListener listener = newMyFileDigestListener();
@@ -65,7 +65,7 @@ public class FileDigestTest extends Base {
     public void testComputeFile_buffer10() throws NoSuchAlgorithmException, IOException, CancelRequestException {
         final File file = IO.createPNGTempFile();
 
-        final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5", 10 );
+        final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5, 10 );
         final FileDigest instance = factory.newInstance();
 
         Assertions.assertThat( instance.getBufferSize() ).isEqualTo( 10 );
@@ -81,7 +81,7 @@ public class FileDigestTest extends Base {
     public void testComputeNext() throws NoSuchAlgorithmException, IOException, CancelRequestException {
         final File filePNG = IO.createPNGTempFile();
 
-        final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5" );
+        final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5 );
         final FileDigest instance = factory.newInstance();
 
         final FileDigestListener listener = newMyFileDigestListener();
@@ -119,7 +119,7 @@ public class FileDigestTest extends Base {
         final File   filePNG  = IO.createPNGTempFile();
         final byte[] bytesPNG = IO.createPNG();
 
-        final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5", (int)filePNG.length() );
+        final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5, (int)filePNG.length() );
         final FileDigest instance = factory.newInstance();
 
         final MessageDigest messageDigest = MessageDigest.getInstance( instance.getAlgorithm() );
@@ -148,7 +148,7 @@ public class FileDigestTest extends Base {
     public void testComputeNext_byStep_twoStep() throws NoSuchAlgorithmException, IOException, CancelRequestException {
         final File filePNG = IO.createPNGTempFile();
 
-        final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5", 8192 );
+        final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5, 8192 );
         final FileDigest instance = factory.newInstance();
 
         final MessageDigest messageDigest = MessageDigest.getInstance( instance.getAlgorithm() );
@@ -175,7 +175,7 @@ public class FileDigestTest extends Base {
     }
 
     private void test_part( final File file, final String md5 ) throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5", 1024 );
+        final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5, 1024 );
         final FileDigest instance = factory.newInstance();
 
         final FileDigestListener listener = newMyFileDigestListener();

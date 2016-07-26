@@ -17,6 +17,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result.SortMode;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.util.Dimensions;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.util.SerializableDimension;
 import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 
 public class PreferencesControler implements Serializable
 {
@@ -115,7 +116,7 @@ public class PreferencesControler implements Serializable
                     preferencesBean //
                     );
         } else {
-            throw new RuntimeException( "Can not handle preferences type : " + this.preferences );
+            throw new PreferencesException( "Can not handle preferences type : " + this.preferences );
         }
 
         preferencesProperties.save();
@@ -266,7 +267,7 @@ public class PreferencesControler implements Serializable
         SortMode sortMode = this.preferences.getDefaultSortMode();
 
         if( sortMode == null ) {
-            sortMode = SortMode.FILESIZE; // FIXME get default mode from prefs
+            sortMode = SortMode.FILESIZE;
 
             this.preferences.setDefaultSortMode( sortMode );
         }
@@ -278,7 +279,7 @@ public class PreferencesControler implements Serializable
         SelectFirstMode selectFirstMode = this.preferences.getDefaultSelectFirstMode();
 
         if( selectFirstMode == null ) {
-            selectFirstMode = SelectFirstMode.QUICK; // FIXME get default mode from prefs
+            selectFirstMode = SelectFirstMode.QUICK;
 
             this.preferences.setDefaultSelectFirstMode( selectFirstMode );
         }
@@ -325,12 +326,12 @@ public class PreferencesControler implements Serializable
         return deleteSleepDisplayMaxEntries;
     }
 
-    public String getMessageDigestAlgorithm()
+    public MessageDigestAlgorithms getMessageDigestAlgorithm()
     {
-        String messageDigestAlgorithm = this.preferences.getMessageDigestAlgorithm();
+        MessageDigestAlgorithms messageDigestAlgorithm = this.preferences.getMessageDigestAlgorithm();
 
-        if( (messageDigestAlgorithm == null) || messageDigestAlgorithm.isEmpty() ) {
-            messageDigestAlgorithm = "MD5"; // FIXME get default Algorithm from prefs
+        if( messageDigestAlgorithm == null ) {
+            messageDigestAlgorithm = PreferencesProperties.DEFAULT_MESSAGE_DIGEST_ALGORITHM;
 
             this.preferences.setMessageDigestAlgorithm( messageDigestAlgorithm );
         }
@@ -374,6 +375,11 @@ public class PreferencesControler implements Serializable
     public void setDeleteSleepDisplayMaxEntries( final int deleteSleepDisplayMaxEntries )
     {
         this.preferences.setDeleteSleepDisplayMaxEntries( deleteSleepDisplayMaxEntries );
+    }
+
+    public void  setMessageDigestAlgorithm( final MessageDigestAlgorithms messageDigestAlgorithm)
+    {
+        this.preferences.setMessageDigestAlgorithm( messageDigestAlgorithm );
     }
 
     public void setMessageDigestBufferSize( final int messageDigestBufferSize )
@@ -465,12 +471,13 @@ public class PreferencesControler implements Serializable
         return maxParallelFilesPerThread;
     }
 
-    public void setMaxParallelFilesPerThread( int maxParallelFilesPerThread )
+    public void setMaxParallelFilesPerThread( final int maxParallelFilesPerThread )
     {
         if( maxParallelFilesPerThread < 1 ) {
-            maxParallelFilesPerThread = 1;
+            this.preferences.setMaxParallelFilesPerThread( 1 );
+        } else {
+            this.preferences.setMaxParallelFilesPerThread( maxParallelFilesPerThread );
         }
+   }
 
-        this.preferences.setMaxParallelFilesPerThread( maxParallelFilesPerThread );
-    }
 }

@@ -5,9 +5,10 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.services.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
-public class PreferencesDialogI18n extends JDialog
+public class PreferencesDialogI18n extends JDialog // NOSONAR
 {
     private static final long serialVersionUID = 1L;
+
     private final PreferencesControler preferencesControler;
 
     @I18nString private String txtPreferencesDialogMessageExceptionDialogTitle;
@@ -31,37 +32,37 @@ public class PreferencesDialogI18n extends JDialog
 
     public PreferencesControler getPreferencesControler()
     {
-        return preferencesControler;
+        return this.preferencesControler;
     }
 
     protected final String getTxtPreferencesDialogMessageExceptionDialogTitle()
     {
-        return txtPreferencesDialogMessageExceptionDialogTitle;
+        return this.txtPreferencesDialogMessageExceptionDialogTitle;
     }
 
     protected final String getTxtStringDefaultLocale()
     {
-        return txtStringDefaultLocale;
+        return this.txtStringDefaultLocale;
     }
 
     protected final String getTxtJLabelDefaultMessageDigestBufferSize()
     {
-        return txtJLabelDefaultMessageDigestBufferSize;
+        return this.txtJLabelDefaultMessageDigestBufferSize;
     }
 
     protected final String getTxtJLabelDefaultDeleteDelais()
     {
-        return txtJLabelDefaultDeleteDelais;
+        return this.txtJLabelDefaultDeleteDelais;
     }
 
     protected final String getTxtJLabelDefaultDeleteSleepDisplayMaxEntries()
     {
-        return txtJLabelDefaultDeleteSleepDisplayMaxEntries;
+        return this.txtJLabelDefaultDeleteSleepDisplayMaxEntries;
     }
 
     protected final String getTxtJPanelTitle()
     {
-        return txtJPanelTitle;
+        return this.txtJPanelTitle;
     }
 
     private final void setTxtPreferencesDialogMessageExceptionDialogTitle( final String txtPreferencesDialogMessageExceptionDialogTitle )

@@ -8,11 +8,12 @@ import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 
 public class ScanParams {
     private static final Logger LOGGER = Logger.getLogger( ScanParams.class );
 
-    private final String                          messageDigestAlgorithm;
+    private final MessageDigestAlgorithms         messageDigestAlgorithm;
     private final int                             messageDigestBufferSize;
     private final boolean                         ignoreEmptyFiles;
     private final int                             maxParallelFilesPerThread;
@@ -21,7 +22,7 @@ public class ScanParams {
     private final Map<String, Set<KeyFileState>>  duplicateFiles;
 
     public ScanParams( // NOSONAR
-            @Nonnull final String                         messageDigestAlgorithm,
+            @Nonnull final MessageDigestAlgorithms        messageDigestAlgorithm,
             @Nonnull final int                            messageDigestBufferSize,
             @Nonnull final boolean                        ignoreEmptyFiles,
             @Nonnull final int                            maxParallelFilesPerThread,
@@ -45,7 +46,7 @@ public class ScanParams {
         }
     }
 
-    public String getMessageDigestAlgorithm()
+    public MessageDigestAlgorithms getMessageDigestAlgorithm()
     {
         return this.messageDigestAlgorithm;
     }

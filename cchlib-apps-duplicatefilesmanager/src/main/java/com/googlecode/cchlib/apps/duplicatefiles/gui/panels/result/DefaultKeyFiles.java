@@ -12,7 +12,7 @@ final class DefaultKeyFiles extends AbstractKeyFiles
 
     /**
      *
-     * @param key    Key for theses files (hash code, MD5, ...)
+     * @param key    Key for theses files (hash code)
      * @param files Set with at least 2 entries
      * @param firstFileCache Set first file for display
      */

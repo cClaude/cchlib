@@ -23,8 +23,9 @@ import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
+import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 
-public class PreferencesPanel extends JPanel {
+public class PreferencesPanelWB extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private final PreferencesDialogI18n i18n;
@@ -46,6 +47,8 @@ public class PreferencesPanel extends JPanel {
 
     @I18nIgnore private JComboBox<ListInfo<Locale>> jComboBoxLocal;
     @I18nIgnore private JComboBox<ListInfo<LookAndFeelInfo>> jComboBoxLookAndFeel;
+    @I18nIgnore private JComboBox<ConfigMode> jComboBoxUserLevel;
+    @I18nIgnore private JComboBox<MessageDigestAlgorithms> jComboBoxHashMethod;
 
     private JLabel jLabelDeleteSleepDisplay;
     private JLabel jLabelDeleteSleepDisplayMaxEntries;
@@ -53,8 +56,6 @@ public class PreferencesPanel extends JPanel {
     @I18nIgnore private JLabel jLabelDefaultMessageDigestBufferSize;
     @I18nIgnore private JLabel jLabelDefaultDeleteDelais;
     @I18nIgnore private JLabel jLabelDefaultDeleteSleepDisplayMaxEntries;
-
-    @I18nIgnore private JComboBox<ConfigMode> jComboBoxUserLevel;
 
     private LimitedIntegerJTextField deleteSleepDisplayTF;
     private LimitedIntegerJTextField messageDigestBufferSizeTF;
@@ -65,22 +66,26 @@ public class PreferencesPanel extends JPanel {
     private JLabel maxParallelFilesPerThreadLabel;
     private JSlider maxParallelFilesPerThreadJSlider;
     private JTextField maxParallelFilesPerThreadTF;
+    private JLabel jLabelHashMethod;
 
-    public PreferencesPanel()
+    /**
+     * For Windows Builder ONLY (and I18N)
+     */
+     public PreferencesPanelWB()
     {
         this( new PreferencesDialogI18n() );
     }
 
-    PreferencesPanel( final PreferencesDialogI18n i18n )
+    PreferencesPanelWB( final PreferencesDialogI18n i18n )
     {
         this.i18n                 = i18n;
         this.preferencesControler = i18n.getPreferencesControler();
 
         final GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[]{0, 40, 0, 0, 0};
-        gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         gbl_panel.columnWeights = new double[]{0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+        gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
         this.setLayout(gbl_panel);
 
         this.jPanelTitle = new TitledBorder(null, i18n.getTxtJPanelTitle(), TitledBorder.LEADING, TitledBorder.TOP, null, null);
@@ -104,6 +109,25 @@ public class PreferencesPanel extends JPanel {
             gbc_jComboBoxUserLevel.gridy = 0;
             this.add(this.jComboBoxUserLevel, gbc_jComboBoxUserLevel);
         }
+        {
+            this.jLabelHashMethod = new JLabel("Hash method");
+            final GridBagConstraints gbc_jLabelHashMethod = new GridBagConstraints();
+            gbc_jLabelHashMethod.anchor = GridBagConstraints.EAST;
+            gbc_jLabelHashMethod.insets = new Insets(0, 0, 5, 5);
+            gbc_jLabelHashMethod.gridx = 0;
+            gbc_jLabelHashMethod.gridy = 1;
+            add(this.jLabelHashMethod, gbc_jLabelHashMethod);
+        }
+        {
+            this.jComboBoxHashMethod = new JComboBox<>();
+            final GridBagConstraints gbc_jComboHashMethod = new GridBagConstraints();
+            gbc_jComboHashMethod.gridwidth = 2;
+            gbc_jComboHashMethod.insets = new Insets(0, 0, 5, 5);
+            gbc_jComboHashMethod.fill = GridBagConstraints.HORIZONTAL;
+            gbc_jComboHashMethod.gridx = 1;
+            gbc_jComboHashMethod.gridy = 1;
+            add(this.jComboBoxHashMethod, gbc_jComboHashMethod);
+        }
         //--------------
         {
             this.jLabeMessageDigestBufferSize = new JLabel("Hash code buffer size");
@@ -111,7 +135,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jLabeMessageDigestBufferSize.anchor = GridBagConstraints.EAST;
             gbc_jLabeMessageDigestBufferSize.insets = new Insets(0, 0, 5, 5);
             gbc_jLabeMessageDigestBufferSize.gridx = 0;
-            gbc_jLabeMessageDigestBufferSize.gridy = 1;
+            gbc_jLabeMessageDigestBufferSize.gridy = 2;
             this.add(this.jLabeMessageDigestBufferSize, gbc_jLabeMessageDigestBufferSize);
         }
         {
@@ -121,10 +145,11 @@ public class PreferencesPanel extends JPanel {
             gbc_messageDigestBufferSizeTF.insets = new Insets(0, 0, 5, 5);
             gbc_messageDigestBufferSizeTF.fill = GridBagConstraints.HORIZONTAL;
             gbc_messageDigestBufferSizeTF.gridx = 1;
-            gbc_messageDigestBufferSizeTF.gridy = 1;
+            gbc_messageDigestBufferSizeTF.gridy = 2;
             this.add(this.messageDigestBufferSizeTF, gbc_messageDigestBufferSizeTF);
             this.messageDigestBufferSizeTF.setColumns(10);
         }
+        //--------------
         {
             this.jLabelDefaultMessageDigestBufferSize = new JLabel();
             final GridBagConstraints gbc_jLabelDefaultMessageDigestBufferSize = new GridBagConstraints();
@@ -132,7 +157,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jLabelDefaultMessageDigestBufferSize.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDefaultMessageDigestBufferSize.insets = new Insets(0, 0, 5, 0);
             gbc_jLabelDefaultMessageDigestBufferSize.gridx = 2;
-            gbc_jLabelDefaultMessageDigestBufferSize.gridy = 1;
+            gbc_jLabelDefaultMessageDigestBufferSize.gridy = 2;
             this.add(this.jLabelDefaultMessageDigestBufferSize, gbc_jLabelDefaultMessageDigestBufferSize);
         }
         //--------------
@@ -142,7 +167,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jLabelDeleteSleepDisplay.anchor = GridBagConstraints.EAST;
             gbc_jLabelDeleteSleepDisplay.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelDeleteSleepDisplay.gridx = 0;
-            gbc_jLabelDeleteSleepDisplay.gridy = 2;
+            gbc_jLabelDeleteSleepDisplay.gridy = 3;
             this.add(this.jLabelDeleteSleepDisplay, gbc_jLabelDeleteSleepDisplay);
         }
         {
@@ -152,7 +177,7 @@ public class PreferencesPanel extends JPanel {
             gbc_deleteSleepDisplayTF.insets = new Insets(0, 0, 5, 5);
             gbc_deleteSleepDisplayTF.fill = GridBagConstraints.HORIZONTAL;
             gbc_deleteSleepDisplayTF.gridx = 1;
-            gbc_deleteSleepDisplayTF.gridy = 2;
+            gbc_deleteSleepDisplayTF.gridy = 3;
             this.add(this.deleteSleepDisplayTF, gbc_deleteSleepDisplayTF);
             this.deleteSleepDisplayTF.setColumns(10);
         }
@@ -163,7 +188,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jLabelDefaultDeleteDelais.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDefaultDeleteDelais.insets = new Insets(0, 0, 5, 0);
             gbc_jLabelDefaultDeleteDelais.gridx = 2;
-            gbc_jLabelDefaultDeleteDelais.gridy = 2;
+            gbc_jLabelDefaultDeleteDelais.gridy = 3;
             this.add(this.jLabelDefaultDeleteDelais, gbc_jLabelDefaultDeleteDelais);
         }
         {
@@ -172,7 +197,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jLabelDeleteSleepDisplayMaxEntries.anchor = GridBagConstraints.EAST;
             gbc_jLabelDeleteSleepDisplayMaxEntries.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelDeleteSleepDisplayMaxEntries.gridx = 0;
-            gbc_jLabelDeleteSleepDisplayMaxEntries.gridy = 3;
+            gbc_jLabelDeleteSleepDisplayMaxEntries.gridy = 4;
             this.add(this.jLabelDeleteSleepDisplayMaxEntries, gbc_jLabelDeleteSleepDisplayMaxEntries);
         }
         {
@@ -182,7 +207,7 @@ public class PreferencesPanel extends JPanel {
             gbc_deleteSleepDisplayMaxEntriesTF.insets = new Insets(0, 0, 5, 5);
             gbc_deleteSleepDisplayMaxEntriesTF.fill = GridBagConstraints.HORIZONTAL;
             gbc_deleteSleepDisplayMaxEntriesTF.gridx = 1;
-            gbc_deleteSleepDisplayMaxEntriesTF.gridy = 3;
+            gbc_deleteSleepDisplayMaxEntriesTF.gridy = 4;
             this.add(this.deleteSleepDisplayMaxEntriesTF, gbc_deleteSleepDisplayMaxEntriesTF);
             this.deleteSleepDisplayMaxEntriesTF.setColumns(10);
         }
@@ -193,7 +218,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.fill = GridBagConstraints.HORIZONTAL;
             gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.insets = new Insets(0, 0, 5, 0);
             gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.gridx = 2;
-            gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.gridy = 3;
+            gbc_jLabelDefaultDeleteSleepDisplayMaxEntries.gridy = 4;
             this.add(this.jLabelDefaultDeleteSleepDisplayMaxEntries, gbc_jLabelDefaultDeleteSleepDisplayMaxEntries);
         }
         {
@@ -202,7 +227,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jLabelLocale.anchor = GridBagConstraints.EAST;
             gbc_jLabelLocale.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelLocale.gridx = 0;
-            gbc_jLabelLocale.gridy = 4;
+            gbc_jLabelLocale.gridy = 5;
             this.add(this.jLabelLocale, gbc_jLabelLocale);
         }
         {
@@ -212,7 +237,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jComboBoxLocal.insets = new Insets(0, 0, 5, 5);
             gbc_jComboBoxLocal.fill = GridBagConstraints.HORIZONTAL;
             gbc_jComboBoxLocal.gridx = 1;
-            gbc_jComboBoxLocal.gridy = 4;
+            gbc_jComboBoxLocal.gridy = 5;
             this.add(this.jComboBoxLocal, gbc_jComboBoxLocal);
         }
         {
@@ -221,7 +246,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jLabelLookAndFeel.anchor = GridBagConstraints.EAST;
             gbc_jLabelLookAndFeel.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelLookAndFeel.gridx = 0;
-            gbc_jLabelLookAndFeel.gridy = 5;
+            gbc_jLabelLookAndFeel.gridy = 6;
             this.add(this.jLabelLookAndFeel, gbc_jLabelLookAndFeel);
         }
         {
@@ -231,7 +256,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jComboBoxLookAndFeel.insets = new Insets(0, 0, 5, 0);
             gbc_jComboBoxLookAndFeel.fill = GridBagConstraints.HORIZONTAL;
             gbc_jComboBoxLookAndFeel.gridx = 1;
-            gbc_jComboBoxLookAndFeel.gridy = 5;
+            gbc_jComboBoxLookAndFeel.gridy = 6;
             this.add(this.jComboBoxLookAndFeel, gbc_jComboBoxLookAndFeel);
         }
         {
@@ -240,7 +265,7 @@ public class PreferencesPanel extends JPanel {
             gbc_numberOfThreadsLabel.anchor = GridBagConstraints.EAST;
             gbc_numberOfThreadsLabel.insets = new Insets(0, 0, 5, 5);
             gbc_numberOfThreadsLabel.gridx = 0;
-            gbc_numberOfThreadsLabel.gridy = 6;
+            gbc_numberOfThreadsLabel.gridy = 7;
             add(this.numberOfThreadsLabel, gbc_numberOfThreadsLabel);
         }
         {
@@ -251,7 +276,7 @@ public class PreferencesPanel extends JPanel {
             gbc_numberOfThreadsTF.insets = new Insets(0, 0, 5, 5);
             gbc_numberOfThreadsTF.fill = GridBagConstraints.HORIZONTAL;
             gbc_numberOfThreadsTF.gridx = 2;
-            gbc_numberOfThreadsTF.gridy = 6;
+            gbc_numberOfThreadsTF.gridy = 7;
             add(this.numberOfThreadsTF, gbc_numberOfThreadsTF);
             this.numberOfThreadsTF.setColumns(10);
         }
@@ -260,12 +285,12 @@ public class PreferencesPanel extends JPanel {
             this.numberOfThreadsJSlider.setMinimum( 1 );
             this.numberOfThreadsJSlider.setMaximum( getMaxNumberOfThreads() );
             this.numberOfThreadsJSlider.setValue( this.preferencesControler.getNumberOfThreads() );
-            this.numberOfThreadsJSlider.addChangeListener(e -> setNumberOfThreads( Integer.toString( PreferencesPanel.this.numberOfThreadsJSlider.getValue() ) ));
+            this.numberOfThreadsJSlider.addChangeListener(e -> setNumberOfThreads( Integer.toString( PreferencesPanelWB.this.numberOfThreadsJSlider.getValue() ) ));
             final GridBagConstraints gbc_numberOfThreadsJSlider = new GridBagConstraints();
             gbc_numberOfThreadsJSlider.fill = GridBagConstraints.HORIZONTAL;
             gbc_numberOfThreadsJSlider.insets = new Insets(0, 0, 5, 5);
             gbc_numberOfThreadsJSlider.gridx = 1;
-            gbc_numberOfThreadsJSlider.gridy = 6;
+            gbc_numberOfThreadsJSlider.gridy = 7;
             add(this.numberOfThreadsJSlider, gbc_numberOfThreadsJSlider);
         }
         {
@@ -273,7 +298,7 @@ public class PreferencesPanel extends JPanel {
             final GridBagConstraints gbc_maxParallelFilesPerThreadLabel = new GridBagConstraints();
             gbc_maxParallelFilesPerThreadLabel.insets = new Insets(0, 0, 5, 5);
             gbc_maxParallelFilesPerThreadLabel.gridx = 0;
-            gbc_maxParallelFilesPerThreadLabel.gridy = 7;
+            gbc_maxParallelFilesPerThreadLabel.gridy = 8;
             add(this.maxParallelFilesPerThreadLabel, gbc_maxParallelFilesPerThreadLabel);
         }
         { // maxParallelFilesPerThreadTF must be init before maxParallelFilesPerThreadJSlider
@@ -284,13 +309,13 @@ public class PreferencesPanel extends JPanel {
             gbc_maxParallelFilesPerThreadTF.insets = new Insets(0, 0, 5, 5);
             gbc_maxParallelFilesPerThreadTF.fill = GridBagConstraints.HORIZONTAL;
             gbc_maxParallelFilesPerThreadTF.gridx = 2;
-            gbc_maxParallelFilesPerThreadTF.gridy = 7;
+            gbc_maxParallelFilesPerThreadTF.gridy = 8;
             add(this.maxParallelFilesPerThreadTF, gbc_maxParallelFilesPerThreadTF);
             this.maxParallelFilesPerThreadTF.setColumns(10);
         }
         { // maxParallelFilesPerThreadTF must be init before maxParallelFilesPerThreadJSlider
             this.maxParallelFilesPerThreadJSlider = new JSlider();
-            this.maxParallelFilesPerThreadJSlider.addChangeListener(e -> setMaxParallelFilesPerThread( Integer.toString( PreferencesPanel.this.maxParallelFilesPerThreadJSlider.getValue() ) ));
+            this.maxParallelFilesPerThreadJSlider.addChangeListener(e -> setMaxParallelFilesPerThread( Integer.toString( PreferencesPanelWB.this.maxParallelFilesPerThreadJSlider.getValue() ) ));
             this.maxParallelFilesPerThreadJSlider.setValue( this.preferencesControler.getMaxParallelFilesPerThread() );
             this.maxParallelFilesPerThreadJSlider.setMinimum(1);
             this.maxParallelFilesPerThreadJSlider.setMaximum(99);
@@ -298,7 +323,7 @@ public class PreferencesPanel extends JPanel {
             gbc_maxParallelFilesPerThreadJSlider.fill = GridBagConstraints.HORIZONTAL;
             gbc_maxParallelFilesPerThreadJSlider.insets = new Insets(0, 0, 5, 5);
             gbc_maxParallelFilesPerThreadJSlider.gridx = 1;
-            gbc_maxParallelFilesPerThreadJSlider.gridy = 7;
+            gbc_maxParallelFilesPerThreadJSlider.gridy = 8;
             add(this.maxParallelFilesPerThreadJSlider, gbc_maxParallelFilesPerThreadJSlider);
         }
         {
@@ -308,7 +333,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jCheckBoxWindowDimension.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBoxWindowDimension.insets = new Insets(0, 0, 5, 0);
             gbc_jCheckBoxWindowDimension.gridx = 1;
-            gbc_jCheckBoxWindowDimension.gridy = 8;
+            gbc_jCheckBoxWindowDimension.gridy = 9;
             this.add(this.jCheckBoxWindowDimension, gbc_jCheckBoxWindowDimension);
         }
         {
@@ -317,7 +342,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jLabelWindowDimension.anchor = GridBagConstraints.EAST;
             gbc_jLabelWindowDimension.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelWindowDimension.gridx = 0;
-            gbc_jLabelWindowDimension.gridy = 8;
+            gbc_jLabelWindowDimension.gridy = 9;
             this.add(this.jLabelWindowDimension, gbc_jLabelWindowDimension);
         }
         {
@@ -327,7 +352,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jCheckBox_ignoreHiddenFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreHiddenFiles.insets = new Insets(0, 0, 5, 5);
             gbc_jCheckBox_ignoreHiddenFiles.gridx = 1;
-            gbc_jCheckBox_ignoreHiddenFiles.gridy = 9;
+            gbc_jCheckBox_ignoreHiddenFiles.gridy = 10;
             this.add(this.jCheckBox_ignoreHiddenFiles, gbc_jCheckBox_ignoreHiddenFiles);
         }
         {
@@ -338,7 +363,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jCheckBox_ignoreReadOnlyFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreReadOnlyFiles.insets = new Insets(0, 0, 5, 0);
             gbc_jCheckBox_ignoreReadOnlyFiles.gridx = 2;
-            gbc_jCheckBox_ignoreReadOnlyFiles.gridy = 9;
+            gbc_jCheckBox_ignoreReadOnlyFiles.gridy = 10;
             this.add(this.jCheckBox_ignoreReadOnlyFiles, gbc_jCheckBox_ignoreReadOnlyFiles);
         }
         {
@@ -348,7 +373,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jCheckBox_ignoreHiddenDirectories.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreHiddenDirectories.insets = new Insets(0, 0, 5, 5);
             gbc_jCheckBox_ignoreHiddenDirectories.gridx = 1;
-            gbc_jCheckBox_ignoreHiddenDirectories.gridy = 10;
+            gbc_jCheckBox_ignoreHiddenDirectories.gridy = 11;
             this.add(this.jCheckBox_ignoreHiddenDirectories, gbc_jCheckBox_ignoreHiddenDirectories);
         }
         {
@@ -359,7 +384,7 @@ public class PreferencesPanel extends JPanel {
             gbc_jCheckBox_ignoreEmptyFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreEmptyFiles.insets = new Insets(0, 0, 5, 0);
             gbc_jCheckBox_ignoreEmptyFiles.gridx = 2;
-            gbc_jCheckBox_ignoreEmptyFiles.gridy = 10;
+            gbc_jCheckBox_ignoreEmptyFiles.gridy = 11;
             this.add(this.jCheckBox_ignoreEmptyFiles, gbc_jCheckBox_ignoreEmptyFiles);
         }
     }
@@ -390,6 +415,15 @@ public class PreferencesPanel extends JPanel {
         this.jLabelDefaultDeleteSleepDisplayMaxEntries.setText( //
             String.format( this.i18n.getTxtJLabelDefaultDeleteSleepDisplayMaxEntries(), this.preferencesControler.getDefaultDeleteSleepDisplayMaxEntries() ) //
             );
+        //------------------
+        {
+            this.jComboBoxHashMethod.removeAllItems();
+
+            for( final MessageDigestAlgorithms algo : MessageDigestAlgorithms.values() ) {
+                this.jComboBoxHashMethod.addItem( algo );
+                }
+            this.jComboBoxHashMethod.setSelectedItem( this.preferencesControler.getMessageDigestAlgorithm() );
+        }
         //------------------
         {
             this.jComboBoxUserLevel.removeAllItems();
@@ -461,6 +495,11 @@ public class PreferencesPanel extends JPanel {
     public JComboBox<ListInfo<Locale>> getjComboBoxLocal()
     {
         return this.jComboBoxLocal;
+    }
+
+    public JComboBox<MessageDigestAlgorithms> getjComboBoxHashMethod()
+    {
+        return this.jComboBoxHashMethod;
     }
 
     public JComboBox<ListInfo<LookAndFeelInfo>> getjComboBoxLookAndFeel()

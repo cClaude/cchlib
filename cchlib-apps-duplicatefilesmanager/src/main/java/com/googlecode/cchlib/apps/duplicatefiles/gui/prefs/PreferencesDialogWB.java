@@ -24,14 +24,14 @@ public final class PreferencesDialogWB // NOSONAR
     extends PreferencesDialogI18n
         implements I18nAutoCoreUpdatable
 {
-    private static final long serialVersionUID = 3L;
+    private static final long serialVersionUID = 4L;
 
     private final JPanel contentPanel;
-    private JButton jButtonCancel;
 
+    private JButton jButtonCancel;
     private JButton jButtonSave;
 
-    private PreferencesPanel panel;
+    private PreferencesPanelWB panel;
 
     /**
      * For Windows Builder ONLY (and I18N)
@@ -50,7 +50,7 @@ public final class PreferencesDialogWB // NOSONAR
 
         setTitle("Preferences");
         setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
-        setBounds( 100, 100, 550, 380 );
+        setBounds( 100, 100, 550, 450 );
         this.contentPanel = new JPanel();
         this.contentPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         setContentPane( this.contentPanel );
@@ -63,7 +63,7 @@ public final class PreferencesDialogWB // NOSONAR
 
         this.contentPanel.setLayout(gbl_contentPanel);
         {
-            this.panel = new PreferencesPanel( this );
+            this.panel = new PreferencesPanelWB( this );
 
             final GridBagConstraints gbc_panel = new GridBagConstraints();
             gbc_panel.fill = GridBagConstraints.BOTH;
@@ -113,6 +113,7 @@ public final class PreferencesDialogWB // NOSONAR
         prefs.setConfigMode( getSelectedItem( this.panel.getjComboBoxUserLevel() ) );
         prefs.setDeleteSleepDisplay( this.panel.getDeleteSleepDisplayTF().getValue() );
         prefs.setDeleteSleepDisplayMaxEntries( this.panel.getDeleteSleepDisplayMaxEntriesTF().getValue() );
+        prefs.setMessageDigestAlgorithm( getSelectedItem( this.panel.getjComboBoxHashMethod() ) );
         prefs.setMessageDigestBufferSize( this.panel.getMessageDigestBufferSizeTF().getValue() );
         //prefs.setLastDirectory( file );
         prefs.setLocale( getSelectedItem( this.panel.getjComboBoxLocal() ).getContent() );

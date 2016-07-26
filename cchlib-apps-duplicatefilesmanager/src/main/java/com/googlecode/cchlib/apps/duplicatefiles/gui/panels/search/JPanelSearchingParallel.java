@@ -127,9 +127,9 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
         beforePass2();
 
         final Map<String, Set<File>> computePass2 = runPass2( //
-                scanParams.getMessageDigestAlgorithm(), //
-                scanParams.getMessageDigestBufferSize(), //
-                computePass1 );
+                scanParams, //
+                computePass1 //
+                );
 
         purgePass2AndUpdateStats( computePass2 );
 
@@ -254,13 +254,12 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
     }
 
     private Map<String, Set<File>> runPass2( //
-            final String               messageDigestAlgorithm, //
-            final int                  messageDigestBufferSize, //
+            final ScanParams           scanParams, //
             final Map<Long, Set<File>> computePass1 //
             )
     {
         try {
-            final FileDigestFactory                 messageDigestFileBuilder = newMessageDigestFileBuilder( messageDigestAlgorithm, messageDigestBufferSize );
+            final FileDigestFactory                 messageDigestFileBuilder = newMessageDigestFileBuilder( scanParams );
             final DuplicateFileFinderEventListener  listener                 = newDuplicateFileFinderListener();
 
             final DuplicateFileFinderUsingStream duplicateFileFinder = new ParallelDuplicateFileFinder(messageDigestFileBuilder, listener, getNumberOfThreads() );
@@ -285,15 +284,21 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
         return this.cancel;
     }
 
-    private FileDigestFactory newMessageDigestFileBuilder( //
-            final String messageDigestAlgorithm, //
-            final int messageDigestBufferSize //
+    private FileDigestFactory newMessageDigestFileBuilder(
+            final ScanParams scanParams //
             ) throws NoSuchAlgorithmException
     {
-        return new DefaultFileDigestFactory( messageDigestAlgorithm, messageDigestBufferSize );
+        return new DefaultFileDigestFactory( //
+                scanParams.getMessageDigestAlgorithm(), //
+                scanParams.getMessageDigestBufferSize() //
+                );
     }
 
-    private Map<Long, Set<File>> runPass1( final boolean ignoreEmptyFiles, final Collection<File> entriesToScans, final FileVisitor<Path> fileVisitor )
+    private Map<Long, Set<File>> runPass1( //
+            final boolean           ignoreEmptyFiles, //
+            final Collection<File>  entriesToScans, //
+            final FileVisitor<Path> fileVisitor //
+            )
     {
         Map<Long, Set<File>> computePass1;
 
