@@ -51,6 +51,7 @@ public class ParallelDuplicateFileFinderTest extends DuplicateFileFinderTest_Com
 
     @Override
     @Test // could take to much time / memory
+    @Ignore
     public void integration_test() throws NoSuchAlgorithmException, IOException, IllegalStateException, InterruptedException, ExecutionException
     {
         super.integration_test();

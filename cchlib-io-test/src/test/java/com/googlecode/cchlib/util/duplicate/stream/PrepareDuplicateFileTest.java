@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
 
 public class PrepareDuplicateFileTest {
@@ -29,20 +28,10 @@ public class PrepareDuplicateFileTest {
         return LOGGER;
     }
 
-    private Path getStartPath()
-    {
-        return FileHelper.getUserHomeDirFile().toPath();
-    }
-
-    private Path[] getStartPaths()
-    {
-        return new Path[] { getStartPath() };
-    }
-
     @Test // could take to much time / memory
     public void test_using_walk_and_stream() throws IOException
     {
-        final Path startPath = getStartPath();
+        final Path startPath = StartPathsHelper.getStartPath();
         final FileVisitOption[] options = {};
 
         try (final Stream<Path> streamPath = Files.walk( startPath, options )) {
@@ -66,7 +55,7 @@ public class PrepareDuplicateFileTest {
     @Test // could take to much time / memory
     public void test_using_walker() throws IOException
     {
-        final Path[] startPaths = getStartPaths();
+        final Path[] startPaths = StartPathsHelper.getStartPaths();
 
         final Set<FileVisitOption>  options = EnumSet.noneOf( FileVisitOption.class );
         final FileVisitor<Path>     visitor = FileVisitorHelper.newFileVisitor( getLogger() );

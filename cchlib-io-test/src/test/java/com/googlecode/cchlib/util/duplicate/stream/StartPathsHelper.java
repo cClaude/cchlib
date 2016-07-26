@@ -8,32 +8,37 @@ public class StartPathsHelper {
 
     public static Path[] getStartPaths()
     {
+        return new Path[] { getStartPath() };
+     }
+
+    public static Path getStartPath()
+    {
         // TODO implements a better solution to avoid very long test !
         final Path path_home = FileHelper.getUserHomeDirFile().toPath();
         final Path path_for_tests;
 
-        // Windows: AppData\Local
-        Path path = path_home.resolve( "AppData" );
+        // Unix: .config folder (could be exist if running cygwin)
+        Path path = path_home.resolve( ".config" );
 
         if( Files.isDirectory( path ) ) {
-            final Path pathLocal = path.resolve( "Local" );
-            if( Files.isDirectory( pathLocal ) ) {
-                path_for_tests = pathLocal;
-            } else {
-                path_for_tests = path;
-            }
+            path_for_tests = path;
         } else {
-            // Unix: .config
-            path = path_home.resolve( ".config" );
+            // Windows: AppData\LocalLow
+            path = path_home.resolve( "AppData" );
 
             if( Files.isDirectory( path ) ) {
-                path_for_tests = path;
+                final Path pathLocal = path.resolve( "LocalLow" );
+
+                if( Files.isDirectory( pathLocal ) ) {
+                    path_for_tests = pathLocal;
+                } else {
+                    path_for_tests = path;
+                }
             } else {
-                path_for_tests  = path_home;
+                path_for_tests = path;
             }
         }
 
-        return new Path[] { path_for_tests };
-     }
-
+        return path_for_tests;
+    }
 }
