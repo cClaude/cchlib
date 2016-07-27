@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.servlet.simple.debug.impl.InfosServletDisplayerImpl;
 
 /**
@@ -22,7 +23,8 @@ import com.googlecode.cchlib.servlet.simple.debug.impl.InfosServletDisplayerImpl
  */
 public class InfosServlet extends HttpServlet
 {
-    private static final long serialVersionUID = 1L;
+    private static final long   serialVersionUID = 1L;
+    private static final Logger LOGGER           = Logger.getLogger( InfosServlet.class );
 
     // TODO: add (re)loaded time - System.getMillisec() - loaded time of servlet
 
@@ -33,8 +35,7 @@ public class InfosServlet extends HttpServlet
     protected static final String SERVLETNAME = "InfosServlet";
 
     @Override
-    public void init()
-        throws javax.servlet.ServletException
+    public void init() throws ServletException
     {
         log("InfosServlet init() method called.");
 
@@ -66,20 +67,24 @@ public class InfosServlet extends HttpServlet
 
     @Override
     public void service(
-            final HttpServletRequest request,
+            final HttpServletRequest  request,
             final HttpServletResponse response
             )
         throws ServletException, IOException
     {
         response.setContentType("text/html");
 
-       appendHTML(
-           response.getWriter(),
-           this,
-           request,
-           response
-           );
-   }
+        try {
+            appendHTML(
+                    response.getWriter(),
+                    this,
+                    request,
+                    response
+                    );
+        } catch( final Exception e ) {
+            LOGGER.fatal( e );
+        }
+    }
 
     @Override
     public String getServletInfo()

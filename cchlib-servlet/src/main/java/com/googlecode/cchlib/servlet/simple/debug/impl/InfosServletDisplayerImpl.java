@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.servlet.simple.debug.impl;
 
-import cx.ath.choisnet.util.ArrayHelper;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -24,6 +23,7 @@ import com.googlecode.cchlib.servlet.simple.debug.InfosServletDisplay;
 import com.googlecode.cchlib.servlet.simple.debug.InfosServletDisplayAnchor;
 import com.googlecode.cchlib.servlet.simple.debug.InfosServletDisplayer;
 import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
+import cx.ath.choisnet.util.ArrayHelper;
 
 /**
  *
@@ -35,7 +35,6 @@ public class InfosServletDisplayerImpl
     protected ServletRequest        servletRequest;
     protected HttpSession           httpSession;
     protected ServletContext        servletContext;
-    //protected ServletResponse       servletResponse;
 
     /**
      *
@@ -68,13 +67,12 @@ public class InfosServletDisplayerImpl
             final ServletResponse   response,
             final HttpSession       httpSession
             )
-        throws java.io.IOException
+        throws IOException
     {
         this.httpServlet        = servlet;
         this.servletRequest     = request;
         this.httpSession        = httpSession;
         this.servletContext     = servlet.getServletContext();
-        //this.servletResponse    = response;
     }
 
     /**
@@ -99,19 +97,11 @@ public class InfosServletDisplayerImpl
 
     private HttpServletRequest getHttpServletRequest()
     {
-        if( servletRequest instanceof HttpServletRequest ) {
-            return HttpServletRequest.class.cast(servletRequest);
+        if( this.servletRequest instanceof HttpServletRequest ) {
+            return HttpServletRequest.class.cast(this.servletRequest);
             }
         return null;
     }
-
-//    private HttpServletResponse getHttpServletResponse()
-//    {
-//        if( response instanceof HttpServletResponse ) {
-//            return HttpServletResponse.class.cast(response);
-//            }
-//        return null;
-//    }
 
     @Override
     public void appendHTML(final Appendable out) throws IOException
@@ -134,7 +124,7 @@ public class InfosServletDisplayerImpl
             "<table class=\"summary\">\n"
                 + "<tr><td>getServerInfo()</td><td>"
                 );
-        out.append(servletContext.getServerInfo());
+        out.append(this.servletContext.getServerInfo());
         out.append(
             "</td></tr>\n"
                 + "<tr><td>java.runtime.version</td><td>"
@@ -174,10 +164,10 @@ public class InfosServletDisplayerImpl
 
         final StringBuilder sb = new StringBuilder();
 
-        for( InfosServletDisplay display : displayer ) {
+        for( final InfosServletDisplay display : displayer ) {
             sb.setLength( 0 );
 
-            InfosServletDisplayAnchor anchor = display.getAnchor();
+            final InfosServletDisplayAnchor anchor = display.getAnchor();
             sb.append("<tr><td><a href=\"#");
             sb.append(anchor.getId());
             sb.append("\">");
@@ -189,7 +179,7 @@ public class InfosServletDisplayerImpl
 
         out.append("</table><br />\n");
 
-        for(InfosServletDisplay display : displayer) {
+        for(final InfosServletDisplay display : displayer) {
             display.appendHTML(out);
             }
 
@@ -203,13 +193,13 @@ public class InfosServletDisplayerImpl
     {
         return new InfosServletDisplayImpl2(
                 "Object: javax.servlet.http.HttpServlet<br />"
-                    + InfosServletDisplayerImpl.getObjectInfo(httpServlet),
+                    + InfosServletDisplayerImpl.getObjectInfo(this.httpServlet),
                 "HttpServlet",
-                httpServlet
+                this.httpServlet
                 )
             .put(
                 "servlet.getClass().getName()",
-                httpServlet.getClass().getName()
+                this.httpServlet.getClass().getName()
                 );
     }
 
@@ -220,9 +210,9 @@ public class InfosServletDisplayerImpl
     {
         return new InfosServletDisplayImpl2(
                 "Object: ServletRequest<br />"
-                    + InfosServletDisplayerImpl.getObjectInfo(servletRequest),
+                    + InfosServletDisplayerImpl.getObjectInfo(this.servletRequest),
                 "ServletRequest",
-                servletRequest
+                this.servletRequest
                 );
     }
 
@@ -231,14 +221,14 @@ public class InfosServletDisplayerImpl
      */
     private InfosServletDisplay getHttpServletRequest_getHeaderNamesISD()
     {
-        HttpServletRequest request = getHttpServletRequest();
+        final HttpServletRequest request = getHttpServletRequest();
 
         final Map<String,String>  map   = new TreeMap<String,String>();
         final StringBuilder       value = new StringBuilder();
         String                    name;
 
         for(
-                Enumeration<String> enum0 = toEnumerationString(request.getHeaderNames());
+                final Enumeration<String> enum0 = toEnumerationString(request.getHeaderNames());
                 enum0.hasMoreElements();
                 map.put(name, value.toString() )
             ) {
@@ -272,20 +262,20 @@ public class InfosServletDisplayerImpl
         String                   name;
 
         for(
-                Enumeration<String> enum0 = toEnumerationString(servletRequest.getParameterNames());
+                final Enumeration<String> enum0 = toEnumerationString(this.servletRequest.getParameterNames());
                 enum0.hasMoreElements();
                 map.put(name, value.toString())
                 ) {
             name = enum0.nextElement();
-            final String[] values = servletRequest.getParameterValues(name);
+            final String[] values = this.servletRequest.getParameterValues(name);
 
             value.setLength(0);
 
-            String[] arr$ = values;
-            int len$ = arr$.length;
+            final String[] arr$ = values;
+            final int len$ = arr$.length;
 
             for(int i$ = 0; i$ < len$; i$++) {
-                String v = arr$[i$];
+                final String v = arr$[i$];
                 value.append( v );
                 value.append( "<br/>" );
             }
@@ -309,12 +299,12 @@ public class InfosServletDisplayerImpl
         Object value;
 
         for(
-                Enumeration<String> enum0 = toEnumerationString(servletRequest.getAttributeNames());
+                final Enumeration<String> enum0 = toEnumerationString(this.servletRequest.getAttributeNames());
                 enum0.hasMoreElements();
                 map.put(name, toString(value))
                 ) {
             name = enum0.nextElement();
-            value = servletRequest.getAttribute(name);
+            value = this.servletRequest.getAttribute(name);
         }
 
         return new InfosServletDisplayImpl(
@@ -325,12 +315,9 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    /**
-     *
-     */
     private InfosServletDisplay getHttpServletRequestCookiesISD()
     {
-        HttpServletRequest request = getHttpServletRequest();
+        final HttpServletRequest request = getHttpServletRequest();
 
         final SortedMap<String,String>  map     = new TreeMap<String,String>();
         final Enumeration<Cookie>       cookies = ArrayHelper.toEnumeration( request.getCookies() );
@@ -349,16 +336,13 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    /**
-     *
-     */
     private InfosServletDisplay getConfig_getInitParameterNamesISD()
     {
-        final ServletConfig       servletConfig = httpServlet.getServletConfig();
+        final ServletConfig       servletConfig = this.httpServlet.getServletConfig();
         final Map<String,String>  map           = new TreeMap<String,String>();
         String name;
 
-        for(Enumeration<String> enum0 = toEnumerationString(servletConfig.getInitParameterNames()); enum0.hasMoreElements(); ) {
+        for(final Enumeration<String> enum0 = toEnumerationString(servletConfig.getInitParameterNames()); enum0.hasMoreElements(); ) {
             name = enum0.nextElement();
             map.put(name, servletConfig.getInitParameter(name));
             }
@@ -373,47 +357,41 @@ public class InfosServletDisplayerImpl
             );
     }
 
-    /**
-     *
-     */
     private InfosServletDisplay getContextISD()
     {
         final StringBuilder valueOfgetResource = new StringBuilder();
 
         try {
-            valueOfgetResource.append(servletContext.getResource("/"));
+            valueOfgetResource.append(this.servletContext.getResource("/"));
             }
-        catch(MalformedURLException e) {
+        catch(final MalformedURLException e) {
             valueOfgetResource.append(e);
             }
 
         return new InfosServletDisplayImpl2(
                 "Informations from the ServletContext<br />"
-                     + InfosServletDisplayerImpl.getObjectInfo(servletContext),
+                     + InfosServletDisplayerImpl.getObjectInfo(this.servletContext),
                 "ServletContext",
-                servletContext
+                this.servletContext
                 )
-            .put("getContext( \"/\" )", toString(servletContext.getContext("/") ) )
+            .put("getContext( \"/\" )", toString(this.servletContext.getContext("/") ) )
             .put("getResource( \"/\" )", valueOfgetResource.toString())
-            .put("getRealPath( \"/\" )", servletContext.getRealPath("/"))
-            .put("getRequestDispatcher( \"/\" )", toString(servletContext.getRequestDispatcher("/")))
-            .put("getMimeType( \"file.hqx\" )", servletContext.getMimeType("file.hqx"))
-            .put("getMimeType( \"file.png\" )", servletContext.getMimeType("file.png"))
-            .put("getMimeType( \"toto.svg\" )", servletContext.getMimeType("file.svg"));
+            .put("getRealPath( \"/\" )", this.servletContext.getRealPath("/"))
+            .put("getRequestDispatcher( \"/\" )", toString(this.servletContext.getRequestDispatcher("/")))
+            .put("getMimeType( \"file.hqx\" )", this.servletContext.getMimeType("file.hqx"))
+            .put("getMimeType( \"file.png\" )", this.servletContext.getMimeType("file.png"))
+            .put("getMimeType( \"toto.svg\" )", this.servletContext.getMimeType("file.svg"));
     }
 
-    /**
-     *
-     */
     private InfosServletDisplay getContext_getAttributeNamesISD()
     {
         final Map<String,String> map = new TreeMap<String,String>();
         String name;
 
         for(
-                Enumeration<String> enum0 = toEnumerationString(servletContext.getAttributeNames());
+                final Enumeration<String> enum0 = toEnumerationString(this.servletContext.getAttributeNames());
                 enum0.hasMoreElements();
-                map.put(name, toString(servletContext.getAttribute(name)))) {
+                map.put(name, toString(this.servletContext.getAttribute(name)))) {
             name = enum0.nextElement();
         }
 
@@ -425,18 +403,15 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    /**
-     *
-     */
     private InfosServletDisplay getContext_getInitParameterNamesISD()
     {
         final Map<String,String> map = new TreeMap<String,String>();
         String name;
 
         for(
-                Enumeration<String> enum0 = toEnumerationString(servletContext.getInitParameterNames());
+                final Enumeration<String> enum0 = toEnumerationString(this.servletContext.getInitParameterNames());
                 enum0.hasMoreElements();
-                map.put(name, servletContext.getInitParameter(name))
+                map.put(name, this.servletContext.getInitParameter(name))
                 ) {
             name = enum0.nextElement();
         }
@@ -449,22 +424,16 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    /**
-     *
-     */
     private InfosServletDisplay getHttpSessionISD()
     {
         return new InfosServletDisplayImpl2(
                 "HttpSession<br />"
-                    + InfosServletDisplayerImpl.getObjectInfo(httpSession),
+                    + InfosServletDisplayerImpl.getObjectInfo(this.httpSession),
                 "HttpSession",
-                httpSession
+                this.httpSession
                 );
     }
 
-    /**
-     *
-     */
     private InfosServletDisplay getHttpSession_getAttributeNamesISD()
     {
         final Map<String,String> map   = new TreeMap<String,String>();
@@ -473,7 +442,7 @@ public class InfosServletDisplayerImpl
         Enumeration<String> enum0;
         String              noDataMsg;
 
-        if(httpSession == null) {
+        if(this.httpSession == null) {
             title.append("NOT FOUND");
 
             enum0     = new EmptyEnumeration<String>();
@@ -481,18 +450,18 @@ public class InfosServletDisplayerImpl
         }
         else {
             title.append("ID=");
-            title.append(httpSession.getId());
+            title.append(this.httpSession.getId());
 
-            enum0     = toEnumerationString(httpSession.getAttributeNames());
+            enum0     = toEnumerationString(this.httpSession.getAttributeNames());
             noDataMsg = "There are no object on the current HttpSession.";
         }
 
         while( enum0.hasMoreElements() ) {
-            String name = enum0.nextElement();
+            final String name = enum0.nextElement();
 
             map.put(
                     name,
-                    toString( httpSession.getAttribute(name) )
+                    toString( this.httpSession.getAttribute(name) )
                     );
         }
 
@@ -504,9 +473,6 @@ public class InfosServletDisplayerImpl
                     );
     }
 
-    /**
-     *
-     */
     private InfosServletDisplay getJVM_MemoryISD()
     {
         final Map<String,String>    map         = new TreeMap<String,String>();
@@ -525,9 +491,6 @@ public class InfosServletDisplayerImpl
                     );
     }
 
-    /**
-     *
-     */
     private InfosServletDisplay getJVM_SystemPropertiesISD()
     {
         final Properties         prop = System.getProperties();
@@ -536,7 +499,7 @@ public class InfosServletDisplayerImpl
         String name;
 
         for(
-                Enumeration<String> enum0 = toEnumerationString(prop.propertyNames());
+                final Enumeration<String> enum0 = toEnumerationString(prop.propertyNames());
                 enum0.hasMoreElements();
                 map.put(name, prop.getProperty(name))
                 ) {
@@ -580,7 +543,7 @@ public class InfosServletDisplayerImpl
      * @param o
      * @return TODOC
      */
-    private static String toString(Object o)
+    private static String toString(final Object o)
     {
         if(o != null) {
             return o.toString();
@@ -595,7 +558,7 @@ public class InfosServletDisplayerImpl
      * @param o
      * @return TODOC
      */
-    private static String getObjectInfo(Object o)
+    private static String getObjectInfo(final Object o)
     {
         if(o != null) {
             return "ClassName:" + o.getClass().getName() + "<br/>" + o.toString();
@@ -624,7 +587,7 @@ public class InfosServletDisplayerImpl
             @Override
             public String nextElement()
             {
-                Object o = enumerator.nextElement();
+                final Object o = enumerator.nextElement();
 
                 if( o == null ) {
                     return null;
