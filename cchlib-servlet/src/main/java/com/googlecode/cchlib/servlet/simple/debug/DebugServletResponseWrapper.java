@@ -1,4 +1,4 @@
-package cx.ath.choisnet.servlet.debug;
+package com.googlecode.cchlib.servlet.simple.debug;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -333,10 +333,10 @@
     <module>cchlib-i18n</module>
     <module>cchlib-io</module>
     <module>cchlib-io-test</module>
-    <module>cchlib-j2ee</module>
     <module>cchlib-jdbf</module>
     <module>cchlib-net</module>
     <!--module>cchlib-nio</module-->
+    <module>cchlib-servlet</module>
     <module>cchlib-sql</module>
     <module>cchlib-swing</module>
     <module>cchlib-sys</module>

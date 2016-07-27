@@ -9,9 +9,9 @@
    <version>4.2-SNAPSHOT</version>
   </parent>
   
-  <artifactId>cchlib-j2ee</artifactId>
+  <artifactId>cchlib-servlet</artifactId>
   <packaging>jar</packaging>
-  <name>cchlib-j2ee</name>
+  <name>cchlib-servlet</name>
   <description>Provide server based features.</description>
   <url>http://choisnet.ath.cx/cchlib/</url>
   <inceptionYear>2002</inceptionYear>

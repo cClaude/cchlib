@@ -1,8 +1,5 @@
-package cx.ath.choisnet.servlet.debug.impl;
+package com.googlecode.cchlib.servlet.simple.debug.impl;
 
-import cx.ath.choisnet.servlet.debug.InfosServletDisplay;
-import cx.ath.choisnet.servlet.debug.InfosServletDisplayAnchor;
-import cx.ath.choisnet.servlet.debug.InfosServletDisplayer;
 import cx.ath.choisnet.util.ArrayHelper;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -23,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
+import com.googlecode.cchlib.servlet.simple.debug.InfosServletDisplay;
+import com.googlecode.cchlib.servlet.simple.debug.InfosServletDisplayAnchor;
+import com.googlecode.cchlib.servlet.simple.debug.InfosServletDisplayer;
 import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
 
 /**

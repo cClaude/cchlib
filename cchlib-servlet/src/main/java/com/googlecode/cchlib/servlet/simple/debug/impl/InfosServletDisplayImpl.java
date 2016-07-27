@@ -1,10 +1,9 @@
-package cx.ath.choisnet.servlet.debug.impl;
-
-import cx.ath.choisnet.servlet.debug.InfosServletDisplay;
-import cx.ath.choisnet.servlet.debug.InfosServletDisplayAnchor;
+package com.googlecode.cchlib.servlet.simple.debug.impl;
 
 import java.io.IOException;
 import java.util.Map;
+import com.googlecode.cchlib.servlet.simple.debug.InfosServletDisplay;
+import com.googlecode.cchlib.servlet.simple.debug.InfosServletDisplayAnchor;
 import com.googlecode.cchlib.util.mappable.Mappable;
 
 /**

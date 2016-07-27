@@ -3,13 +3,13 @@
 // Decompiler options: annotate fullnames braces deadcode fieldsfirst splitstr(nl)
 // Source File Name:   ServletContextParamNotFoundException.java
 
-package cx.ath.choisnet.servlet;
+package com.googlecode.cchlib.servlet.simple;
 
 
 // Referenced classes of package cx.ath.choisnet.servlet:
 //            SimpleServletContextException
 
-public class ServletContextParamNotFoundException extends cx.ath.choisnet.servlet.SimpleServletContextException
+public class ServletContextParamNotFoundException extends com.googlecode.cchlib.servlet.simple.SimpleServletContextException
 {
 
     private static final long serialVersionUID = 1L;

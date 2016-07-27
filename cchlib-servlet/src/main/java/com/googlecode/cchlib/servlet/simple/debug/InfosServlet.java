@@ -1,6 +1,5 @@
-package cx.ath.choisnet.servlet.debug;
+package com.googlecode.cchlib.servlet.simple.debug;
 
-import cx.ath.choisnet.servlet.debug.impl.InfosServletDisplayerImpl;
 import java.io.IOException;
 import java.util.Enumeration;
 import javax.servlet.ServletException;
@@ -8,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
+import com.googlecode.cchlib.servlet.simple.debug.impl.InfosServletDisplayerImpl;
 
 /**
  * Display informations from {@link HttpServlet} to {@link HttpServlet#log(String)},

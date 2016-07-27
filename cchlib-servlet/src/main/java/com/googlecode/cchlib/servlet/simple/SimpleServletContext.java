@@ -1,4 +1,4 @@
-package cx.ath.choisnet.servlet;
+package com.googlecode.cchlib.servlet.simple;
 
 /**
  * TODOC
@@ -11,10 +11,10 @@ public interface SimpleServletContext
     *
     * @param s
     * @return TODOC
-    * @throws cx.ath.choisnet.servlet.ServletContextParamNotFoundException
+    * @throws com.googlecode.cchlib.servlet.simple.ServletContextParamNotFoundException
     */
     String getInitParameter(String s)
-        throws cx.ath.choisnet.servlet.ServletContextParamNotFoundException;
+        throws com.googlecode.cchlib.servlet.simple.ServletContextParamNotFoundException;
 
     /**
     * TODOC

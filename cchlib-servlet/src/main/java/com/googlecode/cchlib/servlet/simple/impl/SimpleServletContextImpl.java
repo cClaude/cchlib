@@ -1,7 +1,4 @@
-package cx.ath.choisnet.servlet.impl;
-
-import cx.ath.choisnet.servlet.ServletContextParamNotFoundException;
-import cx.ath.choisnet.servlet.SimpleServletContext;
+package com.googlecode.cchlib.servlet.simple.impl;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -10,6 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.servlet.ServletContext;
+import com.googlecode.cchlib.servlet.simple.ServletContextParamNotFoundException;
+import com.googlecode.cchlib.servlet.simple.SimpleServletContext;
 
 /**
  * TODOC

@@ -1,4 +1,4 @@
-package cx.ath.choisnet.servlet;
+package com.googlecode.cchlib.servlet.simple;
 
 import java.util.EnumSet;
 import javax.servlet.http.Cookie;

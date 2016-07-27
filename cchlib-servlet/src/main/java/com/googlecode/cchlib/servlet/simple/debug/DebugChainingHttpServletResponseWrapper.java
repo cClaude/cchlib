@@ -1,8 +1,8 @@
-package cx.ath.choisnet.servlet.debug;
+package com.googlecode.cchlib.servlet.simple.debug;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
-import cx.ath.choisnet.servlet.ChainingHttpServletResponse;
+import com.googlecode.cchlib.servlet.simple.ChainingHttpServletResponse;
 
 /**
  *

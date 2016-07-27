@@ -1,4 +1,4 @@
-package cx.ath.choisnet.servlet.debug.impl;
+package com.googlecode.cchlib.servlet.simple.debug.impl;
 
 import java.util.HashMap;
 import java.util.Map;

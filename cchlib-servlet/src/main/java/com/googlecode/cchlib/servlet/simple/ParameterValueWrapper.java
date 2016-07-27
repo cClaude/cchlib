@@ -1,40 +1,40 @@
-package cx.ath.choisnet.servlet;
+package com.googlecode.cchlib.servlet.simple;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import com.googlecode.cchlib.util.Wrappable;
 
-public class ParameterValueWrapper
+public class ParameterValueWrapper<T>
 {
-    private final Wrappable<String,String> wrapper;
+    private final Wrappable<String,T> wrapper;
 
-    public ParameterValueWrapper(Wrappable<String,String> wrapper)
+    public ParameterValueWrapper(final Wrappable<String,T> wrapper)
     {
         this.wrapper = wrapper;
     }
 
-    public List<String> asList(HttpServletRequest request, String paramName)
+    public List<T> asList(final HttpServletRequest request, final String paramName)
     {
         return asList(request.getParameterValues(paramName));
     }
 
-    public List<String> asList(ParameterValue paramValue)
+    public List<T> asList(final ParameterValue paramValue)
     {
         return asList(paramValue.toArray());
     }
 
-    private List<String> asList(final String[] values)
+    private List<T> asList(final String[] values)
     {
         if( values == null) {
             return null;
         }
 
-        final int    len  = values.length;
-        List<String> list = new ArrayList<String>(len);
+        final int     len  = values.length;
+        final List<T> list = new ArrayList<T>(len);
 
         for(int i = 0; i < len; i++) {
-            list.add( wrapper.wrap( values[i] ) );
+            list.add( this.wrapper.wrap( values[i] ) );
         }
 
         return list;

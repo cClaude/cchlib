@@ -1,11 +1,11 @@
-package cx.ath.choisnet.servlet.impl;
+package com.googlecode.cchlib.servlet.simple.impl;
 
-import cx.ath.choisnet.servlet.ParameterValue;
-import cx.ath.choisnet.servlet.SimpleServletRequest;
-import cx.ath.choisnet.servlet.UserAgent;
 import java.util.EnumSet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import com.googlecode.cchlib.servlet.simple.ParameterValue;
+import com.googlecode.cchlib.servlet.simple.SimpleServletRequest;
+import com.googlecode.cchlib.servlet.simple.UserAgent;
 
 public class SimpleServletRequestImpl
     implements SimpleServletRequest
