@@ -82,7 +82,7 @@ public class InfosServlet extends HttpServlet
                     response
                     );
         } catch( final Exception e ) {
-            LOGGER.fatal( e );
+            LOGGER.fatal( InfosServlet.class, e );
         }
     }
 

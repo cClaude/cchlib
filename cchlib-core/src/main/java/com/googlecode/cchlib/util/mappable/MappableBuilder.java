@@ -213,24 +213,28 @@ public class MappableBuilder
         final Method             method
         )
     {
-        final Iterable<?> iterLst     = (Iterable<?>)invoke(object, method, map, Iterable.class);
-        final Iterator<?> iter        = iterLst.iterator();
-        final String      methodName  = method.getName();
+        final Iterable<?> list       = (Iterable<?>)invoke(object, method, map, Iterable.class);
+        final String      methodName = method.getName();
 
-        int i = 0;
         map.put(
                 formatMethodName( methodName ),
-                (iter == null) ? null : iter.toString()
+                (list == null) ? null : list.toString()
                 );
 
-        if( iter != null ) {
-            while( iter.hasNext() ) {
-                map.put(
-                        formatIterableEntry(methodName, i++, -1),
-                        toString(iter.next())
-                        );
+        if( list != null ) {
+            final Iterator<?> iter = list.iterator();
+            int               i    = 0;
+
+            if( iter != null ) {
+                while( iter.hasNext() ) {
+                    map.put(
+                            formatIterableEntry(methodName, i++, -1),
+                            toString(iter.next())
+                            );
                 }
             }
+        }
+
     }
 
     private void handleIteratorForMap(
