@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.i18n.resources;
 
-import com.googlecode.cchlib.i18n.I18nInterface;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import  org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
+import com.googlecode.cchlib.i18n.I18nInterface;
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}
@@ -14,7 +14,7 @@ public class I18nSimpleResourceBundle
     extends I18nResourceBundle
 {
     private static final long serialVersionUID = 2L;
-    private static transient Logger LOGGER = Logger.getLogger(I18nSimpleResourceBundle.class);
+    private static final Logger LOGGER = Logger.getLogger(I18nSimpleResourceBundle.class);
 
     /** @serial */
     private Locale currentLocale;
@@ -53,10 +53,10 @@ public class I18nSimpleResourceBundle
 
       if( LOGGER.isTraceEnabled() ) {
           LOGGER.trace( "setLocale() - resourceBundleFullBaseName= " + getResourceBundleFullBaseName() );
-          LOGGER.trace( "setLocale() - currentLocale= " + currentLocale );
+          LOGGER.trace( "setLocale() - currentLocale= " + this.currentLocale );
           LOGGER.trace( "setLocale() - getLocale() = " + getLocale() );
 
-          if( ! getLocale().equals(currentLocale) ) {
+          if( ! getLocale().equals(this.currentLocale) ) {
               LOGGER.error( "getLocale() != currentLocale" );
               }
           }
@@ -70,7 +70,7 @@ public class I18nSimpleResourceBundle
 
           super.setResourceBundle( resourceBundle, resourceBundleFullBaseName );
           }
-      catch( MissingResourceException e ) {
+      catch( final MissingResourceException e ) {
           LOGGER.error(
               "Error while trying to open default resource bundle for: "
                   + getResourceBundleFullBaseName()
@@ -79,7 +79,7 @@ public class I18nSimpleResourceBundle
           }
 
       if( LOGGER.isTraceEnabled() ) {
-          if( ! getResourceBundle().getLocale().equals(currentLocale) ) {
+          if( ! getResourceBundle().getLocale().equals(this.currentLocale) ) {
               LOGGER.error( "resourceBundle.getLocale() != currentLocale" );
               }
           LOGGER.trace( "resourceBundle.getLocale() = " + getResourceBundle().getLocale() );

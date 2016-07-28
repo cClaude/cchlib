@@ -37,7 +37,7 @@ public final class MapSetHelper {
      */
     public static <KEY,VALUE> Iterator<VALUE> values( @Nonnull final Map<KEY,Set<VALUE>> mapSet )
     {
-        return new CascadingIterator<VALUE>( mapSet.values().iterator() );
+        return new CascadingIterator<>( mapSet.values().iterator() );
     }
 
     /**

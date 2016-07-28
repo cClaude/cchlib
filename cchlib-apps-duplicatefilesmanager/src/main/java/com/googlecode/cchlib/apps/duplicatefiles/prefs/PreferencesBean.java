@@ -19,7 +19,7 @@ class PreferencesBean implements Preferences, Serializable
     private SerializableDimension mnimumWindowDimension;
     private SerializableDimension windowDimension;
 
-    private Collection<String> incFilesFilterPatternRegExpList = new ArrayList<String>();
+    private Collection<String> incFilesFilterPatternRegExpList = new ArrayList<>();
     private ConfigMode configMode = ConfigMode.BEGINNER;
     private DividersLocation panelResultDividerLocations = new DividersLocation();
     private SelectFirstMode selectFirstMode = SelectFirstMode.QUICK;

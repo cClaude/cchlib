@@ -9,7 +9,7 @@ abstract class Base64
 {
     protected static final int DEFAULT_BUFFER_SIZE = 8192;
 
-    protected static final char[] BASE64 = { // $codepro.audit.disable constantNamingConvention
+    protected static final char[] BASE64 = { // $codepro.audit.disable constantNamingConvention // NOSONAR
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
         'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
         'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
@@ -39,7 +39,7 @@ abstract class Base64
     }
 
     // Mapping table from Base64 characters to 6-bit nibbles.
-    protected static final byte[] MAP2 = new byte[128];
+    protected static final byte[] MAP2 = new byte[128]; // NOSONAR
 
     // Mapping table from Base64 characters to 6-bit nibbles.
     static {

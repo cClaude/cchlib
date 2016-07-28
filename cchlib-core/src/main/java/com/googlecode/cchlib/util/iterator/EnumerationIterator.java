@@ -44,8 +44,7 @@ public class EnumerationIterator<T>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
-    public T next()
-        throws NoSuchElementException // NOSONAR
+    public T next() throws NoSuchElementException // NOSONAR
     {
         return this.enumeration.nextElement();
     }

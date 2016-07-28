@@ -8,7 +8,7 @@ import javax.swing.ProgressMonitorInputStream;
 
 //not public
 class CancellableBufferedInputStreamFactory {
-    @SuppressWarnings("resource")
+
     final static CancellableBufferedInputStream newCancellableBufferedInputStream( //
             final Component progressMonitorParentComponent, //
             final Object    progressMonitorMessage, //

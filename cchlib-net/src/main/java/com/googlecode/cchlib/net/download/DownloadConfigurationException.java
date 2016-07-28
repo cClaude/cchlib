@@ -5,8 +5,7 @@ package com.googlecode.cchlib.net.download;
  *
  * @since 4.1.7
  */
-public class DownloadConfigurationException // $codepro.audit.disable serializableUsage
-    extends Exception
+public class DownloadConfigurationException extends Exception
 {
     private static final long serialVersionUID = 1L;
 

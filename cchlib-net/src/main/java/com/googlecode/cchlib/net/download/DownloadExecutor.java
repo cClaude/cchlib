@@ -38,7 +38,7 @@ public class DownloadExecutor
         final DownloadFilterInputStreamBuilder  downloadFilterBuilder
         )
     {
-        final BlockingQueue<Runnable> queue  = new LinkedBlockingDeque<Runnable>();
+        final BlockingQueue<Runnable> queue  = new LinkedBlockingDeque<>();
 
         this.pool    = new ThreadPoolExecutor(
                 0, // min thread

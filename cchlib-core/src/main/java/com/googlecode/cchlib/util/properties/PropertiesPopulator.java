@@ -111,7 +111,7 @@ public class PropertiesPopulator<E> implements Serializable
         }
     }
 
-    private String getAttributeNameForGetter( final Method method )
+    private static String getAttributeNameForGetter( final Method method )
     {
         final String name = method.getName();
 
@@ -280,9 +280,9 @@ public class PropertiesPopulator<E> implements Serializable
         final String     propertiesPrefix,
         final Properties properties,
         final E          bean
-        ) throws PropertiesPopulatorException
+        ) throws PropertiesPopulatorException // NOSONAR
     {
-        final PropertiesToBean<E> propertiesToBean = new PropertiesToBean<E>( propertiesPrefix, properties, bean);
+        final PropertiesToBean<E> propertiesToBean = new PropertiesToBean<>( propertiesPrefix, properties, bean);
 
         propertiesToBean.populateFields( this.fieldsMap );
         propertiesToBean.populateMethods( this.getterSetterMap );

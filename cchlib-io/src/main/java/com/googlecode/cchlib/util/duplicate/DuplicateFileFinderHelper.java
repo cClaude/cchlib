@@ -23,7 +23,9 @@ public final class DuplicateFileFinderHelper {
     public static DuplicateFileFinder newDuplicateFileFinder( //
             final boolean                    ignoreEmptyFiles, //
             @Nonnull final FileDigestFactory fileDigestFactory //
-            ) throws NoSuchAlgorithmException, IllegalArgumentException
+            ) throws
+                NoSuchAlgorithmException,
+                IllegalArgumentException // NOSONAR
     {
         final DFFConfig  dffConfig = new DFFConfigImpl( ignoreEmptyFiles, fileDigestFactory );
         final DFFPass1   dffPass1  = new DFFPass1Impl( dffConfig );
@@ -46,11 +48,13 @@ public final class DuplicateFileFinderHelper {
             final boolean                       ignoreEmptyFiles, //
             @Nonnull final FileDigestFactory    fileDigestFactory, //
             final int                           maxParallelFiles //
-        ) throws NoSuchAlgorithmException, IllegalArgumentException
+        ) throws
+            NoSuchAlgorithmException,
+            IllegalArgumentException // NOSONAR
     {
         final DFFConfig2 dffConfig = new DFFConfigImpl2( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
-        final DFFPass1 dffPass1 = new DFFPass1Impl( dffConfig );
-        final DFFPass2 dffPass2 = new DFFPass2Impl2( dffConfig );
+        final DFFPass1   dffPass1  = new DFFPass1Impl( dffConfig );
+        final DFFPass2   dffPass2  = new DFFPass2Impl2( dffConfig );
 
         return new DefaultDuplicateFileFinder( dffConfig, dffPass1, dffPass2 );
     }

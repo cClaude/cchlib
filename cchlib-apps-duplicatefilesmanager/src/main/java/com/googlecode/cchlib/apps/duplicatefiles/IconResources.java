@@ -7,9 +7,9 @@ import com.googlecode.cchlib.apps.duplicatefiles.tools.MyResourcesLoader;
 
 public class IconResources implements Serializable
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
-    private static volatile IconResources INSTANCE;
+    private static volatile IconResources instance;
 
     private Icon emptyIcon;
     private Icon emptySelectedIcon;
@@ -31,14 +31,14 @@ public class IconResources implements Serializable
 
     public static IconResources getInstance()
     {
-        if( INSTANCE == null ) {
+        if( instance == null ) {
             synchronized( IconResources.class ) {
-                if( INSTANCE == null ) {
-                    INSTANCE = new IconResources();
+                if( instance == null ) {
+                    instance = new IconResources();
                 }
             }
         }
-        return INSTANCE;
+        return instance;
     }
 
     public Icon getEmptyIcon()

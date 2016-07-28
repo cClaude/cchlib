@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
 import com.googlecode.cchlib.NeedDoc;
@@ -48,19 +49,19 @@ public final class I18nPrepHelper
         @Override
         public PrepCollector<Integer> getUsageStatCollector()
         {
-            return usageStatCollector;
+            return this.usageStatCollector;
         }
 
         @Override
         public PrepCollector<String> getNotUseCollector()
         {
-            return notUseCollector;
+            return this.notUseCollector;
         }
 
         @Override
         public File getOutputFile()
         {
-            return outputFile;
+            return this.outputFile;
         }
     }
 
@@ -188,8 +189,10 @@ public final class I18nPrepHelper
 
             final Map<String,Integer> statsMap = new HashMap<>( i18nPrep.getUsageMap() );
 
-            for( final String key : statsMap.keySet() ) {
-                usageStatCollector.add( key, statsMap.get( key ) );
+            for( final Entry<String, Integer> entry : statsMap.entrySet() ) {
+                final String key = entry.getKey();
+
+                usageStatCollector.add( key, entry.getValue() );
                 knowKeyMap.remove( key );
                 }
 

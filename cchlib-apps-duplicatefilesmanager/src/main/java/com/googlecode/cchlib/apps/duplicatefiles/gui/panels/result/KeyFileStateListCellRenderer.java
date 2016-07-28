@@ -53,8 +53,8 @@ class KeyFileStateListCellRenderer
     @I18nString private final String notHiddenStr = "Visible";
     @I18nString private final String readableStr = "Readable";
     @I18nString private final String notReadableStr = "Not Readable";
-    @I18nString private final Object writableStr = "Writable";
-    @I18nString private final Object notWritableStr = "Not Writable";
+    @I18nString private final String writableStr = "Writable";
+    @I18nString private final String notWritableStr = "Not Writable";
 
     @Override
     public Component getListCellRendererComponent(

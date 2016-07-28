@@ -126,7 +126,7 @@ public class ArrayIterator<T>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
-    public T next()
+    public T next() throws NoSuchElementException // NOSONAR
     {
         try {
             return this.array[this.index++];
@@ -136,7 +136,7 @@ public class ArrayIterator<T>
 
             ee.initCause( e );
 
-            throw ee;
+            throw ee ;
             }
     }
 

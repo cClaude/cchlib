@@ -15,7 +15,6 @@ public class EmptyfilesTestApp extends JFrame
     /**
      * Launch the application.
      */
-    @SuppressWarnings("squid:S1148")
     public static void main( final String[] args )
     {
         EventQueue.invokeLater( () -> {

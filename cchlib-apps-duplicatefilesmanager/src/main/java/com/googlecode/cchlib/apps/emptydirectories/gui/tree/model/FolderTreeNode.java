@@ -3,6 +3,7 @@ package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
@@ -118,7 +119,7 @@ public final class FolderTreeNode
                 return children.hasMoreElements();
             }
             @Override
-            public FolderTreeNode next()
+            public FolderTreeNode next() throws NoSuchElementException
             {
                 return FolderTreeNode.class.cast( children.nextElement() );
             }
@@ -151,7 +152,7 @@ public final class FolderTreeNode
 
     public boolean isSelected()
     {
-        return selected;
+        return this.selected;
     }
 
     @Override
@@ -159,9 +160,9 @@ public final class FolderTreeNode
     {
         final StringBuilder builder = new StringBuilder();
         builder.append( "FolderTreeNode [folder=" );
-        builder.append( folder );
+        builder.append( this.folder );
         builder.append( ", selected=" );
-        builder.append( selected );
+        builder.append( this.selected );
         builder.append( ']' );
         return builder.toString();
     }
