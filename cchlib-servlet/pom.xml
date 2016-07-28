@@ -8,7 +8,7 @@
    <groupId>com.googlecode.cchlib</groupId>
    <version>4.2-SNAPSHOT</version>
   </parent>
-  
+
   <artifactId>cchlib-servlet</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-servlet</name>
@@ -28,7 +28,7 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-sql</artifactId>
@@ -36,7 +36,7 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
         <groupId>javax</groupId>
         <artifactId>javaee-api</artifactId>
@@ -52,6 +52,7 @@
     </extensions>
 
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -64,6 +65,7 @@
           <target>${project.java.target.version}</target>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -82,6 +84,21 @@
           <target>${project.java.target.version}</target>
       </configuration>
       </plugin>
+
+      <!-- attach Javadoc to maven artifacts -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
