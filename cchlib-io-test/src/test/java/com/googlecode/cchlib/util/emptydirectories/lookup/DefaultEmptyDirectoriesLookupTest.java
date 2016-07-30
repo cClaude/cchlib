@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.lookup;
+package com.googlecode.cchlib.util.emptydirectories.lookup;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -15,12 +15,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
-import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
 import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.ScanIOException;
 
 public class DefaultEmptyDirectoriesLookupTest
 {

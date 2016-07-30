@@ -1,7 +1,9 @@
-package com.googlecode.cchlib.apps.emptydirectories;
+package com.googlecode.cchlib.util.emptydirectories.util;
 
 import java.io.File;
 import java.nio.file.Path;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.Folder;
 
 public interface FolderFactory
 {

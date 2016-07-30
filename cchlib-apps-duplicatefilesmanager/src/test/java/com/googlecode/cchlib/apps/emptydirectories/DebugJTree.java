@@ -13,6 +13,7 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCe
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel2;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 
 public class DebugJTree {
     private static final Logger LOGGER = Logger.getLogger( DebugJTree.class );

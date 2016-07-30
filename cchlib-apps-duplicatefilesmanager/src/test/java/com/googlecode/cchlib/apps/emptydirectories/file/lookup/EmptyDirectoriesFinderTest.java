@@ -3,7 +3,8 @@ package com.googlecode.cchlib.apps.emptydirectories.file.lookup;
 import java.io.FileFilter;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesFinder_Base;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.emptydirectories.lookup.DefaultEmptyDirectoriesLookup;
 
 public class EmptyDirectoriesFinderTest extends EmptyDirectoriesFinder_Base<FileFilter>
 {

@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.emptydirectories.ScanIOException;
 
 public abstract class EmptyDirectoriesFinder_Base<FILTER> {
     private MyEmptyDirectoriesCollector collector;

@@ -4,8 +4,8 @@ import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.util.Folders;
 
 //not public
 final class FolderTreeBuilder

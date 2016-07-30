@@ -1,10 +1,14 @@
-package com.googlecode.cchlib.apps.emptydirectories;
+package com.googlecode.cchlib.util.emptydirectories.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 
-public abstract class AbstractEmptyDirectoriesLookup<FILTER> implements EmptyDirectoriesLookup<FILTER> {
+public abstract class AbstractEmptyDirectoriesLookup<FILTER> implements EmptyDirectoriesLookup<FILTER>
+{
     private final List<EmptyDirectoriesListener> listeners = new ArrayList<>();
 
     /**
@@ -14,8 +18,7 @@ public abstract class AbstractEmptyDirectoriesLookup<FILTER> implements EmptyDir
      * @throws NullPointerException if listener is null.
      */
     @Override
-    final
-    public void addListener( final EmptyDirectoriesListener listener )
+    public final void addListener( final EmptyDirectoriesListener listener )
     {
         if( listener == null ) {
             throw new NullPointerException();
@@ -30,15 +33,16 @@ public abstract class AbstractEmptyDirectoriesLookup<FILTER> implements EmptyDir
      * @param listener A {@link EmptyDirectoriesListener} object
      */
     @Override
-    final
-    public void removeListener( final EmptyDirectoriesListener listener )
+    public final void removeListener( final EmptyDirectoriesListener listener )
     {
         this.getListeners().remove( listener );
     }
+
     protected final Collection<EmptyDirectoriesListener> getListeners()
     {
         return this.listeners;
     }
+
     protected final void notify( final EmptyFolder emptyFolder )
     {
         for( final EmptyDirectoriesListener l : getListeners() ) {

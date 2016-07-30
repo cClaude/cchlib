@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories;
+package com.googlecode.cchlib.util.emptydirectories;
 
 import java.util.EventListener;
 

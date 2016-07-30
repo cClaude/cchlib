@@ -1,8 +1,8 @@
-package com.googlecode.cchlib.apps.emptydirectories.file.folder;
+package com.googlecode.cchlib.util.emptydirectories.util;
 
 import java.io.File;
 import java.nio.file.Path;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.util.emptydirectories.Folder;
 
 public class FileFolder implements Folder
 {

@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories.file.lookup;
+package com.googlecode.cchlib.util.emptydirectories.lookup;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -9,15 +9,14 @@ import java.util.Enumeration;
 import java.util.List;
 import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.AbstractEmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.lang.Enumerable;
 import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.ScanIOException;
+import com.googlecode.cchlib.util.emptydirectories.util.Folders;
 
 /**
  * Find empty directories solution base on {@link FileFilter}
@@ -115,7 +114,7 @@ public class DefaultEmptyDirectoriesLookup
         LOGGER.debug( "doScan:" + folder );
 
         if( folder.isDirectory() ) {
-            isEmpty( folder );
+            isFolderEmpty( folder );
             }
         // else not a folder, no scan.
     }
@@ -125,7 +124,7 @@ public class DefaultEmptyDirectoriesLookup
      * @param folder Folder to examine
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
-    private boolean isEmpty( final File folder ) throws CancelRequestException
+    private boolean isFolderEmpty( final File folder ) throws CancelRequestException
     {
         for( final EmptyDirectoriesListener l : getListeners() ) {
             if( l.isCancel() ) {
@@ -149,12 +148,17 @@ public class DefaultEmptyDirectoriesLookup
             return true;
             }
 
+        return isFolderCouldBeEmpty( folder, content );
+    }
+
+    private boolean isFolderCouldBeEmpty( final File folder, final File[] content ) throws CancelRequestException
+    {
         boolean reallyEmpty  = true;
         boolean couldBeEmpty = true;
 
         for( final File f : content ) {
             if( f.isDirectory() ) {
-                final boolean nextIsEmpty = isEmpty( f );
+                final boolean nextIsEmpty = isFolderEmpty( f );
 
                 if( ! nextIsEmpty ) {
                     couldBeEmpty = false;

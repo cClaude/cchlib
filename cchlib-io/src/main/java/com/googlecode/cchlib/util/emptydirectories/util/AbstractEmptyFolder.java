@@ -1,10 +1,12 @@
-package com.googlecode.cchlib.apps.emptydirectories;
+package com.googlecode.cchlib.util.emptydirectories.util;
 
 import java.io.File;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.NotDirectoryException;
 import javax.annotation.Nonnull;
 import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.Folder;
 
 public abstract class AbstractEmptyFolder implements EmptyFolder
 {

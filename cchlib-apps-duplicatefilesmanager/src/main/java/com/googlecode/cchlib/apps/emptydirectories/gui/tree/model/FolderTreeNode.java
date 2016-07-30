@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.Folder;
+import com.googlecode.cchlib.util.emptydirectories.util.Folders;
 
 public final class FolderTreeNode
     extends DefaultMutableTreeNode

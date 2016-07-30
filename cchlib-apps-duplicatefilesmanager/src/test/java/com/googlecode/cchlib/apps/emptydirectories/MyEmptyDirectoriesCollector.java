@@ -3,6 +3,8 @@ package com.googlecode.cchlib.apps.emptydirectories;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.util.SortedList;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 
 public final class MyEmptyDirectoriesCollector
 {

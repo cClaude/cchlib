@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories;
+package com.googlecode.cchlib.util.emptydirectories;
 
 import java.nio.file.DirectoryStream.Filter;
 import com.googlecode.cchlib.util.CancelRequestException;

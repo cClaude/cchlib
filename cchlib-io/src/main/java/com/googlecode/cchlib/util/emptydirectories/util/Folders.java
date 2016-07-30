@@ -1,12 +1,18 @@
-package com.googlecode.cchlib.apps.emptydirectories;
+package com.googlecode.cchlib.util.emptydirectories.util;
 
 import java.io.File;
 import java.nio.file.Path;
-import com.googlecode.cchlib.apps.emptydirectories.file.folder.FileFolderFactory;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.Folder;
 
 public class Folders
 {
     private static final FolderFactory INSTANCE = new FileFolderFactory();
+
+    private Folders()
+    {
+        // All static
+    }
 
     public static Folder createFolder( final File file )
     {

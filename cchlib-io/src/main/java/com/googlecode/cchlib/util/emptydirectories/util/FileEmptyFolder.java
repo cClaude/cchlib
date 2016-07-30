@@ -1,12 +1,10 @@
-package com.googlecode.cchlib.apps.emptydirectories.file.folder;
+package com.googlecode.cchlib.util.emptydirectories.util;
 
 import java.io.File;
 import java.nio.file.Path;
-import com.googlecode.cchlib.apps.emptydirectories.AbstractEmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolderType;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.util.emptydirectories.Folder;
 
-public class FileEmptyFolder extends AbstractEmptyFolder// implements EmptyFolder
+public class FileEmptyFolder extends AbstractEmptyFolder
 {
     private static final long serialVersionUID = 1L;
     private final File file;
@@ -21,13 +19,13 @@ public class FileEmptyFolder extends AbstractEmptyFolder// implements EmptyFolde
     @Override
     public Path getPath()
     {
-        return file.toPath();
+        return this.file.toPath();
     }
 
     @Override
     public File getFile()
     {
-        return file;
+        return this.file;
     }
 
     @Override
