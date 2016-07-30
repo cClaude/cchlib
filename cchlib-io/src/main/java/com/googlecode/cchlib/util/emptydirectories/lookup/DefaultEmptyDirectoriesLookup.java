@@ -29,7 +29,7 @@ public class DefaultEmptyDirectoriesLookup
     private static final Logger LOGGER = Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
 
     private final List<File> rootFilesForScan;
-    private FileFilter excludeDirectoriesFile;
+    private FileFilter       excludeDirectoriesFile;
 
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
@@ -51,6 +51,20 @@ public class DefaultEmptyDirectoriesLookup
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
      *
+     * @param rootPaths Array of root {@link Path} objects
+     */
+    public DefaultEmptyDirectoriesLookup( final Path...rootPaths )
+    {
+        this.rootFilesForScan = new ArrayList<>( rootPaths.length );
+
+        for( final Path p: rootPaths ) {
+            this.rootFilesForScan.add( p.toFile() );
+            }
+    }
+
+    /**
+     * Create an {@link DefaultEmptyDirectoriesLookup} object.
+     *
      * @param rootFiles {@link Enumerable} of root {@link File} objects
      */
     public DefaultEmptyDirectoriesLookup( final Enumerable<File> rootFiles )
@@ -64,12 +78,17 @@ public class DefaultEmptyDirectoriesLookup
             }
     }
 
-    public DefaultEmptyDirectoriesLookup( final Path...rootPaths )
+    /**
+     * Create an {@link DefaultEmptyDirectoriesLookup} object.
+     *
+     * @param rootFiles {@link Iterable} of root {@link File} objects
+     */
+    public DefaultEmptyDirectoriesLookup( final Iterable<File> rootFiles )
     {
-        this.rootFilesForScan = new ArrayList<>( rootPaths.length );
+        this.rootFilesForScan = new ArrayList<>();
 
-        for( final Path p: rootPaths ) {
-            this.rootFilesForScan.add( p.toFile() );
+        for( final File f: rootFiles ) {
+            this.rootFilesForScan.add( f );
             }
     }
 
@@ -151,7 +170,8 @@ public class DefaultEmptyDirectoriesLookup
         return isFolderCouldBeEmpty( folder, content );
     }
 
-    private boolean isFolderCouldBeEmpty( final File folder, final File[] content ) throws CancelRequestException
+    private boolean isFolderCouldBeEmpty( final File folder, final File[] content )
+            throws CancelRequestException
     {
         boolean reallyEmpty  = true;
         boolean couldBeEmpty = true;
