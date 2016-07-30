@@ -105,9 +105,9 @@ class InfosServletDisplayImplForMap
             for( final Map.Entry<String,String> entry : this.map.entrySet() ) {
                 out.append("<tr><td class=\"name\">")
                    .append(entry.getKey())
-                   .append("</td><td class=\"value\">")
+                   .append("</td><td class=\"value\"><xmp>")
                    .append(entry.getValue())
-                   .append("</td></tr>\n");
+                   .append("</xmp></td></tr>\n");
             }
         }
 
