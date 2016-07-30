@@ -1,12 +1,13 @@
 package com.googlecode.cchlib.apps.emptydirectories.file.lookup;
 
-import java.io.FileFilter;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesFinder_Base;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
 import com.googlecode.cchlib.util.emptydirectories.lookup.DefaultEmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.emptydirectories.lookup.ExcludeDirectoriesFileFilter;
 
-public class EmptyDirectoriesFinderTest extends EmptyDirectoriesFinder_Base<FileFilter>
+public class EmptyDirectoriesFinderTest
+    extends EmptyDirectoriesFinder_Base<ExcludeDirectoriesFileFilter>
 {
     private static final Logger LOGGER = Logger.getLogger( EmptyDirectoriesFinderTest.class );
 
@@ -17,13 +18,13 @@ public class EmptyDirectoriesFinderTest extends EmptyDirectoriesFinder_Base<File
     }
 
     @Override
-    protected FileFilter getFilter()
+    protected ExcludeDirectoriesFileFilter getFilter()
     {
-        return getMyFilter().toFileFilter();
+        return getMyFilter().toExcludeDirectoriesFileFilter();
     }
 
     @Override
-    protected EmptyDirectoriesLookup<FileFilter> getEmptyDirectoriesLookup()
+    protected EmptyDirectoriesLookup<ExcludeDirectoriesFileFilter> getEmptyDirectoriesLookup()
     {
         return new DefaultEmptyDirectoriesLookup( getRootDirs() );
     }

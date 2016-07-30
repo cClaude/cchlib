@@ -9,7 +9,6 @@ import java.util.Enumeration;
 import java.util.List;
 import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.lang.Enumerable;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesListener;
@@ -22,14 +21,16 @@ import com.googlecode.cchlib.util.emptydirectories.util.Folders;
  * Find empty directories solution base on {@link FileFilter}
  */
 public class DefaultEmptyDirectoriesLookup
-    extends AbstractEmptyDirectoriesLookup<FileFilter>
-        implements EmptyDirectoriesLookup<FileFilter>, Serializable
+    extends AbstractEmptyDirectoriesLookup<ExcludeDirectoriesFileFilter>
+        implements
+            EmptyDirectoriesLookup<ExcludeDirectoriesFileFilter>,
+            Serializable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultEmptyDirectoriesLookup.class );
 
-    private final List<File> rootFilesForScan;
-    private FileFilter       excludeDirectoriesFile;
+    private final List<File>             rootFilesForScan;
+    private ExcludeDirectoriesFileFilter excludeDirectoriesFile;
 
     /**
      * Create an {@link DefaultEmptyDirectoriesLookup} object.
@@ -101,11 +102,13 @@ public class DefaultEmptyDirectoriesLookup
     @Override
     public void lookup() throws CancelRequestException, ScanIOException
     {
-        lookup( FileFilterHelper.falseFileFilter() );
+        lookup( pathname -> false ); // False ExcludeDirectoriesFileFilter
     }
 
     @Override
-    public void lookup( @Nonnull final FileFilter excludeDirectoriesFileFilter )
+    public void lookup(
+            @Nonnull final ExcludeDirectoriesFileFilter excludeDirectoriesFileFilter
+            )
         throws CancelRequestException, ScanIOException
     {
         for( final EmptyDirectoriesListener l : getListeners() ) {
@@ -130,7 +133,9 @@ public class DefaultEmptyDirectoriesLookup
      */
     private void doScan( final File folder ) throws CancelRequestException
     {
-        LOGGER.debug( "doScan:" + folder );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "doScan:" + folder );
+        }
 
         if( folder.isDirectory() ) {
             isFolderEmpty( folder );

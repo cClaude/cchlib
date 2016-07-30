@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
-import java.io.FileFilter;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.DirectoryNotEmptyException;
@@ -19,6 +18,7 @@ import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.util.emptydirectories.ScanIOException;
 import com.googlecode.cchlib.util.emptydirectories.lookup.DefaultEmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.emptydirectories.lookup.ExcludeDirectoriesFileFilter;
 
 /**
  *
@@ -74,8 +74,9 @@ public class FindDeleteAdapter
 
         this.isCancel = false;
 
-        final EmptyDirectoriesLookup<FileFilter>    emptyDirs   = new DefaultEmptyDirectoriesLookup( this.listModel );
-        final UpdateJTreeListeners                  listener    = new UpdateJTreeListeners();
+        final EmptyDirectoriesLookup<ExcludeDirectoriesFileFilter> emptyDirs
+                = new DefaultEmptyDirectoriesLookup( this.listModel );
+        final UpdateJTreeListeners listener = new UpdateJTreeListeners();
 
         emptyDirs.addListener( listener );
 

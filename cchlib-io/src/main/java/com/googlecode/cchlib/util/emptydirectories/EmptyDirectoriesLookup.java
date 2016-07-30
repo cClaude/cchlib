@@ -20,15 +20,6 @@ public interface EmptyDirectoriesLookup<FILTER>
     /**
      * Clear previous list and compute current list of empty directories
      *
-     * @param excludeDirectoriesFileFilter {@link FileFilter} to identify directories <b>to exclude</b>.
-     * @throws CancelRequestException
-     * @throws ScanIOException
-    void lookup( FileFilter excludeDirectoriesFileFilter ) throws CancelRequestException, ScanIOException;
-     */
-
-    /**
-     * Clear previous list and compute current list of empty directories
-     *
      * @param filter {@link Filter} to identify directories <b>to exclude</b>.
      * @throws CancelRequestException
      * @throws ScanIOException
