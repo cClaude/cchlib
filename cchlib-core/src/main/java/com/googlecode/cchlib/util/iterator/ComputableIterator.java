@@ -6,6 +6,9 @@ import javax.annotation.Nullable;
 
 /**
  * Abstract class for create Iterator
+ *
+ * @param <E> the type of elements returned by this iterator
+ *
  * @since 4.1.7
  */
 public abstract class ComputableIterator<T>
