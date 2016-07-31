@@ -19,7 +19,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.java.source.version>1.8</project.java.source.version>
     <project.java.target.version>1.8</project.java.target.version>
+
+    <!-- Javadoc -->
+    <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
     <project.javadoc.warning>false</project.javadoc.warning><!-- FIXME = true -->
+    <project.javadoc.excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented:cx.ath.choisnet.tools.*</project.javadoc.excludePackageNames>
     <additionalparam>-Xdoclint:none</additionalparam>
   </properties>
 
@@ -122,6 +126,7 @@
         </configuration>
       </plugin>
 
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -131,7 +136,6 @@
           <docencoding>UTF-8</docencoding>
           <docfilessubdirs>true</docfilessubdirs>
           <optimize>true</optimize>
-
           <showWarnings>${project.javadoc.warning}</showWarnings>
           <showDeprecation>true</showDeprecation>
           <show>protected</show>
@@ -142,7 +146,7 @@
           <source>${project.java.source.version}</source>
       </configuration>
       </plugin>
-
+-->
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>2.6</version>

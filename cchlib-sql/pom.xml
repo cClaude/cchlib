@@ -38,10 +38,27 @@
     </extensions>
     <plugins>
 
-      <!-- attach Javadoc to maven artifacts -->
+     <!-- attach Javadoc to maven artifacts -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven.javadoc.plugin.version}</version>
+        <configuration>
+          <charset>UTF-8</charset>
+          <docencoding>UTF-8</docencoding>
+          <docfilessubdirs>true</docfilessubdirs>
+          <optimize>true</optimize>
+          <showWarnings>${project.javadoc.warning}</showWarnings>
+          <showDeprecation>true</showDeprecation>
+          <show>protected</show>
+          <excludePackageNames>${project.javadoc.excludePackageNames}</excludePackageNames>
+          <links>
+            <link>http://docs.oracle.com/javase/8/docs/api/</link>
+          </links>
+          <show>protected</show>
+          <source>${project.java.source.version}</source>
+          <target>${project.java.target.version}</target>
+        </configuration>
         <executions>
           <execution>
             <id>attach-javadocs</id>
