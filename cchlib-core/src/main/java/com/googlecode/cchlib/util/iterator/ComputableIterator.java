@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 /**
  * Abstract class for create Iterator
  *
- * @param <E> the type of elements returned by this iterator
+ * @param <T> the type of elements returned by this iterator
  *
  * @since 4.1.7
  */
@@ -59,7 +59,7 @@ public abstract class ComputableIterator<T>
                 this.noSuchElementException = Boolean.FALSE;
                 this.nextObject = computeNext();
                 }
-            catch( final NoSuchElementException e ) { // $codepro.audit.disable logExceptions
+            catch( final NoSuchElementException e ) { // NOSONAR $codepro.audit.disable logExceptions
                 return false;
                 }
             }
@@ -91,7 +91,7 @@ public abstract class ComputableIterator<T>
         try {
             this.nextObject = computeNext();
             }
-        catch(final NoSuchElementException e) { // $codepro.audit.disable logExceptions
+        catch(final NoSuchElementException e) { // NOSONAR $codepro.audit.disable logExceptions
             this.nextObject = null;
             this.noSuchElementException = Boolean.TRUE;
             }

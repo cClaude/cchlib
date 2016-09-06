@@ -1,19 +1,19 @@
 package com.googlecode.cchlib.servlet.simple.debug;
 
 /**
- * TODOC
+ * Describe header of a section
  */
 public interface InfosServletDisplayAnchor
 {
     /**
-     * TODOC
-     * @return TODOC
+     * Anchor id
+     * @return Anchor id
      */
     String getId();
 
     /**
-     * TODOC
-     * @return TODOC
+     * Display string for link
+     * @return Display string for link
      */
     String getDisplay();
 }

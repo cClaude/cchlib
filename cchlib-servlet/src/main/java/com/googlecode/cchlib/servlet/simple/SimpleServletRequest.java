@@ -1,11 +1,12 @@
 package com.googlecode.cchlib.servlet.simple;
 
-import java.util.EnumSet;
+import java.util.Set;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Custom view of {@link HttpServletRequest}
+ * Custom view of {@link HttpServletRequest}. Helper to have a easiest way
+ * to get parameters values.
  */
 public interface SimpleServletRequest
 {
@@ -19,9 +20,9 @@ public interface SimpleServletRequest
     /**
      * Try to identify user agent
      *
-     * @return an {@link EnumSet} of {@link UserAgent}
+     * @return an {@link Set} of {@link UserAgent}
      */
-    EnumSet<UserAgent> getUserAgentDetails();
+    Set<UserAgent> getUserAgentDetails();
 
     /**
      * Retrieve a {@link Cookie} using name.
@@ -36,5 +37,5 @@ public interface SimpleServletRequest
      * @throws UnsupportedOperationException is operation is not supported
      */
     HttpServletRequest getHttpServletRequest()
-            throws UnsupportedOperationException;
+            throws UnsupportedOperationException; // NOSONAR
 }

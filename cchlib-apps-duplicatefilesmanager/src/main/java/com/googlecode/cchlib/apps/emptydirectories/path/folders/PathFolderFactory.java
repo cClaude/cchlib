@@ -7,11 +7,15 @@ import com.googlecode.cchlib.util.emptydirectories.Folder;
 import com.googlecode.cchlib.util.emptydirectories.util.EmptyFolderType;
 import com.googlecode.cchlib.util.emptydirectories.util.FolderFactory;
 
+/**
+ * @deprecated no replacement
+ */
 @Deprecated
 public class PathFolderFactory implements FolderFactory
 {
     public PathFolderFactory()
     {
+        // empty
     }
 
     @Override

@@ -6,6 +6,9 @@ import com.googlecode.cchlib.util.emptydirectories.Folder;
 import com.googlecode.cchlib.util.emptydirectories.util.AbstractEmptyFolder;
 import com.googlecode.cchlib.util.emptydirectories.util.EmptyFolderType;
 
+/**
+ * @deprecated no replacement
+ */
 @Deprecated
 public class PathEmptyFolder extends AbstractEmptyFolder
 {
@@ -22,13 +25,13 @@ public class PathEmptyFolder extends AbstractEmptyFolder
     @Override
     public Path getPath()
     {
-        return path;
+        return this.path;
     }
 
     @Override
     public File getFile()
     {
-        return path.toFile();
+        return this.path.toFile();
     }
 
     @Override

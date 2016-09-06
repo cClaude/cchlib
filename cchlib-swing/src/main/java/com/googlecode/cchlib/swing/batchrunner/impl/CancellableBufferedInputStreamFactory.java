@@ -7,7 +7,12 @@ import java.io.FileNotFoundException;
 import javax.swing.ProgressMonitorInputStream;
 
 //not public
-class CancellableBufferedInputStreamFactory {
+class CancellableBufferedInputStreamFactory
+{
+    private CancellableBufferedInputStreamFactory()
+    {
+        // All static
+    }
 
     final static CancellableBufferedInputStream newCancellableBufferedInputStream( //
             final Component progressMonitorParentComponent, //

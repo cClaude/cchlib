@@ -1,8 +1,10 @@
 package com.googlecode.cchlib.servlet.simple.impl;
 
 import java.util.EnumSet;
+import java.util.Set;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.servlet.simple.ParameterValue;
 import com.googlecode.cchlib.servlet.simple.SimpleServletRequest;
 import com.googlecode.cchlib.servlet.simple.UserAgent;
@@ -13,6 +15,9 @@ import com.googlecode.cchlib.servlet.simple.UserAgent;
 public class SimpleServletRequestImpl
     implements SimpleServletRequest
 {
+    private static final String MOZILLA = "mozilla";
+    private static final Logger LOGGER = Logger.getLogger( SimpleServletRequestImpl.class );
+
     private final class DefaultParameterValue implements ParameterValue
     {
         private final String paramName;
@@ -45,7 +50,7 @@ public class SimpleServletRequestImpl
                     }
                 }
             catch(final Exception ignore) {
-                // ???
+                LOGGER.warn( "ParameterValue.toString( \"" + defaultValue + "\" )", ignore );
                 }
 
             return defaultValue;
@@ -69,6 +74,8 @@ public class SimpleServletRequestImpl
                     }
                 }
             catch(final Exception e) {
+                LOGGER.warn( "ParameterValue.booleanValue( \"" + defaultValue + "\" )", e );
+
                 return defaultValue;
                 }
             return Integer.parseInt(value) > 0;
@@ -86,7 +93,9 @@ public class SimpleServletRequestImpl
             try {
                 return Integer.parseInt(toString());
                 }
-            catch(final Exception e) { // $codepro.audit.disable logExceptions
+            catch(final Exception e) {
+                LOGGER.warn( "ParameterValue.intValue( \"" + defaultValue + "\" )", e );
+
                 return defaultValue;
                 }
         }
@@ -103,7 +112,9 @@ public class SimpleServletRequestImpl
             try {
                 return Long.parseLong(toString());
                 }
-            catch(final Exception e) { // $codepro.audit.disable logExceptions
+            catch(final Exception e) {
+                LOGGER.warn( "ParameterValue.longValue( \"" + defaultValue + "\" )", e );
+
                 return defaultValue;
                 }
         }
@@ -120,7 +131,9 @@ public class SimpleServletRequestImpl
             try {
                 return Float.parseFloat(toString());
                 }
-            catch(final Exception e) { // $codepro.audit.disable logExceptions
+            catch(final Exception e) {
+                LOGGER.warn( "ParameterValue.floatValue( \"" + defaultValue + "\" )", e );
+
                 return defaultValue;
                 }
         }
@@ -137,7 +150,9 @@ public class SimpleServletRequestImpl
             try {
                 return Double.parseDouble(toString());
                 }
-            catch(final Exception e) { // $codepro.audit.disable logExceptions
+            catch(final Exception e) {
+                LOGGER.warn( "ParameterValue.doubleValue( \"" + defaultValue + "\" )", e );
+
                 return defaultValue;
                 }
         }
@@ -146,6 +161,11 @@ public class SimpleServletRequestImpl
     private final HttpServletRequest request;
     private Cookie[] cookiesIfNeeded;
 
+    /**
+     * Build a {@link SimpleServletRequest} from current {@link HttpServletRequest}
+     *
+     * @param request Current {@link HttpServletRequest}
+     */
     public SimpleServletRequestImpl(final HttpServletRequest request)
     {
         this.request = request;
@@ -164,27 +184,16 @@ public class SimpleServletRequestImpl
     }
 
     @Override
-    public EnumSet<UserAgent> getUserAgentDetails()
+    public Set<UserAgent> getUserAgentDetails()
     {
         final EnumSet<UserAgent> details = EnumSet.noneOf(UserAgent.class);
 
         final String userAgent = this.request.getHeader("user-agent");
         final String userAgentLowerCase = userAgent.toLowerCase();
 
-        final boolean isMozilla = (userAgentLowerCase.indexOf("mozilla") != -1)
-                         && (userAgentLowerCase.indexOf("spoofer") == -1)
-                         && (userAgentLowerCase.indexOf("compatible") == -1)
-                         && (userAgentLowerCase.indexOf("opera") == -1)
-                         && (userAgentLowerCase.indexOf("webtv") == -1)
-                         && (userAgentLowerCase.indexOf("hotjava") == -1);
-        final boolean isIE      = (userAgentLowerCase.indexOf("mozilla") != -1)
-                         && (userAgentLowerCase.indexOf("msie") != -1)
-                         && (userAgentLowerCase.indexOf("compatible") != -1)
-                         && (userAgentLowerCase.indexOf("opera") == -1);
-        final boolean isOPERA   = (userAgentLowerCase.indexOf("mozilla") != -1)
-                         && (userAgentLowerCase.indexOf("msie") != -1)
-                         && (userAgentLowerCase.indexOf("compatible") != -1)
-                         && (userAgentLowerCase.indexOf("opera") != -1);
+        final boolean isMozilla = isMozilla( userAgentLowerCase );
+        final boolean isIE      = isIE( userAgentLowerCase );
+        final boolean isOpera   = isOpera( userAgentLowerCase );
 
         if(isMozilla) {
             details.add(UserAgent.MOZILLA);
@@ -196,7 +205,7 @@ public class SimpleServletRequestImpl
         else if(isIE) {
             details.add(UserAgent.MSIE);
             }
-        else if(isOPERA) {
+        else if(isOpera) {
             details.add(UserAgent.OPERA);
             }
 
@@ -210,13 +219,39 @@ public class SimpleServletRequestImpl
 
             add( details, os, UserAgent.MOZILLA_UNKNOW_OS );
            }
-        else if( isOPERA ) {
+        else if( isOpera ) {
             final EnumSet<UserAgent> os = getOSForIE(userAgent);
 
             add( details, os, UserAgent.OPERA_UNKNOW_OS );
             }
 
         return details;
+    }
+
+    private boolean isOpera( final String userAgentLowerCase )
+    {
+        return (userAgentLowerCase.indexOf(MOZILLA) != -1)
+                         && (userAgentLowerCase.indexOf("msie") != -1)
+                         && (userAgentLowerCase.indexOf("compatible") != -1)
+                         && (userAgentLowerCase.indexOf("opera") != -1);
+    }
+
+    private boolean isIE( final String userAgentLowerCase )
+    {
+        return (userAgentLowerCase.indexOf(MOZILLA) != -1)
+                         && (userAgentLowerCase.indexOf("msie") != -1)
+                         && (userAgentLowerCase.indexOf("compatible") != -1)
+                         && (userAgentLowerCase.indexOf("opera") == -1);
+    }
+
+    private boolean isMozilla( final String userAgentLowerCase )
+    {
+        return (userAgentLowerCase.indexOf(MOZILLA) != -1)
+                         && (userAgentLowerCase.indexOf("spoofer") == -1)
+                         && (userAgentLowerCase.indexOf("compatible") == -1)
+                         && (userAgentLowerCase.indexOf("opera") == -1)
+                         && (userAgentLowerCase.indexOf("webtv") == -1)
+                         && (userAgentLowerCase.indexOf("hotjava") == -1);
     }
 
     private static void add(
@@ -348,29 +383,4 @@ public class SimpleServletRequestImpl
 
         return null;
     }
-
-//    @Deprecated
-//    public UserAgent getUserAgent()
-//    {
-//        final String userAgent = this.request.getHeader("user-agent").toLowerCase();
-//        final boolean isMozilla = (userAgent.indexOf("mozilla") != -1) && (userAgent.indexOf("spoofer") == -1) && (userAgent.indexOf("compatible") == -1) && (userAgent.indexOf("opera") == -1) && (userAgent.indexOf("webtv") == -1) && (userAgent.indexOf("hotjava") == -1);
-//        final boolean isIE = (userAgent.indexOf("mozilla") != -1) && (userAgent.indexOf("msie") != -1) && (userAgent.indexOf("compatible") != -1) && (userAgent.indexOf("opera") == -1);
-//        final boolean isOPERA = (userAgent.indexOf("mozilla") != -1) && (userAgent.indexOf("msie") != -1) && (userAgent.indexOf("compatible") != -1) && (userAgent.indexOf("opera") != -1);
-//        if(isMozilla)
-//        {
-//            return UserAgent.MOZILLA;
-//        }
-//        if(isIE)
-//        {
-//            return UserAgent.MSIE;
-//        }
-//        if(isOPERA)
-//        {
-//            return UserAgent.OPERA;
-//        } else
-//        {
-//            return UserAgent.UNKOWN;
-//        }
-//    }
-
 }

@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.servlet.simple.impl;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -11,52 +10,55 @@ import com.googlecode.cchlib.servlet.simple.ServletContextParamNotFoundException
 import com.googlecode.cchlib.servlet.simple.SimpleServletContext;
 
 /**
- * TODOC
- *
+ * Default {@link SimpleServletContext} implementation
  */
 public class SimpleServletContextImpl
-    implements SimpleServletContext, Serializable
+    implements SimpleServletContext
 {
-	private static final long serialVersionUID = 1L;
-	private final ServletContext         servletContext;
-    private transient Map<String,String> initParametersMap;
+    private final ServletContext    servletContext;
+    private Map<String,String>      initParametersMap;
 
-    public SimpleServletContextImpl(final ServletContext servletContext )
+    /**
+     * Wrap {@link ServletContext}
+     *
+     * @param servletContext {@link ServletContext} to inspect
+     */
+    public SimpleServletContextImpl( final ServletContext servletContext )
     {
-        this.servletContext    = servletContext;
-        this.initParametersMap = null;
+        this.servletContext = servletContext;
     }
 
     @Override
-    public String getInitParameter( final String paramName)
+    public String getInitParameter( final String paramName )
         throws ServletContextParamNotFoundException
     {
-        try {
-            return servletContext.getInitParameter(paramName).toString();
-        	}
-        catch(Exception e) {
-            throw new ServletContextParamNotFoundException(paramName);
-        	}
+        final String value = this.servletContext.getInitParameter( paramName );
+
+        if( value != null ) {
+            return value;
+        } else {
+            throw new ServletContextParamNotFoundException( paramName );
+        }
     }
 
     @Override
-    public String getInitParameter(String paramName, String defaultValue)
+    public String getInitParameter( final String paramName, final String defaultValue )
     {
         try {
-            return getInitParameter(paramName);
-        	}
-        catch(ServletContextParamNotFoundException e) { // $codepro.audit.disable logExceptions
+            return getInitParameter( paramName );
+            }
+        catch(final ServletContextParamNotFoundException e) { // $codepro.audit.disable logExceptions
             return defaultValue;
-        	}
+            }
     }
 
     public Map<String,String> getInitParameters()
     {
-        if( initParametersMap == null ) {
+        if( this.initParametersMap == null ) {
 
             synchronized(this) {
-                Map<String,String>  map = new HashMap<String,String>();
-                Enumeration<?>      en  = servletContext.getInitParameterNames();
+                final Map<String,String>  map = new HashMap<>();
+                final Enumeration<?>      en  = this.servletContext.getInitParameterNames();
                 String              name;
 
                 while( en.hasMoreElements() ) {
@@ -64,15 +66,15 @@ public class SimpleServletContextImpl
 
                     map.put(
                         name,
-                        servletContext.getInitParameter(name)
+                        this.servletContext.getInitParameter(name)
                         );
-                	}
+                    }
 
-                initParametersMap = Collections.unmodifiableMap(map);
-            	}
+                this.initParametersMap = Collections.unmodifiableMap(map);
+                }
         }
 
-        return initParametersMap;
+        return this.initParametersMap;
     }
 
     public Iterator<String> getInitParameterNames()

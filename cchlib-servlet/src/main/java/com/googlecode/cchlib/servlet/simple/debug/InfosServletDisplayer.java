@@ -9,9 +9,9 @@ import java.io.IOException;
 public interface InfosServletDisplayer
 {
     /**
-     * TODOC
+     * Build result as HTML
      *
-     * @param appendable
+     * @param out Output for HTML
      */
-    void appendHTML(Appendable appendable) throws IOException;
+    void appendHTML(Appendable out) throws IOException;
 }

@@ -2,9 +2,13 @@ package com.googlecode.cchlib.util.emptydirectories;
 
 import java.nio.file.DirectoryStream.Filter;
 import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.emptydirectories.lookup.ExcludeDirectoriesFileFilter;
 
 /**
  * Find empty directories
+ *
+ * @param <FILTER> Specify how to filter directory for lookup
+ *       (see {@link ExcludeDirectoriesFileFilter}) *
  */
 public interface EmptyDirectoriesLookup<FILTER>
 {

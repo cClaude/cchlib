@@ -3,25 +3,26 @@ package com.googlecode.cchlib.servlet.simple.debug;
 import java.io.IOException;
 
 /**
- * TODOC
+ * Define a section of {@link InfosServlet} output
  */
 public interface InfosServletDisplay
 {
     /**
-     * TODOC
+     * Anchor for this section
      *
-     * @return TODOC
+     * @return anchor for this section
      */
     InfosServletDisplayAnchor getAnchor();
 
     /**
-     * TODOC
+     * Define couple (name,value) to add in this section
      *
-     * @param s
-     * @param s1
+     * @param name Name of the value
+     * @param value String representation of the value
+     *
      * @return TODOC
      */
-    InfosServletDisplay put(String s, String s1);
+    InfosServletDisplay put(String name, String value);
 
     /**
      * TODOC

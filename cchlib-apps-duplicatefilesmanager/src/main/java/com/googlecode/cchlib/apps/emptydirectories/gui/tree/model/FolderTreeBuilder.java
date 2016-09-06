@@ -12,7 +12,7 @@ final class FolderTreeBuilder
 {
     private static final Logger LOGGER = Logger.getLogger( FolderTreeBuilder.class );
 
-    // TODO use ArrayHashMap instead !
+    // Could be improve using ArrayHashMap instead !
     private final LinkedHashMap<Path,FolderTreeNode> rootNodesMap = new LinkedHashMap<>(); // $codepro.audit.disable declareAsInterface
 
     private final FolderTreeModelable model;
@@ -103,12 +103,12 @@ final class FolderTreeBuilder
             throw new IllegalStateException();
             }
 
-        FolderTreeNode emptyFolderRootFolderTreeNode = rootNodesMap.get( emptyFolderRootPath );
+        FolderTreeNode emptyFolderRootFolderTreeNode = this.rootNodesMap.get( emptyFolderRootPath );
 
         if( emptyFolderRootFolderTreeNode == null ) {
-            emptyFolderRootFolderTreeNode = FolderTreeNode.createRootFolderFor( emptyFolder.getPath(), model );
+            emptyFolderRootFolderTreeNode = FolderTreeNode.createRootFolderFor( emptyFolder.getPath(), this.model );
 
-            rootNodesMap.put( emptyFolderRootPath, emptyFolderRootFolderTreeNode );
+            this.rootNodesMap.put( emptyFolderRootPath, emptyFolderRootFolderTreeNode );
             }
 
         return emptyFolderRootFolderTreeNode;
@@ -116,11 +116,11 @@ final class FolderTreeBuilder
 
     protected LinkedHashMap<Path,FolderTreeNode> getRootNodesMap() // $codepro.audit.disable declareAsInterface
     {
-        return rootNodesMap;
+        return this.rootNodesMap;
     }
 
     protected void clear()
     {
-        rootNodesMap.clear();
+        this.rootNodesMap.clear();
     }
 }

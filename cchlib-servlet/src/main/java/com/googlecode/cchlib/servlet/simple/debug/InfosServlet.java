@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.servlet.simple.debug;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -26,8 +27,6 @@ public class InfosServlet extends HttpServlet
     private static final long   serialVersionUID = 1L;
     private static final Logger LOGGER           = Logger.getLogger( InfosServlet.class );
 
-    // TODO: add (re)loaded time - System.getMillisec() - loaded time of servlet
-
     /**
      * Servlet name : "{@value}"
      * @serial
@@ -37,23 +36,27 @@ public class InfosServlet extends HttpServlet
     @Override
     public void init() throws ServletException
     {
+        // Use standard logger
         log("InfosServlet init() method called.");
 
-        System.out.print( "print on System.out from " );
-        System.out.println( this );
+        // Log to stdout
+        final PrintStream stdout = System.out; // NOSONAR
 
-        System.err.print( "print on System.err from " );
-        System.out.println( this );
+        stdout.print( "print on System.out from " );
+        stdout.println( this );
+
+        // Log to stderr
+        final PrintStream stderr = System.err; // NOSONAR
+
+        stderr.print( "print on System.err from " );
+        stderr.println( this );
 
         final Enumeration<?> names = getServletConfig().getInitParameterNames();
 
         if( names != null ) {
-            String name;
-            String value;
-
             while( names.hasMoreElements() ) {
-                name  = (String)names.nextElement();
-                value = getServletConfig().getInitParameter(name);
+                final String name  = (String)names.nextElement();
+                final String value = getServletConfig().getInitParameter(name);
 
                 log( "InfosServlet init argument: [" + name + "] = [" + value + "]" );
             }

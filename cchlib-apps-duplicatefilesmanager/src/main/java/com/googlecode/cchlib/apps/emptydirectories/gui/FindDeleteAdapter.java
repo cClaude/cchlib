@@ -88,7 +88,7 @@ public class FindDeleteAdapter
                         "treeModel.size(): " + ((this.treeModel == null) ? null : Integer.valueOf( this.treeModel.size()) )
                 );
             }
-            catch( CancelRequestException | ScanIOException cancelRequestException )  { // $codepro.audit.disable logExceptions
+            catch( CancelRequestException | ScanIOException cancelRequestException )  { // NOSONAR $codepro.audit.disable logExceptions
                 LOGGER.info( "Cancel received" );
 
                 // Call done, to cleanup layout.
@@ -105,6 +105,7 @@ public class FindDeleteAdapter
 
     private void findEnd()
     {
+        // Add any extra task to always run at the end here.
     }
 
     public class UpdateJTreeListeners implements EmptyDirectoriesListener
@@ -118,9 +119,8 @@ public class FindDeleteAdapter
         public void newEntry( final EmptyFolder folder )
         {
             SwingUtilities.invokeLater(
-                () -> {
-                    FindDeleteAdapter.this.treeModel.add( folder );
-            });
+                () -> FindDeleteAdapter.this.treeModel.add( folder )
+                );
         }
         @Override
         public void findStarted()
@@ -153,7 +153,9 @@ public class FindDeleteAdapter
             selectedPaths.add( ef.getPath() );
             }
 
-        LOGGER.info( "doDelete() : selected files count = " + selectedPaths.size() );
+        if( LOGGER.isInfoEnabled() ) {
+            LOGGER.info( "doDelete() : selected files count = " + selectedPaths.size() );
+        }
 
         assert selectedPaths.size() > 0;
 
@@ -169,17 +171,29 @@ public class FindDeleteAdapter
                     LOGGER.debug( "DIR delete [" + path + "] => " + res );
                     }
                 }
-            catch( final AccessDeniedException e ) { // $codepro.audit.disable logExceptions
-                LOGGER.warn( "delete AccessDeniedException  [" + path + "]" );
+            catch( final AccessDeniedException e ) {
+                LOGGER.warn( "delete AccessDeniedException [" + path + "]" );
+
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "AccessDeniedException: for [" + path + "]", e );
                 }
-            catch( final DirectoryNotEmptyException e ) { // $codepro.audit.disable logExceptions
+                }
+            catch( final DirectoryNotEmptyException e ) {
                 LOGGER.warn( "delete DirectoryNotEmptyException [" + path + "]" );
 
                 final String[] files = path.toFile().list();
                 LOGGER.warn( "cause content : [" + Arrays.toString( files ) + "]" );
+
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "DirectoryNotEmptyException: for [" + path + "]", e );
+                }
                 }
             catch( final Exception e ) {
                 LOGGER.error( "delete [" + path + "]", e );
+
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "Unexpected exception: for [" + path + "]", e );
+                }
                 }
             }
     }

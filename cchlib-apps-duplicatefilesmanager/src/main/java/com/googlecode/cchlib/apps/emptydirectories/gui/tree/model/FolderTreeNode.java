@@ -86,6 +86,9 @@ public final class FolderTreeNode
 
     /**
      * Create a child node on this node.
+     *
+     * @param newFolder
+     * @return
      */
     public FolderTreeNode addFolder( final Folder newFolder )
     {
@@ -121,7 +124,7 @@ public final class FolderTreeNode
             @Override
             public FolderTreeNode next() throws NoSuchElementException
             {
-                return FolderTreeNode.class.cast( children.nextElement() );
+                return (FolderTreeNode)( children.nextElement() );
             }
             @Override
             public void remove()
