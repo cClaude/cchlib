@@ -5,7 +5,8 @@ import java.util.Enumeration;
 //NOT public
 class StringTools
 {
-    private static final class EnumerationString implements Enumeration<String> {
+    private static final class EnumerationString implements Enumeration<String> //NOSONAR
+    {
         private final Enumeration<?> enumerator;
 
         private EnumerationString( final Enumeration<?> enumerator )

@@ -20,15 +20,15 @@ public interface InfosServletDisplay
      * @param name Name of the value
      * @param value String representation of the value
      *
-     * @return TODOC
+     * @return current object for initialization chaining
      */
     InfosServletDisplay put(String name, String value);
 
     /**
-     * TODOC
+     * Render result to HTML in output
      *
-     * @param appendable
-     * @throws IOException
+     * @param out output
+     * @throws IOException if any
      */
-    void appendHTML(Appendable appendable) throws IOException;
+    void appendHTML(Appendable out) throws IOException;
 }

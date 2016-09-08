@@ -16,7 +16,6 @@ import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.util.emptydirectories.ScanIOException;
 import com.googlecode.cchlib.util.emptydirectories.lookup.DefaultEmptyDirectoriesLookup;
 import com.googlecode.cchlib.util.emptydirectories.lookup.ExcludeDirectoriesFileFilter;
 
@@ -88,7 +87,7 @@ public class FindDeleteAdapter
                         "treeModel.size(): " + ((this.treeModel == null) ? null : Integer.valueOf( this.treeModel.size()) )
                 );
             }
-            catch( CancelRequestException | ScanIOException cancelRequestException )  { // NOSONAR $codepro.audit.disable logExceptions
+            catch( final CancelRequestException cancelRequestException )  { // NOSONAR $codepro.audit.disable logExceptions
                 LOGGER.info( "Cancel received" );
 
                 // Call done, to cleanup layout.

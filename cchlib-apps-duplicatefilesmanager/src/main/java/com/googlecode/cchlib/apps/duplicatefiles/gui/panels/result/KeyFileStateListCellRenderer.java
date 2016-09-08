@@ -2,14 +2,13 @@ package com.googlecode.cchlib.apps.duplicatefiles.gui.panels.result;
 
 import java.awt.Component;
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
 import javax.swing.JList;
-import javax.swing.ListCellRenderer;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.list.DefaultListCellRenderer;
@@ -17,44 +16,37 @@ import com.googlecode.cchlib.swing.list.DefaultListCellRenderer;
 /**
  *
  */
-//NOT public
-class KeyFileStateListCellRenderer
-    extends DefaultListCellRenderer<KeyFileState>
-        implements ListCellRenderer<KeyFileState>, Serializable
+// NOT public
+class KeyFileStateListCellRenderer // NOSONAR
+        extends DefaultListCellRenderer<KeyFileState>
+            implements SerializableListCellRenderer<KeyFileState>
 {
-    public static class Enums
-    {
-        public static <T extends Enum<T>> String toString( final Set<T> set )
-        {
-            final StringBuilder sb    = new StringBuilder();
-            boolean       first = true;
-
-            for( final T v : set ) {
-                if( first ) {
-                    first = false;
-                    }
-                else {
-                    sb.append( ',' );
-                    }
-
-                sb.append( v.name() );
-                }
-
-            return sb.toString();
-        }
-    }
-
-    private static final long serialVersionUID = 1L;
     private static final LinkOption DEFAULT_LINK_OPTIONS = LinkOption.NOFOLLOW_LINKS;
 
-    @I18nString private final String executableStr = "Executable";
-    @I18nString private final String notExecutableStr = "Not Executable";
-    @I18nString private final String hiddenStr = "Hidden";
-    @I18nString private final String notHiddenStr = "Visible";
-    @I18nString private final String readableStr = "Readable";
-    @I18nString private final String notReadableStr = "Not Readable";
-    @I18nString private final String writableStr = "Writable";
-    @I18nString private final String notWritableStr = "Not Writable";
+    private static final Logger     LOGGER               = Logger.getLogger( KeyFileStateListCellRenderer.class );
+
+    private static final long       serialVersionUID     = 1L;
+
+    @I18nString private final String executableStr;
+    @I18nString private final String hiddenStr;
+    @I18nString private final String notExecutableStr;
+    @I18nString private final String notHiddenStr;
+    @I18nString private final String notReadableStr;
+    @I18nString private final String notWritableStr;
+    @I18nString private final String readableStr;
+    @I18nString private final String writableStr;
+
+    public KeyFileStateListCellRenderer()
+    {
+        this.executableStr    = "Executable";
+        this.notExecutableStr = "Not Executable";
+        this.hiddenStr        = "Hidden";
+        this.notHiddenStr     = "Visible";
+        this.readableStr      = "Readable";
+        this.notReadableStr   = "Not Readable";
+        this.writableStr      = "Writable";
+        this.notWritableStr   = "Not Writable";
+    }
 
     @Override
     public Component getListCellRendererComponent(
@@ -65,34 +57,52 @@ class KeyFileStateListCellRenderer
             final boolean                       cellHasFocus
             )
     {
-        final Path    path  = value.toPath();
-        String  permStr;
-        String  sizeStr;
+        final Path path = value.toPath();
+        String    permStr;
+        String    sizeStr;
 
         try {
-            try {
-                final Set<PosixFilePermission> perms = Files.getPosixFilePermissions( path, DEFAULT_LINK_OPTIONS );
-
-                permStr = Enums.toString( perms );
-                }
-            catch( final UnsupportedOperationException e ) { // $codepro.audit.disable logExceptions
-                permStr = getPermsString( path );
-                }
-            }
+            permStr = getPosixFilePermissions( path );
+        }
         catch( final IOException e ) {
             permStr = e.getMessage();
+
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "Can not compute File Permissions of " + path, e );
             }
+        }
 
         try {
             sizeStr = Long.toString( Files.size( path ) ) + " o";
-            }
+        }
         catch( final IOException e ) {
             sizeStr = e.getMessage();
+
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "Can not compute File size of " + path, e );
             }
+        }
 
         super.setToolTipText( "<html>" + sizeStr + "<br/>" + permStr + "</html>" );
 
         return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+    }
+
+    private String getPosixFilePermissions( final Path path ) throws IOException
+    {
+        try {
+            final Set<PosixFilePermission> perms = Files.getPosixFilePermissions( path, DEFAULT_LINK_OPTIONS );
+
+            return Enums.toString( perms );
+        }
+        catch( final UnsupportedOperationException e ) {
+
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "Can not compute File Permissions of " + path, e );
+            }
+
+            return getPermsString( path );
+        }
     }
 
     private String getPermsString( final Path path ) throws IOException

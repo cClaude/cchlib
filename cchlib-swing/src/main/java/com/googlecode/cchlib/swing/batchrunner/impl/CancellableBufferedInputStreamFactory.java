@@ -14,7 +14,7 @@ class CancellableBufferedInputStreamFactory
         // All static
     }
 
-    final static CancellableBufferedInputStream newCancellableBufferedInputStream( //
+    static final CancellableBufferedInputStream newCancellableBufferedInputStream( //
             final Component progressMonitorParentComponent, //
             final Object    progressMonitorMessage, //
             final File      file //

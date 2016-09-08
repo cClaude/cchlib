@@ -44,12 +44,13 @@ public class SimpleServletContextImpl
     @Override
     public String getInitParameter( final String paramName, final String defaultValue )
     {
-        try {
-            return getInitParameter( paramName );
-            }
-        catch(final ServletContextParamNotFoundException e) { // $codepro.audit.disable logExceptions
+        final String value = this.servletContext.getInitParameter( paramName );
+
+        if( value != null ) {
+            return value;
+        } else {
             return defaultValue;
-            }
+        }
     }
 
     public Map<String,String> getInitParameters()

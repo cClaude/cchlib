@@ -19,7 +19,7 @@ public interface EmptyDirectoriesLookup<FILTER>
      * @throws CancelRequestException
      * @throws ScanIOException
      */
-    void lookup() throws CancelRequestException, ScanIOException;
+    void lookup() throws CancelRequestException;
 
     /**
      * Clear previous list and compute current list of empty directories
@@ -28,7 +28,7 @@ public interface EmptyDirectoriesLookup<FILTER>
      * @throws CancelRequestException
      * @throws ScanIOException
      */
-    void lookup( FILTER filter ) throws CancelRequestException, ScanIOException;
+    void lookup( FILTER filter ) throws CancelRequestException;
 
     /**
      * Add a listener

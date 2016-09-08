@@ -18,7 +18,6 @@ import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.util.emptydirectories.ScanIOException;
 
 public class DefaultEmptyDirectoriesLookupTest
 {
@@ -86,7 +85,7 @@ public class DefaultEmptyDirectoriesLookupTest
     }
 
     @Test
-    public void testLookup() throws CancelRequestException, IOException, ScanIOException
+    public void testLookup() throws CancelRequestException, IOException
     {
         final EmptyDirectoriesLookup<ExcludeDirectoriesFileFilter> finder
             = new DefaultEmptyDirectoriesLookup( this.rootPath );

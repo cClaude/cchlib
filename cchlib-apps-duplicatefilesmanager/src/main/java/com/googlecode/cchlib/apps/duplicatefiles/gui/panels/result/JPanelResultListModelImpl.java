@@ -22,182 +22,29 @@ import com.googlecode.cchlib.util.MapSetHelper;
 class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements JPanelResultListModel
 {
 
-    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelResultListModelImpl.class );
+    private static final long serialVersionUID = 1L;
 
-    private Map<String, Set<KeyFileState>> duplicateFiles;
-    private SortMode sortMode;
+    private Map<String, Set<KeyFileState>> duplicateFiles; // NOSONAR
+    private final List<KeyFiles>           duplicatesFileCacheList = new ArrayList<>();
+    private String                         key;
+
+    private SerializableListCellRenderer<KeyFileState> listCellRendererlKeptIntact;
+    private SerializableListCellRenderer<KeyFileState> listCellRendererlWillBeDeleted;
+
+    private KeyFileStateListModelImpl listModelKeptIntact;
+    private KeyFileStateListModelImpl listModelWillBeDeleted;
+
     private SelectFirstMode selectFirstMode;
-
-    private final List<KeyFiles> duplicatesFileCacheList = new ArrayList<>();
-
+    private SortMode        sortMode;
 
     public JPanelResultListModelImpl()
     {
-        this.duplicateFiles = new HashMapSet<>();
-        this.sortMode = SortMode.FILESIZE;
+        this.duplicateFiles  = new HashMapSet<>();
+        this.sortMode        = SortMode.FILESIZE;
         this.selectFirstMode = SelectFirstMode.QUICK;
 
         updateCache();
-    }
-
-    @Override
-    public void updateCache()
-    {
-        final int prevLastIndex;
-
-        if( this.duplicatesFileCacheList.size() == 0 ) {
-            prevLastIndex = 0;
-            }
-        else {
-            prevLastIndex = this.duplicatesFileCacheList.size() - 1;
-            }
-
-        this.duplicatesFileCacheList.clear();
-
-        final Iterator<Entry<String, Set<KeyFileState>>> entryIterator = getDuplicateFiles().entrySet().iterator();
-
-        while( entryIterator.hasNext() ) {
-            final Map.Entry<String, Set<KeyFileState>> entry = entryIterator.next();
-
-            try {
-                final Collection<KeyFileState> files = this.selectFirstMode.sort( entry.getValue() );
-                final KeyFileState firstFile = this.selectFirstMode.getFileToDisplay( files );
-
-                this.duplicatesFileCacheList.add( new DefaultKeyFiles( entry.getKey(), files, firstFile ) );
-            }
-            catch( final SelectException e ) {
-                LOGGER.warn( "Entry is empty", e );
-
-                entryIterator.remove();
-            }
-        }
-
-        if( this.sortMode != null ) {
-            try {
-                Collections.sort( this.duplicatesFileCacheList, this.sortMode );
-                }
-            catch( final IllegalArgumentException e ) {
-                LOGGER.error( "Can not sort : sortMode = " + this.sortMode, e );
-                }
-            }
-
-        super.fireIntervalRemoved( this, 0, prevLastIndex );
-        super.fireContentsChanged( this, 0, this.duplicatesFileCacheList.size() );
-    }
-
-    @Override
-    public void setDuplicateFiles(
-            final Map<String, Set<KeyFileState>> duplicateFiles
-            )
-    {
-        this.duplicateFiles  = duplicateFiles;
-    }
-
-    @Override
-    public SortMode getSortMode()
-    {
-        return this.sortMode;
-    }
-
-    @Override
-    public SelectFirstMode getSelectFirstMode()
-    {
-        return this.selectFirstMode;
-    }
-
-    @Override
-    public void setSortMode( final SortMode sortMode )
-    {
-        this.sortMode = sortMode;
-    }
-
-    @Override
-    public void setSelectFirstMode( final SelectFirstMode selectFirstMode )
-    {
-        this.selectFirstMode = selectFirstMode;
-    }
-
-    @Override
-    public int getSize()
-    {
-        return this.duplicatesFileCacheList.size();
-    }
-
-    @Override
-    public KeyFiles getElementAt( final int index )
-    {
-        return this.duplicatesFileCacheList.get( index );
-    }
-
-    @Override
-    public Set<KeyFileState> getStateSet( final String key )
-    {
-        return getDuplicateFiles().get( key );
-    }
-
-    @Override
-    public Set<Map.Entry<String,Set<KeyFileState>>> getStateEntrySet()
-    {
-        return this.getDuplicateFiles().entrySet();
-    }
-
-    @Override
-    public Iterable<KeyFileState> getAllDuplicates()
-    {
-        //return getDuplicateFiles()::iterator;
-        return MapSetHelper.valuesIterable( this.duplicateFiles );
-    }
-
-    /**
-     * @return the duplicateFiles
-     */
-    @Override
-    public Map<String, Set<KeyFileState>> getDuplicateFiles()
-    {
-        return this.duplicateFiles;
-    }
-
-    private KeyFileStateListModelImpl listModelKeptIntact;
-    private ListCellRenderer<KeyFileState> listCellRendererlKeptIntact;
-    private KeyFileStateListModelImpl listModelWillBeDeleted;
-    private ListCellRenderer<KeyFileState> listCellRendererlWillBeDeleted;
-    private String key;
-
-    //not public
-    KeyFileStateListModel getKeptIntactListModel()
-    {
-        if( this.listModelKeptIntact == null ) {
-            this.listModelKeptIntact = new KeyFileStateListModelImpl();
-            }
-        return this.listModelKeptIntact;
-    }
-
-    //not public
-    ListCellRenderer<? super KeyFileState> getKeptIntactListCellRenderer()
-    {
-        if( this.listCellRendererlKeptIntact == null ) {
-            this.listCellRendererlKeptIntact = new KeyFileStateListCellRenderer();
-            }
-        return this.listCellRendererlKeptIntact;
-    }
-
-    //not public
-    KeyFileStateListModel getWillBeDeletedListModel()
-    {
-        if( this.listModelWillBeDeleted == null ) {
-            this.listModelWillBeDeleted = new KeyFileStateListModelImpl();
-            }
-        return this.listModelWillBeDeleted;
-    }
-
-    //not public
-    ListCellRenderer<KeyFileState> getWillBeDeletedListCellRenderer()
-    {
-        if( this.listCellRendererlWillBeDeleted == null ) {
-            this.listCellRendererlWillBeDeleted = new KeyFileStateListCellRenderer();
-            }
-        return this.listCellRendererlWillBeDeleted;
     }
 
     @Override
@@ -205,39 +52,6 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     {
         this.listModelKeptIntact.clear();
         this.listModelWillBeDeleted.clear();
-    }
-
-    @Override
-    public void setKeepDelete(
-        final String            key,
-        final Set<KeyFileState> s
-        )
-    {
-        if( LOGGER.isTraceEnabled() ) {
-            LOGGER.trace( "setKeepDelete: " + s );
-            }
-        this.key = key;
-
-        final SortedSet<KeyFileState> ss = new TreeSet<>();
-
-        ss.addAll( s );
-
-        this.listModelWillBeDeleted.clear();
-        this.listModelKeptIntact.clear();
-
-        for( final KeyFileState sf : ss ) {
-            if( sf.isSelectedToDelete() ) {
-                this.listModelWillBeDeleted.private_add( sf );
-                  }
-            else {
-                this.listModelKeptIntact.private_add( sf );
-                  }
-              }
-
-        this.listModelWillBeDeleted.private_fireAddedAll();
-        this.listModelKeptIntact.private_fireAddedAll();
-
-        ss.clear();
     }
 
     @Override
@@ -261,6 +75,89 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
         // else no values
 
         // TODO: update display ??
+    }
+
+    @Override
+    public Iterable<KeyFileState> getAllDuplicates()
+    {
+        return MapSetHelper.valuesIterable( this.duplicateFiles );
+    }
+
+    /**
+     * @return the duplicateFiles
+     */
+    @Override
+    public Map<String, Set<KeyFileState>> getDuplicateFiles()
+    {
+        return this.duplicateFiles;
+    }
+
+    @Override
+    public KeyFiles getElementAt( final int index )
+    {
+        return this.duplicatesFileCacheList.get( index );
+    }
+
+    //not public
+    ListCellRenderer<? super KeyFileState> getKeptIntactListCellRenderer()
+    {
+        if( this.listCellRendererlKeptIntact == null ) {
+            this.listCellRendererlKeptIntact = new KeyFileStateListCellRenderer();
+            }
+        return this.listCellRendererlKeptIntact;
+    }
+
+    //not public
+    KeyFileStateListModel getKeptIntactListModel()
+    {
+        if( this.listModelKeptIntact == null ) {
+            this.listModelKeptIntact = new KeyFileStateListModelImpl();
+            }
+        return this.listModelKeptIntact;
+    }
+
+    @Override
+    public SelectFirstMode getSelectFirstMode()
+    {
+        return this.selectFirstMode;
+    }
+    @Override
+    public int getSize()
+    {
+        return this.duplicatesFileCacheList.size();
+    }
+    @Override
+    public SortMode getSortMode()
+    {
+        return this.sortMode;
+    }
+    @Override
+    public Set<Map.Entry<String,Set<KeyFileState>>> getStateEntrySet()
+    {
+        return this.getDuplicateFiles().entrySet();
+    }
+    @Override
+    public Set<KeyFileState> getStateSet( final String key )
+    {
+        return getDuplicateFiles().get( key );
+    }
+
+    //not public
+    ListCellRenderer<KeyFileState> getWillBeDeletedListCellRenderer()
+    {
+        if( this.listCellRendererlWillBeDeleted == null ) {
+            this.listCellRendererlWillBeDeleted = new KeyFileStateListCellRenderer();
+            }
+        return this.listCellRendererlWillBeDeleted;
+    }
+
+    //not public
+    KeyFileStateListModel getWillBeDeletedListModel()
+    {
+        if( this.listModelWillBeDeleted == null ) {
+            this.listModelWillBeDeleted = new KeyFileStateListModelImpl();
+            }
+        return this.listModelWillBeDeleted;
     }
 
     @Override
@@ -312,5 +209,103 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
             updateCache();
             super.fireContentsChanged( this, index0, index1 );
             }
+    }
+
+    @Override
+    public void setDuplicateFiles(
+            final Map<String, Set<KeyFileState>> duplicateFiles
+            )
+    {
+        this.duplicateFiles  = duplicateFiles;
+    }
+
+    @Override
+    public void setKeepDelete(
+        final String            key,
+        final Set<KeyFileState> s
+        )
+    {
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "setKeepDelete: " + s );
+            }
+        this.key = key;
+
+        final SortedSet<KeyFileState> ss = new TreeSet<>();
+
+        ss.addAll( s );
+
+        this.listModelWillBeDeleted.clear();
+        this.listModelKeptIntact.clear();
+
+        for( final KeyFileState sf : ss ) {
+            if( sf.isSelectedToDelete() ) {
+                this.listModelWillBeDeleted.private_add( sf );
+                  }
+            else {
+                this.listModelKeptIntact.private_add( sf );
+                  }
+              }
+
+        this.listModelWillBeDeleted.private_fireAddedAll();
+        this.listModelKeptIntact.private_fireAddedAll();
+
+        ss.clear();
+    }
+
+    @Override
+    public void setSelectFirstMode( final SelectFirstMode selectFirstMode )
+    {
+        this.selectFirstMode = selectFirstMode;
+    }
+
+    @Override
+    public void setSortMode( final SortMode sortMode )
+    {
+        this.sortMode = sortMode;
+    }
+
+    @Override
+    public void updateCache()
+    {
+        final int prevLastIndex;
+
+        if( this.duplicatesFileCacheList.isEmpty() ) {
+            prevLastIndex = 0;
+            }
+        else {
+            prevLastIndex = this.duplicatesFileCacheList.size() - 1;
+            }
+
+        this.duplicatesFileCacheList.clear();
+
+        final Iterator<Entry<String, Set<KeyFileState>>> entryIterator = getDuplicateFiles().entrySet().iterator();
+
+        while( entryIterator.hasNext() ) {
+            final Map.Entry<String, Set<KeyFileState>> entry = entryIterator.next();
+
+            try {
+                final Collection<KeyFileState> files = this.selectFirstMode.sort( entry.getValue() );
+                final KeyFileState firstFile = this.selectFirstMode.getFileToDisplay( files );
+
+                this.duplicatesFileCacheList.add( new DefaultKeyFiles( entry.getKey(), files, firstFile ) );
+            }
+            catch( final SelectException e ) {
+                LOGGER.warn( "Entry is empty", e );
+
+                entryIterator.remove();
+            }
+        }
+
+        if( this.sortMode != null ) {
+            try {
+                Collections.sort( this.duplicatesFileCacheList, this.sortMode );
+                }
+            catch( final IllegalArgumentException e ) {
+                LOGGER.error( "Can not sort : sortMode = " + this.sortMode, e );
+                }
+            }
+
+        super.fireIntervalRemoved( this, 0, prevLastIndex );
+        super.fireContentsChanged( this, 0, this.duplicatesFileCacheList.size() );
     }
 }

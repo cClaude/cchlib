@@ -14,7 +14,6 @@ import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.util.emptydirectories.ScanIOException;
 import com.googlecode.cchlib.util.emptydirectories.util.Folders;
 
 /**
@@ -100,7 +99,7 @@ public class DefaultEmptyDirectoriesLookup
      * @throws ScanIOException
      */
     @Override
-    public void lookup() throws CancelRequestException, ScanIOException
+    public void lookup() throws CancelRequestException
     {
         lookup( pathname -> false ); // False ExcludeDirectoriesFileFilter
     }
@@ -109,7 +108,7 @@ public class DefaultEmptyDirectoriesLookup
     public void lookup(
             @Nonnull final ExcludeDirectoriesFileFilter excludeDirectoriesFileFilter
             )
-        throws CancelRequestException, ScanIOException
+        throws CancelRequestException
     {
         for( final EmptyDirectoriesListener l : getListeners() ) {
             l.findStarted();

@@ -3,8 +3,7 @@ package com.googlecode.cchlib.servlet.simple.debug;
 import java.io.IOException;
 
 /**
- * TODOC
- *
+ * Handle HTML rendering
  */
 public interface InfosServletDisplayer
 {

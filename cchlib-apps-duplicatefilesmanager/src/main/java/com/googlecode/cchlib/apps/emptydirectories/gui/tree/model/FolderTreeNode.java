@@ -109,7 +109,6 @@ public final class FolderTreeNode
     }
 
     @Override//Iterable
-    final
     public Iterator<FolderTreeNode> iterator()
     {
         final Enumeration<?> children = super.children();

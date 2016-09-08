@@ -15,6 +15,9 @@ import com.googlecode.cchlib.servlet.simple.UserAgent;
 public class SimpleServletRequestImpl
     implements SimpleServletRequest
 {
+    private static final String MSIE = "msie";
+    private static final String OPERA = "opera";
+    private static final String COMPATIBLE = "compatible";
     private static final String MOZILLA = "mozilla";
     private static final Logger LOGGER = Logger.getLogger( SimpleServletRequestImpl.class );
 
@@ -231,33 +234,33 @@ public class SimpleServletRequestImpl
     private boolean isOpera( final String userAgentLowerCase )
     {
         return (userAgentLowerCase.indexOf(MOZILLA) != -1)
-                         && (userAgentLowerCase.indexOf("msie") != -1)
-                         && (userAgentLowerCase.indexOf("compatible") != -1)
-                         && (userAgentLowerCase.indexOf("opera") != -1);
+                         && (userAgentLowerCase.indexOf(MSIE) != -1)
+                         && (userAgentLowerCase.indexOf(COMPATIBLE) != -1)
+                         && (userAgentLowerCase.indexOf(OPERA) != -1);
     }
 
     private boolean isIE( final String userAgentLowerCase )
     {
         return (userAgentLowerCase.indexOf(MOZILLA) != -1)
-                         && (userAgentLowerCase.indexOf("msie") != -1)
-                         && (userAgentLowerCase.indexOf("compatible") != -1)
-                         && (userAgentLowerCase.indexOf("opera") == -1);
+                         && (userAgentLowerCase.indexOf(MSIE) != -1)
+                         && (userAgentLowerCase.indexOf(COMPATIBLE) != -1)
+                         && (userAgentLowerCase.indexOf(OPERA) == -1);
     }
 
     private boolean isMozilla( final String userAgentLowerCase )
     {
         return (userAgentLowerCase.indexOf(MOZILLA) != -1)
                          && (userAgentLowerCase.indexOf("spoofer") == -1)
-                         && (userAgentLowerCase.indexOf("compatible") == -1)
-                         && (userAgentLowerCase.indexOf("opera") == -1)
+                         && (userAgentLowerCase.indexOf(COMPATIBLE) == -1)
+                         && (userAgentLowerCase.indexOf(OPERA) == -1)
                          && (userAgentLowerCase.indexOf("webtv") == -1)
                          && (userAgentLowerCase.indexOf("hotjava") == -1);
     }
 
     private static void add(
-            final EnumSet<UserAgent> details,
-            final EnumSet<UserAgent> os,
-            final UserAgent          defaultUserAgent
+            final Set<UserAgent> details,
+            final Set<UserAgent> os,
+            final UserAgent      defaultUserAgent
             )
     {
         if( os.isEmpty() ) {

@@ -10,7 +10,6 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
-import com.googlecode.cchlib.util.emptydirectories.ScanIOException;
 
 public abstract class EmptyDirectoriesFinder_Base<FILTER> {
     private MyEmptyDirectoriesCollector collector;
@@ -56,7 +55,7 @@ public abstract class EmptyDirectoriesFinder_Base<FILTER> {
         try {
             emptyDirs.lookup( filter );
             }
-        catch( CancelRequestException | ScanIOException e ) { // $codepro.audit.disable logExceptions
+        catch( final CancelRequestException e ) { // $codepro.audit.disable logExceptions
             getLogger().warn( "testFindDir() - emptyDirs.lookup() - CancelRequestException" );
             }
 
