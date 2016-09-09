@@ -4,8 +4,11 @@ import java.util.EnumSet;
 import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 
-public class AutoI18nConfigService {
-
+/**
+ * TODOC
+ */
+public class AutoI18nConfigService
+{
     private static volatile AutoI18nConfigService service;
     private final Object lock = new Object();
     private volatile EnumSet<AutoI18nConfig> autoI18nConfig;

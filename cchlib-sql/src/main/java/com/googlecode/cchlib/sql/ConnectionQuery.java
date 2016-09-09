@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.apache.log4j.Logger;
 
 /**
  * Execute SQL statement using {@link Connection}
@@ -14,8 +15,10 @@ import java.sql.Statement;
  */
 public class ConnectionQuery implements Closeable
 {
-    private Connection connection; // must not close this
-    private Statement  statement;
+    private static final Logger LOGGER = Logger.getLogger( ConnectionQuery.class );
+
+    private final Connection connection; // must not close this
+    private Statement        statement;
 
     /**
      *  Create a ConnectionQuery object from a valid {@link Connection}
@@ -47,7 +50,7 @@ public class ConnectionQuery implements Closeable
     {
         createStatement();
 
-        return statement.executeQuery( query );
+        return this.statement.executeQuery( query );
     }
 
     /**
@@ -63,9 +66,9 @@ public class ConnectionQuery implements Closeable
         try {
             createStatement();
 
-            return statement.executeUpdate( query );
+            return this.statement.executeUpdate( query );
             }
-        catch( SQLException e ) {
+        catch( final SQLException e ) {
             throw new ExtendedSQLException( e, query );
             }
     }
@@ -76,26 +79,30 @@ public class ConnectionQuery implements Closeable
      */
     protected Connection getConnection()
     {
-        return connection;
+        return this.connection;
     }
 
     private void createStatement() throws SQLException
     {
-        if( statement != null ) {
+        if( this.statement != null ) {
             // FIX org.apache.tomcat.dbcp.dbcp.DelegatingStatement
             try {
                 // Note was protected prior to JDBC 4
-                if( statement.isClosed() ) {
-                    statement = null;
-                    }
-                }
-            catch( IllegalAccessError ignore ) {
-                statement = null;
+                if( this.statement.isClosed() ) {
+                    this.statement = null;
                 }
             }
-        if( statement == null ) {
-            statement = connection.createStatement();
+            catch( final IllegalAccessError ignore ) {
+                this.statement = null;
+
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "Ignore IllegalAccessError", ignore );
+                }
             }
+        }
+        if( this.statement == null ) {
+            this.statement = this.connection.createStatement();
+        }
     }
 
     /**
@@ -104,12 +111,12 @@ public class ConnectionQuery implements Closeable
      */
     protected void closeStatement() throws SQLException
     {
-        if( statement != null ) {
+        if( this.statement != null ) {
             try {
-                statement.close();
+                this.statement.close();
                 }
             finally {
-                statement = null;
+                this.statement = null;
                 }
             }
     }
@@ -125,7 +132,7 @@ public class ConnectionQuery implements Closeable
         try {
             closeStatement();
             }
-        catch( SQLException e ) {
+        catch( final SQLException e ) {
             throw new SQLCloseException( e );
             }
     }
@@ -139,13 +146,13 @@ public class ConnectionQuery implements Closeable
         try {
             close();
             }
-        catch( IOException ignore ) {
-            throw new RuntimeException( ignore );
+        catch( final IOException ignore ) {
+            throw new SQLCloseRuntimeException( ignore );
             }
     }
 
     @Override
-    protected void finalize() throws Throwable // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
+    protected void finalize() throws Throwable // NOSONAR $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
     {
         closeStatement();
 

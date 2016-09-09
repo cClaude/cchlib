@@ -16,21 +16,32 @@ public class SQLCloseException extends IOException
     {
     }
 
-    public SQLCloseException( SQLException sqlException )
+    /**
+     * Constructs an IOException with the specified cause.
+     *
+     * @param cause The cause (which is saved for later retrieval by the getCause() method)
+     */
+    public SQLCloseException( final SQLException cause )
     {
-        super( sqlException );
+        super( cause );
     }
 
-    public SQLCloseException( String message, SQLException sqlException )
+    /**
+     * Constructs an IOException with the specified detail message and cause.
+     *
+     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
+     * @param cause   The cause (which is saved for later retrieval by the getCause() method)
+     */
+    public SQLCloseException( final String message, final SQLException cause )
     {
-        super( message, sqlException );
+        super( message, cause );
     }
 
     /**
      * Returns the cause of this SQLCloseException as a SQLException
      * @return original SQLException
      * @see #getCause()
-     * @throws ClassCastException if the cause is not assignable 
+     * @throws ClassCastException if the cause is not assignable
      * to the type SQLException.
      * @since 4.1.7
      */

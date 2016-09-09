@@ -99,7 +99,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     }
 
     //not public
-    ListCellRenderer<? super KeyFileState> getKeptIntactListCellRenderer()
+    ListCellRenderer<KeyFileState> getKeptIntactListCellRenderer()
     {
         if( this.listCellRendererlKeptIntact == null ) {
             this.listCellRendererlKeptIntact = new KeyFileStateListCellRenderer();

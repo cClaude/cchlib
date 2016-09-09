@@ -4,8 +4,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.AppToolKit;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 
-public class AutoI18nCoreService {
-
+public class AutoI18nCoreService
+{
     private static volatile AutoI18nCoreService service;
     private final Object lock = new Object();
     private AutoI18nCore autoI18nCore;

@@ -29,9 +29,12 @@ public class MappableHelper
     /**
      * Build Map using default factory.
      *
+     * @param object
+     * @return
+     *
      * @see MappableBuilder#toMap(Object)
      */
-    public static Map<String,String> toMap( final Object object )
+    public static <T> Map<String,String> toMap( final T object )
     {
         final MappableBuilder mb = MappableBuilder.createMappableBuilder();
 
@@ -120,7 +123,7 @@ public class MappableHelper
             MappableHelper.toXML( sb, clazz, aMappableObject);
             }
         catch( final IOException improbable ) {
-            throw new RuntimeException( improbable );
+            throw new StringBuilderIOException( improbable );
             }
 
         return sb.toString();

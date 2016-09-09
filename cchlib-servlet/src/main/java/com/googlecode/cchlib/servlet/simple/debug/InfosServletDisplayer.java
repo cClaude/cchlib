@@ -5,6 +5,7 @@ import java.io.IOException;
 /**
  * Handle HTML rendering
  */
+@FunctionalInterface
 public interface InfosServletDisplayer
 {
     /**

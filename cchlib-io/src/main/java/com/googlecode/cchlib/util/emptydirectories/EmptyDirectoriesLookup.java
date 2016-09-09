@@ -10,7 +10,7 @@ import com.googlecode.cchlib.util.emptydirectories.lookup.ExcludeDirectoriesFile
  * @param <FILTER> Specify how to filter directory for lookup
  *       (see {@link ExcludeDirectoriesFileFilter}) *
  */
-public interface EmptyDirectoriesLookup<FILTER>
+public interface EmptyDirectoriesLookup<FILTER> // NOSONAR
 {
     /**
      * Clear previous list and compute current list of empty directories

@@ -8,11 +8,20 @@ import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.util.emptydirectories.Folder;
 
+/**
+ * Abstract implementation of {@link EmptyFolder}
+ */
 public abstract class AbstractEmptyFolder implements EmptyFolder
 {
     private static final long serialVersionUID = 1L;
     private EmptyFolderType type;
+    private static final int NOT_AN_EMPTY_FOLDER = Integer.MIN_VALUE;
 
+    /**
+     * Build an AbstractEmptyFolder
+     *
+     * @param type Type of {@link EmptyFolder}
+     */
     public AbstractEmptyFolder( final EmptyFolderType type )
     {
         this.type = type;
@@ -48,20 +57,20 @@ public abstract class AbstractEmptyFolder implements EmptyFolder
         return builder.toString();
     }
 
-    public final int compareToEmptyFolder( final Folder aFolder )
+    protected final int compareToEmptyFolder( final Folder aFolder )
     {
         if( aFolder instanceof EmptyFolder ) {
             final EmptyFolder aEmptyFolder = EmptyFolder.class.cast( aFolder );
 
             if( this.isEmpty() == aEmptyFolder.isEmpty() ) {
-                return /*((Folder)this).*/compareTo( aEmptyFolder );
+                return compareTo( aEmptyFolder );
                 }
             else {
-                return -2; // $codepro.audit.disable numericLiterals
+                return -1;
                 }
             }
         else {
-            return -1;
+            return NOT_AN_EMPTY_FOLDER;
             }
     }
 

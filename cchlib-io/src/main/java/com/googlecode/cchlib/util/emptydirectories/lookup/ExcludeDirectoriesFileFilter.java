@@ -8,4 +8,5 @@ import java.io.Serializable;
  */
 public interface ExcludeDirectoriesFileFilter extends FileFilter, Serializable
 {
+    // Just to have both interfaces
 }

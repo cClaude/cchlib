@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
-import java.io.File;
 
 //TODO: Localization, optimizations (non-recursing)
 
@@ -145,12 +145,12 @@ public class FindAccessoryImpl
         setBorder(new TitledBorder(ACCESSORY_NAME));
         setLayout(new BorderLayout());
 
-        actionStart = new FindAction(this, ACTION_START,null);
-        actionStop = new FindAction(this, ACTION_STOP,null);
+        this.actionStart = new FindAction(this, ACTION_START,null);
+        this.actionStop = new FindAction(this, ACTION_STOP,null);
 
-        add(pathPanel = new FindFolderJPanel(),BorderLayout.NORTH);
-        add(searchTabs = new FindJTabbedPane( this ),BorderLayout.CENTER);
-        add(controlPanel = new FindControlsJPanel(this, this, actionStart,actionStop,true),
+        add(this.pathPanel = new FindFolderJPanel(),BorderLayout.NORTH);
+        add(this.searchTabs = new FindJTabbedPane( this ),BorderLayout.CENTER);
+        add(this.controlPanel = new FindControlsJPanel(this, this, this.actionStart,this.actionStop,true),
                             BorderLayout.SOUTH);
 
         updateFindDirectory();
@@ -163,12 +163,12 @@ public class FindAccessoryImpl
      *
      * @param parent JFileChooser containing this accessory
      */
-    public FindAccessoryImpl( JFileChooser parent )
+    public FindAccessoryImpl( final JFileChooser parent )
     {
         this();
 
-        chooser = parent;
-        register(chooser);
+        this.chooser = parent;
+        register(this.chooser);
     }
 
     /**
@@ -182,7 +182,7 @@ public class FindAccessoryImpl
      * @param max Max number of items for results list. Find stops when max
      *          number of items found.
      */
-    public FindAccessoryImpl( JFileChooser parent, int max )
+    public FindAccessoryImpl( final JFileChooser parent, final int max )
     {
         this(parent);
 
@@ -195,9 +195,9 @@ public class FindAccessoryImpl
      *
      * @param max Max capacity of results list.
      */
-    public void setMaxFindHits( int max )
+    public void setMaxFindHits( final int max )
     {
-        maxMatches = max;
+        this.maxMatches = max;
     }
 
     /**
@@ -207,7 +207,7 @@ public class FindAccessoryImpl
      */
     public int getMaxFindHits()
     {
-        return maxMatches;
+        return this.maxMatches;
     }
 
     /**
@@ -221,9 +221,9 @@ public class FindAccessoryImpl
      * @param e PropertyChangeEvent from parent JFileChooser.
      */
     @Override
-    public void propertyChange( PropertyChangeEvent e  )
+    public void propertyChange( final PropertyChangeEvent e  )
     {
-        String prop = e.getPropertyName();
+        final String prop = e.getPropertyName();
         if (prop.equals(JFileChooser.DIRECTORY_CHANGED_PROPERTY))
         {
             updateFindDirectory();
@@ -236,12 +236,13 @@ public class FindAccessoryImpl
      * CANCEL_SELECTION action and stops the current search, if there
      * is one.
      *
-     * @param e ActionEvent from parent JFileChooser.
+     * @param event ActionEvent from parent JFileChooser.
      */
     @Override
-    public void actionPerformed( ActionEvent e )
+    public void actionPerformed( final ActionEvent event )
     {
-        String command = e.getActionCommand();
+        final String command = event.getActionCommand();
+
         if( command == null ) {
             return; // Can this happen? Probably not. Call me paranoid.
             }
@@ -263,14 +264,14 @@ public class FindAccessoryImpl
         if( isRunning() ) {
             return;
             }
-        if( chooser == null ) {
+        if( this.chooser == null ) {
             return;
             }
-        if( pathPanel == null ) {
+        if( this.pathPanel == null ) {
             return;
             }
-        File f = chooser.getCurrentDirectory();
-        pathPanel.setFindDirectory(f);
+        final File f = this.chooser.getCurrentDirectory();
+        this.pathPanel.setFindDirectory(f);
     }
 
     /**
@@ -279,43 +280,43 @@ public class FindAccessoryImpl
      * invoked when the user double clicks on an item in the results
      * list.
      *
-     * @param f File to select in parent JFileChooser
+     * @param file File to select in parent JFileChooser
      */
     @Override//JFileChooserSelector
-    public void goTo( File f )
+    public void goTo( final File file )
     {
-        if( f == null ) {
+        if( file == null ) {
             return;
             }
-        if( !f.exists() ) {
+        if( !file.exists() ) {
             return;
             }
-        if( chooser == null ) {
+        if( this.chooser == null ) {
             return;
             }
 
         // Make sure that files and directories can be displayed
-        chooser.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
+        this.chooser.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
 
         // Make sure that parent file chooser will show the type of file
         // specified
-        javax.swing.filechooser.FileFilter filter = chooser.getFileFilter();
+        final javax.swing.filechooser.FileFilter filter = this.chooser.getFileFilter();
         if (filter != null) {
-            if (!filter.accept(f)) {
+            if (!filter.accept(file)) {
                 // The current filter will not display the specified file.
                 // Set the file filter to the built-in accept-all filter (*.*)
-                javax.swing.filechooser.FileFilter all =
-                    chooser.getAcceptAllFileFilter();
-                chooser.setFileFilter(all);
+                final javax.swing.filechooser.FileFilter all =
+                    this.chooser.getAcceptAllFileFilter();
+                this.chooser.setFileFilter(all);
             }
         }
 
         // Tell parent file chooser to display contents of parentFolder.
         // Prior to Java 1.2.2 setSelectedFile() did not set the current
         // directory the folder containing the file to be selected.
-        File parentFolder = f.getParentFile();
+        final File parentFolder = file.getParentFile();
         if (parentFolder != null) {
-            chooser.setCurrentDirectory(parentFolder);
+            this.chooser.setCurrentDirectory(parentFolder);
         }
 
         // Nullify the current selection, if any.
@@ -323,17 +324,17 @@ public class FindAccessoryImpl
         // Emperical evidence suggests that JFileChooser gets "sticky" (i.e. it
         // does not always relinquish the current selection). Nullifying the
         // current selection seems to yield better results.
-        chooser.setSelectedFile( null );
+        this.chooser.setSelectedFile( null );
 
         // Select the file
-        chooser.setSelectedFile( f );
+        this.chooser.setSelectedFile( file );
 
         // Refresh file chooser display.
         // Is this really necessary? Testing on a variety of systems with
         // Java 1.2.2 suggests that this helps. Sometimes it doesn't work,
         // but it doesn't do any harm.
-        chooser.invalidate();
-        chooser.repaint();
+        this.chooser.invalidate();
+        this.chooser.repaint();
     }
 
     /**
@@ -346,16 +347,16 @@ public class FindAccessoryImpl
      */
     public synchronized void start()
     {
-        if( searchTabs != null ) {
-            searchTabs.showFindResults();
+        if( this.searchTabs != null ) {
+            this.searchTabs.showFindResults();
             }
         updateFindDirectory();
-        killFind = false;
-        if( searchThread == null ) {
-            searchThread = new Thread( this, "FindAccessoryImpl" );
+        this.killFind = false;
+        if( this.searchThread == null ) {
+            this.searchThread = new Thread( this, "FindAccessoryImpl" );
             }
-        if( searchThread != null ) {
-            searchThread.start();
+        if( this.searchThread != null ) {
+            this.searchThread.start();
             }
     }
 
@@ -364,7 +365,7 @@ public class FindAccessoryImpl
      */
     public synchronized void stop()
     {
-        killFind = true;
+        this.killFind = true;
     }
 
     /**
@@ -372,10 +373,10 @@ public class FindAccessoryImpl
      */
     public boolean isRunning()
     {
-        if( searchThread == null ) {
+        if( this.searchThread == null ) {
             return false;
             }
-        return searchThread.isAlive();
+        return this.searchThread.isAlive();
     }
 
     /**
@@ -384,23 +385,23 @@ public class FindAccessoryImpl
     @Override
     public void run()
     {
-        if (searchThread == null) {
+        if (this.searchThread == null) {
             return;
             }
-        if (Thread.currentThread() != searchThread) {
+        if (Thread.currentThread() != this.searchThread) {
             return;
             }
         try {
-            actionStart.setEnabled(false);
-            actionStop.setEnabled(true);
-            runFind(chooser.getCurrentDirectory(),newFind());
+            this.actionStart.setEnabled(false);
+            this.actionStop.setEnabled(true);
+            runFind(this.chooser.getCurrentDirectory(),newFind());
             }
-        catch (InterruptedException e) { // $codepro.audit.disable emptyCatchClause, logExceptions
+        catch (final InterruptedException e) { // NOSONAR $codepro.audit.disable emptyCatchClause, logExceptions
             }
         finally {
-            actionStart.setEnabled(true);
-            actionStop.setEnabled(false);
-            searchThread = null;
+            this.actionStart.setEnabled(true);
+            this.actionStop.setEnabled(false);
+            this.searchThread = null;
             }
     }
 
@@ -418,7 +419,7 @@ public class FindAccessoryImpl
      * @param filters matches must pass each filters in array
      * @exception InterruptedException if thread is interrupted
      */
-    private/*protected*/ void runFind( File base, FindFilter[] filters )
+    private void runFind( final File base, final FindFilter[] filters )
                     throws InterruptedException
     {
         if (base == null) {
@@ -431,11 +432,11 @@ public class FindAccessoryImpl
             return;
             }
 
-        if (killFind) {
+        if (this.killFind) {
             return;
             }
 
-        File folder = null;
+        final File folder;
 
         if (base.isDirectory()) {
             folder = base;
@@ -444,31 +445,38 @@ public class FindAccessoryImpl
             folder = base.getParentFile();
             }
 
-        File[] files = folder.listFiles();
+        doRunFind( filters, folder );
+    }
 
-        for (int i=0; i<files.length; i++) {
-            total++;
+    private void doRunFind( final FindFilter[] filters, final File folder )
+            throws InterruptedException
+    {
+        final File[] files = folder.listFiles();
 
-            if (accept(files[i],filters)) {
-                matches++;
-                searchTabs.addFoundFile(files[i]);
-                }
-            updateProgress();
+        if( files != null ) {
+            for (int i=0; i<files.length; i++) {
+                this.total++;
 
-            if (killFind) {
-                return;
-                }
-            //Thread.currentThread().sleep(0);
-            //Thread.currentThread();
-            Thread.sleep(0);
+                if (accept(files[i],filters)) {
+                    this.matches++;
+                    this.searchTabs.addFoundFile(files[i]);
+                    }
+                updateProgress();
 
-            if (files[i].isDirectory()) {
-                runFind(files[i],filters);
-                }
+                if (this.killFind) {
+                    return;
+                    }
 
-            if ((maxMatches > 0) && (matches >= maxMatches)) {
-                return;// stopgap measure so that we don't overload
-                }
+                Thread.sleep(0);
+
+                if (files[i].isDirectory()) {
+                    runFind(files[i],filters);
+                    }
+
+                if ((this.maxMatches > 0) && (this.matches >= this.maxMatches)) {
+                    return;// stopgap measure so that we don't overload
+                    }
+            }
         }
     }
 
@@ -478,10 +486,14 @@ public class FindAccessoryImpl
      *
      * @return true if specified file matches each filter's selection criteria
      */
-    private/*protected*/ boolean accept( File file, FindFilter[] filters )
+    private/*protected*/ boolean accept( final File file, final FindFilter[] filters )
     {
-        if (file == null) return false;
-        if (filters == null) return false;
+        if (file == null) {
+            return false;
+        }
+        if (filters == null) {
+            return false;
+        }
 
         for (int i=0; i<filters.length; i++) {
             if( !filters[i].accept(file,this) ) {
@@ -507,13 +519,13 @@ public class FindAccessoryImpl
      */
     @Override
     public boolean reportProgress(
-            FindFilter  filter,
-            File        file,
-            long        current,
-            long        total
+            final FindFilter  filter,
+            final File        file,
+            final long        current,
+            final long        total
             )
     {
-        return !killFind;
+        return !this.killFind;
     }
 
     /**
@@ -527,11 +539,11 @@ public class FindAccessoryImpl
      */
     private/*protected*/ FindFilter[] newFind()
     {
-        total = matches = 0;
+        this.total = this.matches = 0;
         updateProgress();
 
-        if (searchTabs != null) {
-            return searchTabs.newFind();
+        if (this.searchTabs != null) {
+            return this.searchTabs.newFind();
             }
 
         return null;
@@ -542,7 +554,7 @@ public class FindAccessoryImpl
      */
     protected void updateProgress()
     {
-        controlPanel.showProgress(matches,total);
+        this.controlPanel.showProgress(this.matches,this.total);
     }
 
 
@@ -552,7 +564,7 @@ public class FindAccessoryImpl
 
         @param c parent JFileChooser
      */
-    protected void register(JFileChooser c)
+    protected void register(final JFileChooser c)
     {
         if (c == null) {
             return;
@@ -567,7 +579,7 @@ public class FindAccessoryImpl
 
         @param c parent JFileChooser
      */
-    protected void unregister(JFileChooser c)
+    protected void unregister(final JFileChooser c)
     {
         if (c == null) {
             return;
@@ -583,7 +595,7 @@ public class FindAccessoryImpl
     public void quit()
     {
         stop();
-        unregister(chooser);
+        unregister(this.chooser);
     }
 
     /**
@@ -591,7 +603,7 @@ public class FindAccessoryImpl
      * @param command
      */
     @Override//ActionContener
-    public void action(String command)
+    public void action(final String command)
     {
         if( command == null ) {
             return;
@@ -604,5 +616,3 @@ public class FindAccessoryImpl
             }
     }
 }
-
-

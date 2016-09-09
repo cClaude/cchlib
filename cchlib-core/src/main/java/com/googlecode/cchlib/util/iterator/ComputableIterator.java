@@ -40,7 +40,7 @@ public abstract class ComputableIterator<T>
      *             if no more object
      */
     @Nullable protected abstract T computeNext()
-        throws NoSuchElementException;
+        throws NoSuchElementException; // NOSONAR
 
     /**
      * Returns true if the iteration has more elements. (In other words, returns true if next would return an element
@@ -75,7 +75,8 @@ public abstract class ComputableIterator<T>
      *             iteration has no more elements.
      */
     @Override
-    public T next() throws NoSuchElementException
+    public T next()
+        throws NoSuchElementException // NOSONAR
     {
         if( isEnd( this.noSuchElementException ) ) {
             throw new NoSuchElementException();
@@ -111,8 +112,8 @@ public abstract class ComputableIterator<T>
      */
     @Override
     public final void remove()
-        throws  UnsupportedOperationException,
-                IllegalStateException
+        throws  UnsupportedOperationException, // NOSONAR
+                IllegalStateException // NOSONAR
     {
         throw new UnsupportedOperationException();
     }

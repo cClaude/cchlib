@@ -249,12 +249,12 @@ public class SimpleServletRequestImpl
 
     private boolean isMozilla( final String userAgentLowerCase )
     {
-        return (userAgentLowerCase.indexOf(MOZILLA) != -1)
-                         && (userAgentLowerCase.indexOf("spoofer") == -1)
-                         && (userAgentLowerCase.indexOf(COMPATIBLE) == -1)
-                         && (userAgentLowerCase.indexOf(OPERA) == -1)
-                         && (userAgentLowerCase.indexOf("webtv") == -1)
-                         && (userAgentLowerCase.indexOf("hotjava") == -1);
+        return (userAgentLowerCase.indexOf(MOZILLA) != -1) // NOSONAR
+                     && (userAgentLowerCase.indexOf("spoofer") == -1)
+                     && (userAgentLowerCase.indexOf(COMPATIBLE) == -1)
+                     && (userAgentLowerCase.indexOf(OPERA) == -1)
+                     && (userAgentLowerCase.indexOf("webtv") == -1)
+                     && (userAgentLowerCase.indexOf("hotjava") == -1);
     }
 
     private static void add(
@@ -271,7 +271,7 @@ public class SimpleServletRequestImpl
             }
     }
 
-    private EnumSet<UserAgent> getOSForIE(final String userAgent)
+    private EnumSet<UserAgent> getOSForIE(final String userAgent) // NOSONAR
     {
         final EnumSet<UserAgent> details = EnumSet.noneOf(UserAgent.class);
 
@@ -321,7 +321,7 @@ public class SimpleServletRequestImpl
         return details;
     }
 
-    private EnumSet<UserAgent> getOSForMozilla(final String userAgent)
+    private EnumSet<UserAgent> getOSForMozilla(final String userAgent) // NOSONAR
     {
         final EnumSet<UserAgent> details = EnumSet.noneOf(UserAgent.class);
 
