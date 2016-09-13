@@ -8,7 +8,7 @@
 #
 MVN="${MAVEN_HOME}/bin/mvn"
 #MVN_XPARAM=
-MVN_XPARAM=-T 1.5C
+MVN_XPARAM="-T 1.5C"
 
 LOGSDIR="${PWD}/.logs"
 LOGS_TMP="${LOGSDIR}/.mvn.logs"
