@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.KeyFileState;
+import com.googlecode.cchlib.apps.duplicatefiles.gui.ShouldNotOccurRuntimeException;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.io.FileIterable;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder;
@@ -25,12 +26,16 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 /***
  * This class is use if number of Thread is equal to 1
  */
-public class JPanelSearchingSingleThread extends JPanelSearching
+public class JPanelSearchingSingleThread extends JPanelSearching // NOSONAR
 {
     /** TODO try to use {@link GlobalDuplicateFileFinderListener} instead */
-    private final static class MyDuplicateFileFinderEventListener implements DuplicateFileFinderEventListener {
+    private final static class MyDuplicateFileFinderEventListener implements DuplicateFileFinderEventListener
+    {
         private static final long serialVersionUID = 1L;
-        private static final Logger LOGGER = Logger.getLogger( JPanelSearchingSingleThread.class );
+
+        private static final Logger ILOGGER = Logger.getLogger( MyDuplicateFileFinderEventListener.class );
+        private static final String IO_EXCEPTION_MSG_FMT = "IOException %s : %s\n";
+
         private final JPanelSearchingSingleThread jPanelSearching;
 
         public MyDuplicateFileFinderEventListener( final JPanelSearchingSingleThread jPanelSearchingSingleThread )
@@ -55,16 +60,15 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         @Override
          public void analysisDone( @Nonnull final File file, @Nonnull final String hashString )
          {
-             if( LOGGER.isTraceEnabled() ) {
-                 LOGGER.trace( "Hash for " + file + " is " + hashString );
+             if( ILOGGER.isTraceEnabled() ) {
+                 ILOGGER.trace( "Hash for " + file + " is " + hashString );
              }
          }
 
         @Override
          public void ioError( @Nonnull final File file, @Nonnull final IOException ioe )
          {
-             LOGGER.warn( String.format( "IOException %s : %s\n", file,
-                     ioe.getMessage() ) );
+             ILOGGER.warn( String.format( IO_EXCEPTION_MSG_FMT, file, ioe.getMessage() ) );
 
              this.jPanelSearching.getTableModelErrorList().addRow( file, ioe );
          }
@@ -82,7 +86,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingSingleThread.class );
-    private static final int THREAD_NUMBER = 0;
+    private static final int THREAD_NUMBER     = 0;
     private static final int NUMBER_OF_THREADS = 1;
 
     private DuplicateFileFinder dff;
@@ -115,10 +119,10 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
     private void initI18N()
     {
-        this.txtDuplicateSetsFound = "%,d";
-        this.txtDuplicateFilesFound = "%,d";
+        this.txtDuplicateSetsFound     = "%,d";
+        this.txtDuplicateFilesFound    = "%,d";
         this.txtNumberOfFilesProcessed = "Number of files processed: %,d";
-        this.txtOctectsToCheck = "Octects to check: %,d";
+        this.txtOctectsToCheck         = "Octects to check: %,d";
     }
 
     @Override
@@ -147,7 +151,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         catch( final NoSuchAlgorithmException e ) {
             LOGGER.fatal( "Bad messageDigestAlgorithm: " + scanParams.getMessageDigestAlgorithm(), e );
             // This exception should not occur.
-            throw new RuntimeException( e );
+            throw new ShouldNotOccurRuntimeException( e );
         }
 
         doScan( scanParams );
@@ -163,9 +167,9 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             final Iterable<File> files;
 
             if( rootFile.isDirectory() ) {
-                LOGGER.info( "doScanPass1: examin folder:" + rootFile );
-                LOGGER.info( "doScanPass1: examin fileFilter:" + fileFilter );
-                LOGGER.info( "doScanPass1: examin dirFilter:" + dirFilter );
+                LOGGER.info( "doScanPass1: examin folder: " + rootFile );
+                LOGGER.info( "doScanPass1: examin fileFilter: " + fileFilter );
+                LOGGER.info( "doScanPass1: examin dirFilter: " + dirFilter );
 
                 files = new FileIterable(
                         rootFile,
@@ -174,7 +178,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
                         );
                 }
             else {
-                LOGGER.info( "doScanPass1: examin file:" + rootFile );
+                LOGGER.info( "doScanPass1: examin file: " + rootFile );
 
                 files = Collections.singleton( rootFile );
             }
@@ -216,7 +220,10 @@ public class JPanelSearchingSingleThread extends JPanelSearching
                 try {
                     Thread.sleep(300); // $codepro.audit.disable disallowSleepInsideWhile
                     }
-                catch( final InterruptedException e ) {
+                catch( final InterruptedException e ) { // NOSONAR
+                    if( LOGGER.isTraceEnabled() ) {
+                        LOGGER.trace( "Interrupted Thread", e );
+                    }
                     return;
                     }
                 }
@@ -316,17 +323,6 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
     private void doScan( final ScanParams scanParams )
     {
-//        // TODO Auto-generated method stub
-//
-//    }
-//
-//    private void doScan(
-//            final Iterable<File>                  entriesToScans,
-//            final Iterable<File>                  entriesToIgnore,
-//            final FileFilterBuilders              fileFilterBuilders,
-//            final Map<String,Set<KeyFileState>>   duplicateFiles
-//            )
-//    {
         this.pass1currentTimeMillis = System.currentTimeMillis();
         LOGGER.info( "pass1 : " + this.pass1currentTimeMillis );
 
@@ -334,11 +330,11 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         doScanPass1Prepare( scanParams );
         LOGGER.info( "pass1 done" );
 
-        //jProgressBarFiles.setStringPainted( true );
+        // " jProgressBarFiles.setStringPainted( true ); "
         getjProgressBarFiles().setIndeterminate( false );
         getjProgressBarOctets().setIndeterminate( false );
 
-        //clearCurrentFileLabels();
+        // " clearCurrentFileLabels(); "
         setCurrentFileLabels( getTxtCurrentFile() );
         clearCurrentFiles();
 
@@ -376,8 +372,6 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         //Be sure to have a real ending display !
         updateDisplay();
 
-//        duplicateFC.deepClear();
-//        duplicateFC = null;
         this.dff.clear();
         this.dff = null;
 
@@ -411,10 +405,9 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         setPass1BytesCount( initialStatus.getBytes() );
 
         if( LOGGER.isInfoEnabled() ) {
-            LOGGER.info( "doScanPass1Prepare + doScanPass1: pass1CountFile = " + getPass1FilesCount() );
-            LOGGER.info( "doScanPass1Prepare + doScanPass1: pass1BytesCount = " + getPass1BytesCount() );
-
-            LOGGER.info( "doScanPass1Prepare + doScanPass1: done" );
+            LOGGER.info( "doScanPass1Prepare: doScanPass1: pass1CountFile = " + getPass1FilesCount() );
+            LOGGER.info( "doScanPass1Prepare: doScanPass1: pass1BytesCount = " + getPass1BytesCount() );
+            LOGGER.info( "doScanPass1Prepare: doScanPass1: done" );
         }
     }
 
