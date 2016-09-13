@@ -25,7 +25,8 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 
-public class PreferencesPanelWB extends JPanel {
+//not public
+class PreferencesPanelWB extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private final PreferencesDialogI18n i18n;
@@ -33,40 +34,41 @@ public class PreferencesPanelWB extends JPanel {
 
     private final TitledBorder jPanelTitle;
 
+    private JCheckBox jCheckBoxIgnoreEmptyFiles;
+    private JCheckBox jCheckBoxIgnoreHiddenDirectories;
+    private JCheckBox jCheckBoxIgnoreHiddenFiles;
+    private JCheckBox jCheckBoxIgnoreReadOnlyFiles;
+    private JCheckBox jCheckBoxWindowDimension;
+
+    private JLabel jLabeMessageDigestBufferSize;
+    private JLabel jLabelDeleteSleepDisplay;
+    private JLabel jLabelDeleteSleepDisplayMaxEntries;
+    private JLabel jLabelHashMethod;
     private JLabel jLabelLocale;
     private JLabel jLabelLookAndFeel;
-    private JLabel jLabeMessageDigestBufferSize;
     private JLabel jLabelUserLevel;
     private JLabel jLabelWindowDimension;
+    private JLabel maxParallelFilesPerThreadLabel;
+    private JLabel numberOfThreadsLabel;
 
-    private JCheckBox jCheckBox_ignoreEmptyFiles;
-    private JCheckBox jCheckBox_ignoreHiddenDirectories;
-    private JCheckBox jCheckBox_ignoreHiddenFiles;
-    private JCheckBox jCheckBox_ignoreReadOnlyFiles;
-    private JCheckBox jCheckBoxWindowDimension;
+    private JSlider maxParallelFilesPerThreadJSlider;
+    private JSlider numberOfThreadsJSlider;
+
+    private JTextField maxParallelFilesPerThreadTF;
+    private JTextField numberOfThreadsTF;
+
+    private LimitedIntegerJTextField deleteSleepDisplayMaxEntriesTF;
+    private LimitedIntegerJTextField deleteSleepDisplayTF;
+    private LimitedIntegerJTextField messageDigestBufferSizeTF;
 
     @I18nIgnore private JComboBox<ListInfo<Locale>> jComboBoxLocal;
     @I18nIgnore private JComboBox<ListInfo<LookAndFeelInfo>> jComboBoxLookAndFeel;
     @I18nIgnore private JComboBox<ConfigMode> jComboBoxUserLevel;
     @I18nIgnore private JComboBox<MessageDigestAlgorithms> jComboBoxHashMethod;
 
-    private JLabel jLabelDeleteSleepDisplay;
-    private JLabel jLabelDeleteSleepDisplayMaxEntries;
-
     @I18nIgnore private JLabel jLabelDefaultMessageDigestBufferSize;
     @I18nIgnore private JLabel jLabelDefaultDeleteDelais;
     @I18nIgnore private JLabel jLabelDefaultDeleteSleepDisplayMaxEntries;
-
-    private LimitedIntegerJTextField deleteSleepDisplayTF;
-    private LimitedIntegerJTextField messageDigestBufferSizeTF;
-    private LimitedIntegerJTextField deleteSleepDisplayMaxEntriesTF;
-    private JLabel numberOfThreadsLabel;
-    private JSlider numberOfThreadsJSlider;
-    private JTextField numberOfThreadsTF;
-    private JLabel maxParallelFilesPerThreadLabel;
-    private JSlider maxParallelFilesPerThreadJSlider;
-    private JTextField maxParallelFilesPerThreadTF;
-    private JLabel jLabelHashMethod;
 
     /**
      * For Windows Builder ONLY (and I18N)
@@ -346,46 +348,46 @@ public class PreferencesPanelWB extends JPanel {
             this.add(this.jLabelWindowDimension, gbc_jLabelWindowDimension);
         }
         {
-            this.jCheckBox_ignoreHiddenFiles = new JCheckBox("Ignore hidden files");
-            this.jCheckBox_ignoreHiddenFiles.setSelected( this.preferencesControler.isIgnoreHiddenFiles() );
+            this.jCheckBoxIgnoreHiddenFiles = new JCheckBox("Ignore hidden files");
+            this.jCheckBoxIgnoreHiddenFiles.setSelected( this.preferencesControler.isIgnoreHiddenFiles() );
             final GridBagConstraints gbc_jCheckBox_ignoreHiddenFiles = new GridBagConstraints();
             gbc_jCheckBox_ignoreHiddenFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreHiddenFiles.insets = new Insets(0, 0, 5, 5);
             gbc_jCheckBox_ignoreHiddenFiles.gridx = 1;
             gbc_jCheckBox_ignoreHiddenFiles.gridy = 10;
-            this.add(this.jCheckBox_ignoreHiddenFiles, gbc_jCheckBox_ignoreHiddenFiles);
+            this.add(this.jCheckBoxIgnoreHiddenFiles, gbc_jCheckBox_ignoreHiddenFiles);
         }
         {
-            this.jCheckBox_ignoreReadOnlyFiles = new JCheckBox("Ignore read only files");
-            this.jCheckBox_ignoreReadOnlyFiles.setSelected( this.preferencesControler.isIgnoreReadOnlyFiles() );
+            this.jCheckBoxIgnoreReadOnlyFiles = new JCheckBox("Ignore read only files");
+            this.jCheckBoxIgnoreReadOnlyFiles.setSelected( this.preferencesControler.isIgnoreReadOnlyFiles() );
             final GridBagConstraints gbc_jCheckBox_ignoreReadOnlyFiles = new GridBagConstraints();
             gbc_jCheckBox_ignoreReadOnlyFiles.gridwidth = 2;
             gbc_jCheckBox_ignoreReadOnlyFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreReadOnlyFiles.insets = new Insets(0, 0, 5, 0);
             gbc_jCheckBox_ignoreReadOnlyFiles.gridx = 2;
             gbc_jCheckBox_ignoreReadOnlyFiles.gridy = 10;
-            this.add(this.jCheckBox_ignoreReadOnlyFiles, gbc_jCheckBox_ignoreReadOnlyFiles);
+            this.add(this.jCheckBoxIgnoreReadOnlyFiles, gbc_jCheckBox_ignoreReadOnlyFiles);
         }
         {
-            this.jCheckBox_ignoreHiddenDirectories = new JCheckBox("Ignore hidden directories");
-            this.jCheckBox_ignoreHiddenDirectories.setSelected( this.preferencesControler.isIgnoreHiddenDirectories() );
+            this.jCheckBoxIgnoreHiddenDirectories = new JCheckBox("Ignore hidden directories");
+            this.jCheckBoxIgnoreHiddenDirectories.setSelected( this.preferencesControler.isIgnoreHiddenDirectories() );
             final GridBagConstraints gbc_jCheckBox_ignoreHiddenDirectories = new GridBagConstraints();
             gbc_jCheckBox_ignoreHiddenDirectories.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreHiddenDirectories.insets = new Insets(0, 0, 5, 5);
             gbc_jCheckBox_ignoreHiddenDirectories.gridx = 1;
             gbc_jCheckBox_ignoreHiddenDirectories.gridy = 11;
-            this.add(this.jCheckBox_ignoreHiddenDirectories, gbc_jCheckBox_ignoreHiddenDirectories);
+            this.add(this.jCheckBoxIgnoreHiddenDirectories, gbc_jCheckBox_ignoreHiddenDirectories);
         }
         {
-            this.jCheckBox_ignoreEmptyFiles = new JCheckBox("Ignore empty files");
-            this.jCheckBox_ignoreEmptyFiles.setSelected( this.preferencesControler.isIgnoreEmptyFiles() );
+            this.jCheckBoxIgnoreEmptyFiles = new JCheckBox("Ignore empty files");
+            this.jCheckBoxIgnoreEmptyFiles.setSelected( this.preferencesControler.isIgnoreEmptyFiles() );
             final GridBagConstraints gbc_jCheckBox_ignoreEmptyFiles = new GridBagConstraints();
             gbc_jCheckBox_ignoreEmptyFiles.gridwidth = 2;
             gbc_jCheckBox_ignoreEmptyFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_jCheckBox_ignoreEmptyFiles.insets = new Insets(0, 0, 5, 0);
             gbc_jCheckBox_ignoreEmptyFiles.gridx = 2;
             gbc_jCheckBox_ignoreEmptyFiles.gridy = 11;
-            this.add(this.jCheckBox_ignoreEmptyFiles, gbc_jCheckBox_ignoreEmptyFiles);
+            this.add(this.jCheckBoxIgnoreEmptyFiles, gbc_jCheckBox_ignoreEmptyFiles);
         }
     }
 
@@ -509,12 +511,12 @@ public class PreferencesPanelWB extends JPanel {
 
     public boolean isIgnoreHiddenDirectories()
     {
-        return this.jCheckBox_ignoreHiddenDirectories.isSelected();
+        return this.jCheckBoxIgnoreHiddenDirectories.isSelected();
     }
 
-    public JCheckBox getjCheckBox_ignoreReadOnlyFiles()
+    public JCheckBox getjCheckBoxIgnoreReadOnlyFiles()
     {
-        return this.jCheckBox_ignoreReadOnlyFiles;
+        return this.jCheckBoxIgnoreReadOnlyFiles;
     }
 
     public JCheckBox getjCheckBoxWindowDimension()
@@ -529,12 +531,12 @@ public class PreferencesPanelWB extends JPanel {
 
     public boolean isIgnoreHiddenFiles()
     {
-        return this.jCheckBox_ignoreHiddenFiles.isSelected();
+        return this.jCheckBoxIgnoreHiddenFiles.isSelected();
     }
 
     public boolean isIgnoreEmptyFiles()
     {
-        return this.jCheckBox_ignoreEmptyFiles.isSelected();
+        return this.jCheckBoxIgnoreEmptyFiles.isSelected();
     }
 
     public int getMaxParallelFilesPerThread()

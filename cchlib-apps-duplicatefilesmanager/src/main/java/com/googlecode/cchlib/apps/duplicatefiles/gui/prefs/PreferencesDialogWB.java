@@ -121,7 +121,7 @@ public final class PreferencesDialogWB // NOSONAR
 
         prefs.setIgnoreHiddenFiles( this.panel.isIgnoreHiddenFiles() );
         prefs.setIgnoreHiddenDirectories( this.panel.isIgnoreHiddenDirectories() );
-        prefs.setIgnoreReadOnlyFiles( this.panel.getjCheckBox_ignoreReadOnlyFiles().isSelected() );
+        prefs.setIgnoreReadOnlyFiles( this.panel.getjCheckBoxIgnoreReadOnlyFiles().isSelected() );
         prefs.setIgnoreEmptyFiles( this.panel.isIgnoreEmptyFiles() );
 
         prefs.setNumberOfThreads( this.panel.getNumberOfThreads() );
