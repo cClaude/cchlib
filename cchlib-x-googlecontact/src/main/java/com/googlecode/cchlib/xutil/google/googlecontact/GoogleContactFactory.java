@@ -13,19 +13,17 @@ public class GoogleContactFactory {
 
     private final GoogleContactHeader googleContactHeader;
     private final boolean ignoreEmptyCels;
-//    private final int columns;
 
     public GoogleContactFactory( final String[] headers, final boolean ignoreEmptyCels ) throws GoogleContactFactoryException
     {
         this.googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( headers );
         this.ignoreEmptyCels     = ignoreEmptyCels;
-//        this.columns             = headers.length;
 
         if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "Found " + headers.length + " columns." );
         }
 
-        assert headers.length == googleContactHeader.getIndexMethodConteners().size();
+        assert headers.length == this.googleContactHeader.getIndexMethodConteners().size();
     }
 
     /**
@@ -39,10 +37,10 @@ public class GoogleContactFactory {
     {
         final GoogleContact googleContact = new GoogleContact();
 
-        if( googleContactHeader.getIndexMethodConteners().size() != entry.length ) {
+        if( this.googleContactHeader.getIndexMethodConteners().size() != entry.length ) {
             throw new GoogleContactFactoryException(
                     "Bad number of entry " + entry.length
-                    + " expected " + googleContactHeader.getIndexMethodConteners().size()
+                    + " expected " + this.googleContactHeader.getIndexMethodConteners().size()
                     );
         }
 
@@ -63,7 +61,7 @@ public class GoogleContactFactory {
             final int           index
             ) throws GoogleContactFactoryException
     {
-        final HeaderMethodContener methodContener = googleContactHeader.getIndexMethodConteners().get( Integer.valueOf( index ) );
+        final HeaderMethodContener methodContener = this.googleContactHeader.getIndexMethodConteners().get( Integer.valueOf( index ) );
 
         assert methodContener != null;
         assert methodContener.getMethod().getParameterTypes().length == 1;

@@ -6,6 +6,9 @@ import java.util.List;
 import com.googlecode.cchlib.xutil.google.googlecontact.util.GoogleContactType;
 import com.googlecode.cchlib.xutil.google.googlecontact.util.Header;
 
+/**
+ * {@link GoogleContactType} implementation
+ */
 public class GoogleContact implements GoogleContactType { // $codepro.audit.disable largeNumberOfFields, largeNumberOfMethods
 
     private static final long serialVersionUID = 1L;
@@ -50,7 +53,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getName()
     {
-        return name;
+        return this.name;
     }
     @Header("Name")
     public final void setName( final String name )
@@ -60,7 +63,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getGivenName()
     {
-        return givenName;
+        return this.givenName;
     }
     @Header("Given Name")
     public final void setGivenName( final String givenName )
@@ -70,7 +73,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getAdditionalName()
     {
-        return additionalName;
+        return this.additionalName;
     }
     @Header("Additional Name")
     public final void setAdditionalName( final String additionalName )
@@ -80,7 +83,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getFamilyName()
     {
-        return familyName;
+        return this.familyName;
     }
     @Header("Family Name")
     public final void setFamilyName( final String familyName )
@@ -90,7 +93,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getYomiName()
     {
-        return yomiName;
+        return this.yomiName;
     }
     @Header("Yomi Name")
     public final void setYomiName( final String yomiName )
@@ -100,7 +103,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getGivenNameYomi()
     {
-        return givenNameYomi;
+        return this.givenNameYomi;
     }
     @Header("Given Name Yomi")
     public final void setGivenNameYomi( final String givenNameYomi )
@@ -110,7 +113,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getAdditionalNameYomi()
     {
-        return additionalNameYomi;
+        return this.additionalNameYomi;
     }
     @Header("Additional Name Yomi")
     public final void setAdditionalNameYomi( final String additionalNameYomi )
@@ -120,7 +123,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getFamilyNameYomi()
     {
-        return familyNameYomi;
+        return this.familyNameYomi;
     }
     @Header("Family Name Yomi")
     public final void setFamilyNameYomi( final String familyNameYomi )
@@ -130,7 +133,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getNamePrefix()
     {
-        return namePrefix;
+        return this.namePrefix;
     }
     @Header("Name Prefix")
     public final void setNamePrefix( final String namePrefix )
@@ -140,7 +143,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getNameSuffix()
     {
-        return nameSuffix;
+        return this.nameSuffix;
     }
     @Header("Name Suffix")
     public final void setNameSuffix( final String nameSuffix )
@@ -150,7 +153,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getInitials()
     {
-        return initials;
+        return this.initials;
     }
     @Header("Initials")
     public final void setInitials( final String initials )
@@ -160,7 +163,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getNickname()
     {
-        return nickname;
+        return this.nickname;
     }
     @Header("Nickname")
     public final void setNickname( final String nickname )
@@ -170,7 +173,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getShortName()
     {
-        return shortName;
+        return this.shortName;
     }
     @Header("Short Name")
     public final void setShortName( final String shortName )
@@ -180,7 +183,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getMaidenName()
     {
-        return maidenName;
+        return this.maidenName;
     }
     @Header("Maiden Name")
     public final void setMaidenName( final String maidenName )
@@ -190,7 +193,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getBirthday()
     {
-        return birthday;
+        return this.birthday;
     }
     @Header("Birthday")
     public final void setBirthday( final String birthday )
@@ -200,7 +203,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getGender()
     {
-        return gender;
+        return this.gender;
     }
     @Header("Gender")
     public final void setGender( final String gender )
@@ -210,7 +213,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getLocation()
     {
-        return location;
+        return this.location;
     }
     @Header("Location")
     public final void setLocation( final String location )
@@ -220,7 +223,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getBillingInformation()
     {
-        return billingInformation;
+        return this.billingInformation;
     }
     @Header("Billing Information")
     public final void setBillingInformation( final String billingInformation )
@@ -230,7 +233,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getDirectoryServer()
     {
-        return directoryServer;
+        return this.directoryServer;
     }
     @Header("Directory Server")
     public final void setDirectoryServer( final String directoryServer )
@@ -240,7 +243,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getMileage()
     {
-        return mileage;
+        return this.mileage;
     }
     @Header("Mileage")
     public final void setMileage( final String mileage )
@@ -250,7 +253,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getOccupation()
     {
-        return occupation;
+        return this.occupation;
     }
     @Header("Occupation")
     public final void setOccupation( final String occupation )
@@ -260,7 +263,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getHobby()
     {
-        return hobby;
+        return this.hobby;
     }
     @Header("Hobby")
     public final void setHobby( final String hobby )
@@ -270,7 +273,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getSensitivity()
     {
-        return sensitivity;
+        return this.sensitivity;
     }
     @Header("Sensitivity")
     public final void setSensitivity( final String sensitivity )
@@ -280,7 +283,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getPriority()
     {
-        return priority;
+        return this.priority;
     }
     @Header("Priority")
     public final void setPriority( final String priority )
@@ -290,7 +293,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getSubject()
     {
-        return subject;
+        return this.subject;
     }
     @Header("Subject")
     public final void setSubject( final String subject )
@@ -300,7 +303,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getNotes()
     {
-        return notes;
+        return this.notes;
     }
     @Header("Notes")
     public final void setNotes( final String notes )
@@ -310,7 +313,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final String getGroupMembership()
     {
-        return groupMembership;
+        return this.groupMembership;
     }
     @Header("Group Membership")
     public final void setGroupMembership( final String groupMembership )
@@ -320,96 +323,103 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
 
     public final Collection<BasicEntry> getEmails()
     {
-        return emails;
+        return this.emails;
     }
     @Header("E-mail") // "E-mail 1 - Type"
-    public final void addEmail( final BasicEntry email )
+    public final void addEmail( final BasicEntry email ) // NOSONAR
     {
         this.emails.add( email );
     }
 
-    public final Collection<IMEntry> getiMs()
+    public final Collection<IMEntry> getiMs() // NOSONAR
     {
-        return iMs;
+        return this.iMs;
     }
+
     @Header("IM")
-    public final void addiM( final IMEntry iM )
+    public final void addiM( final IMEntry iM ) // NOSONAR
     {
         this.iMs.add( iM );
     }
 
     public final Collection<BasicEntry> getPhones()
     {
-        return phones;
+        return this.phones;
     }
+
     @Header("Phone")
-    public final void addPhone( final BasicEntry phone )
+    public final void addPhone( final BasicEntry phone ) // NOSONAR
     {
         this.phones.add( phone );
     }
 
     public final Collection<AddressEntry> getAddresses()
     {
-        return addresses;
+        return this.addresses;
     }
+
     @Header(value="Address")
-    public final void addAddress( final AddressEntry address )
+    public final void addAddress( final AddressEntry address ) // NOSONAR
     {
         this.addresses.add( address );
     }
 
     public final Collection<OrganizationEntry> getOrganizations()
     {
-        return organizations;
+        return this.organizations;
     }
+
     @Header("Organization") // "Organization 1 - Type"
-    public final void addOrganization( final OrganizationEntry organization )
+    public final void addOrganization( final OrganizationEntry organization ) // NOSONAR
     {
         this.organizations.add( organization );
     }
 
     public final Collection<BasicEntry> getWebsites()
     {
-        return websites;
+        return this.websites;
     }
+
     @Header("Website")
-    public final void addWebsite( final BasicEntry website )
+    public final void addWebsite( final BasicEntry website ) // NOSONAR
     {
         this.websites.add( website );
     }
 
     public final Collection<BasicEntry> getCustomFields()
     {
-        return customFields;
+        return this.customFields;
     }
+
     @Header("Custom Field")
-    public final void addCustomField( final BasicEntry customField )
+    public final void addCustomField( final BasicEntry customField ) // NOSONAR
     {
         this.customFields.add( customField );
     }
 
     public final Collection<BasicEntry> getRelations()
     {
-        return relations;
+        return this.relations;
     }
+
     @Header("Relation") // "Relation 1 - Type", "Relation 1 - Value"
-    public final void addRelation( final BasicEntry relation )
+    public final void addRelation( final BasicEntry relation ) // NOSONAR
     {
         this.relations.add( relation );
     }
 
     public final Collection<BasicEntry> getEvents()
     {
-        return events;
+        return this.events;
     }
     @Header("Event") // "Event 1 - Type", "Event 1 - Value"
-    public final void addEvent( final BasicEntry event )
+    public final void addEvent( final BasicEntry event ) // NOSONAR
     {
         this.events.add( event );
     }
 
     public static final GoogleContactType newGoogleContactType( final Class<?> clazz )
-            throws IllegalArgumentException
+            throws IllegalArgumentException // NOSONAR
     {
         if( BasicEntry.class.isAssignableFrom( clazz ) ) {
             if( IMEntry.class.isAssignableFrom( clazz ) ) {

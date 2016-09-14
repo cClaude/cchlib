@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.xutil.google.googlecontact;
 
+import groovy.json.JsonBuilder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,12 +28,16 @@ import com.googlecode.jcsv.reader.CSVEntryParser;
 import com.googlecode.jcsv.reader.CSVReader;
 import com.googlecode.jcsv.reader.internal.CSVReaderBuilder;
 import com.googlecode.jcsv.reader.internal.DefaultCSVEntryParser;
-import groovy.json.JsonBuilder;
 
 /**
  * Handle google contact cvs files.
  */
-public class GoogleContacts {
+public class GoogleContacts
+{
+    private GoogleContacts()
+    {
+        // Static methods
+    }
 
     /**
      * @return a {@link List} of {@link GoogleContact} from a {@link Reader}
@@ -41,12 +46,11 @@ public class GoogleContacts {
      * @throws GoogleContacAnalyserException if an error occur when analyze data
      */
     public static List<GoogleContact> createGoogleContacts( @Nonnull final Reader reader )
-        throws IOException, GoogleContacAnalyserException
+        throws IOException, GoogleContacAnalyserException  // NOSONAR
     {
-        final List<String[]>      data = loadCSV( reader );
-        final List<GoogleContact> list = convertCSVIntoGoogleContacts( data );
+        final List<String[]> data = loadCSV( reader );
 
-        return list;
+        return convertCSVIntoGoogleContacts( data );
     }
 
     private static List<String[]> loadCSV( final Reader reader ) throws IOException
@@ -55,8 +59,7 @@ public class GoogleContacts {
         final CSVEntryParser<String[]> parser    = new DefaultCSVEntryParser();
 
         try( final CSVReader<String[]> csvParser = new CSVReaderBuilder<String[]>( reader ).strategy( strategy ).entryParser( parser ).build() ) {
-            final List<String[]>           data      = csvParser.readAll();
-            return data;
+            return csvParser.readAll();
         }
     }
 
@@ -89,14 +92,14 @@ public class GoogleContacts {
      * @throws GoogleContacAnalyserException if an error occur when analyze data
      */
     public static List<GoogleContact> createGoogleContacts( @Nonnull final InputStream inStream )
-        throws UnsupportedEncodingException, IOException
+        throws UnsupportedEncodingException, IOException // NOSONAR
     {
         final List<GoogleContact> list;
 
         try( final Reader reader = new InputStreamReader( inStream, "UTF-16" ) ){
             list = GoogleContacts.createGoogleContacts( reader );
         }
-        catch( GoogleContacAnalyserException e ) {
+        catch( final GoogleContacAnalyserException e ) {
             throw new IOException( e );
         }
 
@@ -111,7 +114,7 @@ public class GoogleContacts {
      * @throws GoogleContacAnalyserException if an error occur when analyze data
      */
     public static List<GoogleContact> createGoogleContacts( @Nonnull final File file )
-        throws FileNotFoundException, IOException
+        throws FileNotFoundException, IOException // NOSONAR
     {
         try ( final InputStream inStream = new FileInputStream( file ) ) {
             return createGoogleContacts( inStream );
@@ -147,7 +150,7 @@ public class GoogleContacts {
     @NeedDoc
     public static List<String> getValues( final Collection<BasicEntry> entries )
     {
-        if( entries.size() > 0 ) {
+        if( ! entries.isEmpty() ) {
             final List<String> list = new ArrayList<>();
 
             for( final BasicEntry entry : entries ) {
