@@ -32,8 +32,8 @@ class SimpleTextPersistenceManagerV1
         try {
             return uri.toURL().toExternalForm();
             }
-        catch( MalformedURLException e ) {
-            throw new RuntimeException( e );
+        catch( final MalformedURLException e ) {
+            throw new MalformedURLRuntimeException( e );
             }
     }
 

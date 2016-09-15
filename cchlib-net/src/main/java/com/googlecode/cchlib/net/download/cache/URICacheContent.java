@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 
@@ -20,18 +19,18 @@ final class URICacheContent // $codepro.audit.disable com.instantiations.assist.
     private static final long serialVersionUID = 5L;
     private static final Logger LOGGER = Logger.getLogger( CacheContent.class );
 
-    private Map<URI,URIDataCacheEntry> dataCache = new HashMap<URI,URIDataCacheEntry>();
-    private Map<String,URI>            hashcache = new HashMap<String,URI>();
+    private final HashMap<URI,URIDataCacheEntry> dataCache = new HashMap<>();
+    private final HashMap<String,URI>            hashcache = new HashMap<>();
 
     @Override
     public void put( final URI uri, final URIDataCacheEntry data )
     {
         final String hash = data.getContentHashCode();
 
-        if( ! hashcache.containsKey( hash ) ) {
-            hashcache.put( hash, uri );
-            dataCache.remove( uri );
-            dataCache.put( uri, data );
+        if( ! this.hashcache.containsKey( hash ) ) {
+            this.hashcache.put( hash, uri );
+            this.dataCache.remove( uri );
+            this.dataCache.put( uri, data );
             }
 
         debug();
@@ -39,8 +38,8 @@ final class URICacheContent // $codepro.audit.disable com.instantiations.assist.
 
     private void debug()
     {
-        final int dataCacheSize = dataCache.size();
-        final int hashCacheSize = hashcache.size();
+        final int dataCacheSize = this.dataCache.size();
+        final int hashCacheSize = this.hashcache.size();
 
         if( dataCacheSize != hashCacheSize ) {
             LOGGER.error( "CacheContent : cache size error * data:"
@@ -54,31 +53,31 @@ final class URICacheContent // $codepro.audit.disable com.instantiations.assist.
     @Override
     public int size()
     {
-        return dataCache.size();
+        return this.dataCache.size();
     }
 
     @Override
     public void clear()
     {
-        dataCache.clear();
-        hashcache.clear();
+        this.dataCache.clear();
+        this.hashcache.clear();
     }
 
     @Override
     public URIDataCacheEntry getDataCacheEntry( final URI uri )
     {
-        return dataCache.get( uri );
+        return this.dataCache.get( uri );
     }
 
     @Override
     public URI getURI( final String hashcode )
     {
-        return hashcache.get( hashcode );
+        return this.hashcache.get( hashcode );
     }
 
     @Override
     public Iterator<Entry<URI,URIDataCacheEntry>> iterator()
     {
-        return dataCache.entrySet().iterator();
+        return this.dataCache.entrySet().iterator();
     }
 }

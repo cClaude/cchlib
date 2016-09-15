@@ -13,10 +13,10 @@ import java.util.Map;
 
 /**
  * Define a "downloadable" URL that should be store in a {@link File}
- * 
+ *
  * @since 4.1.7
  */
-public class DefaultDownloadFileURL 
+public class DefaultDownloadFileURL
     extends AbstractDownloadURL
         implements DownloadFileURL
 {
@@ -66,7 +66,7 @@ public class DefaultDownloadFileURL
     @Override
     public File getResultAsFile()
     {
-        return file;
+        return this.file;
     }
 
     @Override
@@ -78,44 +78,44 @@ public class DefaultDownloadFileURL
     @Override
     public void setProperty( final String name, final Object value )
     {
-        if( properties == null ) {
-            properties = new HashMap<String,Object>();
+        if( this.properties == null ) {
+            this.properties = new HashMap<>();
             }
 
-        properties.put( name, value );
+        this.properties.put( name, value );
     }
 
     @Override
     public Object getProperty( final String name )
     {
-        if( properties == null ) {
+        if( this.properties == null ) {
             return null;
             }
         else {
-            return properties.get( name );
+            return this.properties.get( name );
             }
     }
 
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "DefaultDownloadFileURL [getURL()=" );
         builder.append( getURL() );
         builder.append( "DefaultDownloadFileURL [file=" );
-        builder.append( file );
+        builder.append( this.file );
         builder.append( ", properties=" );
-        builder.append( (properties != null) ? toString( properties.entrySet() ) : null );
+        builder.append( (this.properties != null) ? toString( this.properties.entrySet() ) : null );
         builder.append( ']' );
         return builder.toString();
     }
 
-    private String toString( Collection<?> collection )
+    private String toString( final Collection<?> collection )
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( '[' );
         boolean first = true;
-        for( Iterator<?> iterator = collection.iterator(); iterator.hasNext();) {
+        for( final Iterator<?> iterator = collection.iterator(); iterator.hasNext();) {
             if( first ) {
                 first = false;
                 }

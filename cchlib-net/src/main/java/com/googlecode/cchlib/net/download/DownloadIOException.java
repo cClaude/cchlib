@@ -5,14 +5,14 @@ import java.io.IOException;
 
 /**
  * Exception generate when a error occur during download process
- * 
+ *
  * @since 4.1.7
  */
 public class DownloadIOException extends Exception
 {
     private static final long serialVersionUID = 1L;
-    private DownloadURL downloadURL;
-    private File file;
+    private final DownloadURL downloadURL;
+    private final File file;
 
     /**
      * TODOC
@@ -20,11 +20,12 @@ public class DownloadIOException extends Exception
      * @param downloadURL
      * @param cause
      */
-    public DownloadIOException( DownloadURL downloadURL, Throwable cause )
+    public DownloadIOException( final DownloadURL downloadURL, final Throwable cause )
     {
         super( downloadURL.getURL().toExternalForm(), cause );
 
         this.downloadURL = downloadURL;
+        this.file        = null;
     }
 
     /**
@@ -34,11 +35,12 @@ public class DownloadIOException extends Exception
      * @param file
      * @param cause
      */
-    public DownloadIOException( DownloadURL downloadURL, File file, IOException cause )
+    public DownloadIOException( final DownloadURL downloadURL, final File file, final IOException cause )
     {
-        this( downloadURL, cause );
+        super( downloadURL.getURL().toExternalForm(), cause );
 
-        this.file = file;
+        this.downloadURL = downloadURL;
+        this.file        = file;
     }
 
     /**

@@ -208,7 +208,7 @@ public class DownloadExecutor
         try {
             Thread.sleep( millisec );
         }
-        catch( final InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
+        catch( final InterruptedException ignore ) {} // NOSONAR $codepro.audit.disable emptyCatchClause, logExceptions
     }
 
     /**

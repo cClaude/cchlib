@@ -2,9 +2,12 @@ package com.googlecode.cchlib.net.download;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.Proxy;
+import java.net.Proxy.Type;
+import java.net.SocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -21,13 +24,13 @@ import org.apache.log4j.Logger;
 public abstract class AbstractDownloadURL // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.doNotImplementSerializable
     implements DownloadURL, Serializable
 {
-    private static final long serialVersionUID = 3L;
+    private static final long serialVersionUID = 4L;
     private static final Logger LOGGER = Logger.getLogger( AbstractDownloadURL.class );
 
-    private       URI                   uri;
-    private       URL                   url;
-    private final Map<String,String>    requestPropertyMap;
-    private final Proxy                 proxy;
+    private       URI                uri;
+    private       URL                url;
+    private final Map<String,String> requestPropertyMap;
+    private Proxy                    proxy;
 
     /**
      * Create an AbstractDownloadURL using giving {@link URL}
@@ -166,5 +169,24 @@ public abstract class AbstractDownloadURL // $codepro.audit.disable com.instanti
         uc.connect();
 
         return uc.getInputStream();
+    }
+
+
+    private void writeObject( final ObjectOutputStream stream ) throws IOException
+    {
+        final Type type = this.proxy.type();
+        stream.writeObject(type);
+
+        final SocketAddress address = this.proxy.address();
+        stream.writeObject(address);
+    }
+
+    private void readObject(final java.io.ObjectInputStream stream)
+            throws IOException, ClassNotFoundException
+    {
+        final Type type = (Type) stream.readObject();
+        final SocketAddress address = (SocketAddress) stream.readObject();
+
+        this.proxy = new Proxy( type, address );
     }
 }

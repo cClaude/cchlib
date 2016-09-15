@@ -112,11 +112,11 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
     }
 
     /**
-     * Check if an {@link URL} is in cache, but don't care about
+     * Check if an {@link URI} is in cache, but don't care about
      * data.
      *
-     * @param url {@link URL} to check
-     * @return true if {@link URL} is in cache, false otherwise
+     * @param uri {@link URI} to check
+     * @return true if {@link URI} is in cache, false otherwise
      */
     public boolean isInCacheIndex( final URI uri )
     {
@@ -382,6 +382,10 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
                 this.persistenceManager.load( getCacheFile(), this.theCache );
                 }
             catch( final PersistenceFileBadVersionException retry ) { // $codepro.audit.disable logExceptions
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "Migratation", retry );
+                }
+
                 new SimpleTextPersistenceManagerV0().load( getCacheFile(), this.theCache );
                 }
             catch( final IOException retry ) {
@@ -391,6 +395,10 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
                     this.persistenceManager.load( getBackupCacheFile(), this.theCache );
                     }
                 catch( final PersistenceFileBadVersionException e ) { // $codepro.audit.disable logExceptions
+                    if( LOGGER.isTraceEnabled() ) {
+                        LOGGER.trace( "Migratation", e );
+                    }
+
                     new SimpleTextPersistenceManagerV0().load( getBackupCacheFile(), this.theCache );
                     }
                 }
@@ -415,20 +423,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
             }
 
         if( cacheFile.isFile() ) {
-
-            // Delete previous version of backup file.
-            backupFile.delete();
-
-            // Rename previous version of cache file to backup file.
-            final boolean b = cacheFile.renameTo( backupFile );
-
-            if( LOGGER.isTraceEnabled() ) {
-                LOGGER.trace( "Rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
-                }
-
-            if( ! b ) {
-                LOGGER.warn( "Can't rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
-                }
+            deletePreviousBackupFile( cacheFile, backupFile );
             }
 
         // store cache
@@ -440,38 +435,64 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
         this.modificationCount = 0;
 
         if( cacheFile.length() < backupFile.length() ) {
-            // Loose data in cache !
-            LOGGER.warn( "Loose data append previous file" );
-
-            final CacheContent tmpCache = new URICacheContent();
-
-            try {
-                this.persistenceManager.load( backupFile, tmpCache );
-                }
-            catch( final PersistenceFileBadVersionException e ) {
-                // unexpected cache content
-                throw new IOException( "Unexpected cache file", e );
-                }
-
-            synchronized( this.theCache ) {
-                // Add in tmpCache current values
-                for( final Entry<URI,URIDataCacheEntry> entry : this.theCache ) {
-                    tmpCache.put( entry.getKey(), entry.getValue() );
-                    }
-
-                // Update cache using tmpCache
-                for( final Entry<URI,URIDataCacheEntry> entry : tmpCache ) {
-                    this.theCache.put( entry.getKey(), entry.getValue() );
-                    }
-
-                tmpCache.clear();
-                this.persistenceManager.store( cacheFile, this.theCache );
-                }
-
+            fixCache( cacheFile, backupFile );
             }
 
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.trace( "Cache stored successfully " );
+            }
+    }
+
+    private void fixCache( final File cacheFile, final File backupFile )
+            throws FileNotFoundException, IOException // NOSONAR
+    {
+        // Loose data in cache !
+        LOGGER.warn( "Loose data append previous file" );
+
+        final CacheContent tmpCache = new URICacheContent();
+
+        try {
+            this.persistenceManager.load( backupFile, tmpCache );
+            }
+        catch( final PersistenceFileBadVersionException e ) {
+            // unexpected cache content
+            throw new IOException( "Unexpected cache file", e );
+            }
+
+        synchronized( this.theCache ) {
+            // Add in tmpCache current values
+            for( final Entry<URI,URIDataCacheEntry> entry : this.theCache ) {
+                tmpCache.put( entry.getKey(), entry.getValue() );
+                }
+
+            // Update cache using tmpCache
+            for( final Entry<URI,URIDataCacheEntry> entry : tmpCache ) {
+                this.theCache.put( entry.getKey(), entry.getValue() );
+                }
+
+            tmpCache.clear();
+            this.persistenceManager.store( cacheFile, this.theCache );
+            }
+    }
+
+    private void deletePreviousBackupFile( final File cacheFile, final File backupFile )
+    {
+        // Delete previous version of backup file.
+        final boolean isDeleted = backupFile.delete();
+
+        if( isDeleted && LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Can not delete file: " + cacheFile );
+        }
+
+        // Rename previous version of cache file to backup file.
+        final boolean b = cacheFile.renameTo( backupFile );
+
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
+            }
+
+        if( ! b ) {
+            LOGGER.warn( "Can't rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
             }
     }
 
