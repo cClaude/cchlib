@@ -6,7 +6,6 @@ import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -20,6 +19,8 @@ import com.googlecode.cchlib.NeedTestCases;
 @NeedTestCases
 public class DataSourceFactory
 {
+    private static final Logger NO_PARENT_LOGGER = null;
+
     private DataSourceFactory()
     {// All static
     }
@@ -43,7 +44,7 @@ public class DataSourceFactory
             final String        password,
             final PrintWriter   logger
             )
-        throws ClassNotFoundException, NullPointerException
+        throws ClassNotFoundException, NullPointerException // NOSONAR
     {
         return buildDataSource(
                 driverClassName,
@@ -76,7 +77,7 @@ public class DataSourceFactory
             final int           timeout,
             final Logger        logger
             )
-        throws ClassNotFoundException, NullPointerException
+        throws ClassNotFoundException, NullPointerException // NOSONAR
     {
         if( logger == null ) {
             throw new NullPointerException();
@@ -87,41 +88,12 @@ public class DataSourceFactory
 
         Class.forName( driverClassName );
 
-        return new DataSource()
+        final PrintWriter pwLogger = newPrintWriterFromLogger( logger );
+
+        return new AbstractDataSource( username, password, logger, timeout, pwLogger )
         {
-            final Writer wLogger = new Writer()
-            {
-                @Override
-                public void close() throws IOException
-                {
-                }
-                @Override
-                public void flush() throws IOException
-                {
-                }
-                @Override
-                public void write(final char[] cbuf, final int off, final int len)
-                        throws IOException
-                {
-                    dsLogger.log(
-                        Level.WARNING,
-                        new String( cbuf, off, len )
-                        );
-                }
-            };
-
-            PrintWriter pwLogger    = new PrintWriter( wLogger );
-            int         timeOut     = timeout;
-            Logger      dsLogger    = logger;
-
             @Override
-            public Connection getConnection() throws SQLException
-            {
-                return getConnection( username, password );
-            }
-            @Override
-            public Connection getConnection( final String username, final String password )
-                throws SQLException
+            public Connection getConnection( final String username, final String password ) throws SQLException
             {
                 Connection conn = null;
 
@@ -131,54 +103,34 @@ public class DataSourceFactory
                         }
                     conn = getDriverManagerConnection( url, username, password );
 
-                    if( conn.isClosed() && (dsLogger != null) ) {
-                        dsLogger.log(
-                            Level.WARNING,
-                            "*** Connection is closed !"
-                            );
+                    if( conn.isClosed() ) {
+                        logger.log( Level.WARNING, "*** Connection is closed !" );
                         }
                     } while(true);
 
                 return conn;
             }
+        };
+    }
+
+    private static PrintWriter newPrintWriterFromLogger( final Logger logger )
+    {
+        final Writer wLogger = new Writer()
+        {
             @Override
-            public int getLoginTimeout()
-            {
-                return timeOut;
-            }
+            public void close() throws IOException {} // NOSONAR - not required
+
             @Override
-            public void setLoginTimeout( final int seconds )
-            {
-                timeOut = seconds;
-            }
+            public void flush() throws IOException {} // NOSONAR - not required
+
             @Override
-            public PrintWriter getLogWriter()
+            public void write(final char[] cbuf, final int off, final int len)
+                    throws IOException
             {
-                return pwLogger;
-            }
-            @Override
-            public void setLogWriter( final PrintWriter out )
-            {
-                pwLogger = out;
-            }
-            @Override
-            public boolean isWrapperFor( final Class<?> clazz )
-                throws SQLException
-            {
-                return false;
-            }
-            @Override
-            public <T> T unwrap( final Class<T> clazz )
-                throws SQLException
-            {
-                throw new SQLException( "unwrap() not supported" );
-            }
-            @Override
-            public Logger getParentLogger() throws SQLFeatureNotSupportedException
-            {
-                return dsLogger;
+                logger.log( Level.WARNING, new String( cbuf, off, len ) );
             }
         };
+        return new PrintWriter( wLogger );
     }
 
     /**
@@ -202,7 +154,7 @@ public class DataSourceFactory
             final int           timeout,
             final PrintWriter   logger
             )
-        throws ClassNotFoundException, NullPointerException
+        throws ClassNotFoundException, NullPointerException // NOSONAR
     {
         if( logger == null ) {
             throw new NullPointerException();
@@ -213,16 +165,8 @@ public class DataSourceFactory
 
         Class.forName( driverClassName );
 
-        return new DataSource()
+        return new AbstractDataSource(username, password, NO_PARENT_LOGGER, timeout, logger)
         {
-            int         timeOut = timeout;
-            PrintWriter pw      = logger;
-
-            @Override
-            public Connection getConnection() throws SQLException
-            {
-                return getConnection( username, password );
-            }
             @Override
             public Connection getConnection( final String username, final String password )
                 throws SQLException
@@ -235,51 +179,16 @@ public class DataSourceFactory
                         }
                     conn = getDriverManagerConnection( url, username, password );
 
-                    if( conn.isClosed() && (pw != null) ) {
-                        pw.println( "*** Connection is closed !" );
+                    if( conn.isClosed() ) {
+                        final PrintWriter pw = getLogWriter();
+
+                        if( pw != null ) {
+                            pw.println( "*** Connection is closed !" );
+                        }
                         }
                     } while(true);
 
                 return conn;
-            }
-
-            @Override
-            public int getLoginTimeout()
-            {
-                return timeOut;
-            }
-            @Override
-            public void setLoginTimeout( final int seconds )
-            {
-                timeOut = seconds;
-            }
-            @Override
-            public PrintWriter getLogWriter()
-            {
-                return pw;
-            }
-            @Override
-            public void setLogWriter( final PrintWriter out )
-            {
-                pw = out;
-            }
-            @Override
-            public boolean isWrapperFor( final Class<?> clazz )
-                throws SQLException
-            {
-                return false;
-            }
-            @Override
-            public <T> T unwrap( final Class<T> clazz )
-                throws SQLException
-            {
-                throw new SQLException( "unwrap() not supported" );
-            }
-            @Override
-            public Logger getParentLogger()
-                    throws SQLFeatureNotSupportedException
-            {
-                throw new SQLFeatureNotSupportedException( "getParentLogger() not supported");
             }
         };
     }
