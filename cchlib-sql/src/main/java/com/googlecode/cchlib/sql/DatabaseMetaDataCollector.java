@@ -1,4 +1,3 @@
-// $codepro.audit.disable avoidInstantiationInLoops
 package com.googlecode.cchlib.sql;
 
 import java.io.Serializable;
@@ -97,26 +96,31 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     @Override
     public Map<String,String> toMap()
     {
-        final Map<String,String> map = new LinkedHashMap<String,String>();
+        final Map<String,String> map = new LinkedHashMap<>();
 
-        {
-            final MappableBuilder mb = new MappableBuilder(
-                    new DefaultMappableBuilderFactory()
-                        .setMethodesNamePattern( ".*" )
-                        .add( Object.class )
-                        .add( MappableItem.MAPPABLE_ITEM_SHOW_ALL )
-                    );
-
-            map.putAll( mb.toMap( this.databaseMetaData ) );
-        }
-
-        {
-            final MapBuilder builder = new MapBuilder( this.databaseMetaData );
-
-            map.putAll( builder.toMap() );
-        }
+        map.putAll( toMapAllMethods() );
+        map.putAll( toMapDefault() );
 
         return Collections.unmodifiableMap( map );
+    }
+
+    private Map<String,String> toMapDefault()
+    {
+        final MapBuilder builder = new MapBuilder( this.databaseMetaData );
+
+        return builder.toMap();
+    }
+
+    private Map<String, String> toMapAllMethods()
+    {
+        final MappableBuilder mb = new MappableBuilder(
+                new DefaultMappableBuilderFactory()
+                    .setMethodesNamePattern( ".*" )
+                    .add( Object.class )
+                    .add( MappableItem.MAPPABLE_ITEM_SHOW_ALL )
+                );
+
+        return mb.toMap( this.databaseMetaData );
     }
 
     /**
@@ -128,7 +132,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     public List<String> getTableList(final String...tableTypes)
         throws SQLException
     {
-        final List<String> values = new ArrayList<String>();
+        final List<String> values = new ArrayList<>();
 
         try( final ResultSet allTables = this.databaseMetaData.getTables(null,null,null,tableTypes) ) {
             while( allTables.next() ) {
@@ -169,14 +173,14 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
      */
     public Map<String,List<String>> getTableMap(final String...tableTypes) throws SQLException
     {
-        final Map<String, List<String>> values = new LinkedHashMap<String, List<String>>();
+        final Map<String, List<String>> values = new LinkedHashMap<>();
 
         try (final ResultSet allTables = this.databaseMetaData.getTables( null, null, null, tableTypes )) {
             while( allTables.next() ) {
                 final String tableName = allTables.getString( "TABLE_NAME" );
 
                 try (final ResultSet colList = this.databaseMetaData.getColumns( null, null, tableName, null )) {
-                    final List<String> columnsList = new ArrayList<String>();
+                    final List<String> columnsList = new ArrayList<>();
 
                     while( colList.next() ) {
                         columnsList.add( colList.getString( "COLUMN_NAME" ) );
@@ -216,15 +220,13 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     private static List<Method> getMethodsToInvokeForResultSet()
     {
         final Method[]      methods = DatabaseMetaData.class.getMethods();
-        final List<Method>  methodsToInvoke = new ArrayList<Method>();
+        final List<Method>  methodsToInvoke = new ArrayList<>();
 
         for(final Method m:methods) {
             final Class<?> returnType = m.getReturnType();
 
-            if( m.getParameterTypes().length == 0 ) {
-                if( returnType == ResultSet.class ) {
-                    methodsToInvoke.add( m );
-                }
+            if( (m.getParameterTypes().length == 0) && (returnType == ResultSet.class) ) {
+                methodsToInvoke.add( m );
             }
         }
 
@@ -239,15 +241,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         try {
             return m.invoke( databaseMetaData );
             }
-        catch( final IllegalArgumentException e ) {
-            LOGGER.warn( "Error while invoke " + m, e );
-            return e;
-            }
-        catch( final IllegalAccessException e ) {
-            LOGGER.warn( "Error while invoke " + m, e );
-            return e;
-            }
-        catch( final InvocationTargetException e ) {
+        catch( final IllegalArgumentException | IllegalAccessException | InvocationTargetException e ) {
             LOGGER.warn( "Error while invoke " + m, e );
             return e;
             }
@@ -256,7 +250,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     private class MapBuilder implements Mappable
     {
         /** @Serial */
-        private final Map<String, String> values = new LinkedHashMap<String,String>();
+        private final Map<String, String> values = new LinkedHashMap<>();
 
         /**
          * Build internal Map of methods names and values
@@ -295,58 +289,63 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
                     this.values.put( String.format( "%s ResultSet=>?", m.getName() ), resultSet.getClass().getName() + " : " + resultSet.toString() );
                 }
             } else {
-                try (final ResultSet rSet = ResultSet.class.cast( resultSet )) {
-                    int      cCount = 0; // not yet populate
-                    String[] cNames = null; // not yet populate
+                addResultSet2( m, resultSet );
 
-                    try {
-                        final ResultSetMetaData metaData = rSet.getMetaData();
+            }
+        }
 
-                        cCount = metaData.getColumnCount();
-                        cNames = new String[cCount + 1];
+        private void addResultSet2( final Method m, final Object resultSet )
+        {
+            try (final ResultSet rSet = ResultSet.class.cast( resultSet )) {
+                int      cCount = 0; // not yet populate
+                String[] cNames = null; // not yet populate
 
-                        for( int i = 1; i <= cCount; i++ ) {
-                            final String cName = metaData.getColumnName( i );
-                            cNames[ i ] = cName;
+                try {
+                    final ResultSetMetaData metaData = rSet.getMetaData();
 
-                            // values.put(
-                            // String.format( "%s ResultSetMetaData[%d]", m.getName(), i ),
-                            // cName
-                            // );
-                        }
-                    }
-                    catch( final SQLException e ) {
-                        LOGGER.warn( "Error while reading ResultSetMetaData return by " + m, e );
+                    cCount = metaData.getColumnCount();
+                    cNames = new String[cCount + 1];
 
-                        this.values.put( String.format( "%s ResultSetMetaData[SQLException]", m.getName() ), e.getMessage() );
+                    for( int i = 1; i <= cCount; i++ ) {
+                        final String cName = metaData.getColumnName( i );
+                        cNames[ i ] = cName;
 
-                        if( cNames == null ) {
-                            cNames = new String[cCount + 1];
-                        }
-                    }
-
-                    int row = 0;
-
-                    try {
-                        while( rSet.next() ) {
-                            for( int i = 1; i <= cCount; i++ ) {
-                                this.values.put(
-                                        String.format( "%s ResultSet[%d][%s].%d", m.getName(), Integer.valueOf( i ), cNames[ i ], Integer.valueOf( row ) ),
-                                        rSet.getString( i ) );
-                            }
-                            row++;
-                        }
-                    }
-                    catch( final SQLException e ) {
-                        LOGGER.warn( "Error while reading ResultSet return by " + m, e );
-
-                        this.values.put( String.format( "%s ResultSet=>SQLException (row=%d)", m.getName(), Integer.valueOf( row ) ), e.getMessage() );
+                        // values.put(
+                        // String.format( "%s ResultSetMetaData[%d]", m.getName(), i ),
+                        // cName
+                        // );
                     }
                 }
                 catch( final SQLException e ) {
-                    LOGGER.warn( "Unknown error while reading ResultSetMetaData return by " + m, e );
+                    LOGGER.warn( "Error while reading ResultSetMetaData return by " + m, e );
+
+                    this.values.put( String.format( "%s ResultSetMetaData[SQLException]", m.getName() ), e.getMessage() );
+
+                    if( cNames == null ) {
+                        cNames = new String[cCount + 1];
+                    }
                 }
 
+                int row = 0;
+
+                try {
+                    while( rSet.next() ) {
+                        for( int i = 1; i <= cCount; i++ ) {
+                            this.values.put(
+                                    String.format( "%s ResultSet[%d][%s].%d", m.getName(), Integer.valueOf( i ), cNames[ i ], Integer.valueOf( row ) ),
+                                    rSet.getString( i ) );
+                        }
+                        row++;
+                    }
+                }
+                catch( final SQLException e ) {
+                    LOGGER.warn( "Error while reading ResultSet return by " + m, e );
+
+                    this.values.put( String.format( "%s ResultSet=>SQLException (row=%d)", m.getName(), Integer.valueOf( row ) ), e.getMessage() );
+                }
+            }
+            catch( final SQLException e ) {
+                LOGGER.warn( "Unknown error while reading ResultSetMetaData return by " + m, e );
             }
         }
 
