@@ -50,7 +50,7 @@ public class SimpleDataSource
             )
     {
         this(ds);
-        this.userPass = (new String[] {username, password});
+        this.userPass = new String[] {username, password};
     }
 
     /**
@@ -85,7 +85,11 @@ public class SimpleDataSource
     public static void quietClose( final Closeable closeable )
     {
         if( closeable != null ) {
-            try { closeable.close(); } catch( final IOException ignore ) { }
+            try {
+                closeable.close();
+                } catch( final IOException ioe ) {
+                    throw new SQLCloseRuntimeException( ioe );
+                }
             }
     }
 

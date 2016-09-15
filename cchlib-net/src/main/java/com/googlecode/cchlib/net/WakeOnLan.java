@@ -26,7 +26,9 @@ import com.googlecode.cchlib.NeedTestCases;
 @NeedTestCases
 public class WakeOnLan
 {
-    public static final int PORT = 7;
+    public static final String DEFAULT_BROADCAST_ADDR = "255.255.255.255"; // NOSONAR
+    public static final int    DEFAULT_PORT           = 7;
+
     private final int port;
 
     /**
@@ -34,7 +36,7 @@ public class WakeOnLan
      */
     public WakeOnLan()
     {
-        this( PORT );
+        this( DEFAULT_PORT );
     }
 
     /**
@@ -73,7 +75,7 @@ public class WakeOnLan
      * @throws IOException
      */
     public void notify(
-        String       broadcastAddress,
+        final String broadcastAddress,
         final String macAddress
         )
         throws  UnknownHostException,
@@ -81,16 +83,9 @@ public class WakeOnLan
                 IllegalArgumentException,
                 IOException
     {
-        if( broadcastAddress != null ) {
-            broadcastAddress = broadcastAddress.trim();
-            }
-
-        if( (broadcastAddress == null) || (broadcastAddress.length() == 0) ) {
-            broadcastAddress = "255.255.255.255";
-            }
-
-        final byte[] macBytes = WakeOnLan.getMacAddressBytes(macAddress);
-        final byte[] bytes = new byte[6 + (16 * macBytes.length)];
+        final String safeBroadcastAddress = fixBroadcastAddress( broadcastAddress );
+        final byte[] macBytes             = WakeOnLan.getMacAddressBytes(macAddress);
+        final byte[] bytes                = new byte[6 + (16 * macBytes.length)];
 
         for( int i = 0; i < 6; i++ ) {
             bytes[i] = -1;
@@ -100,12 +95,31 @@ public class WakeOnLan
             System.arraycopy(macBytes, 0, bytes, i, macBytes.length);
             }
 
-        final InetAddress     address = InetAddress.getByName(broadcastAddress);
+        final InetAddress     address = InetAddress.getByName( safeBroadcastAddress );
         final DatagramPacket packet   = new DatagramPacket(bytes, bytes.length, address, this.port);
 
         try( final DatagramSocket socket = new DatagramSocket() ) {
             socket.send(packet);
         }
+    }
+
+    private String fixBroadcastAddress( final String broadcastAddressToFix )
+    {
+        final String broadcastAddress;
+
+        if( broadcastAddressToFix != null ) {
+            final String trim = broadcastAddressToFix.trim();
+
+            if( trim.isEmpty() ) {
+                broadcastAddress = DEFAULT_BROADCAST_ADDR;
+            } else {
+                broadcastAddress = trim;
+            }
+        } else {
+            broadcastAddress = DEFAULT_BROADCAST_ADDR;
+        }
+
+        return broadcastAddress;
     }
 
     /**
@@ -114,7 +128,7 @@ public class WakeOnLan
      * @return TODOC
      * @throws IllegalArgumentException
      */
-    protected static byte[] getMacAddressBytes(
+    private static byte[] getMacAddressBytes(
             final String macAddress
             )
         throws IllegalArgumentException

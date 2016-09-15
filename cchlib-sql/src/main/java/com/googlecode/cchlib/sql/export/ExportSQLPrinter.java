@@ -16,26 +16,28 @@ import com.googlecode.cchlib.sql.SQLTools;
  */
 final class ExportSQLPrinter implements Closeable
 {
-    private final StringBuilder   q = new StringBuilder();
-
     private final ExportSQL exportSQL;
-    private final Writer          out;
+    private final Writer    out;
 
-    private Statement s = null;
+    private Statement statement = null;
 
     public ExportSQLPrinter(
-            final ExportSQL         exportSQL,
-            final Writer            out
-            )
+        final ExportSQL exportSQL,
+        final Writer    out
+        )
     {
         this.exportSQL  = exportSQL;
         this.out        = out;
     }
 
+    /**
+     * TODOC
+     * @param tableDescription Table information
+     * @throws IOException if any
+     */
     public void doExportDeleteData(
-            final TableDescription tableDescription
-            )
-        throws IOException
+        final TableDescription tableDescription
+        ) throws IOException
     {
         print( "DELETE FROM `" );
 
@@ -53,129 +55,164 @@ final class ExportSQLPrinter implements Closeable
         println( ";" );
     }
 
-    public void doExportData(
-            final TableDescription tableDesc
+    /**
+     * TODOC
+     * @param tableDescription Table information
+     * @throws SQLException if any
+     * @throws IOException if any
+     */
+    public void doExportData( // NOSONAR
+            final TableDescription tableDescription
             )
-        throws SQLException, IOException
+        throws SQLException, IOException // NOSONAR
     {
-        if( this.s == null ) {
-            this.s = this.exportSQL.getConnection().createStatement();
-            }
+        createStatementIfNeeded();
 
-        q.setLength( 0 );
-        q.append(  "select * from `" );
+        this.statement.execute( createQuery( tableDescription ) );
 
-        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
-            q.append( this.exportSQL.getSchemaName() );
-            q.append( "`.`" );
-            }
+        println();
 
-        q.append( tableDesc.getName() );
+        exportShema( tableDescription );
 
-        if( tableDesc.getWhereCondition() != null ) {
-            q.append( "` WHERE " );
-            q.append( tableDesc.getWhereCondition() );
-            q.append( ';' );
-            }
-        else {
-            q.append( "`;" );
-            }
-
-        this.s.execute( q.toString() );
+        println( StringHelper.EMPTY );
+        println( StringHelper.EMPTY);
 
         // Get result set
-        try( ResultSet r = this.s.getResultSet() ) {
-            final ResultSetMetaData rm = r.getMetaData(); // call before r.next() see note 4 above in JDBC hints
+        try( ResultSet r = this.statement.getResultSet() ) {
+            extractData( tableDescription, r );
+        }
 
-            println();
-            println( "-- ---------------------------" );
-            print( "-- Data for `"  );
+        println();
+        println( "COMMIT;" );
+        //print( "-- OPTIMIZE TABLE `" ).print( schema ).print( "`.`" ).print( tablename ).println( "`;" );
+        println();
+    }
+
+    private void extractData( //
+            final TableDescription tableDescription, //
+            final ResultSet        resultSet //
+            ) throws SQLException, IOException
+    {
+        final ResultSetMetaData rm = resultSet.getMetaData(); // call before r.next() see note 4 above in JDBC hints
+
+        while( resultSet.next() ) {
+            print( "INSERT INTO `" );
 
             if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
-                print( this.exportSQL.getSchemaName() ).print( "`.`" );
+                print( this.exportSQL.getSchemaName() );
+                print( "`.`" );
                 }
 
-            print( tableDesc.getName() ).println( "`" );
-            println( "-- ---------------------------" );
+            print( tableDescription.getName() );
+            print( "` (" );
+            boolean isFirst = true;
 
-            if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_DISABLE_AUTOCOMMIT ) ) {
-                println( "SET AUTOCOMMIT=0;" );
-                }
-
-            if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
-                print( "USE `" ).print( this.exportSQL.getSchemaName() ).println( "`;" );
-                }
-
-            println( StringHelper.EMPTY );
-            println( StringHelper.EMPTY);
-
-            while( r.next() ) {
-                print( "INSERT INTO `" );
-
-                if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
-                    print( this.exportSQL.getSchemaName() );
-                    print( "`.`" );
+            for(int i = 1; i <= rm.getColumnCount(); i++) {
+                if( isFirst ) {
+                    isFirst = false;
                     }
-
-                print( tableDesc.getName() );
-                print( "` (" );
-                boolean isFirst = true;
-
-                for(int i = 1; i <= rm.getColumnCount(); i++) {
-                    if( isFirst ) {
-                        isFirst = false;
-                        }
-                    else {
-                        print( "," );
-                        }
-                    print( "`" );
-                    print( rm.getColumnName( i ) );
-                    print( "`" );
+                else {
+                    print( "," );
                     }
-                print( ") VALUES (" );
-
-                isFirst = true;
-
-                for(int i = 1; i <= rm.getColumnCount(); i++) {
-                    if( isFirst ) {
-                        isFirst = false;
-                        }
-                    else {
-                        print( "," );
-                        }
-                    final String s = r.getString( rm.getColumnName( i ) );
-
-                    if( s == null ) {
-                        print( "NULL" );
-                        }
-                    else {
-                        print( "'" );
-                        print( SQLTools.parseFieldValue( s ) );
-                        print( "'" );
-                        }
-                    }
-                println( ");" );
+                print( "`" );
+                print( rm.getColumnName( i ) );
+                print( "`" );
                 }
+            print( ") VALUES (" );
 
-            println();
-            println( "COMMIT;" );
-            //print( "-- OPTIMIZE TABLE `" ).print( schema ).print( "`.`" ).print( tablename ).println( "`;" );
-            println();
+            isFirst = true;
+
+            for(int i = 1; i <= rm.getColumnCount(); i++) {
+                if( isFirst ) {
+                    isFirst = false;
+                    }
+                else {
+                    print( "," );
+                    }
+                final String s = resultSet.getString( rm.getColumnName( i ) );
+
+                if( s == null ) {
+                    print( "NULL" );
+                    }
+                else {
+                    print( "'" );
+                    print( SQLTools.parseFieldValue( s ) );
+                    print( "'" );
+                    }
+                }
+            println( ");" );
+            }
+    }
+
+    private void exportShema( final TableDescription tableDescription ) throws IOException
+    {
+        println( "-- ---------------------------" );
+        print( "-- Data for `"  );
+
+        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
+            print( this.exportSQL.getSchemaName() ).print( "`.`" );
+            }
+
+        print( tableDescription.getName() ).println( "`" );
+        println( "-- ---------------------------" );
+
+        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_DISABLE_AUTOCOMMIT ) ) {
+            println( "SET AUTOCOMMIT=0;" );
+            }
+
+        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
+            print( "USE `" ).print( this.exportSQL.getSchemaName() ).println( "`;" );
+            }
+    }
+
+    private String createQuery( final TableDescription tableDescription ) throws SQLException
+    {
+        final StringBuilder query = new StringBuilder();
+
+        query.append( "SELECT * FROM `" );
+
+        if( this.exportSQL.getConfigSet().contains( ExportSQL.Config.ADD_PREFIX_SCHEMA ) ) {
+            query.append( this.exportSQL.getSchemaName() );
+            query.append( "`.`" );
+            }
+
+        query.append( tableDescription.getName() );
+
+        if( tableDescription.getWhereCondition() != null ) {
+            query.append( "` WHERE " );
+            query.append( tableDescription.getWhereCondition() );
+            query.append( ';' );
+            }
+        else {
+            query.append( "`;" );
+            }
+
+        return query.toString();
+    }
+
+    private void createStatementIfNeeded() throws SQLException
+    {
+        if( this.statement == null ) {
+            synchronized( this ) {
+                if( this.statement == null ) {
+                    this.statement = this.exportSQL.getConnection().createStatement();
+                    }
+            }
         }
     }
 
-    public void println() throws IOException
+    void println() throws IOException
     {
-        out.write( '\n' );
+        this.out.write( '\n' );
      }
 
-    public ExportSQLPrinter print( final String s ) throws IOException
+    ExportSQLPrinter print( final String s ) throws IOException
     {
-        out.write( s );
+        this.out.write( s );
         return this;
     }
 
-    public void println( final String s ) throws IOException
+    void println( final String s ) throws IOException
     {
         print( s );
         println();
@@ -184,14 +221,14 @@ final class ExportSQLPrinter implements Closeable
     @Override
     public void close() throws SQLCloseException
     {
-        if(s != null) {
-        	try {
-        		s.close();
-				}
-        	catch ( final SQLException e ) {
-				throw new SQLCloseException( e );
-				}
-        	}
+        if(this.statement != null) {
+            try {
+                this.statement.close();
+                }
+            catch ( final SQLException e ) {
+                throw new SQLCloseException( e );
+                }
+            }
     }
 
 }
