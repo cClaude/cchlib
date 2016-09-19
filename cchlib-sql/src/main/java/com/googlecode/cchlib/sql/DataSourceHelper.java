@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.sql;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,17 +24,18 @@ public class DataSourceHelper
      * Call {@link #close()} but hide {@link IOException} if
      * closeable is not null.
      *
-     * @param closeable Closeable object to close (could be null)
+     * @param closeable AutoCloseable object to close (could be null)
      */
-    public static void quietClose( final Closeable closeable )
+    public static void quietClose( final AutoCloseable closeable )
     {
         if( closeable != null ) {
             try {
                 closeable.close();
-                } catch( final IOException ioe ) {
-                    throw new SQLCloseRuntimeException( ioe );
-                }
             }
+            catch( final Exception ioe ) {
+                throw new SQLCloseRuntimeException( ioe );
+            }
+        }
     }
 
     /**

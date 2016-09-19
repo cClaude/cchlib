@@ -99,7 +99,7 @@ public class SimpleDataSource
      */
     public void quietClose()
     {
-        quietClose( this );
+        DataSourceHelper.quietClose( this );
     }
 
     /**
@@ -107,16 +107,12 @@ public class SimpleDataSource
      * closeable is not null.
      *
      * @param closeable Closeable object to close (could be null)
+     * @deprecated use {@link DataSourceHelper#quietClose(Closeable)}instead
      */
+    @Deprecated
     public static void quietClose( final Closeable closeable )
     {
-        if( closeable != null ) {
-            try {
-                closeable.close();
-                } catch( final IOException ioe ) {
-                    throw new SQLCloseRuntimeException( ioe );
-                }
-            }
+        DataSourceHelper.quietClose( closeable );
     }
 
     /**
@@ -126,7 +122,9 @@ public class SimpleDataSource
      * @return DataSource if resource found
      * @throws SimpleDataSourceException if any error occurred
      * @see DataSourceHelper#createDataSource(String)
+    * @deprecated use {@link DataSourceHelper#createDataSource(String)}instead
      */
+    @Deprecated
     public static final DataSource createDataSource(
             final String resourceName
             )

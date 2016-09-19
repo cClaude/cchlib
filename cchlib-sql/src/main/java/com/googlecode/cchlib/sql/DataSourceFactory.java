@@ -115,8 +115,8 @@ public class DataSourceFactory
      * @param password Default password for connection use by {@link DataSource#getConnection()}
      * @param logger Valid {@link PrintWriter} that will use as define by {@link DataSource#getLogWriter()}
      * @return a simple {@link DataSource}
-     * @throws ClassNotFoundException if driver class not found
      * @throws NullPointerException if driverClassName or logger is null
+     * @throws DataSourceFactoryClassNotFoundException if driver class not found
      */
     public static DataSource buildDataSource(
             final String        driverClassName,
@@ -125,7 +125,7 @@ public class DataSourceFactory
             final String        password,
             final PrintWriter   logger
             )
-        throws ClassNotFoundException, NullPointerException // NOSONAR
+        throws NullPointerException, DataSourceFactoryClassNotFoundException // NOSONAR
     {
         return buildDataSource(
                 driverClassName,
@@ -148,7 +148,7 @@ public class DataSourceFactory
      *        see {@link DataSource#getLoginTimeout()}
      * @param logger Valid {@link Logger} that will use as define by {@link DataSource#getLogWriter()}
      * @return a simple {@link DataSource}
-     * @throws ClassNotFoundException if driver class not found
+     * @throws DataSourceFactoryClassNotFoundException if driver class not found
      * @throws NullPointerException if driverClassName or logger is null
      */
     public static DataSource buildDataSource(
@@ -159,7 +159,7 @@ public class DataSourceFactory
             final int       timeout,
             final Logger    logger
             )
-        throws ClassNotFoundException, NullPointerException // NOSONAR
+        throws DataSourceFactoryClassNotFoundException, NullPointerException // NOSONAR
     {
         if( logger == null ) {
             throw new NullPointerException();
@@ -168,7 +168,7 @@ public class DataSourceFactory
             throw new NullPointerException();
             }
 
-        Class.forName( driverClassName );
+        loadDriver( driverClassName );
 
         final PrintWriter pwLogger = newPrintWriterFromLogger( logger );
 
@@ -206,7 +206,7 @@ public class DataSourceFactory
      * @param timeout default login timeout in second for {@link DataSource}, see {@link DataSource#getLoginTimeout()}
      * @param logger Valid {@link PrintWriter} that will use as define by {@link DataSource#getLogWriter()}
      * @return a simple {@link DataSource}
-     * @throws ClassNotFoundException if driver class not found
+     * @throws DataSourceFactoryClassNotFoundException if driver class not found
      * @throws NullPointerException if driverClassName or logger is null
      */
     public static DataSource buildDataSource(
@@ -217,7 +217,7 @@ public class DataSourceFactory
             final int           timeout,
             final PrintWriter   logger
             )
-        throws ClassNotFoundException, NullPointerException // NOSONAR
+        throws DataSourceFactoryClassNotFoundException, NullPointerException // NOSONAR
     {
         if( logger == null ) {
             throw new NullPointerException();
@@ -226,15 +226,26 @@ public class DataSourceFactory
             throw new NullPointerException();
             }
 
-        Class.forName( driverClassName );
+        loadDriver( driverClassName );
 
         return new PWDataSource( url, username, password, NO_PARENT_LOGGER, timeout, logger );
+    }
+
+    private static void loadDriver( final String driverClassName ) throws DataSourceFactoryClassNotFoundException
+    {
+        try {
+            Class.forName( driverClassName );
+        }
+        catch( final ClassNotFoundException cause ) {
+            throw new DataSourceFactoryClassNotFoundException( driverClassName, cause );
+        }
     }
 
     private static Connection getDriverManagerConnection( //
         final String url, //
         final String username, //
-        final String password ) throws SQLException
+        final String password
+        ) throws SQLException
     {
         return DriverManager.getConnection( url, username, password );
     }
