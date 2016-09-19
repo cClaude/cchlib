@@ -166,16 +166,54 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     }
 
     /**
+     * Wrapper for {@link DatabaseMetaData#getTableTypes()}
+     * Retrieves the table types available in this database. The results are ordered
+     * by table type.
+     *
+     * @return a List of string that is a table type
+     * @throws SQLException if any
+     */
+    public List<String> getTableTypes() throws SQLException
+    {
+        final ResultSet tableTypes = this.databaseMetaData.getTableTypes();
+
+        return transformResultSetToList( tableTypes, 1 );
+    }
+
+    private List<String> transformResultSetToList(
+            final ResultSet resultSet,
+            final int       columnIndex
+            ) throws SQLException
+    {
+        final List<String> contentList = new ArrayList<>();
+
+        try( final ResultSet rSet = resultSet ) {
+            while( rSet.next() ) {
+                final String value = rSet.getString( columnIndex );
+
+                contentList.add( value );
+                }
+        }
+
+        return contentList;
+    }
+    /**
      * Returns a Map of tables names associate to a List of columns names for current schema
+     *
      * @param tableTypes
-     * @return a Map of tables names associate to a List of columns names for current schema
-     * @throws SQLException if a database access error occurs
+     *      a list of table types, which must be from the list of table types
+     *      returned from {@link DatabaseMetaData#getTableTypes()} or
+     *      {@link #getTableTypes()},to include; null returns all types
+     * @return
+     *      a Map of tables names associate to a List of columns names for current schema
+     * @throws
+     *      SQLException if a database access error occurs
      */
     public Map<String,List<String>> getTableMap(final String...tableTypes) throws SQLException
     {
         final Map<String, List<String>> values = new LinkedHashMap<>();
 
-        try (final ResultSet allTables = this.databaseMetaData.getTables( null, null, null, tableTypes )) {
+        try (final ResultSet allTables = getTables( tableTypes ) ) {
             while( allTables.next() ) {
                 final String tableName = allTables.getString( "TABLE_NAME" );
 
@@ -192,6 +230,34 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         }
 
         return values;
+    }
+
+    private ResultSet getTables( final String... tableTypes ) throws SQLException
+    {
+        final String catalog          = null;
+        final String schemaPattern    = null;
+        final String tableNamePattern = "%";
+
+        /*
+         * catalog
+         *      a catalog name; must match the catalog name as it is stored in the
+         *      database; "" retrieves those without a catalog; null means that the
+         *      catalog name should not be used to narrow the search
+         *
+         * schemaPattern
+         *      a schema name pattern; must match the schema name as it is stored in
+         *      the database; "" retrieves those without a schema; null means that
+         *      the schema name should not be used to narrow the search
+         *
+         * tableNamePattern
+         *      a table name pattern; must match the table name as it is stored in
+         *      the database
+         *
+         * types
+         *      a list of table types, which must be from the list of table types
+         *      returned from getTableTypes(),to include; null returns all types
+         */
+        return this.databaseMetaData.getTables( catalog, schemaPattern, tableNamePattern, tableTypes );
     }
 
     /**
