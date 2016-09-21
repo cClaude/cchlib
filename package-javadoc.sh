@@ -181,7 +181,7 @@ CCHLIB_HOME=$PWD
 
 mvnClean
 mvnExtra xcchlib-core-sample clean
-mvnExtra xcchlib-sample clean
+mvnExtra xcchlib-samples clean
 mvnExtra xcchlib-sandbox clean
 mvnExtra xcchlib-tools clean
 
@@ -190,7 +190,7 @@ mvnPackage
 mvnJavadoc
 
 mvnExtra xcchlib-core-sample test
-mvnExtra xcchlib-sample test
+mvnExtra xcchlib-samples test
 mvnExtra xcchlib-sandbox test
 mvnExtra xcchlib-tools test
 
