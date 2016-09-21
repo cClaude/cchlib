@@ -19,7 +19,9 @@ import javax.sql.DataSource;
  *
  * @see SimpleUpdate
  * @see ConnectionQuery
+ * @deprecated use {@link SimpleSQL} instead
  */
+@Deprecated
 public class SimpleQuery
     extends SimpleDataSource
         implements Flushable
@@ -37,8 +39,8 @@ public class SimpleQuery
     {
         super(ds);
 
-        conn = null;
-        stmt = null;
+        this.conn = null;
+        this.stmt = null;
     }
 
     /**
@@ -53,8 +55,8 @@ public class SimpleQuery
     {
         super( SimpleDataSource.createDataSource( resourceName ) );
 
-        conn = null;
-        stmt = null;
+        this.conn = null;
+        this.stmt = null;
     }
 
     /**
@@ -69,14 +71,14 @@ public class SimpleQuery
     {
         ResultSet rset = null;
 
-        if( conn == null ) {
+        if( this.conn == null ) {
             openConnection();
             }
 
         try {
-            if(conn != null) {
-                stmt = conn.createStatement();
-                rset = stmt.executeQuery( query );
+            if(this.conn != null) {
+                this.stmt = this.conn.createStatement();
+                rset = this.stmt.executeQuery( query );
                 }
             }
         finally {
@@ -84,7 +86,7 @@ public class SimpleQuery
                 try {
                     flush();
                     }
-                catch( IOException e ) {
+                catch( final IOException e ) {
                     // This is probably an SQLException
                     throw new SQLException( e );
                     }
@@ -102,11 +104,11 @@ public class SimpleQuery
      */
     protected void openConnection() throws SQLException
     {
-        if( conn != null ) {
+        if( this.conn != null ) {
             throw new SQLException("SimpleQuery Invalid State [conn != null]");
             }
         else {
-            conn = createConnectionFromDataSource();
+            this.conn = createConnectionFromDataSource();
             }
     }
 
@@ -117,7 +119,7 @@ public class SimpleQuery
      */
     protected Connection getConnection()
     {
-        return conn;
+        return this.conn;
     }
 
     /**
@@ -136,24 +138,24 @@ public class SimpleQuery
 
     private void privateCloseStatement() throws SQLException
     {
-        if( stmt != null ) {
+        if( this.stmt != null ) {
             try {
-                stmt.close();
+                this.stmt.close();
                 }
             finally {
-                stmt = null;
+                this.stmt = null;
                 }
             }
     }
 
     private void privateCloseConnection() throws SQLException
     {
-        if( conn != null ) {
+        if( this.conn != null ) {
             try {
-                conn.close();
+                this.conn.close();
                 }
             finally {
-                conn = null;
+                this.conn = null;
                 }
             }
     }
@@ -164,7 +166,7 @@ public class SimpleQuery
         try {
             closeConnection();
             }
-        catch( SQLException e ) {
+        catch( final SQLException e ) {
             throw new SQLCloseException( e );
             }
     }
@@ -175,7 +177,7 @@ public class SimpleQuery
         try {
             closeConnection();
             }
-        catch( SQLException e ) {
+        catch( final SQLException e ) {
             throw new SQLCloseException( e );
             }
 

@@ -12,7 +12,9 @@ import org.apache.log4j.Logger;
  * Execute SQL statement using {@link Connection}
  *
  * @since 4.1.3
+ * @deprecated use {@link SimpleSQL} instead
  */
+@Deprecated
 public class ConnectionQuery implements Closeable
 {
     private static final Logger LOGGER = Logger.getLogger( ConnectionQuery.class );

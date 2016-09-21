@@ -15,7 +15,9 @@ import javax.sql.DataSource;
  *
  * @see SimpleQuery
  * @see ConnectionQuery
+ * @deprecated use {@link SimpleSQL} instead
  */
+@Deprecated
 public class SimpleUpdate
     extends SimpleDataSource
 {

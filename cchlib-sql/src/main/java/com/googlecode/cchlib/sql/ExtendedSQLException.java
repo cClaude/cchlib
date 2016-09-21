@@ -6,7 +6,9 @@ import java.sql.SQLException;
  * Encapsulation SQLException and add original SQL query
  *
  * @since 4.1.3
+ * @deprecated use {@link SimpleSQL} instead of {@link ConnectionQuery}
  */
+@Deprecated
 public class ExtendedSQLException extends SQLException
 {
     private static final long serialVersionUID = 1L;

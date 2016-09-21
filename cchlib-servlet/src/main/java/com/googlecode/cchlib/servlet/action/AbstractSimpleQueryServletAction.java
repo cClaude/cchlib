@@ -6,12 +6,16 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import com.googlecode.cchlib.servlet.ActionServlet;
 import com.googlecode.cchlib.servlet.exception.ServletActionException;
+import com.googlecode.cchlib.sql.SimpleDataSource;
 import com.googlecode.cchlib.sql.SimpleQuery;
 import com.googlecode.cchlib.sql.SimpleUpdate;
 
 /**
  * {@link ServletAction} ready to use {@link SimpleQuery} and {@link SimpleUpdate}
+ *
+ * @deprecated no replacement
  */
+@Deprecated
 public abstract class AbstractSimpleQueryServletAction
     extends AbstractServletAction
 {
@@ -52,15 +56,15 @@ public abstract class AbstractSimpleQueryServletAction
         try {
             nextAction= doSQL();
             }
-        catch( NamingException e ) {
+        catch( final NamingException e ) {
             throw new ServletActionException( e );
             }
-        catch( SQLException e ) {
+        catch( final SQLException e ) {
             throw new ServletActionException( e );
             }
         finally {
-            SimpleQuery.quietClose( simpleQuery );
-            SimpleUpdate.quietClose( simpleUpdate );
+            SimpleDataSource.quietClose( this.simpleQuery );
+            SimpleDataSource.quietClose( this.simpleUpdate );
             }
 
         return nextAction;
@@ -74,10 +78,10 @@ public abstract class AbstractSimpleQueryServletAction
     public SimpleQuery getSimpleQuery()
         throws NamingException
     {
-        if( simpleQuery == null ) {
-            simpleQuery = new SimpleQuery( getDataSource() );
+        if( this.simpleQuery == null ) {
+            this.simpleQuery = new SimpleQuery( getDataSource() );
             }
-        return simpleQuery;
+        return this.simpleQuery;
     }
 
     /**
@@ -88,10 +92,10 @@ public abstract class AbstractSimpleQueryServletAction
     public SimpleUpdate getSimpleUpdate()
         throws NamingException
     {
-        if( simpleUpdate == null ) {
-            simpleUpdate = new SimpleUpdate( getDataSource() );
+        if( this.simpleUpdate == null ) {
+            this.simpleUpdate = new SimpleUpdate( getDataSource() );
             }
-        return simpleUpdate;
+        return this.simpleUpdate;
     }
 
     /**
