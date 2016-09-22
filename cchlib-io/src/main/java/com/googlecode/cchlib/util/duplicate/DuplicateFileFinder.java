@@ -34,6 +34,9 @@ public interface DuplicateFileFinder {
         int getFiles();
     }
 
+    /**
+     * Current status
+     */
     public interface Status extends InitialStatus {
         /**
          * Returns numbers bytes already read by {@link DuplicateFileFinder#find()}
@@ -79,20 +82,45 @@ public interface DuplicateFileFinder {
      */
     boolean isCancelProcess();
 
-    /** add a {@link File} to list of files to check
+    /**
+     * Add a {@link File} to list of files to check
+     *
+     * @param file file to add
      */
     void addFile( File file );
 
-    /** add a collection of files to list of files to check */
+    /**
+     * Add a collection of files to list of files to check
+     *
+     * @param files collection to add
+     */
     void addFiles( Iterable<File> files );
 
+    /**
+     *
+     * @return
+     */
     InitialStatus getInitialStatus();
 
+    /**
+     * Launch finder
+     */
     void find();
 
+    /**
+     * Return {@link Map} of hash code with corresponding files set.
+     * @return {@link Map} of hash code with corresponding files set.
+     */
     Map<String, Set<File>> getFiles();
 
+    /**
+     * Clear internal results
+     */
     void clear();
 
+    /**
+     * Return current status
+     * @return current status
+     */
     Status getStatus();
 }

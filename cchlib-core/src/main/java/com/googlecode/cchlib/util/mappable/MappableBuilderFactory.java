@@ -2,6 +2,8 @@ package com.googlecode.cchlib.util.mappable;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -19,32 +21,38 @@ public interface MappableBuilderFactory extends Serializable
     String getStringNullValue();
 
     /**
-     * TODOC
+     * Returns {@link String} representation for an {@link Iterator}
+     * @return {@link String} representation for an {@link Iterator}
      */
     String getMessageFormatIteratorEntry();
 
     /**
-     * TODOC
+     * Returns {@link String} representation for an {@link Iterable}
+     * @return {@link String} representation for an {@link Iterable}
      */
     String getMessageFormatIterableEntry();
 
     /**
-     * TODOC
+     * Returns {@link String} representation for an {@link Enumeration}
+     * @return {@link String} representation for an {@link Enumeration}
      */
     String getMessageFormatEnumerationEntry();
 
     /**
-     * TODOC
+     * Returns {@link String} representation for an array
+     * @return {@link String} representation for an array
      */
     String getMessageFormatArrayEntry();
 
     /**
-     * TODOC
+     * Returns {@link String} representation for a method
+     * @return {@link String} representation for a method
      */
     String getMessageFormatMethodName();
 
     /**
-     * TODOC
+     * Return {@link Class} collection of expected return type for methods
+     * @return a  {@link Class} collection of expected return type for methods
      */
     Collection<Class<?>> getClasses();
 
@@ -57,6 +65,7 @@ public interface MappableBuilderFactory extends Serializable
 
     /**
      * {@link Pattern} use to select method names to add into map result
+     * @return a {@link Pattern} to select methods
      */
     Pattern getMethodesNamePattern();
 
