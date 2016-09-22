@@ -12,24 +12,9 @@ import java.io.IOException;
 //NOT public
 interface URICachePersistenceManager
 {
-    /**
-    *
-    * @param cacheFile
-    * @param cache
-    * @throws IOException
-    */
     void store( File cacheFile, CacheContent cache )
         throws IOException;
 
-    /**
-    *
-    * @param backupFile
-    * @param tmpCache
-    * @throws IOException
-    * @throws FileNotFoundException
-    * @throws PersistenceFileBadVersionException
-    */
     void load( File cacheFile, CacheContent cache )
         throws FileNotFoundException, IOException, PersistenceFileBadVersionException;
-
 }

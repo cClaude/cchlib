@@ -110,7 +110,7 @@ public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICach
             ) throws IOException, PersistenceFileBadVersionException
     {
 
-        for(;;) {
+        for(;;) { // NOSONAR
             // First line
             final URI  uri;
             String     line = reader.readLine();

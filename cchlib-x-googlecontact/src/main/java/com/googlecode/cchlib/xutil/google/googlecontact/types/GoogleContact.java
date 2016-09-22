@@ -418,8 +418,8 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
         this.events.add( event );
     }
 
-    public static final GoogleContactType newGoogleContactType( final Class<?> clazz )
-            throws IllegalArgumentException // NOSONAR
+    public static final GoogleContactType newGoogleContactType( final Class<?> clazz ) // NOSONAR
+            throws IllegalArgumentException
     {
         if( BasicEntry.class.isAssignableFrom( clazz ) ) {
             if( IMEntry.class.isAssignableFrom( clazz ) ) {

@@ -23,5 +23,5 @@ public interface QueryHandler<T>
      * @throws SQLException
      * @throws QueryHandlerException
      */
-    T handle( ResultSet resultSet ) throws SQLException, QueryHandlerException;
+    T handle( ResultSet resultSet ) throws SQLException, QueryHandlerException; // NOSONAR
 }

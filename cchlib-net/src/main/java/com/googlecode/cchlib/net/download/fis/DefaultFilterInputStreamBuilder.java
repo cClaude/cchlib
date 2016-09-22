@@ -79,9 +79,7 @@ public class DefaultFilterInputStreamBuilder
         try {
             final ImageIOFileData infos = f.geImageIOFileData();
 
-//            dURL.setProperty( "Dimension", infos.getDimension() );
             dURL.setProperty( DIMENSION, infos.getDimension() );
-//            dURL.setProperty( "FormatName", infos.getFormatName() );
             dURL.setProperty( FORMAT_NAME, infos.getFormatName() );
             }
         catch( final IllegalStateException e ) {
@@ -91,7 +89,6 @@ public class DefaultFilterInputStreamBuilder
             LOGGER.warn( e );
             }
 
-//      dURL.setProperty( "HashCode",  f.getHashString() );
         dURL.setProperty( HASH_CODE,  f.getHashString() );
     }
 }

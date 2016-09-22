@@ -31,7 +31,7 @@ public class GoogleContactHeaderFactory {
         @Override
         public Method getMethod()
         {
-            return method;
+            return this.method;
         }
 
         @Override
@@ -39,7 +39,7 @@ public class GoogleContactHeaderFactory {
         {
             final StringBuilder builder = new StringBuilder();
             builder.append( "HeaderMethodContenerImpl [method=" );
-            builder.append( method );
+            builder.append( this.method );
             builder.append( ']' );
             return builder.toString();
         }
@@ -83,58 +83,58 @@ public class GoogleContactHeaderFactory {
         @Override
         public String getHeader()
         {
-            return header;
+            return this.header;
         }
 
         @Override
         public String getPrefix()
         {
-            return prefix;
+            return this.prefix;
         }
 
         @Override
         public int getPosition()
         {
-            return position;
+            return this.position;
         }
 
         @Override
         public String getSuffix()
         {
-            return suffix;
+            return this.suffix;
         }
 
         @Override
         public Method getMethod()
         {
-            return customTypeMethodContener.getMethod();
+            return this.customTypeMethodContener.getMethod();
         }
 
         @Override
         public void put( final int index, final HeaderMethodContener methodContener )
         {
-            innerMethodContener.put( Integer.valueOf( index ), methodContener );
+            this.innerMethodContener.put( Integer.valueOf( index ), methodContener );
         }
         @Override
         public HeaderMethodContener get( final int index )
         {
-            return innerMethodContener.get( Integer.valueOf( index ) );
+            return this.innerMethodContener.get( Integer.valueOf( index ) );
         }
         @Override
         public int size()
         {
-            return innerMethodContener.size();
+            return this.innerMethodContener.size();
         }
         @Override
         public Iterator<HeaderMethodContener> iterator()
         {
-            return innerMethodContener.values().iterator();
+            return this.innerMethodContener.values().iterator();
         }
 
         @Override
         public TypeInfo getTypeInfo()
         {
-            return typeInfo;
+            return this.typeInfo;
         }
     }
 
@@ -153,18 +153,18 @@ public class GoogleContactHeaderFactory {
     {
         for( int index = 0; index<headers.length; ) {
             final String header = headers[ index ];
-            final AnalyserMethodContener methodContener = findAnyAnalyserMethodContener( googleContactAnalyser.getTypeInfo(), header );
+            final AnalyserMethodContener methodContener = findAnyAnalyserMethodContener( this.googleContactAnalyser.getTypeInfo(), header );
 
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( "findMethodContener[" + header + "] -> " + methodContener.getMethod() );
             }
 
             assert methodContener != null;
-            assert methodContener.getMethod() != null;
-            assert methodContener.getMethod().getParameterTypes().length == 1;
+            assert methodContener.getMethod() != null; // NOSONAR
+            assert methodContener.getMethod().getParameterTypes().length == 1; // NOSONAR
 
             if( methodContener instanceof AnalyserCustomTypeMethodContener ) {
-                assert !methodContener.getMethod().getParameterTypes()[ 0 ].equals( String.class );
+                assert !methodContener.getMethod().getParameterTypes()[ 0 ].equals( String.class ); // NOSONAR
 
                 final HeaderCustomTypeMethodContener headerCustomTypeMethodContener = newHeaderCustomTypeMethodContener( header, methodContener );
 
@@ -172,18 +172,16 @@ public class GoogleContactHeaderFactory {
 
                 index += parameterCount;
            } else if( methodContener.getMethod().getDeclaringClass().isAssignableFrom( GoogleContact.class ) ) {
-//                methodContener.addIndex( index );
+                assert this.indexMethodConteners.get( Integer.valueOf( index ) ) == null; // NOSONAR
 
-                //mainMethodConteners.add( methodContener );
-                assert indexMethodConteners.get( Integer.valueOf( index ) ) == null;
-                indexMethodConteners.put( Integer.valueOf( index ), newHeaderMethodContener( methodContener ) );
+                this.indexMethodConteners.put( Integer.valueOf( index ), newHeaderMethodContener( methodContener ) );
                 index++;
             } else {
                throw new IllegalStateException( "can not handle header index = " + index );
            }
         }
 
-        assert indexMethodConteners.size() == headers.length;
+        assert this.indexMethodConteners.size() == headers.length; // NOSONAR
     }
 
     private int addCustomType(
@@ -195,8 +193,8 @@ public class GoogleContactHeaderFactory {
         final TypeInfo typeInfo       = customTypeMethodContener.getTypeInfo();
         final int      parameterCount = typeInfo.getParameterCount();
 
-        assert indexMethodConteners.get( Integer.valueOf( index ) ) == null;
-        indexMethodConteners.put( Integer.valueOf( index ), customTypeMethodContener );
+        assert this.indexMethodConteners.get( Integer.valueOf( index ) ) == null; // NOSONAR
+        this.indexMethodConteners.put( Integer.valueOf( index ), customTypeMethodContener );
 
         for( int i = 0; i<parameterCount; i++ ) {
             final Matcher matcher = HEADER_PATTERN.matcher( headers [ index + i ] );
@@ -207,13 +205,13 @@ public class GoogleContactHeaderFactory {
 
             final AnalyserMethodContener mc = findAnalyserMethodContener( typeInfo, matcher.group( SUFFIX_MATCHER_INDEX ) );
 
-            assert mc != null : "Method for [" + matcher.group( SUFFIX_MATCHER_INDEX ) + "] not found ! Line : " + headers [ index + i ];
+            assert mc != null : "Method for [" + matcher.group( SUFFIX_MATCHER_INDEX ) + "] not found ! Line : " + headers [ index + i ]; // NOSONAR
 
             customTypeMethodContener.put( i, newHeaderMethodContener( mc ) );
 
             if( i != 0 ) {
-                assert indexMethodConteners.get( Integer.valueOf( index + i ) ) == null;
-                indexMethodConteners.put( Integer.valueOf( index + i ), NULL_CONTENER );
+                assert this.indexMethodConteners.get( Integer.valueOf( index + i ) ) == null; // NOSONAR
+                this.indexMethodConteners.put( Integer.valueOf( index + i ), NULL_CONTENER );
             }
         }
 
@@ -283,7 +281,7 @@ public class GoogleContactHeaderFactory {
                         );
             }
 
-            assert customTypeMethodContener.isSuffixValid( matcher.group( SUFFIX_MATCHER_INDEX ) );
+            assert customTypeMethodContener.isSuffixValid( matcher.group( SUFFIX_MATCHER_INDEX ) ); // NOSONAR
 
             return customTypeMethodContener;
         } else {
@@ -291,7 +289,10 @@ public class GoogleContactHeaderFactory {
         }
     }
 
-    public static GoogleContactHeader newGoogleContactHeader( final String[] headers ) throws GoogleContactFactoryException {
+    public static GoogleContactHeader newGoogleContactHeader(
+            final String[] headers
+            ) throws GoogleContactFactoryException
+    {
         final GoogleContactHeaderFactory factory = new GoogleContactHeaderFactory( headers );
 
         return new GoogleContactHeader() {
@@ -300,7 +301,7 @@ public class GoogleContactHeaderFactory {
             @Override
             public Map<Integer,HeaderMethodContener> getIndexMethodConteners()
             {
-                   return unmodifiableMapIndexMethodConteners;
+                   return this.unmodifiableMapIndexMethodConteners;
             }
         };
     }

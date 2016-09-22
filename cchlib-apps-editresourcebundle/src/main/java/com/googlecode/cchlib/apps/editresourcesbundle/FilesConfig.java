@@ -53,7 +53,7 @@ public class FilesConfig implements Serializable
     {
         setNumberOfFiles( filesConfig.numberOfFiles );
 
-        this.fileObjects              = Arrays.copyOf( filesConfig.fileObjects, numberOfFiles );
+        this.fileObjects              = Arrays.copyOf( filesConfig.fileObjects, this.numberOfFiles );
         this.fileType                 = filesConfig.fileType;
         this.formattedPropertiesStore = filesConfig.formattedPropertiesStore;
         this.useLeftHasDefault        = filesConfig.useLeftHasDefault;
@@ -74,18 +74,18 @@ public class FilesConfig implements Serializable
 
             final int min = (numberOfFiles > oldArray.length) ? oldArray.length : numberOfFiles;
 
-            System.arraycopy( oldArray, 0, fileObjects, 0, min );
+            System.arraycopy( oldArray, 0, this.fileObjects, 0, min );
             }
     }
 
     public int getNumberOfFiles()
     {
-        return numberOfFiles ;
+        return this.numberOfFiles ;
     }
 
     public void clear()
     {
-        this.fileObjects = new FileObject[ numberOfFiles ];
+        this.fileObjects = new FileObject[ this.numberOfFiles ];
     }
 
     /**
@@ -132,7 +132,7 @@ public class FilesConfig implements Serializable
      */
     public FileType getFileType()
     {
-        return fileType;
+        return this.fileType;
     }
 
     /**
@@ -145,7 +145,7 @@ public class FilesConfig implements Serializable
 
     public boolean isUseLeftHasDefault()
     {
-        return useLeftHasDefault;
+        return this.useLeftHasDefault;
     }
 
     /**
@@ -158,29 +158,29 @@ public class FilesConfig implements Serializable
 
     public EnumSet<FormattedProperties.Store> getFormattedPropertiesStore()
     {
-        return formattedPropertiesStore;
+        return this.formattedPropertiesStore;
     }
 
     public void setFormattedPropertiesStore(
         final EnumSet<FormattedProperties.Store> storeOptions
         )
     {
-        formattedPropertiesStore = storeOptions;
+        this.formattedPropertiesStore = storeOptions;
     }
 
     public void add( final FormattedProperties.Store storeOption )
     {
-        formattedPropertiesStore.add( storeOption );
+        this.formattedPropertiesStore.add( storeOption );
     }
 
     public void remove( final FormattedProperties.Store storeOption )
     {
-        formattedPropertiesStore.remove( storeOption );
+        this.formattedPropertiesStore.remove( storeOption );
     }
 
     public boolean isShowLineNumbers()
     {
-        return showLineNumbers;
+        return this.showLineNumbers;
     }
 
     public void setShowLineNumbers(final boolean showLineNumbers)
@@ -214,7 +214,7 @@ public class FilesConfig implements Serializable
         throws  FileNotFoundException,
                 IOException
     {
-        switch( fileType )
+        switch( this.fileType )
         {
             case PROPERTIES:
                 privateLoadProperties();
@@ -280,7 +280,7 @@ public class FilesConfig implements Serializable
         final FormattedCustomProperties cprop = new FormattedCustomProperties(
                 this.getFileObject( index ),
                 defaults,
-                formattedPropertiesStore
+                this.formattedPropertiesStore
                 );
         cprop.load();
     }
@@ -307,16 +307,16 @@ public class FilesConfig implements Serializable
     {
         final int prime = 31; // $codepro.audit.disable numericLiterals
         int result = 1;
-        result = (prime * result) + Arrays.hashCode( fileObjects );
+        result = (prime * result) + Arrays.hashCode( this.fileObjects );
         result = (prime * result)
-                + ((fileType == null) ? 0 : fileType.hashCode());
+                + ((this.fileType == null) ? 0 : this.fileType.hashCode());
         result = (prime
                 * result)
-                + ((formattedPropertiesStore == null) ? 0
-                        : formattedPropertiesStore.hashCode());
-        result = (prime * result) + numberOfFiles;
-        result = (prime * result) + (showLineNumbers ? 1231 : 1237); // $codepro.audit.disable numericLiterals
-        result = (prime * result) + (useLeftHasDefault ? 1231 : 1237); // $codepro.audit.disable numericLiterals
+                + ((this.formattedPropertiesStore == null) ? 0
+                        : this.formattedPropertiesStore.hashCode());
+        result = (prime * result) + this.numberOfFiles;
+        result = (prime * result) + (this.showLineNumbers ? 1231 : 1237); // $codepro.audit.disable numericLiterals
+        result = (prime * result) + (this.useLeftHasDefault ? 1231 : 1237); // $codepro.audit.disable numericLiterals
         return result;
     }
 
@@ -333,27 +333,27 @@ public class FilesConfig implements Serializable
             return false;
         }
         final FilesConfig other = (FilesConfig)obj;
-        if( !Arrays.equals( fileObjects, other.fileObjects ) ) {
+        if( !Arrays.equals( this.fileObjects, other.fileObjects ) ) {
             return false;
         }
-        if( fileType != other.fileType ) {
+        if( this.fileType != other.fileType ) {
             return false;
         }
-        if( formattedPropertiesStore == null ) {
+        if( this.formattedPropertiesStore == null ) {
             if( other.formattedPropertiesStore != null ) {
                 return false;
             }
-        } else if( !formattedPropertiesStore
+        } else if( !this.formattedPropertiesStore
                 .equals( other.formattedPropertiesStore ) ) {
             return false;
         }
-        if( numberOfFiles != other.numberOfFiles ) {
+        if( this.numberOfFiles != other.numberOfFiles ) {
             return false;
         }
-        if( showLineNumbers != other.showLineNumbers ) {
+        if( this.showLineNumbers != other.showLineNumbers ) {
             return false;
         }
-        if( useLeftHasDefault != other.useLeftHasDefault ) {
+        if( this.useLeftHasDefault != other.useLeftHasDefault ) {
             return false;
         }
         return true;

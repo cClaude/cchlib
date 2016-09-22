@@ -22,14 +22,7 @@ public abstract class AbstractSimpleQueryServletAction
     private SimpleQuery simpleQuery = null;
     private SimpleUpdate simpleUpdate = null;
 
-    /**
-     * TODOC
-     * @return TODOC
-     * @throws ServletActionException
-     * @throws NamingException
-     * @throws SQLException
-     */
-    public abstract ActionServlet.Action doSQL()
+    public abstract ActionServlet.Action doSQL() // NOSONAR
         throws  ServletActionException,
                 NamingException,
                 SQLException;
@@ -48,18 +41,14 @@ public abstract class AbstractSimpleQueryServletAction
      * Free resources allocated by SimpleQuery or SimpleUpdate if needed
      */
     @Override
-    final
-    public ActionServlet.Action doAction() throws ServletActionException
+    public ActionServlet.Action doAction() throws ServletActionException // NOSONAR
     {
         ActionServlet.Action nextAction;
 
         try {
             nextAction= doSQL();
             }
-        catch( final NamingException e ) {
-            throw new ServletActionException( e );
-            }
-        catch( final SQLException e ) {
+        catch( final NamingException | SQLException e ) {
             throw new ServletActionException( e );
             }
         finally {
@@ -106,7 +95,7 @@ public abstract class AbstractSimpleQueryServletAction
      * @throws NamingException if any
      * @see SimpleUpdate#doUpdate(String)
      */
-    public int doUpdate( final String sql )
+    public int doUpdate( final String sql ) // NOSONAR
         throws SQLException, NamingException
     {
         log( "doUpdate: " + sql );
@@ -122,7 +111,7 @@ public abstract class AbstractSimpleQueryServletAction
      * @throws NamingException if any
      * @see SimpleQuery#executeQuery(String)
      */
-    public ResultSet executeQuery( final String sql )
+    public ResultSet executeQuery( final String sql ) // NOSONAR
         throws SQLException, NamingException
     {
         log( "executeQuery: " + sql );

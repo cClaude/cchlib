@@ -243,13 +243,8 @@ public class FindAccessoryImpl
     {
         final String command = event.getActionCommand();
 
-        if( command == null ) {
-            return; // Can this happen? Probably not. Call me paranoid.
-            }
-        if( command.equals( JFileChooser.APPROVE_SELECTION ) ) {
-            quit();
-            }
-        else if( command.equals( JFileChooser.CANCEL_SELECTION ) ) {
+        if( JFileChooser.APPROVE_SELECTION.equals( command )
+                || JFileChooser.CANCEL_SELECTION .equals( command) ) {
             quit();
             }
     }
@@ -546,7 +541,7 @@ public class FindAccessoryImpl
             return this.searchTabs.newFind();
             }
 
-        return null;
+        return null; // NOSONAR
     }
 
     /**

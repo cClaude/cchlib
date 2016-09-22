@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -25,6 +26,7 @@ public final class PreferencesDialogWB // NOSONAR
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 4L;
+    private static final Logger LOGGER = Logger.getLogger( PreferencesDialogWB.class );
 
     private final JPanel contentPanel;
 
@@ -44,7 +46,7 @@ public final class PreferencesDialogWB // NOSONAR
     /**
      * Create the frame
      */
-    public PreferencesDialogWB( final Dimension mainWindowDimension )
+    public PreferencesDialogWB( final Dimension mainWindowDimension ) // NOSONAR
     {
         super();
 
@@ -55,17 +57,17 @@ public final class PreferencesDialogWB // NOSONAR
         this.contentPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         setContentPane( this.contentPanel );
 
-        final GridBagLayout gbl_contentPanel = new GridBagLayout();
+        final GridBagLayout gbl_contentPanel = new GridBagLayout(); // NOSONAR
         gbl_contentPanel.columnWidths = new int[]{40, 484, 40, 0};
         gbl_contentPanel.rowHeights = new int[]{315, 23, 0};
         gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
         gbl_contentPanel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 
-        this.contentPanel.setLayout(gbl_contentPanel);
-        {
+        this.contentPanel.setLayout(gbl_contentPanel); // NOSONAR
+        { // NOSONAR
             this.panel = new PreferencesPanelWB( this );
 
-            final GridBagConstraints gbc_panel = new GridBagConstraints();
+            final GridBagConstraints gbc_panel = new GridBagConstraints(); // NOSONAR
             gbc_panel.fill = GridBagConstraints.BOTH;
             gbc_panel.gridwidth = 3;
             gbc_panel.insets = new Insets(0, 0, 5, 0);
@@ -73,21 +75,21 @@ public final class PreferencesDialogWB // NOSONAR
             gbc_panel.gridy = 0;
             this.contentPanel.add(this.panel, gbc_panel);
         }
-        {
+        { // NOSONAR
             this.jButtonCancel = new JButton("Cancel");
-            final GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonCancel = new GridBagConstraints(); // NOSONAR
             gbc_jButtonCancel.fill = GridBagConstraints.BOTH;
             gbc_jButtonCancel.insets = new Insets(0, 0, 0, 5);
             gbc_jButtonCancel.gridx = 0;
             gbc_jButtonCancel.gridy = 1;
             this.contentPanel.add(this.jButtonCancel, gbc_jButtonCancel);
-            this.jButtonCancel.addActionListener((final ActionEvent e) -> {
-                PreferencesDialogWB.this.dispose();
-            });
+            this.jButtonCancel.addActionListener(
+                    (final ActionEvent e) -> PreferencesDialogWB.this.dispose()
+                    );
         }
-        {
+        { // NOSONAR
             this.jButtonSave = new JButton("Save");
-            final GridBagConstraints gbc_jButtonSave = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonSave = new GridBagConstraints(); // NOSONAR
             gbc_jButtonSave.fill = GridBagConstraints.BOTH;
             gbc_jButtonSave.gridx = 2;
             gbc_jButtonSave.gridy = 1;
@@ -135,7 +137,7 @@ public final class PreferencesDialogWB // NOSONAR
             prefs.save();
         }
         catch( final IOException e ) {
-            e.printStackTrace();
+            LOGGER.error( "Pref error", e );
 
             DialogHelper.showMessageExceptionDialog(
                     PreferencesDialogWB.this,

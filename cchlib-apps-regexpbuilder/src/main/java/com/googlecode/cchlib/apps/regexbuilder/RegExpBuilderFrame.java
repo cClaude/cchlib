@@ -17,8 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import com.googlecode.cchlib.awt.DesktopHelper;
 import com.googlecode.cchlib.awt.PlatformDesktopNotSupportedException;
 
@@ -26,7 +26,7 @@ import com.googlecode.cchlib.awt.PlatformDesktopNotSupportedException;
  *
  *
  */
-public class RegExpBuilderFrame
+public class RegExpBuilderFrame // NOSONAR
     extends JFrame
         implements HyperlinkListener
 {
@@ -42,24 +42,23 @@ public class RegExpBuilderFrame
 
         try {
             setIconImage(Toolkit.getDefaultToolkit().getImage(RegExpBuilderPanel.class.getResource("icon.gif")));
-            //setIconImage(Toolkit.getDefaultToolkit().getImage(RegExpBuilderWB.class.getResource("com/googlecode/cchlib/apps/regexbuilder/icon.gif")));
             }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             e.printStackTrace();
             }
 
         try {
             initComponents();
             }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             e.printStackTrace();
             }
     }
 
     private void initComponents()
     {
-        BorderLayout    borderLayout1         = new BorderLayout();
-        JPanel contentPane = (JPanel)this.getContentPane();
+        final BorderLayout    borderLayout1         = new BorderLayout();
+        final JPanel contentPane = (JPanel)this.getContentPane();
         contentPane.setLayout( borderLayout1 );
         this.setFont( new java.awt.Font( "Dialog", 0, 12 ) );
         this.setSize( new Dimension(720, 520) );
@@ -67,8 +66,8 @@ public class RegExpBuilderFrame
 
         contentPane.setPreferredSize( new Dimension( 438, 142 ) );
 
-        panel = new XRegExpBuilderPanel();
-        getContentPane().add(panel, BorderLayout.CENTER);
+        this.panel = new XRegExpBuilderPanel();
+        getContentPane().add(this.panel, BorderLayout.CENTER);
     }
 
     /*
@@ -243,7 +242,7 @@ public class RegExpBuilderFrame
 */
     // Overridden so we can exit when window is closed
     @Override
-    protected void processWindowEvent( WindowEvent e )
+    protected void processWindowEvent( final WindowEvent e )
     {
         super.processWindowEvent( e );
         if( e.getID() == WindowEvent.WINDOW_CLOSING ) {
@@ -252,7 +251,7 @@ public class RegExpBuilderFrame
     }
 
 
-    private static class XRegExpBuilderPanel extends RegExpBuilderPanel
+    private static class XRegExpBuilderPanel extends RegExpBuilderPanel // NOSONAR
     {
         private static final long serialVersionUID = 1L;
 
@@ -278,7 +277,7 @@ public class RegExpBuilderFrame
      * and "\\\\" matches a single literal backslash.
      */
     @Override
-    public void btnMatch_actionPerformed( ActionEvent e )
+    public void btnMatch_actionPerformed( final ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
         final JTextArea textSubject         = getTextSubject();
@@ -288,7 +287,6 @@ public class RegExpBuilderFrame
         textReplaceResults.setText( "n/a" );
         // Calling the Pattern.matches static method is an alternative way to
         // achieve the same
-        // if (Pattern.matches(textRegex.getText(), textSubject.getText())) {
         try {
             if( textSubject.getText().matches( textRegex.getText() ) ) {
                 textResults.setText( "The regex matches the entire subject" );
@@ -296,7 +294,7 @@ public class RegExpBuilderFrame
                 textResults.setText( "The regex does not match the entire subject" );
             }
         }
-        catch( PatternSyntaxException ex ) {
+        catch( final PatternSyntaxException ex ) {
             textResults.setText(
                     "You have an error in your regular expression:\n"
                             + ex.getDescription()
@@ -336,7 +334,7 @@ public class RegExpBuilderFrame
      * string literals as well.
      */
     @Override
-    public void btnReplace_actionPerformed( ActionEvent e )
+    public void btnReplace_actionPerformed( final ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
         final JTextArea textSubject         = getTextSubject();
@@ -353,7 +351,7 @@ public class RegExpBuilderFrame
                         );
             textResults.setText( "n/a" );
         }
-        catch( PatternSyntaxException ex ) {
+        catch( final PatternSyntaxException ex ) {
             // textRegex does not contain a valid regular expression
             textResults.setText(
                     "You have an error in your regular expression:\n"
@@ -361,7 +359,7 @@ public class RegExpBuilderFrame
                             );
             textReplaceResults.setText( "n/a" );
         }
-        catch( IllegalArgumentException ex ) {
+        catch( final IllegalArgumentException ex ) {
             // textReplace contains inapropriate dollar signs
             textResults.setText(
                     "You have an error in the replacement text:\n"
@@ -369,7 +367,7 @@ public class RegExpBuilderFrame
                     );
             textReplaceResults.setText( "n/a" );
         }
-        catch( IndexOutOfBoundsException ex ) {
+        catch( final IndexOutOfBoundsException ex ) {
             // textReplace contains a backreference that does not exist
             // (e.g. $4 if there are only three groups)
             textResults.setText(
@@ -421,7 +419,7 @@ public class RegExpBuilderFrame
      * completely.
      */
     @Override
-    public void btnSplit_actionPerformed( ActionEvent e )
+    public void btnSplit_actionPerformed( final ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
         final JTextArea textSubject         = getTextSubject();
@@ -437,7 +435,7 @@ public class RegExpBuilderFrame
                             )
                         );
         }
-        catch( PatternSyntaxException ex ) {
+        catch( final PatternSyntaxException ex ) {
             // textRegex does not contain a valid regular expression
             textResults.setText(
                     "You have an error in your regular expression:\n"
@@ -527,7 +525,7 @@ public class RegExpBuilderFrame
      * string by calling regexMatcher.reset(subjectString).
      */
     @Override
-    public void btnObjects_actionPerformed( ActionEvent e )
+    public void btnObjects_actionPerformed( final ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
         final JTextArea textSubject         = getTextSubject();
@@ -535,30 +533,30 @@ public class RegExpBuilderFrame
         final JTextArea textResults         = getTextResults();
 //        final JTextArea textReplace         = getTextReplace();
 
-        compiledRegex = null;
+        this.compiledRegex = null;
         textReplaceResults.setText( "n/a" );
 
         try {
             // If you do not want to specify any options (this is the case when
             // all checkboxes in this demo are unchecked), you can omit the
             // second parameter for the Pattern.compile() class factory.
-            compiledRegex = Pattern.compile(
+            this.compiledRegex = Pattern.compile(
                     textRegex.getText(),
                     getRegexOptions()
                     );
             // Create the object that will search the subject string
             // using the regular expression.
-            regexMatcher = compiledRegex.matcher( textSubject.getText() );
+            this.regexMatcher = this.compiledRegex.matcher( textSubject.getText() );
             textResults.setText( "Pattern and Matcher objects created." );
         }
-        catch( PatternSyntaxException ex ) {
+        catch( final PatternSyntaxException ex ) {
             // textRegex does not contain a valid regular expression
             textResults.setText(
                     "You have an error in your regular expression:\n"
                             + ex.getDescription()
                             );
         }
-        catch( IllegalArgumentException ex ) { // $codepro.audit.disable logExceptions
+        catch( final IllegalArgumentException ex ) { // $codepro.audit.disable logExceptions
             // This exception indicates a bug in getRegexOptions
             textResults.setText(
                     "Undefined bit values are set in the regex options"
@@ -581,58 +579,58 @@ public class RegExpBuilderFrame
         try {
             textResults.setText(
                     "Index of the first character in the match: "
-                    + Integer.toString( regexMatcher.start() )
+                    + Integer.toString( this.regexMatcher.start() )
                     + "\n"
                     );
             textResults.append(
                     "Index of the first character after the match: "
-                            + Integer.toString( regexMatcher.end() )
+                            + Integer.toString( this.regexMatcher.end() )
                             + "\n"
                             );
             textResults.append(
                     "Length of the match: "
                     + Integer.toString(
-                            regexMatcher.end()
-                            - regexMatcher.start()
+                            this.regexMatcher.end()
+                            - this.regexMatcher.start()
                             )
                     + "\n"
                     );
-            textResults.append( "Matched text: " + regexMatcher.group() + "\n" );
+            textResults.append( "Matched text: " + this.regexMatcher.group() + "\n" );
 
-            if( regexMatcher.groupCount() > 0 ) {
+            if( this.regexMatcher.groupCount() > 0 ) {
                 // Capturing parenthesis are numbered 1..groupCount()
                 // group number zero is the entire regex match
-                for( int i = 1; i <= regexMatcher.groupCount(); i++ ) {
-                    String groupLabel ="Group " + Integer.toString( i );
-                    if( regexMatcher.start( i ) < 0 ) {
+                for( int i = 1; i <= this.regexMatcher.groupCount(); i++ ) {
+                    final String groupLabel ="Group " + Integer.toString( i );
+                    if( this.regexMatcher.start( i ) < 0 ) {
                         textResults
                                 .append( groupLabel
                                         + " did not participate in the overall match\n" );
                     } else {
                         textResults.append( groupLabel + " start: "
-                                + Integer.toString( regexMatcher.start( i ) )
+                                + Integer.toString( this.regexMatcher.start( i ) )
                                 + "\n" );
                         textResults.append( groupLabel + " end: "
-                                + Integer.toString( regexMatcher.end( i ) )
+                                + Integer.toString( this.regexMatcher.end( i ) )
                                 + "\n" );
                         textResults.append( groupLabel
                                 + " length: "
-                                + Integer.toString( regexMatcher.end( i )
-                                        - regexMatcher.start( i ) ) + "\n" );
+                                + Integer.toString( this.regexMatcher.end( i )
+                                        - this.regexMatcher.start( i ) ) + "\n" );
                         textResults.append( groupLabel + " matched text: "
-                                + regexMatcher.group( i ) + "\n" );
+                                + this.regexMatcher.group( i ) + "\n" );
                     }
                 }
             }
         }
-        catch( IllegalStateException ex ) { // $codepro.audit.disable logExceptions
+        catch( final IllegalStateException ex ) { // $codepro.audit.disable logExceptions
             // Querying the results of a Matcher object before calling find()
             // or after a call to find() returned False, throws an
             // IllegalStateException
             // This indicates a bug in our application
             textResults.setText( "Cannot print match results if there aren't any" );
         }
-        catch( IndexOutOfBoundsException ex ) { // $codepro.audit.disable logExceptions
+        catch( final IndexOutOfBoundsException ex ) { // $codepro.audit.disable logExceptions
             // Querying the results of groups (capturing parenthesis or
             // backreferences)
             // that do not exist throws an IndexOutOfBoundsException
@@ -652,7 +650,7 @@ public class RegExpBuilderFrame
      * btnCreateObjects.
      */
     @Override
-    public void btnNextMatch_actionPerformed( ActionEvent e )
+    public void btnNextMatch_actionPerformed( final ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
 //        final JTextArea textSubject         = getTextSubject();
@@ -661,7 +659,7 @@ public class RegExpBuilderFrame
 //        final JTextArea textReplace         = getTextReplace();
 
         textReplaceResults.setText( "n/a" );
-        if( regexMatcher == null ) {
+        if( this.regexMatcher == null ) {
             textResults
                     .setText( "Please click Create Objects to create the Matcher object" );
         } else {
@@ -671,7 +669,7 @@ public class RegExpBuilderFrame
             // search using
             // the Matcher or if the previous search did not find any (further)
             // matches.
-            if( regexMatcher.find() ) {
+            if( this.regexMatcher.find() ) {
                 printMatch();
             } else {
                 // This also resets the starting position for find() to the
@@ -697,7 +695,7 @@ public class RegExpBuilderFrame
      * text.
      */
     @Override
-    public void btnObjReplace_actionPerformed( ActionEvent e )
+    public void btnObjReplace_actionPerformed( final ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
 //        final JTextArea textSubject         = getTextSubject();
@@ -705,22 +703,22 @@ public class RegExpBuilderFrame
         final JTextArea textResults         = getTextResults();
         final JTextArea textReplace         = getTextReplace();
 
-        if( regexMatcher == null ) {
+        if( this.regexMatcher == null ) {
             textResults
                     .setText( "Please click Create Objects to create the Matcher object" );
         } else {
             try {
-                textReplaceResults.setText( regexMatcher
+                textReplaceResults.setText( this.regexMatcher
                         .replaceAll( textReplace.getText() ) );
             }
-            catch( IllegalArgumentException ex ) {
+            catch( final IllegalArgumentException ex ) {
                 // textReplace contains inapropriate dollar signs
                 textResults
                         .setText( "You have an error in the replacement text:\n"
                                 + ex.getMessage() );
                 textReplaceResults.setText( "n/a" );
             }
-            catch( IndexOutOfBoundsException ex ) {
+            catch( final IndexOutOfBoundsException ex ) {
                 // textReplace contains a backreference that does not exist
                 // (e.g. $4 if there are only three groups)
                 textResults
@@ -768,7 +766,7 @@ public class RegExpBuilderFrame
      * match.)
      */
     @Override
-    public void btnAdvancedReplace_actionPerformed( ActionEvent e )
+    public void btnAdvancedReplace_actionPerformed( final ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
 //        final JTextArea textSubject         = getTextSubject();
@@ -776,13 +774,13 @@ public class RegExpBuilderFrame
         final JTextArea textResults         = getTextResults();
 //        final JTextArea textReplace         = getTextReplace();
 
-        if( regexMatcher == null ) {
+        if( this.regexMatcher == null ) {
             textResults
                     .setText( "Please click Create Objects to create the Matcher object" );
         } else {
             // We will store the replacement text here
-            StringBuffer replaceResult = new StringBuffer();
-            while( regexMatcher.find() ) {
+            final StringBuffer replaceResult = new StringBuffer();
+            while( this.regexMatcher.find() ) {
                 try {
                     // In this example, we simply replace the regex match with
                     // the same text in uppercase.
@@ -790,10 +788,10 @@ public class RegExpBuilderFrame
                     // to substitute $1, $2, etc.
                     // with the contents of the corresponding capturing
                     // parenthesis just like replaceAll()
-                    regexMatcher.appendReplacement( replaceResult, regexMatcher
+                    this.regexMatcher.appendReplacement( replaceResult, this.regexMatcher
                             .group().toUpperCase() ); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
                 }
-                catch( IllegalStateException ex ) { // $codepro.audit.disable logExceptions
+                catch( final IllegalStateException ex ) { // $codepro.audit.disable logExceptions
                     // appendReplacement() was called without a preceding
                     // successful call to find()
                     // This exception indicates a bug in your source code
@@ -801,14 +799,14 @@ public class RegExpBuilderFrame
                     textReplaceResults.setText( "n/a" );
                     return;
                 }
-                catch( IllegalArgumentException ex ) {
+                catch( final IllegalArgumentException ex ) {
                     // Replacement text contains inapropriate dollar signs
                     textResults.setText( "Error in the replacement text:\n"
                             + ex.getMessage() );
                     textReplaceResults.setText( "n/a" );
                     return;
                 }
-                catch( IndexOutOfBoundsException ex ) {
+                catch( final IndexOutOfBoundsException ex ) {
                     // Replacement text contains a backreference that does not
                     // exist
                     // (e.g. $4 if there are only three groups)
@@ -819,7 +817,7 @@ public class RegExpBuilderFrame
                     return;
                 }
             }
-            regexMatcher.appendTail( replaceResult );
+            this.regexMatcher.appendTail( replaceResult );
             textReplaceResults.setText( replaceResult.toString() );
             textResults.setText( "n/a" );
             // After using appendReplacement and appendTail, the Matcher object
@@ -834,7 +832,7 @@ public class RegExpBuilderFrame
             // Advanced Replace button to observe that appendReplace() will copy
             // the skipped
             // matches unchanged.
-            regexMatcher.reset();
+            this.regexMatcher.reset();
         }
     }
 
@@ -849,7 +847,7 @@ public class RegExpBuilderFrame
      * Note that no Matcher object is used.
      */
     @Override
-    public void btnObjSplit_actionPerformed( ActionEvent e )
+    public void btnObjSplit_actionPerformed( final ActionEvent e )
     {
         final JTextArea textReplaceResults     = getTextReplaceResults();
         final JTextArea textSubject         = getTextSubject();
@@ -858,25 +856,25 @@ public class RegExpBuilderFrame
 //        final JTextArea textReplace         = getTextReplace();
 
         textReplaceResults.setText( "n/a" );
-        if( compiledRegex == null ) {
+        if( this.compiledRegex == null ) {
             textResults
                     .setText( "Please click Create Objects to compile the regular expression" );
         } else {
-            printSplitArray( compiledRegex
+            printSplitArray( this.compiledRegex
                     .split( textSubject.getText() /* , Limit */) );
         }
     }
     }
     @Override // HyperlinkListener
-    public void hyperlinkUpdate( HyperlinkEvent hle )
+    public void hyperlinkUpdate( final HyperlinkEvent hle )
     {
         if( HyperlinkEvent.EventType.ACTIVATED.equals(hle.getEventType()) ) {
-            URL url = hle.getURL();
+            final URL url = hle.getURL();
 
             try {
                 DesktopHelper.browse( url );
                 }
-            catch( PlatformDesktopNotSupportedException e ) {
+            catch( final PlatformDesktopNotSupportedException e ) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 }
