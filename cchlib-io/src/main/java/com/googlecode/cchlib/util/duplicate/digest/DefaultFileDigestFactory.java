@@ -17,13 +17,35 @@ public class DefaultFileDigestFactory implements FileDigestFactory {
     private final String algorithm;
     private final int bufferSize;
 
+    /**
+     * Create a {@link FileDigest} object that based on
+     * specified algorithm and using specified buffer size.
+     *
+     * @param algorithm
+     *      Algorithm name to use to create hash codes
+     *      {@link MessageDigestAlgorithms}
+      * @param bufferSize
+      *     Internal buffer size
+     */
     public DefaultFileDigestFactory( final String algorithm, final int bufferSize )
     {
         this.algorithm = algorithm;
         this.bufferSize = bufferSize;
     }
 
-    public DefaultFileDigestFactory( final MessageDigestAlgorithms algorithm, final int bufferSize )
+    /**
+     * Create a {@link FileDigest} object that based on
+     * specified algorithm and using specified buffer size.
+     *
+     * @param algorithm
+     *      Algorithm to use to create hash codes
+     * @param bufferSize
+      *     Internal buffer size
+     */
+    public DefaultFileDigestFactory(
+            final MessageDigestAlgorithms algorithm,
+            final int                     bufferSize
+            )
     {
         this.algorithm  = algorithm.getAlgorithm();
         this.bufferSize = bufferSize;
@@ -32,6 +54,10 @@ public class DefaultFileDigestFactory implements FileDigestFactory {
     /**
      * Create a {@link FileDigest} object that based on
      * specified algorithm and using default buffer size.
+     *
+     * @param algorithm
+     *      Algorithm name to use to create hash codes
+     *      {@link MessageDigestAlgorithms}
      */
     public DefaultFileDigestFactory( final String algorithm )
     {
@@ -39,10 +65,13 @@ public class DefaultFileDigestFactory implements FileDigestFactory {
     }
 
     /**
-     * Create a {@link FileDigest} object that based on
+      * Create a {@link FileDigest} object that based on
      * specified algorithm and using default buffer size.
+     *
+     * @param algorithm
+     *      Algorithm to use to create hash codes
      */
-    public DefaultFileDigestFactory( final MessageDigestAlgorithms algorithm )
+   public DefaultFileDigestFactory( final MessageDigestAlgorithms algorithm )
     {
         this( algorithm, DEFAULT_BUFFER_SIZE );
     }

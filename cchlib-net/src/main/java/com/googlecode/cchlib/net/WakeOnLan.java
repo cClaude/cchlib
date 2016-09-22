@@ -56,7 +56,7 @@ public class WakeOnLan
      * @throws IllegalArgumentException
      * @throws IOException
      */
-    public void notify( final String macAddress )
+    public void notify( final String macAddress ) // NOSONAR
         throws  UnknownHostException,
                 SocketException,
                 IllegalArgumentException,
@@ -74,7 +74,7 @@ public class WakeOnLan
      * @throws IllegalArgumentException
      * @throws IOException
      */
-    public void notify(
+    public void notify( // NOSONAR
         final String broadcastAddress,
         final String macAddress
         )

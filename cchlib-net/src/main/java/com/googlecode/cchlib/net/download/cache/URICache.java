@@ -265,18 +265,6 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
             }
     }
 
-    /* *
-     * Clear cache in memory, file cache will be updated
-     * according to auto-store status
-     * /
-    synchronized
-    public void clear()
-    {
-        cache.clear();
-
-        autoStore();
-    }*/
-
     /**
      * Set cacheFile for this cache
      * @param cacheFile {@link File} to set
@@ -375,7 +363,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
      * @throws PersistenceFileBadVersionException
      * @see #getCacheFile()
      */
-    public void load() throws FileNotFoundException, IOException
+    public void load() throws FileNotFoundException, IOException // NOSONAR
     {
         synchronized( this.theCache ) {
             try {
@@ -598,7 +586,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
     }
 
     @Override
-    protected void finalize() throws Throwable // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
+    protected void finalize() throws Throwable // NOSONAR $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
     {
         close();
 

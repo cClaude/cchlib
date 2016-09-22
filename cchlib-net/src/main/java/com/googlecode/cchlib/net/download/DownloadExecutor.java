@@ -25,13 +25,13 @@ public class DownloadExecutor
 {
     private static final int TWO_SECONDS = 2 * 1000;
     private final ThreadPoolExecutor pool;
-    //private final MD5FilterInputStreamBuilder downloadFilterBuilder;
     private final DownloadFilterInputStreamBuilder downloadFilterBuilder;
 
     /**
      * Create DownloadExecutor
      *
      * @param downloadMaxThread Max number of parallel threads
+     * @param downloadFilterBuilder
      */
     public DownloadExecutor(
         final int                               downloadMaxThread,
