@@ -35,6 +35,8 @@ public class DuplicateFilesApp
     /**
      * Launch application
      *
+     * @param args Parameters from command line
+     *
      * @throws ParseException
      * @throws FileNotFoundException
      */
