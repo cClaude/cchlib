@@ -25,7 +25,7 @@ public class CLIHelper
     }
 
     @SuppressWarnings("null")
-    public static <T> T exit( final int exitStatus )
+    private static <T> T exit( final int exitStatus )
     {
         System.exit( exitStatus ); // NOSONAR
 
@@ -47,13 +47,16 @@ public class CLIHelper
         printMessage( "" + object );
     }
 
-    public static void printError( final CLIParameters cli, final CLIParametersException cause )
+    public static void printErrorAndExit( final CLIParameters cli, final CLIParametersException clipe )
     {
         final StringBuilder sb = new StringBuilder();
 
-
-        printError( cause.getCliMessage() );
-
+        if( clipe.getParameterName() != null ) {
+            sb.append( clipe.getParameterName() );
+            sb.append( " : " );
+            sb.append( clipe.getCliMessage() );
+        }
+        printError( sb.toString() );
         cli.printHelp();
         exit( 1 );
     }

@@ -2,7 +2,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.util.Arrays;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -33,8 +32,8 @@ public class CLIParameters
     private static final String VERBOSE = "verbose";
 
     private final Options options;
-    private CommandLine commandLine;
-    private Boolean verbose;
+    private CommandLine   commandLine;
+    private Boolean       verbose; // NOSONAR
 
     /**
      * Create {@link CLIParameters}
@@ -231,14 +230,10 @@ public class CLIParameters
             if( file.isDirectory() ) {
                 return file;
             } else {
-//                CLIHelper.printError( "Parameter -" + CLIParameters.DIRECTORIY_TO_SCAN + " is a valid directory" );
-//                return CLIHelper.exit( 1 );
                 throw new CLIParametersException( DIRECTORIY_TO_SCAN, file + " is not a directory" );
             }
-
         } else {
-            CLIHelper.printError( "Parameter -" + CLIParameters.DIRECTORIY_TO_SCAN + " is required" );
-            return CLIHelper.exit( 1 );
+            throw new CLIParametersException( DIRECTORIY_TO_SCAN, "parameter is required" );
         }
     }
 
@@ -253,7 +248,7 @@ public class CLIParameters
         }
     }
 
-    FileFilter getFileFilter()
+    FileFilter getFileFilter() throws CLIParametersException
     {
         /**
          * JSON_STRING = "{\"excludeNames\":[\"Str2\",\"Str1\"]}";
@@ -263,23 +258,28 @@ public class CLIParameters
             final File jsonFileFilterFile = new File( this.commandLine.getOptionValue( JSON_FILE_FILTER_FROM_FILE ) );
 
             try {
-                return Json.load( jsonFileFilterFile, CustomFileFilterConfig.class ).newIntance();
+                return JSONHelper.load( jsonFileFilterFile, CustomFileFilterConfig.class ).newIntance();
             }
-            catch( final IOException e ) {
-                CLIHelper.printError( "Parameter -" + JSON_FILE_FILTER_FROM_FILE + " is not valid", e );
-                return CLIHelper.exit( 1 );
-           }
+            catch( final JSONHelperException e ) {
+                throw new CLIParametersException(
+                        JSON_FILE_FILTER_FROM_FILE,
+                        "Error while reading: " + jsonFileFilterFile,
+                        e );
+            }
         } else if( this.commandLine.hasOption( JSON_FILE_FILTER ) ) {
             final String jsonFileFilter = this.commandLine.getOptionValue( JSON_FILE_FILTER );
 
             try {
-                return Json.fromJSON( jsonFileFilter, CustomFileFilterConfig.class ).newIntance();
+                return JSONHelper.fromJSON( jsonFileFilter, CustomFileFilterConfig.class ).newIntance();
             }
-            catch( final IOException e ) {
-                CLIHelper.printError( "Parameter -" + JSON_FILE_FILTER + " is not valid", e );
-                return CLIHelper.exit( 1 );
+            catch( final JSONHelperException e ) {
+                throw new CLIParametersException(
+                        JSON_FILE_FILTER,
+                        "Error in: " + jsonFileFilter,
+                        e );
             }
         }
+
         return pathname -> true;
     }
 

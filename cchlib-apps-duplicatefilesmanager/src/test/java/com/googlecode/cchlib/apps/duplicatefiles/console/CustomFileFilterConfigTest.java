@@ -25,15 +25,15 @@ public class CustomFileFilterConfigTest
 
         test.setExcludeNames( values );
 
-        final String jsonString = Json.toJSON( test );
+        final String jsonString = JSONHelper.toJSON( test );
 
         Assertions.assertThat( jsonString ).isEqualTo( JSON_STRING );
     }
 
     @Test
-    public void testLoad() throws IOException
+    public void testLoad() throws IOException, JSONHelperException
     {
-        final CustomFileFilterConfig value = Json.fromJSON( JSON_STRING, CustomFileFilterConfig.class );
+        final CustomFileFilterConfig value = JSONHelper.fromJSON( JSON_STRING, CustomFileFilterConfig.class );
 
         final Collection<String> excludeNames = value.getExcludeNames();
         Assertions.assertThat( excludeNames ).contains( STR1 ).contains( STR2 ).hasSize( 2 );

@@ -9,7 +9,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashCompute;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
-import com.googlecode.cchlib.apps.duplicatefiles.console.Json;
+import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
+import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
 
 /**
  * Handle console mode
@@ -42,7 +43,7 @@ public class ConsoleApp
             }
         }
         catch( final CLIParametersException e ) {
-            CLIHelper.printError( cli, e );
+            CLIHelper.printErrorAndExit( cli, e );
         }
     }
 
@@ -57,7 +58,12 @@ public class ConsoleApp
             final List<HashFile>    hashFiles     = instance.getAllHash();
 
             if( jsonFile != null ) {
-                Json.toJSONSafe( jsonFile, hashFiles );
+                try {
+                    JSONHelper.toJSON( jsonFile, hashFiles );
+                }
+                catch( final JSONHelperException e ) {
+                    CLIHelper.printError( "Error while writing JSON result", jsonFile, e );
+                }
             }
         }
     }

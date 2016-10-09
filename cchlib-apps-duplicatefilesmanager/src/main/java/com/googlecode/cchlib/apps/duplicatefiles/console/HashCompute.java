@@ -2,7 +2,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -12,6 +11,9 @@ import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
+/**
+ * Compute hash code of all files (recursive)
+ */
 public class HashCompute
 {
     private final FileDigestFactory fileDigestFactory;
@@ -46,18 +48,29 @@ public class HashCompute
             final File[] files = dir.listFiles( this.fileFilter );
 
             if( files != null ) {
-                for( final File file : files ) {
-                    if( file.isFile() ) {
-                        handleHash( listHashFile, file );
-                    }
-                }
+                handleHashes( listHashFile, files );
             }
         }
 
         return listHashFile;
     }
 
-    private void handleHash( final List<HashFile> listHashFile, final File file ) throws NoSuchAlgorithmException
+    private void handleHashes( //
+        final List<HashFile> listHashFile, //
+        final File[]         files //
+        ) throws NoSuchAlgorithmException
+    {
+        for( final File file : files ) {
+            if( file.isFile() ) {
+                handleHash( listHashFile, file );
+            }
+        }
+    }
+
+    private void handleHash(
+        final List<HashFile> listHashFile,
+        final File           file
+        ) throws NoSuchAlgorithmException
     {
         try {
             final String hash = computeHash( file );
@@ -72,7 +85,7 @@ public class HashCompute
 
     private String computeHash( //
             final File file
-            ) throws NoSuchAlgorithmException, FileNotFoundException, IOException, CancelRequestException
+            ) throws NoSuchAlgorithmException, IOException, CancelRequestException
     {
         final FileDigest fileDigest = this.fileDigestFactory.newInstance();
 
