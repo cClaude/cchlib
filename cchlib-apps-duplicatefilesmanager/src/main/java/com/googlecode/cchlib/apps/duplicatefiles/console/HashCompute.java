@@ -22,13 +22,18 @@ public class HashCompute
     /**
      *
      * @param cliHelper Helper for CLI parameters
+     * @throws CLIParametersException
      */
-    public HashCompute( final CLIHelper cliHelper )
+    public HashCompute( final CLIParameters cli ) throws CLIParametersException
     {
-        this.fileDigestFactory = cliHelper.getFileDigestFactory();
-        this.directortFile     = cliHelper.getDirectory();
-        this.listener          = cliHelper.getHashComputeListener();
-        this.fileFilter        = cliHelper.getFileFilter();
+        this.fileDigestFactory = cli.getFileDigestFactory();
+        this.directortFile     = cli.getDirectory();
+        this.listener          = cli.getHashComputeListener();
+        this.fileFilter        = cli.getFileFilter();
+
+        if( cli.isVerbose() ) {
+            CLIHelper.trace( this.fileFilter );
+        }
     }
 
     public List<HashFile> getAllHash() throws NoSuchAlgorithmException
@@ -43,21 +48,26 @@ public class HashCompute
             if( files != null ) {
                 for( final File file : files ) {
                     if( file.isFile() ) {
-                        try {
-                            final String hash = computeHash( file );
-
-                            listHashFile.add( new HashFile( hash, file ) );
-                            this.listener.printCurrentFile( hash, file );
-                        }
-                        catch( IOException | CancelRequestException e ) {
-                            Console.printError( "Access error", file, e );
-                        }
+                        handleHash( listHashFile, file );
                     }
                 }
             }
         }
 
         return listHashFile;
+    }
+
+    private void handleHash( final List<HashFile> listHashFile, final File file ) throws NoSuchAlgorithmException
+    {
+        try {
+            final String hash = computeHash( file );
+
+            listHashFile.add( new HashFile( hash, file ) );
+            this.listener.printCurrentFile( hash, file );
+        }
+        catch( IOException | CancelRequestException e ) {
+            CLIHelper.printError( "Access error", file, e );
+        }
     }
 
     private String computeHash( //

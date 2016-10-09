@@ -5,7 +5,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
-import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelperException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashCompute;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
 import com.googlecode.cchlib.apps.duplicatefiles.console.Json;
@@ -26,28 +27,33 @@ public class ConsoleApp
      * Launch application in console mode
      *
      * @param args Parameters from command line
-     * @throws CLIHelperException
+     * @throws CLIParametersException
      * @throws NoSuchAlgorithmException
      */
-    public static void main( final String[] args ) throws CLIHelperException, NoSuchAlgorithmException
+    public static void main( final String[] args ) throws NoSuchAlgorithmException
     {
-        final CLIHelper   cliHelper = new CLIHelper();
+        final CLIParameters cli = new CLIParameters();
 
-        cliHelper.parseArguments( args );
+        try {
+            cli.parseArguments( args );
 
-        if( cliHelper.getCommandLine() != null ) {
-            startApp( cliHelper );
+            if( cli.getCommandLine() != null ) {
+                startApp( cli );
+            }
+        }
+        catch( final CLIParametersException e ) {
+            CLIHelper.printError( cli, e );
         }
     }
 
-    private static void startApp( final CLIHelper cliHelper ) throws NoSuchAlgorithmException
+    private static void startApp( final CLIParameters cli ) throws CLIParametersException, NoSuchAlgorithmException
     {
-        final File jsonFile = cliHelper.getJSONFile();
+        final File jsonFile = cli.getJSONFile();
 
         final String cmd = null;//commandLine.getOptionValue( COMMAND );
 
         if( (cmd == null) || cmd.equalsIgnoreCase( "hashlist" ) ) {
-            final HashCompute       instance      = new HashCompute( cliHelper );
+            final HashCompute       instance      = new HashCompute( cli );
             final List<HashFile>    hashFiles     = instance.getAllHash();
 
             if( jsonFile != null ) {

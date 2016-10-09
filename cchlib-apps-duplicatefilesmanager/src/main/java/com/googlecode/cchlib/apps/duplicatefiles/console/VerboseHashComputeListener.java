@@ -17,7 +17,7 @@ final class VerboseHashComputeListener implements HashComputeListener
             this.currentLength = 0L;
         }
 
-        Console.printMessage( "> " + this.currentFile + " : " + this.currentLength );
+        CLIHelper.printMessage( "> " + this.currentFile + " : " + this.currentLength );
     }
 
     @Override
@@ -29,6 +29,6 @@ final class VerboseHashComputeListener implements HashComputeListener
     @Override
     public void printCurrentFile( final String hash, final File file )
     {
-        Console.printMessage( hash + "\t" + file );
+        CLIHelper.printMessage( hash + "\t" + file );
     }
 }

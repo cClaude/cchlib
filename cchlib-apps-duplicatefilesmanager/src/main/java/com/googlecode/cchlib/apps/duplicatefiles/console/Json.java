@@ -88,7 +88,7 @@ public class Json
             toJSON( jsonFile, value );
         }
         catch( final IOException e ) {
-            Console.printError( "Can not save JSON file", jsonFile, e );
+            CLIHelper.printError( "Can not save JSON file", jsonFile, e );
         }
 
     }

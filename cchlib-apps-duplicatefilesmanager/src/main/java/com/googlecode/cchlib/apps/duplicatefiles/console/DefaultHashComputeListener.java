@@ -19,6 +19,6 @@ final class DefaultHashComputeListener implements HashComputeListener
     @Override
     public void printCurrentFile( final String hash, final File file )
     {
-        Console.printMessage( hash + "\t" + file );
+        CLIHelper.printMessage( hash + "\t" + file );
     }
 }

@@ -6,11 +6,11 @@ import java.util.Collection;
 
 class CustomFileFilter implements FileFilter
 {
-    private final Collection<String> excludeName;
+    private final Collection<String> excludeNames;
 
-    CustomFileFilter( final Collection<String> excludeName )
+    CustomFileFilter( final Collection<String> excludeNames )
     {
-        this.excludeName = excludeName;
+        this.excludeNames = excludeNames;
     }
 
     @Override
@@ -18,11 +18,16 @@ class CustomFileFilter implements FileFilter
     {
         final String name = file.getName();
 
-        if( this.excludeName.contains( name ) ) {
+        if( this.excludeNames.contains( name ) ) {
             return false;
         }
 
         return true;
     }
 
+    @Override
+    public String toString()
+    {
+        return "CustomFileFilter [excludeNames=" + this.excludeNames + "]";
+    }
 }
