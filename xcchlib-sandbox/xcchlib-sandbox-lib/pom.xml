@@ -95,7 +95,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.0.2</version>
+        <version>${maven.compiler.plugin.version}</version>
         <configuration>
           <verbose />
           <optimize>true</optimize>
@@ -109,7 +109,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.7</version>
+        <version>${maven.javadoc.plugin.version}</version>
         <configuration>
           <charset>UTF-8</charset>
           <docencoding>UTF-8</docencoding>
@@ -127,5 +127,5 @@
       </plugin>
     </plugins>
   </build>
-  
+
 </project>

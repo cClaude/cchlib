@@ -25,6 +25,10 @@
     <project.javadoc.warning>false</project.javadoc.warning><!-- FIXME = true -->
     <project.javadoc.excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented:cx.ath.choisnet.tools.*</project.javadoc.excludePackageNames>
     <additionalparam>-Xdoclint:none</additionalparam>
+
+    <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+    <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
+
   </properties>
 
   <prerequisites>
@@ -114,7 +118,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.0.2</version>
+        <version>${maven.compiler.plugin.version}</version>
         <configuration>
           <verbose />
           <optimize>true</optimize>
@@ -130,7 +134,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.7</version>
         <configuration>
           <charset>UTF-8</charset>
           <docencoding>UTF-8</docencoding>
@@ -148,8 +151,9 @@
       </plugin>
 -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.6</version>
+        <version>2.19.1</version>
         <!--
             By default the Failsafe Maven Plugin looks for integration tests matching
             the patterns */IT.java, **/IT.java and */*ITCase.java.
@@ -168,6 +172,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -321,25 +326,48 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.0.1</version>
+        <version>2.9</version>
       </plugin>
-
-     <!--plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.16</version>
-        <configuration>
-          <showSuccess>false</showSuccess>
-        </configuration>
-      </plugin-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
-        <version>2.5</version>
+        <version>2.19.1</version>
         <configuration>
           <outputName>GoogleSearchTestResults</outputName>
         </configuration>
+      </plugin>
+
+      <!-- Fix versions -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.5.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>2.5.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.0.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.5.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19.1</version>
       </plugin>
     </plugins>
   </reporting>
