@@ -19,8 +19,8 @@ import com.googlecode.cchlib.sql.SimpleUpdate;
 public abstract class AbstractSimpleQueryServletAction
     extends AbstractServletAction
 {
-    private SimpleQuery simpleQuery = null;
-    private SimpleUpdate simpleUpdate = null;
+    private com.googlecode.cchlib.sql.SimpleQuery  simpleQuery  = null;
+    private com.googlecode.cchlib.sql.SimpleUpdate simpleUpdate = null;
 
     public abstract ActionServlet.Action doSQL() // NOSONAR
         throws  ServletActionException,
@@ -64,11 +64,11 @@ public abstract class AbstractSimpleQueryServletAction
      * @return a valid SimpleQuery
      * @throws NamingException if an error occurred while getting data source
      */
-    public SimpleQuery getSimpleQuery()
+    public com.googlecode.cchlib.sql.SimpleQuery getSimpleQuery()
         throws NamingException
     {
         if( this.simpleQuery == null ) {
-            this.simpleQuery = new SimpleQuery( getDataSource() );
+            this.simpleQuery = new com.googlecode.cchlib.sql.SimpleQuery( getDataSource() );
             }
         return this.simpleQuery;
     }
@@ -78,11 +78,11 @@ public abstract class AbstractSimpleQueryServletAction
      * @return a valid SimpleUpdate
      * @throws NamingException if an error occurred while getting data source
      */
-    public SimpleUpdate getSimpleUpdate()
+    public com.googlecode.cchlib.sql.SimpleUpdate getSimpleUpdate()
         throws NamingException
     {
         if( this.simpleUpdate == null ) {
-            this.simpleUpdate = new SimpleUpdate( getDataSource() );
+            this.simpleUpdate = new com.googlecode.cchlib.sql.SimpleUpdate( getDataSource() );
             }
         return this.simpleUpdate;
     }
