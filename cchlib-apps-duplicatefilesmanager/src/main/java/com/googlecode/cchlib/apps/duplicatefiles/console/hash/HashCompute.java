@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console;
+package com.googlecode.cchlib.apps.duplicatefiles.console.hash;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
 import com.googlecode.cchlib.io.DirectoryIterator;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
@@ -19,7 +23,8 @@ public class HashCompute
     private final FileDigestFactory fileDigestFactory;
     private final File directortFile;
     private final HashComputeListener listener;
-    private final FileFilter fileFilter;
+    private final FileFilter filesFileFilter;
+    private final FileFilter directoriesFileFilter;
 
     /**
      *
@@ -28,24 +33,26 @@ public class HashCompute
      */
     public HashCompute( final CLIParameters cli ) throws CLIParametersException
     {
-        this.fileDigestFactory = cli.getFileDigestFactory();
-        this.directortFile     = cli.getDirectory();
-        this.listener          = cli.getHashComputeListener();
-        this.fileFilter        = cli.getFileFilter();
+        this.fileDigestFactory     = cli.getFileDigestFactory();
+        this.directortFile         = cli.getDirectory();
+        this.listener              = cli.getHashComputeListener();
+        this.filesFileFilter       = cli.getFilesFileFilter();
+        this.directoriesFileFilter = cli.getDirectoriesFileFilter();
 
         if( cli.isVerbose() ) {
-            CLIHelper.trace( this.fileFilter );
+            CLIHelper.trace( "Files FileFilter", this.filesFileFilter );
+            CLIHelper.trace( "Directories FileFilter", this.directoriesFileFilter );
         }
     }
 
     public List<HashFile> getAllHash() throws NoSuchAlgorithmException
     {
         final List<HashFile>    listHashFile = new ArrayList<>();
-        final DirectoryIterator iter         = new DirectoryIterator( this.directortFile );
+        final DirectoryIterator iter         = new DirectoryIterator( this.directortFile, this.directoriesFileFilter );
 
         while( iter.hasNext() ) {
             final File   dir   = iter.next();
-            final File[] files = dir.listFiles( this.fileFilter );
+            final File[] files = dir.listFiles( this.filesFileFilter );
 
             if( files != null ) {
                 handleHashes( listHashFile, files );

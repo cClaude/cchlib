@@ -3,6 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 import java.io.File;
 import java.io.IOException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -15,7 +16,7 @@ public class JSONHelper
         // Empty - All static
     }
 
-    static <T> String toJSON( //
+    public static <T> String toJSON( //
         final T value
         ) throws JsonProcessingException
     {
@@ -24,7 +25,7 @@ public class JSONHelper
         return mapper.writeValueAsString( value );
     }
 
-    static <T> T fromJSON( //
+    public static <T> T fromJSON( //
         final String   jsonString,
         final Class<T> clazz
         ) throws JSONHelperException
@@ -53,6 +54,16 @@ public class JSONHelper
 
         try {
             return mapper.readValue( jsonFile, clazz );
+        }
+        catch( final IOException e ) {
+            throw new JSONHelperException( e );
+        }
+    }
+    public static <T> T load( final File jsonFile, final TypeReference<T> type )
+        throws JSONHelperException
+    {
+        try {
+            return new ObjectMapper().readValue( jsonFile, type );
         }
         catch( final IOException e ) {
             throw new JSONHelperException( e );

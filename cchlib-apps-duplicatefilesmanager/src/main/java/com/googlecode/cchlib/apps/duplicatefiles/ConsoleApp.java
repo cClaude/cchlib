@@ -3,22 +3,21 @@ package com.googlecode.cchlib.apps.duplicatefiles;
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters.Command;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.HashCompute;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.hash.HashCompute;
+import com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter.JsonFilter;
 
 /**
  * Handle console mode
  */
 public class ConsoleApp
 {
-    private static final Logger LOGGER = Logger.getLogger( DuplicateFilesApp.class );
-
     private ConsoleApp()
     {
         // static only
@@ -45,25 +44,58 @@ public class ConsoleApp
         catch( final CLIParametersException e ) {
             CLIHelper.printErrorAndExit( cli, e );
         }
+        catch( final JSONHelperException e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    private static void startApp( final CLIParameters cli ) throws CLIParametersException, NoSuchAlgorithmException
+    private static void startApp( final CLIParameters cli )
+            throws CLIParametersException, NoSuchAlgorithmException, JSONHelperException
     {
-        final File jsonFile = cli.getJSONFile();
+        final Command cmd = cli.getCommand();
 
-        final String cmd = null;//commandLine.getOptionValue( COMMAND );
+        switch( cmd ) {
+            case Filter:
+                doFilter( cli );
+                break;
+            case Hash:
+                doHash( cli );
+                break;
+        }
 
-        if( (cmd == null) || cmd.equalsIgnoreCase( "hashlist" ) ) {
-            final HashCompute       instance      = new HashCompute( cli );
-            final List<HashFile>    hashFiles     = instance.getAllHash();
+    }
 
-            if( jsonFile != null ) {
-                try {
-                    JSONHelper.toJSON( jsonFile, hashFiles );
-                }
-                catch( final JSONHelperException e ) {
-                    CLIHelper.printError( "Error while writing JSON result", jsonFile, e );
-                }
+    private static void doFilter( final CLIParameters cli )
+        throws CLIParametersException, JSONHelperException
+    {
+        final File              jsonFile      = cli.getJsonOutputFile();
+        final JsonFilter        instance      = new JsonFilter( cli );
+        final List<HashFile>    hashFiles     = instance.getAllHash();
+
+        if( jsonFile != null ) {
+            try {
+                JSONHelper.toJSON( jsonFile, hashFiles );
+            }
+            catch( final JSONHelperException e ) {
+                CLIHelper.printError( "Error while writing JSON result", jsonFile, e );
+            }
+        }
+    }
+
+    private static void doHash( final CLIParameters cli )
+            throws CLIParametersException, NoSuchAlgorithmException
+    {
+        final File              jsonFile      = cli.getJsonOutputFile();
+        final HashCompute       instance      = new HashCompute( cli );
+        final List<HashFile>    hashFiles     = instance.getAllHash();
+
+        if( jsonFile != null ) {
+            try {
+                JSONHelper.toJSON( jsonFile, hashFiles );
+            }
+            catch( final JSONHelperException e ) {
+                CLIHelper.printError( "Error while writing JSON result", jsonFile, e );
             }
         }
     }

@@ -5,12 +5,16 @@ import java.io.FileFilter;
 import java.util.Arrays;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
+import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.CustomFileFilterConfig;
+import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
+import com.googlecode.cchlib.apps.duplicatefiles.console.hash.HashComputeListener;
+import com.googlecode.cchlib.apps.duplicatefiles.console.hash.ListenerFactory;
 import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
@@ -20,20 +24,33 @@ import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
  */
 public class CLIParameters
 {
-    private static final String BUFFER_SIZE = "buffer-size";
-    //private static final String COMMAND = "command";
+    public enum Command {
+        Hash,
+        Filter
+    }
+
     private static final String ALGORITHM = "algorithm";
+    private static final String BUFFER_SIZE = "buffer-size";
+    private static final String COMMAND = "Command";
     private static final String DIRECTORIY_TO_SCAN = "directory";
+    private static final String FILES_FILTER = "files-filter";
+    private static final String FILES_FILTER_FROM_FILE = "files-filter-from-file";
     private static final String HELP = "help";
-    private static final String JSON = "json";
-    private static final String JSON_FILE_FILTER = "json-file-filter";
-    private static final String JSON_FILE_FILTER_FROM_FILE = "json-file-filter-from-file";
+    private static final String JSON_OUT = "json";
+    private static final String JSON_IN = "input";
     private static final String QUIET = "quiet";
     private static final String VERBOSE = "verbose";
+
+    private static final String ALGORITHM_DESCRIPTION
+        = "Algorithm names : " + Arrays.toString( MessageDigestAlgorithms.values() );
+    private static final String COMMAND_DESCRIPTION
+        = "Command names : " + Arrays.toString( Command.values() );
 
     private final Options options;
     private CommandLine   commandLine;
     private Boolean       verbose; // NOSONAR
+
+    private FileFiltersConfig fileFiltersConfig;
 
     /**
      * Create {@link CLIParameters}
@@ -46,26 +63,50 @@ public class CLIParameters
     @SuppressWarnings("static-access")
     private static Options createCLIOptions()
     {
-        final Options newOptions = new Options();
+        final Options options = new Options();
 
-        newOptions.addOption(
+        options.addOption(
             OptionBuilder.withLongOpt( HELP ) // NOSONAR
-                .withDescription( "Display this message" ) // NOSONAR
+                .withDescription( "Display this message" )
+                .hasArg( false )
                 .create( "h" ) // NOSONAR
             );
-        newOptions.addOption(
+        options.addOption(
             OptionBuilder.withLongOpt( ALGORITHM ) // NOSONAR
-                .withDescription( "Algorithm name : " + Arrays.toString( MessageDigestAlgorithms.values() ) ) // NOSONAR
-                .create( "a" ) // NOSONAR
+                .withDescription( ALGORITHM_DESCRIPTION )
+                .hasArg()
+                .create() // NOSONAR
             );
-        //options.addOption( "c", COMMAND, true, "Command name" );
-        newOptions.addOption( "d", DIRECTORIY_TO_SCAN, true, "Directory to scan" );
-        newOptions.addOption( "j", JSON, true, "json filename" );
+        options.addOption(
+                OptionBuilder.withLongOpt( DIRECTORIY_TO_SCAN ) // NOSONAR
+                    .withDescription( "Directory to scan" )
+                    .hasArg()
+                    .create( "d" ) // NOSONAR
+                );
+        options.addOption(
+                OptionBuilder.withLongOpt( JSON_OUT ) // NOSONAR
+                    .withDescription( "Optionnal output json file" )
+                    .hasArg()
+                    .create() // NOSONAR
+                );
+        options.addOption(
+                OptionBuilder.withLongOpt( JSON_IN ) // NOSONAR
+                    .withDescription( "Input file" )
+                    .hasArg()
+                    .create() // NOSONAR
+                );
 
-        newOptions.addOptionGroup( getOptionGroupVerboseQuiet() );
-        newOptions.addOptionGroup( getOptionGroupFileFilter() );
+        options.addOptionGroup( getOptionGroupVerboseQuiet() );
+        options.addOptionGroup( getOptionGroupFilesFilter() );
 
-        return newOptions;
+        options.addOption(
+                OptionBuilder.withLongOpt( COMMAND ) // NOSONAR
+                    .withDescription( COMMAND_DESCRIPTION )
+                    .hasArg()
+                    .create( "c" ) // NOSONAR
+                );
+
+        return options;
     }
 
     @SuppressWarnings("static-access")
@@ -75,12 +116,14 @@ public class CLIParameters
 
         optgrp.addOption(
             OptionBuilder.withLongOpt( VERBOSE ) // NOSONAR
-                .withDescription( "Display extrat informations during process" ) // NOSONAR
+                .withDescription( "Display extrat informations during process" )
+                .hasArg( false )
                 .create( "x" ) // NOSONAR
             );
         optgrp.addOption(
             OptionBuilder.withLongOpt( QUIET ) // NOSONAR
-                .withDescription( "Minimal output" ) // NOSONAR
+                .withDescription( "Minimal output" )
+                .hasArg( false )
                 .create( "q" ) // NOSONAR
             );
 
@@ -88,21 +131,21 @@ public class CLIParameters
     }
 
     @SuppressWarnings("static-access")
-    private static OptionGroup getOptionGroupFileFilter()
+    private static OptionGroup getOptionGroupFilesFilter()
     {
         final OptionGroup optgrp = new OptionGroup();
 
         optgrp.addOption(
-                OptionBuilder.withLongOpt( JSON_FILE_FILTER ) // NOSONAR
-                    .withDescription( "File filter (json format)" ) // NOSONAR
+                OptionBuilder.withLongOpt( FILES_FILTER ) // NOSONAR
+                    .withDescription( "File filter (json format)" )
                     .hasArgs()
-                    .create( "j" ) // NOSONAR
+                    .create() // NOSONAR
                 );
         optgrp.addOption(
-                OptionBuilder.withLongOpt( JSON_FILE_FILTER_FROM_FILE ) // NOSONAR
-                    .withDescription( "File for file filter (json format)" ) // NOSONAR
+                OptionBuilder.withLongOpt( FILES_FILTER_FROM_FILE ) // NOSONAR
+                    .withDescription( "Filename of json files filter" )
                     .hasArgs()
-                    .create( "J" ) // NOSONAR
+                    .create() // NOSONAR
                 );
 
         return optgrp;
@@ -130,7 +173,7 @@ public class CLIParameters
 
         try {
             // create the parser
-            final CommandLineParser parser = new PosixParser();
+            final CommandLineParser parser = new GnuParser();
 
             // parse the command line arguments
             final CommandLine cmdLine = parser.parse( this.options, args );
@@ -153,15 +196,26 @@ public class CLIParameters
         formatter.printHelp( cmdLineSyntax  , this.options );
     }
 
-    public File getJSONFile()
+    public File getJsonInputFile() throws CLIParametersException
     {
-        final String jsonFilename = this.commandLine.getOptionValue( CLIParameters.JSON );
+        final String jsonFilename = this.commandLine.getOptionValue( JSON_IN );
 
         if( jsonFilename != null ) {
             return new File( jsonFilename );
         }
 
-        return null;
+        throw new CLIParametersException( JSON_IN, "Parameter is required" );
+    }
+
+    public File getJsonOutputFile()
+    {
+        final String jsonFilename = this.commandLine.getOptionValue( JSON_OUT );
+
+        if( jsonFilename != null ) {
+            return new File( jsonFilename );
+        }
+
+        return null; // Optional parameter no available
     }
 
     private MessageDigestAlgorithms getAlgorithms() throws CLIParametersException
@@ -208,7 +262,7 @@ public class CLIParameters
         return DefaultFileDigestFactory.DEFAULT_BUFFER_SIZE * 100;
     }
 
-    FileDigestFactory getFileDigestFactory() throws CLIParametersException
+    public FileDigestFactory getFileDigestFactory() throws CLIParametersException
     {
         int bufferSize = getBufferSize();
 
@@ -218,7 +272,7 @@ public class CLIParameters
         return new DefaultFileDigestFactory( getAlgorithms(), bufferSize );
     }
 
-    File getDirectory() throws CLIParametersException
+    public File getDirectory() throws CLIParametersException
     {
         String directory;
 
@@ -237,50 +291,101 @@ public class CLIParameters
         }
     }
 
-    HashComputeListener getHashComputeListener()
+    public HashComputeListener getHashComputeListener()
     {
         if( this.commandLine.hasOption( QUIET ) ) {
-            return new QuietHashComputeListener();
+            return ListenerFactory.getBuilder().createQuietListener();
         } else if( isVerbose() ) {
-            return new VerboseHashComputeListener();
+            return ListenerFactory.getBuilder().createVerboseListener();
         } else {
-            return new DefaultHashComputeListener();
+            return ListenerFactory.getBuilder().createDefaultListener();
         }
     }
 
-    FileFilter getFileFilter() throws CLIParametersException
+    public FileFilter getFilesFileFilter() throws CLIParametersException
+    {
+        final FileFiltersConfig ffc = getFileFiltersConfig();
+
+        if( ffc != null ) {
+            final CustomFileFilterConfig forFiles = ffc.getFiles();
+
+            if( forFiles != null ) {
+                return forFiles.newInstance();
+            }
+        }
+
+        return pathname -> true;
+    }
+
+    public FileFilter getDirectoriesFileFilter() throws CLIParametersException
+    {
+        final FileFiltersConfig ffc = getFileFiltersConfig();
+
+        if( ffc != null ) {
+            final CustomFileFilterConfig forDirectories = ffc.getDirectories();
+
+            if( forDirectories != null ) {
+                return forDirectories.newInstance();
+            }
+        }
+
+        return pathname -> true;
+    }
+
+    private FileFiltersConfig getFileFiltersConfig() throws CLIParametersException
+    {
+        if( this.fileFiltersConfig == null ) {
+            this.fileFiltersConfig = getFileFiltersConfig( FILES_FILTER_FROM_FILE, FILES_FILTER );
+        }
+        return this.fileFiltersConfig;
+    }
+
+    private FileFiltersConfig getFileFiltersConfig(
+            final String optionNameForFile,
+            final String optionNameForString
+            ) throws CLIParametersException
     {
         /**
-         * JSON_STRING = "{\"excludeNames\":[\"Str2\",\"Str1\"]}";
-         * JSON_FILE = {"excludeNames":["Str2","Str1"]}
+         * JSON_STRING = "{\"files\":{\"excludeNames\":[\"Str2\",\"Str1\"],\"excludePaths\":[\"windows\\Path2\",\"unix/Path1\"]},\"directories\":{\"excludeNames\":[\"Str2\",\"Str1\"],\"excludePaths\":[\"windows\\Path2\",\"unix/Path1\"]}}"
+         * JSON_FILE =
+         *      {
+         *      "files":{
+         *          "excludeNames":["Str2","Str1"],
+         *          "excludePaths":["windows\\Path2","unix/Path1"]
+         *          },
+         *       "directories":{
+         *          "excludeNames":["Str2","Str1"],
+         *          "excludePaths":["windows\\Path2","unix/Path1"]
+         *          }
+         *      }
          */
-        if( this.commandLine.hasOption( JSON_FILE_FILTER_FROM_FILE ) ) {
-            final File jsonFileFilterFile = new File( this.commandLine.getOptionValue( JSON_FILE_FILTER_FROM_FILE ) );
+        if( this.commandLine.hasOption( optionNameForFile ) ) {
+            final File jsonFileFilterFile = new File( this.commandLine.getOptionValue( optionNameForFile ) );
 
             try {
-                return JSONHelper.load( jsonFileFilterFile, CustomFileFilterConfig.class ).newIntance();
+                return JSONHelper.load( jsonFileFilterFile, FileFiltersConfig.class );
             }
             catch( final JSONHelperException e ) {
                 throw new CLIParametersException(
-                        JSON_FILE_FILTER_FROM_FILE,
+                        optionNameForFile,
                         "Error while reading: " + jsonFileFilterFile,
                         e );
             }
-        } else if( this.commandLine.hasOption( JSON_FILE_FILTER ) ) {
-            final String jsonFileFilter = this.commandLine.getOptionValue( JSON_FILE_FILTER );
+        } else if( this.commandLine.hasOption( optionNameForString ) ) {
+            final String jsonFileFilter = this.commandLine.getOptionValue( optionNameForString );
 
             try {
-                return JSONHelper.fromJSON( jsonFileFilter, CustomFileFilterConfig.class ).newIntance();
+                return JSONHelper.fromJSON( jsonFileFilter, FileFiltersConfig.class );
             }
             catch( final JSONHelperException e ) {
                 throw new CLIParametersException(
-                        JSON_FILE_FILTER,
+                        optionNameForString,
                         "Error in: " + jsonFileFilter,
                         e );
             }
         }
 
-        return pathname -> true;
+        return null;
     }
 
     public boolean isVerbose()
@@ -290,5 +395,30 @@ public class CLIParameters
         }
 
         return this.verbose.booleanValue();
+    }
+
+    public Command getCommand() throws CLIParametersException
+    {
+        final String  commandName = this.commandLine.getOptionValue( COMMAND );
+        final Command command;
+
+        if( commandName != null ) {
+            try {
+                command = Enum.valueOf(
+                    Command.class,
+                    commandName
+                    );
+            } catch( final IllegalArgumentException e ) {
+                throw new CLIParametersException(
+                        COMMAND,
+                        "Unknown command: " + commandName,
+                        e
+                        );
+            }
+        } else {
+            command = Command.Hash;
+        }
+
+        return command;
     }
 }

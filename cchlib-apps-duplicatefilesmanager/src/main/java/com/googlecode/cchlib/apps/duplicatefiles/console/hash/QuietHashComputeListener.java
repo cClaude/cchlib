@@ -1,8 +1,8 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console;
+package com.googlecode.cchlib.apps.duplicatefiles.console.hash;
 
 import java.io.File;
 
-final class DefaultHashComputeListener implements HashComputeListener
+final class QuietHashComputeListener implements HashComputeListener
 {
     @Override
     public void computeDigest( final File file, final int length )
@@ -19,6 +19,6 @@ final class DefaultHashComputeListener implements HashComputeListener
     @Override
     public void printCurrentFile( final String hash, final File file )
     {
-        CLIHelper.printMessage( hash + "\t" + file );
+        // Empty - ignore
     }
 }

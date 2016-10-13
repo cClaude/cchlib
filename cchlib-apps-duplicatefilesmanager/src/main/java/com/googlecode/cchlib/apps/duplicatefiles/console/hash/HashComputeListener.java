@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console;
+package com.googlecode.cchlib.apps.duplicatefiles.console.hash;
 
 import java.io.File;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestListener;

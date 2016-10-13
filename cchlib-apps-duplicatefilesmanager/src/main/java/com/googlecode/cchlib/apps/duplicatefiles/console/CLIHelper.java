@@ -42,9 +42,9 @@ public class CLIHelper
         printMessage( msg + " - " + cause.getMessage() );
     }
 
-    public static void trace( final Object object )
+    public static void trace( final String description, final Object object )
     {
-        printMessage( "" + object );
+        printMessage( description + " : " + object );
     }
 
     public static void printErrorAndExit( final CLIParameters cli, final CLIParametersException clipe )
@@ -56,6 +56,12 @@ public class CLIHelper
             sb.append( " : " );
             sb.append( clipe.getCliMessage() );
         }
+
+        if( clipe.getCause() != null ) {
+            sb.append( " - cause by " );
+            sb.append( clipe.getCause().getMessage() );
+        }
+
         printError( sb.toString() );
         cli.printHelp();
         exit( 1 );
