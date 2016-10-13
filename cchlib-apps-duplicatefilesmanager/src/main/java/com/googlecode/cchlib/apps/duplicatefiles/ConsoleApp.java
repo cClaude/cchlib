@@ -1,6 +1,9 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
@@ -74,6 +77,8 @@ public class ConsoleApp
         final List<HashFile>    hashFiles     = instance.getAllHash();
 
         if( jsonFile != null ) {
+            createParentDirsOf( jsonFile );
+
             try {
                 JSONHelper.toJSON( jsonFile, hashFiles );
             }
@@ -83,6 +88,22 @@ public class ConsoleApp
         }
     }
 
+    private static void createParentDirsOf( final File file )
+    {
+        final File parentDirFile = file.getParentFile();
+
+        if( ! parentDirFile.exists() ) {
+            final Path dir = parentDirFile.toPath();
+            try {
+                Files.createDirectories( dir );
+            }
+            catch( final IOException e ) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+   }
+
     private static void doHash( final CLIParameters cli )
             throws CLIParametersException, NoSuchAlgorithmException
     {
@@ -91,6 +112,8 @@ public class ConsoleApp
         final List<HashFile>    hashFiles     = instance.getAllHash();
 
         if( jsonFile != null ) {
+            createParentDirsOf( jsonFile );
+
             try {
                 JSONHelper.toJSON( jsonFile, hashFiles );
             }

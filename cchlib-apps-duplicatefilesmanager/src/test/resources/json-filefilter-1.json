@@ -1,0 +1,19 @@
+{
+  "files":{
+    "excludeNames":["Str2","Str1"],
+    "excludePaths":["windows\\Path2","unix/Path1"]
+  },
+  "directories":{
+    "excludeNames":[
+      "##DB",
+      "##Disques virtuels",
+      "##ISO(p)",
+      "##OVA(p)",
+      "##Raspberry",
+
+      ".@__thumb",
+      "@Recycle"
+      ],
+    "excludePaths":null
+  }
+}
