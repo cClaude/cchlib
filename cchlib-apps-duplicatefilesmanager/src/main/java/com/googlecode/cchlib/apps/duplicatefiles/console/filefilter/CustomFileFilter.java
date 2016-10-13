@@ -2,10 +2,11 @@ package com.googlecode.cchlib.apps.duplicatefiles.console.filefilter;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.util.Collection;
 import java.util.Collections;
 
-class CustomFileFilter implements FileFilter
+class CustomFileFilter implements FileFilter, FilenameFilter
 {
     private final Collection<String> excludeNames;
     private final Collection<String> excludePaths;
@@ -35,6 +36,20 @@ class CustomFileFilter implements FileFilter
         }
 
         if( this.excludePaths.contains( file.getPath() ) ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean accept( final File dir, final String name )
+    {
+        if( this.excludeNames.contains( name ) ) {
+            return false;
+        }
+
+        if( this.excludePaths.contains( name ) ) {
             return false;
         }
 

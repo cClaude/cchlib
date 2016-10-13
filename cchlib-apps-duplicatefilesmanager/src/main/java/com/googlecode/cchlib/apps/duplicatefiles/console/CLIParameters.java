@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.Arrays;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -11,7 +10,6 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.CustomFileFilterConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.console.hash.HashComputeListener;
 import com.googlecode.cchlib.apps.duplicatefiles.console.hash.ListenerFactory;
@@ -48,6 +46,7 @@ public class CLIParameters
 
     private final Options options;
     private CommandLine   commandLine;
+    private Boolean       quiet; // NOSONAR
     private Boolean       verbose; // NOSONAR
 
     private FileFiltersConfig fileFiltersConfig;
@@ -293,7 +292,7 @@ public class CLIParameters
 
     public HashComputeListener getHashComputeListener()
     {
-        if( this.commandLine.hasOption( QUIET ) ) {
+        if( isQuiet() ) {
             return ListenerFactory.getBuilder().createQuietListener();
         } else if( isVerbose() ) {
             return ListenerFactory.getBuilder().createVerboseListener();
@@ -302,37 +301,7 @@ public class CLIParameters
         }
     }
 
-    public FileFilter getFilesFileFilter() throws CLIParametersException
-    {
-        final FileFiltersConfig ffc = getFileFiltersConfig();
-
-        if( ffc != null ) {
-            final CustomFileFilterConfig forFiles = ffc.getFiles();
-
-            if( forFiles != null ) {
-                return forFiles.newInstance();
-            }
-        }
-
-        return pathname -> true;
-    }
-
-    public FileFilter getDirectoriesFileFilter() throws CLIParametersException
-    {
-        final FileFiltersConfig ffc = getFileFiltersConfig();
-
-        if( ffc != null ) {
-            final CustomFileFilterConfig forDirectories = ffc.getDirectories();
-
-            if( forDirectories != null ) {
-                return forDirectories.newInstance();
-            }
-        }
-
-        return pathname -> true;
-    }
-
-    private FileFiltersConfig getFileFiltersConfig() throws CLIParametersException
+    public FileFiltersConfig getFileFiltersConfig() throws CLIParametersException
     {
         if( this.fileFiltersConfig == null ) {
             this.fileFiltersConfig = getFileFiltersConfig( FILES_FILTER_FROM_FILE, FILES_FILTER );
@@ -397,6 +366,15 @@ public class CLIParameters
         return this.verbose.booleanValue();
     }
 
+    public boolean isQuiet()
+    {
+        if( this.quiet == null ) {
+            this.quiet = Boolean.valueOf( this.commandLine.hasOption( QUIET ) );
+        }
+
+        return this.quiet.booleanValue();
+    }
+
     public Command getCommand() throws CLIParametersException
     {
         final String  commandName = this.commandLine.getOptionValue( COMMAND );
@@ -421,4 +399,5 @@ public class CLIParameters
 
         return command;
     }
+
 }

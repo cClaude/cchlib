@@ -10,6 +10,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
+import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.io.DirectoryIterator;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
@@ -36,8 +37,11 @@ public class HashCompute
         this.fileDigestFactory     = cli.getFileDigestFactory();
         this.directortFile         = cli.getDirectory();
         this.listener              = cli.getHashComputeListener();
-        this.filesFileFilter       = cli.getFilesFileFilter();
-        this.directoriesFileFilter = cli.getDirectoriesFileFilter();
+
+        final FileFiltersConfig ffc = cli.getFileFiltersConfig();
+
+        this.filesFileFilter       = FileFiltersConfig.getFileFilterForFiles( ffc );
+        this.directoriesFileFilter = FileFiltersConfig.getFileFilterForDirectories( ffc );
 
         if( cli.isVerbose() ) {
             CLIHelper.trace( "Files FileFilter", this.filesFileFilter );

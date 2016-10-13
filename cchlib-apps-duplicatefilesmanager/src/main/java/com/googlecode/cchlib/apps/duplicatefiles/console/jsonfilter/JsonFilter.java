@@ -1,28 +1,52 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter;
 
 import java.io.File;
-import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.util.Iterator;
 import java.util.List;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 
+/**
+ *
+ */
 public class JsonFilter
 {
-    private final File       jsonInputFile;
-    private final FileFilter directoriesFileFilter;
-    private final FileFilter filesFileFilter;
+    private final File           jsonInputFile;
+    private final FilenameFilter directoriesFileFilter;
+    private final FilenameFilter filesFileFilter;
+    private final boolean        quiet;
+    private final boolean        verbose;
 
+    /**
+     * Create a {@link JsonFilter} based on <code>cli</code>
+     *
+     * @param cli Parameters from CLI
+     * @throws CLIParametersException if any
+     */
     public JsonFilter( final CLIParameters cli ) throws CLIParametersException
     {
-        this.jsonInputFile         = cli.getJsonInputFile();
-        this.directoriesFileFilter = cli.getDirectoriesFileFilter();
-        this.filesFileFilter       = cli.getFilesFileFilter();
-    }
+        this.jsonInputFile = cli.getJsonInputFile();
+
+        final FileFiltersConfig ffc = cli.getFileFiltersConfig();
+
+        this.filesFileFilter       = FileFiltersConfig.getFilenameFilterForFiles( ffc );
+        this.directoriesFileFilter = FileFiltersConfig.getFilenameFilterForDirectories( ffc );
+
+        this.verbose = cli.isVerbose();
+        this.quiet   = cli.isQuiet();
+
+        if( this.verbose ) {
+            CLIHelper.trace( "Files FileFilter", this.filesFileFilter );
+            CLIHelper.trace( "Directories FileFilter", this.directoriesFileFilter );
+        }
+   }
 
     public List<HashFile> getAllHash() throws JSONHelperException
     {
@@ -48,6 +72,10 @@ public class JsonFilter
 
                 if( removeEntry ) {
                     iterator.remove();
+
+                    if( ! this.quiet ) {
+                        CLIHelper.printMessage( hf.getFile().getPath() );
+                    }
                 }
             }
         }
@@ -57,12 +85,22 @@ public class JsonFilter
 
     private boolean removeEntryAccordingToFiles( final File file )
     {
-        return this.filesFileFilter.accept( file );
+        return !this.filesFileFilter.accept( file.getParentFile(), file.getName() );
     }
 
     private boolean removeEntryAccordingToDirectories( final File file )
     {
-        // TODO Auto-generated method stub
+        File currentFile = file.getParentFile();
+
+        while( currentFile != null ) {
+            final File currentParent = currentFile.getParentFile();
+
+            if( !this.directoriesFileFilter.accept( currentParent, currentFile.getName() ) ) {
+                return true;
+            }
+            currentFile = currentParent;
+        }
+
         return false;
     }
 

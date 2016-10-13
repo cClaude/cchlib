@@ -1,9 +1,13 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console.filefilter;
 
 import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.io.Serializable;
 import java.util.Collection;
 
+/**
+ * Configuration to create {@link FileFilter} or {@link FilenameFilter} objects
+ */
 public class CustomFileFilterConfig implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -20,6 +24,20 @@ public class CustomFileFilterConfig implements Serializable
     {
         if( isEmpty( this.excludeNames ) && isEmpty( this.excludePaths ) ) {
             return pathname -> true;
+        } else {
+            return new CustomFileFilter( this.excludeNames, this.excludePaths );
+        }
+    }
+
+    /**
+     * Create a FilenameFilter based on current configuration
+     *
+     * @return a FilenameFilter
+     */
+    public FilenameFilter newFilenameFilterInstance()
+    {
+        if( isEmpty( this.excludeNames ) && isEmpty( this.excludePaths ) ) {
+            return ( dir, name ) -> false;
         } else {
             return new CustomFileFilter( this.excludeNames, this.excludePaths );
         }
