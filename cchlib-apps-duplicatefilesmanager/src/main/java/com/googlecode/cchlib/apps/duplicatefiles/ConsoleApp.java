@@ -80,7 +80,9 @@ public class ConsoleApp
             createParentDirsOf( jsonFile );
 
             try {
-                JSONHelper.toJSON( jsonFile, hashFiles );
+                final boolean prettyJson = cli.isPrettyJson();
+
+                JSONHelper.toJSON( jsonFile, hashFiles, prettyJson );
             }
             catch( final JSONHelperException e ) {
                 CLIHelper.printError( "Error while writing JSON result", jsonFile, e );
@@ -115,7 +117,9 @@ public class ConsoleApp
             createParentDirsOf( jsonFile );
 
             try {
-                JSONHelper.toJSON( jsonFile, hashFiles );
+                final boolean prettyJson = cli.isPrettyJson();
+
+                JSONHelper.toJSON( jsonFile, hashFiles, prettyJson );
             }
             catch( final JSONHelperException e ) {
                 CLIHelper.printError( "Error while writing JSON result", jsonFile, e );

@@ -77,14 +77,19 @@ public class JSONHelper
      * @throws JSONHelperException
      */
     public static <T> void toJSON( //
-            final File jsonFile,
-            final T    value
+            final File    jsonFile,
+            final T       value,
+            final boolean prettyJson
             ) throws JSONHelperException
     {
         final ObjectMapper mapper = new ObjectMapper();
 
         try {
-            mapper.writeValue( jsonFile, value );
+            if( prettyJson ) {
+                mapper.writerWithDefaultPrettyPrinter().writeValue( jsonFile, value );
+            } else {
+                mapper.writeValue( jsonFile, value );
+            }
         }
         catch( final IOException e ) {
             throw new JSONHelperException( e );

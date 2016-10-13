@@ -22,6 +22,7 @@ import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
  */
 public class CLIParameters
 {
+
     public enum Command {
         Hash,
         Filter
@@ -34,8 +35,9 @@ public class CLIParameters
     private static final String FILES_FILTER = "files-filter";
     private static final String FILES_FILTER_FROM_FILE = "files-filter-from-file";
     private static final String HELP = "help";
-    private static final String JSON_OUT = "json";
     private static final String JSON_IN = "input";
+    private static final String JSON_OUT = "json";
+    private static final String PRETTY_JSON = "pretty-json";
     private static final String QUIET = "quiet";
     private static final String VERBOSE = "verbose";
 
@@ -44,11 +46,11 @@ public class CLIParameters
     private static final String COMMAND_DESCRIPTION
         = "Command names : " + Arrays.toString( Command.values() );
 
-    private final Options options;
-    private CommandLine   commandLine;
-    private Boolean       quiet; // NOSONAR
-    private Boolean       verbose; // NOSONAR
-
+    private final Options     options;
+    private Boolean           prettyJson; // NOSONAR
+    private Boolean           quiet; // NOSONAR
+    private Boolean           verbose; // NOSONAR
+    private CommandLine       commandLine;
     private FileFiltersConfig fileFiltersConfig;
 
     /**
@@ -88,6 +90,13 @@ public class CLIParameters
                     .hasArg()
                     .create() // NOSONAR
                 );
+        options.addOption(
+                OptionBuilder.withLongOpt( PRETTY_JSON ) // NOSONAR
+                    .withDescription( "Format JSON" )
+                    .hasArg( false )
+                    .create() // NOSONAR
+                );
+
         options.addOption(
                 OptionBuilder.withLongOpt( JSON_IN ) // NOSONAR
                     .withDescription( "Input file" )
@@ -375,6 +384,15 @@ public class CLIParameters
         return this.quiet.booleanValue();
     }
 
+    public boolean isPrettyJson()
+    {
+        if( this.prettyJson == null ) {
+            this.prettyJson = Boolean.valueOf( this.commandLine.hasOption( PRETTY_JSON ) );
+        }
+
+        return this.prettyJson.booleanValue();
+    }
+
     public Command getCommand() throws CLIParametersException
     {
         final String  commandName = this.commandLine.getOptionValue( COMMAND );
@@ -399,5 +417,4 @@ public class CLIParameters
 
         return command;
     }
-
 }
