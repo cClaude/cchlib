@@ -22,12 +22,6 @@ import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
  */
 public class CLIParameters
 {
-
-    public enum Command {
-        Hash,
-        Filter
-    }
-
     private static final String ALGORITHM = "algorithm";
     private static final String BUFFER_SIZE = "buffer-size";
     private static final String COMMAND = "Command";
@@ -35,7 +29,7 @@ public class CLIParameters
     private static final String FILES_FILTER = "files-filter";
     private static final String FILES_FILTER_FROM_FILE = "files-filter-from-file";
     private static final String HELP = "help";
-    private static final String JSON_IN = "input";
+    public static final String JSON_IN = "input";
     private static final String JSON_OUT = "json";
     private static final String PRETTY_JSON = "pretty-json";
     private static final String QUIET = "quiet";
@@ -48,8 +42,8 @@ public class CLIParameters
 
     private final Options     options;
     private Boolean           prettyJson; // NOSONAR
-    private Boolean           quiet; // NOSONAR
-    private Boolean           verbose; // NOSONAR
+    private Boolean           quiet;      // NOSONAR
+    private Boolean           verbose;    // NOSONAR
     private CommandLine       commandLine;
     private FileFiltersConfig fileFiltersConfig;
 
@@ -175,7 +169,8 @@ public class CLIParameters
      * @param args String from command line
      * @throws CLIParametersException if any
      */
-    public void parseArguments( final String[] args ) throws CLIParametersException
+    public void parseArguments( final String[] args )
+        throws CLIParametersException
     {
         this.commandLine = null;
 

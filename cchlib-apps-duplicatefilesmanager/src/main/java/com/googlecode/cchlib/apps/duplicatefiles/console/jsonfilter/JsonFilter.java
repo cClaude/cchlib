@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
@@ -16,7 +17,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersC
 /**
  *
  */
-public class JsonFilter
+public class JsonFilter implements CommandTask
 {
     private final File           jsonInputFile;
     private final FilenameFilter directoriesFileFilter;
@@ -48,12 +49,10 @@ public class JsonFilter
         }
    }
 
-    public List<HashFile> getAllHash() throws JSONHelperException
+    @Override
+    public List<HashFile> doTask() throws CLIParametersException
     {
-        final List<HashFile> list = JSONHelper.load(
-                this.jsonInputFile,
-                new TypeReference<List<HashFile>>() {}
-                );
+        final List<HashFile> list = load();
 
         final Iterator<HashFile> iterator = list.iterator();
 
@@ -83,6 +82,19 @@ public class JsonFilter
         return list;
     }
 
+    private List<HashFile> load() throws CLIParametersException
+    {
+        try {
+            return JSONHelper.load(
+                    this.jsonInputFile,
+                    new TypeReference<List<HashFile>>() {}
+                    );
+        }
+        catch( final JSONHelperException e ) {
+            throw new CLIParametersException( CLIParameters.JSON_IN, "Error while reading :" + this.jsonInputFile, e );
+        }
+    }
+
     private boolean removeEntryAccordingToFiles( final File file )
     {
         return !this.filesFileFilter.accept( file.getParentFile(), file.getName() );
@@ -103,5 +115,4 @@ public class JsonFilter
 
         return false;
     }
-
 }

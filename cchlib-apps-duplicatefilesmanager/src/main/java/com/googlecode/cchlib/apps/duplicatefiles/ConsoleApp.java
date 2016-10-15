@@ -8,13 +8,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
-import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters.Command;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.Command;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.hash.HashCompute;
-import com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter.JsonFilter;
 
 /**
  * Handle console mode
@@ -33,7 +32,7 @@ public class ConsoleApp
      * @throws CLIParametersException
      * @throws NoSuchAlgorithmException
      */
-    public static void main( final String[] args ) throws NoSuchAlgorithmException
+    public static void main( final String[] args )
     {
         final CLIParameters cli = new CLIParameters();
 
@@ -54,38 +53,27 @@ public class ConsoleApp
     }
 
     private static void startApp( final CLIParameters cli )
-            throws CLIParametersException, NoSuchAlgorithmException, JSONHelperException
+        throws CLIParametersException,
+                JSONHelperException
     {
-        final Command cmd = cli.getCommand();
+        final Command           cmd         = cli.getCommand();
+        final CommandTask       task        = cmd.newTask( cli );
+        final List<HashFile>    hashFiles   = task.doTask();
 
-        switch( cmd ) {
-            case Filter:
-                doFilter( cli );
-                break;
-            case Hash:
-                doHash( cli );
-                break;
-        }
+        if( hashFiles != null ) {
+            final File jsonFile = cli.getJsonOutputFile();
 
-    }
+            if( jsonFile != null ) {
+                createParentDirsOf( jsonFile ); // TODO should be optional
 
-    private static void doFilter( final CLIParameters cli )
-        throws CLIParametersException, JSONHelperException
-    {
-        final File              jsonFile      = cli.getJsonOutputFile();
-        final JsonFilter        instance      = new JsonFilter( cli );
-        final List<HashFile>    hashFiles     = instance.getAllHash();
+                try {
+                    final boolean prettyJson = cli.isPrettyJson();
 
-        if( jsonFile != null ) {
-            createParentDirsOf( jsonFile );
-
-            try {
-                final boolean prettyJson = cli.isPrettyJson();
-
-                JSONHelper.toJSON( jsonFile, hashFiles, prettyJson );
-            }
-            catch( final JSONHelperException e ) {
-                CLIHelper.printError( "Error while writing JSON result", jsonFile, e );
+                    JSONHelper.toJSON( jsonFile, hashFiles, prettyJson );
+                }
+                catch( final JSONHelperException e ) {
+                    CLIHelper.printError( "Error while writing JSON result", jsonFile, e );
+                }
             }
         }
     }
@@ -105,25 +93,4 @@ public class ConsoleApp
             }
         }
    }
-
-    private static void doHash( final CLIParameters cli )
-            throws CLIParametersException, NoSuchAlgorithmException
-    {
-        final File              jsonFile      = cli.getJsonOutputFile();
-        final HashCompute       instance      = new HashCompute( cli );
-        final List<HashFile>    hashFiles     = instance.getAllHash();
-
-        if( jsonFile != null ) {
-            createParentDirsOf( jsonFile );
-
-            try {
-                final boolean prettyJson = cli.isPrettyJson();
-
-                JSONHelper.toJSON( jsonFile, hashFiles, prettyJson );
-            }
-            catch( final JSONHelperException e ) {
-                CLIHelper.printError( "Error while writing JSON result", jsonFile, e );
-            }
-        }
-    }
 }

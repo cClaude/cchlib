@@ -9,6 +9,8 @@ import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTaskException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.io.DirectoryIterator;
@@ -19,7 +21,7 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 /**
  * Compute hash code of all files (recursive)
  */
-public class HashCompute
+public class HashCompute implements CommandTask
 {
     private final FileDigestFactory fileDigestFactory;
     private final File directortFile;
@@ -49,7 +51,19 @@ public class HashCompute
         }
     }
 
-    public List<HashFile> getAllHash() throws NoSuchAlgorithmException
+    @Override
+    public List<HashFile> doTask()
+    {
+        try {
+            return internalDoTask();
+        }
+        catch( final NoSuchAlgorithmException e ) {
+            // Should not occur
+            throw new CommandTaskException( "Internal error", e );
+        }
+    }
+
+    private List<HashFile> internalDoTask() throws NoSuchAlgorithmException
     {
         final List<HashFile>    listHashFile = new ArrayList<>();
         final DirectoryIterator iter         = new DirectoryIterator( this.directortFile, this.directoriesFileFilter );
@@ -64,7 +78,7 @@ public class HashCompute
         }
 
         return listHashFile;
-    }
+   }
 
     private void handleHashes( //
         final List<HashFile> listHashFile, //

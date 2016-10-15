@@ -16,7 +16,17 @@ public class CLIParametersException extends Exception
         this.cliMessage    = "Parsing error";
     }
 
-    CLIParametersException( final String parameterName, final String cliMessage, final Exception cause )
+    /**
+     *
+     * @param parameterName
+     * @param cliMessage
+     * @param cause
+     */
+    public CLIParametersException(
+            final String    parameterName,
+            final String    cliMessage,
+            final Exception cause
+            )
     {
         super( cause );
 
@@ -24,7 +34,15 @@ public class CLIParametersException extends Exception
         this.cliMessage    = cliMessage;
     }
 
-    public CLIParametersException( final String parameterName, final String cliMessage )
+    /**
+     *
+     * @param parameterName
+     * @param cliMessage
+     */
+    public CLIParametersException(
+            final String parameterName,
+            final String cliMessage
+            )
     {
         this.parameterName = parameterName;
         this.cliMessage    = cliMessage;
