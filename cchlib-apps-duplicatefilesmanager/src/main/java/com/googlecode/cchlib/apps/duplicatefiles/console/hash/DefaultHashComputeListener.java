@@ -3,7 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.console.hash;
 import java.io.File;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 
-final class DefaultHashComputeListener implements HashComputeListener
+final class DefaultHashComputeListener implements HashComputeTaskListener
 {
     @Override
     public void computeDigest( final File file, final int length )

@@ -4,20 +4,19 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.Iterator;
 import java.util.List;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
-import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
-import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 
 /**
  *
  */
-public class JsonFilter implements CommandTask
+public class JsonFilterTask
+    extends AbstractJsonFilterTask
+        implements CommandTask
 {
     private final File           jsonInputFile;
     private final FilenameFilter directoriesFileFilter;
@@ -26,12 +25,12 @@ public class JsonFilter implements CommandTask
     private final boolean        verbose;
 
     /**
-     * Create a {@link JsonFilter} based on <code>cli</code>
+     * Create a {@link JsonFilterTask} based on <code>cli</code>
      *
      * @param cli Parameters from CLI
      * @throws CLIParametersException if any
      */
-    public JsonFilter( final CLIParameters cli ) throws CLIParametersException
+    public JsonFilterTask( final CLIParameters cli ) throws CLIParametersException
     {
         this.jsonInputFile = cli.getJsonInputFile();
 
@@ -73,7 +72,7 @@ public class JsonFilter implements CommandTask
                     iterator.remove();
 
                     if( ! this.quiet ) {
-                        CLIHelper.printMessage( hf.getFile().getPath() );
+                        CLIHelper.printMessage( "Ignore:" + hf.getFile().getPath() );
                     }
                 }
             }
@@ -82,22 +81,9 @@ public class JsonFilter implements CommandTask
         return list;
     }
 
-    private List<HashFile> load() throws CLIParametersException
-    {
-        try {
-            return JSONHelper.load(
-                    this.jsonInputFile,
-                    new TypeReference<List<HashFile>>() {}
-                    );
-        }
-        catch( final JSONHelperException e ) {
-            throw new CLIParametersException( CLIParameters.JSON_IN, "Error while reading :" + this.jsonInputFile, e );
-        }
-    }
-
     private boolean removeEntryAccordingToFiles( final File file )
     {
-        return !this.filesFileFilter.accept( file.getParentFile(), file.getName() );
+        return this.filesFileFilter.accept( file.getParentFile(), file.getName() );
     }
 
     private boolean removeEntryAccordingToDirectories( final File file )
@@ -107,12 +93,18 @@ public class JsonFilter implements CommandTask
         while( currentFile != null ) {
             final File currentParent = currentFile.getParentFile();
 
-            if( !this.directoriesFileFilter.accept( currentParent, currentFile.getName() ) ) {
+            if( this.directoriesFileFilter.accept( currentParent, currentFile.getName() ) ) {
                 return true;
             }
             currentFile = currentParent;
         }
 
         return false;
+    }
+
+    @Override
+    protected File getJsonInputFile()
+    {
+        return this.jsonInputFile;
     }
 }

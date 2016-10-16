@@ -46,15 +46,11 @@ public class ConsoleApp
         catch( final CLIParametersException e ) {
             CLIHelper.printErrorAndExit( cli, e );
         }
-        catch( final JSONHelperException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+
     }
 
     private static void startApp( final CLIParameters cli )
-        throws CLIParametersException,
-                JSONHelperException
+        throws CLIParametersException
     {
         final Command           cmd         = cli.getCommand();
         final CommandTask       task        = cmd.newTask( cli );
@@ -79,6 +75,7 @@ public class ConsoleApp
     }
 
     private static void createParentDirsOf( final File file )
+        throws CLIParametersException
     {
         final File parentDirFile = file.getParentFile();
 
@@ -88,8 +85,11 @@ public class ConsoleApp
                 Files.createDirectories( dir );
             }
             catch( final IOException e ) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new CLIParametersException(
+                        "none (can not create parent dir)",
+                        parentDirFile.getPath(),
+                        e
+                        );
             }
         }
    }

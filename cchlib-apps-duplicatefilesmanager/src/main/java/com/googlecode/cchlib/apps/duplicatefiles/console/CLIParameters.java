@@ -11,7 +11,7 @@ import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
-import com.googlecode.cchlib.apps.duplicatefiles.console.hash.HashComputeListener;
+import com.googlecode.cchlib.apps.duplicatefiles.console.hash.HashComputeTaskListener;
 import com.googlecode.cchlib.apps.duplicatefiles.console.hash.ListenerFactory;
 import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
@@ -24,12 +24,12 @@ public class CLIParameters
 {
     private static final String ALGORITHM = "algorithm";
     private static final String BUFFER_SIZE = "buffer-size";
-    private static final String COMMAND = "Command";
+    private static final String COMMAND = "command";
     private static final String DIRECTORIY_TO_SCAN = "directory";
     private static final String FILES_FILTER = "files-filter";
     private static final String FILES_FILTER_FROM_FILE = "files-filter-from-file";
     private static final String HELP = "help";
-    public static final String JSON_IN = "input";
+    public  static final String JSON_IN = "input";
     private static final String JSON_OUT = "json";
     private static final String PRETTY_JSON = "pretty-json";
     private static final String QUIET = "quiet";
@@ -294,7 +294,7 @@ public class CLIParameters
         }
     }
 
-    public HashComputeListener getHashComputeListener()
+    public HashComputeTaskListener getHashComputeListener()
     {
         if( isQuiet() ) {
             return ListenerFactory.getBuilder().createQuietListener();

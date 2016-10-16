@@ -2,7 +2,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.console.hash;
 
 import java.io.File;
 
-final class QuietHashComputeListener implements HashComputeListener
+final class QuietHashComputeListener implements HashComputeTaskListener
 {
     @Override
     public void computeDigest( final File file, final int length )

@@ -21,11 +21,11 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 /**
  * Compute hash code of all files (recursive)
  */
-public class HashCompute implements CommandTask
+public class HashComputeTask implements CommandTask
 {
     private final FileDigestFactory fileDigestFactory;
     private final File directortFile;
-    private final HashComputeListener listener;
+    private final HashComputeTaskListener listener;
     private final FileFilter filesFileFilter;
     private final FileFilter directoriesFileFilter;
 
@@ -34,7 +34,7 @@ public class HashCompute implements CommandTask
      * @param cliHelper Helper for CLI parameters
      * @throws CLIParametersException
      */
-    public HashCompute( final CLIParameters cli ) throws CLIParametersException
+    public HashComputeTask( final CLIParameters cli ) throws CLIParametersException
     {
         this.fileDigestFactory     = cli.getFileDigestFactory();
         this.directortFile         = cli.getDirectory();

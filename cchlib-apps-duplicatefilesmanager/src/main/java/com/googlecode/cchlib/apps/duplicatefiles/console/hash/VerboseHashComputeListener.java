@@ -3,7 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.console.hash;
 import java.io.File;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 
-final class VerboseHashComputeListener implements HashComputeListener
+final class VerboseHashComputeListener implements HashComputeTaskListener
 {
     private File currentFile;
     private long currentLength;

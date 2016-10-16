@@ -31,6 +31,12 @@ public class HashFile implements Serializable
         this.file = file;
     }
 
+    @Override
+    public String toString()
+    {
+        return "" + this.hash + "\t" + this.file.getPath();
+    }
+
     public String getHash()
     {
         return this.hash;

@@ -2,13 +2,17 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 
 import java.util.List;
 
+/**
+ * Handle --command option
+ */
 public interface CommandTask
 {
     /**
+     * Run related task for this command
      *
-     * @return
-     * @throws CommandTaskException
-     * @throws CLIParametersException
+     * @return related result
+     * @throws CommandTaskException if any
+     * @throws CLIParametersException if any
      */
     List<HashFile> doTask()
         throws

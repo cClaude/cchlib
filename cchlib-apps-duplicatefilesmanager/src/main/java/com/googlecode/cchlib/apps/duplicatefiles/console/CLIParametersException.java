@@ -2,6 +2,9 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 
 import org.apache.commons.cli.ParseException;
 
+/**
+ *
+ */
 public class CLIParametersException extends Exception
 {
     private static final long serialVersionUID = 1L;

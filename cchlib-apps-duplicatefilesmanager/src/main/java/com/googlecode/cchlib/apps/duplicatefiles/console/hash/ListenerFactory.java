@@ -12,17 +12,17 @@ public class ListenerFactory
         return new ListenerFactory();
     }
 
-    public HashComputeListener createQuietListener()
+    public HashComputeTaskListener createQuietListener()
     {
         return new QuietHashComputeListener();
     }
 
-    public HashComputeListener createVerboseListener()
+    public HashComputeTaskListener createVerboseListener()
     {
         return new VerboseHashComputeListener();
     }
 
-    public HashComputeListener createDefaultListener()
+    public HashComputeTaskListener createDefaultListener()
     {
         return new DefaultHashComputeListener();
     }
