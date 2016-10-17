@@ -9,11 +9,11 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
 
-public abstract class AbstractJsonFilterTask
+public abstract class AbstractJsonLoader
 {
     protected abstract File getJsonInputFile();
 
-    protected List<HashFile> load() throws CLIParametersException
+    protected List<HashFile> loadJsonInputFile() throws CLIParametersException
     {
         try {
             return JSONHelper.load(
@@ -25,5 +25,4 @@ public abstract class AbstractJsonFilterTask
             throw new CLIParametersException( CLIParameters.JSON_IN, "Error while reading :" + getJsonInputFile(), e );
         }
     }
-
 }

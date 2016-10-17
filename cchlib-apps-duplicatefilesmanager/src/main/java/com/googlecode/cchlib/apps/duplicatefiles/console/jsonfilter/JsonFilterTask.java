@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter;
 
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.FileFilter;
 import java.util.Iterator;
 import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
@@ -9,20 +9,21 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
+import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 
 /**
- *
+ * Filter JSON list base on file filters
  */
 public class JsonFilterTask
-    extends AbstractJsonFilterTask
+    extends AbstractJsonLoader
         implements CommandTask
 {
-    private final File           jsonInputFile;
-    private final FilenameFilter directoriesFileFilter;
-    private final FilenameFilter filesFileFilter;
-    private final boolean        quiet;
-    private final boolean        verbose;
+    private final File       jsonInputFile;
+    private final FileFilter directoriesFileFilter;
+    private final FileFilter filesFileFilter;
+    private final boolean    notQuiet;
+    private final boolean    verbose;
 
     /**
      * Create a {@link JsonFilterTask} based on <code>cli</code>
@@ -33,14 +34,13 @@ public class JsonFilterTask
     public JsonFilterTask( final CLIParameters cli ) throws CLIParametersException
     {
         this.jsonInputFile = cli.getJsonInputFile();
+        this.verbose       = cli.isVerbose();
+        this.notQuiet      = !cli.isQuiet();
 
         final FileFiltersConfig ffc = cli.getFileFiltersConfig();
 
-        this.filesFileFilter       = FileFiltersConfig.getFilenameFilterForFiles( ffc );
-        this.directoriesFileFilter = FileFiltersConfig.getFilenameFilterForDirectories( ffc );
-
-        this.verbose = cli.isVerbose();
-        this.quiet   = cli.isQuiet();
+        this.filesFileFilter       = FileFilterFactory.getFileFilterForFiles( ffc, this.verbose );
+        this.directoriesFileFilter = FileFilterFactory.getFileFilterForDirectories( ffc, this.verbose );
 
         if( this.verbose ) {
             CLIHelper.trace( "Files FileFilter", this.filesFileFilter );
@@ -51,7 +51,7 @@ public class JsonFilterTask
     @Override
     public List<HashFile> doTask() throws CLIParametersException
     {
-        final List<HashFile> list = load();
+        final List<HashFile> list = loadJsonInputFile();
 
         final Iterator<HashFile> iterator = list.iterator();
 
@@ -62,16 +62,16 @@ public class JsonFilterTask
                 boolean removeEntry = false;
 
                 if( this.directoriesFileFilter != null ) {
-                    removeEntry = removeEntryAccordingToDirectories( hf.getFile() );
+                    removeEntry = shouldRemoveEntryAccordingToDirectories( hf.getFile() );
                 }
                 if( !removeEntry && (this.filesFileFilter != null) ) {
-                    removeEntry = removeEntryAccordingToFiles( hf.getFile() );
+                    removeEntry = shouldRemoveEntryAccordingToFiles( hf.getFile() );
                 }
 
                 if( removeEntry ) {
                     iterator.remove();
 
-                    if( ! this.quiet ) {
+                    if( this.notQuiet ) { // NOSONAR
                         CLIHelper.printMessage( "Ignore:" + hf.getFile().getPath() );
                     }
                 }
@@ -81,25 +81,24 @@ public class JsonFilterTask
         return list;
     }
 
-    private boolean removeEntryAccordingToFiles( final File file )
+    private boolean shouldRemoveEntryAccordingToDirectories( final File file )
     {
-        return this.filesFileFilter.accept( file.getParentFile(), file.getName() );
-    }
+        File currentParent = file.getParentFile();
 
-    private boolean removeEntryAccordingToDirectories( final File file )
-    {
-        File currentFile = file.getParentFile();
+        while( currentParent != null ) {
 
-        while( currentFile != null ) {
-            final File currentParent = currentFile.getParentFile();
-
-            if( this.directoriesFileFilter.accept( currentParent, currentFile.getName() ) ) {
+            if( ! this.directoriesFileFilter.accept( currentParent ) ) {
                 return true;
             }
-            currentFile = currentParent;
+            currentParent = currentParent.getParentFile();
         }
 
         return false;
+    }
+
+    private boolean shouldRemoveEntryAccordingToFiles( final File file )
+    {
+        return !this.filesFileFilter.accept( file );
     }
 
     @Override

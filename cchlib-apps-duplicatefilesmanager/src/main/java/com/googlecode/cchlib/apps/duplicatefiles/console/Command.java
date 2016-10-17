@@ -11,15 +11,17 @@ public enum Command {
     /**
      * Build hash list
      */
-    Hash( HashComputeTaskFactory.class ),
+    Hash( HashComputeTaskFactory.class ), // NOSONAR
+
     /**
      * Filter an existing hash list
      */
-    Filter( JsonFilterTaskFactory.class ),
+    Filter( JsonFilterTaskFactory.class ), // NOSONAR
+
     /**
      * Filter an existing hash list
      */
-    Duplicate( DuplicateTaskFactory.class ),
+    Duplicate( DuplicateTaskFactory.class ), // NOSONAR
     ;
 
     private Class<? extends CommandTaskFactory> clazz;

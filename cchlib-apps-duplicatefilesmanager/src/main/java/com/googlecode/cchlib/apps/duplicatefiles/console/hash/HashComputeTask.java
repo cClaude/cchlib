@@ -12,6 +12,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTaskException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
+import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.io.DirectoryIterator;
 import com.googlecode.cchlib.util.CancelRequestException;
@@ -30,6 +31,7 @@ public class HashComputeTask implements CommandTask
     private final FileFilter directoriesFileFilter;
 
     /**
+     * Create {@link HashComputeTask} based on <code>cli</code>
      *
      * @param cliHelper Helper for CLI parameters
      * @throws CLIParametersException
@@ -40,12 +42,13 @@ public class HashComputeTask implements CommandTask
         this.directortFile         = cli.getDirectory();
         this.listener              = cli.getHashComputeListener();
 
-        final FileFiltersConfig ffc = cli.getFileFiltersConfig();
+        final FileFiltersConfig ffc     = cli.getFileFiltersConfig();
+        final boolean           verbose = cli.isVerbose();
 
-        this.filesFileFilter       = FileFiltersConfig.getFileFilterForFiles( ffc );
-        this.directoriesFileFilter = FileFiltersConfig.getFileFilterForDirectories( ffc );
+        this.filesFileFilter       = FileFilterFactory.getFileFilterForFiles( ffc, verbose );
+        this.directoriesFileFilter = FileFilterFactory.getFileFilterForDirectories( ffc, verbose );
 
-        if( cli.isVerbose() ) {
+        if( verbose ) {
             CLIHelper.trace( "Files FileFilter", this.filesFileFilter );
             CLIHelper.trace( "Directories FileFilter", this.directoriesFileFilter );
         }

@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console.duplicate;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,83 +10,122 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTaskException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
-import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
-import com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter.AbstractJsonFilterTask;
+import com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter.AbstractJsonLoader;
+import com.googlecode.cchlib.lang.StringHelper;
 
+/**
+ * Filter JSON list, keep only duplicate
+ */
 public class DuplicateTask
-    extends AbstractJsonFilterTask
+    extends AbstractJsonLoader
         implements CommandTask
 {
-    private final boolean        verbose;
-    private final boolean        notQuiet;
-    private final FilenameFilter directoriesFileFilter;
-    private final FilenameFilter filesFileFilter;
-    private final File           jsonInputFile;
+    private class FindDuplicates
+    {
+        private static final String FAKE_HASH = StringHelper.EMPTY;
 
+        private final List<HashFile> sortedList;
+        private final List<HashFile> result = new ArrayList<>();
+        private HashFile             prevHashFile;
+        private String               prevHash;
+
+        FindDuplicates( final List<HashFile> list )
+        {
+            this.sortedList = list;
+        }
+
+        List<HashFile> findDuplicate()
+        {
+            this.prevHashFile = null;
+            this.prevHash     = FAKE_HASH;
+
+            for( final HashFile hf : this.sortedList ) {
+                //
+                // Skip entry if not exist on disk
+                //
+                if( hf.getFile().exists() ) {
+                    handleExistingFile( hf );
+                }
+            }
+
+            return this.result;
+        }
+
+        private void handleExistingFile( final HashFile hf )
+        {
+            //
+            // At least 2 occurrences.
+            //
+            if( isAtLeastTwoExistingOccurences( hf ) ) {
+                //
+                // Previous occurrences not yet saved
+                //
+               if( this.prevHashFile != null ) {
+                    this.result.add( this.prevHashFile );
+
+                    if( DuplicateTask.this.notQuiet ) {
+                        CLIHelper.printMessage( this.prevHashFile.toString() );
+                    }
+
+                    this.prevHashFile = null;
+                }
+                this.result.add( hf );
+
+                if( DuplicateTask.this.notQuiet ) {
+                    CLIHelper.printMessage( hf.toString() );
+                }
+            } else {
+                if( this.prevHashFile != null ) {
+                    //
+                    // Previous value not stored
+                    // So this file should be ignore
+                    //
+                    if( DuplicateTask.this.verbose ) { // NOSONAR
+                        CLIHelper.trace( "#Ignore", this.prevHashFile );
+                    }
+                }
+
+                // New file - store values
+                this.prevHashFile = hf;
+                this.prevHash     = hf.getHash();
+            }
+        }
+
+        private boolean isAtLeastTwoExistingOccurences( final HashFile hf )
+        {
+            return hf.getHash().compareTo( this.prevHash ) == 0;
+        }
+
+    }
+    private final boolean   verbose;
+    private final boolean   notQuiet;
+    private final File      jsonInputFile;
+
+    /**
+     * Create a {@link DuplicateTask} based on <code>cli</code>
+     *
+     * @param cli Parameters from CLI
+     * @throws CLIParametersException if any
+     */
     public DuplicateTask( final CLIParameters cli ) throws CLIParametersException
     {
         this.jsonInputFile = cli.getJsonInputFile();
-
-        final FileFiltersConfig ffc = cli.getFileFiltersConfig();
-
-        this.filesFileFilter       = FileFiltersConfig.getFilenameFilterForFiles( ffc );
-        this.directoriesFileFilter = FileFiltersConfig.getFilenameFilterForDirectories( ffc );
-
-        this.verbose  = cli.isVerbose();
-        this.notQuiet = ! cli.isQuiet();
-
-        if( this.verbose ) {
-            CLIHelper.trace( "Files FileFilter", this.filesFileFilter );
-            CLIHelper.trace( "Directories FileFilter", this.directoriesFileFilter );
-        }
+        this.verbose       = cli.isVerbose();
+        this.notQuiet      = !cli.isQuiet();
     }
 
     @Override
-    public List<HashFile> doTask() throws CommandTaskException, CLIParametersException
+    public List<HashFile> doTask()
+        throws CommandTaskException, CLIParametersException // NOSONAR
     {
-        final List<HashFile> list = load();
+        final List<HashFile> list = loadJsonInputFile();
 
         Collections.sort(
             list,
             ( hf1, hf2 ) -> hf1.getHash().compareTo( hf2.getHash() )
             );
 
-        final List<HashFile> result       = new ArrayList<>();
-        HashFile             prevHashFile = null;
-        String               prevHash     = null;
-
-        for( final HashFile hf : list ) {
-            if( (prevHash != null) && (hf.getHash().compareTo( prevHash ) == 0) ) {
-                // At least 2 occurrences.
-                if( prevHashFile != null ) {
-                    // Previous occurrences not yet saved
-                    result.add( prevHashFile );
-
-                    if( this.notQuiet ) {
-                        CLIHelper.printMessage( prevHashFile.toString() );
-                    }
-
-                    prevHashFile = null;
-                }
-                result.add( hf );
-
-                if( this.notQuiet ) {
-                    CLIHelper.printMessage( hf.toString() );
-                }
-            } else {
-                if( prevHashFile != null ) {
-                    // Previous value not stored
-                    if( this.verbose ) {
-                        CLIHelper.trace( "#Ignore", prevHashFile );
-                    }
-                }
-                // New file - store values
-                prevHashFile = hf;
-                prevHash     = hf.getHash();
-            }
-        }
-
-        return result;
+        return new FindDuplicates( list ).findDuplicate();
     }
 
     @Override

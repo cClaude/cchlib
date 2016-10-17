@@ -71,9 +71,11 @@ public class JSONHelper
     }
 
     /**
+     * Store <code>value</code> in file <code>jsonFile</code>
      *
-     * @param jsonFile
-     * @param value
+     * @param jsonFile File to use to store <code>value</code>
+     * @param value Object to serialize
+     * @param prettyJson If true format output
      * @throws JSONHelperException
      */
     public static <T> void toJSON( //

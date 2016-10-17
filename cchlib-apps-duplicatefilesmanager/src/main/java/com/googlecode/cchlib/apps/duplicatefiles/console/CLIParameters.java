@@ -195,7 +195,7 @@ public class CLIParameters
     {
         final HelpFormatter formatter = new HelpFormatter();
 
-        final String cmdLineSyntax = "TODO"; // TODO
+        final String cmdLineSyntax = "TODO"; // TODO command line syntax
         formatter.printHelp( cmdLineSyntax  , this.options );
     }
 
