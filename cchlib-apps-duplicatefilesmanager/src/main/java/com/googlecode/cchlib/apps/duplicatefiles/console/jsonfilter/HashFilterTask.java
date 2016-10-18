@@ -9,15 +9,15 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
+import com.googlecode.cchlib.apps.duplicatefiles.console.JSONLoaderHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
+import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.HandleFilter;
 
 /**
  * Filter JSON list base on file filters
  */
-public class JsonFilterTask
-    extends AbstractJsonLoader
-        implements CommandTask
+public class HashFilterTask extends HandleFilter implements CommandTask
 {
     private final File       jsonInputFile;
     private final FileFilter directoriesFileFilter;
@@ -26,12 +26,12 @@ public class JsonFilterTask
     private final boolean    verbose;
 
     /**
-     * Create a {@link JsonFilterTask} based on <code>cli</code>
+     * Create a {@link HashFilterTask} based on <code>cli</code>
      *
      * @param cli Parameters from CLI
      * @throws CLIParametersException if any
      */
-    public JsonFilterTask( final CLIParameters cli ) throws CLIParametersException
+    public HashFilterTask( final CLIParameters cli ) throws CLIParametersException
     {
         this.jsonInputFile = cli.getJsonInputFile();
         this.verbose       = cli.isVerbose();
@@ -51,24 +51,15 @@ public class JsonFilterTask
     @Override
     public List<HashFile> doTask() throws CLIParametersException
     {
-        final List<HashFile> list = loadJsonInputFile();
-
+        final List<HashFile>     list     = JSONLoaderHelper.loadHash( this.jsonInputFile );
         final Iterator<HashFile> iterator = list.iterator();
 
         while( iterator.hasNext() ) {
             final HashFile hf = iterator.next();
 
             if( this.filesFileFilter != null ) {
-                boolean removeEntry = false;
 
-                if( this.directoriesFileFilter != null ) {
-                    removeEntry = shouldRemoveEntryAccordingToDirectories( hf.getFile() );
-                }
-                if( !removeEntry && (this.filesFileFilter != null) ) {
-                    removeEntry = shouldRemoveEntryAccordingToFiles( hf.getFile() );
-                }
-
-                if( removeEntry ) {
+                if( shouldRemoveFile( hf.getFile() ) ) {
                     iterator.remove();
 
                     if( this.notQuiet ) { // NOSONAR
@@ -81,29 +72,15 @@ public class JsonFilterTask
         return list;
     }
 
-    private boolean shouldRemoveEntryAccordingToDirectories( final File file )
+    @Override
+    protected FileFilter getDirectoriesFileFilter()
     {
-        File currentParent = file.getParentFile();
-
-        while( currentParent != null ) {
-
-            if( ! this.directoriesFileFilter.accept( currentParent ) ) {
-                return true;
-            }
-            currentParent = currentParent.getParentFile();
-        }
-
-        return false;
-    }
-
-    private boolean shouldRemoveEntryAccordingToFiles( final File file )
-    {
-        return !this.filesFileFilter.accept( file );
+        return this.directoriesFileFilter;
     }
 
     @Override
-    protected File getJsonInputFile()
+    protected FileFilter getFilesFileFilter()
     {
-        return this.jsonInputFile;
+        return this.filesFileFilter;
     }
 }

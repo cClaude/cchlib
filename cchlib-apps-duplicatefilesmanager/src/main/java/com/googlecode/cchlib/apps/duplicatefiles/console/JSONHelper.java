@@ -2,8 +2,12 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 
 import java.io.File;
 import java.io.IOException;
+import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -16,6 +20,12 @@ public class JSONHelper
         // Empty - All static
     }
 
+    /**
+     *
+     * @param value
+     * @return
+     * @throws JsonProcessingException
+     */
     public static <T> String toJSON( //
         final T value
         ) throws JsonProcessingException
@@ -25,6 +35,13 @@ public class JSONHelper
         return mapper.writeValueAsString( value );
     }
 
+    /**
+     *
+     * @param jsonString
+     * @param clazz
+     * @return
+     * @throws JSONHelperException
+     */
     public static <T> T fromJSON( //
         final String   jsonString,
         final Class<T> clazz
@@ -59,6 +76,14 @@ public class JSONHelper
             throw new JSONHelperException( e );
         }
     }
+
+    /**
+     *
+     * @param jsonFile
+     * @param type
+     * @return
+     * @throws JSONHelperException
+     */
     public static <T> T load( final File jsonFile, final TypeReference<T> type )
         throws JSONHelperException
     {
@@ -88,7 +113,11 @@ public class JSONHelper
 
         try {
             if( prettyJson ) {
-                mapper.writerWithDefaultPrettyPrinter().writeValue( jsonFile, value );
+                if( isUseStandardPrettyPrint() ) {
+                    prettyPrint( jsonFile, value, mapper );
+                } else {
+                    prettyPrintArray( jsonFile, value, mapper );
+                }
             } else {
                 mapper.writeValue( jsonFile, value );
             }
@@ -97,4 +126,33 @@ public class JSONHelper
             throw new JSONHelperException( e );
         }
     }
+
+    private static boolean isUseStandardPrettyPrint()
+    {
+        return Boolean.getBoolean( "UseStandardPrettyPrint" );
+    }
+
+    private static <T> void prettyPrint( final File jsonFile, final T value, final ObjectMapper mapper )
+        throws
+            IOException,
+            JsonGenerationException, // NOSONAR
+            JsonMappingException // NOSONAR
+    {
+        mapper.writerWithDefaultPrettyPrinter().writeValue( jsonFile, value );
+    }
+
+    private static <T> void prettyPrintArray( final File jsonFile, final T value, final ObjectMapper mapper )
+        throws
+            IOException,
+            JsonGenerationException, // NOSONAR
+            JsonMappingException // NOSONAR
+    {
+        final DefaultPrettyPrinter pp = new DefaultPrettyPrinter();
+
+        pp.indentArraysWith( DefaultIndenter.SYSTEM_LINEFEED_INSTANCE );
+
+        mapper.writer(pp).writeValue( jsonFile, value );
+    }
+
+
 }

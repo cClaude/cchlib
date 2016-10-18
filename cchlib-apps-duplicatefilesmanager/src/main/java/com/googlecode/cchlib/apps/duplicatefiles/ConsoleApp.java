@@ -1,9 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
@@ -11,7 +8,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.Command;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
-import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
+import com.googlecode.cchlib.apps.duplicatefiles.console.DirectoriesHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
 
@@ -52,20 +49,20 @@ public class ConsoleApp
     private static void startApp( final CLIParameters cli )
         throws CLIParametersException
     {
-        final Command           cmd         = cli.getCommand();
-        final CommandTask       task        = cmd.newTask( cli );
-        final List<HashFile>    hashFiles   = task.doTask();
+        final Command     cmd         = cli.getCommand();
+        final CommandTask task        = cmd.newTask( cli );
+        final List<?>     listResult  = task.doTask();
 
-        if( hashFiles != null ) {
+        if( listResult != null ) {
             final File jsonFile = cli.getJsonOutputFile();
 
             if( jsonFile != null ) {
-                createParentDirsOf( jsonFile ); // TODO should be optional
+                DirectoriesHelper.createParentDirsOf( jsonFile ); // TODO should be optional
 
                 try {
                     final boolean prettyJson = cli.isPrettyJson();
 
-                    JSONHelper.toJSON( jsonFile, hashFiles, prettyJson );
+                    JSONHelper.toJSON( jsonFile, listResult, prettyJson );
                 }
                 catch( final JSONHelperException e ) {
                     CLIHelper.printError( "Error while writing JSON result", jsonFile, e );
@@ -73,24 +70,4 @@ public class ConsoleApp
             }
         }
     }
-
-    private static void createParentDirsOf( final File file )
-        throws CLIParametersException
-    {
-        final File parentDirFile = file.getParentFile();
-
-        if( ! parentDirFile.exists() ) {
-            final Path dir = parentDirFile.toPath();
-            try {
-                Files.createDirectories( dir );
-            }
-            catch( final IOException e ) {
-                throw new CLIParametersException(
-                        "none (can not create parent dir)",
-                        parentDirFile.getPath(),
-                        e
-                        );
-            }
-        }
-   }
 }

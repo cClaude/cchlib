@@ -31,6 +31,7 @@ public class CLIParameters
     private static final String HELP = "help";
     public  static final String JSON_IN = "input";
     private static final String JSON_OUT = "json";
+    private static final String JSON_DUPLICATE = "duplicates";
     private static final String PRETTY_JSON = "pretty-json";
     private static final String QUIET = "quiet";
     private static final String VERBOSE = "verbose";
@@ -81,6 +82,12 @@ public class CLIParameters
         options.addOption(
                 OptionBuilder.withLongOpt( JSON_OUT ) // NOSONAR
                     .withDescription( "Optionnal output json file" )
+                    .hasArg()
+                    .create() // NOSONAR
+                );
+        options.addOption(
+                OptionBuilder.withLongOpt( JSON_DUPLICATE ) // NOSONAR
+                    .withDescription( "Optionnal output json file for duplicates" )
                     .hasArg()
                     .create() // NOSONAR
                 );
@@ -212,13 +219,23 @@ public class CLIParameters
 
     public File getJsonOutputFile()
     {
-        final String jsonFilename = this.commandLine.getOptionValue( JSON_OUT );
+        return getOptionalFile( JSON_OUT );
+    }
+
+    public File getJsonDuplicateFile()
+    {
+        return getOptionalFile( JSON_DUPLICATE );
+    }
+
+    private File getOptionalFile( final String paramName )
+    {
+        final String jsonFilename = this.commandLine.getOptionValue( paramName );
 
         if( jsonFilename != null ) {
             return new File( jsonFilename );
         }
 
-        return null; // Optional parameter no available
+        return null; // Optional parameter no value
     }
 
     private MessageDigestAlgorithms getAlgorithms() throws CLIParametersException

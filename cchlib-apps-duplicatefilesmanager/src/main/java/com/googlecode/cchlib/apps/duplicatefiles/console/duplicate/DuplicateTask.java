@@ -10,15 +10,17 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTaskException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
-import com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter.AbstractJsonLoader;
+import com.googlecode.cchlib.apps.duplicatefiles.console.HashFiles;
+import com.googlecode.cchlib.apps.duplicatefiles.console.HashFilesHelper;
+import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
+import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.JSONLoaderHelper;
 import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Filter JSON list, keep only duplicate
  */
-public class DuplicateTask
-    extends AbstractJsonLoader
-        implements CommandTask
+public class DuplicateTask implements CommandTask
 {
     private class FindDuplicates
     {
@@ -100,6 +102,8 @@ public class DuplicateTask
     private final boolean   verbose;
     private final boolean   notQuiet;
     private final File      jsonInputFile;
+    private final File      jsonDuplicateFile;
+    private final boolean   prettyJson;
 
     /**
      * Create a {@link DuplicateTask} based on <code>cli</code>
@@ -109,28 +113,49 @@ public class DuplicateTask
      */
     public DuplicateTask( final CLIParameters cli ) throws CLIParametersException
     {
-        this.jsonInputFile = cli.getJsonInputFile();
-        this.verbose       = cli.isVerbose();
-        this.notQuiet      = !cli.isQuiet();
+        this.jsonInputFile      = cli.getJsonInputFile();
+        this.jsonDuplicateFile  = cli.getJsonDuplicateFile();
+        this.prettyJson         = cli.isPrettyJson();
+        this.verbose            = cli.isVerbose();
+        this.notQuiet           = !cli.isQuiet();
     }
 
     @Override
     public List<HashFile> doTask()
         throws CommandTaskException, CLIParametersException // NOSONAR
     {
-        final List<HashFile> list = loadJsonInputFile();
+        final List<HashFile> list = JSONLoaderHelper.loadHash( this.jsonInputFile );
 
+        sortListByHash( list );
+
+        final List<HashFile> result = new FindDuplicates( list ).findDuplicate();
+
+        if( this.jsonDuplicateFile != null ) {
+            storeDuplicateToJson( result );
+        }
+
+        return result;
+    }
+
+    private void sortListByHash( final List<HashFile> list )
+    {
         Collections.sort(
             list,
             ( hf1, hf2 ) -> hf1.getHash().compareTo( hf2.getHash() )
             );
-
-        return new FindDuplicates( list ).findDuplicate();
     }
 
-    @Override
-    protected File getJsonInputFile()
+    private void storeDuplicateToJson( final List<HashFile> result )
     {
-        return this.jsonInputFile;
+        final List<HashFiles> duplicates = HashFilesHelper.convert( result, this.verbose );
+
+        HashFilesHelper.sortListByPath( duplicates );
+
+        try {
+            JSONHelper.toJSON( this.jsonDuplicateFile, duplicates, this.prettyJson );
+        }
+        catch( final JSONHelperException e ) {
+            CLIHelper.printError( "Error while writing JSON duplicate result", this.jsonDuplicateFile, e );
+        }
     }
 }

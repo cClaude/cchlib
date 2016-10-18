@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Handle --command option
  */
-public interface CommandTask
+public interface CommandTask // NOSONAR
 {
     /**
      * Run related task for this command
@@ -14,7 +14,7 @@ public interface CommandTask
      * @throws CommandTaskException if any
      * @throws CLIParametersException if any
      */
-    List<HashFile> doTask()
+    List<?> doTask()
         throws
             CommandTaskException, // NOSONAR
             CLIParametersException;
