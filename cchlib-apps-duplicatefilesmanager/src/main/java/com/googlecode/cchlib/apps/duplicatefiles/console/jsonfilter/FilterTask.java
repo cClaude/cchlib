@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console.filterduplicate;
+package com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -12,21 +12,19 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.JSONLoaderHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.HandleFilter;
-import com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter.FilterTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 
 /**
- * Filter Duplicates JSON list base
- *  - on file filters
- *  - test if files exists
+ * Filter JSON list base on file filters
  */
-public class DuplicatesFilterTask extends HandleFilter implements CommandTask
+public class FilterTask extends HandleFilter implements CommandTask
 {
     private final File       inputFile;
     private final FileFilter directoriesFileFilter;
     private final FileFilter filesFileFilter;
     private final boolean    notQuiet;
     private final boolean    verbose;
+    private final boolean    removeNonDuplicates;
 
     /**
      * Create a {@link FilterTask} based on <code>cli</code>
@@ -34,11 +32,12 @@ public class DuplicatesFilterTask extends HandleFilter implements CommandTask
      * @param cli Parameters from CLI
      * @throws CLIParametersException if any
      */
-    public DuplicatesFilterTask( final CLIParameters cli ) throws CLIParametersException
+    public FilterTask( final CLIParameters cli ) throws CLIParametersException
     {
         this.inputFile           = cli.getJsonInputFile();
         this.verbose             = cli.isVerbose();
         this.notQuiet            = !cli.isQuiet();
+        this.removeNonDuplicates = cli.isOnlyDuplicates();
 
         final FileFiltersConfig ffc = cli.getFileFiltersConfig();
 
@@ -60,38 +59,52 @@ public class DuplicatesFilterTask extends HandleFilter implements CommandTask
         while( iterator.hasNext() ) {
             final HashFiles hf = iterator.next();
 
-            handleSet( hf );
+            handleFiles( hf );
 
-            if( hf.getFiles().size() < 2 ) {
-                // No more a duplicate
-                iterator.remove();
+            if( this.removeNonDuplicates ) {
+                //
+                // Check size
+                //
+                if( hf.getFiles().size() < 2 ) {
+                    // This not a duplicate
+                    iterator.remove();
+                }
+            } else {
+                if( hf.getFiles().isEmpty() ) {
+                    // No more files here
+                    iterator.remove();
+                }
             }
         }
 
         return list;
     }
 
-    private void handleSet( final HashFiles hf )
+    private void handleFiles( final HashFiles files )
     {
-        final long           length   = hf.getLength();
-        final Iterator<File> iterator = hf.getFiles().iterator();
+        final Iterator<File> iterator = files.getFiles().iterator();
+        final long           hLength  = files.getLength();
 
         while( iterator.hasNext() ) {
-            final File file = iterator.next();
+            final File file       = iterator.next();
+            boolean    removeFile = false;
 
-            if( file.length() != length ) {
+            if( this.filesFileFilter != null ) {
+                //
+                // Handle file filters
+                //
+                removeFile = shouldRemoveFile( file );
+            }
+
+            if( !removeFile ) {
+                removeFile = file.length() != hLength;
+            }
+
+            if( removeFile ) {
                 iterator.remove();
-            } else {
-                // Length ok, look for filters
-                if( this.getFilesFileFilter() != null ) {
-                    // There is a file filter
-                    if( shouldRemoveFile( file ) ) { // NOSONAR
-                        iterator.remove();
 
-                        if( this.notQuiet ) { // NOSONAR
-                            CLIHelper.printMessage( "Ignore:" + file.getPath() );
-                        }
-                    }
+                if( this.notQuiet ) { // NOSONAR
+                    CLIHelper.printMessage( "Ignore:" + file.getPath() );
                 }
             }
         }

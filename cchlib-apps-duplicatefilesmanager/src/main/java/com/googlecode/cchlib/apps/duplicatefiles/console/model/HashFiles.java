@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console;
+package com.googlecode.cchlib.apps.duplicatefiles.console.model;
 
 import java.io.File;
 import java.io.Serializable;

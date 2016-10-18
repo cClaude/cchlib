@@ -11,9 +11,9 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTaskException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.HashFile;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
+import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 import com.googlecode.cchlib.io.DirectoryIterator;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
@@ -24,11 +24,66 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
  */
 public class HashComputeTask implements CommandTask
 {
-    private final FileDigestFactory fileDigestFactory;
-    private final File directortFile;
+    private class InternalTask
+    {
+        private final List<HashFile> listHashFile;
+
+        InternalTask()
+        {
+            this.listHashFile = new ArrayList<>();
+        }
+
+        List<HashFile> runDirectories() throws NoSuchAlgorithmException
+        {
+            final DirectoryIterator iter = new DirectoryIterator(
+                    HashComputeTask.this.directortFile,
+                    HashComputeTask.this.directoriesFileFilter
+                    );
+
+            while( iter.hasNext() ) {
+                final File   dir   = iter.next();
+                final File[] files = dir.listFiles( HashComputeTask.this.filesFileFilter );
+
+                if( files != null ) {
+                    runFiles( files );
+                }
+            }
+
+            return this.listHashFile;
+        }
+
+        private void runFiles( final File[] files )
+            throws NoSuchAlgorithmException
+        {
+            for( final File file : files ) {
+                if( file.isFile() ) {
+                    handleHash( file );
+                }
+            }
+        }
+
+        private void handleHash( final File file )
+            throws NoSuchAlgorithmException
+        {
+            try {
+                final String hash = computeHash( file );
+
+                this.listHashFile.add( new HashFile( hash, file ) );
+
+                HashComputeTask.this.listener.printCurrentFile( hash, file );
+            }
+            catch( IOException | CancelRequestException e ) {
+                CLIHelper.printError( "Access error", file, e );
+            }
+        }
+    }
+
+    private final FileDigestFactory       fileDigestFactory;
+    private final File                    directortFile;
     private final HashComputeTaskListener listener;
-    private final FileFilter filesFileFilter;
-    private final FileFilter directoriesFileFilter;
+    private final FileFilter              filesFileFilter;
+    private final FileFilter              directoriesFileFilter;
+    private final boolean                 verbose;
 
     /**
      * Create {@link HashComputeTask} based on <code>cli</code>
@@ -41,24 +96,26 @@ public class HashComputeTask implements CommandTask
         this.fileDigestFactory     = cli.getFileDigestFactory();
         this.directortFile         = cli.getDirectory();
         this.listener              = cli.getHashComputeListener();
+        this.verbose               = cli.isVerbose();
 
         final FileFiltersConfig ffc     = cli.getFileFiltersConfig();
-        final boolean           verbose = cli.isVerbose();
 
-        this.filesFileFilter       = FileFilterFactory.getFileFilterForFiles( ffc, verbose );
-        this.directoriesFileFilter = FileFilterFactory.getFileFilterForDirectories( ffc, verbose );
+        this.filesFileFilter       = FileFilterFactory.getFileFilterForFiles( ffc, this.verbose );
+        this.directoriesFileFilter = FileFilterFactory.getFileFilterForDirectories( ffc, this.verbose );
 
-        if( verbose ) {
+        if( this.verbose ) {
             CLIHelper.trace( "Files FileFilter", this.filesFileFilter );
             CLIHelper.trace( "Directories FileFilter", this.directoriesFileFilter );
         }
     }
 
     @Override
-    public List<HashFile> doTask()
+    public List<HashFiles> doTask()
     {
         try {
-            return internalDoTask();
+            final List<HashFile> hashList = runDirectories();
+
+            return HashFileHelper.convert( hashList, this.verbose );
         }
         catch( final NoSuchAlgorithmException e ) {
             // Should not occur
@@ -66,52 +123,14 @@ public class HashComputeTask implements CommandTask
         }
     }
 
-    private List<HashFile> internalDoTask() throws NoSuchAlgorithmException
+    private List<HashFile> runDirectories() throws NoSuchAlgorithmException
     {
-        final List<HashFile>    listHashFile = new ArrayList<>();
-        final DirectoryIterator iter         = new DirectoryIterator( this.directortFile, this.directoriesFileFilter );
+        final InternalTask task = new InternalTask();
 
-        while( iter.hasNext() ) {
-            final File   dir   = iter.next();
-            final File[] files = dir.listFiles( this.filesFileFilter );
-
-            if( files != null ) {
-                handleHashes( listHashFile, files );
-            }
-        }
-
-        return listHashFile;
+        return task.runDirectories();
    }
 
-    private void handleHashes( //
-        final List<HashFile> listHashFile, //
-        final File[]         files //
-        ) throws NoSuchAlgorithmException
-    {
-        for( final File file : files ) {
-            if( file.isFile() ) {
-                handleHash( listHashFile, file );
-            }
-        }
-    }
-
-    private void handleHash(
-        final List<HashFile> listHashFile,
-        final File           file
-        ) throws NoSuchAlgorithmException
-    {
-        try {
-            final String hash = computeHash( file );
-
-            listHashFile.add( new HashFile( hash, file ) );
-            this.listener.printCurrentFile( hash, file );
-        }
-        catch( IOException | CancelRequestException e ) {
-            CLIHelper.printError( "Access error", file, e );
-        }
-    }
-
-    private String computeHash( //
+    private String computeHash( // NOSONAR
             final File file
             ) throws NoSuchAlgorithmException, IOException, CancelRequestException
     {

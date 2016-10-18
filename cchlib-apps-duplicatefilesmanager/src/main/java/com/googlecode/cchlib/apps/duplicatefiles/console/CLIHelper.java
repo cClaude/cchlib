@@ -3,6 +3,9 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 import java.io.File;
 import javax.annotation.Nonnull;
 
+/**
+ * Handle console output
+ */
 public class CLIHelper
 {
     private CLIHelper()
@@ -10,11 +13,33 @@ public class CLIHelper
         // All static
     }
 
+    /**
+     * Print <code>message</code> to stdout
+     *
+     * @param message Message to print
+     */
+    public static void printMessage( final String message )
+    {
+        System.out.println( message ); // NOSONAR
+    }
+
+    /**
+     * Print <code>message</code> to stderr
+     *
+     * @param message Message to print
+     */
     public static void printError( final String message )
     {
         System.err.println( message );// NOSONAR
     }
 
+    /**
+     * Print <code>message</code> and <code>cause</code> related to a file to stderr
+     *
+     * @param message Message to print
+     * @param file    Related file
+     * @param cause   Related cause
+     */
     public static void printError( //
         @Nonnull final String    message,
         @Nonnull final File      file,
@@ -24,29 +49,34 @@ public class CLIHelper
         printError( message + " '" + file + "' : " + cause.getMessage() );
     }
 
-    @SuppressWarnings("null")
-    private static <T> T exit( final int exitStatus )
+    /**
+     * Print <code>message</code> and <code>cause</code> to stderr
+     *
+     * @param message Message to print
+     * @param cause   Related cause
+     */
+    public static void printError( final String message, final Exception cause )
     {
-        System.exit( exitStatus ); // NOSONAR
-
-        return null; // Fake value
+        printError( message + " - " + cause.getMessage() );
     }
 
-    public static void printMessage( final String msg )
-    {
-        System.out.println( msg ); // NOSONAR
-    }
-
-    public static void printError( final String msg, final Exception cause )
-    {
-        printMessage( msg + " - " + cause.getMessage() );
-    }
-
+    /**
+     * Print a <code>description</code> and <code>object</code> to stderr
+     *
+     * @param description Message to print
+     * @param object      Related object
+     */
     public static void trace( final String description, final Object object )
     {
-        printMessage( description + " : " + object );
+        printError( "INFO: " + description + " : " + object );
     }
 
+    /**
+     * Print error to stdout then print help and quit
+     *
+     * @param cli   Current CLIParameters
+     * @param clipe Exception to expose
+     */
     public static void printErrorAndExit( final CLIParameters cli, final CLIParametersException clipe )
     {
         final StringBuilder sb = new StringBuilder();
@@ -67,4 +97,8 @@ public class CLIHelper
         exit( 1 );
     }
 
+    private static void exit( final int exitStatus )
+    {
+        System.exit( exitStatus ); // NOSONAR
+    }
 }

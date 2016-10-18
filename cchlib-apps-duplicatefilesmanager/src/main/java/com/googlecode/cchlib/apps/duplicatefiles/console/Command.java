@@ -1,30 +1,25 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console;
 
-import com.googlecode.cchlib.apps.duplicatefiles.console.duplicate.DuplicateTaskFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filterduplicate.DuplicatesFilterTaskFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.hash.HashComputeTaskFactory;
-import com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter.HashFilterTaskFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter.FilterTaskFactory;
 
 /**
  * Commands list
  */
 public enum Command {
     /**
-     * Build hash list
+     * Build HashFiles list
      */
     Hash( HashComputeTaskFactory.class ), // NOSONAR
 
     /**
-     * Filter an existing hash list
+     * Filter an existing HashFiles list
      */
-    HashFilter( HashFilterTaskFactory.class ), // NOSONAR
+    Filter( FilterTaskFactory.class ), // NOSONAR
 
     /**
-     * Filter an existing hash list
-     */
-    Duplicate( DuplicateTaskFactory.class ), // NOSONAR
-    /**
-     * Filter an existing hash list
+     * Filter an existing HashFiles list
      */
     DuplicateFilter( DuplicatesFilterTaskFactory.class ), // NOSONAR
     ;

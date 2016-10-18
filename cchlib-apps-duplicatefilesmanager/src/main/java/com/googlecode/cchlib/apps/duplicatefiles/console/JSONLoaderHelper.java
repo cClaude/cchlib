@@ -3,6 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 import java.io.File;
 import java.util.List;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 
 /**
  *
@@ -14,12 +15,12 @@ public class JSONLoaderHelper
         // All static
     }
 
-    /**
+    /*
      *
      * @param hashJsonInputFile
      * @return
      * @throws CLIParametersException
-     */
+     *
     public static List<HashFile> loadHash( final File hashJsonInputFile  )
         throws CLIParametersException
     {
@@ -35,15 +36,26 @@ public class JSONLoaderHelper
                     );
         }
     }
-
+*/
     /**
      *
      * @param duplicateInputFile
      * @return
+     * @throws CLIParametersException
      */
     public static List<HashFiles> loadDuplicate( final File duplicateInputFile )
+        throws CLIParametersException
     {
-        // TODO Auto-generated method stub
-        return null;
+        try {
+            return JSONHelper.load(
+                    duplicateInputFile,
+                    new TypeReference<List<HashFiles>>() {}
+                    );
+        }
+        catch( final JSONHelperException e ) {
+            throw new CLIParametersException(
+                    CLIParameters.JSON_IN, "Error while reading :" + duplicateInputFile, e
+                    );
+        }
     }
 }

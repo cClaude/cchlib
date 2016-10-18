@@ -5,14 +5,14 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTaskFactory;
 
 /**
- * Factory for {@link HashFilterTask}
+ * Factory for {@link FilterTask}
  */
-public class HashFilterTaskFactory implements CommandTaskFactory
+public class FilterTaskFactory implements CommandTaskFactory
 {
     @Override
-    public HashFilterTask newInstance( final CLIParameters cli )
+    public FilterTask newInstance( final CLIParameters cli )
             throws CLIParametersException
     {
-        return new HashFilterTask( cli );
+        return new FilterTask( cli );
     }
 }

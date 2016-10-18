@@ -22,31 +22,32 @@ import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
  */
 public class CLIParameters
 {
-    private static final String ALGORITHM = "algorithm";
-    private static final String BUFFER_SIZE = "buffer-size";
-    private static final String COMMAND = "command";
-    private static final String DIRECTORIY_TO_SCAN = "directory";
-    private static final String FILES_FILTER = "files-filter";
+    private static final String ALGORITHM              = "algorithm";
+    private static final String BUFFER_SIZE            = "buffer-size";
+    private static final String COMMAND                = "command";
+    private static final String DIRECTORIY_TO_SCAN     = "directory";
+    private static final String FILES_FILTER           = "files-filter";
     private static final String FILES_FILTER_FROM_FILE = "files-filter-from-file";
-    private static final String HELP = "help";
-    public  static final String JSON_IN = "input";
-    private static final String JSON_OUT = "json";
-    private static final String JSON_DUPLICATE = "duplicates";
-    private static final String PRETTY_JSON = "pretty-json";
-    private static final String QUIET = "quiet";
-    private static final String VERBOSE = "verbose";
+    private static final String HELP                   = "help";
+    private static final String JSON_OUT               = "json";
+    private static final String ONLY_DUPLICATES        = "only-duplicates";
+    private static final String PRETTY_JSON            = "pretty-json";
+    private static final String QUIET                  = "quiet";
+    private static final String VERBOSE                = "verbose";
+    public  static final String JSON_IN                = "input";
 
     private static final String ALGORITHM_DESCRIPTION
         = "Algorithm names : " + Arrays.toString( MessageDigestAlgorithms.values() );
     private static final String COMMAND_DESCRIPTION
         = "Command names : " + Arrays.toString( Command.values() );
 
-    private final Options     options;
+    private Boolean           onlyDuplicates;
     private Boolean           prettyJson; // NOSONAR
     private Boolean           quiet;      // NOSONAR
     private Boolean           verbose;    // NOSONAR
     private CommandLine       commandLine;
     private FileFiltersConfig fileFiltersConfig;
+    private final Options     options;
 
     /**
      * Create {@link CLIParameters}
@@ -86,14 +87,14 @@ public class CLIParameters
                     .create() // NOSONAR
                 );
         options.addOption(
-                OptionBuilder.withLongOpt( JSON_DUPLICATE ) // NOSONAR
-                    .withDescription( "Optionnal output json file for duplicates" )
-                    .hasArg()
+                OptionBuilder.withLongOpt( PRETTY_JSON ) // NOSONAR
+                    .withDescription( "Format JSON" )
+                    .hasArg( false )
                     .create() // NOSONAR
                 );
         options.addOption(
-                OptionBuilder.withLongOpt( PRETTY_JSON ) // NOSONAR
-                    .withDescription( "Format JSON" )
+                OptionBuilder.withLongOpt( ONLY_DUPLICATES ) // NOSONAR
+                    .withDescription( "Remove non duplicates entries" )
                     .hasArg( false )
                     .create() // NOSONAR
                 );
@@ -208,10 +209,10 @@ public class CLIParameters
 
     public File getJsonInputFile() throws CLIParametersException
     {
-        final String jsonFilename = this.commandLine.getOptionValue( JSON_IN );
+        final File jsonFile = getOptionalFile( JSON_IN );
 
-        if( jsonFilename != null ) {
-            return new File( jsonFilename );
+        if( jsonFile != null ) {
+            return jsonFile;
         }
 
         throw new CLIParametersException( JSON_IN, "Parameter is required" );
@@ -220,11 +221,6 @@ public class CLIParameters
     public File getJsonOutputFile()
     {
         return getOptionalFile( JSON_OUT );
-    }
-
-    public File getJsonDuplicateFile()
-    {
-        return getOptionalFile( JSON_DUPLICATE );
     }
 
     private File getOptionalFile( final String paramName )
@@ -249,11 +245,11 @@ public class CLIParameters
                     MessageDigestAlgorithms.class,
                     algorithmName
                     );
-            } catch( final IllegalArgumentException e ) {
+            } catch( final IllegalArgumentException cause ) {
                 throw new CLIParametersException(
                         ALGORITHM,
                         "Unknown algorithm: " + algorithmName,
-                        e
+                        cause
                         );
             }
         } else {
@@ -403,6 +399,15 @@ public class CLIParameters
         }
 
         return this.prettyJson.booleanValue();
+    }
+
+    public boolean isOnlyDuplicates()
+    {
+        if( this.onlyDuplicates == null ) {
+            this.onlyDuplicates = Boolean.valueOf( this.commandLine.hasOption( ONLY_DUPLICATES ) );
+        }
+
+        return this.onlyDuplicates.booleanValue();
     }
 
     public Command getCommand() throws CLIParametersException

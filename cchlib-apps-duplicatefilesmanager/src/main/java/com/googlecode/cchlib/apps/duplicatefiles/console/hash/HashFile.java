@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console;
+package com.googlecode.cchlib.apps.duplicatefiles.console.hash;
 
 import java.io.File;
 import java.io.Serializable;
@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Convenience version to store couple of value (hash,file)
  */
-public class HashFile implements Serializable
+class HashFile implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
