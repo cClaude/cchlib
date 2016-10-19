@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.Iterator;
 import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
@@ -9,8 +8,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONLoaderHelper;
-import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFactory;
-import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.HandleFilter;
 import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 
@@ -19,12 +16,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
  */
 public class FilterTask extends HandleFilter implements CommandTask
 {
-    private final File       inputFile;
-    private final FileFilter directoriesFileFilter;
-    private final FileFilter filesFileFilter;
-    private final boolean    notQuiet;
-    private final boolean    verbose;
-    private final boolean    removeNonDuplicates;
+    private final File inputFile;
 
     /**
      * Create a {@link FilterTask} based on <code>cli</code>
@@ -34,20 +26,9 @@ public class FilterTask extends HandleFilter implements CommandTask
      */
     public FilterTask( final CLIParameters cli ) throws CLIParametersException
     {
-        this.inputFile           = cli.getJsonInputFile();
-        this.verbose             = cli.isVerbose();
-        this.notQuiet            = !cli.isQuiet();
-        this.removeNonDuplicates = cli.isOnlyDuplicates();
+        super( cli );
 
-        final FileFiltersConfig ffc = cli.getFileFiltersConfig();
-
-        this.filesFileFilter       = FileFilterFactory.getFileFilterForFiles( ffc, this.verbose );
-        this.directoriesFileFilter = FileFilterFactory.getFileFilterForDirectories( ffc, this.verbose );
-
-        if( this.verbose ) {
-            CLIHelper.trace( "Files FileFilter", this.filesFileFilter );
-            CLIHelper.trace( "Directories FileFilter", this.directoriesFileFilter );
-        }
+        this.inputFile = cli.getJsonInputFile();
    }
 
     @Override
@@ -61,7 +42,7 @@ public class FilterTask extends HandleFilter implements CommandTask
 
             handleFiles( hf );
 
-            if( this.removeNonDuplicates ) {
+            if( isOnlyDuplicates() ) {
                 //
                 // Check size
                 //
@@ -89,7 +70,7 @@ public class FilterTask extends HandleFilter implements CommandTask
             final File file       = iterator.next();
             boolean    removeFile = false;
 
-            if( this.filesFileFilter != null ) {
+            if( getFilesFileFilter() != null ) {
                 //
                 // Handle file filters
                 //
@@ -103,22 +84,11 @@ public class FilterTask extends HandleFilter implements CommandTask
             if( removeFile ) {
                 iterator.remove();
 
-                if( this.notQuiet ) { // NOSONAR
+                if( isNotQuiet() ) { // NOSONAR
                     CLIHelper.printMessage( "Ignore:" + file.getPath() );
                 }
             }
         }
     }
 
-    @Override
-    protected FileFilter getDirectoriesFileFilter()
-    {
-        return this.directoriesFileFilter;
-    }
-
-    @Override
-    protected FileFilter getFilesFileFilter()
-    {
-        return this.filesFileFilter;
-    }
 }

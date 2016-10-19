@@ -1,16 +1,11 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console.filterduplicate;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.util.Iterator;
 import java.util.List;
-import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONLoaderHelper;
-import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFactory;
-import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.HandleFilter;
 import com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter.FilterTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
@@ -22,11 +17,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
  */
 public class DuplicatesFilterTask extends HandleFilter implements CommandTask
 {
-    private final File       inputFile;
-    private final FileFilter directoriesFileFilter;
-    private final FileFilter filesFileFilter;
-    private final boolean    notQuiet;
-    private final boolean    verbose;
+    private final File inputFile;
 
     /**
      * Create a {@link FilterTask} based on <code>cli</code>
@@ -36,76 +27,20 @@ public class DuplicatesFilterTask extends HandleFilter implements CommandTask
      */
     public DuplicatesFilterTask( final CLIParameters cli ) throws CLIParametersException
     {
-        this.inputFile           = cli.getJsonInputFile();
-        this.verbose             = cli.isVerbose();
-        this.notQuiet            = !cli.isQuiet();
+        super( cli );
 
-        final FileFiltersConfig ffc = cli.getFileFiltersConfig();
-
-        this.filesFileFilter       = FileFilterFactory.getFileFilterForFiles( ffc, this.verbose );
-        this.directoriesFileFilter = FileFilterFactory.getFileFilterForDirectories( ffc, this.verbose );
-
-        if( this.verbose ) {
-            CLIHelper.trace( "Files FileFilter", this.filesFileFilter );
-            CLIHelper.trace( "Directories FileFilter", this.directoriesFileFilter );
-        }
+        this.inputFile = cli.getJsonInputFile();
    }
 
     @Override
     public List<HashFiles> doTask() throws CLIParametersException
     {
-        final List<HashFiles>     list     = JSONLoaderHelper.loadDuplicate( this.inputFile );
-        final Iterator<HashFiles> iterator = list.iterator();
+        final List<HashFiles> list = JSONLoaderHelper.loadDuplicate( this.inputFile );
 
-        while( iterator.hasNext() ) {
-            final HashFiles hf = iterator.next();
-
-            handleSet( hf );
-
-            if( hf.getFiles().size() < 2 ) {
-                // No more a duplicate
-                iterator.remove();
-            }
+        if( isOnlyDuplicates() ) {
+            removeNonDuplicates( list );
         }
 
         return list;
-    }
-
-    private void handleSet( final HashFiles hf )
-    {
-        final long           length   = hf.getLength();
-        final Iterator<File> iterator = hf.getFiles().iterator();
-
-        while( iterator.hasNext() ) {
-            final File file = iterator.next();
-
-            if( file.length() != length ) {
-                iterator.remove();
-            } else {
-                // Length ok, look for filters
-                if( this.getFilesFileFilter() != null ) {
-                    // There is a file filter
-                    if( shouldRemoveFile( file ) ) { // NOSONAR
-                        iterator.remove();
-
-                        if( this.notQuiet ) { // NOSONAR
-                            CLIHelper.printMessage( "Ignore:" + file.getPath() );
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    protected FileFilter getDirectoriesFileFilter()
-    {
-        return this.directoriesFileFilter;
-    }
-
-    @Override
-    protected FileFilter getFilesFileFilter()
-    {
-        return this.filesFileFilter;
     }
 }
