@@ -20,4 +20,13 @@ public interface CommandTask // NOSONAR
         throws
             CommandTaskException, // NOSONAR
             CLIParametersException;
+
+    /**
+     * Store <code>listResult</code> to JSON file
+     *
+     * @param listResult Result to store
+     * @throws CLIParametersException if any
+     */
+    void saveResultIfRequired( List<HashFiles> listResult )
+        throws CLIParametersException;
 }
