@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter;
+package com.googlecode.cchlib.apps.duplicatefiles.console.taskfilter;
 
 import java.io.File;
 import java.util.Iterator;
@@ -6,15 +6,15 @@ import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONLoaderHelper;
-import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.HandleFilter;
 import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
+import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.CommandTask;
+import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.TaskCommon;
 
 /**
  * Filter JSON list base on file filters
  */
-public class FilterTask extends HandleFilter implements CommandTask
+public class FilterTask extends TaskCommon implements CommandTask
 {
     private final File inputFile;
 

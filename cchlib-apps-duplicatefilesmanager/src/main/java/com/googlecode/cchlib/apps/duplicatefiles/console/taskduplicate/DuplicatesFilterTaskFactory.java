@@ -1,8 +1,8 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console.filterduplicate;
+package com.googlecode.cchlib.apps.duplicatefiles.console.taskduplicate;
 
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTaskFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.CommandTaskFactory;
 
 /**
  * Factory for {@link DuplicatesFilterTask}

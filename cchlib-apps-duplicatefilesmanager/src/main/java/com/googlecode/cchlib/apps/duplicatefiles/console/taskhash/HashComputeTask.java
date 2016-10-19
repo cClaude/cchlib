@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console.hash;
+package com.googlecode.cchlib.apps.duplicatefiles.console.taskhash;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,10 +8,10 @@ import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
-import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTaskException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.HandleFilter;
 import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
+import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.CommandTask;
+import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.CommandTaskException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.TaskCommon;
 import com.googlecode.cchlib.io.DirectoryIterator;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
@@ -20,7 +20,7 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 /**
  * Compute hash code of all files (recursive)
  */
-public class HashComputeTask extends HandleFilter implements CommandTask
+public class HashComputeTask extends TaskCommon implements CommandTask
 {
     private class InternalTask
     {

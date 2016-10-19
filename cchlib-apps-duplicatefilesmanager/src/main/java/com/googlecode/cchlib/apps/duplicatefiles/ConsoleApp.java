@@ -6,11 +6,11 @@ import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.Command;
-import com.googlecode.cchlib.apps.duplicatefiles.console.CommandTask;
 import com.googlecode.cchlib.apps.duplicatefiles.console.DirectoriesHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.Command;
+import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.CommandTask;
 
 /**
  * Handle console mode

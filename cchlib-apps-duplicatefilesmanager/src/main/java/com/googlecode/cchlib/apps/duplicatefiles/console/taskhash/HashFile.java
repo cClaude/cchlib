@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console.hash;
+package com.googlecode.cchlib.apps.duplicatefiles.console.taskhash;
 
 import java.io.File;
 import java.io.Serializable;

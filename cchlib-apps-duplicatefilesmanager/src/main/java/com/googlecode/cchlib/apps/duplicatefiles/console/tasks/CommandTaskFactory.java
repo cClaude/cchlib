@@ -1,4 +1,7 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console;
+package com.googlecode.cchlib.apps.duplicatefiles.console.tasks;
+
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 
 /**
  *

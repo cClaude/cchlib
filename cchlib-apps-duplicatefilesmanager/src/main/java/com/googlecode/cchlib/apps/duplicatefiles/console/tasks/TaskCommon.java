@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console.filefilter;
+package com.googlecode.cchlib.apps.duplicatefiles.console.tasks;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -7,12 +7,14 @@ import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 
 /**
  * Handle file filters for files and directories
  */
-public abstract class HandleFilter
+public abstract class TaskCommon
 {
     private final FileFilter directoriesFileFilter;
     private final FileFilter filesFileFilter;
@@ -20,7 +22,7 @@ public abstract class HandleFilter
     private final boolean    onlyDuplicates;
     private final boolean    verbose;
 
-    protected HandleFilter( final CLIParameters cli ) throws CLIParametersException
+    protected TaskCommon( final CLIParameters cli ) throws CLIParametersException
     {
         this.verbose        = cli.isVerbose();
         this.notQuiet       = !cli.isQuiet();

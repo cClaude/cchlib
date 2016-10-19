@@ -1,8 +1,10 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console;
+package com.googlecode.cchlib.apps.duplicatefiles.console.tasks;
 
-import com.googlecode.cchlib.apps.duplicatefiles.console.filterduplicate.DuplicatesFilterTaskFactory;
-import com.googlecode.cchlib.apps.duplicatefiles.console.hash.HashComputeTaskFactory;
-import com.googlecode.cchlib.apps.duplicatefiles.console.jsonfilter.FilterTaskFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
+import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
+import com.googlecode.cchlib.apps.duplicatefiles.console.taskduplicate.DuplicatesFilterTaskFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.console.taskfilter.FilterTaskFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.HashComputeTaskFactory;
 
 /**
  * Commands list
