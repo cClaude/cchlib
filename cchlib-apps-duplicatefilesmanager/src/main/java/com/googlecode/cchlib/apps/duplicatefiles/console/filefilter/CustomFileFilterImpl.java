@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 
@@ -12,21 +13,35 @@ class CustomFileFilterImpl implements Serializable, FileFilter
 {
     private static final long serialVersionUID = 1L;
 
-    private final Collection<String> excludeNames;
-    private final Collection<String> excludePaths;
-    private final boolean            verbose;
+    private final Collection<String>  excludeNames;
+    private final Collection<String>  excludePaths;
+    private final Collection<Pattern> excludeRegexNames;
+    private final Collection<Pattern> excludeRegexPaths;
+    private final boolean             useIncludeRegexPaths;
+    private final Collection<Pattern> includeRegexNames;
+    private final boolean             useIncludeRegexNames;
+    private final Collection<Pattern> includeRegexPaths;
+    private final boolean             verbose;
 
     CustomFileFilterImpl(
-            final Collection<String> excludeNames,
-            final Collection<String> excludePaths,
-            final boolean            verbose
+            final Collection<String>  excludeNames,
+            final Collection<String>  excludePaths,
+            final Collection<Pattern> excludeRegexNames,
+            final Collection<Pattern> excludeRegexPaths,
+            final Collection<Pattern> includeRegexNames,
+            final Collection<Pattern> includeRegexPaths,
+            final boolean             verbose
             )
     {
-        this.excludeNames = unmodifiableCollection( excludeNames );
-        this.excludePaths = unmodifiableCollection( excludePaths );
-
-        // For performance this is evaluate only once
-        this.verbose = verbose;
+        this.excludeNames         = unmodifiableCollection( excludeNames );
+        this.excludePaths         = unmodifiableCollection( excludePaths );
+        this.excludeRegexNames    = unmodifiableCollection( excludeRegexNames );
+        this.excludeRegexPaths    = unmodifiableCollection( excludeRegexPaths );
+        this.includeRegexNames    = unmodifiableCollection( includeRegexNames );
+        this.useIncludeRegexNames = this.includeRegexNames.isEmpty();
+        this.includeRegexPaths    = unmodifiableCollection( includeRegexPaths );
+        this.useIncludeRegexPaths = this.includeRegexNames.isEmpty();
+        this.verbose              = verbose;
     }
 
     private static <T> Collection<T> unmodifiableCollection( final Collection<T> c )
@@ -40,26 +55,121 @@ class CustomFileFilterImpl implements Serializable, FileFilter
     @Override
     public boolean accept( @Nonnull final File file )
     {
+        //
+        // Exclude filter
+        //
         if( this.excludeNames.contains( file.getName() ) ) {
             if( this.verbose ) {
-                CLIHelper.printMessage( "Ignore " + file + " because " + file.getName() + " is in excludeNames values" );
+                CLIHelper.printMessage(
+                    "Ignore " + file
+                        + " because " + file.getName()
+                        + " is in excludeNames values"
+                    );
             }
             return false;
         }
 
         if( this.excludePaths.contains( file.getPath() ) ) {
             if( this.verbose ) {
-                CLIHelper.printMessage( "Ignore " + file + " because " + file.getPath() + " is in excludePaths values" );
+                CLIHelper.printMessage(
+                    "Ignore " + file
+                        + " because " + file.getPath()
+                        + " is in excludePaths values"
+                    );
             }
             return false;
         }
 
-        return true;
+        if( contains( this.excludeRegexNames, file.getName() ) ) {
+            if( this.verbose ) {
+                CLIHelper.printMessage(
+                    "Ignore " + file
+                        + " because " + file.getName()
+                        + " is in excludeRegexNames values"
+                    );
+            }
+            return false;
+        }
+
+        if( contains( this.excludeRegexPaths, file.getPath() ) ) {
+            if( this.verbose ) {
+                CLIHelper.printMessage(
+                    "Ignore " + file
+                        + " because " + file.getPath()
+                        + " is in excludeRegexPaths values"
+                    );
+            }
+            return false;
+        }
+
+        //
+        // Include
+        //
+        boolean include;
+
+        if( this.useIncludeRegexNames ) {
+            include = contains( this.includeRegexNames, file.getName() );
+
+            if( this.verbose && !include ) {
+                CLIHelper.printMessage(
+                        "Ignore " + file
+                            + " because " + file.getName()
+                            + " is NOT in includeRegexNames values"
+                        );
+            }
+        } else {
+            include = true;
+        }
+
+        if( include && this.useIncludeRegexPaths ) {
+            include = contains( this.includeRegexPaths, file.getPath() );
+
+            if( this.verbose && !include ) {
+                CLIHelper.printMessage(
+                        "Ignore " + file
+                            + " because " + file.getPath()
+                            + " is NOT in useIncludeRegexPaths values"
+                        );
+            }
+        }
+
+        return include;
+    }
+
+    private static boolean contains( final Collection<Pattern> patterns, final String file )
+    {
+        for( final Pattern pattern : patterns ) {
+            if( pattern.matcher( file ).matches() ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
     public String toString()
     {
-        return "CustomFileFilter [excludeNames=" + this.excludeNames + ", excludePaths=" + this.excludePaths + "]";
+        final StringBuilder builder = new StringBuilder();
+        builder.append( "CustomFileFilterImpl [excludeNames=" );
+        builder.append( this.excludeNames );
+        builder.append( ", excludePaths=" );
+        builder.append( this.excludePaths );
+        builder.append( ", excludeRegexNames=" );
+        builder.append( this.excludeRegexNames );
+        builder.append( ", excludeRegexPaths=" );
+        builder.append( this.excludeRegexPaths );
+        builder.append( ", useIncludeRegexPaths=" );
+        builder.append( this.useIncludeRegexPaths );
+        builder.append( ", includeRegexNames=" );
+        builder.append( this.includeRegexNames );
+        builder.append( ", useIncludeRegexNames=" );
+        builder.append( this.useIncludeRegexNames );
+        builder.append( ", includeRegexPaths=" );
+        builder.append( this.includeRegexPaths );
+        builder.append( ", verbose=" );
+        builder.append( this.verbose );
+        builder.append( "]" );
+        return builder.toString();
     }
 }

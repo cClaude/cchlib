@@ -2,6 +2,11 @@ package com.googlecode.cchlib.apps.duplicatefiles.console.filefilter;
 
 import java.io.Serializable;
 
+/**
+ * Global configuration for {@link CustomFileFilterConfig}
+ *
+ * Allow to configure directories and files
+ */
 public class FileFiltersConfig implements Serializable
 {
     private static final long serialVersionUID = 1L;

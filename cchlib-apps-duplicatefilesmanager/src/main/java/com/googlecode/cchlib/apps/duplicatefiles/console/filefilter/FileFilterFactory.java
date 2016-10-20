@@ -30,9 +30,19 @@ public class FileFilterFactory
             return DEFAULT_FILE_FILTER;
         }
 
-        private CustomFileFilterImpl internalNewInstance( final CustomFileFilterConfig config )
+        private CustomFileFilterImpl internalNewInstance(
+                final CustomFileFilterConfig config
+                )
         {
-            return new CustomFileFilterImpl( config.getExcludeNames(), config.getExcludePaths(), FileFilterFactory.this.verbose );
+            return new CustomFileFilterImpl(
+                    config.getExcludeNames(),
+                    config.getExcludePaths(),
+                    config.getExcludeRegexNames(),
+                    config.getExcludeRegexPaths(),
+                    config.getIncludeRegexNames(),
+                    config.getIncludeRegexPaths(),
+                    FileFilterFactory.this.verbose
+                    );
         }
     }
 
