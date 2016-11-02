@@ -2,6 +2,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 
 import java.io.File;
 import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -110,6 +111,8 @@ public class JSONHelper
             ) throws JSONHelperException
     {
         final ObjectMapper mapper = new ObjectMapper();
+
+        mapper.setSerializationInclusion( Include.NON_NULL );
 
         try {
             if( prettyJson ) {
