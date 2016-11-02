@@ -16,6 +16,14 @@ public class QueryHandlerException extends Exception
     private static final long serialVersionUID = 1L;
 
     /**
+     * Constructs a QueryHandlerTargetException.
+     */
+    public QueryHandlerException()
+    {
+        // Empty
+    }
+
+    /**
      * Constructs a QueryHandlerTargetException with a target exception.
      *
      * @param cause
@@ -35,8 +43,19 @@ public class QueryHandlerException extends Exception
      * @param cause
      *      the cause (which is saved for later retrieval by the getCause() method). (A null value is permitted, and indicates that the cause is nonexistent or unknown.)
      */
-    public QueryHandlerException(final String message, final Throwable cause )
+    public QueryHandlerException( final String message, final Throwable cause )
     {
         super( message, cause );
+    }
+
+    /**
+     * Constructs a QueryHandlerTargetException with a detail message.
+     *
+     * @param message
+     *      the detail message (which is saved for later retrieval by the getMessage() method).
+     */
+    public QueryHandlerException( final String message )
+    {
+        super( message );
     }
 }
