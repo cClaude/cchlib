@@ -34,4 +34,17 @@ public class FileFiltersConfig implements Serializable
         this.files = files;
     }
 
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append( "FileFiltersConfig [files=" );
+        builder.append( this.files );
+        builder.append( ", directories=" );
+        builder.append( this.directories );
+        builder.append( "]" );
+
+        return builder.toString();
+    }
 }

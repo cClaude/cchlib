@@ -78,4 +78,26 @@ public class CustomFileFilterConfig implements Serializable
     {
         this.includeRegexPaths = includeRegexPaths;
     }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append( "CustomFileFilterConfig [excludeNames=" );
+        builder.append( this.excludeNames );
+        builder.append( ", excludePaths=" );
+        builder.append( this.excludePaths );
+        builder.append( ", excludeRegexNames=" );
+        builder.append( this.excludeRegexNames );
+        builder.append( ", excludeRegexPaths=" );
+        builder.append( this.excludeRegexPaths );
+        builder.append( ", includeRegexNames=" );
+        builder.append( this.includeRegexNames );
+        builder.append( ", includeRegexPaths=" );
+        builder.append( this.includeRegexPaths );
+        builder.append( "]" );
+
+        return builder.toString();
+    }
 }

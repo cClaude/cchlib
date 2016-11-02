@@ -12,8 +12,21 @@ class FileFilterConfigTestTools
     static final String PATH2 = "windows\\Path2";
 
     static final String JSON_SIMPLE_IN1 = "{\"excludeNames\":[\"Str2\",\"Str1\"]}";
-    static final String JSON_FULL_OUT1  = "{\"excludeNames\":[\"Str2\",\"Str1\"],\"excludePaths\":null}";
-    static final String JSON_FULL_OUT2  = "{\"excludeNames\":[\"Str2\",\"Str1\"],\"excludePaths\":[\"windows\\\\Path2\",\"unix/Path1\"]}";
+    static final String JSON_FULL_OUT1
+        = "{\"excludeNames\":[\"Str2\",\"Str1\"],"
+        + "\"excludePaths\":null,"
+        + "\"excludeRegexNames\":null,"
+        + "\"excludeRegexPaths\":null,"
+        + "\"includeRegexNames\":null,"
+        + "\"includeRegexPaths\":null}";
+    static final String JSON_FULL_OUT3
+        = "{\"excludeNames\":[\"Str2\",\"Str1\"],"
+        + "\"excludePaths\":[\"windows\\\\Path2\",\"unix/Path1\"],"
+        + "\"excludeRegexNames\":null,"
+        + "\"excludeRegexPaths\":null,"
+        + "\"includeRegexNames\":null,"
+        + "\"includeRegexPaths\":null}";
+
 
     private FileFilterConfigTestTools()
     {

@@ -19,11 +19,15 @@ public class CustomFileFilterConfigTest
         final CustomFileFilterConfig test = new CustomFileFilterConfig();
 
         FileFilterConfigTestTools.populateNames( test );
+        LOGGER.info( "testSaveExcludeNames() test = " + test );
 
         final String jsonString = JSONHelper.toJSON( test );
-        LOGGER.info( "jsonString = " + jsonString );
+        LOGGER.info( "testSaveExcludeNames() jsonString = " + jsonString );
 
-        Assertions.assertThat( jsonString ).isEqualTo( FileFilterConfigTestTools.JSON_FULL_OUT1 );
+        final String expected = FileFilterConfigTestTools.JSON_FULL_OUT1;
+        LOGGER.info( "testSaveExcludeNames() expected   = " + expected );
+
+        Assertions.assertThat( jsonString ).isEqualTo( expected );
     }
 
     @Test
@@ -62,19 +66,21 @@ public class CustomFileFilterConfigTest
         FileFilterConfigTestTools.populateNames( test );
         FileFilterConfigTestTools.populatePaths( test );
 
+        LOGGER.info( "testSave() test = " + test );
         final String jsonString = JSONHelper.toJSON( test );
 
-        LOGGER.info( "jsonString = " + jsonString );
+        LOGGER.info( "testSave() jsonString = " + jsonString );
+        LOGGER.info( "testSave() expected   = " + FileFilterConfigTestTools.JSON_FULL_OUT3 );
 
         Assertions.assertThat( jsonString )
-            .isEqualTo( FileFilterConfigTestTools.JSON_FULL_OUT2 );
+            .isEqualTo( FileFilterConfigTestTools.JSON_FULL_OUT3 );
     }
 
     @Test
     public void testLoad() throws IOException, JSONHelperException
     {
         final CustomFileFilterConfig value = JSONHelper.fromJSON(
-                FileFilterConfigTestTools.JSON_FULL_OUT2,
+                FileFilterConfigTestTools.JSON_FULL_OUT3,
                 CustomFileFilterConfig.class
                 );
 
