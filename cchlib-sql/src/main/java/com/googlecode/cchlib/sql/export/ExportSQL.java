@@ -130,43 +130,6 @@ public class ExportSQL implements Closeable
     }
 
     /**
-     * Transform an array of table names to an array of {@link TableDescription}
-     * @param tablenames an array of string describing table names .
-     * @return an array of {@link TableDescription}
-     */
-    public static TableDescription[] toTableDescriptions(
-            final String[] tablenames
-            )
-    {
-        final TableDescription[] desc = new TableDescription[ tablenames.length ];
-
-        for(int i = 0; i<tablenames.length; i++ ) {
-            desc[ i ] = new TableDescriptionImpl( tablenames[i] );
-            }
-
-        return desc;
-    }
-
-    /**
-     * Transform a {@link Collection} of table names to an array of {@link TableDescription}
-     * @param tablenames a {@link Collection} of string describing table names .
-     * @return an array of {@link TableDescription}
-     */
-    public static TableDescription[] toTableDescriptions(
-            final Collection<String> tablenames
-            )
-    {
-        final TableDescription[] desc = new TableDescription[ tablenames.size() ];
-        int index = 0;
-
-        for( final String tablename : tablenames ) {
-            desc[ index++ ] = new TableDescriptionImpl( tablename );
-            }
-
-        return desc;
-    }
-
-    /**
      * Returns export Date (could be overwrite)
      * @return export Date
      */
