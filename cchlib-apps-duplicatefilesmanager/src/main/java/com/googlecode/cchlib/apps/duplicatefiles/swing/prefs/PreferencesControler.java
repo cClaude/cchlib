@@ -154,8 +154,7 @@ public class PreferencesControler implements Serializable
 
     public Dimension getMinimumWindowDimension()
     {
-        final Dimension dimension = Dimensions.toDimension( this.preferences.getMinimumWindowDimension() );
-
+        final Dimension dimension    = Dimensions.toDimension( this.preferences.getMinimumWindowDimension() );
         final Dimension newDimension = createFixedMinDimension( dimension, MINIMUM_WINDOW_WIDTH, MINIMUM_WINDOW_HEIGHT );
 
         // TODO remove this later...
@@ -224,8 +223,7 @@ public class PreferencesControler implements Serializable
 
     public Dimension getMinimumPreferenceDimension()
     {
-        final Dimension dimension = Dimensions.toDimension( this.preferences.getMinimumPreferenceDimension() );
-
+        final Dimension dimension    = Dimensions.toDimension( this.preferences.getMinimumPreferenceDimension() );
         final Dimension newDimension = createFixedMinDimension( dimension, MINIMUM_PREFERENCE_WIDTH, MINIMUM_PREFERENCE_HEIGHT );
 
         // TODO remove this later...
@@ -478,6 +476,61 @@ public class PreferencesControler implements Serializable
         } else {
             this.preferences.setMaxParallelFilesPerThread( maxParallelFilesPerThread );
         }
-   }
+    }
 
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append( "PreferencesControler [preferences=" );
+        builder.append( this.preferences );
+        builder.append( ", getLocale()=" );
+        builder.append( getLocale() );
+        builder.append( ", getMinimumWindowDimension()=" );
+        builder.append( getMinimumWindowDimension() );
+        builder.append( ", getWindowDimension()=" );
+        builder.append( getWindowDimension() );
+        builder.append( ", getMinimumPreferenceDimension()=" );
+        builder.append( getMinimumPreferenceDimension() );
+        builder.append( ", getIncFilesFilterPatternRegExpList()=" );
+        builder.append( getIncFilesFilterPatternRegExpList() );
+        builder.append( ", getJPaneResultDividerLocations()=" );
+        builder.append( getJPaneResultDividerLocations() );
+        builder.append( ", isIgnoreHiddenFiles()=" );
+        builder.append( isIgnoreHiddenFiles() );
+        builder.append( ", getDefaultSortMode()=" );
+        builder.append( getDefaultSortMode() );
+        builder.append( ", getDefaultSelectFirstMode()=" );
+        builder.append( getDefaultSelectFirstMode() );
+        builder.append( ", getConfigMode()=" );
+        builder.append( getConfigMode() );
+        builder.append( ", getDeleteSleepDisplay()=" );
+        builder.append( getDeleteSleepDisplay() );
+        builder.append( ", getDeleteSleepDisplayMaxEntries()=" );
+        builder.append( getDeleteSleepDisplayMaxEntries() );
+        builder.append( ", getMessageDigestAlgorithm()=" );
+        builder.append( getMessageDigestAlgorithm() );
+        builder.append( ", isIgnoreReadOnlyFiles()=" );
+        builder.append( isIgnoreReadOnlyFiles() );
+        builder.append( ", getMessageDigestBufferSize()=" );
+        builder.append( getMessageDigestBufferSize() );
+        builder.append( ", isIgnoreEmptyFiles()=" );
+        builder.append( isIgnoreEmptyFiles() );
+        builder.append( ", isIgnoreHiddenDirectories()=" );
+        builder.append( isIgnoreHiddenDirectories() );
+        builder.append( ", getNumberOfThreads()=" );
+        builder.append( getNumberOfThreads() );
+        builder.append( ", getDefaultMessageDigestBufferSize()=" );
+        builder.append( getDefaultMessageDigestBufferSize() );
+        builder.append( ", getDefaultDeleteSleepDisplay()=" );
+        builder.append( getDefaultDeleteSleepDisplay() );
+        builder.append( ", getDefaultDeleteSleepDisplayMaxEntries()=" );
+        builder.append( getDefaultDeleteSleepDisplayMaxEntries() );
+        builder.append( ", getMaxParallelFilesPerThread()=" );
+        builder.append( getMaxParallelFilesPerThread() );
+        builder.append( "]" );
+
+        return builder.toString();
+    }
 }

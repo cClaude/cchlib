@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
 import org.junit.Before;
 import org.junit.Test;
-import com.googlecode.cchlib.apps.duplicatefiles.StartPathsHelper;
+import com.googlecode.cchlib.apps.duplicatefiles.FilesPathsTestHelper;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
 
@@ -24,7 +24,7 @@ public abstract class EmptyDirectoriesFinder_Base<FILTER> {
     public void before()
     {
         this.collector = new MyEmptyDirectoriesCollector();
-        this.rootDirs  = StartPathsHelper.getStartFiles();
+        this.rootDirs  = FilesPathsTestHelper.getStartFiles();
         this.myFilter  = new MyExcludeDirectoriesFilter();
     }
 

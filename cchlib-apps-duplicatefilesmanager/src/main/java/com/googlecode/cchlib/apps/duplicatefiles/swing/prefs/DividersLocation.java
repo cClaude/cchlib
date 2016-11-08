@@ -1,49 +1,77 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.prefs;
 
 import java.io.Serializable;
+import javax.annotation.Nullable;
 
-public final class DividersLocation implements Serializable {
+/**
+ * {@link DividersLocation} class able to be serialized.
+ */
+public final class DividersLocation implements Serializable
+{
     private static final long serialVersionUID = 1L;
 
-    private Integer resultsMainDividerLocation;
-    private Integer resultsRightDividerLocation;
+    private Integer mainDividerLocation;
+    private Integer rightDividerLocation;
 
+    /**
+     * Create {@link DividersLocation} with (0,0)
+     */
     public DividersLocation()
     {
-        this.resultsMainDividerLocation  = Integer.valueOf( 0 );
-        this.resultsRightDividerLocation = Integer.valueOf( 0 );
+        this.mainDividerLocation  = Integer.valueOf( 0 );
+        this.rightDividerLocation = Integer.valueOf( 0 );
     }
 
+    /**
+     * Create {@link DividersLocation} from a string
+     *
+     * @param strValues Values a has a String : <code>"mainDividerLocation,rightDividerLocation"</code>
+     * @throws NumberFormatException if the string does not contain a parsable sequence of integers.
+     */
     public DividersLocation( final String strValues )
     {
         final String[] values = strValues.split(",");
 
         if( values.length == 2 ) {
-            this.resultsMainDividerLocation  = Integer.parseInt( values[ 0 ] );
-            this.resultsRightDividerLocation = Integer.parseInt( values[ 1 ] );
+            this.mainDividerLocation  = Integer.parseInt( values[ 0 ] );
+            this.rightDividerLocation = Integer.parseInt( values[ 1 ] );
         } else {
-            this.resultsMainDividerLocation  = Integer.valueOf( 0 );
-            this.resultsRightDividerLocation = Integer.valueOf( 0 );
+            this.mainDividerLocation  = Integer.valueOf( 0 );
+            this.rightDividerLocation = Integer.valueOf( 0 );
         }
     }
 
     public Integer getMainDividerLocation()
     {
-        return this.resultsMainDividerLocation;
+        return this.mainDividerLocation;
     }
 
-    public void setMainDividerLocation( final Integer mainDividerLocation )
+    public void setMainDividerLocation( @Nullable final Integer mainDividerLocation )
     {
-        this.resultsMainDividerLocation = mainDividerLocation;
+        this.mainDividerLocation = mainDividerLocation;
     }
 
     public Integer getRightDividerLocation()
     {
-        return this.resultsRightDividerLocation;
+        return this.rightDividerLocation;
     }
 
-    public void setRightDividerLocation( final Integer rightDividerLocation )
+    public void setRightDividerLocation( @Nullable final Integer rightDividerLocation )
     {
-        this.resultsRightDividerLocation = rightDividerLocation;
+        this.rightDividerLocation = rightDividerLocation;
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append( "DividersLocation [mainDividerLocation=" );
+        builder.append( this.mainDividerLocation );
+        builder.append( ", rightDividerLocation=" );
+        builder.append( this.rightDividerLocation );
+        builder.append( "]" );
+
+        return builder.toString();
     }
 }

@@ -5,8 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import com.googlecode.cchlib.io.FileHelper;
 
-public class StartPathsHelper {
-
+public class FilesPathsTestHelper
+{
     public static Path[] getStartPaths()
     {
         return new Path[] { getStartPath() };
