@@ -3,7 +3,6 @@ package com.googlecode.cchlib.i18n.prep;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
@@ -85,7 +84,7 @@ public final class I18nPrepHelper
     }
 
     /**
-     * Invoke {@link #createI18nPrep(EnumSet, I18nResourceBundleName, Locale)},
+     * Invoke {@link #createI18nPrep(Set, I18nResourceBundleName, Locale)},
      * just here to have same method name that I18n default process
      */
     public static I18nPrep createAutoI18nCore(
