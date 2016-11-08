@@ -95,15 +95,15 @@ public class FileIterator implements  Iterator<File>
     @Override
     public boolean hasNext()
     {
-        if( currentDirFilesList.size() > 0 ) {
+        if( this.currentDirFilesList.size() > 0 ) {
             return true;
             }
-        else if( directoryIterator.hasNext() ) {
-            final File   dir     = directoryIterator.next();
+        else if( this.directoryIterator.hasNext() ) {
+            final File   dir     = this.directoryIterator.next();
             final File[] content = dir.listFiles(this.fileFilter);
 
             if( content != null ) {
-                currentDirFilesList.addAll( Arrays.asList( content ) );
+                this.currentDirFilesList.addAll( Arrays.asList( content ) );
                 //for( File f : content ) {
                     //currentDirFilesList.add(f);
                     //}
@@ -121,14 +121,14 @@ public class FileIterator implements  Iterator<File>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
-    public File next() throws NoSuchElementException
+    public File next() throws NoSuchElementException // NOSONAR
     {
         // Initialize currentDirFilesList
         // in case of direct call next()
         // without calling hasNext()
         hasNext();
 
-        return currentDirFilesList.removeLast();
+        return this.currentDirFilesList.removeLast();
     }
 
     /**
