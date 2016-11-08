@@ -97,13 +97,14 @@ public class SimpleDataSource
     /**
      * Call {@link #close()} but hide {@link IOException}
      */
+    @Deprecated
     public void quietClose()
     {
         DataSourceHelper.quietClose( this );
     }
 
     /**
-     * Call {@link #close()} but hide {@link IOException} if
+     * Call {@link Closeable#close()} but hide {@link IOException} if
      * closeable is not null.
      *
      * @param closeable Closeable object to close (could be null)

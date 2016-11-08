@@ -1,12 +1,8 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.swing.introspection;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.EnumSet;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import com.googlecode.cchlib.lang.reflect.SerializableField;
 
@@ -15,8 +11,7 @@ import com.googlecode.cchlib.lang.reflect.SerializableField;
  *
  * TODOC
  *
- * @author CC
- * @param <FRAME>
+ * @param <FRAME> TODOC
  */
 public class SwingIntrospectorItem<FRAME>
     implements Serializable
@@ -32,19 +27,20 @@ public class SwingIntrospectorItem<FRAME>
 
     /**
      * Create a SwingIntrospectorItem
-     * @param bean
-     * @param f
-     * @param attribs
+     *
+     * @param bean TODOC
+     * @param field TODOC
+     * @param attributes TODOC
      */
     public SwingIntrospectorItem(
-            @Nonnull final Bean                              bean,
-            @Nonnull final Field                             field,
-            @Nonnull final EnumSet<SwingIntrospector.Attrib> attribs
+            @Nonnull final Bean                          bean,
+            @Nonnull final Field                         field,
+            @Nonnull final Set<SwingIntrospector.Attrib> attributes
             )
     {
         this.sField = new SerializableField( field );
 
-        if( ! attribs.contains( SwingIntrospector.Attrib.ONLY_ACCESSIBLE_PUBLIC_FIELDS )) {
+        if( ! attributes.contains( SwingIntrospector.Attrib.ONLY_ACCESSIBLE_PUBLIC_FIELDS )) {
             field.setAccessible( true );
         }
 

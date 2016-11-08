@@ -21,7 +21,6 @@ public final class WrapperHelper
      * Typical code :
      *    return new Wrappable<T,String>()
      *    {
-     *        @Override
      *        public String wrap(T o)
      *        {
      *            return o.toString();
@@ -37,6 +36,11 @@ public final class WrapperHelper
         return o -> o.toString();
     }
 
+    /**
+     * Return a {@link Wrappable} object able to transform String
+     * to Integer.
+     * @return a wrapper
+     */
     public static final Wrappable<String,Integer> wrapStringToInteger()
     {
         return str -> {

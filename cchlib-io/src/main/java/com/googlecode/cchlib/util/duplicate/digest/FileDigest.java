@@ -118,7 +118,7 @@ public class FileDigest
      * (use nio {@link FileChannel})
      * <p>
      *  Perform invocations to {@link #setFile(File, FileDigestListener)},
-     *  then to {@link #hasNext()}, {@link #computeNext()} and finally
+     *  then to {@link #hasNext()}, {@link #computeNext(boolean)} and finally
      *  to {@link #reset()}.
      * </p>
      *
@@ -192,7 +192,6 @@ public class FileDigest
     /**
      * Returns Hex representation of digest
      * @return Hex representation of digest
-     * @see #getDigest()
      * @see #computeDigestKeyString(byte[])
      * @throws IllegalStateException if digest not yet
      *         initialized
@@ -250,9 +249,10 @@ public class FileDigest
     }
 
     /**
-     * XXX
+     * TODOC
+     *
      * @param returnCurrentBuffer
-     * @return
+     * @return TODOC
      * @throws CancelRequestException XXX
      */
     public byte[] computeNext( final boolean returnCurrentBuffer ) throws CancelRequestException

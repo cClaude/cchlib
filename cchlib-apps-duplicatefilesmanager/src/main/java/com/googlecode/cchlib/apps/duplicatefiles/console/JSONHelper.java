@@ -22,10 +22,11 @@ public class JSONHelper
     }
 
     /**
+     * Convert object <code></code> into a JSON String
      *
-     * @param value
-     * @return
-     * @throws JsonProcessingException
+     * @param value Object to convert
+     * @return a JSON String
+     * @throws JsonProcessingException if any
      */
     public static <T> String toJSON( //
         final T value
@@ -37,11 +38,13 @@ public class JSONHelper
     }
 
     /**
+     * Load an object from a JSON String
      *
-     * @param jsonString
-     * @param clazz
-     * @return
-     * @throws JSONHelperException
+     * @param jsonString JSON String
+     * @param clazz Expected class
+     * @return an object of type <code>clazz<code>
+     *
+     * @throws JSONHelperException if any
      */
     public static <T> T fromJSON( //
         final String   jsonString,
@@ -59,11 +62,13 @@ public class JSONHelper
     }
 
     /**
+     * Load an object from a JSON File
      *
-     * @param jsonFile
-     * @param clazz
-     * @return
-     * @throws JSONHelperException
+     * @param jsonFile JSON File
+     * @param clazz Expected class
+     * @return an object of type <code>clazz<code>
+     *
+     * @throws JSONHelperException if any
      */
     public static <T> T load( final File jsonFile, final Class<T> clazz )
         throws JSONHelperException
@@ -79,11 +84,13 @@ public class JSONHelper
     }
 
     /**
+     * Load an object from a JSON File
      *
-     * @param jsonFile
-     * @param type
-     * @return
-     * @throws JSONHelperException
+     * @param jsonFile JSON File
+     * @param type Type reference.
+     * @return an object of type <code>clazz<code>
+     *
+     * @throws JSONHelperException if any
      */
     public static <T> T load( final File jsonFile, final TypeReference<T> type )
         throws JSONHelperException

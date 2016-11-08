@@ -12,10 +12,11 @@ public final class DuplicateFileFinderHelper {
     private DuplicateFileFinderHelper() {}
 
     /**
+     * TODOC
      *
      * @param ignoreEmptyFiles
      * @param fileDigestFactory
-     * @return
+     * @return TODOC
      * @throws NoSuchAlgorithmException
      * @throws IllegalArgumentException
      */
@@ -35,11 +36,12 @@ public final class DuplicateFileFinderHelper {
     }
 
     /**
+     * TODOC
      *
      * @param ignoreEmptyFiles
      * @param fileDigestFactory
      * @param maxParallelFiles
-     * @return
+     * @return TODOC
      * @throws NoSuchAlgorithmException
      * @throws IllegalArgumentException
      */

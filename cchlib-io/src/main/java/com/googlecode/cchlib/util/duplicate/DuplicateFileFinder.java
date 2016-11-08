@@ -97,8 +97,8 @@ public interface DuplicateFileFinder {
     void addFiles( Iterable<File> files );
 
     /**
-     *
-     * @return
+     * TODOC
+     * @return TODOC
      */
     InitialStatus getInitialStatus();
 

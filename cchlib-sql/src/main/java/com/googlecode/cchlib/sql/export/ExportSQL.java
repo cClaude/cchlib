@@ -56,7 +56,7 @@ public class ExportSQL implements Closeable
      * @param exportDate {@link Date} to identify SQL export (just in comment section),
      *        if null use current date.
      * @param tables Array of TableDescription (order could be important
-     *        while running result SQL - see {@link #toTableDescriptions(String[])}
+     *        while running result SQL - see {@link TableDescriptionHelper}
      *        and {@link #toTableDescriptions(Collection)}).
      */
     public ExportSQL(
@@ -107,7 +107,7 @@ public class ExportSQL implements Closeable
      *      if null use current date.
      * @param tables
      *      Array of TableDescription (order could be important
-     *      while running result SQL - see {@link #toTableDescriptions(String[])}
+     *      while running result SQL - see {@link TableDescriptionHelper}
      *      and {@link #toTableDescriptions(Collection)}).
      */
     public ExportSQL(

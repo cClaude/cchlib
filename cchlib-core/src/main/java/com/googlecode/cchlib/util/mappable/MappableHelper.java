@@ -31,7 +31,7 @@ public class MappableHelper
      * Build Map using default factory.
      *
      * @param object
-     * @return
+     * @return TODOC
      *
      * @see MappableBuilder#toMap(Object)
      */

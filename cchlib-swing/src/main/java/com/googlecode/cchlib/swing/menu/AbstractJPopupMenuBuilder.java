@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.Reader;
 import java.io.Serializable;
 import java.util.EnumSet;
+import java.util.Set;
 import javax.annotation.Nullable;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -49,7 +50,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @since 4.2
      */
     protected AbstractJPopupMenuBuilder(
-        @Nullable final EnumSet<Attributs> attributes
+        @Nullable final Set<Attributs> attributes
         )
     {
         if( attributes == null) {
@@ -184,8 +185,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#addActionListener(ActionListener)
      * @see JMenuItem#setActionCommand(String)
      */
-    final
-    public JMenuItem addJMenuItem(
+    public final JMenuItem addJMenuItem(
         final JPopupMenu      contextMenu,
         final String          menuItemTxt,
         final ActionListener  listener,
@@ -217,8 +217,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#getClientProperty(Object)
      * @see JMenuItem#addActionListener(ActionListener)
      */
-    final
-    public void addJMenuItem(
+    public final void addJMenuItem(
         final JPopupMenu      contextMenu,
         final JMenuItem       menuItem,
         final ActionListener  listener,
@@ -245,8 +244,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#getClientProperty(Object)
      * @see JMenuItem#addActionListener(ActionListener)
      */
-    final
-    public JMenuItem addJMenuItem(
+    public final JMenuItem addJMenuItem(
         final JPopupMenu      contextMenu,
         final String          menuItemTxt,
         final ActionListener  listener,
@@ -276,8 +274,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *
      * @see JMenuItem#addActionListener(ActionListener)
      */
-    final
-    public void addJMenuItem(
+    public final void addJMenuItem(
         final JPopupMenu      contextMenu,
         final JMenuItem       menuItem,
         final ActionListener  listener
@@ -297,8 +294,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *
      * @see JMenuItem#addActionListener(ActionListener)
      */
-    final
-    public JMenuItem addJMenuItem(
+    public final JMenuItem addJMenuItem(
         final JPopupMenu      contextMenu,
         final String          menuItemTxt,
         final ActionListener  listener
@@ -321,8 +317,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param contextMenu       Parent {@link JPopupMenu}
      * @param menuItem          New menu to add
      */
-    final
-    public void addJMenuItem(
+    public final void addJMenuItem(
         final JPopupMenu      contextMenu,
         final JMenuItem       menuItem
         )
@@ -337,8 +332,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param menuItemTxt      Text for new menu to add
      * @return menuItem added
      */
-    final
-    public JMenuItem addJMenuItem(
+    public final JMenuItem addJMenuItem(
         final JPopupMenu    contextMenu,
         final String        menuItemTxt
         )
@@ -369,8 +363,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#addActionListener(ActionListener)
      * @see JMenu#setActionCommand(String)
      */
-    final
-    public void addJMenu(
+    public final void addJMenu(
         final JPopupMenu      contextMenu,
         final JMenu           menu,
         final ActionListener  listener,
@@ -399,8 +392,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#addActionListener(ActionListener)
      * @see JMenu#setActionCommand(String)
      */
-    final
-    public JMenu addJMenu(
+    public final JMenu addJMenu(
         final JPopupMenu      contextMenu,
         final String          menuTxt,
         final ActionListener  listener,
@@ -434,8 +426,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#addActionListener(ActionListener)
      * @see JMenu#setActionCommand(String)
      */
-    final
-    public void addJMenu(
+    public final void addJMenu(
         final JPopupMenu      contextMenu,
         final JMenu           menu,
         final ActionListener  listener,
@@ -459,8 +450,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#addActionListener(ActionListener)
      * @see JMenu#setActionCommand(String)
      */
-    final
-    public JMenu addJMenu(
+    public final JMenu addJMenu(
         final JPopupMenu      contextMenu,
         final String          menuTxt,
         final ActionListener  listener,
@@ -492,8 +482,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#getClientProperty(Object)
      * @see JMenu#addActionListener(ActionListener)
      */
-    final
-    public void addJMenu(
+    public final void addJMenu(
         final JPopupMenu      contextMenu,
         final JMenu           menu,
         final ActionListener  listener,
@@ -520,8 +509,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#getClientProperty(Object)
      * @see JMenu#addActionListener(ActionListener)
      */
-    final
-    public JMenu addJMenu(
+    public final JMenu addJMenu(
         final JPopupMenu      contextMenu,
         final String          menuTxt,
         final ActionListener  listener,
@@ -551,8 +539,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *
      * @see JMenu#addActionListener(ActionListener)
      */
-    final
-    public void addJMenu(
+    public final void addJMenu(
         final JPopupMenu      contextMenu,
         final JMenu           menu,
         final ActionListener  listener
@@ -572,8 +559,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *
      * @see JMenu#addActionListener(ActionListener)
      */
-    final
-    public JMenu addJMenu(
+    public final JMenu addJMenu(
         final JPopupMenu      contextMenu,
         final String          menuTxt,
         final ActionListener  listener
@@ -596,8 +582,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param contextMenu Parent {@link JPopupMenu}
      * @param menu        New menu to add
      */
-    final
-    public void addJMenu(
+    public final void addJMenu(
         final JPopupMenu  contextMenu,
         final JMenu       menu
         )
@@ -612,8 +597,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param menuTxt     Text for new menu to add
      * @return menu added
      */
-    final
-    public JMenu addJMenu(
+    public final JMenu addJMenu(
         final JPopupMenu    contextMenu,
         final String        menuTxt
         )
@@ -645,8 +629,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#addActionListener(ActionListener)
      * @see JMenuItem#setActionCommand(String)
      */
-    final
-    public void addJMenuItem(
+    public final void addJMenuItem(
         final JMenu           contextMenu,
         final JMenuItem       menuItem,
         final ActionListener  listener,
@@ -675,8 +658,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#addActionListener(ActionListener)
      * @see JMenuItem#setActionCommand(String)
      */
-    final
-    public JMenuItem addJMenuItem(
+    public final JMenuItem addJMenuItem(
         final JMenu           contextMenu,
         final String          menuItemTxt,
         final ActionListener  listener,
@@ -710,8 +692,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#addActionListener(ActionListener)
      * @see JMenuItem#setActionCommand(String)
      */
-    final
-    public void addJMenuItem(
+    public final void addJMenuItem(
         final JMenu           contextMenu,
         final JMenuItem       menuItem,
         final ActionListener  listener,
@@ -735,8 +716,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#addActionListener(ActionListener)
      * @see JMenuItem#setActionCommand(String)
      */
-    final
-    public JMenuItem addJMenuItem(
+    public final JMenuItem addJMenuItem(
         final JMenu           contextMenu,
         final String          menuItemTxt,
         final ActionListener  listener,
@@ -768,8 +748,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#getClientProperty(Object)
      * @see JMenuItem#addActionListener(ActionListener)
      */
-    final
-    public void addJMenuItem(
+    public final void addJMenuItem(
         final JMenu           contextMenu,
         final JMenuItem       menuItem,
         final ActionListener  listener,
@@ -796,8 +775,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenuItem#getClientProperty(Object)
      * @see JMenuItem#addActionListener(ActionListener)
      */
-    final
-    public JMenuItem addJMenuItem(
+    public final JMenuItem addJMenuItem(
         final JMenu           contextMenu,
         final String          menuItemTxt,
         final ActionListener  listener,
@@ -827,8 +805,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *
      * @see JMenuItem#addActionListener(ActionListener)
      */
-    final
-    public void addJMenuItem(
+    public final void addJMenuItem(
         final JMenu           contextMenu,
         final JMenuItem       menuItem,
         final ActionListener  listener
@@ -848,8 +825,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *
      * @see JMenuItem#addActionListener(ActionListener)
      */
-    final
-    public JMenuItem addJMenuItem(
+    public final JMenuItem addJMenuItem(
         final JMenu           contextMenu,
         final String          menuItemTxt,
         final ActionListener  listener
@@ -872,8 +848,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param contextMenu       Parent {@link JMenu}
      * @param menuItem          New menu to add
      */
-    final
-    public void addJMenuItem(
+    public final void addJMenuItem(
         final JMenu      contextMenu,
         final JMenuItem  menuItem
         )
@@ -888,8 +863,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param menuItemTxt      Text for new menu to add
      * @return menuItem added
      */
-    final
-    public JMenuItem addJMenuItem(
+    public final JMenuItem addJMenuItem(
         final JMenu    contextMenu,
         final String   menuItemTxt
         )
@@ -920,8 +894,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#addActionListener(ActionListener)
      * @see JMenu#setActionCommand(String)
      */
-    final
-    public void addJMenu(
+    public final void addJMenu(
         final JMenu           contextMenu,
         final JMenu           menu,
         final ActionListener  listener,
@@ -933,6 +906,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         menu.setActionCommand(actionCommand);
         menu.putClientProperty( clientPropertyKey, clientPropertyValue );
         menu.addActionListener( listener );
+
         contextMenu.add( menu );
     }
 
@@ -950,8 +924,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#addActionListener(ActionListener)
      * @see JMenu#setActionCommand(String)
      */
-    final
-    public JMenu addJMenu(
+    public final JMenu addJMenu(
         final JMenu           contextMenu,
         final String          menuTxt,
         final ActionListener  listener,
@@ -985,8 +958,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#addActionListener(ActionListener)
      * @see JMenu#setActionCommand(String)
      */
-    final
-    public void addJMenu(
+    public final void addJMenu(
         final JMenu           contextMenu,
         final JMenu           menu,
         final ActionListener  listener,
@@ -995,6 +967,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     {
         menu.setActionCommand(actionCommand);
         menu.addActionListener( listener );
+
         contextMenu.add( menu );
     }
 
@@ -1010,8 +983,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#addActionListener(ActionListener)
      * @see JMenu#setActionCommand(String)
      */
-    final
-    public JMenu addJMenu(
+    public final JMenu addJMenu(
         final JMenu           contextMenu,
         final String          menuTxt,
         final ActionListener  listener,
@@ -1043,8 +1015,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#getClientProperty(Object)
      * @see JMenu#addActionListener(ActionListener)
      */
-    final
-    public void addJMenu(
+    public final void addJMenu(
         final JMenu           contextMenu,
         final JMenu           menu,
         final ActionListener  listener,
@@ -1054,6 +1025,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     {
         menu.putClientProperty( clientPropertyKey, clientPropertyValue );
         menu.addActionListener( listener );
+
         contextMenu.add( menu );
     }
 
@@ -1071,8 +1043,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @see JMenu#getClientProperty(Object)
      * @see JMenu#addActionListener(ActionListener)
      */
-    final
-    public JMenu addJMenu(
+    public final JMenu addJMenu(
         final JMenu           contextMenu,
         final String          menuTxt,
         final ActionListener  listener,
@@ -1102,14 +1073,14 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *
      * @see JMenu#addActionListener(ActionListener)
      */
-    final
-    public void addJMenu(
+    public final void addJMenu(
         final JMenu      contextMenu,
         final JMenu           menu,
         final ActionListener  listener
         )
     {
         menu.addActionListener( listener );
+
         contextMenu.add( menu );
     }
 
@@ -1123,8 +1094,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *
      * @see JMenu#addActionListener(ActionListener)
      */
-    final
-    public JMenu addJMenu(
+    public final JMenu addJMenu(
         final JMenu           contextMenu,
         final String          menuTxt,
         final ActionListener  listener
@@ -1147,8 +1117,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param contextMenu Parent {@link JMenu}
      * @param menu        New menu to add
      */
-    final
-    public void addJMenu(
+    public final void addJMenu(
         final JMenu  contextMenu,
         final JMenu  menu
         )
@@ -1163,8 +1132,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param menuTxt     Text for new menu to add
      * @return menu added
      */
-    final
-    public JMenu addJMenu(
+    public final JMenu addJMenu(
         final JMenu   contextMenu,
         final String  menuTxt
         )
@@ -1249,8 +1217,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *
      * @return true if clip-board contains text.
      */
-    final
-    public static boolean isClipboardContainingText(
+    public static final boolean isClipboardContainingText(
         final Object requestor
         )
     {
@@ -1270,7 +1237,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * unavailable. For example, on some platforms, the system clipboard
      * is unavailable while it is accessed by another application.
      */
-    public final static void setClipboardContents( final String str ) //
+    public static final void setClipboardContents( final String str ) //
             throws IllegalStateException
     {
         final StringSelection selection = new StringSelection( str );
@@ -1293,7 +1260,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *         clipboard is unavailable while it is accessed by another
      *         application.
      */
-    public final static String getClipboardContents( final Object requestor )
+    public static final String getClipboardContents( final Object requestor )
         throws IllegalStateException
     {
         final Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()

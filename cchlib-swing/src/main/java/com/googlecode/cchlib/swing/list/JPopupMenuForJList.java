@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.EnumSet;
+import java.util.Set;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -100,8 +101,8 @@ public abstract class JPopupMenuForJList<E>
      * @see Attributs#MUST_BE_SELECTED
      */
     public JPopupMenuForJList( //
-        final JList<E>              jList, //
-        final EnumSet<Attributs>    attributes //
+        final JList<E>       jList, //
+        final Set<Attributs> attributes //
         )
     {
         super( attributes );

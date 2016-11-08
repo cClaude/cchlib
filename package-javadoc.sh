@@ -117,7 +117,8 @@ mvnJavadoc()
   cat "${LOGS_JAVADOC}"
   echo "RC=${MVN_EXIT} for ${MVN} ${MVN_PARAM}"
 
-  cat "${LOGS_JAVADOC}" | grep -F "[ERROR] >"${LOGS_JAVADOC_WARNING}"
+  cat "${LOGS_JAVADOC}" | grep -F "[WARNING]" >"${LOGS_JAVADOC_WARNING}"
+  cat "${LOGS_JAVADOC}" | grep -F "[ERROR]"  >>"${LOGS_JAVADOC_WARNING}"
 
 #
 #  cat "${LOGS_JAVADOC}" \

@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
  *
  * @since 4.1.8
  */
-public class URICache implements Closeable // $codepro.audit.disable largeNumberOfMethods
+public class URICache implements Closeable
 {
     private static final Logger LOGGER = Logger.getLogger( URICache.class );
     private static final int AUTOSTORE_DEFAULT_THRESHOLD = 50;
@@ -51,7 +51,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
     public URICache( final File cacheRootDirFile ) throws IOException
     {
         this.cacheRootDirFile = cacheRootDirFile;
-        this.theCache          = new URICacheContent();
+        this.theCache         = new URICacheContent();
         this.autostore        = false;
 
         if( cacheRootDirFile == null ) {
@@ -143,6 +143,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
 
             return f.isFile();
             }
+
         return false;
     }
 
@@ -205,10 +206,11 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
     }
 
     /**
-     * Retrieve {@link URL} in cache
+     * Retrieve {@link URI} in cache
      *
-     * @param url {@link URL} to retrieve
-     * @return {@link URLDataCacheEntry} for giving url if in cache, null otherwise
+     * @param uri {@link URI} to retrieve
+     * @return {@link URIDataCacheEntry} for giving <code>uri</code> if in cache,
+     *         null otherwise
      */
     public URIDataCacheEntry get( final URI uri )
     {
@@ -253,6 +255,12 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
         return getRelativeFilename( url.toURI() );
     }
 
+    /**
+     * TODOC
+     *
+     * @param uri
+     * @return TODOC
+     */
     public String getRelativeFilename( final URI uri )
     {
         final URIDataCacheEntry entry = get( uri );
@@ -369,7 +377,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
             try {
                 this.persistenceManager.load( getCacheFile(), this.theCache );
                 }
-            catch( final PersistenceFileBadVersionException retry ) { // $codepro.audit.disable logExceptions
+            catch( final PersistenceFileBadVersionException retry ) {
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace( "Migratation", retry );
                 }
@@ -382,7 +390,7 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
                 try {
                     this.persistenceManager.load( getBackupCacheFile(), this.theCache );
                     }
-                catch( final PersistenceFileBadVersionException e ) { // $codepro.audit.disable logExceptions
+                catch( final PersistenceFileBadVersionException e ) {
                     if( LOGGER.isTraceEnabled() ) {
                         LOGGER.trace( "Migratation", e );
                     }
@@ -476,11 +484,17 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
         final boolean b = cacheFile.renameTo( backupFile );
 
         if( LOGGER.isTraceEnabled() ) {
-            LOGGER.trace( "Rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
+            LOGGER.trace(
+                "Rename cache file from [" + cacheFile + "] to ["
+                    + backupFile + "] : result=" + b
+                );
             }
 
         if( ! b ) {
-            LOGGER.warn( "Can't rename cache file from [" + cacheFile + "] to [" + backupFile + "] : result=" + b );
+            LOGGER.warn(
+                "Can't rename cache file from [" + cacheFile + "] to ["
+                    + backupFile + "] : result=" + b
+                );
             }
     }
 
@@ -499,32 +513,31 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
             }
     }
 
-
     /**
-     * Adds a {@link URLCacheListener} to the
+     * Adds a {@link URICacheListener} to the
      * {@link URICache}'s listener list.
      *
-     * @param l the {@link URLCacheListener} to add
+     * @param l the {@link URICacheListener} to add
      */
-    public void addURLCacheListener( final URICacheListener l )
+    public void addURICacheListener( final URICacheListener l )
     {
         this.listenerList.add( URICacheListener.class, l );
     }
 
     /**
-     * Removes a {@link URLCacheListener} from the
+     * Removes a {@link URICacheListener} from the
      *  {@link URICache}'s listener list.
      *
-     * @param l the {@link URLCacheListener} to remove
+     * @param l the {@link URICacheListener} to remove
      */
-    public void removeURLCacheListener( final URICacheListener l )
+    public void removeURICacheListener( final URICacheListener l )
     {
         this.listenerList.remove( URICacheListener.class, l );
     }
 
     /**
-     * Runs each {@link URLCacheListener}'s
-     * {@link URLCacheListener#ioExceptionHandler(IOException)}
+     * Runs each {@link URICacheListener}'s
+     * {@link URICacheListener#ioExceptionHandler(IOException)}
      * method.
      */
     protected void fireIOException(
@@ -541,8 +554,8 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
     }
 
     /**
-     * Runs each {@link URLCacheListener}'s
-     * {@link URLCacheListener#autoStoreDone()}
+     * Runs each {@link URICacheListener}'s
+     * {@link URICacheListener#autoStoreDone()}
      * method.
      */
     protected void fireAutoStore()
@@ -586,11 +599,10 @@ public class URICache implements Closeable // $codepro.audit.disable largeNumber
     }
 
     @Override
-    protected void finalize() throws Throwable // NOSONAR $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
+    protected void finalize() throws Throwable
     {
         close();
 
         super.finalize();
     }
-
 }

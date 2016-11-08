@@ -21,11 +21,13 @@ public class DataSourceHelper
     }
 
     /**
-     * Call {@link #close()} but hide {@link IOException} if
-     * closeable is not null.
+     * Call {@link AutoCloseable#close()} but hide {@link IOException} if
+     * <code>closeable</code> is not null.
      *
      * @param closeable AutoCloseable object to close (could be null)
+     * @throws SQLCloseRuntimeException if any exception.
      */
+    @Deprecated
     public static void quietClose( final AutoCloseable closeable )
     {
         if( closeable != null ) {
