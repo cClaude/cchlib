@@ -5,7 +5,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.IconResources;
 import com.googlecode.cchlib.apps.emptydirectories.debug.lib.DualIcon;
 
 

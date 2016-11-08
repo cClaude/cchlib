@@ -3,7 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.alpha.prefs;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
-import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.ConfigMode;
 
 public interface Preferences extends Serializable
 {

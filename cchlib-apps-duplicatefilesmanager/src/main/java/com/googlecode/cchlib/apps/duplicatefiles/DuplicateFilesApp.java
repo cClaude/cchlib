@@ -11,9 +11,9 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.Version;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControlerFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.DuplicateFilesFrame;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControlerFactory;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.JFrames;
 
