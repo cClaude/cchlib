@@ -6,6 +6,9 @@ import java.util.Date;
 import javax.swing.SwingUtilities;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
@@ -24,8 +27,10 @@ public class DuplicateFilesApp
 {
     private static final Logger LOGGER = Logger.getLogger( DuplicateFilesApp.class );
 
-    private static final String ENTRY_TO_ADD    = "entry-to-add";
-    private static final String PREFERENCE_FILE = "preference-file";
+    public static final String ENTRY_TO_ADD    = "entry-to-add";
+    public static final String HELP            = "help";
+    public static final String NO_PREFERENCE   = "default-preference";
+    public static final String PREFERENCE_FILE = "preference-file";
 
     private DuplicateFilesApp()
     {
@@ -50,18 +55,31 @@ public class DuplicateFilesApp
 
         final CommandLine line = parseArguments( args );
 
-        startApp( line );
+        if( line != null ) {
+            startApp( line );
+        }
     }
 
     private static void startApp( final CommandLine line ) throws FileNotFoundException
     {
-        final File                  preferenceFile = getPreferenceFile( line );
-        final PreferencesControler  preferences    = PreferencesControlerFactory.createPreferences( preferenceFile );
-        final String                title          = "Duplicate Files Manager " + Version.getInstance().getVersion();
+        final PreferencesControler preferences;
+
+        if( line.hasOption( NO_PREFERENCE ) ) {
+            preferences = PreferencesControlerFactory.createDefaultPreferences();
+        } else {
+            final File preferenceFile = getPreferenceFile( line );
+
+            preferences = PreferencesControlerFactory.createPreferences( preferenceFile );
+        }
 
         preferences.applyLookAndFeel();
 
-        SwingUtilities.invokeLater( () -> launchGUI( preferences, title, line ) );
+        SwingUtilities.invokeLater( () -> launchGUI( preferences, getTitle(), line ) );
+    }
+
+    private static String getTitle()
+    {
+        return "Duplicate Files Manager " + Version.getInstance().getVersion();
     }
 
     private static void launchGUI( //
@@ -111,16 +129,43 @@ public class DuplicateFilesApp
         final Options           options = createCLIOptions();
 
         // parse the command line arguments
-        return parser.parse( options, args );
+        final CommandLine line = parser.parse( options, args );
+
+        if( line.hasOption( HELP ) ) {
+            printHelp( options );
+
+            return null;
+        } else {
+            return line;
+        }
+    }
+
+    private static void printHelp( final Options options )
+    {
+        final HelpFormatter formatter = new HelpFormatter();
+
+        final String cmdLineSyntax = "TODO"; // TODO command line syntax
+        formatter.printHelp( cmdLineSyntax  , options );
     }
 
     private static Options createCLIOptions()
     {
         final Options options = new Options();
 
-        options.addOption( "p", PREFERENCE_FILE, true, "Preferance file" );
-        options.addOption( "e", ENTRY_TO_ADD,    true, "file or directory to include to scan list" );
+        options.addOption( "h", HELP, false, "This help message" );
+        options.addOptionGroup( getPreferenceGroup() );
+        options.addOption( "e", ENTRY_TO_ADD, true, "file or directory to include to scan list" );
 
         return options;
+    }
+
+    private static OptionGroup getPreferenceGroup()
+    {
+        final OptionGroup prefGroup = new OptionGroup();
+
+        prefGroup.addOption( new Option( "p", PREFERENCE_FILE, true, "Preference file" ) );
+        prefGroup.addOption( new Option( "P", NO_PREFERENCE, false, "Ignore preference file" ) );
+
+        return prefGroup;
     }
 }
