@@ -57,18 +57,12 @@ public class SimpleSQL implements Closeable
      * @param resourceName Resource to retrieve on {@link InitialContext}
      * @throws SimpleDataSourceException if DataSource can not be create
      * @throws SQLException if a database access error occurs
-     * @see SimpleDataSource#createDataSource(String)
+     * @see DataSourceHelper
      */
     public SimpleSQL( final String resourceName )
         throws SimpleDataSourceException, SQLException
     {
-        this( new SimpleDataSource( newDataSource(resourceName) ) );
-    }
-
-    private static DataSource newDataSource( final String resourceName )
-        throws SimpleDataSourceException
-    {
-        return DataSourceHelper.createDataSource( resourceName );
+        this( DataSourceHelper.newSimpleDataSource( resourceName ) );
     }
 
     /**

@@ -84,6 +84,8 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
  * Code inspired from
  * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
  * </p>
+ *
+ * @param <E> Type on {@link JLisk} elements
  */
 public abstract class JPopupMenuForJList<E>
     extends AbstractJPopupMenuBuilder
@@ -98,7 +100,7 @@ public abstract class JPopupMenuForJList<E>
      * @param attributes Configuration
      * @since 4.2
      * @see #isListMustBeSelected()
-     * @see Attributs#MUST_BE_SELECTED
+     * @see AbstractJPopupMenuBuilder.Attributs#MUST_BE_SELECTED
      */
     public JPopupMenuForJList( //
         final JList<E>       jList, //
@@ -126,19 +128,18 @@ public abstract class JPopupMenuForJList<E>
         this( jList, EnumSet.of( first, rest ) );
     }
 
-    /**
-     * Create JPopupMenuForJList
-     *
-     * @param jList to use.
-     */
-    @Deprecated
-    public JPopupMenuForJList(
-        final JList<E> jList
-        )
-    {
-        this( jList, null );
-    }
-
+//    /**
+//     * Create JPopupMenuForJList
+//     *
+//     * @param jList to use.
+//     */
+//    @Deprecated
+//    public JPopupMenuForJList(
+//        final JList<E> jList
+//        )
+//    {
+//        this( jList, null );
+//    }
 
     /**
      * Returns current JList
@@ -322,14 +323,14 @@ public abstract class JPopupMenuForJList<E>
             );
     }
 
-    @Deprecated
-    protected void addDefaultCopyMenuItem(
-        final JPopupMenu contextMenu,
-        final int        rowIndex
-        )
-    {
-        addCopyMenuItem( contextMenu,"Copy", rowIndex );
-    }
+//    @Deprecated
+//    protected void addDefaultCopyMenuItem(
+//        final JPopupMenu contextMenu,
+//        final int        rowIndex
+//        )
+//    {
+//        addCopyMenuItem( contextMenu,"Copy", rowIndex );
+//    }
 
     /**
      * Returns an ActionListener for 'copy' from

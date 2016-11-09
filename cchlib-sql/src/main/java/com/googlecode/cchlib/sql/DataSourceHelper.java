@@ -7,12 +7,14 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import org.apache.log4j.Logger;
 
 /**
  * Easy way to obtain a {@link DataSource}
  */
 public class DataSourceHelper
 {
+    public static final Logger LOGGER = Logger.getLogger( DataSourceHelper.class );
     public static final int DEFAULT_MAX_RETRY = 10;
 
     private DataSourceHelper()
@@ -25,9 +27,7 @@ public class DataSourceHelper
      * <code>closeable</code> is not null.
      *
      * @param closeable AutoCloseable object to close (could be null)
-     * @throws SQLCloseRuntimeException if any exception.
      */
-    @Deprecated
     public static void quietClose( final AutoCloseable closeable )
     {
         if( closeable != null ) {
@@ -35,7 +35,7 @@ public class DataSourceHelper
                 closeable.close();
             }
             catch( final Exception ioe ) {
-                throw new SQLCloseRuntimeException( ioe );
+                LOGGER.warn( "quietClose", ioe );
             }
         }
     }
@@ -118,5 +118,29 @@ public class DataSourceHelper
             }
 
         return connection;
+    }
+
+    /**
+     * TODOC
+     *
+     * @param dataSource TODOC
+     * @return TODOC
+     */
+    public static SimpleDataSource newSimpleDataSource( final DataSource dataSource )
+    {
+        return new SimpleDataSource( dataSource );
+    }
+
+    /**
+     * TODOC
+     *
+     * @param resourceName TODOC
+     * @return TODOC
+     * @throws SimpleDataSourceException if any
+     */
+    public static SimpleDataSource newSimpleDataSource( final String resourceName )
+            throws SimpleDataSourceException
+    {
+        return newSimpleDataSource( createDataSource( resourceName ) );
     }
 }

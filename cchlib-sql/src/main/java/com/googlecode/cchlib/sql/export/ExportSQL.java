@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
@@ -57,7 +56,6 @@ public class ExportSQL implements Closeable
      *        if null use current date.
      * @param tables Array of TableDescription (order could be important
      *        while running result SQL - see {@link TableDescriptionHelper}
-     *        and {@link #toTableDescriptions(Collection)}).
      */
     public ExportSQL(
             final Connection            connection,
@@ -108,7 +106,6 @@ public class ExportSQL implements Closeable
      * @param tables
      *      Array of TableDescription (order could be important
      *      while running result SQL - see {@link TableDescriptionHelper}
-     *      and {@link #toTableDescriptions(Collection)}).
      */
     public ExportSQL(
             final Connection            connection,

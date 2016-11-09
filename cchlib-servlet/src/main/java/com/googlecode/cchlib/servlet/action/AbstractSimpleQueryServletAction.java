@@ -6,7 +6,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 import com.googlecode.cchlib.servlet.ActionServlet;
 import com.googlecode.cchlib.servlet.exception.ServletActionException;
-import com.googlecode.cchlib.sql.SimpleDataSource;
+import com.googlecode.cchlib.sql.DataSourceHelper;
 import com.googlecode.cchlib.sql.SimpleQuery;
 import com.googlecode.cchlib.sql.SimpleUpdate;
 
@@ -52,8 +52,7 @@ public abstract class AbstractSimpleQueryServletAction
             throw new ServletActionException( e );
             }
         finally {
-            SimpleDataSource.quietClose( this.simpleQuery );
-            SimpleDataSource.quietClose( this.simpleUpdate );
+            DataSourceHelper.quietClose( this.simpleQuery );
             }
 
         return nextAction;

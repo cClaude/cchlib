@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.sql;
 
-import java.io.Flushable;
+import java.io.Closeable;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 @Deprecated
 public class SimpleQuery
     extends SimpleDataSource
-        implements Flushable
+        implements Closeable
 {
     private Connection conn;
     private Statement stmt;
@@ -48,12 +48,12 @@ public class SimpleQuery
      *
      * @param resourceName Resource to retrieve on {@link InitialContext}
      * @throws SimpleDataSourceException if any
-     * @see SimpleDataSource#createDataSource(String)
+     * @see DataSourceHelper#createDataSource(String)
      */
     public SimpleQuery( final String resourceName )
         throws SimpleDataSourceException
     {
-        super( SimpleDataSource.createDataSource( resourceName ) );
+        super( DataSourceHelper.createDataSource( resourceName ) );
 
         this.conn = null;
         this.stmt = null;
@@ -78,19 +78,14 @@ public class SimpleQuery
         try {
             if(this.conn != null) {
                 this.stmt = this.conn.createStatement();
+
                 rset = this.stmt.executeQuery( query );
                 }
             }
         finally {
-            if( rset == null ) {
-                try {
-                    flush();
-                    }
-                catch( final IOException e ) {
-                    // This is probably an SQLException
-                    throw new SQLException( e );
-                    }
-                }
+//            if( rset == null ) {
+//                closeConnection();
+//                }
             }
 
         return rset;
@@ -126,7 +121,7 @@ public class SimpleQuery
      * Free all resources
      * @throws SQLException
      */
-    protected void closeConnection() throws SQLException
+    protected void closeConnection() throws SQLCloseException
     {
         try {
             privateCloseStatement();
@@ -136,52 +131,40 @@ public class SimpleQuery
             }
     }
 
-    private void privateCloseStatement() throws SQLException
+    private void privateCloseStatement() throws SQLCloseException
     {
         if( this.stmt != null ) {
             try {
                 this.stmt.close();
-                }
+            }
+            catch( final SQLException e ) {
+                throw new SQLCloseException( e );
+            }
             finally {
                 this.stmt = null;
-                }
             }
+        }
     }
 
-    private void privateCloseConnection() throws SQLException
+    private void privateCloseConnection() throws SQLCloseException
     {
         if( this.conn != null ) {
             try {
                 this.conn.close();
-                }
+            }
+            catch( final SQLException e ) {
+                throw new SQLCloseException( e );
+            }
             finally {
                 this.conn = null;
-                }
             }
-    }
-
-    @Override
-    public void flush() throws IOException
-    {
-        try {
-            closeConnection();
-            }
-        catch( final SQLException e ) {
-            throw new SQLCloseException( e );
-            }
+        }
     }
 
     @Override
     public void close() throws IOException
     {
-        try {
-            closeConnection();
-            }
-        catch( final SQLException e ) {
-            throw new SQLCloseException( e );
-            }
-
-        super.close();
+        closeConnection();
     }
 
     @Override

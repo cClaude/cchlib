@@ -1,17 +1,16 @@
 package com.googlecode.cchlib.sql;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 /**
  * Easy way to obtain a {@link DataSource}
+ *
+ * @see DataSourceHelper
+ * @see DataSourceHelper#createDataSource(String)
  */
 public class SimpleDataSource
-    implements Closeable
 {
     private final DataSource  dataSource;
     private String[]          userPass;
@@ -88,52 +87,6 @@ public class SimpleDataSource
         return this.dataSource;
     }
 
-    @Override
-    public void close() throws IOException
-    {
-        // empty
-    }
-
-    /**
-     * Call {@link #close()} but hide {@link IOException}
-     */
-    @Deprecated
-    public void quietClose()
-    {
-        DataSourceHelper.quietClose( this );
-    }
-
-    /**
-     * Call {@link Closeable#close()} but hide {@link IOException} if
-     * closeable is not null.
-     *
-     * @param closeable Closeable object to close (could be null)
-     * @deprecated use {@link DataSourceHelper#quietClose(Closeable)}instead
-     */
-    @Deprecated
-    public static void quietClose( final Closeable closeable )
-    {
-        DataSourceHelper.quietClose( closeable );
-    }
-
-    /**
-     * Retrieve DataSource on {@link InitialContext}
-     *
-     * @param resourceName DataSource name
-     * @return DataSource if resource found
-     * @throws SimpleDataSourceException if any error occurred
-     * @see DataSourceHelper#createDataSource(String)
-    * @deprecated use {@link DataSourceHelper#createDataSource(String)}instead
-     */
-    @Deprecated
-    public static final DataSource createDataSource(
-            final String resourceName
-            )
-        throws SimpleDataSourceException
-    {
-        return DataSourceHelper.createDataSource( resourceName );
-    }
-
     /**
      * Create a <b>new</b> Connection from DataSource
      *
@@ -143,6 +96,10 @@ public class SimpleDataSource
     public Connection createConnectionFromDataSource()
         throws SQLException
     {
-        return DataSourceHelper.createConnectionFromDataSource( this.dataSource, this.userPass, this.maxRetry );
+        return DataSourceHelper.createConnectionFromDataSource(
+                this.dataSource,
+                this.userPass,
+                this.maxRetry
+                );
     }
 }

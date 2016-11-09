@@ -4,10 +4,9 @@ import java.io.Serializable;
 import javax.swing.Icon;
 
 /**
- *
- *
+ * Allow to serialize icon objects
  */
 public interface SerializableIcon extends Serializable {
-    /** @Return icon for this object */
+    /** @return icon for this object */
     public Icon getIcon();
 }
