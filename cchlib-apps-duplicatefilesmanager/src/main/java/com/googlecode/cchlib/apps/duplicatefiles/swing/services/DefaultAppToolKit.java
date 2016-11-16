@@ -86,6 +86,7 @@ final class DefaultAppToolKit
         this.mainWindow = mainWindow;
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S00100"})
     private DuplicateFilesFrame private_getMainWindow() throws IllegalStateException
     {
         if( this.mainWindow == null ) {
@@ -186,6 +187,7 @@ final class DefaultAppToolKit
     }
 
     @Override // DFToolKit
+    @SuppressWarnings("squid:S2142")
     public void sleep(final long ms)
     {
         try {

@@ -7,18 +7,15 @@ import java.io.PipedOutputStream;
 
 /**
  * NEEDDOC
- *
  */
 public class InputStreamThread
     extends Thread
-        //implements Closeable
 {
     private final InputStream                   is;
     private final InputStreamThreadExceptionHandler   exceptionHandler;
     private final PipedOutputStream             pipeOut;
     private final PipedInputStream              pipeIn;
     private boolean                             running;
-    //private static final int ERROR_MAX = 10;
     private final int bufferSize;
 
     /**

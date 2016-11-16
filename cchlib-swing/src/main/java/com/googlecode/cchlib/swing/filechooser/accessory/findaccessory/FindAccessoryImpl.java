@@ -378,14 +378,17 @@ public class FindAccessoryImpl
      * Find thread
      */
     @Override
+    @SuppressWarnings({"squid:S2142","squid:S00108"})
     public void run()
     {
         if (this.searchThread == null) {
             return;
             }
+
         if (Thread.currentThread() != this.searchThread) {
             return;
             }
+
         try {
             this.actionStart.setEnabled(false);
             this.actionStop.setEnabled(true);

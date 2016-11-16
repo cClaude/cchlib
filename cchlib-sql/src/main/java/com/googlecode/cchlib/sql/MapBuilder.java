@@ -122,7 +122,7 @@ class MapBuilder implements Mappable
     private static List<Method> getMethodsToInvokeForResultSet()
     {
         final Method[]      methods = DatabaseMetaData.class.getMethods();
-        final List<Method>  methodsToInvoke = new ArrayList<Method>();
+        final List<Method>  methodsToInvoke = new ArrayList<>();
 
         for(final Method m:methods) {
             final Class<?> returnType = m.getReturnType();

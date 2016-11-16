@@ -210,6 +210,7 @@ public class FilesConfig implements Serializable
      * @throws FileNotFoundException
      * @throws IOException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public void load()
         throws  FileNotFoundException,
                 IOException
@@ -226,6 +227,7 @@ public class FilesConfig implements Serializable
         }
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void privateLoadProperties() throws FileNotFoundException, IOException
     {
         privateLoadProperties( null, 0 );
@@ -242,7 +244,7 @@ public class FilesConfig implements Serializable
             }
     }
 
-
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void privateLoadProperties(
             final Properties defaults,
             final int        index
@@ -253,6 +255,7 @@ public class FilesConfig implements Serializable
         final CustomProperties cprop = new DefaultCustomProperties( this.getFileObject( index ), defaults );
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void privateLoadFormattedProperties() throws FileNotFoundException, IOException
     {
         privateLoadFormattedProperties( null, 0 );
@@ -270,6 +273,7 @@ public class FilesConfig implements Serializable
             }
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void privateLoadFormattedProperties(
         final FormattedProperties defaults,
         final int                 index

@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search;
 
 
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public abstract class JPanelSearching
     extends JPanelSearchingFilters
         implements Cancelable

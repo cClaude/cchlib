@@ -44,7 +44,9 @@ public class CLIParameters
 
     private Boolean           onlyDuplicates;
     private Boolean           prettyJson;
+    @SuppressWarnings("squid:S1845")
     private Boolean           quiet;
+    @SuppressWarnings("squid:S1845")
     private Boolean           verbose;
     private CommandLine       commandLine;
     private FileFiltersConfig fileFiltersConfig;

@@ -104,7 +104,7 @@ public class DuplicateFilesApp
 
             JFrames.handleMinimumSize(frame, preferences.getMinimumWindowDimension());
         }
-        catch( final Throwable e ) {
+        catch( final Exception e ) {
             LOGGER.fatal( "Can't load application", e );
 
             DialogHelper.showMessageExceptionDialog( title, e );

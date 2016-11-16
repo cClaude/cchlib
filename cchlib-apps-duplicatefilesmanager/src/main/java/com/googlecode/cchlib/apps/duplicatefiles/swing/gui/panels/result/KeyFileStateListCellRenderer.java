@@ -17,6 +17,7 @@ import com.googlecode.cchlib.swing.list.DefaultListCellRenderer;
  *
  */
 // NOT public
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 class KeyFileStateListCellRenderer
         extends DefaultListCellRenderer<KeyFileState>
             implements SerializableListCellRenderer<KeyFileState>

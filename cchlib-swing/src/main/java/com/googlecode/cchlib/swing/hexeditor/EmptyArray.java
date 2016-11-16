@@ -7,13 +7,6 @@ import java.io.IOException;
  */
 public class EmptyArray implements ArrayReadWriteAccess
 {
-    /**
-     * NEEDDOC
-     */
-    public EmptyArray()
-    {
-    }
-
     @Override
     public int getLength()
     {
@@ -40,5 +33,6 @@ public class EmptyArray implements ArrayReadWriteAccess
     @Override
     public void close() throws IOException
     {
+        // In Memory
     }
 }

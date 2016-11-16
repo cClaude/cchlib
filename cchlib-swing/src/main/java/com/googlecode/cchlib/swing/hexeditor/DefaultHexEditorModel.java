@@ -21,7 +21,8 @@ public class DefaultHexEditorModel implements HexEditorModel
     private static final Logger LOGGER = Logger.getLogger( DefaultHexEditorModel.class );
     private static final Font customFont=new Font("Monospaced",0,12);
     private static final int BORDER_DEFAULT = 2;
-    private static final int border = BORDER_DEFAULT;
+
+    private final int border = BORDER_DEFAULT; // Warn never change
 
     private JComponent rootComponent;
     private int displayLinesCount = 10;
@@ -63,11 +64,8 @@ public class DefaultHexEditorModel implements HexEditorModel
         else {
             this.arrayAccessRW = null;
             }
-        this.arrayAccess = arrayAccess;
 
-        //private JComponent rootComponent;
-        //private int displayLinesCount = 10;
-        //
+        this.arrayAccess  = arrayAccess;
         this.introduction = 0;
         this.cursor       = 0;
 
@@ -80,16 +78,12 @@ public class DefaultHexEditorModel implements HexEditorModel
     {
         final int n=(this.cursor/16);
 
-//        System.out.print("- "+inicio+"<"+n+"<"+(linesCount+inicio)+"("+linesCount+")");
-
         if(n<this.introduction) {
             this.introduction=n;
             }
         else if(n>=(this.introduction+this.displayLinesCount)) {
             this.introduction=n-(this.displayLinesCount-1);
             }
-
-//        System.out.println(" - "+inicio+"<"+n+"<"+(linesCount+inicio)+"("+linesCount+")");
 
         repaintAll();
     }
@@ -121,7 +115,7 @@ public class DefaultHexEditorModel implements HexEditorModel
     @Override
     public int getBorderWidth()
     {
-        return border;
+        return this.border;
     }
 
     @Override
@@ -146,21 +140,21 @@ public class DefaultHexEditorModel implements HexEditorModel
     public void drawBackground(final Graphics g,final int x,final int y,final int s)
     {
         final FontMetrics fn=getFontMetrics();
-        g.fillRect(((fn.stringWidth(" ")+1)*x)+border,(fn.getHeight()*y)+border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
+        g.fillRect(((fn.stringWidth(" ")+1)*x)+this.border,(fn.getHeight()*y)+this.border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
     }
 
     @Override
     public void drawTable(final Graphics g,final int x,final int y,final int s)
     {
         final FontMetrics fn=getFontMetrics();
-        g.drawRect(((fn.stringWidth(" ")+1)*x)+border,(fn.getHeight()*y)+border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
+        g.drawRect(((fn.stringWidth(" ")+1)*x)+this.border,(fn.getHeight()*y)+this.border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
     }
 
     @Override
     public void printString(final Graphics g,final String s,final int x,final int y)
     {
         final FontMetrics fn=getFontMetrics();
-        g.drawString(s,((fn.stringWidth(" ")+1)*x)+border,((fn.getHeight()*(y+1))-fn.getMaxDescent())+border);
+        g.drawString(s,((fn.stringWidth(" ")+1)*x)+this.border,((fn.getHeight()*(y+1))-fn.getMaxDescent())+this.border);
     }
 
     @Override
@@ -247,7 +241,6 @@ public class DefaultHexEditorModel implements HexEditorModel
         if( this.introduction < 0 ) {
             this.introduction = 0;
             }
-        //repaint();
     }
 
     @Override
@@ -262,7 +255,6 @@ public class DefaultHexEditorModel implements HexEditorModel
         if( this.introduction<0 ) {
             this.introduction=0;
             }
-        //repaint();
     }
 
     @Override

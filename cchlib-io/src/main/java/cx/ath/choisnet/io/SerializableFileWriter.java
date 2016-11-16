@@ -33,6 +33,7 @@ public class SerializableFileWriter
      * @throws UnsupportedEncodingException
      * @throws java.io.IOException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public SerializableFileWriter(final File file, final String encoding)
         throws  FileNotFoundException,
                 UnsupportedEncodingException,
@@ -50,6 +51,7 @@ public class SerializableFileWriter
      * @throws UnsupportedEncodingException
      * @throws IOException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public SerializableFileWriter(final File file, final String encoding, final boolean append)
         throws FileNotFoundException,
                UnsupportedEncodingException,

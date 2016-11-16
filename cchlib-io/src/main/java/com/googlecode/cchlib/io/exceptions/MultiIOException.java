@@ -43,6 +43,7 @@ public class MultiIOException extends IOException implements Iterable<IOExceptio
         return this.exceptions.size() == 0;
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void checkState() throws IllegalStateException
     {
         if( isEmpty() ) {

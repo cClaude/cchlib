@@ -418,6 +418,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
         this.events.add( event );
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static final GoogleContactType newGoogleContactType( final Class<?> clazz )
             throws IllegalArgumentException
     {

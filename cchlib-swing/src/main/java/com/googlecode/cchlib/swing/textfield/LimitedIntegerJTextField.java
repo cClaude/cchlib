@@ -11,6 +11,7 @@ import javax.swing.text.DocumentFilter;
 /**
  * NEEDDOC
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LimitedIntegerJTextField extends JTextField
 {
     private static final long serialVersionUID = 1L;
@@ -123,6 +124,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @throws IllegalArgumentException if maxValue is negative
      *
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public LimitedIntegerJTextField( final int maxValue, final int radix )
         throws IllegalArgumentException
     {
@@ -183,6 +185,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @throws IllegalArgumentException if maxValue is negative
      *         or if current value is greater than this new maxValue
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setMaxValue(final int maxValue)
         throws IllegalArgumentException
     {
@@ -201,6 +204,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @param value
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setValue( final int value ) throws IllegalArgumentException
     {
         checkValue( value );
@@ -214,6 +218,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @param radix
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setRadix( final int radix ) throws IllegalArgumentException
     {
         this.radix = radix;
@@ -227,6 +232,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @param value
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void checkValue( final int value ) throws IllegalArgumentException
     {
         if( value > this.maxValue ) {

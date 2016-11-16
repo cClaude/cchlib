@@ -10,13 +10,6 @@ public class NoDuplicateListModel<E> extends DefaultListModel<E>
     private static final long serialVersionUID = 1L;
 
     /**
-     *
-     */
-    public NoDuplicateListModel()
-    {
-    }
-
-    /**
      * NEEDDOC
      */
     private boolean removeIfExist( final E element )

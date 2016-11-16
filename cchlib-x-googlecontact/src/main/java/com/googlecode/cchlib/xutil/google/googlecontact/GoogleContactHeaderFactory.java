@@ -149,6 +149,7 @@ public class GoogleContactHeaderFactory {
     private final GoogleContactAnalyser googleContactAnalyser = new GoogleContactAnalyser();
     private final Map<Integer,HeaderMethodContener> indexMethodConteners = new HashMap<>();
 
+    @SuppressWarnings("squid:S3346")
     private GoogleContactHeaderFactory( final String[] headers ) throws GoogleContactFactoryException
     {
         for( int index = 0; index<headers.length; ) {
@@ -184,6 +185,7 @@ public class GoogleContactHeaderFactory {
         assert this.indexMethodConteners.size() == headers.length;
     }
 
+    @SuppressWarnings("squid:S3346")
     private int addCustomType(
         final String[]                       headers,
         final int                            index,
@@ -259,6 +261,7 @@ public class GoogleContactHeaderFactory {
         return parentTypeInfo.getMethodForStrings().get( header );
     }
 
+    @SuppressWarnings("squid:S3346")
     private AnalyserCustomTypeMethodContener findAnalyserCustomTypeMethodContener(
         final TypeInfo parentTypeInfo,
         final String   header

@@ -15,6 +15,7 @@ interface URICachePersistenceManager
     void store( File cacheFile, CacheContent cache )
         throws IOException;
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     void load( File cacheFile, CacheContent cache )
         throws FileNotFoundException, IOException, PersistenceFileBadVersionException;
 }

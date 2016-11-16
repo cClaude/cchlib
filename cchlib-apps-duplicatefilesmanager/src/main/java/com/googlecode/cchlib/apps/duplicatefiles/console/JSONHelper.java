@@ -142,6 +142,7 @@ public class JSONHelper
         return Boolean.getBoolean( "UseStandardPrettyPrint" );
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private static <T> void prettyPrint( final File jsonFile, final T value, final ObjectMapper mapper )
         throws
             IOException,
@@ -151,6 +152,7 @@ public class JSONHelper
         mapper.writerWithDefaultPrettyPrinter().writeValue( jsonFile, value );
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private static <T> void prettyPrintArray( final File jsonFile, final T value, final ObjectMapper mapper )
         throws
             IOException,

@@ -129,6 +129,7 @@ public class FileDigest
      * @throws IOException any unexpected IO error
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public byte[] computeFile(
             @Nonnull final File                file,
             @Nonnull final FileDigestListener  listener

@@ -19,6 +19,7 @@ public final class HTMLWriter extends Writer
      * @param writer destination Writer
      * @throws NullPointerException if writer is null
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public HTMLWriter(final Writer writer)
         throws NullPointerException
     {
@@ -36,6 +37,7 @@ public final class HTMLWriter extends Writer
      * @throws NullPointerException if writer is null
      * @throws IllegalArgumentException if tabLength is negative
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public HTMLWriter(final Writer writer, final int tabLength)
         throws NullPointerException, IllegalArgumentException
     {
@@ -141,6 +143,7 @@ public final class HTMLWriter extends Writer
      * @param len length to convert
      * @return a String where HTML characters are converted.
      */
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     public String toString( final char[] cbuf, final int off, final int len )
     {// TODO: improve encoding ! Add Attribute set on this class
      // to offer some choices

@@ -78,6 +78,7 @@ class PreferencesPanelWB extends JPanel {
         this( new PreferencesDialogI18n() );
     }
 
+    @SuppressWarnings({"squid:S00117"})
     PreferencesPanelWB( final PreferencesDialogI18n i18n )
     {
         this.i18n                 = i18n;

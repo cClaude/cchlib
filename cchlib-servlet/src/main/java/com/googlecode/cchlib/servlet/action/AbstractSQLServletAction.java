@@ -25,6 +25,7 @@ public abstract class AbstractSQLServletAction
      * @throws NamingException
      * @throws SQLException
      */
+    @SuppressWarnings({"squid:S1160"})
     public abstract ActionServlet.Action doSQL()
         throws  ServletActionException,
                 NamingException,
@@ -44,6 +45,7 @@ public abstract class AbstractSQLServletAction
      * @throws NamingException
      * @throws SQLException
      */
+    @SuppressWarnings("squid:S1160")
     public Connection getConnection()
         throws SQLException, NamingException
     {
@@ -59,6 +61,7 @@ public abstract class AbstractSQLServletAction
      * @throws NamingException if any
      * @throws SQLException if any
      */
+    @SuppressWarnings("squid:S1160")
     public Statement getStatement()
         throws SQLException, NamingException
     {
@@ -74,7 +77,6 @@ public abstract class AbstractSQLServletAction
      * Free resources allocated by SimpleQuery or SimpleUpdate if needed
      */
     @Override
-    final
     public ActionServlet.Action doAction() throws ServletActionException
     {
         ActionServlet.Action nextAction;
@@ -121,6 +123,7 @@ public abstract class AbstractSQLServletAction
      * @throws NamingException if any
      * @see Statement#executeUpdate(String)
      */
+    @SuppressWarnings("squid:S1160")
     public ResultSet executeQuery( final String sql )
         throws SQLException, NamingException
     {
@@ -140,6 +143,7 @@ public abstract class AbstractSQLServletAction
      * @throws NamingException
      * @see Statement#execute(String)
      */
+    @SuppressWarnings("squid:S1160")
     public boolean execute( final String sql )
         throws SQLException, NamingException
     {
@@ -164,6 +168,7 @@ public abstract class AbstractSQLServletAction
      * @throws NamingException  if any
      * @see Statement#execute(String)
      */
+    @SuppressWarnings({"squid:S1160"})
     public int executeUpdate( final String sql )
         throws SQLException, NamingException
     {

@@ -20,9 +20,10 @@ public class FileRollingOutputStream
     extends OutputStream
 {
     private static final Logger LOGGER = Logger.getLogger( FileRollingOutputStream.class );
+    private static final String STREAM_CLOSED = "Stream closed";
 
     private final List<File>    fileList    = new ArrayList<>();;
-    private final FileRoller          fileRoller;
+    private final FileRoller    fileRoller;
     private final int           maxLength;
 
     private File            currentFile;
@@ -41,6 +42,7 @@ public class FileRollingOutputStream
      *         creating first File
      * @throws IllegalArgumentException if maxLength < 1
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public FileRollingOutputStream(
             final FileRoller    fileRoller,
             final int            maxLength
@@ -132,7 +134,7 @@ public class FileRollingOutputStream
     public void flush() throws IOException
     {
         if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( STREAM_CLOSED );
             }
 
         this.currentOutput.flush();
@@ -149,7 +151,7 @@ public class FileRollingOutputStream
     public void write( final byte[] b, final int off, final int len ) throws IOException
     {
         if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( STREAM_CLOSED );
             }
 
         checkIfNeedToChangeFile( len );
@@ -167,7 +169,7 @@ public class FileRollingOutputStream
     public void write( final byte[] b ) throws IOException
     {
         if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( STREAM_CLOSED );
             }
 
         checkIfNeedToChangeFile( b.length );
@@ -181,7 +183,7 @@ public class FileRollingOutputStream
     public void write( final int b ) throws IOException
     {
         if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( STREAM_CLOSED );
             }
 
         checkIfNeedToChangeFile( 1 );
@@ -196,7 +198,7 @@ public class FileRollingOutputStream
     public void roolNow() throws IOException
     {
         if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( STREAM_CLOSED );
             }
 
         roolToNewFile();

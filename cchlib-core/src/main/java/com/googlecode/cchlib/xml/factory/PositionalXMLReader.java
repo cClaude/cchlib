@@ -2,7 +2,8 @@ package com.googlecode.cchlib.xml.factory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,6 +39,185 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class PositionalXMLReader
 {
+    private static final class ExtendedDefaultHandler2 extends DefaultHandler2
+    {
+        private final StringBuilder  textBuffer;
+        private final Document       doc;
+        private final Deque<Element> elementStack;
+        private Locator locator;
+        private int prevLineNumber   = 0;
+        private int prevColumnNumber = 0;
+
+        private ExtendedDefaultHandler2(
+                final StringBuilder  textBuffer,
+                final Document       doc,
+                final Deque<Element> elementStack
+                )
+        {
+            this.textBuffer = textBuffer;
+            this.doc = doc;
+            this.elementStack = elementStack;
+        }
+
+        @Override
+        public void setDocumentLocator( final Locator locator )
+        {
+            this.locator = locator; // Save the locator, so that it can be used later
+                                    // for line tracking when traversing nodes.
+        }
+
+        private void updateLocator()
+        {
+            this.prevLineNumber   = this.locator.getLineNumber() ;
+            this.prevColumnNumber = this.locator.getColumnNumber();
+        }
+
+        @Override
+        public void startElement(
+            final String     uri,
+            final String     localName,
+            final String     qName,
+            final Attributes attributes
+            ) throws SAXException
+        {
+            if(LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "startElement: [" + qName + "]");
+                }
+            addTextIfNeeded();
+
+            final Element element = this.doc.createElement( qName );
+
+            for( int i = 0; i < attributes.getLength(); i++ ) {
+                element.setAttribute( attributes.getQName( i ), attributes.getValue (i ) );
+                }
+
+            setUserData( element, PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME  , this.prevLineNumber );
+            setUserData( element, PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME, this.prevColumnNumber );
+
+            updateLocator();
+
+            setUserData( element, PositionalXMLReader.END_LINE_NUMBER_KEY_NAME  , this.prevLineNumber   );
+            setUserData( element, PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME, this.prevColumnNumber );
+
+            this.elementStack.push( element );
+        }
+
+        private void setUserData( final Node node, final String key, final int value )
+        {
+            node.setUserData( key, Integer.valueOf( value ), null );
+        }
+
+        @Override
+        public void endElement(
+            final String uri,
+            final String localName,
+            final String qName
+            )
+        {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "endElement: [" + qName + "]");
+                }
+
+            addTextIfNeeded();
+
+            final Element closedEl = this.elementStack.pop();
+
+            if( this.elementStack.isEmpty() ) { // Is this the root element?
+                this.doc.appendChild( closedEl );
+                }
+            else {
+                final Element parentEl = this.elementStack.peek();
+
+                parentEl.appendChild( closedEl );
+                }
+        }
+
+        @Override
+        public void startEntity(final String name) throws SAXException
+        {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "startEntity: [" + name + "]");
+                }
+        }
+
+        @Override
+        public void endEntity(final String name) throws SAXException
+        {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "endEntity: [" + name + "]");
+                }
+        }
+
+        @Override
+        public void startCDATA()
+        {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "startCDATA" );
+                }
+        }
+
+        @Override
+        public void endCDATA()
+        {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "endCDATA" );
+                }
+        }
+
+        @Override
+        public void characters(
+            final char[] ch,
+            final int    start,
+            final int    length
+            ) throws SAXException
+        {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "characters: [" + new String(ch,start,length) + "]" + length );
+                }
+
+            this.textBuffer.append( ch, start, length );
+        }
+
+        //Report an XML comment anywhere in the document.
+        @Override
+        public void comment(
+            final char[] ch,
+            final int    start,
+            final int    length
+            ) throws SAXException
+        {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "comment: [" + new String(ch,start,length) + "]" + length );
+                }
+
+            addTextIfNeeded();
+            addComment( new String(ch,start,length) );
+            updateLocator();
+        }
+
+        // Outputs text accumulated under the current node
+        private void addTextIfNeeded()
+        {
+            if( this.textBuffer.length() > 0 ) {
+                final Element element  = this.elementStack.peek();
+                final Node    textNode = this.doc.createTextNode( this.textBuffer.toString() );
+
+                element.appendChild( textNode );
+                this.textBuffer.delete( 0, this.textBuffer.length() );
+                }
+
+        }
+
+        // Outputs text accumulated under the current node
+        private void addComment(final String comment)
+        {
+            final Element element     = this.elementStack.peek();
+            final Node    commentNode = this.doc.createComment( comment );
+
+            element.appendChild( commentNode );
+        }
+    }
+
     private static final Logger LOGGER = Logger.getLogger( PositionalXMLReader.class );
 
     /**
@@ -64,10 +244,16 @@ public class PositionalXMLReader
      */
     public static final  String END_COLUMN_NUMBER_KEY_NAME = "endColumnNumber";
 
+    private PositionalXMLReader()
+    {
+        // All static
+    }
+
     /**
      * @deprecated use {@link #readXML(SAXParserFactory, DocumentBuilderFactory, InputStream)} instead
      */
     @Deprecated
+    @SuppressWarnings({"squid:S1160"})
     public static Document readXML( final InputStream is ) throws XMLReaderException, SAXException, IOException
     {
         final SAXParserFactory       saxParserFactory       = SAXParserFactory.newInstance();
@@ -91,6 +277,7 @@ public class PositionalXMLReader
      * @throws SAXException
      * @throws IOException
      */
+    @SuppressWarnings({"squid:S1160"})
     public static Document readXML(
         final SAXParserFactory       saxParserFactory,
         final DocumentBuilderFactory documentBuilderFactory,
@@ -120,6 +307,7 @@ public class PositionalXMLReader
      * @throws SAXException
      * @throws IOException
      */
+    @SuppressWarnings({"squid:S1160"})
     public static Document readXML(
         final SAXParserFactory       saxParserFactory,
         final DocumentBuilder        documentBuilder,
@@ -136,177 +324,9 @@ public class PositionalXMLReader
             throw new XMLReaderException( "Can't create SAX parser", e );
             }
 
-        final Stack<Element> elementStack  = new Stack<>();
+        final Deque<Element> elementStack  = new ArrayDeque<>();
         final StringBuilder  textBuffer    = new StringBuilder();
-
-        final DefaultHandler handler       = new DefaultHandler2() {
-            private Locator locator;
-            private int prevLineNumber   = 0;
-            private int prevColumnNumber = 0;
-
-            @Override
-            public void setDocumentLocator( final Locator locator )
-            {
-                this.locator = locator; // Save the locator, so that it can be used later
-                                        // for line tracking when traversing nodes.
-            }
-
-            private void updateLocator()
-            {
-                this.prevLineNumber   = this.locator.getLineNumber() ;
-                this.prevColumnNumber = this.locator.getColumnNumber();
-            }
-
-            @Override
-            public void startElement(
-                final String     uri,
-                final String     localName,
-                final String     qName,
-                final Attributes attributes
-                ) throws SAXException
-            {
-                if(LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace( "startElement: [" + qName + "]");
-                    }
-                addTextIfNeeded();
-
-                final Element element = doc.createElement( qName );
-
-                for( int i = 0; i < attributes.getLength(); i++ ) {
-                    element.setAttribute( attributes.getQName( i ), attributes.getValue (i ) );
-                    }
-
-                setUserData( element, PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME  , this.prevLineNumber );
-                setUserData( element, PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME, this.prevColumnNumber );
-
-                updateLocator();
-
-                setUserData( element, PositionalXMLReader.END_LINE_NUMBER_KEY_NAME  , this.prevLineNumber   );
-                setUserData( element, PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME, this.prevColumnNumber );
-
-                elementStack.push( element );
-            }
-
-            private void setUserData( final Node node, final String key, final int value )
-            {
-                node.setUserData( key, Integer.valueOf( value ), null );
-            }
-
-            @Override
-            public void endElement(
-                final String uri,
-                final String localName,
-                final String qName
-                )
-            {
-                if( LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace( "endElement: [" + qName + "]");
-                    }
-
-                addTextIfNeeded();
-
-                final Element closedEl = elementStack.pop();
-
-                if( elementStack.isEmpty() ) { // Is this the root element?
-                    doc.appendChild( closedEl );
-                    }
-                else {
-                    final Element parentEl = elementStack.peek();
-
-                    parentEl.appendChild( closedEl );
-                    }
-            }
-
-            @Override
-            public void startEntity(final String name) throws SAXException
-            {
-                if( LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace( "startEntity: [" + name + "]");
-                    }
-                //addTextOrCommentIfNeeded(3);
-            }
-
-            @Override
-            public void endEntity(final String name) throws SAXException
-            {
-                if( LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace( "endEntity: [" + name + "]");
-                    }
-                //addTextOrCommentIfNeeded(4);
-            }
-
-            @Override
-            public void startCDATA()
-            {
-                if( LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace( "startCDATA" );
-                    }
-                //addTextOrCommentIfNeeded(5);
-            }
-
-            @Override
-            public void endCDATA()
-            {
-                if( LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace( "endCDATA" );
-                    }
-                //addTextOrCommentIfNeeded(6);
-            }
-
-            @Override
-            public void characters(
-                final char[] ch,
-                final int    start,
-                final int    length
-                ) throws SAXException
-            {
-                if( LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace( "characters: [" + new String(ch,start,length) + "]" + length );
-                    }
-
-                textBuffer.append( ch, start, length );
-                //updateLocator();
-            }
-
-            //Report an XML comment anywhere in the document.
-            @Override
-            public void comment(
-                final char[] ch,
-                final int    start,
-                final int    length
-                ) throws SAXException
-            {
-                if( LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace( "comment: [" + new String(ch,start,length) + "]" + length );
-                    }
-
-                addTextIfNeeded();
-                addComment( new String(ch,start,length) );
-                updateLocator();
-            }
-
-            // Outputs text accumulated under the current node
-            private void addTextIfNeeded()
-            {
-                if( textBuffer.length() > 0 ) {
-                    final Element element  = elementStack.peek();
-                    final Node    textNode = doc.createTextNode( textBuffer.toString() );
-
-                    element.appendChild( textNode );
-                    textBuffer.delete( 0, textBuffer.length() );
-                    }
-
-            }
-
-            // Outputs text accumulated under the current node
-            private void addComment(final String comment)
-            {
-                final Element element     = elementStack.peek();
-                final Node    commentNode = doc.createComment( comment );
-
-                element.appendChild( commentNode );
-            }
-        };
+        final DefaultHandler handler       = new ExtendedDefaultHandler2( textBuffer, doc, elementStack );
 
         // Needed for DefaultHandler2
         parser.setProperty ("http://xml.org/sax/properties/lexical-handler", handler);

@@ -28,11 +28,12 @@ import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
  * @see SwingIntrospectorItem
  * @see SwingIntrospectorObjectInterface
  */
+@SuppressWarnings({"squid:S00119"})
 public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 {
-    private static Logger LOGGER = Logger.getLogger(SwingIntrospector.class);
+    private static Logger LOGGER = Logger.getLogger( SwingIntrospector.class );
 
-    private final Map<String,SwingIntrospectorRootItem<FRAME>> itemsMap = new TreeMap<String,SwingIntrospectorRootItem<FRAME>>();
+    private final Map<String,SwingIntrospectorRootItem<FRAME>> itemsMap = new TreeMap<>();
     private final SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY> objectInterface;
 
     /**
@@ -85,7 +86,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             }
 
         final Class<FRAME> clazz = objectInterface.getFrameClass();
-        final Map<String, List<SwingIntrospectorItem<FRAME>>> map = new TreeMap<String, List<SwingIntrospectorItem<FRAME>>>();
+        final Map<String, List<SwingIntrospectorItem<FRAME>>> map = new TreeMap<>();
 
         buildSwingIntrospectorItemMap(map,clazz,this.attribs);
 
@@ -109,7 +110,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         for( final Map.Entry<String,List<SwingIntrospectorItem<FRAME>>> entry : map.entrySet() ) {
             final String                              beanName = entry.getKey();
             final List<SwingIntrospectorItem<FRAME>>  items    = entry.getValue();
-            final SwingIntrospectorRootItem<FRAME>    rootItem = new SwingIntrospectorRootItem<FRAME>();
+            final SwingIntrospectorRootItem<FRAME>    rootItem = new SwingIntrospectorRootItem<>();
 
             for( final SwingIntrospectorItem<FRAME> item : items ) {
                 rootItem.add( item );
@@ -159,7 +160,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                     List<SwingIntrospectorItem<FRAME>> list = map.get( bean.getBeanName() );
 
                     if( list == null ) {
-                        list = new ArrayList<SwingIntrospectorItem<FRAME>>();
+                        list = new ArrayList<>();
 
                         map.put( bean.getBeanName(), list );
                         }
@@ -229,6 +230,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      * @throws SwingIntrospectorException
      * @see #populateFrameWithoutException(Object, Object)
      */
+    @SuppressWarnings({"squid:S1160"})
     public synchronized void populateFrameWithException(
             final FRAME     frame,
             final OBJECT    object
@@ -295,6 +297,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      * @throws IntrospectionException
      * @throws SwingIntrospectorException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public synchronized void populateObjectWithException(
             final FRAME  frame,
             final OBJECT object
@@ -392,6 +395,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      * @throws SwingIntrospectorNoMaxValueException
      * @see #initComponentsWithoutException(Object)
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public void initComponentsWithException( final FRAME populateObject )
         throws  SwingIntrospectorIllegalAccessException,
                 SwingIntrospectorException
@@ -403,6 +407,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         }
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void initComponents(
             final FRAME populateObject,
             final Entry<String,SwingIntrospectorRootItem<FRAME>> entry,
@@ -413,7 +418,6 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     {
         final Object obj = fd.getFieldObject( populateObject );
 
-        //objectInterface.initComponent( obj, entry.getKey() );
         this.objectInterface.getComponentInitializer().initComponent( obj, entry.getKey() );
     }
 
@@ -447,8 +451,8 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             final Class<OBJECT>   objectClass
             )
     {
-        return new SwingIntrospector<FRAME,OBJECT,DefaultIntrospectionItem<OBJECT>>(
-                new DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>(
+        return new SwingIntrospector<>(
+                new DefaultSwingIntrospectorObjectInterface<>(
                         frameClass,
                         objectClass
                         )

@@ -105,6 +105,7 @@ public class SimpleSQL implements Closeable
      *
      * @see QueryHandler#handle(ResultSet)
      */
+    @SuppressWarnings("squid:S1160")
     public final <T> T executeQuery(
         final String          query,
         final QueryHandler<T> queryHandler

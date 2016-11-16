@@ -31,5 +31,6 @@ public interface DownloadFilter
      * @throws IllegalStateException if {@link #compute()} not yet call
      *         after a call of {@link #getFilterInputStream(InputStream)}
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     String getHashString() throws IllegalStateException;
 }

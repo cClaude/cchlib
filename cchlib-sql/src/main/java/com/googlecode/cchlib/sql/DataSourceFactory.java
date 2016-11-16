@@ -118,6 +118,7 @@ public class DataSourceFactory
      * @throws NullPointerException if driverClassName or logger is null
      * @throws DataSourceFactoryClassNotFoundException if driver class not found
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DataSource buildDataSource(
             final String        driverClassName,
             final String        url,
@@ -151,6 +152,7 @@ public class DataSourceFactory
      * @throws DataSourceFactoryClassNotFoundException if driver class not found
      * @throws NullPointerException if driverClassName or logger is null
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DataSource buildDataSource(
             final String    driverClassName,
             final String    url,
@@ -209,6 +211,7 @@ public class DataSourceFactory
      * @throws DataSourceFactoryClassNotFoundException if driver class not found
      * @throws NullPointerException if driverClassName or logger is null
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DataSource buildDataSource(
             final String        driverClassName,
             final String        url,

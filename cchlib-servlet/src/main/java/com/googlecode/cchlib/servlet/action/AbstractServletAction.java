@@ -17,7 +17,7 @@ import com.googlecode.cchlib.sql.SQLTools;
  */
 public abstract class AbstractServletAction implements ServletAction
 {
-    private final static Logger LOGGER = Logger.getLogger( AbstractServletAction.class );
+    private static final Logger LOGGER = Logger.getLogger( AbstractServletAction.class );
 
     private HttpServletRequest  request;
     private HttpServletResponse response;
@@ -40,7 +40,6 @@ public abstract class AbstractServletAction implements ServletAction
      * Initialize environment and call {@link #doAction()}
      */
     @Override
-    final
     public ActionServlet.Action doAction(
             final HttpServletRequest    request,
             final HttpServletResponse   response,
@@ -130,6 +129,7 @@ public abstract class AbstractServletAction implements ServletAction
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @throws RequestParameterNumberFormatException if the value is not an integer
      */
+    @SuppressWarnings({"squid:S1160"})
     public int getIntParameter(
             final String name
             )
@@ -185,6 +185,7 @@ public abstract class AbstractServletAction implements ServletAction
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @throws RequestParameterNumberFormatException if at least one value is not an integer
      */
+    @SuppressWarnings({"squid:S1160"})
     public int[] getIntParameterValues(
             final String name
             )

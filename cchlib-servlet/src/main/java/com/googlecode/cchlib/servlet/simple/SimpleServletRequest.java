@@ -36,6 +36,7 @@ public interface SimpleServletRequest
      * @return {@link HttpServletRequest} use to create this instance
      * @throws UnsupportedOperationException is operation is not supported
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     HttpServletRequest getHttpServletRequest()
             throws UnsupportedOperationException;
 }

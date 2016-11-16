@@ -135,6 +135,7 @@ class FindDeleteAdapter
         }
     }
 
+    @SuppressWarnings("squid:S3346")
     void doDelete()
     {
         // Get selected list of paths

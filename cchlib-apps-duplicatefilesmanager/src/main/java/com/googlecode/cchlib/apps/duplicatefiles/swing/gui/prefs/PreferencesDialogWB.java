@@ -21,6 +21,7 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 
 @I18nName("PreferencesDialogWB")
+@SuppressWarnings({"squid:MaximumInheritanceDepth","squid:S00100","squid:S00117"})
 public final class PreferencesDialogWB
     extends PreferencesDialogI18n
         implements I18nAutoCoreUpdatable

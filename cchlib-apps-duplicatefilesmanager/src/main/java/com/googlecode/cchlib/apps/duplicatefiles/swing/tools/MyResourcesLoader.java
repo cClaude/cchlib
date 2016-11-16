@@ -19,6 +19,155 @@ import com.googlecode.cchlib.resources.ResourcesLoaderException;
  */
 public final class MyResourcesLoader
 {
+    private static final class TheResources implements Resources {
+        private final URI     siteURI;
+        private final Version version;
+
+        private TheResources( URI siteURI, Version version )
+        {
+            this.siteURI = siteURI;
+            this.version = version;
+        }
+
+        @Override
+        public Icon getAppIcon()
+        {
+            return getImageIcon( "icon.png" );
+        }
+
+        @Override
+        public Image getAppImage()
+        {
+            return getImage( "icon.png" );
+        }
+
+        @Override
+        public Icon getFolderRemoveIcon()
+        {
+            return getImageIcon( "remove.png" );
+        }
+
+        @Override
+        public Icon getAddIcon()
+        {
+            return getImageIcon( "add.png" );
+        }
+
+        @Override
+        public Icon getLogoIcon()
+        {
+            return getImageIcon( "logo.png" );
+        }
+
+        @Override
+        public Icon getFileIcon()
+        {
+            return getImageIcon( "file.png" );
+        }
+
+        @Override
+        public Icon getFolderSelectIcon()
+        {
+            return getImageIcon( "folder.png" );
+        }
+
+        @Override
+        public Properties getJPanelConfigProperties() // $codepro.audit.disable declareAsInterface
+        {
+            return getProperties( "JPanelConfig.properties" );
+        }
+
+        @Override
+        public Icon getSmallOKIcon()
+        {
+            return getImageIcon( "ok.12x12.png" );
+        }
+
+        @Override
+        public Icon getSmallKOIcon()
+        {
+            return getImageIcon( "ko.12x12.png" );
+        }
+
+        @Override
+        public Icon getSmallOKButOKIcon()
+        {
+            return getImageIcon( "ko_but_ok.12x12.png" );
+        }
+
+        @Override
+        public String getAuthorName()
+        {
+            return "Claude CHOISNET";
+        }
+
+        @Override
+        public String getAboutVersion()
+        {
+            return version.getVersion();
+        }
+
+        @Override
+        public String getAboutVersionDate()
+        {
+            return DateFormat.getDateInstance().format( version.getDate() );
+        }
+
+        @Override
+        public URI getSiteURI()
+        {
+            return siteURI;
+        }
+
+        @Override
+        public Icon getPrevIcon()
+        {
+            return getImageIcon( "prev.16x16.png" );
+        }
+
+        @Override
+        public Icon getNextIcon()
+        {
+            return getImageIcon( "next.16x16.png" );
+        }
+
+        @Override
+        public Icon getRefreshIcon()
+        {
+            return getImageIcon( "refresh.16x16.png" );
+        }
+
+        @Override
+        public Icon getFolderImportIcon()
+        {
+            return getImageIcon( "import.png" );
+        }
+
+        @Override
+        public Icon getDeselectAllIcon()
+        {
+            return getImageIcon( "deselectAll.png" );
+        }
+
+        @Override
+        public Icon getSelectAllIcon()
+        {
+            return getImageIcon( "selectAll.png" );
+        }
+
+        @Override
+        public SerializableIcon getContinueSerializableIcon()
+        {
+            return new MySerializableIcon( "continue.png" );
+        }
+
+        @Override
+        public SerializableIcon getRestartSerializableIcon()
+        {
+            return new MySerializableIcon( "restart.png" );
+        }
+    }
+
     private static final Logger LOGGER = Logger.getLogger( MyResourcesLoader.class );
     private static Resources RESOURCES;
 
@@ -116,124 +265,7 @@ public final class MyResourcesLoader
 
     private static Resources newResources( final URI siteURI, final Version version )
     {
-        return new Resources()
-        {
-            @Override
-            public Icon getAppIcon()
-            {
-                return getImageIcon( "icon.png" );
-            }
-            @Override
-            public Image getAppImage()
-            {
-                return getImage( "icon.png" );
-            }
-            @Override
-            public Icon getFolderRemoveIcon()
-            {
-                return getImageIcon( "remove.png" );
-            }
-            @Override
-            public Icon getAddIcon()
-            {
-                return getImageIcon( "add.png" );
-            }
-            @Override
-            public Icon getLogoIcon()
-            {
-                return getImageIcon( "logo.png" );
-            }
-            @Override
-            public Icon getFileIcon()
-            {
-                return getImageIcon( "file.png" );
-            }
-            @Override
-            public Icon getFolderSelectIcon()
-            {
-                return getImageIcon( "folder.png" );
-            }
-            @Override
-            public Properties getJPanelConfigProperties() // $codepro.audit.disable declareAsInterface
-            {
-                return getProperties( "JPanelConfig.properties" );
-            }
-            @Override
-            public Icon getSmallOKIcon()
-            {
-                return getImageIcon( "ok.12x12.png" );
-            }
-            @Override
-            public Icon getSmallKOIcon()
-            {
-                return getImageIcon( "ko.12x12.png" );
-            }
-            @Override
-            public Icon getSmallOKButOKIcon()
-            {
-                return getImageIcon( "ko_but_ok.12x12.png" );
-            }
-            @Override
-            public String getAuthorName()
-            {
-                return "Claude CHOISNET";
-            }
-            @Override
-            public String getAboutVersion()
-            {
-                return version.getVersion();
-            }
-            @Override
-            public String getAboutVersionDate()
-            {
-                return DateFormat.getDateInstance().format( version.getDate() );
-            }
-            @Override
-            public URI getSiteURI()
-            {
-                return siteURI;
-            }
-            @Override
-            public Icon getPrevIcon()
-            {
-                return getImageIcon( "prev.16x16.png" );
-            }
-            @Override
-            public Icon getNextIcon()
-            {
-                return getImageIcon( "next.16x16.png" );
-            }
-            @Override
-            public Icon getRefreshIcon()
-            {
-                return getImageIcon( "refresh.16x16.png" );
-            }
-            @Override
-            public Icon getFolderImportIcon()
-            {
-                return getImageIcon( "import.png" );
-            }
-            @Override
-            public Icon getDeselectAllIcon()
-            {
-                return getImageIcon( "deselectAll.png" );
-            }
-            @Override
-            public Icon getSelectAllIcon()
-            {
-                return getImageIcon( "selectAll.png" );
-            }
-            @Override
-            public SerializableIcon getContinueSerializableIcon()
-            {
-                return new MySerializableIcon( "continue.png" );
-            }
-             @Override
-            public SerializableIcon getRestartSerializableIcon()
-            {
-                return new MySerializableIcon( "restart.png" );
-            }
-        };
+        return new TheResources( siteURI, version );
     }
 
 }

@@ -58,7 +58,8 @@ class SimpleTextPersistenceManagerV0
 
     /* (non-Javadoc) */
     @Override
-    public void load( final File cacheFile, final CacheContent cache ) // $codepro.audit.disable cyclomaticComplexity
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public void load( final File cacheFile, final CacheContent cache )
             throws FileNotFoundException, IOException
     {
         try( final BufferedReader reader = new BufferedReader( new FileReader( cacheFile ) ) ) {
@@ -83,7 +84,9 @@ class SimpleTextPersistenceManagerV0
             }
     }
 
-    private String computeFilename( final BufferedReader reader ) throws IOException, PersistenceFileBadFormatException
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    private String computeFilename( final BufferedReader reader )
+        throws IOException, PersistenceFileBadFormatException
     {
         final String filename = reader.readLine();
 

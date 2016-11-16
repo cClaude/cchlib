@@ -60,7 +60,6 @@ public class DuplicateFilesI18nPrep
                 }
             }
 
-        System.gc();
         Thread.sleep( 1000 );
     }
 

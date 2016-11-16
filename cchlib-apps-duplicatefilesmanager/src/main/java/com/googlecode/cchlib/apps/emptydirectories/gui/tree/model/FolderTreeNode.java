@@ -121,6 +121,7 @@ public final class FolderTreeNode
                 return children.hasMoreElements();
             }
             @Override
+            @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
             public FolderTreeNode next() throws NoSuchElementException
             {
                 return (FolderTreeNode)( children.nextElement() );

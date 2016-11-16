@@ -4,7 +4,6 @@ import java.util.EventListener;
 
 /**
  * NEEDDOC
- *
  */
 public interface LookAndFeelListener extends EventListener
 {

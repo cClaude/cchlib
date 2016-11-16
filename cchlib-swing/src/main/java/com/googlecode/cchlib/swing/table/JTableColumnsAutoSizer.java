@@ -21,7 +21,7 @@ import com.googlecode.cchlib.NeedDoc;
 @NeedDoc
 public class JTableColumnsAutoSizer implements TableModelListener, ComponentListener
 {
-    public final static int DEFAULT_COLUMN_MARGIN = 5;
+    public static final int DEFAULT_COLUMN_MARGIN = 5;
     private final JTable table;
     private final int columnMargin;
     private final ForceColumnWidthModel forceColumnWidthModel;

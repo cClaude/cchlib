@@ -371,6 +371,7 @@ public class URICache implements Closeable
      * @throws PersistenceFileBadVersionException
      * @see #getCacheFile()
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public void load() throws FileNotFoundException, IOException
     {
         synchronized( this.theCache ) {
@@ -439,6 +440,7 @@ public class URICache implements Closeable
             }
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void fixCache( final File cacheFile, final File backupFile )
             throws FileNotFoundException, IOException
     {

@@ -14,6 +14,7 @@ import javax.swing.text.Document;
 /**
  * NEEDDOC
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class EditorPaneWithPrintStream extends JEditorPane
 {
     private static final long serialVersionUID = 1L;
@@ -44,7 +45,6 @@ public class EditorPaneWithPrintStream extends JEditorPane
         this.ps     = new PrintStream( new RedirectedStream() );
 
         setEditable( false );
-        //setLineWrap( true );
     }
 
     /**

@@ -16,8 +16,6 @@ public class WriterCopyThread
     private final Reader source;
     private final Writer destination;
     private boolean running;
-    //private boolean closeSource;
-    //private static final int ERROR_MAX = 10;
     private final Object lock;
     private Writer spyWriter;
 
@@ -57,7 +55,6 @@ public class WriterCopyThread
         this.source = source;
         this.destination = destination;
         this.running = true;
-        //this.closeSource = false;
 
         setDaemon(true);
 
@@ -112,20 +109,6 @@ public class WriterCopyThread
 
         fireCloseReaderWriter();
     }
-//        if( closeSource ) {
-//            try {
-//                source.close();
-//                }
-//            // * 64 128:goto 163
-//            catch( java.io.IOException e ) {
-//                throw new RuntimeException(
-//                        "StreamCopyThread.run() while closing source stream in "
-//                            + getName(),
-//                            e
-//                            );
-//            }
-//        }
-//    }
 
     private void fireReadIOException( final IOException e )
     {

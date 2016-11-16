@@ -14,6 +14,7 @@ public class GoogleContactFactory {
     private final GoogleContactHeader googleContactHeader;
     private final boolean ignoreEmptyCels;
 
+    @SuppressWarnings("squid:S3346")
     public GoogleContactFactory( final String[] headers, final boolean ignoreEmptyCels ) throws GoogleContactFactoryException
     {
         this.googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( headers );
@@ -55,6 +56,7 @@ public class GoogleContactFactory {
         return googleContact;
     }
 
+    @SuppressWarnings("squid:S3346")
     private int invoker(
             final GoogleContact googleContact,
             final String[]      entry,
@@ -112,7 +114,8 @@ public class GoogleContactFactory {
     /**
      * @return true is value has been set
      */
-    private boolean invoke( // $codepro.audit.disable booleanMethodNamingConvention
+    @SuppressWarnings("squid:S3346")
+    private boolean invoke(
         final HeaderMethodContener  methodContener,
         final String                cellContent,
         final GoogleContactType     googleContactType

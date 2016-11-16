@@ -2,6 +2,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig
 
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public abstract class JPanelConfigI18n extends JPanelConfigWB
 {
     private static final long serialVersionUID = 1L;
@@ -18,15 +19,6 @@ public abstract class JPanelConfigI18n extends JPanelConfigWB
     @I18nString private String jPanelIncFilesFilterRegExp;
     @I18nString private String jPanelIncFilesFilterTitle;
 
-//    @I18nString private String txtDisableDirsFilters;
-//    @I18nString private String txtDisableFilesFilters;
-//
-//    @I18nString private String txtExcludeDirsFilters;
-//    @I18nString private String txtExcludeFilesFilters;
-//
-//    @I18nString private String txtIncludeDirsFilters;
-//    @I18nString private String txtIncludeFilesFilters;
-
     protected JPanelConfigI18n()
     {
         this.setjPanelExcDirsFilterRegExp( "jPanelExcDirsFilterRegExp" );
@@ -37,13 +29,6 @@ public abstract class JPanelConfigI18n extends JPanelConfigWB
         this.setjPanelIncDirsFilterTitle( "jPanelIncDirsFilterTitle" );
         this.setjPanelIncFilesFilterRegExp( "jPanelIncFilesFilterRegExp" );
         this.setjPanelIncFilesFilterTitle( "jPanelIncFilesFilterTitle" );
-
-//        this.setTxtDisableDirsFilters( "Disable dirs filters" );
-//        this.setTxtDisableFilesFilters( "Disable files filters" );
-//        this.setTxtExcludeDirsFilters( "Exclude filters" );
-//        this.setTxtExcludeFilesFilters( "Exclude filters" );
-//        this.setTxtIncludeDirsFilters( "Include filters" );
-//        this.setTxtIncludeFilesFilters( "Include filters" );
     }
 
     protected String getjPanelIncFilesFilterTitle()
@@ -125,64 +110,4 @@ public abstract class JPanelConfigI18n extends JPanelConfigWB
     {
         this.jPanelExcDirsFilterRegExp = jPanelExcDirsFilterRegExp;
     }
-
-//    protected String getTxtDisableFilesFilters()
-//    {
-//        return txtDisableFilesFilters;
-//    }
-//
-//    private void setTxtDisableFilesFilters( final String txtDisableFilesFilters )
-//    {
-//        this.txtDisableFilesFilters = txtDisableFilesFilters;
-//    }
-//
-//    protected String getTxtDisableDirsFilters()
-//    {
-//        return txtDisableDirsFilters;
-//    }
-//
-//    private void setTxtDisableDirsFilters( final String txtDisableDirsFilters )
-//    {
-//        this.txtDisableDirsFilters = txtDisableDirsFilters;
-//    }
-//
-//    protected String getTxtIncludeFilesFilters()
-//    {
-//        return txtIncludeFilesFilters;
-//    }
-//
-//    private void setTxtIncludeFilesFilters( final String txtIncludeFilesFilters )
-//    {
-//        this.txtIncludeFilesFilters = txtIncludeFilesFilters;
-//    }
-//
-//    protected String getTxtExcludeFilesFilters()
-//    {
-//        return txtExcludeFilesFilters;
-//    }
-//
-//    private void setTxtExcludeFilesFilters( final String txtExcludeFilesFilters )
-//    {
-//        this.txtExcludeFilesFilters = txtExcludeFilesFilters;
-//    }
-//
-//    protected String getTxtExcludeDirsFilters()
-//    {
-//        return txtExcludeDirsFilters;
-//    }
-//
-//    private void setTxtExcludeDirsFilters( final String txtExcludeDirsFilters )
-//    {
-//        this.txtExcludeDirsFilters = txtExcludeDirsFilters;
-//    }
-//
-//    protected String getTxtIncludeDirsFilters()
-//    {
-//        return txtIncludeDirsFilters;
-//    }
-//
-//    private void setTxtIncludeDirsFilters( final String txtIncludeDirsFilters )
-//    {
-//        this.txtIncludeDirsFilters = txtIncludeDirsFilters;
-//    }
 }

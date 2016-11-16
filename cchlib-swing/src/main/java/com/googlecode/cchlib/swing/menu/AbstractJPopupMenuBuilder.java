@@ -1165,7 +1165,8 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     /**
      * @deprecated Use {@link #addMenu()} instead
      */
-    @Deprecated final public void setMenu()
+    @Deprecated
+    public final void setMenu()
     {
         addMenu();
     }
@@ -1234,6 +1235,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * unavailable. For example, on some platforms, the system clipboard
      * is unavailable while it is accessed by another application.
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static final void setClipboardContents( final String str ) //
             throws IllegalStateException
     {
@@ -1257,6 +1259,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      *         clipboard is unavailable while it is accessed by another
      *         application.
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static final String getClipboardContents( final Object requestor )
         throws IllegalStateException
     {

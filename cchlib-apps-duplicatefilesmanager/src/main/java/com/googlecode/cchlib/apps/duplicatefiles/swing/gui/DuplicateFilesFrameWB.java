@@ -24,6 +24,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 /**
  * Main frame layout.
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n
 {
     private final class DuplicateFilesFrameWindowAdapter extends WindowAdapter {
@@ -75,6 +76,7 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n
      * @throws TooManyListenersException
      * @throws HeadlessException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S3346"})
     public DuplicateFilesFrameWB( final PreferencesControler preferences )
         throws
             HeadlessException,

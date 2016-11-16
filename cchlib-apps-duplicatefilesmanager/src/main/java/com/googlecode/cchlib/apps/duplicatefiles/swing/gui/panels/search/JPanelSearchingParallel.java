@@ -38,8 +38,54 @@ import com.googlecode.cchlib.util.duplicate.stream.PrepareDuplicateFile;
 /***
  * This class is use if number of Thread is greater than 1
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurrentFile
 {
+    private final class FileVisitorPass1 implements FileVisitor<Path> {
+        private final FileFilter dirFilter;
+        private final FileFilter fileFilter;
+
+        private FileVisitorPass1( final FileFilter dirFilter, final FileFilter fileFilter )
+        {
+            this.dirFilter = dirFilter;
+            this.fileFilter = fileFilter;
+        }
+
+        @Override
+        public FileVisitResult preVisitDirectory( final Path dir, final BasicFileAttributes attrs ) throws IOException
+        {
+            if( this.dirFilter.accept( dir.toFile() ) ) {
+                return FileVisitResult.CONTINUE;
+            }
+            return FileVisitResult.SKIP_SUBTREE;
+        }
+
+        @Override
+        public FileVisitResult visitFile( final Path file, final BasicFileAttributes attrs ) throws IOException
+        {
+            final File fileFile = file.toFile();
+
+            if( this.fileFilter.accept( fileFile ) ) {
+                pass1StatsAdd( fileFile );
+
+                return FileVisitResult.CONTINUE;
+            }
+            return FileVisitResult.SKIP_SUBTREE;
+        }
+
+        @Override
+        public FileVisitResult visitFileFailed( final Path file, final IOException exc ) throws IOException
+        {
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory( final Path dir, final IOException exc ) throws IOException
+        {
+            return FileVisitResult.CONTINUE;
+        }
+    }
+
     private static final class Stats {
         private final int  filesCount;
         private final long bytesCount;
@@ -213,7 +259,6 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
     {
         clearDisplayFiles();
 
-        //setDisplayFile( null );
         clearCurrentFiles();
         this.displayPass = Pass.PASS2;
 
@@ -223,7 +268,6 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
 
     private void afterPass2()
     {
-        //setDisplayFile( null );
         clearCurrentFiles();
         this.displayRunning = false;
 
@@ -236,12 +280,11 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
 
     private void afterPopulate()
     {
-        //setDisplayFile( null );
         clearCurrentFiles();
         clearDisplayFiles();
 
         //Be sure to have a coherent ending display !
-        //(Include ignored files) -> FIXME expecting sizes should be adapt instead of result
+        //(Include ignored files) -> FIXME expecting sizes should be adapt instead of result - NOSONAR
         this.pass2FilesCount.set( getPass1FilesCount() );
         this.pass2BytesCount.set( getPass1BytesCount() );
         updateDisplay();
@@ -332,43 +375,7 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
                 fileFilterBuilders
                 );
 
-        return new FileVisitor<Path>() {
-
-            @Override
-            public FileVisitResult preVisitDirectory( final Path dir, final BasicFileAttributes attrs ) throws IOException
-            {
-                if( dirFilter.accept( dir.toFile() ) ) {
-                    return FileVisitResult.CONTINUE;
-                }
-                return FileVisitResult.SKIP_SUBTREE;
-            }
-
-            @Override
-            public FileVisitResult visitFile( final Path file, final BasicFileAttributes attrs ) throws IOException
-            {
-                final File fileFile = file.toFile();
-
-                if( fileFilter.accept( fileFile ) ) {
-                    pass1StatsAdd( fileFile );
-
-                    return FileVisitResult.CONTINUE;
-                }
-                return FileVisitResult.SKIP_SUBTREE;
-            }
-
-            @Override
-            public FileVisitResult visitFileFailed( final Path file, final IOException exc ) throws IOException
-            {
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult postVisitDirectory( final Path dir, final IOException exc ) throws IOException
-            {
-                return FileVisitResult.CONTINUE;
-            }
-
-        };
+        return new FileVisitorPass1( dirFilter, fileFilter );
     }
 
     private void pass1StatsAdd( final File fileFile )
@@ -395,10 +402,11 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
         }
     }
 
+    @SuppressWarnings("squid:S2142")
     private void updateDisplayThread()
     {
         this.displayRunning  = true;
-        //setDisplayFile( null );
+
         clearCurrentFiles();
 
         new Thread( ( ) -> {

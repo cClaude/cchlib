@@ -10,6 +10,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.FileFilterBuilders;
 import com.googlecode.cchlib.lang.StringHelper;
 
 //NOT public
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
 {
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingFilters.class );

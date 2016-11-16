@@ -63,6 +63,7 @@ public class DownloadExecutor
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @throws NullPointerException if command is null
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void execute( final Runnable command )
         throws RejectedExecutionException, NullPointerException
     {
@@ -96,6 +97,7 @@ public class DownloadExecutor
      * @see DownloadFileURL
      * @see DownloadStringURL
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void add(
             final Collection<? extends DownloadURL> downloadURLs,
             final DownloadEvent                     eventHandler
@@ -124,6 +126,7 @@ public class DownloadExecutor
      * @see DownloadFileURL
      * @see DownloadStringURL
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void add(
             final Iterable<DownloadURL> downloadURLs,
             final DownloadEvent         eventHandler
@@ -152,6 +155,7 @@ public class DownloadExecutor
      * @see DownloadFileURL
      * @see DownloadStringURL
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void addDownload(
             final DownloadURL   downloadURL,
             final DownloadEvent eventHandler
@@ -203,6 +207,7 @@ public class DownloadExecutor
         this.pool.shutdown();
     }
 
+    @SuppressWarnings("squid:S2142")
     private static void sleep( final int millisec )
     {
         try {

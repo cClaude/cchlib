@@ -67,6 +67,7 @@ final class ExportSQLPrinter implements Closeable
      * @throws SQLException if any
      * @throws IOException if any
      */
+    @SuppressWarnings("squid:S1160")
     public void doExportData( final TableDescription tableDescription ) //
         throws SQLException, IOException
     {

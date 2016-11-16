@@ -10,6 +10,7 @@ import com.googlecode.cchlib.NeedDoc;
  * @since 4.1.8
  */
 @NeedDoc
+@SuppressWarnings("squid:S00115")
 public enum Colors {
     aliceblue                (240,248,255),     // #F0F8FF
     antiquewhite             (250,235,215),     // #FAEBD7
@@ -200,6 +201,7 @@ public enum Colors {
         return sb.toString().toUpperCase();
     }
 
+    @SuppressWarnings("squid:S3346")
     private static void append( final StringBuilder sb, final int digit )
     {
         assert digit >= 0;
@@ -239,9 +241,10 @@ public enum Colors {
         return  colorMap.get( rgb );
     }
 
+    @SuppressWarnings("squid:S3346")
     private static HashMap<Integer,Colors> newMap()
     {
-        final HashMap<Integer,Colors> colorMap = new HashMap<Integer,Colors>();
+        final HashMap<Integer,Colors> colorMap = new HashMap<>();
 
         for( final Colors c : values() ) {
             if( c.ref == null ) { // Does not include alias Colors in Map

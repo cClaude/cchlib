@@ -36,6 +36,7 @@ import com.googlecode.cchlib.util.HashMapSet;
  *
  */
 @I18nName("DuplicateFilesFrame")
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public final class DuplicateFilesFrame
     extends DuplicateFilesFrameWB
         implements I18nAutoCoreUpdatable
@@ -161,9 +162,8 @@ public final class DuplicateFilesFrame
     private SerializableIcon iconContinue;
     private SerializableIcon iconRestart;
 
-    public DuplicateFilesFrame(
-        final PreferencesControler preferences
-        )
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public DuplicateFilesFrame( final PreferencesControler preferences )
         throws
             HeadlessException,
             TooManyListenersException
@@ -451,6 +451,7 @@ public final class DuplicateFilesFrame
     }
 
     @Override
+    @SuppressWarnings("squid:S1147")
     protected void exitApplication()
     {
         // TODO Perform some checks: running : this frame ?
@@ -483,6 +484,7 @@ public final class DuplicateFilesFrame
         LOGGER.info( "openAbout done" );
     }
 
+    @SuppressWarnings("squid:S2142")
     public void initComponentsJPanelConfirm()
     {
         getDuplicateFilesMainPanel().getJButtonNextStep().setEnabled( false );

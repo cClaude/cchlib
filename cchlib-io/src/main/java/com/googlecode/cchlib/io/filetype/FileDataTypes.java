@@ -19,7 +19,6 @@ public class FileDataTypes
     private static List<FileDataTypeMatch> fileDataTypeMatchList;
     private static final FileDataTypeDescription JPEG = new FDT_jpeg();
     private static final FileDataTypeMatch[] JPEG_MATCHERS = {
-        //new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xE1,   -1,   -1, 0x45/*'E'*/, 0x78/*'x'*/, 0x69/*'i'*/, 0x66/*'f'*/, 0x00, 0x00} ),
         new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A/*'J'*/, 0x46/*'F'*/, 0x49/*'I'*/, 0x46/*'F'*/, 0x00, 0x01 } ),
         new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xDB, 0x00, 0x43, 0x00 } ),
         new DefaultFileDataTypeMatch( JPEG, new int[]{0xFF, 0xD8, 0xFF, 0xE2 } ),
@@ -34,7 +33,6 @@ public class FileDataTypes
     private static final FileDataTypeDescription PNG = new FDT_png();
     private static final FileDataTypeMatch[] PNG_MATCHERS = {
         new DefaultFileDataTypeMatch( PNG,
-                //new int[]{0x89, 0x50, 0x4E, 0x47}
                 new int[]{0x89, 'P', 'N', 'G'}
                 )
         };
@@ -61,6 +59,7 @@ public class FileDataTypes
      * @throws FileNotFoundException If file not exist
      * @throws IOException If any I/O error occur
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static FileDataTypeDescription findDataTypeDescription( final File file )
             throws FileNotFoundException, IOException
     {

@@ -24,6 +24,7 @@ import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
 
 @I18nName("duplicatefiles.JPanelConfig")
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class JPanelConfig
     extends JPanelConfigI18n
         implements LookAndFeelListener

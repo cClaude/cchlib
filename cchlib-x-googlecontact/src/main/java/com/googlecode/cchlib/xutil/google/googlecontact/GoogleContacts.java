@@ -45,6 +45,7 @@ public class GoogleContacts
      * @throws IOException if an error occur when reading data
      * @throws GoogleContacAnalyserException if an error occur when analyze data
      */
+    @SuppressWarnings({"squid:S1160"})
     public static List<GoogleContact> createGoogleContacts(
             @Nonnull final Reader reader
             )
@@ -93,6 +94,7 @@ public class GoogleContacts
      * @throws IOException if an error occur when reading data
      * @throws GoogleContacAnalyserException if an error occur when analyze data
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static List<GoogleContact> createGoogleContacts(
             @Nonnull final InputStream inStream
             )
@@ -117,6 +119,7 @@ public class GoogleContacts
      * @throws IOException if an error occur when reading data
      * @throws GoogleContacAnalyserException if an error occur when analyze data
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static List<GoogleContact> createGoogleContacts( @Nonnull final File file )
         throws FileNotFoundException, IOException
     {

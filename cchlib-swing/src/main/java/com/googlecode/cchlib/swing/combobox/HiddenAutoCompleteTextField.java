@@ -11,6 +11,7 @@ import com.googlecode.cchlib.swing.AutoComplete;
  * NEEDDOC
  *
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class HiddenAutoCompleteTextField
     extends JTextField
         implements AutoComplete

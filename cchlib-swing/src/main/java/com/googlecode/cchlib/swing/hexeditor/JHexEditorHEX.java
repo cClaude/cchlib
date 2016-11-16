@@ -22,6 +22,7 @@ class JHexEditorHEX
 {
     private static final long serialVersionUID = 1L;
     private final HexEditorModel model;
+    @SuppressWarnings("squid:S2387")
     private int cursor=0;
 
     public JHexEditorHEX(
@@ -38,27 +39,23 @@ class JHexEditorHEX
     @Override
     public Dimension getPreferredSize()
     {
-        //debug("getPreferredSize()");
         return getMinimumSize();
     }
 
     @Override
     public Dimension getMaximumSize()
     {
-        //debug("getMaximumSize()");
         return getMinimumSize();
     }
 
     @Override
     public Dimension getMinimumSize()
     {
-        //debug("getMinimumSize()");
-
         final Dimension d=new Dimension();
-        //FontMetrics fn=getFontMetrics(getCustomFont());
         final FontMetrics fn = this.model.getFontMetrics();
         final int h=fn.getHeight();
         final int nl=this.model.getDisplayLinesCount();
+
         d.setSize(
             ((fn.stringWidth(" ")+1)*+((16*3)-1))+(this.model.getBorderWidth()*2)+1,
             (h*nl)+(this.model.getBorderWidth()*2)+1
@@ -69,8 +66,6 @@ class JHexEditorHEX
     @Override
     public void paint(final Graphics g)
     {
-        //debug("paint("+g+")");
-        //debug("cursor="+he.getCursorPos()+" buff.length="+he.getBuffer().getLength());
         final Dimension d=getMinimumSize();
         g.setColor(Color.white);
         g.fillRect(0,0,d.width,d.height);
@@ -122,26 +117,20 @@ class JHexEditorHEX
         }
     }
 
-//    private void debug(String s)
-//    {
-//        //if(he.DEBUG) System.out.println("JHexEditorHEX ==> "+s);
-//    }
-
     // calcular la posicion del raton
     public int calcularPosicionRaton(int x,int y)
     {
-        //FontMetrics fn=getFontMetrics(getCustomFont());
         final FontMetrics fn = this.model.getFontMetrics();
+
         x=x/((fn.stringWidth(" ")+1)*3);
         y=y/fn.getHeight();
-        //debug("x="+x+" ,y="+y);
+
         return x+((y+this.model.getIntroduction())*16);
     }
 
     @Override// mouselistener
     public void mouseClicked(final MouseEvent e)
     {
-        //debug("mouseClicked("+e+")");
         this.model.setCursorPos( calcularPosicionRaton(e.getX(),e.getY()) );
         this.requestFocus();
         this.model.repaintAll();
@@ -150,29 +139,32 @@ class JHexEditorHEX
     @Override// mouselistener
     public void mousePressed(final MouseEvent e)
     {
+        // Empty
     }
 
     @Override// mouselistener
     public void mouseReleased(final MouseEvent e)
     {
+        // Empty
     }
 
     @Override// mouselistener
     public void mouseEntered(final MouseEvent e)
     {
+        // Empty
     }
 
     @Override// mouselistener
     public void mouseExited(final MouseEvent e)
     {
+        // Empty
     }
 
     @Override//KeyListener
     public void keyTyped(final KeyEvent e)
     {
-        //debug("keyTyped("+e+")");
-
         final char c=e.getKeyChar();
+
         if(((c>='0')&&(c<='9'))||((c>='A')&&(c<='F'))||((c>='a')&&(c<='f')))
         {
             final char[] str=new char[2];
@@ -183,7 +175,6 @@ class JHexEditorHEX
                 }
             str[1-this.cursor]=n.charAt(1-this.cursor);
             str[this.cursor]=e.getKeyChar();
-            //he.getBuffer()[he.getCursorPos()]=(byte)Integer.parseInt(new String(str),16);
 
             final ArrayReadWriteAccess buff = this.model.getBufferRW();
 
@@ -208,14 +199,13 @@ class JHexEditorHEX
     @Override//KeyListener
     public void keyPressed(final KeyEvent e)
     {
-        //debug("keyPressed("+e+")");
         this.model.keyPressed(e);
     }
 
     @Override//KeyListener
     public void keyReleased(final KeyEvent e)
     {
-        //debug("keyReleased("+e+")");
+        // Empty
     }
 
     @Override

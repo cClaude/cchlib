@@ -10,6 +10,7 @@ import javax.swing.text.DocumentFilter;
 /**
  * NEEDDOC
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LimitedJTextField extends JTextField
 {
     /**
@@ -79,6 +80,7 @@ public class LimitedJTextField extends JTextField
      * @param maxLength maxLength for current JTextField
      * @throws IllegalArgumentException if maxValue is negative
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public LimitedJTextField( final int maxLength )
         throws IllegalArgumentException
     {
@@ -104,6 +106,7 @@ public class LimitedJTextField extends JTextField
      * @param maxLength the maxLength to set
      * @throws IllegalArgumentException if maxValue is negative
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setMaxLength( final int maxLength ) throws IllegalArgumentException
     {
         this.maxLength = maxLength;

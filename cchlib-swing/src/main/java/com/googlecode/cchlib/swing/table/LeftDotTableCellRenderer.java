@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 /**
  * NEEDDOC
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LeftDotTableCellRenderer extends DefaultTableCellRenderer
 {
     private static final long serialVersionUID = 1L;

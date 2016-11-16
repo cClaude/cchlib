@@ -103,8 +103,8 @@ public class XMLBuilder
     public XMLBuilder append( final NodeList nodeList )
         throws IOException
     {
-        final int   len             = nodeList.getLength();
-        final String      saveTabulation  = this.incTabulation;
+        final int    len             = nodeList.getLength();
+        final String saveTabulation  = this.incTabulation;
 
         for( int i = 0; i < len; i++ ) {
             append( nodeList.item(i) );
@@ -135,7 +135,7 @@ public class XMLBuilder
     {
         final XMLBuilder builder = new XMLBuilder(new StringBuilder());
 
-        try { builder.append(aNode); } catch(final IOException ignore) {} // $codepro.audit.disable emptyCatchClause, logExceptions
+        try { builder.append(aNode); } catch(final IOException ignore) {}
 
         return builder.appendableToString();
     }
@@ -153,7 +153,13 @@ public class XMLBuilder
 
         sb.append("--------------------\n");
 
-        try { builder.append(nodeList); } catch(final IOException ignore) {} // $codepro.audit.disable emptyCatchClause, logExceptions
+        StringHelper.
+        try {
+            builder.append( nodeList );
+            }
+        catch(final IOException ignore) {
+            // This is a StringBuilder !!
+        }
 
         sb.append("--------------------\n");
 

@@ -16,9 +16,9 @@ public class SwingIntrospectorRootItem<FRAME>
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    private final /*Map*/TreeMap<Integer,SwingIntrospectorItem<FRAME>> rootItems = new TreeMap<Integer,SwingIntrospectorItem<FRAME>>();
+    private final /*Map*/TreeMap<Integer,SwingIntrospectorItem<FRAME>> rootItems = new TreeMap<>();
     /** @serial */
-    private final /*List*/ArrayList<SwingIntrospectorItem<FRAME>> items = new ArrayList<SwingIntrospectorItem<FRAME>>();
+    private final /*List*/ArrayList<SwingIntrospectorItem<FRAME>> items = new ArrayList<>();
 
     /**
      * NEEDDOC
@@ -79,7 +79,7 @@ public class SwingIntrospectorRootItem<FRAME>
     @Override
     public Iterator<SwingIntrospectorItem<FRAME>> iterator()
     {
-        return new BiIterator<SwingIntrospectorItem<FRAME>>(
+        return new BiIterator<>(
                 this.rootItems.values().iterator(),
                 this.items.iterator()
                 );

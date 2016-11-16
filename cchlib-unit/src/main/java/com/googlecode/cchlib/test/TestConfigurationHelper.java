@@ -19,7 +19,7 @@ import com.googlecode.cchlib.util.properties.PropertiesPopulator;
  */
 public class TestConfigurationHelper
 {
-    private final PropertiesPopulator<TestConfigurationHelper.Config> pp = new PropertiesPopulator<TestConfigurationHelper.Config>( TestConfigurationHelper.Config.class );
+    private final PropertiesPopulator<TestConfigurationHelper.Config> pp = new PropertiesPopulator<>( TestConfigurationHelper.Config.class );
     private final Config config;
 
     /**
@@ -40,7 +40,7 @@ public class TestConfigurationHelper
                 return Collections.emptyList();
                 }
             else {
-                return new ArrayCollection<String>( this.existingMACAddr );
+                return new ArrayCollection<>( this.existingMACAddr );
                 }
         }
 
@@ -116,6 +116,7 @@ public class TestConfigurationHelper
      * NEEDDOC
      * @return NEEDDOC
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public Config getConfig() throws IllegalStateException
     {
         return this.config;

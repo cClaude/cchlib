@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.EnumSet;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.CellEditor;
@@ -27,8 +27,7 @@ public abstract class JPopupMenuForJTable
     extends AbstractJPopupMenuBuilder
 {
     private static final long serialVersionUID = 2L;
-    private @Nonnull
-    final JTable jTable;
+    private final JTable jTable;
 
     /**
      * Create JPopupMenuForJTable
@@ -37,8 +36,8 @@ public abstract class JPopupMenuForJTable
      * @throws NullPointerException if jTable est null
      */
     public JPopupMenuForJTable(
-        @Nonnull final JTable              jTable,
-        @Nullable final EnumSet<Attributs> attributes
+        @Nonnull final JTable          jTable,
+        @Nullable final Set<Attributs> attributes
         )
     {
         super( attributes );
@@ -50,9 +49,9 @@ public abstract class JPopupMenuForJTable
         this.jTable = jTable;
     }
 
-    public JPopupMenuForJTable( final JTable jTable )
+    public JPopupMenuForJTable( @Nonnull final JTable jTable )
     {
-        this( jTable, null );
+        this( jTable, (Set<Attributs>)null );
     }
 
     /**
@@ -234,7 +233,6 @@ public abstract class JPopupMenuForJTable
      * @param rowIndex
      * @param columnIndex
      */
-    final
     public void addCopyMenuItem(
             final JPopupMenu    contextMenu,
             final String        textForCopy,

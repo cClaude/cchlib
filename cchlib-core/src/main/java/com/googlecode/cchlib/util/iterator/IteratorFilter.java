@@ -36,6 +36,7 @@ public class IteratorFilter<T>
     }
 
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     protected T computeNext() throws NoSuchElementException
     {
         while(this.iterator.hasNext()) {

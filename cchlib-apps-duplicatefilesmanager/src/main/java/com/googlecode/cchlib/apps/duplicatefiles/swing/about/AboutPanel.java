@@ -27,6 +27,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 
 @I18nName("AboutPanel")
+@SuppressWarnings({"squid:S00117"})
 public final class AboutPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
@@ -46,7 +47,7 @@ public final class AboutPanel extends JPanel
 
     /**
      * Creates new form AboutPanel
-     */// $codepro.audit.disable sourceLength
+     */
     public AboutPanel(
         final Resources        resources,
         final AboutPanelAction action
@@ -62,10 +63,10 @@ public final class AboutPanel extends JPanel
         setLayout(gridBagLayout);
 
         {
-            jLabel_authorName = new JLabel();
-            jLabel_authorName.setForeground(new Color(0, 0, 255));
-            jLabel_authorName.setText( resources.getAuthorName() );
-            jLabel_authorName.addMouseListener(new MouseAdapter() {
+            this.jLabel_authorName = new JLabel();
+            this.jLabel_authorName.setForeground(new Color(0, 0, 255));
+            this.jLabel_authorName.setText( resources.getAuthorName() );
+            this.jLabel_authorName.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked( final MouseEvent evt ) {
                     authorMouseClicked(evt);
@@ -85,7 +86,7 @@ public final class AboutPanel extends JPanel
             gbc_jLabel_authorName.insets = new Insets(0, 0, 5, 5);
             gbc_jLabel_authorName.gridx = 2;
             gbc_jLabel_authorName.gridy = 1;
-            add(jLabel_authorName, gbc_jLabel_authorName);
+            add(this.jLabel_authorName, gbc_jLabel_authorName);
         }
         {
             final JLabel jLabel_logo = new javax.swing.JLabel();
@@ -110,35 +111,35 @@ public final class AboutPanel extends JPanel
             add(jLabel_AppIcon, gbc_jLabel_AppIcon);
         }
         {
-            jLabel_author = new JLabel();
-            jLabel_author.setHorizontalAlignment(SwingConstants.RIGHT);
-            jLabel_author.setText( "Author :" );
+            this.jLabel_author = new JLabel();
+            this.jLabel_author.setHorizontalAlignment(SwingConstants.RIGHT);
+            this.jLabel_author.setText( "Author :" );
             final GridBagConstraints gbc_jLabel_author = new GridBagConstraints();
             gbc_jLabel_author.fill = GridBagConstraints.BOTH;
             gbc_jLabel_author.insets = new Insets(0, 0, 5, 5);
             gbc_jLabel_author.gridx = 1;
             gbc_jLabel_author.gridy = 1;
-            add(jLabel_author, gbc_jLabel_author);
+            add(this.jLabel_author, gbc_jLabel_author);
         }
         {
-            jLabel_copyRight = new JLabel();
-            jLabel_copyRight.setText( "copyRight" ); // NOI18N
+            this.jLabel_copyRight = new JLabel();
+            this.jLabel_copyRight.setText( "copyRight" ); // NOI18N
             final GridBagConstraints gbc_jLabel_copyRight = new GridBagConstraints();
             gbc_jLabel_copyRight.fill = GridBagConstraints.BOTH;
             gbc_jLabel_copyRight.insets = new Insets(0, 0, 5, 0);
             gbc_jLabel_copyRight.gridx = 3;
             gbc_jLabel_copyRight.gridy = 1;
-            add(jLabel_copyRight, gbc_jLabel_copyRight);
+            add(this.jLabel_copyRight, gbc_jLabel_copyRight);
         }
         {
-            jLabel_version = new JLabel("Version :");
-            jLabel_version.setHorizontalAlignment(SwingConstants.RIGHT);
+            this.jLabel_version = new JLabel("Version :");
+            this.jLabel_version.setHorizontalAlignment(SwingConstants.RIGHT);
             final GridBagConstraints gbc_jLabel_version = new GridBagConstraints();
             gbc_jLabel_version.fill = GridBagConstraints.BOTH;
             gbc_jLabel_version.insets = new Insets(0, 0, 5, 5);
             gbc_jLabel_version.gridx = 1;
             gbc_jLabel_version.gridy = 2;
-            add(jLabel_version, gbc_jLabel_version);
+            add(this.jLabel_version, gbc_jLabel_version);
         }
         {
             final JLabel jLabel_versionValue = new JLabel();
@@ -161,20 +162,20 @@ public final class AboutPanel extends JPanel
             add(jLabel_completeDate, gbc_jLabel_completeDate);
         }
         {
-            jTextArea = new JTextArea();
-            jTextArea.setBackground(UIManager.getColor("Button.background"));
-            jTextArea.setFont(UIManager.getFont("Label.font"));
-            jTextArea.setEnabled(false);
-            jTextArea.setEditable(false);
-            jTextArea.setColumns(20);
-            jTextArea.setLineWrap(true);
-            jTextArea.setRows(5);
-            jTextArea.setText( DESCRIPTION );
+            this.jTextArea = new JTextArea();
+            this.jTextArea.setBackground(UIManager.getColor("Button.background"));
+            this.jTextArea.setFont(UIManager.getFont("Label.font"));
+            this.jTextArea.setEnabled(false);
+            this.jTextArea.setEditable(false);
+            this.jTextArea.setColumns(20);
+            this.jTextArea.setLineWrap(true);
+            this.jTextArea.setRows(5);
+            this.jTextArea.setText( DESCRIPTION );
 
             final JScrollPane jScrollPane = new JScrollPane();
-            titleBorder = BorderFactory.createTitledBorder( "Brief" );
-            jScrollPane.setBorder( titleBorder );
-            jScrollPane.setViewportView( jTextArea );
+            this.titleBorder = BorderFactory.createTitledBorder( "Brief" );
+            jScrollPane.setBorder( this.titleBorder );
+            jScrollPane.setViewportView( this.jTextArea );
 
             final GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
             gbc_jScrollPane.insets = new Insets(0, 0, 5, 0);
@@ -185,46 +186,46 @@ public final class AboutPanel extends JPanel
             add(jScrollPane, gbc_jScrollPane);
         }
         {
-            jButton_Ok = new JButton("OK");
-            jButton_Ok.addActionListener((final ActionEvent event) -> {
+            this.jButton_Ok = new JButton("OK");
+            this.jButton_Ok.addActionListener((final ActionEvent event) -> {
                 action.buttonOKClicked();
             });
             final GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
             gbc_jButton_Ok.gridwidth = 4;
             gbc_jButton_Ok.gridx = 0;
             gbc_jButton_Ok.gridy = 4;
-            add(jButton_Ok, gbc_jButton_Ok);
+            add(this.jButton_Ok, gbc_jButton_Ok);
         }
     }
 
     private void authorMouseEntered( final MouseEvent evt )
     {
-        jLabel_authorName.setCursor( Cursor.getPredefinedCursor(Cursor.HAND_CURSOR) );
-        jLabel_authorName.setForeground(Color.RED);
+        this.jLabel_authorName.setCursor( Cursor.getPredefinedCursor(Cursor.HAND_CURSOR) );
+        this.jLabel_authorName.setForeground(Color.RED);
     }
 
     private void authorMouseExited( final MouseEvent evt )
     {
-        jLabel_authorName.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        this.jLabel_authorName.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
-        if( click ) {
-            jLabel_authorName.setForeground(new Color(128,0,128));
+        if( this.click ) {
+            this.jLabel_authorName.setForeground(new Color(128,0,128));
             }
         else {
-            jLabel_authorName.setForeground(Color.BLUE);
+            this.jLabel_authorName.setForeground(Color.BLUE);
             }
     }
 
     private void authorMouseClicked( final MouseEvent evt )
     {
-        click = true;
+        this.click = true;
 
         if( Desktop.isDesktopSupported() ) {
             try {
-                Desktop.getDesktop().browse( resources.getSiteURI() );
+                Desktop.getDesktop().browse( this.resources.getSiteURI() );
                 }
             catch( final IOException e ) {
-                Logger.getLogger( getClass() ).warn( "Error while opening: " + resources.getSiteURI(), e );
+                Logger.getLogger( getClass() ).warn( "Error while opening: " + this.resources.getSiteURI(), e );
                 }
             }
     }

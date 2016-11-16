@@ -64,35 +64,38 @@ public class BRActionListener extends AbstractBRActionListener
     @Override
     protected void selectDestinationFolder()
     {
-        SwingUtilities.invokeLater( ( ) -> {
-            final JFileChooser jfc = getJFileChooserInitializer().getJFileChooser();
+        SwingUtilities.invokeLater( this::doDelectDestinationFolder );
+    }
 
-            jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
-            jfc.setFileSelectionMode( BRActionListener.this.config.getDestinationFolderFileSelectionMode() );
-            jfc.setMultiSelectionEnabled( false );
+    private void doDelectDestinationFolder()
+    {
+        final JFileChooser jfc = getJFileChooserInitializer().getJFileChooser();
 
-            // Set current dir :
-            // Use last value if exist
-            // otherwise use value on config.
-            // otherwise use default from JFileChooser.
-            File currentDirectory = BRActionListener.this._destinationFolderCurrentDirectory;
+        jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+        jfc.setFileSelectionMode( BRActionListener.this.config.getDestinationFolderFileSelectionMode() );
+        jfc.setMultiSelectionEnabled( false );
 
-            if( currentDirectory == null ) {
-                currentDirectory = BRActionListener.this.config.getDefaultDestinationDirectoryFile();
-                }
-            if( currentDirectory != null ) {
-                jfc.setCurrentDirectory( currentDirectory );
-                }
+        // Set current dir :
+        // Use last value if exist
+        // otherwise use value on config.
+        // otherwise use default from JFileChooser.
+        File currentDirectory = BRActionListener.this._destinationFolderCurrentDirectory;
 
-            if( jfc.showOpenDialog( getTopLevelAncestor() ) == JFileChooser.APPROVE_OPTION ) {
-                final File file = jfc.getSelectedFile();
+        if( currentDirectory == null ) {
+            currentDirectory = BRActionListener.this.config.getDefaultDestinationDirectoryFile();
+            }
+        if( currentDirectory != null ) {
+            jfc.setCurrentDirectory( currentDirectory );
+            }
 
-                LOGGER.info( "selected folder:" + file );
-                setDestinationFolderFile( file );
-                }
+        if( jfc.showOpenDialog( getTopLevelAncestor() ) == JFileChooser.APPROVE_OPTION ) {
+            final File file = jfc.getSelectedFile();
 
-            BRActionListener.this._destinationFolderCurrentDirectory = jfc.getCurrentDirectory();
-        });
+            LOGGER.info( "selected folder:" + file );
+            setDestinationFolderFile( file );
+            }
+
+        BRActionListener.this._destinationFolderCurrentDirectory = jfc.getCurrentDirectory();
     }
 
     @Override
@@ -116,55 +119,59 @@ public class BRActionListener extends AbstractBRActionListener
 
         final Enumeration<File> enumFile = getSourceFileElements();
 
-        new Thread( (Runnable)( ) -> {
-            int i = 0;
+        new Thread( () -> doExecuteBatch( enumFile ), "SBRActionListener.executeBatch()" )
+            .start();
+    }
 
-            setCursor(
-                    Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR)
-                    );
-            fireStateChanged( false );
+    private void doExecuteBatch( final Enumeration<File> enumFile )
+    {
+        int i = 0;
 
-            try {
-                while( enumFile.hasMoreElements() ) {
-                    final File sourceFile      = enumFile.nextElement();
-                    final File destinationFile = BRActionListener.this.task.buildOutputFile( sourceFile );
+        setCursor(
+                Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR)
+                );
+        fireStateChanged( false );
 
-                    setCurrentTaskNumber( i++ );
-                    setCurrentMessage(
-                            String.format( getSBRLocaleResources().getTextWorkingOn_FMT(), sourceFile.getPath() )
-                            );
+        try {
+            while( enumFile.hasMoreElements() ) {
+                final File sourceFile      = enumFile.nextElement();
+                final File destinationFile = BRActionListener.this.task.buildOutputFile( sourceFile );
 
-                    LOGGER.info( "Working on " + sourceFile );
-
-                    runTask( sourceFile, destinationFile );
-                    }
-                setCurrentTaskNumber( i );
-
-                BRActionListener.this.task.finalizeBath( false );
-                }
-            catch( final BRInterruptedException e1 ) {
-                LOGGER.warn( "BatchRunnerInterruptedException", e1 );
-
-                BRActionListener.this.task.finalizeBath( true );
-                }
-            catch( final Exception e2 ) {
-                LOGGER.fatal( "Unexpected error", e2 );
-
-                DialogHelper.showMessageExceptionDialog(
-                    getTopLevelWindow(),
-                    getSBRLocaleResources().getTextUnexpectedExceptionTitle(),
-                    e2
-                    );
-                }
-            finally {
-                setCursor(
-                        Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR )
+                setCurrentTaskNumber( i++ );
+                setCurrentMessage(
+                        String.format( getSBRLocaleResources().getTextWorkingOn_FMT(), sourceFile.getPath() )
                         );
-                fireStateChanged( true );
 
-                BRActionListener.this.running = false;
+                LOGGER.info( "Working on " + sourceFile );
+
+                runTask( sourceFile, destinationFile );
                 }
-        },"SBRActionListener.executeBatch()").start();
+            setCurrentTaskNumber( i );
+
+            BRActionListener.this.task.finalizeBath( false );
+            }
+        catch( final BRInterruptedException e1 ) {
+            LOGGER.warn( "BatchRunnerInterruptedException", e1 );
+
+            BRActionListener.this.task.finalizeBath( true );
+            }
+        catch( final Exception e2 ) {
+            LOGGER.fatal( "Unexpected error", e2 );
+
+            DialogHelper.showMessageExceptionDialog(
+                getTopLevelWindow(),
+                getSBRLocaleResources().getTextUnexpectedExceptionTitle(),
+                e2
+                );
+            }
+        finally {
+            setCursor(
+                    Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR )
+                    );
+            fireStateChanged( true );
+
+            BRActionListener.this.running = false;
+            }
     }
 
     /**
@@ -173,44 +180,47 @@ public class BRActionListener extends AbstractBRActionListener
     @Override
     protected void selectSourceFiles()
     {
-        SwingUtilities.invokeLater( ( ) -> {
-            final JFileChooser jfc = getJFileChooserInitializer().getJFileChooser();
+        SwingUtilities.invokeLater( this::doSelectSource );
+    }
 
-            jfc.setFileSelectionMode( BRActionListener.this.config.getSourceFilesFileSelectionMode() );
-            jfc.setMultiSelectionEnabled( true );
+    private void doSelectSource()
+    {
+        final JFileChooser jfc = getJFileChooserInitializer().getJFileChooser();
 
-            // Set current dir :
-            // Use last value if exist
-            // otherwise use value on config.
-            // otherwise use default from JFileChooser.
-            File currentDirectory = BRActionListener.this._sourceFilesCurrentDirectory;
+        jfc.setFileSelectionMode( BRActionListener.this.config.getSourceFilesFileSelectionMode() );
+        jfc.setMultiSelectionEnabled( true );
 
-            if( currentDirectory == null ) {
-                currentDirectory = BRActionListener.this.config.getDefaultSourceDirectoryFile();
-                }
-            if( currentDirectory != null ) {
-                if( currentDirectory.isDirectory() ) {
-                    if( LOGGER.isDebugEnabled() ) {
-                        LOGGER.debug( "setCurrentDirectory: " + currentDirectory );
-                        }
-                    jfc.setCurrentDirectory( currentDirectory );
+        // Set current dir :
+        // Use last value if exist
+        // otherwise use value on config.
+        // otherwise use default from JFileChooser.
+        File currentDirectory = BRActionListener.this._sourceFilesCurrentDirectory;
+
+        if( currentDirectory == null ) {
+            currentDirectory = BRActionListener.this.config.getDefaultSourceDirectoryFile();
+            }
+        if( currentDirectory != null ) {
+            if( currentDirectory.isDirectory() ) {
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "setCurrentDirectory: " + currentDirectory );
                     }
-                else {
-                    LOGGER.warn( "not a directory: " + currentDirectory );
-                    }
+                jfc.setCurrentDirectory( currentDirectory );
                 }
-
-            if( jfc.showOpenDialog( getTopLevelAncestor() ) == JFileChooser.APPROVE_OPTION ) {
-                final File[] files = jfc.getSelectedFiles();
-
-                for( final File f:files ) {
-                    LOGGER.info( "selectSourceFiles() file = " + f );
-
-                    addSourceFile( f );
-                    }
+            else {
+                LOGGER.warn( "not a directory: " + currentDirectory );
                 }
-            BRActionListener.this._sourceFilesCurrentDirectory = jfc.getCurrentDirectory();
-        } );
+            }
+
+        if( jfc.showOpenDialog( getTopLevelAncestor() ) == JFileChooser.APPROVE_OPTION ) {
+            final File[] files = jfc.getSelectedFiles();
+
+            for( final File f:files ) {
+                LOGGER.info( "selectSourceFiles() file = " + f );
+
+                addSourceFile( f );
+                }
+            }
+        BRActionListener.this._sourceFilesCurrentDirectory = jfc.getCurrentDirectory();
     }
 
     public JFileChooserInitializer getJFileChooserInitializer()

@@ -33,6 +33,7 @@ public class SortedMapIterator<K,V>
                 private SortedMap<K,V> currentSortedMap = sortedMap;
 
                 @Override
+                @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
                 public K computeNext() throws NoSuchElementException
                 {
                     final K key = this.currentSortedMap.lastKey();
@@ -72,6 +73,7 @@ public class SortedMapIterator<K,V>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public V next() throws NoSuchElementException
     {
         try {
@@ -90,6 +92,7 @@ public class SortedMapIterator<K,V>
      * @return last key
      * @throws NoSuchElementException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public K getLastKey() throws NoSuchElementException
     {
         if(this.previousKey == null) {
@@ -112,6 +115,7 @@ public class SortedMapIterator<K,V>
      *         next method.
      */
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void remove() throws IllegalStateException
     {
         if(this.previousKey == null) {

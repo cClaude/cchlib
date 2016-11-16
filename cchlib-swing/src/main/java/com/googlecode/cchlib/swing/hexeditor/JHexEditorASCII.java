@@ -37,17 +37,14 @@ class JHexEditorASCII
     @Override
     public Dimension getPreferredSize()
     {
-        //debug("getPreferredSize()");
         return getMinimumSize();
     }
 
     @Override
     public Dimension getMinimumSize()
     {
-        //debug("getMinimumSize()");
 
         final Dimension d=new Dimension();
-        //FontMetrics fn=getFontMetrics(getCustomFont());
         final FontMetrics fn = this.model.getFontMetrics();
         final int h=fn.getHeight();
         final int nl=this.model.getDisplayLinesCount();
@@ -61,8 +58,6 @@ class JHexEditorASCII
     @Override
     public void paint(final Graphics g)
     {
-        //debug("paint("+g+")");
-        //debug("cursor="+model.getCursorPos()+" buff.length="+model.getBuffer().getLength());
         final Dimension d=getMinimumSize();
         g.setColor(Color.white);
         g.fillRect(0,0,d.width,d.height);
@@ -113,26 +108,20 @@ class JHexEditorASCII
             }
     }
 
-//    private void debug(String s)
-//    {
-//        //if(he.DEBUG) System.out.println("JHexEditorASCII ==> "+s);
-//    }
-
     // calcular la posicion del raton
     public int calcularPosicionRaton(int x,int y)
     {
-        //FontMetrics fn=getFontMetrics(getCustomFont());
         final FontMetrics fn = this.model.getFontMetrics();
+
         x=x/(fn.stringWidth(" ")+1);
         y=y/fn.getHeight();
-        //debug("x="+x+" ,y="+y);
+
         return x+((y+this.model.getIntroduction())*16);
     }
 
     @Override// mouselistener
     public void mouseClicked(final MouseEvent e)
     {
-        //debug("mouseClicked("+e+")");
         this.model.setCursorPos( calcularPosicionRaton(e.getX(),e.getY()) );
         this.requestFocus();
         this.model.repaintAll();
@@ -164,9 +153,7 @@ class JHexEditorASCII
         final ArrayReadWriteAccess buf = this.model.getBufferRW();
 
         if( buf != null ) {
-            //debug("keyTyped("+e+")");
 
-            //he.getBuffer()[he.getCursorPos()]=(byte)e.getKeyChar();
             buf.setByte(
                     this.model.getCursorPos(),
                     (byte)e.getKeyChar()
@@ -182,14 +169,12 @@ class JHexEditorASCII
     @Override//KeyListener
     public void keyPressed(final KeyEvent e)
     {
-        //debug("keyPressed("+e+")");
         this.model.keyPressed(e);
     }
 
     @Override//KeyListener
     public void keyReleased(final KeyEvent e)
     {
-        //debug("keyReleased("+e+")");
     }
 
     @Override

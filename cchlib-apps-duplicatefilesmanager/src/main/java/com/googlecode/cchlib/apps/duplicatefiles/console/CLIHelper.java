@@ -97,6 +97,7 @@ public class CLIHelper
         exit( 1 );
     }
 
+    @SuppressWarnings("squid:S1147")
     private static void exit( final int exitStatus )
     {
         System.exit( exitStatus );

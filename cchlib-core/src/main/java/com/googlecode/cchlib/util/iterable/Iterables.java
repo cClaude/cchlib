@@ -78,6 +78,7 @@ public class Iterables
      * @throws WrapperException
      *             if any
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static <S,R> Iterable<R> wrap(
             @Nonnull final Iterator<S> iterator,
             @Nonnull final Wrappable<? super S,? extends R> wrapper
@@ -102,6 +103,7 @@ public class Iterables
      * @throws WrapperException
      *             if any
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static <S,R> Iterable<R> wrap( //
         @Nonnull final Enumeration<S>                   enumeration, //
         @Nonnull final Wrappable<? super S,? extends R> wrapper //
@@ -150,6 +152,7 @@ public class Iterables
      * @throws WrapperException
      *             if any
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static <S,R> Iterable<R> wrap(
         @Nonnull final Iterable<S>                      iterable,
         @Nonnull final Wrappable<? super S,? extends R> wrapper
@@ -230,7 +233,8 @@ public class Iterables
 
     @NeedDoc
     @SuppressWarnings("null")
-    public static @Nullable <T> T find( //
+    @Nullable
+    public static <T> T find( //
         @Nonnull final Iterable<T>   iterable, //
         @Nonnull final Selectable<T> filter //
         )

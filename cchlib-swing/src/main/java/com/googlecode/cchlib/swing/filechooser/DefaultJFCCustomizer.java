@@ -16,7 +16,7 @@ public class DefaultJFCCustomizer
     implements JFileChooserInitializerCustomize
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger LOGGER = Logger.getLogger( DefaultJFCCustomizer.class );
+    private static final Logger LOGGER = Logger.getLogger( DefaultJFCCustomizer.class );
 
     /** @serial */
     private File currentDirectory;
@@ -67,6 +67,7 @@ public class DefaultJFCCustomizer
     }
 
     @Override
+    @SuppressWarnings("squid:MethodCyclomaticComplexity") // Complexity is for logging
     public void perfomeConfig( final JFileChooser jfc )
     {
         if( LOGGER.isTraceEnabled() ) {
@@ -89,10 +90,6 @@ public class DefaultJFCCustomizer
         else if( this.directoryType == JFileChooserInitializer.DirectoryType.HOME_DIR ) {
             jfc.setCurrentDirectory( new File( System.getProperty( "home.dir" ) ) );
             }
-
-//        if( !attributes.contains( Attrib.doNotSetFileSystemView ) ) {
-//            jfc.setFileSystemView( FileSystemView.getFileSystemView() );
-//        }
 
         if( this.fileFilter != null ) {
             jfc.setFileFilter( this.fileFilter );

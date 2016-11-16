@@ -83,7 +83,7 @@ public class DHCPOptions implements Serializable {
     /** serialVersionUID */
     private static final long                serialVersionUID          = 1L;
 
-    public static final byte[]               MAGIC_COOKIE              = { 0x63, (byte)0x82, 0x53, 0x63 };
+    private static final byte[]              MAGIC_COOKIE              = { 0x63, (byte)0x82, 0x53, 0x63 };
 
     /**
      ** <p>
@@ -233,7 +233,7 @@ public class DHCPOptions implements Serializable {
 
     public DHCPOptions() // ---------------------------------------------------
     {
-        this.optionsTable = new HashMap<Byte, DHCPOptionEntry>();
+        this.optionsTable = new HashMap<>();
     }
 
     /**
@@ -370,30 +370,6 @@ public class DHCPOptions implements Serializable {
         return null;
     }
 
-    // /**
-    // ** Clear internal options list, and converts an options byte array to a list (ignore 4 first bytes, vendor magic
-    // * cookie)
-    // **
-    // ** @param optionsArray
-    // * The byte array representation of the options list
-    // * */
-    // public void _init( final byte[] optionsArray ) throws ArrayIndexOutOfBoundsException
-    // {
-    // clear();
-    //
-    // // Assume options valid and correct // ignore vendor magic cookie
-    // int pos = 4;
-    //
-    // while( optionsArray[ pos ] != END_OPTION ) { // until end option
-    // final byte code = optionsArray[ pos++ ];
-    // final byte length = optionsArray[ pos++ ];
-    //
-    // setOption( code, new DHCPOptionEntry( optionsArray, pos, length ) );
-    //
-    // pos += length; // increment position pointer
-    // }
-    // }
-
     /**
      ** Clear internal options list, and converts an options DataInputStream stream to a list (ignore 4 first bytes,
      * vendor magic cookie)
@@ -483,10 +459,10 @@ public class DHCPOptions implements Serializable {
     }
 
     /** */
-    private final static String        messageFmtString = "OPT[{0,number,##0}]\t=";
+    private static final String        MSG_FORMAT_PATTERN = "OPT[{0,number,##0}]\t=";
 
     /** */
-    private final static MessageFormat msgFmt           = new MessageFormat( messageFmtString );
+    private static final MessageFormat msgFmt           = new MessageFormat( MSG_FORMAT_PATTERN );
 
     /** */
     private final Object[]             msgFmtObjects    = new Object[1];

@@ -20,6 +20,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.util.HashMapSet;
 
 @I18nName("JPanelResult.SelectBySameFolder")
+@SuppressWarnings({"squid:MaximumInheritanceDepth","squid:S00117"})
 public class SelectBySameFolder extends SelectorPanel
 {
     private static final Comparator<KeyFileState> FIRST_NAME_ALPHA_ORDER_IGNORE_EXT_COMPARATOR = (final KeyFileState o1, final KeyFileState o2) -> o1.getFileNameWithoutExtention().compareTo( o2.getFileNameWithoutExtention() );
@@ -46,14 +47,15 @@ public class SelectBySameFolder extends SelectorPanel
         }
     }
 
+    @FunctionalInterface
     private interface ActionPerform
     {
         void perform( Set<KeyFileState> set, KeyFileState selected );
     }
 
-    public static final ActionPerform DELETE_ACTION = (final Set<KeyFileState> set, final KeyFileState      selected) -> {
+    public static final ActionPerform DELETE_ACTION = (final Set<KeyFileState> set, final KeyFileState selected) -> {
         for( final KeyFileState f : set ) {
-            selected.setSelectedToDelete( f != selected ); // $codepro.audit.disable useEquals
+            selected.setSelectedToDelete( f != selected );
         }
     };
     public static final ActionPerform RESTORE_ACTION = (final Set<KeyFileState> set, final KeyFileState selected) -> {
@@ -90,6 +92,7 @@ public class SelectBySameFolder extends SelectorPanel
     private final JButton deleteButton;
     private final JButton retoreButton;
 
+    @SuppressWarnings("squid:S3346")
     public SelectBySameFolder( final DuplicateData duplicateData )
     {
         assert Mode.values().length == this.modes.length;

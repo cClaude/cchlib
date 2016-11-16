@@ -23,5 +23,6 @@ public interface QueryHandler<T>
      * @throws SQLException
      * @throws QueryHandlerException
      */
+    @SuppressWarnings("squid:S1160")
     T handle( ResultSet resultSet ) throws SQLException, QueryHandlerException;
 }

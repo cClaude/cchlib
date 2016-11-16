@@ -71,6 +71,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      * @see java.lang.Object#clone()
      */
     @Override
+    @SuppressWarnings("squid:S2975")
     protected Object clone() throws CloneNotSupportedException
     {
         throw new CloneNotSupportedException();
@@ -138,6 +139,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      * @throws UnsupportedOperationException
      */
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void remove() throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();

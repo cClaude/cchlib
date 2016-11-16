@@ -68,6 +68,7 @@ public class FileIterator implements  Iterator<File>
      * @throws NullPointerException if rootFolderFile is null
      * @throws IllegalArgumentException if rootFolderFile is not a directory
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public FileIterator(
             final File        rootFolderFile,
             final FileFilter  fileFilter,
@@ -121,6 +122,7 @@ public class FileIterator implements  Iterator<File>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public File next() throws NoSuchElementException
     {
         // Initialize currentDirFilesList
@@ -137,6 +139,7 @@ public class FileIterator implements  Iterator<File>
      * @throws UnsupportedOperationException
      */
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void remove() throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();

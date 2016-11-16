@@ -26,10 +26,11 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 /***
  * This class is use if number of Thread is equal to 1
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class JPanelSearchingSingleThread extends JPanelSearching
 {
     /** TODO try to use {@link GlobalDuplicateFileFinderListener} instead */
-    private final static class MyDuplicateFileFinderEventListener implements DuplicateFileFinderEventListener
+    private static final class MyDuplicateFileFinderEventListener implements DuplicateFileFinderEventListener
     {
         private static final long serialVersionUID = 1L;
 
@@ -206,6 +207,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         this.displayRunning  = false;
     }
 
+    @SuppressWarnings("squid:S2142")
     private void updateDisplayThread()
     {
         this.displayRunning  = true;

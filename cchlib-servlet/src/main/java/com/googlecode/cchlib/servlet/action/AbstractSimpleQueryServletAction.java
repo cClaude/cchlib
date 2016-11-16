@@ -22,6 +22,7 @@ public abstract class AbstractSimpleQueryServletAction
     private com.googlecode.cchlib.sql.SimpleQuery  simpleQuery  = null;
     private com.googlecode.cchlib.sql.SimpleUpdate simpleUpdate = null;
 
+    @SuppressWarnings({"squid:S1160"})
     public abstract ActionServlet.Action doSQL()
         throws  ServletActionException,
                 NamingException,
@@ -94,6 +95,7 @@ public abstract class AbstractSimpleQueryServletAction
      * @throws NamingException if any
      * @see SimpleUpdate#doUpdate(String)
      */
+    @SuppressWarnings("squid:S1160")
     public int doUpdate( final String sql )
         throws SQLException, NamingException
     {
@@ -110,6 +112,7 @@ public abstract class AbstractSimpleQueryServletAction
      * @throws NamingException if any
      * @see SimpleQuery#executeQuery(String)
      */
+    @SuppressWarnings("squid:S1160")
     public ResultSet executeQuery( final String sql )
         throws SQLException, NamingException
     {

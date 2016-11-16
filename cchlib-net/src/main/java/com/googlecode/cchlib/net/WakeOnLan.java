@@ -57,6 +57,7 @@ public class WakeOnLan
      * @throws IllegalArgumentException
      * @throws IOException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public void notify( final String macAddress )
         throws  UnknownHostException,
                 SocketException,
@@ -76,6 +77,7 @@ public class WakeOnLan
      * @throws IllegalArgumentException
      * @throws IOException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public void notify(
         final String broadcastAddress,
         final String macAddress
@@ -131,6 +133,7 @@ public class WakeOnLan
      * @return NEEDDOC
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private static byte[] getMacAddressBytes(
             final String macAddress
             )

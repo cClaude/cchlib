@@ -45,5 +45,6 @@ public final class DefaultArrayReadWriteAccess implements ArrayReadWriteAccess
     @Override
     public void close() throws IOException
     {
+        // In memory
     }
 }

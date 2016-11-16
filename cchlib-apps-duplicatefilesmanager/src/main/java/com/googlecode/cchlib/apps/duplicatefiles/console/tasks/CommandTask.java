@@ -16,6 +16,7 @@ public interface CommandTask
      * @throws CommandTaskException if any
      * @throws CLIParametersException if any
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     List<HashFiles> doTask()
         throws
             CommandTaskException,

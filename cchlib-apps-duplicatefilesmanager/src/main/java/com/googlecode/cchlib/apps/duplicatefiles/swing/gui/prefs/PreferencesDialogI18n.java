@@ -5,6 +5,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControle
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class PreferencesDialogI18n extends JDialog
 {
     private static final long serialVersionUID = 1L;

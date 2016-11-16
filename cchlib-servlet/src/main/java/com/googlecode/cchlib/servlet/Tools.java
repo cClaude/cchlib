@@ -52,6 +52,7 @@ public final class Tools
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @throws RequestParameterNumberFormatException if the value is not an integer
      */
+    @SuppressWarnings({"squid:S1160"})
     public static final int getIntParameter(
             final HttpServletRequest request,
             final String             name
@@ -105,6 +106,7 @@ public final class Tools
      * @throws RequestParameterNotFoundException  if the parameter does not exist.
      * @throws RequestParameterNumberFormatException if at least one value is not an integer
      */
+    @SuppressWarnings({"squid:S1160"})
     public static final int[] getIntParameterValues(
             final HttpServletRequest request,
             final String             name
@@ -125,6 +127,7 @@ public final class Tools
      * @throws RequestParameterNotFoundException
      * @throws RequestParameterNumberFormatException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static final int getIntAttributeOrParameter(
             final HttpServletRequest request,
             final String             name
@@ -179,6 +182,7 @@ public final class Tools
      * @return a int Array
      * @throws NumberFormatException if any String is not a number
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static final int[] toInt(
             final String[] values
             )

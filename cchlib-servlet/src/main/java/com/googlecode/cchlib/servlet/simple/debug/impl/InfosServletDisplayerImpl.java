@@ -28,6 +28,7 @@ import cx.ath.choisnet.util.ArrayHelper;
 /**
  * Default implement for {@link InfosServletDisplayer}
  */
+@SuppressWarnings({"squid:S00100"})
 public class InfosServletDisplayerImpl
     implements InfosServletDisplayer
 {
@@ -285,9 +286,6 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    /**
-     *
-     */
     private InfosServletDisplay getRequest_getAttributeNamesISD()
     {
         final Map<String,String> map = new TreeMap<>();

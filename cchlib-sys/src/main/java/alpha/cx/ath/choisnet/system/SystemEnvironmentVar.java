@@ -20,9 +20,11 @@ public interface SystemEnvironmentVar
      * @param varname name of variable
      * @throws UnsupportedOperationException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     abstract void deleteVar(String varname)
         throws UnsupportedOperationException;
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     abstract void deleteVarObject(Serializable key)
         throws UnsupportedOperationException;
 
@@ -32,9 +34,11 @@ public interface SystemEnvironmentVar
      * @return an unmodifiable collection of names.
      * @throws UnsupportedOperationException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     abstract Iterable<String> getVarNames()
         throws UnsupportedOperationException;
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     abstract Iterable<Serializable> getVarObjectKeys()
         throws UnsupportedOperationException;
 }

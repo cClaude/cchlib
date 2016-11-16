@@ -22,6 +22,7 @@ public class DFFConfigImpl2 extends DFFConfigImpl implements DFFConfig2
      * @throws NoSuchAlgorithmException
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public DFFConfigImpl2( //
         final boolean                    ignoreEmptyFiles, //
         @Nonnull final FileDigestFactory fileDigestFactory, //

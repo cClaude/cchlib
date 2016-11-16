@@ -65,9 +65,6 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
     {
         super.perfomeConfig( jfc );
 
-        //jfc.setFileSelectionMode( getFileSelectionMode() );
-        //jfc.setMultiSelectionEnabled( true );
-
         final HexPreviewAccessory hexAcc = new HexPreviewAccessory( jfc );
         final TabbedAccessory     tabAcc = new TabbedAccessory()
             .addTabbedAccessory(
@@ -88,13 +85,6 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
 
         tabAcc.setPreferredSize( hexAcc.getMinimumSize() );
         jfc.setAccessory( tabAcc );
-//        jfc.setAccessory( new TabbedAccessory()
-//            .addTabbedAccessory( new BookmarksAccessory(
-//                jfc,
-//                new DefaultBookmarksAccessoryConfigurator()
-//                )
-//            )
-//        );
     }
 
     /**
@@ -105,24 +95,5 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
     {
         return this.lSFAConf;
     }
-
-//    /**
-//     * Returns value to set using {@link JFileChooser#setFileSelectionMode(int)}
-//     * @return value to set using {@link JFileChooser#setFileSelectionMode(int)}
-//     */
-//    public int getFileSelectionMode()
-//    {
-//        return fileSelectionMode;
-//    }
-
-//    /**
-//     * Returns value to set using {@link JFileChooser#setMultiSelectionEnabled(boolean)}
-//     * @return value to set using {@link JFileChooser#setMultiSelectionEnabled(boolean)}
-//     */
-//    public boolean isMultiSelectionEnabled()
-//    {
-//        return isMultiSelectionEnabled;
-//    }
-
 }
 

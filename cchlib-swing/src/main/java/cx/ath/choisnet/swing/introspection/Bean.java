@@ -66,9 +66,9 @@ public class Bean implements Serializable
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(Bean.class);
 
-    protected final static String SEPARATOR = "_";
-    protected final static String ROOT_TAG = "$root";
-    protected final static String INDEX_TAG = "$";
+    protected static final String SEPARATOR = "_";
+    protected static final String ROOT_TAG = "$root";
+    protected static final String INDEX_TAG = "$";
 
     /** @serial */
     private final String fieldName;
@@ -86,6 +86,7 @@ public class Bean implements Serializable
      * @param f Field for contender (typically a Frame or a Dialog)
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public Bean( final Field f ) throws IllegalArgumentException
     {
         this.fieldName = f.getName();
@@ -96,7 +97,7 @@ public class Bean implements Serializable
             LOGGER.warn( "Not bean: " + f.getName()  );
             throw new IllegalArgumentException( f.getName() );
         }
-        else { // if( begin > 0 )
+        else { // if( begin > 0 ),- NOSONAR
             this.namePrefix = this.fieldName.substring( 0, begin );
             final String endName  = this.fieldName.substring( begin + 1 );
 

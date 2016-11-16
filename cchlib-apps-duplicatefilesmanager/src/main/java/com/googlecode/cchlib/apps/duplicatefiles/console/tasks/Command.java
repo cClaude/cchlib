@@ -9,6 +9,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.HashComputeTas
 /**
  * Commands list
  */
+@SuppressWarnings("squid:S00115")
 public enum Command {
     /**
      * Build HashFiles list

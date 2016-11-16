@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
  *
  * @author  Hanns Holger Rutz at contact@sciss.de visit http://www.sciss.de/jcollider
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class TexfFieldWithPrintStream extends JTextArea
 {
     private static final long serialVersionUID = 1L;
@@ -135,27 +136,6 @@ public class TexfFieldWithPrintStream extends JTextArea
 
         return this.actionClear;
     }
-
-//    /**
-//     * surround by a JScrollPane
-//     * @return
-//     */
-//    public JScrollPane surroundByJScrollPane()
-//    {
-//        return(
-//            new JScrollPane(
-//                this,
-//                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, // aqua hin aqua her. VERTICAL_SCROLLBAR_ALWAYS
-//                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-//                )
-//            );
-//    }
-
-//    public void makeSystemOutput()
-//    {
-//        System.setOut( getLogStream() );
-//        System.setErr( getLogStream() );
-//    }
 
     // ---------------- internal classes ----------------
 

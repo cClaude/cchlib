@@ -29,6 +29,7 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
     }
 
     @Override
+    @SuppressWarnings({"squid:S2142","squid:S00108"})
     public void run()
     {
         final Preferences           prefs                  = Preferences.createDefaultPreferences();
@@ -43,7 +44,7 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
 
         final Locale                      defaultLocale           = Locale.ENGLISH;
 
-        try { Thread.sleep( 1_000 ); } catch( final InterruptedException e ) {}
+        try { Thread.sleep( 1_000 ); } catch( final InterruptedException e ) { /* ignore */ }
 
         final I18nAutoCoreUpdatable[] i18nConteners = {
             mainFrame,

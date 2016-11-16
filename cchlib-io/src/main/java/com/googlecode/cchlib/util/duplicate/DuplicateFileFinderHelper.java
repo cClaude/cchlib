@@ -21,6 +21,7 @@ public final class DuplicateFileFinderHelper {
      * @throws IllegalArgumentException
      */
     @NeedDoc
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DuplicateFileFinder newDuplicateFileFinder( //
             final boolean                    ignoreEmptyFiles, //
             @Nonnull final FileDigestFactory fileDigestFactory //
@@ -46,6 +47,7 @@ public final class DuplicateFileFinderHelper {
      * @throws IllegalArgumentException
      */
     @NeedDoc
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DuplicateFileFinder newDuplicateFileFinderAlgo2( //
             final boolean                       ignoreEmptyFiles, //
             @Nonnull final FileDigestFactory    fileDigestFactory, //

@@ -33,6 +33,7 @@ public final class XMLHelper
      * @throws TransformerConfigurationException if any.
      * @throws TransformerException if any.
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static void writeXML( final Node node, final OutputStream output )
         throws TransformerConfigurationException, TransformerException
     {
@@ -52,6 +53,7 @@ public final class XMLHelper
      * @throws TransformerConfigurationException if any.
      * @throws TransformerException if any.
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static void writeXML( final Node node, final Writer output)
         throws TransformerConfigurationException, TransformerException
     {

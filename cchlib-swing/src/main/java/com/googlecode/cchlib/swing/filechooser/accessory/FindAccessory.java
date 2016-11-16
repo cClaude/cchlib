@@ -30,6 +30,7 @@ import com.googlecode.cchlib.swing.filechooser.accessory.findaccessory.FindAcces
  * <P>
  * Changing the search options does not affect a search in progress.
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class FindAccessory
     extends FindAccessoryImpl
         implements TabbedAccessoryInterface
