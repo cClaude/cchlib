@@ -62,7 +62,7 @@ public class FileDigest
     }
 
     /**
-     * TODOC XXX
+     * NEEDDOC XXX
      * <p>Must be call for every succeed call to {@link #setFile(File, FileDigestListener)}</p>
      * @throws IllegalStateException is state is not valid
      * @throws IOException if any
@@ -88,7 +88,7 @@ public class FileDigest
     }
 
     /**
-     * TODOC XXX
+     * NEEDDOC XXX
      * @return XXX
      */
     public boolean isOpen()
@@ -232,7 +232,7 @@ public class FileDigest
     }
 
     /**
-     * TODOC XXX
+     * NEEDDOC XXX
      * @return XXX
      * @throws IOException if any
      */
@@ -249,10 +249,10 @@ public class FileDigest
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param returnCurrentBuffer
-     * @return TODOC
+     * @return NEEDDOC
      * @throws CancelRequestException XXX
      */
     public byte[] computeNext( final boolean returnCurrentBuffer ) throws CancelRequestException

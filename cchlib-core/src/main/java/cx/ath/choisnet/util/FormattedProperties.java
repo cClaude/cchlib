@@ -13,7 +13,6 @@ import java.io.Writer;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -84,7 +83,7 @@ public final class FormattedProperties
          * Cut line after &lt;/p&gt;
          */
         CUT_LINE_AFTER_HTML_END_P
-    };
+    }
 
     /**
      * Creates an empty property list with
@@ -103,7 +102,7 @@ public final class FormattedProperties
      * @param storeOptions Configure how store operation will be
      *                     handle, see {@link Store}.
      */
-    public FormattedProperties( final EnumSet<Store> storeOptions )
+    public FormattedProperties( final Set<Store> storeOptions )
     {
         this(null,storeOptions);
     }
@@ -129,12 +128,13 @@ public final class FormattedProperties
      *                     handle, see {@link Store}.
      */
     public FormattedProperties(
-        final Properties     defaults,
-        final EnumSet<Store> storeOptions
+        final Properties  defaults,
+        final Set<Store>  storeOptions
         )
     {
         super(defaults);
-        this.storeOptions = storeOptions;
+
+        this.storeOptions = storeOptions == null ? null : EnumSet.copyOf( storeOptions );
     }
 
     /**
@@ -172,24 +172,31 @@ public final class FormattedProperties
     @Override
     public synchronized void load( final Reader aReader ) throws IOException
     {
-        final BufferedReader reader = FormattedPropertiesHelper.toBufferedReader( aReader );
-        String               line;
+        try( final BufferedReader reader = FormattedPropertiesHelper.toBufferedReader( aReader ) ) {
+            String line;
 
-        while ((line = reader.readLine()) != null) {
-            load( line, reader );
+            while ((line = reader.readLine()) != null) {
+                load( line, reader );
+            }
         }
     }
 
-    @SuppressWarnings("null")
-    private void load( String line, final BufferedReader reader ) throws IOException
+    @SuppressWarnings({
+        "squid:MethodCyclomaticComplexity",
+        "squid:S1151", // switch size is OK here
+        "squid:S134", // Deep conditions are OK here
+        "null"})
+    private void load( final String currentLine, final BufferedReader reader )
+        throws IOException
     {
-        char    c   = 0;
-        int     pos = 0;
+        String  line = currentLine;
+        char    c    = 0;
+        int     pos  = 0;
 
         // Leading whitespace must be deleted first.
         final int lineLength = line.length();
         while ( (pos < lineLength)
-                && Character.isWhitespace(c = line.charAt(pos))) { // NOSONAR
+                && Character.isWhitespace(c = line.charAt(pos))) {
             pos++;
             }
 
@@ -210,7 +217,7 @@ public final class FormattedProperties
         final StringBuilder key = needsEscape ? new StringBuilder() : null; // $codepro.audit.disable avoidInstantiationInLoops
 
         while ( (pos < lineLength)
-                && ! Character.isWhitespace(c = line.charAt(pos++)) // NOSONAR
+                && ! Character.isWhitespace(c = line.charAt(pos++))
                 && (c != '=') && (c != ':')) {
             if (needsEscape && (c == '\\')) {
                 if (pos == lineLength) {
@@ -220,7 +227,7 @@ public final class FormattedProperties
                     line = readLine( reader );
                     pos = 0;
                     while( (pos < lineLength)
-                            && Character.isWhitespace(c = line.charAt(pos))) { // NOSONAR
+                            && Character.isWhitespace(c = line.charAt(pos))) {
                         pos++;
                         }
                     }
@@ -255,7 +262,7 @@ public final class FormattedProperties
                 }
             }
 
-        final boolean isDelim = ((c == ':') || (c == '='));
+        final boolean isDelim = (c == ':') || (c == '=');
         String  keyString;
 
         if( needsEscape ) {
@@ -269,14 +276,14 @@ public final class FormattedProperties
             }
 
         while ( (pos < lineLength)
-                && Character.isWhitespace(c = line.charAt(pos))) { // NOSONAR
+                && Character.isWhitespace(c = line.charAt(pos))) {
             pos++;
             }
 
         if (! isDelim && ((c == ':') || (c == '='))) {
             pos++;
             while ( (pos < lineLength)
-                    && Character.isWhitespace(c = line.charAt(pos))) { // NOSONAR
+                    && Character.isWhitespace( line.charAt(pos) ) ) {
                 pos++;
                 }
             }
@@ -350,8 +357,8 @@ public final class FormattedProperties
         try {
             store(out,comment);
             }
-        catch( final IOException e ) {
-            throw new RuntimeException( e ); // Show exception to the word :)
+        catch( final IOException cause ) {
+            throw new FormattedPropertiesRuntimeException( cause ); // Show exception to the word :)
             }
     }
 
@@ -388,8 +395,8 @@ public final class FormattedProperties
      *            specified writer throws an IOException.
      */
     public synchronized void store(
-        final Writer          out,
-        final EnumSet<Store>  config
+        final Writer      out,
+        final Set<Store>  config
         ) throws IOException
     {
         final EnumSet<Store> attribs;
@@ -401,8 +408,14 @@ public final class FormattedProperties
             attribs = EnumSet.copyOf( config );
             }
 
-        final PrintWriter writer = FormattedPropertiesHelper.toPrintWriter( out );
+        try( final PrintWriter writer = FormattedPropertiesHelper.toPrintWriter( out ) ) {
+            storeInternal( writer, attribs );
+            writer.flush ();
+        }
+    }
 
+    private void storeInternal(final PrintWriter writer, final EnumSet<Store> attribs  )
+    {
         // We ignore the header, because if we prepend a
         // commented header then read it back in it is
         // now a comment, which will be saved and then
@@ -435,7 +448,6 @@ public final class FormattedProperties
                 writer.println( sb );
                 }
             }
-        writer.flush ();
     }
 
     /**
@@ -448,6 +460,14 @@ public final class FormattedProperties
      * @param config - Configure how store operation will be
      *                  handle, see {@link Store}.
      */
+    @SuppressWarnings({
+        "squid:MethodCyclomaticComplexity",
+        "squid:S1066",
+        "squid:S1151", // switch size is OK : this an automate
+        "squid:S134", // Deep conditions are OK here
+        "squid:S128", // Allow to not use break in switch
+        "squid:ForLoopCounterChangedCheck"
+        })
     protected void formatForOutput(
         final String            str,
         final StringBuilder     buffer,
@@ -496,7 +516,7 @@ public final class FormattedProperties
                 case ':':
                     buffer.append('\\').append(c);
                     break;
-                case '<': // NOSONAR
+                case '<':
                     if( !isKey ) {
                         if( !isAlreadyFormatted ) {
                             boolean cutLine = false;
@@ -516,7 +536,7 @@ public final class FormattedProperties
                                 }
                             }
                     }
-                default: // $codepro.audit.disable nonTerminatedCaseClause
+                default:
                     if( FormattedPropertiesHelper.isISO_8859_1( c ) ) {
                         buffer.append(c);
                         }
@@ -586,7 +606,10 @@ public final class FormattedProperties
      *         Strings
      */
     @Override
-    synchronized public Object put(
+    @SuppressWarnings({
+        "squid:MethodCyclomaticComplexity",
+        "squid:RedundantThrowsDeclarationCheck"})
+    public synchronized Object put(
         final Object keyString,
         final Object valueString
         ) throws IllegalArgumentException
@@ -605,12 +628,12 @@ public final class FormattedProperties
             final Object prev = super.put( keyString, valueString );
 
             if( prev == null ) {
-                throw new RuntimeException(
+                throw new FormattedPropertiesRuntimeException(
                         "Internal error can't find key in Properties"
                         );
                 }
             if( !this.lines.contains( keyString ) ) {
-                throw new RuntimeException(
+                throw new FormattedPropertiesRuntimeException(
                         "Internal error key exist in Hashmap, but not in lines"
                         );
                 }
@@ -618,7 +641,7 @@ public final class FormattedProperties
             }
         else {
             if( this.lines.contains( keyString ) ) {
-                throw new RuntimeException(
+                throw new FormattedPropertiesRuntimeException(
                         "Internal error key found in lines but not in Hashmap"
                         );
                 }
@@ -642,6 +665,7 @@ public final class FormattedProperties
      * @throws IllegalArgumentException if line is not
      *         a comment line.
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void addCommentLine( final String line )
         throws IllegalArgumentException
     {
@@ -696,13 +720,6 @@ public final class FormattedProperties
         this.lines.clear();
     }
 
-
-    @Override
-    public synchronized Enumeration<Object> elements()
-    {
-        return super.elements();
-    }
-
     /**
      * Unlike {@link java.util.Hashtable#entrySet()}
      * return an <b>unmodifiable</b> Set
@@ -711,8 +728,6 @@ public final class FormattedProperties
     @Override
     public Set<Map.Entry<Object, Object>> entrySet()
     {
-        // TODO must be modifiable
-        // return super.entrySet();
         return Collections.unmodifiableSet(
                 super.entrySet()
                 );
@@ -725,6 +740,7 @@ public final class FormattedProperties
      * @see java.util.Hashtable#isEmpty()
      */
     @Override
+    @SuppressWarnings("squid:S1185") // Override just for documentation
     public synchronized boolean isEmpty()
     {
         return super.isEmpty();
@@ -738,20 +754,10 @@ public final class FormattedProperties
     @Override
     public Set<Object> keySet()
     {
-        // TODO must be modifiable
-        // return super.keySet();
+        // TODO return super.keySet(); : must be modifiable
         return Collections.unmodifiableSet(
                 super.keySet()
                 );
-    }
-
-    /* (non-Javadoc)
-     * @see java.util.Hashtable#keys()
-     */
-    @Override
-    public synchronized Enumeration<Object> keys()
-    {
-        return super.keys();
     }
 
     /**
@@ -800,7 +806,7 @@ public final class FormattedProperties
             final Object                  prev = super.remove( key );
 
             if( line == null ) {
-                throw new RuntimeException(
+                throw new FormattedPropertiesRuntimeException(
                         "Internal error key exist in Hashmap, but not in lines"
                         );
                 }
@@ -810,7 +816,7 @@ public final class FormattedProperties
         }
         else {
             if( this.lines.contains( key ) ) {
-                throw new RuntimeException(
+                throw new FormattedPropertiesRuntimeException(
                         "Internal error key exist in lines, but not in Hashmap"
                         );
                 }
@@ -833,7 +839,7 @@ public final class FormattedProperties
     }
 
     @Override
-    synchronized public int hashCode()
+    public synchronized int hashCode()
     {
         final int prime = 31;
         int result = super.hashCode();
@@ -886,10 +892,11 @@ public final class FormattedProperties
      * <BR>
      * <BR>
      *
-     *
      * @return a clone of the FormattedProperties
+     * @see #newFormattedProperties(FormattedProperties)
      */
     @Override
+    @SuppressWarnings({"squid:S2975","squid:S1182"})
     public synchronized Object clone()
     {
         return newFormattedProperties( this );

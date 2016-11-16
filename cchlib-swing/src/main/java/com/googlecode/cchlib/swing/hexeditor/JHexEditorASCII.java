@@ -12,7 +12,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 class JHexEditorASCII
     extends JComponent

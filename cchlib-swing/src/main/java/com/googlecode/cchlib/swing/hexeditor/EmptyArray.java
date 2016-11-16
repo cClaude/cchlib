@@ -3,12 +3,12 @@ package com.googlecode.cchlib.swing.hexeditor;
 import java.io.IOException;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public class EmptyArray implements ArrayReadWriteAccess
 {
     /**
-     * TODOC
+     * NEEDDOC
      */
     public EmptyArray()
     {
@@ -21,19 +21,19 @@ public class EmptyArray implements ArrayReadWriteAccess
     }
 
     @Override
-    public byte getByte(int index)
+    public byte getByte(final int index)
     {
         return -1;
     }
 
     @Override
-    public char getChar( int index )
+    public char getChar( final int index )
     {
         return (char)getByte( index );
     }
 
     @Override
-    public void setByte(int index, byte b)
+    public void setByte(final int index, final byte b)
     {
     }
 

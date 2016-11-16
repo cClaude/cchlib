@@ -13,17 +13,17 @@ public enum Command {
     /**
      * Build HashFiles list
      */
-    Hash( HashComputeTaskFactory.class ), // NOSONAR
+    Hash( HashComputeTaskFactory.class ),
 
     /**
      * Filter an existing HashFiles list
      */
-    Filter( FilterTaskFactory.class ), // NOSONAR
+    Filter( FilterTaskFactory.class ),
 
     /**
      * Filter an existing HashFiles list
      */
-    DuplicateFilter( DuplicatesFilterTaskFactory.class ), // NOSONAR
+    DuplicateFilter( DuplicatesFilterTaskFactory.class ),
     ;
 
     private Class<? extends CommandTaskFactory> clazz;

@@ -21,7 +21,8 @@ import java.util.Set;
  * @param <V> content type (same for both maps)
  * @since 4.1.7
  */
-public class MapKeyWrapper<KS,KR,V> // NOSONAR
+@SuppressWarnings("squid:S00119")
+public class MapKeyWrapper<KS,KR,V>
     implements Map<KR,V>
 {
     private final Map<KS,V> map;
@@ -53,8 +54,9 @@ public class MapKeyWrapper<KS,KR,V> // NOSONAR
     }
 
     @Override
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public boolean containsKey( final Object key )
-        throws UnsupportedOperationException // NOSONAR
+        throws UnsupportedOperationException
     {
         @SuppressWarnings("unchecked")
         final
@@ -63,8 +65,9 @@ public class MapKeyWrapper<KS,KR,V> // NOSONAR
     }
 
     @Override
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public boolean containsValue( final Object value )
-        throws UnsupportedOperationException // NOSONAR
+        throws UnsupportedOperationException
     {
         return this.map.containsValue( value );
     }
@@ -103,14 +106,12 @@ public class MapKeyWrapper<KS,KR,V> // NOSONAR
 
     @Override
     public V put( final KR key, final V value )
-        throws UnsupportedOperationException // NOSONAR
     {
         return this.map.put( this.unwrapper.wrap( key ), value );
     }
 
     @Override
     public void putAll( final Map<? extends KR, ? extends V> m )
-        throws UnsupportedOperationException // NOSONAR
     {
         for( final Map.Entry<? extends KR, ? extends V> e : m.entrySet() ) {
             put( e.getKey(), e.getValue() );
@@ -119,7 +120,6 @@ public class MapKeyWrapper<KS,KR,V> // NOSONAR
 
     @Override
     public V remove( final Object key )
-        throws UnsupportedOperationException // NOSONAR
     {
         @SuppressWarnings("unchecked")
         final
@@ -139,7 +139,8 @@ public class MapKeyWrapper<KS,KR,V> // NOSONAR
         return this.map.values();
     }
 
-    private static class EntryWrapper<EK0,EK1,EV> // NOSONAR
+    @SuppressWarnings("squid:S00119")
+    private static class EntryWrapper<EK0,EK1,EV>
         implements Wrappable<Map.Entry<EK0,EV>,Map.Entry<EK1,EV>>
     {
         private final Wrappable<EK0,EK1> ewrapper;

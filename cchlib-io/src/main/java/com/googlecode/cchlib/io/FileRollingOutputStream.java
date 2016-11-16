@@ -12,7 +12,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  *@since 4.1.6
  */
@@ -22,7 +22,7 @@ public class FileRollingOutputStream
     private static final Logger LOGGER = Logger.getLogger( FileRollingOutputStream.class );
 
     private final List<File>    fileList    = new ArrayList<>();;
-    private FileRoller          fileRoller;
+    private final FileRoller          fileRoller;
     private final int           maxLength;
 
     private File            currentFile;
@@ -93,7 +93,7 @@ public class FileRollingOutputStream
         this.currentLength     = 0;
     }
 
-    private void checkIfNeedToChangeFile( int len )
+    private void checkIfNeedToChangeFile( final int len )
         throws IOException
     {
         this.currentLength += len;
@@ -135,7 +135,7 @@ public class FileRollingOutputStream
             throw new IOException( "Stream closed" );
             }
 
-        currentOutput.flush();
+        this.currentOutput.flush();
     }
 
     /**
@@ -146,14 +146,14 @@ public class FileRollingOutputStream
      * for this action.
      */
     @Override
-    public void write( byte[] b, int off, int len ) throws IOException
+    public void write( final byte[] b, final int off, final int len ) throws IOException
     {
         if( this.isClose ) {
             throw new IOException( "Stream closed" );
             }
 
         checkIfNeedToChangeFile( len );
-        currentOutput.write( b, off, len );
+        this.currentOutput.write( b, off, len );
     }
 
     /**
@@ -164,28 +164,28 @@ public class FileRollingOutputStream
      * for this action.
      */
     @Override
-    public void write( byte[] b ) throws IOException
+    public void write( final byte[] b ) throws IOException
     {
         if( this.isClose ) {
             throw new IOException( "Stream closed" );
             }
 
         checkIfNeedToChangeFile( b.length );
-        currentOutput.write( b );
+        this.currentOutput.write( b );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void write( int b ) throws IOException
+    public void write( final int b ) throws IOException
     {
         if( this.isClose ) {
             throw new IOException( "Stream closed" );
             }
 
         checkIfNeedToChangeFile( 1 );
-        currentOutput.write( b );
+        this.currentOutput.write( b );
     }
 
     /**

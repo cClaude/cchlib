@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public class ArrayReadWriteAccessFile extends ArrayReadAccessFile implements ArrayReadWriteAccess
 {
     /**
-     * TODOC
+     * NEEDDOC
      * @param f
      * @throws FileNotFoundException
      */

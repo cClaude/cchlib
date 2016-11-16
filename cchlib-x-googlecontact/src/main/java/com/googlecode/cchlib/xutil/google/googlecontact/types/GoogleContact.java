@@ -326,18 +326,18 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
         return this.emails;
     }
     @Header("E-mail") // "E-mail 1 - Type"
-    public final void addEmail( final BasicEntry email ) // NOSONAR
+    public final void addEmail( final BasicEntry email )
     {
         this.emails.add( email );
     }
 
-    public final Collection<IMEntry> getiMs() // NOSONAR
+    public final Collection<IMEntry> getiMs()
     {
         return this.iMs;
     }
 
     @Header("IM")
-    public final void addiM( final IMEntry iM ) // NOSONAR
+    public final void addiM( final IMEntry iM )
     {
         this.iMs.add( iM );
     }
@@ -348,7 +348,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
     }
 
     @Header("Phone")
-    public final void addPhone( final BasicEntry phone ) // NOSONAR
+    public final void addPhone( final BasicEntry phone )
     {
         this.phones.add( phone );
     }
@@ -359,7 +359,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
     }
 
     @Header(value="Address")
-    public final void addAddress( final AddressEntry address ) // NOSONAR
+    public final void addAddress( final AddressEntry address )
     {
         this.addresses.add( address );
     }
@@ -370,7 +370,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
     }
 
     @Header("Organization") // "Organization 1 - Type"
-    public final void addOrganization( final OrganizationEntry organization ) // NOSONAR
+    public final void addOrganization( final OrganizationEntry organization )
     {
         this.organizations.add( organization );
     }
@@ -381,7 +381,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
     }
 
     @Header("Website")
-    public final void addWebsite( final BasicEntry website ) // NOSONAR
+    public final void addWebsite( final BasicEntry website )
     {
         this.websites.add( website );
     }
@@ -392,7 +392,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
     }
 
     @Header("Custom Field")
-    public final void addCustomField( final BasicEntry customField ) // NOSONAR
+    public final void addCustomField( final BasicEntry customField )
     {
         this.customFields.add( customField );
     }
@@ -403,7 +403,7 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
     }
 
     @Header("Relation") // "Relation 1 - Type", "Relation 1 - Value"
-    public final void addRelation( final BasicEntry relation ) // NOSONAR
+    public final void addRelation( final BasicEntry relation )
     {
         this.relations.add( relation );
     }
@@ -413,12 +413,12 @@ public class GoogleContact implements GoogleContactType { // $codepro.audit.disa
         return this.events;
     }
     @Header("Event") // "Event 1 - Type", "Event 1 - Value"
-    public final void addEvent( final BasicEntry event ) // NOSONAR
+    public final void addEvent( final BasicEntry event )
     {
         this.events.add( event );
     }
 
-    public static final GoogleContactType newGoogleContactType( final Class<?> clazz ) // NOSONAR
+    public static final GoogleContactType newGoogleContactType( final Class<?> clazz )
             throws IllegalArgumentException
     {
         if( BasicEntry.class.isAssignableFrom( clazz ) ) {

@@ -3,7 +3,7 @@ package com.googlecode.cchlib.io;
 import java.io.File;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  * @since 4.1.6
  */

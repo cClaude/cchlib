@@ -9,7 +9,7 @@ import javax.swing.plaf.basic.BasicComboBoxEditor;
 import com.googlecode.cchlib.swing.AutoComplete;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public class AutoCompleteComboBox extends JComboBox<String> implements AutoComplete
@@ -19,81 +19,81 @@ public class AutoCompleteComboBox extends JComboBox<String> implements AutoCompl
     {
         AutoCompleteFieldEditor( final List<String> list )
         {
-            editor = new HiddenAutoCompleteTextField( list, AutoCompleteComboBox.this );
+            this.editor = new HiddenAutoCompleteTextField( list, AutoCompleteComboBox.this );
         }
 
         private HiddenAutoCompleteTextField getEditor()
         {
-            return (HiddenAutoCompleteTextField) editor;
+            return (HiddenAutoCompleteTextField) this.editor;
         }
      }
 
-    private AutoCompleteFieldEditor autoTextFieldEditor;
+    private final AutoCompleteFieldEditor autoTextFieldEditor;
     private boolean isFired;
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param list
      */
     public AutoCompleteComboBox( final List<String> list )
     {
-        isFired = false;
-        autoTextFieldEditor = new AutoCompleteFieldEditor( list );
+        this.isFired = false;
+        this.autoTextFieldEditor = new AutoCompleteFieldEditor( list );
         setEditable( true );
 
-        String[] array = list.toArray( new String[ 0 ] );
+        final String[] array = list.toArray( new String[ 0 ] );
 
         setModel( new DefaultComboBoxModel<String>( array )
         {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void fireContentsChanged(Object obj, int i, int j)
+            protected void fireContentsChanged(final Object obj, final int i, final int j)
             {
-                if( !isFired ) {
+                if( !AutoCompleteComboBox.this.isFired ) {
                     super.fireContentsChanged(obj, i, j);
                     }
                 }
             });
 
-        super.setEditor( autoTextFieldEditor );
+        super.setEditor( this.autoTextFieldEditor );
     }
 
     @Override
     public boolean isCaseSensitive()
     {
-        return autoTextFieldEditor.getEditor().isCaseSensitive();
+        return this.autoTextFieldEditor.getEditor().isCaseSensitive();
     }
 
     @Override
-    public void setCaseSensitive( boolean isCaseSensitive )
+    public void setCaseSensitive( final boolean isCaseSensitive )
     {
-        autoTextFieldEditor.getEditor().setCaseSensitive( isCaseSensitive );
+        this.autoTextFieldEditor.getEditor().setCaseSensitive( isCaseSensitive );
     }
 
     @Override
     public boolean isStrict()
     {
-        return autoTextFieldEditor.getEditor().isStrict();
+        return this.autoTextFieldEditor.getEditor().isStrict();
     }
 
     @Override
     public void setStrict( final boolean isStrict )
     {
-        autoTextFieldEditor.getEditor().setStrict( isStrict );
+        this.autoTextFieldEditor.getEditor().setStrict( isStrict );
     }
 
     @Override
     public List<String> getDataList()
     {
-        return autoTextFieldEditor.getEditor().getDataList();
+        return this.autoTextFieldEditor.getEditor().getDataList();
     }
 
     @Override
     public void setDataList( final List<String> dataList )
     {
-        autoTextFieldEditor.getEditor().setDataList( dataList );
+        this.autoTextFieldEditor.getEditor().setDataList( dataList );
 
         final String[] array = dataList.toArray( new String[ dataList.size() ] );
 
@@ -102,14 +102,14 @@ public class AutoCompleteComboBox extends JComboBox<String> implements AutoCompl
 
     void setSelectedValue( final String str )
     {
-        if( isFired ) {
+        if( this.isFired ) {
             return;
             }
         else {
-            isFired = true;
+            this.isFired = true;
             setSelectedItem( str );
-            fireItemStateChanged (new ItemEvent(this, 701, selectedItemReminder, 1) );
-            isFired = false;
+            fireItemStateChanged (new ItemEvent(this, 701, this.selectedItemReminder, 1) );
+            this.isFired = false;
 
             return;
             }
@@ -118,7 +118,7 @@ public class AutoCompleteComboBox extends JComboBox<String> implements AutoCompl
     @Override
     protected void fireActionEvent()
     {
-        if( !isFired ) {
+        if( !this.isFired ) {
             super.fireActionEvent();
             }
     }

@@ -1,28 +1,27 @@
 package com.googlecode.cchlib.swing.filechooser;
 
 import javax.swing.JFileChooser;
-
 import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
-import com.googlecode.cchlib.swing.filechooser.accessory.FindAccessory;
-import com.googlecode.cchlib.swing.filechooser.accessory.ImagePreviewAccessory;
-import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessoryConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
+import com.googlecode.cchlib.swing.filechooser.accessory.FindAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.HexPreviewAccessory;
+import com.googlecode.cchlib.swing.filechooser.accessory.ImagePreviewAccessory;
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessory;
+import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessoryConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccessoryDefaultConfigurator;
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 /**
- * TODOC
+ * NEEDDOC
  * @since 1.4.7
  */
 public class LasyJFCCustomizer extends DefaultJFCCustomizer
 {
     private static final long serialVersionUID = 2L;
-    private LastSelectedFilesAccessoryConfigurator lSFAConf;
+    private final LastSelectedFilesAccessoryConfigurator lSFAConf;
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     public LasyJFCCustomizer()
     {
@@ -30,7 +29,7 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param configurator
      */
     public LasyJFCCustomizer(
@@ -41,7 +40,7 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param configurator
      * @param fileSelectionMode
      * @param isMultiSelectionEnabled
@@ -53,7 +52,7 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
         )
     {
         this.lSFAConf = configurator;
-        
+
         setFileSelectionMode( fileSelectionMode );
         setMultiSelectionEnabled( isMultiSelectionEnabled );
     }
@@ -62,15 +61,15 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
      *
      */
     @Override
-    public void perfomeConfig( JFileChooser jfc )
+    public void perfomeConfig( final JFileChooser jfc )
     {
         super.perfomeConfig( jfc );
 
         //jfc.setFileSelectionMode( getFileSelectionMode() );
         //jfc.setMultiSelectionEnabled( true );
 
-        HexPreviewAccessory hexAcc = new HexPreviewAccessory( jfc );
-        TabbedAccessory     tabAcc = new TabbedAccessory()
+        final HexPreviewAccessory hexAcc = new HexPreviewAccessory( jfc );
+        final TabbedAccessory     tabAcc = new TabbedAccessory()
             .addTabbedAccessory(
                 new BookmarksAccessory(
                     jfc,
@@ -99,8 +98,8 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public LastSelectedFilesAccessoryConfigurator getLastSelectedFilesAccessoryConfigurator()
     {

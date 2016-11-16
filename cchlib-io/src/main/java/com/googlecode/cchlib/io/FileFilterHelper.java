@@ -104,7 +104,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param fileFilters
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
@@ -116,7 +116,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param fileFilters
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
@@ -128,7 +128,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param firstFileFilter
      * @param secondFileFilter
      * @return a {@link java.io.Serializable} {@link FileFilter}
@@ -142,7 +142,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param length
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
@@ -152,7 +152,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter zeroLengthFileFilter()
@@ -161,7 +161,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter noneZeroLengthFileFilter()

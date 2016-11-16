@@ -22,7 +22,7 @@ public abstract class AbstractSimpleQueryServletAction
     private com.googlecode.cchlib.sql.SimpleQuery  simpleQuery  = null;
     private com.googlecode.cchlib.sql.SimpleUpdate simpleUpdate = null;
 
-    public abstract ActionServlet.Action doSQL() // NOSONAR
+    public abstract ActionServlet.Action doSQL()
         throws  ServletActionException,
                 NamingException,
                 SQLException;
@@ -41,7 +41,7 @@ public abstract class AbstractSimpleQueryServletAction
      * Free resources allocated by SimpleQuery or SimpleUpdate if needed
      */
     @Override
-    public ActionServlet.Action doAction() throws ServletActionException // NOSONAR
+    public ActionServlet.Action doAction() throws ServletActionException
     {
         ActionServlet.Action nextAction;
 
@@ -94,7 +94,7 @@ public abstract class AbstractSimpleQueryServletAction
      * @throws NamingException if any
      * @see SimpleUpdate#doUpdate(String)
      */
-    public int doUpdate( final String sql ) // NOSONAR
+    public int doUpdate( final String sql )
         throws SQLException, NamingException
     {
         log( "doUpdate: " + sql );
@@ -110,7 +110,7 @@ public abstract class AbstractSimpleQueryServletAction
      * @throws NamingException if any
      * @see SimpleQuery#executeQuery(String)
      */
-    public ResultSet executeQuery( final String sql ) // NOSONAR
+    public ResultSet executeQuery( final String sql )
         throws SQLException, NamingException
     {
         log( "executeQuery: " + sql );

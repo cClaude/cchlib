@@ -19,8 +19,8 @@ public abstract class AbstractSQLServletAction
     private Statement statement = null;
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      * @throws ServletActionException
      * @throws NamingException
      * @throws SQLException

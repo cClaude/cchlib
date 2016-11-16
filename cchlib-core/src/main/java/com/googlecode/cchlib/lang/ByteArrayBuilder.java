@@ -88,6 +88,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      * bigger than current length buffer is padding with 0
      * @throws IndexOutOfBoundsException if newLength is negative
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void setLength( final int newLength )
         throws IndexOutOfBoundsException
     {
@@ -181,12 +182,13 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      * @param b byte to append
      * @return caller for initialization chaining
      */
+    @SuppressWarnings("squid:S1166") // Exception is handle
     public ByteArrayBuilder append(final byte b)
     {
         try {
             this.buffer[this.lastPos] = b;
             }
-        catch(final ArrayIndexOutOfBoundsException e) { // $codepro.audit.disable logExceptions
+        catch( final ArrayIndexOutOfBoundsException e ) {
             ensureCapacity(capacity() + 1);
             this.buffer[this.lastPos] = b;
             }
@@ -468,7 +470,8 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     }
 
     @Override
-    public ByteArrayBuilder clone() // NOSONAR
+    @SuppressWarnings("squid:S2975")
+    public ByteArrayBuilder clone()
         throws CloneNotSupportedException
     {
         final ByteArrayBuilder newByteBuffer = (ByteArrayBuilder)super.clone();
@@ -528,12 +531,12 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     }
 
     /**
-     * TODOC
-     * TODO make public (improve?)
+     * Replace a byte pattern by a byte array
      *
-     * @param sbytes
-     * @param pattern
-     * @param replace
+     * @param sbytes   Source
+     * @param pattern  Pattern
+     * @param replace  New value
+     *
      * @return a new ByteArrayBuilder
      */
     private static ByteArrayBuilder replace(
@@ -609,6 +612,11 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
      */
     private static class KPM
     {
+        private KPM()
+        {
+            // Empty
+        }
+
         /**
          * Search the data byte array for the first occurrence
          * of the byte array pattern.

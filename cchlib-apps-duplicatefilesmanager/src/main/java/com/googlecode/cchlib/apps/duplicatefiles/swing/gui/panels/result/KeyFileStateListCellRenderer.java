@@ -17,7 +17,7 @@ import com.googlecode.cchlib.swing.list.DefaultListCellRenderer;
  *
  */
 // NOT public
-class KeyFileStateListCellRenderer // NOSONAR
+class KeyFileStateListCellRenderer
         extends DefaultListCellRenderer<KeyFileState>
             implements SerializableListCellRenderer<KeyFileState>
 {

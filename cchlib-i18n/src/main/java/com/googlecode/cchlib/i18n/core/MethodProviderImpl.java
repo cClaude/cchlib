@@ -16,13 +16,18 @@ final class MethodProviderImpl implements MethodProvider
     }
 
     @Override
-    public MethodContener getMethods( final Class<?> clazz, final Field field, final String methodName )
+    public MethodContener getMethods(
+            final Class<?> clazz,
+            final Field    field,
+            final String   methodName
+            )
         throws
             MethodProviderNoSuchMethodException,
-            MethodProviderSecurityException // NOSONAR
+            MethodProviderSecurityException
     {
-        // FIXME look for f.getDeclaringClass() up to clazz (when enable access to not public methods)
-        //final Class<?>[] todo_improve_this_but_not_so_bad = I18nClassImpl.NOT_HANDLED_CLASS_TYPES;
+        // FIXME look for f.getDeclaringClass() up to clazz
+        // (when enable access to not public methods)
+        // final Class<?>[] todo_improve_this_but_not_so_bad = I18nClassImpl.NOT_HANDLED_CLASS_TYPES;
 
         try {
             return getValidMethods( field.getDeclaringClass(), methodName );
@@ -37,7 +42,7 @@ final class MethodProviderImpl implements MethodProvider
 
     private MethodContener getValidMethods( final Class<?> clazz, final String methodName )
         throws
-            SecurityException, // NOSONAR
+            SecurityException,
             NoSuchMethodException
     {
         final MethodContener methodContener = new MethodContenerImpl( clazz, methodName );

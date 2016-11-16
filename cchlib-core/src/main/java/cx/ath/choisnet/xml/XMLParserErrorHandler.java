@@ -1,14 +1,14 @@
 package cx.ath.choisnet.xml;
 
-import cx.ath.choisnet.xml.impl.SAXErrorHandlerImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import cx.ath.choisnet.xml.impl.SAXErrorHandlerImpl;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public class XMLParserErrorHandler
@@ -16,7 +16,7 @@ public class XMLParserErrorHandler
     private final ErrorHandler saxErrorHandler;
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param saxErrorHandler a {@link org.xml.sax.ErrorHandler} object.
      * @see SAXErrorHandlerImpl
@@ -27,7 +27,7 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param out a {@link java.io.PrintWriter} object.
      */
@@ -37,7 +37,7 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @return a {@link ErrorHandler} object.
      */
@@ -47,7 +47,7 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param ioe a {@link IOException} object.
      * @throws XMLParserException if any.
@@ -55,7 +55,7 @@ public class XMLParserErrorHandler
     public void ioError( final IOException ioe )
         throws XMLParserException
     {
-        String message = (new StringBuilder())
+        final String message = (new StringBuilder())
             .append("$IOError: ")
             .append(ioe.getMessage())
             .toString();
@@ -63,7 +63,7 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param pce a {@link ParserConfigurationException} object.
      * @throws XMLParserException if any.
@@ -71,7 +71,7 @@ public class XMLParserErrorHandler
     public void parserError( final ParserConfigurationException pce )
         throws XMLParserException
     {
-        String message = (new StringBuilder())
+        final String message = (new StringBuilder())
             .append("$Fatal Error: ")
             .append(pce.getMessage())
             .toString();
@@ -79,7 +79,7 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param saxe a {@link SAXException} object.
      * @throws XMLParserException if any.

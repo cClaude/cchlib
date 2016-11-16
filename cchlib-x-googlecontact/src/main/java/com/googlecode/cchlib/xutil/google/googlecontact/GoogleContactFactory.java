@@ -23,7 +23,7 @@ public class GoogleContactFactory {
             LOGGER.debug( "Found " + headers.length + " columns." );
         }
 
-        assert headers.length == this.googleContactHeader.getIndexMethodConteners().size(); // NOSONAR
+        assert headers.length == this.googleContactHeader.getIndexMethodConteners().size();
     }
 
     /**
@@ -64,13 +64,13 @@ public class GoogleContactFactory {
         final HeaderMethodContener methodContener = this.googleContactHeader.getIndexMethodConteners().get( Integer.valueOf( index ) );
 
         assert methodContener != null;
-        assert methodContener.getMethod().getParameterTypes().length == 1; // NOSONAR
+        assert methodContener.getMethod().getParameterTypes().length == 1;
 
         if( methodContener instanceof HeaderCustomTypeMethodContener ) {
             return invokeInner( (HeaderCustomTypeMethodContener)methodContener, entry, index, googleContact );
         } else {
-            assert methodContener.getMethod().getParameterTypes().length == 1; // NOSONAR
-            assert String.class.isAssignableFrom( methodContener.getMethod().getParameterTypes()[0] ) : "Bad type expected String is " + methodContener.getMethod().getParameterTypes()[0]; // NOSONAR
+            assert methodContener.getMethod().getParameterTypes().length == 1;
+            assert String.class.isAssignableFrom( methodContener.getMethod().getParameterTypes()[0] ) : "Bad type expected String is " + methodContener.getMethod().getParameterTypes()[0];
 
             invoke( methodContener, entry[ index ], googleContact );
 
@@ -118,8 +118,8 @@ public class GoogleContactFactory {
         final GoogleContactType     googleContactType
         ) throws GoogleContactFactoryException
     {
-        assert methodContener.getMethod().getParameterTypes().length == 1; // NOSONAR
-        assert String.class.isAssignableFrom( methodContener.getMethod().getParameterTypes()[0] ) : "Bad type expected String is " + methodContener.getMethod().getParameterTypes()[0]; // NOSONAR
+        assert methodContener.getMethod().getParameterTypes().length == 1;
+        assert String.class.isAssignableFrom( methodContener.getMethod().getParameterTypes()[0] ) : "Bad type expected String is " + methodContener.getMethod().getParameterTypes()[0];
 
         if( ! (this.ignoreEmptyCels && cellContent.isEmpty() ) ) {
             try {

@@ -9,14 +9,13 @@ import java.io.Writer;
  * Format String and char to HTML
  */
 public final class HTMLWriter extends Writer
-    //implements Appendable, Flushable, Closeable
 {
     private final Writer        writer;
     private final StringBuilder sbuffer = new StringBuilder();
     private int tabLength = 4;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param writer destination Writer
      * @throws NullPointerException if writer is null
      */
@@ -30,7 +29,7 @@ public final class HTMLWriter extends Writer
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param writer destination Writer
      * @param tabLength number of HTML space character to write for
      *        each tab [0x09] character
@@ -58,7 +57,7 @@ public final class HTMLWriter extends Writer
     @Override
     public void flush() throws IOException
     {
-        writer.flush();
+        this.writer.flush();
     }
 
     /**
@@ -99,10 +98,10 @@ public final class HTMLWriter extends Writer
      * @throws IOException
      */
     @Override
-    public void write(char[] cbuf, int off, int len) throws IOException
+    public void write(final char[] cbuf, final int off, final int len) throws IOException
     {
         synchronized(super.lock) {
-            writer.write( toString(cbuf,off,len) );
+            this.writer.write( toString(cbuf,off,len) );
             }
     }
 
@@ -142,49 +141,49 @@ public final class HTMLWriter extends Writer
      * @param len length to convert
      * @return a String where HTML characters are converted.
      */
-    public String toString( char[] cbuf, int off, int len )
+    public String toString( final char[] cbuf, final int off, final int len )
     {// TODO: improve encoding ! Add Attribute set on this class
      // to offer some choices
      // org.apache.commons.lang.StringEscapeUtils#escapeHtml ?
         String str;
 
-        synchronized(sbuffer) {
-            sbuffer.setLength(0);
+        synchronized(this.sbuffer) {
+            this.sbuffer.setLength(0);
 
             for(int i0 = off; i0 < len; i0++) {
                 switch(cbuf[i0]) {
                     case 32: // SPACE
-                        sbuffer.append("&nbsp;");
+                        this.sbuffer.append("&nbsp;");
                         break;
                     case 13:
-                        sbuffer.append("<!-- \\r -->\r");
+                        this.sbuffer.append("<!-- \\r -->\r");
                         break;
                     case 10:
-                        sbuffer.append("<br /><!-- \\n -->\n");
+                        this.sbuffer.append("<br /><!-- \\n -->\n");
                         break;
                     case 9: // TAB
-                        for(int i1=0;i1<tabLength;i1++) {
-                            sbuffer.append("&nbsp;");
+                        for(int i1=0;i1<this.tabLength;i1++) {
+                            this.sbuffer.append("&nbsp;");
                             }
                         break;
                     case 62:
-                        sbuffer.append("&gt;");
+                        this.sbuffer.append("&gt;");
                         break;
                     case 60:
-                        sbuffer.append("&lt;");
+                        this.sbuffer.append("&lt;");
                         break;
                     case 34:
-                        sbuffer.append("&quot;");
+                        this.sbuffer.append("&quot;");
                         break;
                     case 38:
-                        sbuffer.append("&amp;");
+                        this.sbuffer.append("&amp;");
                         break;
                     default:
-                        sbuffer.append(cbuf[i0]);
+                        this.sbuffer.append(cbuf[i0]);
                         break;
                     }
                 }
-            str = sbuffer.toString();
+            str = this.sbuffer.toString();
         }
         return str;
     }

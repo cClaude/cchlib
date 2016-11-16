@@ -36,7 +36,7 @@ import com.googlecode.cchlib.util.HashMapSet;
  *
  */
 @I18nName("DuplicateFilesFrame")
-public final class DuplicateFilesFrame // NOSONAR
+public final class DuplicateFilesFrame
     extends DuplicateFilesFrameWB
         implements I18nAutoCoreUpdatable
 {
@@ -165,7 +165,7 @@ public final class DuplicateFilesFrame // NOSONAR
         final PreferencesControler preferences
         )
         throws
-            HeadlessException, // NOSONAR
+            HeadlessException,
             TooManyListenersException
     {
         super( preferences );
@@ -359,7 +359,7 @@ public final class DuplicateFilesFrame // NOSONAR
     public ActionListener getActionListener()
     {
         if( this.mainActionListener == null ) {
-            // NOSONAR this.mainActionListener = event -> actionPerformedMainActionListener( event );
+            this.mainActionListener = event -> actionPerformedMainActionListener( event );
             this.mainActionListener = this::actionPerformedMainActionListener;
         }
         return this.mainActionListener;
@@ -457,7 +457,7 @@ public final class DuplicateFilesFrame // NOSONAR
         // TODO Perform some checks: running : empty directories frame ?
         // TODO Save prefs ???
 
-        System.exit( 0 ); // $codepro.audit.disable noExplicitExit // NOSONAR
+        System.exit( 0 );
     }
 
     private void openPreferences()

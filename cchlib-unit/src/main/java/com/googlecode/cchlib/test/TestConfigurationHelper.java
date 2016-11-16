@@ -19,8 +19,8 @@ import com.googlecode.cchlib.util.properties.PropertiesPopulator;
  */
 public class TestConfigurationHelper
 {
-    private PropertiesPopulator<TestConfigurationHelper.Config> pp = new PropertiesPopulator<TestConfigurationHelper.Config>( TestConfigurationHelper.Config.class );
-    private Config config;
+    private final PropertiesPopulator<TestConfigurationHelper.Config> pp = new PropertiesPopulator<TestConfigurationHelper.Config>( TestConfigurationHelper.Config.class );
+    private final Config config;
 
     /**
      *
@@ -36,24 +36,24 @@ public class TestConfigurationHelper
          */
         public Collection<String> getExistingMACAddressCollection()
         {
-            if( existingMACAddr == null ) {
+            if( this.existingMACAddr == null ) {
                 return Collections.emptyList();
                 }
             else {
-                return new ArrayCollection<String>( existingMACAddr );
+                return new ArrayCollection<String>( this.existingMACAddr );
                 }
         }
 
         /**
          * Set a collection of existing MAC Address accessible by current computer.
          */
-        public void setExistingMACAddressCollection( Collection<String> macAddrs )
+        public void setExistingMACAddressCollection( final Collection<String> macAddrs )
         {
             this.existingMACAddr = new String[ macAddrs.size() ];
 
             int i = 0;
 
-            for( String macAddr : macAddrs ) {
+            for( final String macAddr : macAddrs ) {
                 this.existingMACAddr[ i++ ] = macAddr;
                 }
         }
@@ -61,13 +61,13 @@ public class TestConfigurationHelper
         /**
          * Set a collection of existing MAC Address accessible by current computer.
          */
-        public void setExistingMACAddressCollection( String...macAddrs )
+        public void setExistingMACAddressCollection( final String...macAddrs )
         {
             this.existingMACAddr = new String[ macAddrs.length ];
 
             int i = 0;
 
-            for( String macAddr : macAddrs ) {
+            for( final String macAddr : macAddrs ) {
                 this.existingMACAddr[ i++ ] = macAddr;
                 }
         }
@@ -93,9 +93,9 @@ public class TestConfigurationHelper
      */
     public void load() throws IOException
     {
-        Properties properties = PropertiesHelper.loadProperties( getConfigFile() );
+        final Properties properties = PropertiesHelper.loadProperties( getConfigFile() );
 
-        pp.populateBean( properties , this.config );
+        this.pp.populateBean( properties , this.config );
     }
 
     /**
@@ -105,16 +105,16 @@ public class TestConfigurationHelper
      */
     public void save() throws IOException
     {
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
 
-        pp.populateProperties( this.config, properties );
+        this.pp.populateProperties( this.config, properties );
 
         PropertiesHelper.saveProperties( getConfigFile(), properties );
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public Config getConfig() throws IllegalStateException
     {

@@ -1,11 +1,9 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.awt.HeadlessException;
 import java.awt.Window;
 import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Set;
-import java.util.TooManyListenersException;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.about.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.DuplicateFilesFrame;
@@ -29,11 +27,7 @@ public class DuplicateFilesI18nPrep
 {
     private DuplicateFilesI18nPrep() {} // All static
 
-    public static void main( final String[] args )
-        throws
-            HeadlessException, // NOSONAR
-            TooManyListenersException,
-            InterruptedException
+    public static void main( final String[] args ) throws Exception
     {
         // Default language !
         final PreferencesControler preferences = getPreferences();
@@ -41,8 +35,8 @@ public class DuplicateFilesI18nPrep
         // Build frame
         final DuplicateFilesFrame duplicateFilesFrame  = new DuplicateFilesFrame( preferences );
         final AppToolKit          dfToolKit            = AppToolKitService.getInstance().createAppToolKit( preferences, duplicateFilesFrame );
-        final PrintStream         usageStatPrintStream = System.err; // NOSONAR
-        final PrintStream         notUsePrintStream    = System.out; // NOSONAR
+        final PrintStream         usageStatPrintStream = System.err;
+        final PrintStream         notUsePrintStream    = System.out;
 
         final I18nAutoCoreUpdatable[] i18nConteners = {
             duplicateFilesFrame,
@@ -66,8 +60,8 @@ public class DuplicateFilesI18nPrep
                 }
             }
 
-        System.gc(); // NOSONAR
-        Thread.sleep( 1000 ); // $codepro.audit.disable numericLiterals
+        System.gc();
+        Thread.sleep( 1000 );
     }
 
     private static PreferencesControler getPreferences()

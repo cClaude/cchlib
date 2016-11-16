@@ -178,15 +178,26 @@ public class PropertiesPopulator<E> implements Serializable
         }
     }
 
-    private Method findSetter( final String attributName, final Method[] methods, final Class<?> type )
+    private Method findSetter(
+            final String   attributName,
+            final Method[] methods,
+            final Class<?> type
+            )
     {
         return findMethod( "set" + attributName, methods, type, 1 );
     }
 
-    private Method findMethod( final String methodName, final Method[] methods, final Class<?> type, final int parameterCount )
+    private Method findMethod(
+            final String   methodName,
+            final Method[] methods,
+            final Class<?> type,
+            final int      parameterCount
+            )
     {
         for( final Method method : methods ) {
             if( method.getName().equals( methodName )  && (method.getParameterCount() == parameterCount) ) {
+
+                // TODO return type should be also checked...
                 return method;
             }
         }
@@ -219,6 +230,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @param properties {@link Properties} to use to store values
      * @throws PropertiesPopulatorException
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateProperties(
         final E          bean,
         final Properties properties
@@ -238,6 +250,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @param properties {@link Properties} to use to store values
      * @throws PropertiesPopulatorException
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateProperties(
         final String     propertiesPrefix,
         final E          bean,
@@ -259,6 +272,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @param properties {@link Properties} to use to get values
      * @throws PropertiesPopulatorException
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateBean(
         final Properties properties,
         final E          bean
@@ -276,11 +290,12 @@ public class PropertiesPopulator<E> implements Serializable
      * @param properties {@link Properties} to use to get values
      * @throws PropertiesPopulatorException
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateBean(
         final String     propertiesPrefix,
         final Properties properties,
         final E          bean
-        ) throws PropertiesPopulatorException // NOSONAR
+        ) throws PropertiesPopulatorException
     {
         final PropertiesToBean<E> propertiesToBean = new PropertiesToBean<>( propertiesPrefix, properties, bean);
 
@@ -299,6 +314,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @throws PropertiesPopulatorException
      * @since 4.1.7
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static <E> E loadProperties(
         final File      propertiesFile,
         final E         bean,
@@ -320,6 +336,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @throws PropertiesPopulatorException
      * @since 4.1.7
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static <E> void saveProperties(
         final File      propertiesFile,
         final E         bean,

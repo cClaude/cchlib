@@ -8,14 +8,12 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
-
 import javax.swing.JComponent;
-
 import org.apache.log4j.Logger;
 
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public class DefaultHexEditorModel implements HexEditorModel
@@ -34,7 +32,7 @@ public class DefaultHexEditorModel implements HexEditorModel
     private ArrayReadWriteAccess arrayAccessRW;
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     public DefaultHexEditorModel()
     {
@@ -50,7 +48,7 @@ public class DefaultHexEditorModel implements HexEditorModel
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param arrayAccess ArrayReadWriteAccess or ArrayReadAccess
      */
     public void setArrayAccess(
@@ -80,15 +78,15 @@ public class DefaultHexEditorModel implements HexEditorModel
     @Override
     public void updateCursor()
     {
-        int n=(cursor/16);
+        final int n=(this.cursor/16);
 
 //        System.out.print("- "+inicio+"<"+n+"<"+(linesCount+inicio)+"("+linesCount+")");
 
-        if(n<introduction) {
-            introduction=n;
+        if(n<this.introduction) {
+            this.introduction=n;
             }
-        else if(n>=(introduction+displayLinesCount)) {
-            introduction=n-(displayLinesCount-1);
+        else if(n>=(this.introduction+this.displayLinesCount)) {
+            this.introduction=n-(this.displayLinesCount-1);
             }
 
 //        System.out.println(" - "+inicio+"<"+n+"<"+(linesCount+inicio)+"("+linesCount+")");
@@ -99,13 +97,13 @@ public class DefaultHexEditorModel implements HexEditorModel
     @Override
     public int getDisplayLinesCount()
     {
-        return displayLinesCount;
+        return this.displayLinesCount;
     }
 
     @Override
     public int getIntroduction()
     {
-        return introduction;
+        return this.introduction;
     }
 
     @Override
@@ -133,7 +131,7 @@ public class DefaultHexEditorModel implements HexEditorModel
     }
 
     @Override
-    public void setCursorPos( int index )
+    public void setCursorPos( final int index )
     {
         this.cursor = index;
     }
@@ -145,23 +143,23 @@ public class DefaultHexEditorModel implements HexEditorModel
     }
 
     @Override
-    public void drawBackground(Graphics g,int x,int y,int s)
+    public void drawBackground(final Graphics g,final int x,final int y,final int s)
     {
-        FontMetrics fn=getFontMetrics();
+        final FontMetrics fn=getFontMetrics();
         g.fillRect(((fn.stringWidth(" ")+1)*x)+border,(fn.getHeight()*y)+border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
     }
 
     @Override
-    public void drawTable(Graphics g,int x,int y,int s)
+    public void drawTable(final Graphics g,final int x,final int y,final int s)
     {
-        FontMetrics fn=getFontMetrics();
+        final FontMetrics fn=getFontMetrics();
         g.drawRect(((fn.stringWidth(" ")+1)*x)+border,(fn.getHeight()*y)+border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
     }
 
     @Override
-    public void printString(Graphics g,String s,int x,int y)
+    public void printString(final Graphics g,final String s,final int x,final int y)
     {
-        FontMetrics fn=getFontMetrics();
+        final FontMetrics fn=getFontMetrics();
         g.drawString(s,((fn.stringWidth(" ")+1)*x)+border,((fn.getHeight()*(y+1))-fn.getMaxDescent())+border);
     }
 
@@ -174,59 +172,59 @@ public class DefaultHexEditorModel implements HexEditorModel
     @Override
     public FontMetrics getFontMetrics()
     {
-        if( _fontMetrics == null ) {
-            _fontMetrics = rootComponent.getFontMetrics( getFont() );
+        if( this._fontMetrics == null ) {
+            this._fontMetrics = this.rootComponent.getFontMetrics( getFont() );
             }
 
-        return _fontMetrics;
+        return this._fontMetrics;
     }
 
     @Override
-    public void keyPressed(KeyEvent e)
+    public void keyPressed(final KeyEvent e)
     {
         switch(e.getKeyCode())
         {
             case 33:    // rep
-                if(cursor>=(16*displayLinesCount)) {
-                    cursor-=(16*displayLinesCount);
+                if(this.cursor>=(16*this.displayLinesCount)) {
+                    this.cursor-=(16*this.displayLinesCount);
                     }
                 updateCursor();
                 break;
             case 34:    // fin
-                if( cursor<(arrayAccess.getLength()-(16*displayLinesCount))) {
-                    cursor+=(16*displayLinesCount);
+                if( this.cursor<(this.arrayAccess.getLength()-(16*this.displayLinesCount))) {
+                    this.cursor+=(16*this.displayLinesCount);
                     }
                 updateCursor();
                 break;
             case 35:    // fin
-                cursor=arrayAccess.getLength()-1;
+                this.cursor=this.arrayAccess.getLength()-1;
                 updateCursor();
                 break;
             case 36:    // ini
-                cursor=0;
+                this.cursor=0;
                 updateCursor();
                 break;
             case 37:    // <--
-                if(cursor!=0) {
-                    cursor--;
+                if(this.cursor!=0) {
+                    this.cursor--;
                     }
                 updateCursor();
                 break;
             case 38:    // <--
-                if(cursor>15) {
-                    cursor-=16;
+                if(this.cursor>15) {
+                    this.cursor-=16;
                     }
                 updateCursor();
                 break;
             case 39:    // -->
-                if(cursor!=(arrayAccess.getLength()-1)) {
-                    cursor++;
+                if(this.cursor!=(this.arrayAccess.getLength()-1)) {
+                    this.cursor++;
                     }
                 updateCursor();
                 break;
             case 40:    // -->
-                if(cursor<(arrayAccess.getLength()-16)) {
-                    cursor+=16;
+                if(this.cursor<(this.arrayAccess.getLength()-16)) {
+                    this.cursor+=16;
                     }
                 updateCursor();
                 break;
@@ -236,13 +234,13 @@ public class DefaultHexEditorModel implements HexEditorModel
     @Override
     public void repaintAll()
     {
-        if( rootComponent != null ) {
-            rootComponent.repaint();
+        if( this.rootComponent != null ) {
+            this.rootComponent.repaint();
             }
     }
 
     @Override
-    public void adjustmentValueChanged(AdjustmentEvent event)
+    public void adjustmentValueChanged(final AdjustmentEvent event)
     {
         this.introduction = event.getValue();
 
@@ -253,31 +251,31 @@ public class DefaultHexEditorModel implements HexEditorModel
     }
 
     @Override
-    public void mouseWheelMoved(MouseWheelEvent event)
+    public void mouseWheelMoved(final MouseWheelEvent event)
     {
-        introduction += (event.getUnitsToScroll());
+        this.introduction += (event.getUnitsToScroll());
 
-        if( (introduction + displayLinesCount ) >= (arrayAccess.getLength()/16) ) {
-            introduction=(arrayAccess.getLength()/16)-displayLinesCount;
+        if( (this.introduction + this.displayLinesCount ) >= (this.arrayAccess.getLength()/16) ) {
+            this.introduction=(this.arrayAccess.getLength()/16)-this.displayLinesCount;
             }
 
-        if( introduction<0 ) {
-            introduction=0;
+        if( this.introduction<0 ) {
+            this.introduction=0;
             }
         //repaint();
     }
 
     @Override
-    public void adjustingScrollBarValues(Rectangle rec)
+    public void adjustingScrollBarValues(final Rectangle rec)
     {
-        FontMetrics fn = getFontMetrics();
+        final FontMetrics fn = getFontMetrics();
 
-        displayLinesCount= (rec.height / fn.getHeight() ) - 1;
-        int n = (arrayAccess.getLength() /16 ) - 1;
+        this.displayLinesCount= (rec.height / fn.getHeight() ) - 1;
+        final int n = (this.arrayAccess.getLength() /16 ) - 1;
 
-        if( displayLinesCount>n ) {
-            displayLinesCount = n;
-            introduction      = 0;
+        if( this.displayLinesCount>n ) {
+            this.displayLinesCount = n;
+            this.introduction      = 0;
             }
     }
 
@@ -285,13 +283,13 @@ public class DefaultHexEditorModel implements HexEditorModel
     public void close() throws IOException
     {
         try {
-            if( arrayAccess != null ) {
-                arrayAccess.close();
+            if( this.arrayAccess != null ) {
+                this.arrayAccess.close();
                 }
             }
         finally {
-            if( arrayAccessRW != null ) {
-                arrayAccessRW.close();
+            if( this.arrayAccessRW != null ) {
+                this.arrayAccessRW.close();
                 }
             }
     }

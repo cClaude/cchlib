@@ -11,11 +11,11 @@ import com.googlecode.cchlib.swing.batchrunner.impl.BRExecutionEventFactoryImpl;
  * @since 1.4.8
  */
 @NeedDoc
-public interface BRXLocaleResources 
+public interface BRXLocaleResources
 {
     /**
      *
-     * @return TODOC
+     * @return NEEDDOC
      */
     String getProgressMonitorMessage();
 

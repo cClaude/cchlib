@@ -3,7 +3,7 @@ package com.googlecode.cchlib.util.mappable;
 import java.text.MessageFormat;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 class MappableBuilderFormat
 {
@@ -12,7 +12,7 @@ class MappableBuilderFormat
     private final MessageFormat messageFormatEnumerationEntry;
     private final MessageFormat messageFormatArrayEntry;
     private final MessageFormat messageFormatMethodName;
-    
+
     public MappableBuilderFormat(final MappableBuilderFactory factory )
     {
         this.messageFormatIteratorEntry     = new MessageFormat(factory.getMessageFormatIteratorEntry());
@@ -24,26 +24,26 @@ class MappableBuilderFormat
 
     protected MessageFormat getMessageFormatIteratorEntry()
     {
-        return messageFormatIteratorEntry;
+        return this.messageFormatIteratorEntry;
     }
 
     protected MessageFormat getMessageFormatIterableEntry()
     {
-        return messageFormatIterableEntry;
+        return this.messageFormatIterableEntry;
     }
 
     protected MessageFormat getMessageFormatEnumerationEntry()
     {
-        return messageFormatEnumerationEntry;
+        return this.messageFormatEnumerationEntry;
     }
 
     protected MessageFormat getMessageFormatArrayEntry()
     {
-        return messageFormatArrayEntry;
+        return this.messageFormatArrayEntry;
     }
 
     protected MessageFormat getMessageFormatMethodName()
     {
-        return messageFormatMethodName;
+        return this.messageFormatMethodName;
     }
 }

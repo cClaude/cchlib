@@ -40,13 +40,13 @@ public class InfosServlet extends HttpServlet
         log("InfosServlet init() method called.");
 
         // Log to stdout
-        final PrintStream stdout = System.out; // NOSONAR
+        final PrintStream stdout = System.out;
 
         stdout.print( "print on System.out from " );
         stdout.println( this );
 
         // Log to stderr
-        final PrintStream stderr = System.err; // NOSONAR
+        final PrintStream stderr = System.err;
 
         stderr.print( "print on System.err from " );
         stderr.println( this );

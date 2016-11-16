@@ -26,7 +26,7 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 /***
  * This class is use if number of Thread is equal to 1
  */
-public class JPanelSearchingSingleThread extends JPanelSearching // NOSONAR
+public class JPanelSearchingSingleThread extends JPanelSearching
 {
     /** TODO try to use {@link GlobalDuplicateFileFinderListener} instead */
     private final static class MyDuplicateFileFinderEventListener implements DuplicateFileFinderEventListener
@@ -220,7 +220,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching // NOSONAR
                 try {
                     Thread.sleep(300); // $codepro.audit.disable disallowSleepInsideWhile
                     }
-                catch( final InterruptedException e ) { // NOSONAR
+                catch( final InterruptedException e ) {
                     if( LOGGER.isTraceEnabled() ) {
                         LOGGER.trace( "Interrupted Thread", e );
                     }

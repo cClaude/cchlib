@@ -23,12 +23,6 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
  */
 public final class I18nPrepHelper
 {
-//    /**
-//     * @deprecated Use {@link DefaultI18nResourceBundleName#DEFAULT_MESSAGE_BUNDLE_BASENAME} instead
-//     */
-//    @Deprecated
-//    public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME;
-
     private static final class DefaultResult implements Result {
         private final PrepCollector<String>  notUseCollector;
         private final File                   outputFile;
@@ -156,7 +150,7 @@ public final class I18nPrepHelper
     public static Result defaultPrep(
         final I18nPrep                 i18nPrep,
         final I18nAutoCoreUpdatable... i18nConteners
-        )
+        ) throws I18nPrepException
     {
         final PrepCollector<Integer> usageStatCollector = new PrepCollector<>();
         final PrepCollector<String>  notUseCollector    = new PrepCollector<>();
@@ -169,45 +163,65 @@ public final class I18nPrepHelper
 
         i18nPrep.openOutputFile( outputFile );
 
-        try {
-            for( final I18nAutoCoreUpdatable i18nContener : i18nConteners ) {
-                i18nContener.performeI18n( autoI18n );
-                }
+        defaultPrep(
+                i18nPrep,
+                autoI18n,
+                usageStatCollector,
+                notUseCollector,
+                i18nConteners
+                );
 
-            final ResourceBundle      rb          = i18nPrep.getResourceBundle();
-            final Enumeration<String> enu         = rb.getKeys();
-            final Map<String,String>  knowKeyMap  = new HashMap<>();
-
-            while( enu.hasMoreElements() ) {
-                final String k = enu.nextElement();
-
-                assert k != null : "Key is null";
-
-                knowKeyMap.put( k, rb.getString( k ) );
-                }
-
-            final Map<String,Integer> statsMap = new HashMap<>( i18nPrep.getUsageMap() );
-
-            for( final Entry<String, Integer> entry : statsMap.entrySet() ) {
-                final String key = entry.getKey();
-
-                usageStatCollector.add( key, entry.getValue() );
-                knowKeyMap.remove( key );
-                }
-
-            for( final String key : statsMap.keySet() ) {
-                notUseCollector.add( key, knowKeyMap.get( key ) );
-                }
-            }
-        finally {
-            try {
-                i18nPrep.closeOutputFile();
-                }
-            catch( final IOException e ) {
-                throw new RuntimeException( e ); // FIXME Not handled
-                }
-            }
+        closeAll( i18nPrep, outputFile );
 
         return new DefaultResult( notUseCollector, outputFile, usageStatCollector );
+    }
+
+    private static void defaultPrep(
+        final I18nPrep                 i18nPrep,
+        final AutoI18nCore             autoI18n,
+        final PrepCollector<Integer>   usageStatCollector,
+        final PrepCollector<String>    notUseCollector,
+        final I18nAutoCoreUpdatable... i18nConteners
+        )
+    {
+        for( final I18nAutoCoreUpdatable i18nContener : i18nConteners ) {
+            i18nContener.performeI18n( autoI18n );
+            }
+
+        final ResourceBundle      rb          = i18nPrep.getResourceBundle();
+        final Enumeration<String> enu         = rb.getKeys();
+        final Map<String,String>  knowKeyMap  = new HashMap<>();
+
+        while( enu.hasMoreElements() ) {
+            final String k = enu.nextElement();
+
+            assert k != null : "Key is null";
+
+            knowKeyMap.put( k, rb.getString( k ) );
+            }
+
+        final Map<String,Integer> statsMap = new HashMap<>( i18nPrep.getUsageMap() );
+
+        for( final Entry<String, Integer> entry : statsMap.entrySet() ) {
+            final String key = entry.getKey();
+
+            usageStatCollector.add( key, entry.getValue() );
+            knowKeyMap.remove( key );
+            }
+
+        for( final String key : statsMap.keySet() ) {
+            notUseCollector.add( key, knowKeyMap.get( key ) );
+            }
+    }
+
+    private static void closeAll( final I18nPrep i18nPrep, final File outputFile )
+        throws I18nPrepException
+    {
+        try {
+            i18nPrep.closeOutputFile();
+            }
+        catch( final IOException cause ) {
+            throw new I18nPrepException( outputFile, cause );
+            }
     }
 }

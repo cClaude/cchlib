@@ -5,28 +5,28 @@ import java.io.InputStream;
 import com.googlecode.cchlib.io.filetype.ImageIOFileData;
 
 /**
- * TODOC
- * 
+ * NEEDDOC
+ *
  * @since 4.1.7
  */
-public class ImageFilterInputStream extends CopyInputStream 
+public class ImageFilterInputStream extends CopyInputStream
 {
     /**
      * Creates a ImageFilterInputStream
-     * 
+     *
      * @param in the underlying input stream
      */
-    public ImageFilterInputStream( final InputStream in ) 
+    public ImageFilterInputStream( final InputStream in )
     {
         super( in );
     }
 
-    
+
     /**
      * Returns an ImageIOFileData.
      * @return an ImageIOFileData.
-     * @throws IOException 
-     * @throws IllegalStateException 
+     * @throws IOException
+     * @throws IllegalStateException
      */
     public ImageIOFileData geImageIOFileData() throws IllegalStateException, IOException
     {

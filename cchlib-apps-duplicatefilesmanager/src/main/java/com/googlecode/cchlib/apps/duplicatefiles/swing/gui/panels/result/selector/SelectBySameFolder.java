@@ -20,7 +20,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.util.HashMapSet;
 
 @I18nName("JPanelResult.SelectBySameFolder")
-public class SelectBySameFolder extends SelectorPanel // NOSONAR
+public class SelectBySameFolder extends SelectorPanel
 {
     private static final Comparator<KeyFileState> FIRST_NAME_ALPHA_ORDER_IGNORE_EXT_COMPARATOR = (final KeyFileState o1, final KeyFileState o2) -> o1.getFileNameWithoutExtention().compareTo( o2.getFileNameWithoutExtention() );
     private static final Comparator<KeyFileState> FIRST_NAME_ALPHA_ORDER_INCLUDE_EXTENTION_COMPARATOR = (final KeyFileState o1, final KeyFileState o2) -> o1.getFileNameWithExtention().compareTo( o2.getFileNameWithExtention() );

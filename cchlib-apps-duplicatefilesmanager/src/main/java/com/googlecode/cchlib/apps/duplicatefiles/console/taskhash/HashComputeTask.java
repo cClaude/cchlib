@@ -122,9 +122,8 @@ public class HashComputeTask extends TaskCommon implements CommandTask
         return task.runDirectories();
    }
 
-    private String computeHash( // NOSONAR
-            final File file
-            ) throws NoSuchAlgorithmException, IOException, CancelRequestException
+    private String computeHash( final File file )
+        throws NoSuchAlgorithmException, IOException, CancelRequestException
     {
         final FileDigest fileDigest = this.fileDigestFactory.newInstance();
 

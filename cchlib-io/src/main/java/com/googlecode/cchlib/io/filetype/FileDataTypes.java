@@ -123,38 +123,10 @@ public class FileDataTypes
             }
     }
 
-//    @Deprecated
-//    private static FileDataTypeDescription _findDataTypeDescription( final File file )
-//        throws FileNotFoundException, IOException
-//    {
-//        FileInputStream     fis = new FileInputStream( file );
-//        byte[]              b   = new byte[ 16 ];
-//
-//        int len = fis.read( b );
-//        fis.close();
-//
-//        if( len > 0 ) {
-//            if( b[ 6 ] == 0x4A && b[ 7 ] == 0x46 && b[ 8 ] == 0x49 && b[ 9 ] == 0x46 ) {
-//                return JPEG;
-//                }
-//            if( b[ 0 ] == 0xD8 && b[ 1 ] == 0xFF && b[ 2 ] == 0xE1 && b[ 3 ] == 0x1C ) {
-//                return JPEG;
-//                }
-//            if( b[ 1 ] == 0x50 && b[ 2 ] == 0x4E && b[ 3] == 0x47 ) {
-//                return PNG;
-//                }
-//            if( b[ 0 ] == 0x47 && b[ 1 ] == 0x49 && b[ 2 ] == 0x46 ) {
-//                return GIF;
-//                }
-//        }
-//
-//        return null;
-//    }
-
     /**
-     * TODOC
+     * NEEDDOC
      * @param file
-     * @return TODOC
+     * @return NEEDDOC
      * @throws IOException
      */
     public static ExtendedFileDataTypeDescription findExtendedFileDataTypeDescription(

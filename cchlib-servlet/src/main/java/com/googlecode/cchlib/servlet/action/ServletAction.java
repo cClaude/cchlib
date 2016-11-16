@@ -8,13 +8,13 @@ import com.googlecode.cchlib.servlet.ActionServlet.Action;
 import com.googlecode.cchlib.servlet.exception.ServletActionException;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public interface ServletAction
 {
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param request
      * @param response

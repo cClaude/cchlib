@@ -13,7 +13,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 //public
 class JHexEditorHEX

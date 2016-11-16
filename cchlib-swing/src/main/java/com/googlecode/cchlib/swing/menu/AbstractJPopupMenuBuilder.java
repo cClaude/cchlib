@@ -42,9 +42,6 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         MUST_BE_SELECTED,
     }
 
-    @Deprecated
-    protected AbstractJPopupMenuBuilder() {this(null);}
-
     /**
      * @param attributes configuration
      * @since 4.2

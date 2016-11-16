@@ -137,10 +137,10 @@ public abstract class TaskCommon implements CommandTask
                 // Length ok, look for filters
                 if( this.getFilesFileFilter() != null ) {
                     // There is a file filter
-                    if( shouldRemoveFile( file ) ) { // NOSONAR
+                    if( shouldRemoveFile( file ) ) {
                         iterator.remove();
 
-                        if( isNotQuiet() ) { // NOSONAR
+                        if( isNotQuiet() ) {
                             CLIHelper.printMessage( "Ignore:" + file.getPath() );
                         }
                     }

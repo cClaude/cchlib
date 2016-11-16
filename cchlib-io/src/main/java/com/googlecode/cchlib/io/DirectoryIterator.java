@@ -71,7 +71,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      * @see java.lang.Object#clone()
      */
     @Override
-    protected Object clone() throws CloneNotSupportedException // NOSONAR
+    protected Object clone() throws CloneNotSupportedException
     {
         throw new CloneNotSupportedException();
     }
@@ -113,7 +113,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
     @Override
     public boolean hasNext()
     {
-        return this.foldersList.size() > 0;
+        return ! this.foldersList.isEmpty();
     }
 
     /**
@@ -122,7 +122,8 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
-    public File next() throws java.util.NoSuchElementException // NOSONAR
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S2272"})
+    public File next() throws NoSuchElementException
     {
         final File folder = this.foldersList.removeLast();
 

@@ -320,7 +320,7 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * TODOC: add documentation of result String (format and limits)
+     * NEEDDOC: add documentation of result String (format and limits)
      *
      * @param someBytes
      * @return null if both BytesAcces byte[] are identical

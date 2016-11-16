@@ -1,7 +1,10 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search;
 
 
-public abstract class JPanelSearching extends JPanelSearchingFilters implements Cancelable { // NOSONAR
+public abstract class JPanelSearching
+    extends JPanelSearchingFilters
+        implements Cancelable
+{
     enum Pass {
         PASS1, PASS2,
     }

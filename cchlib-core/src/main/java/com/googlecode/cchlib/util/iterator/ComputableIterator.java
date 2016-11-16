@@ -39,8 +39,8 @@ public abstract class ComputableIterator<T>
      * @throws NoSuchElementException
      *             if no more object
      */
-    @Nullable protected abstract T computeNext()
-        throws NoSuchElementException; // NOSONAR
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    @Nullable protected abstract T computeNext() throws NoSuchElementException;
 
     /**
      * Returns true if the iteration has more elements. (In other words, returns true if next would return an element
@@ -49,6 +49,7 @@ public abstract class ComputableIterator<T>
      * @return true if the iteration has more elements.
      */
     @Override
+    @SuppressWarnings("squid:S1166") // Exception is handled
     public boolean hasNext()
     {
         if( isEnd( this.noSuchElementException ) ) {
@@ -59,7 +60,7 @@ public abstract class ComputableIterator<T>
                 this.noSuchElementException = Boolean.FALSE;
                 this.nextObject = computeNext();
                 }
-            catch( final NoSuchElementException e ) { // NOSONAR $codepro.audit.disable logExceptions
+            catch( final NoSuchElementException e ) {
                 return false;
                 }
             }
@@ -75,8 +76,12 @@ public abstract class ComputableIterator<T>
      *             iteration has no more elements.
      */
     @Override
-    public T next()
-        throws NoSuchElementException // NOSONAR
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S1166", // NoSuchElementException is handled
+        "null"
+        })
+    public T next() throws NoSuchElementException
     {
         if( isEnd( this.noSuchElementException ) ) {
             throw new NoSuchElementException();
@@ -92,7 +97,7 @@ public abstract class ComputableIterator<T>
         try {
             this.nextObject = computeNext();
             }
-        catch(final NoSuchElementException e) { // NOSONAR $codepro.audit.disable logExceptions
+        catch( final NoSuchElementException e ) {
             this.nextObject = null;
             this.noSuchElementException = Boolean.TRUE;
             }
@@ -111,9 +116,10 @@ public abstract class ComputableIterator<T>
      *             Always throw this exception.
      */
     @Override
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public final void remove()
-        throws  UnsupportedOperationException, // NOSONAR
-                IllegalStateException // NOSONAR
+        throws  UnsupportedOperationException,
+                IllegalStateException
     {
         throw new UnsupportedOperationException();
     }

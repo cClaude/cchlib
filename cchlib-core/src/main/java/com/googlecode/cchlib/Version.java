@@ -14,10 +14,13 @@ import org.apache.log4j.Logger;
  *
  * @since 4.1.7
  */
+@SuppressWarnings(
+    "squid:S1700" // A field should not duplicate the name of its containing class ???
+    )
 public final class Version
 {
     private static volatile Version service;
-    private final static Logger LOGGER = Logger.getLogger( Version.class );
+    private static final Logger LOGGER = Logger.getLogger( Version.class );
     private final String name;
     private final String version;
     private final Date date;
@@ -110,17 +113,18 @@ public final class Version
     /**
      * Print to stdout version
      *
-     * @param args CLI parameters
+     * @param args CLI parameters (ignored)
      */
+    @SuppressWarnings({"squid:S1166","squid:S106"})
     public static void main( final String[] args )
     {
         try {
             final Version instance = Version.getInstance();
 
-            System.out.println( instance ); // NOSONAR
+            System.out.println( instance );
             }
-        catch( final Exception e ) { // NOSONAR
-            e.printStackTrace( System.err ); // NOSONAR
+        catch( final Exception e ) {
+            e.printStackTrace( System.err );
             }
     }
 
@@ -137,7 +141,7 @@ public final class Version
 
                         LOGGER.warn( message , e );
 
-                        throw new RuntimeException( message, e );
+                        throw new VersionRuntimeException( message, e );
                     }
                 }
             }

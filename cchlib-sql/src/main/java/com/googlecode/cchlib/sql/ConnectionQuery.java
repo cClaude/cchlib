@@ -154,7 +154,7 @@ public class ConnectionQuery implements Closeable
     }
 
     @Override
-    protected void finalize() throws Throwable // NOSONAR $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
+    protected void finalize() throws Throwable
     {
         closeStatement();
 

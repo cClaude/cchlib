@@ -391,7 +391,7 @@ public class FindAccessoryImpl
             this.actionStop.setEnabled(true);
             runFind(this.chooser.getCurrentDirectory(),newFind());
             }
-        catch (final InterruptedException e) { // NOSONAR $codepro.audit.disable emptyCatchClause, logExceptions
+        catch (final InterruptedException e) {
             }
         finally {
             this.actionStart.setEnabled(true);
@@ -541,7 +541,7 @@ public class FindAccessoryImpl
             return this.searchTabs.newFind();
             }
 
-        return null; // NOSONAR
+        return null;
     }
 
     /**

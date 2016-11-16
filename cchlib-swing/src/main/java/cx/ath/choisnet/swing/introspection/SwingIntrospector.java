@@ -84,20 +84,20 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             this.attribs = EnumSet.copyOf( attributes );
             }
 
-        Class<FRAME> clazz = objectInterface.getFrameClass();
-        Map<String, List<SwingIntrospectorItem<FRAME>>> map = new TreeMap<String, List<SwingIntrospectorItem<FRAME>>>();
+        final Class<FRAME> clazz = objectInterface.getFrameClass();
+        final Map<String, List<SwingIntrospectorItem<FRAME>>> map = new TreeMap<String, List<SwingIntrospectorItem<FRAME>>>();
 
-        buildSwingIntrospectorItemMap(map,clazz,attribs);
+        buildSwingIntrospectorItemMap(map,clazz,this.attribs);
 
         if( this.attribs.contains( Attrib.LOOK_IN_SUPER_CLASSES )) {
             Class<?> superClass = clazz.getSuperclass();
 
-            while( superClass != null
+            while( (superClass != null)
                     && !superClass.equals( Object.class )
                     && !superClass.equals( JFrame.class )
                     && !superClass.equals( JDialog.class )
                     ) {
-                buildSwingIntrospectorItemMap(map,superClass,attribs);
+                buildSwingIntrospectorItemMap(map,superClass,this.attribs);
                 superClass = superClass.getSuperclass();
                 }
             }
@@ -106,12 +106,12 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             LOGGER.debug( "bean found: " + map.size() + " for: " + clazz );
             }
 
-        for( Map.Entry<String,List<SwingIntrospectorItem<FRAME>>> entry : map.entrySet() ) {
-            String                              beanName = entry.getKey();
-            List<SwingIntrospectorItem<FRAME>>  items    = entry.getValue();
-            SwingIntrospectorRootItem<FRAME>    rootItem = new SwingIntrospectorRootItem<FRAME>();
+        for( final Map.Entry<String,List<SwingIntrospectorItem<FRAME>>> entry : map.entrySet() ) {
+            final String                              beanName = entry.getKey();
+            final List<SwingIntrospectorItem<FRAME>>  items    = entry.getValue();
+            final SwingIntrospectorRootItem<FRAME>    rootItem = new SwingIntrospectorRootItem<FRAME>();
 
-            for( SwingIntrospectorItem<FRAME> item : items ) {
+            for( final SwingIntrospectorItem<FRAME> item : items ) {
                 rootItem.add( item );
                 }
 
@@ -151,7 +151,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             LOGGER.debug( clazz.getName() + " # fields = " + fields.length );
             }
 
-        for( Field f : fields ) {
+        for( final Field f : fields ) {
             if( isSubClass( f.getType(), Component.class ) ) {
                 try {
                     final Bean bean = new Bean( f );
@@ -169,7 +169,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                             new SwingIntrospectorItem<FRAME>( bean, f, attribs )
                             );
                     }
-                catch( IllegalArgumentException ignoreBadFieldName ) {
+                catch( final IllegalArgumentException ignoreBadFieldName ) {
                     // Ignore this field
                     if( LOGGER.isDebugEnabled() ) {
                         LOGGER.debug( "buildSwingIntrospectorItemMap - ignoreBadFieldName", ignoreBadFieldName );
@@ -183,7 +183,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      *
      * @param clazz
      * @param compareToClass
-     * @return TODOC
+     * @return NEEDDOC
      */
     private static final boolean isSubClass( final Class<?> clazz, final Class<?> compareToClass )
     {
@@ -203,7 +203,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 
     /**
      *
-     * @return TODOC
+     * @return NEEDDOC
      */
     public Map<String,SwingIntrospectorRootItem<FRAME>> getItemMap()
     {
@@ -213,7 +213,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     /**
      *
      * @param beanName
-     * @return TODOC
+     * @return NEEDDOC
      */
     public SwingIntrospectorRootItem<FRAME> getRootItem( final String beanName )
     {
@@ -221,7 +221,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param frame  FRAME object to populate
      * @param object OBJECT where data will be read
@@ -236,11 +236,11 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         throws  IntrospectionInvokeException,
                 SwingIntrospectorException
     {
-        FramePopulator<FRAME,OBJECT> fp = objectInterface.getFramePopulator( frame, object );
+        final FramePopulator<FRAME,OBJECT> fp = this.objectInterface.getFramePopulator( frame, object );
 
-        for( Entry<String, SwingIntrospectorRootItem<FRAME>> entry : this.itemsMap.entrySet() ) {
-            String                      beanName = entry.getKey();
-            SwingIntrospectorRootItem<FRAME>   rootItem = entry.getValue();
+        for( final Entry<String, SwingIntrospectorRootItem<FRAME>> entry : this.itemsMap.entrySet() ) {
+            final String                      beanName = entry.getKey();
+            final SwingIntrospectorRootItem<FRAME>   rootItem = entry.getValue();
 
             if( rootItem != null ) {
                 fp.populateFrame(rootItem, beanName);
@@ -264,20 +264,20 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         final OBJECT    object
         )
     {
-        FramePopulator<FRAME,OBJECT> fp = objectInterface.getFramePopulator( frame, object );
+        final FramePopulator<FRAME,OBJECT> fp = this.objectInterface.getFramePopulator( frame, object );
 
-        for( Entry<String, SwingIntrospectorRootItem<FRAME>> entry : this.itemsMap.entrySet() ) {
-            String                      beanName = entry.getKey();
-            SwingIntrospectorRootItem<FRAME>   rootItem = entry.getValue();
+        for( final Entry<String, SwingIntrospectorRootItem<FRAME>> entry : this.itemsMap.entrySet() ) {
+            final String                      beanName = entry.getKey();
+            final SwingIntrospectorRootItem<FRAME>   rootItem = entry.getValue();
 
             if( rootItem != null ) {
                 try {
                     fp.populateFrame(rootItem, beanName);
                     }
-                catch( SwingIntrospectorException e ) {
+                catch( final SwingIntrospectorException e ) {
                     LOGGER.warn( "*** SwingIntrospectorException for: " + beanName, e );
                     }
-                catch( IntrospectionInvokeException e ) {
+                catch( final IntrospectionInvokeException e ) {
                     LOGGER.warn( "*** IntrospectionInvokeException for: " + beanName, e );
                     }
                 }
@@ -288,7 +288,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param frame  FRAME where data will be read
      * @param object OBJECT object to populate
@@ -302,11 +302,11 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         throws  SwingIntrospectorException,
                 IntrospectionException
     {
-        ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY> op = objectInterface.getObjectPopulator( frame, object );
+        final ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY> op = this.objectInterface.getObjectPopulator( frame, object );
 
-        for( Entry<String,OBJECT_ENTRY> item : objectInterface.getObjectInfos().entrySet()) {
-            String                    beanName = item.getKey();
-            SwingIntrospectorRootItem<FRAME> rootItem = this.getRootItem( beanName );
+        for( final Entry<String,OBJECT_ENTRY> item : this.objectInterface.getObjectInfos().entrySet()) {
+            final String                    beanName = item.getKey();
+            final SwingIntrospectorRootItem<FRAME> rootItem = this.getRootItem( beanName );
 
             if( rootItem == null ) {
                 throw new SwingIntrospectorNoRootItemException( beanName );
@@ -329,11 +329,11 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             final OBJECT object
             )
     { // without exception !
-        ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY> op = objectInterface.getObjectPopulator( frame, object );
+        final ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY> op = this.objectInterface.getObjectPopulator( frame, object );
 
-        for( Entry<String,OBJECT_ENTRY> item : objectInterface.getObjectInfos().entrySet()) {
-            String                    beanName = item.getKey();
-            SwingIntrospectorRootItem<FRAME> rootItem = this.getRootItem( beanName );
+        for( final Entry<String,OBJECT_ENTRY> item : this.objectInterface.getObjectInfos().entrySet()) {
+            final String                    beanName = item.getKey();
+            final SwingIntrospectorRootItem<FRAME> rootItem = this.getRootItem( beanName );
 
             if( rootItem == null ) {
                 LOGGER.fatal( "NoRootItemException: " + beanName );
@@ -342,7 +342,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             try {
                 op.populateObject( item.getValue(), rootItem );
                 }
-            catch( SwingIntrospectorException e ) {
+            catch( final SwingIntrospectorException e ) {
                 if( LOGGER.isDebugEnabled() ) {
                     LOGGER.debug( "SwingIntrospectorException for: " + beanName,e  );
                     }
@@ -350,7 +350,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                     LOGGER.warn( "SwingIntrospectorException for: " + beanName );
                     }
                 }
-            catch( IntrospectionException e ) {
+            catch( final IntrospectionException e ) {
                 if( LOGGER.isDebugEnabled() ) {
                     LOGGER.debug( "IntrospectionException for: " + beanName, e );
                     }
@@ -370,13 +370,13 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      */
     public void initComponentsWithoutException( final FRAME populateObject )
     {
-        for( Entry<String,SwingIntrospectorRootItem<FRAME>> entry : this.getItemMap().entrySet()) {
-            for( SwingIntrospectorItem<FRAME> fd : entry.getValue() ) {
+        for( final Entry<String,SwingIntrospectorRootItem<FRAME>> entry : this.getItemMap().entrySet()) {
+            for( final SwingIntrospectorItem<FRAME> fd : entry.getValue() ) {
 
                 try {
                     initComponents( populateObject, entry, fd );
                     }
-                catch( SwingIntrospectorException e ) {
+                catch( final SwingIntrospectorException e ) {
                     LOGGER.warn( "initComponents()", e );
                     }
             }
@@ -384,7 +384,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param populateObject
      * @throws SwingIntrospectorIllegalAccessException
@@ -396,8 +396,8 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         throws  SwingIntrospectorIllegalAccessException,
                 SwingIntrospectorException
     {
-        for( Entry<String,SwingIntrospectorRootItem<FRAME>> entry : this.getItemMap().entrySet()) {
-            for( SwingIntrospectorItem<FRAME> fd : entry.getValue() ) {
+        for( final Entry<String,SwingIntrospectorRootItem<FRAME>> entry : this.getItemMap().entrySet()) {
+            for( final SwingIntrospectorItem<FRAME> fd : entry.getValue() ) {
                 initComponents( populateObject, entry, fd );
             }
         }
@@ -411,10 +411,10 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         throws  SwingIntrospectorIllegalAccessException,
                 SwingIntrospectorException
     {
-        Object obj = fd.getFieldObject( populateObject );
+        final Object obj = fd.getFieldObject( populateObject );
 
         //objectInterface.initComponent( obj, entry.getKey() );
-        objectInterface.getComponentInitializer().initComponent( obj, entry.getKey() );
+        this.objectInterface.getComponentInitializer().initComponent( obj, entry.getKey() );
     }
 
     /* (non-Javadoc)
@@ -423,12 +423,12 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
         builder.append( "SwingIntrospector [itemsMap=" );
-        builder.append( itemsMap );
+        builder.append( this.itemsMap );
         builder.append( ", objectInterface=" );
-        builder.append( objectInterface );
+        builder.append( this.objectInterface );
         builder.append( ']' );
 
         return builder.toString();
@@ -443,8 +443,8 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      *
      */
     public static <FRAME,OBJECT> SwingIntrospector<FRAME,OBJECT,DefaultIntrospectionItem<OBJECT>> buildSwingIntrospector(
-            Class<FRAME>    frameClass,
-            Class<OBJECT>   objectClass
+            final Class<FRAME>    frameClass,
+            final Class<OBJECT>   objectClass
             )
     {
         return new SwingIntrospector<FRAME,OBJECT,DefaultIntrospectionItem<OBJECT>>(

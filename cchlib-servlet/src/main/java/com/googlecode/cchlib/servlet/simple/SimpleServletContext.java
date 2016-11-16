@@ -1,27 +1,27 @@
 package com.googlecode.cchlib.servlet.simple;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public interface SimpleServletContext
 {
     /**
-    * TODOC
+    * NEEDDOC
     *
     * @param s
-    * @return TODOC
+    * @return NEEDDOC
     * @throws com.googlecode.cchlib.servlet.simple.ServletContextParamNotFoundException
     */
     String getInitParameter(String s)
         throws com.googlecode.cchlib.servlet.simple.ServletContextParamNotFoundException;
 
     /**
-    * TODOC
+    * NEEDDOC
      *
      * @param s
      * @param s1
-     * @return TODOC
+     * @return NEEDDOC
      */
     String getInitParameter(String s, String s1);
 }

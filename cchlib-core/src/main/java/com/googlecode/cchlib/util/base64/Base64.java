@@ -1,15 +1,11 @@
-// $codepro.audit.disable characterComparison, packageNamingConvention, numericLiterals, constantNamingConvention
 package com.googlecode.cchlib.util.base64;
 
-/**
- *
- */
 // NOT public
-abstract class Base64
+class Base64
 {
     protected static final int DEFAULT_BUFFER_SIZE = 8192;
 
-    protected static final char[] BASE64 = { // $codepro.audit.disable constantNamingConvention // NOSONAR
+    protected static final char[] BASE_64 = {
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
         'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
         'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
@@ -39,7 +35,7 @@ abstract class Base64
     }
 
     // Mapping table from Base64 characters to 6-bit nibbles.
-    protected static final byte[] MAP2 = new byte[128]; // NOSONAR
+    protected static final byte[] MAP2 = new byte[128];
 
     // Mapping table from Base64 characters to 6-bit nibbles.
     static {
@@ -49,6 +45,11 @@ abstract class Base64
         for (int i=0; i<64; i++) {
             MAP2[MAP1[i]] = (byte)i;
             }
+    }
+
+    private Base64()
+    {
+        // All static
     }
 
     /**

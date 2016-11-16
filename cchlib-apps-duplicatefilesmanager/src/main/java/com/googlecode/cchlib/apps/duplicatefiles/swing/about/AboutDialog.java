@@ -12,7 +12,7 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 /**
  * Display about dialog
  */
-public class AboutDialog // NOSONAR
+public class AboutDialog
     extends JDialog
         implements I18nAutoCoreUpdatable, AboutPanelAction
 {

@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.io.filefilter;
 
-import com.googlecode.cchlib.io.SerializableFileFilter;
 import java.io.File;
 import java.io.FileFilter;
+import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  * @since 4.1.7
  */
@@ -15,17 +15,17 @@ public final class NOTFileFilter implements SerializableFileFilter
     private static final long serialVersionUID = 1L;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param aFileFilter
      */
-    public NOTFileFilter( FileFilter aFileFilter )
+    public NOTFileFilter( final FileFilter aFileFilter )
     {
         this.aFileFilter = aFileFilter;
     }
 
     @Override
-    public boolean accept(File file)
+    public boolean accept(final File file)
     {
-        return !aFileFilter.accept(file);
+        return !this.aFileFilter.accept(file);
     }
 }

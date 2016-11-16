@@ -7,7 +7,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 /**
  * Handle --command option
  */
-public interface CommandTask // NOSONAR
+public interface CommandTask
 {
     /**
      * Run related task for this command
@@ -18,7 +18,7 @@ public interface CommandTask // NOSONAR
      */
     List<HashFiles> doTask()
         throws
-            CommandTaskException, // NOSONAR
+            CommandTaskException,
             CLIParametersException;
 
     /**

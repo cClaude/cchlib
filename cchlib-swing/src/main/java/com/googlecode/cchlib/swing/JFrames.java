@@ -9,6 +9,11 @@ import javax.swing.JFrame;
  */
 public class JFrames
 {
+    private JFrames()
+    {
+        // All static
+    }
+
     /**
      * Handle minimum of JFrame
      *

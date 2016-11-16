@@ -11,7 +11,7 @@ import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.NeedTestCases;
 
 /**
- * TODOC
+ * NEEDDOC
  * <p style="border:groove;">
  * <b>Warning:</b>
  * Insofar the code of this class comes from decompiling
@@ -26,13 +26,13 @@ import com.googlecode.cchlib.NeedTestCases;
 @NeedTestCases
 public class WakeOnLan
 {
-    public static final String DEFAULT_BROADCAST_ADDR = "255.255.255.255"; // NOSONAR
+    public static final String DEFAULT_BROADCAST_ADDR = "255.255.255.255";
     public static final int    DEFAULT_PORT           = 7;
 
     private final int port;
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     public WakeOnLan()
     {
@@ -40,7 +40,7 @@ public class WakeOnLan
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param port
      */
     public WakeOnLan( final int port )
@@ -49,14 +49,15 @@ public class WakeOnLan
     }
 
     /**
-     * TODOC
+     * NEEDDOC
+     *
      * @param macAddress
      * @throws UnknownHostException
      * @throws SocketException
      * @throws IllegalArgumentException
      * @throws IOException
      */
-    public void notify( final String macAddress ) // NOSONAR
+    public void notify( final String macAddress )
         throws  UnknownHostException,
                 SocketException,
                 IllegalArgumentException,
@@ -66,7 +67,8 @@ public class WakeOnLan
     }
 
     /**
-     * TODOC
+     * NEEDDOC
+     *
      * @param broadcastAddress
      * @param macAddress
      * @throws UnknownHostException
@@ -74,7 +76,7 @@ public class WakeOnLan
      * @throws IllegalArgumentException
      * @throws IOException
      */
-    public void notify( // NOSONAR
+    public void notify(
         final String broadcastAddress,
         final String macAddress
         )
@@ -123,9 +125,10 @@ public class WakeOnLan
     }
 
     /**
-     * TODOC
+     * NEEDDOC
+     *
      * @param macAddress
-     * @return TODOC
+     * @return NEEDDOC
      * @throws IllegalArgumentException
      */
     private static byte[] getMacAddressBytes(

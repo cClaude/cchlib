@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
  *  - IVLong
  * </pre>
  *
- * @param <O> TODOC
+ * @param <O> NEEDDOC
  * @see IVInt
  * @see IVLong
  */
@@ -37,8 +37,8 @@ public class DefaultIntrospectionItem<O>
     {
         super( getter, setter );
 
-        IVInt  ivInt  = setter.getAnnotation( IVInt.class );
-        IVLong ivLong = setter.getAnnotation( IVLong.class );
+        final IVInt  ivInt  = setter.getAnnotation( IVInt.class );
+        final IVLong ivLong = setter.getAnnotation( IVLong.class );
 
         if( (ivInt != null) && (ivLong != null) ) {
             // Exception ? or log ? nothing ?
@@ -84,7 +84,7 @@ public class DefaultIntrospectionItem<O>
     /**
      * @param minValue the minValue to set
      */
-    protected void setMinValue( Object minValue )
+    protected void setMinValue( final Object minValue )
     {
         this.minValue = minValue;
     }
@@ -92,7 +92,7 @@ public class DefaultIntrospectionItem<O>
     /**
      * @param defaultValue the defaultValue to set
      */
-    protected void setDefaultValue( Object defaultValue )
+    protected void setDefaultValue( final Object defaultValue )
     {
         this.defaultValue = defaultValue;
     }
@@ -100,7 +100,7 @@ public class DefaultIntrospectionItem<O>
     /**
      * @param maxValue the maxValue to set
      */
-    protected void setMaxValue( Object maxValue )
+    protected void setMaxValue( final Object maxValue )
     {
         this.maxValue = maxValue;
     }
@@ -111,13 +111,13 @@ public class DefaultIntrospectionItem<O>
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "DefaultIntrospectionItem [minValue=" );
-        builder.append( minValue );
+        builder.append( this.minValue );
         builder.append( ", defaultValue=" );
-        builder.append( defaultValue );
+        builder.append( this.defaultValue );
         builder.append( ", maxValue=" );
-        builder.append( maxValue );
+        builder.append( this.maxValue );
         builder.append( ", toString()=" );
         builder.append( super.toString() );
         builder.append( ']' );

@@ -15,29 +15,29 @@ import com.googlecode.cchlib.swing.batchrunner.misc.BRXLocaleResources;
  */
 public class BRExecutionEventFactoryImpl implements BRExecutionEventFactory
 {
-    private Component progressMonitorParentComponent;
-    private String progressMonitorMessage;
+    private final Component progressMonitorParentComponent;
+    private final String progressMonitorMessage;
 
     /**
-     * TODOC
-     * 
+     * NEEDDOC
+     *
      * @param progressMonitorParentComponent Parent component for progress monitor, typically the {@link BRFrame}.
      * @param progressMonitorMessage
      */
     @NeedDoc
-    public BRExecutionEventFactoryImpl( Component progressMonitorParentComponent, String progressMonitorMessage )
+    public BRExecutionEventFactoryImpl( final Component progressMonitorParentComponent, final String progressMonitorMessage )
     {
         this.progressMonitorParentComponent = progressMonitorParentComponent;
         this.progressMonitorMessage         = progressMonitorMessage;
     }
 
     /**
-     * TODOC
-     * 
+     * NEEDDOC
+     *
      * @param progressMonitorParentComponent Parent component for progress monitor, typically the {@link BRFrame}.
      * @param resources
      */
-    public BRExecutionEventFactoryImpl( Component progressMonitorParentComponent, BRXLocaleResources resources )
+    public BRExecutionEventFactoryImpl( final Component progressMonitorParentComponent, final BRXLocaleResources resources )
     {
         this( progressMonitorParentComponent, resources.getProgressMonitorMessage() );
     }
@@ -45,6 +45,6 @@ public class BRExecutionEventFactoryImpl implements BRExecutionEventFactory
     @Override
     public BRExecutionEvent newSBRExecutionEvent( final File sourceFile, final File destinationFile )
     {
-        return new BRExecutionEventImpl( sourceFile, destinationFile, progressMonitorParentComponent, progressMonitorMessage );
+        return new BRExecutionEventImpl( sourceFile, destinationFile, this.progressMonitorParentComponent, this.progressMonitorMessage );
     }
 }

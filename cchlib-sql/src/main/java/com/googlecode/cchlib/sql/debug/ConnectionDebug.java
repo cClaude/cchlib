@@ -29,18 +29,19 @@ public final class ConnectionDebug implements Connection {
     /**
      * Configuration options for {@link ConnectionDebug}
      */
+    @SuppressWarnings("squid:S00115")
     public enum Config {
         /**
          * Throws to IllegalStateException when {@link Connection#close()}
          * is invoke
          */
-        Close_ThrowsIllegalStateException, // NOSONAR
+        Close_ThrowsIllegalStateException,
 
         /**
          * Log to {@link org.apache.log4j.Logger} each time
          * {@link Connection#close()} is invoke
          */
-        Close_Log4j_Logger, // NOSONAR
+        Close_Log4j_Logger,
     }
 
     private static final org.apache.log4j.Logger LOGGER

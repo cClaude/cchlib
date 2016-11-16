@@ -185,7 +185,7 @@ public enum Colors {
 
     @NeedDoc
     public Color toColor() {
-        return new Color( r, g, b );
+        return new Color( this.r, this.g, this.b );
     }
 
     @NeedDoc
@@ -193,9 +193,9 @@ public enum Colors {
         final StringBuilder sb = new StringBuilder();
 
         sb.append( '#' );
-        append( sb, r );
-        append( sb, g );
-        append( sb, b );
+        append( sb, this.r );
+        append( sb, this.g );
+        append( sb, this.b );
 
         return sb.toString().toUpperCase();
     }
@@ -259,7 +259,7 @@ public enum Colors {
     /**
      *
      * @param colorName
-     * @return TODOC
+     * @return NEEDDOC
      */
     public static Colors find( final String colorName )
     {

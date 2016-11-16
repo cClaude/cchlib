@@ -13,7 +13,7 @@ import com.googlecode.cchlib.servlet.exception.ServletActionException;
 import com.googlecode.cchlib.sql.SQLTools;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public abstract class AbstractServletAction implements ServletAction
 {
@@ -82,7 +82,7 @@ public abstract class AbstractServletAction implements ServletAction
      */
     public HttpServletRequest getRequest()
     {
-        return request;
+        return this.request;
     }
 
     /**
@@ -90,7 +90,7 @@ public abstract class AbstractServletAction implements ServletAction
      */
     public HttpServletResponse getResponse()
     {
-        return response;
+        return this.response;
     }
 
     /**
@@ -98,7 +98,7 @@ public abstract class AbstractServletAction implements ServletAction
      */
     public ServletContext getServletContext()
     {
-        return servletContext;
+        return this.servletContext;
     }
 
     /**
@@ -119,7 +119,7 @@ public abstract class AbstractServletAction implements ServletAction
             )
         throws RequestParameterNotFoundException
     {
-        return Tools.getParameter( request, name );
+        return Tools.getParameter( this.request, name );
     }
 
     /**
@@ -136,7 +136,7 @@ public abstract class AbstractServletAction implements ServletAction
         throws  RequestParameterNotFoundException,
                 RequestParameterNumberFormatException
     {
-        return Tools.getIntParameter( request, name );
+        return Tools.getIntParameter( this.request, name );
     }
 
     /**
@@ -173,7 +173,7 @@ public abstract class AbstractServletAction implements ServletAction
             )
         throws RequestParameterNotFoundException
     {
-        return Tools.getParameterValues( request, name );
+        return Tools.getParameterValues( this.request, name );
     }
 
     /**
@@ -191,7 +191,7 @@ public abstract class AbstractServletAction implements ServletAction
         throws  RequestParameterNotFoundException,
                 RequestParameterNumberFormatException
     {
-        return Tools.getIntParameterValues( request, name );
+        return Tools.getIntParameterValues( this.request, name );
     }
 
     /**
@@ -210,7 +210,7 @@ public abstract class AbstractServletAction implements ServletAction
             )
         throws RequestParameterNotFoundException
     {
-        final String[] s = Tools.getParameterValues( request, name );
+        final String[] s = Tools.getParameterValues( this.request, name );
         final String[] r = new String[ s.length ];
 
         for(int i=0; i<s.length; i++) {

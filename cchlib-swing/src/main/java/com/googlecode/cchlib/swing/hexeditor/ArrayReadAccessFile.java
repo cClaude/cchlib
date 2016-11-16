@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public class ArrayReadAccessFile implements ArrayReadAccess
@@ -14,7 +14,7 @@ public class ArrayReadAccessFile implements ArrayReadAccess
     protected final RandomAccessFile raf;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param raf
      */
     protected ArrayReadAccessFile(

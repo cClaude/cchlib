@@ -13,7 +13,7 @@ import java.util.Collection;
  * but a dynamic way, this class is design to be use
  * for debugging only.
  *
- * @param <T> TODOC
+ * @param <T> NEEDDOC
  */
 public class ToStringBuilder<T>
 {
@@ -26,7 +26,8 @@ public class ToStringBuilder<T>
     private final Class<T> clazz;
 
     /**
-     * TODOC
+     * NEEDDOC
+     *
      * @param clazz Class (or interface) to use to
      *        build toString()
      */
@@ -34,7 +35,7 @@ public class ToStringBuilder<T>
     {
         this.clazz = clazz;
 
-        addMethodsWithoutParameters( methods, clazz );
+        addMethodsWithoutParameters( this.methods, clazz );
     }
 
     private static <T> void addMethodsWithoutParameters( final Collection<Method> methods , final Class<T> clazz )
@@ -71,7 +72,7 @@ public class ToStringBuilder<T>
 
     private static boolean shouldIgnoreByName( final String name )
     {
-        for( String ignoreName:IGNORE_METHODS ) {
+        for( final String ignoreName:IGNORE_METHODS ) {
             if( name.equals( ignoreName )) {
                 return true;
                 }
@@ -90,10 +91,10 @@ public class ToStringBuilder<T>
        final StringBuilder sb      = new StringBuilder();
        boolean             first   = true;
 
-       sb.append( clazz.getSimpleName() );
+       sb.append( this.clazz.getSimpleName() );
        sb.append( " [" );
 
-       for( final Method method : methods ) {
+       for( final Method method : this.methods ) {
            if( first ) {
                first = false;
                }
@@ -117,13 +118,14 @@ public class ToStringBuilder<T>
     }
 
     /**
-     * TODOC
-     * @param <T> TODOC
+     * NEEDDOC
+     *
+     * @param <T> NEEDDOC
      * @param o
      * @param clazz
      * @return toString view for this object.
      */
-    public static <T> String toString(T o, Class<T> clazz)
+    public static <T> String toString(final T o, final Class<T> clazz)
     {
         return new ToStringBuilder<>(clazz).toString(o);
     }

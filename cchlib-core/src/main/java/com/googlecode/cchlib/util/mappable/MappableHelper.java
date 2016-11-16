@@ -31,7 +31,7 @@ public class MappableHelper
      * Build Map using default factory.
      *
      * @param object
-     * @return TODOC
+     * @return NEEDDOC
      *
      * @see MappableBuilder#toMap(Object)
      */
@@ -42,6 +42,14 @@ public class MappableHelper
         return mb.toMap( object );
     }
 
+    /**
+     *  NEEDDOC
+     *
+     * @param out   Output for result
+     * @param clazz Class to use to analyze <code>mappableObject</code>
+     * @param map   Map of value
+     * @throws IOException if any
+     */
     @NeedDoc
     public static void toXML(
         final Appendable            out,

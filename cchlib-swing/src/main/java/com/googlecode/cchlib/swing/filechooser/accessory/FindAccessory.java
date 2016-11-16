@@ -37,20 +37,20 @@ public class FindAccessory
     private static final long serialVersionUID = 1L;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param parent
      * @param max
      */
-    public FindAccessory(JFileChooser parent, int max)
+    public FindAccessory(final JFileChooser parent, final int max)
     {
         super( parent, max );
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param parent
      */
-    public FindAccessory(JFileChooser parent)
+    public FindAccessory(final JFileChooser parent)
     {
         super( parent );
     }

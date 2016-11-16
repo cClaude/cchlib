@@ -13,7 +13,7 @@ import javax.swing.event.EventListenerList;
 import org.apache.log4j.Logger;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  * @since 4.1.8
  */
@@ -256,10 +256,10 @@ public class URICache implements Closeable
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param uri
-     * @return TODOC
+     * @return NEEDDOC
      */
     public String getRelativeFilename( final URI uri )
     {
@@ -371,7 +371,7 @@ public class URICache implements Closeable
      * @throws PersistenceFileBadVersionException
      * @see #getCacheFile()
      */
-    public void load() throws FileNotFoundException, IOException // NOSONAR
+    public void load() throws FileNotFoundException, IOException
     {
         synchronized( this.theCache ) {
             try {
@@ -440,7 +440,7 @@ public class URICache implements Closeable
     }
 
     private void fixCache( final File cacheFile, final File backupFile )
-            throws FileNotFoundException, IOException // NOSONAR
+            throws FileNotFoundException, IOException
     {
         // Loose data in cache !
         LOGGER.warn( "Loose data append previous file" );

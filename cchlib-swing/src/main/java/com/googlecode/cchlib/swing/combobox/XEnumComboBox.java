@@ -5,9 +5,9 @@ import javax.swing.JComboBox;
 import javax.swing.event.ListDataListener;
 
 /**
- * TODOC
+ * NEEDDOC
  *
- * @param <E> TODOC
+ * @param <E> NEEDDOC
  */
 public class XEnumComboBox<E extends Enum<E>> extends JComboBox<String>
 {
@@ -64,10 +64,10 @@ public class XEnumComboBox<E extends Enum<E>> extends JComboBox<String>
     private final Class<E> enumClass;
 
     /**
-     * TODOC
+     * NEEDDOC
      *
-     * @param defaultValue TODOC
-     * @param enumClass TODOC
+     * @param defaultValue NEEDDOC
+     * @param enumClass NEEDDOC
      */
     public XEnumComboBox(
         final E         defaultValue,

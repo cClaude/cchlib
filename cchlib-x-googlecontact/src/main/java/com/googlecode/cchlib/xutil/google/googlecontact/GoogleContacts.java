@@ -45,7 +45,7 @@ public class GoogleContacts
      * @throws IOException if an error occur when reading data
      * @throws GoogleContacAnalyserException if an error occur when analyze data
      */
-    public static List<GoogleContact> createGoogleContacts( // NOSONAR
+    public static List<GoogleContact> createGoogleContacts(
             @Nonnull final Reader reader
             )
         throws IOException, GoogleContacAnalyserException
@@ -93,10 +93,10 @@ public class GoogleContacts
      * @throws IOException if an error occur when reading data
      * @throws GoogleContacAnalyserException if an error occur when analyze data
      */
-    public static List<GoogleContact> createGoogleContacts(  // NOSONAR
+    public static List<GoogleContact> createGoogleContacts(
             @Nonnull final InputStream inStream
             )
-        throws UnsupportedEncodingException, IOException // NOSONAR
+        throws UnsupportedEncodingException, IOException
     {
         final List<GoogleContact> list;
 
@@ -118,7 +118,7 @@ public class GoogleContacts
      * @throws GoogleContacAnalyserException if an error occur when analyze data
      */
     public static List<GoogleContact> createGoogleContacts( @Nonnull final File file )
-        throws FileNotFoundException, IOException // NOSONAR
+        throws FileNotFoundException, IOException
     {
         try ( final InputStream inStream = new FileInputStream( file ) ) {
             return createGoogleContacts( inStream );
@@ -215,7 +215,7 @@ public class GoogleContacts
      * @deprecated no replacement use java 8
      */
     @Deprecated
-    public static Iterable<GoogleContact> all( // NOSONAR
+    public static Iterable<GoogleContact> all(
         final List<GoogleContact>       contacts,
         final Selectable<GoogleContact> filter
         )

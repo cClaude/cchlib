@@ -112,7 +112,7 @@ public class ExportSQL implements Closeable
             final String                schemaName,
             final Date                  exportDate,
             final TableDescription...   tables
-             )
+            )
     {
         this(   connection,
                 schemaName,
@@ -157,7 +157,8 @@ public class ExportSQL implements Closeable
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
-    public void exportAll( final Writer outputWriter ) // NOSONAR
+    @SuppressWarnings("squid:S1160")
+    public void exportAll( final Writer outputWriter )
         throws SQLException,
                IOException
     {
@@ -189,7 +190,8 @@ public class ExportSQL implements Closeable
      * @throws IOException
      *      if a error occurred while write to outputWriter
      */
-    public void exportAll( // NOSONAR
+    @SuppressWarnings("squid:S1160")
+    public void exportAll(
             final Writer outputWriter,
             final int    limitRows
             )
@@ -213,7 +215,8 @@ public class ExportSQL implements Closeable
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
-    public void exportHeader( final Writer outputWriter ) // NOSONAR
+    @SuppressWarnings("squid:S1160")
+    public void exportHeader( final Writer outputWriter )
         throws SQLException,
                IOException
     {
@@ -244,7 +247,8 @@ public class ExportSQL implements Closeable
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
-    public void exportDeleteContent( final Writer outputWriter ) // NOSONAR
+    @SuppressWarnings("squid:S1160")
+    public void exportDeleteContent( final Writer outputWriter )
         throws SQLException,
                IOException
     {
@@ -269,7 +273,8 @@ public class ExportSQL implements Closeable
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
-    public void exportTablesContent( final Writer outputWriter ) // NOSONAR
+    @SuppressWarnings("squid:S1160")
+    public void exportTablesContent( final Writer outputWriter )
         throws SQLException,
                IOException
     {
@@ -286,7 +291,8 @@ public class ExportSQL implements Closeable
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
-    public void exportTablesContent( // NOSONAR
+    @SuppressWarnings("squid:S1160")
+    public void exportTablesContent(
             final Writer outputWriter,
             final int    limitRows
             )

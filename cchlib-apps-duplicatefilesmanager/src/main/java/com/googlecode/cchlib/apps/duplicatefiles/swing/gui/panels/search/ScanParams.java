@@ -21,7 +21,7 @@ public class ScanParams {
     private final FileFilterBuilders              fileFilterBuilders;
     private final Map<String, Set<KeyFileState>>  duplicateFiles;
 
-    public ScanParams( // NOSONAR
+    public ScanParams(
             @Nonnull final MessageDigestAlgorithms        messageDigestAlgorithm,
             @Nonnull final int                            messageDigestBufferSize,
             @Nonnull final boolean                        ignoreEmptyFiles,

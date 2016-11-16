@@ -185,7 +185,7 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     private void cancelCellEditing()
     {
@@ -249,12 +249,12 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param textForCopy
      * @param rowIndex
      * @param columnIndex
-     * @return TODOC
+     * @return NEEDDOC
      */
     protected final JMenuItem createCopyJMenuItem(
             final String    textForCopy,

@@ -229,6 +229,7 @@ public class Iterables
     }
 
     @NeedDoc
+    @SuppressWarnings("null")
     public static @Nullable <T> T find( //
         @Nonnull final Iterable<T>   iterable, //
         @Nonnull final Selectable<T> filter //
@@ -241,16 +242,4 @@ public class Iterables
         }
         return null;
     }
-
-//    public static <T> Iterable<T> allOf( final Iterable<T>[] iterables )
-//    {
-//        Iterator<Iterator<T>> iterators = Iterables.wrap( iterables, new Wrappable<Iterable<T>,Iterator<T>>() {
-//            @Override
-//            public Iterator<T> wrap( Iterable<T> obj ) throws WrapperException
-//            {
-//                // TODO Auto-generated method stub
-//                return null;
-//            }} );
-//        return create( new MultiIterator<T>( iterators  ) );
-//    }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import com.googlecode.cchlib.swing.combobox.HiddenAutoCompleteTextField;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public class AutoCompleteTextField extends HiddenAutoCompleteTextField
@@ -12,8 +12,8 @@ public class AutoCompleteTextField extends HiddenAutoCompleteTextField
     private static final long serialVersionUID = 1L;
 
     /**
-     * TODOC
-     * 
+     * NEEDDOC
+     *
      * @param valuesList
      */
     public AutoCompleteTextField( final List<String> valuesList )

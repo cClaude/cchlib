@@ -9,9 +9,9 @@ import com.googlecode.cchlib.lang.reflect.SerializableField;
 /**
  * This object is created by {@link SwingIntrospector}
  *
- * TODOC
+ * NEEDDOC
  *
- * @param <FRAME> TODOC
+ * @param <FRAME> NEEDDOC
  */
 public class SwingIntrospectorItem<FRAME>
     implements Serializable
@@ -28,9 +28,9 @@ public class SwingIntrospectorItem<FRAME>
     /**
      * Create a SwingIntrospectorItem
      *
-     * @param bean TODOC
-     * @param field TODOC
-     * @param attributes TODOC
+     * @param bean NEEDDOC
+     * @param field NEEDDOC
+     * @param attributes NEEDDOC
      */
     public SwingIntrospectorItem(
             @Nonnull final Bean                          bean,

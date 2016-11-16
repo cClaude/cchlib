@@ -121,7 +121,7 @@ public final class FolderTreeNode
                 return children.hasMoreElements();
             }
             @Override
-            public FolderTreeNode next() throws NoSuchElementException // NOSONAR
+            public FolderTreeNode next() throws NoSuchElementException
             {
                 return (FolderTreeNode)( children.nextElement() );
             }

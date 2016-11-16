@@ -38,10 +38,10 @@ public class IteratorFilter<T>
     @Override
     protected T computeNext() throws NoSuchElementException
     {
-        while(iterator.hasNext()) {
-            final T currentObject = iterator.next();
+        while(this.iterator.hasNext()) {
+            final T currentObject = this.iterator.next();
 
-            if( filter.isSelected( currentObject ) ) {
+            if( this.filter.isSelected( currentObject ) ) {
                 return currentObject;
             }
         }
@@ -50,7 +50,7 @@ public class IteratorFilter<T>
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param fileFilter
      * @return a wrapper for File use that use FileFilter

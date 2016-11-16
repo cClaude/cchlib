@@ -11,14 +11,13 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.resources.ResourcesLoader;
 
 /**
- * TODO
- * TODOC
+ * NEEDDOC
  *
  */
 public class SwingAutoI18nCoreFactory
 {
     private static SwingAutoI18nCoreFactory factory;
-    private Map<Locale,AutoI18nCore> map = new HashMap<>();
+    private final Map<Locale,AutoI18nCore> map = new HashMap<>();
 
     private SwingAutoI18nCoreFactory()
     {
@@ -27,16 +26,11 @@ public class SwingAutoI18nCoreFactory
     private AutoI18nCore newCurrentSwingAutoI18nCore()
     {
         final Locale locale  = Locale.getDefault();
-        AutoI18nCore current = map.get( locale );
- 
+        AutoI18nCore current = this.map.get( locale );
+
         if( current == null ) {
-            EnumSet<AutoI18nConfig> config = EnumSet.noneOf( AutoI18nConfig.class );
-            I18nResourceBundleName  resourceBundleName = new I18nResourceBundleName() {
-                @Override
-                public String getName()
-                {
-                    return ResourcesLoader.class.getPackage().getName() + ".i18n";
-                }};
+            final EnumSet<AutoI18nConfig> config = EnumSet.noneOf( AutoI18nConfig.class );
+            final I18nResourceBundleName  resourceBundleName = ( ) -> ResourcesLoader.class.getPackage().getName() + ".i18n";
 
             current = AutoI18nCoreFactory.createAutoI18nCore( config, resourceBundleName, locale );
             }

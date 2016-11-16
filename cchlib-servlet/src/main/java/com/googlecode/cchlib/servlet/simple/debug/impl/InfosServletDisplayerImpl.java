@@ -65,7 +65,7 @@ public class InfosServletDisplayerImpl
     public InfosServletDisplayerImpl(
             final HttpServlet       servlet,
             final ServletRequest    request,
-            final ServletResponse   response, // NOSONAR
+            final ServletResponse   response,
             final HttpSession       httpSession
             )
         throws IOException
@@ -222,7 +222,7 @@ public class InfosServletDisplayerImpl
     /**
      * Build informations from HttpServletRequest.getHeaderNames()
      */
-    private InfosServletDisplay getHttpServletRequest_getHeaderNamesISD() // NOSONAR
+    private InfosServletDisplay getHttpServletRequest_getHeaderNamesISD()
     {
         final HttpServletRequest request = getHttpServletRequest();
 
@@ -255,7 +255,7 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    private InfosServletDisplay getRequest_getParameterNamesISD() // NOSONAR
+    private InfosServletDisplay getRequest_getParameterNamesISD()
     {
         final Map<String,String> map     = new TreeMap<>();
         final StringBuilder      builder = new StringBuilder();
@@ -288,7 +288,7 @@ public class InfosServletDisplayerImpl
     /**
      *
      */
-    private InfosServletDisplay getRequest_getAttributeNamesISD() // NOSONAR
+    private InfosServletDisplay getRequest_getAttributeNamesISD()
     {
         final Map<String,String> map = new TreeMap<>();
         String name;
@@ -334,7 +334,7 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    private InfosServletDisplay getConfig_getInitParameterNamesISD() // NOSONAR
+    private InfosServletDisplay getConfig_getInitParameterNamesISD()
     {
         final ServletConfig       servletConfig = this.httpServlet.getServletConfig();
         final Map<String,String>  map           = new TreeMap<>();
@@ -381,7 +381,7 @@ public class InfosServletDisplayerImpl
             .put("getMimeType( \"toto.svg\" )", this.servletContext.getMimeType("file.svg"));
     }
 
-    private InfosServletDisplay getContext_getAttributeNamesISD() // NOSONAR
+    private InfosServletDisplay getContext_getAttributeNamesISD()
     {
         final Map<String,String> map = new TreeMap<>();
         String name;
@@ -401,7 +401,7 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    private InfosServletDisplay getContext_getInitParameterNamesISD() // NOSONAR
+    private InfosServletDisplay getContext_getInitParameterNamesISD()
     {
         final Map<String,String> map = new TreeMap<>();
         String name;
@@ -432,7 +432,7 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    private InfosServletDisplay getHttpSession_getAttributeNamesISD() // NOSONAR
+    private InfosServletDisplay getHttpSession_getAttributeNamesISD()
     {
         final Map<String,String> map   = new TreeMap<>();
         final StringBuilder      title = new StringBuilder("Here are the HttpSession : ");
@@ -471,7 +471,7 @@ public class InfosServletDisplayerImpl
                     );
     }
 
-    private InfosServletDisplay getJVM_RuntimeISD() // NOSONAR
+    private InfosServletDisplay getJVM_RuntimeISD()
     {
         final Map<String,String>    map         = new TreeMap<>();
         final Runtime               runtime     = Runtime.getRuntime();
@@ -494,7 +494,7 @@ public class InfosServletDisplayerImpl
                     );
         }
 
-    private InfosServletDisplay getJVM_SystemPropertiesISD() // NOSONAR
+    private InfosServletDisplay getJVM_SystemPropertiesISD()
     {
         final Properties         prop = System.getProperties();
         final Map<String,String> map  = new TreeMap<>();
@@ -517,7 +517,7 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    private InfosServletDisplay getJVM_System_getenvISD() // NOSONAR
+    private InfosServletDisplay getJVM_System_getenvISD()
     {
         return new InfosServletDisplayImplForMap(
                 "Here is the JVM getenv() informations",
@@ -526,13 +526,13 @@ public class InfosServletDisplayerImpl
                 );
     }
 
-    private InfosServletDisplay getJVM_SystemObjectISD() // NOSONAR
+    private InfosServletDisplay getJVM_SystemObjectISD()
     {
         final Map<String,String> map = new TreeMap<>();
 
-        map.put("System.out", StringTools.safeToString(System.out)); // NOSONAR
-        map.put("System.err", StringTools.safeToString(System.err)); // NOSONAR
-        map.put("System.in",  StringTools.safeToString(System.in)); // NOSONAR
+        map.put("System.out", StringTools.safeToString(System.out));
+        map.put("System.err", StringTools.safeToString(System.err));
+        map.put("System.in",  StringTools.safeToString(System.in));
 
         return new InfosServletDisplayImplForMap(
                 "Here is the JVM System Object informations",

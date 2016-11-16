@@ -40,7 +40,7 @@ public class DefaultJFCCustomizer
     }
 
     /**
-     * @param attributes TODOC
+     * @param attributes NEEDDOC
      */
     public DefaultJFCCustomizer( @Nullable final EnumSet<JFileChooserInitializer.Attrib> attributes )
     {

@@ -9,7 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public class LeftDotListCellRenderer extends DefaultListCellRenderer {
     private static final long   serialVersionUID = 1L;

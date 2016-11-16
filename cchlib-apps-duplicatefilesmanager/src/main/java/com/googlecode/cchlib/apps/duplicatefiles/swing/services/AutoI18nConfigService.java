@@ -5,7 +5,7 @@ import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public class AutoI18nConfigService
 {

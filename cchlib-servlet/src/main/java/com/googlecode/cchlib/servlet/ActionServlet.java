@@ -91,7 +91,7 @@ public class ActionServlet extends HttpServlet
         //TO DO: should be customizable !!!!
         //request.setCharacterEncoding( "utf-8" );
 
-        String action  = request.getParameter( getActionParameterName() );
+        final String action  = request.getParameter( getActionParameterName() );
 
         log( "ACTION["  + getActionParameterName()  + "]=[" + action  + "]" );
 
@@ -103,19 +103,19 @@ public class ActionServlet extends HttpServlet
 
             servletAction = ServletAction.class.cast( o );
             }
-        catch( ClassNotFoundException e ) {
+        catch( final ClassNotFoundException e ) {
             handleException( request, response, getActionParameterName(), action, e );
             return;
             }
-        catch( InstantiationException e ) {
+        catch( final InstantiationException e ) {
             handleException( request, response, getActionParameterName(), action, e );
             return;
             }
-        catch( IllegalAccessException e ) {
+        catch( final IllegalAccessException e ) {
             handleException( request, response, getActionParameterName(), action, e );
             return;
             }
-        catch( ClassCastException e ) {
+        catch( final ClassCastException e ) {
             handleException( request, response, getActionParameterName(), action, e );
             return;
             }
@@ -125,13 +125,13 @@ public class ActionServlet extends HttpServlet
         try {
             nextAction = servletAction.doAction( request, response, getServletContext() ) ;
             }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             log( "doAction[" + action + "]", e );
             handleException( request, response, getNextURLParameterName(), action, e );
             return;
             }
 
-        String nextURL = request.getParameter( getNextURLParameterName() );
+        final String nextURL = request.getParameter( getNextURLParameterName() );
 
         log( "NEXTURL[" + getNextURLParameterName() + "]=[" + nextURL + "]" );
         //log( "request[" + request + "]" );
@@ -142,7 +142,7 @@ public class ActionServlet extends HttpServlet
             try {
                 getServletContext().getRequestDispatcher(nextURL).forward(request, response);
                 }
-            catch( IllegalArgumentException e ) {
+            catch( final IllegalArgumentException e ) {
                 handleException( request, response, getNextURLParameterName(), nextURL, e );
                 return;
                 }
@@ -163,7 +163,7 @@ public class ActionServlet extends HttpServlet
             )
         throws IOException, ServletException
     {
-        StringBuilder msg = new StringBuilder( cause.getClass().getName() );
+        final StringBuilder msg = new StringBuilder( cause.getClass().getName() );
 
         msg.append( ": '" )
            .append( paramName )
@@ -194,9 +194,9 @@ public class ActionServlet extends HttpServlet
 //    }
 
     /**
-     * TODOC
-     * 
-     * @return TODOC
+     * NEEDDOC
+     *
+     * @return NEEDDOC
      */
     protected String getActionParameterName()
     {
@@ -204,9 +204,9 @@ public class ActionServlet extends HttpServlet
     }
 
     /**
-     * TODOC
-     * 
-     * @return TODOC
+     * NEEDDOC
+     *
+     * @return NEEDDOC
      */
     protected String getNextURLParameterName()
     {
@@ -214,9 +214,9 @@ public class ActionServlet extends HttpServlet
     }
 
     /**
-     * TODOC
-     * 
-     * @return TODOC
+     * NEEDDOC
+     *
+     * @return NEEDDOC
      */
     protected String getErrorParameterName()
     {

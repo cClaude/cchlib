@@ -249,7 +249,7 @@ public class SimpleServletRequestImpl
 
     private boolean isMozilla( final String userAgentLowerCase )
     {
-        return (userAgentLowerCase.indexOf(MOZILLA) != -1) // NOSONAR
+        return (userAgentLowerCase.indexOf(MOZILLA) != -1)
                      && (userAgentLowerCase.indexOf("spoofer") == -1)
                      && (userAgentLowerCase.indexOf(COMPATIBLE) == -1)
                      && (userAgentLowerCase.indexOf(OPERA) == -1)
@@ -271,7 +271,7 @@ public class SimpleServletRequestImpl
             }
     }
 
-    private EnumSet<UserAgent> getOSForIE(final String userAgent) // NOSONAR
+    private EnumSet<UserAgent> getOSForIE(final String userAgent)
     {
         final EnumSet<UserAgent> details = EnumSet.noneOf(UserAgent.class);
 
@@ -321,7 +321,7 @@ public class SimpleServletRequestImpl
         return details;
     }
 
-    private EnumSet<UserAgent> getOSForMozilla(final String userAgent) // NOSONAR
+    private EnumSet<UserAgent> getOSForMozilla(final String userAgent)
     {
         final EnumSet<UserAgent> details = EnumSet.noneOf(UserAgent.class);
 

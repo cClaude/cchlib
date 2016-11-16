@@ -3,14 +3,14 @@ package alpha.cx.ath.choisnet.system;
 import java.io.Serializable;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public interface SystemEnvironmentVar
 {
     String getVar(String name);
     void setVar(String name, String value);
-    
+
     Serializable getVarObject(Serializable key);
     void setVarObject(Serializable key, Serializable value);
 
@@ -22,7 +22,7 @@ public interface SystemEnvironmentVar
      */
     abstract void deleteVar(String varname)
         throws UnsupportedOperationException;
-    
+
     abstract void deleteVarObject(Serializable key)
         throws UnsupportedOperationException;
 
@@ -34,7 +34,7 @@ public interface SystemEnvironmentVar
      */
     abstract Iterable<String> getVarNames()
         throws UnsupportedOperationException;
-    
+
     abstract Iterable<Serializable> getVarObjectKeys()
         throws UnsupportedOperationException;
 }

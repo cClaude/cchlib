@@ -82,7 +82,7 @@ public final class ArrayHelper
      * @param srcPos
      * @param destPos
      * @param length
-     * @return TODOC
+     * @return NEEDDOC
      */
     @NeedTestCases
     public static byte[] cloneArray( final byte[] src, final int srcPos, final int destPos, final int length )
@@ -122,8 +122,8 @@ public final class ArrayHelper
             }
 
             @Override
-            public T nextElement()
-                throws NoSuchElementException // NOSONAR
+            @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+            public T nextElement() throws NoSuchElementException
             {
                 if( this.index < enumLen ) {
                     return array[this.index++];

@@ -67,10 +67,8 @@ final class ExportSQLPrinter implements Closeable
      * @throws SQLException if any
      * @throws IOException if any
      */
-    public void doExportData( // NOSONAR
-            final TableDescription tableDescription //
-            ) //
-        throws SQLException, IOException // NOSONAR
+    public void doExportData( final TableDescription tableDescription ) //
+        throws SQLException, IOException
     {
         createStatementIfNeeded();
 

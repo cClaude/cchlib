@@ -458,19 +458,19 @@ public class DHCPOptions implements Serializable {
         return baos.toByteArray();
     }
 
-    /** TODOC */
+    /** NEEDDOC */
     public Set<Map.Entry<Byte, DHCPOptionEntry>> getOptionSet() // -------------
     {
         return Collections.unmodifiableSet( new TreeMap<Byte, DHCPOptionEntry>( this.optionsTable ).entrySet() );
     }
 
-    /** TODOC */
+    /** NEEDDOC */
     public String toHexString() // --------------------------------------------
     {
         return DHCPParameters.toHexString( this.toByteArray() );
     }
 
-    /** TODOC */
+    /** NEEDDOC */
     public DHCPOptions getClone() // ------------------------------------------
     {
         final DHCPOptions copy = new DHCPOptions();
@@ -544,7 +544,7 @@ public class DHCPOptions implements Serializable {
     /** Calculer lors du premier appel */
     private transient /*static*/ Properties properties;
 
-    /** TODOC */
+    /** NEEDDOC */
     public String getProperty( final String name ) // -------------------------
     {
         if( this.properties == null ) {
@@ -568,7 +568,7 @@ public class DHCPOptions implements Serializable {
         return this.properties.getProperty( name );
     }
 
-    /** TODOC */
+    /** NEEDDOC */
     public String getOptionComment( final byte option ) // --------------------
     {
         final String value = getProperty( "OPTION_NUM." + option );
@@ -586,7 +586,7 @@ public class DHCPOptions implements Serializable {
         }
     }
 
-    /** TODOC */
+    /** NEEDDOC */
     public String getSubComment( final byte option, final byte[] code ) // ----
     {
         if( code.length != 1 ) {
@@ -596,7 +596,7 @@ public class DHCPOptions implements Serializable {
         }
     }
 
-    /** TODOC */
+    /** NEEDDOC */
     public String getSubComment( final byte option, final byte code ) // ------
     {
         final String value = getProperty( option + "." + code );

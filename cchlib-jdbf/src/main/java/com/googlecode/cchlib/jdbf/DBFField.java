@@ -41,7 +41,7 @@ public class DBFField
     public static final byte FIELD_TYPE_D = (byte)'D';
 
 //    /**
-//     * {@value} define a {@link xxxx} TODOC
+//     * {@value} define a {@link xxxx} NEEDDOC
 //     */
     public static final byte FIELD_TYPE_M = (byte)'M';
 
@@ -60,7 +60,7 @@ public class DBFField
     private short reserv3;                    /* 21-22 */
     @SuppressWarnings("unused")
     private byte setFieldsFlag;               /* 23 */
-    private byte[] reserv4 = new byte[ 7];    /* 24-30 */
+    private final byte[] reserv4 = new byte[ 7];    /* 24-30 */
     @SuppressWarnings("unused")
     private byte indexFieldFlag;              /* 31 */
     /* Field struct variables end here */
@@ -124,14 +124,14 @@ public class DBFField
     protected void write( final DataOutput output ) throws IOException
     {
         // Field Name
-        output.write( fieldName);        /* 0-10 */
-        output.write( new byte[ 11 - fieldName.length]);
+        output.write( this.fieldName);        /* 0-10 */
+        output.write( new byte[ 11 - this.fieldName.length]);
 
         // data type
-        output.writeByte( dataType); /* 11 */
+        output.writeByte( this.dataType); /* 11 */
         output.writeInt( 0x00);   /* 12-15 */
-        output.writeByte( fieldLength); /* 16 */
-        output.writeByte( decimalCount); /* 17 */
+        output.writeByte( this.fieldLength); /* 16 */
+        output.writeByte( this.decimalCount); /* 17 */
         output.writeShort( (short)0x00); /* 18-19 */
         output.writeByte( (byte)0x00); /* 20 */
         output.writeShort( (short)0x00); /* 21-22 */
@@ -147,7 +147,7 @@ public class DBFField
     */
     public String getName()
     {
-        return new String( this.fieldName, 0, nameNullIndex );
+        return new String( this.fieldName, 0, this.nameNullIndex );
     }
 
     /**
@@ -157,7 +157,7 @@ public class DBFField
      */
     public byte getDataType()
     {
-        return dataType;
+        return this.dataType;
     }
 
     /**
@@ -167,7 +167,7 @@ public class DBFField
      */
     public int getFieldLength()
     {
-        return fieldLength;
+        return this.fieldLength;
     }
 
     /**
@@ -181,7 +181,7 @@ public class DBFField
     */
     public int getDecimalCount()
     {
-        return decimalCount;
+        return this.decimalCount;
     }
 
     /**
@@ -242,7 +242,7 @@ public class DBFField
             throw new UnsupportedOperationException( "Cannot do this on a Date field" );
             }
 
-        fieldLength = length;
+        this.fieldLength = length;
     }
 
     /**
@@ -257,11 +257,11 @@ public class DBFField
         if( value < 0 ) {
             throw new IllegalArgumentException( "Decimal length should be a positive number" );
             }
-        if( value > fieldLength ) {
+        if( value > this.fieldLength ) {
             throw new IllegalArgumentException( "Decimal length should be less than field length" );
             }
 
-        decimalCount = (byte)value;
+        this.decimalCount = (byte)value;
     }
 
 }

@@ -105,7 +105,7 @@ public class SimpleSQL implements Closeable
      *
      * @see QueryHandler#handle(ResultSet)
      */
-    public final <T> T executeQuery( // NOSONAR
+    public final <T> T executeQuery(
         final String          query,
         final QueryHandler<T> queryHandler
         )

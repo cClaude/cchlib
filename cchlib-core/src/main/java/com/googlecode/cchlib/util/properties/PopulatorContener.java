@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.util.properties;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public interface PopulatorContener
 {

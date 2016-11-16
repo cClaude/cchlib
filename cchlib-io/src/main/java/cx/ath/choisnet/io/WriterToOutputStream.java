@@ -9,20 +9,20 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public class WriterToOutputStream extends OutputStream
 {
     private static final int BUFFER_SIZE = 1024;
-    
+
     private final Writer writer;
     private final CharsetDecoder decoder;
     private final byte[] writeBuffer;
     private final CharBuffer charBuffer;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param writer
      */
     public WriterToOutputStream( final Writer writer )
@@ -31,7 +31,7 @@ public class WriterToOutputStream extends OutputStream
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param writer
      * @param charset
      */
@@ -46,21 +46,21 @@ public class WriterToOutputStream extends OutputStream
     @Override
     public void write( final int b ) throws IOException
     {
-        writeBuffer[0] = (byte)b;
+        this.writeBuffer[0] = (byte)b;
 
-        write( writeBuffer );
+        write( this.writeBuffer );
     }
 
     @Override
     public void close() throws IOException
     {
-        writer.close();
+        this.writer.close();
     }
 
     @Override
     public void flush() throws IOException
     {
-        writer.flush();
+        this.writer.flush();
     }
 
     @Override
@@ -74,8 +74,8 @@ public class WriterToOutputStream extends OutputStream
     {
         final ByteBuffer aByteBuffer = ByteBuffer.wrap(b, off, len);
 
-        decoder.decode( aByteBuffer, charBuffer, false );
-        charBuffer.flip();
-        writer.write( charBuffer.toString() );
+        this.decoder.decode( aByteBuffer, this.charBuffer, false );
+        this.charBuffer.flip();
+        this.writer.write( this.charBuffer.toString() );
     }
 }

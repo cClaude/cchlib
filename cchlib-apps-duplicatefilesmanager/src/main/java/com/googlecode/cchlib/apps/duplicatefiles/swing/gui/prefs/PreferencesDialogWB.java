@@ -21,7 +21,7 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 
 @I18nName("PreferencesDialogWB")
-public final class PreferencesDialogWB // NOSONAR
+public final class PreferencesDialogWB
     extends PreferencesDialogI18n
         implements I18nAutoCoreUpdatable
 {
@@ -46,7 +46,7 @@ public final class PreferencesDialogWB // NOSONAR
     /**
      * Create the frame
      */
-    public PreferencesDialogWB( final Dimension mainWindowDimension ) // NOSONAR
+    public PreferencesDialogWB( final Dimension mainWindowDimension )
     {
         super();
 
@@ -57,17 +57,17 @@ public final class PreferencesDialogWB // NOSONAR
         this.contentPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         setContentPane( this.contentPanel );
 
-        final GridBagLayout gbl_contentPanel = new GridBagLayout(); // NOSONAR
+        final GridBagLayout gbl_contentPanel = new GridBagLayout();
         gbl_contentPanel.columnWidths = new int[]{40, 484, 40, 0};
         gbl_contentPanel.rowHeights = new int[]{315, 23, 0};
         gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
         gbl_contentPanel.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
 
-        this.contentPanel.setLayout(gbl_contentPanel); // NOSONAR
-        { // NOSONAR
+        this.contentPanel.setLayout(gbl_contentPanel);
+        {
             this.panel = new PreferencesPanelWB( this );
 
-            final GridBagConstraints gbc_panel = new GridBagConstraints(); // NOSONAR
+            final GridBagConstraints gbc_panel = new GridBagConstraints();
             gbc_panel.fill = GridBagConstraints.BOTH;
             gbc_panel.gridwidth = 3;
             gbc_panel.insets = new Insets(0, 0, 5, 0);
@@ -75,9 +75,9 @@ public final class PreferencesDialogWB // NOSONAR
             gbc_panel.gridy = 0;
             this.contentPanel.add(this.panel, gbc_panel);
         }
-        { // NOSONAR
+        {
             this.jButtonCancel = new JButton("Cancel");
-            final GridBagConstraints gbc_jButtonCancel = new GridBagConstraints(); // NOSONAR
+            final GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
             gbc_jButtonCancel.fill = GridBagConstraints.BOTH;
             gbc_jButtonCancel.insets = new Insets(0, 0, 0, 5);
             gbc_jButtonCancel.gridx = 0;
@@ -87,9 +87,9 @@ public final class PreferencesDialogWB // NOSONAR
                     (final ActionEvent e) -> PreferencesDialogWB.this.dispose()
                     );
         }
-        { // NOSONAR
+        {
             this.jButtonSave = new JButton("Save");
-            final GridBagConstraints gbc_jButtonSave = new GridBagConstraints(); // NOSONAR
+            final GridBagConstraints gbc_jButtonSave = new GridBagConstraints();
             gbc_jButtonSave.fill = GridBagConstraints.BOTH;
             gbc_jButtonSave.gridx = 2;
             gbc_jButtonSave.gridy = 1;

@@ -33,7 +33,7 @@ class SimpleTextPersistenceManagerV2 extends AbstractSimpleTextPersistenceManage
         URI uri;
         uri = new URI( line );
 
-        assert uri.equals( new URL( line ).toURI() ); // NOSONAR
+        assert uri.equals( new URL( line ).toURI() );
         return uri;
     }
 

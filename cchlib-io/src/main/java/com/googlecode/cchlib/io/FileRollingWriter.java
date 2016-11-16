@@ -13,7 +13,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  *@since 4.1.6
  */
@@ -93,7 +93,7 @@ public class FileRollingWriter
         this.currentLength     = 0;
     }
 
-    private void checkIfNeedToChangeFile( int len )
+    private void checkIfNeedToChangeFile( final int len )
         throws IOException
     {
         this.currentLength += len;
@@ -133,7 +133,7 @@ public class FileRollingWriter
             throw new IOException( "Writer closed" );
             }
 
-        currentOutput.flush();
+        this.currentOutput.flush();
     }
 
     /**
@@ -144,14 +144,14 @@ public class FileRollingWriter
      * for this action.
      */
     @Override
-    public void write(char[] cbuf, int off, int len) throws IOException
+    public void write(final char[] cbuf, final int off, final int len) throws IOException
     {
         if( this.currentOutput == null ) {
             throw new IOException( "Writer closed" );
             }
 
         checkIfNeedToChangeFile( len );
-        currentOutput.write( cbuf, off, len );
+        this.currentOutput.write( cbuf, off, len );
     }
 
     /**
@@ -162,28 +162,28 @@ public class FileRollingWriter
      * for this action.
      */
     @Override
-    public void write( char[] b ) throws IOException
+    public void write( final char[] b ) throws IOException
     {
         if( this.currentOutput == null ) {
             throw new IOException( "Writer closed" );
             }
 
         checkIfNeedToChangeFile( b.length );
-        currentOutput.write( b );
+        this.currentOutput.write( b );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void write( int b ) throws IOException
+    public void write( final int b ) throws IOException
     {
         if( this.currentOutput == null ) {
             throw new IOException( "Writer closed" );
             }
 
         checkIfNeedToChangeFile( 1 );
-        currentOutput.write( b );
+        this.currentOutput.write( b );
     }
 
     /**
@@ -238,6 +238,6 @@ public class FileRollingWriter
      */
     public boolean isClose()
     {
-        return currentOutput == null;
+        return this.currentOutput == null;
     }
 }

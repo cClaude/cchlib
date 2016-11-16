@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.NeedDoc;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 @NeedDoc
 public class MappableBuilder
@@ -103,6 +103,7 @@ public class MappableBuilder
         return new TreeMap<>( map );
     }
 
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private void handleMethodWithValueForToMap(
         final Object             object,
         final Map<String,String> map,
@@ -396,7 +397,8 @@ public class MappableBuilder
             }
     }
 
-    private final boolean shouldEvaluate( final Class<?> returnType ) // NOSONAR
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
+    private final boolean shouldEvaluate( final Class<?> returnType )
     {
         final int modifier = returnType.getModifiers();
 
@@ -552,7 +554,8 @@ public class MappableBuilder
     }
 
     @NeedDoc
-    protected final Object invoke( // NOSONAR
+    @SuppressWarnings({"squid:MethodCyclomaticComplexity"})
+    protected final Object invoke(
             final Object             object,
             final Method             method,
             final Map<String,String> hashMap,
@@ -565,7 +568,7 @@ public class MappableBuilder
             return methodInvoke( object, method, hashMap, resultClass );
             }
         catch( final ClassCastException improbable ) {
-            throw new RuntimeException(
+            throw new MappableRuntimeException(
                     "method.getName() - ClassCastException: " + result,
                     improbable
                     );
@@ -605,12 +608,15 @@ public class MappableBuilder
         return null;
     }
 
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     private Object methodInvoke( //
         final Object              object, //
         final Method              method, //
         final Map<String, String> hashMap,  //
         final Class<?>            resultClass //
-        ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException // NOSONAR
+        ) throws IllegalAccessException,
+                 IllegalArgumentException,
+                 InvocationTargetException
     {
         final Object result = method.invoke( object, (Object[])null );
 

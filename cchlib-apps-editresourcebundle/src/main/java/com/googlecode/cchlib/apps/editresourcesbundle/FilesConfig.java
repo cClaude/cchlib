@@ -211,7 +211,7 @@ public class FilesConfig implements Serializable
      * @throws IOException
      */
     public void load()
-        throws  FileNotFoundException, // NOSONAR
+        throws  FileNotFoundException,
                 IOException
     {
         switch( this.fileType )

@@ -2,7 +2,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig
 
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
-public abstract class JPanelConfigI18n extends JPanelConfigWB // NOSONAR
+public abstract class JPanelConfigI18n extends JPanelConfigWB
 {
     private static final long serialVersionUID = 1L;
 

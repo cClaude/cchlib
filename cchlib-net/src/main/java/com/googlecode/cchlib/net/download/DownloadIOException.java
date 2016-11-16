@@ -15,7 +15,7 @@ public class DownloadIOException extends Exception
     private final File file;
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param downloadURL
      * @param cause
@@ -29,7 +29,7 @@ public class DownloadIOException extends Exception
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param downloadURL
      * @param file

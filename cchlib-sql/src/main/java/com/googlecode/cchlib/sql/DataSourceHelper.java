@@ -121,10 +121,10 @@ public class DataSourceHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
-     * @param dataSource TODOC
-     * @return TODOC
+     * @param dataSource NEEDDOC
+     * @return NEEDDOC
      */
     public static SimpleDataSource newSimpleDataSource( final DataSource dataSource )
     {
@@ -132,10 +132,10 @@ public class DataSourceHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
-     * @param resourceName TODOC
-     * @return TODOC
+     * @param resourceName NEEDDOC
+     * @return NEEDDOC
      * @throws SimpleDataSourceException if any
      */
     public static SimpleDataSource newSimpleDataSource( final String resourceName )

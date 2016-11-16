@@ -5,27 +5,27 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public class ExternalAppException extends IOException
 {
     private static final long serialVersionUID = 1L;
 
-    public ExternalAppException(String msg)
+    public ExternalAppException(final String msg)
     {
         super(msg);
     }
 
-    public ExternalAppException(String msg, Throwable cause)
+    public ExternalAppException(final String msg, final Throwable cause)
     {
         super(msg);
         initCause(cause);
     }
 
-    public static String getStackTraceString(Throwable e)
+    public static String getStackTraceString(final Throwable e)
     {
-        StringWriter sw = new StringWriter();
+        final StringWriter sw = new StringWriter();
 
         e.printStackTrace(new PrintWriter(sw));
 

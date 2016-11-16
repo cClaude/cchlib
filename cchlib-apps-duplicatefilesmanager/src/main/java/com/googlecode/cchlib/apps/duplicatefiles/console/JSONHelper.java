@@ -145,8 +145,8 @@ public class JSONHelper
     private static <T> void prettyPrint( final File jsonFile, final T value, final ObjectMapper mapper )
         throws
             IOException,
-            JsonGenerationException, // NOSONAR
-            JsonMappingException // NOSONAR
+            JsonGenerationException,
+            JsonMappingException
     {
         mapper.writerWithDefaultPrettyPrinter().writeValue( jsonFile, value );
     }
@@ -154,8 +154,8 @@ public class JSONHelper
     private static <T> void prettyPrintArray( final File jsonFile, final T value, final ObjectMapper mapper )
         throws
             IOException,
-            JsonGenerationException, // NOSONAR
-            JsonMappingException // NOSONAR
+            JsonGenerationException,
+            JsonMappingException
     {
         final DefaultPrettyPrinter pp = new DefaultPrettyPrinter();
 

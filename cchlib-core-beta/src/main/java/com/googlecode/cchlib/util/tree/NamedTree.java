@@ -228,6 +228,7 @@ public class NamedTree<T>
      *             if pathName is null, or any String in path, except for root name (since SimpleTree root node name
      *             could be null)
      */
+    @SuppressWarnings("null")
     public @Nullable T put( @Nullable final T content, final String...pathName)
         throws BadRootNameException
     {
@@ -333,7 +334,7 @@ public class NamedTree<T>
     }
 
     /**
-     * TODOC: more doc!
+     * NEEDDOC: more doc!
      *
      * <p>
      * Handle only {@link VisitResult} values:
@@ -380,7 +381,7 @@ public class NamedTree<T>
     }
 
     /**
-     * TODOC: more doc!
+     * NEEDDOC: more doc!
      *
      * <p>
      * Handle only {@link VisitResult} values:

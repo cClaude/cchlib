@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public final class UnbufferedOutputStream
@@ -15,12 +15,12 @@ public final class UnbufferedOutputStream
     private int bufferSize;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param outputStream
      * @param maxBufferSize
      */
     public UnbufferedOutputStream(
-        final OutputStream  outputStream, 
+        final OutputStream  outputStream,
         final int           maxBufferSize
         )
     {
@@ -30,10 +30,10 @@ public final class UnbufferedOutputStream
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param outputStream
      */
-    public UnbufferedOutputStream( 
+    public UnbufferedOutputStream(
         final OutputStream outputStream
         )
     {
@@ -43,41 +43,41 @@ public final class UnbufferedOutputStream
     @Override
     public void close() throws IOException
     {
-        outputStream.close();
+        this.outputStream.close();
     }
 
     @Override
     public void flush()
         throws java.io.IOException
     {
-        outputStream.flush();
+        this.outputStream.flush();
 
-        bufferSize = 0;
+        this.bufferSize = 0;
     }
 
     @Override
-    public void write(int b) throws IOException
+    public void write(final int b) throws IOException
     {
-        outputStream.write(b);
+        this.outputStream.write(b);
 
-        if(++bufferSize >= maxBufferSize) {
+        if(++this.bufferSize >= this.maxBufferSize) {
             flush();
         }
     }
 
     @Override
-    public void write(byte[] cbuf, int off, int len)
+    public void write(final byte[] cbuf, final int off, final int len)
         throws IOException
     {
         for(int i = off; i < len; i++) {
-            byte b = cbuf[i];
+            final byte b = cbuf[i];
 
             write(b);
         }
     }
 
     @Override
-    public void write(byte[] cbuf)
+    public void write(final byte[] cbuf)
         throws java.io.IOException
     {
         write(cbuf, 0, cbuf.length);

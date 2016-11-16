@@ -12,11 +12,11 @@ public final class DuplicateFileFinderHelper {
     private DuplicateFileFinderHelper() {}
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param ignoreEmptyFiles
      * @param fileDigestFactory
-     * @return TODOC
+     * @return NEEDDOC
      * @throws NoSuchAlgorithmException
      * @throws IllegalArgumentException
      */
@@ -26,7 +26,7 @@ public final class DuplicateFileFinderHelper {
             @Nonnull final FileDigestFactory fileDigestFactory //
             ) throws
                 NoSuchAlgorithmException,
-                IllegalArgumentException // NOSONAR
+                IllegalArgumentException
     {
         final DFFConfig  dffConfig = new DFFConfigImpl( ignoreEmptyFiles, fileDigestFactory );
         final DFFPass1   dffPass1  = new DFFPass1Impl( dffConfig );
@@ -36,12 +36,12 @@ public final class DuplicateFileFinderHelper {
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param ignoreEmptyFiles
      * @param fileDigestFactory
      * @param maxParallelFiles
-     * @return TODOC
+     * @return NEEDDOC
      * @throws NoSuchAlgorithmException
      * @throws IllegalArgumentException
      */
@@ -52,7 +52,7 @@ public final class DuplicateFileFinderHelper {
             final int                           maxParallelFiles //
         ) throws
             NoSuchAlgorithmException,
-            IllegalArgumentException // NOSONAR
+            IllegalArgumentException
     {
         final DFFConfig2 dffConfig = new DFFConfigImpl2( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
         final DFFPass1   dffPass1  = new DFFPass1Impl( dffConfig );

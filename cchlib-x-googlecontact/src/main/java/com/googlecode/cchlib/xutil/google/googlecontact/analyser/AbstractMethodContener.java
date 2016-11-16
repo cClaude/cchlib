@@ -10,7 +10,7 @@ public abstract class AbstractMethodContener
     public AbstractMethodContener( final Method method )
     {
         assert method != null;
-        assert GoogleContactType.class.isAssignableFrom( method.getDeclaringClass() ); // NOSONAR
+        assert GoogleContactType.class.isAssignableFrom( method.getDeclaringClass() );
 
         this.method = method;
     }

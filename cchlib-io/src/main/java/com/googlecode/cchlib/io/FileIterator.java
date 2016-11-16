@@ -121,7 +121,7 @@ public class FileIterator implements  Iterator<File>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
-    public File next() throws NoSuchElementException // NOSONAR
+    public File next() throws NoSuchElementException
     {
         // Initialize currentDirFilesList
         // in case of direct call next()

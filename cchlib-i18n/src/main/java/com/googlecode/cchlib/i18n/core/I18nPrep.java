@@ -39,6 +39,92 @@ import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 public class I18nPrep
 {
+    private final class MyAutoI18nEventHandler implements AutoI18nEventHandler
+    {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void ignoredField( final Field f, final String key, final EventCause eventCause, final String causeDecription )
+        {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "I18nPrep.ignoredField: " + key + " - field: " + f );
+                }
+            // incForKey( key ); // not use, should not increment value !
+        }
+
+        @Override
+        public void localizedField( final Field f, final String key )
+        {
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "I18nPrep.localizedField: " + key );
+                }
+
+            incForKey( key );
+        }
+
+        private void incForKey( final String key )
+        {
+            assert key != null : "Key is null";
+
+            final Integer countInteger = I18nPrep.this.keyUsageCountMap.get( key );
+            final int     count;
+
+            if( countInteger == null ) {
+                count = 1;
+                }
+            else {
+                count = countInteger.intValue() + 1;
+                }
+
+            I18nPrep.this.keyUsageCountMap.put( key, Integer.valueOf( count ) );
+        }
+    }
+
+    private final class MyAutoI18nLog4JExceptionHandler extends AutoI18nLog4JExceptionHandler
+    {
+        private static final long serialVersionUID = 1L;
+
+        private MyAutoI18nLog4JExceptionHandler( final Level level, final Set<AutoI18nConfig> config )
+        {
+            super( level, config );
+        }
+
+        @Override
+        @SuppressWarnings("squid:S3346") // assert not produce side effects
+        public void handleMissingResourceException(
+            final MissingResourceException cause,
+            final I18nField                i18nField,
+            final Object                   objectToI18n,
+            final I18nInterface            i18nInterface
+            )
+        {
+            assert i18nField.getMethodContener() == null;
+
+            try {
+                final I18nResolver resolver = i18nField.createI18nResolver( objectToI18n, i18nInterface );
+                final Keys         keys     = resolver.getKeys();
+
+                final I18nResolvedFieldGetter getter = resolver.getI18nResolvedFieldGetter();
+                final Values                  values = getter.getValues( keys );
+
+                assert keys.size() == values.size();
+                assert keys.size() > 0;
+
+                for( int i = 0; i < keys.size(); i++ ) {
+                    final String k = keys.get( i );
+                    final String v = values.get( i );
+
+                    I18nPrep.this.missingPropertiesMap.put( k, v );
+                }
+            }
+            catch( MissingKeyException | GetFieldException e ) {
+                LOGGER.error( i18nField, e );
+            }
+
+            super.handleMissingResourceException( cause, i18nField, objectToI18n, i18nInterface );
+        }
+    }
+
     private static final Logger LOGGER = Logger.getLogger( I18nPrep.class );
 
     private final EnumSet<AutoI18nConfig> config;
@@ -82,65 +168,13 @@ public class I18nPrep
     public AutoI18nCore getAutoI18nCore()
     {
         if( this.autoI18nCore == null ) {
-            getI18nDelegator().addAutoI18nExceptionHandler(
-                new AutoI18nLog4JExceptionHandler( Level.TRACE, this.config ) {
-                    private static final long serialVersionUID = 1L;
-                    @Override
-                    public void handleMissingResourceException(
-                        final MissingResourceException cause,
-                        final I18nField                i18nField,
-                        final Object                   objectToI18n,
-                        final I18nInterface            i18nInterface
-                        )
-                    {
-                        assert i18nField.getMethodContener() == null;
+            final I18nDelegator delegator = getI18nDelegator();
 
-                        try {
-                            final I18nResolver resolver = i18nField.createI18nResolver( objectToI18n, i18nInterface );
-                            final Keys         keys     = resolver.getKeys();
+            delegator.addAutoI18nExceptionHandler( new MyAutoI18nLog4JExceptionHandler( Level.TRACE, this.config ) );
+            delegator.addAutoI18nEventHandler( new AutoI18nLog4JEventHandler() );
+            delegator.addAutoI18nEventHandler( new MyAutoI18nEventHandler() );
 
-                            final I18nResolvedFieldGetter getter = resolver.getI18nResolvedFieldGetter();
-                            final Values values = getter.getValues( keys );
-
-                            assert keys.size() == values.size();
-                            assert keys.size() > 0;
-
-                            for( int i = 0; i<keys.size(); i++ ) {
-                                final String k = keys.get( i );
-                                final String v = values.get( i );
-
-                                I18nPrep.this.missingPropertiesMap.put( k, v );
-                                }
-                            }
-                        catch( MissingKeyException | GetFieldException e ) {
-                            // TODO Auto-generated catch block : improve this
-                            e.printStackTrace();
-                             }
-
-                        super.handleMissingResourceException( cause, i18nField, objectToI18n, i18nInterface );
-                    }
-                } );
-            getI18nDelegator().addAutoI18nEventHandler( new AutoI18nLog4JEventHandler() );
-            getI18nDelegator().addAutoI18nEventHandler( new AutoI18nEventHandler() {
-                private static final long serialVersionUID = 1L;
-                @Override
-                public void ignoredField( final Field f, final String key, final EventCause eventCause, final String causeDecription )
-                {
-                    if( LOGGER.isTraceEnabled() ) {
-                        LOGGER.trace( "I18nPrep.ignoredField: " + key + " - field: " + f );
-                        }
-                    // incForKey( key ); // not use, should not increment value !
-                }
-                @Override
-                public void localizedField( final Field f, final String key )
-                {
-                    if( LOGGER.isDebugEnabled() ) {
-                        LOGGER.debug( "I18nPrep.localizedField: " + key );
-                        }
-                    incForKey( key );
-                }} );
-
-            this.autoI18nCore = new AutoI18nCoreImpl( this.i18nDelegator );
+            this.autoI18nCore = new AutoI18nCoreImpl( delegator );
             }
 
         return this.autoI18nCore;
@@ -202,7 +236,6 @@ public class I18nPrep
         LOGGER.info( "closeOutputFile(): know (key,value) count  = " + getResourceBundleMap().size() );
         LOGGER.info( "closeOutputFile(): unknow (key,value) count = " + properties.size() );
 
-        //properties.putAll( getProperties() );
         try( final OutputStream os = getResourceBundleOutputStream() ) {
             // Create by this class
             properties.store( os, "Create by :" + getClass().getName() );
@@ -217,23 +250,6 @@ public class I18nPrep
     private OutputStream getResourceBundleOutputStream() throws FileNotFoundException
     {
         return new FileOutputStream( this.resourceBundleOutputFile );
-    }
-
-    private void incForKey( final String key )
-    {
-        assert key != null : "Key is null";
-
-        final Integer countInteger = this.keyUsageCountMap.get( key );
-        final int     count;
-
-        if( countInteger == null ) {
-            count = 1;
-            }
-        else {
-            count = countInteger.intValue() + 1;
-            }
-
-        this.keyUsageCountMap.put( key, Integer.valueOf( count ) );
     }
 
     public Map<String,Integer> getUsageMap()

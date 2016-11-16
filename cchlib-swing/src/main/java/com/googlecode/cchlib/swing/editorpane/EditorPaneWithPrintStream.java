@@ -12,7 +12,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public class EditorPaneWithPrintStream extends JEditorPane
 {
@@ -71,25 +71,25 @@ public class EditorPaneWithPrintStream extends JEditorPane
      */
     public PrintStream getPrintStream()
     {
-        return ps;
+        return this.ps;
     }
 
-    private void append( String str ) throws BadLocationException
+    private void append( final String str ) throws BadLocationException
     {
-        Document document = getDocument();
+        final Document document = getDocument();
         document.insertString( document.getLength(), str, null );
         setCaretPosition(document.getLength());
 
-        totalLength += str.length();
+        this.totalLength += str.length();
         updateCaret();
     }
 
     private void updateCaret()
     {
         try {
-            setCaretPosition( Math.max( 0, totalLength - 1 ));
+            setCaretPosition( Math.max( 0, this.totalLength - 1 ));
             }
-        catch( IllegalArgumentException ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
+        catch( final IllegalArgumentException ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
             }
     }
 
@@ -104,27 +104,27 @@ public class EditorPaneWithPrintStream extends JEditorPane
      *                     the gadgets content or <code>null</code>to clear the gadget.
      */
     @Override
-    public void setText( String str )
+    public void setText( final String str )
     {
         super.setText( str );
 
-        totalLength = str == null ? 0 : str.length();
+        this.totalLength = str == null ? 0 : str.length();
     }
 
     public AbstractAction getClearAction()
     {
-        if( actionClear == null ) {
-            actionClear = new ActionClearClass();
+        if( this.actionClear == null ) {
+            this.actionClear = new ActionClearClass();
             }
 
-        return actionClear;
+        return this.actionClear;
     }
 
     // ---------------- internal classes ----------------
 
     private class RedirectedStream extends OutputStream
     {
-        private byte[] cheesy = new byte[1];
+        private final byte[] cheesy = new byte[1];
 
         private RedirectedStream()
         {
@@ -132,41 +132,41 @@ public class EditorPaneWithPrintStream extends JEditorPane
         }
 
         @Override
-        public void write( byte b[] ) throws IOException
+        public void write( final byte b[] ) throws IOException
         {
             this.write( b, 0, b.length );
         }
 
         @Override
-        public void write( byte b[], int off, int len ) throws IOException
+        public void write( final byte b[], final int off, final int len ) throws IOException
         {
             final String str = new String( b, off, len );
 
             try {
                 append( str );
                 }
-            catch( BadLocationException e ) {
-                IOException ioe = new IOException( e.getMessage() );
+            catch( final BadLocationException e ) {
+                final IOException ioe = new IOException( e.getMessage() );
 
                 ioe.initCause( e );
 
                 throw ioe;
                 }
 
-            if( logFile != null ) {
-                if( logFileWriter == null ) {
-                    logFileWriter = new FileWriter( logFile );
+            if( EditorPaneWithPrintStream.this.logFile != null ) {
+                if( EditorPaneWithPrintStream.this.logFileWriter == null ) {
+                    EditorPaneWithPrintStream.this.logFileWriter = new FileWriter( EditorPaneWithPrintStream.this.logFile );
                     }
 
-                logFileWriter.write( str );
+                EditorPaneWithPrintStream.this.logFileWriter.write( str );
                 }
         }
 
         @Override
         public void flush() throws IOException
         {
-            if( logFileWriter != null ) {
-                logFileWriter.flush();
+            if( EditorPaneWithPrintStream.this.logFileWriter != null ) {
+                EditorPaneWithPrintStream.this.logFileWriter.flush();
                 }
 
             super.flush();
@@ -175,20 +175,20 @@ public class EditorPaneWithPrintStream extends JEditorPane
         @Override
         public void close() throws IOException
         {
-            if( logFileWriter != null ) {
-                logFileWriter.close();
-                logFileWriter = null;
+            if( EditorPaneWithPrintStream.this.logFileWriter != null ) {
+                EditorPaneWithPrintStream.this.logFileWriter.close();
+                EditorPaneWithPrintStream.this.logFileWriter = null;
                 }
 
             super.close();
         }
 
         @Override
-        public void write( int b ) throws IOException
+        public void write( final int b ) throws IOException
         {
-            cheesy[0] = (byte) b;
+            this.cheesy[0] = (byte) b;
 
-            this.write( cheesy );
+            this.write( this.cheesy );
         }
     }
 
@@ -197,7 +197,7 @@ public class EditorPaneWithPrintStream extends JEditorPane
         private static final long serialVersionUID = 1L;
 
         @Override
-        public void actionPerformed( ActionEvent e )
+        public void actionPerformed( final ActionEvent e )
         {
             setText( null );
         }

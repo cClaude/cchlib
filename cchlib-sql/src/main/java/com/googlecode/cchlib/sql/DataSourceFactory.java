@@ -125,7 +125,7 @@ public class DataSourceFactory
             final String        password,
             final PrintWriter   logger
             )
-        throws NullPointerException, DataSourceFactoryClassNotFoundException // NOSONAR
+        throws NullPointerException, DataSourceFactoryClassNotFoundException
     {
         return buildDataSource(
                 driverClassName,
@@ -159,7 +159,7 @@ public class DataSourceFactory
             final int       timeout,
             final Logger    logger
             )
-        throws DataSourceFactoryClassNotFoundException, NullPointerException // NOSONAR
+        throws DataSourceFactoryClassNotFoundException, NullPointerException
     {
         if( logger == null ) {
             throw new NullPointerException();
@@ -180,10 +180,10 @@ public class DataSourceFactory
         final Writer wLogger = new Writer()
         {
             @Override
-            public void close() throws IOException {} // NOSONAR - not required
+            public void close() throws IOException {/* not required */}
 
             @Override
-            public void flush() throws IOException {} // NOSONAR - not required
+            public void flush() throws IOException {/* not required */}
 
             @Override
             public void write(final char[] cbuf, final int off, final int len)
@@ -217,7 +217,8 @@ public class DataSourceFactory
             final int           timeout,
             final PrintWriter   logger
             )
-        throws DataSourceFactoryClassNotFoundException, NullPointerException // NOSONAR
+        throws DataSourceFactoryClassNotFoundException,
+               NullPointerException
     {
         if( logger == null ) {
             throw new NullPointerException();

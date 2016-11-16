@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.i18n;
 
 /**
- * TODOC
+ * Event type for {@link AutoI18n} system
  */
 public enum EventCause {
     FIELD_TYPE_IS_ANNOTATION,

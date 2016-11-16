@@ -89,7 +89,7 @@ public class FileFilterFactory
        return new FileFilterFactory( ffc, verbose ).forFiles().newFileFilter();
    }
 
-   private static <T> boolean isEmpty( final Collection<T> collection ) // NOSONAR
+   private static <T> boolean isEmpty( final Collection<T> collection )
    {
        return (collection == null) || collection.isEmpty();
    }

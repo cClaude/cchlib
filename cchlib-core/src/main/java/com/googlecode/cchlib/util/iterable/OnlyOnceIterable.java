@@ -4,7 +4,7 @@ import java.util.Iterator;
 import com.googlecode.cchlib.NeedDoc;
 
 /**
- * TODOC
+ * NEEDDOC
  * @since 4.1.8
  */
 @NeedDoc
@@ -27,13 +27,13 @@ class OnlyOnceIterable<T> implements Iterable<T>
     @Override
     public Iterator<T> iterator()
     {
-        if( iterator == null ) {
+        if( this.iterator == null ) {
             throw new IllegalStateException( "iterator() already called" );
             }
 
-        final Iterator<T> cpy = iterator;
+        final Iterator<T> cpy = this.iterator;
 
-        iterator = null;
+        this.iterator = null;
 
         return cpy;
     }

@@ -160,11 +160,11 @@ public class GoogleContactHeaderFactory {
             }
 
             assert methodContener != null;
-            assert methodContener.getMethod() != null; // NOSONAR
-            assert methodContener.getMethod().getParameterTypes().length == 1; // NOSONAR
+            assert methodContener.getMethod() != null;
+            assert methodContener.getMethod().getParameterTypes().length == 1;
 
             if( methodContener instanceof AnalyserCustomTypeMethodContener ) {
-                assert !methodContener.getMethod().getParameterTypes()[ 0 ].equals( String.class ); // NOSONAR
+                assert !methodContener.getMethod().getParameterTypes()[ 0 ].equals( String.class );
 
                 final HeaderCustomTypeMethodContener headerCustomTypeMethodContener = newHeaderCustomTypeMethodContener( header, methodContener );
 
@@ -172,7 +172,7 @@ public class GoogleContactHeaderFactory {
 
                 index += parameterCount;
            } else if( methodContener.getMethod().getDeclaringClass().isAssignableFrom( GoogleContact.class ) ) {
-                assert this.indexMethodConteners.get( Integer.valueOf( index ) ) == null; // NOSONAR
+                assert this.indexMethodConteners.get( Integer.valueOf( index ) ) == null;
 
                 this.indexMethodConteners.put( Integer.valueOf( index ), newHeaderMethodContener( methodContener ) );
                 index++;
@@ -181,7 +181,7 @@ public class GoogleContactHeaderFactory {
            }
         }
 
-        assert this.indexMethodConteners.size() == headers.length; // NOSONAR
+        assert this.indexMethodConteners.size() == headers.length;
     }
 
     private int addCustomType(
@@ -193,7 +193,7 @@ public class GoogleContactHeaderFactory {
         final TypeInfo typeInfo       = customTypeMethodContener.getTypeInfo();
         final int      parameterCount = typeInfo.getParameterCount();
 
-        assert this.indexMethodConteners.get( Integer.valueOf( index ) ) == null; // NOSONAR
+        assert this.indexMethodConteners.get( Integer.valueOf( index ) ) == null;
         this.indexMethodConteners.put( Integer.valueOf( index ), customTypeMethodContener );
 
         for( int i = 0; i<parameterCount; i++ ) {
@@ -205,12 +205,12 @@ public class GoogleContactHeaderFactory {
 
             final AnalyserMethodContener mc = findAnalyserMethodContener( typeInfo, matcher.group( SUFFIX_MATCHER_INDEX ) );
 
-            assert mc != null : "Method for [" + matcher.group( SUFFIX_MATCHER_INDEX ) + "] not found ! Line : " + headers [ index + i ]; // NOSONAR
+            assert mc != null : "Method for [" + matcher.group( SUFFIX_MATCHER_INDEX ) + "] not found ! Line : " + headers [ index + i ];
 
             customTypeMethodContener.put( i, newHeaderMethodContener( mc ) );
 
             if( i != 0 ) {
-                assert this.indexMethodConteners.get( Integer.valueOf( index + i ) ) == null; // NOSONAR
+                assert this.indexMethodConteners.get( Integer.valueOf( index + i ) ) == null;
                 this.indexMethodConteners.put( Integer.valueOf( index + i ), NULL_CONTENER );
             }
         }
@@ -281,7 +281,7 @@ public class GoogleContactHeaderFactory {
                         );
             }
 
-            assert customTypeMethodContener.isSuffixValid( matcher.group( SUFFIX_MATCHER_INDEX ) ); // NOSONAR
+            assert customTypeMethodContener.isSuffixValid( matcher.group( SUFFIX_MATCHER_INDEX ) );
 
             return customTypeMethodContener;
         } else {

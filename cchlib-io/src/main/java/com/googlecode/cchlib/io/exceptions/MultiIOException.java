@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public class MultiIOException extends IOException implements Iterable<IOException>
 {
@@ -22,7 +22,7 @@ public class MultiIOException extends IOException implements Iterable<IOExceptio
     {
     }
 
-    public void addIOException( IOException ioe )
+    public void addIOException( final IOException ioe )
     {
         this.exceptions.add( ioe );
     }
@@ -42,23 +42,23 @@ public class MultiIOException extends IOException implements Iterable<IOExceptio
     {
         return this.exceptions.size() == 0;
     }
-    
+
     private void checkState() throws IllegalStateException
     {
         if( isEmpty() ) {
             throw new IllegalStateException( "No IOException, check MultiIOException.isEmpty()" );
             }
     }
-    
+
     private IOException getFirstIOException()
     {
         checkState();
-        
+
         return this.exceptions.get( 0 );
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
     public String getMessage()
@@ -67,7 +67,7 @@ public class MultiIOException extends IOException implements Iterable<IOExceptio
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
     public String getLocalizedMessage()
@@ -76,7 +76,7 @@ public class MultiIOException extends IOException implements Iterable<IOExceptio
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
     public Throwable getCause()
@@ -85,40 +85,40 @@ public class MultiIOException extends IOException implements Iterable<IOExceptio
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
     public void printStackTrace()
     {
         super.printStackTrace();
-        
-        for( IOException ioe : this.exceptions ) {
+
+        for( final IOException ioe : this.exceptions ) {
             ioe.printStackTrace();
             }
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
-    public void printStackTrace( PrintStream s )
+    public void printStackTrace( final PrintStream s )
     {
         super.printStackTrace( s );
-        
-        for( IOException ioe : this.exceptions ) {
+
+        for( final IOException ioe : this.exceptions ) {
             ioe.printStackTrace( s );
             }
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
-    public void printStackTrace( PrintWriter s )
+    public void printStackTrace( final PrintWriter s )
     {
         super.printStackTrace( s );
-        
-        for( IOException ioe : this.exceptions ) {
+
+        for( final IOException ioe : this.exceptions ) {
             ioe.printStackTrace( s );
             }
     }
@@ -126,9 +126,9 @@ public class MultiIOException extends IOException implements Iterable<IOExceptio
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "MultiIOException [exceptions=" );
-        builder.append( exceptions );
+        builder.append( this.exceptions );
         builder.append( ']' );
         return builder.toString();
     }

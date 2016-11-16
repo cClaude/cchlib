@@ -44,7 +44,11 @@ public class EnumerationIterator<T>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
-    public T next() throws NoSuchElementException // NOSONAR
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S2272" // nextElement() throws to NoSuchElementException !
+        })
+    public T next() throws NoSuchElementException
     {
         return this.enumeration.nextElement();
     }

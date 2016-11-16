@@ -21,7 +21,7 @@ public class SwingIntrospectorRootItem<FRAME>
     private final /*List*/ArrayList<SwingIntrospectorItem<FRAME>> items = new ArrayList<SwingIntrospectorItem<FRAME>>();
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     public SwingIntrospectorRootItem()
     {
@@ -61,27 +61,27 @@ public class SwingIntrospectorRootItem<FRAME>
     @NeedDoc
     public Map<Integer,SwingIntrospectorItem<FRAME>> getRootItemsMap()
     {
-        return Collections.unmodifiableMap( rootItems );
+        return Collections.unmodifiableMap( this.rootItems );
     }
 
     @NeedDoc
     public Collection<SwingIntrospectorItem<FRAME>> getRootItemsCollection()
     {
-        return Collections.unmodifiableCollection( rootItems.values() );
+        return Collections.unmodifiableCollection( this.rootItems.values() );
     }
 
     @NeedDoc
     public Collection<SwingIntrospectorItem<FRAME>> getItemsCollection()
     {
-        return Collections.unmodifiableList( items );
+        return Collections.unmodifiableList( this.items );
     }
 
     @Override
     public Iterator<SwingIntrospectorItem<FRAME>> iterator()
     {
         return new BiIterator<SwingIntrospectorItem<FRAME>>(
-                rootItems.values().iterator(),
-                items.iterator()
+                this.rootItems.values().iterator(),
+                this.items.iterator()
                 );
     }
 
@@ -91,10 +91,10 @@ public class SwingIntrospectorRootItem<FRAME>
         final int maxLen = 4;
         final StringBuilder builder = new StringBuilder();
         builder.append( "SwingIntrospectorRootItem [rootItems=" );
-        builder.append( rootItems != null ? toString( rootItems.entrySet(),
+        builder.append( this.rootItems != null ? toString( this.rootItems.entrySet(),
                 maxLen ) : null );
         builder.append( ", items=" );
-        builder.append( items != null ? toString( items, maxLen ) : null );
+        builder.append( this.items != null ? toString( this.items, maxLen ) : null );
         builder.append( ']' );
         return builder.toString();
     }
@@ -105,7 +105,7 @@ public class SwingIntrospectorRootItem<FRAME>
         builder.append( '[' );
         int i = 0;
         for( final Iterator<?> iterator = collection.iterator(); iterator.hasNext()
-                && i < maxLen; i++ ) {
+                && (i < maxLen); i++ ) {
             if( i > 0 ) {
                 builder.append( ", " );
             }

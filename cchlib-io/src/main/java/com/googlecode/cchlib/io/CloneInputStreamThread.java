@@ -6,21 +6,21 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public class CloneInputStreamThread
     extends Thread
 {
     private final InputStream                   is;
-    private InputStreamThreadExceptionHandler[] exceptionHandlers;
+    private final InputStreamThreadExceptionHandler[] exceptionHandlers;
     private final PipedOutputStream[]           pipesOut;
     private final PipedInputStream[]            pipesIn;
     private boolean                             running;
-    private int bufferSize;
+    private final int bufferSize;
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param is
      * @param bufferSize
@@ -81,7 +81,7 @@ public class CloneInputStreamThread
                 );
             }
 
-        for( InputStreamThreadExceptionHandler exceptionHandler : exceptionHandlers ) {
+        for( final InputStreamThreadExceptionHandler exceptionHandler : exceptionHandlers ) {
             if( exceptionHandler == null ) {
                 throw new NullPointerException( "At leat one exception handler is null" );
                 }
@@ -104,8 +104,8 @@ public class CloneInputStreamThread
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public InputStream getInputStream( final int index )
     {
@@ -113,8 +113,8 @@ public class CloneInputStreamThread
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public int getSize()
     {
@@ -124,30 +124,30 @@ public class CloneInputStreamThread
     @Override
     public void run()
     {
-        final byte[] buffer = new byte[ bufferSize ];
+        final byte[] buffer = new byte[ this.bufferSize ];
 
-        while( running ) {
+        while( this.running ) {
             int len;
 
             try {
-                len = is.read( buffer, 0, buffer.length );
+                len = this.is.read( buffer, 0, buffer.length );
 
                 if( len == -1 ) {
                     break; // EOF
                     }
                 }
-            catch( IOException e ) {
-                for (InputStreamThreadExceptionHandler exceptionHandler : this.exceptionHandlers) {
+            catch( final IOException e ) {
+                for (final InputStreamThreadExceptionHandler exceptionHandler : this.exceptionHandlers) {
                     exceptionHandler.handleReadingIOException(e);
                 }
                 break;
                 }
             for( int i = 0; i<this.exceptionHandlers.length; i++ ) {
                 try {
-                    pipesOut[ i ].write( buffer, 0, len );
+                    this.pipesOut[ i ].write( buffer, 0, len );
                     }
-                catch( IOException e ) {
-                    exceptionHandlers[ i ].handleWritingIOException( e );
+                catch( final IOException e ) {
+                    this.exceptionHandlers[ i ].handleWritingIOException( e );
                     // FIXME : improve errors handle (stop writing on this pipe)
                     }
                 }
@@ -155,19 +155,19 @@ public class CloneInputStreamThread
 
         for( int i = 0; i<this.exceptionHandlers.length; i++ ) {
             try {
-                pipesOut[ i ].close();
+                this.pipesOut[ i ].close();
                 }
-            catch( IOException e ) {
-                exceptionHandlers[ i ].handleWritingIOException( e );
+            catch( final IOException e ) {
+                this.exceptionHandlers[ i ].handleWritingIOException( e );
                 }
             }
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     public void cancel()
     {
-        running = false;
+        this.running = false;
     }
 }

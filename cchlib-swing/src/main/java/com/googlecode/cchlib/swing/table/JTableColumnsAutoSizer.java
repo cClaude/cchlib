@@ -14,7 +14,7 @@ import javax.swing.table.TableColumn;
 import com.googlecode.cchlib.NeedDoc;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  * @since 4.1.8
  */
@@ -22,9 +22,9 @@ import com.googlecode.cchlib.NeedDoc;
 public class JTableColumnsAutoSizer implements TableModelListener, ComponentListener
 {
     public final static int DEFAULT_COLUMN_MARGIN = 5;
-    private JTable table;
-    private int columnMargin;
-    private ForceColumnWidthModel forceColumnWidthModel;
+    private final JTable table;
+    private final int columnMargin;
+    private final ForceColumnWidthModel forceColumnWidthModel;
 
     /**
      *
@@ -44,12 +44,12 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
     {
         this( table, columnMargin, new ForceColumnWidthModel() {
             @Override
-            public boolean isWidthFor( int columnIndex )
+            public boolean isWidthFor( final int columnIndex )
             {
                 return false;
             }
             @Override
-            public int getWidthFor( int columnIndex )
+            public int getWidthFor( final int columnIndex )
             {
                 throw new UnsupportedOperationException();
             }
@@ -95,7 +95,7 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
      */
     public void apply()
     {
-        final JTableHeader tableHeader = table.getTableHeader();
+        final JTableHeader tableHeader = this.table.getTableHeader();
 
         if( tableHeader == null ) {
             // can't auto size a table without a header
@@ -104,55 +104,55 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
 
         final FontMetrics headerFontMetrics = tableHeader.getFontMetrics(tableHeader.getFont());
 
-        int[] minWidths = new int[table.getColumnCount()];
-        int[] maxWidths = new int[table.getColumnCount()];
+        final int[] minWidths = new int[this.table.getColumnCount()];
+        final int[] maxWidths = new int[this.table.getColumnCount()];
 
-        for( int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++ ) {
+        for( int columnIndex = 0; columnIndex < this.table.getColumnCount(); columnIndex++ ) {
 
-            if( forceColumnWidthModel.isWidthFor( columnIndex ) ) {
-                minWidths[ columnIndex ] = maxWidths[ columnIndex ] = forceColumnWidthModel.getWidthFor( columnIndex );
+            if( this.forceColumnWidthModel.isWidthFor( columnIndex ) ) {
+                minWidths[ columnIndex ] = maxWidths[ columnIndex ] = this.forceColumnWidthModel.getWidthFor( columnIndex );
                 }
             else {
-                int headerWidth = headerFontMetrics.stringWidth(table.getColumnName(columnIndex));
-                minWidths[columnIndex] = headerWidth + columnMargin;
+                final int headerWidth = headerFontMetrics.stringWidth(this.table.getColumnName(columnIndex));
+                minWidths[columnIndex] = headerWidth + this.columnMargin;
 
-                int maxWidth = getMaximalRequiredColumnWidth( columnIndex, headerWidth );
-                maxWidths[columnIndex] = Math.max(maxWidth, minWidths[columnIndex]) + columnMargin;
+                final int maxWidth = getMaximalRequiredColumnWidth( columnIndex, headerWidth );
+                maxWidths[columnIndex] = Math.max(maxWidth, minWidths[columnIndex]) + this.columnMargin;
                 }
             }
 
         adjustMaximumWidths( minWidths, maxWidths );
 
-        
-        final int remainingIndex = forceColumnWidthModel.getRemainingColumnIndex();
-        
+
+        final int remainingIndex = this.forceColumnWidthModel.getRemainingColumnIndex();
+
         for( int i = 0; i < minWidths.length; i++ ) {
             if( i == remainingIndex ) {
                 maxWidths[ remainingIndex ] = 0;
-                int w = table.getWidth() - sum( maxWidths );
+                final int w = this.table.getWidth() - sum( maxWidths );
                 maxWidths[ remainingIndex ] = w;
                 }
 
             if( minWidths[i] > 0 ) {
-                table.getColumnModel().getColumn(i).setMinWidth( minWidths[i] );
+                this.table.getColumnModel().getColumn(i).setMinWidth( minWidths[i] );
                 }
 
             if( maxWidths[i] > 0 ) {
-                table.getColumnModel().getColumn(i).setMaxWidth( maxWidths[i] );
-                table.getColumnModel().getColumn(i).setWidth   ( maxWidths[i] );
+                this.table.getColumnModel().getColumn(i).setMaxWidth( maxWidths[i] );
+                this.table.getColumnModel().getColumn(i).setWidth   ( maxWidths[i] );
                 }
             }
     }
 
     private void adjustMaximumWidths( final int[] minWidths, final int[] maxWidths )
     {
-        if( table.getWidth() > 0 ) {
+        if( this.table.getWidth() > 0 ) {
             // to prevent infinite loops in exceptional situations
             int breaker = 0;
 
             // keep stealing one pixel of the maximum width of the highest column until we can fit in the width of the table
-            while(sum(maxWidths) > table.getWidth() && breaker < 10000) {
-                int highestWidthIndex = findLargestIndex(maxWidths);
+            while((sum(maxWidths) > this.table.getWidth()) && (breaker < 10000)) {
+                final int highestWidthIndex = findLargestIndex(maxWidths);
 
                 maxWidths[highestWidthIndex] -= 1;
                 maxWidths[highestWidthIndex] = Math.max(maxWidths[highestWidthIndex], minWidths[highestWidthIndex]);
@@ -168,24 +168,24 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
         )
     {
         int                maxWidth     = headerWidth;
-        TableColumn        column       = table.getColumnModel().getColumn(columnIndex);
+        final TableColumn        column       = this.table.getColumnModel().getColumn(columnIndex);
         TableCellRenderer  cellRenderer = column.getCellRenderer();
 
         if(cellRenderer == null) {
             cellRenderer = new DefaultTableCellRenderer();
             }
 
-        for(int row = 0; row < table.getModel().getRowCount(); row++) {
-            Component rendererComponent = cellRenderer.getTableCellRendererComponent(
-                table,
-                table.getModel().getValueAt(row, columnIndex),
+        for(int row = 0; row < this.table.getModel().getRowCount(); row++) {
+            final Component rendererComponent = cellRenderer.getTableCellRendererComponent(
+                this.table,
+                this.table.getModel().getValueAt(row, columnIndex),
                 false,
                 false,
                 row,
                 columnIndex
                 );
 
-            double valueWidth = rendererComponent.getPreferredSize().getWidth();
+            final double valueWidth = rendererComponent.getPreferredSize().getWidth();
 
             maxWidth = (int) Math.max(maxWidth, valueWidth);
             }
@@ -212,7 +212,7 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
     {
         int sum = 0;
 
-        for(int width : widths) { sum += width; }
+        for(final int width : widths) { sum += width; }
 
         return sum;
     }
@@ -230,13 +230,13 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
      * Invoke {@link #apply()}
      */
     @Override//ComponentListener
-    public void componentResized( ComponentEvent e )
+    public void componentResized( final ComponentEvent e )
     {
         apply();
     }
 
     @Override//ComponentListener
-    public void componentMoved( ComponentEvent e )
+    public void componentMoved( final ComponentEvent e )
     {
         // empty
     }
@@ -245,13 +245,13 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
      * Invoke {@link #apply()}
      */
     @Override//ComponentListener
-    public void componentShown( ComponentEvent e )
+    public void componentShown( final ComponentEvent e )
     {
         apply();
     }
 
     @Override//ComponentListener
-    public void componentHidden( ComponentEvent e )
+    public void componentHidden( final ComponentEvent e )
     {
         // empty
     }

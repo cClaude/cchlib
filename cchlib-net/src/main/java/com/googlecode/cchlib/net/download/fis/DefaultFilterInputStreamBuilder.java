@@ -8,7 +8,7 @@ import com.googlecode.cchlib.io.filetype.ImageIOFileData;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  * @since 4.1.7
  */

@@ -10,7 +10,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.FileFilterBuilders;
 import com.googlecode.cchlib.lang.StringHelper;
 
 //NOT public
-abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB // NOSONAR
+abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
 {
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingFilters.class );
     private static final long serialVersionUID = 1L;

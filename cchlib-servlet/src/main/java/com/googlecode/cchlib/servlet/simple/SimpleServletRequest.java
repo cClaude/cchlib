@@ -37,5 +37,5 @@ public interface SimpleServletRequest
      * @throws UnsupportedOperationException is operation is not supported
      */
     HttpServletRequest getHttpServletRequest()
-            throws UnsupportedOperationException; // NOSONAR
+            throws UnsupportedOperationException;
 }

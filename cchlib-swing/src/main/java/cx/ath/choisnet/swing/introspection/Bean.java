@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import org.apache.log4j.Logger;
 
 /**
- * <p>TODOC: Documentation, and some examples.</p>
+ * <p>NEEDDOC: Documentation, and some examples.</p>
  *
  * <p>
  * Field name must use following syntax:
@@ -86,7 +86,7 @@ public class Bean implements Serializable
      * @param f Field for contender (typically a Frame or a Dialog)
      * @throws IllegalArgumentException
      */
-    public Bean( Field f ) throws IllegalArgumentException
+    public Bean( final Field f ) throws IllegalArgumentException
     {
         this.fieldName = f.getName();
 
@@ -98,9 +98,9 @@ public class Bean implements Serializable
         }
         else { // if( begin > 0 )
             this.namePrefix = this.fieldName.substring( 0, begin );
-            String endName  = this.fieldName.substring( begin + 1 );
+            final String endName  = this.fieldName.substring( begin + 1 );
 
-            int endBeanName = endName.indexOf( ROOT_TAG );
+            final int endBeanName = endName.indexOf( ROOT_TAG );
 
             if( endBeanName < 0 ) {
                 // No $root !
@@ -111,7 +111,7 @@ public class Bean implements Serializable
                 this.name       = endName.substring( 0, endBeanName );
                 this.nameSuffix = endName.substring( endBeanName );
 
-                String eos = endName.substring( endBeanName + ROOT_TAG.length() );
+                final String eos = endName.substring( endBeanName + ROOT_TAG.length() );
 
                 if( eos.length() == 0 ) {
                     // OK, no more infos
@@ -131,7 +131,7 @@ public class Bean implements Serializable
      */
     public String getFieldName()
     {
-        return fieldName;
+        return this.fieldName;
     }
 
     /**
@@ -139,7 +139,7 @@ public class Bean implements Serializable
      */
     public String getBeanPrefix()
     {
-        return namePrefix;
+        return this.namePrefix;
     }
 
     /**
@@ -147,7 +147,7 @@ public class Bean implements Serializable
      */
     public String getBeanName()
     {
-        return name;
+        return this.name;
     }
 
     /**
@@ -155,7 +155,7 @@ public class Bean implements Serializable
      */
     public String getBeanSuffix()
     {
-        return nameSuffix;
+        return this.nameSuffix;
     }
 
     /**
@@ -163,7 +163,7 @@ public class Bean implements Serializable
      */
     public int getIndex()
     {
-        return index;
+        return this.index;
     }
 
     public boolean isIndexed()
@@ -182,18 +182,18 @@ public class Bean implements Serializable
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
         builder.append( "Bean [fieldName=" );
-        builder.append( fieldName );
+        builder.append( this.fieldName );
         builder.append( ", namePrefix=" );
-        builder.append( namePrefix );
+        builder.append( this.namePrefix );
         builder.append( ", name=" );
-        builder.append( name );
+        builder.append( this.name );
         builder.append( ", nameSuffix=" );
-        builder.append( nameSuffix );
+        builder.append( this.nameSuffix );
         builder.append( ", index=" );
-        builder.append( index );
+        builder.append( this.index );
         builder.append( ']' );
 
         return builder.toString();

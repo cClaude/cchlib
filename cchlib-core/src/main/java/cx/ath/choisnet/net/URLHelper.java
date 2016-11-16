@@ -13,6 +13,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URL;
+import java.nio.charset.Charset;
 import com.googlecode.cchlib.io.IOHelper;
 
 /**
@@ -72,11 +73,14 @@ public final class URLHelper
      *
      * @param url   URL to read
      * @param file  File destination
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException if destination folder file does not exist
+     * @throws IOException if any
      */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck", // More than exception for JAVADOC
+        "squid:S1160"})
     public static void copy( final URL url, final File file )
-        throws FileNotFoundException, IOException // NOSONAR
+        throws FileNotFoundException, IOException
     {
         try (InputStream input = url.openStream(); OutputStream output = new BufferedOutputStream(
                 new FileOutputStream( file )
@@ -103,18 +107,22 @@ public final class URLHelper
     /**
      * Send URL content to a Writer
      *
-     * @param url
-     * @param output
-     * @param charsetName
-     * @throws UnsupportedEncodingException
-     * @throws IOException
+     * @param url           URL to copy
+     * @param output        Output writer
+     * @param charsetName   {@link Charset} to use for encoding
+     * @throws UnsupportedEncodingException if encoding is not supported
+     * @throws IOException if any
      */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S1160" // Exception show different reasons
+        })
     public static void copy(
             final URL       url,
             final Writer    output,
             final String    charsetName
             )
-        throws UnsupportedEncodingException, IOException // NOSONAR
+        throws UnsupportedEncodingException, IOException
     {
         try (Reader input = getBufferedReader( url, charsetName )) {
             IOHelper.copy(input, output);

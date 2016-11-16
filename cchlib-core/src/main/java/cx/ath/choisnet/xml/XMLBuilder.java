@@ -8,7 +8,7 @@ import com.googlecode.cchlib.NeedTestCases;
 import com.googlecode.cchlib.lang.StringHelper;
 
 /**
- * TODOC
+ * NEEDDOC
  * <p style="border:groove;">
  * <b>Warning:</b>
  * Insofar the code of this class comes from decompiling
@@ -56,7 +56,7 @@ public class XMLBuilder
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param node
      * @return this object for chaining initialization
@@ -65,7 +65,7 @@ public class XMLBuilder
     public XMLBuilder append( final Node node ) throws IOException
     {
         if( node.getNodeType() == Node.TEXT_NODE ) {
-            anAppendableObject.append(incTabulation)
+            this.anAppendableObject.append(this.incTabulation)
                               .append('{')
                               .append(node.getTextContent())
                               .append("}\n");
@@ -75,7 +75,7 @@ public class XMLBuilder
             final NodeList nodeList = node.getChildNodes();
             final int len = nodeList.getLength();
 
-            anAppendableObject.append(incTabulation)
+            this.anAppendableObject.append(this.incTabulation)
                               .append('<')
                               .append(node.getNodeName())
                               .append(">    (")
@@ -84,7 +84,7 @@ public class XMLBuilder
 
             append(nodeList);
 
-            anAppendableObject.append(incTabulation)
+            this.anAppendableObject.append(this.incTabulation)
                               .append("</")
                               .append(node.getNodeName())
                               .append(">\n");
@@ -94,7 +94,7 @@ public class XMLBuilder
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param nodeList
      * @return this object for chaining initialization
@@ -104,32 +104,32 @@ public class XMLBuilder
         throws IOException
     {
         final int   len             = nodeList.getLength();
-        final String      saveTabulation  = incTabulation;
+        final String      saveTabulation  = this.incTabulation;
 
         for( int i = 0; i < len; i++ ) {
             append( nodeList.item(i) );
             }
 
-        incTabulation = saveTabulation;
+        this.incTabulation = saveTabulation;
 
         return this;
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
-     * @return TODOC
+     * @return NEEDDOC
      */
     public String appendableToString()
     {
-        return anAppendableObject.toString();
+        return this.anAppendableObject.toString();
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param aNode
-     * @return TODOC
+     * @return NEEDDOC
      */
     public static String toString( final Node aNode )
     {
@@ -141,10 +141,10 @@ public class XMLBuilder
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param nodeList
-     * @return TODOC
+     * @return NEEDDOC
      */
     public static String toString( final NodeList nodeList )
     {

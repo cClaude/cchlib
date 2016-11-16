@@ -2,7 +2,6 @@ package com.googlecode.cchlib.util;
 
 import java.util.Collection;
 import java.util.Enumeration;
-import com.googlecode.cchlib.NeedDoc;
 
 /**
  * Tools for {@link Wrappable}
@@ -81,7 +80,16 @@ public final class WrapperHelper
         };
     }
 
-    @NeedDoc
+    /**
+     * Give a view of a collection of type <code>S</code> by returning
+     * a collection of type <code>S</code>.
+     *
+     * @param collection Collection to wrap
+     * @param wrapper Method to transform object of type <code>S</code>
+     *                into type <code>R</code>
+     * @param unwrapper Reflexive method of <code>wrapper</code>
+     * @return a collection of type <code>S</code>
+     */
     public static <S,R> Collection<R> toCollection(
         final Collection<S>   collection,
         final Wrappable<S,R>  wrapper,

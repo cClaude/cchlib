@@ -20,7 +20,7 @@ public class CLIHelper
      */
     public static void printMessage( final String message )
     {
-        System.out.println( message ); // NOSONAR
+        System.out.println( message );
     }
 
     /**
@@ -30,7 +30,7 @@ public class CLIHelper
      */
     public static void printError( final String message )
     {
-        System.err.println( message );// NOSONAR
+        System.err.println( message );
     }
 
     /**
@@ -40,7 +40,7 @@ public class CLIHelper
      * @param file    Related file
      * @param cause   Related cause
      */
-    public static void printError( //
+    public static void printError(
         @Nonnull final String    message,
         @Nonnull final File      file,
         @Nonnull final Exception cause
@@ -99,6 +99,6 @@ public class CLIHelper
 
     private static void exit( final int exitStatus )
     {
-        System.exit( exitStatus ); // NOSONAR
+        System.exit( exitStatus );
     }
 }

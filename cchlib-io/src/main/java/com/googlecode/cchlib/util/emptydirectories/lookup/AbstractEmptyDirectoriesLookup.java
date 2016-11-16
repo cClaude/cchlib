@@ -12,7 +12,7 @@ import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
  *
  * @param <FILTER> see {@link EmptyDirectoriesLookup} parameter
  */
-public abstract class AbstractEmptyDirectoriesLookup<FILTER> // NOSONAR
+public abstract class AbstractEmptyDirectoriesLookup<FILTER>
     implements EmptyDirectoriesLookup<FILTER>
 {
     private final List<EmptyDirectoriesListener> listeners = new ArrayList<>();

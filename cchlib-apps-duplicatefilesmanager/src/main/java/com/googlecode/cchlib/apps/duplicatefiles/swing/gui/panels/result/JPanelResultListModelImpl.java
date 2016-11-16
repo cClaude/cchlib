@@ -25,7 +25,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     private static final Logger LOGGER = Logger.getLogger( JPanelResultListModelImpl.class );
     private static final long serialVersionUID = 1L;
 
-    private Map<String, Set<KeyFileState>> duplicateFiles; // NOSONAR
+    private Map<String, Set<KeyFileState>> duplicateFiles;
     private final List<KeyFiles>           duplicatesFileCacheList = new ArrayList<>();
     private String                         key;
 

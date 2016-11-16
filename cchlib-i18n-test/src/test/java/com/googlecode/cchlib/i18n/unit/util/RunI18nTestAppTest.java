@@ -16,6 +16,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
+import com.googlecode.cchlib.i18n.prep.I18nPrepException;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
 import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
@@ -56,7 +57,7 @@ public class RunI18nTestAppTest
     }
 
     @Test
-    public void runPrepTest() throws FileNotFoundException, IOException
+    public void runPrepTest() throws FileNotFoundException, IOException, I18nPrepException
     {
         final PrepTestPartInterface prepTest = TestUtils.createPrepTest();
         final TestReference[]       tests    = getTests();

@@ -6,15 +6,15 @@ import com.googlecode.cchlib.io.checksum.MD5;
 import com.googlecode.cchlib.io.filetype.ImageIOFileData;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public class DefaultFilterInputStream
     extends CopyInputStream
 {
     /**
-     * TODOC
+     * NEEDDOC
      *
-     * @param in TODOC
+     * @param in NEEDDOC
      */
     public DefaultFilterInputStream( final InputStream in )
     {
@@ -34,9 +34,9 @@ public class DefaultFilterInputStream
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
-     * @return TODOC
+     * @return NEEDDOC
      * @throws IllegalStateException if original stream not
      * yet closed.
      */

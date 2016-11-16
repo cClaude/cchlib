@@ -84,7 +84,7 @@ public class FilterTask extends TaskCommon implements CommandTask
             if( removeFile ) {
                 iterator.remove();
 
-                if( isNotQuiet() ) { // NOSONAR
+                if( isNotQuiet() ) {
                     CLIHelper.printMessage( "Ignore:" + file.getPath() );
                 }
             }

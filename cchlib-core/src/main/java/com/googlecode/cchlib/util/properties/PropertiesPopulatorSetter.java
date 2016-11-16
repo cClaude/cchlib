@@ -6,19 +6,19 @@ import java.lang.reflect.Method;
 
 //NOT public
 interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD> {
-    
+
     /**
      * Set value using a String. Best effort will be done to transform
      * <code>strValue</code> to giving <code>type</code>
-     * 
+     *
      * @param bean      Bean to use
      * @param strValue  Value to set
      * @param type      Type to use to transform String.
-     * 
+     *
      * @throws IllegalArgumentException if any
      * @throws IllegalAccessException if any
-     * @throws ConvertCantNotHandleTypeException TODOC
-     * @throws PropertiesPopulatorException TODOC
+     * @throws ConvertCantNotHandleTypeException NEEDDOC
+     * @throws PropertiesPopulatorException NEEDDOC
      * @throws InvocationTargetException if any
      */
     void setValue( E bean, String strValue, Class<?> type ) //

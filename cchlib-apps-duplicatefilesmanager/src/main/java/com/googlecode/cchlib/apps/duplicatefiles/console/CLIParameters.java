@@ -43,9 +43,9 @@ public class CLIParameters
         = "Command names : " + Arrays.toString( Command.values() );
 
     private Boolean           onlyDuplicates;
-    private Boolean           prettyJson; // NOSONAR
-    private Boolean           quiet;      // NOSONAR
-    private Boolean           verbose;    // NOSONAR
+    private Boolean           prettyJson;
+    private Boolean           quiet;
+    private Boolean           verbose;
     private CommandLine       commandLine;
     private FileFiltersConfig fileFiltersConfig;
     private final Options     options;
@@ -64,57 +64,57 @@ public class CLIParameters
         final Options options = new Options();
 
         options.addOption(
-            OptionBuilder.withLongOpt( HELP ) // NOSONAR
+            OptionBuilder.withLongOpt( HELP )
                 .withDescription( "Display this message" )
                 .hasArg( false )
-                .create( "h" ) // NOSONAR
+                .create( "h" )
             );
         options.addOption(
-            OptionBuilder.withLongOpt( ALGORITHM ) // NOSONAR
+            OptionBuilder.withLongOpt( ALGORITHM )
                 .withDescription( ALGORITHM_DESCRIPTION )
                 .hasArg()
-                .create() // NOSONAR
+                .create()
             );
         options.addOption(
-                OptionBuilder.withLongOpt( DIRECTORIY_TO_SCAN ) // NOSONAR
+                OptionBuilder.withLongOpt( DIRECTORIY_TO_SCAN )
                     .withDescription( "Directory to scan" )
                     .hasArg()
-                    .create( "d" ) // NOSONAR
+                    .create( "d" )
                 );
         options.addOption(
-                OptionBuilder.withLongOpt( JSON_OUT ) // NOSONAR
+                OptionBuilder.withLongOpt( JSON_OUT )
                     .withDescription( "Optionnal output json file" )
                     .hasArg()
-                    .create() // NOSONAR
+                    .create()
                 );
         options.addOption(
-                OptionBuilder.withLongOpt( PRETTY_JSON ) // NOSONAR
+                OptionBuilder.withLongOpt( PRETTY_JSON )
                     .withDescription( "Format JSON" )
                     .hasArg( false )
-                    .create() // NOSONAR
+                    .create()
                 );
         options.addOption(
-                OptionBuilder.withLongOpt( ONLY_DUPLICATES ) // NOSONAR
+                OptionBuilder.withLongOpt( ONLY_DUPLICATES )
                     .withDescription( "Remove non duplicates entries" )
                     .hasArg( false )
-                    .create() // NOSONAR
+                    .create()
                 );
 
         options.addOption(
-                OptionBuilder.withLongOpt( JSON_IN ) // NOSONAR
+                OptionBuilder.withLongOpt( JSON_IN )
                     .withDescription( "Input file" )
                     .hasArg()
-                    .create() // NOSONAR
+                    .create()
                 );
 
         options.addOptionGroup( getOptionGroupVerboseQuiet() );
         options.addOptionGroup( getOptionGroupFilesFilter() );
 
         options.addOption(
-                OptionBuilder.withLongOpt( COMMAND ) // NOSONAR
+                OptionBuilder.withLongOpt( COMMAND )
                     .withDescription( COMMAND_DESCRIPTION )
                     .hasArg()
-                    .create( "c" ) // NOSONAR
+                    .create( "c" )
                 );
 
         return options;
@@ -126,16 +126,16 @@ public class CLIParameters
         final OptionGroup optgrp = new OptionGroup();
 
         optgrp.addOption(
-            OptionBuilder.withLongOpt( VERBOSE ) // NOSONAR
+            OptionBuilder.withLongOpt( VERBOSE )
                 .withDescription( "Display extrat informations during process" )
                 .hasArg( false )
-                .create( "x" ) // NOSONAR
+                .create( "x" )
             );
         optgrp.addOption(
-            OptionBuilder.withLongOpt( QUIET ) // NOSONAR
+            OptionBuilder.withLongOpt( QUIET )
                 .withDescription( "Minimal output" )
                 .hasArg( false )
-                .create( "q" ) // NOSONAR
+                .create( "q" )
             );
 
         return optgrp;
@@ -147,16 +147,16 @@ public class CLIParameters
         final OptionGroup optgrp = new OptionGroup();
 
         optgrp.addOption(
-                OptionBuilder.withLongOpt( FILES_FILTER ) // NOSONAR
+                OptionBuilder.withLongOpt( FILES_FILTER )
                     .withDescription( "File filter (json format)" )
                     .hasArgs()
-                    .create() // NOSONAR
+                    .create()
                 );
         optgrp.addOption(
-                OptionBuilder.withLongOpt( FILES_FILTER_FROM_FILE ) // NOSONAR
+                OptionBuilder.withLongOpt( FILES_FILTER_FROM_FILE )
                     .withDescription( "Filename of json files filter" )
                     .hasArgs()
-                    .create() // NOSONAR
+                    .create()
                 );
 
         return optgrp;

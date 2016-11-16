@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public class StreamCopyThread extends Thread
@@ -15,15 +15,15 @@ public class StreamCopyThread extends Thread
     private boolean running;
     private boolean closeSource;
     private static final int ERROR_MAX = 10;
-    private Object lock;
+    private final Object lock;
     private OutputStream spyStream;
 
-    public StreamCopyThread(InputStream source, OutputStream destination)
+    public StreamCopyThread(final InputStream source, final OutputStream destination)
         throws java.io.IOException
     {
-        lock = new Object();
+        this.lock = new Object();
 
-        spyStream = null;
+        this.spyStream = null;
 
         super.setName(
             (new StringBuilder())
@@ -35,14 +35,14 @@ public class StreamCopyThread extends Thread
         this.source = source;
         this.destination = destination;
 
-        running = true;
+        this.running = true;
 
-        closeSource = false;
+        this.closeSource = false;
 
         setDaemon(true);
     }
 
-    public StreamCopyThread(String threadName, InputStream source, OutputStream destination)
+    public StreamCopyThread(final String threadName, final InputStream source, final OutputStream destination)
         throws java.io.IOException
     {
         this(source, destination);
@@ -55,16 +55,16 @@ public class StreamCopyThread extends Thread
         int errorCount = 0;
 
         for( ;; ) {
-            if( !running ) {
+            if( !this.running ) {
                 break; /* Loop/switch isn't completed */
             }
 
             int c;
 
             try {
-                c = source.read();
+                c = this.source.read();
             }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 throw new RuntimeException(
                         "StreamCopyThread.run() - Internal error in "
                                 + getName(), e );
@@ -75,15 +75,15 @@ public class StreamCopyThread extends Thread
             }
 
             try {
-                synchronized( lock ) {
-                    if( spyStream != null ) {
-                        spyStream.write( c );
+                synchronized( this.lock ) {
+                    if( this.spyStream != null ) {
+                        this.spyStream.write( c );
                     }
                 }
 
-                destination.write( c );
+                this.destination.write( c );
             }
-            catch( java.io.IOException e ) {
+            catch( final java.io.IOException e ) {
                 if( errorCount++ > ERROR_MAX ) {
                     throw new RuntimeException(
                             "StreamCopyThread.run() - Internal error ("
@@ -94,11 +94,11 @@ public class StreamCopyThread extends Thread
         // if(true) goto _L2; else goto _L1
         // // 57 111:goto 2
         // _L1:
-        if( closeSource ) {
+        if( this.closeSource ) {
             try {
-                source.close();
+                this.source.close();
             }
-            catch( java.io.IOException e ) {
+            catch( final java.io.IOException e ) {
                 throw new RuntimeException(
                         (new StringBuilder())
                                 .append(
@@ -108,24 +108,24 @@ public class StreamCopyThread extends Thread
         }
     }
 
-    public void registerSpyStream(OutputStream spystream)
+    public void registerSpyStream(final OutputStream spystream)
     {
-        synchronized(lock) {
+        synchronized(this.lock) {
             this.spyStream = spystream;
         }
     }
 
     public void stopSpyStream()
     {
-        synchronized(lock) {
-            spyStream = null;
+        synchronized(this.lock) {
+            this.spyStream = null;
         }
     }
 
     public void close()
         throws java.io.IOException
     {
-        closeSource = true;
+        this.closeSource = true;
 
         cancel();
     }
@@ -133,6 +133,6 @@ public class StreamCopyThread extends Thread
     public void cancel()
         throws java.io.IOException
     {
-        running = false;
+        this.running = false;
     }
 }

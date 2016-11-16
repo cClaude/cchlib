@@ -1,19 +1,18 @@
 package com.googlecode.cchlib.sql;
 
 /**
- * TODOC
+ * Error while creating a {@link SimpleDataSource}
  */
-public class SimpleDataSourceException 
-    extends Exception
+public class SimpleDataSourceException  extends Exception
 {
     private static final long serialVersionUID = 1L;
 
-    public SimpleDataSourceException(String message, Throwable cause)
+    public SimpleDataSourceException(final String message, final Throwable cause)
     {
         super(message, cause);
     }
 
-    public SimpleDataSourceException(String message)
+    public SimpleDataSourceException(final String message)
     {
         super(message);
     }

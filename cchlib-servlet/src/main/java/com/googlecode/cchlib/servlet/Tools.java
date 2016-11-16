@@ -5,7 +5,7 @@ import com.googlecode.cchlib.servlet.exception.RequestParameterNotFoundException
 import com.googlecode.cchlib.servlet.exception.RequestParameterNumberFormatException;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public final class Tools
 {
@@ -64,7 +64,7 @@ public final class Tools
         try {
             return Integer.parseInt( value );
             }
-        catch( NumberFormatException e ) {
+        catch( final NumberFormatException e ) {
             throw new RequestParameterNumberFormatException( name, value );
             }
     }
@@ -117,10 +117,10 @@ public final class Tools
 
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param request
      * @param name
-     * @return TODOC
+     * @return NEEDDOC
      * @throws NumberFormatException
      * @throws RequestParameterNotFoundException
      * @throws RequestParameterNumberFormatException
@@ -137,7 +137,7 @@ public final class Tools
 
         if( value != null ) {
             if( value instanceof Number ) {
-                Number n = (Number)value;
+                final Number n = (Number)value;
                 return n.intValue();
                 }
             else if( value instanceof String ) {
@@ -153,11 +153,11 @@ public final class Tools
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param request
      * @param name
      * @param defaultValue
-     * @return TODOC
+     * @return NEEDDOC
      */
     public static final int getIntAttributeOrParameter(
             final HttpServletRequest request,
@@ -168,7 +168,7 @@ public final class Tools
         try {
             return getIntAttributeOrParameter( request, name );
             }
-        catch( Exception e ) { // $codepro.audit.disable logExceptions
+        catch( final Exception e ) { // $codepro.audit.disable logExceptions
             return defaultValue;
             }
     }

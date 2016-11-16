@@ -90,8 +90,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public static DirectoryStream.Filter<Path> and( final DirectoryStream.Filter<Path> f1, final DirectoryStream.Filter<Path> f2 )
     {
@@ -99,8 +99,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
    public static DirectoryStream.Filter<Path> falseFilter()
     {
@@ -108,8 +108,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public static DirectoryStream.Filter<Path> newAcceptAllFilter()
     {
@@ -117,8 +117,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public static DirectoryStream.Filter<Path> newDirectoriesFilter()
     {
@@ -126,8 +126,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public static DirectoryStream.Filter<Path> not( final DirectoryStream.Filter<Path> f )
     {
@@ -135,8 +135,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public static DirectoryStream.Filter<Path> or( final DirectoryStream.Filter<Path> f1, final DirectoryStream.Filter<Path> f2 )
     {
@@ -144,8 +144,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
    public static DirectoryStream.Filter<Path> toFilter( @Nonnull final FileFilter fileFilter )
     {

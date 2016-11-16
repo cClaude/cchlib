@@ -24,7 +24,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 /**
  * Main frame layout.
  */
-public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // NOSONAR
+public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n
 {
     private final class DuplicateFilesFrameWindowAdapter extends WindowAdapter {
         @Override
@@ -77,7 +77,7 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // N
      */
     public DuplicateFilesFrameWB( final PreferencesControler preferences )
         throws
-            HeadlessException, // NOSONAR
+            HeadlessException,
             TooManyListenersException
     {
         this.dfToolKit = AppToolKitService.getInstance().createAppToolKit( preferences, (DuplicateFilesFrame)this );
@@ -143,7 +143,7 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n // N
         jMenuBarMain.add( Box.createHorizontalGlue() );
         jMenuBarMain.add(this.jMenuLookAndFeel);
 
-        { // NOSONAR
+        {
         this.contentJTabbedPane = new JTabbedPane();
         setContentPane( this.contentJTabbedPane );
 

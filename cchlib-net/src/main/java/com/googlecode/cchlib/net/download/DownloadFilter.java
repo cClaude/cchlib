@@ -4,17 +4,17 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * TODOC
+ * Allow to add a custom task during download
  *
  * @since 4.1.7
  */
 public interface DownloadFilter
 {
     /**
-     * TODOC
+     * Return an {@link InputStream} for the filter
      *
-     * @param is
-     * @return TODOC
+     * @param is Original {@link InputStream}
+     * @return a forked {@link InputStream}
      */
     InputStream getFilterInputStream( InputStream is );
 
@@ -25,9 +25,9 @@ public interface DownloadFilter
     void compute() throws IOException;
 
     /**
-     * TODOC
+     * Return hash for original {@link InputStream}
      *
-     * @return TODOC
+     * @return a hash
      * @throws IllegalStateException if {@link #compute()} not yet call
      *         after a call of {@link #getFilterInputStream(InputStream)}
      */

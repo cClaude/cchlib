@@ -110,7 +110,7 @@ public class PositionalXMLReader
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param saxParserFactory
      * @param documentBuilder
@@ -153,8 +153,8 @@ public class PositionalXMLReader
 
             private void updateLocator()
             {
-                prevLineNumber   = this.locator.getLineNumber() ;
-                prevColumnNumber = this.locator.getColumnNumber();
+                this.prevLineNumber   = this.locator.getLineNumber() ;
+                this.prevColumnNumber = this.locator.getColumnNumber();
             }
 
             @Override
@@ -176,13 +176,13 @@ public class PositionalXMLReader
                     element.setAttribute( attributes.getQName( i ), attributes.getValue (i ) );
                     }
 
-                setUserData( element, PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME  , prevLineNumber );
-                setUserData( element, PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME, prevColumnNumber );
+                setUserData( element, PositionalXMLReader.BEGIN_LINE_NUMBER_KEY_NAME  , this.prevLineNumber );
+                setUserData( element, PositionalXMLReader.BEGIN_COLUMN_NUMBER_KEY_NAME, this.prevColumnNumber );
 
                 updateLocator();
 
-                setUserData( element, PositionalXMLReader.END_LINE_NUMBER_KEY_NAME  , prevLineNumber   );
-                setUserData( element, PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME, prevColumnNumber );
+                setUserData( element, PositionalXMLReader.END_LINE_NUMBER_KEY_NAME  , this.prevLineNumber   );
+                setUserData( element, PositionalXMLReader.END_COLUMN_NUMBER_KEY_NAME, this.prevColumnNumber );
 
                 elementStack.push( element );
             }

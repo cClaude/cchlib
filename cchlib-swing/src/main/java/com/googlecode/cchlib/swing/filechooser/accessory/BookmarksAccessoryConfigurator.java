@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public interface BookmarksAccessoryConfigurator extends Serializable
 {

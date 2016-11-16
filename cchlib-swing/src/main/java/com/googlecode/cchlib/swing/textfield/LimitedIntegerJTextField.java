@@ -9,7 +9,7 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public class LimitedIntegerJTextField extends JTextField
 {
@@ -136,8 +136,8 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public int getMaxValue()
     {
@@ -145,8 +145,8 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public int getRadix()
     {
@@ -154,8 +154,8 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public int getValue()
     {
@@ -178,7 +178,7 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param maxValue Maximum integer allowed by LimitedIntegerTextField
      * @throws IllegalArgumentException if maxValue is negative
      *         or if current value is greater than this new maxValue
@@ -197,7 +197,7 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param value
      * @throws IllegalArgumentException
      */
@@ -223,7 +223,7 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param value
      * @throws IllegalArgumentException
      */
