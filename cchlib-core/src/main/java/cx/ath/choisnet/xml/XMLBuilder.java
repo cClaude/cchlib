@@ -135,7 +135,12 @@ public class XMLBuilder
     {
         final XMLBuilder builder = new XMLBuilder(new StringBuilder());
 
-        try { builder.append(aNode); } catch(final IOException ignore) {}
+        try {
+            builder.append( aNode );
+            }
+        catch( final IOException cause ) {
+            throw new XMLBuilderRuntimeException( cause );
+        }
 
         return builder.appendableToString();
     }
@@ -153,7 +158,6 @@ public class XMLBuilder
 
         sb.append("--------------------\n");
 
-        StringHelper.
         try {
             builder.append( nodeList );
             }
