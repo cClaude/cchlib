@@ -96,7 +96,7 @@ public class XEnumComboBox<E extends Enum<E>> extends JComboBox<String>
     {
         if( anObject.getClass().equals( this.enumClass ) ) {
             @SuppressWarnings("unchecked")
-            final E                  enumValue = ((E)anObject);
+            final E                  enumValue = (E)anObject;
             final XEnumComboBoxModel model     = (XEnumComboBoxModel)super.getModel();
 
             super.setSelectedItem( model.values[ enumValue.ordinal() ] );

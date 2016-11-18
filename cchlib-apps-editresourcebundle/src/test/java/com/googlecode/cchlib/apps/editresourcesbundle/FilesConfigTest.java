@@ -5,19 +5,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
-
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.io.filefilter.PatternFileFilter;
 import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
-
 import cx.ath.choisnet.util.FormattedProperties.Store;
 
 /**
@@ -48,98 +45,88 @@ public class FilesConfigTest
                 IOException,
                 ClassNotFoundException
     {
-        Iterator<File>  files = FilesTestCaseHelper.getFilesFrom(
+        final Iterator<File>  files = FilesTestCaseHelper.getFilesFrom(
                                     new File("."),
                                     new PatternFileFilter(".*\\.properties")
                                     );
         // Hope there is at least 2 properties files
-        File            lFile = files.next();
+        final File            lFile = files.next();
         //File            rFile = files.next();
 
-        Preferences fakePref = Preferences.createDefaultPreferences();
+        final Preferences fakePref = Preferences.createDefaultPreferences();
         fakePref.setNumberOfFiles( 3 );
-        FilesConfig     fc   = new FilesConfig( fakePref );
+        final FilesConfig     fc   = new FilesConfig( fakePref );
         fc.setFileType( fileType );
-        FileObject leftFileObject = new FileObject( lFile, false );
+        final FileObject leftFileObject = new FileObject( lFile, false );
         fc.setFileObject( leftFileObject, 0 );
 
         for( int i = 1; i<fc.getNumberOfFiles(); i++ ) {
-            FileObject rightFileObject = new FileObject( files.next(), true ); // $codepro.audit.disable avoidInstantiationInLoops
+            final FileObject rightFileObject = new FileObject( files.next(), true ); // $codepro.audit.disable avoidInstantiationInLoops
 
             fc.setFileObject( rightFileObject, i  );
             }
 
         fc.load();
 
-        FilesConfig fcCopy = new FilesConfig(fc);
+        final FilesConfig fcCopy = new FilesConfig(fc);
 
 //        assertEquals("Must be equals",fc,fcCopy);
-        Assert.assertTrue( "FilesConfig must be equals.", fcc.compare( fc, fcCopy )==0);
+        Assert.assertTrue( "FilesConfig must be equals.", this.fcc.compare( fc, fcCopy )==0);
 
-        FilesConfig fcClone = SerializableTestCaseHelper.cloneOverSerialization( fc );
+        final FilesConfig fcClone = SerializableTestCaseHelper.cloneOverSerialization( fc );
 
 //        assertEquals("Must be equals",fc,fcClone);
-        Assert.assertTrue( "FilesConfig must be equals.", fcc.compare( fc, fcClone )==0);
+        Assert.assertTrue( "FilesConfig must be equals.", this.fcc.compare( fc, fcClone )==0);
     }
 
     private final FilesConfigComparator fcc = new FilesConfigComparator();
     private static final class FilesConfigComparator implements Comparator<FilesConfig>
     {
-        private static final Comparator<FileObject> FILE_OBJECT_COMPARATOR = new Comparator<FileObject>()
-        {
-            @Override
-            public int compare( FileObject o1, FileObject o2 )
-            {
-                if( o1.isReadOnly() != o2.isReadOnly() ) {
-                    return 1;
-                    }
+        private static final Comparator<FileObject> FILE_OBJECT_COMPARATOR = ( o1, o2 ) -> {
+            if( o1.isReadOnly() != o2.isReadOnly() ) {
+                return 1;
+                }
 
-                // o1.getCustomProperties();
+            // o1.getCustomProperties();
 
-                return o1.getFile().compareTo( o2.getFile() );
-            }
+            return o1.getFile().compareTo( o2.getFile() );
         };
-        private static final Comparator<CustomProperties> CUSTOM_PROPERTIES_COMPARATOR = new Comparator<CustomProperties>()
-        {
-            @Override
-            public int compare( CustomProperties o1, CustomProperties o2 )
-            {
-                // TODO Auto-generated method stub
-                //o1.getFileObject()
-                Set<String> l1 = o1.stringPropertyNames();
-                Set<String> l2 = o2.stringPropertyNames();
+        private static final Comparator<CustomProperties> CUSTOM_PROPERTIES_COMPARATOR = ( o1, o2 ) -> {
+            // TODO Auto-generated method stub
+            //o1.getFileObject()
+            final Set<String> l1 = o1.stringPropertyNames();
+            final Set<String> l2 = o2.stringPropertyNames();
 
-                if( ! l1.containsAll( l2 ) ) {
-                    return 1;
+            if( ! l1.containsAll( l2 ) ) {
+                return 1;
+                }
+            else if( ! l2.containsAll( l1 ) ) {
+                return -1;
+                }
+
+            for( final String key1 : l1 ) {
+                final int res1 = o1.getProperty( key1 ).compareTo( o2.getProperty( key1 ) );
+
+                if( res1 != 0 ) {
+                    return res1;
                     }
-                else if( ! l2.containsAll( l1 ) ) {
-                    return -1;
-                    }
+                }
 
-                for( String key : l1 ) {
-                    int res = o1.getProperty( key ).compareTo( o2.getProperty( key ) );
+            if( o1.isLinesNumberHandle() && o2.isLinesNumberHandle() ) {
+                for( final String key2 : l1 ) {
+                    final int res2 = o1.getLineNumber( key2 ) - o2.getLineNumber( key2 );
 
-                    if( res != 0 ) {
-                        return res;
+                    if( res2 != 0 ) {
+                        return res2;
                         }
                     }
+                }
 
-                if( o1.isLinesNumberHandle() && o2.isLinesNumberHandle() ) {
-                    for( String key : l1 ) {
-                        int res = o1.getLineNumber( key ) - o2.getLineNumber( key );
-
-                        if( res != 0 ) {
-                            return res;
-                            }
-                        }
-                    }
-
-                return 0;
-            }
+            return 0;
         };
 
         @Override
-        public int compare( FilesConfig o1, FilesConfig o2 )
+        public int compare( final FilesConfig o1, final FilesConfig o2 )
         {
             int res = o1.getNumberOfFiles() - o2.getNumberOfFiles();
             if( res != 0 ) {
@@ -151,8 +138,8 @@ public class FilesConfigTest
                 return res;
                 }
 
-            EnumSet<Store> s1 = o1.getFormattedPropertiesStore();
-            EnumSet<Store> s2 = o2.getFormattedPropertiesStore();
+            final Set<Store> s1 = o1.getFormattedPropertiesStore();
+            final Set<Store> s2 = o2.getFormattedPropertiesStore();
 
             if( ! s1.containsAll( s2 ) ) {
                 return 1;

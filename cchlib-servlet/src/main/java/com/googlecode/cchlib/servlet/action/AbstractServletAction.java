@@ -316,7 +316,7 @@ public abstract class AbstractServletAction implements ServletAction
         if( o == null ) {
             throw new ServletActionAssertException( "NULL" );
             }
-        if( o != null ) {
+        else {
             final StringBuilder sb = new StringBuilder();
 
             sb.append( "NULL" );

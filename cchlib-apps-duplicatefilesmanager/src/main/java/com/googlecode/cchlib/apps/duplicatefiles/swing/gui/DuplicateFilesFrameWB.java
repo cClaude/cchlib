@@ -76,7 +76,7 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n
      * @throws TooManyListenersException
      * @throws HeadlessException
      */
-    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S3346"})
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S3346","squid:S1199"})
     public DuplicateFilesFrameWB( final PreferencesControler preferences )
         throws
             HeadlessException,

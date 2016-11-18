@@ -24,6 +24,21 @@ public class AboutDialog
     private final AboutPanel contentPanel;
 
     /**
+     * Create the dialog.
+     *
+     * @param dfToolKit
+     */
+    public AboutDialog()
+    {
+        super( getAppToolKit().getMainFrame() );
+
+        this.contentPanel = new AboutPanel( getAppToolKit().getResources(), this );
+
+        super.setContentPane( this.contentPanel );
+        super.setSize( ABOUT_FRAME_WIDTH, ABOUT_FRAME_HEIGTH );
+    }
+
+    /**
      * Launch the application.
      */
     public static void open()
@@ -40,21 +55,6 @@ public class AboutDialog
         catch( final Exception e ) {
             LOGGER.error( "showDialog", e );
             }
-    }
-
-    /**
-     * Create the dialog.
-     *
-     * @param dfToolKit
-     */
-    public AboutDialog()
-    {
-        super( getAppToolKit().getMainFrame() );
-
-        this.contentPanel = new AboutPanel( getAppToolKit().getResources(), this );
-
-        super.setContentPane( this.contentPanel );
-        super.setSize( ABOUT_FRAME_WIDTH, ABOUT_FRAME_HEIGTH );
     }
 
     private static AppToolKit getAppToolKit()

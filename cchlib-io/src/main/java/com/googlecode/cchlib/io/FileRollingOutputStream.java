@@ -22,7 +22,7 @@ public class FileRollingOutputStream
     private static final Logger LOGGER = Logger.getLogger( FileRollingOutputStream.class );
     private static final String STREAM_CLOSED = "Stream closed";
 
-    private final List<File>    fileList    = new ArrayList<>();;
+    private final List<File>    fileList    = new ArrayList<>();
     private final FileRoller    fileRoller;
     private final int           maxLength;
 

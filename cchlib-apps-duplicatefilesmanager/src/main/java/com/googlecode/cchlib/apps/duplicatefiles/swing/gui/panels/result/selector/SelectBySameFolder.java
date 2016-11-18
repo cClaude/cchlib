@@ -53,14 +53,16 @@ public class SelectBySameFolder extends SelectorPanel
         void perform( Set<KeyFileState> set, KeyFileState selected );
     }
 
-    public static final ActionPerform DELETE_ACTION = (final Set<KeyFileState> set, final KeyFileState selected) -> {
-        for( final KeyFileState f : set ) {
-            selected.setSelectedToDelete( f != selected );
-        }
-    };
-    public static final ActionPerform RESTORE_ACTION = (final Set<KeyFileState> set, final KeyFileState selected) -> {
-        selected.setSelectedToDelete( false );
-    };
+    public static final ActionPerform DELETE_ACTION =
+        (final Set<KeyFileState> set, final KeyFileState selected) -> {
+            for( final KeyFileState f : set ) {
+                selected.setSelectedToDelete( f != selected );
+                }
+            };
+    public static final ActionPerform RESTORE_ACTION =
+        (final Set<KeyFileState> set, final KeyFileState selected) ->
+            selected.setSelectedToDelete( false );
+
 
     private enum Action {
         DELETE(DELETE_ACTION),
@@ -92,7 +94,7 @@ public class SelectBySameFolder extends SelectorPanel
     private final JButton deleteButton;
     private final JButton retoreButton;
 
-    @SuppressWarnings("squid:S3346")
+    @SuppressWarnings({"squid:S3346","squid:S1199"})
     public SelectBySameFolder( final DuplicateData duplicateData )
     {
         assert Mode.values().length == this.modes.length;
@@ -119,9 +121,8 @@ public class SelectBySameFolder extends SelectorPanel
         {
             this.deleteButton = new JButton("Delete");
             this.deleteButton.setToolTipText("Move files to the to delete list");
-            this.deleteButton.addActionListener((final ActionEvent e) -> {
-                onDelete();
-            });
+            this.deleteButton.addActionListener( (final ActionEvent e) -> onDelete() );
+
             final GridBagConstraints gbc_deleteButton = new GridBagConstraints();
             gbc_deleteButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_deleteButton.anchor = GridBagConstraints.NORTH;
@@ -131,9 +132,8 @@ public class SelectBySameFolder extends SelectorPanel
         }
         {
             this.retoreButton = new JButton("Restore");
-            this.retoreButton.addActionListener((final ActionEvent e) -> {
-                onRestore();
-            });
+            this.retoreButton.addActionListener((final ActionEvent e) -> onRestore() );
+
             final GridBagConstraints gbc_retoreButton = new GridBagConstraints();
             gbc_retoreButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_retoreButton.insets = new Insets(0, 0, 0, 5);
@@ -209,9 +209,7 @@ public class SelectBySameFolder extends SelectorPanel
         KeyFileState max = null;
 
         for( final KeyFileState entry : collection ) {
-            if( max == null ) {
-                max = entry;
-            } else if( comparator.compare( entry, max ) > 0 ) {
+            if( (max == null) || (comparator.compare( entry, max ) > 0) ) {
                 max = entry;
             }
         }

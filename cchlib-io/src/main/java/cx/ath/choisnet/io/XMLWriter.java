@@ -39,7 +39,7 @@ public final class XMLWriter extends Writer
      * NEEDDOC
      */
     @Override
-    public void write(final char cbuf[], final int off, final int len)
+    public void write(final char[] cbuf, final int off, final int len)
         throws IOException
     {
         synchronized(super.lock) {

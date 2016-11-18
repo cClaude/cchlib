@@ -3,12 +3,10 @@ package com.googlecode.cchlib.apps.editresourcesbundle.files;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Set;
 import org.apache.log4j.Logger;
@@ -31,25 +29,25 @@ class FormattedCustomProperties extends AbstractCustomProperties
     private HashMap<String,Integer> linesNumbers;
 
     public FormattedCustomProperties(
-        final FileObject                            fileObject,
-        final FormattedProperties                   defaults,
-        final EnumSet<FormattedProperties.Store>    formattedPropertiesStore
-        ) throws FileNotFoundException, IOException
+        final FileObject                     fileObject,
+        final FormattedProperties            defaults,
+        final Set<FormattedProperties.Store> formattedPropertiesStore
+        ) throws IOException
     {
-        this.fileObject     = fileObject;
-        this.properties     = new FormattedProperties(
+        this.fileObject = fileObject;
+        this.properties = new FormattedProperties(
                 defaults,
                 formattedPropertiesStore
                 );
     }
 
-    public void load() throws FileNotFoundException, IOException
+    public void load() throws IOException
     {
         try( InputStream is = new FileInputStream( this.fileObject.getFile() ) ) {
             this.properties.load( is );
             }
 
-        this.linesNumbers = new HashMap<String,Integer>();
+        this.linesNumbers = new HashMap<>();
 
         refreshLinesNumber();
 
@@ -59,28 +57,28 @@ class FormattedCustomProperties extends AbstractCustomProperties
     @Override
     public Set<String> stringPropertyNames()
     {
-        return properties.stringPropertyNames();
+        return this.properties.stringPropertyNames();
     }
 
     @Override
     public boolean store()
-        throws FileNotFoundException, IOException
+        throws IOException
     {
-        if( fileObject.isReadOnly() ) {
-            LOGGER.warn( "Can't save (readOnly): " + fileObject );
+        if( this.fileObject.isReadOnly() ) {
+            LOGGER.warn( "Can't save (readOnly): " + this.fileObject );
 
             return false;
             }
         else {
-            return storeAs( fileObject.getFile() );
+            return storeAs( this.fileObject.getFile() );
             }
     }
 
     @Override
-    public boolean storeAs( final File file ) throws FileNotFoundException, IOException
+    public boolean storeAs( final File file ) throws IOException
     {
         try( final OutputStream os = new FileOutputStream( file ) ) {
-            properties.store( os, StringHelper.EMPTY );
+            this.properties.store( os, StringHelper.EMPTY );
             }
 
         LOGGER.info( "Save : " + file );
@@ -94,25 +92,25 @@ class FormattedCustomProperties extends AbstractCustomProperties
     @Override
     public FileObject getFileObject()
     {
-        return fileObject;
+        return this.fileObject;
     }
 
     public FormattedProperties getFormattedProperties()
     {
-        return properties;
+        return this.properties;
     }
 
     @Override
     public String getProperty( final String key )
     {
-        return properties.getProperty( key );
+        return this.properties.getProperty( key );
     }
 
     @Override
     public void setProperty( final String key, final String value )
     {
         setEdited( true );
-        properties.setProperty( key, value );
+        this.properties.setProperty( key, value );
     }
 
     @Override
@@ -140,7 +138,7 @@ class FormattedCustomProperties extends AbstractCustomProperties
 
         int lineNumber = 1;
 
-        for( final FormattedPropertiesLine line : properties.getLines() ) {
+        for( final FormattedPropertiesLine line : this.properties.getLines() ) {
             if( ! line.isComment() ) {
                 this.linesNumbers.put( line.getContent(), Integer.valueOf( lineNumber ) );
                 }
@@ -153,11 +151,11 @@ class FormattedCustomProperties extends AbstractCustomProperties
     {
         final StringBuilder builder = new StringBuilder();
         builder.append( "FormattedCustomProperties [fileObject=" );
-        builder.append( fileObject );
+        builder.append( this.fileObject );
         builder.append( ", properties=" );
-        builder.append( properties );
+        builder.append( this.properties );
         builder.append( ", linesNumbers=" );
-        builder.append( linesNumbers );
+        builder.append( this.linesNumbers );
         builder.append( ']' );
         return builder.toString();
     }

@@ -82,7 +82,7 @@ public class SerializableFileWriter
     }
 
     @Override
-    public void write(final char array[], final int offset, final int len)
+    public void write(final char[] array, final int offset, final int len)
         throws IOException
     {
         this.output.write(array, offset, len);

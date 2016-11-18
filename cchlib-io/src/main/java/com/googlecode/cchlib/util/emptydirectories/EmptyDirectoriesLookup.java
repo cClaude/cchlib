@@ -10,6 +10,7 @@ import com.googlecode.cchlib.util.emptydirectories.lookup.ExcludeDirectoriesFile
  * @param <FILTER> Specify how to filter directory for lookup
  *       (see {@link ExcludeDirectoriesFileFilter}) *
  */
+@SuppressWarnings("squid:S00119") // Type one char only ! Why ?
 public interface EmptyDirectoriesLookup<FILTER>
 {
     /**

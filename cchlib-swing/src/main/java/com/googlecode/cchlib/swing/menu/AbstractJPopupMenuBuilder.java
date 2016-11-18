@@ -23,6 +23,7 @@ import javax.swing.JPopupMenu;
 /**
  * Handle context menu.
  */
+@SuppressWarnings("squid:S00104") // Long file, but a lot of documentation
 public abstract class AbstractJPopupMenuBuilder implements Serializable
 {
     private static final long serialVersionUID = 2L;
@@ -1161,15 +1162,6 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * Must implement display or hide of menu
      */
     protected abstract void maybeShowPopup(MouseEvent e);
-
-    /**
-     * @deprecated Use {@link #addMenu()} instead
-     */
-    @Deprecated
-    public final void setMenu()
-    {
-        addMenu();
-    }
 
     /**
      * Install context menu for specified object.

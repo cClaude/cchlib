@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Properties;
+import java.util.Set;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.DefaultCustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
@@ -21,7 +22,7 @@ public class FilesConfig implements Serializable
 
     private FileType fileType
           = FileType.FORMATTED_PROPERTIES;
-    private EnumSet<FormattedProperties.Store> formattedPropertiesStore
+    private Set<FormattedProperties.Store> formattedPropertiesStore
           = EnumSet.allOf( FormattedProperties.Store.class );
     private boolean useLeftHasDefault
           = false;
@@ -156,13 +157,13 @@ public class FilesConfig implements Serializable
         this.useLeftHasDefault = useLeftHasDefault;
     }
 
-    public EnumSet<FormattedProperties.Store> getFormattedPropertiesStore()
+    public Set<FormattedProperties.Store> getFormattedPropertiesStore()
     {
         return this.formattedPropertiesStore;
     }
 
     public void setFormattedPropertiesStore(
-        final EnumSet<FormattedProperties.Store> storeOptions
+        final Set<FormattedProperties.Store> storeOptions
         )
     {
         this.formattedPropertiesStore = storeOptions;
@@ -210,10 +211,8 @@ public class FilesConfig implements Serializable
      * @throws FileNotFoundException
      * @throws IOException
      */
-    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
-    public void load()
-        throws  FileNotFoundException,
-                IOException
+    @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck") // switch on enum
+    public void load() throws IOException
     {
         switch( this.fileType )
         {

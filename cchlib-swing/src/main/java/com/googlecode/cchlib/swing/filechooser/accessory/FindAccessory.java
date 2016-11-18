@@ -79,6 +79,7 @@ public class FindAccessory
     @Override // TabbedAccessoryInterface
     public void register()
     {
+        // Required by API
     }
 
     @Override //TabbedAccessoryInterface

@@ -84,12 +84,14 @@ public class EditorPaneWithPrintStream extends JEditorPane
         updateCaret();
     }
 
+    @SuppressWarnings("squid:S1166")
     private void updateCaret()
     {
         try {
             setCaretPosition( Math.max( 0, this.totalLength - 1 ));
             }
-        catch( final IllegalArgumentException ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
+        catch( final IllegalArgumentException ignore ) {
+            // Ignore
             }
     }
 
@@ -132,13 +134,13 @@ public class EditorPaneWithPrintStream extends JEditorPane
         }
 
         @Override
-        public void write( final byte b[] ) throws IOException
+        public void write( final byte[] b ) throws IOException
         {
             this.write( b, 0, b.length );
         }
 
         @Override
-        public void write( final byte b[], final int off, final int len ) throws IOException
+        public void write( final byte[] b, final int off, final int len ) throws IOException
         {
             final String str = new String( b, off, len );
 

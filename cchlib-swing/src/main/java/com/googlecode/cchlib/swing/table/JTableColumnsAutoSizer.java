@@ -212,7 +212,9 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
     {
         int sum = 0;
 
-        for(final int width : widths) { sum += width; }
+        for( final int width : widths ) {
+            sum += width;
+            }
 
         return sum;
     }

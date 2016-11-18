@@ -27,7 +27,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 
 @I18nName("AboutPanel")
-@SuppressWarnings({"squid:S00117"})
+@SuppressWarnings({"squid:S00117","squid:S1199","squid:S00116"})
 public final class AboutPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
@@ -48,6 +48,7 @@ public final class AboutPanel extends JPanel
     /**
      * Creates new form AboutPanel
      */
+    @SuppressWarnings("squid:S1199")
     public AboutPanel(
         final Resources        resources,
         final AboutPanelAction action
@@ -187,9 +188,9 @@ public final class AboutPanel extends JPanel
         }
         {
             this.jButton_Ok = new JButton("OK");
-            this.jButton_Ok.addActionListener((final ActionEvent event) -> {
-                action.buttonOKClicked();
-            });
+            this.jButton_Ok.addActionListener(
+                    (final ActionEvent event) -> action.buttonOKClicked()
+                    );
             final GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
             gbc_jButton_Ok.gridwidth = 4;
             gbc_jButton_Ok.gridx = 0;

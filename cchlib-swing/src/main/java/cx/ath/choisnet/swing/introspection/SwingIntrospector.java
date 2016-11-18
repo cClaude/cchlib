@@ -8,6 +8,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -31,7 +32,115 @@ import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
 @SuppressWarnings({"squid:S00119"})
 public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 {
-    private static Logger LOGGER = Logger.getLogger( SwingIntrospector.class );
+    private static final class Builder<FRAME>
+    {
+        private final Set<Attrib> attribs;
+
+        Builder( final Set<Attrib> attribs )
+        {
+            this.attribs = attribs;
+        }
+
+        void buildSwingIntrospectorItemMap(
+            final Map<String,List<SwingIntrospectorItem<FRAME>>> map,
+            final Class<?>                                       clazz
+            )
+        {
+            final Field[] fields = getFields( clazz/*, attribs*/ );
+
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( clazz.getName() + " # fields = " + fields.length );
+                }
+
+            for( final Field f : fields ) {
+                if( isSubClass( f.getType(), Component.class ) ) {
+                    try {
+                        final Bean bean = new Bean( f );
+
+                        final List<SwingIntrospectorItem<FRAME>> list = getListForBean( map, bean );
+
+                        // Add Field informations to the list
+                        list.add(
+                                new SwingIntrospectorItem<FRAME>( bean, f, this.attribs )
+                                );
+                        }
+                    catch( final IllegalArgumentException ignoreBadFieldName ) {
+                        // Ignore this field
+                        if( LOGGER.isDebugEnabled() ) {
+                            LOGGER.debug( "buildSwingIntrospectorItemMap - ignoreBadFieldName", ignoreBadFieldName );
+                            }
+                        }
+                    }
+                }
+        }
+
+        private Field[] getFields( final Class<?> clazz )
+        {
+            Field[] fields;
+
+            if( this.attribs.contains( Attrib.ONLY_ACCESSIBLE_PUBLIC_FIELDS ) ) {
+                // doOnlyAccessiblePublicFields
+                fields = clazz.getFields();
+                }
+            else {
+                fields = clazz.getDeclaredFields();
+                }
+            return fields;
+        }
+
+        private void buildSwingIntrospectorItemMapForParents(
+            final Map<String, List<SwingIntrospectorItem<FRAME>>> map,
+            final Class<FRAME>                                    clazz
+            )
+        {
+            Class<?> superClass = clazz.getSuperclass();
+
+            while( (superClass != null)
+                    && !superClass.equals( Object.class )
+                    && !superClass.equals( JFrame.class )
+                    && !superClass.equals( JDialog.class )
+                    ) {
+                buildSwingIntrospectorItemMap( map,superClass/*, this.attribs*/ );
+                superClass = superClass.getSuperclass();
+                }
+        }
+
+        private List<SwingIntrospectorItem<FRAME>> getListForBean(
+            final Map<String, List<SwingIntrospectorItem<FRAME>>> map,
+            final Bean                                            bean
+            )
+        {
+            List<SwingIntrospectorItem<FRAME>> list = map.get( bean.getBeanName() );
+
+            if( list == null ) {
+                list = new ArrayList<>();
+
+                map.put( bean.getBeanName(), list );
+                }
+            return list;
+        }
+
+        private final boolean isSubClass( final Class<?> clazz, final Class<?> compareToClass )
+        {
+            final String    canonicalName   = compareToClass.getCanonicalName();
+            Class<?>        current         = clazz;
+
+            while( current != null ) {
+                if( current.getCanonicalName().equals( canonicalName ) ) {
+                    return true;
+                    }
+
+                current = current.getSuperclass();
+                }
+
+            return false;
+        }
+    }
+    private static final Logger LOGGER = Logger.getLogger( SwingIntrospector.class );
+
+    private static final EnumSet<Attrib> DEFAULT_CONFIG = EnumSet.of(
+            Attrib.LOOK_IN_SUPER_CLASSES
+            );
 
     private final Map<String,SwingIntrospectorRootItem<FRAME>> itemsMap = new TreeMap<>();
     private final SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY> objectInterface;
@@ -54,11 +163,9 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     public enum Attrib {
         LOOK_IN_SUPER_CLASSES,
         ONLY_ACCESSIBLE_PUBLIC_FIELDS, // == FORCE_FIELDS_ACCESSIBLE,
-    };
-    // TODO: not yet implemented !
-    private EnumSet<Attrib> attribs = EnumSet.of(
-                Attrib.LOOK_IN_SUPER_CLASSES
-                );
+    }
+
+    private EnumSet<Attrib> attribs;
 
     /**
      * @param objectInterface
@@ -75,32 +182,22 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      * @param attributes
      */
     public SwingIntrospector(
-        final SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY>   objectInterface,
-        final EnumSet<Attrib>                                               attributes
+        final SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY> objectInterface,
+        final Set<Attrib>                                                 attributes
         )
     {
         this.objectInterface = objectInterface;
-
-        if( attributes != null ) {
-            this.attribs = EnumSet.copyOf( attributes );
-            }
+        this.attribs         = getConfig( attributes );
 
         final Class<FRAME> clazz = objectInterface.getFrameClass();
         final Map<String, List<SwingIntrospectorItem<FRAME>>> map = new TreeMap<>();
 
-        buildSwingIntrospectorItemMap(map,clazz,this.attribs);
+        final Builder<FRAME> builder = new Builder<>( this.attribs );
+
+        builder.buildSwingIntrospectorItemMap( map, clazz );
 
         if( this.attribs.contains( Attrib.LOOK_IN_SUPER_CLASSES )) {
-            Class<?> superClass = clazz.getSuperclass();
-
-            while( (superClass != null)
-                    && !superClass.equals( Object.class )
-                    && !superClass.equals( JFrame.class )
-                    && !superClass.equals( JDialog.class )
-                    ) {
-                buildSwingIntrospectorItemMap(map,superClass,this.attribs);
-                superClass = superClass.getSuperclass();
-                }
+            builder.buildSwingIntrospectorItemMapForParents( map, clazz );
             }
 
         if( LOGGER.isDebugEnabled() ) {
@@ -116,7 +213,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                 rootItem.add( item );
                 }
 
-            if( rootItem.getRootItemsCollection().size() > 0 ) {
+            if( ! rootItem.getRootItemsCollection().isEmpty() ) {
                 this.itemsMap.put( beanName, rootItem );
                 }
             else {
@@ -131,79 +228,18 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         //TODO: if size == 0 : exception ?? or error on System.err ??
     }
 
-    private static <FRAME> void buildSwingIntrospectorItemMap(
-        final Map<String,List<SwingIntrospectorItem<FRAME>>>    map,
-        final Class<?>                                          clazz,
-        final EnumSet<Attrib>                                   attribs
-        )
+    private static EnumSet<Attrib> getConfig( final Set<Attrib> attributes )
     {
-        Field[] fields;
-
-        if( attribs.contains( Attrib.ONLY_ACCESSIBLE_PUBLIC_FIELDS ) ) {
-            // doOnlyAccessiblePublicFields
-            fields = clazz.getFields();
+        if( attributes != null ) {
+            return EnumSet.copyOf( attributes );
             }
         else {
-            fields = clazz.getDeclaredFields();
-            }
-
-        //
-        if( LOGGER.isDebugEnabled() ) {
-            LOGGER.debug( clazz.getName() + " # fields = " + fields.length );
-            }
-
-        for( final Field f : fields ) {
-            if( isSubClass( f.getType(), Component.class ) ) {
-                try {
-                    final Bean bean = new Bean( f );
-
-                    List<SwingIntrospectorItem<FRAME>> list = map.get( bean.getBeanName() );
-
-                    if( list == null ) {
-                        list = new ArrayList<>();
-
-                        map.put( bean.getBeanName(), list );
-                        }
-
-                    // Add Field informations to the list
-                    list.add(
-                            new SwingIntrospectorItem<FRAME>( bean, f, attribs )
-                            );
-                    }
-                catch( final IllegalArgumentException ignoreBadFieldName ) {
-                    // Ignore this field
-                    if( LOGGER.isDebugEnabled() ) {
-                        LOGGER.debug( "buildSwingIntrospectorItemMap - ignoreBadFieldName", ignoreBadFieldName );
-                        }
-                    }
-                }
-            }
+            return DEFAULT_CONFIG;
+        }
     }
 
     /**
-     *
-     * @param clazz
-     * @param compareToClass
-     * @return NEEDDOC
-     */
-    private static final boolean isSubClass( final Class<?> clazz, final Class<?> compareToClass )
-    {
-        final String    canonicalName   = compareToClass.getCanonicalName();
-        Class<?>        current         = clazz;
-
-        while( current != null ) {
-            if( current.getCanonicalName().equals( canonicalName ) ) {
-                return true;
-                }
-
-            current = current.getSuperclass();
-            }
-
-        return false;
-    }
-
-    /**
-     *
+     * NEEDDOC
      * @return NEEDDOC
      */
     public Map<String,SwingIntrospectorRootItem<FRAME>> getItemMap()
@@ -212,7 +248,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     *
+     * NEEDDOC
      * @param beanName
      * @return NEEDDOC
      */
@@ -439,6 +475,8 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
+     * NEEDDOC
+     *
      * @param <FRAME>
      * @param <OBJECT>
      * @param frameClass
@@ -458,5 +496,4 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                         )
                 );
     }
-
 }

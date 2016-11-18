@@ -28,6 +28,7 @@ public class EmptyArray implements ArrayReadWriteAccess
     @Override
     public void setByte(final int index, final byte b)
     {
+        throw new UnsupportedOperationException();
     }
 
     @Override

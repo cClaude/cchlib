@@ -169,7 +169,7 @@ public final class MyResourcesLoader
     }
 
     private static final Logger LOGGER = Logger.getLogger( MyResourcesLoader.class );
-    private static Resources RESOURCES;
+    private static Resources globalResources;
 
     private MyResourcesLoader()
     {
@@ -246,7 +246,7 @@ public final class MyResourcesLoader
 
     public static Resources getResources()
     {
-        if( RESOURCES == null ) {
+        if( globalResources == null ) {
             final URI siteURI;
 
             try {
@@ -258,9 +258,9 @@ public final class MyResourcesLoader
 
             final Version version = Version.getInstance();
 
-            RESOURCES = newResources( siteURI, version );
+            globalResources = newResources( siteURI, version );
             }
-        return RESOURCES;
+        return globalResources;
     }
 
     private static Resources newResources( final URI siteURI, final Version version )

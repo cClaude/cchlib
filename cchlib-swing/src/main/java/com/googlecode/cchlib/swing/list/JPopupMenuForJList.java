@@ -128,19 +128,6 @@ public abstract class JPopupMenuForJList<E>
         this( jList, EnumSet.of( first, rest ) );
     }
 
-//    /**
-//     * Create JPopupMenuForJList
-//     *
-//     * @param jList to use.
-//     */
-//    @Deprecated
-//    public JPopupMenuForJList(
-//        final JList<E> jList
-//        )
-//    {
-//        this( jList, null );
-//    }
-
     /**
      * Returns current JList
      * @return current JList
@@ -322,15 +309,6 @@ public abstract class JPopupMenuForJList<E>
             rowIndex
             );
     }
-
-//    @Deprecated
-//    protected void addDefaultCopyMenuItem(
-//        final JPopupMenu contextMenu,
-//        final int        rowIndex
-//        )
-//    {
-//        addCopyMenuItem( contextMenu,"Copy", rowIndex );
-//    }
 
     /**
      * Returns an ActionListener for 'copy' from

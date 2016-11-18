@@ -124,6 +124,7 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
         return false;
     }
 
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private boolean acceptForExcludeFilesFileFilter( //
         final boolean  skipHiddenFiles, //
         final boolean  skipReadOnlyFiles, //
@@ -165,6 +166,7 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
         return false;
     }
 
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private boolean acceptForIncludeFilesFileFilter( //
         final boolean  skipHiddenFiles, //
         final boolean  skipReadOnlyFiles, //

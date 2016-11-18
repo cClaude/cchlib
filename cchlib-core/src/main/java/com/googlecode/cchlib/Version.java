@@ -19,11 +19,12 @@ import org.apache.log4j.Logger;
     )
 public final class Version
 {
-    private static volatile Version service;
     private static final Logger LOGGER = Logger.getLogger( Version.class );
+    private static volatile Version service;
+
     private final String name;
     private final String version;
-    private final Date date;
+    private final Date   date;
 
     /**
      * Create library Version object
@@ -34,25 +35,7 @@ public final class Version
      */
     private Version() throws IOException, ParseException
     {
-        final String     filename = "/version.properties";
-        final Properties prop     = new Properties();
-
-        {
-            @SuppressWarnings("resource")
-            final InputStream is = Version.class.getResourceAsStream( filename );
-
-            if( is == null ) {
-                throw new FileNotFoundException( filename );
-                }
-            else {
-                try {
-                    prop.load( is );
-                    }
-                finally {
-                    is.close();
-                    }
-                }
-        }
+        final Properties prop = load();
 
         this.name    = prop.getProperty( "project.name" );
         this.version = prop.getProperty( "project.version" );
@@ -70,6 +53,28 @@ public final class Version
             }
 
         this.date = sdf.parse( buildDate );
+    }
+
+    private static Properties load() throws IOException
+    {
+        final Properties prop = new Properties();
+
+        try( final InputStream is = getVersionResourceAsStream() ) {
+            prop.load( is );
+            }
+
+        return prop;
+    }
+
+    private static InputStream getVersionResourceAsStream() throws FileNotFoundException
+    {
+        final InputStream is = Version.class.getResourceAsStream( "/version.properties" );
+
+        if( is == null ) {
+            throw new FileNotFoundException( "/version.properties" );
+            }
+
+        return is;
     }
 
     /**

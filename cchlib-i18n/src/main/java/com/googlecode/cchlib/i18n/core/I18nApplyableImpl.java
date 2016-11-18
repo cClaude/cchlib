@@ -78,21 +78,26 @@ class I18nApplyableImpl<T> implements I18nApplyable<T>
                     LOGGER.trace( "values = " + values );
                     }
 
-                try {
-                    if( LOGGER.isTraceEnabled() ) {
-                        LOGGER.trace( "I18nResolver.getI18nResolvedFieldSetter() = " + resolver.getI18nResolvedFieldSetter() );
-                        }
-                    resolver.getI18nResolvedFieldSetter().setValues( keys, values );
-                    }
-                catch( final SetFieldException e ) {
-                    i18nDelegator.handleSetFieldException( e, i18nField, resolver );
-                    }
+                useResolverOn( i18nField, resolver, keys, values );
                 }
             catch( final MissingResourceException e ) {
                 i18nDelegator.handleMissingResourceException( e, i18nField, objectToI18n, i18nInterface );
                 }
             catch( final MissingKeyException e ) {
                 i18nDelegator.handleMissingKeyException( e, i18nField, resolver );
+                }
+        }
+
+        private void useResolverOn( final I18nField i18nField, final I18nResolver resolver, final Keys keys, final Values values )
+        {
+            try {
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "I18nResolver.getI18nResolvedFieldSetter() = " + resolver.getI18nResolvedFieldSetter() );
+                    }
+                resolver.getI18nResolvedFieldSetter().setValues( keys, values );
+                }
+            catch( final SetFieldException e ) {
+                i18nDelegator.handleSetFieldException( e, i18nField, resolver );
                 }
         }
 

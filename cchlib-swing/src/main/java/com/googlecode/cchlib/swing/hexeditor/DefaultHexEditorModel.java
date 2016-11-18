@@ -76,7 +76,7 @@ public class DefaultHexEditorModel implements HexEditorModel
     @Override
     public void updateCursor()
     {
-        final int n=(this.cursor/16);
+        final int n = this.cursor / 16;
 
         if(n<this.introduction) {
             this.introduction=n;
@@ -140,14 +140,26 @@ public class DefaultHexEditorModel implements HexEditorModel
     public void drawBackground(final Graphics g,final int x,final int y,final int s)
     {
         final FontMetrics fn=getFontMetrics();
-        g.fillRect(((fn.stringWidth(" ")+1)*x)+this.border,(fn.getHeight()*y)+this.border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
+
+        g.fillRect(
+                ((fn.stringWidth(" ")+1)*x)+this.border,
+                (fn.getHeight()*y)+this.border,
+                (fn.stringWidth(" ")+1)*s,
+                fn.getHeight()+1
+                );
     }
 
     @Override
     public void drawTable(final Graphics g,final int x,final int y,final int s)
     {
         final FontMetrics fn=getFontMetrics();
-        g.drawRect(((fn.stringWidth(" ")+1)*x)+this.border,(fn.getHeight()*y)+this.border,((fn.stringWidth(" ")+1)*s),fn.getHeight()+1);
+
+        g.drawRect(
+                ((fn.stringWidth(" ")+1)*x)+this.border,
+                (fn.getHeight()*y)+this.border,
+                (fn.stringWidth(" ")+1)*s,
+                fn.getHeight()+1
+                );
     }
 
     @Override
@@ -174,6 +186,7 @@ public class DefaultHexEditorModel implements HexEditorModel
     }
 
     @Override
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     public void keyPressed(final KeyEvent e)
     {
         switch(e.getKeyCode())

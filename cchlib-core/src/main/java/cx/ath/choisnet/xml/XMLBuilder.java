@@ -151,6 +151,7 @@ public class XMLBuilder
      * @param nodeList
      * @return NEEDDOC
      */
+    @SuppressWarnings("squid:S1166")
     public static String toString( final NodeList nodeList )
     {
         final StringBuilder   sb      = new StringBuilder();

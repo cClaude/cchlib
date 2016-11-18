@@ -75,17 +75,10 @@ public class SimpleQuery
             openConnection();
             }
 
-        try {
-            if(this.conn != null) {
-                this.stmt = this.conn.createStatement();
+        if(this.conn != null) {
+            this.stmt = this.conn.createStatement();
 
-                rset = this.stmt.executeQuery( query );
-                }
-            }
-        finally {
-//            if( rset == null ) {
-//                closeConnection();
-//                }
+            rset = this.stmt.executeQuery( query );
             }
 
         return rset;
@@ -165,13 +158,5 @@ public class SimpleQuery
     public void close() throws IOException
     {
         closeConnection();
-    }
-
-    @Override
-    protected void finalize() throws Throwable
-    {
-        closeConnection();
-
-        super.finalize();
     }
 }

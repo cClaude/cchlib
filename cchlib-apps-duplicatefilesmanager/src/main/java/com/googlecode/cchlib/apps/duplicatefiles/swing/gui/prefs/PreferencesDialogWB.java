@@ -47,6 +47,7 @@ public final class PreferencesDialogWB
     /**
      * Create the frame
      */
+    @SuppressWarnings("squid:S1199")
     public PreferencesDialogWB( final Dimension mainWindowDimension )
     {
         super();

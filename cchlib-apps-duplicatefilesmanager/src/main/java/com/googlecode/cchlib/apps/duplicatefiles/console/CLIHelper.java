@@ -18,6 +18,7 @@ public class CLIHelper
      *
      * @param message Message to print
      */
+    @SuppressWarnings("squid:S106")
     public static void printMessage( final String message )
     {
         System.out.println( message );
@@ -28,6 +29,7 @@ public class CLIHelper
      *
      * @param message Message to print
      */
+    @SuppressWarnings("squid:S106")
     public static void printError( final String message )
     {
         System.err.println( message );

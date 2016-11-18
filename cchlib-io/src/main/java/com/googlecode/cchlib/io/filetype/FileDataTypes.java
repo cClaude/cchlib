@@ -140,11 +140,9 @@ public class FileDataTypes
 
         final ImageIOFileData image;
 
-        {
-            try (InputStream is = new BufferedInputStream( new FileInputStream( file ) )) {
-                image = new ImageIOFileData( is );
-                }
-        }
+        try (InputStream is = new BufferedInputStream( new FileInputStream( file ) )) {
+            image = new ImageIOFileData( is );
+            }
 
         return new DefaultExtendedFileDataTypeDescription( desc, image );
     }

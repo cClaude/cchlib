@@ -524,13 +524,14 @@ public class InfosServletDisplayerImpl
                 );
     }
 
+    @SuppressWarnings("squid:S106")
     private InfosServletDisplay getJVM_SystemObjectISD()
     {
         final Map<String,String> map = new TreeMap<>();
 
-        map.put("System.out", StringTools.safeToString(System.out));
-        map.put("System.err", StringTools.safeToString(System.err));
-        map.put("System.in",  StringTools.safeToString(System.in));
+        map.put("System.out", StringTools.safeToString( System.out ));
+        map.put("System.err", StringTools.safeToString( System.err ));
+        map.put("System.in",  StringTools.safeToString( System.in ));
 
         return new InfosServletDisplayImplForMap(
                 "Here is the JVM System Object informations",

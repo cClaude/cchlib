@@ -271,6 +271,7 @@ public class SimpleServletRequestImpl
             }
     }
 
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private EnumSet<UserAgent> getOSForIE(final String userAgent)
     {
         final EnumSet<UserAgent> details = EnumSet.noneOf(UserAgent.class);
@@ -321,6 +322,7 @@ public class SimpleServletRequestImpl
         return details;
     }
 
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private EnumSet<UserAgent> getOSForMozilla(final String userAgent)
     {
         final EnumSet<UserAgent> details = EnumSet.noneOf(UserAgent.class);

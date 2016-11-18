@@ -27,6 +27,7 @@ public class DuplicateFilesI18nPrep
 {
     private DuplicateFilesI18nPrep() {} // All static
 
+    @SuppressWarnings("squid:S106")
     public static void main( final String[] args ) throws Exception
     {
         // Default language !

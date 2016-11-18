@@ -162,6 +162,7 @@ public abstract class BytesAccess implements Cloneable
     }
 
     @Override
+    @SuppressWarnings("squid:S1166")
     public boolean equals( final Object obj )
     {
         if( this == obj ) {

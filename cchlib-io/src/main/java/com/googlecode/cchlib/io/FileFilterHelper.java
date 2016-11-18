@@ -34,6 +34,7 @@ public final class FileFilterHelper
      * @since 4.2
      */
     @NeedDoc
+    @FunctionalInterface
     public interface ErrorHandler {
         @NeedDoc
         boolean handleIOException( File file, IOException ioe );

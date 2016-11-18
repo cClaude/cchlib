@@ -32,6 +32,7 @@ public class HiddenAutoCompleteTextField
         }
 
         @Override
+        @SuppressWarnings("squid:MethodCyclomaticComplexity")
         public void insertString( final int i, final String s, final AttributeSet attributeset )
             throws BadLocationException
         {
@@ -65,6 +66,7 @@ public class HiddenAutoCompleteTextField
         }
 
         @Override
+        @SuppressWarnings("squid:S1166")
         public void remove( final int i, final int j ) throws BadLocationException
         {
             int k = getSelectionStart();
@@ -91,7 +93,8 @@ public class HiddenAutoCompleteTextField
                 setSelectionStart( k );
                 setSelectionEnd( getLength() );
                 }
-            catch( final Exception ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
+            catch( final Exception ignore ) {
+                // Don't care this exception (bad selection)
                 }
             }
 
@@ -154,6 +157,7 @@ public class HiddenAutoCompleteTextField
     }
 
     @Override
+    @SuppressWarnings("squid:S1166")
     public void replaceSelection( final String s )
     {
         final AutoDocument lb = (AutoDocument) getDocument();
@@ -165,7 +169,8 @@ public class HiddenAutoCompleteTextField
 
                 lb.replace( i, j - i, s, null );
                 }
-            catch( final Exception exception ) { // $codepro.audit.disable logExceptions, emptyCatchClause
+            catch( final Exception exception ) {
+                // Don't care this exception (bad selection)
                 }
             }
     }

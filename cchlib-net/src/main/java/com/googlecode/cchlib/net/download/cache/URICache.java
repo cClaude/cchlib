@@ -548,8 +548,8 @@ public class URICache implements Closeable
     {
         final Object[] listeners = this.listenerList.getListenerList();
 
-        for( int i = listeners.length - 2; i >= 0; i -= 2 ) { // $codepro.audit.disable numericLiterals
-            if( listeners[i] == URICacheListener.class ) { // $codepro.audit.disable useEquals
+        for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
+            if( listeners[i] == URICacheListener.class ) {
                 ((URICacheListener)listeners[i + 1]).ioExceptionHandler( ioe );
                 }
             }
@@ -598,13 +598,5 @@ public class URICache implements Closeable
         if( this.getCacheFile() != null ) {
             store();
             }
-    }
-
-    @Override
-    protected void finalize() throws Throwable
-    {
-        close();
-
-        super.finalize();
     }
 }

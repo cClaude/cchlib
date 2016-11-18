@@ -13,6 +13,7 @@ import com.googlecode.cchlib.lang.reflect.SerializableField;
  *
  * @param <FRAME> NEEDDOC
  */
+@SuppressWarnings("squid:S00119") // Type one char only ! Why ?
 public class SwingIntrospectorItem<FRAME>
     implements Serializable
 {

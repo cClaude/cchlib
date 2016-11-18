@@ -25,7 +25,7 @@ public class FileRollingWriter
     private static final Logger LOGGER = Logger.getLogger( FileRollingWriter.class );
 
     private final FileRoller    fileRoller;
-    private final List<File>    fileList    = new ArrayList<>();;
+    private final List<File>    fileList    = new ArrayList<>();
     private final int           maxLength;
     private final Charset       charset;
 

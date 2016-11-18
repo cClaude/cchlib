@@ -70,6 +70,8 @@ public class FindAccessoryImpl
     */
     public static final String  ACTION_STOP = "Stop";
 
+    private static final FindFilter[] NOT_FOUND = null;
+
     /**
     Parent JFileChooser component
     @serial
@@ -148,10 +150,14 @@ public class FindAccessoryImpl
         this.actionStart = new FindAction(this, ACTION_START,null);
         this.actionStop = new FindAction(this, ACTION_STOP,null);
 
-        add(this.pathPanel = new FindFolderJPanel(),BorderLayout.NORTH);
-        add(this.searchTabs = new FindJTabbedPane( this ),BorderLayout.CENTER);
-        add(this.controlPanel = new FindControlsJPanel(this, this, this.actionStart,this.actionStop,true),
-                            BorderLayout.SOUTH);
+        this.pathPanel = new FindFolderJPanel();
+        add( this.pathPanel, BorderLayout.NORTH );
+
+        this.searchTabs = new FindJTabbedPane( this );
+        add( this.searchTabs, BorderLayout.CENTER );
+
+        this.controlPanel = new FindControlsJPanel( this, this, this.actionStart, this.actionStop, true );
+        add( this.controlPanel, BorderLayout.SOUTH );
 
         updateFindDirectory();
     }
@@ -544,7 +550,7 @@ public class FindAccessoryImpl
             return this.searchTabs.newFind();
             }
 
-        return null;
+        return NOT_FOUND;
     }
 
     /**

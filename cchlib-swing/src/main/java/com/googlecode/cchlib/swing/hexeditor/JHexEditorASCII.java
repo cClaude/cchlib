@@ -95,11 +95,11 @@ class JHexEditorASCII
                 g.setColor(Color.black);
                 }
 
-            String s = (new Character(this.model.getBuffer().getChar( n ))).toString();
+            String s = Character.toString( this.model.getBuffer().getChar( n ) );
             if((this.model.getBuffer().getByte( n )<20)||(this.model.getBuffer().getByte( n )>126)) {
                 s = Character.toString( (char)16 );
                 }
-            this.model.printString(g,s,(x++),y);
+            this.model.printString( g, s,x++, y );
 
             if( x==16 ) {
                 x=0;
@@ -109,12 +109,12 @@ class JHexEditorASCII
     }
 
     // calcular la posicion del raton
-    public int calcularPosicionRaton(int x,int y)
+    public int calcularPosicionRaton(final int x0,final int y0)
     {
         final FontMetrics fn = this.model.getFontMetrics();
 
-        x=x/(fn.stringWidth(" ")+1);
-        y=y/fn.getHeight();
+        final int x = x0/(fn.stringWidth(" ")+1);
+        final int y = y0/fn.getHeight();
 
         return x+((y+this.model.getIntroduction())*16);
     }
@@ -130,21 +130,25 @@ class JHexEditorASCII
     @Override// mouselistener
     public void mousePressed(final MouseEvent e)
     {
+        // Not use
     }
 
     @Override// mouselistener
     public void mouseReleased(final MouseEvent e)
     {
+        // Not use
     }
 
     @Override// mouselistener
     public void mouseEntered(final MouseEvent e)
     {
+        // Not use
     }
 
     @Override// mouselistener
     public void mouseExited(final MouseEvent e)
     {
+        // Not use
     }
 
     @Override//KeyListener
@@ -175,8 +179,10 @@ class JHexEditorASCII
     @Override//KeyListener
     public void keyReleased(final KeyEvent e)
     {
+        // Not use
     }
 
+    /** @deprecated by API */
     @Override
     @Deprecated
     public boolean isFocusTraversable()

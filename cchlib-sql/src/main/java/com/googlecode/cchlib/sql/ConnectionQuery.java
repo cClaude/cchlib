@@ -152,12 +152,4 @@ public class ConnectionQuery implements Closeable
             throw new SQLCloseRuntimeException( ignore );
             }
     }
-
-    @Override
-    protected void finalize() throws Throwable
-    {
-        closeStatement();
-
-        super.finalize();
-    }
 }

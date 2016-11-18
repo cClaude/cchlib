@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 //NOT public
+@SuppressWarnings("squid:S00119") // Type one char only ! Why ?
 interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD> {
 
     /**

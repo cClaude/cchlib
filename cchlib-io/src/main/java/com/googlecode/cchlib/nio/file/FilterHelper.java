@@ -13,6 +13,11 @@ import javax.annotation.Nonnull;
  */
 public final class FilterHelper
 {
+    private FilterHelper()
+    {
+        // All static
+    }
+
     private static class AcceptAllFilter implements DirectoryStream.Filter<Path>
     {
         static final AcceptAllFilter FILTER = new AcceptAllFilter();
@@ -147,10 +152,8 @@ public final class FilterHelper
      * NEEDDOC
      * @return NEEDDOC
      */
-   public static DirectoryStream.Filter<Path> toFilter( @Nonnull final FileFilter fileFilter )
+    public static DirectoryStream.Filter<Path> toFilter( @Nonnull final FileFilter fileFilter )
     {
         return entry -> fileFilter.accept( entry.toFile() );
     }
-
-    private FilterHelper() {}
 }

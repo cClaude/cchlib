@@ -7,6 +7,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
+import org.apache.log4j.Logger;
 
 /**
  * NEEDDOC
@@ -15,7 +16,7 @@ import javax.swing.text.DocumentFilter;
 public class LimitedIntegerJTextField extends JTextField
 {
     private static final long serialVersionUID = 1L;
-    private static org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(LimitedIntegerJTextField.class);
+    private static final Logger LOGGER = Logger.getLogger( LimitedIntegerJTextField.class );
 
     /** @serial */
     private int maxValue;

@@ -106,11 +106,9 @@ public class JPanelConfig
     @Override
     protected ActionListener getActionListener()
     {
-//        if( this.actionListener == null ) {
-//            this.actionListener = event -> SafeSwingUtilities.invokeLater( () -> updateDisplay( true ), "updateDisplay()" );
-//            }
-//        return this.actionListener;
-        return event -> SafeSwingUtilities.invokeLater( () -> updateDisplay( true ), "updateDisplay()" );
+        return event -> SafeSwingUtilities.invokeLater(
+                () -> updateDisplay( true ), "updateDisplay()"
+                );
     }
 
     /**
@@ -135,7 +133,6 @@ public class JPanelConfig
         for( final String exp : prefs.getIncFilesFilterPatternRegExpList() ) {
             this.jPanelIncFilesFilter.addPatternRegExp( exp );
             }
-//        prefs.getIncFilesFilterPatternRegExpList().stream().forEach( exp -> this.jPanelIncFilesFilter.addPatternRegExp( exp ) );
 
         this.jPanelExcFilesFilter = new JPanelConfigFilter(
                 getjPanelExcFilesFilterTitle(),
@@ -211,9 +208,6 @@ public class JPanelConfig
         if( this.jPanelExcDirsFilter != null ) {
             jp.remove( this.jPanelExcDirsFilter );
             }
-
-        //jsp.revalidate();
-        //this.repaint();//repaint a JFrame jframe in this case
 
         if( getJComboBoxFilesFiltersSelectedItem() == FilterType.INCLUDE_FILTER ) {
             jp.add( this.jPanelIncFilesFilter );

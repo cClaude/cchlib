@@ -20,6 +20,7 @@ public class MultiIOException extends IOException implements Iterable<IOExceptio
      */
     public MultiIOException()
     {
+        // Empty
     }
 
     public void addIOException( final IOException ioe )

@@ -423,6 +423,7 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
         }, "updateDisplayThread()" ).start();
     }
 
+    @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck") // switch on enum
     private void updateDisplay()
     {
         updateCurrentFilesDisplay();
@@ -474,10 +475,9 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
 
     private void updateDisplayPass2( final Locale locale )
     {
-        //jLabelBytesReadFromDisk.setText( String.format( txtBytesReadFromDisk, pass2BytesCount ) );
         getjProgressBarFiles().setValue( this.pass2FilesCount.get() );
         getjProgressBarFiles().setString( String.format( locale, "%,d / %,d", Integer.valueOf( this.pass2FilesCount.get() ), Integer.valueOf( getPass1FilesCount() ) ) );
-        // jProgressBarOctets.setValue( Math.round( pass2BytesCount/1024) );
+
         getjProgressBarOctets().setValue( (int)(this.pass2BytesCount.get() / 1024) );
         getjProgressBarOctets().setString( String.format( locale, "%,d / %,d", Long.valueOf( this.pass2BytesCount.get() ), Long.valueOf( getPass1BytesCount() ) ) );
     }

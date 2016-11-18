@@ -208,6 +208,7 @@ public class DBFField
      * @param value Type of the field. One of the following: C, L, N, F, D, M
      * @throws IllegalArgumentException if value is not in specified range
      */
+    @SuppressWarnings("squid:S128")
     public void setDataType( final byte value )
     {
         switch( value ) {

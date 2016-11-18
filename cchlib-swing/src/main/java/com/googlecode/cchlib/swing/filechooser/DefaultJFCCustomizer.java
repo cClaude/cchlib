@@ -2,6 +2,7 @@ package com.googlecode.cchlib.swing.filechooser;
 
 import java.io.File;
 import java.util.EnumSet;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.swing.JComponent;
@@ -42,7 +43,7 @@ public class DefaultJFCCustomizer
     /**
      * @param attributes NEEDDOC
      */
-    public DefaultJFCCustomizer( @Nullable final EnumSet<JFileChooserInitializer.Attrib> attributes )
+    public DefaultJFCCustomizer( @Nullable final Set<JFileChooserInitializer.Attrib> attributes )
     {
         if( attributes == null ) {
             this.attributes = EnumSet.noneOf( JFileChooserInitializer.Attrib.class );

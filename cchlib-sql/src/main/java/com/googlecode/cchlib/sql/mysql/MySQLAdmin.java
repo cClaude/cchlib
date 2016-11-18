@@ -55,6 +55,7 @@ public class MySQLAdmin
      * @param outputStream
      * @throws MySQLAdminException
      */
+    @SuppressWarnings("squid:S106")
     public void createSQLDumpFile(final OutputStream outputStream)
         throws MySQLAdminException
     {
@@ -64,7 +65,7 @@ public class MySQLAdmin
                             .toString();
 
         try {
-            ExternalApp.execute(command, outputStream, System.err);
+            ExternalApp.execute( command, outputStream, System.err );
         }
         catch(final ExternalAppException e) {
             throw new MySQLAdminException(e);
@@ -154,6 +155,7 @@ public class MySQLAdmin
      * @param sqlStream
      * @throws IOException
      */
+    @SuppressWarnings("squid:S106")
     public void applySQL(final InputStream sqlStream)
         throws IOException
     {

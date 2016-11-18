@@ -104,8 +104,6 @@ public final class KeyFileState
     /**
      * @return the file
      */
-//    * @deprecated use {@link #getPath()}
-//    @Deprecated
     public File getFile()
     {
         return this.file;

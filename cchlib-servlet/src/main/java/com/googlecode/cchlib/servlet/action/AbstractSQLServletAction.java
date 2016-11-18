@@ -91,8 +91,12 @@ public abstract class AbstractSQLServletAction
             throw new ServletActionException( e );
             }
         finally {
-            if( this.statement  != null ) { silentClose( this.statement  ); }
-            if( this.connection != null ) { silentClose( this.connection ); }
+            if( this.statement  != null ) {
+                silentClose( this.statement );
+                }
+            if( this.connection != null ) {
+                silentClose( this.connection );
+                }
             }
 
         return nextAction;

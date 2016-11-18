@@ -44,7 +44,12 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
 
         final Locale defaultLocale = Locale.ENGLISH;
 
-        try { Thread.sleep( 1_000 ); } catch( final InterruptedException e ) { /* ignore */ }
+        try {
+            Thread.sleep( 1_000 );
+            }
+        catch( final InterruptedException e ) {
+            /* ignore */
+            }
 
         final I18nAutoCoreUpdatable[] i18nConteners = {
             mainFrame,
@@ -69,6 +74,7 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
         LOGGER.info( "done" );
     }
 
+    @SuppressWarnings("squid:S106")
     private void launchI18nPrep(
             final I18nAutoCoreUpdatable[] i18nConteners,
             final I18nPrep i18nPrep
@@ -76,8 +82,8 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
     {
         final Result result = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
 
-        final PrintStream                 usageStatPrintStream    = System.err;
-        final PrintStream                 notUsePrintStream       = System.out;
+        final PrintStream usageStatPrintStream = System.err;
+        final PrintStream notUsePrintStream    = System.out;
 
         I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result );
         I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result );

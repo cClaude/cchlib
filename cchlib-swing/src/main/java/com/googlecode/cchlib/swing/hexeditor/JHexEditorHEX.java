@@ -86,13 +86,13 @@ class JHexEditorHEX
             if(n==this.model.getCursorPos()) {
                 if(hasFocus()) {
                     g.setColor(Color.black);
-                    this.model.drawBackground(g,(x*3),y,2);
+                    this.model.drawBackground( g, x*3, y, 2 );
                     g.setColor(Color.blue);
                     this.model.drawBackground(g,(x*3)+this.cursor,y,1);
                     }
                 else {
                     g.setColor(Color.blue);
-                    this.model.drawTable(g,(x*3),y,2);
+                    this.model.drawTable( g, x*3 ,y ,2 );
                     }
 
                 if(hasFocus()) {
@@ -106,9 +106,10 @@ class JHexEditorHEX
                 g.setColor(Color.black);
                 }
 
-            String s=("0"+Integer.toHexString(this.model.getBuffer().getByte( n ) ));
-            s=s.substring(s.length()-2);
-            this.model.printString(g,s,((x++)*3),y);
+            String s = "0" + Integer.toHexString( this.model.getBuffer().getByte( n ) );
+            s = s.substring( s.length() - 2 );
+
+            this.model.printString( g, s, (x++)*3, y );
             if(x==16)
             {
                 x=0;
@@ -118,12 +119,12 @@ class JHexEditorHEX
     }
 
     // calcular la posicion del raton
-    public int calcularPosicionRaton(int x,int y)
+    public int calcularPosicionRaton(final int x0,final int y0)
     {
         final FontMetrics fn = this.model.getFontMetrics();
 
-        x=x/((fn.stringWidth(" ")+1)*3);
-        y=y/fn.getHeight();
+        final int x = x0/((fn.stringWidth(" ")+1)*3);
+        final int y = y0/fn.getHeight();
 
         return x+((y+this.model.getIntroduction())*16);
     }
@@ -161,6 +162,7 @@ class JHexEditorHEX
     }
 
     @Override//KeyListener
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     public void keyTyped(final KeyEvent e)
     {
         final char c=e.getKeyChar();
@@ -208,6 +210,7 @@ class JHexEditorHEX
         // Empty
     }
 
+    /** @deprecated by API */
     @Override
     @Deprecated
     public boolean isFocusTraversable()

@@ -1,7 +1,7 @@
 package cx.ath.choisnet.lang.introspection.method;
 
 import java.lang.reflect.Method;
-import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * NEEDDOC
@@ -17,8 +17,8 @@ public class DefaultIntrospection<O>
      * @param attribSet
      */
     public DefaultIntrospection(
-            final Class<O>                         inpectClass,
-            final EnumSet<IntrospectionParameters> attribSet
+            final Class<O>                     inpectClass,
+            final Set<IntrospectionParameters> attribSet
             )
     {
         super(

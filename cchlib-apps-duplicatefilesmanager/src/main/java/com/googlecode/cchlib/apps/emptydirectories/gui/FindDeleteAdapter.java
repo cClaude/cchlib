@@ -59,6 +59,7 @@ class FindDeleteAdapter
         this.isCancel = true;
     }
 
+    @SuppressWarnings("squid:S1166")
     void doFind()
     {
         LOGGER.info( "doFind() thread started" );

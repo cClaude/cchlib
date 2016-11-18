@@ -2,7 +2,7 @@ package cx.ath.choisnet.xml.impl;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.EnumSet;
+import java.util.Set;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
 import cx.ath.choisnet.xml.XMLParserException;
 import cx.ath.choisnet.xml.XMLURLParser;
@@ -28,7 +28,7 @@ public class XMLURLParserDOMImpl
     public XMLURLParserDOMImpl(
             final URL                   sourceURL,
             final XMLParserErrorHandler errorHandler,
-            final EnumSet<Attributs>    attributes
+            final Set<Attributs>        attributes
             )
         throws FileNotFoundException, XMLParserException
     {

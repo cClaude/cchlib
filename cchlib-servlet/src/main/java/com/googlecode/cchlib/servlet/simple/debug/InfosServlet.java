@@ -34,6 +34,7 @@ public class InfosServlet extends HttpServlet
     protected static final String SERVLETNAME = "InfosServlet";
 
     @Override
+    @SuppressWarnings("squid:S106")
     public void init() throws ServletException
     {
         // Use standard logger

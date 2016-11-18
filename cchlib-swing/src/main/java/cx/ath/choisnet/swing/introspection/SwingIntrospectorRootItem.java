@@ -11,6 +11,7 @@ import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.iterator.BiIterator;
 
 @NeedDoc
+@SuppressWarnings("squid:S00119") // Type one char only ! Why ?
 public class SwingIntrospectorRootItem<FRAME>
     implements Serializable, Iterable<SwingIntrospectorItem<FRAME>>
 {

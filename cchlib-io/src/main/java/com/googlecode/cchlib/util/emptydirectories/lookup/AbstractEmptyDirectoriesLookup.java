@@ -12,6 +12,7 @@ import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
  *
  * @param <FILTER> see {@link EmptyDirectoriesLookup} parameter
  */
+@SuppressWarnings("squid:S00119") // Type one char only ! Why ?
 public abstract class AbstractEmptyDirectoriesLookup<FILTER>
     implements EmptyDirectoriesLookup<FILTER>
 {

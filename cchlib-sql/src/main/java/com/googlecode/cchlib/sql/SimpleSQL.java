@@ -75,22 +75,13 @@ public class SimpleSQL implements Closeable
     public ResultSet executeQuery( final String query )
         throws SQLException
     {
-        ResultSet rset = null;
-
         if( this.connection == null ) {
             throw new SQLException( "Connection close" );
         }
 
-        try {
-            this.statement = this.connection.createStatement();
-            rset           = this.statement.executeQuery( query );
-            }
-        finally {
-            if( rset == null ) {
-                }
-            }
+        this.statement = this.connection.createStatement();
 
-        return rset;
+        return this.statement.executeQuery( query );
     }
 
     /**

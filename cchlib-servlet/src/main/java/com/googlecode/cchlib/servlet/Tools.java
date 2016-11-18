@@ -162,6 +162,7 @@ public final class Tools
      * @param defaultValue
      * @return NEEDDOC
      */
+    @SuppressWarnings("squid:S1166")
     public static final int getIntAttributeOrParameter(
             final HttpServletRequest request,
             final String             name,
@@ -171,7 +172,7 @@ public final class Tools
         try {
             return getIntAttributeOrParameter( request, name );
             }
-        catch( final Exception e ) { // $codepro.audit.disable logExceptions
+        catch( final Exception e ) {
             return defaultValue;
             }
     }
