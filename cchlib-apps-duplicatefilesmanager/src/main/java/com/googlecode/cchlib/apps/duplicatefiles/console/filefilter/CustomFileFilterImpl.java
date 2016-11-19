@@ -60,44 +60,28 @@ class CustomFileFilterImpl implements Serializable, FileFilter
         //
         if( this.excludeNames.contains( file.getName() ) ) {
             if( this.verbose ) {
-                CLIHelper.printMessage(
-                    "Ignore " + file
-                        + " because " + file.getName()
-                        + " is in excludeNames values"
-                    );
+                printMessageFromName( file, " is in excludeNames" );
             }
             return false;
         }
 
         if( this.excludePaths.contains( file.getPath() ) ) {
             if( this.verbose ) {
-                CLIHelper.printMessage(
-                    "Ignore " + file
-                        + " because " + file.getPath()
-                        + " is in excludePaths values"
-                    );
+                printMessageFromPath( file, " is in excludePaths" );
             }
             return false;
         }
 
         if( contains( this.excludeRegexNames, file.getName() ) ) {
             if( this.verbose ) {
-                CLIHelper.printMessage(
-                    "Ignore " + file
-                        + " because " + file.getName()
-                        + " is in excludeRegexNames values"
-                    );
+                printMessageFromName( file, " is in excludeRegexNames" );
             }
             return false;
         }
 
         if( contains( this.excludeRegexPaths, file.getPath() ) ) {
             if( this.verbose ) {
-                CLIHelper.printMessage(
-                    "Ignore " + file
-                        + " because " + file.getPath()
-                        + " is in excludeRegexPaths values"
-                    );
+                printMessageFromPath( file, " is in excludeRegexPaths" );
             }
             return false;
         }
@@ -111,11 +95,7 @@ class CustomFileFilterImpl implements Serializable, FileFilter
             include = contains( this.includeRegexNames, file.getName() );
 
             if( this.verbose && !include ) {
-                CLIHelper.printMessage(
-                        "Ignore " + file
-                            + " because " + file.getName()
-                            + " is NOT in includeRegexNames values"
-                        );
+                printMessageFromName( file, " is NOT in includeRegexNames" );
             }
         } else {
             include = true;
@@ -125,15 +105,35 @@ class CustomFileFilterImpl implements Serializable, FileFilter
             include = contains( this.includeRegexPaths, file.getPath() );
 
             if( this.verbose && !include ) {
-                CLIHelper.printMessage(
-                        "Ignore " + file
-                            + " because " + file.getPath()
-                            + " is NOT in useIncludeRegexPaths values"
-                        );
+                printMessageFromPath( file, " is NOT in useIncludeRegexPaths" );
             }
         }
 
         return include;
+    }
+
+    private void printMessageFromPath( final File file, final String message )
+    {
+        CLIHelper.printMessage(
+                String.format(
+                    "Ignore %s because %s %s values",
+                    file,
+                    file.getPath(),
+                    message
+                    )
+                );
+    }
+
+    private void printMessageFromName( final File file, final String message )
+    {
+        CLIHelper.printMessage(
+            String.format(
+                "Ignore %s because %s %s values",
+                file,
+                file.getName(),
+                message
+                )
+            );
     }
 
     private static boolean contains( final Collection<Pattern> patterns, final String file )

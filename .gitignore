@@ -82,3 +82,4 @@ xcchlib-tools/output/
 xcchlib-tools/target/
 .sonar_lock
 logs/
+release.properties
