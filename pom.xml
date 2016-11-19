@@ -28,7 +28,6 @@
 
     <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
     <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
-
   </properties>
 
   <prerequisites>
@@ -37,10 +36,15 @@
 
   <!-- maven on googlecode : Project description -->
   <scm>
-    <!-- svn on googlecode <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection> -->
+    <!-- svn on googlecode
+    <connection>scm:svn:http://cchlib.googlecode.com/svn/trunk/</connection>
+    -->
+    <!-- git on googlecode
     <connection>scm:git:https://code.google.com/p/cchlib/</connection>
-    <developerConnection>scm:svn:https://code.google.com/p/cchlib/</developerConnection>
-    <url>https://code.google.com/p/cchlib/source/browse/</url>
+    -->
+    <connection>scm:git:git://framboise02/ralfnet/cchlib.git</connection>
+    <developerConnection>scm:git:git:@framboise02:ralfnet/cchlib.git</developerConnection>
+    <url>https://github.com/cClaude/cchlib/</url>
   </scm>
 
   <!-- maven on ftp : Distribution management -->
@@ -48,16 +52,24 @@
 
     <repository>
       <id>ftp.cchlib.repo.release</id>
-      <!-- svn on googlecode <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url> -->
-      <!-- git on googlecode <url>dav:https://${google.code.project.name}.googlecode.com/git/maven/2</url> -->
+      <!-- svn on googlecode
+      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
+      -->
+      <!-- git on googlecode
+      <url>dav:https://${google.code.project.name}.googlecode.com/git/maven/2</url>
+      -->
+      <!--
       <url>ftp://choisnet.ath.cx/repository/cchlib/release</url>
+       -->
     </repository>
 
     <snapshotRepository>
+      <!--
       <id>ftp.cchlib.repo.snapshot</id>
       <url>ftp://choisnet.ath.cx/repository/cchlib/release</url>
       <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
+      -->
+     </snapshotRepository>
 
   </distributionManagement>
 
@@ -110,7 +122,8 @@
         <groupId>org.apache.maven.wagon</groupId>
          <artifactId>wagon-ftp</artifactId>
          <version>2.6</version>
-      </extension> -->
+      </extension>
+      -->
     </extensions>
 
     <plugins>
@@ -130,7 +143,7 @@
         </configuration>
       </plugin>
 
-<!--
+      <!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -149,7 +162,8 @@
           <source>${project.java.source.version}</source>
       </configuration>
       </plugin>
--->
+      -->
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
@@ -385,7 +399,7 @@
     <module>cchlib-io-test</module>
     <module>cchlib-jdbf</module>
     <module>cchlib-net</module>
-    <!--module>cchlib-nio</module-->
+    <!-- <module>cchlib-nio</module> -->
     <module>cchlib-servlet</module>
     <module>cchlib-sql</module>
     <module>cchlib-swing</module>
@@ -400,14 +414,14 @@
     <module>cchlib-apps-regexpbuilder</module>
 
     <!-- Not compile by default script -->
-    <!--  <module>cchlib-sandbox</module> -->
+    <!-- <module>cchlib-sandbox</module> -->
     <!-- <module>cchlib-tools-sandbox</module> -->
-    <!--module>cchlib-core-sample</module-->
-    <!--module>cchlib-samples</module-->
-    <!--module>cchlib-tools</module-->
+    <!-- <module>cchlib-core-sample</module> -->
+    <!-- <module>cchlib-samples</module> -->
+    <!-- <module>cchlib-tools</module> -->
 
     <!-- No more supported -->
-    <!--module>cchlib-core-java5</module-->
+    <!-- <module>cchlib-core-java5</module> -->
   </modules>
 
 </project>
