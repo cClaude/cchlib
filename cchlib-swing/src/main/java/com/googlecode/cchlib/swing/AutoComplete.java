@@ -3,44 +3,44 @@ package com.googlecode.cchlib.swing;
 import java.util.List;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public interface AutoComplete
 {
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     boolean isCaseSensitive();
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param isCaseSensitive
      */
     void setCaseSensitive( boolean isCaseSensitive );
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     boolean isStrict();
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param isStrict
      */
     void setStrict( boolean isStrict );
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     List<String> getDataList();
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param dataList
      */
     void setDataList( List<String> dataList );

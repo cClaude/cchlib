@@ -11,6 +11,7 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
+import com.googlecode.cchlib.i18n.prep.I18nPrepException;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
 import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
@@ -69,12 +70,12 @@ public class TestUtils
             @Override
             public void add( final I18nAutoCoreUpdatable frame )
             {
-                list.add( frame );
+                this.list.add( frame );
             }
             @Override
             public I18nAutoCoreUpdatable[] getI18nConteners()
             {
-                return list.toArray( new I18nAutoCoreUpdatable[ list.size() ] );
+                return this.list.toArray( new I18nAutoCoreUpdatable[ this.list.size() ] );
             }
             @Override
             public AutoI18nExceptionCollector getAutoI18nExceptionHandlerCollector()
@@ -94,7 +95,7 @@ public class TestUtils
 
     public static I18nPrepHelper.Result runPrepTest(
         final PrepTestPartInterface prepTest
-        )
+        ) throws I18nPrepException
     {
         final Result result = I18nPrepHelper.defaultPrep( prepTest.getAutoI18n(), prepTest.getI18nConteners());
 

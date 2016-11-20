@@ -6,6 +6,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
+import javax.annotation.Nonnull;
 
 /**
  * Default implementation of {@link MappableBuilderFactory}
@@ -57,19 +58,27 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
      * @return caller for initialization chaining
      */
     public DefaultMappableBuilderFactory add(
-            final MappableItem...items
+            @Nonnull final MappableItem...items
             )
     {
         for( final MappableItem attr : items ) {
-            attributesSet.add(attr);
+            this.attributesSet.add(attr);
             }
 
         return this;
     }
 
-    public DefaultMappableBuilderFactory add( final Set<MappableItem> mappableItems )
+    /**
+      * Add a set of {@link MappableItem} values to internal set
+    *
+     * @param mappableItems A set of {@link MappableItem}
+      * @return caller for initialization chaining
+     */
+    public DefaultMappableBuilderFactory add(
+            @Nonnull final Set<MappableItem> mappableItems
+            )
     {
-        attributesSet.addAll( mappableItems );
+        this.attributesSet.addAll( mappableItems );
 
         return this;
     }
@@ -77,7 +86,7 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
     @Override
     public Set<MappableItem> getMappableItemSet()
     {
-        return attributesSet;
+        return this.attributesSet;
     }
 
     /**
@@ -86,9 +95,9 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
      * @param clazz {@link Class} to add
      * @return caller for initialization chaining
      */
-    public DefaultMappableBuilderFactory add( final Class<?> clazz )
+    public DefaultMappableBuilderFactory add( @Nonnull final Class<?> clazz )
     {
-        classes.add( clazz );
+        this.classes.add( clazz );
         return this;
     }
 
@@ -98,7 +107,9 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
      * @param classes {@link Class} list to add
      * @return caller for initialization chaining
      */
-    public DefaultMappableBuilderFactory add( final Class<?>...classes)
+    public DefaultMappableBuilderFactory add(
+            @Nonnull final Class<?>...classes
+            )
     {
         for( final Class<?> clazz : classes ) {
             this.classes.add( clazz );
@@ -107,9 +118,17 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
         return this;
     }
 
-    public DefaultMappableBuilderFactory add( final MappableTypes mappableTypes )
+    /**
+     * NEEDDOC
+     *
+     * @param mappableTypes NEEDDOC
+     * @return NEEDDOC
+     */
+    public DefaultMappableBuilderFactory add(
+            @Nonnull final MappableTypes mappableTypes
+            )
     {
-        classes.addAll( mappableTypes.getClasses() );
+        this.classes.addAll( mappableTypes.getClasses() );
 
         return this;
     }
@@ -121,11 +140,11 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
     @Override
     public Collection<Class<?>> getClasses()
     {
-        if( classes.size() == 0 ) {
+        if( this.classes.isEmpty() ) {
             return MappableTypes.CLASSES_SHOW_ALL.getClasses();
             }
 
-        return classes;
+        return this.classes;
     }
 
     /**
@@ -135,10 +154,10 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
      * @return caller for initialization chaining
      */
     public DefaultMappableBuilderFactory setMethodesNamePattern(
-            final Pattern pattern
+            @Nonnull final Pattern pattern
             )
     {
-        methodesNamePattern = pattern;
+        this.methodesNamePattern = pattern;
         return this;
     }
 
@@ -149,7 +168,7 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
      * @return caller for initialization chaining
      */
     public DefaultMappableBuilderFactory setMethodesNamePattern(
-            final String pattern
+            @Nonnull final String pattern
             )
     {
         return setMethodesNamePattern( Pattern.compile( pattern ) );
@@ -158,7 +177,7 @@ public class DefaultMappableBuilderFactory // $codepro.audit.disable largeNumber
     @Override
     public Pattern getMethodesNamePattern()
     {
-        return methodesNamePattern;
+        return this.methodesNamePattern;
     }
 
     /**

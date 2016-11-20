@@ -1,14 +1,15 @@
 package cx.ath.choisnet.lang.introspection.method;
 
-import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 
 
 /**
@@ -21,7 +22,7 @@ import org.apache.log4j.Logger;
 public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
     implements Comparator<O>
 {
-    private static final Logger LOGGER = Logger.getLogger(Introspection.class);
+    private static final Logger LOGGER = Logger.getLogger( Introspection.class );
 
     /** Getter/Setter Methods list */
     private Map<String,I> itemsMap = null;
@@ -35,9 +36,9 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
      *  TIPS: Use EnumSet.of(Introspection.Attrib.ONLY_PUBLIC, Introspection.Attrib.NO_DEPRECATED) for parameter attribSet
      */
     public Introspection(
-        final Class<O>                                        inpectClass,
-        final IntrospectionItemFactory<IntrospectionItem<O>>  itemFactory,
-        final EnumSet<IntrospectionParameters>                parameters
+        final Class<O>                                       inpectClass,
+        final IntrospectionItemFactory<IntrospectionItem<O>> itemFactory,
+        final Set<IntrospectionParameters>                   parameters
         )
     {
         final EnumSet<IntrospectionParameters> safeParameters = IntrospectionBuilder.getSafeParameters( parameters );
@@ -48,7 +49,7 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
 
         final IntrospectionBuilder<O> builder = new IntrospectionBuilder<>(inpectClass, safeParameters);
 
-        for( Map.Entry<String,Method> entry : builder.getGetterMethodsMap().entrySet() ) {
+        for( final Map.Entry<String,Method> entry : builder.getGetterMethodsMap().entrySet() ) {
             final String beanName = entry.getKey();
             final Method setter   = builder.getSetterMethodsMap().get( beanName );
 
@@ -71,14 +72,14 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
         // Verify than method does not already exist in Map !
         if( previous != null ) {
             // Should not occur
-            StringBuilder msg = new StringBuilder();
+            final StringBuilder msg = new StringBuilder();
             msg.append( "*** " );
             msg.append( getter.getName() );
             msg.append( " found twice ! " );
             msg.append( methodInfo );
             msg.append( " and " );
             msg.append( previous );
-            //sLog.error( msg.toString() );
+
             throw new RuntimeException( msg.toString() );
         }
     }
@@ -99,12 +100,12 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
         try {
             return compareWithException( o1, o2 );
             }
-        catch( IntrospectionCompareException e ) {
+        catch( final IntrospectionCompareException e ) {
             LOGGER.info( "Compare diff found using: " + e.getMethod(), e );
 
             return e.getCompareValue();
             }
-        catch( IntrospectionInvokeException e ) {
+        catch( final IntrospectionInvokeException e ) {
             LOGGER.warn( "Exception while compare: " + e.getMethod(), e );
 
             return Integer.MIN_VALUE - 1;
@@ -121,7 +122,7 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
     public int compareWithException( final O o1, final O o2 )
         throws IntrospectionInvokeException, IntrospectionCompareException
     {
-        for( I item : this.itemsMap.values() ) {
+        for( final I item : this.itemsMap.values() ) {
             final Object v1 = item.getObjectValue( o1 );
             final Object v2 = item.getObjectValue( o2 );
 
@@ -131,7 +132,12 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
         return 0;
     }
 
-    public void compareWithExceptionObjects( final Object v1, final Object v2, final Method m )
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
+    public void compareWithExceptionObjects(
+            final Object v1,
+            final Object v2,
+            final Method m
+            )
         throws IntrospectionCompareException
     {
         if( v1 == null ) {
@@ -164,7 +170,7 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
             }
     }
 
-    private void compareWithExceptionArrays( // $codepro.audit.disable blockDepth
+    private void compareWithExceptionArrays(
         final Object a1,
         final Object a2,
         final Method m

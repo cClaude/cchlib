@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesPanel;
 import java.awt.EventQueue;
+import com.googlecode.cchlib.apps.emptydirectories.gui.RemoveEmptyDirectoriesPanel;
 
 public class DebugApp extends DebugFrame
 {
@@ -24,11 +24,11 @@ public class DebugApp extends DebugFrame
     {
         EventQueue.invokeLater( () -> {
             try {
-                DebugApp frame = new DebugApp();
-                
+                final DebugApp frame = new DebugApp();
+
                 frame.setVisible( true );
             }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 e.printStackTrace();
             }
         });

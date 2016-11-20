@@ -3,69 +3,62 @@ package com.googlecode.cchlib.swing.list;
 import javax.swing.DefaultListModel;
 
 /**
- * TODOC
+ * NEEDDOC
  */
-public class NoDuplicateListModel<E> extends DefaultListModel<E> 
+public class NoDuplicateListModel<E> extends DefaultListModel<E>
 {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 
+     * NEEDDOC
      */
-    public NoDuplicateListModel()
+    private boolean removeIfExist( final E element )
     {
-    }
-    
-    /**
-     * TODOC
-     */
-    private boolean removeIfExist( E element )
-    {
-        int index = indexOf( element );
-        
+        final int index = indexOf( element );
+
         if( index >=0 ) {
             remove( index );
             return true;
             }
-        
+
         return false;
     }
-    
+
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
-    public void add(int index, E element)
+    public void add(final int index, final E element)
     {
         removeIfExist( element );
         super.add( index, element );
     }
-    
+
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
-    public void addElement(E element)
+    public void addElement(final E element)
     {
         removeIfExist( element );
         super.addElement( element );
     }
-    
+
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
-    public E set(int index, E element)
+    public E set(final int index, final E element)
     {
         removeIfExist( element );
         return super.set( index, element );
     }
-    
+
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
-    public void setElementAt(E element, int index)
+    public void setElementAt(final E element, final int index)
     {
         removeIfExist( element );
         super.setElementAt( element, index );

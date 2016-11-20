@@ -31,7 +31,7 @@ public class MySQLAdmin
     private final String mySQLDumpParams;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param mySQLExe
      * @param mySQLParams
      * @param mySQLDumpExe
@@ -51,10 +51,11 @@ public class MySQLAdmin
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param outputStream
      * @throws MySQLAdminException
      */
+    @SuppressWarnings("squid:S106")
     public void createSQLDumpFile(final OutputStream outputStream)
         throws MySQLAdminException
     {
@@ -64,7 +65,7 @@ public class MySQLAdmin
                             .toString();
 
         try {
-            ExternalApp.execute(command, outputStream, System.err);
+            ExternalApp.execute( command, outputStream, System.err );
         }
         catch(final ExternalAppException e) {
             throw new MySQLAdminException(e);
@@ -72,7 +73,7 @@ public class MySQLAdmin
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param outputFile
      * @throws MySQLAdminException
      */
@@ -88,7 +89,7 @@ public class MySQLAdmin
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param servletOuput
      * @param outputFile
      * @throws MySQLAdminException
@@ -116,7 +117,7 @@ public class MySQLAdmin
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param servletOuput
      * @param fileOutputStream
      * @throws IOException
@@ -137,7 +138,7 @@ public class MySQLAdmin
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param inputfile
      * @throws IOException
      */
@@ -150,10 +151,11 @@ public class MySQLAdmin
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param sqlStream
      * @throws IOException
      */
+    @SuppressWarnings("squid:S106")
     public void applySQL(final InputStream sqlStream)
         throws IOException
     {

@@ -21,7 +21,7 @@ public class DefaultFileDigestFactoryTest {
 
     @Test
     public void testFileDigestFactory_SHA256() throws NoSuchAlgorithmException {
-        final FileDigestFactory factory = new DefaultFileDigestFactory( "SHA-256", 4096 );
+        final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.SHA_256, 4096 );
         final FileDigest instance = factory.newInstance();
 
         Assertions.assertThat( instance ).isNotNull();

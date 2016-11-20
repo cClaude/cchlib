@@ -1,11 +1,11 @@
 package cx.ath.choisnet.xml.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Set;
 import cx.ath.choisnet.xml.XMLFileParser;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
 import cx.ath.choisnet.xml.XMLParserException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.EnumSet;
 
 
 /**
@@ -17,7 +17,7 @@ public class XMLFileParserDOMImpl extends XMLParserDOMImpl
     private final File file;
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param sourceFile
      * @param errorHandler
@@ -28,18 +28,18 @@ public class XMLFileParserDOMImpl extends XMLParserDOMImpl
     public XMLFileParserDOMImpl(
             final File                  sourceFile,
             final XMLParserErrorHandler errorHandler,
-            final EnumSet<Attributs>    attributes
+            final Set<Attributs>        attributes
             )
         throws FileNotFoundException, XMLParserException
     {
         super( sourceFile, errorHandler, attributes );
 
-        file = sourceFile;
+        this.file = sourceFile;
     }
 
     @Override
     public File getFile()
     {
-        return file;
+        return this.file;
     }
 }

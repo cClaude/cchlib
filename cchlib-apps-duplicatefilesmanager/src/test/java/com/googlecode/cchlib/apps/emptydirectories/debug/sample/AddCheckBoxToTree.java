@@ -19,7 +19,8 @@ import javax.swing.tree.TreeSelectionModel;
 
 public class AddCheckBoxToTree {
 
-    public class CheckTreeSelectionModel extends DefaultTreeSelectionModel {
+    public static class CheckTreeSelectionModel extends DefaultTreeSelectionModel {
+        private static final TreePath[] EMPTY_TREE_PATH_ARRAY = new TreePath[0];
         private static final long serialVersionUID = 1;
         private final TreeModel model;
 
@@ -62,7 +63,7 @@ public class AddCheckBoxToTree {
                 return super.isPathSelected( path );
             }
 
-            while( path != null && !super.isPathSelected( path ) ) {
+            while( (path != null) && !super.isPathSelected( path ) ) {
                 path = path.getParentPath();
             }
 
@@ -103,8 +104,9 @@ public class AddCheckBoxToTree {
                         toBeRemoved.add(selectionPath);
                     }
                 }
-                super.removeSelectionPaths( toBeRemoved
-                        .toArray( new TreePath[0] ) );
+                super.removeSelectionPaths( //
+                        toBeRemoved.toArray( EMPTY_TREE_PATH_ARRAY ) //
+                        );
             }
             for (TreePath path : paths) {
                 TreePath temp = null;
@@ -209,7 +211,7 @@ public class AddCheckBoxToTree {
             boolean isParameters = false;
             boolean isDescription = false;
 
-            while( parent != null && !isPathSelected( parent ) ) {
+            while( (parent != null) && !isPathSelected( parent ) ) {
                 stack.push( parent );
                 parent = parent.getParentPath();
             }
@@ -223,7 +225,7 @@ public class AddCheckBoxToTree {
             while( !stack.isEmpty() ) {
                 final TreePath temp = stack.pop();
 
-                final TreePath peekPath = stack.isEmpty() ? path : (TreePath)stack
+                final TreePath peekPath = stack.isEmpty() ? path : stack
                         .peek();
 
                 final Object node = temp.getLastPathComponent();
@@ -272,9 +274,10 @@ public class AddCheckBoxToTree {
         private final TristateCheckBox          checkBox         = new TristateCheckBox();
         private TreeCellRenderer                delegate;
 
-        public CheckTreeCellRenderer(
-                final TreeCellRenderer delegate,
-                final CheckTreeSelectionModel selectionModel )
+        public CheckTreeCellRenderer( //
+                final TreeCellRenderer delegate, //
+                final CheckTreeSelectionModel selectionModel //
+                )
         {
             this.delegate = delegate;
             this.selectionModel = selectionModel;
@@ -286,9 +289,15 @@ public class AddCheckBoxToTree {
         }
 
         @Override
-        public Component getTreeCellRendererComponent( final JTree tree,
-                final Object value, final boolean selected, final boolean expanded, final boolean leaf,
-                final int row, final boolean hasFocus )
+        public Component getTreeCellRendererComponent( //
+                final JTree tree, //
+                final Object value, //
+                final boolean selected, //
+                final boolean expanded, //
+                final boolean leaf, //
+                final int row, //
+                final boolean hasFocus //
+                )
         {
             final Component renderer = delegate.getTreeCellRendererComponent( tree,
                     value, selected, expanded, leaf, row, hasFocus );
@@ -370,7 +379,7 @@ public class AddCheckBoxToTree {
                 return;
             }
 
-            if( me.getX() / 1.2 > tree.getPathBounds( path ).x + hotspot ) {
+            if( (me.getX() / 1.2) > (tree.getPathBounds( path ).x + hotspot) ) {
                 // System.out.println("me.getX()/1.2>tree.getPathBounds(path).x+hotspot");
                 return;
             }

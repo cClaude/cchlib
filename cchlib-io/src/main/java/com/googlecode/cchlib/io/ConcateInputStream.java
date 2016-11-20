@@ -28,7 +28,7 @@ public class ConcateInputStream extends InputStream
             )
     {
         this.currentStream       = 0;
-        this.inputStreamArray    = new java.io.InputStream[2];
+        this.inputStreamArray    = new java.io.InputStream[2]; // $codepro.audit.disable numericLiterals
         this.inputStreamArray[0] = firstInputStream;
         this.inputStreamArray[1] = secondInputStream;
 
@@ -57,7 +57,7 @@ public class ConcateInputStream extends InputStream
      * @param datas         First stream based on a {@link  String}
      * @param inputStream   Second {@link InputStream}
      */
-    public ConcateInputStream( String datas, InputStream inputStream )
+    public ConcateInputStream( final String datas, final InputStream inputStream )
     {
         this( new ByteArrayInputStream( datas.getBytes() ), inputStream );
     }
@@ -90,7 +90,7 @@ public class ConcateInputStream extends InputStream
     @Override
     public void close() throws IOException
     {
-        for (InputStream inputStreamArray1 : inputStreamArray) {
+        for (final InputStream inputStreamArray1 : inputStreamArray) {
             inputStreamArray1.close();
         }
     }
@@ -134,7 +134,7 @@ public class ConcateInputStream extends InputStream
         if(inputStreamArray == null) {
             throw new RuntimeException("inputStreamArray is null.");
             }
-        int length = inputStreamArray.length;
+        final int length = inputStreamArray.length;
 
         for(int i = 0; i < length; i++)  {
             if(inputStreamArray[i] == null) {

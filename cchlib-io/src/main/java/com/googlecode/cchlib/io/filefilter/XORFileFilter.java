@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.io.filefilter;
 
-import com.googlecode.cchlib.io.SerializableFileFilter;
 import java.io.File;
 import java.io.FileFilter;
+import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
- * TODOC
+ * NEEDDOC
  * @since 4.1.7
  */
 public final class XORFileFilter implements SerializableFileFilter
@@ -15,7 +15,7 @@ public final class XORFileFilter implements SerializableFileFilter
     private final FileFilter secondFileFilter;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param firstFileFilter
      * @param secondFileFilter
      */
@@ -28,8 +28,8 @@ public final class XORFileFilter implements SerializableFileFilter
     }
 
     @Override
-    public boolean accept( File file )
+    public boolean accept( final File file )
     {
-        return firstFileFilter.accept(file) ^ secondFileFilter.accept(file);
+        return this.firstFileFilter.accept(file) ^ this.secondFileFilter.accept(file);
     }
 }

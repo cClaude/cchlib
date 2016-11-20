@@ -7,18 +7,24 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import org.apache.log4j.Logger;
 
 /**
  * Library Version object
  *
  * @since 4.1.7
  */
+@SuppressWarnings(
+    "squid:S1700" // A field should not duplicate the name of its containing class ???
+    )
 public final class Version
 {
-    private static Version service;
+    private static final Logger LOGGER = Logger.getLogger( Version.class );
+    private static volatile Version service;
+
     private final String name;
     private final String version;
-    private final Date date;
+    private final Date   date;
 
     /**
      * Create library Version object
@@ -29,25 +35,7 @@ public final class Version
      */
     private Version() throws IOException, ParseException
     {
-        final String     filename = "/version.properties";
-        final Properties prop     = new Properties();
-
-        {
-            @SuppressWarnings("resource")
-            final InputStream is = Version.class.getResourceAsStream( filename );
-
-            if( is == null ) {
-                throw new FileNotFoundException( filename );
-                }
-            else {
-                try {
-                    prop.load( is );
-                    }
-                finally {
-                    is.close();
-                    }
-                }
-        }
+        final Properties prop = load();
 
         this.name    = prop.getProperty( "project.name" );
         this.version = prop.getProperty( "project.version" );
@@ -65,6 +53,28 @@ public final class Version
             }
 
         this.date = sdf.parse( buildDate );
+    }
+
+    private static Properties load() throws IOException
+    {
+        final Properties prop = new Properties();
+
+        try( final InputStream is = getVersionResourceAsStream() ) {
+            prop.load( is );
+            }
+
+        return prop;
+    }
+
+    private static InputStream getVersionResourceAsStream() throws FileNotFoundException
+    {
+        final InputStream is = Version.class.getResourceAsStream( "/version.properties" );
+
+        if( is == null ) {
+            throw new FileNotFoundException( "/version.properties" );
+            }
+
+        return is;
     }
 
     /**
@@ -108,8 +118,9 @@ public final class Version
     /**
      * Print to stdout version
      *
-     * @param args CLI parameters
+     * @param args CLI parameters (ignored)
      */
+    @SuppressWarnings({"squid:S1166","squid:S106"})
     public static void main( final String[] args )
     {
         try {
@@ -125,13 +136,22 @@ public final class Version
     public static Version getInstance()
     {
         if( service == null ) {
-            try {
-                service = new Version();
-            }
-            catch( IOException | ParseException e ) {
-                throw new RuntimeException( e );
+            synchronized( Version.class ) {
+                if( service == null ) {
+                    try {
+                        service = new Version();
+                    }
+                    catch( IOException | ParseException e ) {
+                        final String message = "Can't get version";
+
+                        LOGGER.warn( message , e );
+
+                        throw new VersionRuntimeException( message, e );
+                    }
+                }
             }
         }
+
         return service;
     }
 }

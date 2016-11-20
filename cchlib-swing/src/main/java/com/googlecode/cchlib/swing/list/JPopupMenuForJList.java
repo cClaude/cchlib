@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.EnumSet;
+import java.util.Set;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -83,6 +84,8 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
  * Code inspired from
  * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
  * </p>
+ *
+ * @param <E> Type on {@link JLisk} elements
  */
 public abstract class JPopupMenuForJList<E>
     extends AbstractJPopupMenuBuilder
@@ -97,11 +100,11 @@ public abstract class JPopupMenuForJList<E>
      * @param attributes Configuration
      * @since 4.2
      * @see #isListMustBeSelected()
-     * @see Attributs#MUST_BE_SELECTED
+     * @see AbstractJPopupMenuBuilder.Attributs#MUST_BE_SELECTED
      */
     public JPopupMenuForJList( //
-        final JList<E>              jList, //
-        final EnumSet<Attributs>    attributes //
+        final JList<E>       jList, //
+        final Set<Attributs> attributes //
         )
     {
         super( attributes );
@@ -124,20 +127,6 @@ public abstract class JPopupMenuForJList<E>
     {
         this( jList, EnumSet.of( first, rest ) );
     }
-
-    /**
-     * Create JPopupMenuForJList
-     *
-     * @param jList to use.
-     */
-    @Deprecated
-    public JPopupMenuForJList(
-        final JList<E> jList
-        )
-    {
-        this( jList, null );
-    }
-
 
     /**
      * Returns current JList
@@ -319,15 +308,6 @@ public abstract class JPopupMenuForJList<E>
             new JMenuItem( copyTextMenu ),
             rowIndex
             );
-    }
-
-    @Deprecated
-    protected void addDefaultCopyMenuItem(
-        final JPopupMenu contextMenu,
-        final int        rowIndex
-        )
-    {
-        addCopyMenuItem( contextMenu,"Copy", rowIndex );
     }
 
     /**

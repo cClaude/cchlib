@@ -13,19 +13,21 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.NeedDoc;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 @NeedDoc
 public class MappableBuilder
 {
-    private final Pattern methodesNamePattern;
-    private final Collection<Class<?>> returnTypeClasses;
-    private final Set<MappableItem> mappableItemSet;
-    private final String toStringNullValue;
+    private static final Logger LOGGER = Logger.getLogger( MappableBuilder.class );
 
+    private final Pattern               methodesNamePattern;
+    private final Collection<Class<?>>  returnTypeClasses;
+    private final Set<MappableItem>     mappableItemSet;
+    private final String                toStringNullValue;
     private final MappableBuilderFormat mappableBuilderFormat;
 
     /**
@@ -45,6 +47,8 @@ public class MappableBuilder
     /**
      * Create a MappableBuilder using default factory
      * @see #createMappableBuilderFactory()
+     *
+     * @return a new MappableBuilderFactory
      */
     public static MappableBuilder createMappableBuilder()
     {
@@ -63,6 +67,8 @@ public class MappableBuilder
      *      .add( MAPPABLE_ITEM_DEFAULT_CONFIG )
      *      .add( CLASSES_STANDARDS_TYPES );
      * </pre>
+     *
+     * @return a new MappableBuilderFactory
      */
     public static MappableBuilderFactory createMappableBuilderFactory()
     {
@@ -77,6 +83,8 @@ public class MappableBuilder
      * <p>
      * keys String are sorted.
      * </p>
+     * @param object Object to examine.
+     * @return a Map view of the <code>object</code>
      */
     public Map<String,String> toMap( final Object object )
     {
@@ -86,7 +94,7 @@ public class MappableBuilder
 
         for( final Method method : methods ) {
             if( (method.getParameterTypes().length == 0)
-                && methodesNamePattern.matcher( method.getName() ).matches()
+                && this.methodesNamePattern.matcher( method.getName() ).matches()
                 ) {
                 handleMethodWithValueForToMap( object, map, method );
                 }
@@ -95,6 +103,7 @@ public class MappableBuilder
         return new TreeMap<>( map );
     }
 
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private void handleMethodWithValueForToMap(
         final Object             object,
         final Map<String,String> map,
@@ -115,25 +124,25 @@ public class MappableBuilder
                 MappableBuilder.addRec(
                         map,
                         method.getName() + "().",
-                        ((Mappable) (result0) )
+                        (Mappable) result0
                         );
             }
             return;
         }
 
-        if( mappableItemSet.contains(MappableItem.DO_ITERATOR) && Iterator.class.isAssignableFrom(returnType)) {
+        if( this.mappableItemSet.contains(MappableItem.DO_ITERATOR) && Iterator.class.isAssignableFrom(returnType)) {
             handleIteratorForMap( object, map, method );
             return;
         }
 
-        if( mappableItemSet.contains( MappableItem.DO_ITERABLE ) &&
+        if( this.mappableItemSet.contains( MappableItem.DO_ITERABLE ) &&
                 Iterable.class.isAssignableFrom( returnType )
                 ) {
             handleIterableForMap( object, map, method );
             return;
         }
 
-        if( mappableItemSet.contains(MappableItem.DO_ENUMERATION) && Enumeration.class.isAssignableFrom(returnType)) {
+        if( this.mappableItemSet.contains(MappableItem.DO_ENUMERATION) && Enumeration.class.isAssignableFrom(returnType)) {
             handleEnumerationForMap( object, map, method );
             return;
         }
@@ -142,6 +151,11 @@ public class MappableBuilder
             return;
         }
 
+        invokeMethodWithValueForToMap( object, map, method, returnType );
+    }
+
+    private void invokeMethodWithValueForToMap( final Object object, final Map<String, String> map, final Method method, final Class<?> returnType )
+    {
         final Object methodResult = invoke(object, method, map, Object.class);
 
         if( returnType.isArray() ) {
@@ -213,24 +227,28 @@ public class MappableBuilder
         final Method             method
         )
     {
-        final Iterable<?> iterLst     = (Iterable<?>)invoke(object, method, map, Iterable.class);
-        final Iterator<?> iter        = iterLst.iterator();
-        final String      methodName  = method.getName();
+        final Iterable<?> list       = (Iterable<?>)invoke(object, method, map, Iterable.class);
+        final String      methodName = method.getName();
 
-        int i = 0;
         map.put(
                 formatMethodName( methodName ),
-                (iter == null) ? null : iter.toString()
+                (list == null) ? null : list.toString()
                 );
 
-        if( iter != null ) {
-            while( iter.hasNext() ) {
-                map.put(
-                        formatIterableEntry(methodName, i++, -1),
-                        toString(iter.next())
-                        );
+        if( list != null ) {
+            final Iterator<?> iter = list.iterator();
+            int               i    = 0;
+
+            if( iter != null ) {
+                while( iter.hasNext() ) {
+                    map.put(
+                            formatIterableEntry(methodName, i++, -1),
+                            toString(iter.next())
+                            );
                 }
             }
+        }
+
     }
 
     private void handleIteratorForMap(
@@ -296,14 +314,7 @@ public class MappableBuilder
             };
     }
 
-    /**
-     * TODOC
-     *
-     * @param methodeName
-     * @param index
-     * @param max
-     * @return TODOC
-     */
+    @NeedDoc
     protected String formatIterableEntry(
         final String  methodeName,
         final int     index,
@@ -315,14 +326,7 @@ public class MappableBuilder
             );
     }
 
-    /**
-     * TODOC
-     *
-     * @param methodeName
-     * @param index
-     * @param max
-     * @return TODOC
-     */
+    @NeedDoc
     protected String formatIteratorEntry( final String methodeName, final int index, final int max)
     {
         return this.mappableBuilderFormat.getMessageFormatIteratorEntry().format(
@@ -330,14 +334,7 @@ public class MappableBuilder
             );
     }
 
-    /**
-     * TODOC
-     *
-     * @param methodeName
-     * @param index
-     * @param max
-     * @return TODOC
-     */
+    @NeedDoc
     protected String formatEnumerationEntry( final String methodeName, final int index, final int max )
     {
         return this.mappableBuilderFormat.getMessageFormatEnumerationEntry().format(
@@ -345,14 +342,7 @@ public class MappableBuilder
             );
     }
 
-    /**
-     * TODOC
-     *
-     * @param methodeName
-     * @param index
-     * @param max
-     * @return TODOC
-     */
+    @NeedDoc
     protected String formatArrayEntry( final String methodeName, final int index, final int max )
     {
         return this.mappableBuilderFormat.getMessageFormatArrayEntry().format(
@@ -360,12 +350,7 @@ public class MappableBuilder
             );
     }
 
-    /**
-     *
-     *
-     * @param methodeName
-     * @return TODOC
-     */
+    @NeedDoc
     protected String formatMethodName( final String methodeName )
     {
         final String[] params = {
@@ -378,7 +363,7 @@ public class MappableBuilder
     /** Build methods list to handle */
     private final Method[] getDeclaredMethods( final Class<?> clazz )
     {
-        if( !mappableItemSet.contains( MappableItem.DO_PARENT_CLASSES ) ) {
+        if( !this.mappableItemSet.contains( MappableItem.DO_PARENT_CLASSES ) ) {
             return clazz.getDeclaredMethods();
             }
 
@@ -397,15 +382,10 @@ public class MappableBuilder
          return methodsSet.toArray( new Method[ methodsSet.size() ] );
     }
 
-    /**
-     * TODOC
-     *
-     * @param clazz
-     * @return TODOC
-     */
+    @NeedDoc
     protected final boolean isMappable( final Class<?> clazz )
     {
-        if(!mappableItemSet.contains(MappableItem.DO_RECURSIVE)) {
+        if(!this.mappableItemSet.contains(MappableItem.DO_RECURSIVE)) {
             return false;
             }
 
@@ -417,26 +397,27 @@ public class MappableBuilder
             }
     }
 
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private final boolean shouldEvaluate( final Class<?> returnType )
     {
         final int modifier = returnType.getModifiers();
 
-        if(Modifier.isPrivate(modifier) && !mappableItemSet.contains(MappableItem.TRY_PRIVATE_METHODS)) {
+        if(Modifier.isPrivate(modifier) && !this.mappableItemSet.contains(MappableItem.TRY_PRIVATE_METHODS)) {
             return false;
             }
 
-        if(Modifier.isProtected(modifier) && !mappableItemSet.contains(MappableItem.TRY_PROTECTED_METHODS)) {
+        if(Modifier.isProtected(modifier) && !this.mappableItemSet.contains(MappableItem.TRY_PROTECTED_METHODS)) {
             return false;
             }
-        if(mappableItemSet.contains(MappableItem.ALL_PRIMITIVE_TYPE) && returnType.isPrimitive()) {
+        if(this.mappableItemSet.contains(MappableItem.ALL_PRIMITIVE_TYPE) && returnType.isPrimitive()) {
             return true;
             }
 
-        if(mappableItemSet.contains(MappableItem.DO_ARRAYS) && returnType.isArray()) {
+        if(this.mappableItemSet.contains(MappableItem.DO_ARRAYS) && returnType.isArray()) {
             return true;
             }
 
-        for( final Class<?> c : returnTypeClasses ) {
+        for( final Class<?> c : this.returnTypeClasses ) {
             if( c.isAssignableFrom( returnType ) ) {
                 return true;
                 }
@@ -448,14 +429,13 @@ public class MappableBuilder
     private String toString( final Object object )
     {
         if( object == null ) {
-            return toStringNullValue;
+            return this.toStringNullValue;
             }
         else {
-            return toString( mappableItemSet, object );
+            return toString( this.mappableItemSet, object );
             }
     }
 
-    // TODO: Optimizations: remove some StringBuilder
     private static final String toString(
         final Set<MappableItem>   mappableItemSet,
         final Object              object
@@ -465,16 +445,12 @@ public class MappableBuilder
             return handleArrayForToString( mappableItemSet, object );
             }
 
-        if( mappableItemSet.contains( MappableItem.DO_ITERATOR ) ) {
-            if( object instanceof Iterator ) {
-                return handleIteratorForToString( mappableItemSet, object );
-                }
+        if( mappableItemSet.contains( MappableItem.DO_ITERATOR ) && (object instanceof Iterator) ) {
+            return handleIteratorForToString( mappableItemSet, object );
             }
 
-        if( mappableItemSet.contains( MappableItem.DO_ENUMERATION ) ) {
-            if( object instanceof java.util.Enumeration ) {
-                return handleEnumerationForToString( mappableItemSet, object );
-                }
+        if( mappableItemSet.contains( MappableItem.DO_ENUMERATION ) && (object instanceof java.util.Enumeration) ) {
+            return handleEnumerationForToString( mappableItemSet, object );
             }
 
         return object.toString();
@@ -577,43 +553,23 @@ public class MappableBuilder
              }
     }
 
-    /**
-     * TODOC
-     *
-     * @param object
-     * @param method
-     * @param hashMap
-     * @param resultClass
-     * @return TODOC
-     */
+    @NeedDoc
+    @SuppressWarnings({"squid:MethodCyclomaticComplexity"})
     protected final Object invoke(
-            final Object object,
-            final Method method,
+            final Object             object,
+            final Method             method,
             final Map<String,String> hashMap,
-            final Class<?> resultClass
+            final Class<?>           resultClass
             )
     {
-        Object result = null;
+        final Object result = null;
 
         try {
-            result = method.invoke( object, (Object[])null );
-
-            if( result == null ) {
-                hashMap.put(
-                        formatMethodName( method.getName() ),
-                        toStringNullValue
-                        );
-
-                return null;
-            }
-
-            return resultClass.cast( result );
+            return methodInvoke( object, method, hashMap, resultClass );
             }
         catch( final ClassCastException improbable ) {
-            throw new RuntimeException( (new StringBuilder())
-                    .append( "method.getName() - ClassCastException: " )
-                    .append( result )
-                    .toString(),
+            throw new MappableRuntimeException(
+                    "method.getName() - ClassCastException: " + result,
                     improbable
                     );
             }
@@ -621,28 +577,63 @@ public class MappableBuilder
             throw e;
             }
         catch( final ExceptionInInitializerError e ) {
+            if( LOGGER.isDebugEnabled() ) {
+                logInvokeException( method, e );
+            }
+
             hashMap.put(
                     formatMethodName( method.getName() ),
-                    (new StringBuilder())
-                            .append( "ExceptionInInitializerError: " )
-                            .append( e.getCause() )
-                            .toString()
-                            );
+                    "ExceptionInInitializerError: " + e.getCause()
+                    );
             return null;
             }
-        catch( final IllegalAccessException ignore ) { // $codepro.audit.disable logExceptions
+        catch( final IllegalAccessException ignore ) {
+            if( LOGGER.isDebugEnabled() ) {
+                logInvokeException( method, ignore );
+            }
+
             return null;
             }
         catch( final InvocationTargetException e ) {
+            if( LOGGER.isDebugEnabled() ) {
+                logInvokeException( method, e );
+            }
+
             hashMap.put(
                     formatMethodName( method.getName() ),
-                    (new StringBuilder())
-                            .append( "InvocationTargetException: " )
-                            .append( e.getCause() )
-                            .toString()
-                            );
+                    "InvocationTargetException: " + e.getCause()
+                    );
             }
 
         return null;
+    }
+
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    private Object methodInvoke( //
+        final Object              object, //
+        final Method              method, //
+        final Map<String, String> hashMap,  //
+        final Class<?>            resultClass //
+        ) throws IllegalAccessException,
+                 IllegalArgumentException,
+                 InvocationTargetException
+    {
+        final Object result = method.invoke( object, (Object[])null );
+
+        if( result == null ) {
+            hashMap.put(
+                    formatMethodName( method.getName() ),
+                    this.toStringNullValue
+                    );
+
+            return null;
+        }
+
+        return resultClass.cast( result );
+    }
+
+    private void logInvokeException( final Method method, final Throwable e )
+    {
+        LOGGER.error( "Invoke: " + method, e );
     }
 }

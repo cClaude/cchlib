@@ -1,20 +1,20 @@
 package com.googlecode.cchlib.swing.combobox;
 
-import javax.swing.JComboBox;
 import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.event.ListDataListener;
 
 /**
- * TODOC
+ * NEEDDOC
  *
- * @param <E>
+ * @param <E> NEEDDOC
  */
 public class XEnumComboBox<E extends Enum<E>> extends JComboBox<String>
 {
     private static class XEnumComboBoxModel implements ComboBoxModel<String>
     {
         private String   selectedItem;
-        private String[] values;
+        private final String[] values;
 
         public XEnumComboBoxModel( final Enum<?>[] enumConstants )
         {
@@ -28,47 +28,46 @@ public class XEnumComboBox<E extends Enum<E>> extends JComboBox<String>
         @Override
         public int getSize()
         {
-            return values.length;
+            return this.values.length;
         }
 
         @Override
-        public String getElementAt( int index )
+        public String getElementAt( final int index )
         {
-            return values[ index ];
+            return this.values[ index ];
         }
 
         @Override
-        public void addListDataListener( ListDataListener l )
+        public void addListDataListener( final ListDataListener l )
         {// No change on data model
         }
 
         @Override
-        public void removeListDataListener( ListDataListener l )
+        public void removeListDataListener( final ListDataListener l )
         {// No change on data model
          }
 
         @Override
-        public void setSelectedItem( Object anItem )
+        public void setSelectedItem( final Object anItem )
         {
-            selectedItem = (String)anItem;
+            this.selectedItem = (String)anItem;
         }
 
         @Override
         public Object getSelectedItem()
         {
-            return selectedItem;
+            return this.selectedItem;
         }
     }
     private static final long serialVersionUID = 1L;
 
-    private Class<E> enumClass;
+    private final Class<E> enumClass;
 
     /**
-     * TODOC
+     * NEEDDOC
      *
-     * @param defaultValue
-     * @param autoI18n
-     * @param values
+     * @param defaultValue NEEDDOC
+     * @param enumClass NEEDDOC
      */
     public XEnumComboBox(
         final E         defaultValue,
@@ -97,7 +96,7 @@ public class XEnumComboBox<E extends Enum<E>> extends JComboBox<String>
     {
         if( anObject.getClass().equals( this.enumClass ) ) {
             @SuppressWarnings("unchecked")
-            final E                  enumValue = ((E)anObject);
+            final E                  enumValue = (E)anObject;
             final XEnumComboBoxModel model     = (XEnumComboBoxModel)super.getModel();
 
             super.setSelectedItem( model.values[ enumValue.ordinal() ] );

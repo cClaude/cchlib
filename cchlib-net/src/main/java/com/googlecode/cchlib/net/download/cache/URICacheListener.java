@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.EventListener;
 
 /**
- * TODOC
+ * {@link URICache}
  * @since 4.1.7
  */
 public interface URICacheListener extends EventListener

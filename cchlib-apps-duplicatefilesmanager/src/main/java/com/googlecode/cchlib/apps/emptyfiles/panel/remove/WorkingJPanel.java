@@ -1,10 +1,6 @@
 // $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.emptyfiles.panel.remove;
 
-import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
-import com.googlecode.cchlib.apps.emptyfiles.tasks.DeleteTask;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,6 +15,10 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.event.TableModelEvent;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
+import com.googlecode.cchlib.apps.emptyfiles.tasks.DeleteTask;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
 
 @I18nName("emptyfiles.WorkingJPanel")
 public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
@@ -53,7 +53,7 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         add(this.panel);
 
         {
-            GridBagLayout gbl_panel = new GridBagLayout();
+            final GridBagLayout gbl_panel = new GridBagLayout();
             gbl_panel.columnWidths = new int[]{337, 0, 0};
             gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 25, 0};
             gbl_panel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
@@ -63,7 +63,7 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         {
             this.messageLabel = new JLabel("Select files to delete");
             this.messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            GridBagConstraints gbc_messageLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_messageLabel = new GridBagConstraints();
             gbc_messageLabel.gridwidth = 2;
             gbc_messageLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_messageLabel.insets = new Insets(0, 0, 5, 0);
@@ -73,7 +73,7 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         }
         {
             this.scrollPane = new JScrollPane();
-            GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+            final GridBagConstraints gbc_scrollPane = new GridBagConstraints();
             gbc_scrollPane.fill = GridBagConstraints.BOTH;
             gbc_scrollPane.gridheight = 4;
             gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
@@ -86,11 +86,11 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
                 this.table.setModel( tableModel  );
 
                 // Detect change in model.
-                tableModel.addTableModelListener( (TableModelEvent event) -> {
+                tableModel.addTableModelListener( (final TableModelEvent event) -> {
                     if( LOGGER.isTraceEnabled() ) {
                         LOGGER.trace( "tableChanged :" + event.getSource() );
                     }
-                    
+
                     //fixDisplay();
                     //autoSizer.apply();
                     applySelectionState();
@@ -104,11 +104,11 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         {
             this.deselectAllButton = new JButton("Deselect All");
             this.deselectAllButton.setIcon( removeEmptyFilesJPanel.getResources().getDeselectAllIcon() );
-            this.deselectAllButton.addActionListener((ActionEvent e) -> {
+            this.deselectAllButton.addActionListener((final ActionEvent e) -> {
                 tableModel.doUnselectAll();
             });
 
-            GridBagConstraints gbc_deselectAllButton = new GridBagConstraints();
+            final GridBagConstraints gbc_deselectAllButton = new GridBagConstraints();
             gbc_deselectAllButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_deselectAllButton.insets = new Insets(0, 0, 5, 0);
             gbc_deselectAllButton.gridx = 1;
@@ -118,10 +118,10 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         {
             this.selectAllButton = new JButton("Select All");
             this.selectAllButton.setIcon( removeEmptyFilesJPanel.getResources().getSelectAllIcon() );
-            this.selectAllButton.addActionListener((ActionEvent e) -> {
+            this.selectAllButton.addActionListener((final ActionEvent e) -> {
                 tableModel.doSelectAll();
             });
-            GridBagConstraints gbc_selectAllButton = new GridBagConstraints();
+            final GridBagConstraints gbc_selectAllButton = new GridBagConstraints();
             gbc_selectAllButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_selectAllButton.insets = new Insets(0, 0, 5, 0);
             gbc_selectAllButton.gridx = 1;
@@ -130,10 +130,10 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         }
         {
             this.restartButton = new JButton("Restart");
-            this.restartButton.addActionListener((ActionEvent e) -> {
+            this.restartButton.addActionListener((final ActionEvent e) -> {
                 removeEmptyFilesJPanel.restart();
             });
-            GridBagConstraints gbc_restartButton = new GridBagConstraints();
+            final GridBagConstraints gbc_restartButton = new GridBagConstraints();
             gbc_restartButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_restartButton.insets = new Insets(0, 0, 5, 0);
             gbc_restartButton.gridx = 1;
@@ -142,7 +142,7 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         }
         {
             this.progressBar = new JProgressBar();
-            GridBagConstraints gbc_progressBar = new GridBagConstraints();
+            final GridBagConstraints gbc_progressBar = new GridBagConstraints();
             gbc_progressBar.fill = GridBagConstraints.BOTH;
             gbc_progressBar.insets = new Insets(0, 0, 0, 5);
             gbc_progressBar.gridx = 0;
@@ -151,10 +151,10 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         }
         {
             this.deleteButton = new JButton("Delete");
-            this.deleteButton.addActionListener((ActionEvent e) -> {
+            this.deleteButton.addActionListener((final ActionEvent e) -> {
                 doDelete();
             });
-            GridBagConstraints gbc_deleteButton = new GridBagConstraints();
+            final GridBagConstraints gbc_deleteButton = new GridBagConstraints();
             gbc_deleteButton.fill = GridBagConstraints.BOTH;
             gbc_deleteButton.gridx = 1;
             gbc_deleteButton.gridy = 5;
@@ -202,7 +202,7 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         new Thread( new DeleteTask( this, tableModel, progressBar ), "doDelete()" ).start();
     }
 
-    private void setEnabledAll( boolean b )
+    private void setEnabledAll( final boolean b )
     {
         this.restartButton.setEnabled( b );
 

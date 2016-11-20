@@ -34,6 +34,7 @@ public final class FileFilterHelper
      * @since 4.2
      */
     @NeedDoc
+    @FunctionalInterface
     public interface ErrorHandler {
         @NeedDoc
         boolean handleIOException( File file, IOException ioe );
@@ -104,7 +105,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param fileFilters
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
@@ -116,7 +117,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param fileFilters
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
@@ -128,7 +129,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param firstFileFilter
      * @param secondFileFilter
      * @return a {@link java.io.Serializable} {@link FileFilter}
@@ -142,7 +143,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param length
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
@@ -152,7 +153,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter zeroLengthFileFilter()
@@ -161,7 +162,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter noneZeroLengthFileFilter()

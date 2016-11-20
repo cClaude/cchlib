@@ -3,17 +3,10 @@ package com.googlecode.cchlib.swing.hexeditor;
 import java.io.IOException;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public class EmptyArray implements ArrayReadWriteAccess
 {
-    /**
-     * TODOC
-     */
-    public EmptyArray()
-    {
-    }
-
     @Override
     public int getLength()
     {
@@ -21,24 +14,26 @@ public class EmptyArray implements ArrayReadWriteAccess
     }
 
     @Override
-    public byte getByte(int index)
+    public byte getByte(final int index)
     {
         return -1;
     }
 
     @Override
-    public char getChar( int index )
+    public char getChar( final int index )
     {
         return (char)getByte( index );
     }
 
     @Override
-    public void setByte(int index, byte b)
+    public void setByte(final int index, final byte b)
     {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void close() throws IOException
     {
+        // In Memory
     }
 }

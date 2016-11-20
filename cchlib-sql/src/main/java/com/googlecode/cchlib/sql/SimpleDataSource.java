@@ -1,56 +1,81 @@
 package com.googlecode.cchlib.sql;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /**
  * Easy way to obtain a {@link DataSource}
+ *
+ * @see DataSourceHelper
+ * @see DataSourceHelper#createDataSource(String)
  */
 public class SimpleDataSource
-    implements Closeable
 {
-    private final DataSource  ds;
-    private String[]    userPass;
+    private final DataSource  dataSource;
+    private String[]          userPass;
+    private final int         maxRetry;
 
     /**
      *  Create a SimpleDataSource object from a valid {@link DataSource}
      *
-     * @param ds DataSource to use.
+     * @param dataSource Data source to use.
      * @throws NullPointerException if ds is null.
      */
-    public SimpleDataSource( final DataSource ds )
+    public SimpleDataSource( final DataSource dataSource )
     {
-        if( ds == null ) {
-            throw new NullPointerException( "DataSource is null" );
-            }
-
-        this.ds         = ds;
-        this.userPass   = null;
+        this( dataSource, null, null, DataSourceHelper.DEFAULT_MAX_RETRY );
     }
 
     /**
      *  Create a SimpleDataSource object from a valid {@link DataSource}
      *  using specified user name and password
      *
-     * @param ds DataSource to use.
+     * @param dataSource Data source to use.
      * @param username User name to use to access to database
      * @param password Password to use to access to database
-     * @throws NullPointerException if ds is null.
+     * @throws NullPointerException if dataSource is null.
      */
     public SimpleDataSource(
-            final DataSource  ds,
+            final DataSource  dataSource,
             final String      username,
             final String      password
             )
     {
-        this(ds);
-        this.userPass = (new String[] {username, password});
+        this( dataSource, username, password, DataSourceHelper.DEFAULT_MAX_RETRY );
+    }
+
+    /**
+     *  Create a SimpleDataSource object from a valid {@link DataSource}
+     *  using specified user name and password
+     *
+     * @param dataSource Data source to use.
+     * @param username User name to use to access to database
+     * @param password Password to use to access to database
+     * @param maxRetry Number of retry for db connection
+     *
+     * @throws NullPointerException if ds is null.
+     */
+    public SimpleDataSource(
+            final DataSource  dataSource,
+            final String      username,
+            final String      password,
+            final int         maxRetry
+            )
+    {
+        if( dataSource == null ) {
+            throw new NullPointerException( "DataSource is null" );
+            }
+
+       this.dataSource = dataSource;
+
+       if( (username == null) && (password == null) ) {
+           this.userPass = null;
+       } else {
+           this.userPass = new String[] {username, password};
+       }
+
+       this.maxRetry = maxRetry;
     }
 
     /**
@@ -59,78 +84,7 @@ public class SimpleDataSource
      */
     protected DataSource getDataSource()
     {
-        return this.ds;
-    }
-
-    @Override
-    public void close() throws IOException
-    {
-        // empty
-    }
-
-    /**
-     * Call {@link #close()} but hide {@link IOException}
-     */
-    public void quietClose()
-    {
-        quietClose( this );
-    }
-
-    /**
-     * Call {@link #close()} but hide {@link IOException} if
-     * closeable is not null.
-     *
-     * @param closeable Closeable object to close (could be null)
-     */
-    public static void quietClose( final Closeable closeable )
-    {
-        if( closeable != null ) {
-            try { closeable.close(); } catch( final IOException ignore ) { }
-            }
-    }
-
-    /**
-     * Retrieve DataSource on {@link InitialContext}
-     *
-     * @param resourceName DataSource name
-     * @return DataSource if resource found
-     * @throws SimpleDataSourceException if any error occurred
-     */
-    public static final DataSource createDataSource(
-            final String resourceName
-            )
-        throws SimpleDataSourceException
-    {
-        Object      ressource = null;
-        DataSource  ds;
-
-        try {
-            final Context context = new InitialContext();
-
-            ressource   = context.lookup(resourceName);
-            ds          = DataSource.class.cast(ressource);
-            }
-        catch( final ClassCastException e ) {
-            throw new SimpleDataSourceException(
-                    "Bad ressource '" + resourceName + "' expecting DataSource, found : " + ressource,
-                    e
-                    );
-            }
-        catch( final NamingException e ) {
-            throw new SimpleDataSourceException(
-                    "Can't create SimpleQuery for '" + resourceName + '\'',
-                    e
-                    );
-            }
-
-        if( ds == null ) {
-            throw new SimpleDataSourceException(
-                    "Can't get DataSource for '" + resourceName + '\''
-                    );
-            }
-        else {
-            return ds;
-            }
+        return this.dataSource;
     }
 
     /**
@@ -139,26 +93,13 @@ public class SimpleDataSource
      * @return a new Connection from DataSource
      * @throws SQLException if any
      */
-    @SuppressWarnings("resource")
     public Connection createConnectionFromDataSource()
         throws SQLException
     {
-        Connection  conn    = null;
-        int         count   = 0;
-
-        while( (conn == null) || conn.isClosed() ) {
-            if( this.userPass == null ) {
-                conn = this.ds.getConnection();
-                }
-            else {
-                conn = this.ds.getConnection(this.userPass[0], this.userPass[1]);
-                }
-
-            if( conn.isClosed() && (++count > 10) ) {
-                throw new SQLException("can't getConnection() - connection is closed");
-                }
-            }
-
-        return conn;
+        return DataSourceHelper.createConnectionFromDataSource(
+                this.dataSource,
+                this.userPass,
+                this.maxRetry
+                );
     }
 }

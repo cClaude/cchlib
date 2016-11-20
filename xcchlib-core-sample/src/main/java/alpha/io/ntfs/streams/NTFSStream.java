@@ -11,14 +11,13 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  *
  */
 public class NTFSStream
 {
-
+    private static final String EMPTY = "";
     private final StringBuilder sb;
     private final CharBuffer cb;
     private final char[] cbuf;
@@ -108,7 +107,7 @@ public class NTFSStream
 
     private static String fastStreamCopy1( final File filename )
     {
-        String      s   = StringHelper.EMPTY;
+        String s = EMPTY;
 
         try( final FileInputStream fis = new FileInputStream( filename ) ) {
              try( final FileChannel fc = fis.getChannel() ) {
@@ -190,7 +189,7 @@ public class NTFSStream
                     s = new String( bytes );
                     }
                 else {
-                    s = StringHelper.EMPTY;
+                    s = EMPTY;
                     }
                 }
             }

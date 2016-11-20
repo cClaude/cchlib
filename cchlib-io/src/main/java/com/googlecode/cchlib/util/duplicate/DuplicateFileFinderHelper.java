@@ -12,18 +12,22 @@ public final class DuplicateFileFinderHelper {
     private DuplicateFileFinderHelper() {}
 
     /**
+     * NEEDDOC
      *
      * @param ignoreEmptyFiles
      * @param fileDigestFactory
-     * @return
+     * @return NEEDDOC
      * @throws NoSuchAlgorithmException
      * @throws IllegalArgumentException
      */
     @NeedDoc
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DuplicateFileFinder newDuplicateFileFinder( //
             final boolean                    ignoreEmptyFiles, //
             @Nonnull final FileDigestFactory fileDigestFactory //
-            ) throws NoSuchAlgorithmException, IllegalArgumentException
+            ) throws
+                NoSuchAlgorithmException,
+                IllegalArgumentException
     {
         final DFFConfig  dffConfig = new DFFConfigImpl( ignoreEmptyFiles, fileDigestFactory );
         final DFFPass1   dffPass1  = new DFFPass1Impl( dffConfig );
@@ -33,24 +37,28 @@ public final class DuplicateFileFinderHelper {
     }
 
     /**
+     * NEEDDOC
      *
      * @param ignoreEmptyFiles
      * @param fileDigestFactory
      * @param maxParallelFiles
-     * @return
+     * @return NEEDDOC
      * @throws NoSuchAlgorithmException
      * @throws IllegalArgumentException
      */
     @NeedDoc
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DuplicateFileFinder newDuplicateFileFinderAlgo2( //
             final boolean                       ignoreEmptyFiles, //
             @Nonnull final FileDigestFactory    fileDigestFactory, //
             final int                           maxParallelFiles //
-        ) throws NoSuchAlgorithmException, IllegalArgumentException
+        ) throws
+            NoSuchAlgorithmException,
+            IllegalArgumentException
     {
         final DFFConfig2 dffConfig = new DFFConfigImpl2( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
-        final DFFPass1 dffPass1 = new DFFPass1Impl( dffConfig );
-        final DFFPass2 dffPass2 = new DFFPass2Impl2( dffConfig );
+        final DFFPass1   dffPass1  = new DFFPass1Impl( dffConfig );
+        final DFFPass2   dffPass2  = new DFFPass2Impl2( dffConfig );
 
         return new DefaultDuplicateFileFinder( dffConfig, dffPass1, dffPass2 );
     }

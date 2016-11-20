@@ -2,15 +2,16 @@ package com.googlecode.cchlib.net.download;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.URI;
 import java.net.URL;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  * @since 4.1.7
  */
-public interface DownloadURL
+public interface DownloadURL extends Serializable
 {
     /**
      * @return the related {@link URL}.

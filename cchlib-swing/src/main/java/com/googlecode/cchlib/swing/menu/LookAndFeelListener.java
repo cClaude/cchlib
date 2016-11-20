@@ -3,13 +3,12 @@ package com.googlecode.cchlib.swing.menu;
 import java.util.EventListener;
 
 /**
- * TODOC
- *
+ * NEEDDOC
  */
 public interface LookAndFeelListener extends EventListener
 {
     /**
-     * TODOC
+     * NEEDDOC
      * @param lookAndFeelName
      */
     public void setLookAndFeel( String lookAndFeelName );

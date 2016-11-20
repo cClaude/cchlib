@@ -6,56 +6,22 @@ import javax.annotation.Nullable;
 
 /**
  * Abstract class for create Iterator
+ *
+ * @param <T> the type of elements returned by this iterator
+ *
  * @since 4.1.7
  */
 public abstract class ComputableIterator<T>
     implements Iterator<T>
     //Note: Can't implement Iterable<T> here - super class could do this work
 {
-    private @Nullable T nextObject;
+    @Nullable private T nextObject;
     private Boolean noSuchElementException;
 
     /** Create ComputableIterator */
     protected ComputableIterator()
     {
-        this.noSuchElementException = null; // not yet initialized
-        this.nextObject = null;
-    }
-
-    /**
-     * Compute next object for iterator, return next object if exist, throwing an exception if not.
-     *
-     * @return next object if exist
-     * @throws NoSuchElementException
-     *             if no more object
-     */
-    protected abstract @Nullable T computeNext()
-        throws NoSuchElementException;
-
-    /**
-     * Returns true if the iteration has more elements. (In other words, returns true if next would return an element
-     * rather than throwing an exception.)
-     *
-     * @return true if the iteration has more elements.
-     */
-    @Override
-    public boolean hasNext()
-    {
-        //if( this.nextObject == null ) {
-        if( isEnd( this.noSuchElementException ) ) {
-            return false;
-        }
-        if( this.noSuchElementException == null ) {
-            try {
-                this.noSuchElementException = Boolean.FALSE;
-                this.nextObject = computeNext();
-                }
-            catch( final NoSuchElementException e ) { // $codepro.audit.disable logExceptions
-                return false;
-                }
-            }
-
-        return true;
+        // noSuchElementException and nextObject are null
     }
 
     private static boolean isEnd( final Boolean noSuchElementException )
@@ -67,6 +33,42 @@ public abstract class ComputableIterator<T>
     }
 
     /**
+     * Compute next object for iterator, return next object if exist, throwing an exception if not.
+     *
+     * @return next object if exist
+     * @throws NoSuchElementException
+     *             if no more object
+     */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    @Nullable protected abstract T computeNext() throws NoSuchElementException;
+
+    /**
+     * Returns true if the iteration has more elements. (In other words, returns true if next would return an element
+     * rather than throwing an exception.)
+     *
+     * @return true if the iteration has more elements.
+     */
+    @Override
+    @SuppressWarnings("squid:S1166") // Exception is handled
+    public boolean hasNext()
+    {
+        if( isEnd( this.noSuchElementException ) ) {
+            return false;
+        }
+        if( this.noSuchElementException == null ) {
+            try {
+                this.noSuchElementException = Boolean.FALSE;
+                this.nextObject = computeNext();
+                }
+            catch( final NoSuchElementException e ) {
+                return false;
+                }
+            }
+
+        return true;
+    }
+
+    /**
      * Returns the next element in the iteration.
      *
      * @return the next element in the iteration.
@@ -74,13 +76,17 @@ public abstract class ComputableIterator<T>
      *             iteration has no more elements.
      */
     @Override
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S1166", // NoSuchElementException is handled
+        "null"
+        })
     public T next() throws NoSuchElementException
     {
         if( isEnd( this.noSuchElementException ) ) {
             throw new NoSuchElementException();
         }
 
-        //if(this.nextObject == null) {
         if( this.noSuchElementException == null ) {
             this.noSuchElementException = Boolean.FALSE;
             this.nextObject = computeNext();
@@ -91,7 +97,7 @@ public abstract class ComputableIterator<T>
         try {
             this.nextObject = computeNext();
             }
-        catch(final NoSuchElementException e) { // $codepro.audit.disable logExceptions
+        catch( final NoSuchElementException e ) {
             this.nextObject = null;
             this.noSuchElementException = Boolean.TRUE;
             }
@@ -110,7 +116,8 @@ public abstract class ComputableIterator<T>
      *             Always throw this exception.
      */
     @Override
-    final public void remove()
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    public final void remove()
         throws  UnsupportedOperationException,
                 IllegalStateException
     {

@@ -1,24 +1,24 @@
 package com.googlecode.cchlib.io.filefilter;
 
-import com.googlecode.cchlib.io.SerializableFileFilter;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  * @since 4.1.7
  */
 public final class ORFileFilter implements SerializableFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private List<FileFilter> filters = new ArrayList<>();
+    private final List<FileFilter> filters = new ArrayList<>();
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     public ORFileFilter()
     {
@@ -26,18 +26,18 @@ public final class ORFileFilter implements SerializableFileFilter
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param fileFilters
      */
     public ORFileFilter( final FileFilter...fileFilters )
     {
-        for( FileFilter ff : fileFilters ) {
+        for( final FileFilter ff : fileFilters ) {
             this.add( ff );
             }
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param filter a {@link SerializableFileFilter} to include in matching
      * @return the caller. This allows for easy chaining of invocations.
      */
@@ -48,7 +48,7 @@ public final class ORFileFilter implements SerializableFileFilter
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param filtersCollection a @{@link Collection} of
      * {@link SerializableFileFilter} to include in matching
      * @return the caller. This allows for easy chaining of invocations.
@@ -64,7 +64,7 @@ public final class ORFileFilter implements SerializableFileFilter
     @Override
     public boolean accept( final File file )
     {
-      for( FileFilter ff : filters ) {
+      for( final FileFilter ff : this.filters ) {
             if( ff.accept( file ) ) {
                 return true;
                 }

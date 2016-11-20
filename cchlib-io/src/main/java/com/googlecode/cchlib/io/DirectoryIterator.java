@@ -24,7 +24,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
     implements  Iterator<File>,
                 Iterable<File>
 {
-    private LinkedList<File> foldersList;
+    private final LinkedList<File> foldersList;
     private FileFilter       directoryFileFilter;
 
     /**
@@ -34,7 +34,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      * @param rootFolderFile root File directory for this Iterator
      * @throws NullPointerException if rootFolderFile is null
      */
-    public DirectoryIterator(File rootFolderFile)
+    public DirectoryIterator(final File rootFolderFile)
     {
         this(rootFolderFile, null );
     }
@@ -49,8 +49,8 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      * @throws NullPointerException if rootFolderFile is null
      */
     public DirectoryIterator(
-            File        rootFolderFile,
-            FileFilter  directoryFilter
+            final File        rootFolderFile,
+            final FileFilter  directoryFilter
             )
     {
         this.foldersList = new LinkedList<>();
@@ -63,7 +63,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
             }
 
         if( rootFolderFile.isDirectory() ) {
-            foldersList.add(rootFolderFile);
+            this.foldersList.add(rootFolderFile);
             }
     }
 
@@ -71,6 +71,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      * @see java.lang.Object#clone()
      */
     @Override
+    @SuppressWarnings("squid:S2975")
     protected Object clone() throws CloneNotSupportedException
     {
         throw new CloneNotSupportedException();
@@ -81,24 +82,24 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      *
      * @param folderFile A valid File directory
      */
-    protected void addFolder(File folderFile)
+    protected void addFolder(final File folderFile)
     {
-        foldersList.add(folderFile);
+        this.foldersList.add(folderFile);
     }
 
-    private void addArray(File folder)
+    private void addArray(final File folder)
     {
         addFiles(
-            folder.listFiles(directoryFileFilter)
+            folder.listFiles(this.directoryFileFilter)
             );
     }
 
-    private void addFiles(File[] folderContentFiles)
+    private void addFiles(final File[] folderContentFiles)
     {
         if(folderContentFiles != null) {
-            for( File f : folderContentFiles ) {
+            for( final File f : folderContentFiles ) {
                 if(f.isDirectory()) {
-                    foldersList.add(f);
+                    this.foldersList.add(f);
                     }
                 }
             }
@@ -113,7 +114,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
     @Override
     public boolean hasNext()
     {
-        return foldersList.size() > 0;
+        return ! this.foldersList.isEmpty();
     }
 
     /**
@@ -122,10 +123,10 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
-    public File next()
-        throws java.util.NoSuchElementException
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S2272"})
+    public File next() throws NoSuchElementException
     {
-        File folder = foldersList.removeLast();
+        final File folder = this.foldersList.removeLast();
 
         addArray(folder);
 
@@ -138,6 +139,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      * @throws UnsupportedOperationException
      */
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void remove() throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();

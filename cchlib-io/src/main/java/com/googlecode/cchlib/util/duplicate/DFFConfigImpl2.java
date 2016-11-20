@@ -8,12 +8,13 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 /**
  * @since 4.2
  */
-public class DFFConfigImpl2 extends DFFConfigImpl implements DFFConfig2 {
+public class DFFConfigImpl2 extends DFFConfigImpl implements DFFConfig2
+{
     /** Use by PASS2 */
     private final FileDigest[] fileDigests;
 
     /**
-     * TODOC XXX
+     * NEEDDOC XXX
      *
      * @param ignoreEmptyFiles
      * @param fileDigestFactory
@@ -21,6 +22,7 @@ public class DFFConfigImpl2 extends DFFConfigImpl implements DFFConfig2 {
      * @throws NoSuchAlgorithmException
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public DFFConfigImpl2( //
         final boolean                    ignoreEmptyFiles, //
         @Nonnull final FileDigestFactory fileDigestFactory, //

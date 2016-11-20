@@ -2,7 +2,6 @@ package com.googlecode.cchlib.util;
 
 import java.util.Collection;
 import java.util.Enumeration;
-import com.googlecode.cchlib.NeedDoc;
 
 /**
  * Tools for {@link Wrappable}
@@ -17,20 +16,39 @@ public final class WrapperHelper
 
     /**
      * Create a Wrappable object using Object.toString()
+     *
+     * Typical code :
+     *    return new Wrappable<T,String>()
+     *    {
+     *        public String wrap(T o)
+     *        {
+     *            return o.toString();
+     *        }
+     *    };
+     * </code>
+     *
      * @param <T> type to wrap
      * @return a wrapper
      */
-    public static final <T> Wrappable<T,String> wrappeToString()
+    public static final <T> Wrappable<T,String> wrapToString()
     {
         return o -> o.toString();
-//        return new Wrappable<T,String>()
-//        {
-//            @Override
-//            public String wrap(T o)
-//            {
-//                return o.toString();
-//            }
-//        };
+    }
+
+    /**
+     * Return a {@link Wrappable} object able to transform String
+     * to Integer.
+     * @return a wrapper
+     */
+    public static final Wrappable<String,Integer> wrapStringToInteger()
+    {
+        return str -> {
+            try {
+                return Integer.parseInt( str );
+            } catch( final NumberFormatException e ) {
+                throw new WrapperException( e );
+            }
+        };
     }
 
     /**
@@ -62,7 +80,16 @@ public final class WrapperHelper
         };
     }
 
-    @NeedDoc
+    /**
+     * Give a view of a collection of type <code>S</code> by returning
+     * a collection of type <code>S</code>.
+     *
+     * @param collection Collection to wrap
+     * @param wrapper Method to transform object of type <code>S</code>
+     *                into type <code>R</code>
+     * @param unwrapper Reflexive method of <code>wrapper</code>
+     * @return a collection of type <code>S</code>
+     */
     public static <S,R> Collection<R> toCollection(
         final Collection<S>   collection,
         final Wrappable<S,R>  wrapper,

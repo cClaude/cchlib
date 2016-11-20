@@ -1,8 +1,7 @@
 package cx.ath.choisnet.xml;
 
 /**
- * TODOC
- *
+ * XMLParser exception
  */
 public class XMLParserException extends Exception
 {
@@ -13,7 +12,7 @@ public class XMLParserException extends Exception
      *
      * @param message a {@link java.lang.String} object.
      */
-    public XMLParserException(String message)
+    public XMLParserException(final String message)
     {
         super(message);
     }
@@ -24,7 +23,7 @@ public class XMLParserException extends Exception
      * @param message a {@link java.lang.String} object.
      * @param cause a {@link java.lang.Throwable} object.
      */
-    public XMLParserException(String message, Throwable cause)
+    public XMLParserException(final String message, final Throwable cause)
     {
         super(message, cause);
     }
@@ -34,7 +33,7 @@ public class XMLParserException extends Exception
      *
      * @param cause a {@link java.lang.Throwable} object.
      */
-    public XMLParserException(Throwable cause)
+    public XMLParserException(final Throwable cause)
     {
         super(cause);
     }

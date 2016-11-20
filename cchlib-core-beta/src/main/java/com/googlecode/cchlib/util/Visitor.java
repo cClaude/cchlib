@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.util;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public interface Visitor<T>
 {

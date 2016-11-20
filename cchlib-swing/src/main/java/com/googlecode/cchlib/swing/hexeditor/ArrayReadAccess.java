@@ -3,27 +3,27 @@ package com.googlecode.cchlib.swing.hexeditor;
 import java.io.Closeable;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public interface ArrayReadAccess extends Closeable
 {
 	/**
-	 * TODOC
-	 * @return TODOC
+	 * NEEDDOC
+	 * @return NEEDDOC
 	 */
     int getLength();
-    
+
     /**
-     * TODOC
+     * NEEDDOC
      * @param index
-     * @return TODOC
+     * @return NEEDDOC
      */
     byte getByte(int index);
-    
+
     /**
-     * TODOC
+     * NEEDDOC
      * @param index
-     * @return TODOC
+     * @return NEEDDOC
      */
     char getChar(int index);
 }

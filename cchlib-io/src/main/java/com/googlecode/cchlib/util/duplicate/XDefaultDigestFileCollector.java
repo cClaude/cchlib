@@ -36,7 +36,7 @@ public class XDefaultDigestFileCollector
     protected int duplicateFilesCount = 0;
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @throws NoSuchAlgorithmException
      */
@@ -47,7 +47,7 @@ public class XDefaultDigestFileCollector
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param xMessageDigestFile
      */
@@ -82,7 +82,7 @@ public class XDefaultDigestFileCollector
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * <pre>
      *  Iterable<File> files = new {@link FileIterator}(

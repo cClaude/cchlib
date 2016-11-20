@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.swing.Icon;
 
 /**
- * TODOC
+ * Allow to create custom components for {@link TabbedAccessory}
  */
 public interface TabbedAccessoryInterface extends Serializable
 {

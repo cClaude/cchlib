@@ -1,4 +1,3 @@
-// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods, numericLiterals, constantNamingConvention
 package cx.ath.choisnet.bytesaccess;
 
 import java.io.File;
@@ -31,6 +30,7 @@ import cx.ath.choisnet.util.ArrayHelper;
  */
 public abstract class BytesAccess implements Cloneable
 {
+    private static final String BYTES_ARRAYS_NOT_SAME_SIZE = "bytes arrays not same size (";
     /**
      * Internal buffer
      */
@@ -60,6 +60,7 @@ public abstract class BytesAccess implements Cloneable
      * @throws IllegalArgumentException
      *             if offset is negative
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public BytesAccess( final byte[] bytes, final int offset, final int length )
             throws IllegalArgumentException
     {
@@ -82,6 +83,7 @@ public abstract class BytesAccess implements Cloneable
      *             if "is" is null
      * @throws BytesAccessException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public BytesAccess( final InputStream is, final int length )
             throws NullPointerException,
             BytesAccessException,
@@ -110,6 +112,7 @@ public abstract class BytesAccess implements Cloneable
      * @throws BytesAccessException
      * @throws FileNotFoundException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public BytesAccess( final File file, final int length )
             throws NullPointerException,
             BytesAccessException,
@@ -159,7 +162,8 @@ public abstract class BytesAccess implements Cloneable
     }
 
     @Override
-    public boolean equals( final Object obj ) // $codepro.audit.disable
+    @SuppressWarnings("squid:S1166")
+    public boolean equals( final Object obj )
     {
         if( this == obj ) {
             return true;
@@ -167,15 +171,14 @@ public abstract class BytesAccess implements Cloneable
         if( obj == null ) {
             return false;
         }
-        if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
+        if( getClass() != obj.getClass() ) {
             return false;
         }
 
         try {
             return compare( this.bytes, BytesAccess.class.cast( obj ).bytes ) == 0;
         }
-        catch( final IllegalArgumentException e ) { // $codepro.audit.disable
-                                              // logExceptions
+        catch( final IllegalArgumentException e ) {
             return false;
         }
     }
@@ -189,41 +192,27 @@ public abstract class BytesAccess implements Cloneable
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final int   CMP_MASK_ROT_OFFSET      = 16;                 // 2*8;
+    public static final int   CMP_MASK_ROT_OFFSET      = 16;                 // 2*8; NOSONAR
 
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final long  CMP_FF00_MASK_BYTE_VALUE = 0x000000000000FF00;
-
-    // /**
-    // * @see #compare(byte[], byte[])
-    // * @deprecated Use {@link #CMP_FF00_MASK_BYTE_VALUE} instead
-    // */
-    // @Deprecated
-    // public static final long CMP_MASK_BYTE0_VALUE = CMP_FF00_MASK_BYTE_VALUE;
+    public static final long  CMP_FF00_MASK_BYTE_VALUE = 0x000000000000FF00L;
 
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final long  CMP_MASK_ROT_BYTE0_VALUE = 8;                  // 1*8
+    public static final long  CMP_MASK_ROT_BYTE0_VALUE = 8;                  // 1*8 NOSONAR
 
     /**
      * @see #compare(byte[], byte[])
      */
     public static final long  CMP_00FF_MASK_BYTE_VALUE = 0x00000000000000FFL;
 
-    // /**
-    // * @see #compare(byte[], byte[])
-    // * @deprecated Use {@link #CMP_00FF_MASK_BYTE_VALUE} instead
-    // */
-    // @Deprecated
-    // public static final long CMP_MASK_BYTE1_VALUE = CMP_00FF_MASK_BYTE_VALUE;
-
     /**
      * @see #compare(byte[], byte[])
      */
-    public static final int   CMP_MASK_ROT_BYTE1_VALUE = 0;                  // 0*8
+    public static final int   CMP_MASK_ROT_BYTE1_VALUE = 0;                  // 0*8 NOSONAR
 
     /**
      * Could be use to create your own compareTo() method
@@ -245,11 +234,12 @@ public abstract class BytesAccess implements Cloneable
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      * @see BytesAccessComparator
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static long compare( final byte[] bytes0, final byte[] bytes1 )
             throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size ("
+            throw new IllegalArgumentException( BYTES_ARRAYS_NOT_SAME_SIZE
                     + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
@@ -335,7 +325,7 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * TODOC: add documentation of result String (format and limits)
+     * NEEDDOC: add documentation of result String (format and limits)
      *
      * @param someBytes
      * @return null if both BytesAcces byte[] are identical
@@ -406,6 +396,7 @@ public abstract class BytesAccess implements Cloneable
      * @throws FileNotFoundException
      * @throws IOException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public void save( final File file ) throws FileNotFoundException, IOException
     {
         try (OutputStream os = new FileOutputStream( file )) {
@@ -440,6 +431,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public byte[] xorOperator( final BytesAccess anOtherInstance )
             throws IllegalArgumentException
     {
@@ -455,6 +447,7 @@ public abstract class BytesAccess implements Cloneable
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public byte[] xorOperator( final byte[] someBytes )
             throws IllegalArgumentException
     {
@@ -475,11 +468,12 @@ public abstract class BytesAccess implements Cloneable
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static byte[] xorOperator( final byte[] bytes0, final byte[] bytes1 )
             throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size ("
+            throw new IllegalArgumentException( BYTES_ARRAYS_NOT_SAME_SIZE
                     + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
@@ -526,11 +520,12 @@ public abstract class BytesAccess implements Cloneable
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static byte[] andOperator( final byte[] bytes0, final byte[] bytes1 )
             throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size ("
+            throw new IllegalArgumentException( BYTES_ARRAYS_NOT_SAME_SIZE
                     + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
@@ -577,13 +572,14 @@ public abstract class BytesAccess implements Cloneable
      * @see #xorOperator(byte[])
      * @see #getBytesCopy()
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static byte[] orOperator( //
         final byte[] bytes0, //
-        final byte[] bytes1 )
-        throws IllegalArgumentException
+        final byte[] bytes1
+        ) throws IllegalArgumentException
     {
         if( bytes0.length != bytes1.length ) {
-            throw new IllegalArgumentException( "bytes arrays not same size ("
+            throw new IllegalArgumentException( BYTES_ARRAYS_NOT_SAME_SIZE
                     + bytes0.length + "!=" + bytes1.length + ')' );
         }
 
@@ -658,6 +654,7 @@ public abstract class BytesAccess implements Cloneable
      * @throws IndexOutOfBoundsException If the offset and length arguments index
      *         characters outside the bounds of the bytes array
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     protected final String toString( //
         final int from, //
         final int to, //

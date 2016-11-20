@@ -62,7 +62,7 @@ public class FileDigest
     }
 
     /**
-     * TODOC XXX
+     * NEEDDOC XXX
      * <p>Must be call for every succeed call to {@link #setFile(File, FileDigestListener)}</p>
      * @throws IllegalStateException is state is not valid
      * @throws IOException if any
@@ -88,7 +88,7 @@ public class FileDigest
     }
 
     /**
-     * TODOC XXX
+     * NEEDDOC XXX
      * @return XXX
      */
     public boolean isOpen()
@@ -118,7 +118,7 @@ public class FileDigest
      * (use nio {@link FileChannel})
      * <p>
      *  Perform invocations to {@link #setFile(File, FileDigestListener)},
-     *  then to {@link #hasNext()}, {@link #computeNext()} and finally
+     *  then to {@link #hasNext()}, {@link #computeNext(boolean)} and finally
      *  to {@link #reset()}.
      * </p>
      *
@@ -129,6 +129,7 @@ public class FileDigest
      * @throws IOException any unexpected IO error
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public byte[] computeFile(
             @Nonnull final File                file,
             @Nonnull final FileDigestListener  listener
@@ -192,7 +193,6 @@ public class FileDigest
     /**
      * Returns Hex representation of digest
      * @return Hex representation of digest
-     * @see #getDigest()
      * @see #computeDigestKeyString(byte[])
      * @throws IllegalStateException if digest not yet
      *         initialized
@@ -233,7 +233,7 @@ public class FileDigest
     }
 
     /**
-     * TODOC XXX
+     * NEEDDOC XXX
      * @return XXX
      * @throws IOException if any
      */
@@ -250,9 +250,10 @@ public class FileDigest
     }
 
     /**
-     * XXX
+     * NEEDDOC
+     *
      * @param returnCurrentBuffer
-     * @return
+     * @return NEEDDOC
      * @throws CancelRequestException XXX
      */
     public byte[] computeNext( final boolean returnCurrentBuffer ) throws CancelRequestException

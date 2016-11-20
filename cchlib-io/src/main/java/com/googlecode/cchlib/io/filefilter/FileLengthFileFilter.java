@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.io.filefilter;
 
-import com.googlecode.cchlib.io.SerializableFileFilter;
 import java.io.File;
+import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  * @since 4.1.7
  */
@@ -14,7 +14,7 @@ public final class FileLengthFileFilter implements SerializableFileFilter
     private final long length;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param length
      */
     public FileLengthFileFilter( final long length )
@@ -23,8 +23,8 @@ public final class FileLengthFileFilter implements SerializableFileFilter
     }
 
     @Override
-    public boolean accept(File file)
+    public boolean accept(final File file)
     {
-        return file.length() == length;
+        return file.length() == this.length;
     }
 }

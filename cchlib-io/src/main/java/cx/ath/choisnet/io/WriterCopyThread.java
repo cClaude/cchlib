@@ -1,12 +1,12 @@
 package cx.ath.choisnet.io;
 
-import com.googlecode.cchlib.Beta;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import com.googlecode.cchlib.Beta;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 @Beta
@@ -16,13 +16,11 @@ public class WriterCopyThread
     private final Reader source;
     private final Writer destination;
     private boolean running;
-    //private boolean closeSource;
-    //private static final int ERROR_MAX = 10;
-    private Object lock;
+    private final Object lock;
     private Writer spyWriter;
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param source
      * @param destination
@@ -38,7 +36,7 @@ public class WriterCopyThread
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param threadName
      * @param source
@@ -57,7 +55,6 @@ public class WriterCopyThread
         this.source = source;
         this.destination = destination;
         this.running = true;
-        //this.closeSource = false;
 
         setDaemon(true);
 
@@ -72,69 +69,55 @@ public class WriterCopyThread
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override//Thread
     public void run()
     {
         for( ;; ) {
-            if( !running ) {
+            if( !this.running ) {
                 break;
                 }
 
             int c;
 
             try {
-                c = source.read();
+                c = this.source.read();
 
                 if( c == -1 ) {
                     break;
                     }
                 }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 fireReadIOException( e );
 
                 break; // ReadError - Stop process
                 }
 
             try {
-                synchronized( lock ) {
-                    if( spyWriter != null ) {
-                        spyWriter.write( c );
+                synchronized( this.lock ) {
+                    if( this.spyWriter != null ) {
+                        this.spyWriter.write( c );
                         }
                     }
-                destination.write( c );
+                this.destination.write( c );
                 }
-            catch( IOException e ) {
+            catch( final IOException e ) {
                 fireWriteIOException( e );
                 }
             } // for
 
         fireCloseReaderWriter();
     }
-//        if( closeSource ) {
-//            try {
-//                source.close();
-//                }
-//            // * 64 128:goto 163
-//            catch( java.io.IOException e ) {
-//                throw new RuntimeException(
-//                        "StreamCopyThread.run() while closing source stream in "
-//                            + getName(),
-//                            e
-//                            );
-//            }
-//        }
-//    }
 
-    private void fireReadIOException( IOException e )
+    private void fireReadIOException( final IOException e )
     {
         // TODO !!!
         throw new RuntimeException( "StreamCopyThread.run() -  in "
                 + getName(), e );
     }
 
-    private void fireWriteIOException(IOException e)
+    private void fireWriteIOException(final IOException e)
     {
         // TODO Auto-generated method stub
     }
@@ -145,41 +128,34 @@ public class WriterCopyThread
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param spyWriter
      */
     public void registerSpyWriter( final Writer spyWriter )
     {
-        synchronized(lock) {
+        synchronized(this.lock) {
             this.spyWriter = spyWriter;
             }
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     public void stopSpyWriter()
     {
-        synchronized(lock) {
-            spyWriter = null;
+        synchronized(this.lock) {
+            this.spyWriter = null;
             }
     }
-//
-//    @Override//Closeable
-//    public void close() throws IOException
-//    {
-//        closeSource = true;
-//        cancel();
-//    }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @throws IOException
      */
     public void cancel() throws IOException
     {
-        running = false;
+        this.running = false;
     }
 }

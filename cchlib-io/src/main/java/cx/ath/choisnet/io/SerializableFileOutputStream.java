@@ -10,35 +10,35 @@ import java.io.OutputStream;
 import java.io.Serializable;
 
 /**
- * TODOC
+ * NEEDDOC
  */
-public class SerializableFileOutputStream 
+public class SerializableFileOutputStream
     extends OutputStream
         implements Serializable
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    private File file;
+    private final File file;
     private transient OutputStream output;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param file
      * @throws FileNotFoundException
      */
-    public SerializableFileOutputStream(File file)
+    public SerializableFileOutputStream(final File file)
         throws FileNotFoundException
     {
         this(file, false);
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param file
      * @param append
      * @throws FileNotFoundException
      */
-    public SerializableFileOutputStream( File file, boolean append )
+    public SerializableFileOutputStream( final File file, final boolean append )
         throws FileNotFoundException
     {
         this.file = file;
@@ -47,44 +47,44 @@ public class SerializableFileOutputStream
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param append
      * @throws FileNotFoundException
      */
-    private void open(boolean append)
+    private void open(final boolean append)
         throws FileNotFoundException
     {
-        output = new FileOutputStream(file, append);
+        this.output = new FileOutputStream(this.file, append);
     }
 
     @Override
     public void close() throws IOException
     {
-        output.close();
+        this.output.close();
     }
 
     @Override
     public void flush() throws IOException
     {
-        output.flush();
+        this.output.flush();
     }
 
     @Override
-    public void write( int b ) throws IOException
+    public void write( final int b ) throws IOException
     {
-        output.write(b);
+        this.output.write(b);
     }
 
-    private void writeObject(ObjectOutputStream stream)
+    private void writeObject(final ObjectOutputStream stream)
         throws IOException
     {
-        output.flush();
-        output.close();
+        this.output.flush();
+        this.output.close();
 
         stream.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream stream)
+    private void readObject(final ObjectInputStream stream)
         throws IOException, ClassNotFoundException
     {
         stream.defaultReadObject();

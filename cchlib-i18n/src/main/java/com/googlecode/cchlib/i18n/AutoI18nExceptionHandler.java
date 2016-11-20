@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.i18n;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Handler to manage exception or errors during internationalization
@@ -60,7 +60,7 @@ public interface AutoI18nExceptionHandler
      * @param cause         The exception to handle
      * @param i18nField     The {@link I18nField} concern by the exception
      * @param objectToI18n  Object to I18n that contain field.
-     * @param i18nInterface TODOC
+     * @param i18nInterface NEEDDOC
      */
     <T> void handleMissingResourceException( MissingResourceException cause, I18nField i18nField, T objectToI18n, I18nInterface i18nInterface );
 

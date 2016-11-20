@@ -11,29 +11,30 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
-public class SerializableFileWriter 
+public class SerializableFileWriter
     extends Writer
         implements Serializable
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    private SerializableFileOutputStream serOutput;
+    private final SerializableFileOutputStream serOutput;
     /** @serial */
-    private String encoding;
+    private final String encoding;
     private transient Writer output;
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param file
      * @param encoding
      * @throws FileNotFoundException
      * @throws UnsupportedEncodingException
      * @throws java.io.IOException
      */
-    public SerializableFileWriter(File file, String encoding)
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public SerializableFileWriter(final File file, final String encoding)
         throws  FileNotFoundException,
                 UnsupportedEncodingException,
                 java.io.IOException
@@ -42,7 +43,7 @@ public class SerializableFileWriter
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param file
      * @param encoding
      * @param append
@@ -50,12 +51,13 @@ public class SerializableFileWriter
      * @throws UnsupportedEncodingException
      * @throws IOException
      */
-    public SerializableFileWriter(File file, String encoding, boolean append)
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public SerializableFileWriter(final File file, final String encoding, final boolean append)
         throws FileNotFoundException,
                UnsupportedEncodingException,
                IOException
     {
-        serOutput = new SerializableFileOutputStream(file, append);
+        this.serOutput = new SerializableFileOutputStream(file, append);
 
         this.encoding = encoding;
 
@@ -64,38 +66,38 @@ public class SerializableFileWriter
 
     private void open() throws UnsupportedEncodingException
     {
-        output = new OutputStreamWriter(serOutput,encoding);
+        this.output = new OutputStreamWriter(this.serOutput,this.encoding);
     }
 
     @Override
     public void close() throws IOException
     {
-        output.close();
+        this.output.close();
     }
 
     @Override
     public void flush() throws IOException
     {
-        output.flush();
+        this.output.flush();
     }
 
     @Override
-    public void write(char array[], int offset, int len)
+    public void write(final char[] array, final int offset, final int len)
         throws IOException
     {
-        output.write(array, offset, len);
+        this.output.write(array, offset, len);
     }
 
-    private void writeObject(ObjectOutputStream stream)
+    private void writeObject(final ObjectOutputStream stream)
         throws IOException
     {
-        output.flush();
-        output.close();
+        this.output.flush();
+        this.output.close();
 
         stream.defaultWriteObject();
     }
 
-    private void readObject(ObjectInputStream stream)
+    private void readObject(final ObjectInputStream stream)
         throws IOException, ClassNotFoundException
     {
         stream.defaultReadObject();

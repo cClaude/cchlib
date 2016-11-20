@@ -31,6 +31,7 @@ class SimpleTextPersistenceManagerV0
     */
     public SimpleTextPersistenceManagerV0()
     {
+        // Empty
     }
 
     @Override
@@ -57,7 +58,8 @@ class SimpleTextPersistenceManagerV0
 
     /* (non-Javadoc) */
     @Override
-    public void load( final File cacheFile, final CacheContent cache ) // $codepro.audit.disable cyclomaticComplexity
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public void load( final File cacheFile, final CacheContent cache )
             throws FileNotFoundException, IOException
     {
         try( final BufferedReader reader = new BufferedReader( new FileReader( cacheFile ) ) ) {
@@ -70,52 +72,9 @@ class SimpleTextPersistenceManagerV0
                     hashCode = null; // No hash code
                     }
 
-                URI    uri;
-                String line = reader.readLine();
-                if( line == null ) {
-                    throw new PersistenceFileBadFormatException( "Expected URI found EOF" );
-                    }
-
-                try {
-                    uri = new URL( line ).toURI(); // $codepro.audit.disable avoidInstantiationInLoops
-                    }
-                catch( final MalformedURLException e ) {
-                    LOGGER.error( "Bad URI format (ignore) in URLCache file : " + cacheFile
-                            + " value = [" + line + "]",
-                            e
-                            );
-                    uri = null;
-                    }
-                catch( final URISyntaxException e ) {
-                    LOGGER.error( "Bad URI Syntax (ignore) in URLCache file : " + cacheFile
-                            + " value = [" + line + "]",
-                            e
-                            );
-                    uri = null;
-                    }
-
-                Date   date;
-                line = reader.readLine();
-                if( line == null ) {
-                    throw new PersistenceFileBadFormatException( "Expected Date found EOF" );
-                    }
-
-                try {
-                    date = new Date( Long.parseLong( line ) ); // $codepro.audit.disable avoidInstantiationInLoops
-                    }
-                catch( final NumberFormatException e ) {
-                    LOGGER.error( "Bad DATE format (use 0) in URLCache file : " + cacheFile
-                            + " value = [" + line + "]",
-                            e
-                            );
-
-                    date = new Date( 0 );
-                    }
-
-                final String filename = reader.readLine();
-                if( filename == null ) {
-                    throw new PersistenceFileBadFormatException( "Expected file name found EOF" );
-                    }
+                final URI    uri      = computeURI( cacheFile, reader );
+                final Date   date     = computeDate( cacheFile, reader );
+                final String filename = computeFilename( reader );
 
                 if( uri != null ) {
                     // Skip entry with no URL !
@@ -123,6 +82,83 @@ class SimpleTextPersistenceManagerV0
                     }
                 }
             }
+    }
+
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    private String computeFilename( final BufferedReader reader )
+        throws IOException, PersistenceFileBadFormatException
+    {
+        final String filename = reader.readLine();
+
+        if( filename == null ) {
+            throw new PersistenceFileBadFormatException( "Expected file name found EOF" );
+            }
+        return filename;
+    }
+
+    private Date computeDate( final File cacheFile, final BufferedReader reader ) throws IOException
+    {
+        final String line = reader.readLine();
+
+        if( line == null ) {
+            throw new PersistenceFileBadFormatException( "Expected Date found EOF" );
+            }
+
+        return computeDate( cacheFile, line );
+    }
+
+    private URI computeURI( final File cacheFile, final BufferedReader reader ) throws IOException
+    {
+        final String line = reader.readLine();
+
+        if( line == null ) {
+            throw new PersistenceFileBadFormatException( "Expected URI found EOF" );
+            }
+
+        return computeURI( cacheFile, line );
+    }
+
+    private Date computeDate( final File cacheFile, final String line )
+    {
+        Date date;
+
+        try {
+            date = new Date( Long.parseLong( line ) ); // $codepro.audit.disable avoidInstantiationInLoops
+            }
+        catch( final NumberFormatException e ) {
+            LOGGER.error( "Bad DATE format (use 0) in URLCache file : " + cacheFile
+                    + " value = [" + line + "]",
+                    e
+                    );
+
+            date = new Date( 0 );
+            }
+        return date;
+    }
+
+    private URI computeURI( final File cacheFile, final String line )
+    {
+        URI uri;
+
+        try {
+            uri = new URL( line ).toURI(); // $codepro.audit.disable avoidInstantiationInLoops
+            }
+        catch( final MalformedURLException e ) {
+            LOGGER.error( "Bad URI format (ignore) in URLCache file : " + cacheFile
+                    + " value = [" + line + "]",
+                    e
+                    );
+            uri = null;
+            }
+        catch( final URISyntaxException e ) {
+            LOGGER.error( "Bad URI Syntax (ignore) in URLCache file : " + cacheFile
+                    + " value = [" + line + "]",
+                    e
+                    );
+            uri = null;
+            }
+
+        return uri;
     }
 
 

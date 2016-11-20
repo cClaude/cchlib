@@ -7,13 +7,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.Set;
 import com.googlecode.cchlib.sql.SQLCloseException;
 
 /**
  * Create a SQL script to export values from tables.
  */
-public class ExportSQL  implements Closeable
+public class ExportSQL implements Closeable
 {
+    private static final int NO_LIMIT_ROWS = -1;
+    private static final String SEPARATOR_LINE = "-- ---------------------------";
+
     /**
      * Configuration for {@link ExportSQL}
      */
@@ -34,11 +38,12 @@ public class ExportSQL  implements Closeable
     }
 
     private final Connection            connection;
-    private final TableDescription[]    exportTables;
+    private final TableDescription[]    tables2Export;
     private final String                schema;
     private final Date                  exportDate;
     private final EnumSet<Config>       config;
-    //private Statement                   s = null;
+
+    // FIXME this is not thread safe
     private ExportSQLPrinter _exporter   = null;
 
     /**
@@ -46,23 +51,23 @@ public class ExportSQL  implements Closeable
      *
      * @param connection Connection to database.
      * @param schemaName Schema name of database.
-     * @param config {@link EnumSet} of {@link Config} to configure output.
+     * @param config {@link Set}({@link EnumSet}= of {@link Config} to configure output.
      * @param exportDate {@link Date} to identify SQL export (just in comment section),
      *        if null use current date.
-     * @param exportTables Array of TableDescription (order could be important
-     *        while running result SQL).
+     * @param tables Array of TableDescription (order could be important
+     *        while running result SQL - see {@link TableDescriptionHelper}
      */
     public ExportSQL(
             final Connection            connection,
             final String                schemaName,
-            final EnumSet<Config>       config,
+            final Set<Config>           config,
             final Date                  exportDate,
-            final TableDescription...   exportTables
+            final TableDescription...   tables
             )
     {
         this.connection     = connection;
         this.schema         = schemaName;
-        this.exportTables   = exportTables;
+        this.tables2Export  = tables;
 
         if( exportDate ==  null ) {
             this.exportDate = new Date(); // now
@@ -91,19 +96,23 @@ public class ExportSQL  implements Closeable
      * {@link Config#ADD_DISABLE_AUTOCOMMIT} and {@link Config#ADD_USE_SCHEMA}
      * </p>
      *
-     * @param connection Connection to database.
-     * @param schemaName Schema name of database. If null, do not add schema in export.
-     * @param exportDate {@link Date} to identify SQL export (just in comment section),
-     *        if null use current date.
-     * @param exportTables Array of TableDescription (order could be important
-     * while running result SQL).
+     * @param connection
+     *      Connection to database.
+     * @param schemaName
+     *      Schema name of database. If null, do not add schema in export.
+     * @param exportDate
+     *      {@link Date} to identify SQL export (just in comment section),
+     *      if null use current date.
+     * @param tables
+     *      Array of TableDescription (order could be important
+     *      while running result SQL - see {@link TableDescriptionHelper}
      */
     public ExportSQL(
             final Connection            connection,
             final String                schemaName,
             final Date                  exportDate,
-            final TableDescription...   exportTables
-             )
+            final TableDescription...   tables
+            )
     {
         this(   connection,
                 schemaName,
@@ -113,45 +122,8 @@ public class ExportSQL  implements Closeable
                         Config.ADD_USE_SCHEMA
                         ),
                 exportDate,
-                exportTables
+                tables
                 );
-    }
-
-    /**
-     * Initialize ExportSQL object
-     *
-     * @param connection Connection to database.
-     * @param schemaName Schema name of database. If null, do not add schema in export.
-     * @param exportDate {@link Date} to identify SQL export (just in comment section),
-     *        if null use current date.
-     * @param exportTables Array of table names (order could be important
-     * while running result SQL).
-     */
-    public ExportSQL(
-            final Connection    connection,
-            final String        schemaName,
-            final Date          exportDate,
-            final String ...    exportTables
-            )
-    {
-        this(   connection,
-                schemaName,
-                exportDate,
-                toTableDescription( exportTables )
-                );
-    }
-
-    private static TableDescription[] toTableDescription(
-            final String[] exportTablenames
-            )
-    {
-        final TableDescription[] ed = new TableDescription[ exportTablenames.length ];
-
-        for(int i = 0; i<exportTablenames.length; i++ ) {
-            ed[i] = new TableDescriptionImpl( exportTablenames[i] );
-            }
-
-        return ed;
     }
 
     /**
@@ -185,6 +157,7 @@ public class ExportSQL  implements Closeable
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
+    @SuppressWarnings("squid:S1160")
     public void exportAll( final Writer outputWriter )
         throws SQLException,
                IOException
@@ -200,18 +173,55 @@ public class ExportSQL  implements Closeable
     }
 
     /**
+     * Export all content according to configuration.
+     * <p>
+     * Call first {@link #exportHeader(Writer)},
+     * then {@link #exportDeleteContent(Writer)},
+     * then {@link #exportTablesContent(Writer)}
+     * and then {@link #close()}.
+     * </P>
+     *
+     * @param outputWriter
+     *      output for SQL export
+     * @param limitRows
+     *      Max entries to export per table
+     * @throws SQLException
+     *      if a error occurred while reading database
+     * @throws IOException
+     *      if a error occurred while write to outputWriter
+     */
+    @SuppressWarnings("squid:S1160")
+    public void exportAll(
+            final Writer outputWriter,
+            final int    limitRows
+            )
+        throws SQLException,
+               IOException
+    {
+        try {
+            exportHeader( outputWriter );
+            exportDeleteContent( outputWriter );
+            exportTablesContent( outputWriter, limitRows );
+            }
+        finally {
+            close();
+            }
+    }
+
+    /**
      * Export comments about export and optionally define schema
      *
      * @param outputWriter output for SQL export
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
+    @SuppressWarnings("squid:S1160")
     public void exportHeader( final Writer outputWriter )
         throws SQLException,
                IOException
     {
-        try( final ExportSQLPrinter export = getExportSQLPrinter( outputWriter ) ) {
-            export.println( "-- ---------------------------" );
+        try( final ExportSQLPrinter export = getExportSQLPrinter( outputWriter, NO_LIMIT_ROWS ) ) {
+            export.println( SEPARATOR_LINE );
             export.print( "-- Export " );
 
             if( this.config.contains( Config.ADD_PREFIX_SCHEMA ) ) {
@@ -220,7 +230,7 @@ public class ExportSQL  implements Closeable
 
             export.print( ": " ).println( getExportDateToString() );
 
-            export.println( "-- ---------------------------" );
+            export.println( SEPARATOR_LINE );
 
             if( this.config.contains( Config.ADD_USE_SCHEMA ) ) {
                 export.print( "USE `" ).print( this.schema ).println( "`;" );
@@ -237,22 +247,19 @@ public class ExportSQL  implements Closeable
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
+    @SuppressWarnings("squid:S1160")
     public void exportDeleteContent( final Writer outputWriter )
         throws SQLException,
                IOException
     {
-        try( final ExportSQLPrinter export = getExportSQLPrinter( outputWriter ) ) {
-            export.println( "-- ---------------------------" );
+        try( final ExportSQLPrinter export = getExportSQLPrinter( outputWriter, NO_LIMIT_ROWS ) ) {
+            export.println( SEPARATOR_LINE );
             export.println( "-- Cleanup" );
-            export.println( "-- ---------------------------" );
+            export.println( SEPARATOR_LINE );
 
-            for( int i = this.exportTables.length - 1; i >= 0; --i ) {
-                export.doExportDeleteData( this.exportTables[ i ] );
+            for( int i = this.tables2Export.length - 1; i >= 0; --i ) {
+                export.doExportDeleteData( this.tables2Export[ i ] );
             }
-
-            // for( TableDescription table : exportTables ) {
-            // export.doExportData( table );
-            // }
 
             export.println( "-- Cleanup done." );
             export.println();
@@ -266,26 +273,43 @@ public class ExportSQL  implements Closeable
      * @throws SQLException if a error occurred while reading database
      * @throws IOException if a error occurred while write to outputWriter
      */
+    @SuppressWarnings("squid:S1160")
     public void exportTablesContent( final Writer outputWriter )
         throws SQLException,
                IOException
     {
-         try( final ExportSQLPrinter export = getExportSQLPrinter( outputWriter ) ) {
-            export.println( "-- ---------------------------" );
-            export.println( "-- Export tables" );
-            export.println( "-- ---------------------------" );
+        exportTablesContent( outputWriter, NO_LIMIT_ROWS );
+    }
 
-            try {
-                for( final TableDescription table : this.exportTables ) {
-                    export.doExportData( table );
-                    }
+    /**
+     * Export table content
+     *
+     * @param outputWriter
+     *      output for SQL export
+     * @param limitRows
+     *      Max entries to export per table
+     * @throws SQLException if a error occurred while reading database
+     * @throws IOException if a error occurred while write to outputWriter
+     */
+    @SuppressWarnings("squid:S1160")
+    public void exportTablesContent(
+            final Writer outputWriter,
+            final int    limitRows
+            )
+        throws SQLException,
+               IOException
+    {
+         try( final ExportSQLPrinter export = getExportSQLPrinter( outputWriter, limitRows ) ) {
+            export.println( SEPARATOR_LINE );
+            export.println( "-- Export " + this.tables2Export.length + " tables" );
+            export.println( SEPARATOR_LINE );
 
-                export.println( "-- Export tables done." );
-                export.println();
+            for( final TableDescription table : this.tables2Export ) {
+                export.doExportData( table );
                 }
-            finally {
-                close();
-                }
+
+            export.println( "-- Export tables done." );
+            export.println();
             }
      }
 
@@ -304,10 +328,13 @@ public class ExportSQL  implements Closeable
         return this.connection;
     }
 
-    private ExportSQLPrinter getExportSQLPrinter( final Writer outputWriter )
+    private ExportSQLPrinter getExportSQLPrinter( //
+        final Writer outputWriter, //
+        final int    limitRows //
+        )
     {
         if( this._exporter == null ) {
-            this._exporter = new ExportSQLPrinter( this, outputWriter );
+            this._exporter = new ExportSQLPrinter( this, outputWriter, limitRows );
             }
 
         return this._exporter;

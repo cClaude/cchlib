@@ -1,22 +1,22 @@
 package com.googlecode.cchlib.apps.emptyfiles.tasks;
 
-import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
-import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
+import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 
 public class DeleteTask implements Runnable
 {
     private static final Logger LOGGER = Logger.getLogger( DeleteTask.class );
-    
+
     private final WorkingTableModel tableModel;
     private final JProgressBar progressBar;
     private int progressBarValue;
     private final WorkingJPanel workingJPanel;
 
-    public DeleteTask( WorkingJPanel workingJPanel, WorkingTableModel tableModel, JProgressBar progressBar )
+    public DeleteTask( final WorkingJPanel workingJPanel, final WorkingTableModel tableModel, final JProgressBar progressBar )
     {
         this.workingJPanel = workingJPanel;
         this.tableModel    = tableModel;
@@ -38,12 +38,12 @@ public class DeleteTask implements Runnable
                     });
                     }
                 }
-            
+
             LOGGER.info( "All process started" );
         }
         catch( InvocationTargetException | InterruptedException e ) {
             LOGGER.warn( "Can't stark all process", e );
-        } 
+        }
 
         workingJPanel.deleteDone();
     }

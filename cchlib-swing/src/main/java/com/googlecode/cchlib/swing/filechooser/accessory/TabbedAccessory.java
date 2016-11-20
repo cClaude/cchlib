@@ -10,7 +10,7 @@ import javax.swing.event.ChangeListener;
 /**
  * Accessory container based on a {@link JTabbedPane} able
  * to support many accessory.
- * 
+ *
  * @see javax.swing.JFileChooser#setAccessory(javax.swing.JComponent)
  */
 public class TabbedAccessory
@@ -19,7 +19,7 @@ public class TabbedAccessory
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    private ArrayList<TabbedAccessoryInterface> tabbedAccessoryInterfaceList;
+    private final ArrayList<TabbedAccessoryInterface> tabbedAccessoryInterfaceList;
     /** @serial */
     private boolean first = true;
 
@@ -40,7 +40,7 @@ public class TabbedAccessory
         final Dimension dimension
         )
     {
-        tabbedAccessoryInterfaceList = new ArrayList<TabbedAccessoryInterface>();
+        this.tabbedAccessoryInterfaceList = new ArrayList<>();
 
         setPreferredSize(dimension);
         addChangeListener( this );
@@ -48,7 +48,7 @@ public class TabbedAccessory
 
     /**
      * Add a tab
-     * 
+     *
      * @param tai Accessory to add
      * @return current Object for chaining initialization.
      */
@@ -62,12 +62,12 @@ public class TabbedAccessory
             tai.getComponent()
             );
 
-        tabbedAccessoryInterfaceList.add( tai );
+        this.tabbedAccessoryInterfaceList.add( tai );
 
         tai.unregister();
 
-        if( first ) {
-            first = false;
+        if( this.first ) {
+            this.first = false;
             tai.register();
             }
 
@@ -75,12 +75,12 @@ public class TabbedAccessory
     }
 
     @Override // ChangeListener
-    public void stateChanged( ChangeEvent event )
+    public void stateChanged( final ChangeEvent event )
     {
-        int         sel = getSelectedIndex();
-        Component   c   = super.getComponentAt( sel );
+        final int         sel = getSelectedIndex();
+        final Component   c   = super.getComponentAt( sel );
 
-        for(TabbedAccessoryInterface tai:tabbedAccessoryInterfaceList) {
+        for(final TabbedAccessoryInterface tai:this.tabbedAccessoryInterfaceList) {
             if( c == tai.getComponent() ) {
                 tai.register();
                 }

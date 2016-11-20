@@ -1,18 +1,17 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree;
 
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 
 public class EmptyDirectoryTree extends JTree
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( EmptyDirectoryTree.class );
 
-    private final Object lock = new Object();
     private final FolderTreeModelable2 model;
 
     public EmptyDirectoryTree( final FolderTreeModelable2 model )
@@ -27,14 +26,14 @@ public class EmptyDirectoryTree extends JTree
 
     protected final void fireStructureChanged()
     {
-        Object root = model.getRoot();
+        final Object root = this.model.getRoot();
 
         if( root != null ) {
             fireTreeStructureChanged(new TreePath( root ));
             }
         else {
             // An other way to refresh view (reload model)
-            model.reload();
+            this.model.reload();
             }
     }
 
@@ -49,7 +48,7 @@ public class EmptyDirectoryTree extends JTree
             }
 
         try {
-            Object[]        pairs   = listenerList.getListenerList();
+            final Object[]  pairs   = this.listenerList.getListenerList();
             TreeModelEvent  e       = null;
 
             for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
@@ -58,13 +57,13 @@ public class EmptyDirectoryTree extends JTree
                         e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
                         }
 
-                    TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
+                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
 
                     l.treeStructureChanged( e );
                     }
                 }
             }
-        catch( RuntimeException e ) {
+        catch( final RuntimeException e ) {
             LOGGER.error( "UI Error : parentPath=" + parentPath, e );
             }
     }
@@ -80,12 +79,12 @@ public class EmptyDirectoryTree extends JTree
 
     protected void expandAllRows()
     {
-        synchronized( lock ) {
+        synchronized( getTreeLock() ) {
             try {
                 //Expend all nodes
                 expandAllRowsUnsynchronized();
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.error( "expandAllRows()", e );
                 }
             }
@@ -97,7 +96,7 @@ public class EmptyDirectoryTree extends JTree
             try {
                 this.expandRow( i );
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 LOGGER.error( "expandRow( " + i + " )", e );
                 }
              }

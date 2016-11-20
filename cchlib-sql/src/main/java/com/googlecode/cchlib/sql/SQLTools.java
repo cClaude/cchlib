@@ -75,12 +75,7 @@ public final class SQLTools
 
         final StringBuilder sb = new StringBuilder();
 
-        try {
-            private_parseFieldValue( sb, fieldValue, 0);
-            }
-        catch( IOException ignore ) {
-            throw new RuntimeException( ignore );
-            }
+        parseFieldValue( sb, fieldValue, 0);
 
         return sb.toString();
     }
@@ -88,33 +83,32 @@ public final class SQLTools
     /**
      * Recursive internal converter.
      *
-     * @param a             A valid {@link Appendable} object, for result.
+     * @param output        A valid {@link Appendable} object, for result.
      * @param fieldValue    value to convert.
      * @param idx           index in {@link #REMPLACEPHRASE}
      * @throws IOException  If can't append to appender 'a'
      */
-    private static void private_parseFieldValue(
-            final Appendable    a,
-            final String        value,
-            final int           idx
+    private static void parseFieldValue(
+            final StringBuilder/*Appendable*/ output,
+            final String                      value,
+            final int                         idx
             )
-        throws IOException
     {
         if( idx >= REMPLACEPHRASE.length ) {
-            a.append( value );
+            output.append( value );
             return;
             }
         if( value.length() == 0 ) {
             return;
             }
 
-         String[] parts = StringHelper.split( value, REMPLACEPHRASE[idx][0] );
+         final String[] parts = StringHelper.split( value, REMPLACEPHRASE[idx][0] );
 
-         for(int pi = 0; pi<parts.length; pi++ ) {
-             private_parseFieldValue( a, parts[ pi ], idx + 1 );
+         for( int pi = 0; pi<parts.length; pi++ ) {
+             parseFieldValue( output, parts[ pi ], idx + 1 );
 
              if( pi < (parts.length - 1) ) {
-                 a.append( REMPLACEPHRASE[idx][1] );
+                 output.append( REMPLACEPHRASE[idx][1] );
                  }
              }
 

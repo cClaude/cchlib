@@ -1,0 +1,16 @@
+{
+  "files":null,
+  "directories":{
+    "excludeNames":[
+      "##DB",
+      "##Disques virtuels",
+      "##ISO(p)",
+      "##OVA(p)",
+      "##Raspberry",
+
+      ".@__thumb",
+      "@Recycle"
+      ],
+    "excludePaths":null
+  }
+}

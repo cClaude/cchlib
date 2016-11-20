@@ -64,12 +64,12 @@ class I18nDelegator implements Serializable
 
     protected void addAutoI18nEventHandler( final AutoI18nEventHandler eventHandler )
     {
-        eventHandlerList.add( eventHandler );
+        this.eventHandlerList.add( eventHandler );
     }
 
     protected void addAutoI18nExceptionHandler( final AutoI18nExceptionHandler exceptionHandler )
     {
-        exceptionHandlerList.add( exceptionHandler );
+        this.exceptionHandlerList.add( exceptionHandler );
     }
 
     public void fireIgnoreAnnotation(
@@ -78,7 +78,7 @@ class I18nDelegator implements Serializable
         final EventCause cause
         )
     {
-        for( final AutoI18nEventHandler eventHandler : eventHandlerList ) {
+        for( final AutoI18nEventHandler eventHandler : this.eventHandlerList ) {
             final String causeDescription = "cause by Annocation: " + i18n;
 
             eventHandler.ignoredField( f, null, cause, causeDescription );
@@ -87,7 +87,7 @@ class I18nDelegator implements Serializable
 
     protected void fireIgnoreField( final Field f, final String k, final EventCause cause, final String causeDescription )
     {
-        for( final AutoI18nEventHandler eventHandler : eventHandlerList ) {
+        for( final AutoI18nEventHandler eventHandler : this.eventHandlerList ) {
             eventHandler.ignoredField( f, k, cause, causeDescription );
             }
     }
@@ -97,12 +97,12 @@ class I18nDelegator implements Serializable
      */
     public AutoI18nTypeLookup getAutoI18nTypes()
     {
-        return allTypes;
+        return this.allTypes;
     }
 
-    public EnumSet<AutoI18nConfig> getConfig()
+    public Set<AutoI18nConfig> getConfig()
     {
-        return config;
+        return this.config;
     }
 
     /**
@@ -110,7 +110,7 @@ class I18nDelegator implements Serializable
      */
     public AutoI18nTypeLookup getDefaultAutoI18nTypes()
     {
-        return defaultTypes;
+        return this.defaultTypes;
     }
 
     public I18nInterface getI18nInterface(final Locale locale)
@@ -120,7 +120,7 @@ class I18nDelegator implements Serializable
 
     public void handleI18nSyntaxeException( final I18nSyntaxeException e, final Field field )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleI18nSyntaxeException( e, field );
             }
     }
@@ -130,7 +130,7 @@ class I18nDelegator implements Serializable
         final I18nField              i18nField
         )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleIllegalAccessException( e, i18nField );
             }
     }
@@ -140,7 +140,7 @@ class I18nDelegator implements Serializable
         final I18nField                i18nField
         )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleIllegalArgumentException( e, i18nField );
             }
     }
@@ -150,7 +150,7 @@ class I18nDelegator implements Serializable
         final I18nField                 i18nField
         )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleInvocationTargetException( e, i18nField );
             }
     }
@@ -161,7 +161,7 @@ class I18nDelegator implements Serializable
             final I18nResolver          i18nResolver
             )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleMissingKeyException( e, i18nField, i18nResolver );
             }
     }
@@ -173,7 +173,7 @@ class I18nDelegator implements Serializable
         final I18nInterface            i18nInterface
        )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleMissingResourceException( e, field, objectToI18n, i18nInterface );
             }
     }
@@ -183,7 +183,7 @@ class I18nDelegator implements Serializable
         final Field                 field
         )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleNoSuchMethodException( cause, field );
             }
     }
@@ -193,7 +193,7 @@ class I18nDelegator implements Serializable
         final I18nField             i18nField
         )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleNoSuchMethodException( e, i18nField );
             }
     }
@@ -203,7 +203,7 @@ class I18nDelegator implements Serializable
         final Field                           field
         )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleSecurityException( e, field );
             }
     }
@@ -213,7 +213,7 @@ class I18nDelegator implements Serializable
         final I18nField         i18nField
         )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleSecurityException( e, i18nField );
             }
     }
@@ -224,7 +224,7 @@ class I18nDelegator implements Serializable
         final I18nResolver      i18nResolver
         )
     {
-        for( final AutoI18nExceptionHandler exceptionHandler : exceptionHandlerList ) {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleSetFieldException( e, i18nField, i18nResolver );
             }
     }

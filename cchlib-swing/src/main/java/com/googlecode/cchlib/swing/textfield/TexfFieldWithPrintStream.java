@@ -11,10 +11,11 @@ import javax.swing.JTextArea;
 import org.apache.log4j.Logger;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  * @author  Hanns Holger Rutz at contact@sciss.de visit http://www.sciss.de/jcollider
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class TexfFieldWithPrintStream extends JTextArea
 {
     private static final long serialVersionUID = 1L;
@@ -39,7 +40,7 @@ public class TexfFieldWithPrintStream extends JTextArea
      *  @param logFile  this is the file into which the log is written. if <code>logFile</code> is
      *                  <code>null</code>, there is no log file
      */
-    public TexfFieldWithPrintStream( int rows, int columns, final File logFile )
+    public TexfFieldWithPrintStream( final int rows, final int columns, final File logFile )
     {
         super( rows, columns );
 
@@ -77,7 +78,7 @@ public class TexfFieldWithPrintStream extends JTextArea
      */
     public PrintStream getPrintStream()
     {
-        return ps;
+        return this.ps;
     }
 
     /**
@@ -89,20 +90,20 @@ public class TexfFieldWithPrintStream extends JTextArea
      *  a log file.
      */
     @Override
-    public void append( String str )
+    public void append( final String str )
     {
         super.append( str );
 
-        totalLength += str.length();
+        this.totalLength += str.length();
         updateCaret();
     }
 
     private void updateCaret()
     {
         try {
-            setCaretPosition( Math.max( 0, totalLength - 1 ));
+            setCaretPosition( Math.max( 0, this.totalLength - 1 ));
             }
-        catch( IllegalArgumentException ignore ) {
+        catch( final IllegalArgumentException ignore ) {
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( "updateCaret() ", ignore );
                 }
@@ -120,48 +121,27 @@ public class TexfFieldWithPrintStream extends JTextArea
      *                     the gadgets content or <code>null</code>to clear the gadget.
      */
     @Override
-    public void setText( String str )
+    public void setText( final String str )
     {
         super.setText( str );
 
-        totalLength = (str == null) ? 0 : str.length();
+        this.totalLength = (str == null) ? 0 : str.length();
     }
 
     public AbstractAction getClearAction()
     {
-        if( actionClear == null ) {
-            actionClear = new ActionClearClass();
+        if( this.actionClear == null ) {
+            this.actionClear = new ActionClearClass();
             }
 
-        return actionClear;
+        return this.actionClear;
     }
-
-//    /**
-//     * surround by a JScrollPane
-//     * @return
-//     */
-//    public JScrollPane surroundByJScrollPane()
-//    {
-//        return(
-//            new JScrollPane(
-//                this,
-//                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, // aqua hin aqua her. VERTICAL_SCROLLBAR_ALWAYS
-//                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-//                )
-//            );
-//    }
-
-//    public void makeSystemOutput()
-//    {
-//        System.setOut( getLogStream() );
-//        System.setErr( getLogStream() );
-//    }
 
     // ---------------- internal classes ----------------
 
     private class RedirectedStream extends OutputStream
     {
-        private byte[] cheesy = new byte[1];
+        private final byte[] cheesy = new byte[1];
 
         private RedirectedStream()
         {
@@ -169,32 +149,32 @@ public class TexfFieldWithPrintStream extends JTextArea
         }
 
         @Override
-        public void write( byte b[] ) throws IOException
+        public void write( final byte[] b ) throws IOException
         {
             this.write( b, 0, b.length );
         }
 
         @Override
-        public void write( byte b[], int off, int len ) throws IOException
+        public void write( final byte[] b, final int off, final int len ) throws IOException
         {
             final String str = new String( b, off, len );
 
             append( str );
 
-            if( logFile != null ) {
-                if( logFileWriter == null ) {
-                    logFileWriter = new FileWriter( logFile );
+            if( TexfFieldWithPrintStream.this.logFile != null ) {
+                if( TexfFieldWithPrintStream.this.logFileWriter == null ) {
+                    TexfFieldWithPrintStream.this.logFileWriter = new FileWriter( TexfFieldWithPrintStream.this.logFile );
                     }
 
-                logFileWriter.write( str );
+                TexfFieldWithPrintStream.this.logFileWriter.write( str );
                 }
         }
 
         @Override
         public void flush() throws IOException
         {
-            if( logFileWriter != null ) {
-                logFileWriter.flush();
+            if( TexfFieldWithPrintStream.this.logFileWriter != null ) {
+                TexfFieldWithPrintStream.this.logFileWriter.flush();
                 }
 
             super.flush();
@@ -203,20 +183,20 @@ public class TexfFieldWithPrintStream extends JTextArea
         @Override
         public void close() throws IOException
         {
-            if( logFileWriter != null ) {
-                logFileWriter.close();
-                logFileWriter = null;
+            if( TexfFieldWithPrintStream.this.logFileWriter != null ) {
+                TexfFieldWithPrintStream.this.logFileWriter.close();
+                TexfFieldWithPrintStream.this.logFileWriter = null;
                 }
 
             super.close();
         }
 
         @Override
-        public void write( int b ) throws IOException
+        public void write( final int b ) throws IOException
         {
-            cheesy[0] = (byte) b;
+            this.cheesy[0] = (byte) b;
 
-            this.write( cheesy );
+            this.write( this.cheesy );
         }
     }
 
@@ -225,7 +205,7 @@ public class TexfFieldWithPrintStream extends JTextArea
         private static final long serialVersionUID = 1L;
 
         @Override
-        public void actionPerformed( ActionEvent e )
+        public void actionPerformed( final ActionEvent e )
         {
             setText( null );
         }

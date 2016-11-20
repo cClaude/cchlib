@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public final class XMLHelper
@@ -25,7 +25,7 @@ public final class XMLHelper
    private XMLHelper(){} // All static
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param node a {@link Node} object.
      * @param output a {@link OutputStream} object.
@@ -33,18 +33,19 @@ public final class XMLHelper
      * @throws TransformerConfigurationException if any.
      * @throws TransformerException if any.
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static void writeXML( final Node node, final OutputStream output )
         throws TransformerConfigurationException, TransformerException
     {
-        Source source = new DOMSource(node);
-        Result result = new StreamResult(output);
-        Transformer xformer = TransformerFactory.newInstance().newTransformer();
+        final Source source = new DOMSource(node);
+        final Result result = new StreamResult(output);
+        final Transformer xformer = TransformerFactory.newInstance().newTransformer();
 
         xformer.transform(source, result);
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param node a {@link Node} object.
      * @param output a {@link Writer} object.
@@ -52,12 +53,13 @@ public final class XMLHelper
      * @throws TransformerConfigurationException if any.
      * @throws TransformerException if any.
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static void writeXML( final Node node, final Writer output)
         throws TransformerConfigurationException, TransformerException
     {
-        Source source = new DOMSource(node);
-        Result result = new StreamResult(output);
-        Transformer xformer = TransformerFactory.newInstance().newTransformer();
+        final Source source = new DOMSource(node);
+        final Result result = new StreamResult(output);
+        final Transformer xformer = TransformerFactory.newInstance().newTransformer();
 
         xformer.transform(source, result);
     }
@@ -75,13 +77,13 @@ public final class XMLHelper
         try{
             XMLHelper.writeXML( node, buffer );
             }
-        catch( TransformerConfigurationException e ) {
+        catch( final TransformerConfigurationException e ) {
             buffer.append("\n\nTransformerConfigurationException: ");
             buffer.append( e.getMessage() );
 
             LOGGER.error( XMLHelper.class.getSimpleName() + ".toString()", e );
             }
-        catch( TransformerException e ) {
+        catch( final TransformerException e ) {
             buffer.append("\n\nTransformerException: ");
             buffer.append( e.getMessage() );
 

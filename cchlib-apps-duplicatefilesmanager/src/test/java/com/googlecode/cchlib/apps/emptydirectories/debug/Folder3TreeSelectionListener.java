@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 public class Folder3TreeSelectionListener implements TreeSelectionListener
 {
-    private final static Logger LOGGER = Logger.getLogger( Folder3TreeSelectionListener.class );
+    private static final Logger LOGGER = Logger.getLogger( Folder3TreeSelectionListener.class );
     private final Folder3TreeImpl tree;
 
     public Folder3TreeSelectionListener( final Folder3TreeImpl tree )

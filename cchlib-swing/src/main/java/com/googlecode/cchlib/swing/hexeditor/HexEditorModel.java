@@ -11,20 +11,20 @@ import java.io.IOException;
 import javax.swing.JComponent;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public interface HexEditorModel //extends Closeable
 {
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     int getIntroduction();
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     int getCursorPos();
 
@@ -40,20 +40,20 @@ public interface HexEditorModel //extends Closeable
     void setCursorPos( int index );
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     ArrayReadAccess getBuffer();
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     ArrayReadWriteAccess getBufferRW();
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     int getDisplayLinesCount();
 

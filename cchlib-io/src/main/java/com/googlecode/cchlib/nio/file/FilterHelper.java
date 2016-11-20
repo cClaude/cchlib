@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.nio.file;
 
+import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -8,11 +9,15 @@ import java.nio.file.Path;
 import javax.annotation.Nonnull;
 
 /**
- * TODOC
- *
+ * Helper class for {@link File} (nio) manipulations
  */
 public final class FilterHelper
 {
+    private FilterHelper()
+    {
+        // All static
+    }
+
     private static class AcceptAllFilter implements DirectoryStream.Filter<Path>
     {
         static final AcceptAllFilter FILTER = new AcceptAllFilter();
@@ -90,8 +95,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public static DirectoryStream.Filter<Path> and( final DirectoryStream.Filter<Path> f1, final DirectoryStream.Filter<Path> f2 )
     {
@@ -99,8 +104,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
    public static DirectoryStream.Filter<Path> falseFilter()
     {
@@ -108,8 +113,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public static DirectoryStream.Filter<Path> newAcceptAllFilter()
     {
@@ -117,8 +122,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public static DirectoryStream.Filter<Path> newDirectoriesFilter()
     {
@@ -126,8 +131,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public static DirectoryStream.Filter<Path> not( final DirectoryStream.Filter<Path> f )
     {
@@ -135,8 +140,8 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public static DirectoryStream.Filter<Path> or( final DirectoryStream.Filter<Path> f1, final DirectoryStream.Filter<Path> f2 )
     {
@@ -144,13 +149,11 @@ public final class FilterHelper
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
-   public static DirectoryStream.Filter<Path> toFilter( @Nonnull final FileFilter fileFilter )
+    public static DirectoryStream.Filter<Path> toFilter( @Nonnull final FileFilter fileFilter )
     {
         return entry -> fileFilter.accept( entry.toFile() );
     }
-
-    private FilterHelper() {}
 }

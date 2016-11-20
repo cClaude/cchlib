@@ -222,7 +222,7 @@ cchlib-x-googlecontact"
 PROJECTS_WITH_DOC="cchlib-core
 cchlib-i18n
 cchlib-io
-cchlib-j2ee
+cchlib-servlet
 cchlib-jdbf
 cchlib-net
 cchlib-sql

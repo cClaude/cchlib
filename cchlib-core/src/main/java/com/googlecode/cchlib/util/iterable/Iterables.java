@@ -78,6 +78,7 @@ public class Iterables
      * @throws WrapperException
      *             if any
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static <S,R> Iterable<R> wrap(
             @Nonnull final Iterator<S> iterator,
             @Nonnull final Wrappable<? super S,? extends R> wrapper
@@ -86,14 +87,6 @@ public class Iterables
     {
         return wrap( Iterables.create( iterator ), wrapper );
     }
-
-//    public static <S,R> Iterable<R> wrap(
-//            final S[] array,
-//            final Wrappable<? super S,? extends R> wrapper )
-//        throws WrapperException
-//    {
-//        return wrap( Iterables.create( iterator ), wrapper );
-//    }
 
     /**
      * {@link #wrap(Iterable, Wrappable)} for {@link Enumeration} objects
@@ -110,11 +103,11 @@ public class Iterables
      * @throws WrapperException
      *             if any
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static <S,R> Iterable<R> wrap( //
         @Nonnull final Enumeration<S>                   enumeration, //
         @Nonnull final Wrappable<? super S,? extends R> wrapper //
-        )
-            throws WrapperException
+        ) throws WrapperException
     {
         return wrap( Iterables.create( enumeration ), wrapper );
     }
@@ -159,6 +152,7 @@ public class Iterables
      * @throws WrapperException
      *             if any
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static <S,R> Iterable<R> wrap(
         @Nonnull final Iterable<S>                      iterable,
         @Nonnull final Wrappable<? super S,? extends R> wrapper
@@ -238,8 +232,10 @@ public class Iterables
     }
 
     @NeedDoc
-    public static @Nullable <T> T find( //
-        @Nonnull final List<T>       iterable, //
+    @SuppressWarnings("null")
+    @Nullable
+    public static <T> T find( //
+        @Nonnull final Iterable<T>   iterable, //
         @Nonnull final Selectable<T> filter //
         )
     {
@@ -250,16 +246,4 @@ public class Iterables
         }
         return null;
     }
-
-//    public static <T> Iterable<T> allOf( final Iterable<T>[] iterables )
-//    {
-//        Iterator<Iterator<T>> iterators = Iterables.wrap( iterables, new Wrappable<Iterable<T>,Iterator<T>>() {
-//            @Override
-//            public Iterator<T> wrap( Iterable<T> obj ) throws WrapperException
-//            {
-//                // TODO Auto-generated method stub
-//                return null;
-//            }} );
-//        return create( new MultiIterator<T>( iterators  ) );
-//    }
 }

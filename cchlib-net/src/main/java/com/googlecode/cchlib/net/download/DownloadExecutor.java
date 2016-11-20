@@ -23,21 +23,22 @@ import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
  */
 public class DownloadExecutor
 {
+    private static final int TWO_SECONDS = 2 * 1000;
     private final ThreadPoolExecutor pool;
-    //private final MD5FilterInputStreamBuilder downloadFilterBuilder;
     private final DownloadFilterInputStreamBuilder downloadFilterBuilder;
 
     /**
      * Create DownloadExecutor
      *
      * @param downloadMaxThread Max number of parallel threads
+     * @param downloadFilterBuilder
      */
     public DownloadExecutor(
         final int                               downloadMaxThread,
         final DownloadFilterInputStreamBuilder  downloadFilterBuilder
         )
     {
-        final BlockingQueue<Runnable> queue  = new LinkedBlockingDeque<Runnable>();
+        final BlockingQueue<Runnable> queue  = new LinkedBlockingDeque<>();
 
         this.pool    = new ThreadPoolExecutor(
                 0, // min thread
@@ -46,7 +47,7 @@ public class DownloadExecutor
                 TimeUnit.MILLISECONDS,
                 queue
                 );
-        pool.setCorePoolSize( downloadMaxThread );
+        this.pool.setCorePoolSize( downloadMaxThread );
 
         this.downloadFilterBuilder = downloadFilterBuilder;
     }
@@ -62,10 +63,11 @@ public class DownloadExecutor
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @throws NullPointerException if command is null
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void execute( final Runnable command )
         throws RejectedExecutionException, NullPointerException
     {
-        pool.execute( command );
+        this.pool.execute( command );
     }
 
     /**
@@ -76,7 +78,7 @@ public class DownloadExecutor
      */
     public List<Runnable> cancel()
     {
-        return pool.shutdownNow();
+        return this.pool.shutdownNow();
     }
 
     /**
@@ -95,6 +97,7 @@ public class DownloadExecutor
      * @see DownloadFileURL
      * @see DownloadStringURL
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void add(
             final Collection<? extends DownloadURL> downloadURLs,
             final DownloadEvent                     eventHandler
@@ -102,7 +105,7 @@ public class DownloadExecutor
         throws  RejectedExecutionException,
                 DownloadConfigurationException
     {
-        for( DownloadURL u: downloadURLs ) {
+        for( final DownloadURL u: downloadURLs ) {
             addDownload( u, eventHandler );
             }
     }
@@ -123,6 +126,7 @@ public class DownloadExecutor
      * @see DownloadFileURL
      * @see DownloadStringURL
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void add(
             final Iterable<DownloadURL> downloadURLs,
             final DownloadEvent         eventHandler
@@ -130,7 +134,7 @@ public class DownloadExecutor
         throws  RejectedExecutionException,
                 DownloadConfigurationException
     {
-        for( DownloadURL u: downloadURLs ) {
+        for( final DownloadURL u: downloadURLs ) {
             addDownload( u, eventHandler );
            }
     }
@@ -151,9 +155,10 @@ public class DownloadExecutor
      * @see DownloadFileURL
      * @see DownloadStringURL
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void addDownload(
-            final DownloadURL       downloadURL,
-            final DownloadEvent     eventHandler
+            final DownloadURL   downloadURL,
+            final DownloadEvent eventHandler
             )
         throws  RejectedExecutionException,
                 DownloadConfigurationException // $codepro.audit.disable unnecessaryExceptions
@@ -161,17 +166,17 @@ public class DownloadExecutor
         Runnable command;
 
         if( downloadURL instanceof DownloadStringURL ) {
-            DownloadStringURL downloadStringURL = DownloadStringURL.class.cast( downloadURL );
+            final DownloadStringURL downloadStringURL = DownloadStringURL.class.cast( downloadURL );
 
             command = new DownloadToString( downloadStringURL, eventHandler );
             }
         else if( downloadURL instanceof DownloadFileURL ) {
-            DownloadFileURL downloadFileURL = DownloadFileURL.class.cast( downloadURL );
+            final DownloadFileURL downloadFileURL = DownloadFileURL.class.cast( downloadURL );
 
             if( eventHandler instanceof DownloadFileEvent ) {
-                DownloadFileEvent fileEventHandler = DownloadFileEvent.class.cast( eventHandler );
+                final DownloadFileEvent fileEventHandler = DownloadFileEvent.class.cast( eventHandler );
 
-                command = new DownloadToFile( downloadFileURL, fileEventHandler , downloadFilterBuilder );
+                command = new DownloadToFile( downloadFileURL, fileEventHandler , this.downloadFilterBuilder );
                 }
             else {
                 throw new BadDownloadEventException();
@@ -181,7 +186,7 @@ public class DownloadExecutor
             throw new BadDownloadURLException();
             }
 
-        pool.execute( command );
+        this.pool.execute( command );
     }
 
     /**
@@ -196,10 +201,19 @@ public class DownloadExecutor
         // Wait pool finish
         do {
             // TODO: handle shutdown() use pool.awaitTermination( 1, TimeUnit.SECONDS );
-            try { Thread.sleep( 2 * 1000 ); } catch( InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
-            } while( pool.getActiveCount() > 0 );
+            sleep( TWO_SECONDS );
+            } while( this.pool.getActiveCount() > 0 );
 
-        pool.shutdown();
+        this.pool.shutdown();
+    }
+
+    @SuppressWarnings("squid:S2142")
+    private static void sleep( final int millisec )
+    {
+        try {
+            Thread.sleep( millisec );
+        }
+        catch( final InterruptedException ignore ) { /* ignore */ }
     }
 
     /**
@@ -208,7 +222,7 @@ public class DownloadExecutor
      */
     public int getPollActiveCount()
     {
-        return pool.getActiveCount();
+        return this.pool.getActiveCount();
     }
 
     /**
@@ -217,6 +231,6 @@ public class DownloadExecutor
      */
     public int getPoolQueueSize()
     {
-        return pool.getQueue().size();
+        return this.pool.getQueue().size();
     }
 }

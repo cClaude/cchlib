@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
-import java.io.FileFilter;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.DirectoryNotEmptyException;
@@ -12,24 +11,22 @@ import java.util.Collections;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesListener;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyDirectoriesLookup;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.ScanIOException;
-import com.googlecode.cchlib.apps.emptydirectories.file.lookup.DefaultEmptyDirectoriesLookup;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable1;
 import com.googlecode.cchlib.util.CancelRequestException;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesListener;
+import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.lookup.DefaultEmptyDirectoriesLookup;
+import com.googlecode.cchlib.util.emptydirectories.lookup.ExcludeDirectoriesFileFilter;
 
-/**
- *
- */
-public class FindDeleteAdapter
+//not public
+class FindDeleteAdapter
 {
     private static final Logger LOGGER = Logger.getLogger( FindDeleteAdapter.class );
 
     private final FileListModel        listModel;
     private final FolderTreeModelable1 treeModel;
-    private final FindDeleteListener   listener;
+    private final FindDeleteListener   fdListener;
     private boolean isCancel;
 
     /**
@@ -53,29 +50,25 @@ public class FindDeleteAdapter
 
         this.listModel = listModel;
         this.treeModel = treeModel;
-        this.listener  = listener;
+        this.fdListener  = listener;
         this.isCancel  = false;
     }
 
-    /**
-     *
-     */
-    public void cancel()
+    void cancel()
     {
         this.isCancel = true;
     }
 
-    /**
-     *
-     */
-    public void doFind()
+    @SuppressWarnings("squid:S1166")
+    void doFind()
     {
         LOGGER.info( "doFind() thread started" );
 
         this.isCancel = false;
 
-        final EmptyDirectoriesLookup<FileFilter>    emptyDirs   = new DefaultEmptyDirectoriesLookup( this.listModel );
-        final UpdateJTreeListeners                  listener    = new UpdateJTreeListeners();
+        final EmptyDirectoriesLookup<ExcludeDirectoriesFileFilter> emptyDirs
+                = new DefaultEmptyDirectoriesLookup( this.listModel );
+        final UpdateJTreeListeners listener = new UpdateJTreeListeners();
 
         emptyDirs.addListener( listener );
 
@@ -87,7 +80,7 @@ public class FindDeleteAdapter
                         "treeModel.size(): " + ((this.treeModel == null) ? null : Integer.valueOf( this.treeModel.size()) )
                 );
             }
-            catch( CancelRequestException | ScanIOException cancelRequestException )  { // $codepro.audit.disable logExceptions
+            catch( final CancelRequestException cancelRequestException )  {
                 LOGGER.info( "Cancel received" );
 
                 // Call done, to cleanup layout.
@@ -104,9 +97,10 @@ public class FindDeleteAdapter
 
     private void findEnd()
     {
+        // Add any extra task to always run at the end here.
     }
 
-    public class UpdateJTreeListeners implements EmptyDirectoriesListener
+    class UpdateJTreeListeners implements EmptyDirectoriesListener
     {
         @Override
         public boolean isCancel()
@@ -117,9 +111,8 @@ public class FindDeleteAdapter
         public void newEntry( final EmptyFolder folder )
         {
             SwingUtilities.invokeLater(
-                () -> {
-                    FindDeleteAdapter.this.treeModel.add( folder );
-            });
+                () -> FindDeleteAdapter.this.treeModel.add( folder )
+                );
         }
         @Override
         public void findStarted()
@@ -137,13 +130,14 @@ public class FindDeleteAdapter
         @Override
         public void findDone()
         {
-            FindDeleteAdapter.this.listener.findTaskDone( FindDeleteAdapter.this.isCancel );
+            FindDeleteAdapter.this.fdListener.findTaskDone( FindDeleteAdapter.this.isCancel );
 
             LOGGER.info( "findDone()" );
         }
     }
 
-    public void doDelete()
+    @SuppressWarnings("squid:S3346")
+    void doDelete()
     {
         // Get selected list of paths
         final List<Path> selectedPaths = new ArrayList<>();
@@ -152,35 +146,53 @@ public class FindDeleteAdapter
             selectedPaths.add( ef.getPath() );
             }
 
-        LOGGER.info( "doDelete() : selected files count = " + selectedPaths.size() );
+        if( LOGGER.isInfoEnabled() ) {
+            LOGGER.info( "doDelete() : selected files count = " + selectedPaths.size() );
+        }
 
-        assert selectedPaths.size() > 0;
+        assert ! selectedPaths.isEmpty();
 
         // Add deepest paths at the beginning
         Collections.sort( selectedPaths, (final Path p1, final Path p2) -> p2.getNameCount() - p1.getNameCount());
 
         // Delete deepest paths firsts
+        deleteDeepestPathsFirsts( selectedPaths );
+    }
+
+    private void deleteDeepestPathsFirsts( final List<Path> selectedPaths )
+    {
         for( final Path path : selectedPaths ) {
             try {
                 final boolean res = Files.deleteIfExists( path );
 
                 if( LOGGER.isDebugEnabled() ) {
                     LOGGER.debug( "DIR delete [" + path + "] => " + res );
-                    }
                 }
-            catch( final AccessDeniedException e ) { // $codepro.audit.disable logExceptions
-                LOGGER.warn( "delete AccessDeniedException  [" + path + "]" );
+            }
+            catch( final AccessDeniedException e ) {
+                LOGGER.warn( "delete AccessDeniedException [" + path + "]" );
+
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "AccessDeniedException: for [" + path + "]", e );
                 }
-            catch( final DirectoryNotEmptyException e ) { // $codepro.audit.disable logExceptions
+            }
+            catch( final DirectoryNotEmptyException e ) {
                 LOGGER.warn( "delete DirectoryNotEmptyException [" + path + "]" );
 
                 final String[] files = path.toFile().list();
                 LOGGER.warn( "cause content : [" + Arrays.toString( files ) + "]" );
-                }
-            catch( final Exception e ) {
-                LOGGER.error( "delete [" + path + "]", e );
+
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "DirectoryNotEmptyException: for [" + path + "]", e );
                 }
             }
-    }
+            catch( final Exception e ) {
+                LOGGER.error( "delete [" + path + "]", e );
 
+                if( LOGGER.isDebugEnabled() ) {
+                    LOGGER.debug( "Unexpected exception: for [" + path + "]", e );
+                }
+            }
+        }
+    }
 }

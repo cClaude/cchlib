@@ -59,7 +59,7 @@ public enum MappableItem
     TRY_PROTECTED_METHODS;
 
     /**
-     * TODOC
+     * Add all methods returning primitive and arrays
      */
     public static final Set<MappableItem> MAPPABLE_ITEM_DEFAULT_CONFIG = Collections.unmodifiableSet( // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutableConstantField
         EnumSet.of(

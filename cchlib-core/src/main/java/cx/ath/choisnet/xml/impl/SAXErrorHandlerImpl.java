@@ -6,7 +6,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public class SAXErrorHandlerImpl implements ErrorHandler
 {
@@ -17,14 +17,14 @@ public class SAXErrorHandlerImpl implements ErrorHandler
      *
      * @param out a {@link java.io.PrintWriter} object.
      */
-    public SAXErrorHandlerImpl(PrintWriter out)
+    public SAXErrorHandlerImpl(final PrintWriter out)
     {
-        output = out;
+        this.output = out;
     }
 
-    private static final String getParseExceptionInfo(SAXParseException spe)
+    private static final String getParseExceptionInfo(final SAXParseException spe)
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         if((spe.getSystemId() != null) && (spe.getPublicId() != null)) {
             sb.append("URI('systemId','publicId')=(");
@@ -55,22 +55,22 @@ public class SAXErrorHandlerImpl implements ErrorHandler
 
     /** {@inheritDoc} */
     @Override
-    public void warning(SAXParseException spe)
+    public void warning(final SAXParseException spe)
         throws SAXException
     {
-        StringBuilder message = new StringBuilder()
+        final StringBuilder message = new StringBuilder()
             .append("$Warning: ")
             .append(SAXErrorHandlerImpl.getParseExceptionInfo(spe));
 
-        output.println(message);
+        this.output.println(message);
     }
 
     /** {@inheritDoc} */
     @Override
-    public void error(SAXParseException spe)
+    public void error(final SAXParseException spe)
         throws SAXException
     {
-        StringBuilder message = new StringBuilder()
+        final StringBuilder message = new StringBuilder()
             .append("$Error: ")
             .append(SAXErrorHandlerImpl.getParseExceptionInfo(spe));
 
@@ -79,10 +79,10 @@ public class SAXErrorHandlerImpl implements ErrorHandler
 
     /** {@inheritDoc} */
     @Override
-    public void fatalError(SAXParseException spe)
+    public void fatalError(final SAXParseException spe)
         throws SAXException
     {
-        String message = (new StringBuilder())
+        final String message = (new StringBuilder())
             .append("$Fatal Error: ")
             .append(SAXErrorHandlerImpl.getParseExceptionInfo(spe))
             .toString();

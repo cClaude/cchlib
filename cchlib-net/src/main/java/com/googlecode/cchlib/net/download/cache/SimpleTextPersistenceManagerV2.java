@@ -27,6 +27,7 @@ class SimpleTextPersistenceManagerV2 extends AbstractSimpleTextPersistenceManage
     }
 
     @Override
+    @SuppressWarnings("squid:S3346")
     protected URI convertLineToURI( final String line ) //
         throws URISyntaxException, MalformedURLException
     {

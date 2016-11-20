@@ -17,16 +17,6 @@ public final class DesktopHelper
         // All Static
     }
 
-//    /**
-//     * @deprecated use {@link Desktop#isDesktopSupported()} instead
-//     */
-//    @Deprecated
-//    public static boolean isNativeDesktopSupported()
-//        throws PlatformDesktopNotSupportedException // $codepro.audit.disable unnecessaryExceptions
-//    {
-//        return Desktop.isDesktopSupported();
-//    }
-
     /**
      * Launches the default browser to display a URL
      *
@@ -40,7 +30,7 @@ public final class DesktopHelper
             try {
                 browseNative( url );
                 }
-            catch( Exception e ) {
+            catch( final Exception e ) {
                 throw new PlatformDesktopNotSupportedException( e );
                 }
             }
@@ -54,8 +44,8 @@ public final class DesktopHelper
 
     private static void browseNative( final URL url ) throws PlatformDesktopNotSupportedException, IOException, URISyntaxException
     {
-        Desktop desktop     = Desktop.getDesktop();
-        boolean isSupported = desktop.isSupported( Desktop.Action.BROWSE );
+        final Desktop desktop     = Desktop.getDesktop();
+        final boolean isSupported = desktop.isSupported( Desktop.Action.BROWSE );
 
         if( ! isSupported ) {
             // Should not occur, should be tested before using this method

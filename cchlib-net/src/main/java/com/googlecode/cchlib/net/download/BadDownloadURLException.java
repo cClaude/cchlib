@@ -5,7 +5,7 @@ package com.googlecode.cchlib.net.download;
  *
  * @since 4.1.7
  */
-public class BadDownloadURLException // $codepro.audit.disable serializableUsage
+public class BadDownloadURLException
     extends DownloadConfigurationException
 {
     private static final long serialVersionUID = 1L;

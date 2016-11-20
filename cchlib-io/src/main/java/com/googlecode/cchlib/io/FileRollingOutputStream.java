@@ -12,7 +12,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  *@since 4.1.6
  */
@@ -20,9 +20,10 @@ public class FileRollingOutputStream
     extends OutputStream
 {
     private static final Logger LOGGER = Logger.getLogger( FileRollingOutputStream.class );
+    private static final String STREAM_CLOSED = "Stream closed";
 
-    private final List<File>    fileList    = new ArrayList<>();;
-    private FileRoller          fileRoller;
+    private final List<File>    fileList    = new ArrayList<>();
+    private final FileRoller    fileRoller;
     private final int           maxLength;
 
     private File            currentFile;
@@ -41,6 +42,7 @@ public class FileRollingOutputStream
      *         creating first File
      * @throws IllegalArgumentException if maxLength < 1
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public FileRollingOutputStream(
             final FileRoller    fileRoller,
             final int            maxLength
@@ -93,7 +95,7 @@ public class FileRollingOutputStream
         this.currentLength     = 0;
     }
 
-    private void checkIfNeedToChangeFile( int len )
+    private void checkIfNeedToChangeFile( final int len )
         throws IOException
     {
         this.currentLength += len;
@@ -132,10 +134,10 @@ public class FileRollingOutputStream
     public void flush() throws IOException
     {
         if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( STREAM_CLOSED );
             }
 
-        currentOutput.flush();
+        this.currentOutput.flush();
     }
 
     /**
@@ -146,14 +148,14 @@ public class FileRollingOutputStream
      * for this action.
      */
     @Override
-    public void write( byte[] b, int off, int len ) throws IOException
+    public void write( final byte[] b, final int off, final int len ) throws IOException
     {
         if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( STREAM_CLOSED );
             }
 
         checkIfNeedToChangeFile( len );
-        currentOutput.write( b, off, len );
+        this.currentOutput.write( b, off, len );
     }
 
     /**
@@ -164,28 +166,28 @@ public class FileRollingOutputStream
      * for this action.
      */
     @Override
-    public void write( byte[] b ) throws IOException
+    public void write( final byte[] b ) throws IOException
     {
         if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( STREAM_CLOSED );
             }
 
         checkIfNeedToChangeFile( b.length );
-        currentOutput.write( b );
+        this.currentOutput.write( b );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void write( int b ) throws IOException
+    public void write( final int b ) throws IOException
     {
         if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( STREAM_CLOSED );
             }
 
         checkIfNeedToChangeFile( 1 );
-        currentOutput.write( b );
+        this.currentOutput.write( b );
     }
 
     /**
@@ -196,7 +198,7 @@ public class FileRollingOutputStream
     public void roolNow() throws IOException
     {
         if( this.isClose ) {
-            throw new IOException( "Stream closed" );
+            throw new IOException( STREAM_CLOSED );
             }
 
         roolToNewFile();

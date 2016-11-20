@@ -1,38 +1,38 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.googlecode.cchlib</groupId>
-        <artifactId>cchlib</artifactId>
-        <version>4.2-SNAPSHOT</version>
-    </parent>
-    <artifactId>cchlib-core-beta</artifactId>
-    <packaging>jar</packaging>
-    <name>cchlib-core-beta</name>
-    <description>Contain futurs features</description>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.googlecode.cchlib</groupId>
+    <artifactId>cchlib</artifactId>
+    <version>4.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>cchlib-core-beta</artifactId>
+  <packaging>jar</packaging>
+  <name>cchlib-core-beta</name>
+  <description>Contain futurs features</description>
 
-    <!-- Global properties -->
-    <properties>
-    </properties>
+  <!-- Global properties -->
+  <properties>
+  </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.googlecode.cchlib</groupId>
-            <artifactId>cchlib-core</artifactId>
-            <version>4.2-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core</artifactId>
+      <version>4.2-SNAPSHOT</version>
+      <type>jar</type>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 
-    <build>
-        <extensions>
-        </extensions>
-        <plugins>
-        </plugins>
-    </build>
+  <build>
+    <extensions>
+    </extensions>
+    <plugins>
+    </plugins>
+  </build>
 
-    <modules>
-    </modules>
+  <modules>
+  </modules>
 </project>

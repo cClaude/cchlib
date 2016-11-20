@@ -8,11 +8,16 @@ import java.io.Writer;
 import java.util.regex.Pattern;
 
 //NOT public
-final class FormattedPropertiesHelper {
-
+final class FormattedPropertiesHelper
+{
     private static final int HEXA_LENGTH = 4;
     private static final int HEXA_DECIMAL = 16;
     private static final int SPACE_CHAR = 0x20;
+
+    private FormattedPropertiesHelper()
+    {
+        // All static
+    }
 
     /**
      * Does not create a new {@link BufferedReader} if <code>aReader</code>
@@ -68,6 +73,11 @@ final class FormattedPropertiesHelper {
      * @return true if character does not need to be encoded,
      *         false otherwise.
      */
+    @SuppressWarnings({
+        "squid:S00100", // Too much naming convention :)
+        "squid:S1871" // Well : return false is really a body ?
+                      // This should be optimize by compilation step.
+        })
     static boolean isISO_8859_1( final char c )
     {
         if (c < SPACE_CHAR ) { // before space
@@ -86,12 +96,21 @@ final class FormattedPropertiesHelper {
         return false;
     }
 
+    @SuppressWarnings({
+        "squid:MethodCyclomaticComplexity",
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S1151", // switch size is OK
+        "squid:S134" // Yes deep conditions
+        })
     static StringBuilder handleEscapeChar(
         final BufferedReader reader,
-        String               line,
-        int                  pos
+        final String         currentLine,
+        final int                  currentPos
         ) throws IOException, NumberFormatException
     {
+        String line = currentLine;
+        int    pos  = currentPos;
+
         // Escape char found so iterate through the rest of the line.
         final StringBuilder element = new StringBuilder(line.length() - pos);
         char c;
@@ -111,7 +130,7 @@ final class FormattedPropertiesHelper {
                         }
 
                     pos = 0;
-                    while ( (pos < line.length()) && Character.isWhitespace(c = line.charAt(pos))) {
+                    while ( (pos < line.length()) && Character.isWhitespace( line.charAt(pos) ) ) {
                         pos++;
                         }
                     element.ensureCapacity( (line.length() - pos) + element.length() );
@@ -130,7 +149,7 @@ final class FormattedPropertiesHelper {
                             break;
                         case 'u':
                             if( (pos + HEXA_LENGTH) <= line.length() ) {
-                                char uni = (char) Integer.parseInt(line.substring(pos, pos + HEXA_LENGTH), HEXA_DECIMAL);
+                                final char uni = (char) Integer.parseInt(line.substring(pos, pos + HEXA_LENGTH), HEXA_DECIMAL);
                                 element.append(uni);
                                 pos += HEXA_LENGTH;
                                 }
@@ -146,6 +165,7 @@ final class FormattedPropertiesHelper {
                 element.append(c);
                 }
             }
+
         return element;
     }
 

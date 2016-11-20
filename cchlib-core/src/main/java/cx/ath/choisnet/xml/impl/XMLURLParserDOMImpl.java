@@ -1,11 +1,11 @@
 package cx.ath.choisnet.xml.impl;
 
+import java.io.FileNotFoundException;
+import java.net.URL;
+import java.util.Set;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
 import cx.ath.choisnet.xml.XMLParserException;
 import cx.ath.choisnet.xml.XMLURLParser;
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.EnumSet;
 
 /**
  * DOM parser implementation that allow to retrieve XML based URL for XML
@@ -17,7 +17,7 @@ public class XMLURLParserDOMImpl
     private final URL url;
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param sourceURL
      * @param errorHandler
@@ -28,18 +28,18 @@ public class XMLURLParserDOMImpl
     public XMLURLParserDOMImpl(
             final URL                   sourceURL,
             final XMLParserErrorHandler errorHandler,
-            final EnumSet<Attributs>    attributes
+            final Set<Attributs>        attributes
             )
         throws FileNotFoundException, XMLParserException
     {
         super( sourceURL, errorHandler, attributes );
 
-        url = sourceURL;
+        this.url = sourceURL;
     }
 
     @Override
     public URL getURL()
     {
-        return url;
+        return this.url;
     }
 }

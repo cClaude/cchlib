@@ -1,12 +1,12 @@
 package cx.ath.choisnet.util;
 
-import com.googlecode.cchlib.NeedTestCases;
-import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
-import com.googlecode.cchlib.util.iterator.ArrayIterator;
 import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import com.googlecode.cchlib.NeedTestCases;
+import com.googlecode.cchlib.util.enumeration.EmptyEnumeration;
+import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
 
 /**
@@ -17,24 +17,6 @@ public final class ArrayHelper
     private ArrayHelper()
     {//All static
     }
-
-//    /**
-//     * Convert varargs in a Array.
-//     *
-//     * @param <T>       Type of array
-//     * @param entries   List of entry for the array
-//     * @return the varargs Array (documented as a new
-//     *         arrays in previous versions)
-//     * @since 4.1.5
-//     * @deprecated does not check entries content, and did
-//     *             not create a shadow copy given values.
-//     */
-//    //Java 1.7 @SafeVarargs
-//    @Deprecated
-//    public static <T> T[] createArray( T...entries )
-//    {
-//        return entries;
-//    }
 
     /**
      * Create an Array from giving values
@@ -48,7 +30,7 @@ public final class ArrayHelper
     @NeedTestCases
     public static <T> T[] createArray( final Class<T> clazz, final T...entries )
     {
-        //Workaround for: T[] array = new T[ entries.length ];
+        // Workaround for: " T[] array = new T[ entries.length ]; "
         return cloneArray( clazz, entries );
     }
 
@@ -100,7 +82,7 @@ public final class ArrayHelper
      * @param srcPos
      * @param destPos
      * @param length
-     * @return TODOC
+     * @return NEEDDOC
      */
     @NeedTestCases
     public static byte[] cloneArray( final byte[] src, final int srcPos, final int destPos, final int length )
@@ -136,20 +118,17 @@ public final class ArrayHelper
             @Override
             public boolean hasMoreElements()
             {
-                return index < enumLen;
+                return this.index < enumLen;
             }
 
             @Override
-            public T nextElement()
-                throws java.util.NoSuchElementException
+            @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+            public T nextElement() throws NoSuchElementException
             {
-                if( index < enumLen ) {
-                    //try {
-                        return array[index++];
-                    //    }
-                    //catch(IndexOutOfBoundsException ignore) {}
+                if( this.index < enumLen ) {
+                    return array[this.index++];
                 }
-                throw new NoSuchElementException( "index = " + index );
+                throw new NoSuchElementException( "index = " + this.index );
             }
         };
     }

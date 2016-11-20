@@ -13,17 +13,19 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  *@since 4.1.6
  */
 public class FileRollingWriter
     extends Writer
 {
+    private static final String WRITER_CLOSED = "Writer closed";
+
     private static final Logger LOGGER = Logger.getLogger( FileRollingWriter.class );
 
     private final FileRoller    fileRoller;
-    private final List<File>    fileList    = new ArrayList<>();;
+    private final List<File>    fileList    = new ArrayList<>();
     private final int           maxLength;
     private final Charset       charset;
 
@@ -40,6 +42,7 @@ public class FileRollingWriter
      * @throws IllegalArgumentException if maxLength < 1
      * @throws IOException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public FileRollingWriter(
             final FileRoller    fileRoller,
             final int           maxLength,
@@ -93,7 +96,7 @@ public class FileRollingWriter
         this.currentLength     = 0;
     }
 
-    private void checkIfNeedToChangeFile( int len )
+    private void checkIfNeedToChangeFile( final int len )
         throws IOException
     {
         this.currentLength += len;
@@ -130,10 +133,10 @@ public class FileRollingWriter
     public void flush() throws IOException
     {
         if( this.currentOutput == null ) {
-            throw new IOException( "Writer closed" );
+            throw new IOException( WRITER_CLOSED );
             }
 
-        currentOutput.flush();
+        this.currentOutput.flush();
     }
 
     /**
@@ -144,14 +147,14 @@ public class FileRollingWriter
      * for this action.
      */
     @Override
-    public void write(char[] cbuf, int off, int len) throws IOException
+    public void write(final char[] cbuf, final int off, final int len) throws IOException
     {
         if( this.currentOutput == null ) {
-            throw new IOException( "Writer closed" );
+            throw new IOException( WRITER_CLOSED );
             }
 
         checkIfNeedToChangeFile( len );
-        currentOutput.write( cbuf, off, len );
+        this.currentOutput.write( cbuf, off, len );
     }
 
     /**
@@ -162,28 +165,28 @@ public class FileRollingWriter
      * for this action.
      */
     @Override
-    public void write( char[] b ) throws IOException
+    public void write( final char[] b ) throws IOException
     {
         if( this.currentOutput == null ) {
-            throw new IOException( "Writer closed" );
+            throw new IOException( WRITER_CLOSED );
             }
 
         checkIfNeedToChangeFile( b.length );
-        currentOutput.write( b );
+        this.currentOutput.write( b );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void write( int b ) throws IOException
+    public void write( final int b ) throws IOException
     {
         if( this.currentOutput == null ) {
-            throw new IOException( "Writer closed" );
+            throw new IOException( WRITER_CLOSED );
             }
 
         checkIfNeedToChangeFile( 1 );
-        currentOutput.write( b );
+        this.currentOutput.write( b );
     }
 
     /**
@@ -194,7 +197,7 @@ public class FileRollingWriter
     public void roolNow() throws IOException
     {
         if( this.currentOutput == null ) {
-            throw new IOException( "Writer closed" );
+            throw new IOException( WRITER_CLOSED );
             }
 
         roolToNewFile();
@@ -238,6 +241,6 @@ public class FileRollingWriter
      */
     public boolean isClose()
     {
-        return currentOutput == null;
+        return this.currentOutput == null;
     }
 }

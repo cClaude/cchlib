@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.i18n;
 
+import java.io.Serializable;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
-import java.io.Serializable;
 
 @NeedDoc
 public interface AutoI18nType extends Serializable
@@ -18,7 +18,7 @@ public interface AutoI18nType extends Serializable
      * Set localized text
      *
      * @param toI18n object to localize
-     * @param values TODOC
+     * @param values NEEDDOC
      */
     void setText(Object toI18n, Values values);
 
@@ -26,15 +26,15 @@ public interface AutoI18nType extends Serializable
      * Returns current text string for this object
      *
      * @param toI18n object to localize
-     * @return TODOC
+     * @return NEEDDOC
      */
     Values getText(Object toI18n);
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param toI18n
      * @param keyBaseName
-     * @return TODOC
+     * @return NEEDDOC
      */
     Keys getKeys( Object toI18n, String keyBaseName );
 }

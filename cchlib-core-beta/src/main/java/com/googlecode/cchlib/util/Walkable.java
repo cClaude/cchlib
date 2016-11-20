@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.util;
 
 /**
- * TODOC
+ * NEEDDOC
  *
  */
 public interface Walkable<T>
 {
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param visitor
      */

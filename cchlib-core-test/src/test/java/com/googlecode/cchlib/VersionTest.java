@@ -18,4 +18,13 @@ public class VersionTest {
         Assert.assertNotNull( "version", version.getDate() );
         Assert.assertNotNull( "version.toString()", version.toString() );
     }
+
+    @Test
+    public void test_main()
+    {
+        final String[] args = null;
+
+        // Just test if this call work
+        Version.main( args );
+    }
 }

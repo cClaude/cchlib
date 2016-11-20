@@ -10,7 +10,7 @@ import java.net.URL;
 public interface XMLURLParser extends XMLParser
 {
     /**
-     * TODOC
+     * Return an url
      *
      * @return a {@link java.net.URL} object.
      */

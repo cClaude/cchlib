@@ -15,7 +15,9 @@ import javax.sql.DataSource;
  *
  * @see SimpleQuery
  * @see ConnectionQuery
+ * @deprecated use {@link SimpleSQL} instead
  */
+@Deprecated
 public class SimpleUpdate
     extends SimpleDataSource
 {
@@ -40,7 +42,7 @@ public class SimpleUpdate
     public SimpleUpdate(final String resourceName)
         throws SimpleDataSourceException
     {
-        super( SimpleDataSource.createDataSource(resourceName) );
+        super( DataSourceHelper.createDataSource(resourceName) );
     }
 
     /**

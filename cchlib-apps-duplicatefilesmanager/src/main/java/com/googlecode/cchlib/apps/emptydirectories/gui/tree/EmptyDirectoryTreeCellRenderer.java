@@ -6,11 +6,11 @@ import javax.swing.Icon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
-import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.IconResources;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.Folder;
 
 /**
  *

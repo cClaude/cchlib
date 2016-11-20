@@ -2,7 +2,6 @@ package com.googlecode.cchlib.i18n.sample.full;
 
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import java.io.IOException;
 
 public class FakePanelPrepAppMissing extends AbstractMessageBundleBaseName
 {
@@ -10,15 +9,15 @@ public class FakePanelPrepAppMissing extends AbstractMessageBundleBaseName
     {
     }
 
-    public static void main( String...args ) throws IOException
+    public static void main( final String...args ) throws Exception
     {
         // Build frame
-        FakePanel frameOrPanel = new FakePanel();
+        final FakePanel frameOrPanel = new FakePanel();
 
         // Other frames,panel,... if any
-        I18nAutoCoreUpdatable[] i18nConteners = { frameOrPanel };
+        final I18nAutoCoreUpdatable[] i18nConteners = { frameOrPanel };
 
-        FakePanelPrepAppMissing instance = new FakePanelPrepAppMissing();
+        final FakePanelPrepAppMissing instance = new FakePanelPrepAppMissing();
         instance.start( i18nConteners );
     }
 

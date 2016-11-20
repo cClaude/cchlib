@@ -6,11 +6,16 @@ import com.googlecode.cchlib.io.checksum.MD5;
 import com.googlecode.cchlib.io.filetype.ImageIOFileData;
 
 /**
- *
+ * NEEDDOC
  */
 public class DefaultFilterInputStream
     extends CopyInputStream
 {
+    /**
+     * NEEDDOC
+     *
+     * @param in NEEDDOC
+     */
     public DefaultFilterInputStream( final InputStream in )
     {
         super( in );
@@ -23,14 +28,16 @@ public class DefaultFilterInputStream
      * @throws IOException
      * @throws IllegalStateException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public ImageIOFileData geImageIOFileData() throws IllegalStateException, IOException
     {
         return new ImageIOFileData( super.toInputStream() );
     }
 
     /**
+     * NEEDDOC
      *
-     * @return
+     * @return NEEDDOC
      * @throws IllegalStateException if original stream not
      * yet closed.
      */

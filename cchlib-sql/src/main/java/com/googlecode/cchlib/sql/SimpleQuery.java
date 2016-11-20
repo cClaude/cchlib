@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.sql;
 
-import java.io.Flushable;
+import java.io.Closeable;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,10 +19,12 @@ import javax.sql.DataSource;
  *
  * @see SimpleUpdate
  * @see ConnectionQuery
+ * @deprecated use {@link SimpleSQL} instead
  */
+@Deprecated
 public class SimpleQuery
     extends SimpleDataSource
-        implements Flushable
+        implements Closeable
 {
     private Connection conn;
     private Statement stmt;
@@ -37,8 +39,8 @@ public class SimpleQuery
     {
         super(ds);
 
-        conn = null;
-        stmt = null;
+        this.conn = null;
+        this.stmt = null;
     }
 
     /**
@@ -46,15 +48,15 @@ public class SimpleQuery
      *
      * @param resourceName Resource to retrieve on {@link InitialContext}
      * @throws SimpleDataSourceException if any
-     * @see SimpleDataSource#createDataSource(String)
+     * @see DataSourceHelper#createDataSource(String)
      */
     public SimpleQuery( final String resourceName )
         throws SimpleDataSourceException
     {
-        super( SimpleDataSource.createDataSource( resourceName ) );
+        super( DataSourceHelper.createDataSource( resourceName ) );
 
-        conn = null;
-        stmt = null;
+        this.conn = null;
+        this.stmt = null;
     }
 
     /**
@@ -69,26 +71,14 @@ public class SimpleQuery
     {
         ResultSet rset = null;
 
-        if( conn == null ) {
+        if( this.conn == null ) {
             openConnection();
             }
 
-        try {
-            if(conn != null) {
-                stmt = conn.createStatement();
-                rset = stmt.executeQuery( query );
-                }
-            }
-        finally {
-            if( rset == null ) {
-                try {
-                    flush();
-                    }
-                catch( IOException e ) {
-                    // This is probably an SQLException
-                    throw new SQLException( e );
-                    }
-                }
+        if(this.conn != null) {
+            this.stmt = this.conn.createStatement();
+
+            rset = this.stmt.executeQuery( query );
             }
 
         return rset;
@@ -102,11 +92,11 @@ public class SimpleQuery
      */
     protected void openConnection() throws SQLException
     {
-        if( conn != null ) {
+        if( this.conn != null ) {
             throw new SQLException("SimpleQuery Invalid State [conn != null]");
             }
         else {
-            conn = createConnectionFromDataSource();
+            this.conn = createConnectionFromDataSource();
             }
     }
 
@@ -117,14 +107,14 @@ public class SimpleQuery
      */
     protected Connection getConnection()
     {
-        return conn;
+        return this.conn;
     }
 
     /**
      * Free all resources
      * @throws SQLException
      */
-    protected void closeConnection() throws SQLException
+    protected void closeConnection() throws SQLCloseException
     {
         try {
             privateCloseStatement();
@@ -134,59 +124,39 @@ public class SimpleQuery
             }
     }
 
-    private void privateCloseStatement() throws SQLException
+    private void privateCloseStatement() throws SQLCloseException
     {
-        if( stmt != null ) {
+        if( this.stmt != null ) {
             try {
-                stmt.close();
-                }
-            finally {
-                stmt = null;
-                }
+                this.stmt.close();
             }
+            catch( final SQLException e ) {
+                throw new SQLCloseException( e );
+            }
+            finally {
+                this.stmt = null;
+            }
+        }
     }
 
-    private void privateCloseConnection() throws SQLException
+    private void privateCloseConnection() throws SQLCloseException
     {
-        if( conn != null ) {
+        if( this.conn != null ) {
             try {
-                conn.close();
-                }
+                this.conn.close();
+            }
+            catch( final SQLException e ) {
+                throw new SQLCloseException( e );
+            }
             finally {
-                conn = null;
-                }
+                this.conn = null;
             }
-    }
-
-    @Override
-    public void flush() throws IOException
-    {
-        try {
-            closeConnection();
-            }
-        catch( SQLException e ) {
-            throw new SQLCloseException( e );
-            }
+        }
     }
 
     @Override
     public void close() throws IOException
     {
-        try {
-            closeConnection();
-            }
-        catch( SQLException e ) {
-            throw new SQLCloseException( e );
-            }
-
-        super.close();
-    }
-
-    @Override
-    protected void finalize() throws Throwable // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
-    {
         closeConnection();
-
-        super.finalize();
     }
 }

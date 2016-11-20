@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.UIManager;
-import com.googlecode.cchlib.apps.duplicatefiles.ConfigMode;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.ConfigMode;
 
 public class PreferencesImpl implements Preferences
 {

@@ -1,13 +1,5 @@
 package com.googlecode.cchlib.apps.emptyfiles.panel.remove;
 
-import com.googlecode.cchlib.apps.duplicatefiles.IconResources;
-import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
-import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
-import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.swing.table.ForceColumnWidthModel;
-import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
-import com.googlecode.cchlib.util.iterable.Iterables;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +12,14 @@ import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.IconResources;
+import com.googlecode.cchlib.apps.emptyfiles.bean.FileInfo;
+import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.swing.table.ForceColumnWidthModel;
+import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
+import com.googlecode.cchlib.util.iterable.Iterables;
 
 /**
  *
@@ -43,11 +43,11 @@ public class WorkingTableModel
         private int forceColumnWidth;
 
         private Columns() { this.forceColumnWidth = 0; }
-        private Columns( int forceColumnWidth ) { this.forceColumnWidth = forceColumnWidth; }
+        private Columns( final int forceColumnWidth ) { this.forceColumnWidth = forceColumnWidth; }
         public int getForceColumnWidth() { return forceColumnWidth; }
         };
     private int[] forceColumnWidths;
-    @I18nString private String[] columnNames = {
+    @I18nString private final String[] columnNames = {
             ".",
             "Delete",
             "Filename",
@@ -55,20 +55,20 @@ public class WorkingTableModel
             "date",
             "Attributs"
             };
-    private Class<?>[]          columnTypes = new Class[] { Icon.class, Boolean.class, String.class, String.class, Date.class, String.class };
-    private List<File>          fileList    = new ArrayList<>();
-    private Map<File,FileInfo>  lasyInfoMap  = new HashMap<>();
-    private boolean             selectedDefaultState = true; // FIXME : should be configurable
+    private final Class<?>[]          columnTypes = new Class[] { Icon.class, Boolean.class, String.class, String.class, Date.class, String.class };
+    private final List<File>          fileList    = new ArrayList<>();
+    private final Map<File,FileInfo>  lasyInfoMap  = new HashMap<>();
+    private final boolean             selectedDefaultState = true; // FIXME : should be configurable
 
-    private FileInfoFormater fileInfoFormater;
+    private final FileInfoFormater fileInfoFormater;
 //    private Icon deletedFileIcon = IconResources.getDeletedFileIcon();
 //    private Icon fileIcon = IconResources.getFileIcon();
-    private IconResources iconResources = IconResources.getInstance();
+    private final IconResources iconResources = IconResources.getInstance();
 
     /**
      *
      */
-    public WorkingTableModel( FileInfoFormater fileInfoFormater )
+    public WorkingTableModel( final FileInfoFormater fileInfoFormater )
     {
         this.fileInfoFormater = fileInfoFormater;
     }
@@ -95,7 +95,7 @@ public class WorkingTableModel
      * @see javax.swing.table.TableModel#getColumnName(int)
      */
     @Override
-    public String getColumnName( int columnIndex )
+    public String getColumnName( final int columnIndex )
     {
         return columnNames[ columnIndex ];
     }
@@ -104,7 +104,7 @@ public class WorkingTableModel
      * @see javax.swing.table.TableModel#getColumnClass(int)
      */
     @Override
-    public Class<?> getColumnClass( int columnIndex )
+    public Class<?> getColumnClass( final int columnIndex )
     {
         return columnTypes[columnIndex];
     }
@@ -113,11 +113,11 @@ public class WorkingTableModel
      * @see javax.swing.table.TableModel#isCellEditable(int, int)
      */
     @Override
-    public boolean isCellEditable( int rowIndex, int columnIndex )
+    public boolean isCellEditable( final int rowIndex, final int columnIndex )
     {
         if( columnIndex == Columns.FILE_SELECTED.ordinal() ) {
-            File     file = this.fileList.get( rowIndex );
-            FileInfo fi   = getFileInfo( file );
+            final File     file = this.fileList.get( rowIndex );
+            final FileInfo fi   = getFileInfo( file );
 
             return ! fi.isDeleted();
             }
@@ -128,22 +128,22 @@ public class WorkingTableModel
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     @Override
-    public Object getValueAt( int rowIndex, int columnIndex )
+    public Object getValueAt( final int rowIndex, final int columnIndex )
     {
-        Columns c = Columns.values()[ columnIndex ];
-        File file = this.fileList.get( rowIndex );
+        final Columns c = Columns.values()[ columnIndex ];
+        final File file = this.fileList.get( rowIndex );
 
         switch( c ) {
             case FILE_ICON:
             {
-                FileInfo fi = getFileInfo( file );
-                
+                final FileInfo fi = getFileInfo( file );
+
                 //return fi.isDeleted() ? deletedFileIcon : fileIcon;
                 return fi.isDeleted() ? iconResources.getDeletedFileIcon() : iconResources.getFileIcon();
             }
             case FILE_SELECTED :
                 {
-                    FileInfo fi = getFileInfo( file );
+                    final FileInfo fi = getFileInfo( file );
 
                     return Boolean.valueOf( fi.isDeleted() ? false : fi.isSelected() );
                 }
@@ -160,10 +160,10 @@ public class WorkingTableModel
      * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
      */
     @Override
-    public void setValueAt( Object aValue, int rowIndex, int columnIndex )
+    public void setValueAt( final Object aValue, final int rowIndex, final int columnIndex )
     {
         if( Columns.values()[ columnIndex ] == Columns.FILE_SELECTED ) {
-            File file = this.fileList.get( rowIndex );
+            final File file = this.fileList.get( rowIndex );
 
             getFileInfo( file ).setSelected( ((Boolean)aValue).booleanValue() );
 
@@ -180,7 +180,7 @@ public class WorkingTableModel
         boolean isAtLeastOneFileSelected = false;
         boolean isAtLeastOneFileUnSelected = false;
 
-        for( FileInfo fi : getFileInfos() ) {
+        for( final FileInfo fi : getFileInfos() ) {
             if( fi.isSelected() ) {
                 isAtLeastOneFileSelected = true;
                 }
@@ -202,26 +202,26 @@ public class WorkingTableModel
         }
     }
 
-    public void add( File file )
+    public void add( final File file )
     {
         this.fileList.add( file );
     }
 
-    public void addAll( Collection<? extends File> files )
+    public void addAll( final Collection<? extends File> files )
     {
         this.fileList.addAll( files );
     }
 
-    public void addAll( File[] files )
+    public void addAll( final File[] files )
     {
-        for( File file : files ) {
+        for( final File file : files ) {
             this.fileList.add( file );
             }
     }
 
     public void doUnselectAll()
     {
-        for( FileInfo value : getFileInfos() ) {
+        for( final FileInfo value : getFileInfos() ) {
             value.setSelected( false );
             }
 
@@ -230,22 +230,22 @@ public class WorkingTableModel
 
     public void doSelectAll()
     {
-        for( File file : this.fileList ) {
+        for( final File file : this.fileList ) {
             getFileInfo( file ).setSelected( true );
             }
 
         fireTableDataChanged();
     }
 
-    public boolean doDelete( int rowIndex ) // $codepro.audit.disable booleanMethodNamingConvention
+    public boolean doDelete( final int rowIndex ) // $codepro.audit.disable booleanMethodNamingConvention
     {
-        File     file  = this.fileList.get( rowIndex );
-        FileInfo value = getFileInfo( file );
+        final File     file  = this.fileList.get( rowIndex );
+        final FileInfo value = getFileInfo( file );
 
         if( value.isSelected() ) {
             LOGGER.info( "doDelete: " + file );
 
-            boolean deleted = file.delete();
+            final boolean deleted = file.delete();
 
             if( deleted ) {
                 value.setSelected( false );
@@ -263,7 +263,7 @@ public class WorkingTableModel
         return false;
    }
 
-    private FileInfo getFileInfo( File file )
+    private FileInfo getFileInfo( final File file )
     {
         FileInfo value = this.lasyInfoMap.get( file );
 
@@ -285,7 +285,7 @@ public class WorkingTableModel
     {
         int count = 0;
 
-        for( FileInfo value : getFileInfos() ) {
+        for( final FileInfo value : getFileInfos() ) {
             if( value.isSelected() ) {
                 count ++;
                 }
@@ -307,7 +307,7 @@ public class WorkingTableModel
         super.fireTableDataChanged();
    }
 
-    public boolean isRowSelected( int rowIndex )
+    public boolean isRowSelected( final int rowIndex )
     {
         return getFileInfo( this.fileList.get( rowIndex ) ).isSelected();
     }
@@ -325,13 +325,13 @@ public class WorkingTableModel
     }
 
     @Override//ForceColumnWidthModel
-    public boolean isWidthFor( int columnIndex )
+    public boolean isWidthFor( final int columnIndex )
     {
         return getForceColumnWidths()[ columnIndex ] > 0;
     }
 
     @Override//ForceColumnWidthModel
-    public int getWidthFor( int columnIndex )
+    public int getWidthFor( final int columnIndex )
     {
         return getForceColumnWidths()[ columnIndex ];
     }

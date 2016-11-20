@@ -1,3 +1,4 @@
+// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.io.checksum;
 
 import java.io.BufferedInputStream;

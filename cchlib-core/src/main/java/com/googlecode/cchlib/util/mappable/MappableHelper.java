@@ -2,6 +2,8 @@ package com.googlecode.cchlib.util.mappable;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Map.Entry;
+import javax.annotation.Nonnull;
 import com.googlecode.cchlib.NeedDoc;
 
 /**
@@ -18,18 +20,36 @@ import com.googlecode.cchlib.NeedDoc;
 @NeedDoc
 public class MappableHelper
 {
+    private static final String XML_CLASS_NAME = "<class name=\"";
+
+    private MappableHelper()
+    {
+        // all static
+    }
+
     /**
      * Build Map using default factory.
      *
+     * @param object
+     * @return NEEDDOC
+     *
      * @see MappableBuilder#toMap(Object)
      */
-    public static Map<String,String> toMap( final Object object )
+    public static <T> Map<String,String> toMap( final T object )
     {
         final MappableBuilder mb = MappableBuilder.createMappableBuilder();
 
         return mb.toMap( object );
     }
 
+    /**
+     *  NEEDDOC
+     *
+     * @param out   Output for result
+     * @param clazz Class to use to analyze <code>mappableObject</code>
+     * @param map   Map of value
+     * @throws IOException if any
+     */
     @NeedDoc
     public static void toXML(
         final Appendable            out,
@@ -38,24 +58,24 @@ public class MappableHelper
         ) throws IOException
     {
         if( map == null ) {
-            out.append( "<class name=\"" )
+            out.append( XML_CLASS_NAME )
                .append( clazz.getName() )
                .append( "\" /><!-- NULL OBJECT -->\n" );
             }
         else if( map.size() == 0 ) {
-            out.append( "<class name=\"" )
+            out.append( XML_CLASS_NAME )
                .append( clazz.getName() )
                .append( "\" /><!-- EMPTY -->\n" );
             }
         else {
-            out.append( "<class name=\"" )
+            out.append( XML_CLASS_NAME )
                .append( clazz.getName() )
                .append( "\">\n" );
 
-            for( final String name : map.keySet() ) {
+            for( final Entry<String, String> entry : map.entrySet() ) {
                 out.append("  <value name=\"" )
-                   .append( name ).append("\">" )
-                   .append( map.get( name ) )
+                   .append( entry.getKey() ).append("\">" )
+                   .append( entry.getValue() )
                    .append( "</value>\n" );
                 }
 
@@ -64,55 +84,64 @@ public class MappableHelper
     }
 
     /**
-     * TODOC
+     * Convert a <code>mappableObject</code> to an XML view
      *
      * @param out
+     *      Output for result
      * @param clazz
-     * @param aMappableObject
+     *      Class to use to analyze <code>mappableObject</code>
+     * @param mappableObject
+     *      Object to analyze
      * @throws IOException if any
      */
     public static void toXML(
         final Appendable out,
         final Class<?>   clazz,
-        final Mappable   aMappableObject
+        final Mappable   mappableObject
         ) throws IOException
     {
         MappableHelper.toXML(
             out,
             clazz,
-            (aMappableObject != null) ? aMappableObject.toMap() : null
+            (mappableObject != null) ? mappableObject.toMap() : null
             );
     }
 
     /**
-     * TODOC
+     * Convert a <code>mappableObject</code> to an XML view
      *
      * @param out
-     * @param aMappableObject
+     *      Output for result
+     * @param mappableObject
+     *      Object to analyze
      * @throws IOException if any
      */
-    public static void toXML( final Appendable out, final Mappable aMappableObject )
-        throws IOException
+    public static void toXML(
+        @Nonnull final Appendable out,
+        @Nonnull final Mappable   mappableObject
+        ) throws IOException
     {
-        MappableHelper.toXML( out, aMappableObject.getClass(), aMappableObject );
+        MappableHelper.toXML( out, mappableObject.getClass(), mappableObject );
     }
 
     /**
      * Returns {@link Mappable} object as XML
      *
-     * @param clazz TODOC
-     * @param aMappableObject TODOC
+     * @param clazz
+     *      Class to use to analyze <code>mappableObject</code>
+     * @param mappableObject
+     *      Object to analyze
      * @return {@link Mappable} object as XML
      */
-    public static String toXML( final Class<?> clazz, final Mappable aMappableObject )
+    public static String toXML( final Class<?> clazz, final Mappable mappableObject )
     {
         final StringBuilder sb = new StringBuilder();
 
         try {
-            MappableHelper.toXML( sb, clazz, aMappableObject);
+            MappableHelper.toXML( sb, clazz, mappableObject );
             }
         catch( final IOException improbable ) {
-            throw new RuntimeException(improbable);
+            throw new StringBuilderIOException( improbable );
             }
 
         return sb.toString();
@@ -121,11 +150,12 @@ public class MappableHelper
     /**
      * Returns {@link Mappable} object as XML
      *
-     * @param aMappableObject TODOC
+     * @param mappableObject
+     *      Object to analyze
      * @return {@link Mappable} object as XML
      */
-    public static String toXML( final Mappable aMappableObject )
+    public static String toXML( final Mappable mappableObject )
     {
-        return MappableHelper.toXML( aMappableObject.getClass(), aMappableObject );
+        return MappableHelper.toXML( mappableObject.getClass(), mappableObject );
     }
 }

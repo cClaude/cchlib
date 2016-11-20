@@ -8,7 +8,7 @@
 #
 MVN="${MAVEN_HOME}/bin/mvn"
 #MVN_XPARAM=
-MVN_XPARAM=-T 1.5C
+MVN_XPARAM="-T 1.5C"
 
 LOGSDIR="${PWD}/.logs"
 LOGS_TMP="${LOGSDIR}/.mvn.logs"
@@ -117,7 +117,8 @@ mvnJavadoc()
   cat "${LOGS_JAVADOC}"
   echo "RC=${MVN_EXIT} for ${MVN} ${MVN_PARAM}"
 
-  cat "${LOGS_JAVADOC}" | grep -F "[ERROR] >"${LOGS_JAVADOC_WARNING}"
+  cat "${LOGS_JAVADOC}" | grep -F "[WARNING]" >"${LOGS_JAVADOC_WARNING}"
+  cat "${LOGS_JAVADOC}" | grep -F "[ERROR]"  >>"${LOGS_JAVADOC_WARNING}"
 
 #
 #  cat "${LOGS_JAVADOC}" \
@@ -181,7 +182,7 @@ CCHLIB_HOME=$PWD
 
 mvnClean
 mvnExtra xcchlib-core-sample clean
-mvnExtra xcchlib-sample clean
+mvnExtra xcchlib-samples clean
 mvnExtra xcchlib-sandbox clean
 mvnExtra xcchlib-tools clean
 
@@ -190,7 +191,7 @@ mvnPackage
 mvnJavadoc
 
 mvnExtra xcchlib-core-sample test
-mvnExtra xcchlib-sample test
+mvnExtra xcchlib-samples test
 mvnExtra xcchlib-sandbox test
 mvnExtra xcchlib-tools test
 

@@ -2,12 +2,12 @@ package com.googlecode.cchlib.swing.hexeditor;
 
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public interface ArrayReadWriteAccess extends ArrayReadAccess
 {
     /**
-     * TODOC
+     * NEEDDOC
      * @param index
      * @param b
      */

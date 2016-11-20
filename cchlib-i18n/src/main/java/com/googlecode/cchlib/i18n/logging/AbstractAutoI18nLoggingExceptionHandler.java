@@ -64,7 +64,7 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
 
     protected EnumSet<AutoI18nConfig> getConfig()
     {
-        return config;
+        return this.config;
     }
 
     @Override
@@ -79,23 +79,11 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
         doHandleForField( "IllegalAccessException", cause, i18nField );
     }
 
-//    @Override
-//    public void handleIllegalArgumentException( IllegalArgumentException e )
-//    {
-//        doHandleForField( "IllegalArgumentException", e, (I18nField)null );
-//    }
-
     @Override
     public void handleIllegalArgumentException( final IllegalArgumentException cause, final I18nField i18nField )
     {
         doHandleForField( "IllegalArgumentException", cause, i18nField );
     }
-
-//    @Override
-//    public void handleInvocationTargetException( InvocationTargetException e )
-//    {
-//        doHandleForField( "InvocationTargetException", e, (I18nField)null );
-//    }
 
     @Override
     public void handleInvocationTargetException( final InvocationTargetException cause, final I18nField i18nField )

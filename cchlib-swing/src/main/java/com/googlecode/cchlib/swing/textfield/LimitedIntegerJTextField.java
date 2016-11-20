@@ -7,14 +7,16 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
+import org.apache.log4j.Logger;
 
 /**
- * TODOC
+ * NEEDDOC
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LimitedIntegerJTextField extends JTextField
 {
     private static final long serialVersionUID = 1L;
-    private static org.apache.log4j.Logger LOGGER = org.apache.log4j.Logger.getLogger(LimitedIntegerJTextField.class);
+    private static final Logger LOGGER = Logger.getLogger( LimitedIntegerJTextField.class );
 
     /** @serial */
     private int maxValue;
@@ -69,11 +71,12 @@ public class LimitedIntegerJTextField extends JTextField
 
             // Get new value, check it
             final String   newValue = rdoc.getText( 0, rdoc.getLength() );
-            int      intValue;
-            try {
-                intValue = Integer.parseInt( newValue, radix );
+            int            intValue;
 
-                if( intValue <= maxValue ) {
+            try {
+                intValue = Integer.parseInt( newValue, LimitedIntegerJTextField.this.radix );
+
+                if( intValue <= LimitedIntegerJTextField.this.maxValue ) {
                     if( intValue >=0 ) {
                         // All OK, bye, bye
                         return;
@@ -122,6 +125,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @throws IllegalArgumentException if maxValue is negative
      *
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public LimitedIntegerJTextField( final int maxValue, final int radix )
         throws IllegalArgumentException
     {
@@ -135,8 +139,8 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public int getMaxValue()
     {
@@ -144,22 +148,22 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public int getRadix()
     {
-        return radix;
+        return this.radix;
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public int getValue()
     {
         try {
-            final int value = Integer.parseInt( super.getText(), radix );
+            final int value = Integer.parseInt( super.getText(), this.radix );
 
             if( value >=0 ) {
                 return value;
@@ -177,11 +181,12 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param maxValue Maximum integer allowed by LimitedIntegerTextField
      * @throws IllegalArgumentException if maxValue is negative
      *         or if current value is greater than this new maxValue
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setMaxValue(final int maxValue)
         throws IllegalArgumentException
     {
@@ -196,10 +201,11 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param value
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setValue( final int value ) throws IllegalArgumentException
     {
         checkValue( value );
@@ -213,6 +219,7 @@ public class LimitedIntegerJTextField extends JTextField
      * @param radix
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setRadix( final int radix ) throws IllegalArgumentException
     {
         this.radix = radix;
@@ -222,10 +229,11 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param value
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void checkValue( final int value ) throws IllegalArgumentException
     {
         if( value > this.maxValue ) {

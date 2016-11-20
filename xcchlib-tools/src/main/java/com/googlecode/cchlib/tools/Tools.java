@@ -19,7 +19,7 @@ public final class Tools
         try {
             return ResourcesLoader.getImage( Tools.class, "tools.png" );
             }
-        catch( ResourcesLoaderException e ) {
+        catch( final ResourcesLoaderException e ) {
             LOGGER.error( "Can't load 'tools.png'", e );
             return null;
             }

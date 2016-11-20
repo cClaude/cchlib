@@ -43,30 +43,35 @@ abstract class AbstractDownload implements RunnableDownload
     }
 
     @Override
-    final public void run()
+    public final void run()
     {
         try {
             getDownloadEvent().downloadStart( getDownloadURL() );
 
-            try( final InputStream is = getDownloadURL().getInputStream() ) {
-                download( is );
-
-                getDownloadEvent().downloadDone( getDownloadURL() );
-                }
-            catch( final DownloadIOException e ) {
-                getDownloadEvent().downloadFail( e );
-                }
-            catch( final Exception e ) {
-                getDownloadEvent().downloadFail( new DownloadIOException( getDownloadURL(), e ) );
-                }
+            download();
             }
         catch( final Exception e ) {
             LOGGER.fatal( "Unhandled exception", e );
             }
     }
 
+    private void download()
+    {
+        try( final InputStream is = getDownloadURL().getInputStream() ) {
+            download( is );
+
+            getDownloadEvent().downloadDone( getDownloadURL() );
+            }
+        catch( final DownloadIOException e ) {
+            getDownloadEvent().downloadFail( e );
+            }
+        catch( final Exception e ) {
+            getDownloadEvent().downloadFail( new DownloadIOException( getDownloadURL(), e ) );
+            }
+    }
+
     @Override
-    final public DownloadURL getDownloadURL()
+    public final DownloadURL getDownloadURL()
     {
         return this.downloadURL;
     }

@@ -7,10 +7,10 @@ import java.io.OutputStream;
 /*
  * Copyright (C) 1996 Santeri Paavolainen, Helsinki Finland
  * Copyright (C) 2002-2010 Stephen Ostermiller
- * 
+ *
  * The original work by tephen Ostermiller can be found a
  * http://ostermiller.org/contact.pl?regarding=Java+Utilities
- * 
+ *
  * The original work by Santeri Paavolainen can be found a
  * http://santtu.iki.fi/md5/
  *
@@ -24,7 +24,7 @@ import java.io.OutputStream;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
- 
+
 /**
  * Implements MD5 functionality on a stream.
  * <BR>
@@ -56,33 +56,34 @@ public class MD5FilterOutputStream extends FilterOutputStream
 {
     /** MD5 context */
     private final MD5 md5;
- 
+
     /**
      * Creates MD5OutputStream
-     * 
+     *
      * @param out   The output stream
      */
-    public MD5FilterOutputStream( final OutputStream out ) 
+    public MD5FilterOutputStream( final OutputStream out )
     {
         super( out );
-        
+
         md5 = new MD5();
     }
- 
+
     /**
      * Writes the specified byte to this output stream.
      *
      * @param b the byte.
      * @throws IOException if an I/O error occurs.
      */
-    @Override public void write(int b) throws IOException 
+    @Override public void write(final int b) throws IOException
     {
         out.write(b);
-        md5.update((byte)(b & 0xff));
+
+        md5.update((byte)(b & 0xff)); // $codepro.audit.disable numericLiterals
     }
- 
+
     /**
-     * Writes length bytes from the specified byte array 
+     * Writes length bytes from the specified byte array
      * starting a offset off to this output stream.
      *
      * @param b the data.
@@ -90,16 +91,16 @@ public class MD5FilterOutputStream extends FilterOutputStream
      * @param len the number of bytes to write.
      * @throws IOException if an I/O error occurs.
      */
-    @Override 
-    public void write( byte[] b, int off, int len )
-        throws IOException 
+    @Override
+    public void write( final byte[] b, final int off, final int len )
+        throws IOException
     {
         out.write(b, off, len);
         md5.update(b, off, len);
     }
- 
+
     /**
-     * Returns array of bytes representing hash of the 
+     * Returns array of bytes representing hash of the
      * stream so far.
      * @return Array of 16 bytes, the hash of all written bytes.
      */
@@ -107,9 +108,9 @@ public class MD5FilterOutputStream extends FilterOutputStream
     {
         return md5.getHash();
     }
- 
+
     /**
-     * Get a 32-character hex representation representing hash 
+     * Get a 32-character hex representation representing hash
      * of the stream so far.
      * @return A string containing  the hash of all written bytes.
      */

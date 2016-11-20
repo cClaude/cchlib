@@ -68,13 +68,13 @@ public class MD5FilterInputStream extends FilterInputStream
     @Override
     public int read() throws IOException
     {
-        int c = in.read();
+        final int c = in.read();
 
         if( c == -1 ) {
             return -1;
             }
 
-        md5.update( (byte)(c & 0xff) );
+        md5.update( (byte)(c & 0xff) ); // $codepro.audit.disable numericLiterals
 
         return c;
     }

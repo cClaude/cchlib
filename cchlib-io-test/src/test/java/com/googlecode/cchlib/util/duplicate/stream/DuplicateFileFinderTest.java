@@ -7,24 +7,21 @@ import java.util.concurrent.ExecutionException;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 public class DuplicateFileFinderTest extends DuplicateFileFinderTest_Common {
     private static final Logger LOGGER = Logger.getLogger( DuplicateFileFinderTest.class );
 
-    @Override
-    protected Path[] getStartPaths()
+    public DuplicateFileFinderTest()
     {
-        // TODO implements a better solution to avoid very long test !
-        return new Path[] { FileHelper.getUserHomeDirFile().toPath() };
+        super( LOGGER );
     }
 
     @Override
-    protected Logger getLogger()
+    protected Path[] getStartPaths()
     {
-        return LOGGER;
+        return StartPathsHelper.getStartPaths();
     }
 
     @Override

@@ -3,11 +3,12 @@ package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.Folder;
+import com.googlecode.cchlib.util.emptydirectories.util.Folders;
 
 public final class FolderTreeNode
     extends DefaultMutableTreeNode
@@ -85,6 +86,9 @@ public final class FolderTreeNode
 
     /**
      * Create a child node on this node.
+     *
+     * @param newFolder
+     * @return
      */
     public FolderTreeNode addFolder( final Folder newFolder )
     {
@@ -105,7 +109,6 @@ public final class FolderTreeNode
     }
 
     @Override//Iterable
-    final
     public Iterator<FolderTreeNode> iterator()
     {
         final Enumeration<?> children = super.children();
@@ -118,9 +121,10 @@ public final class FolderTreeNode
                 return children.hasMoreElements();
             }
             @Override
-            public FolderTreeNode next()
+            @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+            public FolderTreeNode next() throws NoSuchElementException
             {
-                return FolderTreeNode.class.cast( children.nextElement() );
+                return (FolderTreeNode)( children.nextElement() );
             }
             @Override
             public void remove()
@@ -151,7 +155,7 @@ public final class FolderTreeNode
 
     public boolean isSelected()
     {
-        return selected;
+        return this.selected;
     }
 
     @Override
@@ -159,9 +163,9 @@ public final class FolderTreeNode
     {
         final StringBuilder builder = new StringBuilder();
         builder.append( "FolderTreeNode [folder=" );
-        builder.append( folder );
+        builder.append( this.folder );
         builder.append( ", selected=" );
-        builder.append( selected );
+        builder.append( this.selected );
         builder.append( ']' );
         return builder.toString();
     }

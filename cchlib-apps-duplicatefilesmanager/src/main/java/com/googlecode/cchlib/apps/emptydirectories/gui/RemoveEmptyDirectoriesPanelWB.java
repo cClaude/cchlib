@@ -21,7 +21,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.SoftBevelBorder;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.duplicatefiles.Resources;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Resources;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 

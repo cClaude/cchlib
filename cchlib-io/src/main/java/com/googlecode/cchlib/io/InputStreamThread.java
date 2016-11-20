@@ -6,60 +6,57 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
 /**
- * TODOC
- *
+ * NEEDDOC
  */
-public class InputStreamThread 
-    extends Thread 
-        //implements Closeable
+public class InputStreamThread
+    extends Thread
 {
     private final InputStream                   is;
-    private InputStreamThreadExceptionHandler   exceptionHandler;
+    private final InputStreamThreadExceptionHandler   exceptionHandler;
     private final PipedOutputStream             pipeOut;
     private final PipedInputStream              pipeIn;
     private boolean                             running;
-    //private static final int ERROR_MAX = 10;
-    private int bufferSize;
+    private final int bufferSize;
 
     /**
-     * TODOC
-     * 
-     * @param is
-     * @param bufferSize
-     * @param exceptionHandler 
-     * 
-     * @throws IOException
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
-     */
-    public InputStreamThread( 
-        final InputStream                       is, 
-        final int                               bufferSize,
-        final InputStreamThreadExceptionHandler exceptionHandler 
-        ) throws IOException
-    {
-        this( 
-            InputStreamThread.class.getName(), 
-            is, 
-            bufferSize, 
-            exceptionHandler 
-            );
-    }
-
-    /**
-     * TODOC
-     * 
-     * @param threadName
+     * NEEDDOC
+     *
      * @param is
      * @param bufferSize
      * @param exceptionHandler
-     * 
+     *
      * @throws IOException
      * @throws NullPointerException
      * @throws IllegalArgumentException
      */
     public InputStreamThread(
-        final String                            threadName, 
+        final InputStream                       is,
+        final int                               bufferSize,
+        final InputStreamThreadExceptionHandler exceptionHandler
+        ) throws IOException
+    {
+        this(
+            InputStreamThread.class.getName(),
+            is,
+            bufferSize,
+            exceptionHandler
+            );
+    }
+
+    /**
+     * NEEDDOC
+     *
+     * @param threadName
+     * @param is
+     * @param bufferSize
+     * @param exceptionHandler
+     *
+     * @throws IOException
+     * @throws NullPointerException
+     * @throws IllegalArgumentException
+     */
+    public InputStreamThread(
+        final String                            threadName,
         final InputStream                       is,
         final int                               bufferSize,
         final InputStreamThreadExceptionHandler exceptionHandler
@@ -76,69 +73,69 @@ public class InputStreamThread
         if( exceptionHandler == null ) {
             throw new NullPointerException( "Exception handler is null" );
             }
-         
+
         this.is                 = is;
         this.bufferSize         = bufferSize;
         this.exceptionHandler   = exceptionHandler;
-        
+
         this.running = true;
         this.pipeOut = new PipedOutputStream();
-        this.pipeIn  = new PipedInputStream( pipeOut );
+        this.pipeIn  = new PipedInputStream( this.pipeOut );
 
         setDaemon( true );
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public InputStream getInputStream()
     {
-        return pipeIn;
+        return this.pipeIn;
     }
 
     @Override
     public void run()
     {
-        final byte[] buffer = new byte[ bufferSize ];
-        
-        while( running ) {
+        final byte[] buffer = new byte[ this.bufferSize ];
+
+        while( this.running ) {
             int len;
-            
+
             try {
-                len = is.read( buffer, 0, buffer.length );
+                len = this.is.read( buffer, 0, buffer.length );
 
                 if( len == -1 ) {
                     break; // EOF
                     }
                 }
-            catch( IOException e ) {
-                exceptionHandler.handleReadingIOException( e );
+            catch( final IOException e ) {
+                this.exceptionHandler.handleReadingIOException( e );
                 break;
                 }
 
             try {
-                pipeOut.write( buffer, 0, len );
+                this.pipeOut.write( buffer, 0, len );
                 }
-            catch( IOException e ) {
-                exceptionHandler.handleWritingIOException( e );
-                running = false;
+            catch( final IOException e ) {
+                this.exceptionHandler.handleWritingIOException( e );
+                this.running = false;
                 }
             }
 
         try {
-            pipeOut.close();
+            this.pipeOut.close();
             }
-        catch( IOException e ) {
-            exceptionHandler.handleWritingIOException( e );
+        catch( final IOException e ) {
+            this.exceptionHandler.handleWritingIOException( e );
             }
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     public void cancel()
     {
-        running = false;
+        this.running = false;
     }
 }

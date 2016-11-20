@@ -86,8 +86,8 @@ public class Pinger extends Thread
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public boolean isPingResultReady()
     {
@@ -95,8 +95,8 @@ public class Pinger extends Thread
     }
 
     /**
-     * TODOC
-     * @return TODOC
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public boolean isPingResultOk()
     {
@@ -104,10 +104,10 @@ public class Pinger extends Thread
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param host
      * @param timeout
-     * @return TODOC
+     * @return NEEDDOC
      * @throws UnknownHostException
      * @throws IOException
      */
@@ -118,7 +118,7 @@ public class Pinger extends Thread
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param inetAddress
      * @param timeout the time, in milliseconds, before the call aborts
      * @return a boolean indicating if the address is reachable.
@@ -131,9 +131,9 @@ public class Pinger extends Thread
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param host
-     * @return TODOC
+     * @return NEEDDOC
      * @throws PingerException
      */
     public static boolean helloPing(final String host)
@@ -143,10 +143,10 @@ public class Pinger extends Thread
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param host
      * @param port
-     * @return TODOC
+     * @return NEEDDOC
      * @throws PingerException
      */
     public static boolean helloPing(final String host, final int port) throws PingerException
@@ -201,11 +201,11 @@ public class Pinger extends Thread
 //    }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param inetAddress
      * @param port
      * @param sendData
-     * @return TODOC
+     * @return NEEDDOC
      * @throws java.io.IOException
      */
     public static String sendTCPRequest(
@@ -235,11 +235,11 @@ public class Pinger extends Thread
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param inetAddress
      * @param port
      * @param sendData
-     * @return TODOC
+     * @return NEEDDOC
      * @throws java.io.IOException
      */
     public static String sendUDPRequest(

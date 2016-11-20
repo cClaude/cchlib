@@ -1,12 +1,12 @@
 package cx.ath.choisnet.lang.introspection.method;
 
 import java.lang.reflect.Method;
-import java.util.EnumSet;
+import java.util.Set;
 
 /**
- * TODOC
+ * NEEDDOC
  *
- * @param <O> TODOC
+ * @param <O> NEEDDOC
  */
 public class DefaultIntrospection<O>
     extends Introspection<O, DefaultIntrospectionItem<O>>
@@ -17,8 +17,8 @@ public class DefaultIntrospection<O>
      * @param attribSet
      */
     public DefaultIntrospection(
-            Class<O>                        inpectClass,
-            EnumSet<IntrospectionParameters>   attribSet
+            final Class<O>                     inpectClass,
+            final Set<IntrospectionParameters> attribSet
             )
     {
         super(
@@ -27,8 +27,8 @@ public class DefaultIntrospection<O>
            {
                 @Override
                 public IntrospectionItem<O> buildIntrospectionItem(
-                        Method getter,
-                        Method setter
+                        final Method getter,
+                        final Method setter
                         )
                 {
                     return new DefaultIntrospectionItem<>( getter, setter );
@@ -44,7 +44,7 @@ public class DefaultIntrospection<O>
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "DefaultIntrospection [getMap()=" );
         builder.append( getMap() );
         builder.append( ']' );

@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.swing.textfield;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -19,7 +18,7 @@ public abstract class JPopupMenuForJTextField
     extends AbstractJPopupMenuBuilder
 {
     private static final long serialVersionUID = 1L;
-    private JTextField jTextField;
+    private final JTextField jTextField;
 
     /**
      * Create JPopupMenuForJTextField
@@ -28,6 +27,8 @@ public abstract class JPopupMenuForJTextField
      */
     public JPopupMenuForJTextField( final JTextField jTextField )
     {
+        super( null );
+
         this.jTextField = jTextField;
     }
 
@@ -37,7 +38,7 @@ public abstract class JPopupMenuForJTextField
      */
     protected final JTextField getJTextField()
     {
-        return jTextField;
+        return this.jTextField;
     }
 
     /**
@@ -46,7 +47,7 @@ public abstract class JPopupMenuForJTextField
      */
     protected final String getValue()
     {
-        return jTextField.getText();
+        return this.jTextField.getText();
     }
 
     /**
@@ -57,34 +58,34 @@ public abstract class JPopupMenuForJTextField
      */
     protected final void setValue( final String aValue )
     {
-        jTextField.setText( aValue );
+        this.jTextField.setText( aValue );
     }
 
     @Override
-    protected void addMouseListener( MouseListener l )
+    protected void addMouseListener( final MouseListener l )
     {
-        jTextField.addMouseListener( l );
+        this.jTextField.addMouseListener( l );
     }
 
     @Override
     protected void removeMouseListener( final MouseListener l )
     {
-        jTextField.removeMouseListener( l );
+        this.jTextField.removeMouseListener( l );
     }
 
     @Override
-    protected void maybeShowPopup( MouseEvent e )
+    protected void maybeShowPopup( final MouseEvent e )
     {
-        if( e.isPopupTrigger() && jTextField.isEnabled() ) {
-            Point p = new Point( e.getX(), e.getY() );
+        if( e.isPopupTrigger() && this.jTextField.isEnabled() ) {
+            final Point p = new Point( e.getX(), e.getY() );
 
             // create popup menu...
-            JPopupMenu contextMenu = createContextMenu();
+            final JPopupMenu contextMenu = createContextMenu();
 
             // ... and show it
             if( (contextMenu != null)
                     && (contextMenu.getComponentCount() > 0) ) {
-                contextMenu.show( jTextField, p.x, p.y );
+                contextMenu.show( this.jTextField, p.x, p.y );
                 }
             }
     }
@@ -110,28 +111,19 @@ public abstract class JPopupMenuForJTextField
      */
     protected abstract JPopupMenu createContextMenu();
 
-//    /**
-//     * @deprecated use {@link #addCopyMenuItem(JPopupMenu, String)} instead
-//     */
-//    @Deprecated
-//    public void addCopyMenuItem( final JPopupMenu contextMenu )
-//    {
-//        addCopyMenuItem( contextMenu, "Copy" );
-//    }
-
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param contextMenu
      * @param textForCopy
-     * @return TODOC
+     * @return NEEDDOC
      */
     public final JMenuItem addCopyMenuItem(
         final JPopupMenu contextMenu,
         final String     textForCopy
         )
     {
-        JMenuItem menu = buildCopyJMenuItem( textForCopy );
+        final JMenuItem menu = buildCopyJMenuItem( textForCopy );
 
         addJMenuItem( contextMenu, menu );
 
@@ -139,14 +131,14 @@ public abstract class JPopupMenuForJTextField
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param textForCopy
-     * @return TODOC
+     * @return NEEDDOC
      */
     protected final JMenuItem buildCopyJMenuItem( final String textForCopy )
     {
-        JMenuItem m = new JMenuItem(textForCopy);
+        final JMenuItem m = new JMenuItem(textForCopy);
         m.addActionListener(
                 copyActionListener()
                 );
@@ -161,51 +153,32 @@ public abstract class JPopupMenuForJTextField
      */
     protected final ActionListener copyActionListener()
     {
-        return new ActionListener()
-        {
-            @Override
-            public void actionPerformed( ActionEvent e )
-            {
-                String value = getValue();
-                setClipboardContents( (value == null) ? StringHelper.EMPTY : value );
-            }
+        return e -> {
+            final String value = getValue();
+            setClipboardContents( (value == null) ? StringHelper.EMPTY : value );
         };
     }
 
-//    /**
-//     * @deprecated use {@link #addPasteMenuItem(JPopupMenu, String)} instead
-//     */
-//    @Deprecated
-//    protected void addPasteMenuItem( final JPopupMenu contextMenu )
-//    {
-//        addPasteMenuItem( contextMenu, "Paste" );
-//    }
-
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param contextMenu
-     * @return TODOC
+     * @return NEEDDOC
      */
     protected final JMenuItem addPasteMenuItem(
         final JPopupMenu contextMenu,
         final String     textForPaste
         )
     {
-        JMenuItem pasteMenu = new JMenuItem();
+        final JMenuItem pasteMenu = new JMenuItem();
         pasteMenu.setText( textForPaste );
 
         if( isClipboardContainingText( this ) ) {
             pasteMenu.addActionListener(
-                    new ActionListener()
-                    {
-                        @Override
-                        public void actionPerformed( ActionEvent e )
-                        {
-                            String value = getClipboardContents( JPopupMenuForJTextField.this );
+                    e -> {
+                        final String value = getClipboardContents( JPopupMenuForJTextField.this );
 
-                            setValue( value );
-                        }
+                        setValue( value );
                     });
             }
         else {

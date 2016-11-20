@@ -2,7 +2,8 @@ package com.googlecode.cchlib.xutil.google.googlecontact;
 
 import com.googlecode.cchlib.xutil.google.googlecontact.analyser.TypeInfo;
 
-public interface HeaderCustomTypeMethodContener extends HeaderMethodContener, Iterable<HeaderMethodContener> {
+public interface HeaderCustomTypeMethodContener extends HeaderMethodContener, Iterable<HeaderMethodContener>
+{
     String getHeader();
 
     String getPrefix();

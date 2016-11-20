@@ -1,18 +1,18 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folders;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.util.Folders;
 
 //not public
 final class FolderTreeBuilder
 {
     private static final Logger LOGGER = Logger.getLogger( FolderTreeBuilder.class );
 
-    // TODO use ArrayHashMap instead !
+    // Could be improve using ArrayHashMap instead !
     private final LinkedHashMap<Path,FolderTreeNode> rootNodesMap = new LinkedHashMap<>(); // $codepro.audit.disable declareAsInterface
 
     private final FolderTreeModelable model;
@@ -77,13 +77,13 @@ final class FolderTreeBuilder
         )
     {
        if( emptyFolderPathNameIndex < emptyFolderPath.getNameCount() ) {
-           Enumeration<?> enu                      = parentFolderTreeNode.children();
-           Path           emptyFolderPathName      = emptyFolderPath.getName( emptyFolderPathNameIndex );
+           final Enumeration<?> enu                      = parentFolderTreeNode.children();
+           final Path           emptyFolderPathName      = emptyFolderPath.getName( emptyFolderPathNameIndex );
 
             while( enu.hasMoreElements() ) {
-                FolderTreeNode childNode     = FolderTreeNode.class.cast( enu.nextElement() );
-                Path           childNodePath = childNode.getFolder().getPath();
-                Path           childNodeName = childNodePath.getName( childNodePath.getNameCount() -1 );
+                final FolderTreeNode childNode     = FolderTreeNode.class.cast( enu.nextElement() );
+                final Path           childNodePath = childNode.getFolder().getPath();
+                final Path           childNodeName = childNodePath.getName( childNodePath.getNameCount() -1 );
 
                 if( childNodeName.equals( emptyFolderPathName ) ) {
                     return findBestParentRec( childNode, emptyFolderPath, emptyFolderPathNameIndex + 1 );
@@ -103,12 +103,12 @@ final class FolderTreeBuilder
             throw new IllegalStateException();
             }
 
-        FolderTreeNode emptyFolderRootFolderTreeNode = rootNodesMap.get( emptyFolderRootPath );
+        FolderTreeNode emptyFolderRootFolderTreeNode = this.rootNodesMap.get( emptyFolderRootPath );
 
         if( emptyFolderRootFolderTreeNode == null ) {
-            emptyFolderRootFolderTreeNode = FolderTreeNode.createRootFolderFor( emptyFolder.getPath(), model );
+            emptyFolderRootFolderTreeNode = FolderTreeNode.createRootFolderFor( emptyFolder.getPath(), this.model );
 
-            rootNodesMap.put( emptyFolderRootPath, emptyFolderRootFolderTreeNode );
+            this.rootNodesMap.put( emptyFolderRootPath, emptyFolderRootFolderTreeNode );
             }
 
         return emptyFolderRootFolderTreeNode;
@@ -116,11 +116,11 @@ final class FolderTreeBuilder
 
     protected LinkedHashMap<Path,FolderTreeNode> getRootNodesMap() // $codepro.audit.disable declareAsInterface
     {
-        return rootNodesMap;
+        return this.rootNodesMap;
     }
 
     protected void clear()
     {
-        rootNodesMap.clear();
+        this.rootNodesMap.clear();
     }
 }

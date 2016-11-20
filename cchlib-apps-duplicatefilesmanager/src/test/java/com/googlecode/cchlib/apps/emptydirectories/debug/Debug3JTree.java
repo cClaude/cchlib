@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.apps.emptydirectories.debug;
 
-import com.googlecode.cchlib.io.FileHelper;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import com.googlecode.cchlib.io.FileHelper;
 
 public class Debug3JTree
 {
@@ -30,9 +30,9 @@ public class Debug3JTree
 
     private Folder3TreeModel buildDemoModel()
     {
-        Folder3TreeModel model = Folder3TreeModelImpl.getInstance();
+        final Folder3TreeModel model = Folder3TreeModelImpl.getInstance();
 
-        Folder3TreeNode root = model.getRootNode();
+        final Folder3TreeNode root = model.getRootNode();
 
         root.add( newTreeNode() );
 
@@ -40,7 +40,7 @@ public class Debug3JTree
         root.add( newTreeNode( "B" ) );
         root.add( newTreeNode( "C" ) );
 
-        Folder3TreeNode nodeAA = newTreeNode( "AA" );
+        final Folder3TreeNode nodeAA = newTreeNode( "AA" );
         root.add( nodeAA );
         nodeAA.add( newTreeNode( "AA/AA" ) );
         nodeAA.add( newTreeNode( "AA/BB" ) );

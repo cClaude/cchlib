@@ -40,8 +40,8 @@ public class DBFReader extends DBFBase
     private DBFHeader       header;
 
     /* Class specific variables */
-    private boolean isClosed = true;
-    private Map<String,Integer> fieldsNamesMap = new HashMap<String,Integer>();
+    private boolean             isClosed       = true;
+    private final Map<String,Integer> fieldsNamesMap = new HashMap<>();
 
     /**
      * Initializes a DBFReader object.
@@ -64,13 +64,13 @@ public class DBFReader extends DBFBase
             this.header.read( this.dataInputStream );
 
             /* it might be required to leap to the start of records at times */
-            int t_dataStartIndex = this.header.headerLength - ( 32 + (32*this.header.fieldArray.length)) - 1;
+            final int t_dataStartIndex = this.header.headerLength - ( 32 + (32*this.header.fieldArray.length)) - 1;
 
             if( t_dataStartIndex > 0) {
-                dataInputStream.skip( t_dataStartIndex);
+                this.dataInputStream.skip( t_dataStartIndex);
                 }
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             throw new DBFException( e );
             }
         refreshMapFieldIndex();
@@ -96,15 +96,15 @@ public class DBFReader extends DBFBase
             final Object[] record = private_nextRecord();
 
             for( int i = 0; i < record.length; i++ ) {
-                Object o = record[ i ];
+                final Object o = record[ i ];
 
                 if( o instanceof String ) {
-                    DBFField f = getField( i );
+                    final DBFField f = getField( i );
 
                     try {
                         f.setName( String.class.cast( o ).trim() );
                         }
-                    catch( IllegalArgumentException e ) { // $codepro.audit.disable emptyCatchClause, logExceptions
+                    catch( final IllegalArgumentException e ) { // $codepro.audit.disable emptyCatchClause, logExceptions
                         // No change for this field.
                         }
                     }
@@ -120,7 +120,7 @@ public class DBFReader extends DBFBase
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         sb.append( this.header.year )
           .append( '/' )
@@ -172,10 +172,10 @@ public class DBFReader extends DBFBase
      * @param index Index of the field. Index of the first field is zero.
      * @throws ArrayIndexOutofboundsException if index in not in range.
     */
-    public DBFField getField( int index )
+    public DBFField getField( final int index )
         throws DBFException
     {
-        if( isClosed ) {
+        if( this.isClosed ) {
             throw new DBFClosedException( "Source is not open" );
             }
 
@@ -188,7 +188,7 @@ public class DBFReader extends DBFBase
     public int getFieldCount()
         throws DBFException
     {
-        if( isClosed) {
+        if( this.isClosed) {
             throw new DBFClosedException( "Source is not open" );
             }
         if( this.header.fieldArray != null) {
@@ -243,21 +243,21 @@ public class DBFReader extends DBFBase
     private Object[] private_nextRecord()
         throws DBFException
     {
-        if( isClosed) {
+        if( this.isClosed) {
             throw new DBFClosedException( "Source is not open" );
             }
 
-        Object[] recordObjects = new Object[ this.header.fieldArray.length];
+        final Object[] recordObjects = new Object[ this.header.fieldArray.length];
 
         try {
             boolean isDeleted = false;
 
             do {
                 if( isDeleted) {
-                    dataInputStream.skip( this.header.recordLength-1);
+                    this.dataInputStream.skip( this.header.recordLength-1);
                     }
 
-                int t_byte = dataInputStream.readByte();
+                final int t_byte = this.dataInputStream.readByte();
                 if( t_byte == END_OF_DATA) {
                     return null; // $codepro.audit.disable returnValue
                     }
@@ -270,23 +270,23 @@ public class DBFReader extends DBFBase
                 switch( this.header.fieldArray[i].getDataType()) {
                     case 'C':
 
-                        byte[] b_array = new byte[ this.header.fieldArray[i].getFieldLength()];
-                        dataInputStream.read( b_array);
-                        recordObjects[i] = new String( b_array, characterSetName);
+                        final byte[] b_array = new byte[ this.header.fieldArray[i].getFieldLength()];
+                        this.dataInputStream.read( b_array);
+                        recordObjects[i] = new String( b_array, getCharacterSetName());
                         break;
 
                     case 'D':
-                        byte[] t_byte_year = new byte[ 4];
-                        dataInputStream.read( t_byte_year);
+                        final byte[] t_byte_year = new byte[ 4];
+                        this.dataInputStream.read( t_byte_year);
 
-                        byte[] t_byte_month = new byte[ 2];
-                        dataInputStream.read( t_byte_month);
+                        final byte[] t_byte_month = new byte[ 2];
+                        this.dataInputStream.read( t_byte_month);
 
-                        byte[] t_byte_day = new byte[ 2];
-                        dataInputStream.read( t_byte_day);
+                        final byte[] t_byte_day = new byte[ 2];
+                        this.dataInputStream.read( t_byte_day);
 
                         try {
-                            Calendar calendar = new GregorianCalendar(
+                            final Calendar calendar = new GregorianCalendar(
                                 Integer.parseInt( new String( t_byte_year) ),
                                 Integer.parseInt( new String( t_byte_month) ) - 1,
                                 Integer.parseInt( new String( t_byte_day) )
@@ -294,7 +294,7 @@ public class DBFReader extends DBFBase
 
                             recordObjects[i] = calendar.getTime();
                             }
-                        catch( NumberFormatException e ) { // $codepro.audit.disable logExceptions
+                        catch( final NumberFormatException e ) { // $codepro.audit.disable logExceptions
                             /* this field may be empty or may have improper value set */
                             recordObjects[i] = null;
                         }
@@ -303,9 +303,9 @@ public class DBFReader extends DBFBase
                     case 'F':
                         try {
                             byte[] t_float = new byte[ this.header.fieldArray[i].getFieldLength()];
-                            dataInputStream.read( t_float);
+                            this.dataInputStream.read( t_float);
                             t_float = Utils.trimLeftSpaces( t_float);
-                            if( t_float.length > 0 && !Utils.contains( t_float, (byte)'?')) {
+                            if( (t_float.length > 0) && !Utils.contains( t_float, (byte)'?')) {
 
                                 recordObjects[i] = new Float( new String( t_float));
                             }
@@ -313,7 +313,7 @@ public class DBFReader extends DBFBase
                                 recordObjects[i] = null;
                             }
                         }
-                        catch( NumberFormatException e) {
+                        catch( final NumberFormatException e) {
                             throw new DBFException( "Failed to parse Float: " + e.getMessage(), e );
                         }
                         break;
@@ -322,24 +322,24 @@ public class DBFReader extends DBFBase
                         try {
 
                             byte[] t_numeric = new byte[ this.header.fieldArray[i].getFieldLength()];
-                            dataInputStream.read( t_numeric);
+                            this.dataInputStream.read( t_numeric);
                             t_numeric = Utils.trimLeftSpaces( t_numeric);
 
-                            if( t_numeric.length > 0 && !Utils.contains( t_numeric, (byte)'?')) {
+                            if( (t_numeric.length > 0) && !Utils.contains( t_numeric, (byte)'?')) {
                                 recordObjects[i] = new Double( new String( t_numeric));
                             }
                             else {
                                 recordObjects[i] = null;
                             }
                         }
-                        catch( NumberFormatException e ) {
+                        catch( final NumberFormatException e ) {
                             throw new DBFException( "Failed to parse Number: " + e.getMessage(), e );
                         }
                         break;
 
                     case 'L':
-                        byte t_logical = dataInputStream.readByte();
-                        if( t_logical == 'Y' || t_logical == 't' || t_logical == 'T' || t_logical == 't') {
+                        final byte t_logical = this.dataInputStream.readByte();
+                        if( (t_logical == 'Y') || (t_logical == 't') || (t_logical == 'T') || (t_logical == 't')) {
                             recordObjects[i] = Boolean.TRUE;
                         }
                         else {
@@ -357,10 +357,10 @@ public class DBFReader extends DBFBase
                 }
             }
         }
-        catch( EOFException e) { // $codepro.audit.disable logExceptions
+        catch( final EOFException e) { // $codepro.audit.disable logExceptions
             return null; // $codepro.audit.disable returnValue
             }
-        catch( IOException e) {
+        catch( final IOException e) {
             throw new DBFException( e );
             }
 

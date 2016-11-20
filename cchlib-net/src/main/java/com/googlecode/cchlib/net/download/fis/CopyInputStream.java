@@ -62,6 +62,7 @@ class CopyInputStream extends FilterInputStream
      * @throws IllegalStateException
      *             if original stream not yet closed.
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public byte[] toByteArray() throws IllegalStateException
     {
         if( this.closed ) {
@@ -78,6 +79,7 @@ class CopyInputStream extends FilterInputStream
      * @throws IllegalStateException
      *             if original stream not yet closed.
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public InputStream toInputStream() throws IllegalStateException
     {
         return new ByteArrayInputStream( toByteArray() );

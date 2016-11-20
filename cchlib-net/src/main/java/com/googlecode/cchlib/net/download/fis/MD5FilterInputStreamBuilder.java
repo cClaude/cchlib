@@ -6,15 +6,15 @@ import com.googlecode.cchlib.io.checksum.MD5FilterInputStream;
 import com.googlecode.cchlib.net.download.DownloadFileURL;
 
 /**
- * TODOC
- * 
+ * NEEDDOC
+ *
  * @since 4.1.7
  */
-public class MD5FilterInputStreamBuilder 
+public class MD5FilterInputStreamBuilder
     implements DownloadFilterInputStreamBuilder
 {
     /**
-     * 
+     *
      */
     public MD5FilterInputStreamBuilder()
     {
@@ -35,7 +35,7 @@ public class MD5FilterInputStreamBuilder
 
     /**
      * Set filter result on {@link DownloadFileURL}.
-     * 
+     *
      * @param filter    Closed filter to use for result
      * @param dURL      DownloadFileURL that will received result.
      */

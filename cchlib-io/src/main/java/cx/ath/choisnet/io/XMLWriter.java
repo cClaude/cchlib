@@ -6,7 +6,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public final class XMLWriter extends Writer
     //implements Appendable, Flushable, Closeable
@@ -15,10 +15,10 @@ public final class XMLWriter extends Writer
     private final StringBuilder sbuffer = new StringBuilder();
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param writer
      */
-    public XMLWriter(Writer writer)
+    public XMLWriter(final Writer writer)
     {
         this.writer = writer;
     }
@@ -26,92 +26,92 @@ public final class XMLWriter extends Writer
     @Override
     public void close() throws IOException
     {
-        writer.close();
+        this.writer.close();
     }
 
     @Override
     public void flush() throws IOException
     {
-        writer.flush();
+        this.writer.flush();
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      */
     @Override
-    public void write(char cbuf[], int off, int len)
+    public void write(final char[] cbuf, final int off, final int len)
         throws IOException
     {
         synchronized(super.lock) {
-            sbuffer.setLength(0);
+            this.sbuffer.setLength(0);
 
             for(int i = off; i < len; i++) {
                 switch(cbuf[i]) {
                 case 62:
-                    sbuffer.append("&gt;");
+                    this.sbuffer.append("&gt;");
                     break;
                 case 60:
-                    sbuffer.append("&lt;");
+                    this.sbuffer.append("&lt;");
                     break;
                 case 38:
-                    sbuffer.append("&amp;");
+                    this.sbuffer.append("&amp;");
                     break;
                 default:
-                    sbuffer.append(cbuf[i]);
+                    this.sbuffer.append(cbuf[i]);
                     break;
                 }
             }
 
-            writer.write(sbuffer.toString());
+            this.writer.write(this.sbuffer.toString());
         }
 
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param throwable
      * @throws IOException
      */
-    public void write(Throwable throwable)
+    public void write(final Throwable throwable)
         throws IOException
     {
-        StringWriter sw = new StringWriter();
+        final StringWriter sw = new StringWriter();
         throwable.printStackTrace(new PrintWriter(sw));
         write(sw.toString());
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param str
      * @throws IOException
      */
-    public void rawWrite(String str)
+    public void rawWrite(final String str)
         throws IOException
     {
-        writer.write(str);
+        this.writer.write(str);
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param cbuf
      * @throws IOException
      */
-    public void rawWrite(char[] cbuf)
+    public void rawWrite(final char[] cbuf)
         throws IOException
     {
-        writer.write(cbuf);
+        this.writer.write(cbuf);
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      * @param cbuf
      * @param off
      * @param len
      * @throws IOException
      */
-    public void rawWrite(char[] cbuf, int off, int len)
+    public void rawWrite(final char[] cbuf, final int off, final int len)
         throws IOException
     {
-        writer.write(cbuf, off, len);
+        this.writer.write(cbuf, off, len);
     }
 }

@@ -1,6 +1,8 @@
-// $codepro.audit.disable
 package com.googlecode.cchlib.util.base64;
 
+import static com.googlecode.cchlib.util.base64.Base64.BASE_64;
+import static com.googlecode.cchlib.util.base64.Base64.DEFAULT_BUFFER_SIZE;
+import static com.googlecode.cchlib.util.base64.Base64.computeEncoderBufferSize;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -12,7 +14,7 @@ import java.util.Arrays;
  *
  * @see Base64Decoder
  */
-public class Base64Encoder extends Base64
+public class Base64Encoder
 {
     private final byte[] buffer;
 
@@ -42,6 +44,7 @@ public class Base64Encoder extends Base64
      * @throws IOException if any
      * @throws UnsupportedEncodingException if any
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public synchronized void encode(
         final InputStream in,
         final Writer      out
@@ -52,8 +55,8 @@ public class Base64Encoder extends Base64
 
         //FIXME: bad result if buffer is not big enough !
 
-        while( (len = in.read( buffer )) > 0 ) {
-            final char[] enc = encodeToChar( buffer, 0, len );
+        while( (len = in.read( this.buffer )) > 0 ) {
+            final char[] enc = encodeToChar( this.buffer, 0, len );
             out.write( enc );
             }
 
@@ -119,7 +122,7 @@ public class Base64Encoder extends Base64
             )
         throws UnsupportedEncodingException
     {
-        if( offset != 0 || length != bytes.length ) {
+        if( (offset != 0) || (length != bytes.length) ) {
             // Need a new array...
             return encodeToChar( Arrays.copyOfRange( bytes, offset, length ) );
             }
@@ -159,6 +162,7 @@ public class Base64Encoder extends Base64
     }
 
     // result char[] must be fixed !
+    @SuppressWarnings({"squid:S00117","squid:S00100"})
     private static char[] private_encodeRaw( final byte[] bytes_ )
         throws UnsupportedEncodingException
     {
@@ -168,33 +172,32 @@ public class Base64Encoder extends Base64
 
         try {
             final  int   length = bytes_.length;
-            final char[] ac     = new char[(length / 3) * 4 + 4];
+            final char[] ac     = new char[((length / 3) * 4) + 4];
             final int    b      = (length / 3) * 3;
             int    k = 0;
             int    i;
 
             for(i = 0; i < b; i += 3) {
-                final int j = (bytes_[i] & 0x00FF) << 16 | (bytes_[i + 1] & 0x00FF) << 8 | (bytes_[i + 2] & 0x00FF);
+                final int j = ((bytes_[i] & 0x00FF) << 16) | ((bytes_[i + 1] & 0x00FF) << 8) | (bytes_[i + 2] & 0x00FF);
 
-                ac[k + 3] = BASE64[j & 0x3f];
-                ac[k + 2] = BASE64[j >>> 6 & 0x3f];
-                ac[k + 1] = BASE64[j >>> 12 & 0x3f];
-                ac[k] = BASE64[j >>> 18 & 0x3f];
+                ac[k + 3] = BASE_64[j & 0x3f];
+                ac[k + 2] = BASE_64[(j >>> 6) & 0x3f];
+                ac[k + 1] = BASE_64[(j >>> 12) & 0x3f];
+                ac[k] = BASE_64[(j >>> 18) & 0x3f];
                 k += 4;
                 }
 
             if(i < length) {
-                //ac[k]     = BASE64[bytes[i] >>> 2];
-                ac[k]     = BASE64[(bytes_[i] & 0x00FF)>>> 2];
+                ac[k]     = BASE_64[(bytes_[i] & 0x00FF)>>> 2];
                 ac[k + 3] = '=';
 
                 final int l = ((bytes_[i] & 0x00FF) & 3) << 4;
-                ac[k + 1] = BASE64[l];
+                ac[k + 1] = BASE_64[l];
                 ac[k + 2] = '=';
 
-                if(i != length - 1) {
-                    ac[k + 1] = BASE64[l | ((bytes_[i + 1] & 0x00FF) & 0xf0) >>> 4];
-                    ac[k + 2] = BASE64[((bytes_[i + 1] & 0x00FF) & 0xf) << 2];
+                if(i != (length - 1)) {
+                    ac[k + 1] = BASE_64[l | (((bytes_[i + 1] & 0x00FF) & 0xf0) >>> 4)];
+                    ac[k + 2] = BASE_64[((bytes_[i + 1] & 0x00FF) & 0xf) << 2];
                     }
                 }
             return ac;

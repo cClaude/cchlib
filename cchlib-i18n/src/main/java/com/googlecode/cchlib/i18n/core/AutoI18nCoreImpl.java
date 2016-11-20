@@ -14,8 +14,8 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
     private static final Logger LOGGER = Logger.getLogger( AutoI18nCoreImpl.class );
 
     private final Map<Class<?>,I18nClass<?>> map = new HashMap<>();
-    private final I18nDelegator i18nDelegator;
-    private final Locale locale;
+    private final I18nDelegator              i18nDelegator;
+    private final Locale                     locale;
 
     public AutoI18nCoreImpl( final I18nDelegator i18nDelegator )
     {
@@ -41,7 +41,7 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
         final I18nClass<T>     i18nClass = getI18nClass( clazz );
         final I18nApplyable<T> applyer   = new I18nApplyableImpl<>( i18nClass, this.i18nDelegator );
 
-        applyer.performeI18n( objectToI18n, locale );
+        applyer.performeI18n( objectToI18n, this.locale );
     }
 
     private <T> I18nClass<T> getI18nClass( final Class<? extends T> clazz )
@@ -55,5 +55,14 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
             this.map.put( clazz, i18nClass );
             }
         return i18nClass;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "AutoI18nCoreImpl [map=" + this.map
+            + ", i18nDelegator=" + this.i18nDelegator
+            + ", locale=" + this.locale
+            + "]";
     }
 }

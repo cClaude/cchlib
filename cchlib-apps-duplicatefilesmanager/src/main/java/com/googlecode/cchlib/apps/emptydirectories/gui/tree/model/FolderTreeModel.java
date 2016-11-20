@@ -17,8 +17,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.apps.emptydirectories.EmptyFolder;
-import com.googlecode.cchlib.apps.emptydirectories.Folder;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
+import com.googlecode.cchlib.util.emptydirectories.Folder;
 import com.googlecode.cchlib.util.iterable.Iterables;
 import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
@@ -32,7 +32,7 @@ public final class FolderTreeModel
     private final FolderTreeBuilder folderTreeBuilder;
     private final Set<EmptyFolder> selectedNodes = new HashSet<>();
     @Deprecated private final JTree jTree;
-    private final Object lock = new Object();
+    private volatile Object lock = new Object();
 
     public FolderTreeModel( final JTree jTree )
     {
@@ -50,7 +50,7 @@ public final class FolderTreeModel
     @Override
     public final JTree getJTree()
     {
-        return jTree;
+        return this.jTree;
     }
 
     /**
@@ -76,12 +76,12 @@ public final class FolderTreeModel
     {
         final FolderTreeNode newRoot;
 
-        synchronized( lock ) {
+        synchronized( this.lock ) {
             newRoot = synchronizedAdd( emptyFolder );
 
             if( newRoot != null ) {
                 // Add this new 'root', to model
-                final DefaultMutableTreeNode hiddenRoot = DefaultMutableTreeNode.class.cast( root );
+                final DefaultMutableTreeNode hiddenRoot = DefaultMutableTreeNode.class.cast( this.root );
                 hiddenRoot.add( newRoot );
                 }
             else {
@@ -139,7 +139,7 @@ public final class FolderTreeModel
     public final void setSelectAll( final boolean onlyLeaf, final boolean selected )
     {
         if( selected ) {
-            synchronized( lock ) {
+            synchronized( this.lock ) {
                 final Iterator<FolderTreeNode> iter = nodeIterator();
 
                 while( iter.hasNext() ) {
@@ -194,7 +194,7 @@ public final class FolderTreeModel
             }
 
         try {
-            final Object[]        pairs   = listenerList.getListenerList();
+            final Object[]        pairs   = this.listenerList.getListenerList();
             TreeModelEvent  e       = null;
 
             for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
@@ -225,7 +225,7 @@ public final class FolderTreeModel
             }
 
         try {
-            final Object[]        pairs   = listenerList.getListenerList();
+            final Object[]        pairs   = this.listenerList.getListenerList();
             TreeModelEvent  e       = null;
 
             for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
@@ -281,7 +281,7 @@ public final class FolderTreeModel
     @Override //FileTreeModelable
     public int getSelectedEmptyFoldersSize()
     {
-        return selectedNodes.size();
+        return this.selectedNodes.size();
     }
 
     private DefaultMutableTreeNode getRootNode()
@@ -397,7 +397,7 @@ public final class FolderTreeModel
     @Override
     public void clear()
     {
-        synchronized( lock ) {
+        synchronized( this.lock ) {
             clearSelected();
             getRootNode().removeAllChildren();
 
@@ -413,7 +413,7 @@ public final class FolderTreeModel
     @Override
     public void expandAllRows()
     {
-        synchronized( lock ) {
+        synchronized( this.lock ) {
             try {
                 final JTree jTreeDir = getJTree();
 

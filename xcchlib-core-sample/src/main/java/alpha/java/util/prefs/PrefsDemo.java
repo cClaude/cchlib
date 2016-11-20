@@ -2,7 +2,6 @@ package alpha.java.util.prefs;
 
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Simple demonstration of the most common usage of the Java Preferences API using the user and package based storage
@@ -49,7 +48,7 @@ public class PrefsDemo {
         String newvalue = null;
         boolean export = false;
 
-        System.err.println( StringHelper.EMPTY );
+        System.err.println();
         if( args.length == 0 ) {
             System.err.println( "No command given, assuming 'get'" );
             command = "get";

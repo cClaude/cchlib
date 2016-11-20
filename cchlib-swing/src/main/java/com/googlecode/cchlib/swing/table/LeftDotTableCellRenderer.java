@@ -7,8 +7,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
- * TODOC
+ * NEEDDOC
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LeftDotTableCellRenderer extends DefaultTableCellRenderer
 {
     private static final long serialVersionUID = 1L;
@@ -16,12 +17,12 @@ public class LeftDotTableCellRenderer extends DefaultTableCellRenderer
 
     @Override
     public Component getTableCellRendererComponent(
-        JTable  table,
-        Object  value,
-        boolean isSelected,
-        boolean hasFocus,
-        int     row,
-        int     column
+        final JTable  table,
+        final Object  value,
+        final boolean isSelected,
+        final boolean hasFocus,
+        final int     row,
+        final int     column
         )
     {
         super.getTableCellRendererComponent(
@@ -36,7 +37,7 @@ public class LeftDotTableCellRenderer extends DefaultTableCellRenderer
         int availableWidth = table.getColumnModel().getColumn(column).getWidth();
         availableWidth -= table.getIntercellSpacing().getWidth();
 
-        Insets borderInsets = getBorder().getBorderInsets( this );
+        final Insets borderInsets = getBorder().getBorderInsets( this );
         availableWidth -= (borderInsets.left + borderInsets.right);
 
         final String         cellText     = getText();

@@ -35,7 +35,7 @@ public class EnumerationIterator<T>
     @Override
     public boolean hasNext()
     {
-        return enumeration.hasMoreElements();
+        return this.enumeration.hasMoreElements();
     }
 
     /**
@@ -44,9 +44,13 @@ public class EnumerationIterator<T>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
-    public T next()
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S2272" // nextElement() throws to NoSuchElementException !
+        })
+    public T next() throws NoSuchElementException
     {
-        return enumeration.nextElement();
+        return this.enumeration.nextElement();
     }
 
     /**

@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.util.iterator;
 
 import java.lang.reflect.Array;
@@ -57,7 +56,7 @@ public class ArrayIterator<T>
             final int len
             )
     {
-        this.array = array; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutabilityOfArrays
+        this.array = array;
         this.index = offset;
         this.len   = offset + len;
     }
@@ -72,8 +71,8 @@ public class ArrayIterator<T>
         //perhaps something better later?
         @SuppressWarnings("unchecked")
         final
-        T[] array = (T[])Array.newInstance(clazz,capacity);
-        this.array = array;
+        T[] newArray = (T[])Array.newInstance(clazz,capacity);
+        this.array = newArray;
         this.index = 0;
         this.len   = capacity;
     }
@@ -117,7 +116,7 @@ public class ArrayIterator<T>
     @Override
     public boolean hasNext()
     {
-        return index < len;
+        return this.index < this.len;
     }
 
     /**
@@ -126,17 +125,21 @@ public class ArrayIterator<T>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
-    public T next()
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S2272" // Yes it is !
+        })
+    public T next() throws NoSuchElementException
     {
         try {
-            return array[index++];
+            return this.array[this.index++];
             }
-        catch(final IndexOutOfBoundsException e) {
-            final NoSuchElementException ee = new NoSuchElementException();
+        catch( final IndexOutOfBoundsException cause ) {
+            final NoSuchElementException nsee = new NoSuchElementException();
 
-            ee.initCause( e );
+            nsee.initCause( cause );
 
-            throw ee;
+            throw nsee ;
             }
     }
 

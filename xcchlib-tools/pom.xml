@@ -23,6 +23,9 @@
     <project.java.target.version>1.8</project.java.target.version>
     <project.javadoc.warning>false</project.javadoc.warning><!-- FIXME = true -->
     <additionalparam>-Xdoclint:none</additionalparam>
+
+    <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+    <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
   </properties>
 
   <dependencies>

@@ -83,6 +83,7 @@ public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICach
 
 
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void load( final File cacheFile, final CacheContent cache )
         throws FileNotFoundException, IOException, PersistenceFileBadVersionException
     {

@@ -1,7 +1,7 @@
 package cx.ath.choisnet.lang.introspection.method;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public enum IntrospectionParameters
 {

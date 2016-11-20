@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
-import static org.mockito.BDDMockito.given;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
+import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTree;
@@ -13,6 +13,7 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCe
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel2;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 
 public class DebugJTree {
     private static final Logger LOGGER = Logger.getLogger( DebugJTree.class );
@@ -33,12 +34,12 @@ public class DebugJTree {
 
         final File empty0File = FileHelper.createTempDir();
 
-        given( this.emptyFolder0.getPath() ).willReturn( empty0File.toPath() );
+        BDDMockito.given( this.emptyFolder0.getPath() ).willReturn( empty0File.toPath() );
 
         final File empty1File = new File( empty0File, "empty" );
         empty1File.mkdir();
 
-        given( this.emptyFolder1.getPath() ).willReturn( empty1File.toPath() );
+        BDDMockito.given( this.emptyFolder1.getPath() ).willReturn( empty1File.toPath() );
     }
 
     private void createAndShowUI() {

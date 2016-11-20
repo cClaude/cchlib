@@ -9,8 +9,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 /**
- * TODOC
+ * NEEDDOC
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LeftDotListCellRenderer extends DefaultListCellRenderer {
     private static final long   serialVersionUID = 1L;
     private static final String DOTS             = "...";

@@ -8,8 +8,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 /**
- * TODOC
+ * NEEDDOC
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class LimitedJTextField extends JTextField
 {
     /**
@@ -29,10 +30,10 @@ public class LimitedJTextField extends JTextField
 
         @Override
         public void insertString(
-                DocumentFilter.FilterBypass fb,
-                int                         offset,
-                String                      str,
-                AttributeSet                attr
+                final DocumentFilter.FilterBypass fb,
+                final int                         offset,
+                final String                      str,
+                final AttributeSet                attr
                 )
             throws BadLocationException
         {
@@ -41,17 +42,17 @@ public class LimitedJTextField extends JTextField
 
         @Override
         public void replace(
-                DocumentFilter.FilterBypass fb,
-                int                         offset,
-                int                         length,
-                String                      str,
-                AttributeSet                attrs
+                final DocumentFilter.FilterBypass fb,
+                final int                         offset,
+                final int                         length,
+                final String                      str,
+                final AttributeSet                attrs
                 )
             throws BadLocationException
         {
-            int newLength = fb.getDocument().getLength() - length + str.length();
+            final int newLength = (fb.getDocument().getLength() - length) + str.length();
 
-            if( newLength <= maxLength ) {
+            if( newLength <= LimitedJTextField.this.maxLength ) {
                 fb.replace(offset, length, str, attrs);
                 }
             else {
@@ -79,6 +80,7 @@ public class LimitedJTextField extends JTextField
      * @param maxLength maxLength for current JTextField
      * @throws IllegalArgumentException if maxValue is negative
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public LimitedJTextField( final int maxLength )
         throws IllegalArgumentException
     {
@@ -86,7 +88,7 @@ public class LimitedJTextField extends JTextField
 
         setMaxLength( maxLength );
 
-        AbstractDocument doc = (AbstractDocument) getDocument();
+        final AbstractDocument doc = (AbstractDocument) getDocument();
         doc.setDocumentFilter(new TextLimiter());
     }
 
@@ -95,7 +97,7 @@ public class LimitedJTextField extends JTextField
      */
     public int getMaxLength()
     {
-        return maxLength;
+        return this.maxLength;
     }
 
     /**
@@ -104,7 +106,8 @@ public class LimitedJTextField extends JTextField
      * @param maxLength the maxLength to set
      * @throws IllegalArgumentException if maxValue is negative
      */
-    public void setMaxLength( int maxLength ) throws IllegalArgumentException
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public void setMaxLength( final int maxLength ) throws IllegalArgumentException
     {
         this.maxLength = maxLength;
 
@@ -121,7 +124,7 @@ public class LimitedJTextField extends JTextField
     }
 
     @Override
-    public void setText( String str )
+    public void setText( final String str )
     {
         if( str.length() > this.maxLength ) {
             throw new IllegalArgumentException( "giving String is too long, should be not bigger than: " + this.maxLength );

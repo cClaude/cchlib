@@ -7,6 +7,7 @@ public abstract class AbstractMethodContener
 {
     private final Method method;
 
+    @SuppressWarnings("squid:S3346")
     public AbstractMethodContener( final Method method )
     {
         assert method != null;

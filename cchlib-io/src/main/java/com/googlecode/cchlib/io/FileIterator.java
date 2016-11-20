@@ -24,9 +24,9 @@ import java.util.NoSuchElementException;
  */
 public class FileIterator implements  Iterator<File>
 {
-    private DirectoryIterator directoryIterator;
-    private LinkedList<File>  currentDirFilesList = new LinkedList<>();
-    private FileFilter fileFilter;
+    private final DirectoryIterator directoryIterator;
+    private final LinkedList<File>  currentDirFilesList = new LinkedList<>();
+    private final FileFilter        fileFilter;
 
     /**
      * Create a FileIterator starting from rootFolderFile
@@ -34,7 +34,7 @@ public class FileIterator implements  Iterator<File>
      * @param rootFolderFile root File directory for this Iterator
      * @throws NullPointerException if rootFolderFile is null
      */
-    public FileIterator(File rootFolderFile)
+    public FileIterator(final File rootFolderFile)
     {
         this(rootFolderFile,null,null);
     }
@@ -49,8 +49,8 @@ public class FileIterator implements  Iterator<File>
      * @throws NullPointerException if rootFolderFile is null
      */
     public FileIterator(
-            File        rootFolderFile,
-            FileFilter  fileFilter
+            final File        rootFolderFile,
+            final FileFilter  fileFilter
             )
     {
         this(rootFolderFile,fileFilter,null);
@@ -68,10 +68,11 @@ public class FileIterator implements  Iterator<File>
      * @throws NullPointerException if rootFolderFile is null
      * @throws IllegalArgumentException if rootFolderFile is not a directory
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public FileIterator(
-            File        rootFolderFile,
-            FileFilter  fileFilter,
-            FileFilter  directoryFilter
+            final File        rootFolderFile,
+            final FileFilter  fileFilter,
+            final FileFilter  directoryFilter
             )
         throws IllegalArgumentException
     {
@@ -95,15 +96,15 @@ public class FileIterator implements  Iterator<File>
     @Override
     public boolean hasNext()
     {
-        if( currentDirFilesList.size() > 0 ) {
+        if( this.currentDirFilesList.size() > 0 ) {
             return true;
             }
-        else if( directoryIterator.hasNext() ) {
-            File   dir     = directoryIterator.next();
-            File[] content = dir.listFiles(this.fileFilter);
+        else if( this.directoryIterator.hasNext() ) {
+            final File   dir     = this.directoryIterator.next();
+            final File[] content = dir.listFiles(this.fileFilter);
 
             if( content != null ) {
-                currentDirFilesList.addAll( Arrays.asList( content ) );
+                this.currentDirFilesList.addAll( Arrays.asList( content ) );
                 //for( File f : content ) {
                     //currentDirFilesList.add(f);
                     //}
@@ -121,6 +122,7 @@ public class FileIterator implements  Iterator<File>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public File next() throws NoSuchElementException
     {
         // Initialize currentDirFilesList
@@ -128,7 +130,7 @@ public class FileIterator implements  Iterator<File>
         // without calling hasNext()
         hasNext();
 
-        return currentDirFilesList.removeLast();
+        return this.currentDirFilesList.removeLast();
     }
 
     /**
@@ -137,6 +139,7 @@ public class FileIterator implements  Iterator<File>
      * @throws UnsupportedOperationException
      */
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void remove() throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();

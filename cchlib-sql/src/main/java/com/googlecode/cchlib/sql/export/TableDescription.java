@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.sql.export;
 
 /**
- * Describe a Table giving the name and optionnaly the where clause.
+ * Describe a Table giving the name and optionally the where clause.
  * <p>
  * <table border="2">
  * <tr><th>To produce</th><th>getName() must return</th><th>getWhereCondition() must return</th></tr>
@@ -10,6 +10,7 @@ package com.googlecode.cchlib.sql.export;
  * </table>
  * </p>
  * @see ExportSQL
+ * @see TableDescriptionHelper
  */
 public interface TableDescription
 {

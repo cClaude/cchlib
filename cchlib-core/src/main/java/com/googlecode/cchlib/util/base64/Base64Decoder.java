@@ -1,5 +1,8 @@
 package com.googlecode.cchlib.util.base64;
 
+import static com.googlecode.cchlib.util.base64.Base64.DEFAULT_BUFFER_SIZE;
+import static com.googlecode.cchlib.util.base64.Base64.MAP2;
+import static com.googlecode.cchlib.util.base64.Base64.computeDecoderBufferSize;
 import java.io.CharArrayReader;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -13,7 +16,7 @@ import com.googlecode.cchlib.NeedDoc;
  *
  * @see Base64Encoder
  */
-public class Base64Decoder extends Base64
+public class Base64Decoder
 {
     private final char[] buffer;
 
@@ -36,19 +39,21 @@ public class Base64Decoder extends Base64
     }
 
     @NeedDoc
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public void decode( final Reader in, final OutputStream out )
         throws Base64FormatException, IOException
     {
         int len;
 
-        while( (len = in.read( buffer )) > 0 ) {
-            final byte[] dec = decode( buffer, 0, len);
+        while( (len = in.read( this.buffer )) > 0 ) {
+            final byte[] dec = decode( this.buffer, 0, len);
 
             out.write( dec );
             }
     }
 
     @NeedDoc
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public void decode( final char[] datas, final OutputStream out )
         throws Base64FormatException, IOException
     {
@@ -64,6 +69,7 @@ public class Base64Decoder extends Base64
      * @throws IllegalArgumentException If <code>str</code> can not be decoded, mainly according to size.
      * @throws UnsupportedEncodingException  If the named charset is not supported
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static String decode(
             final String str,
             final String charsetName
@@ -82,6 +88,7 @@ public class Base64Decoder extends Base64
      * @return decoded String using default Charset
      * @throws IllegalArgumentException If <code>str</code> can not be decoded, mainly according to size.
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static String decode( final String str )
         throws IllegalArgumentException
     {
@@ -98,6 +105,7 @@ public class Base64Decoder extends Base64
     * @throws IllegalArgumentException if <code>str</code> can not be decoded, mainly according to size.
      * @throws UnsupportedEncodingException  If the named charset is not supported
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static String decode(
         final String  str,
         final Charset charset
@@ -115,6 +123,7 @@ public class Base64Decoder extends Base64
      * @throws IllegalArgumentException if <code>in</code> can not be decoded, mainly according to size.
      * @return an array of bytes
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static byte[] decode( final char[] in ) throws IllegalArgumentException
     {
         return decode( in, 0, in.length );
@@ -129,26 +138,32 @@ public class Base64Decoder extends Base64
      * @throws IllegalArgumentException if <code>in</code> can not be decoded, mainly according to size.
      * @return an array of bytes
      */
-    public static byte[] decode( // $codepro.audit.disable cyclomaticComplexity
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:MethodCyclomaticComplexity",
+        "squid:S00122"})
+    public static byte[] decode(
         final char[]    in,
         final int       offset,
-        int             length
+        final int       length
         ) throws IllegalArgumentException
     {
-        if( (length % 4) != 0 ) {
+        int clength = length;
+
+        if( (clength % 4) != 0 ) {
             throw new IllegalArgumentException(
                 "Length of Base64 encoded input string is not a multiple of 4."
                 );
             }
 
-        while( (length > 0) && (in[offset+length-1] == '=') ) {
-            length--;
+        while( (clength > 0) && (in[(offset+clength)-1] == '=') ) {
+            clength--;
             }
 
-        final int     oLen    = (length*3) / 4;
+        final int     oLen    = (clength*3) / 4;
         final byte[]  out     = new byte[oLen];
         int     ip      = offset;
-        final int     iEnd    = offset + length;
+        final int     iEnd    = offset + clength;
         int     op      = 0;
 
         while( ip < iEnd ) {
@@ -157,7 +172,7 @@ public class Base64Decoder extends Base64
             final int i2 = (ip < iEnd) ? in[ip++] : 'A';
             final int i3 = (ip < iEnd) ? in[ip++] : 'A';
 
-            if( (i0 > 127) || (i1 > 127) || (i2 > 127) || i3 > 127 ) {
+            if( (i0 > 127) || (i1 > 127) || (i2 > 127) || (i3 > 127) ) {
                 throw new IllegalArgumentException(
                     "Illegal character in Base64 encoded data. (<127) : ip=" + ip
                     );
@@ -168,7 +183,7 @@ public class Base64Decoder extends Base64
             final int b2 = MAP2[i2];
             final int b3 = MAP2[i3];
 
-            if( b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0 ) {
+            if( (b0 < 0) || (b1 < 0) || (b2 < 0) || (b3 < 0) ) {
                 throw new IllegalArgumentException(
                     "Illegal character in Base64 encoded data. (>0) : ip=" + ip
                     );

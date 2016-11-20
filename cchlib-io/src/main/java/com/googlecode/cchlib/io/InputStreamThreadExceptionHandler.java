@@ -3,19 +3,19 @@ package com.googlecode.cchlib.io;
 import java.io.IOException;
 
 /**
- * TODOC
+ * NEEDDOC
  */
 public interface InputStreamThreadExceptionHandler
 {
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param e
      */
     void handleReadingIOException( IOException e );
 
     /**
-     * TODOC
+     * NEEDDOC
      *
      * @param e
      */

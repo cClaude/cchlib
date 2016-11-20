@@ -6,14 +6,17 @@ import java.util.Date;
 import javax.swing.SwingUtilities;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.Version;
-import com.googlecode.cchlib.apps.duplicatefiles.gui.DuplicateFilesFrame;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControler;
-import com.googlecode.cchlib.apps.duplicatefiles.prefs.PreferencesControlerFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.DuplicateFilesFrame;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControlerFactory;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.JFrames;
 
@@ -24,11 +27,20 @@ public class DuplicateFilesApp
 {
     private static final Logger LOGGER = Logger.getLogger( DuplicateFilesApp.class );
 
-    private static final String ENTRY_TO_ADD = "entry-to-add";
-    private static final String PREFERENCE_FILE = "preference-file";
+    public static final String ENTRY_TO_ADD    = "entry-to-add";
+    public static final String HELP            = "help";
+    public static final String NO_PREFERENCE   = "default-preference";
+    public static final String PREFERENCE_FILE = "preference-file";
+
+    private DuplicateFilesApp()
+    {
+        // static only
+    }
 
     /**
      * Launch application
+     *
+     * @param args Parameters from command line
      *
      * @throws ParseException
      * @throws FileNotFoundException
@@ -43,41 +55,60 @@ public class DuplicateFilesApp
 
         final CommandLine line = parseArguments( args );
 
-        startApp( line );
+        if( line != null ) {
+            startApp( line );
+        }
     }
 
     private static void startApp( final CommandLine line ) throws FileNotFoundException
     {
-        final File                  preferenceFile = getPreferenceFile( line );
-        final PreferencesControler  preferences    = PreferencesControlerFactory.createPreferences( preferenceFile );
-        final String                title          = "Duplicate Files Manager " + Version.getInstance().getVersion();
+        final PreferencesControler preferences;
+
+        if( line.hasOption( NO_PREFERENCE ) ) {
+            preferences = PreferencesControlerFactory.createDefaultPreferences();
+        } else {
+            final File preferenceFile = getPreferenceFile( line );
+
+            preferences = PreferencesControlerFactory.createPreferences( preferenceFile );
+        }
 
         preferences.applyLookAndFeel();
 
-        SwingUtilities.invokeLater( () -> {
-            try {
-                final DuplicateFilesFrame frame = new DuplicateFilesFrame( preferences );
+        SwingUtilities.invokeLater( () -> launchGUI( preferences, getTitle(), line ) );
+    }
 
-                if( line.hasOption( ENTRY_TO_ADD ) ) {
-                    frame.addEntry( line.getOptionValue( ENTRY_TO_ADD ) );
-                }
+    private static String getTitle()
+    {
+        return "Duplicate Files Manager " + Version.getInstance().getVersion();
+    }
 
-                //frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-                frame.setTitle( title );
-                frame.getContentPane().setPreferredSize( frame.getSize() );
-                frame.pack();
-                frame.setLocationRelativeTo( null );
-                frame.setVisible( true );
-                frame.getDFToolKit().initJFileChooser();
+    private static void launchGUI( //
+        final PreferencesControler preferences, //
+        final String               title, //
+        final CommandLine          line //
+        )
+    {
+        try {
+            final DuplicateFilesFrame frame = new DuplicateFilesFrame( preferences );
 
-                JFrames.handleMinimumSize(frame, preferences.getMinimumWindowDimension());
+            if( line.hasOption( ENTRY_TO_ADD ) ) {
+                frame.addEntry( line.getOptionValue( ENTRY_TO_ADD ) );
             }
-            catch( final Throwable e ) {
-                LOGGER.fatal( "Can't load application", e );
 
-                DialogHelper.showMessageExceptionDialog( title, e );
-            }
-        });
+            frame.setTitle( title );
+            frame.getContentPane().setPreferredSize( frame.getSize() );
+            frame.pack();
+            frame.setLocationRelativeTo( null );
+            frame.setVisible( true );
+            frame.getDFToolKit().initJFileChooser();
+
+            JFrames.handleMinimumSize(frame, preferences.getMinimumWindowDimension());
+        }
+        catch( final Exception e ) {
+            LOGGER.fatal( "Can't load application", e );
+
+            DialogHelper.showMessageExceptionDialog( title, e );
+        }
     }
 
     private static File getPreferenceFile( final CommandLine line )
@@ -98,16 +129,43 @@ public class DuplicateFilesApp
         final Options           options = createCLIOptions();
 
         // parse the command line arguments
-        return parser.parse( options, args );
+        final CommandLine line = parser.parse( options, args );
+
+        if( line.hasOption( HELP ) ) {
+            printHelp( options );
+
+            return null;
+        } else {
+            return line;
+        }
+    }
+
+    private static void printHelp( final Options options )
+    {
+        final HelpFormatter formatter = new HelpFormatter();
+
+        final String cmdLineSyntax = "TODO"; // TODO command line syntax
+        formatter.printHelp( cmdLineSyntax  , options );
     }
 
     private static Options createCLIOptions()
     {
         final Options options = new Options();
 
-        options.addOption( "p", PREFERENCE_FILE, true, "Preferance file" );
-        options.addOption( "e", ENTRY_TO_ADD,    true, "file or directory to include to scan list" );
+        options.addOption( "h", HELP, false, "This help message" );
+        options.addOptionGroup( getPreferenceGroup() );
+        options.addOption( "e", ENTRY_TO_ADD, true, "file or directory to include to scan list" );
 
         return options;
+    }
+
+    private static OptionGroup getPreferenceGroup()
+    {
+        final OptionGroup prefGroup = new OptionGroup();
+
+        prefGroup.addOption( new Option( "p", PREFERENCE_FILE, true, "Preference file" ) );
+        prefGroup.addOption( new Option( "P", NO_PREFERENCE, false, "Ignore preference file" ) );
+
+        return prefGroup;
     }
 }

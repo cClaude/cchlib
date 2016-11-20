@@ -6,7 +6,6 @@ import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -15,11 +14,94 @@ import com.googlecode.cchlib.NeedTestCases;
 
 /**
  * Create a simple {@link DataSource} based on a standard driver class object.
+ *
+ * This is design application running outside J2E container.
  */
 @NeedDoc
 @NeedTestCases
 public class DataSourceFactory
 {
+    private static final class LoggerDataSource extends AbstractDataSource
+    {
+        private final Logger logger;
+
+        private LoggerDataSource( //
+                final String url, //
+                final String username, //
+                final String password, //
+                final Logger parentLogger, //
+                final int loginTimeout, //
+                final PrintWriter logWriter, //
+                final Logger logger //
+                )
+        {
+            super( url, username, password, parentLogger, loginTimeout, logWriter );
+
+            this.logger = logger;
+        }
+
+        @Override
+        public Connection getConnection( final String username, final String password ) //
+                throws SQLException
+        {
+            Connection conn = null;
+
+            do {
+                if((conn != null) && !conn.isClosed()) {
+                    break;
+                    }
+                conn = getDriverManagerConnection( getUrl(), username, password );
+
+                if( conn.isClosed() ) {
+                    this.logger.log( Level.WARNING, "*** Connection is closed !" );
+                    }
+                } while(true);
+
+            return conn;
+        }
+    }
+
+    private static final class PWDataSource extends AbstractDataSource
+    {
+        private PWDataSource( //
+                final String        url, //
+                final String        username, //
+                final String        password, //
+                final Logger        parentLogger, //
+                final int           loginTimeout, //
+                final PrintWriter   logWriter //
+                )
+        {
+            super( url, username, password, parentLogger, loginTimeout, logWriter );
+        }
+
+        @Override
+        public Connection getConnection( final String username, final String password )
+                throws SQLException
+        {
+            Connection conn = null;
+
+            do {
+                if((conn != null) && !conn.isClosed()) {
+                    break;
+                    }
+                conn = getDriverManagerConnection( getUrl(), username, password );
+
+                if( conn.isClosed() ) {
+                    final PrintWriter pw = getLogWriter();
+
+                    if( pw != null ) {
+                        pw.println( "*** Connection is closed !" );
+                    }
+                    }
+                } while(true);
+
+            return conn;
+        }
+    }
+
+    private static final Logger NO_PARENT_LOGGER = null;
+
     private DataSourceFactory()
     {// All static
     }
@@ -33,9 +115,10 @@ public class DataSourceFactory
      * @param password Default password for connection use by {@link DataSource#getConnection()}
      * @param logger Valid {@link PrintWriter} that will use as define by {@link DataSource#getLogWriter()}
      * @return a simple {@link DataSource}
-     * @throws ClassNotFoundException if driver class not found
      * @throws NullPointerException if driverClassName or logger is null
+     * @throws DataSourceFactoryClassNotFoundException if driver class not found
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DataSource buildDataSource(
             final String        driverClassName,
             final String        url,
@@ -43,7 +126,7 @@ public class DataSourceFactory
             final String        password,
             final PrintWriter   logger
             )
-        throws ClassNotFoundException, NullPointerException
+        throws NullPointerException, DataSourceFactoryClassNotFoundException
     {
         return buildDataSource(
                 driverClassName,
@@ -62,21 +145,23 @@ public class DataSourceFactory
      * @param url Database URL according to driver specifications
      * @param username Default username for connection use by {@link DataSource#getConnection()}
      * @param password Default password for connection use by {@link DataSource#getConnection()}
-     * @param timeout default login timeout in second for {@link DataSource}, see {@link DataSource#getLoginTimeout()}
+     * @param timeout default login timeout in second for {@link DataSource},
+     *        see {@link DataSource#getLoginTimeout()}
      * @param logger Valid {@link Logger} that will use as define by {@link DataSource#getLogWriter()}
      * @return a simple {@link DataSource}
-     * @throws ClassNotFoundException if driver class not found
+     * @throws DataSourceFactoryClassNotFoundException if driver class not found
      * @throws NullPointerException if driverClassName or logger is null
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DataSource buildDataSource(
-            final String        driverClassName,
-            final String        url,
-            final String        username,
-            final String        password,
-            final int           timeout,
-            final Logger        logger
+            final String    driverClassName,
+            final String    url,
+            final String    username,
+            final String    password,
+            final int       timeout,
+            final Logger    logger
             )
-        throws ClassNotFoundException, NullPointerException
+        throws DataSourceFactoryClassNotFoundException, NullPointerException
     {
         if( logger == null ) {
             throw new NullPointerException();
@@ -85,100 +170,32 @@ public class DataSourceFactory
             throw new NullPointerException();
             }
 
-        Class.forName( driverClassName );
+        loadDriver( driverClassName );
 
-        return new DataSource()
+        final PrintWriter pwLogger = newPrintWriterFromLogger( logger );
+
+        return new LoggerDataSource( url, username, password, logger, timeout, pwLogger, logger );
+    }
+
+    private static PrintWriter newPrintWriterFromLogger( final Logger logger )
+    {
+        final Writer wLogger = new Writer()
         {
-            final Writer wLogger = new Writer()
-            {
-                @Override
-                public void close() throws IOException
-                {
-                }
-                @Override
-                public void flush() throws IOException
-                {
-                }
-                @Override
-                public void write(final char[] cbuf, final int off, final int len)
-                        throws IOException
-                {
-                    dsLogger.log(
-                        Level.WARNING,
-                        new String( cbuf, off, len )
-                        );
-                }
-            };
-
-            PrintWriter pwLogger    = new PrintWriter( wLogger );
-            int         timeOut     = timeout;
-            Logger      dsLogger    = logger;
+            @Override
+            public void close() throws IOException {/* not required */}
 
             @Override
-            public Connection getConnection() throws SQLException
-            {
-                return getConnection( username, password );
-            }
-            @Override
-            public Connection getConnection( final String username, final String password )
-                throws SQLException
-            {
-                Connection conn = null;
+            public void flush() throws IOException {/* not required */}
 
-                do {
-                    if((conn != null) && !conn.isClosed()) {
-                        break;
-                        }
-                    conn = getDriverManagerConnection( url, username, password );
-
-                    if( conn.isClosed() && (dsLogger != null) ) {
-                        dsLogger.log(
-                            Level.WARNING,
-                            "*** Connection is closed !"
-                            );
-                        }
-                    } while(true);
-
-                return conn;
-            }
             @Override
-            public int getLoginTimeout()
+            public void write(final char[] cbuf, final int off, final int len)
+                    throws IOException
             {
-                return timeOut;
-            }
-            @Override
-            public void setLoginTimeout( final int seconds )
-            {
-                timeOut = seconds;
-            }
-            @Override
-            public PrintWriter getLogWriter()
-            {
-                return pwLogger;
-            }
-            @Override
-            public void setLogWriter( final PrintWriter out )
-            {
-                pwLogger = out;
-            }
-            @Override
-            public boolean isWrapperFor( final Class<?> clazz )
-                throws SQLException
-            {
-                return false;
-            }
-            @Override
-            public <T> T unwrap( final Class<T> clazz )
-                throws SQLException
-            {
-                throw new SQLException( "unwrap() not supported" );
-            }
-            @Override
-            public Logger getParentLogger() throws SQLFeatureNotSupportedException
-            {
-                return dsLogger;
+                // FIXME did not work correctly - should handle \n character
+                logger.log( Level.WARNING, new String( cbuf, off, len ) );
             }
         };
+        return new PrintWriter( wLogger );
     }
 
     /**
@@ -191,9 +208,10 @@ public class DataSourceFactory
      * @param timeout default login timeout in second for {@link DataSource}, see {@link DataSource#getLoginTimeout()}
      * @param logger Valid {@link PrintWriter} that will use as define by {@link DataSource#getLogWriter()}
      * @return a simple {@link DataSource}
-     * @throws ClassNotFoundException if driver class not found
+     * @throws DataSourceFactoryClassNotFoundException if driver class not found
      * @throws NullPointerException if driverClassName or logger is null
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DataSource buildDataSource(
             final String        driverClassName,
             final String        url,
@@ -202,7 +220,8 @@ public class DataSourceFactory
             final int           timeout,
             final PrintWriter   logger
             )
-        throws ClassNotFoundException, NullPointerException
+        throws DataSourceFactoryClassNotFoundException,
+               NullPointerException
     {
         if( logger == null ) {
             throw new NullPointerException();
@@ -211,83 +230,26 @@ public class DataSourceFactory
             throw new NullPointerException();
             }
 
-        Class.forName( driverClassName );
+        loadDriver( driverClassName );
 
-        return new DataSource()
-        {
-            int         timeOut = timeout;
-            PrintWriter pw      = logger;
+        return new PWDataSource( url, username, password, NO_PARENT_LOGGER, timeout, logger );
+    }
 
-            @Override
-            public Connection getConnection() throws SQLException
-            {
-                return getConnection( username, password );
-            }
-            @Override
-            public Connection getConnection( final String username, final String password )
-                throws SQLException
-            {
-                Connection conn = null;
-
-                do {
-                    if((conn != null) && !conn.isClosed()) {
-                        break;
-                        }
-                    conn = getDriverManagerConnection( url, username, password );
-
-                    if( conn.isClosed() && (pw != null) ) {
-                        pw.println( "*** Connection is closed !" );
-                        }
-                    } while(true);
-
-                return conn;
-            }
-
-            @Override
-            public int getLoginTimeout()
-            {
-                return timeOut;
-            }
-            @Override
-            public void setLoginTimeout( final int seconds )
-            {
-                timeOut = seconds;
-            }
-            @Override
-            public PrintWriter getLogWriter()
-            {
-                return pw;
-            }
-            @Override
-            public void setLogWriter( final PrintWriter out )
-            {
-                pw = out;
-            }
-            @Override
-            public boolean isWrapperFor( final Class<?> clazz )
-                throws SQLException
-            {
-                return false;
-            }
-            @Override
-            public <T> T unwrap( final Class<T> clazz )
-                throws SQLException
-            {
-                throw new SQLException( "unwrap() not supported" );
-            }
-            @Override
-            public Logger getParentLogger()
-                    throws SQLFeatureNotSupportedException
-            {
-                throw new SQLFeatureNotSupportedException( "getParentLogger() not supported");
-            }
-        };
+    private static void loadDriver( final String driverClassName ) throws DataSourceFactoryClassNotFoundException
+    {
+        try {
+            Class.forName( driverClassName );
+        }
+        catch( final ClassNotFoundException cause ) {
+            throw new DataSourceFactoryClassNotFoundException( driverClassName, cause );
+        }
     }
 
     private static Connection getDriverManagerConnection( //
         final String url, //
         final String username, //
-        final String password ) throws SQLException
+        final String password
+        ) throws SQLException
     {
         return DriverManager.getConnection( url, username, password );
     }

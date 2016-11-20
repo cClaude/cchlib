@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * Define a downloadable URL that should be store in a {@link String}
- * 
+ *
  * @since 4.1.7
  */
 public final class DefaultDownloadStringURL
@@ -61,7 +61,7 @@ public final class DefaultDownloadStringURL
     @Override
     public String getResultAsString()
     {
-        return str;
+        return this.str;
     }
 
     @Override
@@ -76,7 +76,6 @@ public final class DefaultDownloadStringURL
         final StringBuilder sb = new StringBuilder();
 
         sb.append( "StringDownloadURL [getURL()=" ).append( getURL() );
-        //sb.append( ", str=" ).append( str );
         sb.append( ']' );
 
         return sb.toString();
