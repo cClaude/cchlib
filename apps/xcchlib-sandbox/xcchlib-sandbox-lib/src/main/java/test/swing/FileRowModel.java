@@ -1,4 +1,4 @@
-package xxx;
+package test.swing;
 
 import java.io.File;
 import java.util.Date;

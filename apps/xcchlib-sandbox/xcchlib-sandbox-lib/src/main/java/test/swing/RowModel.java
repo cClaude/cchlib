@@ -1,4 +1,4 @@
-package xxx;
+package test.swing;
 
 public interface RowModel {
 
