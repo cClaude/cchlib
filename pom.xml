@@ -399,19 +399,18 @@
     <module>cchlib-io-test</module>
     <module>cchlib-jdbf</module>
     <module>cchlib-net</module>
-    <!-- <module>cchlib-nio</module> -->
     <module>cchlib-servlet</module>
     <module>cchlib-sql</module>
     <module>cchlib-swing</module>
     <module>cchlib-sys</module>
     <module>cchlib-unit</module>
-    <module>cchlib-x-googlecontact</module>
 
     <!-- should not be include in maven repository -->
-    <!-- Applications -->
-    <module>cchlib-apps-duplicatefilesmanager</module>
-    <module>cchlib-apps-editresourcebundle</module>
-    <module>cchlib-apps-regexpbuilder</module>
+    <!-- Applications (no more included in bluid) -->
+    <!-- <module>cchlib-apps-duplicatefilesmanager</module> -->
+    <!-- <module>cchlib-apps-editresourcebundle</module> -->
+    <!-- <module>cchlib-apps-regexpbuilder</module> -->
+    <!-- <module>cchlib-x-googlecontact</module> -->
 
     <!-- Not compile by default script -->
     <!-- <module>cchlib-sandbox</module> -->
@@ -419,9 +418,6 @@
     <!-- <module>cchlib-core-sample</module> -->
     <!-- <module>cchlib-samples</module> -->
     <!-- <module>cchlib-tools</module> -->
-
-    <!-- No more supported -->
-    <!-- <module>cchlib-core-java5</module> -->
   </modules>
 
 </project>
