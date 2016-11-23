@@ -162,7 +162,7 @@ class JHexEditorHEX
     }
 
     @Override//KeyListener
-    @SuppressWarnings("squid:MethodCyclomaticComplexity")
+    @SuppressWarnings({"squid:MethodCyclomaticComplexity","squid:S1067"})
     public void keyTyped(final KeyEvent e)
     {
         final char c=e.getKeyChar();
@@ -213,6 +213,7 @@ class JHexEditorHEX
     /** @deprecated by API */
     @Override
     @Deprecated
+    @SuppressWarnings("squid:S1133")
     public boolean isFocusTraversable()
     {
         return true;

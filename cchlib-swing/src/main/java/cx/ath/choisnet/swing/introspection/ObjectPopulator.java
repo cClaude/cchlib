@@ -2,7 +2,15 @@ package cx.ath.choisnet.swing.introspection;
 
 import cx.ath.choisnet.lang.introspection.IntrospectionException;
 
-public interface ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY>
+/**
+ * NEEDDOC
+ *
+ * @param <FRAME> NEEDDOC
+ * @param <OBJECT_ENTRY> NEEDDOC
+ */
+@SuppressWarnings("squid:S00119")
+@FunctionalInterface
+public interface ObjectPopulator<FRAME,OBJECT_ENTRY>
 {
     /**
      * Populate object from frame
@@ -12,9 +20,7 @@ public interface ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY>
      * @throws SwingIntrospectorException
      */
     void populateObject(
-            OBJECT_ENTRY                entry,
-            SwingIntrospectorRootItem<FRAME>   rootItem
-            )
-    throws  SwingIntrospectorException,
-            IntrospectionException;
+        OBJECT_ENTRY                     entry,
+        SwingIntrospectorRootItem<FRAME> rootItem
+        ) throws IntrospectionException;
 }

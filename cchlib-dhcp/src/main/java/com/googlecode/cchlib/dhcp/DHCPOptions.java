@@ -77,8 +77,21 @@ import java.util.TreeMap;
  ** @author Jason Goldschmidt
  ** @author Claude CHOISNET
  */
-public class DHCPOptions implements Serializable {
+public class DHCPOptions implements Serializable
+{
     private static final String DHCP_OPTIONS_PROPERTIES = "DHCPOptions.properties";
+
+    /** Calculer lors du premier appel */
+    private transient /*static*/ Properties properties;
+
+    /** */
+    private static final String        MSG_FORMAT_PATTERN = "OPT[{0,number,##0}]\t=";
+
+    /** */
+    private static final MessageFormat msgFmt           = new MessageFormat( MSG_FORMAT_PATTERN );
+
+    /** */
+    private final Object[]             msgFmtObjects    = new Object[1];
 
     /** serialVersionUID */
     private static final long                serialVersionUID          = 1L;
@@ -458,15 +471,6 @@ public class DHCPOptions implements Serializable {
         return copy;
     }
 
-    /** */
-    private static final String        MSG_FORMAT_PATTERN = "OPT[{0,number,##0}]\t=";
-
-    /** */
-    private static final MessageFormat msgFmt           = new MessageFormat( MSG_FORMAT_PATTERN );
-
-    /** */
-    private final Object[]             msgFmtObjects    = new Object[1];
-
     private String format( final byte optionNumber ) // -----------------------
     {
         this.msgFmtObjects[ 0 ] = new Byte( optionNumber );
@@ -516,9 +520,6 @@ public class DHCPOptions implements Serializable {
 
         return sb.toString();
     }
-
-    /** Calculer lors du premier appel */
-    private transient /*static*/ Properties properties;
 
     /** NEEDDOC */
     public String getProperty( final String name ) // -------------------------

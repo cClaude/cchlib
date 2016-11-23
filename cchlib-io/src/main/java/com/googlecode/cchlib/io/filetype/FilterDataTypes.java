@@ -38,18 +38,18 @@ class FilterDataTypes extends FilterInputStream
 
     public boolean isReady()
     {
-        return ready;
+        return this.ready;
     }
 
     public FileDataTypeDescription getFileDataTypeDescription()
     {
-        return currentType;
+        return this.currentType;
     }
 
     @Override
     public int read() throws IOException
     {
-        int b = in.read();
+        final int b = this.in.read();
         if( b != -1 ) {
             update( b );
             }
@@ -57,9 +57,9 @@ class FilterDataTypes extends FilterInputStream
     }
 
     @Override
-    public int read(byte[] b) throws IOException
+    public int read(final byte[] b) throws IOException
     {
-        int len = in.read(b, 0, b.length);
+        final int len = this.in.read(b, 0, b.length);
         if( len != -1 ) {
             update(b, 0, len);
             }
@@ -67,18 +67,18 @@ class FilterDataTypes extends FilterInputStream
     }
 
     @Override
-    public int read(byte[] b, int off, int len) throws IOException
+    public int read(final byte[] b, final int off, int len) throws IOException
     {
-        len = in.read(b, off, len);
+        len = this.in.read(b, off, len);
         if( len != -1 ) {
             update(b, off, len);
             }
         return len;
     }
 
-    private void update( int b ) throws IOException
+    private void update( final int b ) throws IOException
     {
-        if( ! ready ) {
+        if( ! this.ready ) {
             // Check offset with value b
 
             if( (b<0) || (b>255) ) {
@@ -89,16 +89,16 @@ class FilterDataTypes extends FilterInputStream
                 LOGGER.info( "read 0x" + Integer.toHexString( b ) + " : " + this );
                 }
 
-            Iterator<FileDataTypeMatch> iter = fileDataTypeMatchList.iterator();
+            final Iterator<FileDataTypeMatch> iter = this.fileDataTypeMatchList.iterator();
 
             while( iter.hasNext() ) {
-                FileDataTypeMatch e = iter.next();
+                final FileDataTypeMatch e = iter.next();
 
-                if( e.isValid( offset, b ) ) {
+                if( e.isValid( this.offset, b ) ) {
                     // Check if it is the last byte
-                    if( e.isLastOffset( offset ) ) {
-                        ready = true;
-                        currentType = e.getFileDataTypeDescription();
+                    if( e.isLastOffset( this.offset ) ) {
+                        this.ready = true;
+                        this.currentType = e.getFileDataTypeDescription();
                         }
                     // This type remind valid for this stream
                     }
@@ -108,24 +108,24 @@ class FilterDataTypes extends FilterInputStream
                     }
                 }
 
-            if( ! ready ) {
-                if( fileDataTypeMatchList.size() == 0 ) {
+            if( ! this.ready ) {
+                if( this.fileDataTypeMatchList.isEmpty() ) {
                     // Unknown that type !
-                    ready = true;
+                    this.ready = true;
                     }
                 }
 
-            offset++;
+            this.offset++;
             }
     }
 
-    private void update( byte[] b, int off, int len ) throws IOException
+    private void update( final byte[] b, final int off, final int len ) throws IOException
     {
-        if( ! ready ) {
+        if( ! this.ready ) {
             for( int i = off; i < (len + off); i++ ) {
-                update( 0x000000FF & (int)(b[ i ]) );
+                update( 0x000000FF & (b[ i ]) );
 
-                if( ready ) {
+                if( this.ready ) {
                     break;
                     }
                 }
@@ -135,15 +135,15 @@ class FilterDataTypes extends FilterInputStream
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "FilterDataTypes [offset=" );
-        builder.append( offset );
+        builder.append( this.offset );
         builder.append( ", ready=" );
-        builder.append( ready );
+        builder.append( this.ready );
         builder.append( ", currentType=" );
-        builder.append( currentType );
+        builder.append( this.currentType );
         builder.append( ", fileDataTypeMatchList=" );
-        for( FileDataTypeMatch e : fileDataTypeMatchList ) {
+        for( final FileDataTypeMatch e : this.fileDataTypeMatchList ) {
             builder.append( e );
             builder.append( ',' );
             }

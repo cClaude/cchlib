@@ -45,6 +45,11 @@ public class JavaDESEncryption
 {
     private static final byte[] initialization_vector = { 22, 33, 11, 44, 55, 99, 66, 77 };
 
+    private JavaDESEncryption()
+    {
+        // All static
+    }
+
     public static void main(final String[] args) {
 
         final File folderFile    = FileHelper.getUserHomeDirFile();

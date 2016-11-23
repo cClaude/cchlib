@@ -27,7 +27,12 @@ import java.io.ObjectOutputStream;
  **
  ** @see java.io.Serializable
  */
-public class Serialization {
+public class Serialization
+{
+    private Serialization()
+    {
+        // All static
+    }
 
     /**
      ** Clone object using serialisation

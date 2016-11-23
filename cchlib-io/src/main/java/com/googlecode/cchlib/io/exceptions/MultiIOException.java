@@ -41,7 +41,7 @@ public class MultiIOException extends IOException implements Iterable<IOExceptio
 
     public boolean isEmpty()
     {
-        return this.exceptions.size() == 0;
+        return this.exceptions.isEmpty();
     }
 
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})

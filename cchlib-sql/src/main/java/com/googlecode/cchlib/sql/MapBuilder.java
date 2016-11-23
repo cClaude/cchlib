@@ -56,63 +56,68 @@ class MapBuilder implements Mappable
                 this.values.put( String.format( "%s ResultSet=>?", m.getName() ), resultSet.getClass().getName() + " : " + resultSet.toString() );
             }
         } else {
-            addResultSet2( m, resultSet );
-
+            try (final ResultSet trueResultSet = ResultSet.class.cast( resultSet )) {
+                addResultSet2( m, trueResultSet );
+            }
+            catch( final SQLException e ) {
+                DatabaseMetaDataCollector.LOGGER.warn( "Unknown error while reading ResultSetMetaData return by " + m, e );
+            }
         }
     }
 
-    private void addResultSet2( final Method m, final Object resultSet )
+    private void addResultSet2( final Method m, final ResultSet resultSet )
     {
-        try (final ResultSet rSet = ResultSet.class.cast( resultSet )) {
-            int      cCount = 0; // not yet populate
-            String[] cNames = null; // not yet populate
+        int      cCount = 0; // not yet populate
+        String[] cNames = null; // not yet populate
 
-            try {
-                final ResultSetMetaData metaData = rSet.getMetaData();
+        try {
+            final ResultSetMetaData metaData = resultSet.getMetaData();
 
-                cCount = metaData.getColumnCount();
-                cNames = new String[cCount + 1];
+            cCount = metaData.getColumnCount();
+            cNames = new String[cCount + 1];
 
-                for( int i = 1; i <= cCount; i++ ) {
-                    final String cName = metaData.getColumnName( i );
-                    cNames[ i ] = cName;
+            for( int i = 1; i <= cCount; i++ ) {
+                final String cName = metaData.getColumnName( i );
+                cNames[ i ] = cName;
 
-                    // values.put(
-                    // String.format( "%s ResultSetMetaData[%d]", m.getName(), i ),
-                    // cName
-                    // );
-                }
-            }
-            catch( final SQLException e ) {
-                DatabaseMetaDataCollector.LOGGER.warn( "Error while reading ResultSetMetaData return by " + m, e );
-
-                this.values.put( String.format( "%s ResultSetMetaData[SQLException]", m.getName() ), e.getMessage() );
-
-                if( cNames == null ) {
-                    cNames = new String[cCount + 1];
-                }
-            }
-
-            int row = 0;
-
-            try {
-                while( rSet.next() ) {
-                    for( int i = 1; i <= cCount; i++ ) {
-                        this.values.put(
-                                String.format( "%s ResultSet[%d][%s].%d", m.getName(), Integer.valueOf( i ), cNames[ i ], Integer.valueOf( row ) ),
-                                rSet.getString( i ) );
-                    }
-                    row++;
-                }
-            }
-            catch( final SQLException e ) {
-                DatabaseMetaDataCollector.LOGGER.warn( "Error while reading ResultSet return by " + m, e );
-
-                this.values.put( String.format( "%s ResultSet=>SQLException (row=%d)", m.getName(), Integer.valueOf( row ) ), e.getMessage() );
+                // values.put(
+                // String.format( "%s ResultSetMetaData[%d]", m.getName(), i ),
+                // cName
+                // );
             }
         }
         catch( final SQLException e ) {
-            DatabaseMetaDataCollector.LOGGER.warn( "Unknown error while reading ResultSetMetaData return by " + m, e );
+            DatabaseMetaDataCollector.LOGGER.warn( "Error while reading ResultSetMetaData return by " + m, e );
+
+            this.values.put( String.format( "%s ResultSetMetaData[SQLException]", m.getName() ), e.getMessage() );
+
+            if( cNames == null ) {
+                cNames = new String[cCount + 1];
+            }
+        }
+
+        int row = 0;
+
+        try {
+            while( resultSet.next() ) {
+                for( int i = 1; i <= cCount; i++ ) {
+                    this.values.put(
+                            String.format(
+                                    "%s ResultSet[%d][%s].%d",
+                                    m.getName(),
+                                    Integer.valueOf( i ),
+                                    cNames[ i ],
+                                    Integer.valueOf( row ) ),
+                            resultSet.getString( i )
+                            );
+                }
+                row++;
+            }
+        }
+        catch( final SQLException e ) {
+            DatabaseMetaDataCollector.LOGGER.warn( "Error while reading ResultSet return by " + m, e );
+
+            this.values.put( String.format( "%s ResultSet=>SQLException (row=%d)", m.getName(), Integer.valueOf( row ) ), e.getMessage() );
         }
     }
 
@@ -124,7 +129,7 @@ class MapBuilder implements Mappable
         final Method[]      methods = DatabaseMetaData.class.getMethods();
         final List<Method>  methodsToInvoke = new ArrayList<>();
 
-        for(final Method m:methods) {
+        for( final Method m:methods ) {
             final Class<?> returnType = m.getReturnType();
 
             if( (m.getParameterTypes().length == 0) && (returnType == ResultSet.class) ) {

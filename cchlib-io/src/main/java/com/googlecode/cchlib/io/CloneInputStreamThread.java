@@ -66,6 +66,27 @@ public class CloneInputStreamThread
     {
         super( threadName );
 
+        testParameters( is, bufferSize, exceptionHandlers );
+
+        this.is                 = is;
+        this.bufferSize         = bufferSize;
+        this.exceptionHandlers  = exceptionHandlers;
+
+        this.running = true;
+        this.pipesOut = new PipedOutputStream[ this.exceptionHandlers.length ];
+        this.pipesIn  = new PipedInputStream[ this.exceptionHandlers.length ];
+
+        for( int i = 0; i<this.exceptionHandlers.length; i++ ) {
+            this.pipesOut[ i ] = new PipedOutputStream(); // $codepro.audit.disable avoidInstantiationInLoops
+            this.pipesIn[ i ]  = new PipedInputStream( this.pipesOut[ i ] ); // $codepro.audit.disable avoidInstantiationInLoops
+            }
+
+        setDaemon( true );
+    }
+
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
+    private void testParameters( final InputStream is, final int bufferSize, final InputStreamThreadExceptionHandler... exceptionHandlers )
+    {
         if( is == null ) {
             throw new NullPointerException( "InputStream is null" );
             }
@@ -86,21 +107,6 @@ public class CloneInputStreamThread
                 throw new NullPointerException( "At leat one exception handler is null" );
                 }
             }
-
-        this.is                 = is;
-        this.bufferSize         = bufferSize;
-        this.exceptionHandlers  = exceptionHandlers;
-
-        this.running = true;
-        this.pipesOut = new PipedOutputStream[ this.exceptionHandlers.length ];
-        this.pipesIn  = new PipedInputStream[ this.exceptionHandlers.length ];
-
-        for( int i = 0; i<this.exceptionHandlers.length; i++ ) {
-            this.pipesOut[ i ] = new PipedOutputStream(); // $codepro.audit.disable avoidInstantiationInLoops
-            this.pipesIn[ i ]  = new PipedInputStream( this.pipesOut[ i ] ); // $codepro.audit.disable avoidInstantiationInLoops
-            }
-
-        setDaemon( true );
     }
 
     /**
@@ -148,7 +154,8 @@ public class CloneInputStreamThread
                     }
                 catch( final IOException e ) {
                     this.exceptionHandlers[ i ].handleWritingIOException( e );
-                    // FIXME : improve errors handle (stop writing on this pipe)
+                    // TODO : improve errors handle
+                    // (allow to stop writing on this pipe - add config)
                     }
                 }
         }

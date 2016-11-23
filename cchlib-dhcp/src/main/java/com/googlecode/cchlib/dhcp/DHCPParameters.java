@@ -44,7 +44,7 @@ public class DHCPParameters {
     private DHCPOptions        dhcpOptions;
 
     /** Lock Object */
-    protected transient Object lock                  = new Object();
+    protected Object lock = new Object();
 
     /**
      ** Creates a empty DHCPParameters
@@ -61,19 +61,19 @@ public class DHCPParameters {
      */
     public byte[] toByteArray() // --------------------------------------------
     {
-        synchronized( lock ) {
+        synchronized( this.lock ) {
 
             try {
                 final ByteArrayOutputStream outBStream = new ByteArrayOutputStream();
                 final DataOutputStream outStream = new DataOutputStream( outBStream );
 
-                outStream.writeByte( op );
-                outStream.writeByte( htype );
-                outStream.writeByte( hlen );
-                outStream.writeByte( hops );
-                outStream.writeInt( xid );
-                outStream.writeShort( secs );
-                outStream.writeShort( flags );
+                outStream.writeByte( this.op );
+                outStream.writeByte( this.htype );
+                outStream.writeByte( this.hlen );
+                outStream.writeByte( this.hops );
+                outStream.writeInt( this.xid );
+                outStream.writeShort( this.secs );
+                outStream.writeShort( this.flags );
                 outStream.write( this.ciaddr ); // 4
                 outStream.write( this.yiaddr ); // 4
                 outStream.write( this.siaddr ); // 4
@@ -82,7 +82,7 @@ public class DHCPParameters {
                 outStream.write( this.sname ); // 64
                 outStream.write( this.file ); // 128
 
-                final byte[] options = dhcpOptions.toByteArray();
+                final byte[] options = this.dhcpOptions.toByteArray();
 
                 outStream.write( options, 0, options.length );
 
@@ -118,7 +118,7 @@ public class DHCPParameters {
     private void init( final byte[] ibuf ) // ---------------------------------
             throws ArrayIndexOutOfBoundsException
     {
-        synchronized( lock ) {
+        synchronized( this.lock ) {
             final ByteArrayInputStream bais = new ByteArrayInputStream( ibuf );
             final DataInputStream dis = new DataInputStream( bais );
 
@@ -150,7 +150,7 @@ public class DHCPParameters {
     private void init( final DHCPParameters src ) // --------------------------
             throws ArrayIndexOutOfBoundsException
     {
-        synchronized( lock ) {
+        synchronized( this.lock ) {
             this.op = src.op;
             this.htype = src.htype;
             this.hlen = src.hlen;
@@ -638,7 +638,7 @@ public class DHCPParameters {
     private final static void set( // -----------------------------------------
             final byte[] src, final byte[] dest, final String fieldname, final boolean autoAlign )
     {
-        if( autoAlign && src.length < dest.length ) {
+        if( autoAlign && (src.length < dest.length) ) {
             Arrays.fill( dest, (byte)0 );
 
             for( int i = 0; i < src.length; i++ ) {
@@ -673,42 +673,42 @@ public class DHCPParameters {
         final StringBuilder sb = new StringBuilder();
 
         sb.append( super.toString() + "\n" );
-        sb.append( "op      =[" + op + "]\n" );
-        sb.append( "htype   =[" + htype + "]\n" );
-        sb.append( "hlen    =[" + hlen + "]\n" );
-        sb.append( "hops    =[" + hops + "]\n" );
-        if( xid != 0 ) {
-            sb.append( "xid     =[0x" + DHCPParameters.toHexString( xid ) + "]\n" );
+        sb.append( "op      =[" + this.op + "]\n" );
+        sb.append( "htype   =[" + this.htype + "]\n" );
+        sb.append( "hlen    =[" + this.hlen + "]\n" );
+        sb.append( "hops    =[" + this.hops + "]\n" );
+        if( this.xid != 0 ) {
+            sb.append( "xid     =[0x" + DHCPParameters.toHexString( this.xid ) + "]\n" );
         }
-        if( secs != 0 ) {
-            sb.append( "secs    =[" + secs + "]\n" );
+        if( this.secs != 0 ) {
+            sb.append( "secs    =[" + this.secs + "]\n" );
         }
-        if( flags != 0 ) {
-            sb.append( "flags   =[0x" + DHCPParameters.toHexString( flags ) + "]\n" );
+        if( this.flags != 0 ) {
+            sb.append( "flags   =[0x" + DHCPParameters.toHexString( this.flags ) + "]\n" );
         }
 
         //
         // Address
         //
-        if( !isNull( ciaddr ) ) {
-            sb.append( "ciaddr  =[" + ip4AddrToString( ciaddr ) + "] Client IP address (without ARP)\n" );
+        if( !isNull( this.ciaddr ) ) {
+            sb.append( "ciaddr  =[" + ip4AddrToString( this.ciaddr ) + "] Client IP address (without ARP)\n" );
         }
-        if( !isNull( yiaddr ) ) {
-            sb.append( "yiaddr  =[" + ip4AddrToString( yiaddr ) + "] Your 'Client' IP address\n" );
+        if( !isNull( this.yiaddr ) ) {
+            sb.append( "yiaddr  =[" + ip4AddrToString( this.yiaddr ) + "] Your 'Client' IP address\n" );
         }
-        if( !isNull( siaddr ) ) {
-            sb.append( "siaddr  =[" + ip4AddrToString( siaddr ) + "] Server IP address\n" );
+        if( !isNull( this.siaddr ) ) {
+            sb.append( "siaddr  =[" + ip4AddrToString( this.siaddr ) + "] Server IP address\n" );
         }
-        if( !isNull( giaddr ) ) {
-            sb.append( "giaddr  =[" + ip4AddrToString( giaddr ) + "] Relay agent IP address\n" );
+        if( !isNull( this.giaddr ) ) {
+            sb.append( "giaddr  =[" + ip4AddrToString( this.giaddr ) + "] Relay agent IP address\n" );
         }
 
-        sb.append( "chaddr  =[" + DHCPParameters.toHexString( chaddr, false ) + "] MAC address\n" );
+        sb.append( "chaddr  =[" + DHCPParameters.toHexString( this.chaddr, false ) + "] MAC address\n" );
 
-        if( !isNull( sname ) ) {
-            sb.append( "sname   =[" + DHCPParameters.toString( sname ) + "]\n" );
+        if( !isNull( this.sname ) ) {
+            sb.append( "sname   =[" + DHCPParameters.toString( this.sname ) + "]\n" );
         }
-        if( !isNull( file ) ) {
+        if( !isNull( this.file ) ) {
             sb.append( "file    =[" + getFilename() + "]\n" );
         }
 
@@ -814,8 +814,8 @@ public class DHCPParameters {
         for( int i = 0; i < values.length; i++ ) {
             sb.append( DHCPParameters.toHexString( values[ i ] ) );
 
-            if( doLayout && ((i + 1) % 4 == 0) ) {
-                if( (i + 1) % 32 == 0 ) {
+            if( doLayout && (((i + 1) % 4) == 0) ) {
+                if( ((i + 1) % 32) == 0 ) {
                     sb.append( '\n' );
                 } else {
                     sb.append( ' ' );

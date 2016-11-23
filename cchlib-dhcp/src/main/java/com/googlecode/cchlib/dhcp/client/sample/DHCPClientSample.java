@@ -11,7 +11,12 @@ import com.googlecode.cchlib.dhcp.logger.DefaultDHCPLogger;
 /**
  ** dhcp client simulation program
  */
-public class DHCPClientSample {
+public class DHCPClientSample
+{
+    private DHCPClientSample()
+    {
+        // All static
+    }
 
     /**
      ** .java com.googlecode.cchlib.dhcp.client.sample.DHCPClientSample 00-0D-56-D7-2A-A5

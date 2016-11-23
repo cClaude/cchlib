@@ -13,6 +13,7 @@ import cx.ath.choisnet.lang.introspection.method.IntrospectionParameters;
  * @param <OBJECT>
  *
  */
+@SuppressWarnings("squid:S00119")
 public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
     extends AbstractSwingIntrospectorObjectInterface<
                 FRAME,
@@ -21,6 +22,10 @@ public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
                 >
 {
     private static final Integer ZERO = Integer.valueOf( 0 );
+
+    private FrameFieldPopulator<FRAME,OBJECT>   frameFieldPopulator;
+    private FRAME                               frameFieldPopulatorFRAME;
+    private OBJECT                              frameFieldPopulatorOBJECT;
 
     public DefaultSwingIntrospectorObjectInterface(
             final Class<FRAME>                                            frameClass,
@@ -49,7 +54,7 @@ public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
     }
 
     @Override
-    public ObjectPopulator<FRAME,OBJECT,DefaultIntrospectionItem<OBJECT>> getObjectPopulator(
+    public ObjectPopulator<FRAME,DefaultIntrospectionItem<OBJECT>> getObjectPopulator(
             final FRAME     frame,
             final OBJECT    object
             )
@@ -67,10 +72,6 @@ public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
         };
     }
 
-    private FrameFieldPopulator<FRAME,OBJECT>   frameFieldPopulator;
-    private FRAME                               frameFieldPopulatorFRAME;
-    private OBJECT                              frameFieldPopulatorOBJECT;
-
     @Override
     public FrameFieldPopulator<FRAME,OBJECT> getFrameFieldPopulator(
             final FRAME     frame,
@@ -78,16 +79,16 @@ public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
             )
     {
         // In cache ?
-        if( frameFieldPopulator == null
-            || frameFieldPopulatorFRAME != frame
-            || frameFieldPopulatorOBJECT != object
+        if( (this.frameFieldPopulator == null)
+            || (this.frameFieldPopulatorFRAME != frame)
+            || (this.frameFieldPopulatorOBJECT != object)
             ) {
-            frameFieldPopulator = new DefaultFrameFieldPopulator<FRAME,OBJECT>(frame,object);
-            frameFieldPopulatorFRAME = frame;
-            frameFieldPopulatorOBJECT = object;
+            this.frameFieldPopulator = new DefaultFrameFieldPopulator<>(frame,object);
+            this.frameFieldPopulatorFRAME = frame;
+            this.frameFieldPopulatorOBJECT = object;
         }
 
-        return frameFieldPopulator;
+        return this.frameFieldPopulator;
     }
 
 }

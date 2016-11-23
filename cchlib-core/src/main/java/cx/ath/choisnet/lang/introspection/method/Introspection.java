@@ -185,25 +185,35 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
             // continue
             }
         else {
-            for( int i = 0; i<len; i++ ) {
-                final Object av1 = Array.get( a1, 0 );
-                final Object av2 = Array.get( a2, 0 );
+            compareWithExceptionArrays( a1, a2, m, len );
+            }
+    }
 
-                if( av1 == null ) {
-                    if( av2 == null ) {
-                        // continue
-                        }
-                    else {
-                        throw new IntrospectionCompareException( "Arrays diff(1)", m, a1, a2, Integer.MAX_VALUE );
-                        }
+    private void compareWithExceptionArrays(
+        final Object a1,
+        final Object a2,
+        final Method m,
+        final int    len
+        ) throws IntrospectionCompareException
+    {
+        for( int i = 0; i<len; i++ ) {
+            final Object av1 = Array.get( a1, 0 );
+            final Object av2 = Array.get( a2, 0 );
+
+            if( av1 == null ) {
+                if( av2 == null ) {
+                    // continue
                     }
                 else {
-                    if( av2 == null ) {
-                        throw new IntrospectionCompareException( "Arrays diff(2)", m, a1, a2, Integer.MAX_VALUE );
-                        }
-                    else {
-                        compareWithExceptionObjects( av1, av2, m );
-                        }
+                    throw new IntrospectionCompareException( "Arrays diff(1)", m, a1, a2, Integer.MAX_VALUE );
+                    }
+                }
+            else {
+                if( av2 == null ) {
+                    throw new IntrospectionCompareException( "Arrays diff(2)", m, a1, a2, Integer.MAX_VALUE );
+                    }
+                else {
+                    compareWithExceptionObjects( av1, av2, m );
                     }
                 }
             }

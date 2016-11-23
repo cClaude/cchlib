@@ -89,9 +89,10 @@ public class ObjectPopulatorHelper
      *         to handle type.
      * @throws SwingIntrospectorParseException
      */
+    @SuppressWarnings("squid:MethodCyclomaticComplexity") // Dispatcher
     public static <OBJECT> Object getFieldValue(
             final Object                fieldObject,
-            IntrospectionItem<OBJECT>   iItem
+            final IntrospectionItem<OBJECT>   iItem
             )
         throws SwingIntrospectorUnsupportedClassException,
                SwingIntrospectorParseException
@@ -102,30 +103,30 @@ public class ObjectPopulatorHelper
         Object value;
 
         if( fieldObject instanceof LimitedIntegerJTextField ) {
-            LimitedIntegerJTextField f = LimitedIntegerJTextField.class.cast( fieldObject );
+            final LimitedIntegerJTextField f = LimitedIntegerJTextField.class.cast( fieldObject );
             value = new Integer( f.getValue() );
             }
         else if( fieldObject instanceof JFormattedTextField ) {
-            JFormattedTextField f = JFormattedTextField.class.cast( fieldObject );
+            final JFormattedTextField f = JFormattedTextField.class.cast( fieldObject );
             //TODO: did not work !!!!!!
 
             try {
                 f.commitEdit();
                 }
-            catch( ParseException e ) {
+            catch( final ParseException e ) {
                 throw new SwingIntrospectorParseException( e );
                 }
             value = f.getValue();
         }
         else if( fieldObject instanceof JCheckBox ) {
-            JCheckBox f = JCheckBox.class.cast( fieldObject );
+            final JCheckBox f = JCheckBox.class.cast( fieldObject );
             value = new Boolean( f.isSelected() );
         }
         else if( fieldObject instanceof JComboBox ) {
-            JComboBox<?> f = JComboBox.class.cast( fieldObject );
+            final JComboBox<?> f = JComboBox.class.cast( fieldObject );
             // Value is a relative value !
             int    index = f.getSelectedIndex();
-            Object min   = iItem.getMinValue();
+            final Object min   = iItem.getMinValue();
 
             if( min instanceof Integer ) {
                 // Value should be modify if (min != 0)
@@ -150,19 +151,19 @@ public class ObjectPopulatorHelper
 //
 //        }
         else if( fieldObject instanceof JSlider ) {
-            JSlider f = JSlider.class.cast( fieldObject );
+            final JSlider f = JSlider.class.cast( fieldObject );
             // Value is real value !
             value = new Integer( f.getValue() );
         }
         else if( fieldObject instanceof JSpinner ) {
-            JSpinner f = JSpinner.class.cast( fieldObject );
+            final JSpinner f = JSpinner.class.cast( fieldObject );
             value = f.getValue();
         }
 //        else if( fieldObject instanceof javax.swing.JTabbedPane ) {
 //
 //        }
         else if( fieldObject instanceof JTextField ) {
-            JTextField f = JTextField.class.cast( fieldObject );
+            final JTextField f = JTextField.class.cast( fieldObject );
             value = f.getText();
         }
         else {

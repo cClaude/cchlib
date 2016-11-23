@@ -34,22 +34,22 @@ public final class DuplicateFileBuilder
 
         public List<T> toList()
         {
-            return collector;
+            return this.collector;
         }
 
         @Override
         public FileVisitResult preVisitDirectory( final T dir, final BasicFileAttributes attrs ) throws IOException
         {
-            return visitor.preVisitDirectory( dir, attrs );
+            return this.visitor.preVisitDirectory( dir, attrs );
         }
 
         @Override
         public FileVisitResult visitFile( final T file, final BasicFileAttributes attrs ) throws IOException
         {
-            final FileVisitResult result = visitor.visitFile( file, attrs );
+            final FileVisitResult result = this.visitor.visitFile( file, attrs );
 
             if( (result == FileVisitResult.CONTINUE) || (result == FileVisitResult.TERMINATE)) {
-                collector.add( file );
+                this.collector.add( file );
             }
             return result;
         }
@@ -57,14 +57,19 @@ public final class DuplicateFileBuilder
         @Override
         public FileVisitResult visitFileFailed( final T file, final IOException exc ) throws IOException
         {
-            return visitor.visitFileFailed( file, exc );
+            return this.visitor.visitFileFailed( file, exc );
         }
 
         @Override
         public FileVisitResult postVisitDirectory( final T dir, final IOException exc ) throws IOException
         {
-            return visitor.postVisitDirectory( dir, exc );
+            return this.visitor.postVisitDirectory( dir, exc );
         }
+    }
+
+    private DuplicateFileBuilder()
+    {
+        // All static
     }
 
     private static PrepareDuplicateFile newInstance(

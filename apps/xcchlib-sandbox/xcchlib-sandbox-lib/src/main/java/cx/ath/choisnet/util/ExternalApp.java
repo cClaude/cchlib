@@ -55,6 +55,10 @@ import cx.ath.choisnet.io.StreamCopyThread;
 */
 public class ExternalApp
 {
+    private ExternalApp()
+    {
+        // All static
+    }
 
 /**
 ** Execute la commande donnee
@@ -219,19 +223,19 @@ public final static int execute( // ---------------------------------------
         @Override
         public byte[] getStdOut() //- - - - - - - - - - - - - - - - - - - -
         {
-            return stdout;
+            return this.stdout;
         }
 
         @Override
         public byte[] getStdErr() //- - - - - - - - - - - - - - - - - - - -
         {
-            return stderr;
+            return this.stderr;
         }
 
         @Override
         public int getReturnCode() // - - - - - - - - - - - - - - - - - - -
         {
-            return returnCode;
+            return this.returnCode;
         }
     }
 

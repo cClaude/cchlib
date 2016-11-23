@@ -37,8 +37,6 @@ public class ImageFilterInputStreamBuilder
         try {
             final ImageIOFileData infos = f.geImageIOFileData();
 
-//            dURL.setDimension( infos.getDimension() );
-//            dURL.setFormatName( infos.getFormatName() );
             dURL.setProperty( "Dimension", infos.getDimension() );
             dURL.setProperty( "FormatName", infos.getFormatName() );
             }

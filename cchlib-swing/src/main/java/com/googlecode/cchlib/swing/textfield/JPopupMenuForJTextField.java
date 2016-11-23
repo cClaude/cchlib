@@ -8,6 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.clipboard.ClipboardHelper;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 
 /**
@@ -155,7 +156,8 @@ public abstract class JPopupMenuForJTextField
     {
         return e -> {
             final String value = getValue();
-            setClipboardContents( (value == null) ? StringHelper.EMPTY : value );
+
+            ClipboardHelper.setClipboardContents( (value == null) ? StringHelper.EMPTY : value );
         };
     }
 
@@ -173,10 +175,10 @@ public abstract class JPopupMenuForJTextField
         final JMenuItem pasteMenu = new JMenuItem();
         pasteMenu.setText( textForPaste );
 
-        if( isClipboardContainingText( this ) ) {
+        if( ClipboardHelper.isClipboardContainingText( this ) ) {
             pasteMenu.addActionListener(
                     e -> {
-                        final String value = getClipboardContents( JPopupMenuForJTextField.this );
+                        final String value = ClipboardHelper.getClipboardContents( JPopupMenuForJTextField.this );
 
                         setValue( value );
                     });

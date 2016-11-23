@@ -45,7 +45,6 @@ public class MD5FilterInputStreamBuilder
         final DownloadFileURL   dURL
         )
     {
-//        dURL.setContentHashCode( MD5FilterInputStream.class.cast( filter ).getHashString() );
         dURL.setProperty( "HashCode",  MD5FilterInputStream.class.cast( filter ).getHashString() );
     }
 }

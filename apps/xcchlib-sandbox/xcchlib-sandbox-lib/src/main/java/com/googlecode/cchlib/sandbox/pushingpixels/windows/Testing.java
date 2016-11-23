@@ -4,9 +4,17 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
+/**
+ * @deprecated just for testing
+ */
 @Deprecated
 public class Testing
 {
+    private Testing()
+    {
+        // All static
+    }
+
     public static void main(final String[] args)
     {
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();

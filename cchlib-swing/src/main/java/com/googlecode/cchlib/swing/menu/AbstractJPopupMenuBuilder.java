@@ -1,17 +1,11 @@
 package com.googlecode.cchlib.swing.menu;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.Reader;
 import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.Set;
@@ -19,6 +13,7 @@ import javax.annotation.Nullable;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import com.googlecode.cchlib.swing.clipboard.ClipboardHelper;
 
 /**
  * Handle context menu.
@@ -47,9 +42,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param attributes configuration
      * @since 4.2
      */
-    protected AbstractJPopupMenuBuilder(
-        @Nullable final Set<Attributs> attributes
-        )
+    protected AbstractJPopupMenuBuilder( @Nullable final Set<Attributs> attributes )
     {
         if( attributes == null) {
             this.attributes = EnumSet.noneOf( Attributs.class );
@@ -72,7 +65,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     /**
      * @since 4.2
      */
-   private void readObject( final ObjectInputStream in ) //
+    private void readObject( final ObjectInputStream in )
         throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
@@ -1144,14 +1137,13 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
 
     ///
     ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
     ///
 
     /**
      * {@link MouseListener} that must be add on object that
      * need a JPopupMenu
      */
-    protected abstract void addMouseListener(MouseListener l);
+    protected abstract void addMouseListener( MouseListener l );
 
     /**
      * remove previous {@link MouseListener}
@@ -1161,7 +1153,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     /**
      * Must implement display or hide of menu
      */
-    protected abstract void maybeShowPopup(MouseEvent e);
+    protected abstract void maybeShowPopup( MouseEvent event );
 
     /**
      * Install context menu for specified object.
@@ -1175,6 +1167,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
             removeMouseListener( this.menuMouseListener );
             }
         this.menuMouseListener = newMenu();
+
         addMouseListener( this.menuMouseListener );
     }
 
@@ -1195,95 +1188,41 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         };
     }
 
-    ///
     ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////
-    ///
 
     /**
-     * Test if clipboard contain text.
-     *
-     * @param requestor the object requesting the clip data (not used)
-     *
-     * @return true if clip-board contains text.
+     * @see ClipboardHelper#isClipboardContainingText(Object)
+     * @deprecated use {@link ClipboardHelper#isClipboardContainingText(Object)}
      */
+    @Deprecated
     public static final boolean isClipboardContainingText(
         final Object requestor
         )
     {
-        final Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
-                .getContents( requestor );
-        return (t != null)
-                && (t.isDataFlavorSupported( DataFlavor.stringFlavor )
-                        /*|| t.isDataFlavorSupported( DataFlavor.plainTextFlavor )*/);
+        return ClipboardHelper.isClipboardContainingText( requestor );
     }
 
     /**
-     * Set String content to clipboard
-     *
-     * @param str String to put in clipboard
-     *
-     * @throws IllegalStateException if the clipboard is currently
-     * unavailable. For example, on some platforms, the system clipboard
-     * is unavailable while it is accessed by another application.
+     * @see ClipboardHelper#setClipboardContents(String)
+     * @deprecated use {@link ClipboardHelper#setClipboardContents(String)}
      */
+    @Deprecated
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static final void setClipboardContents( final String str ) //
             throws IllegalStateException
     {
-        final StringSelection selection = new StringSelection( str );
-
-        Toolkit.getDefaultToolkit().getSystemClipboard().setContents( selection, selection );
+        ClipboardHelper.setClipboardContents( str );
     }
 
     /**
-     * Returns String representing the current contents of
-     * the clipboard. If the clipboard currently has no
-     * contents, it returns null.
-     *
-     * @param requestor the object requesting the clip data (not used)
-     *
-     * @return String representing the current contents of the clipboard.
-     *         If the clipboard currently has no contents, it returns null.
-     *
-     * @throws IllegalStateException if the clipboard is currently
-     *         unavailable. For example, on some platforms, the system
-     *         clipboard is unavailable while it is accessed by another
-     *         application.
+     * @see ClipboardHelper#setClipboardContents(String)
+     * @deprecated use {@link ClipboardHelper#setClipboardContents(String)}
      */
+    @Deprecated
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static final String getClipboardContents( final Object requestor )
         throws IllegalStateException
     {
-        final Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard()
-                .getContents( requestor );
-
-        if( t != null ) {
-            final DataFlavor df = DataFlavor.stringFlavor;
-
-            if( df != null ) {
-                try( final Reader r = df.getReaderForText( t ) ) {
-                    final char[]        charBuf = new char[ 512 ];
-                    final StringBuilder buf     = new StringBuilder();
-                    int                 n;
-
-                    while( (n = r.read( charBuf, 0, charBuf.length )) > 0 ) {
-                        buf.append( charBuf, 0, n );
-                        }
-                    return buf.toString();
-                    }
-                catch( final IOException e ) {
-                    // log, but ignore
-                    e.printStackTrace();
-                    }
-                catch( final UnsupportedFlavorException e ) {
-                    // log, but ignore
-                    e.printStackTrace();
-                    }
-                }
-            }
-
-        return null;
+        return ClipboardHelper.getClipboardContents( requestor );
     }
-
 }

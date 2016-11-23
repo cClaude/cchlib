@@ -185,6 +185,7 @@ class JHexEditorASCII
     /** @deprecated by API */
     @Override
     @Deprecated
+    @SuppressWarnings("squid:S1133")
     public boolean isFocusTraversable()
     {
         return true;

@@ -28,6 +28,7 @@ public class Pinger extends Thread
     /**
      * Under development. [DO NOT USE]
      */
+    @SuppressWarnings("squid:S00115")
     public enum Method {
         /**
          * Use all methods in sequence if previous did

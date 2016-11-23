@@ -30,7 +30,39 @@ import cx.ath.choisnet.util.ArrayHelper;
  */
 public abstract class BytesAccess implements Cloneable
 {
+    /**
+     * @see #compare(byte[], byte[])
+     */
+    public static final long  CMP_MASK_OFFSET          = 0xFFFFFFFFFFFF0000L;
+    private static final long CMP_MASK_OFFSET_LOW      = 0x0000FFFFFFFFFFFFL;
+
+    /**
+     * @see #compare(byte[], byte[])
+     */
+    public static final int   CMP_MASK_ROT_OFFSET      = 16;                 // 2*8; NOSONAR
+
+    /**
+     * @see #compare(byte[], byte[])
+     */
+    public static final long  CMP_FF00_MASK_BYTE_VALUE = 0x000000000000FF00L;
+
+    /**
+     * @see #compare(byte[], byte[])
+     */
+    public static final long  CMP_MASK_ROT_BYTE0_VALUE = 8;                  // 1*8 NOSONAR
+
+    /**
+     * @see #compare(byte[], byte[])
+     */
+    public static final long  CMP_00FF_MASK_BYTE_VALUE = 0x00000000000000FFL;
+
+    /**
+     * @see #compare(byte[], byte[])
+     */
+    public static final int   CMP_MASK_ROT_BYTE1_VALUE = 0;                  // 0*8 NOSONAR
+
     private static final String BYTES_ARRAYS_NOT_SAME_SIZE = "bytes arrays not same size (";
+
     /**
      * Internal buffer
      */
@@ -182,37 +214,6 @@ public abstract class BytesAccess implements Cloneable
             return false;
         }
     }
-
-    /**
-     * @see #compare(byte[], byte[])
-     */
-    public static final long  CMP_MASK_OFFSET          = 0xFFFFFFFFFFFF0000L;
-    private static final long CMP_MASK_OFFSET_LOW      = 0x0000FFFFFFFFFFFFL;
-
-    /**
-     * @see #compare(byte[], byte[])
-     */
-    public static final int   CMP_MASK_ROT_OFFSET      = 16;                 // 2*8; NOSONAR
-
-    /**
-     * @see #compare(byte[], byte[])
-     */
-    public static final long  CMP_FF00_MASK_BYTE_VALUE = 0x000000000000FF00L;
-
-    /**
-     * @see #compare(byte[], byte[])
-     */
-    public static final long  CMP_MASK_ROT_BYTE0_VALUE = 8;                  // 1*8 NOSONAR
-
-    /**
-     * @see #compare(byte[], byte[])
-     */
-    public static final long  CMP_00FF_MASK_BYTE_VALUE = 0x00000000000000FFL;
-
-    /**
-     * @see #compare(byte[], byte[])
-     */
-    public static final int   CMP_MASK_ROT_BYTE1_VALUE = 0;                  // 0*8 NOSONAR
 
     /**
      * Could be use to create your own compareTo() method

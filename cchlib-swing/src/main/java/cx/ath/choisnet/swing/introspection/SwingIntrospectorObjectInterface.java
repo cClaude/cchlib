@@ -1,15 +1,15 @@
-/**
- *
- */
 package cx.ath.choisnet.swing.introspection;
 
 import java.util.Map;
 
 /**
- * @param <FRAME>
- * @param <OBJECT>
- * @param <OBJECT_ENTRY>
+ * NEEDDOC
+ *
+ * @param <FRAME> NEEDDOC
+ * @param <OBJECT> NEEDDOC
+ * @param <OBJECT_ENTRY> NEEDDOC
  */
+@SuppressWarnings("squid:S00119")
 public interface SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY>
 {
     /**
@@ -37,7 +37,7 @@ public interface SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY>
      * @param object
      * @return ObjectPopulator for these instances
      */
-    ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY> getObjectPopulator( FRAME frame, OBJECT object );
+    ObjectPopulator<FRAME,OBJECT_ENTRY> getObjectPopulator( FRAME frame, OBJECT object );
 
     /**
      *

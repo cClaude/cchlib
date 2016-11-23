@@ -17,16 +17,21 @@ public class SMSConfig
     static {
         badDates = new Date[ badDatesString.length ];
 
-        SimpleDateFormat fmt = new SimpleDateFormat( SMS.DATE_FORMAT_ISO );
+        final SimpleDateFormat fmt = new SimpleDateFormat( SMS.DATE_FORMAT_ISO );
 
         for(int i = 0;i<badDatesString.length; i++) {
             try {
                 badDates[ i ] = fmt.parse( badDatesString[ i ] );
             }
-            catch( ParseException e ) {
+            catch( final ParseException e ) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private SMSConfig()
+    {
+        // All static
     }
 
     /**
@@ -47,18 +52,18 @@ public class SMSConfig
         return getDefaultFrom();
     }
 
-    public static boolean isDateValid( SMS sms )
+    public static boolean isDateValid( final SMS sms )
     {
         return isDateValid( sms.getComputedTimeDate() );
     }
 
-    private static boolean isDateValid( Date date )
+    private static boolean isDateValid( final Date date )
     {
         if( date == null ) {
             return false;
         }
 
-        for(Date d:badDates) {
+        for(final Date d:badDates) {
             if(date.equals( d )) {
                 return false;
             }

@@ -352,13 +352,13 @@ public class NamedTree<T>
     @Override
     public void walk( final Visitor<NamedTreeNode<T>> visitor )
     {
-        final Queue<NamedTreeNode<T>> queue = new LinkedList<NamedTreeNode<T>>();
+        final Queue<NamedTreeNode<T>> queue = new LinkedList<>();
 
         if( this.head != null ) {
             queue.add(this.head);
         }
 
-        while( queue.size() > 0 ) {
+        while( ! queue.isEmpty() ) {
             final NamedTreeNode<T> n = queue.poll();
 
             for(final NamedTreeNode<T> child:n) {

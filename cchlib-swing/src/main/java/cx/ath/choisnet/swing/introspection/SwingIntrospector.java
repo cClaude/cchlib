@@ -341,7 +341,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         throws  SwingIntrospectorException,
                 IntrospectionException
     {
-        final ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY> op = this.objectInterface.getObjectPopulator( frame, object );
+        final ObjectPopulator<FRAME,OBJECT_ENTRY> op = this.objectInterface.getObjectPopulator( frame, object );
 
         for( final Entry<String,OBJECT_ENTRY> item : this.objectInterface.getObjectInfos().entrySet()) {
             final String                    beanName = item.getKey();
@@ -368,7 +368,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             final OBJECT object
             )
     { // without exception !
-        final ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY> op = this.objectInterface.getObjectPopulator( frame, object );
+        final ObjectPopulator<FRAME,OBJECT_ENTRY> op = this.objectInterface.getObjectPopulator( frame, object );
 
         for( final Entry<String,OBJECT_ENTRY> item : this.objectInterface.getObjectInfos().entrySet()) {
             final String                    beanName = item.getKey();

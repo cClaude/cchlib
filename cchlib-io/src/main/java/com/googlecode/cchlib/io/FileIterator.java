@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -96,7 +97,7 @@ public class FileIterator implements  Iterator<File>
     @Override
     public boolean hasNext()
     {
-        if( this.currentDirFilesList.size() > 0 ) {
+        if( isNotEmpty( this.currentDirFilesList ) ) {
             return true;
             }
         else if( this.directoryIterator.hasNext() ) {
@@ -105,15 +106,17 @@ public class FileIterator implements  Iterator<File>
 
             if( content != null ) {
                 this.currentDirFilesList.addAll( Arrays.asList( content ) );
-                //for( File f : content ) {
-                    //currentDirFilesList.add(f);
-                    //}
                 }
             return hasNext();
             }
         else {
             return false;
             }
+    }
+
+    private boolean isNotEmpty( final List<File> list )
+    {
+        return ! list.isEmpty();
     }
 
     /**
@@ -125,9 +128,10 @@ public class FileIterator implements  Iterator<File>
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public File next() throws NoSuchElementException
     {
-        // Initialize currentDirFilesList
-        // in case of direct call next()
-        // without calling hasNext()
+        // Initialize currentDirFilesList in case of direct
+        // call next() without calling hasNext()
+        // Well, this a bad practice but required here
+        // for none regression reasons.
         hasNext();
 
         return this.currentDirFilesList.removeLast();

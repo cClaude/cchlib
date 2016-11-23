@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
 import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.clipboard.ClipboardHelper;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 
 /**
@@ -325,7 +326,7 @@ public abstract class JPopupMenuForJList<E>
         return e -> {
             final E value = getListModel().getElementAt( rowIndex );
 
-            setClipboardContents(
+            ClipboardHelper.setClipboardContents(
                     value == null ? StringHelper.EMPTY : value.toString()
                     );
         };

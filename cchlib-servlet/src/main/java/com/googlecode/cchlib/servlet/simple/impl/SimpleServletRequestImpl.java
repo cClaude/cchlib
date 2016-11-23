@@ -247,6 +247,7 @@ public class SimpleServletRequestImpl
                          && (userAgentLowerCase.indexOf(OPERA) == -1);
     }
 
+    @SuppressWarnings({"squid:S1067"})
     private boolean isMozilla( final String userAgentLowerCase )
     {
         return (userAgentLowerCase.indexOf(MOZILLA) != -1)

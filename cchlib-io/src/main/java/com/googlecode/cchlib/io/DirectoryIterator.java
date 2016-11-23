@@ -71,7 +71,7 @@ public class DirectoryIterator // $codepro.audit.disable cloneWithoutCloneable
      * @see java.lang.Object#clone()
      */
     @Override
-    @SuppressWarnings("squid:S2975")
+    @SuppressWarnings({"squid:S2975","squid:S1182"})
     protected Object clone() throws CloneNotSupportedException
     {
         throw new CloneNotSupportedException();

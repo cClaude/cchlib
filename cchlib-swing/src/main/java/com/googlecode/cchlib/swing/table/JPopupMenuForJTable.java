@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.clipboard.ClipboardHelper;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 
 /**
@@ -286,7 +287,7 @@ public abstract class JPopupMenuForJTable
             final Object value = getTableModel()
                 .getValueAt( rowIndex, columnIndex );
 
-            setClipboardContents( value == null ? StringHelper.EMPTY : value.toString() );
+            ClipboardHelper.setClipboardContents( value == null ? StringHelper.EMPTY : value.toString() );
         };
     }
 
@@ -309,11 +310,11 @@ public abstract class JPopupMenuForJTable
 
         pasteMenu.setText( txtForPaste );
 
-        if( isClipboardContainingText( this )
+        if( ClipboardHelper.isClipboardContainingText( this )
                 && getTableModel().isCellEditable( rowIndex, columnIndex ) ) {
             pasteMenu.addActionListener(
                     e -> {
-                        final String value = getClipboardContents( JPopupMenuForJTable.this );
+                        final String value = ClipboardHelper.getClipboardContents( JPopupMenuForJTable.this );
 
                         getTableModel().setValueAt( value, rowIndex, columnIndex );
                     });
