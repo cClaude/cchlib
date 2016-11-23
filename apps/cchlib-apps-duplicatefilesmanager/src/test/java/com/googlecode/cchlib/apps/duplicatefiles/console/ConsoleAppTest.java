@@ -5,10 +5,10 @@ import org.junit.Test;
 import com.googlecode.cchlib.apps.duplicatefiles.ConsoleApp;
 import com.googlecode.cchlib.io.FileHelper;
 
-public class ConsoleAppTest {
-
+public class ConsoleAppTest 
+{
     private static final String RESOURCE_PATH = "src/test/resources/";
-    private static final String LOG_PATH      = "../logs/";
+    private static final String LOG_PATH      = ".logs/";
 
     @Test
     public void testJSONConfig1() throws NoSuchAlgorithmException

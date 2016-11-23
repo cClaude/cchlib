@@ -1,10 +1,11 @@
+*.bat!
 *.html!
 *.java!
 *.java!todo
+*.sh!
 *.tws
 */dependency-reduced-pom.xml
 */pom.xml.versionsBackup
-*/target
 .classpath
 .logs/
 .project
@@ -79,7 +80,8 @@ cchlib-sys/target/
 cchlib-unit/.classpath
 cchlib-unit/bin/
 cchlib-unit/target/
-logs/
+pom.xml.bak
 pom.xml.versionsBackup
 release.properties
 target/
+testConfig/

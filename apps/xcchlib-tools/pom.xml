@@ -36,6 +36,7 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-io</artifactId>
@@ -57,6 +58,20 @@
     </dependency>
 
     <dependency>
+        <groupId>com.googlecode.cchlib</groupId>
+        <artifactId>cchlib-net</artifactId>
+        <version>4.2-SNAPSHOT</version>
+    </dependency>
+
+    <!-- required by PhoneRecordSorterCLIApp -->
+    <dependency>
+        <groupId>com.googlecode.cchlib</groupId>
+        <artifactId>cchlib-x-googlecontact</artifactId>
+        <version>4.2-SNAPSHOT</version>
+    </dependency>
+
+    <!-- CSVReader -->
+    <dependency>
       <groupId>net.sf.opencsv</groupId>
       <artifactId>opencsv</artifactId>
       <version>2.3</version>
@@ -66,17 +81,6 @@
         <groupId>net.sf.flexjson</groupId>
         <artifactId>flexjson</artifactId>
         <version>3.2</version>
-    </dependency>
-
-    <dependency>
-        <groupId>com.googlecode.cchlib</groupId>
-        <artifactId>cchlib-net</artifactId>
-        <version>4.2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-        <groupId>com.googlecode.cchlib</groupId>
-        <artifactId>cchlib-x-googlecontact</artifactId>
-        <version>4.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
