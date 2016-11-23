@@ -28,15 +28,15 @@ import java.util.TreeSet;
 */
 public class BenchFuncsFinal
 {
-private final static int BENCH_COUNT    = 10;
-private final static int COMPUTE_COUNT  = 500000;
+private static final int BENCH_COUNT    = 10;
+private static final int COMPUTE_COUNT  = 500000;
 
-private final static Stats<String> stats = new Stats<String>();
+private static final Stats<String> stats = new Stats<String>();
 
 /**
 **
 */
-public final static <T> void appendFF( // ---------------------------------
+public static final <T> void appendFF( // ---------------------------------
     final Collection<T> list,
     final T             item
     )
@@ -58,7 +58,7 @@ public static <T> void append_F( // ---------------------------------------
 /**
 **
 */
-public final static <T> void benchFF( // ----------------------------------
+public static final <T> void benchFF( // ----------------------------------
     final Collection<T> list,
     final T             item,
     final String        label
@@ -100,7 +100,7 @@ public static <T> void bench_F( // ----------------------------------------
 /**
 **
 */
-public final static void benchArrayListFile() // --------------------------
+public static final void benchArrayListFile() // --------------------------
 {
  final File     item    = new File( "." );
  final String   label   = "ArrayList<File>()";
@@ -112,7 +112,7 @@ public final static void benchArrayListFile() // --------------------------
 /**
 **
 */
-public final static void benchTreeSetLong() // ----------------------------
+public static final void benchTreeSetLong() // ----------------------------
 {
  final Long     item    = new Long( -1 );
  final String   label   = "TreeSet<Long>()";
@@ -124,7 +124,7 @@ public final static void benchTreeSetLong() // ----------------------------
 /**
 **
 */
-public final static void benchVectorString() // ---------------------------
+public static final void benchVectorString() // ---------------------------
 {
  final String   item    = "String";
  final String   label   = "Vector<String>()";
@@ -136,7 +136,7 @@ public final static void benchVectorString() // ---------------------------
 /**
 **
 */
-public final static void printDot() // ------------------------------------
+public static final void printDot() // ------------------------------------
 {
  System.out.print( '.' );
  System.out.flush();
@@ -145,7 +145,7 @@ public final static void printDot() // ------------------------------------
 /**
 **
 */
-public final static void main( final String[] args ) // -------------------
+public static final void main( final String[] args ) // -------------------
 {
  for( int i = 0; i<BENCH_COUNT; i++ ) {
 

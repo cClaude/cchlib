@@ -2,13 +2,21 @@ package com.googlecode.cchlib.util.duplicate.digest;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
 
 /**
  * Default implementation for {@link FileDigestFactory}
  *
  * @since 4.2
  */
-public class DefaultFileDigestFactory implements FileDigestFactory {
+public class DefaultFileDigestFactory implements FileDigestFactory
+{
+    /**
+     * Minimum buffer size : {@value}
+     */
+    private static final int MIN_BUFFER_SIZE = 1024;
+
     /**
      * Default buffer size : {@value}
      */
@@ -24,11 +32,29 @@ public class DefaultFileDigestFactory implements FileDigestFactory {
      * @param algorithm
      *      Algorithm name to use to create hash codes
      *      {@link MessageDigestAlgorithms}
-      * @param bufferSize
-      *     Internal buffer size
+     * @param bufferSize
+     *     Internal buffer size
+     * @see #MIN_BUFFER_SIZE
+     * @see #DEFAULT_BUFFER_SIZE
      */
-    public DefaultFileDigestFactory( final String algorithm, final int bufferSize )
+    public DefaultFileDigestFactory(
+        @Nonnull final String  algorithm,
+        @Nonnegative final int bufferSize
+        )
     {
+        if( algorithm == null ) {
+            throw new IllegalArgumentException( "algorithm is null" );
+        }
+
+        if( bufferSize < MIN_BUFFER_SIZE ) {
+            throw new IllegalArgumentException(
+                String.format(
+                    "bufferSize (%d) should greater or equal to %d",
+                        bufferSize,
+                        1024 )
+                );
+        }
+
         this.algorithm = algorithm;
         this.bufferSize = bufferSize;
     }
@@ -41,14 +67,15 @@ public class DefaultFileDigestFactory implements FileDigestFactory {
      *      Algorithm to use to create hash codes
      * @param bufferSize
       *     Internal buffer size
+     * @see #MIN_BUFFER_SIZE
+     * @see #DEFAULT_BUFFER_SIZE
      */
     public DefaultFileDigestFactory(
-            final MessageDigestAlgorithms algorithm,
-            final int                     bufferSize
+            @Nonnull final MessageDigestAlgorithms algorithm,
+            @Nonnegative final int                 bufferSize
             )
     {
-        this.algorithm  = algorithm.getAlgorithm();
-        this.bufferSize = bufferSize;
+        this( algorithm.getAlgorithm(), bufferSize );
     }
 
     /**

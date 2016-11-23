@@ -18,7 +18,7 @@ import com.googlecode.cchlib.lang.StringHelper;
 public class MPECVSContactPropertiesBuilder
     extends    AbstractContactPropertiesBuilder
 {
-    private final static Logger LOG = Logger.getLogger(
+    private static final Logger LOG = Logger.getLogger(
             MPECVSContactPropertiesBuilder.class
             );
 
@@ -40,7 +40,7 @@ public class MPECVSContactPropertiesBuilder
         throws BadFileFormatException, IOException
     {
         final String[] line = csvReader.readNext();
-        
+
         LOG.trace( "head line length: " + (line==null?-1:line.length) );
 
         if( line == null ) {
@@ -48,7 +48,7 @@ public class MPECVSContactPropertiesBuilder
                 "Empty file: " + contactCVSFile
                 );
             }
-        
+
         if( line.length == 1 ) {
             LOG.error( "head line : " + Arrays.toString( line ) );
 

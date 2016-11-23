@@ -20,7 +20,7 @@ import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 @SuppressWarnings("deprecation")
 public class XMD5Test
 {
-    private final static Logger LOGGER = Logger.getLogger( XMD5Test.class );
+    private static final Logger LOGGER = Logger.getLogger( XMD5Test.class );
     private XMessageDigestFile   mdf;
     private List<File>          fileList;
 

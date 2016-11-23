@@ -33,7 +33,7 @@ import com.googlecode.cchlib.net.download.fis.DefaultFilterInputStreamBuilder;
  */
 public class GenericDownloader
 {
-    private final static Logger LOGGER = Logger.getLogger( GenericDownloader.class );
+    private static final Logger LOGGER = Logger.getLogger( GenericDownloader.class );
 
     private Object lock = new Object();
     private final URICache cache;

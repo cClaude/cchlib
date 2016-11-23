@@ -44,7 +44,7 @@ private final InputStream   source;
 private final OutputStream  destination;
 private boolean             running;
 private boolean             closeSource;
-private final static int    ERROR_MAX = 10;
+private static final int    ERROR_MAX = 10;
 
 private Object              lock        = new Object();
 private OutputStream        spyStream   = null;

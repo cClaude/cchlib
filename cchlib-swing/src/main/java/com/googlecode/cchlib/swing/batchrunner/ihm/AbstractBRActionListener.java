@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 // not public
 abstract class AbstractBRActionListener  implements ActionListener
 {
-    private final static Logger LOGGER = Logger.getLogger( AbstractBRActionListener.class );
+    private static final Logger LOGGER = Logger.getLogger( AbstractBRActionListener.class );
 
     private BRPanel panel;
 

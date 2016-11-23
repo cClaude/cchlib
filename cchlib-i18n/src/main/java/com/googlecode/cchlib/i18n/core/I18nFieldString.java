@@ -87,7 +87,7 @@ final class I18nFieldString  extends AbstractI18nField
         return new I18nResolverForString<T>( objectToI18n );
     }
 
-    private final static <T> Values _getValues( final T objectToI18n, final Field field )
+    private static final <T> Values _getValues( final T objectToI18n, final Field field )
             throws GetFieldException //
     {
         try {
@@ -100,7 +100,7 @@ final class I18nFieldString  extends AbstractI18nField
             }
     }
 
-    private final static <T> void _setValue( //
+    private static final <T> void _setValue( //
             final T      objectToI18n, //
             final Field  field, //
             final Keys   keys, //
@@ -125,7 +125,7 @@ final class I18nFieldString  extends AbstractI18nField
             }
     }
 
-    private final static <T> String _getComponent( final T objectToI18n, final Field field )
+    private static final <T> String _getComponent( final T objectToI18n, final Field field )
             throws IllegalArgumentException, IllegalAccessException
     {
         field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)

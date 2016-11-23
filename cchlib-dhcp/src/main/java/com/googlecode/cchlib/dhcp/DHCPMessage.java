@@ -20,8 +20,10 @@ import java.net.UnknownHostException;
  ** @author Jason Goldschmidt and Nick Stone
  ** @author Claude CHOISNET
  */
-public class DHCPMessage {
-    public static final String      BROADCAST_IP_ADDR = "255.255.255.255";
+public class DHCPMessage
+{
+    @SuppressWarnings("squid:S1313") // Broadcast Addr
+    public static final String BROADCAST_IP_ADDR = "255.255.255.255";
 
     /**
      ** @see #BROADCAST_IP_ADDR
@@ -238,9 +240,9 @@ public class DHCPMessage {
         final StringBuilder sb = new StringBuilder();
 
         sb.append( "DHCPMessage [messagePort=" );
-        sb.append( messagePort );
+        sb.append( this.messagePort );
         sb.append( ", messageInetAddress=" );
-        sb.append( messageInetAddress );
+        sb.append( this.messageInetAddress );
         sb.append( ", dhcpParameters=\n" );
         sb.append( toHexString() );
         sb.append( "\n]" );

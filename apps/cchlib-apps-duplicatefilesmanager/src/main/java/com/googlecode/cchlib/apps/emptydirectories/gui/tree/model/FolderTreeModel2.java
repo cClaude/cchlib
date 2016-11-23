@@ -29,7 +29,7 @@ class FolderTreeModel2
     extends DefaultTreeModel
         implements FolderTreeModelable2
 {
-    private final static class FolderTreeModel2Iterator implements Iterator<FolderTreeNode> {
+    private static final class FolderTreeModel2Iterator implements Iterator<FolderTreeNode> {
         private final List<Iterator<FolderTreeNode>> iterators;
 
         private FolderTreeModel2Iterator( final List<Iterator<FolderTreeNode>> iterators )

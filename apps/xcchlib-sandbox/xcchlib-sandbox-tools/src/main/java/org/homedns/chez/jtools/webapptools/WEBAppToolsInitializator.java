@@ -33,7 +33,7 @@ public class WEBAppToolsInitializator
 ** @see #getServletContextName()
 ** @see #newInstance(HttpServletRequest)
 */
-public final static String SERVLET_CONTEXT_NAME = "/Tools" ;
+public static final String SERVLET_CONTEXT_NAME = "/Tools" ;
 
 /**
 ** <p>Nom de l'objet {@link WEBAppToolsContext} dans les attributs du context de servlet</p>
@@ -41,23 +41,23 @@ public final static String SERVLET_CONTEXT_NAME = "/Tools" ;
 ** @see #getAttributeName()
 ** @see #newInstance(HttpServletRequest)
 */
-public final static String ATTRIBUTE_NAME
+public static final String ATTRIBUTE_NAME
         = "org.homedns.chez.jtools.webapptools.WEBAppToolsContext";
 
 /**
 **
 */
-public final static String SEPARATOR_REGEXP = "[\t\n\r ,;]+";
+public static final String SEPARATOR_REGEXP = "[\t\n\r ,;]+";
 
 /**
 **
 */
-public final static String PROXY_VIEW_URLS_PARAM_NAME = "proxyViewURLs";
+public static final String PROXY_VIEW_URLS_PARAM_NAME = "proxyViewURLs";
 
 /**
 **
 */
-public final static String HOST_LIST_PARAM_NAME = "hostList";
+public static final String HOST_LIST_PARAM_NAME = "hostList";
 
 /**
 **

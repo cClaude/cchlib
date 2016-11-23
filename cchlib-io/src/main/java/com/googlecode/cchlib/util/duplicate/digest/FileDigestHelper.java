@@ -35,7 +35,7 @@ public final class FileDigestHelper {
     {
         for( final byte b : digestKey ) {
             stringBuilder.append( HEX[(b & 0x00f0)>>4 ] );
-            stringBuilder.append( HEX[(b & 0x000f) ] );
+            stringBuilder.append( HEX[ b & 0x000f ] );
             }
     }
 

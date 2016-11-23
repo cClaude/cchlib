@@ -289,7 +289,7 @@ public class DHCPOptions implements Serializable
     public void setOption( // -------------------------------------------------
             final byte option, final DHCPOptionEntry value )
     {
-        this.optionsTable.put( new Byte( option ), value );
+        this.optionsTable.put( Byte.valueOf( option ), value );
     }
 
     /**
@@ -348,7 +348,7 @@ public class DHCPOptions implements Serializable
      */
     public void removeOption( final byte code ) // ----------------------------
     {
-        removeOption( new Byte( code ) );
+        removeOption( Byte.valueOf( code ) );
     }
 
     /**
@@ -361,7 +361,7 @@ public class DHCPOptions implements Serializable
      */
     public DHCPOptionEntry getDHCPOptionEntry( final byte code ) // -----------
     {
-        return this.optionsTable.get( new Byte( code ) );
+        return this.optionsTable.get( Byte.valueOf( code ) );
     }
 
     /**
@@ -473,7 +473,7 @@ public class DHCPOptions implements Serializable
 
     private String format( final byte optionNumber ) // -----------------------
     {
-        this.msgFmtObjects[ 0 ] = new Byte( optionNumber );
+        this.msgFmtObjects[ 0 ] = Byte.valueOf( optionNumber );
 
         return msgFmt.format( this.msgFmtObjects );
     }

@@ -26,7 +26,7 @@ final public class FilesTestCaseHelper
      *                      could be null).
      * @return {@link File} {@link Iterator} from given directory
      */
-    public final static Iterator<File> getFilesFrom(
+    public static final Iterator<File> getFilesFrom(
             File        fileDirectory,
             FileFilter  fileFilter
             )
@@ -62,7 +62,7 @@ final public class FilesTestCaseHelper
      * @return {@link File} {@link List} from given directory
      * @since 4.1.7
      */
-    public final static List<File> getFilesListFrom(
+    public static final List<File> getFilesListFrom(
         final File        fileDirectory,
         final FileFilter  fileFilter
         )

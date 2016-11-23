@@ -15,7 +15,7 @@ import org.junit.Test;
  */
 public class DialogHelperTest
 {
-    private final static Logger LOGGER = Logger.getLogger( DialogHelperTest.class );
+    private static final Logger LOGGER = Logger.getLogger( DialogHelperTest.class );
 
     @BeforeClass
     public static void setUpClass() throws Exception

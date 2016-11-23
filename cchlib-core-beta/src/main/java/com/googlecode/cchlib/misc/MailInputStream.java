@@ -9,7 +9,7 @@ import java.io.InputStream;
  */
 final public class MailInputStream extends InputStream
 {
-    public final static String BEGIN_OF_MAIL = "From -";
+    public static final String BEGIN_OF_MAIL = "From -";
     private MailLineInputStream in;
     private byte[]              lastLine      = null;
     private int                 lastLineIndex = 0;

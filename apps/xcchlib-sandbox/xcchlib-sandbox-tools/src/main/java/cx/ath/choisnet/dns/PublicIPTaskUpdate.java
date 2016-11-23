@@ -24,7 +24,7 @@ import cx.ath.choisnet.tools.servlets.InitServletTaskInterface;
  */
 public class PublicIPTaskUpdate implements InitServletTaskInterface
 {
-    private final static Logger LOGGER = Logger.getLogger( PublicIPTaskUpdate.class );
+    private static final Logger LOGGER = Logger.getLogger( PublicIPTaskUpdate.class );
 
     private boolean             continueRunning = true;
     private PublicIP            publicIP;

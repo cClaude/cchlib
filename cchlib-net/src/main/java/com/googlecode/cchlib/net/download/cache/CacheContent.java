@@ -3,6 +3,9 @@ package com.googlecode.cchlib.net.download.cache;
 import java.net.URI;
 import java.util.Map;
 
+/**
+ * NEEDDOC
+ */
 public interface CacheContent extends Iterable<Map.Entry<URI,URIDataCacheEntry>>
 {
     void put( URI uri, URIDataCacheEntry cacheEntry );

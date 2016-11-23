@@ -13,19 +13,19 @@ import java.util.regex.Pattern;
 public class AutoRenameStep1Main {
 
     private File homeDir;
-    private final static FileFilter dirFileFilter    = new DirFileFilter();
-    private final static FileFilter level2FileFilter = new DirNameFileFilter( "prive", EnumSet.of( DirNameFileFilter.Attrib.IGNORE_CASE ) );
-    //private final static Pattern pLevel1 = Pattern.compile( "\\d\\d\\d\\d\\.\\d\\d\\.\\d\\d\\..*" );
-    private final static String  pLevel1Str      =  "\\d\\d\\d\\d\\.";
-    private final static Pattern pLevel1         = Pattern.compile( pLevel1Str + ".*" );
-    //private final static Pattern pLevel1Remplace = Pattern.compile( pLevel1Str );
-    private final static Pattern[] pLevel1Part2 = {
+    private static final FileFilter dirFileFilter    = new DirFileFilter();
+    private static final FileFilter level2FileFilter = new DirNameFileFilter( "prive", EnumSet.of( DirNameFileFilter.Attrib.IGNORE_CASE ) );
+    //private static final Pattern pLevel1 = Pattern.compile( "\\d\\d\\d\\d\\.\\d\\d\\.\\d\\d\\..*" );
+    private static final String  pLevel1Str      =  "\\d\\d\\d\\d\\.";
+    private static final Pattern pLevel1         = Pattern.compile( pLevel1Str + ".*" );
+    //private static final Pattern pLevel1Remplace = Pattern.compile( pLevel1Str );
+    private static final Pattern[] pLevel1Part2 = {
         Pattern.compile( "\\d\\d\\.\\d\\d\\..*" ),
         Pattern.compile( "\\d\\d\\.__..*" ),
         Pattern.compile( "__.__.*" )
     };
-//    private final static Pattern pLevel1Remplace = Pattern.compile( pLevel1Str );
-//    private final static Pattern[] pLevel1Part2Remplace = {
+//    private static final Pattern pLevel1Remplace = Pattern.compile( pLevel1Str );
+//    private static final Pattern[] pLevel1Part2Remplace = {
 //        Pattern.compile( "\\d\\d\\.\\d\\d\\." ),
 //        Pattern.compile( "\\d\\d\\.__." ),
 //        Pattern.compile( "__.__" )

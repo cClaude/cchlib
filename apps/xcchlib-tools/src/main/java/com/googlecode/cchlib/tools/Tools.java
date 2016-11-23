@@ -10,7 +10,7 @@ import com.googlecode.cchlib.resources.ResourcesLoaderException;
  */
 public final class Tools
 {
-    private final static Logger LOGGER = Logger.getLogger( Tools.class );
+    private static final Logger LOGGER = Logger.getLogger( Tools.class );
 
     private Tools() {} // All static
 

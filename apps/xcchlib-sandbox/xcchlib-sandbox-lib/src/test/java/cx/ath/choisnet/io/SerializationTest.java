@@ -313,7 +313,7 @@ class A
                 + ")}";
     }
 
-    public final static int compare( final String s1, final String s2 )
+    public static final int compare( final String s1, final String s2 )
     {
         if( s1 == null ) {
             if( s2 == null ) {

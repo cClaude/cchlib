@@ -158,7 +158,7 @@ public InputStream getInputStream() //-------------------------------------
 
 /**
 ** .java cx.ath.choisnet.io.InputStreamTee
-public final static void main( final String[] args ) //--------------------
+public static final void main( final String[] args ) //--------------------
     throws
         java.io.FileNotFoundException,
         java.io.IOException

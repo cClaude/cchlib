@@ -38,13 +38,13 @@ public class InitServlet extends HttpServlet {
     private static final Logger            LOGGER           = Logger.getLogger( InitServlet.class );
 
     /** Parametre de la servlet */
-    public final static String             DELAY            = "DELAY";
+    public static final String             DELAY            = "DELAY";
 
     /** Parametre de la servlet */
-    public final static String             PERIOD           = "PERIOD";
+    public static final String             PERIOD           = "PERIOD";
 
     /** Parametre de la servlet */
-    public final static String             TASKLIST         = "TASK-LIST";
+    public static final String             TASKLIST         = "TASK-LIST";
 
     /**
      **

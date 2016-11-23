@@ -11,7 +11,7 @@ import com.googlecode.cchlib.io.FileHelper;
 
 public class MPECVSContactListTest
 {
-    private final static Logger LOGGER = Logger.getLogger( MPECVSContactListTest.class );
+    private static final Logger LOGGER = Logger.getLogger( MPECVSContactListTest.class );
 
     public static void main( final String[] args ) throws IOException, BadFileFormatException
     {

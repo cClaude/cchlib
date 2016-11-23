@@ -22,8 +22,8 @@ import org.junit.Test;
  */
 public class DefaultDirectoryFilterTest
 {
-    private final static Logger LOGGER = Logger.getLogger( DefaultDirectoryFilterTest.class );
-    private final static String[] FULL_PATH_TO_TEST = {
+    private static final Logger LOGGER = Logger.getLogger( DefaultDirectoryFilterTest.class );
+    private static final String[] FULL_PATH_TO_TEST = {
         "C:\\System Volume Information",
         "C:\\Recycled",
         "C:\\Program Files",

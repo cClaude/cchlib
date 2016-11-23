@@ -26,7 +26,7 @@ public class DownloadI_www_gifpal_com
         implements GenericDownloaderAppInterface
 {
     private static final long serialVersionUID = 1L;
-    private final static String __SERVER_ROOT_URL_STR = "http://www.gifpal.com";
+    private static final String __SERVER_ROOT_URL_STR = "http://www.gifpal.com";
 
     /**
      * param1 = sort
@@ -37,19 +37,19 @@ public class DownloadI_www_gifpal_com
      * http://www.gifpal.com/gallery-contents-json.php?sort=top-week&page=2
      * http://www.gifpal.com/gallery-contents-json.php?sort=top&page=2
      */
-    private final static String __HTML_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/gallery-contents-json.php?sort=%s&page=%d";
+    private static final String __HTML_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/gallery-contents-json.php?sort=%s&page=%d";
 
     private static final String SITE_NAME = "www.gifpal.com";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 16;
     /** number of pages to explore */
-    private final static int DEFAULT_MAX_PAGES = 3;
+    private static final int DEFAULT_MAX_PAGES = 3;
 
     /**
      * param1 = image_id
      *
      * http://www.gifpal.com/uimages/WVrkTTeOoI.gif
      */
-    private final static String IMG_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/uimages/%s.gif";
+    private static final String IMG_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/uimages/%s.gif";
 
     private static final String CACHE_FOLDER_NAME = "com.gifpal.www";
 

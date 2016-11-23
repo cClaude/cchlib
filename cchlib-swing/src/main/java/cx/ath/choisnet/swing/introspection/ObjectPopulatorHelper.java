@@ -104,7 +104,7 @@ public class ObjectPopulatorHelper
 
         if( fieldObject instanceof LimitedIntegerJTextField ) {
             final LimitedIntegerJTextField f = LimitedIntegerJTextField.class.cast( fieldObject );
-            value = new Integer( f.getValue() );
+            value = Integer.valueOf( f.getValue() );
             }
         else if( fieldObject instanceof JFormattedTextField ) {
             final JFormattedTextField f = JFormattedTextField.class.cast( fieldObject );
@@ -120,7 +120,7 @@ public class ObjectPopulatorHelper
         }
         else if( fieldObject instanceof JCheckBox ) {
             final JCheckBox f = JCheckBox.class.cast( fieldObject );
-            value = new Boolean( f.isSelected() );
+            value = Boolean.valueOf( f.isSelected() );
         }
         else if( fieldObject instanceof JComboBox ) {
             final JComboBox<?> f = JComboBox.class.cast( fieldObject );
@@ -133,7 +133,7 @@ public class ObjectPopulatorHelper
                 index += Integer.class.cast( min ).intValue();
             }
 
-            value = new Integer( index );
+            value = Integer.valueOf( index );
         }
 //        else if( fieldObject instanceof javax.swing.JLabel ) {
 //
@@ -153,7 +153,7 @@ public class ObjectPopulatorHelper
         else if( fieldObject instanceof JSlider ) {
             final JSlider f = JSlider.class.cast( fieldObject );
             // Value is real value !
-            value = new Integer( f.getValue() );
+            value = Integer.valueOf( f.getValue() );
         }
         else if( fieldObject instanceof JSpinner ) {
             final JSpinner f = JSpinner.class.cast( fieldObject );

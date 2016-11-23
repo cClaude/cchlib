@@ -1,4 +1,3 @@
-// $codepro.audit.disable deleteTemporaryFiles
 package com.googlecode.cchlib.io;
 
 import java.io.File;
@@ -11,11 +10,11 @@ import com.googlecode.cchlib.lang.StringHelper;
 @SuppressWarnings("resource")
 public class FileRollingOutputStreamTest
 {
-    private final static Logger LOGGER = Logger.getLogger( FileRollingOutputStreamTest.class );
+    private static final Logger LOGGER = Logger.getLogger( FileRollingOutputStreamTest.class );
 
-    final static byte[] BUFFER          = new byte[ 30 ];
-    final static int    BUFFER_OFFSET   = BUFFER.length / 3;
-    final static int    LEN             = BUFFER.length / 6;
+    static final byte[] BUFFER          = new byte[ 30 ];
+    static final int    BUFFER_OFFSET   = BUFFER.length / 3;
+    static final int    LEN             = BUFFER.length / 6;
 
     static {
         for( int i = 0; i<BUFFER.length; i++ ) {

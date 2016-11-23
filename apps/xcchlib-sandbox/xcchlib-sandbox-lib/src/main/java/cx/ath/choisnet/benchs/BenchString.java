@@ -23,15 +23,15 @@ package cx.ath.choisnet.benchs;
 */
 public class BenchString
 {
-private final static int BENCH_COUNT    = 5;
-private final static int COMPUTE_COUNT  = 20000;
+private static final int BENCH_COUNT    = 5;
+private static final int COMPUTE_COUNT  = 20000;
 
-private final static Stats<String> stats = new Stats<String>();
+private static final Stats<String> stats = new Stats<String>();
 
 /**
 **
 */
-public final static void benchString() // ---------------------------------
+public static final void benchString() // ---------------------------------
 {
  String s = "";
 
@@ -50,7 +50,7 @@ public final static void benchString() // ---------------------------------
 /**
 **
 */
-public final static void benchStringBuffer() // ---------------------------
+public static final void benchStringBuffer() // ---------------------------
 {
  StringBuffer sb = new StringBuffer();
 
@@ -69,7 +69,7 @@ public final static void benchStringBuffer() // ---------------------------
 /**
 **
 */
-public final static void benchStringBuilder() // --------------------------
+public static final void benchStringBuilder() // --------------------------
 {
  StringBuilder sb = new StringBuilder();
 
@@ -88,7 +88,7 @@ public final static void benchStringBuilder() // --------------------------
 /**
 **
 */
-public final static void printDot() // ------------------------------------
+public static final void printDot() // ------------------------------------
 {
  System.out.print( '.' );
  System.out.flush();
@@ -97,7 +97,7 @@ public final static void printDot() // ------------------------------------
 /**
 **
 */
-public final static void main( final String[] args ) // -------------------
+public static final void main( final String[] args ) // -------------------
 {
  for( int i = 0; i<BENCH_COUNT; i++ ) {
 

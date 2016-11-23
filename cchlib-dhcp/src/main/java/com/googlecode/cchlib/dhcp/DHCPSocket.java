@@ -36,12 +36,12 @@ public class DHCPSocket extends DatagramSocket {
     /**
      ** Default MTU for ethernet (1500 bytes)
      */
-    public final static int DEFAULT_PACKET_SIZE = 1500;
+    public static final int DEFAULT_PACKET_SIZE = 1500;
 
     /**
      ** Default socket timeout (3 second)
      */
-    public final static int DEFAULT_SOTIME_OUT  = 3000;
+    public static final int DEFAULT_SOTIME_OUT  = 3000;
 
     private int             packetSize;
 

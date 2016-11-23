@@ -635,7 +635,7 @@ public class DHCPParameters {
     /**
      ** Set value form src to dest
      */
-    private final static void set( // -----------------------------------------
+    private static final void set( // -----------------------------------------
             final byte[] src, final byte[] dest, final String fieldname, final boolean autoAlign )
     {
         if( autoAlign && (src.length < dest.length) ) {
@@ -652,7 +652,7 @@ public class DHCPParameters {
     /**
      ** Set value form src to dest
      */
-    private final static void set( // -----------------------------------------
+    private static final void set( // -----------------------------------------
             final byte[] src, final byte[] dest, final String fieldname )
     {
         if( src.length != dest.length ) {
@@ -785,28 +785,19 @@ public class DHCPParameters {
         }
     }
 
-    /**
-**
-*/
-    public final static String toHexString( final int value ) // --------------
+    public static final String toHexString( final int value ) // --------------
     {
         final String str = "0000000" + Integer.toHexString( value ).toUpperCase();
 
         return str.substring( str.length() - 8 );
     }
 
-    /**
-**
-*/
-    public final static String toHexString( final byte[] values ) // ----------
+    public static final String toHexString( final byte[] values ) // ----------
     {
         return toHexString( values, true );
     }
 
-    /**
-**
-*/
-    public final static String toHexString( // --------------------------------
+    public static final String toHexString( // --------------------------------
             final byte[] values, final boolean doLayout )
     {
         final StringBuilder sb = new StringBuilder();
@@ -826,10 +817,7 @@ public class DHCPParameters {
         return sb.toString();
     }
 
-    /**
-**
-*/
-    public final static String toHexString( final byte value ) // -------------
+    public static final String toHexString( final byte value ) // -------------
     {
         final int intValue = 0xFFFF0000 | (0x0000FFFF & value);
 
@@ -860,7 +848,7 @@ public class DHCPParameters {
     /**
      ** Converts byte[] => long
      */
-    public final static long byteToLong( final byte[] bytes ) // --------------
+    public static final long byteToLong( final byte[] bytes ) // --------------
     {
         long lValue = 0;
 

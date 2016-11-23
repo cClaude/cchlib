@@ -33,7 +33,7 @@ private static final long serialVersionUID = 1L;
 /**
 **
 */
-private final static WEBAppToolsInitializator contextInitializator
+private static final WEBAppToolsInitializator contextInitializator
                = new WEBAppToolsInitializator();
 
 /**

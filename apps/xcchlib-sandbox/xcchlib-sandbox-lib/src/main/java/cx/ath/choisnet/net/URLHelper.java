@@ -418,7 +418,7 @@ public class URLHelper {
 //     **
 //     ** .javaProxy cx.ath.choisnet.net.URLHelper
 //     */
-//    public final static void main( final String[] argS ) // -------------------
+//    public static final void main( final String[] argS ) // -------------------
 //            throws java.net.MalformedURLException, java.io.FileNotFoundException, java.io.IOException
 //    {
 //        //

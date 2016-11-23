@@ -29,6 +29,16 @@ public class NTFSStream
         this.cbuf = new char[1024];
     }
 
+    private static void printf( final String format, final Object...args )
+    {
+        System.out.printf( format, args );
+    }
+
+    private static void printfErr( final String format, final Object...args )
+    {
+        System.err.printf( format, args );
+    }
+
     public void read( final Reader reader )
         throws IOException
     {
@@ -73,33 +83,33 @@ public class NTFSStream
         final File testFile   = new File(path,filename);
         final File testStream = new File(path,filename + ':' + streamname);
 
-        System.out.printf( "Create %s\n", testFile );
+        printf( "Create %s%n", testFile );
 
         try( final Writer wf = new FileWriter( testFile ) ) {
             wf.write( "File content !" );
         }
 
-        System.out.printf( "Create %s\n", testStream );
+        printf( "Create %s%n", testStream );
 
         try( final Writer ws = new FileWriter( testStream ) ) {
             ws.write( "Stream content" );
         }
 
         final NTFSStream ntfsStream = new NTFSStream();
-        System.out.printf( "Content of %s is [%s]\n",
+        printf( "Content of %s is [%s]\n",
                     testFile,
                     ntfsStream.getBegin(testFile)
                     );
-        System.out.printf( "Content of %s is [%s]\n",
+        printf( "Content of %s is [%s]\n",
                 testStream,
                 ntfsStream.getBegin(testStream)
                 );
 
-        System.out.printf( "1> Content of %s is [%s]\n",
+        printf( "1> Content of %s is [%s]\n",
                 testStream,
                 fastStreamCopy1(testStream)
                 );
-        System.out.printf( "2> Content of %s is [%s]\n",
+        printf( "2> Content of %s is [%s]\n",
                 testStream,
                 fastStreamCopy2(testStream)
                 );
@@ -144,10 +154,10 @@ public class NTFSStream
                 }
             }
         catch( final FileNotFoundException fnfx ) {
-            System.err.printf( "File not found: %s\n", fnfx );
+            printfErr( "File not found: %s\n", fnfx );
             }
         catch( final IOException iox ) {
-            System.err.printf( "I/O problems: %s\n", iox );
+            printfErr( "I/O problems: %s\n", iox );
             }
 
         return s;

@@ -73,12 +73,12 @@ public class BasicDate implements Serializable, Cloneable, DateInterface {
     /**
      ** Chaene de formatage pour la class BasicDateFormat de la methode toString()
      */
-    protected final static String           DATEFMT          = "yyyyMMdd";
+    protected static final String           DATEFMT          = "yyyyMMdd";
 
     /**
      ** Object de formatage pour la class BasicDateFormat de la methode toString()
      */
-    protected final static SimpleDateFormat DATE_FMT         = new SimpleDateFormat( DATEFMT );
+    protected static final SimpleDateFormat DATE_FMT         = new SimpleDateFormat( DATEFMT );
 
     /** Integer contenant le numero de l'annee de 0 e 9999 */
     protected transient int                 year             = -1;
@@ -533,7 +533,7 @@ public class BasicDate implements Serializable, Cloneable, DateInterface {
         return formatter.format( this.getJavaDate() );
     }
 
-    private final static long MILLISECONDS_BY_DAY = (1000L * 60L * 60L * 24L);
+    private static final long MILLISECONDS_BY_DAY = (1000L * 60L * 60L * 24L);
 
     /**
      ** NOTE: cette methode devrait retourner le nombre de jour depuis le 1er janvier de l'an 1.

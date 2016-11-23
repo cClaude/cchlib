@@ -30,19 +30,19 @@ public abstract class GDAI_tumblr_com
         implements GenericDownloaderAppInterface
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger LOGGER = Logger.getLogger( GDAI_tumblr_com.class );
+    private static final Logger LOGGER = Logger.getLogger( GDAI_tumblr_com.class );
 
     /*
      * http://[NAME].tumblr.com
      */
-    private final static String SERVER_ROOT_URL_STR_FMT = "http://%s.tumblr.com";
+    private static final String SERVER_ROOT_URL_STR_FMT = "http://%s.tumblr.com";
 
     /*
      * http://[NAME].tumblr.com/
      * http://[NAME].tumblr.com/page/[NUMBER]
      */
-    private final static String HTML_URL_BASE1_FMT = SERVER_ROOT_URL_STR_FMT + "/page/%d";
-    private final static String HTML_URL_BASEx_FMT = SERVER_ROOT_URL_STR_FMT + "/page/%d";
+    private static final String HTML_URL_BASE1_FMT = SERVER_ROOT_URL_STR_FMT + "/page/%d";
+    private static final String HTML_URL_BASEx_FMT = SERVER_ROOT_URL_STR_FMT + "/page/%d";
 
     //private static final String SITE_NAME_ALL     = "www.tumblr.com";
     /*
@@ -54,10 +54,10 @@ public abstract class GDAI_tumblr_com
     static final int NUMBER_OF_PICTURES_BY_PAGE = -1;
 
     /** number of pages to explore */
-    final static int DEFAULT_MAX_PAGES_BLOGS = 32;
-    //private final static int DEFAULT_MAX_PAGES_ALL = 16;
+    static final int DEFAULT_MAX_PAGES_BLOGS = 32;
+    //private static final int DEFAULT_MAX_PAGES_ALL = 16;
 
-    private final static  int[] TUMBLR_COM_KNOWN_SIZES = {
+    private static final  int[] TUMBLR_COM_KNOWN_SIZES = {
             1280,
              500,
              400,
@@ -208,7 +208,7 @@ public abstract class GDAI_tumblr_com
         return new PolyURLDownloadFileURL( defaultURL, null, getProxy(), alternateURI, src );
     }
 
-    public final static GDAI_tumblr_com createForHost(
+    public static final GDAI_tumblr_com createForHost(
         final Frame     ownerFrame,
         final String    hostname
         )
@@ -216,7 +216,7 @@ public abstract class GDAI_tumblr_com
         return new GDAI_tumblr_com_ForHost( ownerFrame, hostname );
     }
 
-    public final static GDAI_tumblr_com createAllEntries(
+    public static final GDAI_tumblr_com createAllEntries(
         final Frame ownerFrame
         )
     {

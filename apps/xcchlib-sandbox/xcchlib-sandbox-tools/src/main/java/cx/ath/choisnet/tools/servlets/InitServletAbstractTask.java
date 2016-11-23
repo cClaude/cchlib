@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class InitServletAbstractTask implements InitServletTaskInterface
 {
-    private final static Logger LOGGER = Logger.getLogger( InitServletAbstractTask.class );
+    private static final Logger LOGGER = Logger.getLogger( InitServletAbstractTask.class );
 
     private final String              instanceName;
     private boolean             continueRunning;

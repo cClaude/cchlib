@@ -23,7 +23,7 @@ import com.googlecode.cchlib.io.IOHelper;
 @SuppressWarnings("resource")
 public class ExtendableClassLoaderTest
 {
-    private final static Logger LOGGER = Logger.getLogger( ExtendableClassLoaderTest.class );
+    private static final Logger LOGGER = Logger.getLogger( ExtendableClassLoaderTest.class );
 
     private static String compiledClassName;
     private static File compiledDirectoryFile;

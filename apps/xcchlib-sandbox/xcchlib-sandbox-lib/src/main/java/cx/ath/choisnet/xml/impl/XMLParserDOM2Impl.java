@@ -73,7 +73,7 @@ public class XMLParserDOM2Impl
     **
     ** @see Attributs#IGNORE_WHITESPACE
     */
-    public final static EnumSet<Attributs> DEFAULT_ATTRIBUTS
+    public static final EnumSet<Attributs> DEFAULT_ATTRIBUTS
                       = EnumSet.of(
                             // no_ENABLE_VALIDATING,        false   validation
                             // no_IGNORE_COMMENTS,          false   ignoreComments
@@ -87,7 +87,7 @@ public class XMLParserDOM2Impl
     **
     ** @see Attributs#ENABLE_VALIDATING
     */
-    public final static EnumSet<Attributs> VALIDATE_ONLY
+    public static final EnumSet<Attributs> VALIDATE_ONLY
                       = EnumSet.of(
                             Attributs.ENABLE_VALIDATING
                             // no_IGNORE_COMMENTS,

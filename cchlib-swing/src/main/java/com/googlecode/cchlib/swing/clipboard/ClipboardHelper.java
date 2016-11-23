@@ -70,11 +70,7 @@ public class ClipboardHelper
                 }
             return buf.toString();
             }
-        catch( final IOException e ) {
-            // log, but ignore
-            e.printStackTrace();
-            }
-        catch( final UnsupportedFlavorException e ) {
+        catch( final IOException | UnsupportedFlavorException e ) {
             // log, but ignore
             e.printStackTrace();
             }

@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
  */
 public class BadDateISOFileFilter extends DateISOFileFilter
 {
-    public final static String PARTIAL_ISO_PATTERN_STRING =
+    public static final String PARTIAL_ISO_PATTERN_STRING =
         "....-..-.." ;
-    public final static Pattern PARTIAL_ISO_PATTERN =
+    public static final Pattern PARTIAL_ISO_PATTERN =
         Pattern.compile( PARTIAL_ISO_PATTERN_STRING + ".*" );
 
     private EnumSet<Attrib> attribSet;

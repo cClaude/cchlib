@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
 public class XMLBuilder
 {
 /** */
-private final static String DEFAULT_TABULATION = "  ";
+private static final String DEFAULT_TABULATION = "  ";
 
 /** */
 private Appendable anAppendableObject;

@@ -23,14 +23,14 @@ import javax.naming.NamingEnumeration;
 import org.apache.log4j.Logger;
 
 /**
- ** 
+ **
  ** @author Claude CHOISNET
  ** @since 1.01.001
  ** @version 1.01.001
  */
 public class JNDIContextLoader
 {
-    private final static Logger LOGGER = Logger.getLogger( JNDIContextLoader.class );
+    private static final Logger LOGGER = Logger.getLogger( JNDIContextLoader.class );
 
     private String                       initialContextNameInNamespace;
     private String                       queryMessage;
@@ -40,24 +40,10 @@ public class JNDIContextLoader
      */
     private final Map<String, String>    map           = new HashMap<String, String>();
 
-    /**
-**
-*/
-    public final static String           DEFAULT_QUERY = "java:comp/env";
-
-    /**
-**
-*/
+    public static final String           DEFAULT_QUERY = "java:comp/env";
     private final Context                initCtx;
-
-    /**
-**
-*/
     private final String                 currentQuery;
 
-    /**
-**
-*/
     public JNDIContextLoader( // ----------------------------------------------
             final String paramValue // request.getParameter( "P" );
     ) throws javax.naming.NamingException
@@ -108,9 +94,6 @@ public class JNDIContextLoader
         // this.queryMessage = msg.toString();
     }
 
-    /**
-**
-*/
     private String doQuery( final String query ) // -----------------------------------------------
     {
         try {
@@ -149,33 +132,21 @@ public class JNDIContextLoader
         return null;
     }
 
-    /**
-**
-*/
     public String getInitialContextNameInNamespace() // -----------------------
     {
         return this.initialContextNameInNamespace;
     }
 
-    /**
-**
-*/
     public String getQueryMessage() // ----------------------------------------
     {
         return this.queryMessage;
     }
 
-    /**
-**
-*/
     public String getQuery() // -----------------------------------------------
     {
         return this.currentQuery;
     }
 
-    /**
-**
-*/
     public Set<Map.Entry<String, String>> entrySet() // ------------------------
     {
         return this.map.entrySet();

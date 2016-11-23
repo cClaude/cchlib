@@ -28,15 +28,15 @@ import java.util.TreeSet;
 */
 public class BenchFuncsStatic
 {
-private final static int BENCH_COUNT    = 10;
-private final static int COMPUTE_COUNT  = 500000;
+private static final int BENCH_COUNT    = 10;
+private static final int COMPUTE_COUNT  = 500000;
 
-private final static Stats<String> stats = new Stats<String>();
+private static final Stats<String> stats = new Stats<String>();
 
 /**
 **
 */
-public final static <T> void appendS( // ----------------------------------
+public static final <T> void appendS( // ----------------------------------
     final Collection<T> list,
     final T             item
     )
@@ -58,7 +58,7 @@ public final <T> void append_( // -----------------------------------------
 /**
 **
 */
-public final static <T> void benchS( // -----------------------------------
+public static final <T> void benchS( // -----------------------------------
     final Collection<T> list,
     final T             item,
     final String        label
@@ -100,7 +100,7 @@ public final <T> void bench_( // ------------------------------------------
 /**
 **
 */
-public final static void printDot() // ------------------------------------
+public static final void printDot() // ------------------------------------
 {
  System.out.print( '.' );
  System.out.flush();
@@ -109,7 +109,7 @@ public final static void printDot() // ------------------------------------
 /**
 **
 */
-public final static void main( final String[] args ) // -------------------
+public static final void main( final String[] args ) // -------------------
 {
  final File     item1    = new File( "." );
  final String   label1   = "ArrayList<File>()";

@@ -31,7 +31,7 @@ public class PhoneRecordSorterApp implements Runnable
 
         LOGGER.info( "sourceFolderFile    = " + sourceFolderFile );
         LOGGER.info( "destinationFolders  = " + destinationFolders );
-        
+
         final BRPanelConfig              ihmConfig                  = new PhoneRecordSorterConfig( sourceFolderFile, destinationFolders );
         final BRLocaleResourcesAgregator phoneRecordSorterResources = new PhoneRecordSorterResources();
 
@@ -44,7 +44,7 @@ public class PhoneRecordSorterApp implements Runnable
         EventQueue.invokeLater( app );
     }
 
-    private final static Logger LOGGER = Logger.getLogger( PhoneRecordSorterApp.class );
+    private static final Logger LOGGER = Logger.getLogger( PhoneRecordSorterApp.class );
 
     private ConfigFactory configFactory;
     private BRPanelConfig ihmConfig;

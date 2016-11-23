@@ -33,7 +33,7 @@ private final Reader        source;
 private final Writer        destination;
 private boolean             running;
 private boolean             closeSource;
-private final static int    ERROR_MAX = 10;
+private static final int    ERROR_MAX = 10;
 
 private Object              lock        = new Object();
 private Writer              spyWriter   = null;

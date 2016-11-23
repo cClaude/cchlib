@@ -31,23 +31,23 @@ import java.util.Vector;
 public class BenchCollection
 {
 /** */
-private final static String aString = "a";
+private static final String aString = "a";
 
 /** */
-private final static Long aLong = new Long( -1 );
+private static final Long aLong = new Long( -1 );
 
 /** */
-private final static File aFile = new File( "." );
+private static final File aFile = new File( "." );
 
 /** */
-private final static Object anObject = new Object();
+private static final Object anObject = new Object();
 
 /** */
-// private final static int BENCH_COUNT = 1000;
+// private static final int BENCH_COUNT = 1000;
 private final int benchCount;
 
 /** */
-// private final static int COMPUTE_COUNT = 50;
+// private static final int COMPUTE_COUNT = 50;
 private final int computeCount;
 
 /** */
@@ -90,7 +90,7 @@ public final <T> void bench( // -------------------------------------------
 /**
 **
 */
-public final static void printDot() // ------------------------------------
+public static final void printDot() // ------------------------------------
 {
  System.out.print( '.' );
  System.out.flush();
@@ -135,7 +135,7 @@ public final void doit() // -----------------------------------------------
 /**
 **
 */
-public final static void main( final String[] args ) // -------------------
+public static final void main( final String[] args ) // -------------------
 {
  new BenchCollection( 1000, 50 ).doit();
  new BenchCollection( 10, 50000 ).doit();

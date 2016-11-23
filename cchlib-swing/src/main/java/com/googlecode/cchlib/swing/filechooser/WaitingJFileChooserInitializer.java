@@ -18,7 +18,7 @@ public class WaitingJFileChooserInitializer
     extends JFileChooserInitializer
 {
     private static final long serialVersionUID = 2L;
-    private final static Logger LOGGER = Logger.getLogger( WaitingJFileChooserInitializer.class );
+    private static final Logger LOGGER = Logger.getLogger( WaitingJFileChooserInitializer.class );
 
     private Object lock = new Object();
     private Window parentWindow;

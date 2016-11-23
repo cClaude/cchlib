@@ -2,33 +2,33 @@ package com.googlecode.cchlib.tools.sortfiles;
 
 import java.io.File;
 import java.io.IOException;
-import com.googlecode.cchlib.io.filefilter.FileFileFilter;
 import java.text.Normalizer;
+import com.googlecode.cchlib.io.filefilter.FileFileFilter;
 
 public class RenameFiles
 {
-    public static void main(String[] args) throws IOException
+    public static void main(final String[] args) throws IOException
     {
-        final File baseInputPath = new File( "E:/Jerome/P1/D!F1");
+        final File baseInputPath = new File( "/Path/P1/D!F1");
 
         main( baseInputPath );
     }
 
     public static void main( final File baseInputPath ) throws IOException
     {
-        File[] files = baseInputPath.listFiles( new FileFileFilter() );
+        final File[] files = baseInputPath.listFiles( new FileFileFilter() );
 
-        if( files != null && files.length > 0 ) {
-            for( File file : files ) {
+        if( (files != null) && (files.length > 0) ) {
+            for( final File file : files ) {
                 final String name    = file.getName();
                 final String newName = toASCIIName( name );
- 
+
                 if( ! newName.equals( name ) ) {
                     System.out.println( "Rename " + name + " TO " + newName );
 
-                    File    newFile = new File( file.getParentFile(), newName );
-                    boolean res     = file.renameTo( newFile );
-                    
+                    final File    newFile = new File( file.getParentFile(), newName );
+                    final boolean res     = file.renameTo( newFile );
+
                     if( !res ) {
                         System.err.println( "Fail to rename [" + name + "]" );
                     }
@@ -36,13 +36,14 @@ public class RenameFiles
                 }
             }
     }
+
     private static String toASCIIName( final String source )
     {
         final String str = Normalizer.normalize( source, Normalizer.Form.NFKD ).replaceAll("\\p{InCombiningDiacriticalMarks}+","");
         final StringBuilder sb = new StringBuilder();
 
         for( int i = 0; i<str.length(); i++ ) {
-            char c = str.charAt( i );
+            final char c = str.charAt( i );
 
             if( c > 255 ) {
                 switch( c ) {
@@ -124,13 +125,13 @@ public class RenameFiles
                     case 'ᆫ' : sb.append( 'L' ); break;
                     case 'ᄇ' : sb.append( 'H' ); break;
                     case '？' : sb.append( '_' ); break;
-                    default : 
+                    default :
                         sb.append( c );
                         System.err.println( "ERROR: " + source + " >> " + c );
                         break;
                     }
                 }
-            else if( c == '?' || c == ':' || c == '*' ) {
+            else if( (c == '?') || (c == ':') || (c == '*') ) {
                 sb.append( '_' );
                 }
             else {
@@ -173,7 +174,7 @@ System.err.println( ":" + join.equals( str ) + ":" + str.length() + " - " + str 
         return sb.toString();
     }
 
-    private final static int MAX = 63;
+    private static final int MAX = 63;
     private static String[] split( String s )
     {
         int      size = s.length() / MAX;

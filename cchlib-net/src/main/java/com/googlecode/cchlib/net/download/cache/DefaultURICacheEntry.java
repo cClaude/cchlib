@@ -2,17 +2,21 @@ package com.googlecode.cchlib.net.download.cache;
 
 import java.util.Date;
 
+/**
+ * NEEDDOC
+ */
 public class DefaultURICacheEntry implements URIDataCacheEntry
 {
-    private String  hashCode;
-    private Date    date;
+    private final String  hashCode;
+    private final Date    date;
     private String  filename;
 
     /**
+     * NEEDDOC
      *
-     * @param date
-     * @param hashCode
-     * @param filename
+     * @param date NEEDDOC
+     * @param hashCode NEEDDOC
+     * @param filename NEEDDOC
      */
     public DefaultURICacheEntry(
         final Date   date,
@@ -22,6 +26,7 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
     {
         this.date     = (date == null) ? new Date() : date;
         this.hashCode = hashCode;
+
         if( filename == null ) {
             this.filename = null;
             }
@@ -38,19 +43,19 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
     @Override
     public String getContentHashCode()
     {
-        return hashCode;
+        return this.hashCode;
     }
 
     @Override
     public Date getDate()
     {
-        return date;
+        return this.date;
     }
 
     @Override
     public String getRelativeFilename()
     {
-        return filename;
+        return this.filename;
     }
 
     @Override
@@ -58,16 +63,16 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
     {
         final int prime = 31; // $codepro.audit.disable numericLiterals
         int result = 1;
-        result = (prime * result) + ((date == null) ? 0 : date.hashCode());
+        result = (prime * result) + ((this.date == null) ? 0 : this.date.hashCode());
         result = (prime * result)
-                + ((filename == null) ? 0 : filename.hashCode());
+                + ((this.filename == null) ? 0 : this.filename.hashCode());
         result = (prime * result)
-                + ((hashCode == null) ? 0 : hashCode.hashCode());
+                + ((this.hashCode == null) ? 0 : this.hashCode.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals( Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals, cyclomaticComplexity
+    public boolean equals( final Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals, cyclomaticComplexity
     {
         if( this == obj ) {
             return true;
@@ -78,26 +83,26 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
         if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
             return false;
         }
-        DefaultURICacheEntry other = (DefaultURICacheEntry)obj;
-        if( date == null ) {
+        final DefaultURICacheEntry other = (DefaultURICacheEntry)obj;
+        if( this.date == null ) {
             if( other.date != null ) {
                 return false;
             }
-        } else if( !date.equals( other.date ) ) {
+        } else if( !this.date.equals( other.date ) ) {
             return false;
         }
-        if( filename == null ) {
+        if( this.filename == null ) {
             if( other.filename != null ) {
                 return false;
             }
-        } else if( !filename.equals( other.filename ) ) {
+        } else if( !this.filename.equals( other.filename ) ) {
             return false;
         }
-        if( hashCode == null ) {
+        if( this.hashCode == null ) {
             if( other.hashCode != null ) {
                 return false;
             }
-        } else if( !hashCode.equals( other.hashCode ) ) {
+        } else if( !this.hashCode.equals( other.hashCode ) ) {
             return false;
         }
         return true;
@@ -106,7 +111,7 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
     @Override
     public String toString()
     {
-        return "DefaultURICacheEntry [hashCode=" + hashCode + ", date=" + date
-                + ", filename=" + filename + "]";
+        return "DefaultURICacheEntry [hashCode=" + this.hashCode + ", date=" + this.date
+                + ", filename=" + this.filename + "]";
     }
 }

@@ -18,7 +18,7 @@ import com.googlecode.cchlib.swing.batchrunner.BRExecutionEvent;
 class BRExecutionEventImpl implements BRExecutionEvent
 {
 
-        private final static Logger LOGGER = Logger.getLogger( BRExecutionEventImpl.class );
+        private static final Logger LOGGER = Logger.getLogger( BRExecutionEventImpl.class );
 
     private final File sourceFile;
     private final File destinationFile;

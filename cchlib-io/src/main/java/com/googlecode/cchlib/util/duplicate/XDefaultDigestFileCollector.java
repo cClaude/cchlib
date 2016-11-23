@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.util.duplicate;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -104,10 +103,6 @@ public class XDefaultDigestFileCollector
             try {
                 this.mdf.compute( f, this.listeners );
                 }
-            catch( final FileNotFoundException e ) {
-                notify( e, f );
-                continue;
-            }
             catch( final IOException e ) {
                 notify( e, f );
                 continue;

@@ -33,7 +33,7 @@ private final InputStream       is;
 private final PipedOutputStream pipeOut;
 private final PipedInputStream  pipeIn;
 private boolean                 running;
-private final static int        ERROR_MAX = 10;
+private static final int        ERROR_MAX = 10;
 
 /**
 ** @param is    InputStream source

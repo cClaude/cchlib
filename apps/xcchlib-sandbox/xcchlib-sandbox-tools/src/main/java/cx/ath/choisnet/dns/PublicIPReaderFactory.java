@@ -25,6 +25,7 @@ import java.io.Writer;
 import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import org.apache.log4j.Logger;
 
 /**
  **
@@ -33,11 +34,133 @@ import java.net.URL;
  */
 public class PublicIPReaderFactory
 {
+    private static final class PublicIPReaderImpl implements PublicIPReader
+    {
+        /** serialVersionUID */
+        private static final long serialVersionUID = 2L;
+        private final File ipFile;
+
+        public PublicIPReaderImpl( final File ipFile )
+        {
+            this.ipFile = ipFile;
+        }
+
+        @Override
+        public String getPreviousPublicIP() // - - - - - - - - - - - - - - -
+                throws PublicIPException
+        {
+            try {
+                return getIP( new FileReader( this.ipFile ) );
+            }
+            catch( final IOException e ) {
+               final String message = getMessage( this.ipFile );
+
+               if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( message, e );
+                } else {
+                    LOGGER.warn( message );
+                }
+            }
+
+            try {
+                store( "0.0.0.0" );
+
+                return getIP( new FileReader( this.ipFile ) );
+            }
+            catch( final java.io.IOException e ) {
+                final String message = getMessage( this.ipFile );
+
+                LOGGER.fatal( message );
+
+                throw new PublicIPException( message, e );
+            }
+
+        }
+
+        private static String getMessage( final File file )
+        {
+            return "Can't read from " + file;
+        }
+
+        @Override
+        public String getCurrentPublicIP() // - - - - - - - - - - - - - - -
+                throws PublicIPException
+        {
+            String ip;
+
+            try {
+                ip = getIP( new InputStreamReader( PUBLIC_DEFAULT_IP_LOCATOR_URL.openStream() ) );
+            }
+            catch( final ConnectException e ) {
+                //
+                // Pas de connexion internet ?
+                //
+                final String msg = "Can't read from " + PUBLIC_DEFAULT_IP_LOCATOR_URL + " (no connection)";
+
+                LOGGER.warn( msg );
+
+                throw new PublicIPException( msg, e );
+            }
+            catch( final IOException e ) {
+                final String msg = "Can't read from " + PUBLIC_DEFAULT_IP_LOCATOR_URL;
+
+                LOGGER.warn( msg );
+
+                throw new PublicIPException( msg, e );
+            }
+
+            return ip;
+        }
+
+        private String getIP( final Reader reader ) throws IOException
+        {
+            final StringBuilder sb = new StringBuilder();
+
+            try( final BufferedReader br = new BufferedReader( reader ) ) {
+                String line;
+
+                while( (line = br.readLine()) != null ) {
+                    sb.append( line + "\n" );
+                }
+            }
+
+            final String[] parts = sb.toString().split( "(\n|\t| |:)" );
+
+            return parts[ 0 ];
+        }
+
+        @Override
+        public void storePublicIP() throws PublicIPException
+        {
+            final String currentIP = getCurrentPublicIP();
+
+            try {
+                store( currentIP );
+            }
+            catch( final IOException e ) {
+                LOGGER.warn( "store( " + currentIP + " )", e );
+
+                throw new PublicIPException( "store( " + currentIP + " )", e );
+            }
+        }
+
+        private void store( final String ip ) // - - - - - - - - - - - - - -
+                throws IOException
+        {
+            try( final Writer writer = new FileWriter( this.ipFile ) ) {
+                writer.write( ip + " " + new java.util.Date() );
+                writer.flush();
+            }
+        }
+    }
+
+    private static final Logger LOGGER = Logger.getLogger( PublicIPReaderFactory.class );
+
     /** Service par defaut : http://myip.dtdns.com/ */
     public static final URL  PUBLIC_DEFAULT_IP_LOCATOR_URL = buildURL( "http://myip.dtdns.com/" );
 
     /** Sauvegarde par defaut : C:/Tomcat-Tools.PublicIP */
-    public static final File PUBLIC_DEFAULT_IP_FILE        = new File( "C:/PreviousPublicIP" );
+    public static final File _PUBLIC_DEFAULT_IP_FILE        = new File( "C:/PreviousPublicIP" );
 
     private PublicIPReaderFactory()
     {
@@ -46,122 +169,7 @@ public class PublicIPReaderFactory
 
     public static PublicIPReader getDefaultPublicIPReader() // ----------------
     {
-        return new PublicIPReader() {
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            /** serialVersionUID */
-            private static final long serialVersionUID = 2L;
-
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            @Override
-            public String getPreviousPublicIP() // - - - - - - - - - - - - - - -
-                    throws PublicIPException
-            {
-                try {
-                    return getIP( new FileReader( PUBLIC_DEFAULT_IP_FILE ) );
-                }
-                catch( final java.io.IOException e ) {
-                    getLogger().warn( "Can't read from " + PUBLIC_DEFAULT_IP_FILE );
-                }
-
-                try {
-                    store( "0.0.0.0" );
-
-                    return getIP( new FileReader( PUBLIC_DEFAULT_IP_FILE ) );
-                }
-                catch( final java.io.IOException e ) {
-                    final String msg = "Can't read from " + PUBLIC_DEFAULT_IP_FILE;
-
-                    getLogger().fatal( msg );
-
-                    throw new PublicIPException( msg, e );
-                }
-
-            }
-
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            @Override
-            public String getCurrentPublicIP() // - - - - - - - - - - - - - - -
-                    throws PublicIPException
-            {
-                String ip;
-
-                try {
-                    ip = getIP( new InputStreamReader( PUBLIC_DEFAULT_IP_LOCATOR_URL.openStream() ) );
-                }
-                catch( final ConnectException e ) {
-                    //
-                    // Pas de connexion internet ?
-                    //
-                    final String msg = "Can't read from " + PUBLIC_DEFAULT_IP_LOCATOR_URL + " (no connection)";
-
-                    getLogger().warn( msg );
-
-                    throw new PublicIPException( msg, e );
-                }
-                catch( final IOException e ) {
-                    final String msg = "Can't read from " + PUBLIC_DEFAULT_IP_LOCATOR_URL;
-
-                    getLogger().warn( msg );
-
-                    throw new PublicIPException( msg, e );
-                }
-
-                return ip;
-            }
-
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            String getIP( final Reader reader ) // - - - - - - - - - - - - - - -
-                    throws IOException
-            {
-                final StringBuilder sb = new StringBuilder();
-
-                try (final BufferedReader br = new BufferedReader( reader )) {
-                    String line;
-
-                    while( (line = br.readLine()) != null ) {
-                        sb.append( line + "\n" );
-                    }
-                }
-
-                final String[] parts = sb.toString().split( "(\n|\t| |:)" );
-
-                return parts[ 0 ];
-            }
-
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            @Override
-            public void storePublicIP() // - - - - - - - - - - - - - - - - - - -
-                    throws PublicIPException
-            {
-                final String currentIP = getCurrentPublicIP();
-
-                try {
-                    store( currentIP );
-                }
-                catch( final java.io.IOException e ) {
-                    getLogger().warn( "store( " + currentIP + " )", e );
-
-                    throw new PublicIPException( "store( " + currentIP + " )", e );
-                }
-            }
-
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            private void store( final String ip ) // - - - - - - - - - - - - - - - - -
-                    throws IOException
-            {
-                try (final Writer writer = new FileWriter( PUBLIC_DEFAULT_IP_FILE )) {
-                    writer.write( ip + " " + new java.util.Date() );
-                    writer.flush();
-                }
-            }
-
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-            private org.apache.commons.logging.Log getLogger() // - - - - - - -
-            {
-                return PublicIPReaderFactory.getLogger( this.getClass() );
-            }
-            // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        };
+        return new PublicIPReaderImpl( _PUBLIC_DEFAULT_IP_FILE );
     }
 
     /**
@@ -170,16 +178,20 @@ public class PublicIPReaderFactory
      ** @since 1.02
      */
     public static String getCurrentPublicIP( // -------------------------------
-            final PublicIPReader publicIPReader )
+            final PublicIPReader publicIPReader
+            )
     {
         try {
             return publicIPReader.getCurrentPublicIP();
         }
         catch( final PublicIPException e ) {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( publicIPReader, e );
+            }
             return null;
         }
         catch( final Exception e ) {
-            getLogger( PublicIPReaderFactory.class ).fatal( "getDefaultPublicIPReader(" + publicIPReader + ")", e );
+            LOGGER.fatal( "getDefaultPublicIPReader(" + publicIPReader + ")", e );
 
             return null;
         }
@@ -197,10 +209,13 @@ public class PublicIPReaderFactory
             return publicIPReader.getCurrentPublicIP();
         }
         catch( final PublicIPException e ) {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( publicIPReader, e );
+            }
             return e.getMessage();
         }
         catch( final Exception e ) {
-            getLogger( PublicIPReaderFactory.class ).fatal( "getDefaultPublicIPReader(" + publicIPReader + ")", e );
+            LOGGER.fatal( "getDefaultPublicIPReader(" + publicIPReader + ")", e );
 
             return e.toString();
         }
@@ -212,16 +227,10 @@ public class PublicIPReaderFactory
             return new URL( url );
         }
         catch( final MalformedURLException e ) {
-            getLogger( PublicIPReaderFactory.class ).fatal( "buildURLFromString(" + url + ")", e );
+            LOGGER.fatal( "buildURLFromString(" + url + ")", e );
 
             return null;
         }
-    }
-
-    public static org.apache.commons.logging.Log getLogger( // ----------------
-            final Class<?> clazz )
-    {
-        return org.apache.commons.logging.LogFactory.getLog( clazz );
     }
 }
 

@@ -125,7 +125,11 @@ public class FileIterator implements  Iterator<File>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
-    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S2272", // exception is handle (by removeLast())
+        "squid:S8990" // ignore hasNext() result
+        })
     public File next() throws NoSuchElementException
     {
         // Initialize currentDirFilesList in case of direct

@@ -284,7 +284,7 @@ private byte[] getClassFromAddedClassPaths( final String className ) // ---
 **
 ** @return an byte array with all datas reading from InputStream.
 */
-final static protected byte[] toBytes( final InputStream inputStream ) //--
+static final protected byte[] toBytes( final InputStream inputStream ) //--
     throws java.io.IOException
 {
  final ByteBuffer   result  = new ByteBuffer( inputStream.available() );

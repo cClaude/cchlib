@@ -1,4 +1,3 @@
-// $codepro.audit.disable avoidAutoBoxing, numericLiterals
 package com.googlecode.cchlib.util;
 
 import java.util.Iterator;
@@ -10,10 +9,6 @@ import org.junit.Test;
  */
 public class HashMapSetTest
 {
-//    public final static String[] POPULATE = {
-//
-//    };
-
     @SuppressWarnings("boxing")
     @Test
     public void test_StringString()

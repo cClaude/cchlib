@@ -30,7 +30,7 @@ private ToolBox() {}
 /**
 ** Utilisé par: /private/index.jsp
 */
-public final static void addProxyView( // ---------------------------------
+public static final void addProxyView( // ---------------------------------
     final Writer output,
     final String urlStr
     )

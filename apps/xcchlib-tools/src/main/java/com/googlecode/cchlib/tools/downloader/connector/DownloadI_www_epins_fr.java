@@ -27,15 +27,15 @@ public class DownloadI_www_epins_fr
     private static final long serialVersionUID = 1L;
     /* http://www.epins.fr/pins/98699.png */
     /* http://www.epins.fr/pins/104639.png */
-    private final static String serverRootURLString = "http://www.epins.fr";
-    private final static String htmlURLFmt0         = serverRootURLString + "/pins/";
-    //private final static String htmlURLFmt1         = "00000";
-    private final static String htmlURLFmt2         = ".png";
-    //private final static int    MIN = 0;
-    //private final static int    MAX = 1000000;
-    private final static int    MIN = 1000000;
-    private final static int    MAX = 1100000;
-    //private final static int    MAX = 110;
+    private static final String serverRootURLString = "http://www.epins.fr";
+    private static final String htmlURLFmt0         = serverRootURLString + "/pins/";
+    //private static final String htmlURLFmt1         = "00000";
+    private static final String htmlURLFmt2         = ".png";
+    //private static final int    MIN = 0;
+    //private static final int    MAX = 1000000;
+    private static final int    MIN = 1000000;
+    private static final int    MAX = 1100000;
+    //private static final int    MAX = 110;
 
     private static final String SITE_NAME = "www.epins.fr";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 10;

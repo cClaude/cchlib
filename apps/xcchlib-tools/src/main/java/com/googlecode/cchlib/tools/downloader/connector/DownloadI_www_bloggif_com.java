@@ -26,16 +26,16 @@ public class DownloadI_www_bloggif_com
     extends AbstractDownloaderAppInterface
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger LOGGER = Logger.getLogger( DownloadI_www_bloggif_com.class );
+    private static final Logger LOGGER = Logger.getLogger( DownloadI_www_bloggif_com.class );
 
     /** number of pages to explore */
-    private final static int DEFAULT_MAX_PAGES = 25;
+    private static final int DEFAULT_MAX_PAGES = 25;
     /** Average number of pictures on a page */
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 10;
     private static final String SITE_NAME = "www.bloggif.com";
 
-    private final static String serverRootURLString = "http://www.bloggif.com";
-    private final static String htmlURLBase         = serverRootURLString + "/creations?page=";
+    private static final String serverRootURLString = "http://www.bloggif.com";
+    private static final String htmlURLBase         = serverRootURLString + "/creations?page=";
 
     //private List<StringDownloadURL> _htmlURLList = null;
 

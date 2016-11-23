@@ -17,7 +17,7 @@ import com.googlecode.cchlib.lang.StringHelper;
 public class SMS implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger LOGGER = Logger.getLogger( SMS.class );
+    private static final Logger LOGGER = Logger.getLogger( SMS.class );
 
     public static final String DATE_FORMAT_ISO = "yyyy-MM-dd.HH-mm-ss";
 

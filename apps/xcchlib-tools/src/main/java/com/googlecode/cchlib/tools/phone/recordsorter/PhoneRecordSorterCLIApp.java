@@ -17,6 +17,14 @@ import com.googlecode.cchlib.tools.phone.recordsorter.conf.google.GoogleReadConf
  */
 public class PhoneRecordSorterCLIApp
 {
+    private static final Logger LOGGER = Logger.getLogger( PhoneRecordSorterCLIApp.class );
+    private final ConfigFactory configFactory;
+
+    private PhoneRecordSorterCLIApp()
+    {
+        this.configFactory = GoogleReadConfigFactory.getInstance();
+    }
+
     /**
      * Launch the application.
      * @throws IOException
@@ -71,14 +79,6 @@ public class PhoneRecordSorterCLIApp
             return file.isFile();// && file.canRead();
         }
         return false;
-    }
-
-    private final static Logger LOGGER = Logger.getLogger( PhoneRecordSorterCLIApp.class );
-    private final ConfigFactory configFactory;
-
-    private PhoneRecordSorterCLIApp()
-    {
-        this.configFactory = GoogleReadConfigFactory.getInstance();
     }
 
     public void run(

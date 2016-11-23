@@ -75,7 +75,7 @@ public class ExternalApp
 ** @see #run(String,InputStream,OutputStream,OutputStream)
 ** @see EmptyInputStream
 */
-public final static int execute( // ---------------------------------------
+public static final int execute( // ---------------------------------------
     final String        command,
     final InputStream   input,
     final OutputStream  stdout,
@@ -153,7 +153,7 @@ public final static int execute( // ---------------------------------------
 ** @see EmptyInputStream
 */
 @SuppressWarnings("resource")
-public final static int execute( // ---------------------------------------
+public static final int execute( // ---------------------------------------
     final String        command,
     final OutputStream  stdout,
     final OutputStream  stderr
@@ -251,7 +251,7 @@ public final static int execute( // ---------------------------------------
 ** @since 2.02.034
 **
 */
-public final static Output execute( // ------------------------------------
+public static final Output execute( // ------------------------------------
     final String        command,
     final InputStream   input
     )
@@ -277,7 +277,7 @@ public final static Output execute( // ------------------------------------
 **
 */
 @SuppressWarnings("resource")
-public final static Output execute( // ------------------------------------
+public static final Output execute( // ------------------------------------
     final String command
     )
     throws ExternalAppException
@@ -306,7 +306,7 @@ public final static Output execute( // ------------------------------------
 ** @see StreamCopyThread
 ** @see EmptyInputStream
 */
-public final static int run( // -------------------------------------------
+public static final int run( // -------------------------------------------
     final String        command,
     final InputStream   input,
     final OutputStream  stdout,
@@ -412,7 +412,7 @@ public final static int run( // -------------------------------------------
 **
 */
 @Deprecated
-public final static int execute( // ---------------------------------------
+public static final int execute( // ---------------------------------------
     final String    command,
     final Reader    input,
     final String    inputCharsetName,
@@ -495,7 +495,7 @@ public final static int execute( // ---------------------------------------
 */
 @SuppressWarnings("resource")
 @Deprecated
-public final static int execute( // ---------------------------------------
+public static final int execute( // ---------------------------------------
     final String    command,
     final Writer    stdout,
     final Writer    stderr

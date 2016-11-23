@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.googlecode.cchlib.tools.autorename;
 
@@ -16,24 +16,24 @@ import java.io.FileFilter;
  */
 public class DateISOFileFilter implements FileFilter
 {
-    public enum Attrib{ 
-        FILE_ONLY, 
+    public enum Attrib{
+        FILE_ONLY,
         DIRECTORY_ONLY,
         REMENBER_IGNORED_DIRECTORIES,
         REMENBER_IGNORED_FILES
         };
-    protected final static String ISO_PATTERN_STRING = 
+    protected static final String ISO_PATTERN_STRING =
         "\\d\\d\\d\\d-\\d\\d-\\d\\d" ;
-    protected final static Pattern ISO_PATTERN = 
+    protected static final Pattern ISO_PATTERN =
         Pattern.compile( ISO_PATTERN_STRING + ".*" );
 
     private EnumSet<Attrib> attribSet;
     private List<File> ignoredFilesFile;
     private List<File> ignoredDirsFile;
-    
+
     /**
-     * @param attributes 
-     * 
+     * @param attributes
+     *
      */
     public DateISOFileFilter( EnumSet<Attrib> attributes )
     {
@@ -71,7 +71,7 @@ public class DateISOFileFilter implements FileFilter
                 }
             return false;
         }
-        
+
         if( ISO_PATTERN.matcher( file.getName() ).matches() ) {
             return true;
         }
@@ -88,10 +88,10 @@ public class DateISOFileFilter implements FileFilter
         else {
             System.err.println( "Ignore: " + file );
         }
-        
+
         return false;
     }
-    
+
     public void clear()
     {
         if( ignoredFilesFile != null ) {
@@ -101,13 +101,13 @@ public class DateISOFileFilter implements FileFilter
             ignoredDirsFile.clear();
         }
     }
-    
+
     /**
      * @return the ignoredFilesFile
      */
     public List<File> getIgnoredFilesCopy()
     {
-        if( ignoredFilesFile != null ) { 
+        if( ignoredFilesFile != null ) {
             return new ArrayList<File>( ignoredFilesFile );
         }
         return new ArrayList<File>();
@@ -118,7 +118,7 @@ public class DateISOFileFilter implements FileFilter
      */
     public List<File> getIgnoredDirsCopy()
     {
-        if( ignoredDirsFile != null ) { 
+        if( ignoredDirsFile != null ) {
             return new ArrayList<File>( ignoredDirsFile );
         }
         return new ArrayList<File>();

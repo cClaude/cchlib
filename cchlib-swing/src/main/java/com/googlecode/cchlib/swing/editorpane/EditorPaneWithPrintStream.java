@@ -74,27 +74,6 @@ public class EditorPaneWithPrintStream extends JEditorPane
         return this.ps;
     }
 
-    private void append( final String str ) throws BadLocationException
-    {
-        final Document document = getDocument();
-        document.insertString( document.getLength(), str, null );
-        setCaretPosition(document.getLength());
-
-        this.totalLength += str.length();
-        updateCaret();
-    }
-
-    @SuppressWarnings("squid:S1166")
-    private void updateCaret()
-    {
-        try {
-            setCaretPosition( Math.max( 0, this.totalLength - 1 ));
-            }
-        catch( final IllegalArgumentException ignore ) {
-            // Ignore
-            }
-    }
-
     /**
      *  Replaces the gadget's text.
      *  This is useful for clearing
@@ -161,6 +140,27 @@ public class EditorPaneWithPrintStream extends JEditorPane
                     }
 
                 EditorPaneWithPrintStream.this.logFileWriter.write( str );
+                }
+        }
+
+        private void append( final String str ) throws BadLocationException
+        {
+            final Document document = getDocument();
+            document.insertString( document.getLength(), str, null );
+            setCaretPosition(document.getLength());
+
+            EditorPaneWithPrintStream.this.totalLength += str.length();
+            updateCaret();
+        }
+
+        @SuppressWarnings("squid:S1166")
+        private void updateCaret()
+        {
+            try {
+                setCaretPosition( Math.max( 0, EditorPaneWithPrintStream.this.totalLength - 1 ));
+                }
+            catch( final IllegalArgumentException ignore ) {
+                // Ignore
                 }
         }
 

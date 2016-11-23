@@ -27,7 +27,7 @@ import cx.ath.choisnet.tools.servlets.InitServletAbstractTask;
  */
 public class HTTPPingTask extends InitServletAbstractTask
 {
-    private final static Logger LOGGER = Logger.getLogger( HTTPPingTask.class );
+    private static final Logger LOGGER = Logger.getLogger( HTTPPingTask.class );
 
     private Proxy  proxy  = Proxy.NO_PROXY;
     private URL[]  urls;
@@ -140,5 +140,5 @@ public class HTTPPingTask extends InitServletAbstractTask
                     + e.getMessage() );
         }
     }
-} 
+}
 

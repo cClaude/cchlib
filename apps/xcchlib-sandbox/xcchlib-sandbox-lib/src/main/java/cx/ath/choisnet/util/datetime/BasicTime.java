@@ -33,12 +33,12 @@ public class BasicTime implements Serializable, Cloneable, TimeInterface {
     /**
      ** Chaene de formatage pour la class SimpleDateFormat du resultat de la methode toString()
      */
-    protected final static String           TIMEFMT          = "HH:mm:ss";
+    protected static final String           TIMEFMT          = "HH:mm:ss";
 
     /**
      ** Objet de formatage SimpleDateFormat correspondant au format de la methode toString()
      */
-    protected final static SimpleDateFormat TIME_FMT         = new SimpleDateFormat( TIMEFMT );
+    protected static final SimpleDateFormat TIME_FMT         = new SimpleDateFormat( TIMEFMT );
 
     /** int contenant le numero de l'heure de 0 e 23 */
     protected int                           hours            = -1;
@@ -50,10 +50,10 @@ public class BasicTime implements Serializable, Cloneable, TimeInterface {
     protected int                           seconds          = -1;
 
     /** Valeur minimum pour BasicTime */
-    public final static BasicTime           MIN_VALUE        = buildBasicTime( 0, 0, 0 );
+    public static final BasicTime           MIN_VALUE        = buildBasicTime( 0, 0, 0 );
 
     /** Valeur maximum pour BasicTime */
-    public final static BasicTime           MAX_VALUE        = buildBasicTime( 23, 59, 59 );
+    public static final BasicTime           MAX_VALUE        = buildBasicTime( 23, 59, 59 );
 
     /**
      ** Construit e partir d'un autre object BasicTime

@@ -318,7 +318,7 @@ public String toString() // -----------------------------------------------
 
 
 /*
-final static void test( java.net.URL targetURL )
+static final void test( java.net.URL targetURL )
     throws java.io.IOException
 {
  java.net.URLConnection connection = targetURL.openConnection();
@@ -361,7 +361,7 @@ final static void test( java.net.URL targetURL )
 }
 
 
-final static void testAndUpdate( URLContext anURLContext, URL anURL )
+static final void testAndUpdate( URLContext anURLContext, URL anURL )
     throws java.io.IOException
 {
  URLConnection connection = anURLContext.openConnection( anURL );
@@ -449,7 +449,7 @@ System.out.println( "-<-HEADER------------------" );
 
 /**
 ** cch.URLContext
-public final static void main( final String[] args ) throws Exception // --
+public static final void main( final String[] args ) throws Exception // --
 {
  final String URLBase = "http://drs-master:6969/DRS/config/ConfigBackupMasterInitReplication.properties.jsp?STATE=";
  final URL[] urls = {

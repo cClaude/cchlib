@@ -15,16 +15,16 @@ import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 
 public final class PhoneRecordSorterFileVisitor implements FileVisitor<Path> {
 
-    private final static Logger LOGGER = Logger.getLogger( PhoneRecordSorterFileVisitor.class );
-    //private final static Pattern FILEPATTERN  = Pattern.compile( "[0-9][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_(\\w+)_(\\w+)]\\.3gp");
-    // private final static Pattern FILEPATTERN  = Pattern.compile( "[0-9][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_([0-9]+)_(In|Out)]\\.3gp");
-    // private final static Pattern FILEPATTERN_ok = Pattern.compile( "[0-9][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_([0-9]+)_In\\.3gp");
-    //private final static Pattern FILEPATTERN = Pattern.compile( "[\\d][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_([0-9]+)_In\\.3gp");
-    //private final static Pattern FILEPATTERN = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_([0-9]+)_In\\.3gp");
-//    private final static Pattern FILEPATTERN_ok = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\w+)_In\\.3gp");
-//    private final static Pattern FILEPATTERN = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\w+)_(\\w+)\\.3gp");
-    private final static Pattern FILEPATTERN = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\+{0,1}\\w+)_(\\w+)\\.(\\w+)");
-    private final static Pattern FILEPATTERN2 = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\+{0,1}\\w+)_(In|Out)\\.(3gp)");
+    private static final Logger LOGGER = Logger.getLogger( PhoneRecordSorterFileVisitor.class );
+    //private static final Pattern FILEPATTERN  = Pattern.compile( "[0-9][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_(\\w+)_(\\w+)]\\.3gp");
+    // private static final Pattern FILEPATTERN  = Pattern.compile( "[0-9][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_([0-9]+)_(In|Out)]\\.3gp");
+    // private static final Pattern FILEPATTERN_ok = Pattern.compile( "[0-9][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_([0-9]+)_In\\.3gp");
+    //private static final Pattern FILEPATTERN = Pattern.compile( "[\\d][0-9][0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]_([0-9]+)_In\\.3gp");
+    //private static final Pattern FILEPATTERN = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_([0-9]+)_In\\.3gp");
+//    private static final Pattern FILEPATTERN_ok = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\w+)_In\\.3gp");
+//    private static final Pattern FILEPATTERN = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\w+)_(\\w+)\\.3gp");
+    private static final Pattern FILEPATTERN = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\+{0,1}\\w+)_(\\w+)\\.(\\w+)");
+    private static final Pattern FILEPATTERN2 = Pattern.compile( "[0-9]{4}_[0-9]{2}_[0-9]{2}_[0-9]{2}_[0-9]{2}_(\\+{0,1}\\w+)_(In|Out)\\.(3gp)");
 
     final private Config config;
     final private NumberNormalizer numberNormalizer;

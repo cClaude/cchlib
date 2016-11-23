@@ -29,18 +29,18 @@ import java.util.Vector;
 public class BenchNewCollection
 {
 /** */
-private final static int BENCH_COUNT = 10;
+private static final int BENCH_COUNT = 10;
 
 /** */
-private final static int COMPUTE_COUNT = 500000;
+private static final int COMPUTE_COUNT = 500000;
 
 /** */
-private final static Stats<String> stats = new Stats<String>();
+private static final Stats<String> stats = new Stats<String>();
 
 /**
 **
 */
-public final static void benchNewVector() // ------------------------------
+public static final void benchNewVector() // ------------------------------
 {
  final long begin = System.nanoTime();
 
@@ -58,7 +58,7 @@ public final static void benchNewVector() // ------------------------------
 /**
 **
 */
-public final static void benchNewArrayList() // ---------------------------
+public static final void benchNewArrayList() // ---------------------------
 {
  final long begin = System.nanoTime();
 
@@ -76,7 +76,7 @@ public final static void benchNewArrayList() // ---------------------------
 /**
 **
 */
-public final static void benchNewLinkedList() // --------------------------
+public static final void benchNewLinkedList() // --------------------------
 {
  final long begin = System.nanoTime();
 
@@ -94,7 +94,7 @@ public final static void benchNewLinkedList() // --------------------------
 /**
 **
 */
-public final static void printDot() // ------------------------------------
+public static final void printDot() // ------------------------------------
 {
  System.out.print( '.' );
  System.out.flush();
@@ -103,7 +103,7 @@ public final static void printDot() // ------------------------------------
 /**
 **
 */
-public final static void main( final String[] args ) // -------------------
+public static final void main( final String[] args ) // -------------------
 {
  for( int i = 0; i<BENCH_COUNT; i++ ) {
     benchNewVector();       printDot();

@@ -16,7 +16,7 @@ import com.googlecode.cchlib.dhcp.DHCPParameters;
  */
 public class DHCPMessageFactory {
 
-    public final static DHCPMessage newInstance(
+    public static final DHCPMessage newInstance(
             final DatagramPacket data )
     {
         final DHCPParameters params = DHCPParameters.newInstance( data.getData() );

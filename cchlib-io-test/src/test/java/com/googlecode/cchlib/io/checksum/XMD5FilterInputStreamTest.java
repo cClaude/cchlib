@@ -23,7 +23,7 @@ import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 @SuppressWarnings({ "resource", "deprecation" })
 public class XMD5FilterInputStreamTest
 {
-    private final static Logger LOGGER = Logger.getLogger( XMD5FilterInputStreamTest.class );
+    private static final Logger LOGGER = Logger.getLogger( XMD5FilterInputStreamTest.class );
     private XMessageDigestFile mdf;
     private List<File> fileList;
     private final byte[] buffer = new byte[ 1024 ];

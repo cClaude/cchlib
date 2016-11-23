@@ -30,7 +30,7 @@ import java.awt.event.ActionEvent;
 public class BuildAppTest extends JFrame
 {
     private static final long serialVersionUID = 1L;
-    private final static Logger LOGGER = Logger.getLogger( BuildAppTest.class );
+    private static final Logger LOGGER = Logger.getLogger( BuildAppTest.class );
     private static final int DIFF_FILES_COUNT = 50;
     private static final int DUPLICATE_FILES_COUNT = 3;
 

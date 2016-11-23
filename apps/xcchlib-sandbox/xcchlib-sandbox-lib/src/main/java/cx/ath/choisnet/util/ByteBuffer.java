@@ -51,7 +51,7 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
     private transient int     lastPos;
 
     /** Default size */
-    private final static int  DEFAULT_SIZE     = 2048;
+    private static final int  DEFAULT_SIZE     = 2048;
 
     /**
      ** Constructs a ByteBuffer with no byte in it and an initial capacity of 2048 bytes.
@@ -557,7 +557,7 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
 //    /**
 //     ** java -cp build\classes cx.ath.choisnet.util.ByteBuffer
 //     **/
-//    public final static void main( String[] args ) // -------------------------
+//    public static final void main( String[] args ) // -------------------------
 //            throws Exception
 //    {
 //        final byte[] bytes = { '1', '2', '3', '4', '5', '6', '7' };

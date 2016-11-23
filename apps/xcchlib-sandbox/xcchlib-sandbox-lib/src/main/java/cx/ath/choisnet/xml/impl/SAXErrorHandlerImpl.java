@@ -44,7 +44,7 @@ public SAXErrorHandlerImpl( final PrintWriter out ) // ------------------
 /**
 ** @return a string describing parse exception details
 */
-private final static String getParseExceptionInfo( // ---------------------
+private static final String getParseExceptionInfo( // ---------------------
     final SAXParseException spe
     )
 {
