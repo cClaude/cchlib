@@ -2,7 +2,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.select;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.io.File;
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.FileChooserEntryPoint;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Resources;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
@@ -45,9 +45,14 @@ import com.googlecode.cchlib.swing.textfield.XTextField;
  *
  */
 @I18nName("duplicatefiles.JPanelSelectFoldersOrFiles")
+@SuppressWarnings({
+    "squid:S1199", // Generated code
+    "squid:S00117" // Naming conventions
+    })
 public class JPanelSelectFoldersOrFiles extends JPanel
 {
-    private final class SelectedFilesOrFoldersTableModel extends AbstractTableModel {
+    private final class SelectedFilesOrFoldersTableModel extends AbstractTableModel
+    {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -104,28 +109,23 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     private final JButton jButtonAddEntry;
     private final JButton jButtonRemEntry;
 
-    private final transient AppToolKit dFToolKit; // Serialization !!
     private AbstractTableModel tableModelSelectedFoldersOrFiles;
     private final List<File> includeFileList  = new ArrayList<>();
 
     @I18nString private String[] columnsHeaders;
     @I18nString private String   txtFile;
     @I18nString private String   txtDirectory;
-    //@I18nString private String   txtIgnoreContent;
     @I18nString private String   txtIncludeDir;
     @I18nString private String   txtIncludeFile;
 
     /**
      * Create the panel.
      * @throws TooManyListenersException
-     * @throws HeadlessException
      */
     public JPanelSelectFoldersOrFiles()
-        throws HeadlessException, TooManyListenersException
+        throws TooManyListenersException
     {
         beSurNonFinal();
-
-        this.dFToolKit = AppToolKitService.getInstance().getAppToolKit();
 
         final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0};
@@ -137,13 +137,13 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         {
             this.jButtonRemEntry = new JButton("Remove");
             this.jButtonRemEntry.setHorizontalAlignment(SwingConstants.LEFT);
-            this.jButtonRemEntry.setIcon( this.dFToolKit.getResources().getFolderRemoveIcon() );
+            this.jButtonRemEntry.setIcon( getResources().getFolderRemoveIcon() );
             this.jButtonRemEntry.addActionListener(e -> onRemoveEntries());
         }
         {
             this.jButtonAddEntry = new JButton("Append");
             this.jButtonAddEntry.setHorizontalAlignment(SwingConstants.LEFT);
-            this.jButtonAddEntry.setIcon( this.dFToolKit.getResources().getAddIcon() );
+            this.jButtonAddEntry.setIcon( getResources().getAddIcon() );
             this.jButtonAddEntry.addActionListener(e -> onAddEntry());
 
             final GridBagConstraints gbc_jButtonAddEntry = new GridBagConstraints();
@@ -154,7 +154,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             add(this.jButtonAddEntry, gbc_jButtonAddEntry);
         }
         {
-            final Icon   image      = this.dFToolKit.getResources().getLogoIcon();
+            final Icon   image      = getResources().getLogoIcon();
             final JLabel jLabelDeco = new JLabel( image );
 
             final GridBagConstraints gbc_jLabelDeco = new GridBagConstraints();
@@ -166,7 +166,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         {
             this.jButtonSelectFile = new JButton("Select File");
             this.jButtonSelectFile.setHorizontalAlignment(SwingConstants.LEFT);
-            this.jButtonSelectFile.setIcon( this.dFToolKit.getResources().getFileIcon() );
+            this.jButtonSelectFile.setIcon( getResources().getFileIcon() );
             this.jButtonSelectFile.addActionListener(e -> onJButtonSelectFile());
 
             final GridBagConstraints gbc_jButtonSelectFile = new GridBagConstraints();
@@ -214,7 +214,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         {
             this.jButtonSelectDir = new JButton("Select Folder");
             this.jButtonSelectDir.setHorizontalAlignment(SwingConstants.LEFT);
-            this.jButtonSelectDir.setIcon( this.dFToolKit.getResources().getFolderSelectIcon() );
+            this.jButtonSelectDir.setIcon( getResources().getFolderSelectIcon() );
             this.jButtonSelectDir.addActionListener(e -> onJButtonSelectDir());
 
             final GridBagConstraints gbc_jButtonSelectDir = new GridBagConstraints();
@@ -245,6 +245,16 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         };
 
         new SimpleFileDrop( this, dropListener ).addDropTargetListener();
+    }
+
+    private Resources getResources()
+    {
+        return getAppToolKit().getResources();
+    }
+
+    private AppToolKit getAppToolKit()
+    {
+        return AppToolKitService.getInstance().getAppToolKit();
     }
 
     private void beSurNonFinal()
@@ -294,7 +304,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     private void onJButtonSelectDir()
     {
         final Runnable doJob = () -> {
-            final JFileChooser jfc = this.dFToolKit.getJFileChooser( this.dFToolKit.getMainFrame(), FileChooserEntryPoint.DUPLICATES );
+            final JFileChooser jfc = getJFileChooser();
             jfc.setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
             final int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
 
@@ -311,10 +321,20 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         new Thread( doJob, "onJButtonSelectDir()" ).start();
     }
 
+    private JFileChooser getJFileChooser()
+    {
+        final AppToolKit appToolKit = getAppToolKit();
+
+        return appToolKit.getJFileChooser(
+                appToolKit.getMainFrame(),
+                FileChooserEntryPoint.DUPLICATES
+                );
+    }
+
     private void onJButtonSelectFile()
     {
         final Runnable doJob = () -> {
-            final JFileChooser jfc = this.dFToolKit.getJFileChooser( this.dFToolKit.getMainFrame(), FileChooserEntryPoint.DUPLICATES );
+            final JFileChooser jfc = getJFileChooser();
             jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
             final int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
 
@@ -333,7 +353,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
     private void onAddEntry()
     {
-        final File f = new File( this.jTextFieldCurrentDir.getText() ); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.pathManipulation
+        final File f = new File( this.jTextFieldCurrentDir.getText() );
 
         addEntry( f );
     }
@@ -359,7 +379,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             }
     }
 
-    public boolean addEntry( final File file ) // $codepro.audit.disable booleanMethodNamingConvention
+    public boolean addEntry( final File file )
     {
         if( file.exists() ) {
             File existingValue = null;
@@ -390,7 +410,8 @@ public class JPanelSelectFoldersOrFiles extends JPanel
             LOGGER.warn( "Value does not exist: " + file );
         }
 
-        this.dFToolKit.beep();
+        getAppToolKit().beep();
+
         return false;
     }
 
