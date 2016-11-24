@@ -16,6 +16,7 @@ apps/cchlib-apps-duplicatefilesmanager/.classpath
 apps/cchlib-apps-duplicatefilesmanager/bin/
 apps/cchlib-apps-duplicatefilesmanager/com.googlecode.cchlib.apps.duplicatefiles.MessagesBundle
 apps/cchlib-apps-duplicatefilesmanager/target/
+apps/cchlib-apps-duplicatefilesmanager/testResults/
 apps/cchlib-apps-editresourcebundle/.classpath
 apps/cchlib-apps-editresourcebundle/com.googlecode.cchlib.apps.editresourcesbundle.MessagesBundle
 apps/cchlib-apps-editresourcebundle/target/

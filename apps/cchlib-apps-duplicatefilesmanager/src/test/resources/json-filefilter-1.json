@@ -5,14 +5,11 @@
   },
   "directories":{
     "excludeNames":[
-      "##DB",
-      "##Disques virtuels",
-      "##ISO(p)",
-      "##OVA(p)",
-      "##Raspberry",
-
-      ".@__thumb",
-      "@Recycle"
+      "folder1", // Folders to exclude
+      "folder2",
+      "folder3",
+      ".@__thumb", // special folders to exclude
+      "@Recycle"   // special folders to exclude
       ],
     "excludePaths":null
   }
