@@ -24,6 +24,9 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder.Attributs;
 
 @I18nName("duplicatefiles.JPanelResult")
+@SuppressWarnings({
+    "squid:MaximumInheritanceDepth" // because swing
+    })
 public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable {
     private static final long               serialVersionUID = 2L;
     private static final Logger             LOGGER           = Logger.getLogger( JPanelResult.class );
@@ -33,7 +36,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
     @I18nString
     private String                          txtHiddenFirstLetter;
-    // TODO: @I18nString private String txtCanExecuteFirstLetter = "E";
+    // TODO: @I18nString private String txtCanExecuteFirstLetter ?
     @I18nString
     private String                          txtCanWriteFirstLetter;
     @I18nString
@@ -50,13 +53,20 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         this.duplicatesContextualMenu = new DuplicatesContextualMenu( this );
         createPopupMenus();
 
-        SwingUtilities.invokeLater( ( ) -> setDividersLocation( this.dFToolKit.getPreferences().getJPaneResultDividerLocations() ) );
+        SwingUtilities.invokeLater( this::setDividersLocation );
+    }
+
+    private void setDividersLocation()
+    {
+        setDividersLocation(
+            this.dFToolKit.getPreferences().getJPaneResultDividerLocations()
+            );
     }
 
     private void beSurNonFinal()
     {
         this.txtHiddenFirstLetter = "H";
-        // TODO: @I18nString private String txtCanExecuteFirstLetter = "E";
+        // TODO: txtCanExecuteFirstLetter = "E"; ?
         this.txtCanWriteFirstLetter = "W";
         this.txtCanReadFirstLetter = "R";
     }
