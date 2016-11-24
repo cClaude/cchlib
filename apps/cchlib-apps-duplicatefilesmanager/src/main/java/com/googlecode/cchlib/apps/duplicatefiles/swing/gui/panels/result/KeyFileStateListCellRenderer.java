@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
@@ -58,9 +59,46 @@ class KeyFileStateListCellRenderer
             final boolean                       cellHasFocus
             )
     {
-        final Path path = value.toPath();
-        String    permStr;
+        final Path   path    = value.toPath();
+        final String permStr = getPermissionString( path );
+        final String sizeStr = getSizeString( path );
+
+        super.setToolTipText( "<html>" + sizeStr + "<br/>" + permStr + "</html>" );
+
+        return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+    }
+
+    private String getSizeString( final Path path )
+    {
         String    sizeStr;
+
+        try {
+            sizeStr = Long.toString( Files.size( path ) ) + " o";
+        }
+        catch( final NoSuchFileException e ) {
+            //
+            sizeStr = e.getMessage();
+
+            final String message = "File not found " + path;
+
+            if( LOGGER.isTraceEnabled() ) {
+                // Don't care the exception
+                LOGGER.trace( message, e );
+            } else {
+                LOGGER.debug( message );
+            }
+        }
+        catch( final IOException e ) {
+            sizeStr = e.getMessage();
+
+            LOGGER.debug( "Can not compute File size of " + path, e );
+        }
+        return sizeStr;
+    }
+
+    private String getPermissionString( final Path path )
+    {
+        String permStr;
 
         try {
             permStr = getPosixFilePermissions( path );
@@ -73,20 +111,7 @@ class KeyFileStateListCellRenderer
             }
         }
 
-        try {
-            sizeStr = Long.toString( Files.size( path ) ) + " o";
-        }
-        catch( final IOException e ) {
-            sizeStr = e.getMessage();
-
-            if( LOGGER.isDebugEnabled() ) {
-                LOGGER.debug( "Can not compute File size of " + path, e );
-            }
-        }
-
-        super.setToolTipText( "<html>" + sizeStr + "<br/>" + permStr + "</html>" );
-
-        return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+        return permStr;
     }
 
     private String getPosixFilePermissions( final Path path ) throws IOException
