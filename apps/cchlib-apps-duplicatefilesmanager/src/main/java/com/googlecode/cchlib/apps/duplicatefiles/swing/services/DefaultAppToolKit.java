@@ -192,7 +192,7 @@ final class DefaultAppToolKit
         try {
             Thread.sleep( ms );
             }
-        catch( final InterruptedException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
+        catch( final InterruptedException ignore ) {
             }
     }
 

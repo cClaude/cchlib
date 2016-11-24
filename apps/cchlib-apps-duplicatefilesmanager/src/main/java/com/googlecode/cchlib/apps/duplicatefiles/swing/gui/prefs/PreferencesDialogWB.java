@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.prefs;
 
 import java.awt.Component;

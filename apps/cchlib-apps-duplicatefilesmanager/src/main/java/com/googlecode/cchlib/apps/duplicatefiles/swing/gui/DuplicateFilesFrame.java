@@ -359,7 +359,6 @@ public final class DuplicateFilesFrame
     public ActionListener getActionListener()
     {
         if( this.mainActionListener == null ) {
-            this.mainActionListener = event -> actionPerformedMainActionListener( event );
             this.mainActionListener = this::actionPerformedMainActionListener;
         }
         return this.mainActionListener;

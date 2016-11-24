@@ -14,9 +14,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.list.DefaultListCellRenderer;
 
-/**
- *
- */
 // NOT public
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 class KeyFileStateListCellRenderer
@@ -70,7 +67,7 @@ class KeyFileStateListCellRenderer
 
     private String getSizeString( final Path path )
     {
-        String    sizeStr;
+        String sizeStr;
 
         try {
             sizeStr = Long.toString( Files.size( path ) ) + " o";
@@ -93,6 +90,7 @@ class KeyFileStateListCellRenderer
 
             LOGGER.debug( "Can not compute File size of " + path, e );
         }
+
         return sizeStr;
     }
 
