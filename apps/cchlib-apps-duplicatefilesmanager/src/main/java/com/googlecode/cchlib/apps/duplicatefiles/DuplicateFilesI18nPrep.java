@@ -22,6 +22,8 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
  * Create resources bundles files
+ * <br>
+ * This class is design to generate i18n files
  */
 public class DuplicateFilesI18nPrep
 {

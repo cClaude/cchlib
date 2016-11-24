@@ -32,34 +32,35 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
 
     protected abstract void doHandle( String msg, Throwable e );
 
-    private void doHandleForField( final String msg, final Throwable e, final I18nField i18nField )
+    private void doHandleForField( final String msg, final Exception e )
     {
         doHandle( msg, e );
     }
 
     protected void doHandleMissingResourceException( final Exception e, final I18nField i18nField )
     {
-        final String msg = "* MissingResourceException for:"
+        final String msg = "* error Missing Resource for: ["
                 + i18nField.getKeyBase()
-                + " - "
+                + "] - "
                 + e.getLocalizedMessage();
 
         doHandle( msg, e );
     }
 
+    @SuppressWarnings("squid:S00100")
     protected void doHandleMissingResourceException_MissingMethodsResolution(
-        final Exception e,
+        final Exception cause,
         final I18nField i18nField
         )
     {
         final String msg = String.format(
-                "* MissingResourceException for: %s using [%s] - %s\n",
+                "* error Missing Resource  for: %s using [%s] - %s",
                 i18nField.getKeyBase(),
                 i18nField.getMethodContener().getMethodName(),
-                e.getLocalizedMessage()
+                cause.getLocalizedMessage()
                 );
 
-        doHandle( msg, e );
+        doHandle( msg, cause );
     }
 
     protected EnumSet<AutoI18nConfig> getConfig()
@@ -76,19 +77,19 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     @Override
     public void handleIllegalAccessException( final IllegalAccessException cause, final I18nField i18nField )
     {
-        doHandleForField( "IllegalAccessException", cause, i18nField );
+        doHandleForField( "IllegalAccessException", cause );
     }
 
     @Override
     public void handleIllegalArgumentException( final IllegalArgumentException cause, final I18nField i18nField )
     {
-        doHandleForField( "IllegalArgumentException", cause, i18nField );
+        doHandleForField( "IllegalArgumentException", cause );
     }
 
     @Override
     public void handleInvocationTargetException( final InvocationTargetException cause, final I18nField i18nField )
     {
-        doHandleForField( "InvocationTargetException", cause, i18nField );
+        doHandleForField( "InvocationTargetException", cause );
     }
 
     @Override
@@ -98,10 +99,14 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
         final I18nResolver          i18nResolver
         )
     {
-        doHandleForField( "MissingKeyException", e, i18nField );
+        doHandleForField( "MissingKeyException", e );
     }
 
     @Override
+    @SuppressWarnings({
+        "squid:S1871", // Same blocks
+        "squid:SwitchLastCaseIsDefaultCheck" // Switch on enum (default useless)
+        })
     public <T> void handleMissingResourceException(
         final MissingResourceException e,
         final I18nField                i18nField,
@@ -131,28 +136,32 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     @Override
     public void handleNoSuchMethodException( final NoSuchMethodException cause, final Field field )
     {
-        doHandleForField( "NoSuchMethodException", cause, (I18nField)null );
+        doHandleForField( "NoSuchMethodException", cause );
     }
 
     @Override
     public void handleNoSuchMethodException( final NoSuchMethodException cause, final I18nField i18nField )
     {
-        doHandleForField( "NoSuchMethodException", cause, i18nField );
+        doHandleForField( "NoSuchMethodException", cause );
     }
 
     @Override
     public void handleSecurityException( final MethodProviderSecurityException cause, final Field field )
     {
-        doHandleForField( "SecurityException", cause, (I18nField)null );
+        doHandleForField( "SecurityException", cause );
     }
 
     @Override
     public void handleSecurityException( final SecurityException cause, final I18nField i18nField )
     {
-        doHandleForField( "SecurityException", cause, i18nField );
+        doHandleForField( "SecurityException", cause );
     }
 
     @Override
+    @SuppressWarnings({
+        "squid:S1871", // Same blocks
+        "squid:SwitchLastCaseIsDefaultCheck" // Switch on enum (default useless)
+        })
     public void handleSetFieldException(
         final SetFieldException e,
         final I18nField         i18nField,

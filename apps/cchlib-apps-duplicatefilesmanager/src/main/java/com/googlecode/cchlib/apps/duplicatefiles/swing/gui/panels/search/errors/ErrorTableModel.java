@@ -15,16 +15,24 @@ public final class ErrorTableModel extends AbstractTableModel
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( ErrorTableModel.class );
 
-    private static final int COLUMN_FILE = 0;
+    private static final int COLUMN_FILE  = 0;
     private static final int COLUMN_CAUSE = 1;
 
-    @I18nString private final String[] columnNames = { "Files", "Errors class" };
+    @I18nString private String[] columnNames ;
 
     private final List<FileErrorCause> fileErrors = new ArrayList<>();
 
     public ErrorTableModel()
     {
-        // empty
+        stringForI18n();
+    }
+
+    private void stringForI18n()
+    {
+        this.columnNames = new String[] {
+                "Files",
+                "Errors class"
+                };
     }
 
     @Override
@@ -91,6 +99,11 @@ public final class ErrorTableModel extends AbstractTableModel
 
     public void addRow( final File file, final IOException cause )
     {
-        this.fileErrors.add( new FileErrorCause( file, cause ) );
+        synchronized( this.fileErrors ) {
+            this.fileErrors.add( new FileErrorCause( file, cause ) );
+        }
+
+        final int firstRow = this.fileErrors.size();
+        super.fireTableRowsInserted( firstRow, /*lastRow*/firstRow );
     }
 }

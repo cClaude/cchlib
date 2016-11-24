@@ -97,9 +97,12 @@ class KeyFileStateListCellRenderer
             return Enums.toString( perms );
         }
         catch( final UnsupportedOperationException e ) {
+            final String message = "Can not compute Posix File Permissions of " + path;
 
-            if( LOGGER.isDebugEnabled() ) {
-                LOGGER.debug( "Can not compute File Permissions of " + path, e );
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( message, e );
+            } else {
+                LOGGER.warn( message );
             }
 
             return getPermsString( path );
