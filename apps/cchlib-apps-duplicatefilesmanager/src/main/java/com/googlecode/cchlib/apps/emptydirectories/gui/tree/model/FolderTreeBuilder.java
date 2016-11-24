@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
@@ -8,8 +9,9 @@ import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.util.emptydirectories.util.Folders;
 
 //not public
-final class FolderTreeBuilder
+final class FolderTreeBuilder implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( FolderTreeBuilder.class );
 
     // Could be improve using ArrayHashMap instead !

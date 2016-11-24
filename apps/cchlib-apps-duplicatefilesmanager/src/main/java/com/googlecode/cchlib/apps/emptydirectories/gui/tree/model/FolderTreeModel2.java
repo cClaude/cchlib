@@ -89,12 +89,13 @@ class FolderTreeModel2
 
     private final FolderTreeBuilder folderTreeBuilder;
     private final Set<EmptyFolder> selectedNodes = new HashSet<>();
+    @SuppressWarnings("squid:S1948") // Object is serializable
     private volatile Object lock = new Object();
 
     /**
      *
      */
-    public FolderTreeModel2(/* final JTree jTree*/)
+    public FolderTreeModel2()
     {
         // Support for multiple root - add an fake hidden root
         // this tree is new empty...
@@ -131,21 +132,12 @@ class FolderTreeModel2
                 hiddenRoot.add( newRoot );
                 }
             else {
+                // Something to do ?
                 }
             }
 
         if( newRoot != null ) {
             LOGGER.debug( "notify JTree that a newRoot has been added: " + newRoot );
-
-//            // Try to notify.
-//            TreePath path = getPath( newRoot.getParent() );
-//
-//            this.jTree.collapsePath( path );
-//
-            //super.nodeChanged( root );
-            //this.jTree.expandPath( path );
-
-            //jTree.scrollPathToVisible(new TreePath(getRootNode().getLastLeaf().getPath()));
             }
 
         if( LOGGER.isTraceEnabled() ) {
@@ -161,7 +153,6 @@ class FolderTreeModel2
         if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "Clear selection" );
             }
-        //this.modifiedCheckState.clear();
 
         this.selectedNodes.clear();
     }
@@ -197,7 +188,7 @@ class FolderTreeModel2
                         changeState = node.isLeaf();
                         }
                     else {
-                        changeState = (node.getFolder() instanceof EmptyFolder);
+                        changeState = node.getFolder() instanceof EmptyFolder;
                         }
 
                     if( changeState ) {
@@ -215,7 +206,7 @@ class FolderTreeModel2
     /**
      * Call when the tree structure below the path has completely changed.
      */
-    protected final void treeNodesChanged(final TreePath parentPath)
+    protected final void treeNodesChanged( final TreePath parentPath )
     {
         if( parentPath == null ) {
             LOGGER.warn( "no TreePath while invoke fireTreeStructureChanged()" );
@@ -223,23 +214,28 @@ class FolderTreeModel2
             }
 
         try {
-            final Object[]        pairs   = this.listenerList.getListenerList();
-            TreeModelEvent  e       = null;
-
-            for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
-                if( pairs[i] == TreeModelListener.class ) {
-                    if( e == null ) {
-                        e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
-                        }
-
-                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
-
-                    l.treeNodesChanged( e );
-                    }
-                }
+            treeNodesChangedUnsafe( parentPath );
             }
         catch( final RuntimeException e ) {
             LOGGER.error( "UI Error : parentPath=" + parentPath, e );
+            }
+    }
+
+    private void treeNodesChangedUnsafe( final TreePath parentPath )
+    {
+        final Object[]        pairs   = this.listenerList.getListenerList();
+        TreeModelEvent  e       = null;
+
+        for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
+            if( pairs[i] == TreeModelListener.class ) {
+                if( e == null ) {
+                    e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
+                    }
+
+                final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
+
+                l.treeNodesChanged( e );
+                }
             }
     }
 
@@ -255,9 +251,10 @@ class FolderTreeModel2
     /**
      * Returns a TreePath containing the specified node.
      */
-    protected final TreePath getPath( TreeNode node )
+    protected final TreePath getPath( final TreeNode fromNode )
     {
         final List<TreeNode> list = new ArrayList<>();
+        TreeNode             node = fromNode;
 
         // Add all nodes to list
         while( node != null ) {
@@ -271,8 +268,7 @@ class FolderTreeModel2
     }
 
     @Override //FileTreeModelable
-    final
-    public Iterable<EmptyFolder> getSelectedEmptyFolders()
+    public final Iterable<EmptyFolder> getSelectedEmptyFolders()
     {
         return Collections.unmodifiableSet( this.selectedNodes );
     }

@@ -165,7 +165,6 @@ final class DefaultAppToolKit
     public void beep()
     {
         Toolkit.getDefaultToolkit().beep();
-        LOGGER.fatal( "beep()", new RuntimeException( "DEBUG" ) ); // TODO remove this
     }
 
     @Override // DFToolKit

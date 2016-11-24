@@ -123,6 +123,10 @@ public abstract class TaskCommon implements CommandTask
         }
     }
 
+    @SuppressWarnings({
+        "squid:S1066", // Easiest to read with 2 statements
+        "squid:S134"   // Optimization first
+        })
     private void removeNonDuplicates( final HashFiles hashFiles )
     {
         final long           length   = hashFiles.getLength();
@@ -132,6 +136,7 @@ public abstract class TaskCommon implements CommandTask
             final File file = iterator.next();
 
             if( file.length() != length ) {
+                // File not exist or file is empty.
                 iterator.remove();
             } else {
                 // Length ok, look for filters
@@ -176,6 +181,7 @@ public abstract class TaskCommon implements CommandTask
     }
 
     @Override
+    @SuppressWarnings("squid:S1066") // Easiest to read with 2 statements
     public void saveResultIfRequired( final List<HashFiles> hashFilesList )
         throws CLIParametersException
     {

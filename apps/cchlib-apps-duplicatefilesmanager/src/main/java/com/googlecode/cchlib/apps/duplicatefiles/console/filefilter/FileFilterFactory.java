@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console.filefilter;
 
+import static com.googlecode.cchlib.util.CollectionHelper.isEmpty;
 import java.io.FileFilter;
-import java.util.Collection;
 
 /**
  * Factory class to create {@link FileFilter}
@@ -87,10 +87,5 @@ public class FileFilterFactory
    public static FileFilter getFileFilterForFiles( final FileFiltersConfig ffc, final boolean verbose  )
    {
        return new FileFilterFactory( ffc, verbose ).forFiles().newFileFilter();
-   }
-
-   private static <T> boolean isEmpty( final Collection<T> collection )
-   {
-       return (collection == null) || collection.isEmpty();
    }
 }

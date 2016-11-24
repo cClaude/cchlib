@@ -26,7 +26,11 @@ import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 
 //not public
-class PreferencesPanelWB extends JPanel {
+@SuppressWarnings({
+    "squid:S1199" // Generated code
+    })
+class PreferencesPanelWB extends JPanel
+{
     private static final long serialVersionUID = 1L;
 
     private final PreferencesDialogI18n i18n;
