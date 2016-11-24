@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.swing.prefs;
+package com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.locale;
 
 public interface ListInfo<T>
 {

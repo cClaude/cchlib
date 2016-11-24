@@ -3,7 +3,8 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.prefs;
 import java.util.Iterator;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import com.googlecode.cchlib.util.WrapperException;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.locale.ListContener;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.locale.ListInfo;
 import com.googlecode.cchlib.util.iterator.AbstractIteratorWrapper;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
@@ -18,6 +19,7 @@ public class LookAndFeelInfoList
      */
     public LookAndFeelInfoList()
     {
+        // Empty
     }
 
     @Override
@@ -29,7 +31,6 @@ public class LookAndFeelInfoList
             {
                 @Override
                 public ListInfo<LookAndFeelInfo> wrap( final LookAndFeelInfo lafi )
-                        throws WrapperException
                 {
                     return new ListInfo<LookAndFeelInfo>()
                         {
