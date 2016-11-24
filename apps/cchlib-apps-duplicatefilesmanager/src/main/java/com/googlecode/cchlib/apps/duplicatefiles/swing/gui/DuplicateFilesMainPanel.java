@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui;
 
 import java.awt.CardLayout;
@@ -21,12 +20,14 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search.JPanelS
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search.JPanelSearchingSingleThread;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.select.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
  * Main frame layout for DuplicateFilesManager
  */
+@I18nName("DuplicateFilesMainPanel")
 public class DuplicateFilesMainPanel
     extends JPanel
         implements I18nAutoCoreUpdatable

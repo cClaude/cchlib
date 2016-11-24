@@ -28,11 +28,13 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 import com.googlecode.cchlib.util.MapSetHelper;
 
+@I18nName("duplicatefiles.JPanelConfirm")
 public class JPanelConfirm extends JPanel
 {
     private static final class Model extends AbstractTableModel {

@@ -333,23 +333,24 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
     private void onJButtonSelectFile()
     {
-        final Runnable doJob = () -> {
-            final JFileChooser jfc = getJFileChooser();
-            jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
-            final int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
+        new Thread( this::selectFile, "onJButtonSelectFile()" ).start();
+    }
 
-            if( returnVal == JFileChooser.APPROVE_OPTION ) {
-                final File[] files = jfc.getSelectedFiles();
+    private void selectFile()
+    {
+        final JFileChooser jfc = getJFileChooser();
+        jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
+        final int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
 
-                for(final File f:files) {
-                    LOGGER.info( "selected file:" + f );
-                    addEntry( f );
-                }
+        if( returnVal == JFileChooser.APPROVE_OPTION ) {
+            final File[] files = jfc.getSelectedFiles();
+
+            for(final File f:files) {
+                LOGGER.info( "selected file:" + f );
+                addEntry( f );
             }
-        };
-
-        new Thread( doJob, "onJButtonSelectFile()" ).start();
-   }
+        }
+    }
 
     private void onAddEntry()
     {
