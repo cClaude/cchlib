@@ -2,8 +2,8 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.tools;
 
 import java.awt.Image;
 import java.net.URI;
-import java.util.Properties;
 import javax.swing.Icon;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config.FiltersConfig;
 
 /**
  * List all application resources
@@ -28,7 +28,7 @@ public interface Resources
 
     Image getAppImage();
 
-    Properties getJPanelConfigProperties(); // $codepro.audit.disable declareAsInterface
+    FiltersConfig getFiltersConfig();
 
     String getAboutVersion();
     String getAboutVersionDate();

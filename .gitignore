@@ -2,6 +2,7 @@
 *.html!
 *.java!
 *.java!todo
+*.properties!
 *.sh!
 *.tws
 */dependency-reduced-pom.xml

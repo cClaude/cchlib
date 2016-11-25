@@ -1,0 +1,55 @@
+{
+  "fileTypes" : [
+    {
+      "description" : "Pictures (*.png,*.jpg,*.gif,...)",
+      "data" : "bmp,apng,gif,iff,ilbm,jpe,jpeg,jpg,png,psp,pspimage,raw,thm,tif,tiff,x-png"
+    },
+    {
+      "description" : "Audio (*.mp3,*.snd,*.mod,*.mid,*.wav,...)",
+      "data" : "au,cda,cdda,kar,mid,mod,mp1,mp2,mp3,ogg,ra,ram,snd,wav,xm"
+    },
+    {
+      "description" : "Movies (*.avi,*.mpeg,*.mov...)",
+      "data" : "3pg,avi,div,divx,dv,dvx,mov,mp4,mpe,mpeg,mov,ogm,ogv,ogx,qt,ts,vcd,vid,vob,wmv,xvid"
+    },
+    {
+      "description" : "Open Office Documents (*.odf,*.odp,*.ods,*.odg,...)",
+      "data" : "odt,ods,odp,odb,odg,odf"
+    },
+    {
+      "description" : "MS Offices Documents (*.doc,*.xls,...)",
+      "data" : "doc,docm,docx,dot,dotx,pot,potm,potx,ppt,pptm,pptx,svd,wbk,xls,xlsm,xlsx,xlt,xltm,xltx"
+    },
+    {
+      "description" : "Others text documents (*.txt,*.pdf,*...)",
+      "data" : "txt,csv,pdf,htm,html"
+    },
+    {
+      "description" : "Executables (*.exe,*.dll,*.ocx,*...)",
+      "data" : "exe,dll,ocx"
+    }
+  ],
+  "dirTypes" : [
+    {
+      "description" : "Ignore svn directories (svn)",
+      "data" : ".svn"
+    },
+    {
+      "description" : "Ignore temp directories (temp,tmp)",
+      "data" : "temp,tmp"
+    }
+  ],
+  "protectedDirectories" : [
+    {
+      "os" : "win32",
+      "level" : "BEGINNER",
+      "regex" : "${SystemRoot}\\\\.*",
+      "exceptionRegex" : "${SystemRoot}\\\\Temp\\\\.*"
+    },
+    {
+      "os" : "win32",
+      "level" : "BEGINNER",
+      "regex" : "${ProgramFiles}\\\\.*"
+    }
+  ]
+}

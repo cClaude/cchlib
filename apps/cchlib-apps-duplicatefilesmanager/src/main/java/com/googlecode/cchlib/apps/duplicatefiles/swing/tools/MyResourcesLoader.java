@@ -10,6 +10,10 @@ import java.util.Properties;
 import javax.swing.Icon;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.Version;
+import com.googlecode.cchlib.VisibleForTesting;
+import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelperException;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config.FiltersConfig;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config.FiltersConfigFileHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.RessourcesPath;
 import com.googlecode.cchlib.resources.ResourcesLoader;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
@@ -22,11 +26,20 @@ public final class MyResourcesLoader
     private static final class TheResources implements Resources {
         private final URI     siteURI;
         private final Version version;
+        private final FiltersConfig filtersConfig;
 
-        private TheResources( URI siteURI, Version version )
+        private TheResources( final URI siteURI, final Version version )
+                throws ResourcesLoaderException
         {
-            this.siteURI = siteURI;
-            this.version = version;
+            this.siteURI       = siteURI;
+            this.version       = version;
+
+            try {
+                this.filtersConfig = FiltersConfigFileHelper.load( getJPanelConfigInputStream() );
+            }
+            catch( final JSONHelperException e ) {
+                throw new ResourcesLoaderException( e );
+            }
         }
 
         @Override
@@ -71,10 +84,15 @@ public final class MyResourcesLoader
             return getImageIcon( "folder.png" );
         }
 
-        @Override
-        public Properties getJPanelConfigProperties() // $codepro.audit.disable declareAsInterface
+        private InputStream getJPanelConfigInputStream() throws ResourcesLoaderException
         {
-            return getProperties( "JPanelConfig.properties" );
+            return getResourceAsStream( "JPanelConfig.properties" );
+        }
+
+        @Override
+        public FiltersConfig getFiltersConfig()
+        {
+            return this.filtersConfig;
         }
 
         @Override
@@ -104,19 +122,19 @@ public final class MyResourcesLoader
         @Override
         public String getAboutVersion()
         {
-            return version.getVersion();
+            return this.version.getVersion();
         }
 
         @Override
         public String getAboutVersionDate()
         {
-            return DateFormat.getDateInstance().format( version.getDate() );
+            return DateFormat.getDateInstance().format( this.version.getDate() );
         }
 
         @Override
         public URI getSiteURI()
         {
-            return siteURI;
+            return this.siteURI;
         }
 
         @Override
@@ -185,7 +203,8 @@ public final class MyResourcesLoader
      * @see Class#getResourceAsStream(String)
      * @throws ResourcesLoaderException If resource is not found
      */
-    private static InputStream getResourceAsStream( final String name ) throws ResourcesLoaderException
+    @VisibleForTesting
+    public static final InputStream getResourceAsStream( final String name ) throws ResourcesLoaderException
     {
         return ResourcesLoader.getResourceAsStream( RessourcesPath.class, name );
     }
@@ -195,7 +214,7 @@ public final class MyResourcesLoader
      * @param name Resource name
      * @return {@link Icon} for giving resource name
      */
-    public static Icon getImageIcon( final String name )
+    public static final Icon getImageIcon( final String name )
     {
         try {
             return ResourcesLoader.getImageIcon( RessourcesPath.class, name );
@@ -212,7 +231,8 @@ public final class MyResourcesLoader
      * @param name Resource name
      * @return {@link Image} for giving resource name
      */
-    private static Image getImage( final String name )
+    @VisibleForTesting
+    public static final Image getImage( final String name )
     {
         try {
             return ResourcesLoader.getImage( RessourcesPath.class, name );
@@ -230,7 +250,8 @@ public final class MyResourcesLoader
      * @return {@link Properties} for giving resource name
      * @throws ResourcesLoaderException If resource is not found
      */
-    private static Properties getProperties( final String name ) // $codepro.audit.disable declareAsInterface
+    @VisibleForTesting
+    public static final Properties getProperties( final String name )
     {
         final Properties prop = new Properties();
 
@@ -247,25 +268,38 @@ public final class MyResourcesLoader
     public static Resources getResources()
     {
         if( globalResources == null ) {
-            final URI siteURI;
+            final String  siteUrlString = "https://github.com/cClaude/cchlib/";
+            final URI     siteURI       = toURI( siteUrlString );
+            final Version version       = Version.getInstance();
 
             try {
-                siteURI = new URI( "https://code.google.com/p/cchlib-apps/" );
-                }
-            catch( final URISyntaxException e ) {
-                throw new RuntimeException( e );
-                }
-
-            final Version version = Version.getInstance();
-
-            globalResources = newResources( siteURI, version );
+                globalResources = newResources( siteURI, version );
             }
+            catch( final ResourcesLoaderException e ) {
+                LOGGER.fatal( "getResources()", e );
+            }
+        }
+
         return globalResources;
     }
 
-    private static Resources newResources( final URI siteURI, final Version version )
+    private static URI toURI( final String siteUrlString )
+    {
+        try {
+            return new URI( siteUrlString );
+            }
+        catch( final URISyntaxException e ) {
+            LOGGER.error( "Bad URL: " + siteUrlString, e );
+
+            return null;
+            }
+    }
+
+    private static Resources newResources(
+            final URI     siteURI,
+            final Version version
+            ) throws ResourcesLoaderException
     {
         return new TheResources( siteURI, version );
     }
-
 }

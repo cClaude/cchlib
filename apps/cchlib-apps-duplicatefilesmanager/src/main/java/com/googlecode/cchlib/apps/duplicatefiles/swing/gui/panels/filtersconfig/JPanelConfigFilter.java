@@ -1,20 +1,15 @@
-// $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig;
 
-import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.FileTypeCheckBox;
-import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -22,29 +17,33 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
-import org.apache.log4j.Logger;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.FileTypeCheckBox;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config.FilterEntry;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
 /**
  *
  *
  */
-//
-public
-class JPanelConfigFilter
+@SuppressWarnings({
+    "squid:S00117" // Naming conventions vs generated code
+    })
+public class JPanelConfigFilter
     extends JPanel
         implements Iterable<FileTypeCheckBox>
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger( JPanelConfigFilter.class );
     private static final  Color ERRORCOLOR = Color.RED;
 
     /** @serial */
-    private Map<Integer,FileTypeCheckBox> fileTypeCheckBoxMap
+    private final Map<Integer,FileTypeCheckBox> fileTypeCheckBoxMap
         = new HashMap<>();
 
-    private JPanel jPanelCheckBox;
-    @I18nIgnore private JCheckBox jCheckBoxRegExp;
-    @I18nIgnore private XComboBoxPattern xComboBoxPatternRegExp;
+    private final JPanel jPanelCheckBox;
+
+    @I18nIgnore private final JCheckBox jCheckBoxRegExp;
+    @I18nIgnore private final XComboBoxPattern xComboBoxPatternRegExp;
 
     /**
      * Create the panel.
@@ -54,53 +53,47 @@ class JPanelConfigFilter
         final String regExpText
         )
     {
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
         setLayout(gridBagLayout);
 
-        jPanelCheckBox = new JPanel();
-        GridBagConstraints gbc_jPanelCheckBox = new GridBagConstraints();
+        this.jPanelCheckBox = new JPanel();
+        final GridBagConstraints gbc_jPanelCheckBox = new GridBagConstraints();
         gbc_jPanelCheckBox.insets = new Insets(0, 0, 5, 0);
         gbc_jPanelCheckBox.fill = GridBagConstraints.BOTH;
         gbc_jPanelCheckBox.gridx = 1;
         gbc_jPanelCheckBox.gridy = 0;
-        add(jPanelCheckBox, gbc_jPanelCheckBox);
-        jPanelCheckBox.setLayout(new BoxLayout(jPanelCheckBox, BoxLayout.Y_AXIS));
+        add(this.jPanelCheckBox, gbc_jPanelCheckBox);
+        this.jPanelCheckBox.setLayout(new BoxLayout(this.jPanelCheckBox, BoxLayout.Y_AXIS));
 
-//        JCheckBox chckbxCheckbox = new JCheckBox("checkbox1");
-//        jPanelCheckBox.add(chckbxCheckbox);
-//
-//        JCheckBox chckbxCheckbox_1 = new JCheckBox("checkbox2");
-//        jPanelCheckBox.add(chckbxCheckbox_1);
-
-        jCheckBoxRegExp = new JCheckBox();
-        jCheckBoxRegExp.setHorizontalAlignment(SwingConstants.TRAILING);
-        jCheckBoxRegExp.setHorizontalTextPosition( SwingConstants.LEFT );
-        jCheckBoxRegExp.setText( regExpText );
-        jCheckBoxRegExp.addActionListener( (ActionEvent e) -> {
-            xComboBoxPatternRegExp.setEnabled(
-                    jCheckBoxRegExp.isSelected()
-            );
-        });
-        jCheckBoxRegExp.setSelected( false );
-        GridBagConstraints gbc_jCheckBoxRegExp = new GridBagConstraints();
+        this.jCheckBoxRegExp = new JCheckBox();
+        this.jCheckBoxRegExp.setHorizontalAlignment(SwingConstants.TRAILING);
+        this.jCheckBoxRegExp.setHorizontalTextPosition( SwingConstants.LEFT );
+        this.jCheckBoxRegExp.setText( regExpText );
+        this.jCheckBoxRegExp.addActionListener( (final ActionEvent e) ->
+            this.xComboBoxPatternRegExp.setEnabled(
+                this.jCheckBoxRegExp.isSelected()
+            )
+        );
+        this.jCheckBoxRegExp.setSelected( false );
+        final GridBagConstraints gbc_jCheckBoxRegExp = new GridBagConstraints();
         gbc_jCheckBoxRegExp.fill = GridBagConstraints.HORIZONTAL;
         gbc_jCheckBoxRegExp.insets = new Insets(0, 0, 0, 5);
         gbc_jCheckBoxRegExp.gridx = 0;
         gbc_jCheckBoxRegExp.gridy = 1;
-        add(jCheckBoxRegExp, gbc_jCheckBoxRegExp);
+        add(this.jCheckBoxRegExp, gbc_jCheckBoxRegExp);
 
-        xComboBoxPatternRegExp = new XComboBoxPattern();
-        xComboBoxPatternRegExp.setErrorBackGroundColor( ERRORCOLOR );
-        xComboBoxPatternRegExp.setEnabled( false );
-        GridBagConstraints gbc_xComboBoxPatternRegExp = new GridBagConstraints();
+        this.xComboBoxPatternRegExp = new XComboBoxPattern();
+        this.xComboBoxPatternRegExp.setErrorBackGroundColor( ERRORCOLOR );
+        this.xComboBoxPatternRegExp.setEnabled( false );
+        final GridBagConstraints gbc_xComboBoxPatternRegExp = new GridBagConstraints();
         gbc_xComboBoxPatternRegExp.fill = GridBagConstraints.HORIZONTAL;
         gbc_xComboBoxPatternRegExp.gridx = 1;
         gbc_xComboBoxPatternRegExp.gridy = 1;
-        add(xComboBoxPatternRegExp, gbc_xComboBoxPatternRegExp);
+        add( this.xComboBoxPatternRegExp, gbc_xComboBoxPatternRegExp );
 
         setBorder(
             BorderFactory.createTitledBorder(
@@ -114,50 +107,35 @@ class JPanelConfigFilter
                 );
     }
 
-    /**
-     *
-     */
     public JPanelConfigFilter(
-        final String            titleBorderText,
-        final String            regExpText,
-        final Properties        properties,
-        final String            prefix,
-        final ActionListener    listener
+        final String                  titleBorderText,
+        final String                  regExpText,
+        final Collection<FilterEntry> filterEntries
         )
     {
         this( titleBorderText, regExpText );
 
-        for(int i=0;;i++) {
-            Integer index = Integer.valueOf( i );
-            String descKey = String.format( "%s.%d.description", prefix, index );
-            String dataKey = String.format( "%s.%d.data", prefix, index );
-            String desc    = properties.getProperty( descKey );
-            String data    = properties.getProperty( dataKey );
+        int index = 0;
 
-            if( desc != null && data != null ) {
-                FileTypeCheckBox box = new FileTypeCheckBox( desc, data ); // $codepro.audit.disable avoidInstantiationInLoops
+        for( final FilterEntry entry : filterEntries ) {
+            final String desc = entry.getDescription();
+            final String data = entry.getData();
 
-                fileTypeCheckBoxMap.put( index, box );
-                jPanelCheckBox.add( box.getJCheckBox() );
-                }
-            else {
-                LOGGER.info( "Can't find :" +  descKey );
-                LOGGER.info( "or         :" +  dataKey );
-                LOGGER.info( "desc :" + desc );
-                LOGGER.info( "data :" + data );
-                break;
-                }
+            final FileTypeCheckBox box = new FileTypeCheckBox( desc, data );
+
+            this.fileTypeCheckBoxMap.put( index++, box );
+            this.jPanelCheckBox.add( box.getJCheckBox() );
             }
     }
 
     protected XComboBoxPattern getXComboBoxPatternRegExp()
     {
-        return xComboBoxPatternRegExp;
+        return this.xComboBoxPatternRegExp;
     }
 
     public JCheckBox getJCheckBoxRegExp()
     {
-        return jCheckBoxRegExp;
+        return this.jCheckBoxRegExp;
     }
 
     /**
@@ -165,7 +143,7 @@ class JPanelConfigFilter
      */
     public FileTypeCheckBox getFileTypeCheckBox( final int key )
     {
-        return fileTypeCheckBoxMap.get( Integer.valueOf( key ) );
+        return this.fileTypeCheckBoxMap.get( Integer.valueOf( key ) );
     }
 
     public void addPatternRegExp( final String regExp )
@@ -181,8 +159,6 @@ class JPanelConfigFilter
     @Override
     public Iterator<FileTypeCheckBox> iterator()
     {
-        return fileTypeCheckBoxMap.values().iterator();
+        return this.fileTypeCheckBoxMap.values().iterator();
     }
-
-
 }

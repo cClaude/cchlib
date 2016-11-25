@@ -193,6 +193,7 @@ final class DefaultAppToolKit
             Thread.sleep( ms );
             }
         catch( final InterruptedException ignore ) {
+            // Ignore
             }
     }
 
@@ -226,7 +227,6 @@ final class DefaultAppToolKit
 
         return locale;
     }
-
 
     @Override // DFToolKit
     public void setEnabledJButtonCancel( final boolean b )
