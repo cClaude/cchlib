@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.InputStream;
 import java.net.URL;
+import javax.annotation.Nonnull;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -12,8 +13,11 @@ import javax.swing.ImageIcon;
  */
 public class ResourcesLoader
 {
+    @SuppressWarnings("squid:S00115")
     public static final String OK_ICON_16x16 = "ok_16x16.png";
+    @SuppressWarnings("squid:S00115")
     public static final String OK_ICON_32x32 = "ok_32x32.png";
+    @SuppressWarnings("squid:S00115")
     public static final String OK_ICON_48x48 = "ok_48x48.png";
 
     // static methods
@@ -63,17 +67,19 @@ public class ResourcesLoader
      * @return a valid {@link InputStream}
      * @throws ResourcesLoaderException if resource can not be open.
      */
-    public static InputStream getResourceAsStream( final Class<?> clazz, final String name )
-            throws ResourcesLoaderException
-        {
-            final InputStream stream = clazz.getResourceAsStream( name );
+    public static InputStream getResourceAsStream(
+        @Nonnull final Class<?> clazz,
+        @Nonnull final String   name
+        ) throws ResourcesLoaderException
+    {
+        final InputStream stream = clazz.getResourceAsStream( name );
 
-            if( stream == null ) {
-                throw new ResourcesLoaderException( "Can't find resource: " + name );
-                }
+        if( stream == null ) {
+            throw new ResourcesLoaderException( "Can't find resource: " + name );
+            }
 
-            return stream;
-        }
+        return stream;
+    }
 
     /**
      * Build {@link Icon} for giving resource name
@@ -93,7 +99,7 @@ public class ResourcesLoader
             return new ImageIcon( getResource( clazz, name ) );
             }
         catch( final Exception e ) {
-            throw new ResourcesLoaderException( "Can't find image: " + name );
+            throw new ResourcesLoaderException( "Can't find image: " + name, e );
             }
     }
     /**
