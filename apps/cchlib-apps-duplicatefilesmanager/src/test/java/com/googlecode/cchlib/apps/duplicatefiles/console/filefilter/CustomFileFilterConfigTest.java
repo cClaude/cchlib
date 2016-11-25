@@ -6,8 +6,8 @@ import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelper;
-import com.googlecode.cchlib.apps.duplicatefiles.console.JSONHelperException;
+import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelper;
+import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelperException;
 
 public class CustomFileFilterConfigTest
 {

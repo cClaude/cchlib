@@ -3,12 +3,12 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 import java.security.NoSuchAlgorithmException;
 import org.junit.Test;
 import com.googlecode.cchlib.apps.duplicatefiles.ConsoleApp;
+import com.googlecode.cchlib.apps.duplicatefiles.TestResultsHelper;
 import com.googlecode.cchlib.io.FileHelper;
 
 public class ConsoleAppTest
 {
     private static final String RESOURCE_PATH = "src/test/resources/";
-    private static final String LOG_PATH      = "testResults/";
 
     @Test
     public void testJSONConfig1() throws NoSuchAlgorithmException
@@ -36,7 +36,7 @@ public class ConsoleAppTest
         return new String[] {
             // Run test using /tmp folder
             "-directory", FileHelper.getTmpDirFile().getPath(),
-            "-json", LOG_PATH + outputJSonFilename,
+            "-json", TestResultsHelper.getResultsPath( outputJSonFilename ),
             "--files-filter-from-file", RESOURCE_PATH + inputJSonFilename,
         };
     }
