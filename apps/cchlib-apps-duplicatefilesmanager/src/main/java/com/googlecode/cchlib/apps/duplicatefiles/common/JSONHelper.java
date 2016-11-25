@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles.common;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -93,13 +94,23 @@ public class JSONHelper
      *
      * @throws JSONHelperException if any
      */
-    public static <T> T load( final InputStream jsonStream, final Class<T> type )
+    public static <T> T load(
+        final InputStream jsonStream,
+        final Class<T>    type
+        )
         throws JSONHelperException
     {
-        final ObjectMapper mapper = new ObjectMapper();
+        final ObjectMapper        mapper = new ObjectMapper();
+        final BufferedInputStream in;
+
+        if( jsonStream instanceof BufferedInputStream ) {
+            in = (BufferedInputStream)jsonStream;
+        } else {
+            in = new BufferedInputStream( jsonStream );
+        }
 
         try {
-            return mapper.readValue( jsonStream, type );
+            return mapper.readValue( in, type );
         }
         catch( final IOException e ) {
             throw new JSONHelperException( e );
