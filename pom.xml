@@ -7,7 +7,7 @@
   <version>4.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>cchlib</name>
-  <url>http://choisnet.ath.cx/cchlib/</url>
+  <url>https://github.com/cClaude/cchlib/</url>
   <inceptionYear>2002</inceptionYear>
 
   <!-- Global properties -->
