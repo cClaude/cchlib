@@ -10,6 +10,8 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelper;
+import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelperException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.HashComputeTaskListener;
 import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.ListenerFactory;

@@ -1,7 +1,8 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console;
+package com.googlecode.cchlib.apps.duplicatefiles.common;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,20 +42,20 @@ public class JSONHelper
      * Load an object from a JSON String
      *
      * @param jsonString JSON String
-     * @param clazz Expected class
-     * @return an object of type <code>clazz<code>
+     * @param type Expected type
+     * @return an object of type <code>type<code>
      *
      * @throws JSONHelperException if any
      */
     public static <T> T fromJSON( //
         final String   jsonString,
-        final Class<T> clazz
+        final Class<T> type
         ) throws JSONHelperException
     {
         final ObjectMapper mapper = new ObjectMapper();
 
         try {
-            return mapper.readValue( jsonString, clazz );
+            return mapper.readValue( jsonString, type );
         }
         catch( final IOException e ) {
             throw new JSONHelperException( e );
@@ -65,18 +66,40 @@ public class JSONHelper
      * Load an object from a JSON File
      *
      * @param jsonFile JSON File
-     * @param clazz Expected class
-     * @return an object of type <code>clazz<code>
+     * @param type Expected type
+     * @return an object of type <code>type<code>
      *
      * @throws JSONHelperException if any
      */
-    public static <T> T load( final File jsonFile, final Class<T> clazz )
+    public static <T> T load( final File jsonFile, final Class<T> type )
         throws JSONHelperException
     {
         final ObjectMapper mapper = new ObjectMapper();
 
         try {
-            return mapper.readValue( jsonFile, clazz );
+            return mapper.readValue( jsonFile, type );
+        }
+        catch( final IOException e ) {
+            throw new JSONHelperException( e );
+        }
+    }
+
+    /**
+     * Load an object from a JSON Stream
+     *
+     * @param jsonStream JSON Stream
+     * @param type Expected type
+     * @return an object of type <code>type<code>
+     *
+     * @throws JSONHelperException if any
+     */
+    public static <T> T load( final InputStream jsonStream, final Class<T> type )
+        throws JSONHelperException
+    {
+        final ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.readValue( jsonStream, type );
         }
         catch( final IOException e ) {
             throw new JSONHelperException( e );
@@ -88,7 +111,7 @@ public class JSONHelper
      *
      * @param jsonFile JSON File
      * @param type Type reference.
-     * @return an object of type <code>clazz<code>
+     * @return an object of type <code>type<code>
      *
      * @throws JSONHelperException if any
      */

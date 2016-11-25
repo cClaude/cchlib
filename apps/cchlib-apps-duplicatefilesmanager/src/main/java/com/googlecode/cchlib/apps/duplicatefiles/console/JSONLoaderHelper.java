@@ -3,6 +3,8 @@ package com.googlecode.cchlib.apps.duplicatefiles.console;
 import java.io.File;
 import java.util.List;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelper;
+import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelperException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 
 /**

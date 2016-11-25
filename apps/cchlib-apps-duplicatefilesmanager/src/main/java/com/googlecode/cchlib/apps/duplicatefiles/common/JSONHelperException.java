@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.console;
+package com.googlecode.cchlib.apps.duplicatefiles.common;
 
 import java.io.IOException;
 
