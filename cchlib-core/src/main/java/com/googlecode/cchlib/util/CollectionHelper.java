@@ -21,6 +21,7 @@ public final class CollectionHelper
     /**
      * Create an unmodifiable {@link List} from a {@link Collection}
      *
+     * @param <T> the class of the objects in the list
      * @param collection the collection whose elements are to be placed into this list
      * @return an unmodifiable List
      * @since 4.2
@@ -50,6 +51,7 @@ public final class CollectionHelper
 
     /**
      * Convert result of an {@link Enumeration} to an unmodifiable {@link List}
+     * @param <T> the class of the objects in the list
      * @param enumeration the enumeration whose elements are to be placed into this list
      * @return an unmodifiable List
      * @since 4.2
@@ -65,6 +67,7 @@ public final class CollectionHelper
 
     /**
      * Convert result of an {@link Enumeration} to a {@link List}
+     * @param <T> the class of the objects in the list
      * @param enumeration the enumeration whose elements are to be placed into this list
      * @return a List
      * @since 4.2
@@ -86,6 +89,7 @@ public final class CollectionHelper
 
     /**
      * Test if a {@link Collection} is empty
+     * @param <T> the class of the objects in the list
      * @param collection Collection to test
      * @return true if collection is empty or null
      * @since 4.2

@@ -22,6 +22,7 @@ import java.util.NoSuchElementException;
  * @see FileFilterHelper
  * @see DirectoryIterator
  * @see FileIterable
+ * @since 2.00
  */
 public class FileIterator implements  Iterator<File>
 {
@@ -97,20 +98,30 @@ public class FileIterator implements  Iterator<File>
     @Override
     public boolean hasNext()
     {
+        return computerHasNext();
+    }
+
+    private boolean computerHasNext()
+    {
         if( isNotEmpty( this.currentDirFilesList ) ) {
             return true;
             }
         else if( this.directoryIterator.hasNext() ) {
-            final File   dir     = this.directoryIterator.next();
-            final File[] content = dir.listFiles(this.fileFilter);
-
-            if( content != null ) {
-                this.currentDirFilesList.addAll( Arrays.asList( content ) );
-                }
-            return hasNext();
+            computeNextEntryForDirectory();
+            return computerHasNext();
             }
         else {
             return false;
+            }
+    }
+
+    private void computeNextEntryForDirectory()
+    {
+        final File   dir     = this.directoryIterator.next();
+        final File[] content = dir.listFiles(this.fileFilter);
+
+        if( content != null ) {
+            this.currentDirFilesList.addAll( Arrays.asList( content ) );
             }
     }
 
@@ -128,7 +139,7 @@ public class FileIterator implements  Iterator<File>
     @SuppressWarnings({
         "squid:RedundantThrowsDeclarationCheck",
         "squid:S2272", // exception is handle (by removeLast())
-        "squid:S8990" // ignore hasNext() result
+        "squid:S8990", "squid:S899" // ignore hasNext() result
         })
     public File next() throws NoSuchElementException
     {
@@ -144,7 +155,7 @@ public class FileIterator implements  Iterator<File>
     /**
      * Unsupported Operation
      *
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException Unsupported Operation
      */
     @Override
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})

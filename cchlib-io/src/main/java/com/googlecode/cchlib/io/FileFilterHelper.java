@@ -3,7 +3,7 @@ package com.googlecode.cchlib.io;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.nio.file.DirectoryStream.Filter;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.io.filefilter.ANDFileFilter;
@@ -22,7 +22,7 @@ import com.googlecode.cchlib.io.filefilter.XORFileFilter;
  * <p>
  * You must also provide {@link java.io.Serializable} {@link FileFilter} when
  * required.
- * </p>
+ *
  * @since 4.1.7
  * @see SerializableFileFilter
  * @see com.googlecode.cchlib.io.filefilter.PatternFileFilter
@@ -93,7 +93,8 @@ public final class FileFilterHelper
      * Returns a {@link java.io.Serializable} {@link FileFilter} with an
      * accept(File) method that return not operation result of giving
      * {@link FileFilter}
-     * @param aFileFilter
+     *
+     * @param aFileFilter Original {@link FileFilter}
      * @return a {@link java.io.Serializable} {@link FileFilter}
      * @see NOTFileFilter
      */
@@ -105,8 +106,10 @@ public final class FileFilterHelper
     }
 
     /**
-     * NEEDDOC
-     * @param fileFilters
+     * Create a file filter that need to satisfy all
+     * child file filters
+     *
+     * @param fileFilters Array of {@link FileFilter}
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter and(
@@ -117,8 +120,10 @@ public final class FileFilterHelper
     }
 
     /**
-     * NEEDDOC
-     * @param fileFilters
+     * Create a file filter that need to satisfy at least
+     * on child file filters
+     *
+     * @param fileFilters Array of {@link FileFilter}
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter or(
@@ -129,9 +134,10 @@ public final class FileFilterHelper
     }
 
     /**
-     * NEEDDOC
-     * @param firstFileFilter
-     * @param secondFileFilter
+     * Binary XOR operation on file filter
+     *
+     * @param firstFileFilter  first {@link FileFilter}
+     * @param secondFileFilter second {@link FileFilter}
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter xor(
@@ -143,9 +149,11 @@ public final class FileFilterHelper
     }
 
     /**
-     * NEEDDOC
-     * @param length
+     * Create {@link FileLengthFileFilter} for the giving <code>length</code>
+     *
+     * @param length File length to expect
      * @return a {@link java.io.Serializable} {@link FileFilter}
+     * @see FileLengthFileFilter
      */
     public static SerializableFileFilter fileLengthFileFilter( final long length )
     {
@@ -153,7 +161,8 @@ public final class FileFilterHelper
     }
 
     /**
-     * NEEDDOC
+     * Create a file filter for empty files
+     *
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter zeroLengthFileFilter()
@@ -162,7 +171,8 @@ public final class FileFilterHelper
     }
 
     /**
-     * NEEDDOC
+     * Create a file filter for none empty files
+     *
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter noneZeroLengthFileFilter()
@@ -170,8 +180,18 @@ public final class FileFilterHelper
         return new NoneZeroLengthFileFilter();
     }
 
-    @NeedDoc
-    public static FileFilter toFileFilter( final Filter<Path> filter, final ErrorHandler errorHandler )
+    /**
+     * Convert a {@link DirectoryStream.Filter} into a
+     * {@link FileFilter}
+     *
+     * @param filter Filter to convert
+     * @param errorHandler Error handler during conversion.
+     * @return a {@link FileFilter}
+     */
+    public static FileFilter toFileFilter(
+        final DirectoryStream.Filter<Path> filter,
+        final ErrorHandler                 errorHandler
+        )
     {
         return pathname -> {
             try {

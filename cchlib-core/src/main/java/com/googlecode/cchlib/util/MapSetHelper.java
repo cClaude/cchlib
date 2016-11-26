@@ -10,15 +10,19 @@ import com.googlecode.cchlib.util.iterator.CascadingIterator;
  *
  * @since 4.2
  */
-public final class MapSetHelper {
-
-    private MapSetHelper() {
+@SuppressWarnings("squid:S00119")
+public final class MapSetHelper
+{
+    private MapSetHelper()
+    {
         // All static
     }
 
     /**
      * Return a {@link Iterable} with all values in all set
      *
+     * @param <KEY> the type of keys maintained by this map
+     * @param <VALUE> the type of mapped values
      * @param mapSet
      *            A {@link Map} containing {@link Set} of value
      * @return an {@link Iterable} of value
@@ -31,6 +35,8 @@ public final class MapSetHelper {
     /**
      * Return a {@link Iterator} with all values in all set
      *
+     * @param <KEY> the type of keys maintained by this map
+     * @param <VALUE> the type of mapped values
      * @param mapSet
      *            A {@link Map} containing {@link Set} of value
      * @return an {@link Iterator} of value
@@ -43,6 +49,8 @@ public final class MapSetHelper {
     /**
      * Compute number of VALUE objects.
      *
+     * @param <KEY> the type of keys maintained by this map
+     * @param <VALUE> the type of mapped values
      * @param mapSet
      *            source Map set
      * @return number of VALUE item in <code>mapSet</code>
@@ -65,6 +73,8 @@ public final class MapSetHelper {
      * purge(2) : remove all key-Set&lt;V&gt; pair that not contains more than 1 value.
      * </p>
      *
+     * @param <KEY> the type of keys maintained by this map
+     * @param <VALUE> the type of mapped values
      * @param mapSet
      *            A {@link Map} containing {@link Set} of value
      * @param minSetSize

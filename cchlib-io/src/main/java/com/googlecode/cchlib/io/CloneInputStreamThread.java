@@ -6,34 +6,37 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
 /**
- * NEEDDOC
+ * Handle asynchronous copy
  *
+ * @deprecated too specific class, no replacement
  */
-public class CloneInputStreamThread
-    extends Thread
+@Deprecated
+@SuppressWarnings("squid:S1133")
+public class CloneInputStreamThread extends Thread
 {
-    private final InputStream                   is;
+    private final InputStream                         is;
     private final InputStreamThreadExceptionHandler[] exceptionHandlers;
-    private final PipedOutputStream[]           pipesOut;
-    private final PipedInputStream[]            pipesIn;
-    private boolean                             running;
-    private final int bufferSize;
+    private final PipedOutputStream[]                 pipesOut;
+    private final PipedInputStream[]                  pipesIn;
+    private final int                                 bufferSize;
+    private boolean                                   running;
 
     /**
-     * NEEDDOC
+     * Create a {@link CloneInputStreamThread} without
      *
-     * @param is
-     * @param bufferSize
-     * @param exceptionHandlers
+     * @param is Source {@link InputStream}
+     * @param bufferSize buffer size to use for the copy
+     * @param exceptionHandlers NEEDDOC
      *
-     * @throws IOException
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
+     * @throws IOException if an error occur while creating internal structure
+     * @throws NullPointerException if <code>is</code> is null
+     * @throws IllegalArgumentException if a parameter is not valid
      */
     public CloneInputStreamThread(
         final InputStream                           is,
         final int                                   bufferSize,
-        final InputStreamThreadExceptionHandler...  exceptionHandlers        ) throws IOException
+        final InputStreamThreadExceptionHandler...  exceptionHandlers
+        ) throws IOException
     {
         this(
             CloneInputStreamThread.class.getName(),
@@ -48,14 +51,14 @@ public class CloneInputStreamThread
      * <BR>
      * Number of produce {@link InputStream} is define by number of exceptionHandlers
      *
-     * @param threadName
-     * @param is
-     * @param bufferSize
-     * @param exceptionHandlers
+     * @param threadName Thread name
+     * @param is Source {@link InputStream}
+     * @param bufferSize buffer size to use for the copy
+     * @param exceptionHandlers NEEDDOC
      *
-     * @throws IOException
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
+     * @throws IOException if an error occur while creating internal structure
+     * @throws NullPointerException if <code>is</code> is null
+     * @throws IllegalArgumentException if a parameter is not valid
      */
     public CloneInputStreamThread(
         final String                                threadName,
@@ -85,7 +88,11 @@ public class CloneInputStreamThread
     }
 
     @SuppressWarnings("squid:MethodCyclomaticComplexity")
-    private void testParameters( final InputStream is, final int bufferSize, final InputStreamThreadExceptionHandler... exceptionHandlers )
+    private static void testParameters(
+            final InputStream                         is,
+            final int                                 bufferSize,
+            final InputStreamThreadExceptionHandler[] exceptionHandlers
+            )
     {
         if( is == null ) {
             throw new NullPointerException( "InputStream is null" );
@@ -111,6 +118,7 @@ public class CloneInputStreamThread
 
     /**
      * NEEDDOC
+     * @param index NEEDDOC
      * @return NEEDDOC
      */
     public InputStream getInputStream( final int index )
@@ -119,7 +127,7 @@ public class CloneInputStreamThread
     }
 
     /**
-     * NEEDDOC
+     * Number of out
      * @return NEEDDOC
      */
     public int getSize()
@@ -128,6 +136,7 @@ public class CloneInputStreamThread
     }
 
     @Override
+    @SuppressWarnings("squid:S135")
     public void run()
     {
         final byte[] buffer = new byte[ this.bufferSize ];
@@ -154,8 +163,6 @@ public class CloneInputStreamThread
                     }
                 catch( final IOException e ) {
                     this.exceptionHandlers[ i ].handleWritingIOException( e );
-                    // TODO : improve errors handle
-                    // (allow to stop writing on this pipe - add config)
                     }
                 }
         }

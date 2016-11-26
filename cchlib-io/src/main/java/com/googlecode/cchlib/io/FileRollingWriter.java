@@ -37,15 +37,15 @@ public class FileRollingWriter
     /**
      * Create a new FileRollingOutputStream
      *
-     * @param fileRoller
-     * @param maxLength
+     * @param fileRoller related {@link FileRoller}
+     * @param maxLength max length for file
      * @throws IllegalArgumentException if maxLength < 1
-     * @throws IOException
+     * @throws IOException if any
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public FileRollingWriter(
-            final FileRoller    fileRoller,
-            final int           maxLength,
+            final FileRoller fileRoller,
+            final int        maxLength,
             final Charset       charset
             )
         throws  IllegalArgumentException, IOException

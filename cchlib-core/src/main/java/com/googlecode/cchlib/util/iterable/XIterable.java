@@ -10,9 +10,17 @@ import com.googlecode.cchlib.util.iterator.Selectable;
 /**
  * e<B>X</B>tended {@link Iterable} interface. Allow to use chaining annotation like :
  *
- * <code><pre>
- *   List<Integer> result = XIterables.filter( collection, filter ).wrap( wrapper ).sort( comparator ).filter( filter2 ).wrap( wrapper2 ).sort( comparator2 ).toList();
- * </pre></code>
+ * <pre>
+ *   List&lt;Integer&gt; result = XIterables.filter( collection, filter )
+ *      .wrap( wrapper )
+ *      .sort( comparator )
+ *      .filter( filter2 )
+ *      .wrap( wrapper2 )
+ *      .sort( comparator2 )
+ *      .toList();
+ * </pre>
+ *
+ * @param <T> the type of elements returned by the iterator
  *
  * @since 1.4.8
  * @see XIterables
@@ -26,10 +34,12 @@ public interface XIterable<T> extends Iterable<T>
     /**
      * Transform a {@link XIterable}
      *
+     * @param <R> the type of elements returned by the wrapper
      * @param wrapper Wrapper to use
      * @return a new wrapped {@link XIterable}
      * @throws WrapperException if wrapping fail
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     <R> XIterable<R> wrap( Wrappable<? super T,? extends R> wrapper ) throws WrapperException;
 
     /**
@@ -66,7 +76,6 @@ public interface XIterable<T> extends Iterable<T>
      *   list.clear();
      *   addToList( list );
      * </pre>
-     * </p>
      *
      * @param list {@link List} where result will be copied.
      * @return value of <code>list</code> parameter for chaining.
@@ -74,6 +83,8 @@ public interface XIterable<T> extends Iterable<T>
     List<T> setToList( List<T> list );
 
     /**
+     * Add the content of the current {@link XIterable} into the
+     * giving <code>list</code>
      *
      * @param list {@link List} where result will be appended.
      * @return value of <code>list</code> parameter for chaining.

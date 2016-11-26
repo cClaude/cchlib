@@ -11,21 +11,23 @@ import java.util.Enumeration;
 public final class WrapperHelper
 {
     private WrapperHelper()
-    {//All static
+    {
+        //All static
     }
 
     /**
      * Create a Wrappable object using Object.toString()
-     *
+     * <p>
      * Typical code :
-     *    return new Wrappable<T,String>()
+     * <pre>
+     *    return new Wrappable&lt;T,String&gt;()
      *    {
      *        public String wrap(T o)
      *        {
      *            return o.toString();
      *        }
      *    };
-     * </code>
+     * </pre>
      *
      * @param <T> type to wrap
      * @return a wrapper
@@ -84,6 +86,8 @@ public final class WrapperHelper
      * Give a view of a collection of type <code>S</code> by returning
      * a collection of type <code>S</code>.
      *
+     * @param <S> Type of the source collection
+     * @param <R> Type of the result collection
      * @param collection Collection to wrap
      * @param wrapper Method to transform object of type <code>S</code>
      *                into type <code>R</code>

@@ -14,14 +14,13 @@ public class DefaultFileRoller implements FileRoller
     private int currentFileIndex;
 
     /**
-     * 
-     * @param baseFile
+     * Create a {@link DefaultFileRoller}
+     *
+     * @param baseFile Model file to use
      */
-    public DefaultFileRoller(
-        final File    baseFile
-        )
+    public DefaultFileRoller( final File baseFile )
     {
-        this.baseFile = baseFile;
+        this.baseFile         = baseFile;
         this.currentFileIndex = 0;
     }
 

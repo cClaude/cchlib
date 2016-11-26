@@ -3,22 +3,24 @@ package com.googlecode.cchlib.io;
 import java.io.IOException;
 
 /**
- * NEEDDOC
+ * Interface for errors implementation
+ *
+ * @See CloneInputStreamThread
+ * @see InputStreamThread
  */
 public interface InputStreamThreadExceptionHandler
 {
     /**
-     * NEEDDOC
+     * Implementation for reading errors
      *
-     * @param e
+     * @param cause The cause of the IOException
      */
-    void handleReadingIOException( IOException e );
+    void handleReadingIOException( IOException cause );
 
     /**
-     * NEEDDOC
+     * Implementation for writing errors
      *
-     * @param e
+     * @param cause The cause of the IOException
      */
     void handleWritingIOException( IOException e );
-
 }

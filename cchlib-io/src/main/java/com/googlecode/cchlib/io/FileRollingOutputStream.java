@@ -36,16 +36,16 @@ public class FileRollingOutputStream
     /**
      * Create a new FileRollingOutputStream
      *
-     * @param fileRoller
-     * @param maxLength
+     * @param fileRoller related {@link FileRoller}
+     * @param maxLength max length for file
      * @throws FileNotFoundException if an error while
      *         creating first File
-     * @throws IllegalArgumentException if maxLength < 1
+     * @throws IllegalArgumentException if maxLength &lt; 1
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public FileRollingOutputStream(
-            final FileRoller    fileRoller,
-            final int            maxLength
+            final FileRoller fileRoller,
+            final int        maxLength
             )
         throws  FileNotFoundException,
                 IllegalArgumentException

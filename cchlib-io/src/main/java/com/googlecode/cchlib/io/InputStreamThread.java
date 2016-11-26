@@ -6,7 +6,9 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
 /**
- * NEEDDOC
+ * Allow allow to read an {@link InputStream} asynchronously
+ *
+ * @since 1.51
  */
 public class InputStreamThread
     extends Thread
@@ -20,14 +22,6 @@ public class InputStreamThread
 
     /**
      * NEEDDOC
-     *
-     * @param is
-     * @param bufferSize
-     * @param exceptionHandler
-     *
-     * @throws IOException
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
      */
     public InputStreamThread(
         final InputStream                       is,
@@ -45,15 +39,6 @@ public class InputStreamThread
 
     /**
      * NEEDDOC
-     *
-     * @param threadName
-     * @param is
-     * @param bufferSize
-     * @param exceptionHandler
-     *
-     * @throws IOException
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
      */
     public InputStreamThread(
         final String                            threadName,

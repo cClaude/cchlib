@@ -29,6 +29,7 @@ public final class XIterables
      * @return an {@link XIterable} that applies <code>function</code> to each element of fromIterable.
      * @throws WrapperException if any error occurs while wrapping an element
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static <F,T> XIterable<T> transform( final Iterable<F> fromIterable, final Wrappable<? super F,? extends T> function)
         throws WrapperException
     {
@@ -41,7 +42,6 @@ public final class XIterables
      * The returned iterable's iterator supports remove() if the provided iterator does.
      * After a successful remove() call, <code>fromIterable</code> no longer contains the
      * corresponding element.
-     * </p>
      *
      * @param <S>           the class of the elements of the source {@link Iterable}
      * @param <R>           the class of the elements of the expected {@link XIterable}
@@ -50,6 +50,7 @@ public final class XIterables
      * @return an {@link XIterable} that applies <code>wrapper</code> to each element of fromIterable.
      * @throws WrapperException if any error occurs while wrapping an element
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static <S,R> XIterable<R> wrap( final Iterable<S> fromIterable, final Wrappable<? super S,? extends R> wrapper )
         throws WrapperException
     {

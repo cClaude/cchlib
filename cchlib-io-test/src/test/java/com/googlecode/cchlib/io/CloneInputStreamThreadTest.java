@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-@SuppressWarnings("resource")
 public class CloneInputStreamThreadTest
 {
     private static final int BUFFER_SIZE = 16;
@@ -21,6 +20,7 @@ public class CloneInputStreamThreadTest
     }
 
     @Test
+    @Deprecated
     public void testCloneInputStreamThread() throws IOException
     {
         try (InputStream sourceIS0 = IO.createPNGInputStream()) {
@@ -116,39 +116,42 @@ public class CloneInputStreamThreadTest
             try {
                 this.bytes = convertInputStreamAsBytes();
                 }
-            catch( final IOException e ) { // $codepro.audit.disable logExceptions
+            catch( final IOException e ) {
                 this.ioException = e;
                 }
             this.isReady = true;
         }
 
         @Override
+        @SuppressWarnings("squid:S2925")
         public byte[] getInputStreamAsBytes() throws IOException
         {
             while( ! isReady() ) {
-                try { Thread.sleep( 500 ); }
-                catch( final InterruptedException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
+                try {
+                    Thread.sleep( 500 );
+                    }
+                catch( final InterruptedException ignore ) {
+                    // Ignore
+                    }
                 }
 
             return this.bytes;
         }
+
         private byte[] convertInputStreamAsBytes() throws IOException
         {
-            final ByteArrayOutputStream os = new ByteArrayOutputStream();
+            final byte[] result;
 
-            try {
-                try {
-                    IOHelper.copy( this.is, os );
-                    }
-                finally {
-                    os.close();
-                    }
+            try( final ByteArrayOutputStream os = new ByteArrayOutputStream() ) {
+                IOHelper.copy( this.is, os );
+
+                result = os.toByteArray();
                 }
             finally {
                 this.is.close();
                 }
 
-            return os.toByteArray();
+            return result;
         }
         @Override
         public IOException IOException()
