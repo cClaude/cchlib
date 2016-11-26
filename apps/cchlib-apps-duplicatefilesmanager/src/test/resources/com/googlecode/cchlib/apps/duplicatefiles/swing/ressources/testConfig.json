@@ -1,0 +1,31 @@
+{
+  "fileTypes" : [
+    {
+      "description" : "Sample File 1",
+      "data" : "ext01,ext02"
+    },
+    {
+      "description" : "Sample 2",
+      "data" : "ext11,ext12"
+    }
+  ],
+  "dirTypes" : [
+    {
+      "description" : "Sample Dir 1",
+      "data" : "path01,path02"
+    }
+  ],
+  "protectedDirectories" : [
+    {
+      "os" : "win32",
+      "level" : "BEGINNER",
+      "regex" : "${SystemRoot}\\\\.*",
+      "exceptionRegex" : "${SystemRoot}\\\\Temp\\\\.*"
+    },
+    {
+      "os" : "unix",
+      "level" : "BEGINNER",
+      "regex" : "/usr/.*"
+    }
+  ]
+}
