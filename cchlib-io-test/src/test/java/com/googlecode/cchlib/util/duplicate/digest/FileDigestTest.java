@@ -65,10 +65,13 @@ public class FileDigestTest extends Base {
     public void testComputeFile_buffer10() throws NoSuchAlgorithmException, IOException, CancelRequestException {
         final File file = IO.createPNGTempFile();
 
-        final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5, 10 );
+        final FileDigestFactory factory = new DefaultFileDigestFactory(
+                MessageDigestAlgorithms.MD5,
+                DefaultFileDigestFactory.MIN_BUFFER_SIZE
+                );
         final FileDigest instance = factory.newInstance();
 
-        Assertions.assertThat( instance.getBufferSize() ).isEqualTo( 10 );
+        Assertions.assertThat( instance.getBufferSize() ).isEqualTo( DefaultFileDigestFactory.MIN_BUFFER_SIZE );
 
         final FileDigestListener listener = newMyFileDigestListener();
         instance.computeFile( file, listener );

@@ -17,6 +17,7 @@ abstract class DefaultDuplicateFileFinderAlgo2_Data extends Base {
     {
         final byte[] png = IO.createPNG();
 
+        assert png.length > alterOffset;
         assert png[ alterOffset ] != aByte;
 
         png[ alterOffset ] = aByte;
@@ -26,12 +27,12 @@ abstract class DefaultDuplicateFileFinderAlgo2_Data extends Base {
 
     protected File createPNGTempFile2( final String prefixName ) throws IOException
     {
-        return  createPNGTempFile( prefixName, (DEFAULT_BUFFER_SIZE * 2) + 1, (byte)255 );
+        return  createPNGTempFile( prefixName, (DEFAULT_ALTER_INDEX * 2) + 1, (byte)255 );
     }
 
     protected File createPNGTempFile3( final String prefixName ) throws IOException
     {
-        return  createPNGTempFile( prefixName, (DEFAULT_BUFFER_SIZE * 4) + 1, (byte)255 );
+        return  createPNGTempFile( prefixName, (DEFAULT_ALTER_INDEX * 4) + 1, (byte)255 );
     }
 
 }

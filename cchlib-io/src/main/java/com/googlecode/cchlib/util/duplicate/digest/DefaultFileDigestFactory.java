@@ -15,7 +15,7 @@ public class DefaultFileDigestFactory implements FileDigestFactory
     /**
      * Minimum buffer size : {@value}
      */
-    private static final int MIN_BUFFER_SIZE = 1024;
+    public static final int MIN_BUFFER_SIZE = 1024;
 
     /**
      * Default buffer size : {@value}
