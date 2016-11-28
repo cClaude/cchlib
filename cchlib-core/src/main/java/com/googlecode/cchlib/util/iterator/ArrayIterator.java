@@ -3,6 +3,7 @@ package com.googlecode.cchlib.util.iterator;
 import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import com.googlecode.cchlib.util.ArrayCollection;
 
 /**
  * Wrap an Iterator from an existing Array, or
@@ -10,6 +11,8 @@ import java.util.NoSuchElementException;
  *
  * @param <T> content type
  * @see SingletonIterator
+ * @see ArrayCollection
+ * @See ArrayIterable
  * @since 4.1.7
  */
 public class ArrayIterator<T>
@@ -66,7 +69,7 @@ public class ArrayIterator<T>
      * @param clazz
      * @param capacity
      */
-    private ArrayIterator( final Class<T> clazz, final int capacity)
+    private ArrayIterator( final Class<T> clazz, final int capacity )
     {
         //perhaps something better later?
         @SuppressWarnings("unchecked")
@@ -86,7 +89,8 @@ public class ArrayIterator<T>
      */
     public ArrayIterator( final Class<T> clazz, final T o1, final T o2 )
     {
-        this(clazz,2);
+        this( clazz, 2 );
+
         this.array[0] = o1;
         this.array[1] = o2;
     }
@@ -101,7 +105,8 @@ public class ArrayIterator<T>
      */
     public ArrayIterator( final Class<T> clazz, final T o1, final T o2, final T o3 )
     {
-        this(clazz,3);
+        this( clazz, 3 );
+
         this.array[0] = o1;
         this.array[1] = o2;
         this.array[2] = o3;

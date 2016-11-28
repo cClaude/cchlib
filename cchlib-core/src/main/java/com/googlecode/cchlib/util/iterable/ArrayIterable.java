@@ -1,12 +1,16 @@
 package com.googlecode.cchlib.util.iterable;
 
 import java.util.Iterator;
+import com.googlecode.cchlib.util.ArrayCollection;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
 /**
  * Wrap an {@link Iterable} object on an existing Array, or from giving elements.
  *
  * @param <T> content type
+ *
+ * @see ArrayCollection
+ * @See ArrayIterator
  * @since 4.1.8
  */
 public class ArrayIterable<T> implements Iterable<T>
@@ -21,7 +25,7 @@ public class ArrayIterable<T> implements Iterable<T>
      * @param array array of element to wrap
      */
     @SafeVarargs
-    public ArrayIterable(final T...array)
+    public ArrayIterable( final T...array )
     {
         this( array, 0, array.length );
     }
@@ -39,7 +43,7 @@ public class ArrayIterable<T> implements Iterable<T>
         final int len
         )
     {
-        this.array  = array; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutabilityOfArrays
+        this.array  = array;
         this.offset = offset;
         this.len    = len;
     }
@@ -51,6 +55,6 @@ public class ArrayIterable<T> implements Iterable<T>
     @Override
     public Iterator<T> iterator()
     {
-        return new ArrayIterator<>( array, offset, len );
+        return new ArrayIterator<>( this.array, this.offset, this.len );
     }
 }

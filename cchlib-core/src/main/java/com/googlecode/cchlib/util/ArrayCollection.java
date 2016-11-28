@@ -9,6 +9,8 @@ import com.googlecode.cchlib.util.iterator.ArrayIterator;
  * Unmodifiable {@link Collection} base on an array
  *
  * @param <E> Type of the collection
+ * @See ArrayIterator
+ * @See ArrayIterable
  */
 public class ArrayCollection<E>
     extends AbstractCollection<E>
@@ -40,8 +42,8 @@ public class ArrayCollection<E>
         final int len
         )
     {
-        this.array  = array;  // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutabilityOfArrays
-        this.offset = 0;
+        this.array  = array;
+        this.offset = offset;
         this.length = len;
     }
 
