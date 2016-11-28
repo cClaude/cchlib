@@ -2,12 +2,9 @@
   "files":null,
   "directories":{
     "excludeNames":[
-      "##DB",
-      "##Disques virtuels",
-      "##ISO(p)",
-      "##OVA(p)",
-      "##Raspberry",
-
+      "folder1",
+      "folder2",
+      "folder3",
       ".@__thumb",
       "@Recycle"
       ],

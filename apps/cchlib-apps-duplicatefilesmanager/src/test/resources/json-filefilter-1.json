@@ -5,11 +5,11 @@
   },
   "directories":{
     "excludeNames":[
-      "folder1", // Folders to exclude
+      "folder1",
       "folder2",
       "folder3",
-      ".@__thumb", // special folders to exclude
-      "@Recycle"   // special folders to exclude
+      ".@__thumb",
+      "@Recycle"
       ],
     "excludePaths":null
   }
