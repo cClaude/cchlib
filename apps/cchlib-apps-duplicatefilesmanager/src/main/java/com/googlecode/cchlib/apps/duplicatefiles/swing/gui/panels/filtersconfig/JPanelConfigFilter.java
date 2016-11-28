@@ -23,8 +23,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
 /**
- *
- *
+ * Handle filters configuration
  */
 @SuppressWarnings({
     "squid:S00117" // Naming conventions vs generated code
@@ -73,11 +72,7 @@ public class JPanelConfigFilter
         this.jCheckBoxRegExp.setHorizontalAlignment(SwingConstants.TRAILING);
         this.jCheckBoxRegExp.setHorizontalTextPosition( SwingConstants.LEFT );
         this.jCheckBoxRegExp.setText( regExpText );
-        this.jCheckBoxRegExp.addActionListener( (final ActionEvent e) ->
-            this.xComboBoxPatternRegExp.setEnabled(
-                this.jCheckBoxRegExp.isSelected()
-            )
-        );
+        this.jCheckBoxRegExp.addActionListener( this::actionPerformedCheckBoxRegExp  );
         this.jCheckBoxRegExp.setSelected( false );
         final GridBagConstraints gbc_jCheckBoxRegExp = new GridBagConstraints();
         gbc_jCheckBoxRegExp.fill = GridBagConstraints.HORIZONTAL;
@@ -126,6 +121,14 @@ public class JPanelConfigFilter
             this.fileTypeCheckBoxMap.put( index++, box );
             this.jPanelCheckBox.add( box.getJCheckBox() );
             }
+    }
+
+    @SuppressWarnings("squid:S1172") // Unused method parameters should be removed (parameter required for signature)
+    private void actionPerformedCheckBoxRegExp( final ActionEvent event )
+    {
+        this.xComboBoxPatternRegExp.setEnabled(
+            this.jCheckBoxRegExp.isSelected()
+        );
     }
 
     protected XComboBoxPattern getXComboBoxPatternRegExp()
