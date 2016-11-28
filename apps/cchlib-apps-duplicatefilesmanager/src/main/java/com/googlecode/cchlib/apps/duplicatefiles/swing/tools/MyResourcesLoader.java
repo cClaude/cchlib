@@ -35,7 +35,7 @@ public final class MyResourcesLoader
             this.version       = version;
 
             try {
-                this.filtersConfig = FiltersConfigFileHelper.load( getJPanelConfigInputStream() );
+                this.filtersConfig = FiltersConfigFileHelper.load( getJPanelConfigJSONInputStream() );
             }
             catch( final JSONHelperException e ) {
                 throw new ResourcesLoaderException( e );
@@ -84,9 +84,9 @@ public final class MyResourcesLoader
             return getImageIcon( "folder.png" );
         }
 
-        private InputStream getJPanelConfigInputStream() throws ResourcesLoaderException
+        private InputStream getJPanelConfigJSONInputStream() throws ResourcesLoaderException
         {
-            return getResourceAsStream( "JPanelConfig.properties" );
+            return getResourceAsStream( "JPanelConfig.json" );
         }
 
         @Override
