@@ -75,7 +75,9 @@ public class ResourcesLoader
         final InputStream stream = clazz.getResourceAsStream( name );
 
         if( stream == null ) {
-            throw new ResourcesLoaderException( "Can't find resource: " + name );
+            throw new ResourcesLoaderException(
+                "Can't find resource: " + name + " using class: " + clazz
+                );
             }
 
         return stream;
