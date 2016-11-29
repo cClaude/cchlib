@@ -250,23 +250,6 @@ public class PositionalXMLReader
     }
 
     /**
-     * @deprecated use {@link #readXML(SAXParserFactory, DocumentBuilderFactory, InputStream)} instead
-     */
-    @Deprecated
-    @SuppressWarnings({"squid:S1160"})
-    public static Document readXML( final InputStream is ) throws XMLReaderException, SAXException, IOException
-    {
-        final SAXParserFactory       saxParserFactory       = SAXParserFactory.newInstance();
-        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-
-        return readXML(
-            saxParserFactory,
-            documentBuilderFactory,
-            is
-            );
-    }
-
-    /**
      * Create a {@link Document} for XML InputStream
      *
      * @param saxParserFactory
