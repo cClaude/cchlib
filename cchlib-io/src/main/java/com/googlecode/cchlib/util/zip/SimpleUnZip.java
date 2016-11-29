@@ -16,13 +16,12 @@ import javax.swing.event.EventListenerList;
  * {@link SimpleUnZip} is a fronted of {@link ZipInputStream}
  * to extract all content to a specified directory.
  */
-public class SimpleUnZip
-    implements Closeable
+public class SimpleUnZip implements Closeable
 {
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
     private ZipInputStream zis;
-    private byte[] buffer;
+    private final byte[] buffer;
     private int fileCount;
 
     /**
@@ -70,13 +69,6 @@ public class SimpleUnZip
         this.zis.close();
     }
 
-    @Override
-    protected void finalize() throws Throwable // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.avoidFinalizers.avoidFinalizers
-    {
-        close();
-        super.finalize();
-    }
-
     /**
      * Save next entry relative to giving folderFile
      *
@@ -88,15 +80,14 @@ public class SimpleUnZip
     protected File saveNextEntry( final File folderFile )
         throws IOException
     {
-        final ZipEntry zipEntry = zis.getNextEntry();
+        final ZipEntry zipEntry = this.zis.getNextEntry();
 
         if( zipEntry == null ) {
             return null;
             }
 
         final File file = new File( folderFile, zipEntry.getName() );
-        file.setLastModified( zipEntry.getTime() );
-
+        setLastModified( file, zipEntry );
         this.fireEntryPostProcessing( zipEntry, file );
 
         final File parent = file.getParentFile();
@@ -113,8 +104,8 @@ public class SimpleUnZip
             )) {
                 int len;
 
-                while( (len = zis.read(buffer, 0, buffer.length)) != -1 ) {
-                    output.write(buffer, 0, len);
+                while( (len = this.zis.read(this.buffer, 0, this.buffer.length)) != -1 ) {
+                    output.write(this.buffer, 0, len);
                     }
                 }
             }
@@ -126,16 +117,26 @@ public class SimpleUnZip
         return file;
     }
 
+    private void setLastModified( final File file, final ZipEntry zipEntry )
+    {
+        final long    time   = zipEntry.getTime();
+        @SuppressWarnings("squid:S1854")
+        final boolean result = file.setLastModified( time );
+
+        assert result : "Can't setLastModified on " + file + " (" + time + ")";
+    }
+
     /**
      * Extract all archive content to giving folder
      *
      * @param folderFile Home directory {@link File} for next file or folder
      * @throws IOException if any I/O occur
      */
-    public void saveAll( final File folderFile )
-        throws IOException
+    public void saveAll( final File folderFile ) throws IOException
     {
-        while( saveNextEntry( folderFile ) != null ); // $codepro.audit.disable emptyStatement, emptyWhileStatement
+        while( saveNextEntry( folderFile ) != null ) {
+            // Empty
+        }
     }
 
     /**
@@ -144,43 +145,46 @@ public class SimpleUnZip
      */
     public int getFileCount()
     {
-        return fileCount;
+        return this.fileCount;
     }
 
     /**
      * Adds a {@link UnZipListener} to the
      * {@link SimpleUnZip}'s listener list.
      *
-     * @param l the {@link UnZipListener} to add
+     * @param listener the {@link UnZipListener} to add
      */
-    public void addZipListener( UnZipListener l )
+    public void addZipListener( final UnZipListener listener )
     {
-        listenerList.add( UnZipListener.class, l );
+        this.listenerList.add( UnZipListener.class, listener );
     }
 
     /**
      * Removes a {@link UnZipListener} from the
      *  {@link SimpleUnZip}'s listener list.
      *
-     * @param l the {@link UnZipListener} to remove
+     * @param listener the {@link UnZipListener} to remove
      */
-    public void removeZipListener( UnZipListener l )
+    public void removeZipListener( final UnZipListener listener )
     {
-        listenerList.remove( UnZipListener.class, l );
+        this.listenerList.remove( UnZipListener.class, listener );
     }
 
     /**
      * Runs each {@link UnZipListener}'s
      * {@link UnZipListener#entryPostProcessing(UnZipEvent)}
      * method.
+     *
+     * @param zipEntry Current {@link ZipEntry}
+     * @param file destination {@link File}
      */
     protected void fireEntryPostProcessing(
             final ZipEntry zipEntry,
             final File     file
         )
     {
-        UnZipEvent event     = new UnZipEvent( zipEntry, file );
-        Object[]   listeners = listenerList.getListenerList();
+        final UnZipEvent event     = new UnZipEvent( zipEntry, file );
+        final Object[]   listeners = this.listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) { // $codepro.audit.disable numericLiterals
             if( listeners[i] == UnZipListener.class ) {
@@ -193,14 +197,17 @@ public class SimpleUnZip
      * Runs each {@link UnZipListener}'s
      * {@link UnZipListener#entryAdded(UnZipEvent)}
      * method.
+     *
+     * @param zipEntry Current {@link ZipEntry}
+     * @param file destination {@link File}
      */
     protected void fireEntryAdded(
         final ZipEntry zipEntry,
         final File     file
         )
     {
-        UnZipEvent event     = new UnZipEvent( zipEntry, file );
-        Object[]   listeners = listenerList.getListenerList();
+        final UnZipEvent event     = new UnZipEvent( zipEntry, file );
+        final Object[]   listeners = this.listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) { // $codepro.audit.disable numericLiterals
             if( listeners[i] == UnZipListener.class ) {
