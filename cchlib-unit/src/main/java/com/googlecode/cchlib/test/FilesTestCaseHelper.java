@@ -7,11 +7,12 @@ import java.util.Iterator;
 import java.util.List;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.io.FileIterator;
+import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
  * Provide some tools to build test cases
  */
-final public class FilesTestCaseHelper
+public final class FilesTestCaseHelper
 {
     private FilesTestCaseHelper()
     {//All static
@@ -27,22 +28,24 @@ final public class FilesTestCaseHelper
      * @return {@link File} {@link Iterator} from given directory
      */
     public static final Iterator<File> getFilesFrom(
-            File        fileDirectory,
-            FileFilter  fileFilter
+            final File        fileDirectory,
+            final FileFilter  fileFilter
             )
     {
-        FileFilter justFileFilter = FileFilterHelper.not(
+        final SerializableFileFilter justFileFilter = FileFilterHelper.not(
                     FileFilterHelper.directoryFileFilter()
                     );
-        FileFilter privateFileFilter;
+        final FileFilter privateFileFilter;
 
         if( fileFilter == null ) {
             privateFileFilter = justFileFilter;
             }
         else {
+            final SerializableFileFilter sfileFilter = fileFilter::accept;
+
             privateFileFilter = FileFilterHelper.and(
                     justFileFilter,
-                    fileFilter
+                    sfileFilter
                     );
             }
 
@@ -67,7 +70,7 @@ final public class FilesTestCaseHelper
         final FileFilter  fileFilter
         )
     {
-        final List<File>        list = new ArrayList<File>();
+        final List<File>        list = new ArrayList<>();
         final Iterator<File>    iter = getFilesFrom( fileDirectory, fileFilter );
 
         while( iter.hasNext() ) {
