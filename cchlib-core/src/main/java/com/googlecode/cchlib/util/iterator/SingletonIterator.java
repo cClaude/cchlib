@@ -36,7 +36,7 @@ public class SingletonIterator<T>
     @Override
     public boolean hasNext()
     {
-        return hasNext;
+        return this.hasNext;
     }
 
     /**
@@ -45,12 +45,13 @@ public class SingletonIterator<T>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck") // By contract
     public T next() throws NoSuchElementException
     {
-        if( hasNext ) {
-            hasNext = false;
+        if( this.hasNext ) {
+            this.hasNext = false;
 
-            return item;
+            return this.item;
             }
         else {
             throw new NoSuchElementException();
@@ -60,15 +61,16 @@ public class SingletonIterator<T>
     /**
      * Unsupported Operation
      *
-     * @throws UnsupportedOperationException
-     * @throws IllegalStateException
+     * @throws UnsupportedOperationException if {@link #hasNext()} have been called
+     * @throws IllegalStateException if {@link #hasNext()} have not been called
      */
     @Override
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck") // By contract
     public void remove()
         throws UnsupportedOperationException,
                IllegalStateException
     {
-        if( hasNext ) {
+        if( this.hasNext ) {
             throw new IllegalStateException();
             }
         else {
@@ -83,6 +85,6 @@ public class SingletonIterator<T>
     @Override
     public Iterator<T> iterator()
     {
-        return new SingletonIterator<>( item );
+        return new SingletonIterator<>( this.item );
     }
 }

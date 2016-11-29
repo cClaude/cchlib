@@ -90,7 +90,7 @@ public class SortedMapIterator<K,V>
     /**
      * Return last key
      * @return last key
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException if previous key not yet initialized
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public K getLastKey() throws NoSuchElementException

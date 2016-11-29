@@ -39,7 +39,7 @@ public interface XDigestFileCollector
      * returns number of file removed in Collection.
      * <BR>
      * More formally, remove all entry with a Set<File>
-     * size < 2
+     * size &lt; 2
      *
      * @return number of file removed in Collection
      * @throws UnsupportedOperationException if not supported

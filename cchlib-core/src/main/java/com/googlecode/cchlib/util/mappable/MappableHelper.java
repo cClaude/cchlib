@@ -30,7 +30,7 @@ public class MappableHelper
     /**
      * Build Map using default factory.
      *
-     * @param object
+     * @param object object to map
      * @return NEEDDOC
      *
      * @see MappableBuilder#toMap(Object)

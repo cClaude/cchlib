@@ -24,6 +24,7 @@ public class EmptyIterator<T>
      */
     public EmptyIterator()
     {
+        // Yep, it's empty :)
     }
 
     /**
@@ -41,7 +42,7 @@ public class EmptyIterator<T>
      * Always generate NoSuchElementException according
      * to Iterator specifications.
      *
-     * @throws NoSuchElementException
+     * @throws NoSuchElementException always
      */
     @Override
     public T next()
@@ -53,7 +54,7 @@ public class EmptyIterator<T>
      * Always generate IllegalStateException according
      * to Iterator specifications.
      *
-     * @throws IllegalStateException
+     * @throws IllegalStateException always
      */
     @Override
     public void remove()

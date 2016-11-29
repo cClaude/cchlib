@@ -56,7 +56,7 @@ public class EnumerationIterator<T>
     /**
      * Unsupported Operation
      *
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException always
      */
     @Override
     public void remove()

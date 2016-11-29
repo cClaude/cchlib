@@ -23,8 +23,8 @@ public class IteratorFilter<T>
      * Create an IteratorFilter based on an iterator
      * and on a filter.
      *
-     * @param iterator
-     * @param filter
+     * @param iterator parent iterator
+     * @param filter filter to use
      */
     public IteratorFilter(
         final Iterator<T>             iterator,
@@ -51,12 +51,12 @@ public class IteratorFilter<T>
     }
 
     /**
-     * NEEDDOC
+     * Create a {@link Selectable} for a {@link FileFilter}
      *
-     * @param fileFilter
+     * @param fileFilter {@link FileFilter} to use
      * @return a wrapper for File use that use FileFilter
      */
-    public static Selectable<File> wrap(final FileFilter fileFilter)
+    public static Selectable<File> wrap( final FileFilter fileFilter )
     {
         return fileFilter::accept;
     }

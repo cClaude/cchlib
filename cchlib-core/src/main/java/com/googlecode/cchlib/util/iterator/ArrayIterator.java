@@ -152,7 +152,7 @@ public class ArrayIterator<T>
     /**
      * Unsupported Operation
      *
-     * @throws UnsupportedOperationException
+     * @throws UnsupportedOperationException always
      */
     @Override
     public void remove()
@@ -171,7 +171,7 @@ public class ArrayIterator<T>
      * Genetics, this solution is cleaner.
      *
      * @param <T> content type
-     * @param entries
+     * @param entries values of the iterator
      * @return an ArrayIterator
      */
     @SafeVarargs

@@ -230,7 +230,7 @@ public class PropertiesPopulator<E> implements Serializable
      *
      * @param bean       Object to use to get values
      * @param properties {@link Properties} to use to store values
-     * @throws PropertiesPopulatorException
+     * @throws PropertiesPopulatorException if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateProperties(
@@ -250,7 +250,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @param propertiesPrefix Prefix for properties names, if null or empty ignored.
      * @param bean       Object to use to get values
      * @param properties {@link Properties} to use to store values
-     * @throws PropertiesPopulatorException
+     * @throws PropertiesPopulatorException if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateProperties(
@@ -272,7 +272,7 @@ public class PropertiesPopulator<E> implements Serializable
      *
      * @param bean       Object to use to store values
      * @param properties {@link Properties} to use to get values
-     * @throws PropertiesPopulatorException
+     * @throws PropertiesPopulatorException if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateBean(
@@ -290,7 +290,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @param propertiesPrefix Prefix for properties names, if null or empty ignored.
      * @param bean       Object to use to store values
      * @param properties {@link Properties} to use to get values
-     * @throws PropertiesPopulatorException
+     * @throws PropertiesPopulatorException if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateBean(
@@ -313,7 +313,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @param clazz             Class of bean
      * @return giving bean for initialization chaining.
      * @throws IOException if any I/O occur
-     * @throws PropertiesPopulatorException
+     * @throws PropertiesPopulatorException if there is a mapping error
      * @since 4.1.7
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -335,7 +335,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @param bean           Bean to save
      * @param clazz          Class of bean
      * @throws IOException if any I/O occur
-     * @throws PropertiesPopulatorException
+     * @throws PropertiesPopulatorException if there is a mapping error
      * @since 4.1.7
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")

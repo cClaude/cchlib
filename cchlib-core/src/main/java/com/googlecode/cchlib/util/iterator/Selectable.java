@@ -8,6 +8,7 @@ package com.googlecode.cchlib.util.iterator;
  * @see DefaultCollectionFilter
  *
  */
+@FunctionalInterface
 public interface Selectable<T>
 {
     /**
@@ -17,5 +18,5 @@ public interface Selectable<T>
      * @return true if object should be selected,
      *         false otherwise
      */
-    boolean isSelected(T obj);
+    boolean isSelected( T obj );
 }
