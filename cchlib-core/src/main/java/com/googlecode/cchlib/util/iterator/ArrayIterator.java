@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import com.googlecode.cchlib.util.ArrayCollection;
+import com.googlecode.cchlib.util.iterable.ArrayIterable;
 
 /**
  * Wrap an Iterator from an existing Array, or
@@ -12,7 +13,7 @@ import com.googlecode.cchlib.util.ArrayCollection;
  * @param <T> content type
  * @see SingletonIterator
  * @see ArrayCollection
- * @See ArrayIterable
+ * @see ArrayIterable
  * @since 4.1.7
  */
 public class ArrayIterator<T>

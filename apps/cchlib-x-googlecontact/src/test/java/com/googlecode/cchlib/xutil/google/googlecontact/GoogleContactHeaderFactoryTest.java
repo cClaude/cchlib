@@ -3,9 +3,8 @@ package com.googlecode.cchlib.xutil.google.googlecontact;
 import org.junit.Assert;
 import org.junit.Test;
 
-
-
-public class GoogleContactHeaderFactoryTest  extends Data {
+public class GoogleContactHeaderFactoryTest extends Data
+{
 
 //    private int getMethodsForCustomTypeCount( final Map<Integer, HeaderMethodContener> map )
 //    {
@@ -56,7 +55,7 @@ public class GoogleContactHeaderFactoryTest  extends Data {
     @Test
     public void testConstructor0() throws GoogleContactFactoryException
     {
-        GoogleContactHeader googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( HEADERS0 );
+        final GoogleContactHeader googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( HEADERS0 );
 
         Assert.assertEquals( HEADERS0.length, googleContactHeader.getIndexMethodConteners().size() );
 //        Assert.assertEquals( HEADERS0.length -18, getMethodsForStringCount( googleContactHeader.getIndexMethodConteners() ) );
@@ -66,7 +65,7 @@ public class GoogleContactHeaderFactoryTest  extends Data {
     @Test
     public void testConstructor1() throws GoogleContactFactoryException
     {
-        GoogleContactHeader googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( HEADERS1 );
+        final GoogleContactHeader googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( HEADERS1 );
 
         Assert.assertEquals( HEADERS1.length, googleContactHeader.getIndexMethodConteners().size() );
     }
@@ -75,7 +74,7 @@ public class GoogleContactHeaderFactoryTest  extends Data {
     public void testConstructor_Basic() throws GoogleContactFactoryException
     {
 
-        GoogleContactHeader googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( HEADERS_BASIC );
+        final GoogleContactHeader googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( HEADERS_BASIC );
 
         Assert.assertEquals( HEADERS_BASIC.length, googleContactHeader.getIndexMethodConteners().size() );
     }
@@ -84,7 +83,7 @@ public class GoogleContactHeaderFactoryTest  extends Data {
     public void testConstructor_2Mails() throws GoogleContactFactoryException
     {
 
-        GoogleContactHeader googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( HEADERS_2MAILS );
+        final GoogleContactHeader googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( HEADERS_2MAILS );
 
         Assert.assertEquals( HEADERS_2MAILS.length, googleContactHeader.getIndexMethodConteners().size() );
     }

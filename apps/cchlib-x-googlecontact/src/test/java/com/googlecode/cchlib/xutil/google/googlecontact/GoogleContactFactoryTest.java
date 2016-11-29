@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.xutil.google.googlecontact;
 
 import java.util.Arrays;
@@ -11,13 +10,16 @@ import com.googlecode.cchlib.xutil.google.googlecontact.analyser.GoogleContacAna
 import com.googlecode.cchlib.xutil.google.googlecontact.types.BasicEntry;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.GoogleContact;
 
-public class GoogleContactFactoryTest extends Data {
-
+public class GoogleContactFactoryTest extends Data
+{
     @Test
     public void testDataBasic()
     {
         // validate data header
-        Assert.assertEquals( HEADERS_BASIC.length, new HashSet<>( Arrays.asList( HEADERS_BASIC ) ).size() );
+        Assert.assertEquals(
+            HEADERS_BASIC.length,
+            new HashSet<>( Arrays.asList( HEADERS_BASIC ) ).size()
+            );
 
         // validate data entry
         Assert.assertEquals( HEADERS_BASIC.length, ENTRY_BASIC.length );
@@ -27,7 +29,10 @@ public class GoogleContactFactoryTest extends Data {
     public void testData2Mails()
     {
         // validate data header
-        Assert.assertEquals( HEADERS_2MAILS.length, new HashSet<>( Arrays.asList( HEADERS_2MAILS ) ).size() );
+        Assert.assertEquals(
+            HEADERS_2MAILS.length,
+            new HashSet<>( Arrays.asList( HEADERS_2MAILS ) ).size()
+            );
 
         // validate data entry
         Assert.assertEquals( HEADERS_2MAILS.length, ENTRY_2MAILS.length );
@@ -37,14 +42,20 @@ public class GoogleContactFactoryTest extends Data {
     public void testData1()
     {
         // validate data header
-        Assert.assertEquals( HEADERS0.length, new HashSet<>( Arrays.asList( HEADERS0 ) ).size() );
+        Assert.assertEquals(
+            HEADERS0.length,
+            new HashSet<>( Arrays.asList( HEADERS0 ) ).size()
+            );
     }
 
     @Test
     public void testData2()
     {
         // validate data header
-        Assert.assertEquals( HEADERS1.length, new HashSet<>( Arrays.asList( HEADERS1 ) ).size() );
+        Assert.assertEquals(
+            HEADERS1.length,
+            new HashSet<>( Arrays.asList( HEADERS1 ) ).size()
+            );
 
         // validate data entry
         Assert.assertEquals( HEADERS1.length, ENTRY1.length );
@@ -53,7 +64,7 @@ public class GoogleContactFactoryTest extends Data {
     @Test
     public void test_newGoogleContact_1() throws GoogleContacAnalyserException
     {
-        GoogleContactFactory builder = new GoogleContactFactory( HEADERS1, false );
+        final GoogleContactFactory builder = new GoogleContactFactory( HEADERS1, false );
 
         final GoogleContact googleContact = builder.newGoogleContact( ENTRY1 );
 
@@ -84,7 +95,7 @@ public class GoogleContactFactoryTest extends Data {
     @Test
     public void test_newGoogleContact_2MAILS() throws GoogleContacAnalyserException
     {
-        GoogleContactFactory builder = new GoogleContactFactory( HEADERS_2MAILS, true );
+        final GoogleContactFactory builder = new GoogleContactFactory( HEADERS_2MAILS, true );
 
         final GoogleContact googleContact = builder.newGoogleContact( ENTRY_2MAILS );
 

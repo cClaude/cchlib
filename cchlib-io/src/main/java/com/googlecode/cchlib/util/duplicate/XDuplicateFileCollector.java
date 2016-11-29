@@ -15,7 +15,7 @@ import com.googlecode.cchlib.util.HashMapSet;
  * <BR>
  * The most efficient ways to use this object is to
  * call {@link #pass1Add(Iterable)} for each
- * Iterable<File> (directory) you need to explore, and
+ * Iterable&lt;File&gt; (directory) you need to explore, and
  * then call {@link #pass2()} once.
  * <BR>
  * If can't respect this rules, you must call

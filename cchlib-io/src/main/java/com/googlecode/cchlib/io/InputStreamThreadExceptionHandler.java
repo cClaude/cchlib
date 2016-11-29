@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * Interface for errors implementation
  *
- * @See CloneInputStreamThread
+ * @see CloneInputStreamThread
  * @see InputStreamThread
  */
 public interface InputStreamThreadExceptionHandler

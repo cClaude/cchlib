@@ -14,7 +14,6 @@ public abstract class AbstractMappable
      * <p>
      * Use {@link #getObjectToMap()} to identify object to map, and
      * use {@link #createMappableBuilderFactory()} to
-     * <p>
      */
     @Override
     public Map<String,String> toMap()

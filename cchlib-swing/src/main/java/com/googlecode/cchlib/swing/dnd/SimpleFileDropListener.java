@@ -5,19 +5,21 @@ import java.util.List;
 
 /**
  * Implement this interface to listen for when files are dropped.
- * For example your class declaration may begin like this: <code><pre>
+ * For example your class declaration may begin like this:
+ * <pre>
  *   public class MySimpleFileDropListener implements SimpleFileDropListener
  *   {
  *      ...
- *      public void filesDropped( final List<File> files )
+ *      public void filesDropped( final List&lt;File&gt; files )
  *      {
  *          ...
  *      }
  *   }
- * </pre></code>
+ * </pre>
  * @see SimpleFileDrop
  * @since 1.4.7
  */
+@FunctionalInterface
 public interface SimpleFileDropListener
 {
     /**

@@ -9,8 +9,8 @@ import com.googlecode.cchlib.util.iterator.ArrayIterator;
  * Unmodifiable {@link Collection} base on an array
  *
  * @param <E> Type of the collection
- * @See ArrayIterator
- * @See ArrayIterable
+ * @see ArrayIterator
+ * @see ArrayIterable
  */
 public class ArrayCollection<E>
     extends AbstractCollection<E>

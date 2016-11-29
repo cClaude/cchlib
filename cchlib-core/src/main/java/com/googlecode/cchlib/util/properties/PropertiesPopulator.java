@@ -32,6 +32,8 @@ import org.apache.log4j.Logger;
  *   <li>{@link javax.swing.JCheckBox JCheckBox}</li>
  *   <li>{@link javax.swing.JComboBox JComboBox} (Store only selected index)</li>
  * </ul>
+ *
+ * @param <E> the type of the element to populate
  */
 public class PropertiesPopulator<E> implements Serializable
 {

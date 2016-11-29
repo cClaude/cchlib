@@ -35,9 +35,9 @@ public class XDefaultDigestFileCollector
     protected int duplicateFilesCount = 0;
 
     /**
-     * NEEDDOC
+     * deprecated
      *
-     * @throws NoSuchAlgorithmException
+     * @throws NoSuchAlgorithmException deprecated
      */
     public XDefaultDigestFileCollector()
         throws NoSuchAlgorithmException
@@ -46,9 +46,9 @@ public class XDefaultDigestFileCollector
     }
 
     /**
-     * NEEDDOC
+     * deprecated
      *
-     * @param xMessageDigestFile
+     * @param xMessageDigestFile deprecated
      */
     public XDefaultDigestFileCollector(
             final XMessageDigestFile xMessageDigestFile
@@ -81,10 +81,10 @@ public class XDefaultDigestFileCollector
     }
 
     /**
-     * NEEDDOC
+     * deprecated
      *
      * <pre>
-     *  Iterable<File> files = new {@link FileIterator}(
+     *  Iterable&lt;File&gt; files = new {@link FileIterator}(
      *          rootDirectory,
      *          {@link FileFilterHelper#fileFileFilter()}
      *          );

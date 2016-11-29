@@ -1,9 +1,8 @@
-// $codepro.audit.disable constantNamingConvention
 package com.googlecode.cchlib.xutil.google.googlecontact;
 
 // NOT public
-class Data {
-
+class Data
+{
     static final String[] HEADERS_BASIC = {
         "Name",
         "Given Name",
@@ -64,20 +63,51 @@ class Data {
         "* My Contacts"
     };
 
-
     static final String[] HEADERS_2MAILS = {
-        "Name", "E-mail 1 - Type", "E-mail 1 - Value", "E-mail 2 - Type", "E-mail 2 - Value"
+        "Name",
+        "E-mail 1 - Type",
+        "E-mail 1 - Value",
+        "E-mail 2 - Type",
+        "E-mail 2 - Value"
     };
 
     static final String[] ENTRY_2MAILS = {
-        "With 2 Mails", "Home", "email2", "* Work", "email1"
+        "With 2 Mails",
+        "Home",
+        "email2",
+        "* Work",
+        "email1"
     };
 
     static final String[] HEADERS0 = {
-        "Name", "Given Name", "Additional Name", "Family Name", "Yomi Name", "Given Name Yomi", "Additional Name Yomi", "Family Name Yomi", "Name Prefix", "Name Suffix", "Initials", "Nickname", "Short Name", "Maiden Name",
-        "Birthday", "Gender", "Location",
-        "Billing Information", "Directory Server", "Mileage", "Occupation", "Hobby", "Sensitivity",
-        "Priority", "Subject", "Notes",
+        // Name
+        "Name",
+        "Given Name",
+        "Additional Name",
+        "Family Name",
+        "Yomi Name",
+        "Given Name Yomi",
+        "Additional Name Yomi",
+        "Family Name Yomi",
+        "Name Prefix",
+        "Name Suffix",
+        "Initials",
+        "Nickname",
+        "Short Name",
+        "Maiden Name",
+
+        "Birthday",
+        "Gender",
+        "Location",
+        "Billing Information",
+        "Directory Server",
+        "Mileage",
+        "Occupation",
+        "Hobby",
+        "Sensitivity",
+        "Priority",
+        "Subject",
+        "Notes",
         "Group Membership",
         "E-mail 1 - Type", "E-mail 1 - Value",
         "E-mail 2 - Type", "E-mail 2 - Value",
@@ -97,12 +127,28 @@ class Data {
         "Phone 7 - Type", "Phone 7 - Value",
         "Phone 8 - Type", "Phone 8 - Value",
 
-        "Address 1 - Type", "Address 1 - Formatted", "Address 1 - Street", "Address 1 - City", "Address 1 - PO Box", "Address 1 - Region", "Address 1 - Postal Code", "Address 1 - Country", "Address 1 - Extended Address",
+        "Address 1 - Type",
+        "Address 1 - Formatted",
+        "Address 1 - Street",
+        "Address 1 - City",
+        "Address 1 - PO Box",
+        "Address 1 - Region",
+        "Address 1 - Postal Code",
+        "Address 1 - Country",
+        "Address 1 - Extended Address",
+
         "Address 2 - Type", "Address 2 - Formatted", "Address 2 - Street", "Address 2 - City", "Address 2 - PO Box", "Address 2 - Region", "Address 2 - Postal Code", "Address 2 - Country", "Address 2 - Extended Address",
         "Address 3 - Type", "Address 3 - Formatted", "Address 3 - Street", "Address 3 - City", "Address 3 - PO Box", "Address 3 - Region", "Address 3 - Postal Code", "Address 3 - Country", "Address 3 - Extended Address",
         "Address 4 - Type", "Address 4 - Formatted", "Address 4 - Street", "Address 4 - City", "Address 4 - PO Box", "Address 4 - Region", "Address 4 - Postal Code", "Address 4 - Country", "Address 4 - Extended Address",
 
-        "Organization 1 - Type", "Organization 1 - Name", "Organization 1 - Yomi Name", "Organization 1 - Title", "Organization 1 - Department", "Organization 1 - Symbol", "Organization 1 - Location", "Organization 1 - Job Description",
+        "Organization 1 - Type",
+        "Organization 1 - Name",
+        "Organization 1 - Yomi Name",
+        "Organization 1 - Title",
+        "Organization 1 - Department",
+        "Organization 1 - Symbol",
+        "Organization 1 - Location",
+        "Organization 1 - Job Description",
 
         "Website 1 - Type", "Website 1 - Value",
         "Website 2 - Type", "Website 2 - Value",
@@ -205,7 +251,7 @@ class Data {
         "First", "Midlle", "Last", "", "Phonetic last", "",
         "Phonetic last", "((Prefix))", "suffix", "", "", "", "",
 
-        "2019-01-01",
+        "2319-01-01",
 
         "", "", "", "", "", "", "", "", "", "",
 
@@ -218,8 +264,8 @@ class Data {
         "",
 
         "Google Talk", "test@test.xom",
-        "Main", "+41 44345678",
-        "Home", "+41 33345678",
+        "Main", "+999 44345678",
+        "Home", "+999 33345678",
         "Mobile", "22345678",
         "Work", "11345678",
 
@@ -235,11 +281,10 @@ class Data {
 
         "Profile", "http://test.com",
 
-        "Anniversary", "2019-01-02",
+        "Anniversary", "2319-01-02",
 
-        "Custom", "2019-01-03",
+        "Custom", "2319-01-03",
 
         "Custom1 Type", "Custom1 Value"
         };
-
 }

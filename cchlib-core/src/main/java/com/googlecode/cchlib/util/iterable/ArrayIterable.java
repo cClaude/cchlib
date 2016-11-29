@@ -10,7 +10,7 @@ import com.googlecode.cchlib.util.iterator.ArrayIterator;
  * @param <T> content type
  *
  * @see ArrayCollection
- * @See ArrayIterator
+ * @see ArrayIterator
  * @since 4.1.8
  */
 public class ArrayIterable<T> implements Iterable<T>
