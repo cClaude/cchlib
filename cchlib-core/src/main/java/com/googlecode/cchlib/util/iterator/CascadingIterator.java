@@ -1,14 +1,14 @@
 package com.googlecode.cchlib.util.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.iterable.ArrayIterable;
 
 /**
  * Build an Iterator based on an {@link Iterator} of {@link Iterable}.
  * This new Iterator that consume all sub-Iterator in
- * order of main Iterator for it's
- * results (Order is preserve).
+ * order of main Iterator for it's results (Order is preserve).
  *
  * @param <T> content type
  * @see MultiIterator
@@ -26,11 +26,8 @@ public class CascadingIterator<T>
      */
     public CascadingIterator(final Iterator<? extends Iterable<? extends T>> iterator)
     {
-        mainIterator    = iterator;
-        currentIterator = null;
-
-        // Init currentIterator with a valid value
-        hasNext();
+        this.mainIterator    = iterator;
+        this.currentIterator = null;
     }
 
     /**
@@ -53,9 +50,9 @@ public class CascadingIterator<T>
     @Override
     public boolean hasNext()
     {
-        if( currentIterator == null ) {
-            if( mainIterator.hasNext() ) {
-                currentIterator = mainIterator.next().iterator();
+        if( this.currentIterator == null ) {
+            if( this.mainIterator.hasNext() ) {
+                this.currentIterator = this.mainIterator.next().iterator();
                 }
             else {
                 return false;
@@ -63,11 +60,11 @@ public class CascadingIterator<T>
             }
 
         for(;;) {
-            if( currentIterator.hasNext() ) {
+            if( this.currentIterator.hasNext() ) {
                 return true;
             }
-            if( mainIterator.hasNext() ) {
-                currentIterator = mainIterator.next().iterator();
+            if( this.mainIterator.hasNext() ) {
+                this.currentIterator = this.mainIterator.next().iterator();
             }
             else {
                 return false;
@@ -78,7 +75,11 @@ public class CascadingIterator<T>
     @Override
     public T next()
     {
-        return currentIterator.next();
+        if( hasNext() ) {
+            return this.currentIterator.next();
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     /**
@@ -95,6 +96,10 @@ public class CascadingIterator<T>
     @Override
     public void remove()
     {
-        currentIterator.remove();
+        if( this.currentIterator == null ) {
+            throw new IllegalStateException();
+        }
+
+        this.currentIterator.remove();
     }
 }
