@@ -1,8 +1,5 @@
 package com.googlecode.cchlib.util.zip;
 
-import com.googlecode.cchlib.io.FileIterator;
-import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -12,6 +9,9 @@ import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.swing.event.EventListenerList;
+import com.googlecode.cchlib.io.FileIterator;
+import com.googlecode.cchlib.util.Wrappable;
+import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 
 /**
  * {@link SimpleZip} is a fronted of {@link ZipOutputStream}
@@ -19,14 +19,13 @@ import javax.swing.event.EventListenerList;
  * {@link OutputStream} (see {@link #addFolder(File, Wrappable)})
  * but can also be use to create an archive with a only some files.
  */
-public class SimpleZip
-    implements  Closeable
+public class SimpleZip implements Closeable
 {
     private static final int BUFFER_SIZE = 4096;
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
-    private ZipOutputStream zos;
-    private byte[] buffer;
+    private final ZipOutputStream zos;
+    private final byte[] buffer;
 
     /**
      * Create a {@link SimpleZip}
@@ -52,8 +51,8 @@ public class SimpleZip
             )
         throws IOException
     {
-        zos    = new ZipOutputStream(output);
-        buffer = new byte[bufferSize];
+        this.zos    = new ZipOutputStream(output);
+        this.buffer = new byte[bufferSize];
 
         setMethod( ZipEntry.DEFLATED );
     }
@@ -62,11 +61,11 @@ public class SimpleZip
     public void close() throws IOException
     {
         try {
-            zos.flush();
-            zos.finish();
+            this.zos.flush();
+            this.zos.finish();
             }
         finally {
-            zos.close();
+            this.zos.close();
             }
     }
 
@@ -76,10 +75,10 @@ public class SimpleZip
      * @param comment the comment string
      * @throws IllegalArgumentException if the length of the specified ZIP file comment is greater than 0xFFFF bytes
      */
-    public void setComment( final String comment )
-        throws IllegalArgumentException
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    public void setComment( final String comment ) throws IllegalArgumentException
     {
-        zos.setComment( comment );
+        this.zos.setComment( comment );
     }
 
     /**
@@ -90,10 +89,10 @@ public class SimpleZip
      * @throws IllegalArgumentException if the compression level is invalid
      * @see ZipOutputStream#setLevel(int)
      */
-    public void setLevel( int level )
-        throws IllegalArgumentException
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    public void setLevel( final int level ) throws IllegalArgumentException
     {
-        zos.setLevel( level );
+        this.zos.setLevel( level );
     }
 
     /**
@@ -108,10 +107,10 @@ public class SimpleZip
      * @see ZipEntry#DEFLATED
      * @see ZipEntry#STORED
      */
-    public void setMethod( final int method )
-        throws IllegalArgumentException
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    public void setMethod( final int method ) throws IllegalArgumentException
     {
-        zos.setMethod( method );
+        this.zos.setMethod( method );
     }
 
     /**
@@ -124,7 +123,7 @@ public class SimpleZip
     {
         this.fireEntryPostProcessing( sze );
 
-        zos.putNextEntry( sze.getZipEntry() );
+        this.zos.putNextEntry( sze.getZipEntry() );
 
         if( !sze.getZipEntry().isDirectory() ) {
             try (BufferedInputStream bis = new BufferedInputStream(
@@ -132,14 +131,14 @@ public class SimpleZip
             )) {
                 int len;
 
-                while( (len = bis.read(buffer, 0, buffer.length)) != -1 ) {
-                    zos.write(buffer, 0, len);
+                while( (len = bis.read(this.buffer, 0, this.buffer.length)) != -1 ) {
+                    this.zos.write(this.buffer, 0, len);
                     }
                 }
             }
 
-        zos.flush();
-        zos.closeEntry();
+        this.zos.flush();
+        this.zos.closeEntry();
 
         this.fireEntryAdded( sze );
     }
@@ -151,7 +150,7 @@ public class SimpleZip
      * @param c {@link Iterable} of {@link SimpleZipEntry} to add
      * @throws IOException if any I/O occur
      */
-    public void addAll( Iterable<SimpleZipEntry> c )
+    public void addAll( final Iterable<SimpleZipEntry> c )
         throws java.io.IOException
     {
         addAll( c.iterator() );
@@ -188,7 +187,7 @@ public class SimpleZip
             )
         throws IOException
     {
-        Iterator<File> iterator = new FileIterator( folderFile );
+        final Iterator<File> iterator = new FileIterator( folderFile );
 
         addAll( new IteratorWrapper<>( iterator, wrapper ) );
     }
@@ -196,34 +195,36 @@ public class SimpleZip
     /**
      * Adds a {@link ZipListener} to the {@link SimpleZip}'s listener list.
      *
-     * @param l the {@link ZipListener} to add
+     * @param listener the {@link ZipListener} to add
      */
-    public void addZipListener( ZipListener l )
+    public void addZipListener( final ZipListener listener )
     {
-        listenerList.add( ZipListener.class, l );
+        this.listenerList.add( ZipListener.class, listener );
     }
 
     /**
      * Removes a {@link ZipListener} from the {@link SimpleZip}'s listener list.
      *
-     * @param l the {@link ZipListener} to remove
+     * @param listener the {@link ZipListener} to remove
      */
-    public void removeZipListener( ZipListener l )
+    public void removeZipListener( final ZipListener listener )
     {
-        listenerList.remove( ZipListener.class, l );
+        this.listenerList.remove( ZipListener.class, listener );
     }
 
     /**
      * Runs each {@link ZipListener}'s
      * {@link ZipListener#entryPostProcessing(ZipEntry)}
      * method.
+     *
+     * @param szipEntry current {@link SimpleZipEntry}
      */
     protected void fireEntryPostProcessing(
-        final SimpleZipEntry sze
+        final SimpleZipEntry szipEntry
         )
     {
-        ZipEntry zipEntry = sze.getZipEntry();
-        Object[] listeners = listenerList.getListenerList();
+        final ZipEntry zipEntry  = szipEntry.getZipEntry();
+        final Object[] listeners = this.listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
             if (listeners[i] == ZipListener.class) {
@@ -236,13 +237,15 @@ public class SimpleZip
      * Runs each {@link ZipListener}'s
      * {@link ZipListener#entryAdded(ZipEntry)}
      * method.
+     *
+     * @param szipEntry current {@link SimpleZipEntry}
      */
     protected void fireEntryAdded(
-        final SimpleZipEntry sze
+        final SimpleZipEntry szipEntry
         )
     {
-        ZipEntry zipEntry = sze.getZipEntry();
-        Object[] listeners = listenerList.getListenerList();
+        final ZipEntry zipEntry  = szipEntry.getZipEntry();
+        final Object[] listeners = this.listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
             if (listeners[i] == ZipListener.class) {

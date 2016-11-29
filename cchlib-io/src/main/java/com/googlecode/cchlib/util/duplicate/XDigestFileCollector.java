@@ -38,7 +38,7 @@ public interface XDigestFileCollector
      * Remove non duplicate files in collection, and
      * returns number of file removed in Collection.
      * <BR>
-     * More formally, remove all entry with a Set<File>
+     * More formally, remove all entry with a Set&lt;File&gt;
      * size &lt; 2
      *
      * @return number of file removed in Collection

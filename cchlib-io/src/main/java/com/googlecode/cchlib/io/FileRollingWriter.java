@@ -39,6 +39,7 @@ public class FileRollingWriter
      *
      * @param fileRoller related {@link FileRoller}
      * @param maxLength max length for file
+     * @param charset   Charset to use to encode file
      * @throws IllegalArgumentException if maxLength &lt; 1
      * @throws IOException if any
      */
@@ -46,7 +47,7 @@ public class FileRollingWriter
     public FileRollingWriter(
             final FileRoller fileRoller,
             final int        maxLength,
-            final Charset       charset
+            final Charset    charset
             )
         throws  IllegalArgumentException, IOException
     {
