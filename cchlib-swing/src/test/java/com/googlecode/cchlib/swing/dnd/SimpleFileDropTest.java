@@ -2,7 +2,6 @@ package com.googlecode.cchlib.swing.dnd;
 
 import java.awt.HeadlessException;
 import java.io.File;
-import java.util.List;
 import java.util.TooManyListenersException;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -10,6 +9,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.Threads;
 
 public class SimpleFileDropTest
 {
@@ -23,9 +23,9 @@ public class SimpleFileDropTest
         final DefaultListModel<File> model_files = new DefaultListModel<File>();
 
         // Build display
-        JFrame          frame       = new JFrame();
-        JScrollPane     scrollPane  = new JScrollPane();
-        JList<File>     jlist_files = new JList<>( model_files );
+        final JFrame          frame       = new JFrame();
+        final JScrollPane     scrollPane  = new JScrollPane();
+        final JList<File>     jlist_files = new JList<>( model_files );
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle( this.getClass().getName() );
@@ -35,33 +35,23 @@ public class SimpleFileDropTest
         frame.setVisible(true);
 
         // build a listener
-        SimpleFileDropListener listener = new SimpleFileDropListener()
-        {
-            @Override
-            public void filesDropped( List<File> files )
-            {
-                LOGGER.info( "filesDropped" );
+        final SimpleFileDropListener listener = files -> {
+            LOGGER.info( "filesDropped" );
 
-                for( File f : files ) {
-                    LOGGER.info( "add: " + f );
-                    model_files.addElement( f );
-                    }
-            }
+            for( final File f : files ) {
+                LOGGER.info( "add: " + f );
+                model_files.addElement( f );
+                }
         };
 
         // prepare SimpleFileDrop object
-        SimpleFileDrop simpleFileDrop = new SimpleFileDrop( jlist_files, listener );
+        final SimpleFileDrop simpleFileDrop = new SimpleFileDrop( jlist_files, listener );
 
         // enabled listener
         simpleFileDrop.addDropTargetListener();
         LOGGER.info( "SimpleFileDrop() wait for files" );
 
-        try {
-            Thread.sleep( 5 * 1000);
-            }
-        catch( InterruptedException e ) { // $codepro.audit.disable logExceptions
-            LOGGER.warn( "InterruptedException" );
-            }
+        Threads.sleep( 5 * 1000);
 
         // disabled listener
         simpleFileDrop.remove();

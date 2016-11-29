@@ -27,6 +27,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Tools;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.JFrames;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelMenu;
@@ -491,12 +492,7 @@ public final class DuplicateFilesFrame
         final Runnable task = () -> {
             LOGGER.info( "initComponentsJPanelConfirm begin" );
 
-            try {
-                Thread.sleep( 1000 );
-            }
-            catch( final InterruptedException e ) {
-                LOGGER.warn( "Interrupted", e );
-            }
+            Threads.sleep( 1000 );
 
             try {
                 LOGGER.info( "initComponentsJPanelConfirm start" );

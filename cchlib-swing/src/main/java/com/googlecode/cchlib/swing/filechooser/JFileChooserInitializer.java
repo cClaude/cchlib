@@ -298,7 +298,6 @@ public class JFileChooserInitializer
             while( this.jFileChooser == null ) {
                 try {
                     TimeUnit.MILLISECONDS.sleep( this.attemptDelay ); // default: 500
-                    //Thread.sleep( this.attemptDelay ); // default: 500
                     }
                 catch( final InterruptedException ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
                     }

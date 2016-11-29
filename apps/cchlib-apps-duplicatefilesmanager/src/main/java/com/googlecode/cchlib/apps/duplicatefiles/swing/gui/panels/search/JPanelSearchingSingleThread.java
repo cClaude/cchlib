@@ -15,6 +15,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.ShouldNotOccurRuntimeException;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.io.FileIterable;
+import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.InitialStatus;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.Status;
@@ -219,13 +220,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             while(this.displayRunning) {
                 updateDisplay();
 
-                try {
-                    Thread.sleep(300); // $codepro.audit.disable disallowSleepInsideWhile
-                    }
-                catch( final InterruptedException e ) {
-                    if( LOGGER.isTraceEnabled() ) {
-                        LOGGER.trace( "Interrupted Thread", e );
-                    }
+                if( Threads.sleepAndNotify( 300 ) ) {
                     return;
                     }
                 }

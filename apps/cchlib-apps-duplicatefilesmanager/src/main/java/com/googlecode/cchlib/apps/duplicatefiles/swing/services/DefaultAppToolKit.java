@@ -25,6 +25,7 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
@@ -186,15 +187,9 @@ final class DefaultAppToolKit
     }
 
     @Override // DFToolKit
-    @SuppressWarnings("squid:S2142")
-    public void sleep(final long ms)
+    public void sleep( final long ms )
     {
-        try {
-            Thread.sleep( ms );
-            }
-        catch( final InterruptedException ignore ) {
-            // Ignore
-            }
+        Threads.sleep( ms );
     }
 
     @Override // DFToolKit

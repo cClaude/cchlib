@@ -471,7 +471,7 @@ public class FindAccessoryImpl
                     return;
                     }
 
-                Thread.sleep(0);
+                Thread.sleep( 0 );
 
                 if (files[i].isDirectory()) {
                     runFind(files[i],filters);

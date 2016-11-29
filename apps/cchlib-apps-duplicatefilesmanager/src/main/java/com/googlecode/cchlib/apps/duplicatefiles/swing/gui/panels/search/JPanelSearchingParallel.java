@@ -27,6 +27,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
 import com.googlecode.cchlib.lang.SerializableObject;
+import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
 import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
@@ -413,10 +414,7 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
             while(this.displayRunning) {
                 updateDisplay();
 
-                try {
-                    Thread.sleep(300);
-                    }
-                catch( final InterruptedException e ) {
+                if( Threads.sleepAndNotify(  300 ) ) {
                     return;
                     }
                 }

@@ -20,22 +20,25 @@ public class DialogHelperTest
     @BeforeClass
     public static void setUpClass() throws Exception
     {
+        // Not use yet
     }
 
     @AfterClass
     public static void tearDownClass() throws Exception
     {
-        //try { Thread.sleep( 5_000 ); } catch( InterruptedException ignore ) {}
+        // Not use yet
     }
 
     @Before
     public void setUp()
     {
+        // Not use yet
     }
 
     @After
     public void tearDown()
     {
+        // Not use yet
     }
 
     @Test
@@ -74,7 +77,7 @@ public class DialogHelperTest
         final OpenExceptionDialog openExceptionDialog
         )
     {
-        try { crashTest(); } catch( final FakeException e ) { // $codepro.audit.disable logExceptions
+        try { crashTest(); } catch( final FakeException e ) {
             final Exception exception = e;
             new Thread( (Runnable)( ) -> {
                 try {

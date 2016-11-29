@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.Threads;
 
 public class CloneInputStreamThreadTest
 {
@@ -127,12 +128,7 @@ public class CloneInputStreamThreadTest
         public byte[] getInputStreamAsBytes() throws IOException
         {
             while( ! isReady() ) {
-                try {
-                    Thread.sleep( 500 );
-                    }
-                catch( final InterruptedException ignore ) {
-                    // Ignore
-                    }
+                Threads.sleep( 500 );
                 }
 
             return this.bytes;

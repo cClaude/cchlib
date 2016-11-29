@@ -10,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.Threads;
 
 /**
  *
@@ -41,12 +42,12 @@ public class ResourcesUtilsTest
     @Test
     public void myTestJButton()
     {
-        ResourcesUtils  resourcesUtils = new ResourcesUtils();
-        JFrame          frame = new JFrame();
+        final ResourcesUtils  resourcesUtils = new ResourcesUtils();
+        final JFrame          frame = new JFrame();
         frame.setLayout( new FlowLayout() );
 
-        for( ResourcesUtils.ID id : ResourcesUtils.ID.values() ) {
-            JButton jButton = resourcesUtils.getJButton( id );
+        for( final ResourcesUtils.ID id : ResourcesUtils.ID.values() ) {
+            final JButton jButton = resourcesUtils.getJButton( id );
             frame.add( jButton );
             }
 
@@ -55,12 +56,8 @@ public class ResourcesUtilsTest
         //frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         LOGGER.info( "myTestJButton() done" );
-        try {
-            Thread.sleep( 3 * 1000);
-            }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-            }
+
+        Threads.sleep( 3_000 );
     }
 
     @Test
@@ -75,10 +72,10 @@ public class ResourcesUtilsTest
 
     private void testText( final Locale locale )
     {
-        ResourcesUtils  resourcesUtils = new ResourcesUtils( locale );
+        final ResourcesUtils  resourcesUtils = new ResourcesUtils( locale );
 
-        for( ResourcesUtils.ID id : ResourcesUtils.ID.values() ) {
-            String txt = resourcesUtils.getText( id );
+        for( final ResourcesUtils.ID id : ResourcesUtils.ID.values() ) {
+            final String txt = resourcesUtils.getText( id );
 
             LOGGER.info( "Text for: " + id + " is [" + txt + "]" );
             }
@@ -91,7 +88,7 @@ public class ResourcesUtilsTest
         private static final long serialVersionUID = 1L;
     }
 
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
         new ResourcesUtilsTest().myTestJButton();
     }

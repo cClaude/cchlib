@@ -15,6 +15,7 @@ import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
+import com.googlecode.cchlib.lang.Threads;
 
 /**
  * Create resources bundles files
@@ -44,12 +45,7 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
 
         final Locale defaultLocale = Locale.ENGLISH;
 
-        try {
-            Thread.sleep( 1_000 );
-            }
-        catch( final InterruptedException e ) {
-            /* ignore */
-            }
+        Threads.sleep( 1_000 );
 
         final I18nAutoCoreUpdatable[] i18nConteners = {
             mainFrame,

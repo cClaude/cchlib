@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -13,6 +14,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import com.googlecode.cchlib.lang.Threads;
 
 class ProgressCells extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -164,7 +166,7 @@ class ProgressCells extends JFrame {
         final int i = ((Integer)value).intValue();
         table.setValueAt( Integer.valueOf( i + 1 ), row, column );
 
-        Thread.sleep( 1000 );
+        Threads.sleep( 1_000 );
     }
 
     public static void main( final String[] args )
@@ -199,7 +201,7 @@ class MyTableModel extends AbstractTableModel {
     // The following private field holds all hours worked values for
     // next-to-leftmost column's rows.
 
-    private final Integer[]   hoursWorked      = new Integer[names.length];
+    private final Integer[]   hoursWorked      = new Integer[this.names.length];
 
     {
         // This instance block initializer is called when a MyTableModel
@@ -208,8 +210,8 @@ class MyTableModel extends AbstractTableModel {
         // AbstractTableModel no-argument constructor. (That happens
         // behind the scenes.)
 
-        for( int i = 0; i < hoursWorked.length; i++ ) {
-            hoursWorked[ i ] = new Integer( 0 );
+        for( int i = 0; i < this.hoursWorked.length; i++ ) {
+            this.hoursWorked[ i ] = new Integer( 0 );
         }
     }
 
@@ -278,7 +280,7 @@ class MyTableModel extends AbstractTableModel {
         // probably not want to add columns, which is why 3 is hard-coded
         // in the previous getColumnCount() method).
 
-        return names.length;
+        return this.names.length;
     }
 
     @Override
@@ -288,7 +290,7 @@ class MyTableModel extends AbstractTableModel {
         // of table rows (as specified by names.length). The following
         // code is just a safety check.
 
-        if( rowIndex >= names.length ) {
+        if( rowIndex >= this.names.length ) {
             throw new IllegalArgumentException( "" + rowIndex );
         }
 
@@ -300,11 +302,11 @@ class MyTableModel extends AbstractTableModel {
 
         switch( columnIndex ) {
             case 0:
-                return names[ rowIndex ];
+                return this.names[ rowIndex ];
             case 1:
-                return hoursWorked[ rowIndex ];
+                return this.hoursWorked[ rowIndex ];
             case 2:
-                return hoursWorked[ rowIndex ];
+                return this.hoursWorked[ rowIndex ];
 
                 // The default case should never be reached. However, the
                 // compiler complains without the default.
@@ -330,7 +332,7 @@ class MyTableModel extends AbstractTableModel {
         // of table rows (as specified by names.length). The following
         // code is just a safety check.
 
-        if( rowIndex > names.length ) {
+        if( rowIndex > this.names.length ) {
             throw new IllegalArgumentException( "" + rowIndex );
         }
 
@@ -346,7 +348,7 @@ class MyTableModel extends AbstractTableModel {
 
         switch( columnIndex ) {
             case 1:
-                hoursWorked[ rowIndex ] = (Integer)v;
+                this.hoursWorked[ rowIndex ] = (Integer)v;
                 fireTableCellUpdated( rowIndex, columnIndex );
         }
     }
@@ -363,7 +365,7 @@ class ProgressCellRenderer extends JProgressBar implements TableCellRenderer {
         // Initialize the progress bar renderer to use a horizontal
         // progress bar.
 
-        super( JProgressBar.HORIZONTAL );
+        super( SwingConstants.HORIZONTAL );
 
         // Ensure that the progress bar border is not painted. (The
         // result is ugly when it appears in a table cell.)
@@ -393,7 +395,7 @@ class ProgressCellRenderer extends JProgressBar implements TableCellRenderer {
             // [0, 100].
 
             final int i = ((Integer)value).intValue();
-            setValue( (int)(i * 5.0 / 2.0) );
+            setValue( (int)((i * 5.0) / 2.0) );
         }
 
         return this;

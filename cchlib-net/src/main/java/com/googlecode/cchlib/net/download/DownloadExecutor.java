@@ -8,6 +8,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
 
 /**
@@ -201,19 +202,10 @@ public class DownloadExecutor
         // Wait pool finish
         do {
             // TODO: handle shutdown() use pool.awaitTermination( 1, TimeUnit.SECONDS );
-            sleep( TWO_SECONDS );
+            Threads.sleep( TWO_SECONDS );
             } while( this.pool.getActiveCount() > 0 );
 
         this.pool.shutdown();
-    }
-
-    @SuppressWarnings("squid:S2142")
-    private static void sleep( final int millisec )
-    {
-        try {
-            Thread.sleep( millisec );
-        }
-        catch( final InterruptedException ignore ) { /* ignore */ }
     }
 
     /**

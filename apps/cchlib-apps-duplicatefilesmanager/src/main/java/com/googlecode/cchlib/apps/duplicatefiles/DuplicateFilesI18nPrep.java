@@ -19,6 +19,7 @@ import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.lang.Threads;
 
 /**
  * Create resources bundles files
@@ -63,7 +64,7 @@ public class DuplicateFilesI18nPrep
                 }
             }
 
-        Thread.sleep( 1000 );
+        Threads.sleep( 1000 );
     }
 
     private static PreferencesControler getPreferences()
