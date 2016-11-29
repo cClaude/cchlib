@@ -39,9 +39,18 @@ public class ResourcesLoader
         return getResource( ResourcesLoader.class, name );
     }
 
-    public static URL getResource( final Class<?> clazz, final String name )
+    /**
+     * Create an {@link URL} as a resource based on {@code type} and
+     * {@code name}
+     *
+     * @param type Type to use as resource base
+     * @param name Resource name
+     * @return an {@link URL}
+     * @see Class#getResource(String)
+     */
+    public static URL getResource( final Class<?> type, final String name )
     {
-        return clazz.getResource( name );
+        return type.getResource( name );
     }
 
     /**
@@ -94,16 +103,28 @@ public class ResourcesLoader
         return getImageIcon( ResourcesLoader.class, name );
     }
 
-    public static Icon getImageIcon( final Class<?> clazz, final String name )
+    /**
+     * Load an {@link Icon} as a resource based on {@code type} and
+     * {@code name}
+     *
+     * @param type Type to use as resource base
+     * @param name Resource name
+     * @return an {@link Icon}
+     * @throws ResourcesLoaderException if {@link Icon} can not be loaded
+     */
+    public static Icon getImageIcon( final Class<?> type, final String name )
         throws ResourcesLoaderException
     {
         try {
-            return new ImageIcon( getResource( clazz, name ) );
+            return new ImageIcon( getResource( type, name ) );
             }
         catch( final Exception e ) {
-            throw new ResourcesLoaderException( "Can't find image: " + name, e );
+            throw new ResourcesLoaderException(
+                    String.format( "No ImageIcon for : class(%s) '%s'", type, name )
+                    );
             }
     }
+
     /**
      * Build {@link Image} for giving resource name
      * @param name Resource name
@@ -115,14 +136,23 @@ public class ResourcesLoader
         return getImage( ResourcesLoader.class, name );
     }
 
-    public static Image getImage( final Class<?> clazz, final String name )
+    /**
+     * Load an {@link Image} as a resource based on {@code type} and
+     * {@code name}
+     *
+     * @param type Type to use as resource base
+     * @param name Resource name
+     * @return an {@link Image}
+     * @throws ResourcesLoaderException if {@link Image} can not be loaded
+     */
+    public static Image getImage( final Class<?> type, final String name )
         throws ResourcesLoaderException
     {
-        final URL url = getResource( clazz, name );
+        final URL url = getResource( type, name );
 
         if( url == null ) {
             throw new ResourcesLoaderException(
-                String.format( "Bad url for image : '%s'", name )
+                String.format( "Bad url for image : class(%s) '%s'", type, name )
                 );
             }
 
@@ -130,8 +160,8 @@ public class ResourcesLoader
 
         if( image == null ) {
             throw new ResourcesLoaderException(
-                    String.format( "No image for : '%s'", name )
-                    );
+                String.format( "No image for : class(%s) '%s'", type, name )
+                );
             }
 
         return image;
