@@ -246,7 +246,7 @@ public abstract class BytesAccess implements Cloneable
 
         for( int i = 0; i < bytes0.length; i++ ) {
             if( bytes0[ i ] != bytes1[ i ] ) {
-                long offset = i << CMP_MASK_ROT_OFFSET;
+                final long offset;
 
                 if( (i & CMP_MASK_OFFSET_LOW) != i ) {
                     // Can't store offset
@@ -712,7 +712,7 @@ public abstract class BytesAccess implements Cloneable
         this.bytes[ offset ] = (byte)(saveValue | fixValue);
     }
 
-    protected void setUInteger( // $codepro.audit.disable largeNumberOfParameters
+    protected void setUInteger(
             final int offset, //
             final byte mask0, //
             final int rightRot, //
@@ -720,10 +720,10 @@ public abstract class BytesAccess implements Cloneable
             final int leftRot, //
             final int value )
     {
-        final int leftPart = (value >> rightRot) & mask0;
+        final int leftPart = (value >> rightRot) & ( mask0 & 0x00ff );
         setUInteger( offset, mask0, 0, leftPart );
 
-        final int rightPart = (value << leftRot) & mask1;
+        final int rightPart = (value << leftRot) & ( mask1 & 0x00ff );
         setUInteger( offset + 1, mask1, 0, rightPart );
     }
 
@@ -751,5 +751,4 @@ public abstract class BytesAccess implements Cloneable
     {
         System.arraycopy( bytes, 0, this.bytes, offset, bytes.length );
     }
-
 }
