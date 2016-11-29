@@ -25,7 +25,10 @@ public class BRExecutionEventFactoryImpl implements BRExecutionEventFactory
      * @param progressMonitorMessage
      */
     @NeedDoc
-    public BRExecutionEventFactoryImpl( final Component progressMonitorParentComponent, final String progressMonitorMessage )
+    public BRExecutionEventFactoryImpl(
+            final Component progressMonitorParentComponent,
+            final String    progressMonitorMessage
+            )
     {
         this.progressMonitorParentComponent = progressMonitorParentComponent;
         this.progressMonitorMessage         = progressMonitorMessage;
@@ -37,9 +40,17 @@ public class BRExecutionEventFactoryImpl implements BRExecutionEventFactory
      * @param progressMonitorParentComponent Parent component for progress monitor, typically the {@link BRFrame}.
      * @param resources
      */
-    public BRExecutionEventFactoryImpl( final Component progressMonitorParentComponent, final BRXLocaleResources resources )
+    public BRExecutionEventFactoryImpl(
+            final Component          progressMonitorParentComponent,
+            final BRXLocaleResources resources
+            )
     {
         this( progressMonitorParentComponent, resources.getProgressMonitorMessage() );
+    }
+
+    public BRExecutionEventFactoryImpl( final BRFrame aBRFrame )
+    {
+        this( aBRFrame, aBRFrame.getProgressMonitorMessage() );
     }
 
     @Override

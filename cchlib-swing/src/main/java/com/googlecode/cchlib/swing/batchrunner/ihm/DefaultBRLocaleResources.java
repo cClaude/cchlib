@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.swing.batchrunner.ihm;
 
 import java.util.ResourceBundle;
+import com.googlecode.cchlib.swing.batchrunner.misc.MissingLocaleStringException;
 
 /**
  * Default implementation of {@link BRPanelLocaleResources} based on
@@ -10,148 +11,148 @@ import java.util.ResourceBundle;
  */
 public class DefaultBRLocaleResources implements BRPanelLocaleResources
 {
-    private ResourceBundle resourceBundle;
+    private static final long serialVersionUID = 1L;
 
-    public DefaultBRLocaleResources( ResourceBundle resourceBundle )
+    private final String valueTextAddSourceFile;
+    private final String valueTextClearSourceFileList;
+    private final String valueTextDoAction;
+    private final String valueTextExitRequestMessage;
+    private final String valueTextExitRequestNo;
+    private final String valueTextExitRequestTitle;
+    private final String valueTextExitRequestYes;
+    private final String valueTextJFileChooserInitializerMessage;
+    private final String valueTextJFileChooserInitializerTitle;
+    private final String valueTextNoDestinationFolder;
+    private final String valueTextNoSourceFile;
+    private final String valueTextSetDestinationFolder;
+    private final String valueTextUnexpectedExceptionTitle;
+    private final String valueTextWorkingOn_FMT;
+
+    /**
+     * NEEDDOC
+     * @param builder NEEDDOC
+     * @throws MissingLocaleStringException if a resource missing
+     */
+    public DefaultBRLocaleResources(
+            final DefaultBRLocaleResourcesBuilder builder
+            ) throws MissingLocaleStringException
     {
-        if( resourceBundle == null ) {
-            this.resourceBundle = ResourceBundle.getBundle(
-                DefaultBRLocaleResources.class.getPackage().getName()
-                    + ".DefaultResourceBundle"
-                );
-            }
-        else {
-            this.resourceBundle = resourceBundle;
-            }
+        this.valueTextAddSourceFile =
+            builder.getString( "BRLocaleResources.TextAddSourceFile" );
+        this.valueTextClearSourceFileList =
+            builder.getString( "BRLocaleResources.TextClearSourceFileList" );
+        this.valueTextDoAction =
+            builder.getString( "BRLocaleResources.TextDoAction" );
+        this.valueTextExitRequestMessage =
+            builder.getString( "BRLocaleResources.TextExitRequestMessage" );
+        this.valueTextExitRequestNo =
+            builder.getString( "BRLocaleResources.TextExitRequestNo" );
+        this.valueTextExitRequestTitle =
+            builder.getString( "BRLocaleResources.TextExitRequestTitle" );
+        this.valueTextExitRequestYes =
+            builder.getString( "BRLocaleResources.TextExitRequestYes" );
+        this.valueTextJFileChooserInitializerMessage =
+            builder.getString( "BRLocaleResources.TextJFileChooserInitializerMessage" );
+        this.valueTextJFileChooserInitializerTitle =
+            builder.getString( "BRLocaleResources.TextJFileChooserInitializerTitle" );
+        this.valueTextNoDestinationFolder =
+            builder.getString( "BRLocaleResources.TextNoDestinationFolder" );
+        this.valueTextNoSourceFile =
+            builder.getString( "BRLocaleResources.TextNoSourceFile" );
+        this.valueTextSetDestinationFolder =
+            builder.getString( "BRLocaleResources.TextSetDestinationFolder" );
+        this.valueTextUnexpectedExceptionTitle =
+            builder.getString( "BRLocaleResources.TextUnexpectedExceptionTitle" );
+        this.valueTextWorkingOn_FMT =
+            builder.getString( "BRLocaleResources.TextWorkingOn_FMT" );
     }
 
-    public DefaultBRLocaleResources()
+    public DefaultBRLocaleResources() throws MissingLocaleStringException
     {
-        this( null );
-    }
-
-    public ResourceBundle getResourceBundle()
-    {
-        return resourceBundle;
+        this( new DefaultBRLocaleResourcesBuilder() );
     }
 
     @Override
     public String getTextAddSourceFile()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextAddSourceFile" );
+        return this.valueTextAddSourceFile;
     }
 
     @Override
     public String getTextSetDestinationFolder()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextSetDestinationFolder" );
+        return this.valueTextSetDestinationFolder;
     }
 
     @Override
     public String getTextClearSourceFileList()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextClearSourceFileList" );
+        return this.valueTextClearSourceFileList;
     }
 
     @Override
     public String getTextDoAction()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextDoAction" );
+        return this.valueTextDoAction;
     }
 
     @Override
     public String getTextJFileChooserInitializerTitle()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextJFileChooserInitializerTitle" );
+        return this.valueTextJFileChooserInitializerTitle;
     }
 
     @Override
     public String getTextJFileChooserInitializerMessage()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextJFileChooserInitializerMessage" );
+        return this.valueTextJFileChooserInitializerMessage;
     }
 
     @Override
     public String getTextNoSourceFile()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextNoSourceFile" );
+        return this.valueTextNoSourceFile;
     }
 
     @Override
     public String getTextNoDestinationFolder()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextNoDestinationFolder" );
+        return this.valueTextNoDestinationFolder;
     }
 
     @Override
     public String getTextWorkingOn_FMT()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextWorkingOn_FMT" );
+        return this.valueTextWorkingOn_FMT;
     }
 
     @Override
     public String getTextUnexpectedExceptionTitle()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextUnexpectedExceptionTitle" );
+        return this.valueTextUnexpectedExceptionTitle;
     }
 
     @Override
     public String getTextExitRequestTitle()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextExitRequestTitle" );
+        return this.valueTextExitRequestTitle;
     }
 
     @Override
     public String getTextExitRequestMessage()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextExitRequestMessage" );
+        return this.valueTextExitRequestMessage;
     }
 
     @Override
     public String getTextExitRequestYes()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextExitRequestYes" );
+        return this.valueTextExitRequestYes;
     }
 
     @Override
     public String getTextExitRequestNo()
     {
-        return resourceBundle.getString( "BRLocaleResources.TextExitRequestNo" );
+        return this.valueTextExitRequestNo;
     }
-
-
-
-    //
-    // LazyBatchRunnerLocaleResources
-    //
-/*
-
-    @Override//LazyBatchRunnerLocaleResources
-    public String getTextEndOfBatch()
-    {
-        return resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextEndOfBatch" );
-    }
-    @Override//LazyBatchRunnerLocaleResources
-    public String getTextIOExceptionDuringBatch()
-    {
-        return resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextIOExceptionDuringBatch" );
-    }
-    @Override//LazyBatchRunnerLocaleResources
-    public String[] getTextIOExceptionDuringBatchButtons()
-    {
-        String[] buttons = {
-            resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextIOExceptionDuringBatchButtons.Continue" ),
-            resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextIOExceptionDuringBatchButtons.Cancel" )
-            };
-
-        return buttons;
-    }
-
-    @Override//LazyBatchRunnerLocaleResources
-    public String getTextProgressMonitorTitle_FMT()
-    {
-        return resourceBundle.getString( "LazyBatchRunnerLocaleResources.TextProgressMonitorTitle_FMT" );
-    }
-*/
-
 }

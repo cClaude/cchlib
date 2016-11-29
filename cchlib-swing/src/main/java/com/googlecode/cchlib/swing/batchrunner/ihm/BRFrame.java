@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.swing.batchrunner.misc.BRLocaleResourcesAgregator;
+import com.googlecode.cchlib.swing.batchrunner.BRExitable;
 import com.googlecode.cchlib.swing.batchrunner.misc.BRXLocaleResources;
 
 /**
@@ -18,6 +18,9 @@ import com.googlecode.cchlib.swing.batchrunner.misc.BRXLocaleResources;
  *
  * @since 4.1.8
  */
+@SuppressWarnings({
+    "squid:MaximumInheritanceDepth" // Because swing
+    })
 public class BRFrame extends JFrame
 {
     private static final long serialVersionUID = 1L;
@@ -26,6 +29,8 @@ public class BRFrame extends JFrame
     private BRPanelLocaleResources panelLocaleResources;
     private JPanel  contentPane;
     private BRPanel panel;
+    private transient BRExitable exitFunction;
+    private BRXLocaleResources xLocaleResources;
 
     @SuppressWarnings("unused") // for windows builder only
     private BRFrame()
@@ -36,29 +41,40 @@ public class BRFrame extends JFrame
     /**
      * Prepare the frame.
      * *
-     * @param panelLocaleResources
-     * @param xLocaleResources
+     * @param builder Builder to define Frame
      *
      * @see #createFrame(BRActionListener)
      */
-    public BRFrame( BRPanelLocaleResources panelLocaleResources, BRXLocaleResources xLocaleResources )
+    public BRFrame( final BRFrameBuilder builder )
     {
-        this.panelLocaleResources = panelLocaleResources;
-
-        setTitle( xLocaleResources.getFrameTitle() );
-        setIconImage( xLocaleResources.getFrameIconImage() );
+        this(
+            builder.getBRPanelLocaleResources(),
+            builder.getBRXLocaleResources(),
+            builder.getBRExitable()
+            );
     }
 
     /**
      * Prepare the frame.
      * *
-     * @param localeResourcesAgregator
+     * @param panelLocaleResources
+     * @param xLocaleResources
+     * @param exitFunction
      *
      * @see #createFrame(BRActionListener)
      */
-    public BRFrame( BRLocaleResourcesAgregator localeResourcesAgregator )
+    public BRFrame(
+        final BRPanelLocaleResources panelLocaleResources,
+        final BRXLocaleResources     xLocaleResources,
+        final BRExitable             exitFunction
+        )
     {
-        this( localeResourcesAgregator, localeResourcesAgregator );
+        this.panelLocaleResources = panelLocaleResources;
+        this.xLocaleResources     = xLocaleResources;
+        this.exitFunction         = exitFunction;
+
+        setTitle( xLocaleResources.getFrameTitle() );
+        setIconImage( xLocaleResources.getFrameIconImage() );
     }
 
     /**
@@ -66,7 +82,7 @@ public class BRFrame extends JFrame
      *
      * @param actionListener
      */
-    public final void createFrame( BRActionListener actionListener )
+    public final void createFrame( final BRActionListener actionListener )
     {
         setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
         this.addWindowListener( new SBRWindowListener() );
@@ -90,7 +106,7 @@ public class BRFrame extends JFrame
      * @see #addToContentPanel(BRPanel)
      * @see #addToContentPanel(Component, Object)
      */
-    public void setLayoutForContentPanel( JPanel contentPane )
+    public void setLayoutForContentPanel( final JPanel contentPane )
     {
         contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         contentPane.setLayout( new BorderLayout( 0, 0 ) );
@@ -103,7 +119,7 @@ public class BRFrame extends JFrame
      * @see #setLayoutForContentPanel(JPanel)
      * @see #addToContentPanel(Component, Object)
      */
-    public void addToContentPanel( BRPanel panel )
+    public void addToContentPanel( final BRPanel panel )
     {
         this.contentPane.add(panel, BorderLayout.CENTER);
     }
@@ -120,22 +136,34 @@ public class BRFrame extends JFrame
      * @see #setLayoutForContentPanel(JPanel)
      * @see #addToContentPanel(BRPanel)
      */
-    public void addToContentPanel( Component comp, Object constraints )
+    public void addToContentPanel( final Component comp, final Object constraints )
     {
         this.contentPane.add( comp, constraints );
     }
 
     private class SBRWindowListener implements WindowListener
     {
-        @Override public void windowOpened( WindowEvent event ) {}
-        @Override public void windowClosed( WindowEvent event ) {}
-        @Override public void windowIconified( WindowEvent event ) {}
-        @Override public void windowDeiconified( WindowEvent event ) {}
-        @Override public void windowActivated( WindowEvent event ) {}
-        @Override public void windowDeactivated( WindowEvent event ) {}
+        @Override public void windowOpened( final WindowEvent event ) {
+            /* ignore event */
+            }
+        @Override public void windowClosed( final WindowEvent event ) {
+            /* ignore event */
+            }
+        @Override public void windowIconified( final WindowEvent event ) {
+            /* ignore event */
+            }
+        @Override public void windowDeiconified( final WindowEvent event ) {
+            /* ignore event */
+            }
+        @Override public void windowActivated( final WindowEvent event ) {
+            /* ignore event */
+            }
+        @Override public void windowDeactivated( final WindowEvent event ) {
+            /* ignore event */
+            }
 
         @Override
-        public void windowClosing( WindowEvent event )
+        public void windowClosing( final WindowEvent event )
         {
             LOGGER.info( "windowClosing: " + event );
 
@@ -143,19 +171,22 @@ public class BRFrame extends JFrame
         }
     }
 
-    public void handleWindowClosing( WindowEvent event )
+    @SuppressWarnings({
+        "squid:S1172" // event is not use (yet ?)
+        })
+    public void handleWindowClosing( final WindowEvent event )
     {
         if( (this.panel == null) || ! this.panel.getSBRActionListener().isRunning() ) {
             systemExit();
             }
         else {
             //Custom button text
-            Object[] options = {
+            final Object[] options = {
                 this.panelLocaleResources.getTextExitRequestYes(),
                 this.panelLocaleResources.getTextExitRequestNo()
                 };
 
-            int n = JOptionPane.showOptionDialog(
+            final int n = JOptionPane.showOptionDialog(
                 this,
                 this.panelLocaleResources.getTextExitRequestMessage(),
                 this.panelLocaleResources.getTextExitRequestTitle(),
@@ -163,7 +194,8 @@ public class BRFrame extends JFrame
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 options,
-                options[1]);
+                options[1]
+                );
 
             if( n == 0 ) {
                 systemExit();
@@ -173,6 +205,11 @@ public class BRFrame extends JFrame
 
     private void systemExit()
     {
-        System.exit( 0 );
+        this.exitFunction.exit();
+    }
+
+    public String getProgressMonitorMessage()
+    {
+        return this.xLocaleResources.getProgressMonitorMessage();
     }
 }

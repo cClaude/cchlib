@@ -1,48 +1,28 @@
 package com.googlecode.cchlib.tools.phone.recordsorter;
 
-import java.awt.Image;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import com.googlecode.cchlib.swing.batchrunner.ihm.DefaultBRLocaleResources;
-import com.googlecode.cchlib.swing.batchrunner.misc.BRLocaleResourcesAgregator;
-import com.googlecode.cchlib.tools.Tools;
+import com.googlecode.cchlib.swing.batchrunner.BRExitable;
+import com.googlecode.cchlib.swing.batchrunner.ihm.AbstractDefaultBRFrameBuilderRessourceBundle;
+import com.googlecode.cchlib.swing.batchrunner.ihm.DefaultBRLocaleResourcesBuilder;
+import com.googlecode.cchlib.swing.batchrunner.misc.MissingResourceValueException;
 
-public class PhoneRecordSorterResources extends DefaultBRLocaleResources implements BRLocaleResourcesAgregator
+public class PhoneRecordSorterResources extends AbstractDefaultBRFrameBuilderRessourceBundle
 {
-    private ResourceBundle resourceBundle;
+    private static final long serialVersionUID = 1L;
 
-    public PhoneRecordSorterResources()
+    public PhoneRecordSorterResources() throws MissingResourceValueException
     {
-        this.resourceBundle = ResourceBundle.getBundle(
-                PhoneRecordSorterResources.class.getPackage().getName()
-                    + ".ResourceBundle"
-                );
+        super( getDefaultBRLocaleResourcesBuilder() );
+    }
+
+    public static DefaultBRLocaleResourcesBuilder getDefaultBRLocaleResourcesBuilder()
+    {
+        return new DefaultBRLocaleResourcesBuilder();
     }
 
     @Override
-    public String getProgressMonitorMessage()
+    @SuppressWarnings("squid:S1147")
+    public BRExitable getBRExitable()
     {
-        return getLocaleString( "ProgressMonitorMessage" );
-    }
-
-    @Override
-    public String getFrameTitle()
-    {
-        return getLocaleString( "FrameTitle" );
-    }
-
-    private String getLocaleString( final String key )
-    {
-        try {
-            return resourceBundle.getString( key );
-        } catch( MissingResourceException e ) {
-            throw new MissingLocaleStringException( key, e );
-        }
-    }
-
-    @Override
-    public Image getFrameIconImage()
-    {
-        return Tools.getToolsIconImage();
+        return () -> System.exit( 0 );
     }
 }

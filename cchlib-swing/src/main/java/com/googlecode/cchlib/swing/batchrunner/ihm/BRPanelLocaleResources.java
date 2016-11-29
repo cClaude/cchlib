@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.swing.batchrunner.ihm;
 
+import java.io.Serializable;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 
 
@@ -7,8 +8,10 @@ import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
  * Text for localization of {@link BRPanel}
  *
  * @since 1.4.8
+ * @see DefaultBRLocaleResources
+ * @see DefaultBRLocaleResourcesBuilder
  */
-public interface BRPanelLocaleResources
+public interface BRPanelLocaleResources extends Serializable
 {
     /**
      * @return localized text for Add source files button
@@ -44,10 +47,12 @@ public interface BRPanelLocaleResources
      *         but there is no destination folder set
      */
     String getTextNoDestinationFolder();
+
     /**
      * @return localized text for message when batch is running
      */
     String getTextWorkingOn_FMT();
+
     /**
      * @return localized text for Exception dialog when an unexpected
      *         exception occur.
