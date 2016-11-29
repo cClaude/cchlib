@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.util;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -14,10 +13,8 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
  * @param <R> Mapped (result) content type
  * @since 4.1.7
  */
-public class CollectionWrapper<S,R> implements Collection<R>,Serializable
+public class CollectionWrapper<S,R> implements Collection<R>
 {
-    static final long serialVersionUID = 1L;
-
     private final Collection<S>  collection;
     private final Wrappable<S,R> wrapper;
     private final Wrappable<R,S> unwrapper;
@@ -43,7 +40,7 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     @Override
     public boolean add( final R e )
     {
-        return collection.add( unwrapper.wrap( e ) );
+        return this.collection.add( this.unwrapper.wrap( e ) );
     }
 
     @Override
@@ -65,7 +62,7 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     @Override
     public void clear()
     {
-        collection.clear();
+        this.collection.clear();
     }
 
     @Override
@@ -74,7 +71,7 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
         @SuppressWarnings("unchecked")
         final
         R rO = (R)o; // $codepro.audit.disable unnecessaryCast
-        return collection.contains( unwrapper.wrap( rO ) );
+        return this.collection.contains( this.unwrapper.wrap( rO ) );
     }
 
     @Override
@@ -91,13 +88,13 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     @Override
     public boolean isEmpty()
     {
-        return collection.isEmpty();
+        return this.collection.isEmpty();
     }
 
     @Override
     public Iterator<R> iterator()
     {
-        return new IteratorWrapper<>( collection.iterator(), wrapper );
+        return new IteratorWrapper<>( this.collection.iterator(), this.wrapper );
     }
 
     @Override
@@ -106,7 +103,7 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
         @SuppressWarnings("unchecked")
         final
         R rO = (R)o; // $codepro.audit.disable unnecessaryCast
-        return collection.remove( unwrapper.wrap( rO ) );
+        return this.collection.remove( this.unwrapper.wrap( rO ) );
     }
 
     @Override
@@ -128,7 +125,7 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     @Override
     public int size()
     {
-        return collection.size();
+        return this.collection.size();
     }
 
     @Override
@@ -152,7 +149,7 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     @Override
     public Object[] toArray()
     {
-        final Object[] array = new Object[ collection.size() ];
+        final Object[] array = new Object[ this.collection.size() ];
         int      i     = 0;
 
         for( final R e : this ) {
@@ -165,7 +162,7 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
     @Override
     public <T> T[] toArray( final T[] a )
     {
-        if( a.length >= collection.size() ) {
+        if( a.length >= this.collection.size() ) {
             int i = 0;
 
             for( final R entry : this ) {
@@ -178,7 +175,7 @@ public class CollectionWrapper<S,R> implements Collection<R>,Serializable
             return a;
             }
         else {
-            final List<T> list = new ArrayList<>( collection.size() );
+            final List<T> list = new ArrayList<>( this.collection.size() );
 
             for( final R entry : this ) {
                 @SuppressWarnings("unchecked")

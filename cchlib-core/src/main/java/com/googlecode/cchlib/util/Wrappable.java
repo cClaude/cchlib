@@ -17,6 +17,7 @@ package com.googlecode.cchlib.util;
  * @see WrapperHelper
  * @since 4.1.7
  */
+@FunctionalInterface
 public interface Wrappable<S,R>
 {
     /**
@@ -28,5 +29,6 @@ public interface Wrappable<S,R>
      *         use {@link WrapperException#getCause()} to have
      *         initial error.
      */
-    abstract R wrap(S obj) throws WrapperException;
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    R wrap(S obj) throws WrapperException;
 }
