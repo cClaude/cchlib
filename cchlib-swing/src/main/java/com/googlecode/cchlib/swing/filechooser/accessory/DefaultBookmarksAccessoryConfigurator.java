@@ -18,7 +18,7 @@ import com.googlecode.cchlib.lang.StringHelper;
 
 /**
  * Provide a basic implementation for
- * {@link com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory.LastSelectedFilesAccessoryConfigurator}
+ * {@link BookmarksAccessory.LastSelectedFilesAccessoryConfigurator}
  * based on {@link Properties}
  */
 public class DefaultBookmarksAccessoryConfigurator
@@ -46,7 +46,27 @@ public class DefaultBookmarksAccessoryConfigurator
             );
     }
 
-    private static File getDefaultConfigFilePropertiesFile() {
+    /**
+     * Create a BookmarksAccessoryDefaultConfigurator based
+     * on giving properties file.
+     *
+     * @param configFileProperties File to use as input/output
+     * properties
+     */
+    public DefaultBookmarksAccessoryConfigurator(
+        final File   configFileProperties,
+        final String keysPropertyPrefix
+        )
+    {
+        this.bookmarks              = new ArrayList<>();
+        this.configFileProperties   = configFileProperties;
+        this.keysPropertyPrefix     = keysPropertyPrefix;
+
+        loadBookmarks();
+    }
+
+    private static File getDefaultConfigFilePropertiesFile()
+    {
         final File userHomeDirFile = new File( System.getProperty("user.home") );
         final File defaultConfigFilePropertiesFile = new File(
                 userHomeDirFile,
@@ -60,34 +80,34 @@ public class DefaultBookmarksAccessoryConfigurator
         if( obsoleteConfigFilePropertiesFile.isFile() ) {
             if( defaultConfigFilePropertiesFile.isFile() ) {
                 // Both exist, delete obsolete version
-                obsoleteConfigFilePropertiesFile.delete();
+                delete( obsoleteConfigFilePropertiesFile );
                 }
             else {
                 // Just rename
-                obsoleteConfigFilePropertiesFile.renameTo(defaultConfigFilePropertiesFile);
+                renameTo(
+                    obsoleteConfigFilePropertiesFile,
+                    defaultConfigFilePropertiesFile
+                    );
                 }
             }
 
         return defaultConfigFilePropertiesFile;
     }
 
-    /**
-     * Create a BookmarksAccessoryDefaultConfigurator based
-     * on giving properties file.
-     *
-     * @param configFileProperties File to use as input/output
-     * properties
-     */
-    public DefaultBookmarksAccessoryConfigurator(
-            final File      configFileProperties,
-            final String    keysPropertyPrefix
-            )
+    private static void delete( final File file )
     {
-        this.bookmarks              = new ArrayList<>();
-        this.configFileProperties   = configFileProperties;
-        this.keysPropertyPrefix     = keysPropertyPrefix;
+        @SuppressWarnings("squid:S1854")
+        final boolean res = file.delete();
 
-        loadBookmarks();
+        assert res : "can not delete " + file;
+    }
+
+    private static void renameTo( final File fromFile, final File toFile )
+    {
+        @SuppressWarnings("squid:S1854")
+        final boolean res = fromFile.renameTo( toFile );
+
+        assert res : "can not rename " + fromFile + " to " + toFile;
     }
 
     private Properties loadProperties()

@@ -7,9 +7,9 @@ import javax.swing.JTextPane;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.batchrunner.BRExecutionEventFactory;
-import com.googlecode.cchlib.swing.batchrunner.ihm.BRPanelConfig;
 import com.googlecode.cchlib.swing.batchrunner.ihm.BRActionListener;
 import com.googlecode.cchlib.swing.batchrunner.ihm.BRFrame;
+import com.googlecode.cchlib.swing.batchrunner.ihm.BRPanelConfig;
 import com.googlecode.cchlib.swing.batchrunner.impl.BRExecutionEventFactoryImpl;
 import com.googlecode.cchlib.swing.batchrunner.misc.BRLocaleResourcesAgregator;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
@@ -21,6 +21,47 @@ import com.googlecode.cchlib.tools.phone.recordsorter.conf.json.JSONConfigFactor
  */
 public class PhoneRecordSorterApp implements Runnable
 {
+    private static final Logger LOGGER = Logger.getLogger( PhoneRecordSorterApp.class );
+
+    private final ConfigFactory configFactory;
+    private final BRPanelConfig ihmConfig;
+    private final BRLocaleResourcesAgregator localeResources;
+
+    public PhoneRecordSorterApp(
+        final ConfigFactory                 configFactory,
+        final BRPanelConfig                 ihmConfig,
+        final BRLocaleResourcesAgregator    localeResources
+        )
+    {
+        this.configFactory          = configFactory;
+        this.ihmConfig              = ihmConfig;
+        this.localeResources        = localeResources;
+    }
+
+    @Override
+    public void run()
+    {
+        try {
+            @SuppressWarnings("deprecation")
+            final PhoneRecordSorterTask   task            = new PhoneRecordSorterTask( this.configFactory );
+            final BRFrame                 frame           = new BRFrame( this.localeResources );
+            final BRExecutionEventFactory eventFactory    = new BRExecutionEventFactoryImpl( frame, this.localeResources );
+            final BRActionListener        actionListener  = new BRActionListener( eventFactory, task, this.ihmConfig );
+
+            final JTextPane guiLogger = new JTextPane();
+
+            frame.createFrame( actionListener );
+            frame.addToContentPanel( guiLogger, BorderLayout.SOUTH );
+
+            frame.setVisible( true );
+            }
+        catch( final Exception e ) {
+            LOGGER.fatal( "Can not start", e );
+
+            DialogHelper.showMessageExceptionDialog( this.localeResources.getFrameTitle(), e );
+            }
+    }
+
     /**
      * Launch the application.
      */
@@ -42,47 +83,5 @@ public class PhoneRecordSorterApp implements Runnable
                 );
 
         EventQueue.invokeLater( app );
-    }
-
-    private static final Logger LOGGER = Logger.getLogger( PhoneRecordSorterApp.class );
-
-    private ConfigFactory configFactory;
-    private BRPanelConfig ihmConfig;
-    private BRLocaleResourcesAgregator localeResources;
-
-    private JTextPane guiLogger;
-
-    public PhoneRecordSorterApp(
-        final ConfigFactory                 configFactory,
-        final BRPanelConfig                 ihmConfig,
-        final BRLocaleResourcesAgregator    localeResources
-        )
-    {
-        this.configFactory          = configFactory;
-        this.ihmConfig              = ihmConfig;
-        this.localeResources        = localeResources;
-    }
-
-    @Override
-    public void run()
-    {
-        try {
-            PhoneRecordSorterTask   task            = new PhoneRecordSorterTask( configFactory );
-            BRFrame                 frame           = new BRFrame( localeResources );
-            BRExecutionEventFactory eventFactory    = new BRExecutionEventFactoryImpl( frame, localeResources );
-            BRActionListener        actionListener  = new BRActionListener( eventFactory, task, ihmConfig );
-
-            this.guiLogger = new JTextPane();
-
-            frame.createFrame( actionListener );
-            frame.addToContentPanel( guiLogger, BorderLayout.SOUTH );
-
-            frame.setVisible( true );
-            }
-        catch( Exception e ) {
-            LOGGER.fatal( "Can not start", e );
-
-            DialogHelper.showMessageExceptionDialog( localeResources.getFrameTitle(), e );
-            }
     }
 }

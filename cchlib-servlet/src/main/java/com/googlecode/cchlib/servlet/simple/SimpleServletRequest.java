@@ -7,13 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Custom view of {@link HttpServletRequest}. Helper to have a easiest way
  * to get parameters values.
+ *
+ * @since 2.01
  */
 public interface SimpleServletRequest
 {
     /**
-    * Return a {@link ParameterValue} for this <code>name<code>
+    * Return a {@link ParameterValue} for this <code>name</code>
     * @param name Name of the parameter you want
-    * @return a {@link ParameterValue} for this <code>name<code>
+    * @return a {@link ParameterValue} for this <code>name</code>
     */
     ParameterValue getParameter(String name);
 

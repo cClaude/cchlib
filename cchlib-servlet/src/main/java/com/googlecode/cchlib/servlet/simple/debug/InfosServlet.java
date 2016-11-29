@@ -111,12 +111,12 @@ public class InfosServlet extends HttpServlet
      * Include this :
      * cx.ath.choisnet.servlet.debug.InfosServlet.appendHTML( out, this, request, response );
      *
-     * @param output
-     * @param servlet
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
+     * @param output NEEDDOC
+     * @param servlet NEEDDOC
+     * @param request NEEDDOC
+     * @param response NEEDDOC
+     * @throws ServletException NEEDDOC
+     * @throws IOException NEEDDOC
      */
     public static void appendHTML(
             final Appendable          output,
@@ -135,11 +135,11 @@ public class InfosServlet extends HttpServlet
      * Include this :
      * cx.ath.choisnet.servlet.debug.InfosServlet.appendHTML( out, this, pageContext );
      *
-     * @param output
-     * @param servlet
-     * @param pageContext
-     * @throws ServletException
-     * @throws IOException
+     * @param output NEEDDOC
+     * @param servlet NEEDDOC
+     * @param pageContext NEEDDOC
+     * @throws ServletException NEEDDOC
+     * @throws IOException NEEDDOC
      */
     public static void appendHTML(
             final Appendable     output,

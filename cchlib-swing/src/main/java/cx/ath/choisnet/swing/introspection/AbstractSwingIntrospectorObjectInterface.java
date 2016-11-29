@@ -2,33 +2,32 @@ package cx.ath.choisnet.swing.introspection;
 
 import java.util.Map;
 import org.apache.log4j.Logger;
-import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import cx.ath.choisnet.lang.introspection.method.Introspection;
 import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
 
 /**
  * This class provide a default implementation for {@link SwingIntrospectorObjectInterface}
- * </BR>
  *
- * @param <FRAME>
- * @param <OBJECT>
- * @param <OBJECT_ENTRY>
+ * @param <FRAME> NEEDDOC
+ * @param <OBJECT> NEEDDOC
+ * @param <OBJECT_ENTRY> NEEDDOC
  *
  */
+@SuppressWarnings("squid:S00119")
 public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY extends IntrospectionItem<OBJECT>>
     implements SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY>
 {
-    private static Logger LOGGER = Logger.getLogger(AbstractSwingIntrospectorObjectInterface.class);
+    private static final Logger LOGGER = Logger.getLogger(AbstractSwingIntrospectorObjectInterface.class);
 
     private Class<FRAME> frameClass;
     private Introspection<OBJECT,OBJECT_ENTRY> introspection;
     private ComponentInitializer componentInitializer;
 
     public AbstractSwingIntrospectorObjectInterface(
-            Class<FRAME>                        frameClass,
-            Introspection<OBJECT,OBJECT_ENTRY>  introspection,
-            ComponentInitializer                componentInitializer
-            )
+        final Class<FRAME>                        frameClass,
+        final Introspection<OBJECT,OBJECT_ENTRY>  introspection,
+        final ComponentInitializer                componentInitializer
+        )
     {
         this.frameClass             = frameClass;
         this.introspection          = introspection;
@@ -36,15 +35,15 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
     }
 
     public AbstractSwingIntrospectorObjectInterface(
-            Class<FRAME>                        frameClass,
-            Introspection<OBJECT,OBJECT_ENTRY>  introspection
-            )
+        final Class<FRAME>                        frameClass,
+        final Introspection<OBJECT,OBJECT_ENTRY>  introspection
+        )
     {
         this(
-                frameClass,
-                introspection,
-                new DefaultComponentInitializer<OBJECT,OBJECT_ENTRY>(introspection)
-                );
+            frameClass,
+            introspection,
+            new DefaultComponentInitializer<OBJECT,OBJECT_ENTRY>( introspection )
+            );
     }
 
     /**
@@ -56,27 +55,6 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
         return this.frameClass;
     }
 
-//    /**
-//     * @param componentToInit
-//     * @param beanname
-//     * @throws SwingIntrospectorException
-//     * @See {@link ComponentInitializer}
-//     * @See {@link ComponentInitializer#initComponent(Object, cx.ath.choisnet.lang.introspection.method.IntrospectionItem, String)}
-//     */
-//    //@Override
-//    final // TO DO: remove this
-//    public void initComponent(
-//            Object  componentToInit,
-//            String  beanname
-//            )
-//    throws SwingIntrospectorException
-//    {
-//        OBJECT_ENTRY iItem = introspection.getItem( beanname );
-//
-//        //componentInitializer.initComponent( componentToInit, iItem, beanname );
-//
-//    }
-
     /**
      * Get a FramePopulator for giving values
      * @param frame
@@ -85,34 +63,24 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
      */
     @Override
     public FramePopulator<FRAME,OBJECT> getFramePopulator(
-            final FRAME   frame,
-            final OBJECT  object
-            )
+        final FRAME   frame,
+        final OBJECT  object
+        )
     {
         // TODO: ?? store frame and object on instance
         // if they have not change, don't build a new object ???
         final FrameFieldPopulator<FRAME,OBJECT> ffp = getFrameFieldPopulator( frame, object );
 
-        return new FramePopulator<FRAME,OBJECT>()
-        {
-            @Override
-            public void populateFrame(
-                    SwingIntrospectorRootItem<FRAME>    rootItem,
-                    String                              beanname
-                    ) throws SwingIntrospectorException,
-                             IntrospectionInvokeException
-            {
-                IntrospectionItem<OBJECT> iItem = getObjectEntry( beanname );
+        return ( rootItem, beanname ) -> {
+            final IntrospectionItem<OBJECT> iItem = getObjectEntry( beanname );
 
-                if( iItem != null ) {
-                    ffp.populateFields( rootItem, iItem );
-                }
-                else {
-                    // TODO some exception !!
-                    LOGGER.fatal( "*** Not InspectionItem for: " + beanname );
-                }
+            if( iItem != null ) {
+                ffp.populateFields( rootItem, iItem );
             }
-
+            else {
+                // TODO some exception !!
+                LOGGER.fatal( "*** Not InspectionItem for: " + beanname );
+            }
         };
     }
 
@@ -125,14 +93,6 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
      * @return a valid FrameFieldPopulator for giving FRAME/OBJECT
      */
     public abstract FrameFieldPopulator<FRAME,OBJECT> getFrameFieldPopulator(FRAME frame, OBJECT object);
-
-//    /**
-//     * Get a ObjectPopulator for giving values
-//     * @param frame
-//     * @param object
-//     * @return ObjectPopulator for these instances
-//     */
-//    public ObjectPopulator<FRAME,OBJECT,OBJECT_ENTRY> getObjectPopulator( FRAME frame, OBJECT object );
 
     /**
      *
@@ -149,21 +109,21 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
      */
     protected Introspection<OBJECT, OBJECT_ENTRY> getIntrospection()
     {
-        return introspection;
+        return this.introspection;
     }
 
     /**
      * @param beanname
      * @return the OBJECT_ENTRY
      */
-    protected OBJECT_ENTRY getObjectEntry(String beanname)
+    protected OBJECT_ENTRY getObjectEntry(final String beanname)
     {
-        return introspection.getItem( beanname );
+        return this.introspection.getItem( beanname );
     }
 
     @Override
     public ComponentInitializer getComponentInitializer()
     {
-        return componentInitializer;
+        return this.componentInitializer;
     }
 }

@@ -9,16 +9,16 @@ import com.googlecode.cchlib.servlet.exception.ServletActionException;
 
 /**
  * NEEDDOC
- *
  */
+@FunctionalInterface
 public interface ServletAction
 {
     /**
      * NEEDDOC
      *
-     * @param request
-     * @param response
-     * @param context
+     * @param request NEEDDOC
+     * @param response NEEDDOC
+     * @param context NEEDDOC
      * @return {@link Action} describing what
      * {@link ActionServlet} should do after running doAction() method.
      */

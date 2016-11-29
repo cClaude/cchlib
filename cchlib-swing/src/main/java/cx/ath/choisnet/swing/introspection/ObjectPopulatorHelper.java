@@ -17,6 +17,7 @@ import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
  *
  * @author CC
  */
+@SuppressWarnings("squid:S00119")
 public class ObjectPopulatorHelper
 {
     private ObjectPopulatorHelper()
@@ -79,7 +80,7 @@ public class ObjectPopulatorHelper
      * </tr>
      * </table>
      *
-     * @param <OBJECT>
+     * @param <OBJECT> type of object
      * @param fieldObject - this is typical result from {@link SwingIntrospectorItem#getFieldObject(Object)}
      * @param iItem
      *
@@ -89,10 +90,13 @@ public class ObjectPopulatorHelper
      *         to handle type.
      * @throws SwingIntrospectorParseException
      */
-    @SuppressWarnings("squid:MethodCyclomaticComplexity") // Dispatcher
+    @SuppressWarnings({
+        "squid:MethodCyclomaticComplexity", // Dispatcher
+        "squid:S1160"
+        })
     public static <OBJECT> Object getFieldValue(
-            final Object                fieldObject,
-            final IntrospectionItem<OBJECT>   iItem
+            final Object                    fieldObject,
+            final IntrospectionItem<OBJECT> iItem
             )
         throws SwingIntrospectorUnsupportedClassException,
                SwingIntrospectorParseException

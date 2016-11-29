@@ -31,7 +31,6 @@ import javax.swing.event.ListDataEvent;
  * combo box list to a fixed number of elements {@link #setMaximumItem(int)},
  * you must consider overwrite {@link #removeOldestItems(int)}
  * to provide your own rules to delete oldest items.
- * </P>
  *
  * @since 4.1.6
  */

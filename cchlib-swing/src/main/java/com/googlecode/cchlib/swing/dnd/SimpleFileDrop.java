@@ -37,12 +37,12 @@ import com.googlecode.cchlib.lang.StringHelper;
  * a Java program. Any {@link java.awt.Component} can be dropped onto, but only
  * {@link javax.swing.JComponent}s will indicate the drop event with a changed
  * border.
- * <p/>
+ * <p>
  * To use this class, construct a new {@link SimpleFileDrop} by passing it
  * the target component and a {@link SimpleFileDropListener} to receive
  * notification when file(s) have been dropped. Here is an example:
- * <p/>
- * <code><pre>
+ *
+ * <pre>
  *      JPanel myPanel = new JPanel();
  *      ...
  *      new SimpleFileDrop( myPanel, new SimpleFileDropListener()
@@ -52,12 +52,11 @@ import com.googlecode.cchlib.lang.StringHelper;
  *              ...
  *          }
  *      }).addDropTargetListener();
- * </pre></code>
- * <p/>
+ * </code>
+ * <p>
  * You can specify the border that will appear when files are being dragged by
  * calling the constructor with a <tt>javax.swing.border.Border</tt>. Only
  * <tt>JComponent</tt>s will show any indication with a border.
- * <p/>
  *
  * <em>Original author: Robert Harder, rharder@usa.net</em>
  *

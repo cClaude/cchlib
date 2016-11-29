@@ -13,11 +13,13 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
  * <li>Copy/Paste support using context menu</li>
  * </ul>
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class XTextField extends JTextField implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
-    @I18nString private String copyTxt  = "Copy";
-    @I18nString private String pasteTxt = "Paste";
+
+    @I18nString private String copyTxt;
+    @I18nString private String pasteTxt;
 
     /**
      * Constructs a new TextField. A default model is created,
@@ -46,7 +48,7 @@ public class XTextField extends JTextField implements I18nAutoCoreUpdatable
      * A default model is created and the initial string is set to null.
      *
      * @param columns the number of columns to use to calculate the preferred
-     *             width >= 0; if columns is set to zero, the preferred width
+     *             width &gt;= 0; if columns is set to zero, the preferred width
      *             will be whatever naturally results from the component
      *             implementation
      */
@@ -63,11 +65,11 @@ public class XTextField extends JTextField implements I18nAutoCoreUpdatable
      *
      * @param text the initial string to display, or null
      * @param columns the number of columns to use to calculate the preferred
-     *             width >= 0; if columns is set to zero, the preferred width
+     *             width &gt;= 0; if columns is set to zero, the preferred width
      *             will be whatever naturally results from the component
      *             implementation
      */
-    public XTextField( final String text, int columns )
+    public XTextField( final String text, final int columns )
     {
         super( text, columns );
 
@@ -84,12 +86,12 @@ public class XTextField extends JTextField implements I18nAutoCoreUpdatable
      *            be provided by calling the createDefaultModel method
      * @param text the initial string to display, or null
      * @param columns the number of columns to use to calculate the preferred
-     *             width >= 0; if columns is set to zero, the preferred width
+     *             width &gt;= 0; if columns is set to zero, the preferred width
      *             will be whatever naturally results from the component
      *             implementation
-     * @throws IllegalArgumentException if columns < 0
+     * @throws IllegalArgumentException if columns &lt; 0
      */
-    public XTextField( final Document doc, String text, int columns )
+    public XTextField( final Document doc, final String text, final int columns )
     {
         super( doc, text, columns );
 
@@ -98,6 +100,9 @@ public class XTextField extends JTextField implements I18nAutoCoreUpdatable
 
     private void init()
     {
+        this.copyTxt  = "Copy";
+        this.pasteTxt = "Paste";
+
         new JPopupMenuForJTextField( XTextField.this )
         {
             private static final long serialVersionUID = 1L;
@@ -105,7 +110,7 @@ public class XTextField extends JTextField implements I18nAutoCoreUpdatable
             @Override
             protected JPopupMenu createContextMenu()
             {
-                JPopupMenu contextMenu = new JPopupMenu();
+                final JPopupMenu contextMenu = new JPopupMenu();
 
                 addCopyMenuItem( contextMenu, getTextForCopy() );
                 addPasteMenuItem( contextMenu,getTextForPaste() );
@@ -121,7 +126,7 @@ public class XTextField extends JTextField implements I18nAutoCoreUpdatable
      */
     public String getTextForCopy()
     {
-        return copyTxt;
+        return this.copyTxt;
     }
 
     /**
@@ -130,7 +135,7 @@ public class XTextField extends JTextField implements I18nAutoCoreUpdatable
      */
     public String getTextForPaste()
     {
-        return pasteTxt ;
+        return this.pasteTxt ;
     }
 
     @Override

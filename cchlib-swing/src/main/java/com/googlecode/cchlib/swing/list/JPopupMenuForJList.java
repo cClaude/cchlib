@@ -86,7 +86,7 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
  * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
  * </p>
  *
- * @param <E> Type on {@link JLisk} elements
+ * @param <E> Type on {@link JList} elements
  */
 public abstract class JPopupMenuForJList<E>
     extends AbstractJPopupMenuBuilder

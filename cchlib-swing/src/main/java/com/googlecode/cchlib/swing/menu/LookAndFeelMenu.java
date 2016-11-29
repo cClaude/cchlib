@@ -13,6 +13,7 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.EventListenerList;
 import org.apache.log4j.Logger;
 
@@ -30,19 +31,85 @@ import org.apache.log4j.Logger;
  */
 public class LookAndFeelMenu
 {
+    private final class LookAndFeelMenuMouseAdapter extends MouseAdapter implements Runnable
+    {
+        private final String cname;
+
+        LookAndFeelMenuMouseAdapter( final String cname )
+        {
+            this.cname = cname;
+        }
+
+        @Override
+        public void run()
+        {
+            try {
+                runUnsafe();
+                }
+            catch( final Exception e ) {
+                LOGGER.error( "Apply LookAndFeel: " + this.cname, e );
+                }
+        }
+
+        private void runUnsafe() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException
+        {
+            UIManager.setLookAndFeel( this.cname );
+
+            for( final Component c : LookAndFeelMenu.this.componentList ) {
+                SwingUtilities.updateComponentTreeUI( c );
+                }
+
+            for( final Component c : LookAndFeelMenu.this.componentList ) {
+                if( c instanceof Window ) {
+                    updateWindow( Window.class.cast( c ) );
+                    }
+                }
+
+            fireLookAndFeelChanging( this.cname );
+        }
+
+        private void updateWindow( final Window window )
+        {
+            final Dimension size = window.getSize();
+
+            // Redraw gadget
+            window.pack();
+
+            // Try to keep original size
+            final Dimension newSize = window.getSize();
+
+            if( newSize.height < size.height ) {
+                newSize.height = size.height;
+                }
+
+            if( newSize.width < size.width ) {
+                newSize.width = size.width;
+                }
+
+            window.setSize( newSize );
+        }
+
+        @Override
+        public void mousePressed( final MouseEvent event )
+        {
+            SwingUtilities.invokeLater( this );
+        }
+    }
+
     private static final Logger LOGGER = Logger.getLogger( LookAndFeelMenu.class );
     private static final String NIMBUS_LNF = "Nimbus";
 
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
     private LookAndFeelInfo[] lookAndFeelInfos;
-    private List<Component> componentList = new ArrayList<>();
+    private final List<Component> componentList = new ArrayList<>();
 
     /**
      *
      */
     public LookAndFeelMenu()
     {
+        // Default
     }
 
     /**
@@ -96,17 +163,17 @@ public class LookAndFeelMenu
      */
     public void buildMenu( final JMenu jMenu )
     {
-        ButtonGroup buttonGroup = new ButtonGroup();
-        String      currentLookAndFeelClassName = UIManager.getLookAndFeel().getClass().getName();
+        final ButtonGroup buttonGroup = new ButtonGroup();
+        final String      currentLookAndFeelClassName = UIManager.getLookAndFeel().getClass().getName();
 
-        if( lookAndFeelInfos == null ) {
-            lookAndFeelInfos = UIManager.getInstalledLookAndFeels();
+        if( this.lookAndFeelInfos == null ) {
+            this.lookAndFeelInfos = UIManager.getInstalledLookAndFeels();
             }
 
-        for( LookAndFeelInfo info : lookAndFeelInfos ) {
+        for( final LookAndFeelInfo info : this.lookAndFeelInfos ) {
             // Nimbus did not work properly with dynamic update
             if( ! info.getName().equals( NIMBUS_LNF )) {
-                JRadioButtonMenuItem jMenuItem = new JRadioButtonMenuItem();
+                final JRadioButtonMenuItem jMenuItem = new JRadioButtonMenuItem();
 
                 jMenuItem.setText( info.getName() );
                 final String cname = info.getClassName();
@@ -117,54 +184,9 @@ public class LookAndFeelMenu
 
                 buttonGroup.add( jMenuItem );
 
-                final Runnable r = new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        try {
-                            UIManager.setLookAndFeel( cname );
-
-                            for( Component c : componentList ) {
-                                SwingUtilities.updateComponentTreeUI( c );
-                                }
-
-                            for( Component c : componentList ) {
-                                if( c instanceof Window ) {
-                                    final Window    w    = Window.class.cast( c );
-                                    final Dimension size = w.getSize();
-
-                                    // Redraw gadget
-                                    w.pack();
-
-                                    // Try to keep original size
-                                    Dimension newSize = w.getSize();
-                                    if( newSize.height < size.height ) {
-                                        newSize.height = size.height;
-                                        }
-                                    if( newSize.width < size.width ) {
-                                        newSize.width = size.width;
-                                        }
-
-                                    w.setSize( newSize );
-                                    }
-                                }
-
-                            fireLookAndFeelChanging( cname );
-                            }
-                        catch( Exception e ) {
-                            LOGGER.error( "Apply LookAndFeel: " + cname, e );
-                            }
-                    }
-                };
-
-                jMenuItem.addMouseListener( new MouseAdapter() {
-                    @Override
-                    public void mousePressed( MouseEvent event )
-                    {
-                        SwingUtilities.invokeLater( r );
-                    }
-                });
+                jMenuItem.addMouseListener(
+                    new LookAndFeelMenuMouseAdapter( cname )
+                    );
 
                 jMenu.add( jMenuItem );
             }
@@ -182,7 +204,7 @@ public class LookAndFeelMenu
         final LookAndFeelListener listener
         )
     {
-        listenerList.add( LookAndFeelListener.class, listener );
+        this.listenerList.add( LookAndFeelListener.class, listener );
     }
 
     /**
@@ -196,7 +218,7 @@ public class LookAndFeelMenu
         final LookAndFeelListener listener
         )
     {
-        listenerList.remove( LookAndFeelListener.class, listener );
+        this.listenerList.remove( LookAndFeelListener.class, listener );
     }
 
     /**
@@ -208,7 +230,7 @@ public class LookAndFeelMenu
         final String lookAndFeelName
         )
     {
-        Object[] listeners = listenerList.getListenerList();
+        final Object[] listeners = this.listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
             if( listeners[i] == LookAndFeelListener.class ) {

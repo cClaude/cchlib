@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.swing.introspection;
 
 import java.awt.Component;
@@ -64,10 +61,10 @@ import org.apache.log4j.Logger;
 public class Bean implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(Bean.class);
+    private static final Logger LOGGER = Logger.getLogger( Bean.class );
 
     protected static final String SEPARATOR = "_";
-    protected static final String ROOT_TAG = "$root";
+    protected static final String ROOT_TAG  = "$root";
     protected static final String INDEX_TAG = "$";
 
     /** @serial */
@@ -199,5 +196,4 @@ public class Bean implements Serializable
 
         return builder.toString();
     }
-
 }

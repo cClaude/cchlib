@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.tools.phone.recordsorter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,11 +15,7 @@ import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.util.ConfigDebug;
 import com.googlecode.cchlib.tools.phone.recordsorter.core.DestinationFolders;
 
-/**
- * @deprecated no replacement
- */
-@Deprecated
-public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRRunnable
+public class PhoneRecordSorterTask extends AbstractBRRunnable
 {
     private static final Logger LOGGER = Logger.getLogger( PhoneRecordSorterTask.class );
 
@@ -36,18 +31,18 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
     @Override
     public void execute( final BRExecutionEvent event ) throws BRExecutionException
     {
-      File sourceFile      = event.getSourceFile();
-      File destinationFile = event.getDestinationFile();
+      final File sourceFile      = event.getSourceFile();
+      final File destinationFile = event.getDestinationFile();
 
       LOGGER.info( "DO execute() : " + sourceFile + " -> " + destinationFile );
 
       try {
-          CurrentTask task = new CurrentTask( destinationFile );
+          final CurrentTask task = new CurrentTask( destinationFile );
 
           task.sortDirectoryRec( sourceFile );
           task.saveConf();
           }
-      catch( IOException e ) {
+      catch( final IOException e ) {
           // TODO Auto-generated catch block
           e.printStackTrace();
           }
@@ -67,26 +62,26 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
 
     public class CurrentTask
     {
-        private File               configFile;
-        private Config             config;
-        private DestinationFolders destinationFolders;
+        private final File               configFile;
+        private final Config             config;
+        private final DestinationFolders destinationFolders;
 
         public CurrentTask( final File destinationFolderFile) throws IOException
         {
             this.configFile     = new File( destinationFolderFile, "config.json" );
-            this.config         = configFactory.load( configFile );
+            this.config         = PhoneRecordSorterTask.this.configFactory.load( this.configFile );
 
-            ConfigDebug.debug( config, System.err );
+            ConfigDebug.debug( this.config, System.err );
 
-            this.destinationFolders = new DestinationFolders( config, destinationFolderFile );
+            this.destinationFolders = new DestinationFolders( this.config, destinationFolderFile );
 
             log( "DEST  :" + destinationFolderFile );
             log( "DEST.exists()  :" + destinationFolderFile.exists() );
         }
 
-        public void saveConf() throws FileNotFoundException, IOException
+        public void saveConf() throws IOException
         {
-            configFactory.encodeToFile( config, configFile );
+            PhoneRecordSorterTask.this.configFactory.encodeToFile( this.config, this.configFile );
         }
 
         public void sortDirectoryRec( final File sourceFolderFile )
@@ -94,7 +89,7 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
             log( "SOURCE:" + sourceFolderFile );
             log( "SOURCE.exists():" + sourceFolderFile.exists() );
 
-            FileIterator iter = new FileIterator( sourceFolderFile, new FileFileFilter() );
+            final FileIterator iter = new FileIterator( sourceFolderFile, new FileFileFilter() );
 
             log( "Explore:" + sourceFolderFile );
 
@@ -107,7 +102,7 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
         {
             final String filename = file.getName();
 
-            Matcher m = filenamePattern.matcher( filename );
+            final Matcher m = PhoneRecordSorterTask.this.filenamePattern.matcher( filename );
 
             if( m.find() ) {
                 String number = filename.substring( 17 );
@@ -124,10 +119,10 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
                 }
 
                 log( "> filename " + filename + " number " + number );
-                File destination = destinationFolders.getFolder( number );
+                File destination = this.destinationFolders.getFolder( number );
 
                 if( destination == null ) {
-                    destination = destinationFolders.createFolder( number, number );
+                    destination = this.destinationFolders.createFolder( number, number );
                 }
 
                 log( "> move " + number + " to " + destination );
@@ -149,7 +144,7 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable // implements SBRR
 
             assert destinationFolder.exists() : destinationFolder + " does not exist";
 
-            File target = new File( destinationFolder, source.getName() );
+            final File target = new File( destinationFolder, source.getName() );
 
             assert !target.exists() : target + " already exist";
 

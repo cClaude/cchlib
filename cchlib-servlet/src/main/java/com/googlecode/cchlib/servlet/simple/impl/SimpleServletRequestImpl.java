@@ -11,6 +11,8 @@ import com.googlecode.cchlib.servlet.simple.UserAgent;
 
 /**
  * Default implementation of {@link SimpleServletRequest}
+ *
+ * @since 2.01
  */
 public class SimpleServletRequestImpl
     implements SimpleServletRequest
