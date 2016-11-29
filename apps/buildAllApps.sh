@@ -20,6 +20,7 @@ mvnInstallJar()
 saveJars()
 {
   echo "-- saveJars($1) --"
+  pwd
   cp ./$1/target/*.jar "${JARS_DIRECTORY}"
 }
 
@@ -41,7 +42,3 @@ mvnPackageJar xcchlib-tools/
 
 saveJars cchlib-apps-duplicatefilesmanager
 saveJars cchlib-apps-editresourcebundle
-
-# Remove unwanted files
-# rm ${JARS_DIRECTORY}/*-javadoc.jar
-# rm ${JARS_DIRECTORY}/original-*.jar

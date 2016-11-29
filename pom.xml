@@ -17,6 +17,7 @@
     <buildNumber>${maven.build.timestamp}</buildNumber>
     <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.java.source.version>1.8</project.java.source.version>
     <project.java.target.version>1.8</project.java.target.version>
 
@@ -24,7 +25,9 @@
     <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
     <project.javadoc.warning>false</project.javadoc.warning><!-- FIXME = true -->
     <project.javadoc.excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented:cx.ath.choisnet.tools.*</project.javadoc.excludePackageNames>
-    <additionalparam>-Xdoclint:none</additionalparam>
+    <!-- see http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javadoc.html -->
+    <!-- additionalparam>-Xdoclint:none</additionalparam -->
+    <!-- additionalparam>-Xdoclint:accessibility</additionalparam -->
 
     <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
     <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
@@ -143,11 +146,12 @@
         </configuration>
       </plugin>
 
-      <!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>10.4</version>
         <configuration>
+          <failOnError>false</failOnError>
           <charset>UTF-8</charset>
           <docencoding>UTF-8</docencoding>
           <docfilessubdirs>true</docfilessubdirs>
@@ -155,14 +159,13 @@
           <showWarnings>${project.javadoc.warning}</showWarnings>
           <showDeprecation>true</showDeprecation>
           <show>protected</show>
-          <excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented</excludePackageNames>
+         <excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented</excludePackageNames>
           <links>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
+            <link>http://docs.oracle.com/javase/8/docs/api/</link>
           </links>
           <source>${project.java.source.version}</source>
-      </configuration>
+        </configuration>
       </plugin>
-      -->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -197,59 +200,59 @@
         </executions>
       </plugin>
 
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <versionRange>[1.3,)</versionRange>
-                    <goals>
-                      <goal>run</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
+      <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+      <plugin>
+        <groupId>org.eclipse.m2e</groupId>
+        <artifactId>lifecycle-mapping</artifactId>
+        <version>1.0.0</version>
+        <configuration>
+          <lifecycleMappingMetadata>
+            <pluginExecutions>
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-antrun-plugin</artifactId>
+                  <versionRange>[1.3,)</versionRange>
+                  <goals>
+                    <goal>run</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <ignore />
+                </action>
+              </pluginExecution>
 
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <versionRange>[2.1,)</versionRange>
-                    <goals>
-                      <goal>unpack-dependencies</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-dependency-plugin</artifactId>
+                  <versionRange>[2.1,)</versionRange>
+                  <goals>
+                    <goal>unpack-dependencies</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <ignore />
+                </action>
+              </pluginExecution>
 
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>hibernate3-maven-plugin</artifactId>
-                    <versionRange>[2.2,)</versionRange>
-                    <goals>
-                      <goal>hbm2ddl</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore />
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
+              <pluginExecution>
+                <pluginExecutionFilter>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>hibernate3-maven-plugin</artifactId>
+                  <versionRange>[2.2,)</versionRange>
+                  <goals>
+                    <goal>hbm2ddl</goal>
+                  </goals>
+                </pluginExecutionFilter>
+                <action>
+                  <ignore />
+                </action>
+              </pluginExecution>
+            </pluginExecutions>
+          </lifecycleMappingMetadata>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <!-- Profiles
@@ -293,8 +296,8 @@
       <scope>test</scope>
       <exclusions>
         <exclusion>
-            <artifactId>hamcrest-core</artifactId>
-            <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+          <groupId>org.hamcrest</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -404,20 +407,6 @@
     <module>cchlib-swing</module>
     <module>cchlib-sys</module>
     <module>cchlib-unit</module>
-
-    <!-- should not be include in maven repository -->
-    <!-- Applications (no more included in bluid) -->
-    <!-- <module>cchlib-apps-duplicatefilesmanager</module> -->
-    <!-- <module>cchlib-apps-editresourcebundle</module> -->
-    <!-- <module>cchlib-apps-regexpbuilder</module> -->
-    <!-- <module>cchlib-x-googlecontact</module> -->
-
-    <!-- Not compile by default script -->
-    <!-- <module>cchlib-sandbox</module> -->
-    <!-- <module>cchlib-tools-sandbox</module> -->
-    <!-- <module>cchlib-core-sample</module> -->
-    <!-- <module>cchlib-samples</module> -->
-    <!-- <module>cchlib-tools</module> -->
   </modules>
 
 </project>

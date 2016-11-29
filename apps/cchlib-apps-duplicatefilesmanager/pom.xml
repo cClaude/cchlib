@@ -13,7 +13,6 @@
   <name>DuplicateFilesManager</name>
   <packaging>jar</packaging>
 
-
   <!-- Global properties -->
   <properties>
     <main.class>com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesApp</main.class>
