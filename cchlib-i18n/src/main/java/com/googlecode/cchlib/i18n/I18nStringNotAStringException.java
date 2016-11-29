@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
  *
  * @since 4.1.8
  */
-public class I18nStringNotAStringException extends I18nSyntaxeException
+public class I18nStringNotAStringException extends I18nSyntaxException
 {
     private static final long serialVersionUID = 1L;
 

@@ -74,7 +74,8 @@ public final class XIterables
      * Create an {@link XIterable} from an {@link Iterator}
      * <P><B>Warn:</B>This {@link XIterable} object could be use only once</P>
      *
-     * @param <T>           the class of the elements of the {@link Iterable}
+     * @param <T>           the class of the elements of the {@link Iterator}
+     * @param iterator      Original {@link Iterator}
      * @return a new XIterable
      * @see XIterable#toList()
      */

@@ -157,10 +157,10 @@ public abstract class JPopupMenuForJTable
     }
 
     @Override
-    protected void maybeShowPopup( final MouseEvent e )
+    protected void maybeShowPopup( final MouseEvent event )
     {
-        if( e.isPopupTrigger() && this.jTable.isEnabled() ) {
-            final Point p = new Point( e.getX(), e.getY() );
+        if( event.isPopupTrigger() && this.jTable.isEnabled() ) {
+            final Point p = new Point( event.getX(), event.getY() );
             final int col = this.jTable.columnAtPoint( p );
             final int row = this.jTable.rowAtPoint( p );
 

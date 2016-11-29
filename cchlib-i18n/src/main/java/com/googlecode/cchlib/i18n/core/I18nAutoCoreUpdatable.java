@@ -4,9 +4,10 @@ import com.googlecode.cchlib.NeedDoc;
 
 /**
  *
- * A typically implementation of this interface is :<code><pre>
+ * A typically implementation of this interface is :
+ * <pre>
  *   autoI18n.performeI18n( this, this.getClass() );
- * </pre></code>
+ * </pre>
  * but could also perform internationalization on private objects.
  */
 @NeedDoc

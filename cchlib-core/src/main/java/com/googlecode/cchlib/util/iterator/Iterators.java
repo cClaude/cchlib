@@ -166,6 +166,7 @@ public final class Iterators
     /**
      * Create an {@link Iterator} from an array
      *
+     * @param <T> the type of the array
      * @param array source
      * @return an {@link Iterator}
      */
@@ -177,6 +178,7 @@ public final class Iterators
     /**
      * Create an {@link Iterator} from an array
      *
+     * @param <T> the type of the array
      * @param array source
      * @param offset first entry in the array
      * @param len number of elements in the {@link Iterator}
@@ -187,7 +189,12 @@ public final class Iterators
         return new ArrayIterator<>( array, offset, len );
     }
 
-    /** @deprecated use {@link CollectionHelper#newList(Iterator)} instead */
+    /**
+     * @param <T> deprecated
+     * @param iterator deprecated
+     * @return deprecated
+     * @deprecated use {@link CollectionHelper#newList(Iterator)} instead
+     */
     @Deprecated
     public static <T> List<T> newList( final Iterator<T> iterator )
     {

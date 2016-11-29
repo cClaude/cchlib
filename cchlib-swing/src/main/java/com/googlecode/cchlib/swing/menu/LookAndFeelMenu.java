@@ -105,7 +105,7 @@ public class LookAndFeelMenu
     private final List<Component> componentList = new ArrayList<>();
 
     /**
-     *
+     * create {@link LookAndFeelMenu}
      */
     public LookAndFeelMenu()
     {
@@ -113,6 +113,7 @@ public class LookAndFeelMenu
     }
 
     /**
+     * create {@link LookAndFeelMenu}
      *
      * @param mainWindow {@link Window} that will be customize with
      *        selected LookAndFeel
@@ -135,6 +136,7 @@ public class LookAndFeelMenu
     }
 
     /**
+     * Add a component to update
      *
      * @param component Any {@link Component} that will be customize
      *                  with selected LookAndFeel
@@ -225,6 +227,8 @@ public class LookAndFeelMenu
      * Runs each {@link LookAndFeelListener}'s
      * {@link LookAndFeelListener#setLookAndFeel(String)}
      * method.
+     *
+     * @param lookAndFeelName Name of the look and feel to set
      */
     protected void fireLookAndFeelChanging(
         final String lookAndFeelName

@@ -1,7 +1,6 @@
 // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
 package com.googlecode.cchlib.io.filetype;
 
-import com.googlecode.cchlib.io.FileFilterHelper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.io.FileFilterHelper;
 
 /**
  *
@@ -26,19 +26,27 @@ public class FileDataTypesTest
 
     @BeforeClass
     public static void setUpBeforeClass() throws Exception
-    {}
+    {
+        // Not used yet
+    }
 
     @AfterClass
     public static void tearDownAfterClass() throws Exception
-    {}
+    {
+        // Not used yet
+    }
 
     @Before
     public void setUp() throws Exception
-    {}
+    {
+        // Not used yet
+    }
 
     @After
     public void tearDown() throws Exception
-    {}
+    {
+        // Not used yet
+    }
 
     /**
      * Test method for {@link com.googlecode.cchlib.io.filetype.FileDataTypes#findDataTypeDescription(java.io.File)}.
@@ -48,9 +56,9 @@ public class FileDataTypesTest
     @Test
     public void testFindDataTypeDescription() throws FileNotFoundException, IOException
     {
-        LOGGER.info( "check: " + dirFile );
+        LOGGER.info( "check: " + this.dirFile );
 
-        File[] files = dirFile.listFiles( FileFilterHelper.fileFileFilter() );
+        final File[] files = this.dirFile.listFiles( FileFilterHelper.fileFileFilter() );
 
         if( files == null ) {
             LOGGER.info( "No files for test (dir not found)" );
@@ -61,8 +69,8 @@ public class FileDataTypesTest
 
             LOGGER.info( "found " + files.length + " for test" );
 
-            for( File file : files ) {
-                FileDataTypeDescription desc = FileDataTypes.findDataTypeDescription( file );
+            for( final File file : files ) {
+                final FileDataTypeDescription desc = FileDataTypes.findDataTypeDescription( file );
 
                 if( desc == null ) {
                     LOGGER.warn( "can find type of file: " + file );
@@ -72,9 +80,9 @@ public class FileDataTypesTest
                     identify++;
 
                     if( file.getName().toLowerCase().endsWith( ".xxx" ) || (file.getName().indexOf( '.' ) == -1) ) {
-                        String oldName = file.getName();
-                        String name    = oldName.substring( 0, oldName.length() - 4 );
-                        String newName = name + desc.getExtension();
+                        final String oldName = file.getName();
+                        final String name    = oldName.substring( 0, oldName.length() - 4 );
+                        final String newName = name + desc.getExtension();
 
                         file.renameTo( new File( file.getParentFile(), newName ) );
 
@@ -90,9 +98,9 @@ public class FileDataTypesTest
     @Test
     public void testFindExtendedFileDataTypeDescription() throws IOException
     {
-        LOGGER.info( "check: " + dirFile );
+        LOGGER.info( "check: " + this.dirFile );
 
-        File[] files = dirFile.listFiles( FileFilterHelper.fileFileFilter() );
+        final File[] files = this.dirFile.listFiles( FileFilterHelper.fileFileFilter() );
 
         if( files == null ) {
             LOGGER.info( "No files for test (dir not found)" );
@@ -102,8 +110,8 @@ public class FileDataTypesTest
 
             LOGGER.info( "found " + files.length + " for test" );
 
-            for( File file : files ) {
-                ExtendedFileDataTypeDescription desc = FileDataTypes.findExtendedFileDataTypeDescription( file );
+            for( final File file : files ) {
+                final ExtendedFileDataTypeDescription desc = FileDataTypes.findExtendedFileDataTypeDescription( file );
 
                 if( desc == null ) {
                     LOGGER.warn( "can find type of file: " + file );

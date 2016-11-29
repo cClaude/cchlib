@@ -30,11 +30,15 @@ public class ObjectPopulatorHelper
      * following rules
      * </p>
      * <table class="TableCustomDescription">
-     * <tr>
-     * <th>Supported type</th>
-     * <th>Handle description</th>
-     * <th>return type</th>
-     * </tr>
+     *  <caption>Transformations rules</caption>
+     *  <thead class="tableSubHeadingColor">
+     *   <tr>
+     *    <th>Supported type</th>
+     *    <th>Handle description</th>
+     *    <th>return type</th>
+     *   </tr>
+     *  </thead>
+     *  <tbody>
      * <tr>
      * <td>{@link JCheckBox}</td>
      * <td>Get value using {@link JCheckBox#isSelected()}</td>
@@ -78,6 +82,7 @@ public class ObjectPopulatorHelper
      * <td>Get value using {@link LimitedIntegerJTextField#getValue()}</td>
      * <td>{@link Integer}</td>
      * </tr>
+     *  </tbody>
      * </table>
      *
      * @param <OBJECT> type of object

@@ -20,6 +20,7 @@ public @interface Persistent
 {
     /**
      * Default value if field is not define
+     * @return default value if field is not define
      */
     public String defaultValue() default "";
 }

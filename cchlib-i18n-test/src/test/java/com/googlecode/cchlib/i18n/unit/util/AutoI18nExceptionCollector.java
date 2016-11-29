@@ -1,18 +1,18 @@
 package com.googlecode.cchlib.i18n.unit.util;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.I18nInterface;
-import com.googlecode.cchlib.i18n.I18nSyntaxeException;
+import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
-public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler // $codepro.audit.disable largeNumberOfFields
+public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler
 {
     private static final long serialVersionUID = 1L;
 
@@ -28,123 +28,123 @@ public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler // $
     private final CollectorImpl collectSetFieldException = new CollectorImpl();
 
     @Override
-    public void handleI18nSyntaxeException( I18nSyntaxeException cause, Field field )
+    public void handleI18nSyntaxException( final I18nSyntaxException cause, final Field field )
     {
         this.collectI18nSyntaxeException.add( cause, field );
     }
 
     @Override
-    public void handleIllegalAccessException( IllegalAccessException cause, I18nField i18nField )
+    public void handleIllegalAccessException( final IllegalAccessException cause, final I18nField i18nField )
     {
         this.collectIllegalAccessException.add( cause, i18nField );
     }
 
     @Override
-    public void handleIllegalArgumentException( IllegalArgumentException cause, I18nField i18nField )
+    public void handleIllegalArgumentException( final IllegalArgumentException cause, final I18nField i18nField )
     {
         this.collectIllegalArgumentException.add( cause, i18nField );
     }
 
     @Override
-    public void handleInvocationTargetException( InvocationTargetException cause, I18nField i18nField )
+    public void handleInvocationTargetException( final InvocationTargetException cause, final I18nField i18nField )
     {
         this.collectInvocationTargetException.add( cause, i18nField );
     }
 
     @Override
-    public void handleMissingKeyException( MissingKeyException cause, I18nField i18nField, I18nResolver i18nResolver )
+    public void handleMissingKeyException( final MissingKeyException cause, final I18nField i18nField, final I18nResolver i18nResolver )
     {
         this.collectMissingKeyException.add( cause, i18nField, i18nResolver );
     }
 
     @Override
     public <T> void handleMissingResourceException(
-            MissingResourceException cause,
-            I18nField                i18nField,
-            T                        objectToI18n,
-            I18nInterface            i18nInterface
+            final MissingResourceException cause,
+            final I18nField                i18nField,
+            final T                        objectToI18n,
+            final I18nInterface            i18nInterface
             )
     {
         this.collectMissingResourceException.add( cause, i18nField, objectToI18n, i18nInterface );
     }
 
     @Override
-    public void handleNoSuchMethodException( NoSuchMethodException cause, Field field )
+    public void handleNoSuchMethodException( final NoSuchMethodException cause, final Field field )
     {
         this.collectNoSuchMethodException.add( cause, field );
     }
 
     @Override
-    public void handleNoSuchMethodException( NoSuchMethodException cause, I18nField i18nField )
+    public void handleNoSuchMethodException( final NoSuchMethodException cause, final I18nField i18nField )
     {
         this.collectNoSuchMethodException.add( cause, i18nField );
     }
 
     @Override
-    public void handleSecurityException( MethodProviderSecurityException cause, Field field )
+    public void handleSecurityException( final MethodProviderSecurityException cause, final Field field )
     {
         this.collectMethodProviderSecurityException.add( cause, field );
     }
 
     @Override
-    public void handleSecurityException( SecurityException cause, I18nField i18nField )
+    public void handleSecurityException( final SecurityException cause, final I18nField i18nField )
     {
         this.collectSecurityException.add( cause, i18nField );
     }
 
     @Override
-    public void handleSetFieldException( SetFieldException cause, I18nField i18nField, I18nResolver i18nResolver )
+    public void handleSetFieldException( final SetFieldException cause, final I18nField i18nField, final I18nResolver i18nResolver )
     {
         this.collectSetFieldException.add( cause, i18nField, i18nResolver );
     }
 
     public Collector getI18nSyntaxeExceptionCollector()
     {
-        return collectI18nSyntaxeException;
+        return this.collectI18nSyntaxeException;
     }
 
     public Collector getIllegalAccessExceptionCollector()
     {
-        return collectIllegalAccessException;
+        return this.collectIllegalAccessException;
     }
 
     public Collector getIllegalArgumentExceptionCollector()
     {
-        return collectIllegalArgumentException;
+        return this.collectIllegalArgumentException;
     }
 
     public Collector getInvocationTargetExceptionCollector()
     {
-        return collectInvocationTargetException;
+        return this.collectInvocationTargetException;
     }
 
     public Collector getMissingKeyExceptionCollector()
     {
-        return collectMissingKeyException;
+        return this.collectMissingKeyException;
     }
 
     public Collector getMissingResourceExceptionCollector()
     {
-        return collectMissingResourceException;
+        return this.collectMissingResourceException;
     }
 
     public Collector getNoSuchMethodExceptionCollector()
     {
-        return collectNoSuchMethodException;
+        return this.collectNoSuchMethodException;
     }
 
     public Collector getMethodProviderSecurityExceptionCollector()
     {
-        return collectMethodProviderSecurityException;
+        return this.collectMethodProviderSecurityException;
     }
 
     public Collector getSecurityExceptionCollector()
     {
-        return collectSecurityException;
+        return this.collectSecurityException;
     }
 
     public Collector getSetFieldExceptionCollector()
     {
-        return collectSetFieldException;
+        return this.collectSetFieldException;
     }
 }

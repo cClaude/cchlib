@@ -90,16 +90,16 @@ public final class FileFilterHelper
     }
 
     /**
-     * Returns a {@link java.io.Serializable} {@link FileFilter} with an
+     * Returns a {@link java.io.Serializable} {@link SerializableFileFilter} with an
      * accept(File) method that return not operation result of giving
-     * {@link FileFilter}
+     * {@link SerializableFileFilter}
      *
-     * @param aFileFilter Original {@link FileFilter}
+     * @param aFileFilter Original {@link SerializableFileFilter}
      * @return a {@link java.io.Serializable} {@link FileFilter}
      * @see NOTFileFilter
      */
     public static SerializableFileFilter not(
-        final FileFilter aFileFilter
+        final SerializableFileFilter aFileFilter
         )
     {
         return new NOTFileFilter( aFileFilter );
@@ -113,7 +113,7 @@ public final class FileFilterHelper
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter and(
-            final FileFilter...fileFilters
+            final SerializableFileFilter...fileFilters
             )
     {
         return new ANDFileFilter( fileFilters );
@@ -123,11 +123,11 @@ public final class FileFilterHelper
      * Create a file filter that need to satisfy at least
      * on child file filters
      *
-     * @param fileFilters Array of {@link FileFilter}
+     * @param fileFilters Array of {@link SerializableFileFilter}
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter or(
-            final FileFilter...fileFilters
+            final SerializableFileFilter...fileFilters
             )
     {
         return new ORFileFilter( fileFilters );
@@ -136,13 +136,13 @@ public final class FileFilterHelper
     /**
      * Binary XOR operation on file filter
      *
-     * @param firstFileFilter  first {@link FileFilter}
-     * @param secondFileFilter second {@link FileFilter}
+     * @param firstFileFilter  first {@link SerializableFileFilter}
+     * @param secondFileFilter second {@link SerializableFileFilter}
      * @return a {@link java.io.Serializable} {@link FileFilter}
      */
     public static SerializableFileFilter xor(
-            final FileFilter firstFileFilter,
-            final FileFilter secondFileFilter
+            final SerializableFileFilter firstFileFilter,
+            final SerializableFileFilter secondFileFilter
             )
     {
         return new XORFileFilter( firstFileFilter, secondFileFilter );

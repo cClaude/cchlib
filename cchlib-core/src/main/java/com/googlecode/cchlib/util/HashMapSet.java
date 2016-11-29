@@ -504,6 +504,7 @@ public class HashMapSet<KEY,VALUE>
     public interface ComputeKeyIterable<K,V>
         extends Iterable<V>, ComputeKeyInterface<K,V>
     {
+        // Just join two interfaces
     }
 
     /**
@@ -518,7 +519,7 @@ public class HashMapSet<KEY,VALUE>
     public interface ComputeKeyIterator<K,V>
         extends Iterator<V>, ComputeKeyInterface<K,V>
     {
-
+        // Just join two interfaces
     }
 
     /**

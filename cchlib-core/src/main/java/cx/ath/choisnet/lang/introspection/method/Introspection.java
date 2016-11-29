@@ -19,7 +19,7 @@ import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
  * @param <I> Content objects for values, must extends IntropectionItem
  *
  */
-public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
+public class Introspection<O,I extends IntrospectionItem<O>>
     implements Comparator<O>
 {
     private static final Logger LOGGER = Logger.getLogger( Introspection.class );
@@ -30,8 +30,8 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
 
     /**
      * @param inpectClass Class of object to analyze
-     * @param itemFactory
-     * @param parameters  Parameters
+     * @param itemFactory NEEDDOC
+     * @param parameters Parameters
      *
      *  TIPS: Use EnumSet.of(Introspection.Attrib.ONLY_PUBLIC, Introspection.Attrib.NO_DEPRECATED) for parameter attribSet
      */
@@ -113,11 +113,11 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
     }
 
     /**
-     * @param o1
-     * @param o2
+     * @param o1 NEEDDOC
+     * @param o2 NEEDDOC
      * @return always 0, when something is different goes to a IntrospectionCompareException
-     * @throws IntrospectionInvokeException
-     * @throws IntrospectionCompareException
+     * @throws IntrospectionInvokeException NEEDDOC
+     * @throws IntrospectionCompareException NEEDDOC
      */
     public int compareWithException( final O o1, final O o2 )
         throws IntrospectionInvokeException, IntrospectionCompareException
@@ -132,6 +132,13 @@ public /*abstract WHY??*/ class Introspection<O,I extends IntrospectionItem<O>>
         return 0;
     }
 
+    /**
+     * NEEDDOC
+     * @param v1 NEEDDOC
+     * @param v2 NEEDDOC
+     * @param m NEEDDOC
+     * @throws IntrospectionCompareException NEEDDOC
+     */
     @SuppressWarnings("squid:MethodCyclomaticComplexity")
     public void compareWithExceptionObjects(
             final Object v1,

@@ -185,7 +185,7 @@ public class XMessageDigestFile
     }
 
     /**
-     * @param input
+     * @param input deprecated
      * @see java.security.MessageDigest#update(byte)
      */
     protected void update( final byte input )
@@ -194,9 +194,9 @@ public class XMessageDigestFile
     }
 
     /**
-     * @param input
-     * @param offset
-     * @param len
+     * @param input deprecated
+     * @param offset deprecated
+     * @param len deprecated
      * @see java.security.MessageDigest#update(byte[], int, int)
      */
     public void update( final byte[] input, final int offset, final int len )
@@ -205,7 +205,7 @@ public class XMessageDigestFile
     }
 
     /**
-     * @param input
+     * @param input deprecated
      * @see java.security.MessageDigest#update(byte[])
      */
     protected void update( final byte[] input )
@@ -214,7 +214,7 @@ public class XMessageDigestFile
     }
 
     /**
-     * @param input
+     * @param input deprecated
      * @see java.security.MessageDigest#update(java.nio.ByteBuffer)
      */
     protected final void update( final ByteBuffer input )
@@ -239,7 +239,7 @@ public class XMessageDigestFile
 
         for( final byte b :digestKey ) {
             sb.append( HEX[(b & 0x00f0)>>4 ] );
-            sb.append( HEX[(b & 0x000f) ] );
+            sb.append( HEX[ b & 0x000f ] );
             }
 
         return sb.toString();
@@ -260,9 +260,9 @@ public class XMessageDigestFile
         throws NumberFormatException
     {
         final int slen = digestHexKey.length();
-        final int len   = slen / 2; // $codepro.audit.disable numericLiterals
+        final int len   = slen / 2;
 
-        if((len * 2) != slen ) {
+        if( ( len * 2 ) != slen ) {
             throw new NumberFormatException("key error * bad length()");
             }
 
@@ -286,8 +286,8 @@ public class XMessageDigestFile
      *
      * @param file File to read
      * @return MD value has an array of bytes
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException deprecated
+     * @throws IOException deprecated
      */
     public byte[] compute( final File file )
         throws FileNotFoundException,
@@ -315,7 +315,7 @@ public class XMessageDigestFile
      * (use nio {@link FileChannel})
      *
      * @param file File to read
-     * @param listeners
+     * @param listeners deprecated
      * @return MD value has an array of bytes
      * @throws FileNotFoundException could append if file is locked
      * @throws IOException any unexpected IO error
@@ -428,8 +428,8 @@ public class XMessageDigestFile
      *
      * @param file File to read
      * @return MD value has an array of bytes
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException deprecated
+     * @throws IOException deprecated
      */
     public byte[] computeInputStream( final File file )
         throws FileNotFoundException,

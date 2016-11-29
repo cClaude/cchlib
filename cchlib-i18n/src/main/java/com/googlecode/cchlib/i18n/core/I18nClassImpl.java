@@ -20,7 +20,7 @@ import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.EventCause;
 import com.googlecode.cchlib.i18n.I18nStringIsFinalException;
 import com.googlecode.cchlib.i18n.I18nStringNotAStringException;
-import com.googlecode.cchlib.i18n.I18nSyntaxeException;
+import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.MethodProviderNoSuchMethodException;
 import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
 import com.googlecode.cchlib.i18n.annotation.I18n;
@@ -173,7 +173,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         catch( final MethodProviderNoSuchMethodException e ) {
             i18nDelegator.handleNoSuchMethodException( e, field );
             }
-        catch( final I18nSyntaxeException e ) {
+        catch( final I18nSyntaxException e ) {
             i18nDelegator.handleI18nSyntaxeException( e, field );
             }
     }
@@ -188,7 +188,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         final Field  field,
         final String id,
         final String method
-        ) throws MethodProviderNoSuchMethodException, MethodProviderSecurityException, I18nSyntaxeException
+        ) throws MethodProviderNoSuchMethodException, MethodProviderSecurityException, I18nSyntaxException
     {
         final Class<?> fClass = field.getType();
 
@@ -262,7 +262,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             // Should not occur (no reflexion here)
             this.i18nDelegator.handleNoSuchMethodException( e, field );
             }
-        catch( final I18nSyntaxeException e ) {
+        catch( final I18nSyntaxException e ) {
             this.i18nDelegator.handleI18nSyntaxeException( e, field );
             }
     }
@@ -279,7 +279,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         catch( final MethodProviderNoSuchMethodException e ) {
             this.i18nDelegator.handleNoSuchMethodException( e, field );
             }
-        catch( final I18nSyntaxeException e ) {
+        catch( final I18nSyntaxException e ) {
             this.i18nDelegator.handleI18nSyntaxeException( e, field );
             }
     }
@@ -295,13 +295,13 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         catch( final MethodProviderNoSuchMethodException e ) {
             this.i18nDelegator.handleNoSuchMethodException( e, field );
             }
-        catch( final I18nSyntaxeException e ) {
+        catch( final I18nSyntaxException e ) {
             this.i18nDelegator.handleI18nSyntaxeException( e, field );
             }
     }
 
     private void addValueToCustomizeForString( final Field field, final String id, final String methodName ) //
-            throws MethodProviderSecurityException, MethodProviderNoSuchMethodException, I18nSyntaxeException
+            throws MethodProviderSecurityException, MethodProviderNoSuchMethodException, I18nSyntaxException
     {
         // Check if field is a String
         if( !String.class.isAssignableFrom( field.getType() ) && !String[].class.isAssignableFrom( field.getType() ) ) {
@@ -342,7 +342,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         final String        id,
         final String        method,
         final AutoI18nType  autoI18nType
-        ) throws MethodProviderNoSuchMethodException, MethodProviderSecurityException, I18nSyntaxeException
+        ) throws MethodProviderNoSuchMethodException, MethodProviderSecurityException, I18nSyntaxException
     {
         MethodContener methodContener;
 

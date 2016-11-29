@@ -7,10 +7,10 @@ import java.lang.reflect.Field;
  *
  * @since 4.2
  */
-public class I18nSyntaxeCanNotHandledIdAndMethodAtOnceException extends I18nSyntaxeException {
+public class I18nSyntaxCanNotHandledIdAndMethodAtOnceException extends I18nSyntaxException {
     private static final long serialVersionUID = 1L;
 
-    public I18nSyntaxeCanNotHandledIdAndMethodAtOnceException( final Field field )
+    public I18nSyntaxCanNotHandledIdAndMethodAtOnceException( final Field field )
     {
         super( "Can not handled id and method at once on the same field", field );
     }

@@ -32,8 +32,8 @@ public interface AutoI18nType extends Serializable
 
     /**
      * NEEDDOC
-     * @param toI18n
-     * @param keyBaseName
+     * @param toI18n object to localize
+     * @param keyBaseName key prefix
      * @return NEEDDOC
      */
     Keys getKeys( Object toI18n, String keyBaseName );

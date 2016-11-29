@@ -308,6 +308,7 @@ public class PropertiesPopulator<E> implements Serializable
     /**
      * Initialize a bean from a properties file.
      *
+     * @param <E> type of the bean
      * @param propertiesFile    File to load
      * @param bean              Bean initialize
      * @param clazz             Class of bean
@@ -331,6 +332,7 @@ public class PropertiesPopulator<E> implements Serializable
     /**
      * Save a bean to a properties file.
      *
+     * @param <E> type of the bean
      * @param propertiesFile File to create
      * @param bean           Bean to save
      * @param clazz          Class of bean

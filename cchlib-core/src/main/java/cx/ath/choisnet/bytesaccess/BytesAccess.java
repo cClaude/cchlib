@@ -109,11 +109,12 @@ public abstract class BytesAccess implements Cloneable
      * @param is
      *            a valid InputStream
      * @param length
+     *            number of bytes to read
      * @throws IOException
      *             if an error occur while reading stream
      * @throws NullPointerException
      *             if "is" is null
-     * @throws BytesAccessException
+     * @throws BytesAccessException if any
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public BytesAccess( final InputStream is, final int length )
@@ -136,13 +137,13 @@ public abstract class BytesAccess implements Cloneable
      *
      * @param file
      *            a valid File object
-     * @param length
+     * @param length NEEDDOC
      * @throws IOException
      *             if an error occur while reading stream
      * @throws NullPointerException
      *             if "is" is null
-     * @throws BytesAccessException
-     * @throws FileNotFoundException
+     * @throws BytesAccessException if any
+     * @throws FileNotFoundException if file not found
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public BytesAccess( final File file, final int length )
@@ -168,7 +169,7 @@ public abstract class BytesAccess implements Cloneable
     /**
      * Build an BytesAcces using an other one
      *
-     * @param anOtherInstance
+     * @param anOtherInstance NEEDDOC
      * @see Cloneable
      */
     public BytesAccess( final BytesAccess anOtherInstance )
@@ -226,8 +227,8 @@ public abstract class BytesAccess implements Cloneable
      * 0x000000000000000F : give byte value for parameter bytes1
      * </PRE>
      *
-     * @param bytes0
-     * @param bytes1
+     * @param bytes0 NEEDDOC
+     * @param bytes1 NEEDDOC
      * @return 0 if comparison match, otherwise try to give information on
      *         difference found.
      * @throws IllegalArgumentException
@@ -272,7 +273,7 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * @param anOtherInstance
+     * @param anOtherInstance  NEEDDOC
      * @return 0 if byte array have same length and same content
      * @see #compareTo(byte[])
      */
@@ -291,7 +292,7 @@ public abstract class BytesAccess implements Cloneable
      * compare(byte[], byte[]) return use a long to store informations, you may
      * loose offset information.
      *
-     * @param someBytes
+     * @param someBytes NEEDDOC
      * @return 0 if byte array have same length and same content
      * @see #compare(byte[], byte[])
      */
@@ -316,7 +317,7 @@ public abstract class BytesAccess implements Cloneable
     /**
      * Compare this Object wise an other one.
      *
-     * @param anOtherInstance
+     * @param anOtherInstance NEEDDOC
      * @return null if both BytesAcces byte[] are identical.
      * @see #advanceCompareTo(byte[])
      */
@@ -328,7 +329,7 @@ public abstract class BytesAccess implements Cloneable
     /**
      * NEEDDOC: add documentation of result String (format and limits)
      *
-     * @param someBytes
+     * @param someBytes NEEDDOC
      * @return null if both BytesAcces byte[] are identical
      */
     public String advanceCompareTo( final byte[] someBytes )
@@ -353,7 +354,7 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * @param ubyte
+     * @param ubyte NEEDDOC
      * @return a hex String formatted from a int (but only lower 8 bytes are
      *         read has an ubyte)
      */
@@ -381,8 +382,8 @@ public abstract class BytesAccess implements Cloneable
     /**
      * Copy internal byte array to a stream
      *
-     * @param os
-     * @throws IOException
+     * @param os NEEDDOC
+     * @throws IOException NEEDDOC
      */
     public void save( final OutputStream os ) throws IOException
     {
@@ -394,8 +395,8 @@ public abstract class BytesAccess implements Cloneable
      *
      * @param file
      *            destination file
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @throws FileNotFoundException NEEDDOC
+     * @throws IOException NEEDDOC
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public void save( final File file ) throws FileNotFoundException, IOException
@@ -424,7 +425,7 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * @param anOtherInstance
+     * @param anOtherInstance NEEDDOC
      * @return a byte array witch XOR mask
      * @throws IllegalArgumentException
      *             if internal bytes buffers have different length
@@ -440,7 +441,7 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * @param someBytes
+     * @param someBytes NEEDDOC
      * @return a byte array witch XOR mask
      * @throws IllegalArgumentException
      *             if internal bytes buffers have different length
@@ -489,7 +490,7 @@ public abstract class BytesAccess implements Cloneable
 
     /**
      *
-     * @param someBytes
+     * @param someBytes NEEDDOC
      * @return a new byte array
      */
     public byte[] andOperator( final byte[] someBytes )
@@ -499,7 +500,7 @@ public abstract class BytesAccess implements Cloneable
 
     /**
      *
-     * @param anOtherInstance
+     * @param anOtherInstance NEEDDOC
      * @return a new byte array
      */
     public byte[] andOperator( final BytesAccess anOtherInstance )
@@ -541,7 +542,7 @@ public abstract class BytesAccess implements Cloneable
 
     /**
      *
-     * @param someBytes
+     * @param someBytes NEEDDOC
      * @return a new byte array
      */
     public byte[] orOperator( final byte[] someBytes )
@@ -551,7 +552,7 @@ public abstract class BytesAccess implements Cloneable
 
     /**
      *
-     * @param anOtherInstance
+     * @param anOtherInstance NEEDDOC
      * @return a new byte array
      */
     public byte[] orOperator( final BytesAccess anOtherInstance )
@@ -598,8 +599,8 @@ public abstract class BytesAccess implements Cloneable
     /* ---------------------------------------------------------------------- */
 
     /**
-     * @param offset
-     * @param mask
+     * @param offset NEEDDOC
+     * @param mask NEEDDOC
      * @return boolean value for given offset/mask
      */
     protected boolean getBoolean( // // $codepro.audit.disable booleanMethodNamingConvention
@@ -612,9 +613,9 @@ public abstract class BytesAccess implements Cloneable
     /**
      * Return an unsigned integer (i.e., always &gt; 0)
      *
-     * @param offset
-     * @param mask
-     * @param rightRot
+     * @param offset NEEDDOC
+     * @param mask NEEDDOC
+     * @param rightRot NEEDDOC
      * @return integer value from byte
      */
     public int getUInteger( final int offset, final byte mask, final int rightRot )
@@ -625,11 +626,11 @@ public abstract class BytesAccess implements Cloneable
     /**
      * Return an unsigned integer (i.e., always &gt; 0)
      *
-     * @param offset
-     * @param mask0
-     * @param leftRot
-     * @param mask1
-     * @param rightRot
+     * @param offset NEEDDOC
+     * @param mask0 NEEDDOC
+     * @param leftRot NEEDDOC
+     * @param mask1 NEEDDOC
+     * @param rightRot NEEDDOC
      * @return an integer from 2 bytes [offset and (offset+1)].
      */
     public int getUInteger( //
@@ -647,9 +648,9 @@ public abstract class BytesAccess implements Cloneable
      * build a raw String using encodingCharset from an array of bytes. This
      * String could contain any Character (\00 included)
      *
-     * @param from
-     * @param to
-     * @param encodingCharset
+     * @param from NEEDDOC
+     * @param to NEEDDOC
+     * @param encodingCharset NEEDDOC
      * @return a String
      * @throws UnsupportedEncodingException If the named charset is not supported
      * @throws IndexOutOfBoundsException If the offset and length arguments index
@@ -666,8 +667,8 @@ public abstract class BytesAccess implements Cloneable
     }
 
     /**
-     * @param offset
-     * @param length
+     * @param offset NEEDDOC
+     * @param length NEEDDOC
      * @return a byte array copy of internal buffer starting at offset with a
      *         len of length
      */

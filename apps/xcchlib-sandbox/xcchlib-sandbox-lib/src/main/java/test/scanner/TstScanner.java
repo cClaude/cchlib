@@ -19,11 +19,11 @@ public class TstScanner
     public TstScanner() throws IOException
     {
         try( FileSystem  fs = FileSystems.getDefault() ) {
-            String first ="/";
-            String more  = "*.html";
-            Path        path = fs.getPath( first, more );
-            scan = new Scanner( path );
-            scan.close();
+            final String first ="/";
+            final String more  = "*.html";
+            final Path        path = fs.getPath( first, more );
+            this.scan = new Scanner( path );
+            this.scan.close();
         }
     }
 
@@ -35,43 +35,43 @@ public class TstScanner
         System.exit(-1);
     }
 
-    public static void main( String[] args ) throws IOException
+    public static void main( final String[] args ) throws IOException
     {
         if( args.length < 2 ) {
             usage();
             }
 
-        String filename = args[ 0 ];
-        String patternString = args[ 1 ];
+        final String filename = args[ 0 ];
+        final String patternString = args[ 1 ];
         // String patternRegExp = "(.*)" + patternString + "(.*)";
         //String patternRegExp = "[\\s]*" + patternString + "[\\s]*";
         //String patternRegExp = ".*" + patternString + ".*";
-        String patternRegExp = "\\s*" + patternString + "\\s*";
-        
-        File cd   = new File( "." ).getCanonicalFile();
-        File file = new File( cd, filename );
+        final String patternRegExp = "\\s*" + patternString + "\\s*";
+
+        final File cd   = new File( "." ).getCanonicalFile();
+        final File file = new File( cd, filename );
 
         System.out.println( "file = " + file );
-        Pattern pattern = Pattern.compile( patternRegExp, Pattern.MULTILINE );
+        final Pattern pattern = Pattern.compile( patternRegExp, Pattern.MULTILINE );
         System.out.println( "pattern = " + pattern );
 
-        String  content      = IOHelper.toString( file );
-        boolean contentMatch = pattern.matcher( content ).matches();
+        final String  content      = IOHelper.toString( file );
+        final boolean contentMatch = pattern.matcher( content ).matches();
         //System.out.println( "contentMatch0 ? " + (content.indexOf( patternString ) != -1) );
         System.out.println( "contentMatch ? " + contentMatch );
         //System.out.println( "content ? " + content );
 
-        Scanner scanner = new Scanner( file );
-        scanner.useDelimiter( pattern );
-        int foundCount = -1;
+        try( Scanner scanner = new Scanner( file ) ) {
+            scanner.useDelimiter( pattern );
+            int foundCount = -1;
 
-        while( scanner.hasNext() ) {
-            foundCount++;
-            String x = scanner.next();
-            System.out.println( "x " + x );
+            while( scanner.hasNext() ) {
+                foundCount++;
+                final String x = scanner.next();
+                System.out.println( "x " + x );
+                }
+
+            System.out.println( "pattern found ? " + foundCount );
             }
-
-        System.out.println( "pattern found ? " + foundCount );
-        scanner.close();
     }
 }

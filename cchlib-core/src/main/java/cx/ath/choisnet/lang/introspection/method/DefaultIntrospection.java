@@ -1,6 +1,5 @@
 package cx.ath.choisnet.lang.introspection.method;
 
-import java.lang.reflect.Method;
 import java.util.Set;
 
 /**
@@ -13,8 +12,8 @@ public class DefaultIntrospection<O>
 {
     /**
      *
-     * @param inpectClass
-     * @param attribSet
+     * @param inpectClass NEEDDOC
+     * @param attribSet NEEDDOC
      */
     public DefaultIntrospection(
             final Class<O>                     inpectClass,
@@ -23,17 +22,7 @@ public class DefaultIntrospection<O>
     {
         super(
            inpectClass,
-           new IntrospectionItemFactory<IntrospectionItem<O>>()
-           {
-                @Override
-                public IntrospectionItem<O> buildIntrospectionItem(
-                        final Method getter,
-                        final Method setter
-                        )
-                {
-                    return new DefaultIntrospectionItem<>( getter, setter );
-                }
-           },
+           ( getter, setter ) -> new DefaultIntrospectionItem<>( getter, setter ),
            attribSet
            );
     }

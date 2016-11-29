@@ -23,6 +23,7 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
     }
 
     @Override
+    @SuppressWarnings("squid:S3346") // Assert is compliant
     public void find()
     {
         if( getConfig().isCancelProcess() ) {
@@ -56,7 +57,12 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
         }
     }
 
-    /** Handle all files with same size */
+    /**
+     *  Handle all files with same size
+     *
+     * @param entryForThisLength NEEDDOC
+     */
+    @SuppressWarnings("squid:S3346") // Assert is compliant
     protected void find( final Map.Entry<Long, Set<File>> entryForThisLength )
     {
         final Set<File>                 setForThisLength    = entryForThisLength.getValue();
@@ -125,6 +131,7 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
     }
 
     /** handle pass 2 for a single file (file per file) */
+    @SuppressWarnings("squid:S1166") // Hide a cancel exception
     private String handlePass2ForFile( final File file )
     {
         notify_analysisStart( file );
@@ -141,7 +148,7 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
         catch( final IOException ioe ) {
             notify_ioError( file, ioe );
             }
-        catch( final CancelRequestException e ) { // $codepro.audit.disable logExceptions
+        catch( final CancelRequestException e ) {
             getConfig().setCancelProcess( true );
             }
         finally {

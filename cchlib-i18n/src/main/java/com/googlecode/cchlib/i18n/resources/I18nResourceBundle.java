@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.i18n.resources;
 
-import com.googlecode.cchlib.i18n.I18nInterface;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import com.googlecode.cchlib.i18n.I18nInterface;
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}
@@ -25,15 +25,15 @@ public class I18nResourceBundle implements I18nInterface, Serializable
 
     /**
     * This field is use to restore {@link #resourceBundle} during
-    *  serialization process.
+    * serialization process.
     */
     private String resourceBundleFullBaseName;
 
     /**
      * Build I18nResourceBundle for locale
      *
-     * @param resourceBundleFullBaseName
-     * @param locale
+     * @param resourceBundleFullBaseName base name for this resource bundle
+     * @param locale                    {@link Locale} to use
      * @throws IllegalArgumentException if <code>resourceBundleFullBaseName</code> is null
      */
     protected I18nResourceBundle( //
@@ -54,13 +54,6 @@ public class I18nResourceBundle implements I18nInterface, Serializable
         buildResourceBundle( locale );
     }
 
-    private IllegalArgumentException newIllegalArgumentException( final String message )
-    {
-        return new IllegalArgumentException(
-            new NullPointerException( message )
-            );
-    }
-
     /**
      * Create I18nResourceBundle using giving
      * resource bundle and resource bundle baseName
@@ -69,13 +62,20 @@ public class I18nResourceBundle implements I18nInterface, Serializable
      * @param resourceBundleFullBaseName base name for this resource bundle
      */
     public I18nResourceBundle(
-            final ResourceBundle resourceBundle,
-            final String         resourceBundleFullBaseName
-            )
+        final ResourceBundle resourceBundle,
+        final String         resourceBundleFullBaseName
+        )
     {
         this( resourceBundleFullBaseName, resourceBundle.getLocale() );
 
         this.resourceBundle = resourceBundle;
+    }
+
+    private IllegalArgumentException newIllegalArgumentException(
+        final String message
+        )
+    {
+        return new IllegalArgumentException( message );
     }
 
     @Override // I18nInterface
@@ -83,9 +83,9 @@ public class I18nResourceBundle implements I18nInterface, Serializable
         throws MissingResourceException
     {
         try {
-            return resourceBundle.getString( key );
+            return this.resourceBundle.getString( key );
             }
-        catch( java.util.MissingResourceException e ) {
+        catch( final java.util.MissingResourceException e ) {
             throw new MissingResourceException( e );
             }
     }
@@ -115,7 +115,7 @@ public class I18nResourceBundle implements I18nInterface, Serializable
         out.defaultWriteObject();
 
         // store Locale for this resourceBundle
-        out.writeObject( resourceBundle.getLocale() );
+        out.writeObject( this.resourceBundle.getLocale() );
     }
 
     private void readObject( final ObjectInputStream in ) throws IOException, ClassNotFoundException
@@ -124,7 +124,7 @@ public class I18nResourceBundle implements I18nInterface, Serializable
         in.defaultReadObject();
 
         // restore Locale for this resourceBundle
-        Locale locale = Locale.class.cast( in.readObject() );
+        final Locale locale = Locale.class.cast( in.readObject() );
 
         // Build a new ResourceBundle
         buildResourceBundle( locale );
@@ -132,7 +132,7 @@ public class I18nResourceBundle implements I18nInterface, Serializable
 
     private void buildResourceBundle( final Locale locale )
     {
-        resourceBundle = ResourceBundle.getBundle( resourceBundleFullBaseName, locale );
+        this.resourceBundle = ResourceBundle.getBundle( this.resourceBundleFullBaseName, locale );
     }
 
     protected void setResourceBundle( //
@@ -146,6 +146,6 @@ public class I18nResourceBundle implements I18nInterface, Serializable
 
     protected String getResourceBundleFullBaseName()
     {
-        return resourceBundleFullBaseName;
+        return this.resourceBundleFullBaseName;
     }
 }

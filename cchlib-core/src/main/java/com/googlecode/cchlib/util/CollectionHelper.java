@@ -65,7 +65,12 @@ public final class CollectionHelper
         return Collections.unmodifiableList( newList( enumeration ) );
     }
 
-    /** @deprecated use {@link #newList(Enumeration)} instead */
+    /**
+     * @param <T> deprecated
+     * @param enumeration deprecated
+     * @return deprecated
+     * @deprecated use {@link #newList(Enumeration)} instead
+     */
     @Deprecated
     public static <T> List<T> toList( @Nullable final Enumeration<T> enumeration )
     {

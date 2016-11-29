@@ -22,6 +22,7 @@ public final class ArrayHelper
      * Create an Array from giving values
      *
      * @param <T>       Type of array
+     * @param clazz     Class of the array
      * @param entries   List of entry for the array
      * @return the new Array
      * @since 4.1.6
@@ -35,8 +36,10 @@ public final class ArrayHelper
     }
 
     /**
+     * Clone an array (did not clone in depth, only array content)
      *
-     * @param clazz
+     * @param <T>     Type of array
+     * @param clazz   Class of the array
      * @param src     the source array
      * @param srcPos  starting position in the source array.
      * @param destPos starting position in the destination data.
@@ -61,11 +64,13 @@ public final class ArrayHelper
     }
 
     /**
-    *
-    * @param clazz
-    * @param src     the source array
-    * @return a new array
-    */
+     * Clone an array (did not clone in depth, only array content)
+     *
+     * @param <T>     Type of array
+     * @param clazz   Class of the array
+     * @param src     the source array
+     * @return a new array
+     */
     @NeedTestCases
     public static <T> T[] cloneArray(
         final Class<T> clazz,
@@ -78,14 +83,19 @@ public final class ArrayHelper
     /**
      * Clone an array of bytes
      *
-     * @param src
-     * @param srcPos
-     * @param destPos
-     * @param length
-     * @return NEEDDOC
+     * @param src     the source array
+     * @param srcPos  starting position in the source array.
+     * @param destPos starting position in the destination data.
+     * @param length  the number of array elements to be copied.
+     * @return a new array
      */
     @NeedTestCases
-    public static byte[] cloneArray( final byte[] src, final int srcPos, final int destPos, final int length )
+    public static byte[] cloneArray(
+        final byte[] src,
+        final int    srcPos,
+        final int    destPos,
+        final int    length
+        )
     {
         final byte[] dest = new byte[ length ];
 
@@ -93,7 +103,6 @@ public final class ArrayHelper
 
         return dest;
     }
-
 
     /**
      * Wrap an array to get an {@link Enumeration}
@@ -179,5 +188,4 @@ public final class ArrayHelper
     {
         return new ArrayIterator<>(array,offset,len);
     }
-
 }

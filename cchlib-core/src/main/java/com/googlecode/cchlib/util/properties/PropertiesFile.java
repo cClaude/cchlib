@@ -8,9 +8,10 @@ import java.util.Properties;
 
 /**
  * A {@link Properties} with {@link File} support
- * 
+ *
  * @since 4.1.7
  */
+@SuppressWarnings("squid:S2160") // Don't wan't to override equals
 public class PropertiesFile extends Properties
 {
     private static final long serialVersionUID = 1L;
@@ -18,7 +19,7 @@ public class PropertiesFile extends Properties
 
     /**
      * Creates an empty property list with no default values.
-     * 
+     *
      * @param file File for this PropertiesFile
      */
     public PropertiesFile( final File file )
@@ -28,7 +29,8 @@ public class PropertiesFile extends Properties
 
     /**
      * Creates an empty property list with the specified defaults.
-     * 
+     *
+     * @param file File for this PropertiesFile
      * @param defaults the defaults.
      */
     public PropertiesFile( final File file, final Properties defaults )
@@ -40,7 +42,7 @@ public class PropertiesFile extends Properties
 
     /**
      * Get File for this PropertiesFile
-     * 
+     *
      * @return File for this PropertiesFile
      * @see #save()
      * @see #save(String)
@@ -53,7 +55,7 @@ public class PropertiesFile extends Properties
 
     /**
      * Set File for this PropertiesFile
-     * 
+     *
      * @param file File for this PropertiesFile
      * @see #save()
      * @see #save(String)
@@ -75,7 +77,7 @@ public class PropertiesFile extends Properties
      */
     public static PropertiesFile createPropertiesFile( final File file ) throws IOException
     {
-		return new PropertiesFile( file ).load();
+        return new PropertiesFile( file ).load();
     }
 
     /**
@@ -91,8 +93,8 @@ public class PropertiesFile extends Properties
         try (InputStream is = new FileInputStream( getFile() )) {
             load( is );
             }
-        
-		return this;
+
+        return this;
     }
 
     /**
@@ -115,6 +117,6 @@ public class PropertiesFile extends Properties
      */
     public void save() throws IOException
     {
-    	save( null );
+        save( null );
     }
 }

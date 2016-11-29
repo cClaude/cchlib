@@ -2,7 +2,7 @@ package com.googlecode.cchlib.i18n.core;
 
 import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.I18nInterface;
-import com.googlecode.cchlib.i18n.I18nSyntaxeException;
+import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolvedFieldGetter;
@@ -25,7 +25,7 @@ final class I18nFieldStringArray  extends AbstractI18nField
         final I18nKeyFactory    i18nKeyFactory,
         final Field             field,
         final String            keyIdValue
-        ) throws I18nSyntaxeException
+        ) throws I18nSyntaxException
     {
         super( i18nDelegator, i18nKeyFactory, field, keyIdValue, null, null );
 

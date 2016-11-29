@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * Signifies that a public API (public class, method or field) is subject to incompatible
- * changes, or even removal, in a future release. An API bearing this annotation is exempt 
+ * changes, or even removal, in a future release. An API bearing this annotation is exempt
  * from any compatibility guarantees made by its containing library.
  */
 @Retention(RetentionPolicy.CLASS)
@@ -21,6 +21,7 @@ import java.lang.annotation.Target;
     ElementType.TYPE
     })
 @Beta
-public @interface Beta 
+public @interface Beta
 {
+    // Empty
 }

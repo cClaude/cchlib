@@ -157,7 +157,8 @@ public final class FilterHelper
 
     /**
      * Create a {@link DirectoryStream.Filter} based on a {@link FileFilter}
-     * @return a filter
+     * @param fileFilter Original {@link FileFilter}
+     * @return a {@link DirectoryStream.Filter}
      */
     public static DirectoryStream.Filter<Path> toFilter(
             @Nonnull final FileFilter fileFilter

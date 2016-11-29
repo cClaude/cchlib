@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
  *
  * @since 4.2
  */
-public class I18nStringIsFinalException extends I18nSyntaxeException {
+public class I18nStringIsFinalException extends I18nSyntaxException {
     private static final long serialVersionUID = 1L;
 
     public I18nStringIsFinalException( final Field field )

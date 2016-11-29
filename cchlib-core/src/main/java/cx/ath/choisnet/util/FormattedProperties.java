@@ -1,4 +1,3 @@
-// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.crossSiteScripting, numericLiterals, fullyParenthesizeExpressions, synchronizedMethod
 package cx.ath.choisnet.util;
 
 import java.io.BufferedReader;
@@ -112,7 +111,7 @@ public final class FormattedProperties
      * with the specified defaults. Does
      * not configure specifics {@link Store storeOptions}
      *
-     * @param defaults
+     * @param defaults defaults values
      */
     public FormattedProperties( final Properties defaults )
     {
@@ -903,7 +902,9 @@ public final class FormattedProperties
     }
 
     /**
-     * @return a new FormattedProperties cloning <code>source</code>
+     * Copy a {@link FormattedProperties}
+     * @param source {@link FormattedProperties} to clone
+     * @return a new {@link FormattedProperties}
      */
     public static FormattedProperties newFormattedProperties(
         final FormattedProperties source

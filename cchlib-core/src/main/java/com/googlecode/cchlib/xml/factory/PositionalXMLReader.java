@@ -252,13 +252,13 @@ public class PositionalXMLReader
     /**
      * Create a {@link Document} for XML InputStream
      *
-     * @param saxParserFactory
-     * @param documentBuilderFactory
-     * @param xmlInputStream
+     * @param saxParserFactory NEEDDOC
+     * @param documentBuilderFactory NEEDDOC
+     * @param xmlInputStream NEEDDOC
      * @return a new instance of a DOM Document object based on XML InputStream
-     * @throws XMLReaderException
-     * @throws SAXException
-     * @throws IOException
+     * @throws XMLReaderException NEEDDOC
+     * @throws SAXException NEEDDOC
+     * @throws IOException NEEDDOC
      */
     @SuppressWarnings({"squid:S1160"})
     public static Document readXML(
@@ -282,13 +282,13 @@ public class PositionalXMLReader
     /**
      * NEEDDOC
      *
-     * @param saxParserFactory
-     * @param documentBuilder
-     * @param xmlInputStream
+     * @param saxParserFactory NEEDDOC
+     * @param documentBuilder NEEDDOC
+     * @param xmlInputStream NEEDDOC
      * @return a new instance of a DOM Document object based on XML InputStream
-     * @throws XMLReaderException
-     * @throws SAXException
-     * @throws IOException
+     * @throws XMLReaderException NEEDDOC
+     * @throws SAXException NEEDDOC
+     * @throws IOException NEEDDOC
      */
     @SuppressWarnings({"squid:S1160"})
     public static Document readXML(
@@ -317,5 +317,4 @@ public class PositionalXMLReader
 
         return doc;
     }
-
 }

@@ -2,8 +2,8 @@ package com.googlecode.cchlib.i18n.core;
 
 import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.AutoI18nType;
-import com.googlecode.cchlib.i18n.I18nSyntaxeCanNotHandledIdAndMethodAtOnceException;
-import com.googlecode.cchlib.i18n.I18nSyntaxeException;
+import com.googlecode.cchlib.i18n.I18nSyntaxCanNotHandledIdAndMethodAtOnceException;
+import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 
 /**
@@ -28,10 +28,10 @@ abstract class AbstractI18nField implements I18nField
         final String         keyIdValue,
         final MethodContener methodContener,
         final AutoI18nType   autoI18nType
-        ) throws I18nSyntaxeException
+        ) throws I18nSyntaxException
     {
         if( (! keyIdValue.isEmpty()) && (methodContener != null ) ) {
-            throw new I18nSyntaxeCanNotHandledIdAndMethodAtOnceException( field );
+            throw new I18nSyntaxCanNotHandledIdAndMethodAtOnceException( field );
         }
         this.i18nDelegator  = i18nDelegator;
         this.i18nKeyFactory = i18nKeyFactory;

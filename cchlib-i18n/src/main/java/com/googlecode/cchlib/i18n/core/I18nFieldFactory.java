@@ -3,7 +3,7 @@ package com.googlecode.cchlib.i18n.core;
 import java.lang.reflect.Field;
 import javax.swing.JTabbedPane;
 import com.googlecode.cchlib.i18n.AutoI18nType;
-import com.googlecode.cchlib.i18n.I18nSyntaxeException;
+import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 
 //NOT public
@@ -15,7 +15,7 @@ final class I18nFieldFactory
         final Field             field,
         final String            keyIdValue,
         final MethodContener    methodContener
-        ) throws I18nSyntaxeException
+        ) throws I18nSyntaxException
     {
         if( methodContener != null ) {
             return new I18nFieldMethodsResolution( i18nDelegator, i18nKeyFactory, field, keyIdValue, methodContener, null );
@@ -35,7 +35,7 @@ final class I18nFieldFactory
         final String            keyIdValue,
         final MethodContener    methodContener,
         final AutoI18nType      autoI18nType
-        ) throws I18nSyntaxeException
+        ) throws I18nSyntaxException
     {
         if( methodContener != null ) {
             return new I18nFieldMethodsResolution( i18nDelegator, i18nKeyFactory, field, keyIdValue, methodContener, autoI18nType );
@@ -51,7 +51,7 @@ final class I18nFieldFactory
         final Field             field,
         final String            keyIdValue,
         final MethodContener    methodContener
-        ) throws I18nSyntaxeException
+        ) throws I18nSyntaxException
     {
         if( methodContener != null ) {
             return new I18nFieldMethodsResolution( i18nDelegator, i18nKeyFactory, field, keyIdValue, methodContener, null );

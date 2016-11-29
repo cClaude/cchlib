@@ -4,7 +4,8 @@ import java.io.File;
 import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
- * NEEDDOC
+ * Implementation for a SerializableFileFilter than return
+ * file with a given length.
  *
  * @since 4.1.7
  */
@@ -14,8 +15,9 @@ public final class FileLengthFileFilter implements SerializableFileFilter
     private final long length;
 
     /**
-     * NEEDDOC
-     * @param length
+     * Create a {@link FileLengthFileFilter}
+     *
+     * @param length given length
      */
     public FileLengthFileFilter( final long length )
     {

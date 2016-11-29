@@ -1,4 +1,3 @@
-// $codepro.audit.disable synchronizedMethod
 package cx.ath.choisnet.util;
 
 import java.io.Serializable;
@@ -57,8 +56,8 @@ public class MultiProperties implements Serializable
      * </p>
      *
      * @param name          properties name
-     * @param properties
-     * @throws RootPropertiesDoesNotContainsKeyException
+     * @param properties    NEEDDOC
+     * @throws RootPropertiesDoesNotContainsKeyException NEEDDOC
      */
     public synchronized void addProperties(
         final String      name,
@@ -66,7 +65,7 @@ public class MultiProperties implements Serializable
         ) throws RootPropertiesDoesNotContainsKeyException
     {
         check(properties);
-        childProperties.put( name, properties );
+        this.childProperties.put( name, properties );
     }
 
     /**
@@ -90,8 +89,8 @@ public class MultiProperties implements Serializable
     {
         final Set<String> keys = properties.stringPropertyNames();
 
-        for( String key : keys ) {
-            if( rootProperties.getProperty( key ) == null ) {
+        for( final String key : keys ) {
+            if( this.rootProperties.getProperty( key ) == null ) {
                 throw new RootPropertiesDoesNotContainsKeyException( key );
                 }
             }
@@ -123,7 +122,7 @@ public class MultiProperties implements Serializable
      */
     public synchronized Set<String> stringPropertyNames()
     {
-        return rootProperties.stringPropertyNames();
+        return this.rootProperties.stringPropertyNames();
     }
 
     /**
@@ -138,7 +137,7 @@ public class MultiProperties implements Serializable
      */
     public synchronized String getProperty( final String key )
     {
-        return rootProperties.getProperty( key );
+        return this.rootProperties.getProperty( key );
     }
 
     /**
@@ -152,13 +151,14 @@ public class MultiProperties implements Serializable
      * @return the value in this property list with the specified key value.
      * @throws PropertiesDoesNotExistException if properties
      *         name's is not found
-     * @throws RootPropertiesDoesNotContainsKeyException
+     * @throws RootPropertiesDoesNotContainsKeyException NEEDDOC
      */
+    @SuppressWarnings("squid:S1160")
     public synchronized String getPropertyFrom( final String name, final String key )
         throws PropertiesDoesNotExistException,
                RootPropertiesDoesNotContainsKeyException
     {
-        final Properties properties = childProperties.get( name );
+        final Properties properties = this.childProperties.get( name );
 
         if( properties == null ) {
             throw new PropertiesDoesNotExistException(name);
@@ -167,7 +167,7 @@ public class MultiProperties implements Serializable
         final String value = properties.getProperty( key );
 
         if( value != null ) {
-            if( rootProperties.getProperty( key ) == null ) {
+            if( this.rootProperties.getProperty( key ) == null ) {
                 throw new RootPropertiesDoesNotContainsKeyException( key );
                 }
             }
@@ -188,7 +188,7 @@ public class MultiProperties implements Serializable
      */
     public synchronized Object setProperty( final String key, final String value )
     {
-        return rootProperties.setProperty( key, value );
+        return this.rootProperties.setProperty( key, value );
     }
 
     /**
@@ -202,8 +202,9 @@ public class MultiProperties implements Serializable
      *         child list, or null if it did not have one.
      * @throws PropertiesDoesNotExistException if properties
      *         name's is not found
-     * @throws RootPropertiesDoesNotContainsKeyException
+     * @throws RootPropertiesDoesNotContainsKeyException NEEDDOC
      */
+    @SuppressWarnings("squid:S1160")
     public synchronized Object setPropertyTo(
         final String name,
         final String key,
@@ -211,11 +212,11 @@ public class MultiProperties implements Serializable
         ) throws RootPropertiesDoesNotContainsKeyException,
                  PropertiesDoesNotExistException
     {
-        if( rootProperties.getProperty( key ) == null ) {
+        if( this.rootProperties.getProperty( key ) == null ) {
             throw new RootPropertiesDoesNotContainsKeyException( key );
             }
 
-        final Properties properties = childProperties.get( name );
+        final Properties properties = this.childProperties.get( name );
 
         if( properties == null ) {
             throw new PropertiesDoesNotExistException(name);
@@ -233,10 +234,10 @@ public class MultiProperties implements Serializable
      */
     synchronized void removeAll( final Object key )
     {
-        for( Properties prop : childProperties.values() ) {
+        for( final Properties prop : this.childProperties.values() ) {
             prop.remove( key );
             }
 
-        rootProperties.remove( key );
+        this.rootProperties.remove( key );
     }
 }

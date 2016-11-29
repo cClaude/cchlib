@@ -7,7 +7,7 @@ import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.I18nInterface;
-import com.googlecode.cchlib.i18n.I18nSyntaxeException;
+import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
@@ -69,7 +69,9 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     }
 
     @Override
-    public void handleI18nSyntaxeException( final I18nSyntaxeException e, final Field f )
+    public void handleI18nSyntaxException(
+            final I18nSyntaxException e,
+            final Field f )
     {
         doHandle( e.getMessage(), e );
     }

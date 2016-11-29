@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
@@ -15,7 +14,8 @@ import com.googlecode.cchlib.io.SerializableFileFilter;
 public final class ORFileFilter implements SerializableFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private final List<FileFilter> filters = new ArrayList<>();
+
+    private final ArrayList<SerializableFileFilter> filters = new ArrayList<>();
 
     /**
      * NEEDDOC
@@ -27,21 +27,22 @@ public final class ORFileFilter implements SerializableFileFilter
 
     /**
      * NEEDDOC
-     * @param fileFilters
+     * @param fileFilters an array of {@link SerializableFileFilter}
+     *                    to include for matching
      */
-    public ORFileFilter( final FileFilter...fileFilters )
+    public ORFileFilter( final SerializableFileFilter...fileFilters )
     {
-        for( final FileFilter ff : fileFilters ) {
+        for( final SerializableFileFilter ff : fileFilters ) {
             this.add( ff );
             }
     }
 
     /**
      * NEEDDOC
-     * @param filter a {@link SerializableFileFilter} to include in matching
+     * @param filter a {@link SerializableFileFilter} to include for matching
      * @return the caller. This allows for easy chaining of invocations.
      */
-    public ORFileFilter add( final FileFilter filter )
+    public ORFileFilter add( final SerializableFileFilter filter )
     {
         this.filters.add( filter );
         return this;

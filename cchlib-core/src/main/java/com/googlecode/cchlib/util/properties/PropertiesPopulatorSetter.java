@@ -28,14 +28,32 @@ interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD> {
                 ConvertCantNotHandleTypeException, PropertiesPopulatorException, //
                 InvocationTargetException;
 
+    /**
+     * NEEDDOC
+     *
+     * @param array NEEDDOC
+     * @param index NEEDDOC
+     * @param strValue NEEDDOC
+     * @param type NEEDDOC
+     * @throws ArrayIndexOutOfBoundsException NEEDDOC
+     * @throws IllegalArgumentException NEEDDOC
+     * @throws ConvertCantNotHandleTypeException NEEDDOC
+     * @throws PropertiesPopulatorException NEEDDOC
+     */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     void setArrayEntry( Object array, int index, String strValue, Class<?> type ) //
             throws ArrayIndexOutOfBoundsException, IllegalArgumentException, //
                 ConvertCantNotHandleTypeException, PropertiesPopulatorException;
 
-    /** return a {@link Method} or a {@link Field} to use to populate value */
+    /**
+     * return a {@link Method} or a {@link Field} to use to populate value
+     * @return a solution to populate value
+     */
     METHOD_OR_FIELD getMethodOrField();
 
-    /** return a {@link FieldOrMethod} to use to populate value */
+    /**
+     * return a {@link FieldOrMethod} to use to populate value
+     * @return a {@link FieldOrMethod} to use to populate value
+     */
     FieldOrMethod getFieldOrMethod();
 }

@@ -23,7 +23,8 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
  */
 public final class I18nPrepHelper
 {
-    private static final class DefaultResult implements Result {
+    private static final class DefaultResult implements Result
+    {
         private final PrepCollector<String>  notUseCollector;
         private final File                   outputFile;
         private final PrepCollector<Integer> usageStatCollector;
@@ -64,11 +65,22 @@ public final class I18nPrepHelper
     @NeedDoc
     public interface Result
     {
-        @NeedDoc
+        /**
+         * NEEDDOC
+         * @return NEEDDOC
+         */
         PrepCollector<Integer> getUsageStatCollector();
-        @NeedDoc
+
+        /**
+         * NEEDDOC
+         * @return NEEDDOC
+         */
         PrepCollector<String> getNotUseCollector();
-        @NeedDoc
+
+        /**
+         * NEEDDOC
+         * @return NEEDDOC
+         */
         File getOutputFile();
     }
 
@@ -80,6 +92,11 @@ public final class I18nPrepHelper
     /**
      * Invoke {@link #createI18nPrep(Set, I18nResourceBundleName, Locale)},
      * just here to have same method name that I18n default process
+     *
+     * @param config NEEDDOC
+     * @param messageBundleName NEEDDOC
+     * @param locale NEEDDOC
+     * @return NEEDDOC
      */
     public static I18nPrep createAutoI18nCore(
         final Set<AutoI18nConfig>     config,
@@ -90,7 +107,14 @@ public final class I18nPrepHelper
         return createI18nPrep( config, messageBundleName, locale );
     }
 
-    @NeedDoc
+    /**
+     * NEEDDOC
+     *
+     * @param config NEEDDOC
+     * @param messageBundleName NEEDDOC
+     * @param locale NEEDDOC
+     * @return NEEDDOC
+     */
     public static I18nPrep createI18nPrep(
         final Set<AutoI18nConfig>     config,
         final I18nResourceBundleName  messageBundleName,
@@ -102,7 +126,15 @@ public final class I18nPrepHelper
         return createI18nPrep( config, defaultAutoI18nTypes, messageBundleName, locale );
     }
 
-    @NeedDoc
+    /**
+     * NEEDDOC
+     *
+     * @param config NEEDDOC
+     * @param defaultAutoI18nTypes NEEDDOC
+     * @param messageBundleName NEEDDOC
+     * @param locale NEEDDOC
+     * @return NEEDDOC
+     */
     public static I18nPrep createI18nPrep(
         final Set<AutoI18nConfig>     config,
         final AutoI18nTypeLookup      defaultAutoI18nTypes,
@@ -113,7 +145,12 @@ public final class I18nPrepHelper
         return new I18nPrep( config, defaultAutoI18nTypes, locale, messageBundleName );
     }
 
-    @NeedDoc
+    /**
+     * NEEDDOC
+     *
+     * @param usageStatPrintStream NEEDDOC
+     * @param result NEEDDOC
+     */
     public static void fmtUsageStatCollector(
         final PrintStream usageStatPrintStream,
         final Result      result
@@ -128,7 +165,12 @@ public final class I18nPrepHelper
         usageStatPrintStream.println();
     }
 
-    @NeedDoc
+    /**
+     * NEEDDOC
+     *
+     * @param notUsePrintStream NEEDDOC
+     * @param result NEEDDOC
+     */
     public static void fmtNotUseCollector(
         final PrintStream notUsePrintStream,
         final Result      result
@@ -146,7 +188,14 @@ public final class I18nPrepHelper
         notUsePrintStream.println();
     }
 
-    @NeedDoc
+    /**
+     * NEEDDOC
+     *
+     * @param i18nPrep NEEDDOC
+     * @param i18nConteners NEEDDOC
+     * @return NEEDDOC
+     * @throws I18nPrepException NEEDDOC
+     */
     public static Result defaultPrep(
         final I18nPrep                 i18nPrep,
         final I18nAutoCoreUpdatable... i18nConteners

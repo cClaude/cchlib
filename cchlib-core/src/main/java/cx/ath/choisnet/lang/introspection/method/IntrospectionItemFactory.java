@@ -1,27 +1,20 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.lang.introspection.method;
 
 import java.lang.reflect.Method;
 
 /**
+ * NEEDDOC
+ *
  * @author CC
- * @param <T> 
+ * @param <T> NEEDDOC
  */
-public abstract class IntrospectionItemFactory<T extends IntrospectionItem<?>>
+@FunctionalInterface
+public interface IntrospectionItemFactory<T extends IntrospectionItem<?>>
 {
-
-    public IntrospectionItemFactory()
-    {
-        // empty
-    }
-
     /**
-     * @param getter 
-     * @param setter 
-     * @return an IntropectionItem
+     * @param getter NEEDDOC
+     * @param setter NEEDDOC
+     * @return an IntropectionItem NEEDDOC
      */
-    public abstract T buildIntrospectionItem( final Method getter,  final Method setter );
+    T buildIntrospectionItem( final Method getter,  final Method setter );
 }

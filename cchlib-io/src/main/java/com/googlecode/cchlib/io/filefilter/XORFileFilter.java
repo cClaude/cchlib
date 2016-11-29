@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.io.filefilter;
 
 import java.io.File;
-import java.io.FileFilter;
 import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
@@ -11,19 +10,20 @@ import com.googlecode.cchlib.io.SerializableFileFilter;
 public final class XORFileFilter implements SerializableFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private final FileFilter firstFileFilter;
-    private final FileFilter secondFileFilter;
+    private final SerializableFileFilter firstFileFilter;
+    private final SerializableFileFilter secondFileFilter;
 
     /**
      * NEEDDOC
-     * @param firstFileFilter
-     * @param secondFileFilter
+     * @param firstFileFilter   a SerializableFileFilter
+     * @param secondFileFilter  a SerializableFileFilter
      */
     public XORFileFilter(
-            final FileFilter firstFileFilter,
-            final FileFilter secondFileFilter )
+        final SerializableFileFilter firstFileFilter,
+        final SerializableFileFilter secondFileFilter
+        )
     {
-        this.firstFileFilter = firstFileFilter;
+        this.firstFileFilter  = firstFileFilter;
         this.secondFileFilter = secondFileFilter;
     }
 

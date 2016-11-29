@@ -16,7 +16,7 @@ import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import com.googlecode.cchlib.i18n.EventCause;
 import com.googlecode.cchlib.i18n.I18nInterface;
-import com.googlecode.cchlib.i18n.I18nSyntaxeException;
+import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
@@ -118,63 +118,66 @@ class I18nDelegator implements Serializable
         return this.i18nInterface;
     }
 
-    public void handleI18nSyntaxeException( final I18nSyntaxeException e, final Field field )
+    public void handleI18nSyntaxeException(
+        final I18nSyntaxException cause,
+        final Field               field
+        )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
-            exceptionHandler.handleI18nSyntaxeException( e, field );
+            exceptionHandler.handleI18nSyntaxException( cause, field );
             }
     }
 
     public void handleIllegalAccessException(
-        final IllegalAccessException e,
+        final IllegalAccessException cause,
         final I18nField              i18nField
         )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
-            exceptionHandler.handleIllegalAccessException( e, i18nField );
+            exceptionHandler.handleIllegalAccessException( cause, i18nField );
             }
     }
 
     public void handleIllegalArgumentException(
-        final IllegalArgumentException e,
+        final IllegalArgumentException cause,
         final I18nField                i18nField
         )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
-            exceptionHandler.handleIllegalArgumentException( e, i18nField );
+            exceptionHandler.handleIllegalArgumentException( cause, i18nField );
             }
     }
 
     public void handleInvocationTargetException(
-        final InvocationTargetException e,
+        final InvocationTargetException cause,
         final I18nField                 i18nField
         )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
-            exceptionHandler.handleInvocationTargetException( e, i18nField );
+            exceptionHandler.handleInvocationTargetException( cause, i18nField );
             }
     }
 
     public void handleMissingKeyException(
-            final MissingKeyException   e,
+            final MissingKeyException   cause,
             final I18nField             i18nField,
             final I18nResolver          i18nResolver
             )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
-            exceptionHandler.handleMissingKeyException( e, i18nField, i18nResolver );
+            exceptionHandler.handleMissingKeyException( cause, i18nField, i18nResolver );
             }
     }
 
     public <T> void handleMissingResourceException(
-        final MissingResourceException e,
+        final MissingResourceException cause,
         final I18nField                field,
         final T                        objectToI18n,
         final I18nInterface            i18nInterface
        )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
-            exceptionHandler.handleMissingResourceException( e, field, objectToI18n, i18nInterface );
+            exceptionHandler.handleMissingResourceException( cause, field, objectToI18n, i18nInterface );
             }
     }
 
@@ -189,43 +192,43 @@ class I18nDelegator implements Serializable
     }
 
     public void handleNoSuchMethodException(
-        final NoSuchMethodException e,
+        final NoSuchMethodException cause,
         final I18nField             i18nField
         )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
-            exceptionHandler.handleNoSuchMethodException( e, i18nField );
+            exceptionHandler.handleNoSuchMethodException( cause, i18nField );
             }
     }
 
     public void handleSecurityException(
-        final MethodProviderSecurityException e,
+        final MethodProviderSecurityException cause,
         final Field                           field
         )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
-            exceptionHandler.handleSecurityException( e, field );
+            exceptionHandler.handleSecurityException( cause, field );
             }
     }
 
     public void handleSecurityException(
-        final SecurityException e,
+        final SecurityException cause,
         final I18nField         i18nField
         )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
-            exceptionHandler.handleSecurityException( e, i18nField );
+            exceptionHandler.handleSecurityException( cause, i18nField );
             }
     }
 
     public void handleSetFieldException(
-        final SetFieldException e,
+        final SetFieldException cause,
         final I18nField         i18nField,
         final I18nResolver      i18nResolver
         )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
-            exceptionHandler.handleSetFieldException( e, i18nField, i18nResolver );
+            exceptionHandler.handleSetFieldException( cause, i18nField, i18nResolver );
             }
     }
 }

@@ -22,5 +22,5 @@ public interface InputStreamThreadExceptionHandler
      *
      * @param cause The cause of the IOException
      */
-    void handleWritingIOException( IOException e );
+    void handleWritingIOException( IOException cause );
 }

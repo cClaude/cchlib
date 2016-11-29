@@ -28,6 +28,21 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
 
     private final EnumSet<Attributs> attributes;
 
+    private final class PopupMenuMouseAdapter extends MouseAdapter
+    {
+        @Override
+        public void mousePressed( final MouseEvent event )
+        {
+            maybeShowPopup( event );
+        }
+
+        @Override
+        public void mouseReleased( final MouseEvent event )
+        {
+            maybeShowPopup( event );
+        }
+    }
+
     /**
      * @since 4.2
      */
@@ -111,6 +126,8 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param menuItemTxt      Text for new menu to add
      * @param listener         {@link ActionListener} for new menu
      * @param actionCommand    Action command to set on new menu
+     * @param clientPropertyKey     The client property key
+     * @param clientPropertyValue   The client property value
      * @return menuItem added
      *
      * @see JMenuItem#putClientProperty(Object, Object)
@@ -376,6 +393,8 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param menuTxt          Text for new menu to add
      * @param listener         {@link ActionListener} for new menu
      * @param actionCommand    Action command to set on new menu
+     * @param clientPropertyKey     The client property key
+     * @param clientPropertyValue   The client property value
      * @return menu added
      *
      * @see JMenu#putClientProperty(Object, Object)
@@ -642,6 +661,8 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param menuItemTxt      Text for new menu to add
      * @param listener         {@link ActionListener} for new menu
      * @param actionCommand    Action command to set on new menu
+     * @param clientPropertyKey     The client property key
+     * @param clientPropertyValue   The client property value
      * @return menuItem added
      *
      * @see JMenuItem#putClientProperty(Object, Object)
@@ -1142,16 +1163,25 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     /**
      * {@link MouseListener} that must be add on object that
      * need a JPopupMenu
+     *
+     * @param listener {@link MouseListener} to add
      */
-    protected abstract void addMouseListener( MouseListener l );
+    protected abstract void addMouseListener( MouseListener listener );
 
     /**
      * remove previous {@link MouseListener}
-     */
-    protected abstract void removeMouseListener( MouseListener l );
+      *
+     * @param listener {@link MouseListener} to remove
+    */
+    protected abstract void removeMouseListener( MouseListener listener );
 
     /**
      * Must implement display or hide of menu
+     *
+     * if {@link MouseEvent#isPopupTrigger()} is true, must
+     * create the menu {@link JPopupMenu}.
+     *
+     * @param event mouse event
      */
     protected abstract void maybeShowPopup( MouseEvent event );
 
@@ -1166,31 +1196,16 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         if( this.menuMouseListener != null ) {
             removeMouseListener( this.menuMouseListener );
             }
-        this.menuMouseListener = newMenu();
+
+        this.menuMouseListener = new PopupMenuMouseAdapter();
 
         addMouseListener( this.menuMouseListener );
-    }
-
-    private MouseAdapter newMenu()
-    {
-        return new MouseAdapter()
-        {
-            @Override
-            public void mousePressed( final MouseEvent event )
-            {
-                maybeShowPopup( event );
-            }
-            @Override
-            public void mouseReleased( final MouseEvent event )
-            {
-                maybeShowPopup( event );
-            }
-        };
     }
 
     ///////////////////////////////////////////////////////////////////////
 
     /**
+     * @param requestor deprecated
      * @see ClipboardHelper#isClipboardContainingText(Object)
      * @deprecated use {@link ClipboardHelper#isClipboardContainingText(Object)}
      */
@@ -1203,6 +1218,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     }
 
     /**
+     * @param str deprecated
      * @see ClipboardHelper#setClipboardContents(String)
      * @deprecated use {@link ClipboardHelper#setClipboardContents(String)}
      */
@@ -1215,6 +1231,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
     }
 
     /**
+     * @param requestor deprecated
      * @see ClipboardHelper#setClipboardContents(String)
      * @deprecated use {@link ClipboardHelper#setClipboardContents(String)}
      */

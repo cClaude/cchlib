@@ -5,18 +5,21 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public final class DuplicateHelpers {
-    private DuplicateHelpers() {
+public final class DuplicateHelpers
+{
+    private DuplicateHelpers()
+    {
         // All static
     }
 
     /**
      * Remove every {@link Set} of {@link File} with less than 2 values
      *
+     * @param <K> Type of the key
      * @param mapSet {@link Map} to clean up
      * @return number of files no more in the map.
      */
-    public static <KEY> int removeNonDuplicate( final Map<KEY, Set<File>> mapSet )
+    public static <K> int removeNonDuplicate( final Map<K, Set<File>> mapSet )
     {
         int                 count = 0;
         final Iterator<Set<File>> iter  = mapSet.values().iterator();

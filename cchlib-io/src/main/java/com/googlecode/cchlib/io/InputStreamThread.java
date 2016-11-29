@@ -22,6 +22,11 @@ public class InputStreamThread
 
     /**
      * NEEDDOC
+     *
+     * @param is NEEDDOC
+     * @param bufferSize NEEDDOC
+     * @param exceptionHandler NEEDDOC
+     * @throws IOException NEEDDOC
      */
     public InputStreamThread(
         final InputStream                       is,
@@ -39,6 +44,12 @@ public class InputStreamThread
 
     /**
      * NEEDDOC
+     *
+     * @param threadName NEEDDOC
+     * @param is NEEDDOC
+     * @param bufferSize NEEDDOC
+     * @param exceptionHandler NEEDDOC
+     * @throws IOException NEEDDOC
      */
     public InputStreamThread(
         final String                            threadName,

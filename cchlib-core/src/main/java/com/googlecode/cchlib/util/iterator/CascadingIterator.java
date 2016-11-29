@@ -31,8 +31,9 @@ public class CascadingIterator<T>
     }
 
     /**
+     * Build an Iterator based on an array of Iterator
      *
-     * @param iterators
+     * @param iterators Array of iterator
      * @since 4.1.8
      */
     @SafeVarargs

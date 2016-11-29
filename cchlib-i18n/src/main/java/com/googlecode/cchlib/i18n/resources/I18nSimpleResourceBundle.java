@@ -20,9 +20,10 @@ public class I18nSimpleResourceBundle
     private Locale currentLocale;
 
     /**
+     * NEEDDOC
      *
-     * @param locale
-     * @param resourceBundleName
+     * @param locale NEEDDOC
+     * @param resourceBundleName NEEDDOC
      */
     public I18nSimpleResourceBundle(
        final Locale                 locale,
@@ -33,9 +34,10 @@ public class I18nSimpleResourceBundle
     }
 
     /**
+     * NEEDDOC
      *
-     * @param locale
-     * @param resourceBundleFullBaseName
+     * @param locale NEEDDOC
+     * @param resourceBundleFullBaseName NEEDDOC
      */
     public I18nSimpleResourceBundle(
             final Locale locale,

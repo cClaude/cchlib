@@ -30,6 +30,7 @@ public class MappableHelper
     /**
      * Build Map using default factory.
      *
+     * @param <T> type of the object to map
      * @param object object to map
      * @return NEEDDOC
      *
