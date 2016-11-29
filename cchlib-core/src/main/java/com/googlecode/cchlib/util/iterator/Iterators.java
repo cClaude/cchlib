@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.util.iterator;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import com.googlecode.cchlib.util.CollectionHelper;
 
 /**
  * This class consists exclusively of static methods
@@ -68,8 +68,8 @@ public final class Iterators
      * Create an Enumeration using (and consuming) an Iterator
      *
      * @param <T> type content
-     * @param iterator
-     * @return an Enumeration view for this iterator
+     * @param iterator to transform to an {@link Enumeration}
+     * @return an {@link Enumeration} view for this {@code iterator}
      */
     public static <T> Enumeration<T> toEnumeration(
             final Iterator<T> iterator
@@ -88,12 +88,12 @@ public final class Iterators
         @Override
         public boolean hasNext()
         {
-            return iterator.hasNext();
+            return this.iterator.hasNext();
         }
         @Override
         public T next()
         {
-            return iterator.next();
+            return this.iterator.next();
         }
         @Override
         public void remove()
@@ -119,20 +119,20 @@ public final class Iterators
         @Override
         public boolean hasNext()
         {
-            if( firstDone ) {
-                return iterator.hasNext();
+            if( this.firstDone ) {
+                return this.iterator.hasNext();
                 }
             return true;
         }
         @Override
         public T next()
         {
-            if( firstDone ) {
-                return iterator.next();
+            if( this.firstDone ) {
+                return this.iterator.next();
                 }
             else {
-                firstDone = true;
-                return firstElement;
+                this.firstDone = true;
+                return this.firstElement;
                 }
         }
         @Override
@@ -142,7 +142,7 @@ public final class Iterators
         }
     }
 
-
+    @SuppressWarnings("squid:S1150") // An Enumeration is expected here
     private static class IteratortoEnumeration<T> implements Enumeration<T>
     {
         private final Iterator<T> iterator;
@@ -154,34 +154,43 @@ public final class Iterators
         @Override
         public boolean hasMoreElements()
         {
-            return iterator.hasNext();
+            return this.iterator.hasNext();
         }
         @Override
         public T nextElement()
-            throws java.util.NoSuchElementException
         {
-            return iterator.next();
+            return this.iterator.next();
         }
     }
 
+    /**
+     * Create an {@link Iterator} from an array
+     *
+     * @param array source
+     * @return an {@link Iterator}
+     */
     public static <T> Iterator<T> create( final T[] array )
     {
         return new ArrayIterator<>( array );
     }
 
+    /**
+     * Create an {@link Iterator} from an array
+     *
+     * @param array source
+     * @param offset first entry in the array
+     * @param len number of elements in the {@link Iterator}
+     * @return an {@link Iterator}
+     */
     public static <T> Iterator<T> create( final T[] array, final int offset, final int len )
     {
         return new ArrayIterator<>( array, offset, len );
     }
 
+    /** @deprecated use {@link CollectionHelper#newList(Iterator)} instead */
+    @Deprecated
     public static <T> List<T> newList( final Iterator<T> iterator )
     {
-        final List<T> list = new ArrayList<>();
-
-        while( iterator.hasNext() ) {
-            list.add( iterator.next() );
-        }
-
-        return list;
+        return CollectionHelper.newList( iterator );
     }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -56,25 +57,30 @@ public final class CollectionHelper
      * @return an unmodifiable List
      * @since 4.2
      */
-    @NeedTestCases
     @Nonnull
     public static <T> List<T> unmodifiableList(
         @Nullable final Enumeration<T> enumeration
         )
     {
-        return Collections.unmodifiableList( toList( enumeration ) );
+        return Collections.unmodifiableList( newList( enumeration ) );
+    }
+
+    /** @deprecated use {@link #newList(Enumeration)} instead */
+    @Deprecated
+    public static <T> List<T> toList( @Nullable final Enumeration<T> enumeration )
+    {
+        return newList( enumeration );
     }
 
     /**
-     * Convert result of an {@link Enumeration} to a {@link List}
+     * Create a {@link List} from an {@link Enumeration}
      * @param <T> the class of the objects in the list
      * @param enumeration the enumeration whose elements are to be placed into this list
      * @return a List
      * @since 4.2
      */
-    @NeedTestCases
     @Nonnull
-    public static <T> List<T> toList( @Nullable final Enumeration<T> enumeration )
+    public static <T> List<T> newList( @Nullable final Enumeration<T> enumeration )
     {
         final List<T> list = new ArrayList<>();
 
@@ -86,6 +92,26 @@ public final class CollectionHelper
 
         return list;
      }
+
+    /**
+     * Create a {@link List} from an {@link Iterator}
+     * @param <T> the class of the objects in the list
+     * @param iterator the iterator whose elements are to be placed into this list
+     * @return a List
+     * @since 4.2
+     */
+    public static <T> List<T> newList( @Nullable final Iterator<T> iterator )
+    {
+        final List<T> list = new ArrayList<>();
+
+        if( iterator != null ) {
+            while( iterator.hasNext() ) {
+                list.add( iterator.next() );
+            }
+        }
+
+        return list;
+    }
 
     /**
      * Test if a {@link Collection} is empty
