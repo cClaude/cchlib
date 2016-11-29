@@ -10,210 +10,185 @@ public class Node extends Component
 {
     private static final long serialVersionUID = 1L;
 
-    final Color nodeColor1 = new Color(0, 186, 185);
-    final Color nodeColor2 = new Color(249, 196, 106);
-    //NOT USE: GraphPanel parent;
+    private final Color nodeColor1 = new Color(0, 186, 185);
+    private final Color nodeColor2 = new Color(249, 196, 106);
 
-    private int _circel;
-    private double _x;
-    private double _y;
-    private double _dx;
-    private double _dy;
-    private double _px;
-    private double _py;
-    private boolean _fixed;
-    private boolean _pfixed;
-    private boolean _jumped;
-    private String _action;
-    private String _lbl;
-    private Image _image;
+    private int nodeCircle;
+    private double nodeX;
+    private double nodeY;
+    private double nodeDX;
+    private double nodeDY;
+    private double nodePX;
+    private double nodePY;
+    private boolean nodeFixed;
+    private boolean nodePFixed;
+    private boolean nodeJumped;
+    private String nodeAction;
+    private String nodeLabel;
+    private Image nodeImage;
 
     public Node(
-        //final GraphPanel    parentPanel,
-        final int           circel,
-        final String        label,
-        //final IntuiGraph    graph
-        final Image            image
+        final int    circel,
+        final String label,
+        final Image  image
         )
     {
-        this._x = (10.0D + 380.0D * Math.random());
-        this._y = (10.0D + 380.0D * Math.random());
+        this.nodeX = 10.0D + (380.0D * random());
+        this.nodeY = 10.0D + (380.0D * random());
 
-        //this.parent = parentPanel;
-        this._circel = circel;
-        this._jumped = false;
-        this._image = image;
-
-        this._lbl = label;
+        this.nodeCircle = circel;
+        this.nodeJumped = false;
+        this.nodeImage  = image;
+        this.nodeLabel  = label;
     }
 
 
-    public synchronized void paint(Graphics g, FontMetrics fm)
+    private double random()
     {
-        Node n = this;
-        int x = (int) n._x;
-        int y = (int) n._y;
+        return Math.random();
+    }
 
-        int w = fm.stringWidth(n._lbl) + 18;
-        int h = fm.getHeight();
+    public synchronized void paint(final Graphics g, final FontMetrics fm)
+    {
+        final Node n = this;
+        final int x = (int) n.nodeX;
+        final int y = (int) n.nodeY;
+
+        final int w = fm.stringWidth(n.nodeLabel) + 18;
+        final int h = fm.getHeight();
 
         setSize(w, h);
-        n._circel += 10;
+        n.nodeCircle += 10;
 
-        if (n._circel > 360) {
-            n._circel = 0;
+        if (n.nodeCircle > 360) {
+            n.nodeCircle = 0;
             }
 
-        if (n._jumped) {
+        if (n.nodeJumped) {
             g.setColor(this.nodeColor2);
-            g.fillArc(x - w / 2 - 4, y - h / 2 - 4, w + 4, h + 14, 0, 360);
+            g.fillArc(x - (w / 2) - 4, y - (h / 2) - 4, w + 4, h + 14, 0, 360);
             g.setColor(this.nodeColor1);
-            g.fillArc(x - w / 2 - 4, y - h / 2 - 4, w + 4, h + 14, n._circel, 30);
+            g.fillArc(x - (w / 2) - 4, y - (h / 2) - 4, w + 4, h + 14, n.nodeCircle, 30);
             }
         else {
             g.setColor(this.nodeColor1);
-            g.fillArc(x - w / 2 - 4, y - h / 2 - 4, w + 4, h + 14, 0, 360);
+            g.fillArc(x - (w / 2) - 4, y - (h / 2) - 4, w + 4, h + 14, 0, 360);
             g.setColor(this.nodeColor2);
-            g.fillArc(x - w / 2 - 4, y - h / 2 - 4, w + 4, h + 14, n._circel, 30);
+            g.fillArc(x - (w / 2) - 4, y - (h / 2) - 4, w + 4, h + 14, n.nodeCircle, 30);
         }
         g.setColor(Color.blue);
 
         g.setColor(Color.black);
 
         g.setColor(Color.blue);
-        g.drawString(n._lbl, x - (w - 11) / 2, y - h / 2 + fm.getAscent() + 4);
+        g.drawString(n.nodeLabel, x - ((w - 11) / 2), (y - (h / 2)) + fm.getAscent() + 4);
     }
 
-
-    public String get_action() {
-        return _action;
+    public String getNodeAction() {
+        return this.nodeAction;
     }
 
-
-    public void set_action(String _action) {
-        this._action = _action;
+    public void setNodeAction( final String action )
+    {
+        this.nodeAction = action;
     }
 
-
-    public int get_circel() {
-        return _circel;
+    public int getNodeCircle() {
+        return this.nodeCircle;
     }
 
-
-    public void set_circel(int _circel) {
-        this._circel = _circel;
+    public void setNodeCircle(final int circle) {
+        this.nodeCircle = circle;
     }
 
-
-    public double get_dx() {
-        return _dx;
+    public double getNodeDX() {
+        return this.nodeDX;
     }
 
-
-    public void set_dx(double _dx) {
-        this._dx = _dx;
+    public void setNodeDX(final double dx) {
+        this.nodeDX = dx;
     }
 
-
-    public double get_dy() {
-        return _dy;
+    public double getNodeDY() {
+        return this.nodeDY;
     }
 
-
-    public void set_dy(double _dy) {
-        this._dy = _dy;
+    public void setNodeDY(final double dy) {
+        this.nodeDY = dy;
     }
 
-
-    public double get_x() {
-        return _x;
+    public double getNodeX() {
+        return this.nodeX;
     }
 
-
-    public double set_x(double _x) {
-        this._x = _x;
-        return _x;
+    public double setNodeX(final double x) {
+        this.nodeX = x;
+        return x;
     }
 
-
-    public double get_y() {
-        return _y;
+    public double getNodeY() {
+        return this.nodeY;
     }
 
-
-    public double set_y(double _y) {
-        this._y = _y;
-        return _y;
+    public double setNodeY(final double y) {
+        this.nodeY = y;
+        return y;
     }
 
+    public boolean isNodeFixed() {
+        return this.nodeFixed;
+    }
 
-	public boolean is_fixed() {
-		return _fixed;
-	}
+    public void setNodeFixed(final boolean fixed) {
+        this.nodeFixed = fixed;
+    }
 
+    public Image getNodeImage() {
+        return this.nodeImage;
+    }
 
-	public void set_fixed(boolean _fixed) {
-		this._fixed = _fixed;
-	}
+    public void setNodeImage(final Image image) {
+        this.nodeImage = image;
+    }
 
+    public boolean isNodeJumped() {
+        return this.nodeJumped;
+    }
 
-	public Image get_image() {
-		return _image;
-	}
+    public void setNodeJumped(final boolean jumped) {
+        this.nodeJumped = jumped;
+    }
 
+    public String getNodeLabel() {
+        return this.nodeLabel;
+    }
 
-	public void set_image(Image _image) {
-		this._image = _image;
-	}
+    public void setNodeLabel(final String label) {
+        this.nodeLabel = label;
+    }
 
+    public boolean isNodePFixed() {
+        return this.nodePFixed;
+    }
 
-	public boolean is_jumped() {
-		return _jumped;
-	}
+    public boolean setNodePFixed(final boolean pfixed) {
+        this.nodePFixed = pfixed;
+        return pfixed;
+    }
 
+    public double getNodePX() {
+        return this.nodePX;
+    }
 
-	public void set_jumped(boolean _jumped) {
-		this._jumped = _jumped;
-	}
+    public void setNodePX(final double px) {
+        this.nodePX = px;
+    }
 
+    public double getNodePY() {
+        return this.nodePY;
+    }
 
-	public String get_lbl() {
-		return _lbl;
-	}
-
-
-	public void set_lbl(String _lbl) {
-		this._lbl = _lbl;
-	}
-
-
-	public boolean is_pfixed() {
-		return _pfixed;
-	}
-
-
-	public boolean set_pfixed(boolean _pfixed) {
-		this._pfixed = _pfixed;
-		return _pfixed;
-	}
-
-
-	public double get_px() {
-		return _px;
-	}
-
-
-	public void set_px(double _px) {
-		this._px = _px;
-	}
-
-
-	public double get_py() {
-		return _py;
-	}
-
-
-	public void set_py(double _py) {
-		this._py = _py;
-	}
+    public void setNodePY(final double py) {
+        this.nodePY = py;
+    }
 }

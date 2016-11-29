@@ -2,40 +2,40 @@ package alpha.bricolage201202;
 
 public class Edge
 {
-    private int from;
-    private int to;
-    private double len;
-    private static int lev;
+    private final int from;
+    private final int to;
+    private final double len;
+    private static int globalLevers;
 
-    public Edge(int from, int to, double len)
+    public Edge( final int from, final int to, final double len )
     {
         this.from = from;
-        this.to = to;
-        this.len = len;
+        this.to   = to;
+        this.len  = len;
     }
 
-    public static void setLev( final int level )
+    public static void setGlobalLevers( final int level )
     {
-        Edge.lev = level;
+        Edge.globalLevers = level;
     }
 
-    public static int getLev()
+    public static int getGlobalLevers()
     {
-        return Edge.lev;
+        return Edge.globalLevers;
     }
 
     public int getFrom()
     {
-        return from;
+        return this.from;
     }
 
     public int getTo()
     {
-        return to;
+        return this.to;
     }
 
     public double getLen()
     {
-        return len;
+        return this.len;
     }
 }
