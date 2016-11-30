@@ -11,10 +11,12 @@ import javax.annotation.Nonnull;
 public final class FileHelper
 {
     /** Maximum loop count when creating temp directories. */
-    private static final int TEMP_DIR_ATTEMPTS = 10000;
+    private static final int TEMP_DIR_ATTEMPTS = 10_000;
 
-    // All static
-    public FileHelper() {}
+    private FileHelper()
+    {
+        // All static
+    }
 
     /**
      * Returns File object for tmp directory
@@ -25,7 +27,7 @@ public final class FileHelper
      */
     public static File getTmpDirFile()
     {
-        return new File( System.getProperty("java.io.tmpdir" ) );
+        return new File( System.getProperty( "java.io.tmpdir" ) );
     }
 
     /**
@@ -37,7 +39,7 @@ public final class FileHelper
      */
     public static File getUserHomeDirFile()
     {
-        return new File( System.getProperty("user.home") );
+        return new File( System.getProperty( "user.home" ) );
     }
 
     /**

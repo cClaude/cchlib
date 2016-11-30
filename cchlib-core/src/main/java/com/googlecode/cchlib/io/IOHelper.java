@@ -263,7 +263,7 @@ public final class IOHelper
     public static void copy(
             @Nonnull final InputStream   input,
             @Nonnull final OutputStream  output,
-            @Nonnull final byte[]              buffer
+            @Nonnull final byte[]        buffer
             )
         throws IOException
     {
