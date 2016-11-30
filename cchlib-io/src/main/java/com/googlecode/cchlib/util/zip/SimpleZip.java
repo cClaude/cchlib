@@ -21,35 +21,37 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
  */
 public class SimpleZip implements Closeable
 {
-    private static final int BUFFER_SIZE = 4096;
+    /** Default buffer size : {@value} */
+    protected static final int DEFAULT_BUFFER_SIZE = 4096;
+
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
+
     private final ZipOutputStream zos;
-    private final byte[] buffer;
+    private final byte[]          buffer;
 
     /**
-     * Create a {@link SimpleZip}
+     * Create a {@link SimpleZip} using {@link #DEFAULT_BUFFER_SIZE}
      *
-     * @param output
+     * @param output {@link OutputStream} for zip
      * @throws IOException if any I/O occur
      */
     public SimpleZip( final OutputStream output ) throws IOException
     {
-        this( output, BUFFER_SIZE );
+        this( output, DEFAULT_BUFFER_SIZE );
     }
 
     /**
      * Create a {@link SimpleZip} and define buffer size
      *
-     * @param output
-     * @param bufferSize
+     * @param output {@link OutputStream} for zip
+     * @param bufferSize size of buffer
      * @throws IOException if any I/O occur
      */
     public SimpleZip(
-            final OutputStream    output,
-            final int             bufferSize
-            )
-        throws IOException
+        final OutputStream    output,
+        final int             bufferSize
+        ) throws IOException
     {
         this.zos    = new ZipOutputStream(output);
         this.buffer = new byte[bufferSize];
@@ -139,7 +141,6 @@ public class SimpleZip implements Closeable
 
         this.zos.flush();
         this.zos.closeEntry();
-
         this.fireEntryAdded( sze );
     }
 
@@ -150,10 +151,10 @@ public class SimpleZip implements Closeable
      * @param c {@link Iterable} of {@link SimpleZipEntry} to add
      * @throws IOException if any I/O occur
      */
-    public void addAll( final Iterable<SimpleZipEntry> c )
-        throws java.io.IOException
+    public void addAll( final Iterable<SimpleZipEntry> zipCollection )
+        throws IOException
     {
-        addAll( c.iterator() );
+        addAll( zipCollection.iterator() );
     }
 
     /**
