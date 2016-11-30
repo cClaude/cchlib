@@ -13,8 +13,9 @@ public interface SimpleZipEntry extends Serializable
     /**
      * Returns ZipEntry for current file
      * @return ZipEntry for current file
+     * @throws IOException if any I/O error occur.
      */
-    ZipEntry getZipEntry();
+    ZipEntry getZipEntry() throws IOException;
 
     /**
      * Returns InputStream for current file

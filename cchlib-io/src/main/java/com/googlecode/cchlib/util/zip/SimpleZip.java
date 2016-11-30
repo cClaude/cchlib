@@ -4,14 +4,24 @@ import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.FileVisitOption;
+import java.nio.file.FileVisitResult;
+import java.nio.file.FileVisitor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.swing.event.EventListenerList;
-import com.googlecode.cchlib.io.FileIterator;
+import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.util.Wrappable;
-import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 
 /**
  * {@link SimpleZip} is a fronted of {@link ZipOutputStream}
@@ -21,6 +31,56 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
  */
 public class SimpleZip implements Closeable
 {
+    // Not static
+    private final class SimpleZipFileVisitor implements FileVisitor<Path>
+    {
+        private final Wrappable<File, SimpleZipEntry> wrapper;
+        private final Path                            startPath;
+
+        private SimpleZipFileVisitor(
+            @Nonnull final Wrappable<File, SimpleZipEntry> wrapper,
+            @Nullable final Path startPath
+            )
+        {
+            this.wrapper   = wrapper;
+            this.startPath = startPath;
+        }
+
+        private SimpleZipFileVisitor( final Wrappable<File, SimpleZipEntry> wrapper )
+        {
+            this( wrapper, (Path)null );
+        }
+
+        @Override
+        public FileVisitResult preVisitDirectory( final Path dir, final BasicFileAttributes attrs ) throws IOException
+        {
+            // Ignore startPath (only if define)
+            if( ! dir.equals( this.startPath ) ) {
+                add( this.wrapper.wrap( dir.toFile() ) );
+            }
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFile( final Path file, final BasicFileAttributes attrs ) throws IOException
+        {
+            add( this.wrapper.wrap( file.toFile() ) );
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFileFailed( final Path file, final IOException exc ) throws IOException
+        {
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory( final Path dir, final IOException exc ) throws IOException
+        {
+            return FileVisitResult.CONTINUE;
+        }
+    }
+
     /** Default buffer size : {@value} */
     protected static final int DEFAULT_BUFFER_SIZE = 4096;
 
@@ -53,8 +113,8 @@ public class SimpleZip implements Closeable
         final int             bufferSize
         ) throws IOException
     {
-        this.zos    = new ZipOutputStream(output);
-        this.buffer = new byte[bufferSize];
+        this.zos    = new ZipOutputStream( output );
+        this.buffer = new byte[ bufferSize ];
 
         setMethod( ZipEntry.DEFLATED );
     }
@@ -74,8 +134,11 @@ public class SimpleZip implements Closeable
     /**
      * Sets the ZIP file comment.
      *
-     * @param comment the comment string
-     * @throws IllegalArgumentException if the length of the specified ZIP file comment is greater than 0xFFFF bytes
+     * @param comment
+     *            the comment string
+     * @throws IllegalArgumentException
+     *             if the length of the specified ZIP file comment is greater
+     *             than 0xFFFF bytes
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void setComment( final String comment ) throws IllegalArgumentException
@@ -118,37 +181,55 @@ public class SimpleZip implements Closeable
     /**
      * Add {@link SimpleZipEntry} to {@link SimpleZip}
      *
-     * @param sze {@link SimpleZipEntry} to add
+     * @param entry {@link SimpleZipEntry} to add
      * @throws IOException if any I/O occur
      */
-    public void add( final SimpleZipEntry sze ) throws IOException
+    public void add( final SimpleZipEntry entry ) throws IOException
     {
-        this.fireEntryPostProcessing( sze );
+        this.fireEntryPostProcessing( entry );
 
-        this.zos.putNextEntry( sze.getZipEntry() );
+        this.zos.putNextEntry( entry.getZipEntry() );
 
-        if( !sze.getZipEntry().isDirectory() ) {
-            try (BufferedInputStream bis = new BufferedInputStream(
-                    sze.createInputStream()
-            )) {
-                int len;
-
-                while( (len = bis.read(this.buffer, 0, this.buffer.length)) != -1 ) {
-                    this.zos.write(this.buffer, 0, len);
-                    }
-                }
+        if( isNotADirectory( entry ) ) {
+            copyFile( entry );
             }
 
         this.zos.flush();
         this.zos.closeEntry();
-        this.fireEntryAdded( sze );
+        this.fireEntryAdded( entry );
+    }
+
+    private void copyFile( final SimpleZipEntry entry ) throws IOException
+    {
+        try( final BufferedInputStream bis = newBufferedInputStream( entry ) ) {
+            IOHelper.copy( bis, this.zos, this.buffer );
+        }
+    }
+
+    private static BufferedInputStream newBufferedInputStream(
+        final SimpleZipEntry entry
+        ) throws IOException
+    {
+        final InputStream inputStream = entry.createInputStream();
+
+        if( inputStream instanceof BufferedInputStream ) {
+            return (BufferedInputStream)inputStream;
+        }
+
+        return new BufferedInputStream( entry.createInputStream() );
+    }
+
+    private static boolean isNotADirectory( final SimpleZipEntry entry )
+        throws IOException
+    {
+        return ! entry.getZipEntry().isDirectory();
     }
 
     /**
      * Add all {@link SimpleZipEntry} of giving {@link Iterable}
      * object to {@link SimpleZip}
      *
-     * @param c {@link Iterable} of {@link SimpleZipEntry} to add
+     * @param zipCollection {@link Iterable} of {@link SimpleZipEntry} to add
      * @throws IOException if any I/O occur
      */
     public void addAll( final Iterable<SimpleZipEntry> zipCollection )
@@ -175,12 +256,14 @@ public class SimpleZip implements Closeable
     /**
      * Add all content of a specified directory to {@link SimpleZip}
      *
-     * @param folderFile Home directory that will be archived
-     * @param wrapper    {@link Wrappable} object able to transform
-     *                   any {@link File} found under giving directory
-     *                   to a {@link SimpleZipEntry}.
-     * @throws IOException if any I/O occur
-     * @see DefaultSimpleZipWrapper
+     * @param folderFile
+     *            Home directory that will be archived
+     * @param wrapper
+     *            {@link Wrappable} object able to transform any {@link File}
+     *            found under giving directory to a {@link SimpleZipEntry}.
+     * @throws IOException
+     *             if any I/O occur
+     * @see SimpleZipWrapperFactory
      */
     public void addFolder(
             final File                            folderFile,
@@ -188,9 +271,68 @@ public class SimpleZip implements Closeable
             )
         throws IOException
     {
-        final Iterator<File> iterator = new FileIterator( folderFile );
+        final Set<FileVisitOption> options    = EnumSet.noneOf( FileVisitOption.class );
+        final int                  maxDepth   = Integer.MAX_VALUE;
+        final boolean              ignoreRoot = true;
 
-        addAll( new IteratorWrapper<>( iterator, wrapper ) );
+        addFolder( folderFile, wrapper, options, maxDepth, ignoreRoot );
+    }
+
+    /**
+     * Add all content of a specified directory to {@link SimpleZip}
+     *
+     * @param folderFile
+     *            Home directory that will be archived
+     * @param wrapper
+     *            {@link Wrappable} object able to transform any {@link File}
+     *            found under giving directory to a {@link SimpleZipEntry}.
+     * @param options
+     *            options to configure the traversal
+     * @param maxDepth
+     *            the maximum number of directory levels to visit
+     * @param ignoreRoot
+     *            if false root folder will be included in zip, if true
+     *            root folder will not be included
+     * @throws IOException
+     *             if any I/O occur
+     *
+     * @see SimpleZipWrapperFactory
+     * @see Files#walkFileTree(Path, Set, int, FileVisitor)
+     */
+    public void addFolder(
+            final File                            folderFile,
+            final Wrappable<File, SimpleZipEntry> wrapper,
+            final Set<FileVisitOption>            options,
+            final int                             maxDepth,
+            final boolean                         ignoreRoot
+            ) throws IOException
+    {
+        final Path                      start   = folderFile.toPath();
+        final FileVisitor<? super Path> visitor;
+
+        if( ignoreRoot ) {
+            visitor = new SimpleZipFileVisitor( wrapper, start );
+        } else {
+            visitor = new SimpleZipFileVisitor( wrapper );
+        }
+
+        Files.walkFileTree( start, options, maxDepth, visitor );
+    }
+
+    /**
+     * Add all content of a specified directory to {@link SimpleZip}
+     * using default wrapper.
+     *
+     * @param sourceFolderFile Home directory that will be archived
+     * @throws IOException if any I/O occur
+     * @see SimpleZipWrapperFactory#wrapperFromFolder(File)
+     */
+    public void addFolder( final File sourceFolderFile ) throws IOException
+    {
+        addFolder(
+            sourceFolderFile,
+            SimpleZipWrapperFactory.wrapperFromFolder( sourceFolderFile )
+            );
     }
 
     /**
@@ -219,13 +361,16 @@ public class SimpleZip implements Closeable
      * method.
      *
      * @param szipEntry current {@link SimpleZipEntry}
+     * @throws IOException  if any I/O occur
      */
     protected void fireEntryPostProcessing(
         final SimpleZipEntry szipEntry
-        )
+        ) throws IOException
     {
         final ZipEntry zipEntry  = szipEntry.getZipEntry();
         final Object[] listeners = this.listenerList.getListenerList();
+
+        assert zipEntry != null;
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
             if (listeners[i] == ZipListener.class) {
@@ -240,10 +385,11 @@ public class SimpleZip implements Closeable
      * method.
      *
      * @param szipEntry current {@link SimpleZipEntry}
+     * @throws IOException  if any I/O occur
      */
     protected void fireEntryAdded(
         final SimpleZipEntry szipEntry
-        )
+        ) throws IOException
     {
         final ZipEntry zipEntry  = szipEntry.getZipEntry();
         final Object[] listeners = this.listenerList.getListenerList();

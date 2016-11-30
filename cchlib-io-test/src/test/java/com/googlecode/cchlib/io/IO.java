@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * For test ONLY
@@ -86,6 +88,32 @@ public final class IO
             IOHelper.copy( createPNGInputStream(), os );
 
             return os.toByteArray();
+        }
+    }
+
+    public static File createTempFile( final Class<?> fromClassPrefix, final String suffix )
+    {
+        try {
+            final String prefix = fromClassPrefix.getSimpleName();
+
+            return File.createTempFile( prefix, suffix );
+        }
+        catch( final IOException e ) {
+            throw new RuntimeException( e );
+        }
+    }
+
+    public static File createTempDirectory( final Class<?> fromClassPrefix )
+    {
+        final String prefix = fromClassPrefix.getSimpleName();;
+
+        try {
+            final Path path = Files.createTempDirectory( prefix );
+
+            return path.toFile();
+        }
+        catch( final IOException e ) {
+            throw new RuntimeException( e );
         }
     }
 }

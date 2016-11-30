@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import javax.swing.event.EventListenerList;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.io.IOHelper;
 
 /**
  * {@link SimpleUnZip} is a fronted of {@link ZipInputStream}
@@ -28,11 +30,11 @@ public class SimpleUnZip implements Closeable
     /** The listeners waiting for object changes. */
     protected EventListenerList listenerList = new EventListenerList();
 
-    private final byte[]   buffer;
-    private final FileTime lastAccessTime = FileTime.fromMillis( System.currentTimeMillis() );
+    private final byte[]         buffer;
+    private final ZipInputStream zipIS;
+    private final FileTime       lastAccessTime = FileTime.fromMillis( System.currentTimeMillis() );
 
-    private ZipInputStream zis;
-    private int            fileCount;
+    private long unZippedFilesCount;
 
     /**
      * Creates a new {@link SimpleUnZip} based on giving {@link InputStream} using
@@ -65,23 +67,27 @@ public class SimpleUnZip implements Closeable
         final int           bufferSize
         ) throws IOException
     {
+        this.zipIS              = newZipInputStream( input );
+        this.buffer             = new byte[ bufferSize ];
+        this.unZippedFilesCount = 0;
+    }
+
+    private static ZipInputStream newZipInputStream( final InputStream input )
+    {
         if( input instanceof BufferedInputStream ) {
-            this.zis = new ZipInputStream( input );
+            return new ZipInputStream( input );
             }
         else {
-            this.zis = new ZipInputStream(
+            return new ZipInputStream(
                 new BufferedInputStream( input )
                 );
             }
-
-        this.buffer    = new byte[ bufferSize ];
-        this.fileCount = 0;
     }
 
     @Override
     public void close() throws IOException
     {
-        this.zis.close();
+        this.zipIS.close();
     }
 
     /**
@@ -95,7 +101,7 @@ public class SimpleUnZip implements Closeable
     protected File saveNextEntry( final File folderFile )
         throws IOException
     {
-        final ZipEntry zipEntry = this.zis.getNextEntry();
+        final ZipEntry zipEntry = this.zipIS.getNextEntry();
 
         if( zipEntry == null ) {
             return null;
@@ -108,24 +114,19 @@ public class SimpleUnZip implements Closeable
 
         if( zipEntry.isDirectory() ) {
             file.mkdirs();
-            }
-        else {
+        } else { // Handle file
             if( !parent.isDirectory() ) {
                 parent.mkdirs();
-                }
-            try (OutputStream output = new BufferedOutputStream(
-                    new FileOutputStream( file )
-            )) {
-                int len;
-
-                while( (len = this.zis.read(this.buffer, 0, this.buffer.length)) != -1 ) {
-                    output.write(this.buffer, 0, len);
-                    }
-                }
             }
+
+            try( OutputStream output = new BufferedOutputStream( new FileOutputStream( file ) ) ) {
+                IOHelper.copy( this.zipIS, output, this.buffer );
+            }
+        }
+
         setLastModified( file, zipEntry );
 
-        this.fileCount++;
+        this.unZippedFilesCount++;
         this.fireEntryAdded( zipEntry, file );
 
         return file;
@@ -208,12 +209,22 @@ public class SimpleUnZip implements Closeable
     }
 
     /**
+     * @return deprecated
+     * @deprecated use {@link #getUnZippedFilesCount()} instead
+     */
+    @Deprecated
+    public int getFileCount()
+    {
+        return (int)getUnZippedFilesCount();
+    }
+
+    /**
      * Returns count files extracted
      * @return count files extracted
      */
-    public int getFileCount()
+    public long getUnZippedFilesCount()
     {
-        return this.fileCount;
+        return this.unZippedFilesCount;
     }
 
     /**
@@ -247,14 +258,14 @@ public class SimpleUnZip implements Closeable
      * @param file destination {@link File}
      */
     protected void fireEntryPostProcessing(
-            final ZipEntry zipEntry,
-            final File     file
+        final ZipEntry zipEntry,
+        final File     file
         )
     {
         final UnZipEvent event     = new UnZipEvent( zipEntry, file );
         final Object[]   listeners = this.listenerList.getListenerList();
 
-        for( int i = listeners.length - 2; i >= 0; i -= 2 ) { // $codepro.audit.disable numericLiterals
+        for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
             if( listeners[i] == UnZipListener.class ) {
                 ((UnZipListener)listeners[i + 1]).entryPostProcessing( event );
                 }
@@ -282,5 +293,39 @@ public class SimpleUnZip implements Closeable
                 ((UnZipListener)listeners[i + 1]).entryAdded( event );
                 }
             }
+    }
+
+    /**
+     * Return number of files in {@code zipFile}
+     * @param zipFile ZIP {@link File} to explore
+     * @return number of files
+     * @throws IOException if any I/O occur
+     */
+    public static long computeFilesCount( final File zipFile )
+        throws IOException
+    {
+        try( final FileInputStream in = new FileInputStream( zipFile ) ) {
+            return computeFilesCount( in );
+        }
+    }
+
+    /**
+     * Return number of files in {@code in}
+     * @param in ZIP {@link InputStream} to explore
+     * @return number of files
+     * @throws IOException if any I/O occur
+     */
+    public static long computeFilesCount( final InputStream in )
+        throws IOException
+    {
+        long count = 0;
+
+        try( final ZipInputStream zis = newZipInputStream( in ) ) {
+            while( zis.getNextEntry() != null ) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }
