@@ -500,6 +500,7 @@ public class URICache implements Closeable
             }
     }
 
+    @SuppressWarnings("squid:S1066")
     private void autoStore()
     {
         if( this.autostore ) {
@@ -521,9 +522,9 @@ public class URICache implements Closeable
      *
      * @param l the {@link URICacheListener} to add
      */
-    public void addURICacheListener( final URICacheListener l )
+    public void addURICacheListener( final URICacheListener listener )
     {
-        this.listenerList.add( URICacheListener.class, l );
+        this.listenerList.add( URICacheListener.class, listener );
     }
 
     /**
@@ -532,9 +533,9 @@ public class URICache implements Closeable
      *
      * @param l the {@link URICacheListener} to remove
      */
-    public void removeURICacheListener( final URICacheListener l )
+    public void removeURICacheListener( final URICacheListener listener )
     {
-        this.listenerList.remove( URICacheListener.class, l );
+        this.listenerList.remove( URICacheListener.class, listener );
     }
 
     /**
@@ -542,15 +543,13 @@ public class URICache implements Closeable
      * {@link URICacheListener#ioExceptionHandler(IOException)}
      * method.
      */
-    protected void fireIOException(
-            final IOException ioe
-        )
+    protected void fireIOException( final IOException ioCause )
     {
         final Object[] listeners = this.listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
             if( listeners[i] == URICacheListener.class ) {
-                ((URICacheListener)listeners[i + 1]).ioExceptionHandler( ioe );
+                ((URICacheListener)listeners[i + 1]).ioExceptionHandler( ioCause );
                 }
             }
     }
@@ -575,6 +574,7 @@ public class URICache implements Closeable
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
+
         builder.append( "URLCache [cacheRootDirFile=" );
         builder.append( this.cacheRootDirFile );
         builder.append( ", cacheFile=" );

@@ -4,4 +4,5 @@ package paper.visibility;
 public class Example3CustoOfExampleDefaultClass
     extends ExampleDefaultClass
 {
+    // Example
 }

@@ -28,7 +28,7 @@ abstract class AbstractPropertiesPersistentAnnotation<E,METHOD_OR_FIELD> //
     }
 
     @Override
-    public final String toString( final Object swingObject ) throws PropertiesPopulatorException
+    public final String toString( final Object swingObject ) throws PropertiesPopulatorRuntimeException
     {
         if( swingObject instanceof JTextField ) {
             return JTextField.class.cast( swingObject ).getText();

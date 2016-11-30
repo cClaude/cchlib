@@ -19,16 +19,16 @@ final class PropertiesPopulatorAnnotationForFieldImpl<E> //
 
     @Override
     public void setValue( final E bean, final String strValue, final Class<?> type ) throws IllegalArgumentException, IllegalAccessException,
-            ConvertCantNotHandleTypeException, PropertiesPopulatorException
+            ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException
     {
-        this.field.set( bean, private_convertStringToObject( strValue, type ) );
+        this.field.set( bean, convertStringToObject( strValue, type ) );
     }
 
     @Override
     public void setArrayEntry( final Object array, final int index, final String strValue, final Class<?> type ) throws ArrayIndexOutOfBoundsException,
-            IllegalArgumentException, ConvertCantNotHandleTypeException, PropertiesPopulatorException
+            IllegalArgumentException, ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException
     {
-        Array.set( array, index, private_convertStringToObject( strValue, type ) );
+        Array.set( array, index, convertStringToObject( strValue, type ) );
     }
 
     @Override

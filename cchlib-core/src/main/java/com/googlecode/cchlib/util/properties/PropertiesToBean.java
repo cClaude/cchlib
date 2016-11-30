@@ -58,7 +58,7 @@ class PropertiesToBean<E>
                 try {
                     entryValue.setValue( this.bean, strValue, getter.getReturnType() );
                 }
-                catch( IllegalArgumentException | IllegalAccessException | PropertiesPopulatorException | InvocationTargetException | ConvertCantNotHandleTypeException e ) {
+                catch( IllegalArgumentException | IllegalAccessException | PropertiesPopulatorRuntimeException | InvocationTargetException | ConvertCantNotHandleTypeException e ) {
                     LOGGER.warn( "Cannot set field for Method: " + getter + " * strValue=[" + strValue + "] / defaultValue=[" + defaultValue + ']', e );
                 }
                 }
@@ -99,7 +99,7 @@ class PropertiesToBean<E>
             }
         catch( final ConvertCantNotHandleTypeException ccnhte ) {
             if( ! tryToSetUsingConstructor( value, type, strValue ) ) {
-                throw new PropertiesPopulatorException( "Bad value [" + strValue + "] for method " + setter, ccnhte );
+                throw new PropertiesPopulatorRuntimeException( "Bad value [" + strValue + "] for method " + setter, ccnhte );
             }
             }
         catch( IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
@@ -219,7 +219,7 @@ class PropertiesToBean<E>
                 try {
                     entryValue.getPropertiesPopulatorSetter().setValue( this.bean, strValue, type );
                     }
-                catch( final ConvertCantNotHandleTypeException | PropertiesPopulatorException | InvocationTargetException e ) {
+                catch( final ConvertCantNotHandleTypeException | PropertiesPopulatorRuntimeException | InvocationTargetException e ) {
                     throw new PopulatorException( "Bad type for field", field, field.getType() );
                     }
                 }
@@ -267,7 +267,7 @@ class PropertiesToBean<E>
         final PropertiesPopulatorAnnotationForField<E>  propertiesPopulatorAnnotation,
         final StringBuilder                             prefix,
         final int                                       prefixLength
-        ) throws ArrayIndexOutOfBoundsException, PropertiesPopulatorException
+        ) throws ArrayIndexOutOfBoundsException, PropertiesPopulatorRuntimeException
     {
         final Field        field        = propertiesPopulatorAnnotation.getField();
         final List<String> stringValues = getStringValues( prefix, prefixLength, field.getName() );

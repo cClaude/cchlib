@@ -14,7 +14,7 @@ import com.googlecode.cchlib.VisibleForTesting;
 import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelperException;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config.FiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config.FiltersConfigFileHelper;
-import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.RessourcesPath;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.ResourcesPath;
 import com.googlecode.cchlib.resources.ResourcesLoader;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
@@ -206,7 +206,7 @@ public final class MyResourcesLoader
     @VisibleForTesting
     public static final InputStream getResourceAsStream( final String name ) throws ResourcesLoaderException
     {
-        return ResourcesLoader.getResourceAsStream( RessourcesPath.class, name );
+        return ResourcesLoader.getResourceAsStream( ResourcesPath.class, name );
     }
 
     /**
@@ -217,7 +217,7 @@ public final class MyResourcesLoader
     public static final Icon getImageIcon( final String name )
     {
         try {
-            return ResourcesLoader.getImageIcon( RessourcesPath.class, name );
+            return ResourcesLoader.getImageIcon( ResourcesPath.class, name );
             }
         catch( final ResourcesLoaderException e ) {
             LOGGER.error( "Can't load Icon: " + name, e );
@@ -235,7 +235,7 @@ public final class MyResourcesLoader
     public static final Image getImage( final String name )
     {
         try {
-            return ResourcesLoader.getImage( RessourcesPath.class, name );
+            return ResourcesLoader.getImage( ResourcesPath.class, name );
             }
         catch( final ResourcesLoaderException e ) {
             LOGGER.error( "Can't load Image: " + name, e );

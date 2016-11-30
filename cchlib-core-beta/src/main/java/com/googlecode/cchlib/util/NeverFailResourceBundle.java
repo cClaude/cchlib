@@ -12,25 +12,27 @@ public class NeverFailResourceBundle extends ResourceBundle
     /**
      *  @see ResourceBundle
      */
-    protected NeverFailResourceBundle( ResourceBundle parentResourceBundle )
+    protected NeverFailResourceBundle( final ResourceBundle parentResourceBundle )
     {
         setParent( parentResourceBundle );
     }
 
     @Override
-    protected Object handleGetObject( String key )
+    protected Object handleGetObject( final String key )
     {
         try {
-            Object value = super.parent.getObject( key );
-            
+            final Object value = super.parent.getObject( key );
+
             if( value != null ) {
                 return value;
                 }
             }
-        catch( MissingResourceException ignore ) {}
-        
+        catch( final MissingResourceException ignore ) {
+            // Ignore
+        }
+
         System.err.println( key + "=" );
-        
+
         return "##" + key + "##";
     }
 

@@ -12,10 +12,10 @@ import com.googlecode.cchlib.sql.queries.QueryHandlerException;
 
 /**
  * Execute SQL statement using {@link DataSource}
- * <p>
- * This class is not indented to use by application outside a J2E
+ *
+ * <p>This class is not indented to use by application outside a J2E
  * or for none concurrent access to the database.
- * </p>
+ *
  * @since 4.2
  */
 public class SimpleSQL implements Closeable
@@ -57,6 +57,7 @@ public class SimpleSQL implements Closeable
      * @param resourceName Resource to retrieve on {@link InitialContext}
      * @throws SimpleDataSourceException if DataSource can not be create
      * @throws SQLException if a database access error occurs
+     *
      * @see DataSourceHelper
      */
     public SimpleSQL( final String resourceName )
@@ -86,11 +87,12 @@ public class SimpleSQL implements Closeable
 
     /**
      * Execute a SQL query and send corresponding {@link ResultSet}
-     * to <code>queryHandler</code> to handle result.
+     * to {@code queryHandler} to handle result.
      *
+     * @param <T> type of the result
      * @param query SQL Query to send to database
      * @param queryHandler SQL Query to send to database
-     * @return <code>T</code> result from {@link QueryHandler#handle(ResultSet)}
+     * @return {@code T} result from {@link QueryHandler#handle(ResultSet)}
      * @throws SQLException if a database access error occurs
      * @throws QueryHandlerException
      *
@@ -100,8 +102,7 @@ public class SimpleSQL implements Closeable
     public final <T> T executeQuery(
         final String          query,
         final QueryHandler<T> queryHandler
-        )
-        throws SQLException, QueryHandlerException
+        ) throws SQLException, QueryHandlerException
     {
         return queryHandler.handle( executeQuery( query ) );
     }
@@ -113,8 +114,7 @@ public class SimpleSQL implements Closeable
      * @return count of modified rows
      * @throws SQLException if a database access error occurs
      */
-    public int doUpdate( final String query )
-        throws SQLException
+    public int doUpdate( final String query ) throws SQLException
     {
         int rows = -1;
 

@@ -191,7 +191,7 @@ public class NDSFileFormat extends FileStructure
         final File          file = new File( args[ 0 ] );
         final NDSFileFormat nds  = NDSFileFormat.load( file );
 
-        final String gameTitle= nds.getFieldAsString( "Game title" );
+        final String gameTitle = nds.getFieldAsString( "Game title" );
 
         for( int i = 0; i<nds.getFieldCount(); i++ ) {
             final FSField f    = nds.getFieldInfo( i );

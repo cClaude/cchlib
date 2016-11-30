@@ -29,10 +29,10 @@ interface PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD>
      *
      * @param o object to convert
      * @return object value has a String
-     * @throws PropertiesPopulatorException if any
+     * @throws PropertiesPopulatorRuntimeException if any
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
-    String toString( Object o ) throws PropertiesPopulatorException;
+    String toString( Object o ) throws PropertiesPopulatorRuntimeException;
 
     /**
      * NEEDDOC

@@ -10,7 +10,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import org.apache.log4j.Logger;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -29,10 +28,6 @@ public class URLHelperTest
     {
         this.testURL = new URL( "https://code.google.com/p/cchlib/" );
     }
-
-    @After
-    public void tearDown()
-    {}
 
     /**
      * Checking Internet connection using : testURL

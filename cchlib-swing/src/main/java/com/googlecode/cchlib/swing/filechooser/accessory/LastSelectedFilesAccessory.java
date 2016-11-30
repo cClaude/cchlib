@@ -42,29 +42,29 @@ public class LastSelectedFilesAccessory
     /** @serial */
     private JScrollPane             jScrollPane_LastSelectedFiles;
     /** @serial */
-    private DefaultListModel<File>  listModel_LastSelectedFiles;
+    private final DefaultListModel<File>  listModel_LastSelectedFiles;
     /** @serial */
     private JButton             jButton_Refresh = new JButton("Refresh");
     /** @serial */
     private JButton             jButton_RemoveFile = new JButton("Delete");
 
     /** @serial */
-    private JFileChooser    jFileChooser;
+    private final JFileChooser    jFileChooser;
     /** @serial */
-    private LastSelectedFilesAccessoryConfigurator    configurator;
+    private final LastSelectedFilesAccessoryConfigurator    configurator;
     /** @serial */
-    private ResourcesUtils resourcesUtils;
+    private final ResourcesUtils resourcesUtils;
 
     public LastSelectedFilesAccessory(
-            JFileChooser    jFileChooser,
-            LastSelectedFilesAccessoryConfigurator    config
+            final JFileChooser    jFileChooser,
+            final LastSelectedFilesAccessoryConfigurator    config
             )
     {
         this.jFileChooser = jFileChooser;
         this.configurator = config;
         this.resourcesUtils = new ResourcesUtils();
 
-        listModel_LastSelectedFiles = new DefaultListModel<File>();
+        this.listModel_LastSelectedFiles = new DefaultListModel<File>();
 
         initComponents();
         initLayout();
@@ -78,67 +78,67 @@ public class LastSelectedFilesAccessory
 
     private void initComponents()
     {
-        final JList<File> jList_LastSelectedFiles = new JList<File>(listModel_LastSelectedFiles);
+        final JList<File> jList_LastSelectedFiles = new JList<File>(this.listModel_LastSelectedFiles);
         jList_LastSelectedFiles.addMouseListener(
             new MouseAdapter()
             {
                 @Override
-                public void mouseClicked(MouseEvent e)
+                public void mouseClicked(final MouseEvent e)
                 {
                     if (e.getClickCount() == 2) {
-                        int     index = jList_LastSelectedFiles.locationToIndex(e.getPoint());
-                        Object  o     = listModel_LastSelectedFiles.get( index );
+                        final int     index = jList_LastSelectedFiles.locationToIndex(e.getPoint());
+                        final Object  o     = LastSelectedFilesAccessory.this.listModel_LastSelectedFiles.get( index );
 
                          if( o instanceof File ) {
-                            jFileChooser.setSelectedFile(
+                            LastSelectedFilesAccessory.this.jFileChooser.setSelectedFile(
                                     File.class.cast( o )
                                     );
 
-                            if( configurator.getAutoApproveSelection() ) {
-                                jFileChooser.approveSelection();
+                            if( LastSelectedFilesAccessory.this.configurator.getAutoApproveSelection() ) {
+                                LastSelectedFilesAccessory.this.jFileChooser.approveSelection();
                             }
                         }
                     }
                 }
             });
 
-        jButton_Refresh = getRefreshButton();
-        jButton_Refresh.addMouseListener(
+        this.jButton_Refresh = getRefreshButton();
+        this.jButton_Refresh.addMouseListener(
             new MouseAdapter()
             {
                 @Override
-                public void mousePressed(MouseEvent event)
+                public void mousePressed(final MouseEvent event)
                 {
-                    jFileChooser.rescanCurrentDirectory();
+                    LastSelectedFilesAccessory.this.jFileChooser.rescanCurrentDirectory();
                 }
             });
 
-        jButton_RemoveFile = getRemoveButton();
-        jButton_RemoveFile.addMouseListener(
+        this.jButton_RemoveFile = getRemoveButton();
+        this.jButton_RemoveFile.addMouseListener(
             new MouseAdapter()
             {
                 @Override
-                public void mousePressed(MouseEvent event)
+                public void mousePressed(final MouseEvent event)
                 {
-                    int[] selectedIx = jList_LastSelectedFiles.getSelectedIndices();
+                    final int[] selectedIx = jList_LastSelectedFiles.getSelectedIndices();
 
                     for( int i=selectedIx.length - 1; i>=0; i-- ) {
-                        Object sel = jList_LastSelectedFiles.getModel().getElementAt(selectedIx[i]);
+                        final Object sel = jList_LastSelectedFiles.getModel().getElementAt(selectedIx[i]);
 
                         if( sel instanceof File) {
-                            File f = File.class.cast( sel );
+                            final File f = File.class.cast( sel );
 
-                            if( configurator.removeLastSelectedFile( f ) ) {
-                                listModel_LastSelectedFiles.remove( selectedIx[i] );
+                            if( LastSelectedFilesAccessory.this.configurator.removeLastSelectedFile( f ) ) {
+                                LastSelectedFilesAccessory.this.listModel_LastSelectedFiles.remove( selectedIx[i] );
                             }
                         }
                     }
                 }
             });
 
-        jScrollPane_LastSelectedFiles = new JScrollPane(jList_LastSelectedFiles);
+        this.jScrollPane_LastSelectedFiles = new JScrollPane(jList_LastSelectedFiles);
 
-        Dimension dim = new Dimension(320, 240);
+        final Dimension dim = new Dimension(320, 240);
 //        setSize(dim.width, dim.height);
 //        setMinimumSize(dim);
 //        setMaximumSize(dim);
@@ -149,11 +149,11 @@ public class LastSelectedFilesAccessory
     {
         this.setLayout( new BorderLayout() );
 
-        super.add(jScrollPane_LastSelectedFiles,BorderLayout.CENTER);
+        super.add(this.jScrollPane_LastSelectedFiles,BorderLayout.CENTER);
 
-        JPanel jpanel = new JPanel();
-        jpanel.add(jButton_Refresh);
-        jpanel.add(jButton_RemoveFile);
+        final JPanel jpanel = new JPanel();
+        jpanel.add(this.jButton_Refresh);
+        jpanel.add(this.jButton_RemoveFile);
 
         super.add(jpanel,BorderLayout.SOUTH);
     }
@@ -163,7 +163,7 @@ public class LastSelectedFilesAccessory
      */
     public JButton getRefreshButton()
     {
-        return resourcesUtils.getJButton( ResourcesUtils.ID.BOOKMARK_UPDATE );
+        return this.resourcesUtils.getJButton( ResourcesUtils.ID.BOOKMARK_UPDATE );
     }
 
     /**
@@ -171,7 +171,7 @@ public class LastSelectedFilesAccessory
      */
     public JButton getRemoveButton()
     {
-        return resourcesUtils.getJButton( ResourcesUtils.ID.BOOKMARK_REMOVE );
+        return this.resourcesUtils.getJButton( ResourcesUtils.ID.BOOKMARK_REMOVE );
     }
 
     /**
@@ -179,26 +179,26 @@ public class LastSelectedFilesAccessory
      */
     public void refreshAccessory()
     {
-        listModel_LastSelectedFiles.clear();
+        this.listModel_LastSelectedFiles.clear();
 
-        for( File f : configurator.getLastSelectedFiles() ) {
-            listModel_LastSelectedFiles.addElement( f );
+        for( final File f : this.configurator.getLastSelectedFiles() ) {
+            this.listModel_LastSelectedFiles.addElement( f );
             }
     }
 
     @Override // ActionListener
-    public void actionPerformed( ActionEvent e )
+    public void actionPerformed( final ActionEvent e )
     {
         if( JFileChooser.APPROVE_SELECTION.equals( e.getActionCommand() ) ) {
-            configurator.addLastSelectedFile(
-                    jFileChooser.getSelectedFile()
+            this.configurator.addLastSelectedFile(
+                    this.jFileChooser.getSelectedFile()
                     );
             //Refresh accessory for next use
             refreshAccessory();
         }
     }
     @Override // PropertyChangeListener
-    public void propertyChange( PropertyChangeEvent e )
+    public void propertyChange( final PropertyChangeEvent e )
     {
         if( "ancestor".equals( e.getPropertyName() )) {
             if( e.getNewValue() != null ) {
@@ -248,6 +248,7 @@ public class LastSelectedFilesAccessory
     @Override // TabbedAccessoryInterface
     public void unregister()
     {
+        // Not use
     }
     /**
      * Force unregister.

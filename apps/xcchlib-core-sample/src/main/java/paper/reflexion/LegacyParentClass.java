@@ -23,7 +23,9 @@ public abstract class LegacyParentClass
         try {
             doNullPointerException();
             }
-        catch( final NullPointerException ignore ) {} // $codepro.audit.disable logExceptions, emptyCatchClause
+        catch( final NullPointerException ignore ) {
+            // Ignore
+        }
     }
 
     private void doNothing()
@@ -76,15 +78,15 @@ public abstract class LegacyParentClass
     {
         final StringBuilder builder = new StringBuilder();
         builder.append("ParentClass [aProtectedFinalField=");
-        builder.append(aProtectedFinalField);
+        builder.append(this.aProtectedFinalField);
         builder.append(", aProtectedField=");
-        builder.append(aProtectedField);
+        builder.append(this.aProtectedField);
         builder.append(", aLong=");
-        builder.append(aLong);
+        builder.append(this.aLong);
         builder.append(", aString=");
-        builder.append(aString);
+        builder.append(this.aString);
         builder.append(", aInt=");
-        builder.append(aInt);
+        builder.append(this.aInt);
         builder.append(']');
         return builder.toString();
     }

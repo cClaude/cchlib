@@ -5,20 +5,25 @@ import javax.annotation.Nonnull;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
-
-public final class DuplicateFileFinderHelper {
-
-    /** static usage */
-    private DuplicateFileFinderHelper() {}
+/**
+ * Allow to create {@link DuplicateFileFinder} objects
+ */
+public final class DuplicateFileFinderHelper
+{
+    private DuplicateFileFinderHelper()
+    {
+        // All static
+    }
 
     /**
-     * NEEDDOC
+     * Create a {@link DuplicateFileFinder}
      *
-     * @param ignoreEmptyFiles
-     * @param fileDigestFactory
-     * @return NEEDDOC
-     * @throws NoSuchAlgorithmException
-     * @throws IllegalArgumentException
+     * @param ignoreEmptyFiles true to ignore empty files
+     * @param fileDigestFactory a valid {@link FileDigestFactory}
+     * @return an initialized DuplicateFileFinder
+     * @throws NoSuchAlgorithmException if algorithm on {@code fileDigestFactory}
+     *         is not valid
+     * @throws IllegalArgumentException if a parameter is not valid
      */
     @NeedDoc
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
@@ -37,14 +42,15 @@ public final class DuplicateFileFinderHelper {
     }
 
     /**
-     * NEEDDOC
+     * Create a {@link DuplicateFileFinder}
      *
-     * @param ignoreEmptyFiles
-     * @param fileDigestFactory
-     * @param maxParallelFiles
-     * @return NEEDDOC
-     * @throws NoSuchAlgorithmException
-     * @throws IllegalArgumentException
+     * @param ignoreEmptyFiles true to ignore empty files
+     * @param fileDigestFactory a valid {@link FileDigestFactory}
+     * @param maxParallelFiles NEEDDOC
+     * @return an initialized DuplicateFileFinder
+     * @throws NoSuchAlgorithmException if algorithm on {@code fileDigestFactory}
+     *         is not valid
+     * @throws IllegalArgumentException if a parameter is not valid
      */
     @NeedDoc
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})

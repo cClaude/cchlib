@@ -16,7 +16,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.FileChooserEntryPoint;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
-import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.RessourcesPath;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.ResourcesPath;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.MyResourcesLoader;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Resources;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
@@ -77,7 +77,7 @@ final class DefaultAppToolKit
     public I18nResourceBundleName getI18nResourceBundleName()
     {
         return new DefaultI18nResourceBundleName(
-                RessourcesPath.class,
+                ResourcesPath.class,
                 DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME
                 );
     }

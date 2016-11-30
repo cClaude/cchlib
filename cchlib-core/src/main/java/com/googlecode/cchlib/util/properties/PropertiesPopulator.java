@@ -230,13 +230,13 @@ public class PropertiesPopulator<E> implements Serializable
      *
      * @param bean       Object to use to get values
      * @param properties {@link Properties} to use to store values
-     * @throws PropertiesPopulatorException if there is a mapping error
+     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateProperties(
         final E          bean,
         final Properties properties
-        ) throws PropertiesPopulatorException
+        ) throws PropertiesPopulatorRuntimeException
     {
         populateProperties( null, bean, properties );
     }
@@ -250,14 +250,14 @@ public class PropertiesPopulator<E> implements Serializable
      * @param propertiesPrefix Prefix for properties names, if null or empty ignored.
      * @param bean       Object to use to get values
      * @param properties {@link Properties} to use to store values
-     * @throws PropertiesPopulatorException if there is a mapping error
+     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateProperties(
         final String     propertiesPrefix,
         final E          bean,
         final Properties properties
-        ) throws PropertiesPopulatorException
+        ) throws PropertiesPopulatorRuntimeException
     {
         final BeanToProperties<E> loader //
         = new BeanToProperties<>( bean, properties, propertiesPrefix );
@@ -272,13 +272,13 @@ public class PropertiesPopulator<E> implements Serializable
      *
      * @param bean       Object to use to store values
      * @param properties {@link Properties} to use to get values
-     * @throws PropertiesPopulatorException if there is a mapping error
+     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateBean(
         final Properties properties,
         final E          bean
-        ) throws PropertiesPopulatorException
+        ) throws PropertiesPopulatorRuntimeException
     {
         populateBean( null, properties, bean );
     }
@@ -290,14 +290,14 @@ public class PropertiesPopulator<E> implements Serializable
      * @param propertiesPrefix Prefix for properties names, if null or empty ignored.
      * @param bean       Object to use to store values
      * @param properties {@link Properties} to use to get values
-     * @throws PropertiesPopulatorException if there is a mapping error
+     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateBean(
         final String     propertiesPrefix,
         final Properties properties,
         final E          bean
-        ) throws PropertiesPopulatorException
+        ) throws PropertiesPopulatorRuntimeException
     {
         final PropertiesToBean<E> propertiesToBean = new PropertiesToBean<>( propertiesPrefix, properties, bean);
 
@@ -314,7 +314,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @param clazz             Class of bean
      * @return giving bean for initialization chaining.
      * @throws IOException if any I/O occur
-     * @throws PropertiesPopulatorException if there is a mapping error
+     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
      * @since 4.1.7
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -322,7 +322,7 @@ public class PropertiesPopulator<E> implements Serializable
         final File      propertiesFile,
         final E         bean,
         final Class<E>  clazz
-        ) throws IOException, PropertiesPopulatorException
+        ) throws IOException, PropertiesPopulatorRuntimeException
     {
         final Properties properties = PropertiesHelper.loadProperties( propertiesFile );
         new PropertiesPopulator<>( clazz ).populateBean( properties, bean );
@@ -337,7 +337,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @param bean           Bean to save
      * @param clazz          Class of bean
      * @throws IOException if any I/O occur
-     * @throws PropertiesPopulatorException if there is a mapping error
+     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
      * @since 4.1.7
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -345,7 +345,7 @@ public class PropertiesPopulator<E> implements Serializable
         final File      propertiesFile,
         final E         bean,
         final Class<E>  clazz
-        ) throws IOException, PropertiesPopulatorException
+        ) throws IOException, PropertiesPopulatorRuntimeException
     {
         final Properties properties = new Properties();
         new PropertiesPopulator<>( clazz ).populateProperties( bean, properties );

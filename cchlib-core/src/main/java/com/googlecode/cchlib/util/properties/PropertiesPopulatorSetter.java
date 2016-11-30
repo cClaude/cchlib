@@ -19,13 +19,13 @@ interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD> {
      * @throws IllegalArgumentException if any
      * @throws IllegalAccessException if any
      * @throws ConvertCantNotHandleTypeException NEEDDOC
-     * @throws PropertiesPopulatorException NEEDDOC
+     * @throws PropertiesPopulatorRuntimeException NEEDDOC
      * @throws InvocationTargetException if any
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     void setValue( E bean, String strValue, Class<?> type ) //
             throws IllegalArgumentException, IllegalAccessException, //
-                ConvertCantNotHandleTypeException, PropertiesPopulatorException, //
+                ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException, //
                 InvocationTargetException;
 
     /**
@@ -38,12 +38,12 @@ interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD> {
      * @throws ArrayIndexOutOfBoundsException NEEDDOC
      * @throws IllegalArgumentException NEEDDOC
      * @throws ConvertCantNotHandleTypeException NEEDDOC
-     * @throws PropertiesPopulatorException NEEDDOC
+     * @throws PropertiesPopulatorRuntimeException NEEDDOC
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     void setArrayEntry( Object array, int index, String strValue, Class<?> type ) //
             throws ArrayIndexOutOfBoundsException, IllegalArgumentException, //
-                ConvertCantNotHandleTypeException, PropertiesPopulatorException;
+                ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException;
 
     /**
      * return a {@link Method} or a {@link Field} to use to populate value

@@ -41,9 +41,11 @@ public class XMD5Test
                 LOGGER.info( "F:" + f + " MD5(1)" + hashString1 + " MD5(2)" + hashString2 );
 
                 Assert.assertEquals( hashString2, hashString1 );
-                }
-            catch( final FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
             }
+            catch( final FileNotFoundException ignore ) {
+                // Ignore
+            }
+        }
     }
     @Test
 

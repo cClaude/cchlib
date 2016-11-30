@@ -180,7 +180,9 @@ public class FileTreeViewer extends JFrame
 
         @Override
         public void treeCollapsed( final TreeExpansionEvent event )
-        {}
+        {
+            // Not use
+        }
     }
 
     public static void main( final String[] argv )

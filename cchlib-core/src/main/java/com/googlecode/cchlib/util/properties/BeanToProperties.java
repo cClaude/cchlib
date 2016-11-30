@@ -40,7 +40,7 @@ final class BeanToProperties<E>
             }
     }
 
-    /* package */ void loadForField( final Map<Field, PropertiesPopulatorAnnotation<E, Field>> fieldsMap ) throws PropertiesPopulatorException
+    /* package */ void loadForField( final Map<Field, PropertiesPopulatorAnnotation<E, Field>> fieldsMap ) throws PropertiesPopulatorRuntimeException
     {
         for( final Entry<Field, PropertiesPopulatorAnnotation<E, Field>> entry : fieldsMap.entrySet() ) {
             final PropertiesPopulatorAnnotationForField<E> entryValue = (PropertiesPopulatorAnnotationForField<E>)(entry.getValue());
@@ -49,7 +49,7 @@ final class BeanToProperties<E>
             }
     }
 
-    /* package */ void loadForMethod( final Map<String, PropertiesPopulatorAnnotation<E, Method>> getterSetterMap ) throws PropertiesPopulatorException
+    /* package */ void loadForMethod( final Map<String, PropertiesPopulatorAnnotation<E, Method>> getterSetterMap ) throws PropertiesPopulatorRuntimeException
     {
         for( final Entry<String, PropertiesPopulatorAnnotation<E, Method>> entry : getterSetterMap.entrySet() ) {
             final PropertiesPopulatorAnnotationForMethod<E> entryValue = (PropertiesPopulatorAnnotationForMethod<E>)(entry.getValue());

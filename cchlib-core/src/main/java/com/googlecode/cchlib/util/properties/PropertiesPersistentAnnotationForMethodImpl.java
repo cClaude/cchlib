@@ -30,7 +30,7 @@ public class PropertiesPersistentAnnotationForMethodImpl<E> //
 
     @Override
     public void setValue( final E bean, final String strValue, final Class<?> type ) throws IllegalArgumentException, IllegalAccessException,
-            ConvertCantNotHandleTypeException, PropertiesPopulatorException, InvocationTargetException
+            ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException, InvocationTargetException
     {
         final Object swingObject = this.method.invoke( bean );
 
@@ -39,7 +39,7 @@ public class PropertiesPersistentAnnotationForMethodImpl<E> //
 
     @Override
     public void setArrayEntry( final Object array, final int index, final String strValue, final Class<?> type ) throws ArrayIndexOutOfBoundsException,
-            IllegalArgumentException, ConvertCantNotHandleTypeException, PropertiesPopulatorException
+            IllegalArgumentException, ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException
     {
         throw new PersistentException( "@Persistent does not handle array" );
     }

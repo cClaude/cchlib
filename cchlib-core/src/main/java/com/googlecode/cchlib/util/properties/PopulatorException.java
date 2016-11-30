@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import com.googlecode.cchlib.NeedDoc;
 
 @NeedDoc
-public class PopulatorException extends PropertiesPopulatorException
+public class PopulatorException extends PropertiesPopulatorRuntimeException
 {
     private static final long serialVersionUID = 2L;
     private final Object causeFieldOrMethod;// NOT SERIALISABLE !

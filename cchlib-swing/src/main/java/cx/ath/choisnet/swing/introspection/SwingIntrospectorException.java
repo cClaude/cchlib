@@ -1,42 +1,33 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.swing.introspection;
 
 import cx.ath.choisnet.lang.introspection.IntrospectionException;
 
-/**
- * @author CC
- *
- */
 public class SwingIntrospectorException extends IntrospectionException
 {
     private static final long serialVersionUID = 1L;
 
     /**
-     * @param message
-     * @param cause
+     * @param message message
+     * @param cause cause
      */
-    public SwingIntrospectorException( String message, Throwable cause )
+    public SwingIntrospectorException( final String message, final Throwable cause )
     {
         super( message, cause );
     }
 
     /**
-     * @param cause
+     * @param cause cause
      */
-    public SwingIntrospectorException( Throwable cause )
+    public SwingIntrospectorException( final Throwable cause )
     {
         super( cause );
     }
 
     /**
-     * @param message
+     * @param message message
      */
-    public SwingIntrospectorException( String message )
+    public SwingIntrospectorException( final String message )
     {
         super( message );
     }
-
 }

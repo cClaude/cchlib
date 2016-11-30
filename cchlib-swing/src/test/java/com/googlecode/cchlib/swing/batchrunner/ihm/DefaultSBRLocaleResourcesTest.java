@@ -18,6 +18,8 @@ public class DefaultSBRLocaleResourcesTest
 
     private static class SBRLocaleResourcesEN implements BRPanelLocaleResources
     {
+        private static final long serialVersionUID = 1L;
+
         @Override public String getTextAddSourceFile() { return "Select source files to add";  }
         @Override public String getTextSetDestinationFolder() { return "Select destination folder";  }
         @Override public String getTextClearSourceFileList() { return "Clear source files list";  }
@@ -36,6 +38,8 @@ public class DefaultSBRLocaleResourcesTest
 
     private static class SBRLocaleResourcesFR implements BRPanelLocaleResources
     {
+        private static final long serialVersionUID = 1L;
+
         @Override public String getTextAddSourceFile() { return "Ajouter des fichiers source";  }
         @Override public String getTextSetDestinationFolder() { return "Dossier de destination";  }
         @Override public String getTextClearSourceFileList() { return "Effacer la liste";  }
@@ -60,7 +64,7 @@ public class DefaultSBRLocaleResourcesTest
     {
         Locale.setDefault( Locale.ENGLISH );
 
-        DefaultBRLocaleResources result = new DefaultBRLocaleResources();
+        final DefaultBRLocaleResources result = new DefaultBRLocaleResources();
 
         doAssert( new SBRLocaleResourcesEN(), result );
    }
@@ -73,18 +77,18 @@ public class DefaultSBRLocaleResourcesTest
     {
         Locale.setDefault( Locale.FRENCH );
 
-        DefaultBRLocaleResources result = new DefaultBRLocaleResources();
+        final DefaultBRLocaleResources result = new DefaultBRLocaleResources();
 
         doAssert( new SBRLocaleResourcesFR(), result );
     }
 
-    private void doAssert( BRPanelLocaleResources ref, BRPanelLocaleResources result ) throws Exception
+    private void doAssert( final BRPanelLocaleResources ref, final BRPanelLocaleResources result ) throws Exception
     {
-        Method[] methods = BRPanelLocaleResources.class.getDeclaredMethods();
+        final Method[] methods = BRPanelLocaleResources.class.getDeclaredMethods();
 
-        for( Method m : methods ) {
-            Object valueRef = m.invoke( ref, (Object[])null );
-            Object valueRes = m.invoke( result, (Object[])null );
+        for( final Method m : methods ) {
+            final Object valueRef = m.invoke( ref, (Object[])null );
+            final Object valueRes = m.invoke( result, (Object[])null );
 
             LOGGER.info( m + " => " + valueRes );
 

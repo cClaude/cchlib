@@ -1,11 +1,9 @@
 package com.googlecode.cchlib.io;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 @SuppressWarnings("resource")
@@ -13,15 +11,10 @@ public class InputStreamThreadTest
 {
     final private static Logger LOGGER = Logger.getLogger( InputStreamThreadTest.class );
 
-    @Before
-    public void setup() throws FileNotFoundException
-    {
-    }
-
     @Test
     public void testInputStreamThread() throws IOException
     {
-        try (InputStream sourceIS0 = IO.createPNGInputStream()) {
+        try( InputStream sourceIS0 = IO.createPNGInputStream() ) {
             final InputStreamThread isThread = new InputStreamThread(
                     getClass().getName(),
                     sourceIS0,
@@ -61,5 +54,4 @@ public class InputStreamThreadTest
             }
         };
     }
-
 }

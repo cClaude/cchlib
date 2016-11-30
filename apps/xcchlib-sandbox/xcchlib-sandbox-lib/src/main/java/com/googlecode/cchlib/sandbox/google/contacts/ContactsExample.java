@@ -1,19 +1,5 @@
 package com.googlecode.cchlib.sandbox.google.contacts;
 
-/* Copyright (c) 2008 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
@@ -30,7 +16,6 @@ import com.google.gdata.client.Query;
 import com.google.gdata.client.Service;
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.client.http.HttpGDataRequest;
-//import sample.contacts.ContactsExampleParameters.Actions;
 import com.google.gdata.data.DateTime;
 import com.google.gdata.data.Link;
 import com.google.gdata.data.contacts.ContactEntry;
@@ -43,51 +28,16 @@ import com.google.gdata.util.NoLongerAvailableException;
 import com.google.gdata.util.ServiceException;
 
 /**
- * Example command-line utility that demonstrates how to use the Google Data API Java client libraries for Contacts. The
- * example allows to run all the basic contact related operations such as adding new contact, listing all contacts,
- * updating existing contacts, deleting the contacts.
- * <p/>
- * Full documentation about the API can be found at: http://code.google.com/apis/contacts/
+ * Example command-line utility that demonstrates how to use the Google Data
+ * API Java client libraries for Contacts. The example allows to run all the
+ * basic contact related operations such as adding new contact, listing all
+ * contacts, updating existing contacts, deleting the contacts.
  *
- *
- *
- *
+ * <p>Full documentation about the API can be found at:
+ * http://code.google.com/apis/contacts/
  */
-@SuppressWarnings("resource")
-public class ContactsExample {
-
-    private enum SystemGroup {
-        MY_CONTACTS("Contacts", "My Contacts"),
-        FRIENDS("Friends", "Friends"),
-        FAMILY("Family", "Family"),
-        COWORKERS("Coworkers", "Coworkers");
-
-        private final String systemGroupId;
-        private final String prettyName;
-
-        SystemGroup( final String systemGroupId, final String prettyName )
-        {
-            this.systemGroupId = systemGroupId;
-            this.prettyName = prettyName;
-        }
-
-        static SystemGroup fromSystemGroupId( final String id )
-        {
-            for( final SystemGroup group : SystemGroup.values() ) {
-                if( id.equals( group.systemGroupId ) ) {
-                    return group;
-                }
-            }
-            throw new IllegalArgumentException( "Unrecognized system group id: " + id );
-        }
-
-        @Override
-        public String toString()
-        {
-            return this.prettyName;
-        }
-    }
-
+public class ContactsExample
+{
     /**
      * Base URL for the feed
      */

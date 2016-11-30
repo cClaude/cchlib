@@ -2,8 +2,8 @@ package com.googlecode.cchlib.util.properties;
 
 import java.util.Collection;
 
-
 //NOT public
+@SuppressWarnings("squid:S00119")
 abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
     implements PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD>
 {
@@ -32,7 +32,21 @@ abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
         return o.toString();
     }
 
-    protected static Object private_convertStringToObject( // // $codepro.audit.disable cyclomaticComplexity
+    /**
+     * @deprecated Use {@link #convertStringToObject(String,Class<?>)} instead
+     */
+    @Deprecated
+    @SuppressWarnings("squid:S00100")
+    protected static final Object private_convertStringToObject(
+        final String   strValue, //
+        final Class<?> type //
+        ) throws ConvertCantNotHandleTypeException
+    {
+        return convertStringToObject( strValue, type );
+    }
+
+    @SuppressWarnings({ "squid:MethodCyclomaticComplexity", "squid:S1871" })
+    protected static final Object convertStringToObject(
         final String   strValue, //
         final Class<?> type //
         ) throws ConvertCantNotHandleTypeException
@@ -69,23 +83,37 @@ abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
         } else if( Float.class.isAssignableFrom( type ) ) {
             return Float.valueOf( strValue );
         } else if( Enum.class.isAssignableFrom( type ) ) {
-            @SuppressWarnings({ "unchecked", "rawtypes" })
-            final Enum value = Enum.valueOf( (Class)type, strValue );
-
-            return value;
+            return getEnumValueUnchecked( type, strValue );
         } else if( strValue.isEmpty() ) {
             if( Collection.class.isAssignableFrom( type ) && !type.isInterface() ) {
-                try {
-                    return type.newInstance();
-                }
-                catch( InstantiationException | IllegalAccessException shouldNotOccur ) {
-                    throw new RuntimeException( shouldNotOccur );
-                }
+                return newInstance( type );
             } else {
                 return null;
             }
         } else {
             throw new ConvertCantNotHandleTypeException();
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static Object getEnumValueUnchecked(
+        final Class  enumType,
+        final String  enumName
+        )
+    {
+        @SuppressWarnings({ "unchecked", "squid:S1488" })
+        final Enum<?> value = Enum.valueOf( enumType, enumName );
+
+        return value;
+    }
+
+    private static <T> T newInstance( final Class<T> type )
+    {
+        try {
+            return type.newInstance();
+        }
+        catch( InstantiationException | IllegalAccessException shouldNotOccur ) {
+            throw new PropertiesPopulatorRuntimeException( shouldNotOccur );
         }
     }
 }

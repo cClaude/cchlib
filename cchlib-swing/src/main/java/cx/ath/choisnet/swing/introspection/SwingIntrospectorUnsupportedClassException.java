@@ -1,15 +1,7 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.swing.introspection;
 
-/**
- * @author CC
- *
- */
-public class SwingIntrospectorUnsupportedClassException 
-    extends SwingIntrospectorException 
+public class SwingIntrospectorUnsupportedClassException
+    extends SwingIntrospectorException
 {
     private static final long serialVersionUID = 1L;
 
@@ -18,8 +10,8 @@ public class SwingIntrospectorUnsupportedClassException
      * @param cause
      */
     public SwingIntrospectorUnsupportedClassException(
-            String message,
-            Throwable cause 
+            final String message,
+            final Throwable cause
             )
     {
         super( message, cause );
@@ -28,7 +20,7 @@ public class SwingIntrospectorUnsupportedClassException
     /**
      * @param cause
      */
-    public SwingIntrospectorUnsupportedClassException( Throwable cause )
+    public SwingIntrospectorUnsupportedClassException( final Throwable cause )
     {
         super( cause );
     }
@@ -36,9 +28,8 @@ public class SwingIntrospectorUnsupportedClassException
     /**
      * @param message
      */
-    public SwingIntrospectorUnsupportedClassException( String message )
+    public SwingIntrospectorUnsupportedClassException( final String message )
     {
         super( message );
     }
-
 }

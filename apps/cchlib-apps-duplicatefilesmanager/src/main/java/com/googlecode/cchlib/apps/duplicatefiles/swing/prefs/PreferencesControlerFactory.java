@@ -12,7 +12,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesI18nPrep;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
-import com.googlecode.cchlib.util.properties.PropertiesPopulatorException;
+import com.googlecode.cchlib.util.properties.PropertiesPopulatorRuntimeException;
 
 /**
  * Handle {@link PreferencesControler} creation.
@@ -125,7 +125,7 @@ public final class PreferencesControlerFactory
         try {
             preferencesProperties.load( properties );
         }
-        catch( final PropertiesPopulatorException e ) {
+        catch( final PropertiesPopulatorRuntimeException e ) {
             final String message = "Can't load configuration: " + preferencesFile;
 
             LOGGER.fatal( message, e );

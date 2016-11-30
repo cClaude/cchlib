@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.iterator.BiIterator;
+import cx.ath.choisnet.lang.introspection.IntrospectionRuntimeException;
 
 @NeedDoc
 @SuppressWarnings("squid:S00119") // Type one char only ! Why ?
@@ -44,7 +45,7 @@ public class SwingIntrospectorRootItem<FRAME>
 
             if( alreadyExist ) {
                 // TODO: something better !
-                throw new RuntimeException( "rootItem already exist: (" + item + " - " + alreadyExist );
+                throw new IntrospectionRuntimeException( "rootItem already exist: (" + item + " - " + alreadyExist );
                 }
             }
         else {

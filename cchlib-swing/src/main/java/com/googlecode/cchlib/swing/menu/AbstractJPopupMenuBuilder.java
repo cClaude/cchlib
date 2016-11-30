@@ -1206,6 +1206,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
 
     /**
      * @param requestor deprecated
+     * @return deprecated
      * @see ClipboardHelper#isClipboardContainingText(Object)
      * @deprecated use {@link ClipboardHelper#isClipboardContainingText(Object)}
      */
@@ -1232,6 +1233,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
 
     /**
      * @param requestor deprecated
+     * @return deprecated
      * @see ClipboardHelper#setClipboardContents(String)
      * @deprecated use {@link ClipboardHelper#setClipboardContents(String)}
      */

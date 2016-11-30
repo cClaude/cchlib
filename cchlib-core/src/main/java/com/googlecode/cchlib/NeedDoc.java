@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
     ElementType.METHOD,
     ElementType.TYPE
     })
-@NeedDoc
-public @interface NeedDoc 
+public @interface NeedDoc
 {
+    // Annotation
 }

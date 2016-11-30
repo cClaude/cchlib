@@ -40,7 +40,7 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
         final LoadDialog        loadFrame   = new LoadDialog( mainFrame, filesConfig );
         final HTMLPreviewDialog htmlFrame   = new HTMLPreviewDialog(mainFrame, "<<fakeTitle>>", "**FakeContent**" );
 
-        final MultiLineEditorDialog.StoreResult storeResult = text -> {};
+        final MultiLineEditorDialog.StoreResult storeResult = text -> { final int todo; };
         final MultiLineEditorDialog             mLineFrame  = new MultiLineEditorDialog( mainFrame, storeResult , "<<fakeTitle>>", "**FakeContent**" );
 
         final Locale defaultLocale = Locale.ENGLISH;

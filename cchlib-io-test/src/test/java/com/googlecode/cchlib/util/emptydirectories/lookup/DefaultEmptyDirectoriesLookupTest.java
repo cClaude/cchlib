@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,11 +76,6 @@ public class DefaultEmptyDirectoriesLookupTest
     {
         final String data = "Hello world";
         return new ByteArrayInputStream( data.getBytes() );
-    }
-
-    @After
-    public void tearDown() throws IOException
-    {
     }
 
     @Test

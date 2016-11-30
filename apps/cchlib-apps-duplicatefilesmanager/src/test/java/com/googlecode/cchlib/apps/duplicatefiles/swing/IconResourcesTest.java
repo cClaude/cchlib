@@ -7,11 +7,9 @@ import java.util.List;
 import javax.swing.Icon;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import com.googlecode.cchlib.apps.duplicatefiles.swing.IconResources;
 import com.googlecode.cchlib.lang.Objects;
 import com.googlecode.cchlib.lang.reflect.Methods;
 
@@ -73,11 +71,4 @@ public class IconResourcesTest
         this.methodsList          = Methods.getPublicMethods( IconResources.class );
         this.iconResourcesIntance = IconResources.getInstance();
     }
-
-    @After
-    public void tearDown() throws Exception
-    {
-    }
-
-
 }

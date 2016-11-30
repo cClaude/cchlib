@@ -51,7 +51,7 @@ public class JSONLoaderHelper
         try {
             return JSONHelper.load(
                     duplicateInputFile,
-                    new TypeReference<List<HashFiles>>() {}
+                    new TypeReference<List<HashFiles>>() { /* define ref only */ }
                     );
         }
         catch( final JSONHelperException e ) {

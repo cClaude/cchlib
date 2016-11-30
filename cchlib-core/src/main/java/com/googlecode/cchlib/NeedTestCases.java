@@ -19,6 +19,7 @@ import java.lang.annotation.Target;
     ElementType.TYPE
     })
 @NeedTestCases
-public @interface NeedTestCases 
+public @interface NeedTestCases
 {
+    // Annontation
 }

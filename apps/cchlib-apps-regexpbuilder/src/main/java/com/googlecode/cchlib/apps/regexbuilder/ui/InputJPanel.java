@@ -1,15 +1,14 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.regexbuilder.ui;
 
-import javax.swing.JPanel;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class InputJPanel extends JPanel
 {
@@ -25,7 +24,7 @@ public class InputJPanel extends JPanel
     public InputJPanel()
     {
         setBorder(new EmptyBorder(2, 2, 2, 2));
-        GridBagLayout gridBagLayout = new GridBagLayout();
+        final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{0, 0, 0};
         gridBagLayout.rowHeights = new int[]{0, 0, 0};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
@@ -34,7 +33,7 @@ public class InputJPanel extends JPanel
 
         {
             this.regExpJLabel = new JLabel("Reg Exp");
-            GridBagConstraints gbc_regExpJLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_regExpJLabel = new GridBagConstraints();
             gbc_regExpJLabel.insets = new Insets(0, 0, 5, 5);
             gbc_regExpJLabel.anchor = GridBagConstraints.EAST;
             gbc_regExpJLabel.gridx = 0;
@@ -44,11 +43,12 @@ public class InputJPanel extends JPanel
         {
             this.regExpJTextField = new JTextField();
             this.regExpJTextField.addActionListener(new ActionListener() {
+                int todo;
                 @Override
-                public void actionPerformed(ActionEvent event) {
+                public void actionPerformed(final ActionEvent event) {
                 }
             });
-            GridBagConstraints gbc_regExpJTextField = new GridBagConstraints();
+            final GridBagConstraints gbc_regExpJTextField = new GridBagConstraints();
             gbc_regExpJTextField.insets = new Insets(0, 0, 5, 0);
             gbc_regExpJTextField.fill = GridBagConstraints.HORIZONTAL;
             gbc_regExpJTextField.gridx = 1;
@@ -58,7 +58,7 @@ public class InputJPanel extends JPanel
         }
         {
             this.javaCodeJLabel = new JLabel("Java Code");
-            GridBagConstraints gbc_javaCodeJLabel = new GridBagConstraints();
+            final GridBagConstraints gbc_javaCodeJLabel = new GridBagConstraints();
             gbc_javaCodeJLabel.anchor = GridBagConstraints.EAST;
             gbc_javaCodeJLabel.insets = new Insets(0, 0, 0, 5);
             gbc_javaCodeJLabel.gridx = 0;
@@ -68,7 +68,7 @@ public class InputJPanel extends JPanel
         {
             this.javaCodeJTextField = new JTextField();
             this.javaCodeJTextField.setEditable(false);
-            GridBagConstraints gbc_javaCodeJTextField = new GridBagConstraints();
+            final GridBagConstraints gbc_javaCodeJTextField = new GridBagConstraints();
             gbc_javaCodeJTextField.fill = GridBagConstraints.HORIZONTAL;
             gbc_javaCodeJTextField.gridx = 1;
             gbc_javaCodeJTextField.gridy = 1;

@@ -1,29 +1,23 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.lang.introspection;
 
 /**
  * Top level exception for package
- * @author CC
- *
  */
-public class IntrospectionException extends Exception 
+public class IntrospectionException extends Exception
 {
     private static final long serialVersionUID = 1L;
 
-    public IntrospectionException( String message, Throwable cause )
+    public IntrospectionException( final String message, final Throwable cause )
     {
         super( message, cause );
     }
 
-    public IntrospectionException( Throwable cause )
+    public IntrospectionException( final Throwable cause )
     {
         super( cause );
     }
 
-    public IntrospectionException( String message )
+    public IntrospectionException( final String message )
     {
         super( message );
     }

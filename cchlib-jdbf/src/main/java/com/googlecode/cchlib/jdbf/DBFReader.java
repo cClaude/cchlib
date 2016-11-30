@@ -92,8 +92,8 @@ public class DBFReader extends DBFBase
      * @throws DBFException if any
      */
     public DBFReader(
-        final InputStream   in,
-        final boolean       useFirstRecordForFieldsNames
+        final InputStream in,
+        final boolean     useFirstRecordForFieldsNames
         )
         throws DBFException
     {
@@ -173,14 +173,14 @@ public class DBFReader extends DBFBase
     }
 
     /**
-     * Returns the asked Field. In case of an invalid index,
+     * Returns the asked field. In case of an invalid index,
      * it returns a ArrayIndexOutofboundsException.
      *
      * @param index Index of the field. Index of the first field is zero.
+     * @return the asked field
      * @throws ArrayIndexOutofboundsException if index in not in range.
     */
-    public DBFField getField( final int index )
-        throws DBFException
+    public DBFField getField( final int index ) throws DBFException
     {
         if( this.isClosed ) {
             throw new DBFClosedException( SOURCE_IS_NOT_OPEN );
@@ -191,6 +191,7 @@ public class DBFReader extends DBFBase
 
     /**
      * Returns the number of field in the DBF.
+     * @return the number of field in the DBF.
      */
     public int getFieldCount()
         throws DBFException

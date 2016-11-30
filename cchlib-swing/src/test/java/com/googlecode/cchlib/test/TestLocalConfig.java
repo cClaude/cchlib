@@ -6,10 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
- * 
+ *
  */
-public class TestLocalConfig 
-    extends JFrame 
+public class TestLocalConfig
+    extends JFrame
         implements WindowListener
 {
 
@@ -19,10 +19,10 @@ public class TestLocalConfig
     {
         setTitle("TestLocalConfig");
         setSize( 320, 240 );
-        
-        TestLocalConfigPanel contentPanel = new TestLocalConfigPanel( this );
+
+        final TestLocalConfigPanel contentPanel = new TestLocalConfigPanel( this );
         getContentPane().add( contentPanel );
-        
+
         addWindowListener( this );
     }
 
@@ -32,41 +32,52 @@ public class TestLocalConfig
      * It is not expected to be managed by the designer.
      * You can modify it as you like.
      */
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
-        SwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                TestLocalConfig frame = new TestLocalConfig();
-                frame.setDefaultCloseOperation( TestLocalConfig.EXIT_ON_CLOSE );
-                frame.setTitle( "TestLocalConfig" );
-                frame.getContentPane().setPreferredSize( frame.getSize() );
-                frame.pack();
-                frame.setLocationRelativeTo( null );
-                frame.setVisible( true );
-            }
+        SwingUtilities.invokeLater( ( ) -> {
+            final TestLocalConfig frame = new TestLocalConfig();
+            frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+            frame.setTitle( "TestLocalConfig" );
+            frame.getContentPane().setPreferredSize( frame.getSize() );
+            frame.pack();
+            frame.setLocationRelativeTo( null );
+            frame.setVisible( true );
         } );
     }
 
     @Override // WindowListener
-    public void windowOpened( WindowEvent e ){}
-    @Override // WindowListener
-    public void windowClosing( WindowEvent e )
+    public void windowOpened( final WindowEvent e )
     {
-        // TODO Auto-generated method stub
+        // Not use
     }
     @Override // WindowListener
-    public void windowClosed( WindowEvent e )
+    public void windowClosing( final WindowEvent e )
+    {
+        // Not use
+    }
+    @Override // WindowListener
+    public void windowClosed( final WindowEvent e )
     {
         System.exit( 0 );
     }
     @Override // WindowListener
-    public void windowIconified( WindowEvent e ){}
+    public void windowIconified( final WindowEvent e )
+    {
+        // Not use
+    }
     @Override // WindowListener
-    public void windowDeiconified( WindowEvent e ){}
+    public void windowDeiconified( final WindowEvent e )
+    {
+        // Not use
+    }
     @Override // WindowListener
-    public void windowActivated( WindowEvent e ){}
+    public void windowActivated( final WindowEvent e )
+    {
+        // Not use
+    }
     @Override // WindowListener
-    public void windowDeactivated( WindowEvent e ){}
+    public void windowDeactivated( final WindowEvent e )
+    {
+        // Not use
+    }
 }

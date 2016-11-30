@@ -66,7 +66,7 @@ public class JPanelConfirm extends JPanel
         @Override
         public int getRowCount()
         {
-            return this.jPanelConfirm.tableDts_toDelete.size();
+            return this.jPanelConfirm.tableDataToDelete.size();
         }
 
         @Override
@@ -88,10 +88,10 @@ public class JPanelConfirm extends JPanel
         {
             if( columnIndex == 1 ) {
                 //return tableDts_length[rowIndex];
-                return this.jPanelConfirm.tableDts_toDelete.getFileLength( rowIndex );
+                return this.jPanelConfirm.tableDataToDelete.getFileLength( rowIndex );
                 }
             else {
-                final KeyFileState f = this.jPanelConfirm.tableDts_toDelete.get( rowIndex );
+                final KeyFileState f = this.jPanelConfirm.tableDataToDelete.get( rowIndex );
 
                 switch(columnIndex) {
                     case 0 : return f.getPath();
@@ -118,10 +118,10 @@ public class JPanelConfirm extends JPanel
                 )
         {
             if( row == 0 ) {
-                final KeyFileState f = JPanelConfirm.this.tableDts_toDelete.get( row );
+                final KeyFileState f = JPanelConfirm.this.tableDataToDelete.get( row );
                 setText( f.getPath() );
 
-                final Boolean b = JPanelConfirm.this.tableDts_toDelete.getDeleted( row );
+                final Boolean b = JPanelConfirm.this.tableDataToDelete.getDeleted( row );
 
                 if( b != null ) {
                     setHorizontalAlignment(SwingConstants.LEFT);
@@ -167,7 +167,7 @@ public class JPanelConfirm extends JPanel
     private final Icon iconKo;
     private final Icon iconKoButDelete;
     private AbstractTableModel tableModel;
-    private JPanelConfirmModel tableDts_toDelete;
+    private JPanelConfirmModel tableDataToDelete;
 
     @I18nString private final String[] columnsHeaders = {
         "File to delete",
@@ -232,6 +232,7 @@ public class JPanelConfirm extends JPanel
             this.jButtonDoScript = new JButton("Create script");
             this.jButtonDoScript.setActionCommand( ACTIONCMD_GENERATE_SCRIPT );
             this.jButtonDoScript.addActionListener((final ActionEvent e) -> {
+                // TODO
             });
             add( this.jButtonDoScript, gbc_jButtonDoScript);
 
@@ -266,9 +267,9 @@ public class JPanelConfirm extends JPanel
         //clear();
         LOGGER.info( "populate: Duplicate count: " + duplicateFiles.size() );
 
-        this.tableDts_toDelete = new JPanelConfirmModel( duplicateFiles );
+        this.tableDataToDelete = new JPanelConfirmModel( duplicateFiles );
 
-        LOGGER.info( "populate: Selected count: " + this.tableDts_toDelete.size() );
+        LOGGER.info( "populate: Selected count: " + this.tableDataToDelete.size() );
 
         final DefaultTableCellRenderer render = newDefaultTableCellRenderer();
 
@@ -283,12 +284,12 @@ public class JPanelConfirm extends JPanel
 
         this.jProgressBarDeleteProcess.setMinimum( 0 );
         this.jProgressBarDeleteProcess.setValue( 0 );
-        this.jProgressBarDeleteProcess.setMaximum( this.tableDts_toDelete.size() );
+        this.jProgressBarDeleteProcess.setMaximum( this.tableDataToDelete.size() );
         this.jProgressBarDeleteProcess.setIndeterminate( false );
         this.jProgressBarDeleteProcess.setString( this.txtWaiting  );
         this.jProgressBarDeleteProcess.setStringPainted( true );
 
-        this.jLabelTitle.setText( String.format( this.txtTitle, Integer.valueOf( this.tableDts_toDelete.size() ) ) );
+        this.jLabelTitle.setText( String.format( this.txtTitle, Integer.valueOf( this.tableDataToDelete.size() ) ) );
     }
 
     private JPopupMenuForJTable newJPopupMenuForJTable()
@@ -424,17 +425,17 @@ public class JPanelConfirm extends JPanel
         )
     {
         int         deleteCount         = 0;
-        final int   size                = this.tableDts_toDelete.size();
+        final int   size                = this.tableDataToDelete.size();
         final long  deleteSleepDisplay  = //
             (size < this.dfToolKit.getPreferences().getDeleteSleepDisplayMaxEntries()) ?
                     this.dfToolKit.getPreferences().getDeleteSleepDisplay()
                     :
                     0;
 
-        LOGGER.info( "private_doDelete: Selected count: " + this.tableDts_toDelete.size() );
+        LOGGER.info( "private_doDelete: Selected count: " + this.tableDataToDelete.size() );
 
         for( int i=0; i<size; i++ ) {
-            final KeyFileState  kf  = this.tableDts_toDelete.get( i );
+            final KeyFileState  kf  = this.tableDataToDelete.get( i );
             final String        msg = kf.getPath();
 
             updateProgressBar(deleteCount,msg);
@@ -448,7 +449,7 @@ public class JPanelConfirm extends JPanel
 
             // Store result
             //tableDts_deleted[ i ] = new Boolean( isDel );
-            this.tableDts_toDelete.setDeleted( i, isDel );
+            this.tableDataToDelete.setDeleted( i, isDel );
             this.tableModel.fireTableCellUpdated( i, 0 );
             //.fireTableDataChanged();
 

@@ -58,16 +58,16 @@ public class EditorPaneWithPrintStream extends JEditorPane
     /**
      *  Returns the stream used by this gadget to write data to.
      *
-     *  <p>
-     *  <b>warning</b><BR>
-     *  Theoretically if you use this stream for <code>System.setErr</code>,
+     *  <p><b>warning</b>
+     *  <br>
+     *  Theoretically if you use this stream for {@code System.setErr},
      *  you will create a recursion deadlock if an exception is thrown
-     *  within the <code>write</code> method of the stream. This case
+     *  within the {@code write} method of the stream. This case
      *  has never been experienced however.
-     *  </p>
      *
-     *  @see System#setOut( PrintStream )
-     *  @see System#setErr( PrintStream )
+     * @return the internal {@link PrintStream}
+     * @see System#setOut( PrintStream )
+     * @see System#setErr( PrintStream )
      */
     public PrintStream getPrintStream()
     {
@@ -76,10 +76,9 @@ public class EditorPaneWithPrintStream extends JEditorPane
 
     /**
      *  Replaces the gadget's text.
-     *  This is useful for clearing
-     *  the gadget. This doesn't
-     *  affect the <code>PrintStream</code>
-     *  or the log file.
+     *
+     *  <p>This is useful for clearing the gadget. This doesn't
+     *  affect the <code>PrintStream</code> or the log file.
      *
      *  @param  str        the new text to replace
      *                     the gadgets content or <code>null</code>to clear the gadget.

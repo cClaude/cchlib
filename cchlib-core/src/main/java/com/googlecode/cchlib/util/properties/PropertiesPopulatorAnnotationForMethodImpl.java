@@ -29,18 +29,18 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E> //
 
     @Override
     public void setValue( final E bean, final String strValue, final Class<?> type ) throws IllegalArgumentException, IllegalAccessException,
-            ConvertCantNotHandleTypeException, PropertiesPopulatorException, InvocationTargetException
+            ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException, InvocationTargetException
     {
-        final Object[] parameters = new Object[] { private_convertStringToObject( strValue, type ) };
+        final Object[] parameters = new Object[] { convertStringToObject( strValue, type ) };
 
         this.setter.invoke( bean, parameters );
     }
 
     @Override
     public void setArrayEntry( final Object array, final int index, final String strValue, final Class<?> type ) throws ArrayIndexOutOfBoundsException,
-            IllegalArgumentException, ConvertCantNotHandleTypeException, PropertiesPopulatorException
+            IllegalArgumentException, ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException
     {
-        Array.set( array, index, private_convertStringToObject( strValue, type ) );
+        Array.set( array, index, convertStringToObject( strValue, type ) );
     }
 
     @Override
