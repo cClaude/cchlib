@@ -3,39 +3,12 @@ package com.googlecode.cchlib.io;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- *
- */
 public class ConcateInputStreamTest
 {
-    @BeforeClass
-    public static void setUpClass() throws Exception
-    {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception
-    {
-    }
-
-    @Before
-    public void setUp()
-    {
-    }
-
-    @After
-    public void tearDown()
-    {
-    }
-
-    public void test( InputStream is ) throws Exception
+    public void test( final InputStream is ) throws Exception
     {
         is.available();
         is.close();
@@ -70,29 +43,29 @@ public class ConcateInputStreamTest
         final byte[]     res     = new byte[ ba1.length + ba2.length ];
         int                count     = 0;
 
-        for( byte b : ba1 ) {
+        for( final byte b : ba1 ) {
             res[ count++ ] = b;
             }
-        for( byte b : ba2 ) {
+        for( final byte b : ba2 ) {
             res[ count++ ] = b;
             }
 
-        InputStream is1 = new ByteArrayInputStream( ba1  );
-        InputStream is2 = new ByteArrayInputStream( ba2  );
+        final InputStream is1 = new ByteArrayInputStream( ba1  );
+        final InputStream is2 = new ByteArrayInputStream( ba2  );
         //InputStream is3 = new ByteArrayInputStream( ba3  );
         try (ConcateInputStream cis = new ConcateInputStream( is1, is2 )) {
             int                    c;
-            
+
             count = 0;
-            
+
             while( (c = cis.read()) >= 0 ) {
-                byte b = (byte)c;
-                
+                final byte b = (byte)c;
+
                 Assert.assertEquals( "Error at # value:" + count, res[count], b );
-                
+
                 count++;
             }
-            
+
             Assert.assertEquals( "Bad size !", res.length, count );
         }
     }

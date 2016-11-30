@@ -4,40 +4,19 @@ package com.googlecode.cchlib.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
 import java.util.Iterator;
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class SortedListTest
 {
     private static final Logger LOGGER = Logger.getLogger( SortedListTest.class );
 
-    @BeforeClass
-    public static void setUpBeforeClass() {
-    }
-
-    @AfterClass
-    public static void tearDownAfterClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     @Test
     public void testAddT()
     {
-        SortedList<MyType> test1 = new SortedList<MyType>();
-        SortedList<MyType> test2 = new SortedList<MyType>( new MyTypeComparator() );
+        final SortedList<MyType> test1 = new SortedList<MyType>();
+        final SortedList<MyType> test2 = new SortedList<MyType>( new MyTypeComparator() );
 
         test1.add( new MyType( 9 ) );
         test2.add( new MyType( 9 ) );
@@ -58,8 +37,8 @@ public class SortedListTest
             int prev = Integer.MIN_VALUE;
 
             while( test1Iter.hasNext() && test2Iter.hasNext() ) {
-                int v1 = test1Iter.next().getContent();
-                int v2 = test2Iter.next().getContent();
+                final int v1 = test1Iter.next().getContent();
+                final int v2 = test2Iter.next().getContent();
 
                 LOGGER.info( "entry: " + v1 );
                 assertEquals( v1, v2 );
@@ -71,10 +50,10 @@ public class SortedListTest
             assertFalse( test2Iter.hasNext() );
         }
 
-        boolean exist = test1.containsElement( new MyType( 8 ) );
+        final boolean exist = test1.containsElement( new MyType( 8 ) );
         assertTrue( exist );
 
-        boolean notExist = test1.containsElement( new MyType( 3 ) );
+        final boolean notExist = test1.containsElement( new MyType( 3 ) );
         assertFalse( notExist );
 
         LOGGER.info( "done" );
@@ -85,7 +64,7 @@ public class SortedListTest
         final int...             values
         )
     {
-        for( int v : values ) {
+        for( final int v : values ) {
             l.add( new MyType( v ) );
             }
     }

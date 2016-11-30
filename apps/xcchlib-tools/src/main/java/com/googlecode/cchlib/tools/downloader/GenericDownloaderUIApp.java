@@ -7,7 +7,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -49,8 +51,66 @@ import com.googlecode.cchlib.tools.downloader.gdai.tumblr.GDAI_tumblr_com;
 /**
  * Application starting class
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class GenericDownloaderUIApp extends JFrame
 {
+    private final class MyActionListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed( final ActionEvent event )
+        {
+            final String cmd = event.getActionCommand();
+
+            if( ACTION_QUIT.equals( cmd ) ) {
+                // Simulate call to windows close !
+
+                if( windowClosing() ) {
+                    windowClosed();
+                    }
+                }
+            else if( ACTION_STOP.equals( cmd ) ) {
+                if( GenericDownloaderUIApp.this.stopJButton.isEnabled() ) {
+                    stopDownload();
+                    }
+                }
+            else if( ACTION_START.equals( cmd ) ) {
+                if( GenericDownloaderUIApp.this.startJButton.isEnabled() ) {
+                    startDownload();
+                    }
+                }
+            else {
+                LOGGER.warn( "Unknown ActionCommand " + cmd );
+                }
+        }
+    }
+
+    private final class MyWindowListener extends WindowAdapter
+    {
+        @Override
+        public void windowClosed(final WindowEvent event)
+        {
+            LOGGER.info("Window close event occur");
+            GenericDownloaderUIApp.this.windowClosed();
+        }
+
+        @Override
+        public void windowClosing(final WindowEvent event)
+        {
+            //Called in response to a user request for the listened-to window
+            //to be closed. To actually close the window,
+            //the listener should invoke the window's dispose
+            //or setVisible(false) method
+            LOGGER.info("Window Closing");
+            GenericDownloaderUIApp.this.windowClosing();
+        }
+
+        @Override
+        public void windowOpened(final WindowEvent event)
+        {
+            LOGGER.info("Window Opened");
+        }
+    }
+
     private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( GenericDownloaderUIApp.class );
 
@@ -65,8 +125,8 @@ public class GenericDownloaderUIApp extends JFrame
     private GenericDownloader genericDownloader_useLock;
     /** lock for genericDownloader access */
     private final Object genericDownloaderLock = new Object();
-    private ActionListener actionListener;
-    private WindowListener windowListener;
+    private transient ActionListener actionListener;
+    private transient WindowListener windowListener;
 
     private ArrayList<GenericDownloaderAppInterface> downloadEntriesTypeList;
     private DefaultComboBoxModel<ProxyEntry> proxyComboBoxModel;
@@ -94,42 +154,41 @@ public class GenericDownloaderUIApp extends JFrame
      */
     public static void main( final String[] args )
     {
-        EventQueue.invokeLater( ( ) -> {
-            try {
-                UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-                }
-            catch( ClassNotFoundException | InstantiationException
-                    | IllegalAccessException
-                    | UnsupportedLookAndFeelException e ) {
-
-                LOGGER.fatal( "Can not set LookAndFeel", e );
-                }
-
-            try {
-                final GenericDownloaderUIApp frame = new GenericDownloaderUIApp();
-                frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-                        GenericDownloaderUIApp.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png"))
-                        );
-                frame.setTitle( APP_NAME );
-                }
-            catch( final Exception e ) {
-                LOGGER.fatal( "main() exception", e );
-
-                final String title = "GenericDownloaderUIApp";
-
-                DialogHelper.showMessageExceptionDialog( title , e );
-                }
-        } );
+        EventQueue.invokeLater( GenericDownloaderUIApp::run );
     }
 
+    private static void run()
+    {
+        try {
+            UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+            }
+        catch( ClassNotFoundException | InstantiationException
+                | IllegalAccessException
+                | UnsupportedLookAndFeelException e ) {
+
+            LOGGER.fatal( "Can not set LookAndFeel", e );
+            }
+
+        try {
+            final GenericDownloaderUIApp frame = new GenericDownloaderUIApp();
+            frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+                    GenericDownloaderUIApp.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png"))
+                    );
+            frame.setTitle( APP_NAME );
+            }
+        catch( final Exception e ) {
+            LOGGER.fatal( "main() exception", e );
+
+            final String title = "GenericDownloaderUIApp";
+
+            DialogHelper.showMessageExceptionDialog( title , e );
+            }
+    }
 
     private void init()
     {
-        this.downloadEntriesTypeList = new ArrayList<GenericDownloaderAppInterface>();
-
-        //downloadEntriesTypeList.add( DownloadI_tumblr_com.createAllEntriesInOnce() );
+        this.downloadEntriesTypeList = new ArrayList<>();
         this.downloadEntriesTypeList.add( GDAI_tumblr_com.createAllEntries( this ) );
-        //downloadEntriesTypeList.add( DownloadI_tumblr_com.createForHost( "milfgalore" ) );
 
         this.downloadEntriesTypeList.add( new DownloadI_senorgif() );
         this.downloadEntriesTypeList.add( new DownloadI_www_bloggif_com() );
@@ -147,8 +206,7 @@ public class GenericDownloaderUIApp extends JFrame
             this.downloaderUIPanels[ i ] = new GenericDownloaderUIPanel( entry );
             }
 
-        this.proxyComboBoxModel = new DefaultComboBoxModel<ProxyEntry>();
-
+        this.proxyComboBoxModel = new DefaultComboBoxModel<>();
         this.proxyComboBoxModel.addElement( new ProxyEntry( Proxy.NO_PROXY ) );
 
         for( final ProxyEntry entry : createProxyList() ) {
@@ -158,8 +216,7 @@ public class GenericDownloaderUIApp extends JFrame
         //
         // Init closing
         //
-        //frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
         this.setVisible( true );
         this.addWindowListener( getWindowListener() );
     }
@@ -167,30 +224,7 @@ public class GenericDownloaderUIApp extends JFrame
     private ActionListener getActionListener()
     {
         if( this.actionListener == null ) {
-            this.actionListener = event -> {
-                final String cmd = event.getActionCommand();
-
-                if( ACTION_QUIT.equals( cmd ) ) {
-                    // Simulate call to windows close !
-
-                    if( windowClosing() ) {
-                        windowClosed();
-                        }
-                    }
-                else if( ACTION_STOP.equals( cmd ) ) {
-                    if( this.stopJButton.isEnabled() ) {
-                        stopDownload();
-                        }
-                    }
-                else if( ACTION_START.equals( cmd ) ) {
-                    if( this.startJButton.isEnabled() ) {
-                        startDownload();
-                        }
-                    }
-                else {
-                    LOGGER.warn( "Unknown ActionCommand " + cmd );
-                    }
-            };
+            this.actionListener = new MyActionListener();
             }
 
         return this.actionListener;
@@ -199,46 +233,7 @@ public class GenericDownloaderUIApp extends JFrame
     private WindowListener getWindowListener()
     {
         if( this.windowListener == null ) {
-            this.windowListener = new WindowListener()
-            {
-                @Override
-                public void windowClosed(final WindowEvent event)
-                {
-                    LOGGER.info("Window close event occur");
-                    GenericDownloaderUIApp.this.windowClosed();
-                }
-                @Override
-                public void windowActivated(final WindowEvent event)
-                {
-                }
-                @Override
-                public void windowClosing(final WindowEvent event)
-                {
-                    //Called in response to a user request for the listened-to window
-                    //to be closed. To actually close the window,
-                    //the listener should invoke the window's dispose
-                    //or setVisible(false) method
-                    LOGGER.info("Window Closing");
-                    GenericDownloaderUIApp.this.windowClosing();
-                }
-                @Override
-                public void windowDeactivated(final WindowEvent event)
-                {
-                }
-                @Override
-                public void windowDeiconified(final WindowEvent event)
-                {
-                }
-                @Override
-                public void windowIconified(final WindowEvent event)
-                {
-                }
-                @Override
-                public void windowOpened(final WindowEvent event)
-                {
-                    LOGGER.info("Window Opened");
-                }
-            };
+            this.windowListener = new MyWindowListener();
         }
         return this.windowListener;
     }

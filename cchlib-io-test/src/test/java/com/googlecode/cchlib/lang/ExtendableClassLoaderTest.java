@@ -12,9 +12,6 @@ import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
@@ -76,18 +73,6 @@ public class ExtendableClassLoaderTest
         LOGGER.info( "compiledDirectoryFile = " + compiledDirectoryFile );
         LOGGER.info( "compiledClassName = " + compiledClassName );
     }
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception
-    {}
-
-    @Before
-    public void setUp() throws Exception
-    {}
-
-    @After
-    public void tearDown() throws Exception
-    {}
 
     @Test
     public void testAddClassPathFile() throws IOException, ClassNotFoundException

@@ -8,11 +8,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 import com.googlecode.cchlib.lang.StringHelper;
@@ -24,25 +21,13 @@ public class FolderTreeBuilderTest
     private static final Logger LOGGER = Logger.getLogger( FolderTreeBuilderTest.class );
     private static final String TAB = "  ";
 
-    @BeforeClass
-    public static void setUpBeforeClass()
-    {}
-
-    @AfterClass
-    public static void tearDownAfterClass()
-    {}
-
     private final List<Path> globalList = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception
     {
-        globalList.clear();
+        this.globalList.clear();
     }
-
-    @After
-    public void tearDown() throws Exception
-    {}
 
     @Test
     public void testAdd() throws IOException
@@ -107,8 +92,8 @@ public class FolderTreeBuilderTest
             Assert.assertFalse( list.contains( name ) );
             list.add( name );
 
-            Assert.assertFalse( globalList.contains( path ) );
-            globalList.add( path );
+            Assert.assertFalse( this.globalList.contains( path ) );
+            this.globalList.add( path );
 
             checkIfNoDoubleOnNode( child );
             }

@@ -11,6 +11,7 @@ import java.lang.annotation.Target;
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface I18nCustomMethod {
-
+public @interface I18nCustomMethod
+{
+    // Annotation
 }

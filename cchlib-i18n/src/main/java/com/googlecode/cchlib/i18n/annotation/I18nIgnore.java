@@ -16,4 +16,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface I18nIgnore
 {
+    // Annotation
 }

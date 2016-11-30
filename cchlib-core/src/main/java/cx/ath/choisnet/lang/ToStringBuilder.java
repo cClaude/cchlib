@@ -83,7 +83,7 @@ public class ToStringBuilder<T>
 
     /**
      * Returns toString view for giving object.
-     * @param o to get toString view
+     * @param o object to transform to get toString view
      * @return toString view for this object.
      */
     public String toString( final T o )
@@ -118,11 +118,11 @@ public class ToStringBuilder<T>
     }
 
     /**
-     * NEEDDOC
+     * Returns toString view for giving object.
      *
-     * @param <T> NEEDDOC
-     * @param o
-     * @param clazz
+     * @param <T> Type of object o
+     * @param o object to transform to get toString view
+     * @param clazz Class of object o
      * @return toString view for this object.
      */
     public static <T> String toString(final T o, final Class<T> clazz)

@@ -18,11 +18,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.apache.log4j.Logger;
 import org.fest.assertions.Assertions;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -37,22 +33,6 @@ public class PositionalXMLReaderTest
     private static final Logger LOGGER = Logger.getLogger( PositionalXMLReaderTest.class );
 
     private Map<String,Position> checker;
-
-    @BeforeClass
-    public static void setUpBeforeClass()
-    {}
-
-    @AfterClass
-    public static void tearDownAfterClass()
-    {}
-
-    @Before
-    public void setUp()
-    {}
-
-    @After
-    public void tearDown()
-    {}
 
     @Test
     public void testReadXMLSAXParserFactoryDocumentBuilderInputStream()

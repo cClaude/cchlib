@@ -2,14 +2,30 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import javax.swing.JDialog;
 import javax.swing.border.EmptyBorder;
 
 //NOT public
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 class PreferencesJDialog extends JDialog
 {
+    private final class MyWindowListener extends WindowAdapter
+    {
+        private final AbstractPreferencesAction action;
+
+        private MyWindowListener( final AbstractPreferencesAction action )
+        {
+            this.action = action;
+        }
+
+        @Override public void windowClosed( final WindowEvent e )
+        {
+            this.action.onCancel();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
     private final PreferencesJPanel contentPanel;
 
@@ -25,24 +41,12 @@ class PreferencesJDialog extends JDialog
     {
         setBounds( 100, 100, 450, 300 );
         getContentPane().setLayout( new BorderLayout() );
-        contentPanel = new PreferencesJPanel( initParams, action );
-        contentPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-        getContentPane().add( contentPanel );
+        this.contentPanel = new PreferencesJPanel( initParams, action );
+        this.contentPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        getContentPane().add( this.contentPanel );
 
         action.setWindow( this );
 
-        this.addWindowListener( new WindowListener() {
-            @Override public void windowOpened( final WindowEvent e ) {}
-            @Override public void windowIconified( final WindowEvent e ) {}
-            @Override public void windowDeiconified( final WindowEvent e ) {}
-            @Override public void windowDeactivated( final WindowEvent e ) {}
-            @Override public void windowClosing( final WindowEvent e ) {}
-            @Override public void windowClosed( final WindowEvent e )
-            {
-                action.onCancel();
-            }
-            @Override
-            public void windowActivated( final WindowEvent e ) {}
-        } );
+        this.addWindowListener( new MyWindowListener( action ) );
     }
 }

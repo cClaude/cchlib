@@ -1,42 +1,10 @@
 package com.googlecode.cchlib.lang;
 
-import com.googlecode.cchlib.test.ArrayAssert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import com.googlecode.cchlib.test.ArrayAssert;
 
-/**
- *
- */
 public class StringHelperTest
 {
-
-    public StringHelperTest()
-    {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception
-    {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception
-    {
-    }
-
-    @Before
-    public void setUp()
-    {
-    }
-
-    @After
-    public void tearDown()
-    {
-    }
-
     /**
      * Test of split method, of class StringHelper.
      */
@@ -73,13 +41,13 @@ public class StringHelperTest
         }
     }
 
-    private static void testSplit_String_char( final String str, final char token, String[] expResult )
+    private static void testSplit_String_char( final String str, final char token, final String[] expResult )
     {
         System.out.println("split(String,char) : " + str);
 
-        String[] result = StringHelper.split(str, token);
+        final String[] result = StringHelper.split(str, token);
 
-        for( String r:result ) {
+        for( final String r:result ) {
             System.out.println( "R=" + r );
             }
 
@@ -144,9 +112,9 @@ public class StringHelperTest
     {
         System.out.println("split(String,String) : " + str );
 
-        String[] result = StringHelper.split(str, token);
+        final String[] result = StringHelper.split(str, token);
 
-        for( String r:result ) {
+        for( final String r:result ) {
             System.out.println( "R2=" + r );
             }
 

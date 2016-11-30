@@ -1,36 +1,12 @@
 package cx.ath.choisnet.io;
 
-//import cx.ath.choisnet.io.SerializableHelper;
+import java.io.IOException;
+import org.junit.Test;
 import com.googlecode.cchlib.io.SerializableHelper;
 import com.googlecode.cchlib.test.SerializableTestCaseHelper;
-import java.io.IOException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
-/**
- *
- */
 public class SerializableTestCaseHelperTest
 {
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of clone method, of class SerializableHelper.
      */
@@ -42,20 +18,20 @@ public class SerializableTestCaseHelperTest
         final MyInterfaceSerializable   imp3  = new MyImpl( 3, "Str3" );
 
         // Pas de problème dans ce cas (on trouve la classe support tout seul).
-        MyImpl tst1 = SerializableTestCaseHelper.cloneOverSerialization( imp1 );
+        final MyImpl tst1 = SerializableTestCaseHelper.cloneOverSerialization( imp1 );
 
         // Pas de problème dans ce cas (on fix la classe support)
-        MyImpl tst2 = SerializableHelper.clone( imp2, MyImpl.class );
+        final MyImpl tst2 = SerializableHelper.clone( imp2, MyImpl.class );
 
         // Là il faut que le mécanisme de serialization retrouve la classe support
-        MyInterfaceSerializable tst3 = SerializableTestCaseHelper.cloneOverSerialization( imp3 );
+        final MyInterfaceSerializable tst3 = SerializableTestCaseHelper.cloneOverSerialization( imp3 );
 
         print( imp1 , tst1 );
         print( imp2 , tst2 );
         print( imp3 , tst3 );
     }
 
-    private void print( MyInterface source, MyInterface serialized )
+    private void print( final MyInterface source, final MyInterface serialized )
     {
         System.out.println( "source     = " + source );
         System.out.println( "serialized = " + serialized );

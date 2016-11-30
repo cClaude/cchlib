@@ -1,5 +1,9 @@
 package com.googlecode.cchlib.swing.list;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Rectangle;
+import java.io.Serializable;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -7,14 +11,10 @@ import javax.swing.ListCellRenderer;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.io.Serializable;
 
 /**
  * Renders an item in a list. Base on original code from Oracle but that support generic
- * 
+ *
  * @see javax.swing.DefaultListCellRenderer
  * @since 4.1.7
  */
@@ -44,15 +44,17 @@ public class DefaultListCellRenderer<E> extends JLabel
     }
 
     private Border getNoFocusBorder() {
-        Border border = getBorder( "List.cellNoFocusBorder" );
-        
+        final Border border = getBorder( "List.cellNoFocusBorder" );
+
         if (System.getSecurityManager() != null) {
-            if (border != null) return border;
+            if (border != null) {
+                return border;
+            }
             return SAFE_NO_FOCUS_BORDER;
         } else {
-            if (border != null &&
-                    (noFocusBorder == null ||
-                    noFocusBorder == DEFAULT_NO_FOCUS_BORDER)) {
+            if ((border != null) &&
+                    ((noFocusBorder == null) ||
+                    (noFocusBorder == DEFAULT_NO_FOCUS_BORDER))) {
                 return border;
             }
             return noFocusBorder;
@@ -64,19 +66,21 @@ public class DefaultListCellRenderer<E> extends JLabel
         final JList<? extends E> list,
         final E                  value,
         final int                index,
-        boolean                  isSelected,
+        final boolean            isSelectedValue,
         final boolean            cellHasFocus
         )
     {
+        boolean isSelected = isSelectedValue;
+
         setComponentOrientation(list.getComponentOrientation());
 
         Color bg = null;
         Color fg = null;
 
-        JList.DropLocation dropLocation = list.getDropLocation();
-        if (dropLocation != null
+        final JList.DropLocation dropLocation = list.getDropLocation();
+        if ((dropLocation != null)
                 && !dropLocation.isInsert()
-                && dropLocation.getIndex() == index) {
+                && (dropLocation.getIndex() == index)) {
 
             bg = getColor("List.dropCellBackground");
             fg = getColor("List.dropCellForeground");
@@ -133,13 +137,13 @@ public class DefaultListCellRenderer<E> extends JLabel
      */
     @Override
     public boolean isOpaque() {
-        Color back = getBackground();
+        final Color back = getBackground();
         Component p = getParent();
         if (p != null) {
             p = p.getParent();
         }
         // p should now be the JList.
-        boolean colorMatch = (back != null) && (p != null) &&
+        final boolean colorMatch = (back != null) && (p != null) &&
             back.equals(p.getBackground()) &&
                         p.isOpaque();
         return !colorMatch && super.isOpaque();
@@ -151,7 +155,7 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void validate() {}
+    public void validate() { /* empty */ }
 
    /**
     * Overridden for performance reasons.
@@ -161,7 +165,7 @@ public class DefaultListCellRenderer<E> extends JLabel
     * @since 1.5
     */
     @Override
-    public void invalidate() {}
+    public void invalidate() {/* empty */}
 
    /**
     * Overridden for performance reasons.
@@ -171,7 +175,7 @@ public class DefaultListCellRenderer<E> extends JLabel
     * @since 1.5
     */
     @Override
-    public void repaint() {}
+    public void repaint() {/* empty */}
 
    /**
     * Overridden for performance reasons.
@@ -179,14 +183,7 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void revalidate() {}
-   /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
-    */
-    @Override
-    public void repaint(long tm, int x, int y, int width, int height) {}
+    public void revalidate() {/* empty */}
 
    /**
     * Overridden for performance reasons.
@@ -194,7 +191,7 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void repaint(Rectangle r) {}
+    public void repaint(final long tm, final int x, final int y, final int width, final int height) {/* empty */}
 
    /**
     * Overridden for performance reasons.
@@ -202,15 +199,32 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+    public void repaint(final Rectangle r) {/* empty */}
+
+   /**
+    * Overridden for performance reasons.
+    * See the <a href="#override">Implementation Note</a>
+    * for more information.
+    */
+    @Override
+    protected void firePropertyChange(
+        final String propertyName,
+        final Object oldValue,
+        final Object newValue
+        )
+    {
         // Strings get interned...
-        if (propertyName.equals( "text" )
-                || ((propertyName.equals( "font" ) || propertyName.equals( "foreground" ))
-                    && oldValue != newValue
-                    && getClientProperty(javax.swing.plaf.basic.BasicHTML.propertyKey) != null)) {
-
-            super.firePropertyChange(propertyName, oldValue, newValue);
+        if( updateContent( propertyName, oldValue, newValue ) ) {
+            super.firePropertyChange( propertyName, oldValue, newValue );
         }
+    }
+
+    private boolean updateContent( final String propertyName, final Object oldValue, final Object newValue )
+    {
+        return "text".equals( propertyName )
+                || (("font".equals( propertyName ) || "foreground".equals( propertyName ))
+                    && (oldValue != newValue)
+                    && (getClientProperty(javax.swing.plaf.basic.BasicHTML.propertyKey) != null));
     }
 
    /**
@@ -219,7 +233,14 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void firePropertyChange(String propertyName, byte oldValue, byte newValue) {}
+    public void firePropertyChange(
+            final String propertyName,
+            final byte oldValue,
+            final byte newValue
+            )
+    {
+        /* empty */
+    }
 
    /**
     * Overridden for performance reasons.
@@ -227,7 +248,14 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void firePropertyChange(String propertyName, char oldValue, char newValue) {}
+    public void firePropertyChange(
+        final String propertyName,
+        final char oldValue,
+        final char newValue
+        )
+    {
+        /* empty */
+    }
 
    /**
     * Overridden for performance reasons.
@@ -235,7 +263,14 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void firePropertyChange(String propertyName, short oldValue, short newValue) {}
+    public void firePropertyChange(
+        final String propertyName,
+        final short oldValue,
+        final short newValue
+        )
+    {
+        /* empty */
+    }
 
    /**
     * Overridden for performance reasons.
@@ -243,7 +278,14 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void firePropertyChange(String propertyName, int oldValue, int newValue) {}
+    public void firePropertyChange(
+        final String propertyName,
+        final int oldValue,
+        final int newValue
+        )
+    {
+        /* empty */
+    }
 
    /**
     * Overridden for performance reasons.
@@ -251,7 +293,14 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void firePropertyChange(String propertyName, long oldValue, long newValue) {}
+    public void firePropertyChange(
+        final String propertyName,
+        final long oldValue,
+        final long newValue
+        )
+    {
+        /* empty */
+    }
 
    /**
     * Overridden for performance reasons.
@@ -259,7 +308,14 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void firePropertyChange(String propertyName, float oldValue, float newValue) {}
+    public void firePropertyChange(
+        final String propertyName,
+        final float oldValue,
+        final float newValue
+        )
+    {
+        /* empty */
+    }
 
    /**
     * Overridden for performance reasons.
@@ -267,7 +323,14 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void firePropertyChange(String propertyName, double oldValue, double newValue) {}
+    public void firePropertyChange(
+        final String propertyName,
+        final double oldValue,
+        final double newValue
+        )
+    {
+        /* empty */
+    }
 
    /**
     * Overridden for performance reasons.
@@ -275,7 +338,14 @@ public class DefaultListCellRenderer<E> extends JLabel
     * for more information.
     */
     @Override
-    public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {}
+    public void firePropertyChange(
+        final String propertyName,
+        final boolean oldValue,
+        final boolean newValue
+        )
+    {
+        /* empty */
+    }
 
     /**
      * A subclass of DefaultListCellRenderer that implements UIResource.
@@ -292,21 +362,23 @@ public class DefaultListCellRenderer<E> extends JLabel
      * has been added to the <code>java.beans</code> package.
      * Please see {@link java.beans.XMLEncoder}.
      */
+    @SuppressWarnings({
+        "squid:MaximumInheritanceDepth", // Swing
+        "squid:S2176" // Hide parent class
+        })
     public static class UIResource extends DefaultListCellRenderer<Object>
         implements javax.swing.plaf.UIResource
     {
         private static final long serialVersionUID = 1L;
     }
 
-    private Border getBorder( String key )
+    private Border getBorder( final String key )
     {
-        //return sun.swing.DefaultLookup.getBorder( this, ui, key );
         return UIManager.getBorder( key );
     }
 
-    private Color getColor( String key )
+    private Color getColor( final String key )
     {
-        //return sun.swing.DefaultLookup.getColor( this, ui, key );
         return UIManager.getColor( key );
     }
 }

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -29,10 +30,119 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder.Attributs;
  * @see javax.swing.JFileChooser#setAccessory(javax.swing.JComponent)
  * @see TabbedAccessory
  */
+@SuppressWarnings({
+    "squid:S00116", "squid:S00117" // Generated code
+    })
 public class BookmarksAccessory
     extends JPanel
         implements TabbedAccessoryInterface
 {
+    private final class MyActionListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed( final ActionEvent event )
+        {
+            final String cmd = event.getActionCommand();
+
+            if( ACTION_ADD.equals( cmd ) ) {
+                doAdd();
+            } else if( ACTION_REMOVE.equals( cmd ) ) {
+                if( event.getSource() instanceof JButton ) {
+                    // Remove selected entries in list
+                    doRemove(
+                        BookmarksAccessory.this.jList_Bookmarks.getSelectedIndices()
+                        );
+                } else if( event.getSource() instanceof JMenuItem ) {
+                    // Remove current entry (using contextual menu)
+                    final JMenuItem menu  = JMenuItem.class.cast( event.getSource() );
+                    final Object    value = menu.getClientProperty( ACTION_OBJECT );
+                    final int       index = Integer.class.cast( value ).intValue();
+
+                    doRemove( new int[] { index } );
+                }
+            } else if( ACTION_REFRESH.equals( cmd ) ) {
+                doRefresh();
+            }
+        }
+
+        private void doAdd()
+        {
+            final File f = BookmarksAccessory.this.jFileChooser.getCurrentDirectory();
+
+            if( f != null ) {
+                if( BookmarksAccessory.this.configurator.addBookmarkFile( f ) ) {
+                    BookmarksAccessory.this.listModel_Bookmarks.addElement( f );
+                    }
+                }
+        }
+
+        private void doRemove( final int[] indexToRemove )
+        {
+            for( int i = indexToRemove.length - 1; i>=0; i-- ) {
+                final File f = BookmarksAccessory.this.listModel_Bookmarks.getElementAt( indexToRemove[ i ] );
+
+                if( BookmarksAccessory.this.configurator.removeBookmark( f ) ) {
+                    BookmarksAccessory.this.listModel_Bookmarks.remove( indexToRemove[i] );
+                    }
+                }
+        }
+
+        private void doRefresh()
+        {
+            //
+            // Refresh JFileChooser display
+            //
+            final File dir    = BookmarksAccessory.this.jFileChooser.getCurrentDirectory();
+            File       tmpDir = FileHelper.getTmpDirFile();
+
+            if( tmpDir.equals( dir ) ) {
+                tmpDir = FileHelper.getUserHomeDirFile();
+                }
+
+            // FIXME : why ????
+            BookmarksAccessory.this.jFileChooser.setCurrentDirectory( tmpDir );
+            BookmarksAccessory.this.jFileChooser.setCurrentDirectory( dir );
+
+            //
+            // Refresh config (if configurator allow this)
+            //
+            fillBookmarkList();
+        }
+    }
+
+    private final class MyJPopupMenuForJList extends JPopupMenuForJList<File>
+    {
+        private static final long serialVersionUID = 1L;
+
+        private MyJPopupMenuForJList( final JList<File> jList, final Attributs first )
+        {
+            super( jList, first, new Attributs[0] );
+        }
+
+        @Override
+        protected JPopupMenu createContextMenu( final int rowIndex )
+        {
+            final JPopupMenu cm = new JPopupMenu();
+
+            addCopyMenuItem(
+                cm,
+                resourcesUtils.getText( ResourcesUtils.ID.COPY ),
+                rowIndex
+                );
+
+            addJMenuItem(
+                cm,
+                resourcesUtils.getText( ResourcesUtils.ID.BOOKMARK_REMOVE ),
+                getActionListener(),
+                ACTION_REMOVE,
+                ACTION_OBJECT,
+                Integer.valueOf( rowIndex )
+                );
+
+            return cm;
+        }
+    }
+
     private static final long serialVersionUID = 2L;
     private static final String ACTION_ADD     = "ACTION_ADD";
     private static final String ACTION_REMOVE  = "ACTION_REMOVE";
@@ -41,11 +151,11 @@ public class BookmarksAccessory
 
     private static ResourcesUtils resourcesUtils = new ResourcesUtils();
 
-    private ActionListener actionListener;
+    private transient ActionListener actionListener;
     private final BookmarksAccessoryConfigurator configurator;
     private final JFileChooser jFileChooser;
 
-    private JList<File>             jList_Bookmarks;
+    private JList<File>                   jList_Bookmarks;
     private final DefaultListModel<File>  listModel_Bookmarks;
 
     private JButton                 jButton_AddBookmarks;
@@ -58,6 +168,7 @@ public class BookmarksAccessory
      * @param jFileChooser  {@link JFileChooser} to use
      * @param config        Initial configuration for this BookmarksAccessory
      */
+    @SuppressWarnings("squid:S1199") // Generated code
     public BookmarksAccessory(
             final JFileChooser                   jFileChooser,
             final BookmarksAccessoryConfigurator config
@@ -65,7 +176,7 @@ public class BookmarksAccessory
     {
         this.jFileChooser           = jFileChooser;
         this.configurator           = config;
-        this.listModel_Bookmarks    = new DefaultListModel<File>();
+        this.listModel_Bookmarks    = new DefaultListModel<>();
 
         fillBookmarkList();
 
@@ -87,7 +198,7 @@ public class BookmarksAccessory
             gbc_scrollPane_jList_Bookmarks.gridy = 0;
             add(scrollPane_jList_Bookmarks, gbc_scrollPane_jList_Bookmarks);
 
-            this.jList_Bookmarks = new JList<File>(this.listModel_Bookmarks);
+            this.jList_Bookmarks = new JList<>(this.listModel_Bookmarks);
             scrollPane_jList_Bookmarks.setViewportView(this.jList_Bookmarks);
             this.jList_Bookmarks.addMouseListener( new MouseAdapter() {
                     @Override
@@ -146,36 +257,10 @@ public class BookmarksAccessory
 
     private void createPopupMenu()
     {
-        final JPopupMenuForJList<File> popupMenu = new JPopupMenuForJList<File>( this.jList_Bookmarks, Attributs.MUST_BE_SELECTED )
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            protected JPopupMenu createContextMenu( final int rowIndex )
-            {
-                final JPopupMenu cm = new JPopupMenu();
-
-                addCopyMenuItem(
-                    cm,
-                    //new JMenuItem( resourcesUtils.getText( ResourcesUtils.TXTID_COPY ) ),
-                    resourcesUtils.getText( ResourcesUtils.ID.COPY ),
-                    rowIndex
-                    );
-
-                //addJMenuItem( cm, "menuItemTxt", getActionListener(), actionCommandString, actionObjectType, actionObject );
-                //addJMenuItem( cm, "menuItemTxt", getActionListener(), actionCommandString );
-                addJMenuItem(
-                    cm,
-                    resourcesUtils.getText( ResourcesUtils.ID.BOOKMARK_REMOVE ),
-                    getActionListener(),
-                    ACTION_REMOVE,
-                    ACTION_OBJECT,
-                    new Integer( rowIndex )
-                    );
-
-                return cm;
-            }
-        };
+        final JPopupMenuForJList<File> popupMenu = new MyJPopupMenuForJList(
+                this.jList_Bookmarks,
+                Attributs.MUST_BE_SELECTED
+                );
 
         popupMenu.addMenu();
     }
@@ -183,30 +268,7 @@ public class BookmarksAccessory
     private ActionListener getActionListener()
     {
         if( this.actionListener == null ) {
-            this.actionListener = event -> {
-                final String cmd = event.getActionCommand();
-
-                if( ACTION_ADD.equals( cmd ) ) {
-                    doAdd();
-                    }
-                else if( ACTION_REMOVE.equals( cmd ) ) {
-                    if( event.getSource() instanceof JButton ) {
-                        // Remove selected entries in list
-                        doRemove( BookmarksAccessory.this.jList_Bookmarks.getSelectedIndices() );
-                        }
-                    else if( event.getSource() instanceof JMenuItem ) {
-                        // Remove current entry (using contextual menu)
-                        final int index = Integer.class.cast(
-                                JMenuItem.class.cast( event.getSource() )
-                                    .getClientProperty( ACTION_OBJECT )
-                                ).intValue();
-                        doRemove( new int[]{ index } );
-                        }
-                    }
-                else if( ACTION_REFRESH.equals( cmd ) ) {
-                    doRefresh();
-                    }
-             };
+            this.actionListener = new MyActionListener();
             }
         return this.actionListener;
     }
@@ -219,50 +281,6 @@ public class BookmarksAccessory
             this.listModel_Bookmarks.addElement( f );
             }
     }
-
-    private void doAdd()
-    {
-        final File f = this.jFileChooser.getCurrentDirectory();
-
-        if( f != null ) {
-            if( this.configurator.addBookmarkFile( f ) ) {
-                this.listModel_Bookmarks.addElement( f );
-                }
-            }
-    }
-
-    private void doRemove( final int[] indexToRemove )
-    {
-        for( int i = indexToRemove.length - 1; i>=0; i-- ) {
-            final File f = this.listModel_Bookmarks.getElementAt( indexToRemove[ i ] );
-
-            if( this.configurator.removeBookmark( f ) ) {
-                this.listModel_Bookmarks.remove( indexToRemove[i] );
-                }
-            }
-    }
-
-    private void doRefresh()
-    {
-        //
-        // Refresh JFileChooser display
-        //
-        final File dir = this.jFileChooser.getCurrentDirectory();
-        File tmpDir = FileHelper.getTmpDirFile();
-
-        if( tmpDir.equals( dir ) ) {
-            tmpDir = FileHelper.getUserHomeDirFile();
-            }
-
-        this.jFileChooser.setCurrentDirectory( tmpDir );
-        this.jFileChooser.setCurrentDirectory( dir );
-
-        //
-        // Refresh config (if configurator allow this)
-        //
-        fillBookmarkList();
-    }
-
 
     /**
      * @return a valid JButton for refresh/rescan current directory,
@@ -311,11 +329,13 @@ public class BookmarksAccessory
     @Override // TabbedAccessoryInterface
     public void register()
     {
+        // Empty
     }
 
     @Override // TabbedAccessoryInterface
     public void unregister()
     {
+        // Empty
     }
 }
 

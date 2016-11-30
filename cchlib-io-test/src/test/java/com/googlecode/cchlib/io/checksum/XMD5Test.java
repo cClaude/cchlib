@@ -6,11 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.io.FileHelper;
@@ -24,24 +21,12 @@ public class XMD5Test
     private XMessageDigestFile   mdf;
     private List<File>          fileList;
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception
-    {}
-
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception
-    {}
-
     @Before
     public void setUp() throws Exception
     {
         this.mdf        = new XMessageDigestFile( "MD5" );
         this.fileList   = FilesTestCaseHelper.getFilesListFrom( FileHelper.getTmpDirFile(), FileFilterHelper.fileFileFilter() );
     }
-
-    @After
-    public void tearDown() throws Exception
-    {}
 
     @Test
     public void test_getHashString() throws IOException
@@ -72,9 +57,11 @@ public class XMD5Test
                 LOGGER.info( "F:" + f );
 
                 Assert.assertArrayEquals( digestKey, hash1 );
-                }
-            catch( final FileNotFoundException ignore ) {} // $codepro.audit.disable emptyCatchClause, logExceptions
             }
+            catch( final FileNotFoundException ignore ) {
+                // Ignore
+            }
+        }
     }
 
 }

@@ -5,10 +5,6 @@ import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.Threads;
 
@@ -18,26 +14,6 @@ import com.googlecode.cchlib.lang.Threads;
 public class ResourcesUtilsTest
 {
     private static final Logger LOGGER = Logger.getLogger( ResourcesUtilsTest.class );
-
-    @BeforeClass
-    public static void setUpClass() throws Exception
-    {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception
-    {
-    }
-
-    @Before
-    public void setUp()
-    {
-    }
-
-    @After
-    public void tearDown()
-    {
-    }
 
     @Test
     public void myTestJButton()

@@ -29,13 +29,24 @@
  */
 package test.slider.org.jvnet.flamingo.slider.ui;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
+import javax.swing.CellRendererPane;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-//import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ComponentUI;
 import test.slider.org.jvnet.flamingo.slider.FlexiRangeModel;
@@ -46,7 +57,8 @@ import test.slider.org.jvnet.flamingo.slider.JFlexiSlider;
  *
  * @author Kirill Grouchnikov
  */
-public class BasicFlexiSliderUI extends FlexiSliderUI {
+public class BasicFlexiSliderUI extends FlexiSliderUI
+{
     /**
      * The associated flexi slider.
      */
@@ -69,7 +81,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
      *
      * @see javax.swing.plaf.ComponentUI#createUI(javax.swing.JComponent)
      */
-    public static ComponentUI createUI(JComponent c) {
+    public static ComponentUI createUI(final JComponent c) {
         return new BasicFlexiSliderUI();
     }
 
@@ -79,7 +91,8 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
      * @see javax.swing.plaf.ComponentUI#installUI(javax.swing.JComponent)
      */
     @Override
-    public void installUI(JComponent c) {
+    public void installUI(final JComponent c)
+    {
         this.flexiSlider = (JFlexiSlider) c;
         installDefaults();
         installComponents();
@@ -95,7 +108,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
      * @see javax.swing.plaf.ComponentUI#uninstallUI(javax.swing.JComponent)
      */
     @Override
-    public void uninstallUI(JComponent c) {
+    public void uninstallUI(final JComponent c) {
         c.setLayout(null);
         uninstallListeners();
         uninstallComponents();
@@ -104,12 +117,14 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
         this.flexiSlider = null;
     }
 
-    public void installDefaults() {
-
+    public void installDefaults()
+    {
+        // For testing
     }
 
-    public void installComponents() {
-        int controlPointCount = this.flexiSlider.getControlPointCount();
+    public void installComponents()
+    {
+        final int controlPointCount = this.flexiSlider.getControlPointCount();
         this.controlPointLabels = new JLabel[controlPointCount];
         for (int i = 0; i < controlPointCount; i++) {
             this.controlPointLabels[i] = new JLabel(this.flexiSlider
@@ -119,75 +134,75 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
             //this.controlPointLabels[i].setBorder(new LineBorder(Color.blue));
             this.flexiSlider.add(this.controlPointLabels[i]);
         }
-        this.slider = new JSlider(JSlider.VERTICAL);
+        this.slider = new JSlider(SwingConstants.VERTICAL);
         this.slider.setFocusable(false);
         // this.flexiSlider.add(this.slider);
 
         this.sliderRendererPane = new CellRendererPane();
-        this.flexiSlider.add(sliderRendererPane);
+        this.flexiSlider.add(this.sliderRendererPane);
 
     }
 
-    public void installListeners() {
+    public void installListeners()
+    {
         this.mouseListener = new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(final MouseEvent e) {
+                // not use
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
-                flexiSlider.getModel().setValueIsAdjusting(false);
+            public void mouseReleased(final MouseEvent e) {
+                BasicFlexiSliderUI.this.flexiSlider.getModel().setValueIsAdjusting(false);
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-                flexiSlider.getModel().setValueIsAdjusting(true);
-                int y = e.getY();
-                FlexiRangeModel.Value modelValue = sliderValueToModelValue(y);
-                flexiSlider.setValue(modelValue);
+            public void mousePressed(final MouseEvent e) {
+                BasicFlexiSliderUI.this.flexiSlider.getModel().setValueIsAdjusting(true);
+                final int y = e.getY();
+                final FlexiRangeModel.Value modelValue = sliderValueToModelValue(y);
+                BasicFlexiSliderUI.this.flexiSlider.setValue(modelValue);
                 // the following lines does the "magic" of snapping
                 // the slider thumb to control points of discrete ranges.
-                slider.setValue(modelValueToSliderValue(modelValue));
+                BasicFlexiSliderUI.this.slider.setValue(modelValueToSliderValue(modelValue));
             }
         };
         this.flexiSlider.addMouseListener(this.mouseListener);
 
         this.mouseMotionListener = new MouseMotionAdapter() {
             @Override
-            public void mouseDragged(MouseEvent e) {
-                flexiSlider.getModel().setValueIsAdjusting(true);
-                int y = e.getY();
-                FlexiRangeModel.Value modelValue = sliderValueToModelValue(y);
-                if (modelValue == null)
+            public void mouseDragged(final MouseEvent e) {
+                BasicFlexiSliderUI.this.flexiSlider.getModel().setValueIsAdjusting(true);
+                final int y = e.getY();
+                final FlexiRangeModel.Value modelValue = sliderValueToModelValue(y);
+                if (modelValue == null) {
                     return;
-                flexiSlider.setValue(modelValue);
+                }
+                BasicFlexiSliderUI.this.flexiSlider.setValue(modelValue);
                 // the following lines does the "magic" of snapping
                 // the slider thumb to control points of discrete ranges.
-                slider.setValue(modelValueToSliderValue(modelValue));
+                BasicFlexiSliderUI.this.slider.setValue(modelValueToSliderValue(modelValue));
             }
         };
         this.flexiSlider.addMouseMotionListener(this.mouseMotionListener);
 
-        this.flexiSliderChangeListener = new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                flexiSlider.repaint();
-            }
-        };
+        this.flexiSliderChangeListener = e -> BasicFlexiSliderUI.this.flexiSlider.repaint();
         this.flexiSlider.getModel().addChangeListener(
                 this.flexiSliderChangeListener);
     }
 
     public void uninstallDefaults() {
-        for (JLabel label : this.controlPointLabels)
+        for (final JLabel label : this.controlPointLabels) {
             this.flexiSlider.remove(label);
+        }
         this.controlPointLabels = null;
         this.flexiSlider.remove(this.sliderRendererPane);
         this.sliderRendererPane = null;
     }
 
-    public void uninstallComponents() {
-
+    public void uninstallComponents()
+    {
+        // for testing
     }
 
     public void uninstallListeners() {
@@ -203,45 +218,47 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
     }
 
     @Override
-    public void paint(Graphics g, JComponent c) {
+    public void paint(final Graphics g, final JComponent c) {
         super.paint(g, c);
         this.paintSlider(g);
     }
 
-    protected void paintSlider(Graphics g) {
-        Rectangle sliderBounds = sliderRendererPane.getBounds();
+    protected void paintSlider(final Graphics g) {
+        final Rectangle sliderBounds = this.sliderRendererPane.getBounds();
         this.sliderRendererPane.paintComponent(g, this.slider,
                 this.flexiSlider, sliderBounds.x, sliderBounds.y,
                 sliderBounds.width, sliderBounds.height, true);
     }
 
-    protected int modelValueToSliderValue(FlexiRangeModel.Value modelValue) {
-        if (modelValue == null)
+    protected int modelValueToSliderValue(final FlexiRangeModel.Value modelValue)
+    {
+        if (modelValue == null) {
             return 0;
+        }
 
         // get the range and the model
-        FlexiRangeModel.Range range = modelValue.range;
-        FlexiRangeModel model = this.flexiSlider.getModel();
+        final FlexiRangeModel.Range range = modelValue.range;
+        final FlexiRangeModel model = this.flexiSlider.getModel();
         // find the range in the model
         for (int i = 0; i < model.getRangeCount(); i++) {
             if (range.equals(model.getRange(i))) {
                 // get locations of control point labels
-                int rangeStartLoc = controlPointLabels[i].getY();
+                int rangeStartLoc = this.controlPointLabels[i].getY();
                 if (i != 0) {
-                    rangeStartLoc += controlPointLabels[i].getHeight() / 2;
+                    rangeStartLoc += this.controlPointLabels[i].getHeight() / 2;
                 } else {
-                    rangeStartLoc += controlPointLabels[i].getHeight();
+                    rangeStartLoc += this.controlPointLabels[i].getHeight();
                 }
-                int rangeEndLoc = controlPointLabels[i + 1].getY();
+                int rangeEndLoc = this.controlPointLabels[i + 1].getY();
                 if (i != (model.getRangeCount() - 1)) {
-                    rangeEndLoc += controlPointLabels[i + 1].getHeight() / 2;
+                    rangeEndLoc += this.controlPointLabels[i + 1].getHeight() / 2;
                 }
-                Insets ins = flexiSlider.getInsets();
+                final Insets ins = this.flexiSlider.getInsets();
                 rangeStartLoc -= ins.top;
                 rangeEndLoc -= ins.top;
 
                 // apply the range fraction
-                int result = rangeStartLoc
+                final int result = rangeStartLoc
                         + (int) (modelValue.rangeFraction * (rangeEndLoc - rangeStartLoc));
                 return result;
             }
@@ -249,20 +266,20 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
         return 0;
     }
 
-    protected FlexiRangeModel.Value sliderValueToModelValue(int sliderValue) {
+    protected FlexiRangeModel.Value sliderValueToModelValue(final int sliderValue) {
         // get the model
-        FlexiRangeModel model = this.flexiSlider.getModel();
+        final FlexiRangeModel model = this.flexiSlider.getModel();
         // iterate over the ranges and try to find range that contains the
         // specified
         // value
         for (int i = 0; i < model.getRangeCount(); i++) {
-            FlexiRangeModel.Range currRange = model.getRange(i);
+            final FlexiRangeModel.Range currRange = model.getRange(i);
             // get slider values that correspond to the control points
             // of this range
-            int startSliderValue = this
+            final int startSliderValue = this
                     .modelValueToSliderValue(new FlexiRangeModel.Value(
                             currRange, 0.0));
-            int endSliderValue = this
+            final int endSliderValue = this
                     .modelValueToSliderValue(new FlexiRangeModel.Value(
                             currRange, 1.0));
             if ((sliderValue >= endSliderValue)
@@ -270,8 +287,8 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
                 // we have a match. Now check whether the range is discrete
                 if (currRange.isDiscrete()) {
                     // find the closest control point
-                    int deltaStart = startSliderValue - sliderValue;
-                    int deltaEnd = sliderValue - endSliderValue;
+                    final int deltaStart = startSliderValue - sliderValue;
+                    final int deltaEnd = sliderValue - endSliderValue;
                     if (deltaStart < deltaEnd) {
                         // closer to start
                         return new FlexiRangeModel.Value(currRange, 0.0);
@@ -297,7 +314,8 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
      *
      * @return a layout manager object
      */
-    protected LayoutManager createLayoutManager() {
+    protected LayoutManager createLayoutManager()
+    {
         return new FlexiSliderLayout();
     }
 
@@ -306,7 +324,8 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
      *
      * @author Kirill Grouchnikov
      */
-    protected class FlexiSliderLayout implements LayoutManager {
+    protected class FlexiSliderLayout implements LayoutManager
+    {
         /*
          * (non-Javadoc)
          *
@@ -314,7 +333,9 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
          *      java.awt.Component)
          */
         @Override
-        public void addLayoutComponent(String name, Component c) {
+        public void addLayoutComponent(final String name, final Component c)
+        {
+            // Empty
         }
 
         /*
@@ -323,7 +344,9 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
          * @see java.awt.LayoutManager#removeLayoutComponent(java.awt.Component)
          */
         @Override
-        public void removeLayoutComponent(Component c) {
+        public void removeLayoutComponent(final Component c)
+        {
+            // Empty
         }
 
         /*
@@ -332,18 +355,19 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
          * @see java.awt.LayoutManager#preferredLayoutSize(java.awt.Container)
          */
         @Override
-        public Dimension preferredLayoutSize(Container c) {
+        public Dimension preferredLayoutSize(final Container c)
+        {
             int width = 0;
             int height = 0;
-            Insets ins = c.getInsets();
+            final Insets ins = c.getInsets();
 
-            JFlexiSlider flexiSlider = (JFlexiSlider) c;
+            final JFlexiSlider flexiSlider = (JFlexiSlider) c;
             // get the control point count
-            int controlPointCount = flexiSlider.getControlPointCount();
+            final int controlPointCount = flexiSlider.getControlPointCount();
             // the preferred height is the combined height of all labels +
             // vertical gaps in between
             for (int i = 0; i < controlPointCount; i++) {
-                height += controlPointLabels[i].getPreferredSize().height;
+                height += BasicFlexiSliderUI.this.controlPointLabels[i].getPreferredSize().height;
             }
             height += 4 * (controlPointCount - 1);
 
@@ -351,11 +375,11 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
             // of the widest label
             int maxLabelWidth = 0;
             for (int i = 0; i < controlPointCount; i++) {
-                maxLabelWidth = Math.max(maxLabelWidth, controlPointLabels[i]
+                maxLabelWidth = Math.max(maxLabelWidth, BasicFlexiSliderUI.this.controlPointLabels[i]
                         .getPreferredSize().width);
             }
 
-            width = slider.getPreferredSize().width + 4 + maxLabelWidth;
+            width = BasicFlexiSliderUI.this.slider.getPreferredSize().width + 4 + maxLabelWidth;
 
             return new Dimension(width + ins.left + ins.right, height + ins.top
                     + ins.bottom);
@@ -367,7 +391,8 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
          * @see java.awt.LayoutManager#minimumLayoutSize(java.awt.Container)
          */
         @Override
-        public Dimension minimumLayoutSize(Container c) {
+        public Dimension minimumLayoutSize(final Container c)
+        {
             return this.preferredLayoutSize(c);
         }
 
@@ -377,19 +402,20 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
          * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
          */
         @Override
-        public void layoutContainer(Container c) {
-            Insets ins = c.getInsets();
-            int width = c.getWidth();
-            int height = c.getHeight();
+        public void layoutContainer(final Container c)
+        {
+            final Insets ins = c.getInsets();
+            final int width = c.getWidth();
+            final int height = c.getHeight();
 
-            JFlexiSlider flexiSlider = (JFlexiSlider) c;
+            final JFlexiSlider flexiSlider = (JFlexiSlider) c;
             // get the model
-            FlexiRangeModel model = flexiSlider.getModel();
+            final FlexiRangeModel model = flexiSlider.getModel();
             // get the number of ranges
-            int rangeCount = model.getRangeCount();
+            final int rangeCount = model.getRangeCount();
 
             // get the preferred height
-            int prefHeight = this.preferredLayoutSize(c).height;
+            final int prefHeight = this.preferredLayoutSize(c).height;
 
             // compute the extra height for distribution among the
             // contiguous ranges
@@ -404,32 +430,32 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
             // their weights
             double totalContiguousWeight = 0.0;
             for (int i = 0; i < rangeCount; i++) {
-                FlexiRangeModel.Range range = model.getRange(i);
+                final FlexiRangeModel.Range range = model.getRange(i);
                 if (!range.isDiscrete()) {
                     totalContiguousWeight += range.getWeight();
                 }
             }
 
-            int bumpY = ((totalContiguousWeight == 0.0) || (extraHeight < 0.0)) ? /*(int)*/ (extraHeight / rangeCount)
+            final int bumpY = ((totalContiguousWeight == 0.0) || (extraHeight < 0.0)) ? /*(int)*/ (extraHeight / rangeCount)
                     : 0;
             // the first control point is at the bottom
-            int labelX = slider.getPreferredSize().width + ins.left + 4;
+            final int labelX = BasicFlexiSliderUI.this.slider.getPreferredSize().width + ins.left + 4;
             int currentY = height - ins.bottom
-                    - controlPointLabels[0].getPreferredSize().height;
-            controlPointLabels[0].setBounds(labelX, currentY, width - labelX
-                    - ins.left - ins.right, controlPointLabels[0]
+                    - BasicFlexiSliderUI.this.controlPointLabels[0].getPreferredSize().height;
+            BasicFlexiSliderUI.this.controlPointLabels[0].setBounds(labelX, currentY, width - labelX
+                    - ins.left - ins.right, BasicFlexiSliderUI.this.controlPointLabels[0]
                     .getPreferredSize().height);
             for (int i = 0; i < rangeCount; i++) {
-                FlexiRangeModel.Range range = model.getRange(i);
-                JLabel endLabel = controlPointLabels[i + 1];
+                final FlexiRangeModel.Range range = model.getRange(i);
+                final JLabel endLabel = BasicFlexiSliderUI.this.controlPointLabels[i + 1];
                 if (range.isDiscrete()) {
-                    int deltaY = endLabel.getPreferredSize().height + 4 + bumpY;
+                    final int deltaY = endLabel.getPreferredSize().height + 4 + bumpY;
                     currentY -= deltaY;
-                    controlPointLabels[i + 1].setBounds(labelX, currentY, width
+                    BasicFlexiSliderUI.this.controlPointLabels[i + 1].setBounds(labelX, currentY, width
                             - labelX - ins.left - ins.right, endLabel
                             .getPreferredSize().height);
                 } else {
-                    double rangeWeight = range.getWeight();
+                    final double rangeWeight = range.getWeight();
                     int currBump = 0;
 
                     if (bumpY < 0.0) {
@@ -441,38 +467,38 @@ public class BasicFlexiSliderUI extends FlexiSliderUI {
                         // result in extra pixels above the last control point
                         // label, which will not be properly aligned with the
                         // top bound of the slider.
-                        currBump = (int) (extraHeight * rangeWeight / totalContiguousWeight);
+                        currBump = (int) ((extraHeight * rangeWeight) / totalContiguousWeight);
                         // reduce the total remaining weight and total remaining
                         // extra height. At the last contiguous range the entire
                         // remaining height will go to it.
                         totalContiguousWeight -= rangeWeight;
                         extraHeight -= currBump;
                     }
-                    int deltaY = endLabel.getPreferredSize().height + 4
+                    final int deltaY = endLabel.getPreferredSize().height + 4
                             + currBump;
                     currentY -= deltaY;
-                    controlPointLabels[i + 1].setBounds(labelX, currentY, width
+                    BasicFlexiSliderUI.this.controlPointLabels[i + 1].setBounds(labelX, currentY, width
                             - labelX - ins.left - ins.right, endLabel
                             .getPreferredSize().height);
                 }
             }
 
-            int firstLabelCenter = controlPointLabels[0].getY()
-                    + controlPointLabels[0].getHeight();// / 2;
-            int lastLabelCenter = controlPointLabels[rangeCount].getY();
+            final int firstLabelCenter = BasicFlexiSliderUI.this.controlPointLabels[0].getY()
+                    + BasicFlexiSliderUI.this.controlPointLabels[0].getHeight();// / 2;
+            final int lastLabelCenter = BasicFlexiSliderUI.this.controlPointLabels[rangeCount].getY();
             // + controlPointLabels[rangeCount].getHeight() / 2;
-            int sliderHeight = firstLabelCenter - lastLabelCenter;
+            final int sliderHeight = firstLabelCenter - lastLabelCenter;
 
             // int
             // lastLabel
             // sliderHeight = height - ins.top - ins.bottom;
 
-            sliderRendererPane.setBounds(ins.left, lastLabelCenter, slider
+            BasicFlexiSliderUI.this.sliderRendererPane.setBounds(ins.left, lastLabelCenter, BasicFlexiSliderUI.this.slider
                     .getPreferredSize().width, sliderHeight);
-            slider.setMinimum(0);
-            slider.setMaximum(sliderHeight - 1);
-            slider.setInverted(true);
-            slider.setValue(modelValueToSliderValue(flexiSlider.getValue()));
+            BasicFlexiSliderUI.this.slider.setMinimum(0);
+            BasicFlexiSliderUI.this.slider.setMaximum(sliderHeight - 1);
+            BasicFlexiSliderUI.this.slider.setInverted(true);
+            BasicFlexiSliderUI.this.slider.setValue(modelValueToSliderValue(flexiSlider.getValue()));
         }
     }
 }

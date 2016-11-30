@@ -96,9 +96,9 @@ public class XMLBuilder
     /**
      * NEEDDOC
      *
-     * @param nodeList
+     * @param nodeList NEEDDOC
      * @return this object for chaining initialization
-     * @throws IOException
+     * @throws IOException NEEDDOC
      */
     public XMLBuilder append( final NodeList nodeList )
         throws IOException
@@ -128,7 +128,7 @@ public class XMLBuilder
     /**
      * NEEDDOC
      *
-     * @param aNode
+     * @param aNode NEEDDOC
      * @return NEEDDOC
      */
     public static String toString( final Node aNode )
@@ -148,7 +148,7 @@ public class XMLBuilder
     /**
      * NEEDDOC
      *
-     * @param nodeList
+     * @param nodeList NEEDDOC
      * @return NEEDDOC
      */
     @SuppressWarnings("squid:S1166")

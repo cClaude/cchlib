@@ -39,9 +39,9 @@ public final class URLHelper
     /**
      * Store URL content in a String
      *
-     * @param url to load
+     * @param url url to load
      * @return content of the URL
-     * @throws IOException
+     * @throws IOException if any
      */
     public static String toString( final URL url ) throws IOException
     {
@@ -53,9 +53,9 @@ public final class URLHelper
     /**
      * Send URL content to an OutputStrean
      *
-     * @param url
-     * @param output
-     * @throws IOException
+     * @param url url to copy
+     * @param output destination OutputStream
+     * @throws IOException if any
      */
     public static void copy( final URL url, final OutputStream output )
         throws IOException
@@ -92,9 +92,9 @@ public final class URLHelper
     /**
      * Send URL content to a Writer
      *
-     * @param url
-     * @param output
-     * @throws IOException
+     * @param url   URL to read
+     * @param output destination Writer
+     * @throws IOException if any
      */
     public static void copy( final URL url, final Writer output )
         throws IOException

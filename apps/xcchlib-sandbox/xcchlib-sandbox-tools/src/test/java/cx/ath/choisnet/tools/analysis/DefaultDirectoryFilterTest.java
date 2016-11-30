@@ -10,10 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -34,27 +32,16 @@ public class DefaultDirectoryFilterTest
     private DefaultDirectoryFilter defaultDirectoryFilter;
     private Writer outputWriter;
 
-
-    @BeforeClass
-    public static void setUpClass() throws Exception
-    {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception
-    {
-    }
-
     @Before
     public void setUp()
     {
         this.outputWriter = new WriterWrapper( System.out );
-        this.defaultDirectoryFilter = new DefaultDirectoryFilter( outputWriter );
+        this.defaultDirectoryFilter = new DefaultDirectoryFilter( this.outputWriter );
 
         this.fullPathToTestList.clear();
 
-        for( String fp : FULL_PATH_TO_TEST ) {
-            File f = new File( fp );
+        for( final String fp : FULL_PATH_TO_TEST ) {
+            final File f = new File( fp );
 
             if( f.isDirectory() ) {
                 this.fullPathToTestList.add( new File( fp ) );
@@ -75,8 +62,8 @@ public class DefaultDirectoryFilterTest
     @Test
     public void testIgnore()
     {
-        for( File dirFile : this.fullPathToTestList ) {
-            boolean accept = defaultDirectoryFilter.accept( dirFile );
+        for( final File dirFile : this.fullPathToTestList ) {
+            final boolean accept = this.defaultDirectoryFilter.accept( dirFile );
 
             LOGGER.info( "Res:" + accept + " File: " + dirFile );
 
@@ -92,15 +79,15 @@ public class DefaultDirectoryFilterTest
 
     class WriterWrapper extends Writer
     {
-        private PrintStream stream;
-        private Charset charset;
+        private final PrintStream stream;
+        private final Charset charset;
 
-        public WriterWrapper( PrintStream ps )
+        public WriterWrapper( final PrintStream ps )
         {
             this( ps, Charset.defaultCharset() );
         }
 
-        public WriterWrapper( PrintStream ps, Charset charset )
+        public WriterWrapper( final PrintStream ps, final Charset charset )
         {
             this.stream  = ps;
             this.charset = charset;
@@ -119,10 +106,10 @@ public class DefaultDirectoryFilterTest
         }
 
         @Override
-        public void write(char[] charbuf, int off, int len) throws IOException
+        public void write(final char[] charbuf, final int off, final int len) throws IOException
         {
-            ByteBuffer bb  = charset.encode( new String( charbuf ) );
-            byte[]     buf = bb.array();
+            final ByteBuffer bb  = this.charset.encode( new String( charbuf ) );
+            final byte[]     buf = bb.array();
 
             this.stream.write(buf, off, len);
         }

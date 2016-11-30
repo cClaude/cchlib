@@ -85,6 +85,7 @@ public final class FolderTreeModel
                 hiddenRoot.add( newRoot );
                 }
             else {
+                // Hum, ...
                 }
             }
 

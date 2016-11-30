@@ -1,12 +1,10 @@
 package com.googlecode.cchlib.io;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.Threads;
 
@@ -14,11 +12,6 @@ public class CloneInputStreamThreadTest
 {
     private static final int BUFFER_SIZE = 16;
     private static final Logger LOGGER = Logger.getLogger( CloneInputStreamThreadTest.class );
-
-    @Before
-    public void setup() throws FileNotFoundException
-    {
-    }
 
     @Test
     @Deprecated
