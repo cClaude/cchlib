@@ -30,36 +30,33 @@ public class LasyJFCCustomizer extends DefaultJFCCustomizer
 
     /**
      * NEEDDOC
-     * @param configurator
+     * @param configurator NEEDDOC
      */
     public LasyJFCCustomizer(
         final LastSelectedFilesAccessoryConfigurator configurator
         )
     {
-        this( configurator, JFileChooser.FILES_ONLY, false );
+        this( configurator, FileSelectionMode.FILES_ONLY, false );
     }
 
     /**
      * NEEDDOC
-     * @param configurator
-     * @param fileSelectionMode
-     * @param isMultiSelectionEnabled
+     * @param configurator NEEDDOC
+     * @param fileSelectionMode NEEDDOC
+     * @param multiSelectionEnabled NEEDDOC
      */
     public LasyJFCCustomizer(
         final LastSelectedFilesAccessoryConfigurator configurator,
-        final int fileSelectionMode,
-        final boolean isMultiSelectionEnabled
+        final FileSelectionMode                      fileSelectionMode,
+        final boolean                                multiSelectionEnabled
         )
     {
         this.lSFAConf = configurator;
 
         setFileSelectionMode( fileSelectionMode );
-        setMultiSelectionEnabled( isMultiSelectionEnabled );
+        setMultiSelectionEnabled( multiSelectionEnabled );
     }
 
-    /**
-     *
-     */
     @Override
     public void perfomeConfig( final JFileChooser jfc )
     {

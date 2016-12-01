@@ -25,6 +25,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.swing.filechooser.FileSelectionMode;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.LasyJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
@@ -35,18 +36,20 @@ import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
  *
  */
 @I18nName("RemoveEmptyDirectoriesPanel")
-public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOfFields
+@SuppressWarnings({"squid:MaximumInheritanceDepth"})
+public class RemoveEmptyDirectoriesPanel
     extends RemoveEmptyDirectoriesPanelWB
         implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( RemoveEmptyDirectoriesPanel.class );
 
-    private ActionListener actionListener;
+    private transient ActionListener    actionListener;
+    private transient FindDeleteAdapter findDeleteAdapter;
+
     private final AppToolKit dfToolKit;
     private final Window mainWindow;
     private FolderTreeModelable1 treeModel;
-    private FindDeleteAdapter findDeleteAdapter;
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
 
     @I18nString private String jFileChooserInitializerMessage;
@@ -77,11 +80,11 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
     private void beSurNonFinal()
     {
         this.jFileChooserInitializerMessage    = "Analyze disk structure";
-        this.jFileChooserInitializerTitle     = "Waiting...";
-        this.txtProgressBarComputing = "Computing...";
-        this.txtSelectDirToScan = "Select directory to scan";
-        this.txtProgressBarScanCancel = "Scan canceled !";
-        this.txtProgressBarSelectFileToDelete = "Select file to delete";
+        this.jFileChooserInitializerTitle      = "Waiting...";
+        this.txtProgressBarComputing           = "Computing...";
+        this.txtSelectDirToScan                = "Select directory to scan";
+        this.txtProgressBarScanCancel          = "Scan canceled !";
+        this.txtProgressBarSelectFileToDelete  = "Select file to delete";
         this.txtProgressBarDeleteSelectedFiles = "Delete selected files";
     }
 
@@ -95,39 +98,49 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
 
         initListRootDirectories();
 
-        // Init Adapter
-        final FindDeleteListener findDeleteListener = (final boolean isCancel) -> {
-            LOGGER.info( "find thread done" );
-            // Bad workaround !!!!
-            // TODO: find a better solution to expand tree
-            // during build.
-
-            this.treeModel.expandAllRows();
-
-            enable_findTaskDone();
-
-            final JProgressBar pBar = getProgressBar();
-
-            pBar.setIndeterminate( false );
-
-            if( isCancel ) {
-                pBar.setString( this.txtProgressBarScanCancel );
-            }
-            else {
-                pBar.setString( this.txtProgressBarSelectFileToDelete );
-            }
-        };
-
-        this.findDeleteAdapter = new FindDeleteAdapter(
-                getJListRootDirectoriesModel(),
-                this.treeModel,
-                findDeleteListener
-                );
 
         // Prepare (in background) JFileChooser (avoid waiting under windows)
         getWaitingJFileChooserInitializer();
 
         LOGGER.info( "init() done" );
+    }
+
+    private FindDeleteAdapter getFindDeleteAdapter()
+    {
+        if( this.findDeleteAdapter == null ) {
+            // Init Adapter
+            final FindDeleteListener findDeleteListener = this::findTaskDoneFindDeleteListener;
+
+            this.findDeleteAdapter = new FindDeleteAdapter(
+                    getJListRootDirectoriesModel(),
+                    this.treeModel,
+                    findDeleteListener
+                    );
+        }
+
+        return this.findDeleteAdapter;
+    }
+    protected void findTaskDoneFindDeleteListener( final boolean isCancel )
+    {
+        LOGGER.info( "find thread done" );
+        // Bad workaround !!!!
+        // TODO: find a better solution to expand tree
+        // during build.
+
+        this.treeModel.expandAllRows();
+
+        enable_findTaskDone();
+
+        final JProgressBar pBar = getProgressBar();
+
+        pBar.setIndeterminate( false );
+
+        if( isCancel ) {
+            pBar.setString( this.txtProgressBarScanCancel );
+        }
+        else {
+            pBar.setString( this.txtProgressBarSelectFileToDelete );
+        }
     }
 
     private void initListRootDirectories()
@@ -221,7 +234,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         LOGGER.info( "onCancel()" );
 
         if( super.getBtnCancel().isEnabled() ) {
-            this.findDeleteAdapter.cancel();
+            getFindDeleteAdapter().cancel();
             LOGGER.info( "Cancel!" );
             }
     }
@@ -253,54 +266,60 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         LOGGER.info( "onStartDelete()" );
 
         if( super.getBtnStartDelete().isEnabled() ) {
-            final Runnable task = this::startDelete;
-            new Thread( task, "onStartDelete()" ).start();
-            // NOTE: do not use of SwingUtilities.invokeLater( task );
+            // NOTE: do not use of SwingUtilities.invokeLater( task )
+            new Thread( this::startDelete, "onStartDelete()" ).start();
         }
     }
     @Override
     protected ActionListener getActionListener()
     {
         if( this.actionListener == null ) {
-            this.actionListener = (final ActionEvent event) -> {
-                final String cmd = event.getActionCommand();
-                if (null != cmd) {
-                    switch (cmd) {
-                        case ACTION_IMPORT_DIRS:
-                            onImportDirectories();
-                            break;
-                        case ACTION_ADD_DIRS:
-                            onAddRootDirectory();
-                            break;
-                        case ACTION_REMOVE_DIR:
-                            onRemoveRootDirectory();
-                            break;
-                        case ACTION_FIND_EMPTY_DIRS:
-                            onFindEmptyDirectories();
-                            break;
-                        case ACTION_CANCEL:
-                            onCancel();
-                            break;
-                        case ACTION_SELECT_ALL_SELECTABLE_NODES:
-                            onSelectAll( false );
-                            break;
-                        case ACTION_SELECT_ALL_LEAFONLY:
-                            onSelectAll( true );
-                            break;
-                        case ACTION_UNSELECT_ALL:
-                            onUnselectAll();
-                            break;
-                        case ACTION_START_REMDIRS:
-                            onStartDelete();
-                            break;
-                        default:
-                            LOGGER.warn( "Action not handled : " + cmd );
-                            break;
-                    }
-                }
-            };
+            this.actionListener = this::actionPerformedActionListener;
         }
         return this.actionListener;
+    }
+
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
+    private void actionPerformedActionListener( final ActionEvent event )
+    {
+        final String cmd = event.getActionCommand();
+
+        if( cmd == null ) {
+            return;
+        }
+
+        switch( cmd ) {
+            case ACTION_IMPORT_DIRS:
+                onImportDirectories();
+                break;
+            case ACTION_ADD_DIRS:
+                onAddRootDirectory();
+                break;
+            case ACTION_REMOVE_DIR:
+                onRemoveRootDirectory();
+                break;
+            case ACTION_FIND_EMPTY_DIRS:
+                onFindEmptyDirectories();
+                break;
+            case ACTION_CANCEL:
+                onCancel();
+                break;
+            case ACTION_SELECT_ALL_SELECTABLE_NODES:
+                onSelectAll( false );
+                break;
+            case ACTION_SELECT_ALL_LEAFONLY:
+                onSelectAll( true );
+                break;
+            case ACTION_UNSELECT_ALL:
+                onUnselectAll();
+                break;
+            case ACTION_START_REMDIRS:
+                onStartDelete();
+                break;
+            default:
+                LOGGER.warn( "Action not handled : " + cmd );
+                break;
+        }
     }
 
     private void onAddRootDirectory()
@@ -391,7 +410,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         if( this.waitingJFileChooserInitializer == null ) {
             final JFileChooserInitializerCustomize configurator
                 = new LasyJFCCustomizer()
-                    .setFileSelectionMode( JFileChooser.DIRECTORIES_ONLY );
+                    .setFileSelectionMode( FileSelectionMode.DIRECTORIES_ONLY );
 
             this.waitingJFileChooserInitializer = new WaitingJFileChooserInitializer(
                     configurator,
@@ -406,9 +425,7 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
 
     private JFileChooser getJFileChooser()
     {
-        final JFileChooser jfc = getWaitingJFileChooserInitializer().getJFileChooser();
-
-        return jfc;
+        return getWaitingJFileChooserInitializer().getJFileChooser();
     }
 
     private void findBegin()
@@ -421,14 +438,13 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
 
         enable_findBegin();
 
-        final Runnable doRun = this.findDeleteAdapter::doFind;
-
-        // KO Lock UI doRun.run();
-        // KO Lock UI SwingUtilities.invokeAndWait( doRun );
-        // KO Lock UI SwingUtilities.invokeLater( doRun );
-        new Thread( doRun, "findBegin()" ).start();
+        // KO Lock UI task.run()
+        // KO Lock UI SwingUtilities.invokeAndWait( task )
+        // KO Lock UI SwingUtilities.invokeLater( task )
+        new Thread( getFindDeleteAdapter()::doFind, "findBegin()" ).start();
     }
 
+    @SuppressWarnings("squid:UnusedPrivateMethod") // called in onStartDelete()
     private void startDelete()
     {
         LOGGER.info( "DELETE Thread started" );
@@ -441,28 +457,28 @@ public class RemoveEmptyDirectoriesPanel // $codepro.audit.disable largeNumberOf
         pBar.setString( this.txtProgressBarDeleteSelectedFiles );
         pBar.setIndeterminate( true );
 
-        new Thread( () -> {
-            try {
-                this.findDeleteAdapter.doDelete();
-            }
-            catch( final Exception e ) {
-                LOGGER.warn( "doDelete()", e );
-            }
-            catch( final Error e ) {
-                LOGGER.fatal( "doDelete()", e );
-            }
-            finally {
-                getBtnStartDelete().setEnabled( true );
+        new Thread( () -> runDelete( pBar ), "startDelete()").start();
+    }
 
-                getBtnCancel().setEnabled( false );
-                getJTreeEmptyDirectories().setEditable( true );
-                pBar.setIndeterminate( false );
+    private void runDelete( final JProgressBar pBar )
+    {
+        try {
+            getFindDeleteAdapter().doDelete();
+        }
+        catch( final Exception e ) {
+            LOGGER.warn( "doDelete()", e );
+        }
+        finally {
+            getBtnStartDelete().setEnabled( true );
 
-                findBegin();
-            }
+            getBtnCancel().setEnabled( false );
+            getJTreeEmptyDirectories().setEditable( true );
+            pBar.setIndeterminate( false );
 
-            LOGGER.info( "DELETE Thread done" );
-        }, "startDelete()").start();
+            findBegin();
+        }
+
+        LOGGER.info( "DELETE Thread done" );
     }
 
     @Override//I18nAutoUpdatable

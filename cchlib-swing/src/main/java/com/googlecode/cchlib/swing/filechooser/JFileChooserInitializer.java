@@ -2,8 +2,8 @@ package com.googlecode.cchlib.swing.filechooser;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.EnumSet;
 import java.util.EventObject;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,10 +19,10 @@ import org.apache.log4j.Logger;
  * This class try to use Tread for creating JFileChooser
  * in background,
  */
-public class JFileChooserInitializer
-    implements Serializable
+public class JFileChooserInitializer implements Serializable
 {
     private static final long serialVersionUID = 2L;
+
     private static final Logger LOGGER = Logger.getLogger(JFileChooserInitializer.class);
 
     /** @serial */
@@ -69,7 +69,7 @@ public class JFileChooserInitializer
 //         * TO DO: doc
 //         */
         //doNotSetFileSystemView
-        };
+        }
 
     /**
      * Define CurrentDirectory
@@ -102,35 +102,38 @@ public class JFileChooserInitializer
     /**
      * Build a {@link JFileChooser} using {@link DefaultJFCCustomizer}
      *
-     * @param currentDirectory
-     * @param fileFilter
-     * @param attribSet
+     * @param currentDirectory Current directory for {@link JFileChooser}
+     * @param fileFilter file filter for {@link JFileChooser}
+     * @param attributes attributes for {@link JFileChooser}
      */
     public JFileChooserInitializer(
-            final File              currentDirectory,
-            final FileFilter        fileFilter,
-            @Nullable final EnumSet<Attrib>   attribSet
+            final File        currentDirectory,
+            final FileFilter  fileFilter,
+            @Nullable
+            final Set<Attrib> attributes
             )
     {
         this(
-                new DefaultJFCCustomizer( attribSet )
-                    .setCurrentDirectory( currentDirectory )
-                    .setFileFilter( fileFilter )
-                );
+            new DefaultJFCCustomizer( attributes )
+                .setCurrentDirectory( currentDirectory )
+                .setFileFilter( fileFilter )
+            );
     }
 
     /**
      * Build a {@link JFileChooser} using
      * {@link JFileChooserInitializerCustomize}
      *
-     * @param configurator JFileChooserInitializerCustomize object
-     * to use to build custom initialization.
-     * @throws NullPointerException if configurator is null
+     * @param configurator
+     *            JFileChooserInitializerCustomize object to use to
+     *            build custom initialization.
+     * @throws NullPointerException
+     *             if {@code configurator} is null
      */
     public JFileChooserInitializer(
-        @Nonnull final JFileChooserInitializerCustomize configurator
+        @Nonnull
+        final JFileChooserInitializerCustomize configurator
         )
-    throws NullPointerException
     {
         this.configurator = configurator;
 
@@ -187,6 +190,7 @@ public class JFileChooserInitializer
      * the fire method.
      * @since 4.1.6
      */
+    @SuppressWarnings("squid:S1066")
     protected void fireJFileChooserInitializerJFileChooserReady()
     {
         JFileChooserInitializerEvent event = null;
@@ -214,6 +218,7 @@ public class JFileChooserInitializer
      * the fire method.
      * @since 4.1.6
      */
+    @SuppressWarnings("squid:S1066")
     protected void fireJFileChooserInitializerJFileChooserInitializationError()
     {
         JFileChooserInitializerEvent event = null;
@@ -245,6 +250,7 @@ public class JFileChooserInitializer
 
     /**
      * @param attemptDelay the attemptDelay to set
+     * @return this object for chaining initialization
      * @since 4.1.6
      */
     public JFileChooserInitializer setAttemptDelay( final int attemptDelay )
@@ -265,6 +271,7 @@ public class JFileChooserInitializer
 
     /**
      * @param attemptMax the attemptMax to set
+     * @return this object for chaining initialization
      * @since 4.1.6
      */
     public JFileChooserInitializer setAttemptMax( final int attemptMax )
@@ -287,6 +294,7 @@ public class JFileChooserInitializer
      * @throws JFileChooserInitializerException if can not return JFileChooser according
      * to delay
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1066"})
     public JFileChooser getJFileChooser() throws JFileChooserInitializerException
     {
         if( this.jFileChooser == null ) {
@@ -299,7 +307,9 @@ public class JFileChooserInitializer
                 try {
                     TimeUnit.MILLISECONDS.sleep( this.attemptDelay ); // default: 500
                     }
-                catch( final InterruptedException ignore ) { // $codepro.audit.disable logExceptions, emptyCatchClause
+                catch( final InterruptedException ignore ) {
+                    LOGGER.debug( "Interrupted", ignore );
+                    Thread.currentThread().interrupt();
                     }
 
                 count++;
@@ -321,48 +331,50 @@ public class JFileChooserInitializer
     {
         if(!this.init0Lauched ) {
             this.init0Lauched = true;
-            init0();
+            doInit();
             }
     }
 
     /**
      * Launch initialization in background.
      */
-    private void init0()
+    private void doInit()
     {
         if( this.jFileChooser == null ) {
-            final Runnable r = ( ) -> {
-                try {
-                    final JFileChooser jfc = new JFileChooser();
-
-                    synchronized( this.lock ) {
-                        if( JFileChooserInitializer.this.jFileChooser != null ) {
-                            // JFileChooser initialization error
-                            final String msg = "JFileChooser initialization error";
-
-                            System.err.println( msg );
-
-                            fireJFileChooserInitializerJFileChooserInitializationError();
-
-                            // Synchronization exception
-                            throw new RuntimeException( msg );
-                            }
-
-                        JFileChooserInitializer.this.configurator.perfomeConfig( jfc );
-
-                        JFileChooserInitializer.this.jFileChooser = jfc;
-                    }
-
-                    fireJFileChooserInitializerJFileChooserReady();
-                } catch( final Throwable e ) {
-                    LOGGER.fatal("JFileChooserInitializer.init0()",e);
-                }
-            };
-
-            // WARN: SwingUtilities.invokeLater( r );
+            // WARN: SwingUtilities.invokeLater( r )
             // Should not use event thread to not look UI during initialization
             // Use simple thread instead.
-            new Thread( r, "JFileChooserInitializer.init0()" ).start();
+            new Thread( this::doInitRun, "JFileChooserInitializer.init0()" ).start();
+        }
+    }
+
+    @SuppressWarnings("squid:UnusedPrivateMethod") // Is used
+    private void doInitRun()
+    {
+        try {
+            final JFileChooser jfc = new JFileChooser();
+
+            synchronized( this.lock ) {
+                if( JFileChooserInitializer.this.jFileChooser != null ) {
+                    // JFileChooser initialization error
+                    final String msg = "JFileChooser initialization error";
+
+                    System.err.println( msg );
+
+                    fireJFileChooserInitializerJFileChooserInitializationError();
+
+                    // Synchronization exception
+                    throw new JFileChooserInitializerException( msg );
+                    }
+
+                JFileChooserInitializer.this.configurator.perfomeConfig( jfc );
+
+                JFileChooserInitializer.this.jFileChooser = jfc;
+            }
+
+            fireJFileChooserInitializerJFileChooserReady();
+        } catch( final Exception e ) {
+            LOGGER.fatal( "JFileChooserInitializer.init0()", e );
         }
     }
 
@@ -370,7 +382,8 @@ public class JFileChooserInitializer
      * Default implementation of JFileChooserInitializerEvent
      * @since 4.1.6
      */
-    class DefaultJFileChooserInitializerEvent
+    // Not static
+    private class DefaultJFileChooserInitializerEvent
         extends EventObject
             implements JFileChooserInitializerEvent
     {
