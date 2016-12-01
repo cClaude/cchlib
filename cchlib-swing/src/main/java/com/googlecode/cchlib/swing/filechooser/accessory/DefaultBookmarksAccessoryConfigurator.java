@@ -17,8 +17,7 @@ import java.util.logging.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
 
 /**
- * Provide a basic implementation for
- * {@link BookmarksAccessory.LastSelectedFilesAccessoryConfigurator}
+ * Provide a basic implementation for{@link LastSelectedFilesAccessoryConfigurator}
  * based on {@link Properties}
  */
 public class DefaultBookmarksAccessoryConfigurator
@@ -47,11 +46,13 @@ public class DefaultBookmarksAccessoryConfigurator
     }
 
     /**
-     * Create a BookmarksAccessoryDefaultConfigurator based
-     * on giving properties file.
+     * Create a BookmarksAccessoryDefaultConfigurator based on
+     * giving properties file.
      *
-     * @param configFileProperties File to use as input/output
-     * properties
+     * @param configFileProperties
+     *            File to use as input/output properties
+     * @param keysPropertyPrefix
+     *            Key prefix for properties names
      */
     public DefaultBookmarksAccessoryConfigurator(
         final File   configFileProperties,
@@ -67,7 +68,7 @@ public class DefaultBookmarksAccessoryConfigurator
 
     private static File getDefaultConfigFilePropertiesFile()
     {
-        final File userHomeDirFile = new File( System.getProperty("user.home") );
+        final File userHomeDirFile = new File( System.getProperty( "user.home" ) );
         final File defaultConfigFilePropertiesFile = new File(
                 userHomeDirFile,
                 '.' + DefaultBookmarksAccessoryConfigurator.class.getName()
@@ -152,7 +153,7 @@ public class DefaultBookmarksAccessoryConfigurator
     {
         final Properties      properties  = loadProperties();
         final StringBuilder   sb          = new StringBuilder();
-        int             i           = 0;
+        int                   i           = 0;
 
         for( final File f : this.bookmarks ) {
             sb.setLength( 0 );

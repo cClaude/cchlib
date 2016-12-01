@@ -1,34 +1,33 @@
 package com.googlecode.cchlib.swing.filechooser;
 
 import java.io.File;
-import javax.swing.filechooser.FileFilter;
 
 /**
- * <p>
- * An implementation of FileFilter that filters using
+ * <p>An implementation of FileFilter that filters using
  * a specified set of extensions. The extension for a
  * file is the portion of the file name after the last ".".
  * Files whose name does not contain a "." have no file
  * name extension. File name extension comparisons are
  * case insensitive.
- * </p>
- * <p>
- * The following example creates a FileNameExtensionFilter
+ *
+ * <p>The following example creates a FileNameExtensionFilter
  * that will show jpg files:
- * </p>
- * <code>
+ *
+ * <pre>
  * FileFilter filter = new FileNameExtensionFilter("JPEG file", "jpg", "jpeg");
  * JFileChooser fileChooser = ...;
  * fileChooser.addChoosableFileFilter(filter);
- * </code>
+ * </pre>
  *
  * Same has {@link javax.swing.filechooser.FileNameExtensionFilter}
- * witch is only available since Java 1.6
+ * witch is only available since Java 1.6 and witch is not serializable
  */
-public class FileNameExtensionFilter extends FileFilter
+public class FileNameExtensionFilter extends SwingFileFilter
 {
-    private String   description;
-    private String[] extensions;
+    private static final long serialVersionUID = 1L;
+
+    private final String   description;
+    private final String[] extensions;
 
     /**
      * Creates a FileNameExtensionFilter with the
@@ -37,7 +36,7 @@ public class FileNameExtensionFilter extends FileFilter
      * @param description
      * @param extension
      */
-    public FileNameExtensionFilter( String description, String extension )
+    public FileNameExtensionFilter( final String description, final String extension )
     {
         this.description    = description;
         this.extensions     = new String[1];
@@ -52,7 +51,7 @@ public class FileNameExtensionFilter extends FileFilter
      * @param extensions
      * (need Java 1.5)
      */
-    public FileNameExtensionFilter( String description, String...extensions )
+    public FileNameExtensionFilter( final String description, final String...extensions )
     {
         this.description = description;
         this.extensions  = new String[extensions.length];
@@ -71,7 +70,7 @@ public class FileNameExtensionFilter extends FileFilter
 
         final String lowerCaseName = file.getName().toLowerCase();
 
-        for( String s : this.extensions ) {
+        for( final String s : this.extensions ) {
             if( lowerCaseName.endsWith( '.' + s ) ) {
                 return true;
                 }

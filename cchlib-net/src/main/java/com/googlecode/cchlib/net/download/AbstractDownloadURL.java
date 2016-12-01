@@ -21,10 +21,11 @@ import org.apache.log4j.Logger;
  *
  * @since 4.1.7
  */
-public abstract class AbstractDownloadURL // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.doNotImplementSerializable
+public abstract class AbstractDownloadURL
     implements DownloadURL, Serializable
 {
     private static final long serialVersionUID = 4L;
+
     private static final Logger LOGGER = Logger.getLogger( AbstractDownloadURL.class );
 
     private       URI                uri;
@@ -35,20 +36,24 @@ public abstract class AbstractDownloadURL // $codepro.audit.disable com.instanti
     /**
      * Create an AbstractDownloadURL using giving {@link URL}
      *
-     * @param url                   {@link URL} for this AbstractDownloadURL
-     * @param requestPropertyMap    A {@link Map} of request properties to put
-     *                              on {@link URLConnection} (could be null)
-     * @param proxy                 {@link Proxy} to use for download (could be null)
+     * @param url
+     *            {@link URL} for this AbstractDownloadURL
+     * @param requestPropertyMap
+     *            A {@link Map} of request properties to put
+     *            on {@link URLConnection} (could be null)
+     * @param proxy
+     *            {@link Proxy} to use for download (could be null)
      *
-     * @throws NullPointerException if url is null
+     * @throws NullPointerException
+     *             if url is null
      */
     public AbstractDownloadURL(
         final URL                   url,
         final Map<String,String>    requestPropertyMap,
         final Proxy                 proxy
-        ) throws URISyntaxException // $codepro.audit.disable unnecessaryExceptions
+        ) throws URISyntaxException
     {
-        setURL( url );
+        setURI( url );
 
         this.requestPropertyMap = requestPropertyMap;
         this.proxy              = proxy;
@@ -57,15 +62,20 @@ public abstract class AbstractDownloadURL // $codepro.audit.disable com.instanti
     /**
      * Create an AbstractDownloadURL using giving {@link URI}
      *
-     * @param uri                   {@link URI} for this AbstractDownloadURL,
-     *                              must be absolute
-     * @param requestPropertyMap    A {@link Map} of request properties to put
-     *                              on {@link URLConnection} (could be null)
-     * @param proxy                 {@link Proxy} to use for download (could be null)
-     * @throws IllegalArgumentException If this URL is not absolute
-     * @throws MalformedURLException    If a protocol handler for
-     *         the URL could not be found, or if some other error
-     *         occurred while constructing the URL
+     * @param uri
+     *            {@link URI} for this AbstractDownloadURL,
+     *            must be absolute
+     * @param requestPropertyMap
+     *            A {@link Map} of request properties to put on
+     *            {@link URLConnection} (could be null)
+     * @param proxy
+     *            {@link Proxy} to use for download (could be null)
+     * @throws IllegalArgumentException
+     *             If this URL is not absolute
+     * @throws MalformedURLException
+     *             If a protocol handler for the URL could not be
+     *             found, or if some other error occurred while
+     *             constructing the URL
      */
     public AbstractDownloadURL(
         final URI                   uri,
@@ -83,10 +93,24 @@ public abstract class AbstractDownloadURL // $codepro.audit.disable com.instanti
      * Set the url.
      *
      * @param url {@link URL} to set
-     * @throws URISyntaxException
-     * @throws NullPointerException if url is null
+     * @throws NullPointerException if {@code url} is null
+     * @throws URISyntaxException if {@code url} is not valid
+     * @deprecated Use {@link #setURI(URL)} instead
      */
+    @Deprecated
     protected final void setURL( final URL url ) throws URISyntaxException
+    {
+        setURI( url );
+    }
+
+    /**
+     * Set the internal {@code uri}.
+     *
+     * @param url {@link URL} to set
+     * @throws NullPointerException if {@code url} is null
+     * @throws URISyntaxException if {@code url} is not valid
+     */
+    protected final void setURI( final URL url ) throws URISyntaxException
     {
         if( url == null ) {
             throw new NullPointerException();
@@ -129,8 +153,10 @@ public abstract class AbstractDownloadURL // $codepro.audit.disable com.instanti
     /**
      * Returns {@link URLConnection} for this {@link DownloadURL}
      * using {@link Proxy} if one is define
+     *
      * @return {@link URLConnection} for this {@link DownloadURL}
-     * @throws IOException if any
+     * @throws IOException
+     *             if any
      */
     protected URLConnection getURLConnection() throws IOException
     {
@@ -170,7 +196,6 @@ public abstract class AbstractDownloadURL // $codepro.audit.disable com.instanti
 
         return uc.getInputStream();
     }
-
 
     private void writeObject( final ObjectOutputStream stream ) throws IOException
     {

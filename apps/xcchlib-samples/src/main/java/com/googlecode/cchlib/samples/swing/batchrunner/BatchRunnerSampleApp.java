@@ -78,6 +78,8 @@ public class BatchRunnerSampleApp extends JPanel
 
     private class Task extends AbstractBRRunnable
     {
+        private static final long serialVersionUID = 1L;
+
         @Override
         public void initializeBath( final File destinationFolderFile )
         {

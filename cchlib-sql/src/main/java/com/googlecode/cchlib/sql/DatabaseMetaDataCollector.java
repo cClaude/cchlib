@@ -88,6 +88,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
     /**
      * Returns {@link Map} of methods/results
+     * @return {@link Map} of methods/results
      */
     @Override
     public Map<String,String> toMap()
@@ -121,9 +122,11 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
 
     /**
      * Returns list of table name for current schema
+     *
      * @param tableTypes
      * @return list of table name for current schema
-     * @throws SQLException if a database access error occurs
+     * @throws SQLException
+     *             if a database access error occurs
      */
     public List<String> getTableList(final String...tableTypes)
         throws SQLException
@@ -162,12 +165,13 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     }
 
     /**
-     * Wrapper for {@link DatabaseMetaData#getTableTypes()}
-     * Retrieves the table types available in this database. The results are ordered
+     * Wrapper for {@link DatabaseMetaData#getTableTypes()} Retrieves the
+     * table types available in this database. The results are ordered
      * by table type.
      *
      * @return a List of string that is a table type
-     * @throws SQLException if any
+     * @throws SQLException
+     *             if any
      */
     public List<String> getTableTypes() throws SQLException
     {
@@ -194,14 +198,16 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
         return contentList;
     }
     /**
-     * Returns a Map of tables names associate to a List of columns names for current schema
+     * Returns a Map of tables names associate to a List of columns names
+     * for current schema
      *
      * @param tableTypes
      *      a list of table types, which must be from the list of table types
      *      returned from {@link DatabaseMetaData#getTableTypes()} or
      *      {@link #getTableTypes()},to include; null returns all types
      * @return
-     *      a Map of tables names associate to a List of columns names for current schema
+     *      a Map of tables names associate to a List of columns names for
+     *      current schema
      * @throws
      *      SQLException if a database access error occurs
      */

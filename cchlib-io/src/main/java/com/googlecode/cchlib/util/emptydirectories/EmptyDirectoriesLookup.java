@@ -17,17 +17,17 @@ public interface EmptyDirectoriesLookup<FILTER>
      * Clear previous list and compute current list of empty directories
      * (should be call at least once)
      *
-     * @throws CancelRequestException
-     * @throws ScanIOException
+     * @throws CancelRequestException if user what to cancel process
      */
     void lookup() throws CancelRequestException;
 
     /**
      * Clear previous list and compute current list of empty directories
      *
-     * @param filter {@link Filter} to identify directories <b>to exclude</b>.
+     * @param filter
+     *            {@link Filter} to identify directories <b>to exclude</b>.
      * @throws CancelRequestException
-     * @throws ScanIOException
+     *             if user what to cancel process
      */
     void lookup( FILTER filter ) throws CancelRequestException;
 

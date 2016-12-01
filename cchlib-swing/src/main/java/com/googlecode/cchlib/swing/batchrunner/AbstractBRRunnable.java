@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class AbstractBRRunnable implements BRRunnable
 {
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( AbstractBRRunnable.class );
 
     private File destinationFolderFile;
@@ -20,7 +21,7 @@ public abstract class AbstractBRRunnable implements BRRunnable
      */
     protected File getDestinationFolderFile()
     {
-        return destinationFolderFile;
+        return this.destinationFolderFile;
     }
 
     /**
@@ -28,7 +29,7 @@ public abstract class AbstractBRRunnable implements BRRunnable
      *
      * @param destinationFolderFile the destinationFolderFile to set
      */
-    protected void setDestinationFolderFile( File destinationFolderFile )
+    protected void setDestinationFolderFile( final File destinationFolderFile )
     {
         this.destinationFolderFile = destinationFolderFile;
     }
@@ -53,14 +54,14 @@ public abstract class AbstractBRRunnable implements BRRunnable
      * @param sourceFile Current sourceFile, must be a file (not a directory)
      */
     @Override
-    public File buildOutputFile( File sourceFile )
+    public File buildOutputFile( final File sourceFile )
             throws BRInterruptedException
     {
         assert sourceFile.isFile();
         assert getDestinationFolderFile() != null;
 
-        String name       = sourceFile.getName();
-        File   outputFile = new File( getDestinationFolderFile(), name );
+        final String name       = sourceFile.getName();
+        final File   outputFile = new File( getDestinationFolderFile(), name );
 
         LOGGER.info( "buildOutputFile( " + sourceFile + " ) ==> " + outputFile );
 
@@ -71,7 +72,7 @@ public abstract class AbstractBRRunnable implements BRRunnable
      * Do nothing.
      */
     @Override
-    public void finalizeBath( boolean isCancelled )
+    public void finalizeBath( final boolean isCancelled )
     {
         LOGGER.info( "finalizeBath( " + isCancelled + " );" );
     }

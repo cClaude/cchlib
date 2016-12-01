@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.swing.combobox;
 
 import java.awt.event.ItemEvent;
+import java.io.Serializable;
 import java.util.List;
 import javax.swing.ComboBoxEditor;
 import javax.swing.DefaultComboBoxModel;
@@ -10,13 +11,17 @@ import com.googlecode.cchlib.swing.AutoComplete;
 
 /**
  * NEEDDOC
- *
  */
 public class AutoCompleteComboBox extends JComboBox<String> implements AutoComplete
 {
     private static final long serialVersionUID = 1L;
-    private class AutoCompleteFieldEditor extends BasicComboBoxEditor implements ComboBoxEditor
+
+    private class AutoCompleteFieldEditor
+        extends BasicComboBoxEditor
+            implements ComboBoxEditor, Serializable
     {
+        private static final long serialVersionUID = 1L;
+
         AutoCompleteFieldEditor( final List<String> list )
         {
             this.editor = new HiddenAutoCompleteTextField( list, AutoCompleteComboBox.this );
@@ -32,9 +37,9 @@ public class AutoCompleteComboBox extends JComboBox<String> implements AutoCompl
     private boolean isFired;
 
     /**
-     * NEEDDOC
+     * Initialize {@link AutoCompleteComboBox}
      *
-     * @param list
+     * @param list List of possible values
      */
     public AutoCompleteComboBox( final List<String> list )
     {

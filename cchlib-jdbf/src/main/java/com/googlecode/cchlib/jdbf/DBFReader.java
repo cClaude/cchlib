@@ -14,17 +14,17 @@ import java.util.Map;
  *
  * This Class is used to read data from a DBF file. Meta data and
  * records can be queried against this document.
- * <p>
- * DBFReader cannot write anything to a DBF file. For creating DBF
+ *
+ * <p>DBFReader cannot write anything to a DBF file. For creating DBF
  * files use DBFWriter.
- * <p>
- * Fetching record is possible only in the forward direction
+ *
+ * <p>Fetching record is possible only in the forward direction
  * and cannot re-wound. In such situation, a suggested approach
  * is to reconstruct the object.
- * <p>
- * The nextRecord() method returns an array of Objects and the
+ *
+ * <p>The nextRecord() method returns an array of Objects and the
  * types of these Object are as follows:
- * <p>
+ *
  * <table summary="xBase vs Java types">
  * <tr><th>xBase Type</th><th>Java Type</th></tr>
  * <tr><td>C</td><td>String</td></tr>
@@ -173,13 +173,17 @@ public class DBFReader extends DBFBase
     }
 
     /**
-     * Returns the asked field. In case of an invalid index,
-     * it returns a ArrayIndexOutofboundsException.
+     * Returns the asked field. In case of an invalid index, it returns
+     * a ArrayIndexOutofboundsException.
      *
-     * @param index Index of the field. Index of the first field is zero.
+     * @param index
+     *            Index of the field. Index of the first field is zero.
      * @return the asked field
-     * @throws ArrayIndexOutofboundsException if index in not in range.
-    */
+     * @throws ArrayIndexOutOfBoundsException
+     *             if index in not in range.
+     * @throws DBFException
+     *              if file is not open
+     */
     public DBFField getField( final int index ) throws DBFException
     {
         if( this.isClosed ) {
@@ -191,7 +195,10 @@ public class DBFReader extends DBFBase
 
     /**
      * Returns the number of field in the DBF.
+     *
      * @return the number of field in the DBF.
+     * @throws DBFException
+     *             if file is not open
      */
     public int getFieldCount()
         throws DBFException
@@ -208,9 +215,12 @@ public class DBFReader extends DBFBase
 
     /**
      * Returns column number for giving columnName
-     * @param columnName Column name to retrieve
+     *
+     * @param columnName
+     *            Column name to retrieve
      * @return column number for giving columnName
-     * @throws DBFUnknownFieldNameException if columnName is not found
+     * @throws DBFUnknownFieldNameException
+     *             if columnName is not found
      */
     public int getColumnNumber( final String columnName )
         throws DBFUnknownFieldNameException
@@ -242,11 +252,13 @@ public class DBFReader extends DBFBase
 
         return new DBFRecordImpl( this, entries );
     }
+
     /**
      * Reads the returns the next row in the DBF stream.
      *
      * @returns The next row as an Object array. Types of the elements
-     * these arrays follow the convention mentioned in the class description.
+     *          these arrays follow the convention mentioned in
+     *          the class description.
      */
     @SuppressWarnings({
         "squid:S1168", // null is EOF

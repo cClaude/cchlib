@@ -1,46 +1,39 @@
-/************************************************************************************
- *                                                                                  *
- *                                                                                  *
- ************************************************************************************/
 package cx.ath.choisnet.swing.introspection;
 
 import java.lang.reflect.Method;
 
-/**
- * @author CC
- *
- */
 public class SwingIntrospectorIllegalArgumentException
     extends SwingIntrospectorException
 {
     private static final long serialVersionUID = 1L;
     /** @serial */
-    private Method method; // NOT SERIALISABLE
+    private final String methodString;
 
     /**
+     * NEEDDOC
      *
-     * @param method
-     * @param value
-     * @param cause
+     * @param method NEEDDOC
+     * @param value NEEDDOC
+     * @param cause NEEDDOC
      */
     public SwingIntrospectorIllegalArgumentException(
-            Method method,
-            Object value,
-            Throwable cause
+            final Method method,
+            final Object value,
+            final Throwable cause
             )
     {
         super( "Error with value [" + value + "] from " + method, cause );
 
-        this.method = method;
+        this.methodString = method.toString();
     }
 
     /**
-     * @return the method
+     * Returns related method description
+     *
+     * @return the {@link Method#toString()}
      */
-    public Method getMethod()
+    public String getMethod()
     {
-        return method;
+        return this.methodString;
     }
-
-
 }

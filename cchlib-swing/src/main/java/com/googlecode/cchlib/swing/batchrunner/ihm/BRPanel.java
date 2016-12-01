@@ -321,6 +321,8 @@ public class BRPanel extends JPanel
     /**
      * Runs each <code>EnableListener</code>'s <code>stateChanged</code>
      * method.
+     *
+     * @param enable enable or disable panel's buttons
      */
     protected void fireStateChanged( final boolean enable )
     {

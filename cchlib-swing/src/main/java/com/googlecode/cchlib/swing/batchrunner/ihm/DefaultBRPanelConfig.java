@@ -11,6 +11,8 @@ import java.io.File;
  */
 public class DefaultBRPanelConfig extends AbstractBRPanelConfig
 {
+    private static final long serialVersionUID = 1L;
+
     /**
      * {@inheritDoc}
      * @return this implementation returns null (no specific default folder).

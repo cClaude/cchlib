@@ -22,7 +22,6 @@ public class FilenameFilterHelper
     }
 
     /**
-     *
      * @return FilenameFilter which return only Directories
      * @see FileFilterHelper#directoryFileFilter()
      */
@@ -40,7 +39,6 @@ public class FilenameFilterHelper
     }
 
     /**
-     *
      * @return FilenameFilter which does not filter
      * @see FileFilterHelper#trueFileFilter()
      */
@@ -61,7 +59,7 @@ public class FilenameFilterHelper
      *
      * @param aFileFilter source {@link FilenameFilter}
      * @return FilenameFilter which return "not" result from giving FilenameFilter
-     * @see FileFilterHelper#not(java.io.FileFilter)
+     * @see FileFilterHelper#not(SerializableFileFilter)
      */
     public static FilenameFilter not(final FilenameFilter aFileFilter)
     {
@@ -81,7 +79,7 @@ public class FilenameFilterHelper
      * @param firstFileFilter source {@link FilenameFilter}
      * @param secondFileFilter source {@link FilenameFilter}
      * @return a FilenameFilter
-     * @see FileFilterHelper#and(java.io.FileFilter...)
+     * @see FileFilterHelper#and(SerializableFileFilter...)
      */
     public static FilenameFilter and(
                 final FilenameFilter firstFileFilter,
@@ -108,7 +106,7 @@ public class FilenameFilterHelper
      *
      * @param fileFilters source {@link FilenameFilter}
      * @return a FilenameFilter
-     * @see FileFilterHelper#and(java.io.FileFilter...)
+     * @see FileFilterHelper#and(SerializableFileFilter...)
      */
     public static FilenameFilter and(
             final FilenameFilter...fileFilters
@@ -135,7 +133,7 @@ public class FilenameFilterHelper
      * @param firstFileFilter source {@link FilenameFilter}
      * @param secondFileFilter source {@link FilenameFilter}
      * @return a FilenameFilter
-     * @see FileFilterHelper#or(java.io.FileFilter...)
+     * @see FileFilterHelper#or(SerializableFileFilter...)
      */
     public static FilenameFilter or(
             final FilenameFilter firstFileFilter,
@@ -162,7 +160,7 @@ public class FilenameFilterHelper
      *
      * @param fileFilters source {@link FilenameFilter}
      * @return a FilenameFilter
-     * @see FileFilterHelper#or(java.io.FileFilter...)
+     * @see FileFilterHelper#or(SerializableFileFilter...)
      */
     public static FilenameFilter or(
             final FilenameFilter...fileFilters
@@ -189,7 +187,7 @@ public class FilenameFilterHelper
      * @param firstFileFilter source {@link FilenameFilter}
      * @param secondFileFilter source {@link FilenameFilter}
      * @return a FilenameFilter
-     * @see FileFilterHelper#xor(java.io.FileFilter, java.io.FileFilter)
+     * @see FileFilterHelper#xor(SerializableFileFilter, SerializableFileFilter)
      */
     public static FilenameFilter xor(
             final FilenameFilter firstFileFilter,

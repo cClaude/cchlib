@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.event.EventListenerList;
-import javax.swing.filechooser.FileFilter;
 import org.apache.log4j.Logger;
 
 /**
@@ -107,11 +106,11 @@ public class JFileChooserInitializer implements Serializable
      * @param attributes attributes for {@link JFileChooser}
      */
     public JFileChooserInitializer(
-            final File        currentDirectory,
-            final FileFilter  fileFilter,
-            @Nullable
-            final Set<Attrib> attributes
-            )
+        final File            currentDirectory,
+        final SwingFileFilter fileFilter,
+        @Nullable
+        final Set<Attrib>     attributes
+        )
     {
         this(
             new DefaultJFCCustomizer( attributes )

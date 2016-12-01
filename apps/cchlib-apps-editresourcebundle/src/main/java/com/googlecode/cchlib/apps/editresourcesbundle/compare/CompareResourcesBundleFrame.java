@@ -6,12 +6,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Locale;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.EditResourcesBundleApp;
 import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
@@ -38,7 +39,8 @@ import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccess
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 @I18nName("CompareResourcesBundleFrame")
-public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNumberOfFields
+@SuppressWarnings({"squid:MaximumInheritanceDepth"})
+public final class CompareResourcesBundleFrame
     extends CompareResourcesBundleFrameWB
         implements I18nAutoCoreUpdatable
 {
@@ -80,7 +82,7 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
      */
     public CompareResourcesBundleFrame( final Preferences prefs )
     {
-        super( prefs.getNumberOfFiles() ); // initComponents();
+        super( prefs.getNumberOfFiles() );
 
         this.preferences = prefs;
         this.filesConfig = new FilesConfig( this.preferences );
@@ -115,7 +117,7 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
             LOGGER.trace( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResourceBundleName() );
             }
 
-        autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+        this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
                 EditResourcesBundleApp.getConfig(),
                 EditResourcesBundleApp.getI18nSimpleResourceBundle( locale )
                 );
@@ -124,20 +126,20 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
             LOGGER.debug( "I18n Init: done" );
             }
 
-        preferencesOpener = new PreferencesOpener( this, preferences );
+        this.preferencesOpener = new PreferencesOpener( this, this.preferences );
 
         // Apply i18n !
-        performeI18n( autoI18n );
+        performeI18n( this.autoI18n );
 
 
-        JFrames.handleMinimumSize( this, preferences.getCompareFrameMinimumDimension() );
+        JFrames.handleMinimumSize( this, this.preferences.getCompareFrameMinimumDimension() );
     }
 
     protected void closeContent()
     {
-        if( tableModel != null ) {
+        if( this.tableModel != null ) {
             // FIXME better handle of save
-            for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
+            for( int i = 0; i<this.filesConfig.getNumberOfFiles(); i++ ) {
                 saveFile( i );
                 }
             }
@@ -165,7 +167,7 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
         SwingUtilities.invokeLater( ( ) -> {
             try {
                 final CompareResourcesBundleFrame frame = new CompareResourcesBundleFrame(prefs);
-                frame.setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
+                frame.setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
                 frame.setTitle( "Edit Ressource Bundle" );
                 frame.getContentPane().setPreferredSize( frame.getSize() );
                 frame.pack();
@@ -183,14 +185,14 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
     protected void updateDisplay()
     {
         if( LOGGER.isInfoEnabled() ) {
-            for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
-                LOGGER.info( "F[" + i + "]:" + filesConfig.getFileObject( i ) );
+            for( int i = 0; i<this.filesConfig.getNumberOfFiles(); i++ ) {
+                LOGGER.info( "F[" + i + "]:" + this.filesConfig.getFileObject( i ) );
                 }
             }
 
-        if( filesConfig.getLeftFileObject() != null ) {
+        if( this.filesConfig.getLeftFileObject() != null ) {
             getjMenuItemSaveLeftFile().setEnabled(
-                !filesConfig.getLeftFileObject().isReadOnly()
+                !this.filesConfig.getLeftFileObject().isReadOnly()
                 );
             }
         else {
@@ -212,7 +214,7 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
 
     public JFileChooserInitializer getJFileChooserInitializer()
     {
-        if( jFileChooserInitializer == null ) {
+        if( this.jFileChooserInitializer == null ) {
             final DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
             {
                 private static final long serialVersionUID = 1L;
@@ -232,29 +234,29 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
                              .addTabbedAccessory(
                                  new LastSelectedFilesAccessory(
                                      jfc,
-                                     lastSelectedFilesAccessoryDefaultConfigurator
+                                     CompareResourcesBundleFrame.this.lastSelectedFilesAccessoryDefaultConfigurator
                                      )
                                  )
                         );
                 }
             };
             configurator.setFileFilter(
-                    new FileNameExtensionFilter(
-                            "Properties",
-                            "properties"
-                            )
-                        );
+                new FileNameExtensionFilter(
+                        "Properties",
+                        "properties"
+                        )
+                    );
             configurator.setCurrentDirectory( getPreferences().getLastDirectory() );
 
-            jFileChooserInitializer = new WaitingJFileChooserInitializer(
+            this.jFileChooserInitializer = new WaitingJFileChooserInitializer(
                     configurator,
                     this,
-                    jFileChooserInitializerTitle,
-                    jFileChooserInitializerMessage
+                    this.jFileChooserInitializerTitle,
+                    this.jFileChooserInitializerMessage
                     );
         }
 
-        return jFileChooserInitializer;
+        return this.jFileChooserInitializer;
     }
 
     protected void saveFile(
@@ -265,16 +267,16 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
         final FileObject        fileObject;
         final CustomProperties  customProperties;
 
-        LOGGER.info( "request to save index: " + index + " filesConfig = " + filesConfig );
+        LOGGER.info( "request to save index: " + index + " filesConfig = " + this.filesConfig );
 
         if( index == 0 ) {
-            saveFileTypeMsg     = saveLeftFileTypeMsg;
+            saveFileTypeMsg     = this.saveLeftFileTypeMsg;
             }
         else {
-            saveFileTypeMsg     = saveRightFileTypeMsg;
+            saveFileTypeMsg     = this.saveRightFileTypeMsg;
             }
-        fileObject          = filesConfig.getFileObject( index );
-        customProperties    = tableModel.getCustomProperties( index );
+        fileObject          = this.filesConfig.getFileObject( index );
+        customProperties    = this.tableModel.getCustomProperties( index );
 
         LOGGER.info( "request to save: " + saveFileTypeMsg );
 
@@ -289,8 +291,8 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
             final int boutonNumber = JOptionPane.showConfirmDialog(
                       this,
                       String.format(
-                              fileSaveNowQuestionMsg,
-                              fileObject.getDisplayName( txtNoFile )
+                              this.fileSaveNowQuestionMsg,
+                              fileObject.getDisplayName( this.txtNoFile )
                               ),
                       saveFileTypeMsg,
                       JOptionPane.YES_NO_OPTION
@@ -306,7 +308,7 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
                 if( res ) {
                     JOptionPane.showMessageDialog(
                             this,
-                            String.format( fileSavedMsg, fileObject.getDisplayName( txtNoFile ) ) ,
+                            String.format( this.fileSavedMsg, fileObject.getDisplayName( this.txtNoFile ) ) ,
                             saveFileTypeMsg,
                             JOptionPane.INFORMATION_MESSAGE
                             );
@@ -316,7 +318,7 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
                 LOGGER.error( e );
                 DialogHelper.showMessageExceptionDialog(
                     this,
-                    String.format( fileSaveIOException, fileObject.getDisplayName( txtNoFile ) ),
+                    String.format( this.fileSaveIOException, fileObject.getDisplayName( this.txtNoFile ) ),
                     e
                     );
                 }
@@ -329,19 +331,19 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
             // TODO: close prev
             closeContent();
 
-            final FilesConfig fc     = new FilesConfig(filesConfig);
-            fc.setNumberOfFiles( preferences.getNumberOfFiles() );
+            final FilesConfig fc     = new FilesConfig(this.filesConfig);
+            fc.setNumberOfFiles( this.preferences.getNumberOfFiles() );
 
             final LoadDialog  dialog = new LoadDialog(
                     CompareResourcesBundleFrame.this,
                     fc
                     );
-            dialog.performeI18n(autoI18n);
+            dialog.performeI18n(this.autoI18n);
             dialog.setModal( true );
             dialog.setVisible( true );
 
             if( fc.isFilesExists() ) {
-                filesConfig = fc;
+                this.filesConfig = fc;
                 updateDisplay();
                 }
         }, "jMenuItem_Open()").start();
@@ -350,15 +352,17 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
     @Override
     protected ActionListener getActionListener()
     {
-        if( frameActionListener == null ) {
+        if( this.frameActionListener == null ) {
             this.frameActionListener = new FrameActionListener();
             }
 
-        return frameActionListener;
+        return this.frameActionListener;
     }
 
-    private class FrameActionListener implements ActionListener
+    private class FrameActionListener implements ActionListener, Serializable
     {
+        private static final long serialVersionUID = 1L;
+
         @Override
         public void actionPerformed( final ActionEvent event )
         {
@@ -385,7 +389,7 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
                         break;
 
                     case ACTIONCMD_SAVE_ALL:
-                        for( int i = 0; i<filesConfig.getNumberOfFiles(); i++ ) {
+                        for( int i = 0; i<CompareResourcesBundleFrame.this.filesConfig.getNumberOfFiles(); i++ ) {
                             saveFile( i );
                             }
                         break;
@@ -416,7 +420,7 @@ public final class CompareResourcesBundleFrame // $codepro.audit.disable largeNu
 
     public void openPreferences()
     {
-        preferencesOpener.open();
+        this.preferencesOpener.open();
     }
 
     public Preferences getPreferences()

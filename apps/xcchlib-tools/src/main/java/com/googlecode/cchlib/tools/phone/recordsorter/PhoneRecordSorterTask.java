@@ -17,6 +17,7 @@ import com.googlecode.cchlib.tools.phone.recordsorter.core.DestinationFolders;
 
 public class PhoneRecordSorterTask extends AbstractBRRunnable
 {
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( PhoneRecordSorterTask.class );
 
     private final ConfigFactory configFactory;

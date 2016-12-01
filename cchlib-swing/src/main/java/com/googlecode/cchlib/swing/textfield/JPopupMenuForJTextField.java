@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.swing.textfield;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -113,36 +114,32 @@ public abstract class JPopupMenuForJTextField
     protected abstract JPopupMenu createContextMenu();
 
     /**
-     * NEEDDOC
+     * Create a menu for copy action (using default listener)
      *
      * @param contextMenu
-     * @param textForCopy
-     * @return NEEDDOC
-     */
+     * @param textForCopy Label text for paste menu
+     * @return a menu for copy action
+    */
     public final JMenuItem addCopyMenuItem(
         final JPopupMenu contextMenu,
         final String     textForCopy
         )
     {
         final JMenuItem menu = buildCopyJMenuItem( textForCopy );
-
         addJMenuItem( contextMenu, menu );
-
         return menu;
     }
 
     /**
-     * NEEDDOC
+     * Create a menu for copy action (using default listener)
      *
-     * @param textForCopy
-     * @return NEEDDOC
+     * @param textForCopy Label text for paste menu
+     * @return a menu for copy action
      */
     protected final JMenuItem buildCopyJMenuItem( final String textForCopy )
     {
-        final JMenuItem m = new JMenuItem(textForCopy);
-        m.addActionListener(
-                copyActionListener()
-                );
+        final JMenuItem m = new JMenuItem( textForCopy );
+        m.addActionListener( copyActionListener() );
         return m;
     }
 
@@ -154,18 +151,25 @@ public abstract class JPopupMenuForJTextField
      */
     protected final ActionListener copyActionListener()
     {
-        return e -> {
-            final String value = getValue();
+        return this::copyAction;
+    }
 
-            ClipboardHelper.setClipboardContents( (value == null) ? StringHelper.EMPTY : value );
-        };
+    private void copyAction(
+        @SuppressWarnings("squid:S1172") // ActionListener.actionPerformed(ActionEvent)
+        final ActionEvent event
+        )
+    {
+        final String value = getValue();
+
+        ClipboardHelper.setClipboardContents( (value == null) ? StringHelper.EMPTY : value );
     }
 
     /**
-     * NEEDDOC
+     * Create a menu for paste action (using default listener)
      *
-     * @param contextMenu
-     * @return NEEDDOC
+     * @param contextMenu NEEDDOC
+     * @param textForPaste Label text for paste menu
+     * @return a menu for paste action
      */
     protected final JMenuItem addPasteMenuItem(
         final JPopupMenu contextMenu,
@@ -176,12 +180,7 @@ public abstract class JPopupMenuForJTextField
         pasteMenu.setText( textForPaste );
 
         if( ClipboardHelper.isClipboardContainingText( this ) ) {
-            pasteMenu.addActionListener(
-                    e -> {
-                        final String value = ClipboardHelper.getClipboardContents( JPopupMenuForJTextField.this );
-
-                        setValue( value );
-                    });
+            pasteMenu.addActionListener( this::pasteAction );
             }
         else {
             pasteMenu.setEnabled( false );
@@ -190,5 +189,15 @@ public abstract class JPopupMenuForJTextField
         contextMenu.add( pasteMenu );
 
         return pasteMenu;
+    }
+
+    private void pasteAction(
+        @SuppressWarnings("squid:S1172") // ActionListener.actionPerformed(ActionEvent)
+        final ActionEvent event
+        )
+    {
+    final String value = ClipboardHelper.getClipboardContents( JPopupMenuForJTextField.this );
+
+    setValue( value );
     }
 }

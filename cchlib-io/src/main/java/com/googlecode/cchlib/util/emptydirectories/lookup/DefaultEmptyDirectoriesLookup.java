@@ -95,8 +95,8 @@ public class DefaultEmptyDirectoriesLookup
     /**
      * Clear previous list and compute current list of empty directories
      * (should be call at least once)
+     *
      * @throws CancelRequestException if any listeners ask to cancel operation
-     * @throws ScanIOException
      */
     @Override
     public void lookup() throws CancelRequestException
@@ -127,7 +127,9 @@ public class DefaultEmptyDirectoriesLookup
 
     /**
      * Launch scan for this folder.
+     *
      * @param folder Folder file to scan
+     *
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
     private void doScan( final File folder ) throws CancelRequestException
@@ -144,7 +146,9 @@ public class DefaultEmptyDirectoriesLookup
 
     /**
      * Returns true if folder has no file
+     *
      * @param folder Folder to examine
+     * @return true if folder contain no file
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
     private boolean isFolderEmpty( final File folder ) throws CancelRequestException

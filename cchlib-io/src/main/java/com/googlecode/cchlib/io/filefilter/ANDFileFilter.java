@@ -1,25 +1,24 @@
 package com.googlecode.cchlib.io.filefilter;
 
-import com.googlecode.cchlib.io.SerializableFileFilter;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import com.googlecode.cchlib.io.SerializableFileFilter;
 
 /**
  * Handle a collection of {@link FileFilter} to generate
  * this {@link FileFilter}.
- * <p>
  *
- * </p>
  * @since 4.1.7
  * @see SerializableFileFilter
  */
 public class ANDFileFilter implements SerializableFileFilter
 {
     private static final long serialVersionUID = 1L;
-    private List<FileFilter> filters = new ArrayList<>();
+
+    private final List<FileFilter> filters = new ArrayList<>();
 
     /**
      * Create an ANDFileFilter
@@ -34,9 +33,9 @@ public class ANDFileFilter implements SerializableFileFilter
      *
      * @param fileFilters Array of {@link FileFilter} to include in matching
      */
-    public ANDFileFilter( FileFilter...fileFilters )
+    public ANDFileFilter( final FileFilter...fileFilters )
     {
-        for( FileFilter ff : fileFilters ) {
+        for( final FileFilter ff : fileFilters ) {
             this.add( ff );
             }
     }
@@ -69,12 +68,11 @@ public class ANDFileFilter implements SerializableFileFilter
     @Override
     public boolean accept( final File file )
     {
-      for( FileFilter ff : filters ) {
+      for( final FileFilter ff : this.filters ) {
             if( !ff.accept( file ) ) {
                 return false;
                 }
             }
         return true;
     }
-
 }

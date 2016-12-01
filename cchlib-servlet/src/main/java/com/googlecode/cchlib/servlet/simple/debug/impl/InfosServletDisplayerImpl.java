@@ -39,11 +39,12 @@ public class InfosServletDisplayerImpl
     protected ServletContext        servletContext;
 
     /**
+     * Create a {@link InfosServletDisplayer}
      *
-     * @param servlet
-     * @param request
-     * @param response
-     * @throws IOException
+     * @param servlet Current {@link HttpServlet}
+     * @param request Current {@link HttpServletRequest}
+     * @param response Current {@link HttpServletResponse}
+     * @throws IOException if any
      */
     public InfosServletDisplayerImpl(
             final HttpServlet         servlet,
@@ -56,16 +57,18 @@ public class InfosServletDisplayerImpl
     }
 
     /**
+     * Create a {@link InfosServletDisplayer}
      *
-     * @param servlet
-     * @param request
-     * @param response
-     * @param httpSession
-     * @throws IOException
+     * @param servlet Current {@link HttpServlet}
+     * @param request Current {@link HttpServletRequest}
+     * @param response Current {@link HttpServletResponse}
+     * @param httpSession Current {@link HttpSession}
+     * @throws IOException if any
      */
     public InfosServletDisplayerImpl(
             final HttpServlet       servlet,
             final ServletRequest    request,
+            @SuppressWarnings("squid:S1172") // Futur extension
             final ServletResponse   response,
             final HttpSession       httpSession
             )
@@ -78,16 +81,16 @@ public class InfosServletDisplayerImpl
     }
 
     /**
+     * Create a {@link InfosServletDisplayer}
      *
-     * @param servlet
-     * @param pageContext
-     * @throws IOException
+     * @param servlet Current {@link HttpServlet}
+     * @param pageContext Current {@link PageContext}
+     * @throws IOException if any
      */
     public InfosServletDisplayerImpl(
-            final HttpServlet   servlet,
-            final PageContext   pageContext
-            )
-        throws IOException
+        final HttpServlet   servlet,
+        final PageContext   pageContext
+        ) throws IOException
     {
         this(
             servlet,

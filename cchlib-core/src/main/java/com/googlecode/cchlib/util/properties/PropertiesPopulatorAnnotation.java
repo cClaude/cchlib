@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.properties;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
@@ -35,8 +36,8 @@ interface PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD>
     String toString( Object o ) throws PropertiesPopulatorRuntimeException;
 
     /**
-     * NEEDDOC
-     * @return NEEDDOC
+     * Retrieve setter for this entry
+     * @return a {@link PropertiesPopulatorSetter} for this entry
      */
     PropertiesPopulatorSetter<E,METHOD_OR_FIELD> getPropertiesPopulatorSetter();
 }

@@ -3,7 +3,6 @@ package com.googlecode.cchlib.swing.batchrunner.ihm;
 import java.awt.Cursor;
 import java.awt.Window;
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Enumeration;
 import javax.swing.JFileChooser;
@@ -252,7 +251,6 @@ public class BRActionListener
      *
      * @param sourceFile        Source {@link File}
      * @param destinationFile   Destination {@link File}
-     * @throws IOException if any I/O occurred (This error is shown to the user)
      * @throws BRInterruptedException if batch should be cancel
      */
     public void runTask( final File sourceFile, final File destinationFile )

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.TooManyListenersException;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.border.Border;
 import org.apache.log4j.Logger;
@@ -61,13 +62,17 @@ public class SimpleFileDrop
     private final boolean                recursive;
 
     /**
-     * Constructor with a default border and the option to recursively set drop
-     * targets. If your component is a <tt>java.awt.Container</tt>, then each of
-     * its children components will also listen for drops, though only the
-     * parent will change borders.
+     * Constructor with a default border and the option to recursively
+     * set drop targets. If your component is a {@link java.awt.Container},
+     * then each of its children components will also listen for drops,
+     * though only the parent will change borders.
      *
-     * @param dropTarget Component on which files will be dropped.
-     * @param recursive Recursively set children as drop targets.
+     * @param dropTarget
+     *            Component on which files will be dropped.
+     * @param recursive
+     *            Recursively set children as drop targets.
+     * @param fileDropListener
+     *            Listens for {@code dropTarget}
      */
     public SimpleFileDrop(
             final Component                 dropTarget,
@@ -86,8 +91,10 @@ public class SimpleFileDrop
     /**
      * Constructor with a default border.
      *
-     * @param dropTarget Component on which files will be dropped.
-     * @param fileDropListener Listens for <tt>filesDropped</tt>.
+     * @param dropTarget
+     *            Component on which files will be dropped.
+     * @param fileDropListener
+     *            Listens for {@code dropTarget}
      */
     public SimpleFileDrop(
             final Component                 dropTarget,
@@ -105,10 +112,15 @@ public class SimpleFileDrop
     /**
      * Full constructor with a specified border.
      *
-     * @param dropTarget Component on which files will be dropped.
-     * @param dragBorder Border to use on <tt>JComponent</tt> when dragging occurs.
-     * @param recursive  Recursively set children as drop targets.
-     * @param fileDropListener Listens for <tt>filesDropped</tt>.
+     * @param dropTarget
+     *            Component on which files will be dropped.
+     * @param dragBorder
+     *            Border to use on {@link JComponent} when
+     *            dragging occurs.
+     * @param recursive
+     *            Recursively set children as drop targets.
+     * @param fileDropListener
+     *            Listens for {@code dropTarget}
      */
     public SimpleFileDrop(
             final Component                 dropTarget,
@@ -118,9 +130,9 @@ public class SimpleFileDrop
             )
     {
         this.dragTargetComponentBorder = dragBorder;
-        this.dropTargetComponent = dropTarget;
-        this.recursive = recursive;
-        this.fileDropListener = fileDropListener;
+        this.dropTargetComponent       = dropTarget;
+        this.recursive                 = recursive;
+        this.fileDropListener          = fileDropListener;
     }
 
     /**
@@ -134,9 +146,9 @@ public class SimpleFileDrop
     /**
      * Activate listener.
      *
-     * @throws <code>TooManyListenersException</code> if a
-     *          <code>DropTargetListener</code> is already added to this
-     *          <code>DropTarget</code>.
+     * @throws TooManyListenersException
+     *             if a {@link DropTargetListener} is already added
+     *             to this {@link DropTarget}
      */
     public void addDropTargetListener() throws TooManyListenersException
     {
@@ -257,11 +269,14 @@ public class SimpleFileDrop
     }
 
     /**
-     * Create a SimpleFileDrop with a default border, add attache immediately the
-     * listener ({@link #addDropTargetListener()} to the <code>dropTarget</code>.
+     * Create a SimpleFileDrop with a default border, add attache immediately
+     * the listener ({@link #addDropTargetListener()} to the
+     * {@code dropTarget}.
      *
-     * @param dropTarget Component on which files will be dropped.
-     * @param fileDropListener Listens for <tt>filesDropped</tt>.
+     * @param dropTarget
+     *            Component on which files will be dropped.
+     * @param fileDropListener
+     *            Listens for {@code dropTarget}
      * @return the new SimpleFileDrop object.
      * @since 4.1.7
      */
@@ -289,8 +304,8 @@ public class SimpleFileDrop
      * Create a SimpleFileDrop with a default border, add attache immediately the
      * listener ({@link #addDropTargetListener()} to the <code>jList</code>.
      *
-     * @param jList           @{@link JList} of {@link File}
-     * @param jListModel      Model of the <code>jList</code>.
+     * @param jList           {@link JList} of {@link File}
+     * @param jListModel      Model of the {@code jList}
      * @param selectionFilter Filter for type of files.
      * @return the new SimpleFileDrop object.
      * @since 4.1.7
@@ -307,6 +322,7 @@ public class SimpleFileDrop
             );
     }
 
+    @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck") // Switch on enum
     private static void filesDropped(
         final DefaultListModel<File> jListModel,
         final FileSelectionMode      selectionFilter,
@@ -316,12 +332,7 @@ public class SimpleFileDrop
         for( final File file : files ) {
             switch( selectionFilter ) {
                 case DIRECTORIES_ONLY:
-                    if( file.isDirectory() ) {
-                        jListModel.addElement( file );
-                        }
-                    else {
-                        LOGGER.info( "Ignore '" + file + "' not a directory." );
-                        }
+                    handleDirectoryOnly( jListModel, file );
                     break;
 
                 case FILES_AND_DIRECTORIES:
@@ -329,14 +340,35 @@ public class SimpleFileDrop
                     break;
 
                 case FILES_ONLY:
-                    if( file.isFile() ) {
-                        jListModel.addElement( file );
-                        }
-                    else {
-                        LOGGER.info( "Ignore '" + file + "' not a file." );
-                        }
+                    handleFileOnly( jListModel, file );
                     break;
                 }
             } // for
+    }
+
+    private static void handleFileOnly(
+        final DefaultListModel<File> jListModel,
+        final File                   file
+        )
+    {
+        if( file.isFile() ) {
+            jListModel.addElement( file );
+            }
+        else {
+            LOGGER.info( "Ignore '" + file + "' not a file." );
+            }
+    }
+
+    private static void handleDirectoryOnly(
+        final DefaultListModel<File> jListModel,
+        final File                   file
+        )
+    {
+        if( file.isDirectory() ) {
+            jListModel.addElement( file );
+            }
+        else {
+            LOGGER.info( "Ignore '" + file + "' not a directory." );
+            }
     }
 }

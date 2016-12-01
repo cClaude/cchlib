@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Locale;
 import javax.swing.JFrame;
 import org.apache.log4j.Logger;
@@ -9,8 +10,9 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.DialogHelper;
 
 @I18nName("PreferencesOpener")
-public class PreferencesOpener
+public class PreferencesOpener implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( PreferencesOpener.class );
     private static final Locale[] LOCALES = {
         null, // System,
@@ -34,12 +36,12 @@ public class PreferencesOpener
     {
         this.rootFrame      = rootFrame;
         this.preferences    = preferences;
-        this.languages[ 0 ] = msgStringDefaultLocale;
+        this.languages[ 0 ] = this.msgStringDefaultLocale;
 
         final int selectedLanguageIndex = getSelectedLanguageIndex( preferences );
 
         this.initParams = newPreferencesDefaultsParametersValues(
-                languages,
+                this.languages,
                 selectedLanguageIndex
                 );
     }
@@ -67,7 +69,7 @@ public class PreferencesOpener
     public void open()
     {
         final AbstractPreferencesAction action = newPreferencesAction( LOCALES );
-        final PreferencesJDialog        dialog = new PreferencesJDialog( initParams, action );
+        final PreferencesJDialog        dialog = new PreferencesJDialog( this.initParams, action );
 
         dialog.setVisible( true );
     }
@@ -80,16 +82,16 @@ public class PreferencesOpener
             public void onSave( final PreferencesCurentSaveParameters saveParams )
             {
                 final Locale locale = locales[ saveParams.getSelectedLanguageIndex() ];
-                preferences.setLocale( locale );
+                PreferencesOpener.this.preferences.setLocale( locale );
 
                 if( saveParams.isSaveWindowSize() ) {
-                    preferences.setWindowDimension( rootFrame.getSize() );
+                    PreferencesOpener.this.preferences.setWindowDimension( PreferencesOpener.this.rootFrame.getSize() );
                     }
 
-                preferences.setNumberOfFiles( saveParams.getNumberOfFiles() );
+                PreferencesOpener.this.preferences.setNumberOfFiles( saveParams.getNumberOfFiles() );
 
                 if( saveParams.isSaveLookAndFeel() ) {
-                    preferences.setLookAndFeelClassName();
+                    PreferencesOpener.this.preferences.setLookAndFeelClassName();
                     }
 
                 savePreferences();
@@ -110,7 +112,7 @@ public class PreferencesOpener
             @Override
             public int getNumberOfFiles()
             {
-                return preferences.getNumberOfFiles();
+                return PreferencesOpener.this.preferences.getNumberOfFiles();
             }
             @Override
             public String[] getLanguages()
@@ -133,14 +135,14 @@ public class PreferencesOpener
 
     private void savePreferences()
     {
-        LOGGER.info( "Save prefs: " + preferences );
+        LOGGER.info( "Save prefs: " + this.preferences );
         try {
-            preferences.save();
+            this.preferences.save();
             }
         catch( final IOException e ) {
             DialogHelper.showMessageExceptionDialog(
                 this.rootFrame,
-                msgStringSavePrefsExceptionTitle,
+                this.msgStringSavePrefsExceptionTitle,
                 e
                 );
             }

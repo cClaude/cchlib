@@ -1,6 +1,5 @@
 package cx.ath.choisnet.xml.impl;
 
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Set;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
@@ -19,18 +18,17 @@ public class XMLURLParserDOMImpl
     /**
      * NEEDDOC
      *
-     * @param sourceURL
-     * @param errorHandler
-     * @param attributes
-     * @throws FileNotFoundException
-     * @throws XMLParserException
+     * @param sourceURL XML source {@link URL}
+     * @param errorHandler error handler
+     * @param attributes parameter
+     * @throws XMLParserException if any
      */
     public XMLURLParserDOMImpl(
             final URL                   sourceURL,
             final XMLParserErrorHandler errorHandler,
             final Set<Attributs>        attributes
             )
-        throws FileNotFoundException, XMLParserException
+        throws XMLParserException
     {
         super( sourceURL, errorHandler, attributes );
 

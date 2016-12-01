@@ -14,13 +14,10 @@ import com.googlecode.cchlib.servlet.simple.debug.impl.InfosServletDisplayerImpl
 /**
  * Display informations from {@link HttpServlet} to {@link HttpServlet#log(String)},
  * {@link System#out}, {@link System#err}, {@link HttpServletResponse#getWriter()}.
- * <BR>
- * <p>
- *  Configuration:
- * </p>
- * <pre>
- * </pre>
  *
+ * <p>Configuration:
+ * <br>
+ * NEEDDOC
  */
 public class InfosServlet extends HttpServlet
 {
@@ -115,7 +112,6 @@ public class InfosServlet extends HttpServlet
      * @param servlet NEEDDOC
      * @param request NEEDDOC
      * @param response NEEDDOC
-     * @throws ServletException NEEDDOC
      * @throws IOException NEEDDOC
      */
     public static void appendHTML(
@@ -126,7 +122,8 @@ public class InfosServlet extends HttpServlet
             )
         throws IOException
     {
-        new InfosServletDisplayerImpl(servlet, request, response).appendHTML( output );
+        new InfosServletDisplayerImpl(servlet, request, response)
+            .appendHTML( output );
     }
 
     /**
@@ -138,7 +135,6 @@ public class InfosServlet extends HttpServlet
      * @param output NEEDDOC
      * @param servlet NEEDDOC
      * @param pageContext NEEDDOC
-     * @throws ServletException NEEDDOC
      * @throws IOException NEEDDOC
      */
     public static void appendHTML(

@@ -368,7 +368,6 @@ public class URICache implements Closeable
      *
      * @throws FileNotFoundException if cache does not exist
      * @throws IOException if any I/O error occur
-     * @throws PersistenceFileBadVersionException
      * @see #getCacheFile()
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
@@ -406,14 +405,13 @@ public class URICache implements Closeable
      * Save cache file
      *
      * @throws IOException if any I/O error occur
-     * @throws URISyntaxException
      * @see #getCacheFile()
      */
     //synchronized
     public void store() throws IOException
     {
-        final File cacheFile     = getCacheFile();
-        final File backupFile    = getBackupCacheFile();
+        final File cacheFile  = getCacheFile();
+        final File backupFile = getBackupCacheFile();
 
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.trace( "Try to store: " + cacheFile );

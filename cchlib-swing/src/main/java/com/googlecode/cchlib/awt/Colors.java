@@ -3,6 +3,8 @@ package com.googlecode.cchlib.awt;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.googlecode.cchlib.NeedDoc;
 
 /**
@@ -184,13 +186,18 @@ public enum Colors {
         assert b < 256;
     }
 
-    @NeedDoc
-    public Color toColor() {
+    /**
+     * Convert object to {@link Color}
+     * @return a {@link Color} for this value
+     */
+    public Color toColor()
+    {
         return new Color( this.r, this.g, this.b );
     }
 
     @NeedDoc
-    public String toHexString() {
+    public String toHexString()
+    {
         final StringBuilder sb = new StringBuilder();
 
         sb.append( '#' );
@@ -201,7 +208,7 @@ public enum Colors {
         return sb.toString().toUpperCase();
     }
 
-    @SuppressWarnings("squid:S3346")
+    @SuppressWarnings("squid:S3346") // assert usage
     private static void append( final StringBuilder sb, final int digit )
     {
         assert digit >= 0;
@@ -219,40 +226,58 @@ public enum Colors {
         sb.append( str );
     }
 
-    @NeedDoc
-    public static Colors find( final Color color )
+    /**
+     * Return the {@link Colors} object corresponding to {@code color}
+     * @param color a {@link Color}
+     * @return the {@link Colors} object corresponding to {@code color}
+     *         or null if {@code color} does not exist
+     */
+    @Nullable
+   public static Colors find( final Color color )
     {
         return find( color.getRGB() );
     }
 
-    @NeedDoc
+    /**
+     * Find the {@link Colors} object corresponding to {@code rgb}
+     * @param rgb a color RGB value
+     * @return the {@link Colors} object corresponding to {@code rgb}
+     *         or null if {@code rgb} does not exist
+     */
+    @Nullable
     public static Colors find( final int rgb )
     {
         return  find( Integer.valueOf( rgb ) );
     }
 
-    @NeedDoc
-    public static Colors find( final Integer rgb )
+    /**
+     * Find the {@link Colors} object corresponding to {@code rgb}
+     * @param rgb a color RGB value
+     * @return the {@link Colors} object corresponding to {@code rgb}
+     *         or null if {@code rgb} does not exist
+     */
+    @Nullable
+    public static Colors find( @Nonnull final Integer rgb )
     {
         if( colorMap == null ) {
             colorMap = newMap();
             }
 
-        return  colorMap.get( rgb );
+        return colorMap.get( rgb );
     }
 
-    @SuppressWarnings("squid:S3346")
+    @SuppressWarnings("squid:S3346") // assert usage
     private static HashMap<Integer,Colors> newMap()
     {
         final HashMap<Integer,Colors> colorMap = new HashMap<>();
 
         for( final Colors c : values() ) {
             if( c.ref == null ) { // Does not include alias Colors in Map
-                final Integer _rgb_ = Integer.valueOf( c.toColor().getRGB() );
+                final Integer rgbInteger = Integer.valueOf( c.toColor().getRGB() );
 
-                assert ! colorMap.containsKey( _rgb_ ) : "Color " + c + '('+ c.ref +") already exist : " + colorMap.get( _rgb_ ) + '('+ colorMap.get( _rgb_ ).ref + ')';
+                assert ! colorMap.containsKey( rgbInteger ) : "Color " + c + '('+ c.ref +") already exist : " + colorMap.get( rgbInteger ) + '('+ colorMap.get( rgbInteger ).ref + ')';
 
-                colorMap.put( _rgb_, c );
+                colorMap.put( rgbInteger, c );
                 }
             }
 
@@ -260,10 +285,14 @@ public enum Colors {
     }
 
     /**
+     * Find the {@link Colors} object corresponding to {@code colorName}
      *
      * @param colorName
-     * @return NEEDDOC
+     *            a color name
+     * @return the {@link Colors} object corresponding to {@code colorName}
+     *         or null if {@code colorName} is not found.
      */
+    @Nullable
     public static Colors find( final String colorName )
     {
         for( final Colors c : values() ) {

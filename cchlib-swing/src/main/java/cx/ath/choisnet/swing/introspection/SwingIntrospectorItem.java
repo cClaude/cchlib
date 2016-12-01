@@ -9,8 +9,6 @@ import com.googlecode.cchlib.lang.reflect.SerializableField;
 /**
  * This object is created by {@link SwingIntrospector}
  *
- * NEEDDOC
- *
  * @param <FRAME> NEEDDOC
  */
 @SuppressWarnings("squid:S00119") // Type one char only ! Why ?
@@ -82,10 +80,13 @@ public class SwingIntrospectorItem<FRAME>
     }
 
     /**
+     * NEEDDOC
+     *
      * @param objectToInspect
+     *            NEEDDOC
      * @return Object to populate corresponding to current Field
      * @throws SwingIntrospectorIllegalAccessException
-     *
+     *             if any
      */
     public Object getFieldObject( final FRAME objectToInspect )
         throws SwingIntrospectorIllegalAccessException

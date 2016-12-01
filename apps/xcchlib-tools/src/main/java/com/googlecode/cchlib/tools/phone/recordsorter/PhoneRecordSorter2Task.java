@@ -5,14 +5,14 @@ import com.googlecode.cchlib.swing.batchrunner.BRExecutionEvent;
 import com.googlecode.cchlib.swing.batchrunner.BRExecutionException;
 import com.googlecode.cchlib.swing.batchrunner.BRUserCancelException;
 
-public class PhoneRecordSorter2Task extends AbstractBRRunnable {
+public class PhoneRecordSorter2Task extends AbstractBRRunnable
+{
+    private static final long serialVersionUID = 1L;
 
     @Override
-    public void execute( BRExecutionEvent event ) throws BRUserCancelException,
+    public void execute( final BRExecutionEvent event ) throws BRUserCancelException,
             BRExecutionException
     {
         // TODO Auto-generated method stub
-
     }
-
 }

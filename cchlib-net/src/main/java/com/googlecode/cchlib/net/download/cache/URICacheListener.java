@@ -10,13 +10,13 @@ import java.util.EventListener;
 public interface URICacheListener extends EventListener
 {
     /**
-     *
-     * @param ioe
+     * Handle {@link IOException}
+     * @param cause Error to handle
      */
-    void ioExceptionHandler(IOException ioe);
+    void ioExceptionHandler( IOException cause );
 
     /**
-     *
+     * NEEDDOC
      */
     void autoStoreDone();
 }

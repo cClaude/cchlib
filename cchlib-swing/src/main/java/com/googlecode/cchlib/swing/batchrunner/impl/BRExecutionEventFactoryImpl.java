@@ -15,8 +15,10 @@ import com.googlecode.cchlib.swing.batchrunner.misc.BRXLocaleResources;
  */
 public class BRExecutionEventFactoryImpl implements BRExecutionEventFactory
 {
+    private static final long serialVersionUID = 1L;
+
     private final Component progressMonitorParentComponent;
-    private final String progressMonitorMessage;
+    private final String    progressMonitorMessage;
 
     /**
      * NEEDDOC

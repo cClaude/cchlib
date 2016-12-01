@@ -32,10 +32,10 @@ public class MySQLAdmin
 
     /**
      * NEEDDOC
-     * @param mySQLExe
-     * @param mySQLParams
-     * @param mySQLDumpExe
-     * @param mySQLDumpParams
+     * @param mySQLExe NEEDDOC
+     * @param mySQLParams NEEDDOC
+     * @param mySQLDumpExe NEEDDOC
+     * @param mySQLDumpParams NEEDDOC
      */
     public MySQLAdmin(
             final String mySQLExe,
@@ -44,16 +44,16 @@ public class MySQLAdmin
             final String mySQLDumpParams
             )
     {
-        this.mySQLExe = mySQLExe;
-        this.mySQLParams = mySQLParams;
-        this.mySQLDumpExe = mySQLDumpExe;
+        this.mySQLExe        = mySQLExe;
+        this.mySQLParams     = mySQLParams;
+        this.mySQLDumpExe    = mySQLDumpExe;
         this.mySQLDumpParams = mySQLDumpParams;
     }
 
     /**
      * NEEDDOC
-     * @param outputStream
-     * @throws MySQLAdminException
+     * @param outputStream NEEDDOC
+     * @throws MySQLAdminException if any
      */
     @SuppressWarnings("squid:S106")
     public void createSQLDumpFile(final OutputStream outputStream)
@@ -68,16 +68,16 @@ public class MySQLAdmin
             ExternalApp.execute( command, outputStream, System.err );
         }
         catch(final ExternalAppException e) {
-            throw new MySQLAdminException(e);
+            throw new MySQLAdminException( e );
         }
     }
 
     /**
      * NEEDDOC
-     * @param outputFile
-     * @throws MySQLAdminException
+     * @param outputFile NEEDDOC
+     * @throws MySQLAdminException if any
      */
-    public void createSQLDumpFile(final File outputFile)
+    public void createSQLDumpFile( final File outputFile )
         throws MySQLAdminException
     {
         try( final OutputStream outputStream = new BufferedOutputStream( new FileOutputStream( outputFile ) ) ) {
@@ -90,12 +90,14 @@ public class MySQLAdmin
 
     /**
      * NEEDDOC
-     * @param servletOuput
-     * @param outputFile
-     * @throws MySQLAdminException
+     * @param servletOuput NEEDDOC
+     * @param outputFile NEEDDOC
+     * @throws MySQLAdminException if any
      */
-    public void createSQLDumpFile(final OutputStream servletOuput, final File outputFile)
-        throws MySQLAdminException
+    public void createSQLDumpFile(
+        final OutputStream servletOuput,
+        final File         outputFile
+        ) throws MySQLAdminException
     {
         if( servletOuput == null ) {
             if( outputFile == null ) {
@@ -118,9 +120,9 @@ public class MySQLAdmin
 
     /**
      * NEEDDOC
-     * @param servletOuput
-     * @param fileOutputStream
-     * @throws IOException
+     * @param servletOuput NEEDDOC
+     * @param fileOutputStream NEEDDOC
+     * @throws IOException if any
      */
     public void createSQLDumpFile(
             final OutputStream servletOuput,
@@ -139,25 +141,23 @@ public class MySQLAdmin
 
     /**
      * NEEDDOC
-     * @param inputfile
-     * @throws IOException
+     * @param inputfile NEEDDOC
+     * @throws IOException if any
      */
-    public void applySQL(final File inputfile)
-        throws  IOException
+    public void applySQL( final File inputFile ) throws IOException
     {
-        try( final InputStream is = new BufferedInputStream( new FileInputStream( inputfile ) ) ) {
+        try( final InputStream is = new BufferedInputStream( new FileInputStream( inputFile ) ) ) {
             applySQL( is );
             }
     }
 
     /**
      * NEEDDOC
-     * @param sqlStream
-     * @throws IOException
+     * @param sqlStream NEEDDOC
+     * @throws IOException if any
      */
     @SuppressWarnings("squid:S106")
-    public void applySQL(final InputStream sqlStream)
-        throws IOException
+    public void applySQL( final InputStream sqlStream ) throws IOException
     {
         final String command = this.mySQLExe + this.mySQLParams;
 

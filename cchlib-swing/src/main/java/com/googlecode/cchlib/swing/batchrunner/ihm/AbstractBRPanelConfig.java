@@ -13,15 +13,17 @@ import com.googlecode.cchlib.io.filefilter.TrueFileFilter;
  */
 public abstract class AbstractBRPanelConfig implements BRPanelConfig
 {
+    private static final long serialVersionUID = 1L;
+
     private FileFilter fileFilter;
     private int lastSelectionMode;
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * Returns a {@link FileFilter} based on result of {@link #getSourceFilesFileSelectionMode()}.
-     * 
-     * @return a new {@link FileFilter} according 
+     *
+     * @return a new {@link FileFilter} according
      * to {@link #getSourceFilesFileSelectionMode()} result.
      * @see FileFileFilter
      * @see DirectoryFileFilter
@@ -30,42 +32,42 @@ public abstract class AbstractBRPanelConfig implements BRPanelConfig
     @Override
     final public synchronized FileFilter getSourceFileFilter()
     {
-        if( fileFilter == null ) {
+        if( this.fileFilter == null ) {
             resolveSourceFileFilter();
             }
         else {
-            int selectionMode = getSourceFilesFileSelectionMode();
+            final int selectionMode = getSourceFilesFileSelectionMode();
 
-            if( lastSelectionMode != selectionMode ) {
+            if( this.lastSelectionMode != selectionMode ) {
                 resolveSourceFileFilter();
                 }
             }
 
-        return fileFilter;
+        return this.fileFilter;
     }
 
     private void resolveSourceFileFilter()
     {
-        lastSelectionMode = getSourceFilesFileSelectionMode();
+        this.lastSelectionMode = getSourceFilesFileSelectionMode();
 
-        switch( lastSelectionMode ) {
+        switch( this.lastSelectionMode ) {
             case JFileChooser.FILES_ONLY :
-                fileFilter = new FileFileFilter();
+                this.fileFilter = new FileFileFilter();
                 break;
 
             case JFileChooser.DIRECTORIES_ONLY :
-                fileFilter = new DirectoryFileFilter();
+                this.fileFilter = new DirectoryFileFilter();
                 break;
 
             default:
-                fileFilter = new TrueFileFilter();
+                this.fileFilter = new TrueFileFilter();
                 break;
         }
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @return {@link JFileChooser#FILES_ONLY}
      */
     @Override
@@ -76,7 +78,7 @@ public abstract class AbstractBRPanelConfig implements BRPanelConfig
 
     /**
      *  {@inheritDoc}
-     *  
+     *
      * @return {@link JFileChooser#DIRECTORIES_ONLY}
      */
     @Override

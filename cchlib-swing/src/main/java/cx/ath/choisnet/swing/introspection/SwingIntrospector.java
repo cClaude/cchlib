@@ -19,9 +19,10 @@ import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
 
 /**
  * @author CC
- * @param <FRAME>
- * @param <OBJECT>
- * @param <OBJECT_ENTRY>
+ * @param <FRAME>  Type of a frame object
+ * @param <OBJECT> Type of the corresponding data object to bind on frame
+ * @param <OBJECT_ENTRY> NEEDDOC
+ *
  * @see Bean
  * @see FramePopulator
  * @see ObjectPopulator
@@ -32,6 +33,24 @@ import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
 @SuppressWarnings({"squid:S00119"})
 public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 {
+    /**
+     * Parameters
+     */
+    public enum Attrib
+    {
+        /**
+         * Introspect current class and super classes (default)
+         * In all case, does not look in classes (and super classes)
+         * of {@link JFrame}, {@link JDialog}, {@link Object}.
+         */
+        LOOK_IN_SUPER_CLASSES,
+        /**
+         * Get only public fields, if not set introspect all fields,
+         * and force then to be accessible.
+         */
+        ONLY_ACCESSIBLE_PUBLIC_FIELDS, // == FORCE_FIELDS_ACCESSIBLE,
+    }
+
     private static final class Builder<FRAME>
     {
         private final Set<Attrib> attribs;
@@ -145,30 +164,13 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     private final Map<String,SwingIntrospectorRootItem<FRAME>> itemsMap = new TreeMap<>();
     private final SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY> objectInterface;
 
-    /**
-     * <p>
-     * LOOK_IN_SUPER_CLASSES<BR>
-     * Introspect current class and super classes (default)
-     * In all case, does not look in classes (and super classes)
-     * of {@link JFrame}, {@link JDialog}, {@link Object}.
-     * </p>
-     * <p>
-     * ONLY_ACCESSIBLE_PUBLIC_FIELDS<BR>
-     * Get only public fields, if not set introspect all fields,
-     * and force then to be accessible.
-     * </p>
-     * @author CC
-     *
-     */
-    public enum Attrib {
-        LOOK_IN_SUPER_CLASSES,
-        ONLY_ACCESSIBLE_PUBLIC_FIELDS, // == FORCE_FIELDS_ACCESSIBLE,
-    }
-
     private EnumSet<Attrib> attribs;
 
     /**
+     * NEEDDOC
+     *
      * @param objectInterface
+     *            NEEDDOC
      */
     public SwingIntrospector(
         final SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY> objectInterface
@@ -178,8 +180,12 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
+     * NEEDDOC
+     *
      * @param objectInterface
+     *            NEEDDOC
      * @param attributes
+     *            NEEDDOC
      */
     public SwingIntrospector(
         final SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY> objectInterface,
@@ -240,6 +246,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 
     /**
      * NEEDDOC
+     *
      * @return NEEDDOC
      */
     public Map<String,SwingIntrospectorRootItem<FRAME>> getItemMap()
@@ -249,7 +256,9 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 
     /**
      * NEEDDOC
+     *
      * @param beanName
+     *            NEEDDOC
      * @return NEEDDOC
      */
     public SwingIntrospectorRootItem<FRAME> getRootItem( final String beanName )
@@ -260,24 +269,27 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     /**
      * NEEDDOC
      *
-     * @param frame  FRAME object to populate
-     * @param object OBJECT where data will be read
+     * @param frame
+     *            FRAME object to populate
+     * @param object
+     *            OBJECT where data will be read
      * @throws IntrospectionInvokeException
+     *             if any
      * @throws SwingIntrospectorException
+     *             if any
      * @see #populateFrameWithoutException(Object, Object)
      */
     @SuppressWarnings({"squid:S1160"})
     public synchronized void populateFrameWithException(
-            final FRAME     frame,
-            final OBJECT    object
-            )
-        throws  IntrospectionInvokeException,
-                SwingIntrospectorException
+        final FRAME     frame,
+        final OBJECT    object
+        ) throws    IntrospectionInvokeException,
+                    SwingIntrospectorException
     {
         final FramePopulator<FRAME,OBJECT> fp = this.objectInterface.getFramePopulator( frame, object );
 
         for( final Entry<String, SwingIntrospectorRootItem<FRAME>> entry : this.itemsMap.entrySet() ) {
-            final String                      beanName = entry.getKey();
+            final String                             beanName = entry.getKey();
             final SwingIntrospectorRootItem<FRAME>   rootItem = entry.getValue();
 
             if( rootItem != null ) {
@@ -290,11 +302,12 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     * Same has populateFrameWithException() but just log, when
-     * an error occur.
+     * Same has populateFrameWithException() but just log, when an error occur.
      *
-     * @param frame  FRAME object to populate
-     * @param object OBJECT where data will be read
+     * @param frame
+     *            FRAME object to populate
+     * @param object
+     *            OBJECT where data will be read
      * @see #populateFrameWithException(Object, Object)
      */
     public synchronized void populateFrameWithoutException(
@@ -328,23 +341,26 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     /**
      * NEEDDOC
      *
-     * @param frame  FRAME where data will be read
-     * @param object OBJECT object to populate
+     * @param frame
+     *            FRAME where data will be read
+     * @param object
+     *            OBJECT object to populate
      * @throws IntrospectionException
+     *             if any
      * @throws SwingIntrospectorException
+     *             if any
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public synchronized void populateObjectWithException(
-            final FRAME  frame,
-            final OBJECT object
-            )
-        throws  SwingIntrospectorException,
-                IntrospectionException
+        final FRAME  frame,
+        final OBJECT object
+        ) throws    SwingIntrospectorException,
+                    IntrospectionException
     {
         final ObjectPopulator<FRAME,OBJECT_ENTRY> op = this.objectInterface.getObjectPopulator( frame, object );
 
         for( final Entry<String,OBJECT_ENTRY> item : this.objectInterface.getObjectInfos().entrySet()) {
-            final String                    beanName = item.getKey();
+            final String                           beanName = item.getKey();
             final SwingIntrospectorRootItem<FRAME> rootItem = this.getRootItem( beanName );
 
             if( rootItem == null ) {
@@ -356,17 +372,18 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     * Same has populateObjectWithException() but just log, when
-     * an error occur.
+     * Same has populateObjectWithException() but just log, when an error occur.
      *
-     * @param frame  FRAME where data will be read
-     * @param object OBJECT object to populate
+     * @param frame
+     *            FRAME where data will be read
+     * @param object
+     *            OBJECT object to populate
      * @see #populateObjectWithException(Object, Object)
      */
     public synchronized void populateObjectWithoutException(
-            final FRAME  frame,
-            final OBJECT object
-            )
+        final FRAME  frame,
+        final OBJECT object
+        )
     { // without exception !
         final ObjectPopulator<FRAME,OBJECT_ENTRY> op = this.objectInterface.getObjectPopulator( frame, object );
 
@@ -401,10 +418,10 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
     }
 
     /**
-     * Same has initComponentsWithException() but just log, when
-     * an error occur.
+     * Same has initComponentsWithException() but just log, when an error occur.
      *
      * @param populateObject
+     *            NEEDDOC
      * @see #initComponentsWithException(Object)
      */
     public void initComponentsWithoutException( final FRAME populateObject )
@@ -426,9 +443,13 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      * NEEDDOC
      *
      * @param populateObject
+     *            NEEDDOC
      * @throws SwingIntrospectorIllegalAccessException
+     *             if any
      * @throws SwingIntrospectorException
+     *             if any
      * @throws SwingIntrospectorNoMaxValueException
+     *             if any
      * @see #initComponentsWithoutException(Object)
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
@@ -478,16 +499,20 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      * NEEDDOC
      *
      * @param <FRAME>
+     *            Type of a frame object
      * @param <OBJECT>
+     *            Type of the corresponding data object to bind on frame
      * @param frameClass
+     *            NEEDDOC
      * @param objectClass
+     *            NEEDDOC
      * @return a SwingIntrospector based on {@link DefaultSwingIntrospectorObjectInterface}
      *
      */
     public static <FRAME,OBJECT> SwingIntrospector<FRAME,OBJECT,DefaultIntrospectionItem<OBJECT>> buildSwingIntrospector(
-            final Class<FRAME>    frameClass,
-            final Class<OBJECT>   objectClass
-            )
+        final Class<FRAME>    frameClass,
+        final Class<OBJECT>   objectClass
+        )
     {
         return new SwingIntrospector<>(
                 new DefaultSwingIntrospectorObjectInterface<>(

@@ -3,6 +3,7 @@ package com.googlecode.cchlib.util;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
+import com.googlecode.cchlib.util.iterable.ArrayIterable;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
 /**
@@ -11,9 +12,9 @@ import com.googlecode.cchlib.util.iterator.ArrayIterator;
  * @param <E> Type of the collection
  * @see ArrayIterator
  * @see ArrayIterable
+ * @since 3.02
  */
-public class ArrayCollection<E>
-    extends AbstractCollection<E>
+public class ArrayCollection<E> extends AbstractCollection<E>
 {
     private E[] array;
     private int offset;
@@ -22,7 +23,8 @@ public class ArrayCollection<E>
     /**
      * Create an ArrayCollection using giving array
      *
-     * @param array Array to wrap for this collection.
+     * @param array
+     *            Array to wrap for this collection.
      */
     public ArrayCollection( final E[] array )
     {
@@ -32,9 +34,12 @@ public class ArrayCollection<E>
     /**
      * Create an ArrayCollection based on a part of giving array.
      *
-     * @param array Array to wrap for this collection.
-     * @param offset first element
-     * @param len number of element to read
+     * @param array
+     *            Array to wrap for this collection.
+     * @param offset
+     *            first element
+     * @param len
+     *            number of element to read
      */
     public ArrayCollection(
         final E[] array,

@@ -22,7 +22,8 @@ public class DefaultJFCCustomizer
     /** @serial */
     private File currentDirectory;
     /** @serial */
-    private FileFilter fileFilter; // NOT SERIALISABLE !
+    @Nullable
+    private SwingFileFilter fileFilter;
     /** @serial */
     private final EnumSet<JFileChooserInitializer.Attrib> attributes;
     /** @serial */
@@ -77,8 +78,10 @@ public class DefaultJFCCustomizer
         if( this.attributes.contains( JFileChooserInitializer.Attrib.DO_NOT_USE_SHELL_FOLDER ) ) {
             // workaround:
             // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6317789
-            jfc.putClientProperty( "FileChooser.useShellFolder",
-                    Boolean.FALSE );
+            jfc.putClientProperty(
+                    "FileChooser.useShellFolder",
+                    Boolean.FALSE
+                    );
             }
 
         if( this.currentDirectory != null ) {
@@ -137,7 +140,9 @@ public class DefaultJFCCustomizer
      * @param fileFilter the fileFilter to set
      * @return the caller. This allows for easy chaining of invocations.
      */
-    public DefaultJFCCustomizer setFileFilter( @Nullable final FileFilter fileFilter )
+    public DefaultJFCCustomizer setFileFilter(
+        @Nullable final SwingFileFilter fileFilter
+        )
     {
         this.fileFilter = fileFilter;
         return this;
@@ -174,7 +179,6 @@ public class DefaultJFCCustomizer
      * The default is JFilesChooser.FILES_ONLY.
      *
      * @param mode the type of files to be displayed.
-     * @param mode0
      * @return the caller. This allows for easy chaining of invocations.
      * @since 4.1.7
      * @see JFileChooser#setFileSelectionMode(int)

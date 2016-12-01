@@ -12,64 +12,66 @@ import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
 
 /**
  *
- * @param <FRAME>
- * @param <OBJECT>
+ * @param <FRAME> Type of a frame object
+ * @param <OBJECT> Type of the corresponding data object to bind on frame
  */
+@SuppressWarnings("squid:S00119")
 public class DefaultFrameFieldPopulator<FRAME, OBJECT>
     implements FrameFieldPopulator<FRAME, OBJECT>
 {
-    private static Logger LOGGER = Logger.getLogger(DefaultFrameFieldPopulator.class);
-    private FRAME frame;
-    private OBJECT object;
+    private static final Logger LOGGER = Logger.getLogger(DefaultFrameFieldPopulator.class);
+
+    private final FRAME  frame;
+    private final OBJECT object;
 
     /**
-     * @param frame
-     * @param object
-     *
+     * @param frame  A frame object
+     * @param object Object to bind on frame
      */
     public DefaultFrameFieldPopulator(
-            FRAME   frame,
-            OBJECT  object
-            )
+        final FRAME   frame,
+        final OBJECT  object
+        )
     {
         this.frame  = frame;
         this.object = object;
     }
 
     @Override
-    final public void populateFields(
-            SwingIntrospectorRootItem<FRAME>    rootItem,
-            IntrospectionItem<OBJECT>           iItem
+    public final void populateFields(
+            final SwingIntrospectorRootItem<FRAME>    rootItem,
+            final IntrospectionItem<OBJECT>           iItem
             )
     throws  SwingIntrospectorIllegalAccessException,
             SwingIntrospectorIllegalArgumentException,
             IntrospectionInvokeException
     {
-        Object value = iItem.getObjectValue( object );
+        final Object value = iItem.getObjectValue( this.object );
 
         populateFieldsWithValue( rootItem, iItem, value );
     }
 
     /**
      *
-     * @param rootItem
-     * @param iItem
-     * @param iItemValue
-     * @throws SwingIntrospectorIllegalAccessException
-     * @throws SwingIntrospectorIllegalArgumentException
-     * @throws IntrospectionInvokeException
+     * @param rootItem NEEDDOC
+     * @param iItem NEEDDOC
+     * @param iItemValue NEEDDOC
+     * @throws SwingIntrospectorIllegalAccessException if any
+     * @throws SwingIntrospectorIllegalArgumentException if any
+     * @throws IntrospectionInvokeException if any
      */
+    @SuppressWarnings("squid:S1160")
     public void populateFieldsWithValue(
-            SwingIntrospectorRootItem<FRAME>    rootItem,
-            final IntrospectionItem<?>          iItem,
-            Object                              iItemValue
-            )
-    throws  SwingIntrospectorIllegalAccessException,
+        final SwingIntrospectorRootItem<FRAME>  rootItem,
+        final IntrospectionItem<?>              iItem,
+        final Object                            iItemValue
+        ) throws
+            SwingIntrospectorIllegalAccessException,
             SwingIntrospectorIllegalArgumentException,
             IntrospectionInvokeException
     {
         if( iItemValue == null ) {
-            throw new NullPointerException("Value not set [iItemValue for : " + object + ']' );
+            throw new NullPointerException("Value not set [iItemValue for : " + this.object + ']' );
         }
         else if( iItemValue instanceof String ) {
             populate( rootItem, String.class.cast( iItemValue ) );
@@ -101,28 +103,27 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
      * </table>
      * <BR>
      *
-     * @param swItemIterable
-     * @param iItemString
-     * @throws SwingIntrospectorIllegalAccessException
+     * @param swItemIterable NEEDDOC
+     * @param iItemString NEEDDOC
+     * @throws SwingIntrospectorIllegalAccessException if any
      */
     //TODO: warning inconsistency:
     //      DefaulfFrameFieldPopulator - handle JTextComponent
     //      ObjectPopulatorHelper      - handle JTextField
     public void populate(
-            final Iterable<SwingIntrospectorItem<FRAME>>    swItemIterable,
-            final String                                    iItemString
-            )
-        throws SwingIntrospectorIllegalAccessException
+        final Iterable<SwingIntrospectorItem<FRAME>>    swItemIterable,
+        final String                                    iItemString
+        ) throws SwingIntrospectorIllegalAccessException
     {
-        for( SwingIntrospectorItem<FRAME> switem : swItemIterable ) {
-            Object obj = switem.getFieldObject( frame );
+        for( final SwingIntrospectorItem<FRAME> switem : swItemIterable ) {
+            final Object obj = switem.getFieldObject( this.frame );
 
             if( obj instanceof JTextComponent ) {
-                JTextComponent c = JTextComponent.class.cast( obj );
+                final JTextComponent c = JTextComponent.class.cast( obj );
                 c.setText( iItemString );
             }
             else if( obj instanceof JLabel ) {
-                JLabel c = JLabel.class.cast( obj );
+                final JLabel c = JLabel.class.cast( obj );
                 c.setText( iItemString );
             }
             else {
@@ -134,20 +135,19 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
 
     /**
      *
-     * @param swItemIterable
-     * @param iItemBoolean
-     * @throws SwingIntrospectorIllegalAccessException
+     * @param swItemIterable NEEDDOC
+     * @param iItemBoolean NEEDDOC
+     * @throws SwingIntrospectorIllegalAccessException if any
      */
     public void populate(
-            final Iterable<SwingIntrospectorItem<FRAME>>    swItemIterable,
-            final Boolean                                   iItemBoolean
-            )
-    throws SwingIntrospectorIllegalAccessException
+        final Iterable<SwingIntrospectorItem<FRAME>>    swItemIterable,
+        final Boolean                                   iItemBoolean
+        ) throws SwingIntrospectorIllegalAccessException
     {
         boolean first = true;
 
-        for( SwingIntrospectorItem<FRAME> switem : swItemIterable ) {
-            Object obj = switem.getFieldObject( frame );
+        for( final SwingIntrospectorItem<FRAME> switem : swItemIterable ) {
+            final Object obj = switem.getFieldObject( this.frame );
 
             // set iItemBoolean on first item
             // set !iItemBoolean on all others items
@@ -162,15 +162,15 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
                 }
 
             if( obj instanceof JTextComponent ) {
-                JTextComponent c = JTextComponent.class.cast( obj );
+                final JTextComponent c = JTextComponent.class.cast( obj );
                 c.setText( Boolean.toString( setValue ) );
                 }
             else if( obj instanceof JLabel ) {
-                JLabel c = JLabel.class.cast( obj );
+                final JLabel c = JLabel.class.cast( obj );
                 c.setText( Boolean.toString( setValue) );
                 }
             else if( obj instanceof JCheckBox ) {
-                JCheckBox c = JCheckBox.class.cast( obj );
+                final JCheckBox c = JCheckBox.class.cast( obj );
                 c.setSelected( setValue );
                 }
             else {
@@ -182,41 +182,39 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
 
     /**
      *
-     * @param swItemIterable
-     * @param iItem
-     * @param iItemInteger
-     * @throws SwingIntrospectorIllegalAccessException
+     * @param swItemIterable NEEDDOC
+     * @param iItem NEEDDOC
+     * @param iItemInteger NEEDDOC
+     * @throws SwingIntrospectorIllegalAccessException if any
      */
     public void populate(
-            final Iterable<SwingIntrospectorItem<FRAME>>    swItemIterable,
-            final IntrospectionItem<?>                      iItem,
-            final Integer                                   iItemInteger
-
-            )
-    throws SwingIntrospectorIllegalAccessException
+        final Iterable<SwingIntrospectorItem<FRAME>>    swItemIterable,
+        final IntrospectionItem<?>                      iItem,
+        final Integer                                   iItemInteger
+        ) throws SwingIntrospectorIllegalAccessException
     {
-        for( SwingIntrospectorItem<FRAME> switem : swItemIterable ) {
-            Object obj = switem.getFieldObject( frame );
+        for( final SwingIntrospectorItem<FRAME> switem : swItemIterable ) {
+            final Object obj = switem.getFieldObject( this.frame );
 
             if( obj instanceof JTextComponent ) {
-                JTextComponent jtf = JTextComponent.class.cast( obj );
+                final JTextComponent jtf = JTextComponent.class.cast( obj );
                 jtf.setText( iItemInteger.toString() );
                 }
             else if( obj instanceof JLabel ) {
-                JLabel c = JLabel.class.cast( obj );
+                final JLabel c = JLabel.class.cast( obj );
                 c.setText( iItemInteger.toString() );
                 }
             else if( obj instanceof JComboBox ) {
-                JComboBox<?> c = JComboBox.class.cast( obj );
-                int index = iItemInteger.intValue() - Integer.class.cast( iItem.getMinValue() ).intValue();
+                final JComboBox<?> c = JComboBox.class.cast( obj );
+                final int index = iItemInteger.intValue() - Integer.class.cast( iItem.getMinValue() ).intValue();
                 c.setSelectedIndex( index );
                 }
             else if( obj instanceof JSlider ) {
-                JSlider c = JSlider.class.cast( obj );
+                final JSlider c = JSlider.class.cast( obj );
                 c.setValue( iItemInteger.intValue() );
                 }
             else if( obj instanceof JSpinner ) {
-                JSpinner c = JSpinner.class.cast( obj );
+                final JSpinner c = JSpinner.class.cast( obj );
                 c.setValue( iItemInteger );
                 }
             else {
@@ -224,4 +222,5 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
                 LOGGER.fatal( "Integer: Don't kwown how to Component handle type:" + obj.getClass() );
                 }
         }
-    }}
+    }
+}

@@ -19,9 +19,9 @@ public class XMLFileParserDOMImpl extends XMLParserDOMImpl
     /**
      * NEEDDOC
      *
-     * @param sourceFile
-     * @param errorHandler
-     * @param attributes
+     * @param sourceFile XML source file
+     * @param errorHandler error handles
+     * @param attributes parameters
      * @throws FileNotFoundException if file does not exist
      * @throws XMLParserException if file is not valid
      */

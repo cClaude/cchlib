@@ -11,12 +11,15 @@
  */
 package cx.ath.choisnet.net;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.Proxy;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import org.apache.log4j.Logger;
 import cx.ath.choisnet.tools.servlets.InitServletAbstractTask;
 
@@ -32,25 +35,25 @@ public class HTTPPingTask extends InitServletAbstractTask
     private Proxy  proxy  = Proxy.NO_PROXY;
     private URL[]  urls;
 
-    public HTTPPingTask() // --------------------------------------------------
+    public HTTPPingTask()
     {
         super();
     }
 
-    public HTTPPingTask( String instanceName ) // -----------------------------
+    public HTTPPingTask( final String instanceName )
     {
         super( instanceName );
     }
 
     @Override
-    public void init( ServletConfig servletConfig ) // ------------------------
-            throws javax.servlet.ServletException
+    public void init( final ServletConfig servletConfig )
+        throws ServletException
     {
-        String paramName = getTaskName();
+        final String paramName = getTaskName();
         String[] values;
 
         try {
-            String proxyParam = paramName + ".Proxy";
+            final String proxyParam = paramName + ".Proxy";
             //
             // http://213.228.0.12:3128/
             //
@@ -58,18 +61,18 @@ public class HTTPPingTask extends InitServletAbstractTask
                     "[:/]+" );
 
             // String type = values[ 0 ];
-            String host = values[ 1 ];
-            int port = Integer.parseInt( values[ 2 ] );
+            final String host = values[ 1 ];
+            final int port = Integer.parseInt( values[ 2 ] );
 
             this.proxy = new Proxy( Proxy.Type.HTTP, new InetSocketAddress(
                     host, port ) );
 
             LOGGER.info( paramName + ".Proxy = " + this.proxy );
         }
-        catch( NullPointerException e ) {
+        catch( final NullPointerException e ) {
             LOGGER.info( paramName + ".Proxy = null" );
         }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             LOGGER.info( paramName + ".Proxy = null", e );
         }
 
@@ -77,10 +80,10 @@ public class HTTPPingTask extends InitServletAbstractTask
             values = servletConfig.getInitParameter( paramName ).split(
                     "[ ,\n\t]+" );
         }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             LOGGER.error( "paramName = " + paramName, e );
 
-            throw new javax.servlet.ServletException( "Parameter '" + paramName
+            throw new ServletException( "Parameter '" + paramName
                     + "' not valid.", e );
         }
 
@@ -90,11 +93,11 @@ public class HTTPPingTask extends InitServletAbstractTask
             try {
                 this.urls[ i ] = new URL( values[ i ] );
 
-                LOGGER.info( paramName + " = urls [" + urls[ i ] + "] "
-                        + urls.length );
+                LOGGER.info( paramName + " = urls [" + this.urls[ i ] + "] "
+                        + this.urls.length );
             }
-            catch( java.net.MalformedURLException e ) {
-                throw new javax.servlet.ServletException( "Parameter '"
+            catch( final MalformedURLException e ) {
+                throw new ServletException( "Parameter '"
                         + paramName + "' not valid : " + values[ i ], e );
             }
         }
@@ -103,29 +106,25 @@ public class HTTPPingTask extends InitServletAbstractTask
     @Override
     public void run() // ------------------------------------------------------
     {
-        for( URL anURL : urls ) {
+        for( final URL anURL : this.urls ) {
             httpPing( anURL );
         }
     }
 
-    public void httpPing( URL anURL ) // --------------------------------------
+    public void httpPing( final URL anURL )
     {
         try {
-            URLConnection connect = anURL.openConnection( this.proxy );
-            InputStream stream = connect.getInputStream();
+            final URLConnection connect = anURL.openConnection( this.proxy );
             long count = 0;
             int c;
 
-            try {
+            try( final InputStream stream = connect.getInputStream() ) {
                 while( (c = stream.read()) != -1 ) {
                     //
                     // compte le nombre d'octects dans le flux
                     //
                     count++;
                 }
-            }
-            finally {
-                stream.close();
             }
 
             if( c == -1 ) {
@@ -135,7 +134,7 @@ public class HTTPPingTask extends InitServletAbstractTask
                 LOGGER.warn( getTaskName() + ": " + anURL + " - FAIL " );
             }
         }
-        catch( java.io.IOException e ) {
+        catch( final IOException e ) {
             LOGGER.warn( getTaskName() + ": " + anURL + " - FAIL : "
                     + e.getMessage() );
         }

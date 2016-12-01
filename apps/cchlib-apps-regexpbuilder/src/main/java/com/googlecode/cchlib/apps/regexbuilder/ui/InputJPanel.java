@@ -46,6 +46,8 @@ public class InputJPanel extends JPanel
                 int todo;
                 @Override
                 public void actionPerformed(final ActionEvent event) {
+                    // TODO
+                    this.todo = 42;
                 }
             });
             final GridBagConstraints gbc_regExpJTextField = new GridBagConstraints();

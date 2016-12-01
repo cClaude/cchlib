@@ -2,9 +2,6 @@ package com.googlecode.cchlib.sql.mysql;
 
 import cx.ath.choisnet.util.ExternalAppException;
 
-/**
- * NEEDDOC
- */
 public class MySQLAdminException extends ExternalAppException
 {
     private static final long serialVersionUID = 1L;

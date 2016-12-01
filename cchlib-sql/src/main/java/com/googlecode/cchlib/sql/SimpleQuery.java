@@ -112,7 +112,7 @@ public class SimpleQuery
 
     /**
      * Free all resources
-     * @throws SQLException if any I/O occur
+     * @throws SQLCloseException if any I/O occur
      */
     protected void closeConnection() throws SQLCloseException
     {

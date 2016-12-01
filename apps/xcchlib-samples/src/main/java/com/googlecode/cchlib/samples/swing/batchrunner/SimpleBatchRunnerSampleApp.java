@@ -46,6 +46,8 @@ import com.googlecode.cchlib.swing.batchrunner.misc.MissingLocaleStringException
  */
 public class SimpleBatchRunnerSampleApp extends AbstractBRRunnable
 {
+    private static final long serialVersionUID = 1L;
+
     private static final class MyBRXLocaleResources implements BRXLocaleResources
     {
         private static final long serialVersionUID = 1L;

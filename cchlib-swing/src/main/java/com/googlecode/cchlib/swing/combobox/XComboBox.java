@@ -43,6 +43,9 @@ public class XComboBox<E> extends JComboBox<E>
 
     /**
      * Create an empty XComboBox with a default data model.
+     *
+     * @param contentClass
+     *            Type of model content
      */
     public XComboBox( final Class<E> contentClass )
     {
@@ -54,7 +57,9 @@ public class XComboBox<E> extends JComboBox<E>
      *
      * @param comboBoxModel the {@link ComboBoxModel} that provides the displayed
      *        list of items
-     */
+     * @param contentClass
+     *            Type of model content
+    */
     public XComboBox(
         final ComboBoxModel<E>  comboBoxModel,
         final Class<E>          contentClass
@@ -68,6 +73,7 @@ public class XComboBox<E> extends JComboBox<E>
      * By default the first item in the array (and therefore the data model)
      * becomes selected.
      *
+     * @param contentClass Type of items
      * @param items an array of objects to insert into the combo box
      */
     public XComboBox(
@@ -75,7 +81,7 @@ public class XComboBox<E> extends JComboBox<E>
         final E[]       items
         )
     {
-        this( new DefaultComboBoxModel<E>(items), contentClass, null );
+        this( new DefaultComboBoxModel<E>( items ), contentClass, null );
     }
 
     /**
@@ -99,17 +105,19 @@ public class XComboBox<E> extends JComboBox<E>
      * Creates a XComboBox that takes its items from an existing ComboBoxModel.
      *
      * @param comboBoxModel
-     *            the {@link ComboBoxModel} that provides the displayed
+     *            The {@link ComboBoxModel} that provides the displayed
      *            list of items
+     * @param contentClass
+     *            Type of model content
      * @param attributes
-     *            the {@link XComboBoxAttribute} set to configure
+     *            The {@link XComboBoxAttribute} set to configure
      *            the XComboBox
      */
     public XComboBox(
-            final ComboBoxModel<E>        comboBoxModel,
-            final Class<E>                contentClass,
-            final Set<XComboBoxAttribute> attributes
-            )
+        final ComboBoxModel<E>        comboBoxModel,
+        final Class<E>                contentClass,
+        final Set<XComboBoxAttribute> attributes
+        )
     {
         this.contentClass = contentClass;
 
@@ -119,7 +127,7 @@ public class XComboBox<E> extends JComboBox<E>
 
         final EnumSet<XComboBoxAttribute> safeAttributes = getAttributes( attributes );
 
-        super.setEditable(true);
+        super.setEditable( true );
         super.setModel( comboBoxModel );
 
         if( !safeAttributes.contains( XComboBoxAttribute.NO_MOUSE_WHEEL_LISTENER ) ) {
