@@ -3,8 +3,6 @@ package com.googlecode.cchlib.swing.batchrunner.ihm;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.List;
@@ -20,7 +18,6 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.batchrunner.BREnableListener;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
-import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 
 
 /**
@@ -32,31 +29,34 @@ import com.googlecode.cchlib.swing.dnd.SimpleFileDropListener;
 public class BRPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
+
     private static final Logger LOGGER = Logger.getLogger( BRPanel.class );
-    public static final String ACTIONCMD_SELECT_SOURCE_FILES = "ACTIONCMD_SELECT_SOURCE_FILES";
+
+    public static final String ACTIONCMD_SELECT_SOURCE_FILES       = "ACTIONCMD_SELECT_SOURCE_FILES";
     public static final String ACTIONCMD_SELECT_DESTINATION_FOLDER = "ACTIONCMD_SELECT_DESTINATION_FOLDER";
-    public static final String ACTIONCMD_DO_ACTION = "ACTIONCMD_DO_ACTION";
+    public static final String ACTIONCMD_DO_ACTION                 = "ACTIONCMD_DO_ACTION";
 
-    private BRActionListener  actionListener;
-    private BRPanelLocaleResources localeResources;
+    private final BRActionListener       actionListener;
+    private final BRPanelLocaleResources localeResources;
 
-    private JTextField jTextFieldDestination;
-    private JTextField jTextFieldMessage;
+    private JTextField            jTextFieldDestination;
+    private JTextField             jTextFieldMessage;
     private DefaultListModel<File> listModel;
-    private JProgressBar jProgressBarGlobal;
-    private JButton jButtonSource;
-    private JButton jButtonDestination;
-    private JButton jButtonDoAction;
-    private JButton jButtonClearFileList;
+    private JProgressBar           jProgressBarGlobal;
+    private JButton                jButtonSource;
+    private JButton                jButtonDestination;
+    private JButton                jButtonDoAction;
+    private JButton                jButtonClearFileList;
 
     /**
      * Create the panel.
      *
-     * @param actionListener
-     * @param localeResources
+     * @param actionListener  a valid {@link BRActionListener}
+     * @param localeResources a valid {@link BRPanelLocaleResources}
      */
+    @SuppressWarnings({"squid:S00117","squid:S1199"}) // generated code
     protected BRPanel(
-        final BRActionListener  actionListener,
+        final BRActionListener       actionListener,
         final BRPanelLocaleResources localeResources
         )
     {
@@ -67,7 +67,7 @@ public class BRPanel extends JPanel
         setBorder(new EmptyBorder(5, 5, 5, 5));
 
         {
-            GridBagLayout gbl_contentPane = new GridBagLayout();
+            final GridBagLayout gbl_contentPane = new GridBagLayout();
             gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0};
             gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
             gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
@@ -76,21 +76,21 @@ public class BRPanel extends JPanel
             this.setLayout(gbl_contentPane);
         }
         {
-            jButtonSource = new JButton( localeResources.getTextAddSourceFile() );
-            jButtonSource.setActionCommand( ACTIONCMD_SELECT_SOURCE_FILES );
+            this.jButtonSource = new JButton( localeResources.getTextAddSourceFile() );
+            this.jButtonSource.setActionCommand( ACTIONCMD_SELECT_SOURCE_FILES );
             // $hide>>$
-            jButtonSource.addActionListener( actionListener );
+            this.jButtonSource.addActionListener( actionListener );
             // $hide<<$
-            GridBagConstraints gbc_jButtonSource = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonSource = new GridBagConstraints();
             gbc_jButtonSource.fill = GridBagConstraints.BOTH;
             gbc_jButtonSource.insets = new Insets(0, 0, 5, 5);
             gbc_jButtonSource.gridx = 0;
             gbc_jButtonSource.gridy = 0;
-            this.add( jButtonSource, gbc_jButtonSource );
+            this.add( this.jButtonSource, gbc_jButtonSource );
         }
         {
-            JScrollPane scrollPane = new JScrollPane();
-            GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+            final JScrollPane scrollPane = new JScrollPane();
+            final GridBagConstraints gbc_scrollPane = new GridBagConstraints();
             gbc_scrollPane.gridheight = 3;
             gbc_scrollPane.gridwidth = 2;
             gbc_scrollPane.fill = GridBagConstraints.BOTH;
@@ -99,103 +99,107 @@ public class BRPanel extends JPanel
             gbc_scrollPane.gridy = 0;
             this.add(scrollPane, gbc_scrollPane);
 
-            JList<File> list = new JList<>();
-            listModel = new DefaultListModel<File>();
-            list.setModel( listModel );
-            scrollPane.setViewportView(list);
+            final JList<File> list = new JList<>();
 
-            try {
-                new SimpleFileDrop( list, new SimpleFileDropListener() {
-                        @Override
-                        public void filesDropped( List<File> files )
-                        {
-                            for( File f : files ) {
-                                listModel.addElement( f );
-                                }
-                        }
-                    } ).addDropTargetListener();
-                }
-            catch( /*TooManyListeners*/Exception e ) {
-                LOGGER.error( "No Drag and Drop support", e );
-                }
+            this.listModel = new DefaultListModel<>();
+
+            list.setModel( this.listModel );
+            scrollPane.setViewportView( list );
+
+            addDropTargetListener( list );
         }
         {
-            jButtonDestination = new JButton( localeResources.getTextSetDestinationFolder() );
-            jButtonDestination.setActionCommand( ACTIONCMD_SELECT_DESTINATION_FOLDER );
+            this.jButtonDestination = new JButton( localeResources.getTextSetDestinationFolder() );
+            this.jButtonDestination.setActionCommand( ACTIONCMD_SELECT_DESTINATION_FOLDER );
             // $hide>>$
-            jButtonDestination.addActionListener( actionListener );
+            this.jButtonDestination.addActionListener( actionListener );
             // $hide<<$
-            GridBagConstraints gbc_jButtonDestination = new GridBagConstraints();
+            final GridBagConstraints gbc_jButtonDestination = new GridBagConstraints();
             gbc_jButtonDestination.fill = GridBagConstraints.BOTH;
             gbc_jButtonDestination.insets = new Insets(0, 0, 5, 5);
             gbc_jButtonDestination.gridx = 0;
             gbc_jButtonDestination.gridy = 3;
-            this.add(jButtonDestination, gbc_jButtonDestination);
+            this.add(this.jButtonDestination, gbc_jButtonDestination);
         }
         {
-            jButtonClearFileList = new JButton( localeResources.getTextClearSourceFileList() );
-            jButtonClearFileList.addActionListener( new ActionListener() {
-                @Override
-                public void actionPerformed( ActionEvent e )
-                {
-                    listModel.clear();
-                }} );
-            GridBagConstraints gbc_jButtonClearFileList = new GridBagConstraints();
+            this.jButtonClearFileList = new JButton( localeResources.getTextClearSourceFileList() );
+            this.jButtonClearFileList.addActionListener( e -> BRPanel.this.listModel.clear() );
+            final GridBagConstraints gbc_jButtonClearFileList = new GridBagConstraints();
             gbc_jButtonClearFileList.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonClearFileList.insets = new Insets(0, 0, 5, 5);
             gbc_jButtonClearFileList.gridx = 0;
             gbc_jButtonClearFileList.gridy = 2;
-            this.add(jButtonClearFileList, gbc_jButtonClearFileList);
+            this.add(this.jButtonClearFileList, gbc_jButtonClearFileList);
         }
         {
-            jTextFieldDestination = new JTextField();
-            jTextFieldDestination.setEditable(false);
-            GridBagConstraints gbc_jTextFieldDestination = new GridBagConstraints();
+            this.jTextFieldDestination = new JTextField();
+            this.jTextFieldDestination.setEditable(false);
+            final GridBagConstraints gbc_jTextFieldDestination = new GridBagConstraints();
             gbc_jTextFieldDestination.gridwidth = 2;
             gbc_jTextFieldDestination.insets = new Insets(0, 0, 5, 0);
             gbc_jTextFieldDestination.fill = GridBagConstraints.BOTH;
             gbc_jTextFieldDestination.gridx = 1;
             gbc_jTextFieldDestination.gridy = 3;
-            this.add(jTextFieldDestination, gbc_jTextFieldDestination);
+            this.add(this.jTextFieldDestination, gbc_jTextFieldDestination);
         }
         {
-            jButtonDoAction = new JButton( localeResources.getTextDoAction() );
+            this.jButtonDoAction = new JButton( localeResources.getTextDoAction() );
             // $hide>>$
-            jButtonDoAction.setActionCommand( ACTIONCMD_DO_ACTION );
+            this.jButtonDoAction.setActionCommand( ACTIONCMD_DO_ACTION );
             // $hide<<$
-            jButtonDoAction.addActionListener( actionListener );
-            GridBagConstraints gbc_jButtonDoAction = new GridBagConstraints();
+            this.jButtonDoAction.addActionListener( actionListener );
+            final GridBagConstraints gbc_jButtonDoAction = new GridBagConstraints();
             gbc_jButtonDoAction.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonDoAction.gridx = 2;
             gbc_jButtonDoAction.gridy = 4;
-            this.add(jButtonDoAction, gbc_jButtonDoAction);
+            this.add(this.jButtonDoAction, gbc_jButtonDoAction);
         }
         {
-            jTextFieldMessage = new JTextField();
-            jTextFieldMessage.setEditable(false);
-            GridBagConstraints gbc_jTextFieldMessage = new GridBagConstraints();
+            this.jTextFieldMessage = new JTextField();
+            this.jTextFieldMessage.setEditable(false);
+            final GridBagConstraints gbc_jTextFieldMessage = new GridBagConstraints();
             gbc_jTextFieldMessage.fill = GridBagConstraints.BOTH;
             gbc_jTextFieldMessage.insets = new Insets(0, 0, 0, 5);
             gbc_jTextFieldMessage.gridx = 1;
             gbc_jTextFieldMessage.gridy = 4;
-            this.add(jTextFieldMessage, gbc_jTextFieldMessage);
+            this.add(this.jTextFieldMessage, gbc_jTextFieldMessage);
         }
         {
-            jProgressBarGlobal = new JProgressBar();
-            jProgressBarGlobal.setStringPainted( true );
-            jProgressBarGlobal.setIndeterminate( false );
-            GridBagConstraints gbc_jProgressBarGlobal = new GridBagConstraints();
+            this.jProgressBarGlobal = new JProgressBar();
+            this.jProgressBarGlobal.setStringPainted( true );
+            this.jProgressBarGlobal.setIndeterminate( false );
+            final GridBagConstraints gbc_jProgressBarGlobal = new GridBagConstraints();
             gbc_jProgressBarGlobal.fill = GridBagConstraints.HORIZONTAL;
             gbc_jProgressBarGlobal.insets = new Insets(0, 0, 0, 5);
             gbc_jProgressBarGlobal.gridx = 0;
             gbc_jProgressBarGlobal.gridy = 4;
-            add(jProgressBarGlobal, gbc_jProgressBarGlobal);
+            add(this.jProgressBarGlobal, gbc_jProgressBarGlobal);
         }
+    }
+
+    private void addDropTargetListener( final JList<File> list )
+    {
+        try {
+            new SimpleFileDrop(
+                    list,
+                    this::filesDroppedSimpleFileDropListener
+                    ).addDropTargetListener();
+            }
+        catch( /*TooManyListeners*/final Exception e ) {
+            LOGGER.error( "No Drag and Drop support", e );
+            }
+    }
+
+    private void filesDroppedSimpleFileDropListener( final List<File> files )
+    {
+        for( final File f : files ) {
+            BRPanel.this.listModel.addElement( f );
+            }
     }
 
     public BRPanelLocaleResources getSBRLocaleResources()
     {
-        return localeResources;
+        return this.localeResources;
     }
 
     /**
@@ -206,7 +210,7 @@ public class BRPanel extends JPanel
      */
     protected void addSourceFile( final File file )
     {
-        if( ! actionListener.getSBRConfig().getSourceFileFilter().accept( file ) ) {
+        if( ! this.actionListener.getSBRConfig().getSourceFileFilter().accept( file ) ) {
             LOGGER.info( "ignore addSourceFile( " + file + " );" );
             return;
             }
@@ -215,13 +219,10 @@ public class BRPanel extends JPanel
             LOGGER.debug( "addSourceFile( " + file + " );" );
             }
 
-        SafeSwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                BRPanel.this.listModel.addElement( file );
-                BRPanel.this.jProgressBarGlobal.setMaximum( BRPanel.this.listModel.size() );
-            }}, "SBRPanel.addSourceFile" );
+        SafeSwingUtilities.invokeLater( ( ) -> {
+            BRPanel.this.listModel.addElement( file );
+            BRPanel.this.jProgressBarGlobal.setMaximum( BRPanel.this.listModel.size() );
+        }, "SBRPanel.addSourceFile" );
     }
 
     /**
@@ -230,13 +231,10 @@ public class BRPanel extends JPanel
      */
     protected void setDestinationFolderFile( final File file )
     {
-        SafeSwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                BRPanel.this.jTextFieldDestination.putClientProperty( File.class, file );
-                BRPanel.this.jTextFieldDestination.setText( file.getPath() );
-            }}, "SBRPanel.setDestinationFolderFile" );
+        SafeSwingUtilities.invokeLater( ( ) -> {
+            BRPanel.this.jTextFieldDestination.putClientProperty( File.class, file );
+            BRPanel.this.jTextFieldDestination.setText( file.getPath() );
+        }, "SBRPanel.setDestinationFolderFile" );
     }
 
     /**
@@ -274,7 +272,7 @@ public class BRPanel extends JPanel
      */
     public void setCurrentMessage( final String message )
     {
-        jTextFieldMessage.setText( message );
+        this.jTextFieldMessage.setText( message );
     }
 
     /**
@@ -283,7 +281,7 @@ public class BRPanel extends JPanel
      */
     protected void setCurrentTaskNumber( final int value )
     {
-        jProgressBarGlobal.setValue( value );
+        this.jProgressBarGlobal.setValue( value );
     }
 
     /**
@@ -292,10 +290,10 @@ public class BRPanel extends JPanel
      */
     protected void setEnabledButtons( final boolean b )
     {
-        jButtonSource.setEnabled( b );
-        jButtonDestination.setEnabled( b );
-        jButtonClearFileList.setEnabled( b );
-        jButtonDoAction.setEnabled( b );
+        this.jButtonSource.setEnabled( b );
+        this.jButtonDestination.setEnabled( b );
+        this.jButtonClearFileList.setEnabled( b );
+        this.jButtonDoAction.setEnabled( b );
     }
 
     /**
@@ -303,21 +301,21 @@ public class BRPanel extends JPanel
      * The listener is registered for invocation of
      * {@link #fireStateChanged(boolean)}.
      *
-     * @param l the listener to be added
+     * @param listener the listener to be added
      */
-    public void addEnableListener( BREnableListener l )
+    public void addEnableListener( final BREnableListener listener )
     {
-        listenerList.add( BREnableListener.class, l );
+        this.listenerList.add( BREnableListener.class, listener );
     }
 
     /**
      * Remove an EnableListener to the listener list.
      *
-     * @param l the listener to be removed
+     * @param listener the listener to be removed
      */
-    public void removeEnableListener( BREnableListener l )
+    public void removeEnableListener( final BREnableListener listener )
     {
-        listenerList.remove( BREnableListener.class, l );
+        this.listenerList.remove( BREnableListener.class, listener );
     }
 
     /**
@@ -328,7 +326,7 @@ public class BRPanel extends JPanel
     {
         setEnabledButtons( enable );
 
-        Object[] listeners = listenerList.getListenerList();
+        final Object[] listeners = this.listenerList.getListenerList();
 
         for( int i = listeners.length - 2; i >= 0; i -= 2 ) {
             if (listeners[i] == BREnableListener.class) {
@@ -342,6 +340,6 @@ public class BRPanel extends JPanel
      */
     protected BRActionListener getSBRActionListener()
     {
-        return actionListener;
+        return this.actionListener;
     }
 }

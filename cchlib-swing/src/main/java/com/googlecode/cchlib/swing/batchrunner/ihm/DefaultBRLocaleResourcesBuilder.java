@@ -32,15 +32,16 @@ public class DefaultBRLocaleResourcesBuilder
     /**
      * Create DefaultBRLocaleResourcesBuilder with a {@link ResourceBundle}
      *
+     * @param resourceRefType NEEDDOC
      * @param resourceBundle {@link ResourceBundle} to use, if
      *       {@code resourceBundle} is null create a {@link ResourceBundle}
      *       based on {@link DefaultBRLocaleResources} package name and
      *       {@link #DEFAULT_RESOURCE_BUNDLE}
-     * @param resourceRefType0
      */
     public DefaultBRLocaleResourcesBuilder(
-        final Class<?> resourceRefType,
-        @Nullable final ResourceBundle resourceBundle
+        final Class<?>       resourceRefType,
+        @Nullable
+        final ResourceBundle resourceBundle
         )
     {
         this.resourceRefType = resourceRefType;

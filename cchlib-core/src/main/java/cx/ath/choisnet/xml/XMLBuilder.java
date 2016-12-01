@@ -25,7 +25,8 @@ public class XMLBuilder
     private static final String DEFAULT_TABULATION = "  ";
     private final Appendable anAppendableObject;
     private String incTabulation;
-    // TODO: private String initTabulation;
+    @SuppressWarnings("unused") // TODO: Not yet implemented
+    private final String initTabulation;
 
     /**
      * Create an XMLBuilder using giving {@link Appendable} object
@@ -51,16 +52,16 @@ public class XMLBuilder
         )
     {
         this.anAppendableObject = a;
-     // TODO: this.initTabulation     = initTabulation;
+        this.initTabulation     = initTabulation;
         this.incTabulation      = incTabulation;
     }
 
     /**
      * NEEDDOC
      *
-     * @param node
+     * @param node {@link Node} to append
      * @return this object for chaining initialization
-     * @throws IOException
+     * @throws IOException if any I/O error occur
      */
     public XMLBuilder append( final Node node ) throws IOException
     {
@@ -96,9 +97,9 @@ public class XMLBuilder
     /**
      * NEEDDOC
      *
-     * @param nodeList NEEDDOC
+     * @param nodeList {@link NodeList} to add
      * @return this object for chaining initialization
-     * @throws IOException NEEDDOC
+     * @throws IOException if any I/O error occur
      */
     public XMLBuilder append( final NodeList nodeList )
         throws IOException

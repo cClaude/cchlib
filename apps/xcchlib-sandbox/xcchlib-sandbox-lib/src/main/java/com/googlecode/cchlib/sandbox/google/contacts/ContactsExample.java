@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.io.RandomAccessFile;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -98,7 +99,7 @@ public class ContactsExample
             // get the Group then delete it
             final ContactGroupEntry group = getGroupInternal( parameters.getId() );
             if( group == null ) {
-                System.err.println( "No Group found with id: " + parameters.getId() );
+                println( "No Group found with id: " + parameters.getId() );
                 return;
             }
             group.delete();
@@ -106,12 +107,13 @@ public class ContactsExample
             // get the contact then delete them
             final ContactEntry contact = getContactInternal( parameters.getId() );
             if( contact == null ) {
-                System.err.println( "No contact found with id: " + parameters.getId() );
+                println( "No contact found with id: " + parameters.getId() );
                 return;
             }
             contact.delete();
         }
     }
+
 
     /**
      * Updates a contact or a group. Presence of any property of a given kind (im, phone, mail, etc.) causes the
@@ -120,7 +122,8 @@ public class ContactsExample
      * @param parameters
      *            parameters storing updated contact values.
      */
-    public void updateEntry( final ContactsExampleParameters parameters ) throws IOException, ServiceException
+    public void updateEntry( final ContactsExampleParameters parameters )
+        throws IOException, ServiceException
     {
         if( parameters.isGroupFeed() ) {
             final ContactGroupEntry group = buildGroup( parameters );
@@ -170,72 +173,72 @@ public class ContactsExample
     }
 
     /**
-     * Print the contents of a ContactEntry to System.err.
+     * Print the contents of a ContactEntry to getPrintStream().
      *
      * @param contact
      *            The ContactEntry to display.
      */
     private static void printContact( final ContactEntry contact )
     {
-        System.err.println( "Id: " + contact.getId() );
+        println( "Id: " + contact.getId() );
         if( contact.getTitle() != null ) {
-            System.err.println( "Contact name: " + contact.getTitle().getPlainText() );
+            println( "Contact name: " + contact.getTitle().getPlainText() );
         } else {
-            System.err.println( "Contact has no name" );
+            println( "Contact has no name" );
 
         }
-        System.err.println( "Last updated: " + contact.getUpdated().toUiString() );
+        println( "Last updated: " + contact.getUpdated().toUiString() );
         if( contact.hasDeleted() ) {
-            System.err.println( "Deleted:" );
+            println( "Deleted:" );
         }
 
-        ElementHelper.printContact( System.err, contact );
+        ElementHelper.printContact( getPrintStream(), contact );
 
         final Link photoLink = contact.getLink( "http://schemas.google.com/contacts/2008/rel#photo", "image/*" );
-        System.err.println( "Photo link: " + photoLink.getHref() );
+        println( "Photo link: " + photoLink.getHref() );
         final String photoEtag = photoLink.getEtag();
-        System.err.println( "  Photo ETag: " + (photoEtag != null ? photoEtag : "(No contact photo uploaded)") );
-        System.err.println( "Self link: " + contact.getSelfLink().getHref() );
-        System.err.println( "Edit link: " + contact.getEditLink().getHref() );
-        System.err.println( "ETag: " + contact.getEtag() );
-        System.err.println( "-------------------------------------------\n" );
+        println( "  Photo ETag: " + (photoEtag != null ? photoEtag : "(No contact photo uploaded)") );
+        println( "Self link: " + contact.getSelfLink().getHref() );
+        println( "Edit link: " + contact.getEditLink().getHref() );
+        println( "ETag: " + contact.getEtag() );
+        println( "-------------------------------------------\n" );
     }
 
     /**
-     * Prints the contents of a GroupEntry to System.err
+     * Prints the contents of a GroupEntry to getPrintStream()
      *
      * @param groupEntry
      *            The GroupEntry to display
      */
     private static void printGroup( final ContactGroupEntry groupEntry )
     {
-        System.err.println( "Id: " + groupEntry.getId() );
-        System.err.println( "Group Name: " + groupEntry.getTitle().getPlainText() );
-        System.err.println( "Last Updated: " + groupEntry.getUpdated() );
-        System.err.println( "Extended Properties:" );
+        println( "Id: " + groupEntry.getId() );
+        println( "Group Name: " + groupEntry.getTitle().getPlainText() );
+        println( "Last Updated: " + groupEntry.getUpdated() );
+        println( "Extended Properties:" );
 
         for( final ExtendedProperty property : groupEntry.getExtendedProperties() ) {
             if( property.getValue() != null ) {
-                System.err.println( "  " + property.getName() + "(value) = " + property.getValue() );
+                println( "  " + property.getName() + "(value) = " + property.getValue() );
             } else if( property.getXmlBlob() != null ) {
-                System.err.println( "  " + property.getName() + "(xmlBlob) = " + property.getXmlBlob().getBlob() );
+                println( "  " + property.getName() + "(xmlBlob) = " + property.getXmlBlob().getBlob() );
             }
         }
 
-        System.err.print( "Which System Group: " );
+        getPrintStream().print( "Which System Group: " );
         if( groupEntry.hasSystemGroup() ) {
             final SystemGroup systemGroup = SystemGroup.fromSystemGroupId( groupEntry.getSystemGroup().getId() );
-            System.err.println( systemGroup );
+            println( systemGroup );
         } else {
-            System.err.println( "(Not a system group)" );
+            println( "(Not a system group)" );
         }
 
-        System.err.println( "Self Link: " + groupEntry.getSelfLink().getHref() );
+        println( "Self Link: " + groupEntry.getSelfLink().getHref() );
         if( !groupEntry.hasSystemGroup() ) {
             // System groups are not modifiable, and thus don't have an edit link.
-            System.err.println( "Edit Link: " + groupEntry.getEditLink().getHref() );
+            println( "Edit Link: " + groupEntry.getEditLink().getHref() );
         }
-        System.err.println( "-------------------------------------------\n" );
+        println( "-------------------------------------------\n" );
     }
 
     /**
@@ -248,10 +251,9 @@ public class ContactsExample
      */
     private static void processScript( final ContactsExample example, final ContactsExampleParameters parameters ) throws IOException, ServiceException
     {
-        final BufferedReader reader = new BufferedReader( new FileReader( parameters.getScript() ) );
-
-        try {
+        try( final BufferedReader reader = new BufferedReader( new FileReader( parameters.getScript() ) ) ) {
             String line;
+
             while( (line = reader.readLine()) != null ) {
                 final ContactsExampleParameters newParams = new ContactsExampleParameters( parameters, line );
                 processAction( example, newParams );
@@ -260,11 +262,6 @@ public class ContactsExample
                     parameters.setId( lastAddedId );
                     lastAddedId = null;
                 }
-            }
-        }
-        finally {
-            if( reader != null ) {
-                reader.close();
             }
         }
     }
@@ -280,7 +277,7 @@ public class ContactsExample
     private static void processAction( final ContactsExample example, final ContactsExampleParameters parameters ) throws IOException, ServiceException
     {
         final ContactsExampleParameters.Actions action = parameters.getAction();
-        System.err.println( "Executing action: " + action );
+        println( "Executing action: " + action );
         switch( action ) {
             case LIST:
                 example.listEntries( parameters );
@@ -298,7 +295,7 @@ public class ContactsExample
                 example.updateEntry( parameters );
                 break;
             default:
-                System.err.println( "No such action" );
+                println( "No such action" );
         }
     }
 
@@ -336,23 +333,24 @@ public class ContactsExample
         if( parameters.getGroup() != null ) {
             myQuery.setStringCustomParameter( "group", parameters.getGroup() );
         }
+
         try {
             if( parameters.isGroupFeed() ) {
                 final ContactGroupFeed groupFeed = this.service.query( myQuery, ContactGroupFeed.class );
                 for( final ContactGroupEntry entry : groupFeed.getEntries() ) {
                     printGroup( entry );
                 }
-                System.err.println( "Total: " + groupFeed.getEntries().size() + " entries found" );
+                println( "Total: " + groupFeed.getEntries().size() + " entries found" );
             } else {
                 final ContactFeed resultFeed = this.service.query( myQuery, ContactFeed.class );
                 for( final ContactEntry entry : resultFeed.getEntries() ) {
                     printContact( entry );
                 }
-                System.err.println( "Total: " + resultFeed.getEntries().size() + " entries found" );
+                println( "Total: " + resultFeed.getEntries().size() + " entries found" );
             }
         }
         catch( final NoLongerAvailableException ex ) {
-            System.err.println( "Not all placehorders of deleted entries are available" );
+            println( "Not all placehorders of deleted entries are available" );
         }
     }
 
@@ -362,27 +360,30 @@ public class ContactsExample
      *
      * @param parameters
      */
-    private void listEntries( final ContactsExampleParameters parameters ) throws IOException, ServiceException
+    private void listEntries( final ContactsExampleParameters parameters )
+            throws IOException, ServiceException
     {
         if( parameters.isGroupFeed() ) {
             final ContactGroupFeed groupFeed = this.service.getFeed( this.feedUrl, ContactGroupFeed.class );
 
-            System.err.println( groupFeed.getTitle().getPlainText() );
+            println( groupFeed.getTitle().getPlainText() );
 
             for( final ContactGroupEntry entry : groupFeed.getEntries() ) {
                 printGroup( entry );
             }
 
-            System.err.println( "Total: " + groupFeed.getEntries().size() + " groups found" );
+            println( "Total: " + groupFeed.getEntries().size() + " groups found" );
         } else {
             final ContactFeed resultFeed = this.service.getFeed( this.feedUrl, ContactFeed.class );
             // Print the results
-            System.err.println( resultFeed.getTitle().getPlainText() );
+            println( resultFeed.getTitle().getPlainText() );
+
             for( final ContactEntry entry : resultFeed.getEntries() ) {
                 printContact( entry );
                 // Since 2.0, the photo link is always there, the presence of an actual
                 // photo is indicated by the presence of an ETag.
                 final Link photoLink = entry.getLink( "http://schemas.google.com/contacts/2008/rel#photo", "image/*" );
+
                 if( photoLink.getEtag() != null ) {
                     final Service.GDataRequest request = this.service.createLinkQueryRequest( photoLink );
                     request.execute();
@@ -391,15 +392,18 @@ public class ContactsExample
                     final RandomAccessFile file = new RandomAccessFile( "/tmp/"
                             + entry.getSelfLink().getHref().substring( entry.getSelfLink().getHref().lastIndexOf( '/' ) + 1 ), "rw" );
                     final byte[] buffer = new byte[4096];
-                    for( int read = 0; (read = in.read( buffer )) != -1; out.write( buffer, 0, read ) ) {} // $codepro.audit.disable
-                                                                                                           // emptyForStatement
+
+                    for( int read; (read = in.read( buffer )) != -1; out.write( buffer, 0, read ) ) {
+                        // empty
+                    }
+
                     file.write( out.toByteArray() );
                     file.close();
                     in.close();
                     request.end();
                 }
             }
-            System.err.println( "Total: " + resultFeed.getEntries().size() + " entries found" );
+            println( "Total: " + resultFeed.getEntries().size() + " entries found" );
         }
     }
 
@@ -456,27 +460,55 @@ public class ContactsExample
      */
     private static void displayUsage()
     {
+        @SuppressWarnings("squid:S2068") // No password here
+        final String usageInstructions = "USAGE:\n"
+            + " -----------------------------------------------------------\n"
+            + "  Basic command line usage:\n"
+            + "    ContactsExample [<options>] <authenticationInformation> "
+                + "<--contactfeed|--groupfeed> "
+                + "--action=<action> [<action options>]  "
+                + "(default contactfeed)\n"
+            + "  Scripting commands usage:\n"
+                + "    contactsExample [<options>] <authenticationInformation> "
+                + "<--contactfeed|--groupfeed>   --script=<script file>  "
+                + "(default contactFeed) \n" + "  Print usage (this screen):\n"
+            + "   --help\n"
+            + " -----------------------------------------------------------\n\n"
+            + "  Options: \n"
+            + "    --base-url=<url to connect to> "
+                + "(default http://www.google.com/m8/feeds/) \n"
+            + "    --projection=[thin|full|property-KEY] "
+                + "(default thin)\n"
+            + "    --verbose : dumps communication information\n"
+            + "  Authentication Information (obligatory on command line): \n"
+            + "    --username=<username email> --password=<password>\n"
+            + "  Actions: \n" + "     * list  list all contacts\n"
+            + "     * query  query contacts\n"
+            + "        options:\n"
+            + "             --showdeleted : shows also deleted contacts\n"
+            + "             --updated-min=YYYY-MM-DDTHH:MM:SS : only updated "
+                + "after the time specified\n"
+            + "             --requre-all-deleted=[true|false] : specifies "
+                + "server behaviour in case of placeholders for deleted entries are"
+                + "lost. Relevant only if --showdeleted and --updated-min also "
+            + "provided.\n"
+            + "             --orderby=lastmodified : order by last modified\n"
+            + "             --sortorder=[ascending|descending] : sort order\n"
+            + "             --max-results=<n> : return maximum n results\n"
+            + "             --start-index=<n> : return results starting from "
+                + "the starting index\n"
+            + "             --querygroupid=<groupid> : return results from the "
+                + "group\n" + "    * add  add new contact\n"
+            + "        options:\n"
+            + ElementHelper.getUsageString() + "    * delete  delete contact\n"
+            + "        options:\n"
+            + "             --id=<contact id>\n"
+            + "    * update  updates contact\n"
+            + "        options:\n"
+            + "             --id=<contact id>\n"
+            + ElementHelper.getUsageString();
 
-        final String usageInstructions = "USAGE:\n" + " -----------------------------------------------------------\n" + "  Basic command line usage:\n"
-                + "    ContactsExample [<options>] <authenticationInformation> " + "<--contactfeed|--groupfeed> " + "--action=<action> [<action options>]  "
-                + "(default contactfeed)\n" + "  Scripting commands usage:\n" + "    contactsExample [<options>] <authenticationInformation> "
-                + "<--contactfeed|--groupfeed>   --script=<script file>  " + "(default contactFeed) \n" + "  Print usage (this screen):\n" + "   --help\n"
-                + " -----------------------------------------------------------\n\n" + "  Options: \n" + "    --base-url=<url to connect to> "
-                + "(default http://www.google.com/m8/feeds/) \n" + "    --projection=[thin|full|property-KEY] " + "(default thin)\n"
-                + "    --verbose : dumps communication information\n" + "  Authentication Information (obligatory on command line): \n"
-                + "    --username=<username email> --password=<password>\n" + "  Actions: \n" + "     * list  list all contacts\n"
-                + "     * query  query contacts\n" + "        options:\n" + "             --showdeleted : shows also deleted contacts\n"
-                + "             --updated-min=YYYY-MM-DDTHH:MM:SS : only updated " + "after the time specified\n"
-                + "             --requre-all-deleted=[true|false] : specifies " + "server behaviour in case of placeholders for deleted entries are"
-                + "lost. Relevant only if --showdeleted and --updated-min also " + "provided.\n"
-                + "             --orderby=lastmodified : order by last modified\n" + "             --sortorder=[ascending|descending] : sort order\n"
-                + "             --max-results=<n> : return maximum n results\n" + "             --start-index=<n> : return results starting from "
-                + "the starting index\n" + "             --querygroupid=<groupid> : return results from the " + "group\n" + "    * add  add new contact\n"
-                + "        options:\n" + ElementHelper.getUsageString() + "    * delete  delete contact\n" + "        options:\n"
-                + "             --id=<contact id>\n" + "    * update  updates contact\n" + "        options:\n" + "             --id=<contact id>\n"
-                + ElementHelper.getUsageString();
-
-        System.err.println( usageInstructions );
+        println( usageInstructions );
     }
 
     /**
@@ -506,7 +538,7 @@ public class ContactsExample
         }
 
         if( (parameters.getUserName() == null) || (parameters.getPassword() == null) ) {
-            System.err.println( "Both username and password must be specified." );
+            println( "Both username and password must be specified." );
             return;
         }
 
@@ -522,6 +554,18 @@ public class ContactsExample
         } else {
             processAction( example, parameters );
         }
-        System.out.flush();
+
+        getPrintStream().flush();
+    }
+
+    private static void println( final Object str )
+    {
+        getPrintStream().println( str );
+    }
+
+    @SuppressWarnings("squid:S106") // Just a sample
+    private static PrintStream getPrintStream()
+    {
+        return System.err;
     }
 }

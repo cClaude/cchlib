@@ -33,7 +33,8 @@ public abstract class JPopupMenuForJTable
     /**
      * Create JPopupMenuForJTable
      *
-     * @param jTable {@link JTable} to use.
+     * @param jTable     {@link JTable} to use.
+     * @param attributes Configuration see {@link Attributs}
      * @throws NullPointerException if jTable est null
      */
     public JPopupMenuForJTable(
@@ -50,6 +51,12 @@ public abstract class JPopupMenuForJTable
         this.jTable = jTable;
     }
 
+    /**
+     * Create JPopupMenuForJTable using default configuration
+     *
+     * @param jTable {@link JTable} to use.
+     * @throws NullPointerException if jTable est null
+     */
     public JPopupMenuForJTable( @Nonnull final JTable jTable )
     {
         this( jTable, (Set<Attributs>)null );
@@ -184,9 +191,6 @@ public abstract class JPopupMenuForJTable
             }
     }
 
-    /**
-     * NEEDDOC
-     */
     private void cancelCellEditing()
     {
         final CellEditor ce = this.jTable.getCellEditor();
@@ -218,28 +222,30 @@ public abstract class JPopupMenuForJTable
      *      return contextMenu;
      *  }
      * </pre>
-     * @param rowIndex
-     * @param columnIndex
+     *
+     * @param rowIndex    row index
+     * @param columnIndex column index
      * @return JPopupMenu for this cell
      */
     protected abstract JPopupMenu createContextMenu(
-            final int rowIndex,
-            final int columnIndex
-            );
+        final int rowIndex,
+        final int columnIndex
+        );
 
     /**
      * Add copy to clip-board sub-menu
-     * @param contextMenu
-     * @param textForCopy
-     * @param rowIndex
-     * @param columnIndex
+     *
+     * @param contextMenu  Parent JPopupMenu
+     * @param textForCopy  Localized string for copy (CTRL+C)
+     * @param rowIndex     column index
+     * @param columnIndex  column index
      */
     public void addCopyMenuItem(
-            final JPopupMenu    contextMenu,
-            final String        textForCopy,
-            final int           rowIndex,
-            final int           columnIndex
-            )
+        final JPopupMenu    contextMenu,
+        final String        textForCopy,
+        final int           rowIndex,
+        final int           columnIndex
+        )
     {
         addJMenuItem(
             contextMenu,
@@ -250,16 +256,16 @@ public abstract class JPopupMenuForJTable
     /**
      * NEEDDOC
      *
-     * @param textForCopy
-     * @param rowIndex
-     * @param columnIndex
+     * @param textForCopy  Localized string for copy (CTRL+C)
+     * @param rowIndex     column index
+     * @param columnIndex  column index
      * @return NEEDDOC
      */
     protected final JMenuItem createCopyJMenuItem(
-            final String    textForCopy,
-            final int       rowIndex,
-            final int       columnIndex
-            )
+        final String    textForCopy,
+        final int       rowIndex,
+        final int       columnIndex
+        )
     {
         final JMenuItem m = new JMenuItem( textForCopy );
 
@@ -279,9 +285,9 @@ public abstract class JPopupMenuForJTable
      * @return an ActionListener
      */
     protected final ActionListener createCopyActionListener(
-            final int   rowIndex,
-            final int   columnIndex
-            )
+        final int   rowIndex,
+        final int   columnIndex
+        )
     {
         return e -> {
             final Object value = getTableModel()
@@ -294,17 +300,17 @@ public abstract class JPopupMenuForJTable
     /**
      * Add paste to clip-board sub-menu
      *
-     * @param contextMenu
-     * @param txtForPaste
-     * @param rowIndex
-     * @param columnIndex
+     * @param contextMenu  Parent JPopupMenu
+     * @param txtForPaste  Localized string for paste (CTRL+V)
+     * @param rowIndex     column index
+     * @param columnIndex  column index
      */
     protected final void addPasteMenuItem(
-            final JPopupMenu    contextMenu,
-            final String        txtForPaste,
-            final int           rowIndex,
-            final int           columnIndex
-            )
+        final JPopupMenu    contextMenu,
+        final String        txtForPaste,
+        final int           rowIndex,
+        final int           columnIndex
+        )
     {
         final JMenuItem pasteMenu = new JMenuItem();
 

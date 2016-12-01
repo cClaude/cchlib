@@ -1,16 +1,20 @@
 package cx.ath.choisnet.io;
 
-import com.googlecode.cchlib.io.FileFilterHelper;
-import com.googlecode.cchlib.io.SerializableFilenameFilter;
 import java.io.File;
 import java.io.FilenameFilter;
+import com.googlecode.cchlib.io.FileFilterHelper;
+import com.googlecode.cchlib.io.SerializableFileFilter;
+import com.googlecode.cchlib.io.SerializableFilenameFilter;
 
 /**
  * FileFilterHelper provide more efficient filter.
  * Theses FilenameFilter are provide for compatibility only
  *
  * @see FileFilterHelper
+ *
+ * @deprecated use Lambda instead or {@link SerializableFileFilter}
  */
+@Deprecated
 public class FilenameFilterHelper
 {
     private FilenameFilterHelper()
@@ -28,7 +32,7 @@ public class FilenameFilterHelper
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean accept( File dir, String filename )
+            public boolean accept( final File dir, final String filename )
             {
                 return new File(dir,filename).isDirectory();
             }
@@ -38,7 +42,7 @@ public class FilenameFilterHelper
     /**
      *
      * @return FilenameFilter which does not filter
-     *  @see FileFilterHelper#trueFileFilter()
+     * @see FileFilterHelper#trueFileFilter()
      */
     public static FilenameFilter trueFileFilter()
     {
@@ -46,7 +50,7 @@ public class FilenameFilterHelper
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean accept( File dir, String filename )
+            public boolean accept( final File dir, final String filename )
             {
                 return true;
             }
@@ -55,7 +59,7 @@ public class FilenameFilterHelper
 
     /**
      *
-     * @param aFileFilter
+     * @param aFileFilter source {@link FilenameFilter}
      * @return FilenameFilter which return "not" result from giving FilenameFilter
      * @see FileFilterHelper#not(java.io.FileFilter)
      */
@@ -65,7 +69,7 @@ public class FilenameFilterHelper
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean accept( File dir, String filename )
+            public boolean accept( final File dir, final String filename )
             {
                 return !aFileFilter.accept(dir,filename);
             }
@@ -74,8 +78,8 @@ public class FilenameFilterHelper
 
     /**
      *
-     * @param firstFileFilter
-     * @param secondFileFilter
+     * @param firstFileFilter source {@link FilenameFilter}
+     * @param secondFileFilter source {@link FilenameFilter}
      * @return a FilenameFilter
      * @see FileFilterHelper#and(java.io.FileFilter...)
      */
@@ -88,7 +92,7 @@ public class FilenameFilterHelper
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean accept( File dir, String filename )
+            public boolean accept( final File dir, final String filename )
             {
                 if(firstFileFilter.accept(dir,filename)) {
                     return secondFileFilter.accept(dir,filename);
@@ -102,7 +106,7 @@ public class FilenameFilterHelper
 
     /**
      *
-     * @param fileFilters
+     * @param fileFilters source {@link FilenameFilter}
      * @return a FilenameFilter
      * @see FileFilterHelper#and(java.io.FileFilter...)
      */
@@ -114,9 +118,9 @@ public class FilenameFilterHelper
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean accept( File dir, String filename )
+            public boolean accept( final File dir, final String filename )
             {
-                for(FilenameFilter ff : fileFilters ) {
+                for(final FilenameFilter ff : fileFilters ) {
                     if(!ff.accept(dir,filename)) {
                         return false;
                     }
@@ -128,8 +132,8 @@ public class FilenameFilterHelper
 
     /**
      *
-     * @param firstFileFilter
-     * @param secondFileFilter
+     * @param firstFileFilter source {@link FilenameFilter}
+     * @param secondFileFilter source {@link FilenameFilter}
      * @return a FilenameFilter
      * @see FileFilterHelper#or(java.io.FileFilter...)
      */
@@ -142,7 +146,7 @@ public class FilenameFilterHelper
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean accept( File dir, String filename )
+            public boolean accept( final File dir, final String filename )
             {
                 if(firstFileFilter.accept(dir,filename)) {
                     return true;
@@ -156,7 +160,7 @@ public class FilenameFilterHelper
 
     /**
      *
-     * @param fileFilters
+     * @param fileFilters source {@link FilenameFilter}
      * @return a FilenameFilter
      * @see FileFilterHelper#or(java.io.FileFilter...)
      */
@@ -168,9 +172,9 @@ public class FilenameFilterHelper
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean accept( File dir, String filename )
+            public boolean accept( final File dir, final String filename )
             {
-                for(FilenameFilter ff : fileFilters) {
+                for(final FilenameFilter ff : fileFilters) {
                     if(ff.accept(dir,filename)) {
                         return true;
                     }
@@ -182,8 +186,8 @@ public class FilenameFilterHelper
 
     /**
      *
-     * @param firstFileFilter
-     * @param secondFileFilter
+     * @param firstFileFilter source {@link FilenameFilter}
+     * @param secondFileFilter source {@link FilenameFilter}
      * @return a FilenameFilter
      * @see FileFilterHelper#xor(java.io.FileFilter, java.io.FileFilter)
      */
@@ -196,7 +200,7 @@ public class FilenameFilterHelper
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean accept( File dir, String filename )
+            public boolean accept( final File dir, final String filename )
             {
                 return  firstFileFilter.accept(dir,filename)
                         ^
@@ -207,7 +211,7 @@ public class FilenameFilterHelper
 
     /**
      *
-     * @param length
+     * @param length Length of expected files
      * @return a FilenameFilter
      * @see FileFilterHelper#fileLengthFileFilter(long)
      */
@@ -217,7 +221,7 @@ public class FilenameFilterHelper
             private static final long serialVersionUID = 1L;
 
             @Override
-            public boolean accept( File dir, String filename )
+            public boolean accept( final File dir, final String filename )
             {
                 return (new File(dir,filename)).length() == length;
             }

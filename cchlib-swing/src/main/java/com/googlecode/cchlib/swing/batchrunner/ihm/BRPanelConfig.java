@@ -2,6 +2,7 @@ package com.googlecode.cchlib.swing.batchrunner.ihm;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.Serializable;
 import javax.swing.JFileChooser;
 import com.googlecode.cchlib.NeedDoc;
 
@@ -11,7 +12,7 @@ import com.googlecode.cchlib.NeedDoc;
  * @since 4.1.8
  */
 @NeedDoc
-public interface BRPanelConfig
+public interface BRPanelConfig extends Serializable
 {
     /**
      *

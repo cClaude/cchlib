@@ -1,12 +1,13 @@
 package com.googlecode.cchlib.swing.batchrunner;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  *
  * @since 4.1.8
  */
-public interface BRRunnable
+public interface BRRunnable extends Serializable
 {
     /**
      * Invoke when user call start batch action
@@ -40,5 +41,7 @@ public interface BRRunnable
      * @throws BRUserCancelException if {@link BRExecutionEvent} trap an user cancel.
      * @throws BRExecutionException if batch should be cancel, for any reason.
      */
-    void execute( BRExecutionEvent event ) throws BRUserCancelException, BRExecutionException;
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    void execute( BRExecutionEvent event )
+        throws BRUserCancelException, BRExecutionException;
 }

@@ -4,6 +4,7 @@ import java.awt.Cursor;
 import java.awt.Window;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Enumeration;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
@@ -24,28 +25,34 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
  * @since 4.1.8
  */
 @NeedDoc
-public class BRActionListener extends AbstractBRActionListener
+public class BRActionListener
+    extends AbstractBRActionListener
+        implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private static final Logger LOGGER = Logger.getLogger( BRActionListener.class );
 
     private JFileChooserInitializer jFileChooserInitializer;
 
     private final BRExecutionEventFactory eventFactory;
     private final BRRunnable              task;
-    private final BRPanelConfig                config;
+    private final BRPanelConfig           config;
 
     private boolean running;
-    private File _sourceFilesCurrentDirectory;
-    private File _destinationFolderCurrentDirectory;
+    private File    sourceFilesCurrentDirectory;
+    private File    destinationFolderCurrentDirectory;
 
     /**
-     * @param eventFactory
-     * @param task
+     * NEEDDOC
+     * @param eventFactory NEEDDOC
+     * @param task NEEDDOC
+     * @param config NEEDDOC
      */
     public BRActionListener(
         final BRExecutionEventFactory eventFactory,
         final BRRunnable              task,
-        final BRPanelConfig                config
+        final BRPanelConfig           config
         )
     {
         assert eventFactory !=null;
@@ -79,7 +86,7 @@ public class BRActionListener extends AbstractBRActionListener
         // Use last value if exist
         // otherwise use value on config.
         // otherwise use default from JFileChooser.
-        File currentDirectory = BRActionListener.this._destinationFolderCurrentDirectory;
+        File currentDirectory = BRActionListener.this.destinationFolderCurrentDirectory;
 
         if( currentDirectory == null ) {
             currentDirectory = BRActionListener.this.config.getDefaultDestinationDirectoryFile();
@@ -95,7 +102,7 @@ public class BRActionListener extends AbstractBRActionListener
             setDestinationFolderFile( file );
             }
 
-        BRActionListener.this._destinationFolderCurrentDirectory = jfc.getCurrentDirectory();
+        BRActionListener.this.destinationFolderCurrentDirectory = jfc.getCurrentDirectory();
     }
 
     @Override
@@ -127,9 +134,7 @@ public class BRActionListener extends AbstractBRActionListener
     {
         int i = 0;
 
-        setCursor(
-                Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR)
-                );
+        setCursor( Cursor.WAIT_CURSOR );
         fireStateChanged( false );
 
         try {
@@ -165,9 +170,7 @@ public class BRActionListener extends AbstractBRActionListener
                 );
             }
         finally {
-            setCursor(
-                    Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR )
-                    );
+            setCursor( Cursor.DEFAULT_CURSOR );
             fireStateChanged( true );
 
             BRActionListener.this.running = false;
@@ -194,7 +197,7 @@ public class BRActionListener extends AbstractBRActionListener
         // Use last value if exist
         // otherwise use value on config.
         // otherwise use default from JFileChooser.
-        File currentDirectory = BRActionListener.this._sourceFilesCurrentDirectory;
+        File currentDirectory = BRActionListener.this.sourceFilesCurrentDirectory;
 
         if( currentDirectory == null ) {
             currentDirectory = BRActionListener.this.config.getDefaultSourceDirectoryFile();
@@ -220,9 +223,13 @@ public class BRActionListener extends AbstractBRActionListener
                 addSourceFile( f );
                 }
             }
-        BRActionListener.this._sourceFilesCurrentDirectory = jfc.getCurrentDirectory();
+        BRActionListener.this.sourceFilesCurrentDirectory = jfc.getCurrentDirectory();
     }
 
+    /**
+     * NEEDDOC
+     * @return NEEDDOC
+     */
     public JFileChooserInitializer getJFileChooserInitializer()
     {
         if( this.jFileChooserInitializer == null ) {
@@ -231,6 +238,10 @@ public class BRActionListener extends AbstractBRActionListener
         return this.jFileChooserInitializer;
     }
 
+    /**
+     * NEEDDOC
+     * @return NEEDDOC
+     */
     protected Window getTopLevelWindow()
     {
         return Window.class.cast( getTopLevelAncestor() );
@@ -252,10 +263,7 @@ public class BRActionListener extends AbstractBRActionListener
         try {
             this.task.execute( event );
             }
-        catch( final BRUserCancelException e ) {
-            throw new BRInterruptedException( e );
-            }
-        catch( final BRExecutionException e ) {
+        catch( final BRUserCancelException | BRExecutionException e ) {
             throw new BRInterruptedException( e );
             }
     }
@@ -275,7 +283,7 @@ public class BRActionListener extends AbstractBRActionListener
      */
     public File getDefaultSourceDirectoryFile()
     {
-        return this._sourceFilesCurrentDirectory;
+        return this.sourceFilesCurrentDirectory;
     }
 
     /**
@@ -283,6 +291,6 @@ public class BRActionListener extends AbstractBRActionListener
      */
     public File getDefaultDestinationDirectoryFile()
     {
-        return this._destinationFolderCurrentDirectory;
+        return this.destinationFolderCurrentDirectory;
     }
 }

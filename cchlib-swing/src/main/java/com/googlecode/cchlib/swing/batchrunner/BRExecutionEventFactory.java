@@ -1,13 +1,15 @@
 package com.googlecode.cchlib.swing.batchrunner;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * {@link BRExecutionEvent} factory
  *
  * @since 4.1.8
  */
-public interface BRExecutionEventFactory
+@FunctionalInterface
+public interface BRExecutionEventFactory extends Serializable
 {
     /**
      * Create a {@link BRExecutionEvent} for <code>sourceFile</code>

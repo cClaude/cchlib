@@ -80,19 +80,19 @@ public class Bean implements Serializable
 
     /**
      * Build a Bean from a Field
-     * @param f Field for contender (typically a Frame or a Dialog)
+     * @param field Field for contender (typically a Frame or a Dialog)
      * @throws IllegalArgumentException
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    public Bean( final Field f ) throws IllegalArgumentException
+    public Bean( final Field field ) throws IllegalArgumentException
     {
-        this.fieldName = f.getName();
+        this.fieldName = field.getName();
 
         final int begin = this.fieldName.indexOf( SEPARATOR );
 
         if( begin <= 0 ) {
-            LOGGER.warn( "Not bean: " + f.getName()  );
-            throw new IllegalArgumentException( f.getName() );
+            LOGGER.warn( "Not bean: " + this.fieldName  );
+            throw new IllegalArgumentException( this.fieldName );
         }
         else { // if( begin > 0 ),- NOSONAR
             this.namePrefix = this.fieldName.substring( 0, begin );
@@ -118,7 +118,9 @@ public class Bean implements Serializable
                     this.index = Integer.parseInt( eos.substring( 1 ) );
                 }
                 else {
-                    LOGGER.warn( "Don't kown how to handle: eos(" + eos + ") for " + f );
+                    LOGGER.warn(
+                        "Don't kown how to handle: eos(" + eos + ") for " + field
+                        );
                 }
             }
         }

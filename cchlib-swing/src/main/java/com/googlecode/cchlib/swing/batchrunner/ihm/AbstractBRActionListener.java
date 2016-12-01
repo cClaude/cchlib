@@ -21,14 +21,14 @@ abstract class AbstractBRActionListener  implements ActionListener
 
     private BRPanel panel;
 
-    public void setSBRPanel( BRPanel panel )
+    public void setSBRPanel( final BRPanel panel )
     {
         assert panel != null;
 
         this.panel = panel;
     }
 
-    protected void setDestinationFolderFile( File file )
+    protected void setDestinationFolderFile( final File file )
     {
         this.panel.setDestinationFolderFile( file );
     }
@@ -38,9 +38,14 @@ abstract class AbstractBRActionListener  implements ActionListener
         return this.panel.getSourceFileElements();
     }
 
-    protected void setCursor( Cursor cursor )
+    protected void setCursor( final Cursor cursor )
     {
         this.panel.setCursor( cursor );
+    }
+
+    protected void setCursor( final int cursorType )
+    {
+        setCursor( Cursor.getPredefinedCursor( cursorType ) );
     }
 
     protected BRPanelLocaleResources getSBRLocaleResources()
@@ -58,12 +63,12 @@ abstract class AbstractBRActionListener  implements ActionListener
         return this.panel.getOutputFolderFile();
     }
 
-    protected void setCurrentMessage( String message )
+    protected void setCurrentMessage( final String message )
     {
         this.panel.setCurrentMessage( message );
     }
 
-    protected void addSourceFile( File file )
+    protected void addSourceFile( final File file )
     {
         this.panel.addSourceFile( file );
     }
@@ -73,7 +78,7 @@ abstract class AbstractBRActionListener  implements ActionListener
         return this.panel.getTopLevelAncestor();
     }
 
-    protected void fireStateChanged( boolean enable )
+    protected void fireStateChanged( final boolean enable )
     {
         this.panel.fireStateChanged( enable );
     }
@@ -92,30 +97,25 @@ abstract class AbstractBRActionListener  implements ActionListener
             LOGGER.trace( "ActionCommand = " + c );
             }
 
-        new Thread( new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                switch( c ) {
-                    case BRPanel.ACTIONCMD_SELECT_SOURCE_FILES :
-                        selectSourceFiles();
-                        break;
+        new Thread( (Runnable)( ) -> {
+            switch( c ) {
+                case BRPanel.ACTIONCMD_SELECT_SOURCE_FILES :
+                    selectSourceFiles();
+                    break;
 
-                    case BRPanel.ACTIONCMD_DO_ACTION :
-                        executeBatch();
-                        break;
+                case BRPanel.ACTIONCMD_DO_ACTION :
+                    executeBatch();
+                    break;
 
-                    case BRPanel.ACTIONCMD_SELECT_DESTINATION_FOLDER:
-                        selectDestinationFolder();
-                        break;
+                case BRPanel.ACTIONCMD_SELECT_DESTINATION_FOLDER:
+                    selectDestinationFolder();
+                    break;
 
-                    default :
-                        LOGGER.warn( "Unknown event action command: " + c );
-                        LOGGER.warn( "Event : " + event );
-                        break;
-                    }
-            }
+                default :
+                    LOGGER.warn( "Unknown event action command: " + c );
+                    LOGGER.warn( "Event : " + event );
+                    break;
+                }
         },"AbstractSBRActionListener.actionPerformed").start();
     }
 
@@ -133,5 +133,4 @@ abstract class AbstractBRActionListener  implements ActionListener
      * Open a {@link JFileChooser} to select sources files
      */
     protected abstract void selectSourceFiles();
-
 }

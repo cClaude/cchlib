@@ -17,13 +17,16 @@ import com.googlecode.cchlib.swing.text.PatternDocument;
  * @see Pattern
  * @since 4.1.6
  */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
 public class XComboBoxPattern extends XComboBox<String>
 {
     private static final long serialVersionUID = 1L;
+
     /** Default background to display errors : {@link Color#RED} */
     public static final Color DEFAULT_ERROR_COLOR = Color.RED;
+
     /** @serial */
-    private JTextField editor = new JTextField();
+    private final JTextField textEditor = new JTextField();
     /** @serial */
     private PatternDocument documentEditor;
 
@@ -46,7 +49,7 @@ public class XComboBoxPattern extends XComboBox<String>
         super( String.class );
 
         this.setEditor( new ComboBoxEditorPattern( errorColor ) );
-        this.editor.setBorder( null ); // already a border in XComboBox
+        this.textEditor.setBorder( null ); // already a border in XComboBox
     }
 
     /**
@@ -64,7 +67,7 @@ public class XComboBoxPattern extends XComboBox<String>
     {
         this( errorColor );
 
-        for( String s : regExps ) {
+        for( final String s : regExps ) {
             addItem( s );
             }
     }
@@ -75,11 +78,11 @@ public class XComboBoxPattern extends XComboBox<String>
      * @param regExps arrays of String (must be valid regular
      *                expression)
      */
-    public XComboBoxPattern( String...regExps )
+    public XComboBoxPattern( final String...regExps )
     {
         this();
 
-        for( String s : regExps ) {
+        for( final String s : regExps ) {
             addItem( s );
             }
     }
@@ -99,7 +102,7 @@ public class XComboBoxPattern extends XComboBox<String>
     {
         this( errorColor );
 
-        for( String s : regExps ) {
+        for( final String s : regExps ) {
             addItem( s );
             }
     }
@@ -110,34 +113,35 @@ public class XComboBoxPattern extends XComboBox<String>
      * @param regExps Collection of String (must be valid regular
      *                expression)
      */
-    public XComboBoxPattern( Collection<String> regExps )
+    public XComboBoxPattern( final Collection<String> regExps )
     {
         this();
 
-        for( String s : regExps ) {
+        for( final String s : regExps ) {
             addItem( s );
             }
     }
 
     /**
-     * Returns the current selected item has Pattern object.
-     * If the combo box is editable, then this value may not
-     * have been added to the combo box with addItem,
-     * insertItemAt or the data constructors.
+     * Returns the current selected item has Pattern object. If the
+     * combo box is editable, then this value may not have been added
+     * to the combo box with addItem, insertItemAt or the data
+     * constructors.
      *
-     * @return the current selected item has Pattern object,
-     * or null if there is no selected item.
+     * @return the current selected item has Pattern object, or null
+     *         if there is no selected item.
      *
      * @throws java.util.regex.PatternSyntaxException
+     *             if {@link Pattern} could not be created
      */
     public Pattern getSelectedPattern()
     {
-        int selected = getSelectedIndex();
+        final int selected = getSelectedIndex();
 
         if( selected == -1 ) {
             return null;
             }
-        Object o = super.getSelectedItem();
+        final Object o = super.getSelectedItem();
 
         // java.util.regex.PatternSyntaxException
         return Pattern.compile( o.toString() );
@@ -151,9 +155,9 @@ public class XComboBoxPattern extends XComboBox<String>
      * @param errorColor background color when an current text
      *                   is <B>not</B> a valid Regular Expression
      */
-    public void setErrorBackGroundColor( Color errorColor )
+    public void setErrorBackGroundColor( final Color errorColor )
     {
-        documentEditor.setErrorBackgoundColor( errorColor );
+        this.documentEditor.setErrorBackgoundColor( errorColor );
     }
 
     /**
@@ -165,7 +169,7 @@ public class XComboBoxPattern extends XComboBox<String>
      */
     public Color getErrorBackgoundColor()
     {
-        return documentEditor.getErrorBackgoundColor();
+        return this.documentEditor.getErrorBackgoundColor();
     }
 
     /**
@@ -175,9 +179,9 @@ public class XComboBoxPattern extends XComboBox<String>
      * @param defaultColor background color when an current text
      *                     is a valid Regular Expression
      */
-    public void setDefaultBackgoundColor( Color defaultColor )
+    public void setDefaultBackgoundColor( final Color defaultColor )
     {
-        documentEditor.setDefaultBackgoundColor( defaultColor );
+        this.documentEditor.setDefaultBackgoundColor( defaultColor );
     }
 
     /**
@@ -189,7 +193,7 @@ public class XComboBoxPattern extends XComboBox<String>
      */
     public Color getDefaultBackgoundColor()
     {
-        return documentEditor.getDefaultBackgoundColor();
+        return this.documentEditor.getDefaultBackgoundColor();
     }
 
     private class ComboBoxEditorPattern
@@ -197,42 +201,42 @@ public class XComboBoxPattern extends XComboBox<String>
     {
         public ComboBoxEditorPattern( final Color errorColor )
         {
-            documentEditor = new PatternDocument( editor, errorColor );
-            editor.setDocument( documentEditor );
+            XComboBoxPattern.this.documentEditor = new PatternDocument( XComboBoxPattern.this.textEditor, errorColor );
+            XComboBoxPattern.this.textEditor.setDocument( XComboBoxPattern.this.documentEditor );
         }
         @Override
         public void addActionListener( final ActionListener l )
         {
-            editor.addActionListener( l );
+            XComboBoxPattern.this.textEditor.addActionListener( l );
         }
         @Override
         public void removeActionListener( final ActionListener l )
         {
-            editor.removeActionListener( l );
+            XComboBoxPattern.this.textEditor.removeActionListener( l );
         }
         @Override
         public Component getEditorComponent()
         {
-            return editor;
+            return XComboBoxPattern.this.textEditor;
         }
         @Override
         public void selectAll()
         {
-            editor.selectAll();
+            XComboBoxPattern.this.textEditor.selectAll();
         }
         @Override
         public Object getItem()
         {
-            return editor.getText();
+            return XComboBoxPattern.this.textEditor.getText();
         }
         @Override
         public void setItem( final Object anObject )
         {
             if ( anObject != null ) {
-                editor.setText( anObject.toString() );
+                XComboBoxPattern.this.textEditor.setText( anObject.toString() );
                 }
             else {
-                editor.setText( StringHelper.EMPTY );
+                XComboBoxPattern.this.textEditor.setText( StringHelper.EMPTY );
                 }
             }
     }

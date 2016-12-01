@@ -929,6 +929,8 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
      * @param menuTxt          Text for new menu to add
      * @param listener         {@link ActionListener} for new menu
      * @param actionCommand    Action command to set on new menu
+     * @param clientPropertyKey     The client property key
+     * @param clientPropertyValue   The client property value
      * @return menu added
      *
      * @see JMenu#putClientProperty(Object, Object)

@@ -4,8 +4,7 @@ import java.util.List;
 import com.googlecode.cchlib.swing.combobox.HiddenAutoCompleteTextField;
 
 /**
- * NEEDDOC
- *
+ * Handle auto completion
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public class AutoCompleteTextField extends HiddenAutoCompleteTextField
@@ -13,9 +12,9 @@ public class AutoCompleteTextField extends HiddenAutoCompleteTextField
     private static final long serialVersionUID = 1L;
 
     /**
-     * NEEDDOC
+     * Create an {@link AutoCompleteTextField}
      *
-     * @param valuesList
+     * @param valuesList Values to use for completion
      */
     public AutoCompleteTextField( final List<String> valuesList )
     {

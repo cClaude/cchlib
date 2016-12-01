@@ -40,7 +40,7 @@ public class BRFrame extends JFrame
 
     /**
      * Prepare the frame.
-     * *
+     *
      * @param builder Builder to define Frame
      *
      * @see #createFrame(BRActionListener)
@@ -133,6 +133,8 @@ public class BRFrame extends JFrame
      * </code></pre>
      *
      * @param comp the component to be added
+     * @param constraints an object expressing layout constraints for this component
+     *
      * @see #setLayoutForContentPanel(JPanel)
      * @see #addToContentPanel(BRPanel)
      */

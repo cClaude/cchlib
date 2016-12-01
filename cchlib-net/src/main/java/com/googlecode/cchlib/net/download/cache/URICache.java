@@ -520,7 +520,7 @@ public class URICache implements Closeable
      * Adds a {@link URICacheListener} to the
      * {@link URICache}'s listener list.
      *
-     * @param l the {@link URICacheListener} to add
+     * @param listener the {@link URICacheListener} to add
      */
     public void addURICacheListener( final URICacheListener listener )
     {
@@ -531,7 +531,7 @@ public class URICache implements Closeable
      * Removes a {@link URICacheListener} from the
      *  {@link URICache}'s listener list.
      *
-     * @param l the {@link URICacheListener} to remove
+     * @param listener the {@link URICacheListener} to remove
      */
     public void removeURICacheListener( final URICacheListener listener )
     {
@@ -542,6 +542,8 @@ public class URICache implements Closeable
      * Runs each {@link URICacheListener}'s
      * {@link URICacheListener#ioExceptionHandler(IOException)}
      * method.
+     *
+     * @param ioCause Error cause
      */
     protected void fireIOException( final IOException ioCause )
     {

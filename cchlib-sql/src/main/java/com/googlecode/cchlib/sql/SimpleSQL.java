@@ -94,7 +94,7 @@ public class SimpleSQL implements Closeable
      * @param queryHandler SQL Query to send to database
      * @return {@code T} result from {@link QueryHandler#handle(ResultSet)}
      * @throws SQLException if a database access error occurs
-     * @throws QueryHandlerException
+     * @throws QueryHandlerException if handler fail
      *
      * @see QueryHandler#handle(ResultSet)
      */

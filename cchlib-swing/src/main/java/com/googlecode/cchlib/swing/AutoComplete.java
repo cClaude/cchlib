@@ -4,11 +4,9 @@ import java.util.List;
 
 /**
  * NEEDDOC
- *
  */
 public interface AutoComplete
 {
-
     /**
      * NEEDDOC
      * @return NEEDDOC
@@ -17,7 +15,7 @@ public interface AutoComplete
 
     /**
      * NEEDDOC
-     * @param isCaseSensitive
+     * @param isCaseSensitive NEEDDOC
      */
     void setCaseSensitive( boolean isCaseSensitive );
 
@@ -29,7 +27,7 @@ public interface AutoComplete
 
     /**
      * NEEDDOC
-     * @param isStrict
+     * @param isStrict NEEDDOC
      */
     void setStrict( boolean isStrict );
 
@@ -41,8 +39,7 @@ public interface AutoComplete
 
     /**
      * NEEDDOC
-     * @param dataList
+     * @param dataList NEEDDOC
      */
     void setDataList( List<String> dataList );
-
 }

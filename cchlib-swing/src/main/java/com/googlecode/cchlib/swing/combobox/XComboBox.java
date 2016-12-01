@@ -1,10 +1,9 @@
 package com.googlecode.cchlib.swing.combobox;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.util.EnumSet;
+import java.util.Set;
 import java.util.Vector;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -84,10 +83,12 @@ public class XComboBox<E> extends JComboBox<E>
      * By default the first item in the vector (and therefore the data model)
      * becomes selected.
      *
+     * @param contentClass Type of elements
      * @param items an array of vectors to insert into the combo box
      */
     public XComboBox(
         final Class<E>  contentClass,
+        @SuppressWarnings("squid:S1149")
         final Vector<E> items
         )
     {
@@ -97,14 +98,17 @@ public class XComboBox<E> extends JComboBox<E>
     /**
      * Creates a XComboBox that takes its items from an existing ComboBoxModel.
      *
-     * @param comboBoxModel the {@link ComboBoxModel} that provides the displayed
-     *        list of items
-     * @param attrib  the {@link XComboBoxAttribute} set to configure the XComboBox
+     * @param comboBoxModel
+     *            the {@link ComboBoxModel} that provides the displayed
+     *            list of items
+     * @param attributes
+     *            the {@link XComboBoxAttribute} set to configure
+     *            the XComboBox
      */
     public XComboBox(
-            final ComboBoxModel<E>  comboBoxModel,
-            final Class<E>          contentClass,
-            EnumSet<XComboBoxAttribute>      attrib
+            final ComboBoxModel<E>        comboBoxModel,
+            final Class<E>                contentClass,
+            final Set<XComboBoxAttribute> attributes
             )
     {
         this.contentClass = contentClass;
@@ -112,34 +116,35 @@ public class XComboBox<E> extends JComboBox<E>
         if( comboBoxModel == null ) {
             throw new NullPointerException("defaultComboBoxModel could not be null");
             }
-        if( attrib == null ) {
-            attrib = EnumSet.noneOf( XComboBoxAttribute.class );
-            }
+
+        final EnumSet<XComboBoxAttribute> safeAttributes = getAttributes( attributes );
+
         super.setEditable(true);
         super.setModel( comboBoxModel );
 
-        if( !attrib.contains( XComboBoxAttribute.NO_MOUSE_WHEEL_LISTENER ) ) {
+        if( !safeAttributes.contains( XComboBoxAttribute.NO_MOUSE_WHEEL_LISTENER ) ) {
             super.addMouseWheelListener(
-                    new MouseWheelListener()
-                    {
-                        @Override
-                        public void mouseWheelMoved(MouseWheelEvent event)
-                        {
-                            handleMouseWheelMoved(event);
-                        }
-                    });
+                    event -> handleMouseWheelMoved( event )
+                    );
             }
-        if( !attrib.contains( XComboBoxAttribute.NO_DEFAULT_ACTION_LISTENER ) ) {
+
+        if( !safeAttributes.contains( XComboBoxAttribute.NO_DEFAULT_ACTION_LISTENER ) ) {
             super.addActionListener(
-                    new ActionListener()
-                    {
-                        @Override
-                        public void actionPerformed(ActionEvent event)
-                        {
-                            defaultActionPerformed(event);
-                        }
-                    });
+                    event -> defaultActionPerformed( event )
+                    );
             }
+    }
+
+    private EnumSet<XComboBoxAttribute> getAttributes(
+        final Set<XComboBoxAttribute> attributes
+        )
+    {
+        if( attributes == null ) {
+            return EnumSet.noneOf( XComboBoxAttribute.class );
+            }
+        else {
+            return EnumSet.copyOf( attributes );
+        }
     }
 
     /**
@@ -176,16 +181,17 @@ public class XComboBox<E> extends JComboBox<E>
      */
     public int getMaximumItem()
     {
-        return maximumItem;
+        return this.maximumItem;
     }
 
     @Override
+    @SuppressWarnings("squid:S1066")
     public void intervalAdded( final ListDataEvent e )
     {
         // Track insertion of items
-        if( maximumItem != -1 ) {
-            if( getModel().getSize() > maximumItem ) {
-                removeOldestItems( getModel().getSize() - maximumItem );
+        if( this.maximumItem != -1 ) {
+            if( getModel().getSize() > this.maximumItem ) {
+                removeOldestItems( getModel().getSize() - this.maximumItem );
             }
         }
 
@@ -216,34 +222,42 @@ public class XComboBox<E> extends JComboBox<E>
         final Object s = event.getSource();
 
         if( s instanceof JComboBox ) {
-            JComboBox<?> jcb = JComboBox.class.cast( s );
+            final JComboBox<?> jcb = JComboBox.class.cast( s );
 
-            if( event.getWheelRotation() > 0 ) {
-                int index = jcb.getSelectedIndex();
-                if( index == -1 ) {
+            handleMouseWheelMoved( event, jcb );
+            }
+    }
+
+    private static void handleMouseWheelMoved(
+            final MouseWheelEvent event,
+            final JComboBox<?>    jcb
+            )
+    {
+        if( event.getWheelRotation() > 0 ) {
+            int index = jcb.getSelectedIndex();
+            if( index == -1 ) {
+                index = 0;
+                }
+            else {
+                index++;
+                }
+            if( index < jcb.getModel().getSize() ) {
+                jcb.setSelectedIndex( index );
+                }
+            }
+        else if( event.getWheelRotation() < 0 ) {
+            int index = jcb.getSelectedIndex();
+            if( index == -1 ) {
+                index = 0;
+                }
+            else {
+                index--;
+                if( index < 0 ) {
                     index = 0;
-                    }
-                else {
-                    index++;
-                    }
-                if( index < jcb.getModel().getSize() ) {
-                    jcb.setSelectedIndex( index );
                     }
                 }
-            else if( event.getWheelRotation() < 0 ) {
-                int index = jcb.getSelectedIndex();
-                if( index == -1 ) {
-                    index = 0;
-                    }
-                else {
-                    index--;
-                    if( index < 0 ) {
-                        index = 0;
-                        }
-                    }
-                if( index < jcb.getItemCount() ) {
-                    jcb.setSelectedIndex( index );
-                    }
+            if( index < jcb.getItemCount() ) {
+                jcb.setSelectedIndex( index );
                 }
             }
     }
@@ -255,10 +269,10 @@ public class XComboBox<E> extends JComboBox<E>
      */
     protected void defaultActionPerformed( final ActionEvent event )
     {
-        String cmd = event.getActionCommand();
+        final String cmd = event.getActionCommand();
 
         if( "comboBoxEdited".equals( cmd ) ) {
-            Object o = this.getSelectedItem();
+            final Object o = this.getSelectedItem();
 
             // Look if this element already exist in model
             final int size  = getModel().getSize();
@@ -271,7 +285,7 @@ public class XComboBox<E> extends JComboBox<E>
                     }
                 }
             if( !found ) {
-                E value = contentClass.cast( o );
+                final E value = this.contentClass.cast( o );
 
                 this.addItem( value );
                 }
