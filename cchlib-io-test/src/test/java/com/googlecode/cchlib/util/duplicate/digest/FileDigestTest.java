@@ -14,7 +14,7 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.duplicate.DFFPass2Impl2;
+import com.googlecode.cchlib.util.duplicate.DFFPass2WithMultiThreadSupportImpl;
 import com.googlecode.cchlib.util.duplicate.XMessageDigestFileTest;
 
 /**
@@ -137,7 +137,7 @@ public class FileDigestTest extends Base {
 
             Assertions.assertThat( currentBuffer ).isEqualTo( bytesPNG );
 
-            final String hash = DFFPass2Impl2.computeHash( messageDigest, sb, currentBuffer );
+            final String hash = DFFPass2WithMultiThreadSupportImpl.computeHash( messageDigest, sb, currentBuffer );
             LOGGER.info( "File:" + filePNG + " subHash " + hash );
 
             Assertions.assertThat( hash ).isEqualTo( IO.MD5_FOR_PNG_FILE );
@@ -165,7 +165,7 @@ public class FileDigestTest extends Base {
         while( instance.hasNext() ) {
             final byte[] currentBuffer = instance.computeNext(true);
 
-            final String hash = DFFPass2Impl2.computeHash( messageDigest, sb, currentBuffer );
+            final String hash = DFFPass2WithMultiThreadSupportImpl.computeHash( messageDigest, sb, currentBuffer );
             LOGGER.info( "File:" + filePNG + " subHash " + hash + " buffer.len = " + currentBuffer.length );
             hashs.add( hash );
         }

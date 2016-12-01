@@ -400,7 +400,8 @@ public class FindAccessoryImpl
             this.actionStop.setEnabled(true);
             runFind(this.chooser.getCurrentDirectory(),newFind());
             }
-        catch (final InterruptedException e) {
+        catch (final InterruptedException ignore) {
+            // Ignore
             }
         finally {
             this.actionStart.setEnabled(true);

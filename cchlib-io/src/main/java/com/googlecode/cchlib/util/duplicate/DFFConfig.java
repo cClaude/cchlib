@@ -10,20 +10,20 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
 public interface DFFConfig
 {
     /**
-     * NEEDDOC
-     * @return NEEDDOC
+     * Return true if user want to cancel the process
+     * @return true if user want to cancel the process
      */
     boolean isCancelProcess();
 
     /**
-     * NEEDDOC
-     * @return NEEDDOC
+     * Return true if empty files should be ignore
+     * @return true if empty files should be ignore
      */
     boolean isIgnoreEmptyFiles();
 
     /**
-     * NEEDDOC
-     * @return NEEDDOC
+     * Return internal {@link FileDigest}
+     * @return internal {@link FileDigest}
      */
     FileDigest getFileDigest();
 
@@ -82,7 +82,7 @@ public interface DFFConfig
     void duplicateBytesCountAdd( long bytes2add );
 
     /**
-     * NEEDDOC
+     * Clear data
      */
     void clear();
 }

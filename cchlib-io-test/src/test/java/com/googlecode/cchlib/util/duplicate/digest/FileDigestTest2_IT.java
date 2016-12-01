@@ -11,7 +11,7 @@ import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.duplicate.DFFPass2Impl2;
+import com.googlecode.cchlib.util.duplicate.DFFPass2WithMultiThreadSupportImpl;
 
 /**
  * @since 4.2
@@ -44,7 +44,7 @@ public class FileDigestTest2_IT extends Base {
         while( instance.hasNext() ) {
             final byte[] currentBuffer = instance.computeNext(true);
 
-            final String hash = DFFPass2Impl2.computeHash( messageDigest, sb, currentBuffer );
+            final String hash = DFFPass2WithMultiThreadSupportImpl.computeHash( messageDigest, sb, currentBuffer );
             LOGGER.info( "File:" + filePNG + " subHash " + hash + " buffer.len = " + currentBuffer.length );
             hashs.add( hash );
         }

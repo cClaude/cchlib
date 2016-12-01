@@ -62,9 +62,9 @@ public final class DuplicateFileFinderHelper
             NoSuchAlgorithmException,
             IllegalArgumentException
     {
-        final DFFConfig2 dffConfig = new DFFConfigImpl2( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
+        final DFFConfigWithMultiThreadSupport dffConfig = new DFFConfigWithMultiThreadSupportImpl( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
         final DFFPass1   dffPass1  = new DFFPass1Impl( dffConfig );
-        final DFFPass2   dffPass2  = new DFFPass2Impl2( dffConfig );
+        final DFFPass2   dffPass2  = new DFFPass2WithMultiThreadSupportImpl( dffConfig );
 
         return new DefaultDuplicateFileFinder( dffConfig, dffPass1, dffPass2 );
     }

@@ -27,12 +27,9 @@ import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.DialogHelper;
-import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
+import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
-import com.googlecode.cchlib.swing.filechooser.accessory.BookmarksAccessory;
-import com.googlecode.cchlib.swing.filechooser.accessory.DefaultBookmarksAccessoryConfigurator;
-import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 //NOT public
 @I18nName("DefaultAppToolKit")
@@ -133,23 +130,7 @@ final class DefaultAppToolKit
                 LOGGER.debug( "Prepare JFileChooser for : " + componentName );
             }
 
-            final DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
-            {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public void perfomeConfig( final JFileChooser jfc )
-                {
-                    super.perfomeConfig( jfc );
-
-                    jfc.setFileSelectionMode( JFileChooser.FILES_AND_DIRECTORIES );
-                    jfc.setMultiSelectionEnabled( true );
-                    jfc.setAccessory( new TabbedAccessory()
-                            .addTabbedAccessory( new BookmarksAccessory(
-                                    jfc,
-                                    new DefaultBookmarksAccessoryConfigurator() ) ) );
-                }
-            };
+            final JFileChooserInitializerCustomize configurator = new AppJFileChooserInitializerCustomize();
 
             jFileChooserInitializer = new WaitingJFileChooserInitializer(
                     configurator,
@@ -157,6 +138,11 @@ final class DefaultAppToolKit
                     this.jFileChooserInitializerTitle,
                     this.jFileChooserInitializerMessage
                     );
+
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "JFileChooserInitializer for " + componentName + " is running" );
+            }
+
             this.jFileChooserInitializerMap.put( componentName, jFileChooserInitializer );
         }
 

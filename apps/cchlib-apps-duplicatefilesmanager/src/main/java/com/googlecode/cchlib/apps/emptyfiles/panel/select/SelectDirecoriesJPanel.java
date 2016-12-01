@@ -24,28 +24,64 @@ import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
+import com.googlecode.cchlib.swing.filechooser.FileSelectionMode;
 import com.googlecode.cchlib.swing.list.NoDuplicateListModel;
 
 @I18nName("emptyfiles.SelectDirecoriesJPanel")
-public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
+public class SelectDirecoriesJPanel extends JPanel
 {
+    //non static
+    private final class MyListDataListener implements ListDataListener
+    {
+        private void onChange()
+        {
+            if( SelectDirecoriesJPanel.this.directoriesJListModel.size() > 0 ) {
+                SelectDirecoriesJPanel.this.startButton.setEnabled( true );
+            } else {
+                SelectDirecoriesJPanel.this.startButton.setEnabled( false );
+            }
+        }
+
+        @Override
+        public void intervalAdded( final ListDataEvent e )
+        {
+            onChange();
+        }
+
+        @Override
+        public void intervalRemoved( final ListDataEvent e )
+        {
+            onChange();
+        }
+
+        @Override
+        public void contentsChanged( final ListDataEvent e )
+        {
+            onChange();
+        }
+    }
+
     private static final int[] EMPTY_SELECTION = new int[0];
 
     private static final long serialVersionUID = 1L;
 
-    private final JPanel panel;
-    private JList<File> list;
-    private final JButton addButton;
-    private JButton removeButton;
-    private JButton startButton;
     private final DefaultListModel<File> directoriesJListModel = new NoDuplicateListModel<>();
-    private final @I18nToolTipText JButton importButton;
+
+    private final JPanel       panel;
+    private final JButton      addButton;
     private final JProgressBar progressBar;
-    private final JScrollPane scrollPane;
+    private final JScrollPane  scrollPane;
+
+    private JList<File>   list;
+    private JButton       removeButton;
+    private JButton       startButton;
+
+    @I18nToolTipText private final JButton importButton;
 
     /**
      * Create the panel.
      */
+    @SuppressWarnings({"squid:S00117","squid:S1199"}) // Generated code
     public SelectDirecoriesJPanel( final RemoveEmptyFilesJPanel removeEmptyFilesJPanel )
     {
         setLayout(new BorderLayout(0, 0));
@@ -74,7 +110,7 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
             SimpleFileDrop.createSimpleFileDrop(
                 this.list,
                 this.directoriesJListModel,
-                SimpleFileDrop.SelectionFilter.DIRECTORIES_ONLY
+                FileSelectionMode.DIRECTORIES_ONLY
                 );
 
             // Handle selection change
@@ -88,41 +124,17 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
             });
         }
 
-        {
+        this.directoriesJListModel.addListDataListener(
+            new MyListDataListener()
+            );
 
-            this.directoriesJListModel.addListDataListener( new ListDataListener() {
-                private void onChange()
-                {
-                    if( SelectDirecoriesJPanel.this.directoriesJListModel.size() > 0 ) {
-                        SelectDirecoriesJPanel.this.startButton.setEnabled( true );
-                    } else {
-                        SelectDirecoriesJPanel.this.startButton.setEnabled( false );
-                    }
-                }
-                @Override
-                public void intervalAdded( final ListDataEvent e )
-                {
-                    onChange();
-                }
-                @Override
-                public void intervalRemoved( final ListDataEvent e )
-                {
-                    onChange();
-                }
-
-                @Override
-                public void contentsChanged( final ListDataEvent e )
-                {
-                    onChange();
-                }} );
-        }
         {
             this.addButton = new JButton("Add");
             this.addButton.setIcon( removeEmptyFilesJPanel.getResources().getFolderSelectIcon() );
 
-            this.addButton.addActionListener((final ActionEvent e) -> {
-                doAdd( removeEmptyFilesJPanel );
-            });
+            this.addButton.addActionListener(
+                (final ActionEvent e) -> doAdd( removeEmptyFilesJPanel )
+                );
             final GridBagConstraints gbc_addButton = new GridBagConstraints();
             gbc_addButton.fill = GridBagConstraints.BOTH;
             gbc_addButton.insets = new Insets(0, 0, 5, 0);
@@ -133,9 +145,9 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
         {
             this.removeButton = new JButton("Remove");
             this.removeButton.setIcon( removeEmptyFilesJPanel.getResources().getFolderRemoveIcon() );
-            this.removeButton.addActionListener((final ActionEvent e) -> {
-                doRemove();
-            });
+            this.removeButton.addActionListener(
+                (final ActionEvent e) -> doRemove()
+                );
             this.removeButton.setEnabled(false);
 
             final GridBagConstraints gbc_removeButton = new GridBagConstraints();
@@ -149,9 +161,9 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
             this.importButton = new JButton("Import");
             this.importButton.setToolTipText("Import directories from duplicate tab");
             this.importButton.setIcon( removeEmptyFilesJPanel.getResources().getFolderImportIcon() );
-            this.importButton.addActionListener((final ActionEvent e) -> {
-                doImport( removeEmptyFilesJPanel );
-            });
+            this.importButton.addActionListener(
+                (final ActionEvent e) -> doImport( removeEmptyFilesJPanel )
+                );
 
             final GridBagConstraints gbc_importButton = new GridBagConstraints();
             gbc_importButton.fill = GridBagConstraints.HORIZONTAL;
@@ -163,9 +175,9 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
         {
             this.startButton = new JButton( "Start" );
             this.startButton.setIcon( removeEmptyFilesJPanel.getResources().getContinueSerializableIcon().getIcon() );
-            this.startButton.addActionListener((final ActionEvent e) -> {
-                doStart( removeEmptyFilesJPanel );
-            });
+            this.startButton.addActionListener(
+                (final ActionEvent e) -> doStart( removeEmptyFilesJPanel )
+                );
             {
                 this.progressBar = new JProgressBar();
                 this.progressBar.setEnabled(false);
@@ -205,9 +217,13 @@ public class SelectDirecoriesJPanel extends JPanel // $codepro.audit.disable lar
         this.startButton.setEnabled( false );
         this.importButton.setEnabled( false );
 
-        new Thread( () -> {
-            removeEmptyFilesJPanel.doFindFiles( directoriesFiles, this.progressBar );
-        }, "doStart()" ).start();
+        new Thread(
+            () -> removeEmptyFilesJPanel.doFindFiles(
+                    directoriesFiles,
+                    this.progressBar
+                    ),
+            "doStart()"
+            ).start();
     }
 
     private void doRemove()

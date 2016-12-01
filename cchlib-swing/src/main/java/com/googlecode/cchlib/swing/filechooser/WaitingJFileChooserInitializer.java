@@ -2,9 +2,9 @@ package com.googlecode.cchlib.swing.filechooser;
 
 import java.awt.Window;
 import java.lang.reflect.InvocationTargetException;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 
 /**
@@ -17,22 +17,53 @@ import org.apache.log4j.Logger;
 public class WaitingJFileChooserInitializer
     extends JFileChooserInitializer
 {
-    private static final long serialVersionUID = 2L;
+    //Not static
+    private final class MyJFileChooserInitializerListener implements JFileChooserInitializerListener
+    {
+        @Override
+        public void jFileChooserIsReady(
+            final JFileChooserInitializerEvent event
+            )
+        {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "jFileChooserIsReady status: " + event.isJFileChooserReady() );
+                }
+
+            synchronized( WaitingJFileChooserInitializer.this.lock ) {
+                if( WaitingJFileChooserInitializer.this.dialog != null ) {
+                    WaitingJFileChooserInitializer.this.dialog.dispose();
+                    WaitingJFileChooserInitializer.this.dialog = null;
+                    }
+                }
+        }
+
+        @Override
+        public void jFileChooserInitializationError(
+            final JFileChooserInitializerEvent event
+            )
+        {
+            LOGGER.error( "JFileChooser initialization error" );
+        }
+    }
+
+    private static final long serialVersionUID = 3L;
+
     private static final Logger LOGGER = Logger.getLogger( WaitingJFileChooserInitializer.class );
 
-    private Object lock = new Object();
-    private Window parentWindow;
+    private final Object lock = new Object();
+
+    private final Window     parentWindow;
     private WaitingJDialogWB dialog;
-    private String title;
-    private String message;
+    private final String     title;
+    private final String     message;
 
     /**
      * Create a WaitingJFileChooserInitializer
      *
-     * @param configurator
-     * @param parentWindow
-     * @param title
-     * @param message
+     * @param configurator NEEDDOC
+     * @param parentWindow NEEDDOC
+     * @param title String for {@link JFileChooser} title
+     * @param message NEEDDOC
      */
     public WaitingJFileChooserInitializer(
         final JFileChooserInitializerCustomize configurator,
@@ -47,48 +78,9 @@ public class WaitingJFileChooserInitializer
         this.title          = title;
         this.message        = message;
 
-        JFileChooserInitializerListener l = new JFileChooserInitializerListener()
-        {
-            @Override
-            public void jFileChooserIsReady(
-                    JFileChooserInitializerEvent event
-                    )
-            {
-                if( LOGGER.isTraceEnabled() ) {
-                    LOGGER.trace( "jFileChooserIsReady: " + event.isJFileChooserReady() );
-                    }
+        final JFileChooserInitializerListener listener = new MyJFileChooserInitializerListener();
 
-                synchronized( lock ) {
-                    if( dialog != null ) {
-                        dialog.dispose();
-                        dialog = null;
-                        }
-                    }
-            }
-            @Override
-            public void jFileChooserInitializationError(
-                    JFileChooserInitializerEvent event
-                    )
-            {
-                LOGGER.error( "JFileChooser initialization error" );
-            }
-        };
-
-        addFooListener( l );
-    }
-
-    /**
-     * Returns default {@link JFileChooserInitializerCustomize} object
-     * <p>
-     * Default implementation return a {@link LasyJFCCustomizer}
-     * </p>
-     * @return default {@link JFileChooserInitializerCustomize} object
-     * @deprecated use {@link LasyJFCCustomizer} instead
-     */
-    @Deprecated
-    public static JFileChooserInitializerCustomize getDefaultConfigurator()
-    {
-        return new LasyJFCCustomizer();
+        addFooListener( listener );
     }
 
     /**
@@ -101,35 +93,30 @@ public class WaitingJFileChooserInitializer
     public JFileChooser getJFileChooser()
     {
         if( ! this.isReady() ) {
-            synchronized( lock ) {
-                if( dialog == null ) {
-                    dialog = new WaitingJDialogWB( parentWindow );
+            synchronized( this.lock ) {
+                if( this.dialog == null ) {
+                    this.dialog = new WaitingJDialogWB( this.parentWindow );
                     }
                 }
 
-            Runnable doRun = new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    dialog.setTitle( title );
-                    dialog.setText( message );
-                    dialog.setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
-                    dialog.setVisible( true );
-                }
+            final Runnable doRun = ( ) -> {
+                WaitingJFileChooserInitializer.this.dialog.setTitle( WaitingJFileChooserInitializer.this.title );
+                WaitingJFileChooserInitializer.this.dialog.setText( WaitingJFileChooserInitializer.this.message );
+                WaitingJFileChooserInitializer.this.dialog.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
+                WaitingJFileChooserInitializer.this.dialog.setVisible( true );
             };
 
             try {
                 SwingUtilities.invokeAndWait( doRun );
                 }
-            catch( InvocationTargetException e ) {
+            catch( final InvocationTargetException cause ) {
                 LOGGER.error(
-                        "Run InvocationTargetException - target exception",
-                        e.getTargetException()
+                        "InvocationTarget Error - target exception",
+                        cause
                         );
                 }
-            catch( InterruptedException e ) {
-                LOGGER.error( "Run InterruptedException", e );
+            catch( final InterruptedException cause ) {
+                LOGGER.error( "Interrupted Exception", cause );
                 }
             }
 

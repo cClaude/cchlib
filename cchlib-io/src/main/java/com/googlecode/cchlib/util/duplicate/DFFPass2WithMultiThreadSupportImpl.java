@@ -24,23 +24,22 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestHelper;
 /**
  * @since 4.2
  */
-public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
-
-    /**
-     * @since 4.2
-     */
-    private final class FileDigestCollection {
-
+public class DFFPass2WithMultiThreadSupportImpl
+    extends DFFPass2Impl
+        implements DFFPass2
+{
+    private final class FileDigestCollection
+    {
         private List<Set<FileDigest>> nextList;
         private List<Set<FileDigest>> currentList;
 
-        public FileDigestCollection()
+        FileDigestCollection()
         {
             this.nextList    = new ArrayList<>();
             this.currentList = new ArrayList<>();
         }
 
-        public Iterator<? extends Collection<FileDigest>> getSameBeginFileDigestCollectionIterator()
+        Iterator<Set<FileDigest>> getSameBeginFileDigestCollectionIterator()
         {
             // Swap buffers, prepare to iterate on currentList
             swapBuffers();
@@ -48,6 +47,7 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
             return this.currentList.iterator();
         }
 
+        @SuppressWarnings("squid:S3346") // assert usage
         private void swapBuffers()
         {
             // Clear currentList (no more needed)
@@ -65,7 +65,8 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
             this.nextList = swapBuffer;
         }
 
-        public void prepareNext( final MapSet<String, FileDigest> currentSubHashs )
+        @SuppressWarnings("squid:S3346") // assert usage
+        void prepareNext( final MapSet<String, FileDigest> currentSubHashs )
         {
             assert currentSubHashs.size() > 0;
 
@@ -105,17 +106,29 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
                 iterator1.remove();
             }
         }
+        private void close( final FileDigest fileDigest )
+        {
+            final File file = fileDigest.getFile();
 
+            try {
+                fileDigest.reset();
+            }
+            catch( final IOException ioe ) {
+                LOGGER.error( "Can not close : " + file, ioe );
+            }
+        }
+        @SuppressWarnings("squid:S3346") // assert usage
         public void addOnOpen( final FileDigest fd )
         {
             // currentList is empty (nothing start yet)
-            assert this.currentList.size() == 0;
+            assert this.currentList.isEmpty();
 
             final Set<FileDigest> initialSet = getInitialSet();
 
             initialSet.add( fd );
         }
 
+        @SuppressWarnings("squid:S3346") // assert usage
         private Set<FileDigest> getInitialSet()
         {
             if( this.nextList.isEmpty() ) {
@@ -138,14 +151,15 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
         }
     }
 
-    private static final Logger LOGGER = Logger.getLogger( DFFPass2Impl2.class );
+    private static final Logger LOGGER = Logger.getLogger( DFFPass2WithMultiThreadSupportImpl.class );
+
     private final MessageDigest messageDigest;
     private final StringBuilder hashStringBuilder;
     private final FileDigestCollection fileDigestCollection;
 
-    public DFFPass2Impl2( final DFFConfig2 config2 )
+    public DFFPass2WithMultiThreadSupportImpl( final DFFConfigWithMultiThreadSupport config )
     {
-        super( config2 );
+        super( config );
 
         try {
             this.messageDigest = MessageDigest.getInstance( getConfig().getFileDigest().getAlgorithm() );
@@ -153,22 +167,25 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
         catch( final NoSuchAlgorithmException e ) {
             throw new RuntimeException( e );
         }
-        this.hashStringBuilder = new StringBuilder();
+
+        this.hashStringBuilder    = new StringBuilder();
         this.fileDigestCollection = new FileDigestCollection();
     }
 
-    protected DFFConfig2 getDFFConfig2() {
-        return (DFFConfig2)getConfig();
+    protected DFFConfigWithMultiThreadSupport getDFFConfigWithMultiThreadSupport()
+    {
+        return (DFFConfigWithMultiThreadSupport)getConfig();
     }
 
     @Override
+    @SuppressWarnings("squid:S3346") // assert usage
     protected void find( final Map.Entry<Long, Set<File>> entry )
     {
         final Set<File> set = entry.getValue();
 
         assert this.fileDigestCollection.isEmpty();
 
-        if( set.size() < getDFFConfig2().getFileDigestsCount() ) {
+        if( set.size() < getDFFConfigWithMultiThreadSupport().getFileDigestsCount() ) {
             try {
                 handlePass2ForSetAtOnce( entry );
             }
@@ -181,17 +198,7 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
         }
     }
 
-    private void close( final FileDigest fileDigest )
-    {
-        final File file = fileDigest.getFile();
 
-        try {
-            fileDigest.reset();
-        }
-        catch( final IOException ioe ) {
-            LOGGER.error( "Can not close : " + file, ioe );
-        }
-    }
 
     private void handlePass2ForSetAtOnce( final Map.Entry<Long, Set<File>> entryForThisLength )
     {
@@ -227,7 +234,7 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
             final File file = iterator.next();
 
             if( file.length() == length ) {
-                final FileDigest fd = getDFFConfig2().getFileDigest( index );
+                final FileDigest fd = getDFFConfigWithMultiThreadSupport().getFileDigest( index );
 
                 try {
                     fd.setFile( file, getFileDigestListener() );
@@ -273,33 +280,57 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
             for( final Iterator<FileDigest> sameBeginIterator = sameBegin.iterator(); sameBeginIterator.hasNext(); ) {
                 final FileDigest fd = sameBeginIterator.next();
 
-                if( hasNext == null ) {
-                    if( fd.getFile().length() == expectedLength ) {
-                        try {
-                            hasNext = Boolean.valueOf( fd.hasNext() );
-                        }
-                        catch( final IOException ioe ) {
-                            ignoreFile( sameBeginIterator, fd, ioe );
-                        }
-                    } else {
-                        // Ignore file
-                        ignoreFile( sameBeginIterator, fd, new FileLengthHasChangeException( fd, expectedLength ) );
-                    }
-                } else {
-                    try {
-                        if( hasNext.booleanValue() != fd.hasNext() ) {
-                            // Ignore file
-                            ignoreFile( sameBeginIterator, fd, new FileHasChangeException( fd ) /* TODO improve this : what is the cause ??? */ );
-                        }
-                    }
-                    catch( final IOException ioe ) {
-                        ignoreFile( sameBeginIterator, fd, ioe );
-                    }
-                }
+                hasNext = hasNext( sameBeginIterator, fd, hasNext, expectedLength );
             }
          }
 
         return (hasNext == null) ? false : hasNext.booleanValue();
+    }
+
+    private Boolean hasNext(
+            final Iterator<FileDigest> sameBeginningIterator,
+            final FileDigest           fileDigest,
+            final Boolean              hasNextStatus,
+            final long                 expectedLength
+            )
+    {
+        if( hasNextStatus == null ) {
+            Boolean hasNext = null;
+
+            if( fileDigest.getFile().length() == expectedLength ) {
+                try {
+                    hasNext = Boolean.valueOf( fileDigest.hasNext() );
+                }
+                catch( final IOException ioe ) {
+                    ignoreFile( sameBeginningIterator, fileDigest, ioe );
+                }
+            } else {
+                // Ignore file
+                ignoreFile(
+                        sameBeginningIterator,
+                        fileDigest,
+                        new FileLengthHasChangeException( fileDigest, expectedLength )
+                        );
+            }
+
+            return hasNext;
+        } else {
+            try {
+                if( hasNextStatus.booleanValue() != fileDigest.hasNext() ) {
+                    // Ignore file
+                    ignoreFile(
+                            sameBeginningIterator,
+                            fileDigest,
+                            new FileHasChangeException( fileDigest ) /* TODO improve this : what is the cause ??? */
+                            );
+                }
+            }
+            catch( final IOException cause ) {
+                ignoreFile( sameBeginningIterator, fileDigest, cause );
+            }
+
+            return hasNextStatus;
+        }
     }
 
     private void ignoreFile( final Iterator<FileDigest> fileDigestsIterator, final FileDigest fd, final IOException ioe  )
@@ -326,7 +357,7 @@ public class DFFPass2Impl2 extends DFFPass2Impl implements DFFPass2 {
      */
     private MapSet<String,FileDigest> computeNext() throws CancelRequestException
     {
-        final MapSet<String,FileDigest> subDigest = new HashMapSet<String, FileDigest>();
+        final MapSet<String,FileDigest> subDigest = new HashMapSet<>();
 
         for( final Iterator<? extends Collection<FileDigest>> sameBeginIterator = this.fileDigestCollection.getSameBeginFileDigestCollectionIterator(); sameBeginIterator.hasNext(); ) {
             final Collection<FileDigest> fileDigests = sameBeginIterator.next();

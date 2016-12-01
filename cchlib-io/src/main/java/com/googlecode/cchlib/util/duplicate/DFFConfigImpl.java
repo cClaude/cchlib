@@ -10,7 +10,8 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 /**
  * @since 4.2
  */
-class DFFConfigImpl implements DFFConfig {
+class DFFConfigImpl implements DFFConfig
+{
     /** Use by PASS1 */
     private final boolean ignoreEmptyFiles;
     /** Use by PASS1 and PASS2 */
@@ -27,6 +28,15 @@ class DFFConfigImpl implements DFFConfig {
     private long duplicateBytesCount;
     private final FileDigest fileDigest;
 
+    /**
+     * NEEDDOC
+     *
+     * @param ignoreEmptyFiles NEEDDOC
+     * @param fileDigestFactory NEEDDOC
+     * @throws NoSuchAlgorithmException NEEDDOC
+     * @throws IllegalArgumentException NEEDDOC
+     */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public DFFConfigImpl( //
         final boolean                    ignoreEmptyFiles, //
         @Nonnull final FileDigestFactory fileDigestFactory //

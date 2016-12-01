@@ -6,24 +6,28 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 /**
+ * Parallel implementation of {@link DFFConfig}
+ *
  * @since 4.2
  */
-public class DFFConfigImpl2 extends DFFConfigImpl implements DFFConfig2
+public class DFFConfigWithMultiThreadSupportImpl
+    extends DFFConfigImpl // Mono thread implementation
+        implements DFFConfigWithMultiThreadSupport
 {
     /** Use by PASS2 */
     private final FileDigest[] fileDigests;
 
     /**
-     * NEEDDOC XXX
+     * NEEDDOC
      *
-     * @param ignoreEmptyFiles
-     * @param fileDigestFactory
-     * @param maxParallelFiles
-     * @throws NoSuchAlgorithmException
-     * @throws IllegalArgumentException
+     * @param ignoreEmptyFiles NEEDDOC
+     * @param fileDigestFactory NEEDDOC
+     * @param maxParallelFiles NEEDDOC
+     * @throws NoSuchAlgorithmException NEEDDOC
+     * @throws IllegalArgumentException NEEDDOC
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    public DFFConfigImpl2( //
+    public DFFConfigWithMultiThreadSupportImpl( //
         final boolean                    ignoreEmptyFiles, //
         @Nonnull final FileDigestFactory fileDigestFactory, //
         final int                        maxParallelFiles //
@@ -38,6 +42,7 @@ public class DFFConfigImpl2 extends DFFConfigImpl implements DFFConfig2
         this.fileDigests    = new FileDigest[ maxParallelFiles ];
         this.fileDigests[0] = getFileDigest();
 
+        // First entry use mono thread FileDigest
         for( int i = 1; i<maxParallelFiles; i++ ) {
             this.fileDigests[ i ] = fileDigestFactory.newInstance();
         }

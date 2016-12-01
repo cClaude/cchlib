@@ -36,13 +36,13 @@ public class FileDigest
     private final StringBuilder computeDigestKeyStringBuilder = new StringBuilder();
 
     /** cancel status */
-    private boolean cancel;
-    private FileChannel fchannel;
-    private File file;
-    private FileInputStream fis;
-    private FileDigestListener listener;
+    private boolean                   cancel;
+    private FileChannel               fchannel;
+    private File                      file;
+    private FileInputStream           fis;
+    private FileDigestListener        listener;
     private final FileDigestDelegator mdd;
-    private byte[] digest;
+    private byte[]                    digest;
 
     /**
      * Create a {@link FileDigest} object that
@@ -62,7 +62,6 @@ public class FileDigest
     }
 
     /**
-     * NEEDDOC XXX
      * <p>Must be call for every succeed call to {@link #setFile(File, FileDigestListener)}</p>
      * @throws IllegalStateException is state is not valid
      * @throws IOException if any
@@ -88,8 +87,8 @@ public class FileDigest
     }
 
     /**
-     * NEEDDOC XXX
-     * @return XXX
+     * NEEDDOC
+     * @return NEEDDOC
      */
     public boolean isOpen()
     {
@@ -159,10 +158,10 @@ public class FileDigest
     /**
      * Prepare to compute new file
      *
-     * @param file
-     * @param listener
-     * @throws FileNotFoundException
-     * @throws IllegalStateException
+     * @param file NEEDDOC
+     * @param listener NEEDDOC
+     * @throws FileNotFoundException NEEDDOC
+     * @throws IllegalStateException NEEDDOC
      */
     public void setFile( @Nonnull final File file, @Nonnull final FileDigestListener listener ) throws FileNotFoundException
     {
@@ -233,8 +232,8 @@ public class FileDigest
     }
 
     /**
-     * NEEDDOC XXX
-     * @return XXX
+     * NEEDDOC
+     * @return NEEDDOC
      * @throws IOException if any
      */
     public boolean hasNext() throws IOException
@@ -254,7 +253,7 @@ public class FileDigest
      *
      * @param returnCurrentBuffer
      * @return NEEDDOC
-     * @throws CancelRequestException XXX
+     * @throws CancelRequestException NEEDDOC
      */
     public byte[] computeNext( final boolean returnCurrentBuffer ) throws CancelRequestException
     {
