@@ -83,15 +83,15 @@ public class DBFField
     protected static DBFField createField( final DataInput in )
         throws IOException
     {
-        final DBFField field  = new DBFField();
-        final byte     t_byte = in.readByte(); /* 0 */
+        final DBFField field = new DBFField();
+        final byte     aByte = in.readByte(); /* 0 */
 
-        if( t_byte == (byte)0x0d ) {
+        if( aByte == (byte)0x0d ) {
             return null;
             }
 
         in.readFully( field.fieldName, 1, 10 ); /* 1-10 */
-        field.fieldName[0] = t_byte;
+        field.fieldName[0] = aByte;
 
         for( int i=0; i<field.fieldName.length; i++) {
             if( field.fieldName[ i] == (byte)0 ) {

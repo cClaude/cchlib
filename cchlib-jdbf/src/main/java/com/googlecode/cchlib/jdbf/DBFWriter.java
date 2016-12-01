@@ -31,7 +31,7 @@ public class DBFWriter extends DBFBase
     private RandomAccessFile        raf         = null;  /* Open and append records to an existing DBF */
     private final Calendar          calendar    = new GregorianCalendar();
 
-    // private boolean appendMode = false;
+    // private boolean appendMode = false - not handled
 
     /**
      * Creates an empty Object.
@@ -77,29 +77,20 @@ public class DBFWriter extends DBFBase
             throw new DBFException( e.getMessage() + " while reading header", e );
             }
 
-        this.recordCount = this.header.numberOfRecords;
+        this.recordCount = this.header.getNumberOfRecords();
     }
 
     /**
      * Sets fields.
+     *
+     * @param fields
+     * @throws DBFException if an IO error occurs.
      */
     public void setFields( final DBFField[] fields ) throws DBFException
     {
-        if( this.header.fieldArray != null ) {
-            throw new DBFStructureException( "Fields has already been set" );
-            }
+        validateParams( fields );
 
-        if( (fields == null) || (fields.length == 0) ) {
-            throw new DBFStructureException( "Should have at least one field" );
-            }
-
-        for( int i = 0; i < fields.length; i++ ) {
-            if( fields[ i ] == null ) {
-                throw new DBFStructureException( "Field " + (i + 1)  + " is null" );
-            }
-        }
-
-        this.header.fieldArray = fields;
+        this.header.setDBFFields( fields );
 
         try {
             if( (this.raf != null) && (this.raf.length() == 0) ) {
@@ -112,28 +103,29 @@ public class DBFWriter extends DBFBase
             }
     }
 
+    private void validateParams( final DBFField[] fields )
+        throws DBFStructureException
+    {
+        if( (fields == null) || (fields.length == 0) ) {
+            throw new DBFStructureException( "Should have at least one field" );
+            }
+
+        for( int i = 0; i < fields.length; i++ ) {
+            if( fields[ i ] == null ) {
+                throw new DBFStructureException( "Field " + (i + 1)  + " is null" );
+            }
+        }
+    }
+
     /**
      * Add a record.
+     *
+     * @param values
+     * @throws DBFException
      */
     public void addRecord( final Object[] values ) throws DBFException
     {
-        if( this.header.fieldArray == null ) {
-            throw new DBFStructureException( "Fields should be set before adding records" );
-            }
-
-        if( values == null ) {
-            throw new DBFStructureException( "Null cannot be added as row" );
-            }
-
-        if( values.length != this.header.fieldArray.length ) {
-            throw new DBFStructureException( "Invalid record. Invalid number of fields in row" );
-            }
-
-        for( int i = 0; i < this.header.fieldArray.length; i++ ) {
-            if( values[ i ] != null ) {
-                handleAddRecordForField( values, i );
-            }
-        }
+        addRecordValidateParams( values );
 
         if( this.raf == null ) {
             this.records.add( values );
@@ -149,45 +141,76 @@ public class DBFWriter extends DBFBase
         }
     }
 
+    private void addRecordValidateParams( final Object[] values )
+        throws DBFStructureException
+    {
+        if( this.header.getDBFFields() == null ) {
+            throw new DBFStructureException( "Fields should be set before adding records" );
+            }
+
+        if( values == null ) {
+            throw new DBFStructureException( "Null cannot be added as row" );
+            }
+
+        if( values.length != this.header.getDBFFieldSize() ) {
+            throw new DBFStructureException( "Invalid record. Invalid number of fields in row" );
+            }
+
+        for( int i = 0; i < this.header.getDBFFieldSize(); i++ ) {
+            if( values[ i ] != null ) {
+                handleAddRecordForField( values, i );
+            }
+        }
+    }
+
+    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private void handleAddRecordForField( final Object[] values, final int i )
         throws DBFStructureException
     {
-        switch( this.header.fieldArray[ i ].getDataType() ) {
+        final byte   dataType = this.header.getDBFField( i ).getDataType();
+        final Object value    = values[ i ];
 
+        switch( dataType ) {
             case 'C':
-                if( !(values[ i ] instanceof String) ) {
+                if( !(value instanceof String) ) {
                     throw new DBFStructureException( "Invalid value for field [Type C]:" + i );
                 }
                 break;
 
             case 'L':
-                if( !(values[ i ] instanceof Boolean) ) {
+                if( !(value instanceof Boolean) ) {
                     throw new DBFStructureException( "Invalid value for field [Type L]:" + i );
                 }
                 break;
 
             case 'N':
-                if( !(values[ i ] instanceof Double) ) {
+                if( !(value instanceof Double) ) {
                     throw new DBFStructureException( "Invalid value for field [Type N]:" + i );
                 }
                 break;
 
             case 'D':
-                if( !(values[ i ] instanceof Date) ) {
+                if( !(value instanceof Date) ) {
                     throw new DBFStructureException( "Invalid value for field [Type D]:" + i );
                 }
                 break;
 
             case 'F':
-                if( !(values[ i ] instanceof Double) ) {
+                if( !(value instanceof Double) ) {
                     throw new DBFStructureException( "Invalid value for field [Type F]:" + i );
                 }
                 break;
+
+            default :
+                throw new DBFStructureException( "Illegal dataType: " + dataType );
         }
     }
 
     /**
      * Writes the set data to the OutputStream.
+     *
+     * @param out output stream
+     * @throws DBFException if any
      */
     public void write( final OutputStream out ) throws DBFException
     {
@@ -195,17 +218,17 @@ public class DBFWriter extends DBFBase
             if( this.raf == null ) {
                 final DataOutputStream outStream = new DataOutputStream( out );
 
-                this.header.numberOfRecords = this.records.size();
+                this.header.setNumberOfRecords( this.records.size() );
                 this.header.write( outStream );
 
                 /* Now write all the records */
-                final int t_recCount = this.records.size();
+                final int recCount = this.records.size();
 
-                for( int i = 0; i < t_recCount; i++ ) { /* iterate through
+                for( int i = 0; i < recCount; i++ ) { /* iterate through
                                                          * records */
-                    final Object[] t_values = this.records.get( i );
+                    final Object[] values = this.records.get( i );
 
-                    writeRecord( outStream, t_values );
+                    writeRecord( outStream, values );
                 }
 
                 outStream.write( END_OF_DATA );
@@ -213,7 +236,7 @@ public class DBFWriter extends DBFBase
             } else {
                 /* everything is written already. just update the header for
                  * record count and the END_OF_DATA mark */
-                this.header.numberOfRecords = this.recordCount;
+                this.header.setNumberOfRecords( this.recordCount );
                 this.raf.seek( 0 );
                 this.header.write( this.raf );
                 this.raf.seek( this.raf.length() );
@@ -233,41 +256,38 @@ public class DBFWriter extends DBFBase
 
     private void writeRecord(
         final DataOutput dataOutput,
-        final Object[] objectArray //
+        final Object[]   objectArray //
         ) throws IOException
     {
         dataOutput.write( (byte)' ' );
 
-        for( int j = 0; j < this.header.fieldArray.length; j++ ) {
-            handleWriteRecordForField( dataOutput, objectArray, j );
+        for( int index = 0; index < this.header.getDBFFieldSize(); index++ ) {
+            handleWriteRecordForField( dataOutput, objectArray, index );
             }
     }
 
     private void handleWriteRecordForField(
         final DataOutput dataOutput,
-        final Object[] objectArray,
-        final int j //
+        final Object[]   objectArray,
+        final int        index
         ) throws IOException
     {
-        switch( this.header.fieldArray[ j ].getDataType() ) {
+        switch( this.header.getDBFField( index ).getDataType() ) {
             case 'C':
-                handleChars( dataOutput, objectArray, j );
+                handleChars( dataOutput, objectArray, index );
                 break;
 
             case 'D':
-                handleDate( dataOutput, objectArray, j );
+                handleDate( dataOutput, objectArray, index );
                 break;
 
             case 'F':
-                handleFloat( dataOutput, objectArray, j );
-                break;
-
             case 'N':
-                handleFloat( dataOutput, objectArray, j );
+                handleFloat( dataOutput, objectArray, index );
                 break;
 
             case 'L':
-                handleBoolean( dataOutput, objectArray, j );
+                handleBoolean( dataOutput, objectArray, index );
                 break;
 
             case 'M':
@@ -275,17 +295,18 @@ public class DBFWriter extends DBFBase
 
             default:
                 throw new DBFException( "Unknown field type "
-                        + this.header.fieldArray[ j ].getDataType() );
+                        + this.header.getDBFField( index ).getDataType() );
         }
     }
 
     private void handleBoolean( //
-            final DataOutput dataOutput, //
-            final Object[] objectArray, //
-            final int j ) throws IOException
+        final DataOutput dataOutput, //
+        final Object[]   objectArray, //
+        final int        index
+        ) throws IOException
     {
-        if( objectArray[ j ] != null ) {
-            if( ((Boolean)objectArray[ j ]).booleanValue() ) {
+        if( objectArray[ index ] != null ) {
+            if( ((Boolean)objectArray[ index ]).booleanValue() ) {
                 dataOutput.write( (byte)'T' );
             } else {
                 dataOutput.write( (byte)'F' );
@@ -296,39 +317,42 @@ public class DBFWriter extends DBFBase
     }
 
     private void handleChars( //
-            final DataOutput dataOutput, //
-            final Object[] objectArray, //
-            final int j ) throws IOException
+        final DataOutput dataOutput, //
+        final Object[]   objectArray, //
+        final int        index
+        ) throws IOException
     {
-        if( objectArray[ j ] != null ) {
-            final String str_value = objectArray[ j ].toString();
-            dataOutput.write( Utils.textPadding( str_value,
+        if( objectArray[ index ] != null ) {
+            final String strValue = objectArray[ index ].toString();
+
+            dataOutput.write( Utils.textPadding( strValue,
                     this.getCharacterSetName(),
-                    this.header.fieldArray[ j ].getFieldLength() ) );
+                    this.header.getDBFField( index ).getFieldLength() ) );
         } else {
             dataOutput.write( Utils.textPadding(
                     StringHelper.EMPTY, this.getCharacterSetName(),
-                    this.header.fieldArray[ j ].getFieldLength() ) );
+                    this.header.getDBFField( index ).getFieldLength() ) );
         }
     }
 
     private void handleFloat( //
             final DataOutput dataOutput, //
-            final Object[] objectArray, //
-            final int j ) throws IOException
+            final Object[]   objectArray, //
+            final int        index
+            ) throws IOException
     {
-        if( objectArray[ j ] != null ) {
+        if( objectArray[ index ] != null ) {
             dataOutput.write( Utils.doubleFormating(
-                            (Double)objectArray[ j ],
+                            (Double)objectArray[ index ],
                             this.getCharacterSetName(),
-                            this.header.fieldArray[ j ]
+                            this.header.getDBFField( index )
                                     .getFieldLength(),
-                            this.header.fieldArray[ j ]
+                            this.header.getDBFField( index )
                                     .getDecimalCount() ) );
         } else {
             dataOutput.write( Utils.textPadding( "?",
                     this.getCharacterSetName(),
-                    this.header.fieldArray[ j ].getFieldLength(),
+                    this.header.getDBFField( index ).getFieldLength(),
                     Utils.ALIGN_RIGHT ) );
         }
     }

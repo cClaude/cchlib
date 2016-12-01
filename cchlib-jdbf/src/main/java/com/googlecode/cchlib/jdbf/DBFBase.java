@@ -25,7 +25,7 @@ abstract class DBFBase
     /**
      * Define character set
      *
-     * @characterSetName character set name to set
+     * @param characterSetName character set name to set
      */
     public void setCharacterSetName( final String characterSetName )
     {

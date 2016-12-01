@@ -66,7 +66,7 @@ public class DBFReader extends DBFBase
             this.header.read( this.dataInputStream );
 
             /* it might be required to leap to the start of records at times */
-            final int dataStartIndex = this.header.headerLength - (32 + (32 * this.header.fieldArray.length)) - 1;
+            final int dataStartIndex = this.header.getHeaderLength() - (32 + (32 * this.header.getDBFFieldSize() )) - 1;
 
             if( dataStartIndex > 0 ) {
                 final long skiped = this.dataInputStream.skip( dataStartIndex );
@@ -119,7 +119,7 @@ public class DBFReader extends DBFBase
                     throw new DBFStructureException( "Field '" + i + "' is not a String : " + o );
                     }
                 }
-            --(this.header.numberOfRecords);
+            this.header.setNumberOfRecords( this.header.getNumberOfRecords() - 1 );
             refreshMapFieldIndex();
             }
     }
@@ -129,19 +129,19 @@ public class DBFReader extends DBFBase
     {
         final StringBuilder sb = new StringBuilder();
 
-        sb.append( this.header.year )
+        sb.append( this.header.getYear() )
           .append( '/' )
-          .append( this.header.month )
+          .append( this.header.getMonth() )
           .append( '/' )
-          .append( this.header.day )
+          .append( this.header.getDay() )
           .append( '\n' )
           .append( "Total records: " )
-          .append( this.header.numberOfRecords )
+          .append( this.header.getNumberOfRecords() )
           .append( "\nHEader length: " )
-          .append( this.header.headerLength );
+          .append( this.header.getHeaderLength() );
 
-        for( int i=0; i<this.header.fieldArray.length; i++) {
-            sb.append( this.header.fieldArray[i].getName() );
+        for( int i=0; i<this.header.getDBFFieldSize(); i++) {
+            sb.append( this.header.getDBFField( i ).getName() );
             sb.append( '\n' );
             }
 
@@ -150,13 +150,13 @@ public class DBFReader extends DBFBase
 
     private void refreshMapFieldIndex()
     {
-        final int indexMax = this.header.fieldArray.length;
+        final int indexMax = this.header.getDBFFieldSize();
 
         this.fieldsNamesMap.clear();
 
         for( int i = 0; i<indexMax; i++ ) {
             this.fieldsNamesMap.put(
-                this.header.fieldArray[ i ].getName(),
+                this.header.getDBFField( i ).getName(),
                 Integer.valueOf( i )
                 );
             }
@@ -169,7 +169,7 @@ public class DBFReader extends DBFBase
      */
     public int getRecordCount()
     {
-        return this.header.numberOfRecords;
+        return this.header.getNumberOfRecords();
     }
 
     /**
@@ -186,7 +186,7 @@ public class DBFReader extends DBFBase
             throw new DBFClosedException( SOURCE_IS_NOT_OPEN );
             }
 
-        return this.header.fieldArray[ index ];
+        return this.header.getDBFField( index );
     }
 
     /**
@@ -199,8 +199,8 @@ public class DBFReader extends DBFBase
         if( this.isClosed) {
             throw new DBFClosedException( SOURCE_IS_NOT_OPEN );
             }
-        if( this.header.fieldArray != null) {
-            return this.header.fieldArray.length;
+        if( this.header.getDBFFields() != null) {
+            return this.header.getDBFFieldSize();
             }
 
         return -1;
@@ -258,14 +258,14 @@ public class DBFReader extends DBFBase
             throw new DBFClosedException( SOURCE_IS_NOT_OPEN );
             }
 
-        final Object[] recordObjects = new Object[ this.header.fieldArray.length];
+        final Object[] recordObjects = new Object[ this.header.getDBFFieldSize()];
 
         try {
             boolean isDeleted = false;
 
             do {
                 if( isDeleted ) {
-                    this.dataInputStream.skip( this.header.recordLength - 1 );
+                    this.dataInputStream.skip( this.header.getRecordLength() - 1L );
                     }
 
                 final int abyte = this.dataInputStream.readByte();
@@ -274,7 +274,7 @@ public class DBFReader extends DBFBase
                     return null;
                     }
 
-                isDeleted = (  abyte == '*');
+                isDeleted = abyte == '*';
             } while( isDeleted );
 
             privateNextRecord( recordObjects );
@@ -292,9 +292,9 @@ public class DBFReader extends DBFBase
     private void privateNextRecord( final Object[] recordObjects )
         throws IOException
     {
-        for( int i=0; i<this.header.fieldArray.length; i++) {
+        for( int i=0; i<this.header.getDBFFieldSize(); i++) {
 
-            switch( this.header.fieldArray[i].getDataType()) {
+            switch( this.header.getDBFField( i ).getDataType()) {
                 case 'C':
                     handleString( recordObjects, i );
                     break;
@@ -342,7 +342,7 @@ public class DBFReader extends DBFBase
         throws IOException
     {
         try {
-            byte[] numeric = new byte[ this.header.fieldArray[i].getFieldLength()];
+            byte[] numeric = new byte[ this.header.getDBFField( i ).getFieldLength()];
 
             this.dataInputStream.read( numeric );
             numeric = Utils.trimLeftSpaces( numeric );
@@ -359,10 +359,12 @@ public class DBFReader extends DBFBase
         }
     }
 
-    private void handleFloat( final Object[] recordObjects, final int i ) throws IOException, DBFException
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    private void handleFloat( final Object[] recordObjects, final int i )
+        throws IOException, DBFException
     {
         try {
-            byte[] afloat = new byte[ this.header.fieldArray[i].getFieldLength()];
+            byte[] afloat = new byte[ this.header.getDBFField( i ).getFieldLength()];
 
             this.dataInputStream.read( afloat );
             afloat = Utils.trimLeftSpaces( afloat );
@@ -409,7 +411,7 @@ public class DBFReader extends DBFBase
     private void handleString( final Object[] recordObjects, final int i )
         throws IOException
     {
-        final byte[] array = new byte[ this.header.fieldArray[i].getFieldLength()];
+        final byte[] array = new byte[ this.header.getDBFField( i ).getFieldLength()];
 
         this.dataInputStream.read( array );
         recordObjects[i] = new String( array, getCharacterSetName() );
