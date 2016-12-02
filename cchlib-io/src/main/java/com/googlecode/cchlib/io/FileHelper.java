@@ -83,11 +83,11 @@ public final class FileHelper
      */
     public static File createTempDir()
     {
-        final File   baseDir  = new File( System.getProperty("java.io.tmpdir") );
+        final File   baseDir  = new File( System.getProperty( "java.io.tmpdir" ) );
         final String baseName = System.currentTimeMillis() + "-";
 
         for( int counter = 0; counter < TEMP_DIR_ATTEMPTS; counter++ ) {
-            final File tempDir = new File( baseDir, baseName + counter); // $codepro.audit.disable avoidInstantiationInLoops
+            final File tempDir = new File( baseDir, baseName + counter);
 
             if( tempDir.mkdir() ) {
                 return tempDir;
@@ -111,7 +111,8 @@ public final class FileHelper
      * @see File#listFiles()
      */
     @Nonnull
-    public static File[] getFiles( @Nonnull final File directoryFile ) throws NotDirectoryException
+    public static File[] getFiles( @Nonnull final File directoryFile )
+        throws NotDirectoryException
     {
         if( ! directoryFile.isDirectory() ) {
             throw new NotDirectoryException( directoryFile.getPath() );

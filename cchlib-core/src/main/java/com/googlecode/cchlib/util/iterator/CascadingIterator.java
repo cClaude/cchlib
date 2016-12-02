@@ -43,7 +43,9 @@ public class CascadingIterator<T>
         this( newIterator( iterators ) );
     }
 
-    private static <T> Iterator<? extends Iterable<? extends T>> newIterator( final Iterable<? extends T>[] iterators )
+    private static <T> Iterator<? extends Iterable<? extends T>> newIterator(
+        final Iterable<? extends T>[] iterators
+        )
     {
         return new ArrayIterable<>( iterators ).iterator();
     }

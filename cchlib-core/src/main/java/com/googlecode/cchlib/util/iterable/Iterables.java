@@ -64,6 +64,25 @@ public class Iterables
     }
 
     /**
+     * Create an {@link Iterable} from an arrays of values
+     *
+     * @param <T>
+     *            Type of the Iterator
+     * @param type
+     *            Type of content
+     * @param values
+     *            Values for the {@link Iterable}
+     * @return a new {@link Iterable}
+     *
+     * @since 4.2
+     */
+    @SafeVarargs
+    public static <T> Iterable<T> create( final T...values )
+    {
+        return new ArrayIterable<T>( values );
+    }
+
+    /**
      * {@link #wrap(Iterable, Wrappable)} for {@link Iterator} objects
      *
      * @param <S>

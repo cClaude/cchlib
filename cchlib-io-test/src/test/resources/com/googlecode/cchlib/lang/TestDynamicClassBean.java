@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.lang;
 
 /**
- * Test class to add in class path
+ * Test class to be compile, then add in class path, and use
  */
 public class TestDynamicClassBean
 {
@@ -20,5 +20,10 @@ public class TestDynamicClassBean
     public void setValue( String value )
     {
         this.value = value;
+    }
+
+    public int length()
+    {
+        return value.length();
     }
 }
