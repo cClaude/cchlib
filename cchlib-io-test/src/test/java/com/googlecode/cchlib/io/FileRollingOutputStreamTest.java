@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.io;
 
+import static org.fest.assertions.Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.StringHelper;
 
@@ -25,50 +25,52 @@ public class FileRollingOutputStreamTest
     @Test
     public void test1FileRollingOutputStream() throws IOException
     {
-        testFileRollingOutputStream( 4096 );
+        testFileRollingOutputStream( 4096, 1 );
     }
 
     @Test
     public void test2FileRollingOutputStream() throws IOException
     {
-        testFileRollingOutputStream( 5 ); // 5 bytes only :)
+        testFileRollingOutputStream( 5, 3 ); // 5 bytes only :)
     }
 
     @Test
     public void test3FileRollingOutputStream() throws IOException
     {
-        testFileRollingOutputStream( 35 );
-        testFileRollingOutputStream( 36 );
-        testFileRollingOutputStream( 37 );
+        testFileRollingOutputStream( 35, 2 );
+        testFileRollingOutputStream( 36, 2 );
+        testFileRollingOutputStream( 37, 2 );
     }
 
     public void testFileRollingOutputStream(
-        final int maxsize
+        final int maxsize,
+        final int numberOfFiles
         ) throws IOException
     {
         final String assertMsgPrefix = "max:" + maxsize + " ->";
-        final File file = File.createTempFile(
+        final File logDirectoryFile = File.createTempFile(
                 "FileRollingOutputStreamTest",
                 StringHelper.EMPTY
                 );
-        final FileRoller fileRoller = new DefaultFileRoller( file );
+        logDirectoryFile.deleteOnExit();
+        final FileRoller fileRoller = new DefaultFileRoller( logDirectoryFile );
 
-        LOGGER.info( "work with " + file );
+        LOGGER.info( "work with " + logDirectoryFile );
         LOGGER.info( "maxsize " + maxsize );
 
         final FileRollingOutputStream os = new FileRollingOutputStream( fileRoller, maxsize );
 
         os.write( BUFFER[ 0 ] );
-        int l = 1;
-        Assert.assertEquals( assertMsgPrefix, l, os.length() );
+        long cLen = 1;
+        assertThat( os.length() ).as( assertMsgPrefix ).isEqualTo( cLen );
 
         os.write( BUFFER );
-        l += BUFFER.length;
-        Assert.assertEquals( assertMsgPrefix, l, os.length() );
+        cLen += BUFFER.length;
+        assertThat( os.length() ).as( assertMsgPrefix ).isEqualTo( cLen );
 
         os.write( BUFFER, BUFFER_OFFSET, LEN );
-        l += LEN;
-        Assert.assertEquals( assertMsgPrefix, l, os.length() );
+        cLen += LEN;
+        assertThat( os.length() ).as( assertMsgPrefix ).isEqualTo( cLen );
 
         os.flush();
 
@@ -79,29 +81,30 @@ public class FileRollingOutputStreamTest
             );
 
         os.close();
-        Assert.assertEquals( assertMsgPrefix, l, os.length() );
+        assertThat( os.length() ).as( assertMsgPrefix ).isEqualTo( cLen );
+        assertThat( os.getFileList() ).hasSize( numberOfFiles );
 
         int filelen = 0;
 
-        for( final File f : os.getFileList() ) {
+        for( final File file : os.getFileList() ) {
             LOGGER.info(
                 assertMsgPrefix
-                    + "result in " + f
-                    + " (" + f.length() + ")"
+                    + "result in " + file
+                    + " (" + file.length() + ")"
                 );
-            filelen += f.length();
+            filelen += file.length();
 
-            if( f.length() > maxsize ) {
+            if( file.length() > maxsize ) {
                 LOGGER.warn(
                     assertMsgPrefix
-                        + " length found is " + f.length()
+                        + " length found is " + file.length()
                         );
                 }
 
-            f.delete(); // cleanup
+            file.delete(); // cleanup
             }
 
-        Assert.assertEquals( assertMsgPrefix, filelen, os.length() );
-        Assert.assertEquals( assertMsgPrefix, os.getMaxLength(), maxsize );
+        assertThat( os.length() ).isEqualTo( filelen );
+        assertThat( os.getMaxLength() ).isEqualTo( maxsize );
     }
 }
