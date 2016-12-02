@@ -14,7 +14,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesListener;
 import com.googlecode.cchlib.util.emptydirectories.EmptyDirectoriesLookup;
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 
@@ -34,11 +33,14 @@ public class DefaultEmptyDirectoriesLookupTest
         this.emptyDirectoriesListener = new LoggerEmptyDirectoriesListener();
 
         this.rootPath = Files.createTempDirectory( getClass().getSimpleName() );
+        deleteOnExit( this.rootPath );
+
         this.pathToCleanUpList.add( this.rootPath );
 
         // emptyPath1 (is empty, should be deleted)
         final Path dirPath1 = this.rootPath.resolve( "empty1" );
         Files.createDirectory( dirPath1 );
+        deleteOnExit( dirPath1 );
         this.isEmptyList.add( dirPath1 );
 
         // path2
@@ -49,27 +51,38 @@ public class DefaultEmptyDirectoriesLookupTest
         //           +--- empty2_2_1_1
         final Path dirPath2   = this.rootPath.resolve( "dirPath2" );
         Files.createDirectory( dirPath2 );
+        deleteOnExit( dirPath2 );
         this.pathToCleanUpList.add( dirPath2 );
 
         final Path folder2_1 = dirPath2.resolve( "folder2_1" );
         Files.createDirectory( folder2_1 );
+        deleteOnExit( folder2_1 );
         this.pathToCleanUpList.add( folder2_1 );
 
         final Path file2_1_1 = folder2_1.resolve( "file2_1_1" );
         Files.copy( getSomeData(), file2_1_1 );
+        deleteOnExit( file2_1_1 );
         this.pathToCleanUpList.add( file2_1_1 );
 
         final Path dirPath2_2 = dirPath2.resolve( "couldBeEmpty2_2" );
         Files.createDirectory( dirPath2_2 );
+        deleteOnExit( dirPath2_2 );
         this.couldBeEmptyList.add( dirPath2_2 );
 
         final Path dirPath2_2_1 = dirPath2_2.resolve( "couldBeEmpty2_2_1" );
         Files.createDirectory( dirPath2_2_1 );
+        deleteOnExit( dirPath2_2_1 );
         this.couldBeEmptyList.add( dirPath2_2_1 );
 
         final Path dirPath2_2_1_1 = dirPath2_2_1.resolve( "empty2_2_1_1" );
         Files.createDirectory( dirPath2_2_1_1 );
+        deleteOnExit( dirPath2_2_1_1 );
         this.isEmptyList.add( dirPath2_2_1_1 );
+    }
+
+    private void deleteOnExit( final Path path )
+    {
+        path.toFile().deleteOnExit();
     }
 
     private InputStream getSomeData()
@@ -152,64 +165,6 @@ public class DefaultEmptyDirectoriesLookupTest
     private Object hideArray( final File[] subFiles )
     {
         return subFiles;
-    }
-
-    private static class LoggerEmptyDirectoriesListener implements EmptyDirectoriesListener
-    {
-        private final List<EmptyFolder> emptyFolderList = new ArrayList<>();
-
-        public List<EmptyFolder> getEmptyFolderList()
-        {
-            return this.emptyFolderList;
-        }
-
-        @Override
-        public boolean isCancel()
-        {
-            return false;
-        }
-
-        @Override
-        public void newEntry( final EmptyFolder emptyFolder )
-        {
-            LOGGER.info( "emptyFolder: " + emptyFolder );
-
-            final File f = emptyFolder.getPath().toFile();
-            Assert.assertTrue( "Not a directory", f.isDirectory() );
-
-            final File[] files = f.listFiles();
-            Assert.assertNotNull( "Not a valid directory", files );
-
-            if( emptyFolder.isEmpty() ) {
-                LOGGER.warn( "Warn found " + files.length + " file(s)" );
-
-                for( final File file : files ) {
-                    LOGGER.warn( "> " + file + " (" + file.length() + ") D:" + file.isDirectory() );
-                    }
-                Assert.assertEquals( "Not empty: " + emptyFolder, 0, files.length );
-                }
-            else {
-                Assert.assertTrue( "Is empty", files.length > 0);
-
-                for( final File file : files ) {
-                    Assert.assertTrue( "found a none directory object: " + file, file.isDirectory() );
-                    }
-                }
-
-            this.emptyFolderList.add( emptyFolder );
-        }
-
-        @Override
-        public void findStarted()
-        {
-            LOGGER.info( "findStarted()" );
-        }
-
-        @Override
-        public void findDone()
-        {
-            LOGGER.info( "findDone()" );
-        }
     }
 
 }
