@@ -15,9 +15,9 @@ class GDAI_tumblr_com_ForHost
     private static final long serialVersionUID = 1L;
     private static final String SITE_NAME_GENERIC = "*.tumblr.com";
 
-    private final DefaultComboBoxConfig   comboBoxConfig;
-    private String                  _hostname_;
-    private GDAI_tumblr_com_Config config;
+    private final DefaultComboBoxConfig  comboBoxConfig;
+    private String                      _hostname_;
+    private Config                       config;
 
     protected final Frame ownerFrame;
     private String comboBoxConfig_hostname_;
@@ -39,9 +39,9 @@ class GDAI_tumblr_com_ForHost
     }
 
     public GDAI_tumblr_com_ForHost(
-        final Frame                     ownerFrame,
-        final DefaultComboBoxConfig     comboBoxConfig,
-        final GDAI_tumblr_com_Config    config
+        final Frame                 ownerFrame,
+        final DefaultComboBoxConfig comboBoxConfig,
+        final Config                config
         )
     {
         super( SITE_NAME_GENERIC, DEFAULT_MAX_PAGES_BLOGS );
@@ -83,8 +83,8 @@ class GDAI_tumblr_com_ForHost
             @Override
             public void onClick()
             {
-                final GDAI_tumblr_com_ConfigJDialog dialog
-                    = new GDAI_tumblr_com_ConfigJDialog( GDAI_tumblr_com_ForHost.this.ownerFrame, GDAI_tumblr_com_ForHost.this.config );
+                final GDAI_tumblr_com_ConfigJDialogApp dialog
+                    = new GDAI_tumblr_com_ConfigJDialogApp( GDAI_tumblr_com_ForHost.this.ownerFrame, GDAI_tumblr_com_ForHost.this.config );
 
                 dialog.setVisible( true );
             }

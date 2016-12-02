@@ -20,11 +20,6 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.PolyURLDownloadFileURL;
 
-/**
- *
- *
- *
- */
 public abstract class GDAI_tumblr_com
     extends AbstractDownloaderAppInterface
         implements GenericDownloaderAppInterface
@@ -224,13 +219,13 @@ public abstract class GDAI_tumblr_com
         final String[] blogDescriptions;
         final GDAI_tumblr_com_Config config = new GDAI_tumblr_com_Config();
         {
-            final Collection<GDAI_tumblr_com_Config.Entry> entries = config.getEntriesCollection();
+            final Collection<Entry> entries = config.getEntriesCollection();
 
             blogNames        = new String[ entries.size() ];
             blogDescriptions = new String[ entries.size() ];
 
             int i = 0;
-            for( final GDAI_tumblr_com_Config.Entry entry : entries ) {
+            for( final Entry entry : entries ) {
                 blogNames[ i ]          = entry.getName();
                 blogDescriptions[ i++ ] = entry.getDescription();
                 }

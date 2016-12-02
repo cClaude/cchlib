@@ -5,64 +5,29 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
-//import com.google.common.base.Strings;
 import com.googlecode.cchlib.lang.StringHelper;
 
-/**
- *
- *
- */
-class GDAI_tumblr_com_Config
+@Deprecated
+class GDAI_tumblr_com_Config implements Config
 {
-    private final List<Entry> entries = new ArrayList<Entry>();
+    private static final long serialVersionUID = 1L;
 
-    /**
-     *
-     */
-    public interface Entry
-    {
-        public String getName();
-        public String getDescription();
-        }
-
-    private static class DefaultEntry implements Entry
-    {
-        private String name;
-        private String description;
-
-        public DefaultEntry( String blogName, String blogDescription )
-        {
-            this.name = blogName;
-            this.description = blogDescription;
-        }
-
-        @Override
-        public String getName()
-        {
-            return this.name;
-        }
-
-        @Override
-        public String getDescription()
-        {
-            return this.description;
-        }
-    }
+    private final List<Entry> entries = new ArrayList<>();
 
     /**
      *
      */
     public GDAI_tumblr_com_Config()
     {
-        GDAI_tumblr_com_ConfigLoader loader = new GDAI_tumblr_com_ConfigLoader();
+        final GDAI_tumblr_com_ConfigLoader loader = new GDAI_tumblr_com_ConfigLoader();
 
         for( int i = 0; i< loader.getBlogsSize(); i++ ) {
-            DefaultEntry entry = new DefaultEntry(
+            final EntryImpl entry = new EntryImpl(
                 loader.getBlogsName( i ),
                 loader.getBlogsDescription( i )
                 );
 
-            entries.add( entry );
+            this.entries.add( entry );
             }
     }
 
@@ -73,7 +38,7 @@ class GDAI_tumblr_com_Config
         final String[]  blogsDescriptions= new String[ len ];
         int i = 0;
 
-        for( Entry entry : this.entries ) {
+        for( final Entry entry : this.entries ) {
             blogsNames[ i ]          = entry.getName();
             blogsDescriptions[ i++ ] = entry.getDescription();
             }
@@ -86,12 +51,13 @@ class GDAI_tumblr_com_Config
         return this.entries;
     }
 
-    public Vector<Vector<?>> toEntriesVector()
+    @Override
+    public Vector<Vector<?>> toVector() //toEntriesVector()
     {
         final Vector<Vector<?>> vector = new Vector<Vector<?>>();
 
-        for( Entry entry : this.entries ) {
-            Vector<String> v = new Vector<String>();
+        for( final Entry entry : this.entries ) {
+            final Vector<String> v = new Vector<String>();
 
             v.add( entry.getName() );
             v.add( entry.getDescription() );
@@ -102,21 +68,21 @@ class GDAI_tumblr_com_Config
         return vector;
     }
 
-
-    public void setDataVector( final Vector<Vector<?>> dataVector )
+    @Override
+    public void setDataFromVector( final Vector<Vector<?>> dataVector )
     {
-        entries.clear();
+        this.entries.clear();
 
-        for( Vector<?> data : dataVector ) {
-            Object name = data.get( 0 );
-            Object desc = data.get( 1 );
+        for( final Vector<?> data : dataVector ) {
+            final Object name = data.get( 0 );
+            final Object desc = data.get( 1 );
 
-            DefaultEntry entry = new DefaultEntry(
+            final EntryImpl entry = new EntryImpl(
                 StringHelper.nullToEmpty( name.toString() ),
                 StringHelper.nullToEmpty( (desc ==  null) ? null : desc.toString() )
                 );
 
-            entries.add( entry );
+            this.entries.add( entry );
             }
     }
 }

@@ -9,6 +9,7 @@ public class BadDownloadURLException
     extends DownloadConfigurationException
 {
     private static final long serialVersionUID = 1L;
+
     /**
      * Create a BadDownloadURLException
      */

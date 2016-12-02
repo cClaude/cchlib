@@ -195,7 +195,6 @@ public class GenericDownloaderUIApp extends JFrame
         this.downloadEntriesTypeList.add( new DownloadI_www_gifgirl_org() );
         this.downloadEntriesTypeList.add( new DownloadI_www_gifmash_com() );
         this.downloadEntriesTypeList.add( new DownloadI_www_gifpal_com() );
-
         this.downloadEntriesTypeList.add( new DownloadI_www_epins_fr() );
 
         this.downloaderUIPanels = new GenericDownloaderUIPanel[ this.downloadEntriesTypeList.size() ];
