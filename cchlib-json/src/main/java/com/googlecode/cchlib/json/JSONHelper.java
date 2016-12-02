@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.duplicatefiles.common;
+package com.googlecode.cchlib.json;
 
 import java.io.BufferedInputStream;
 import java.io.File;
