@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.net;
 
 import java.io.IOException;
@@ -6,34 +5,25 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
-import com.googlecode.cchlib.NeedDoc;
+import javax.annotation.Nonnull;
 import com.googlecode.cchlib.NeedTestCases;
 
 /**
- * NEEDDOC
- * <p style="border:groove;">
- * <b>Warning:</b>
- * Insofar the code of this class comes from decompiling
- * my own code following the loss of source code, the use
- * of this class must do so under protest until I have
- * check its stability, it could be subject to significant
- * change.
- * </p>
- *
+ * WakeOnLan implementation
  */
-@NeedDoc
 @NeedTestCases
 public class WakeOnLan
 {
+    /** DEFAULT_BROADCAST_ADDR : {@value} */
     @SuppressWarnings("squid:S1313") // This is a broad cast IP
     public static final String DEFAULT_BROADCAST_ADDR = "255.255.255.255";
-    public static final int    DEFAULT_PORT           = 7;
+    /** DEFAULT_PORT : {@value} */
+    public static final int DEFAULT_PORT = 7;
 
     private final int port;
 
     /**
-     * NEEDDOC
+     * Create a {@link WakeOnLan} using {@link DEFAULT_PORT}
      */
     public WakeOnLan()
     {
@@ -41,8 +31,9 @@ public class WakeOnLan
     }
 
     /**
-     * NEEDDOC
-     * @param port
+     * Create a {@link WakeOnLan} using given {@code port}
+     *
+      * @param port port to use to send magic number
      */
     public WakeOnLan( final int port )
     {
@@ -50,18 +41,16 @@ public class WakeOnLan
     }
 
     /**
-     * NEEDDOC
+     * Notify {@code macAddress} using {@link DEFAULT_BROADCAST_ADDR}
      *
-     * @param macAddress
-     * @throws UnknownHostException
-     * @throws SocketException
-     * @throws IllegalArgumentException
-     * @throws IOException
+     * @param macAddress MAC address to use
+     * @throws SocketException if any
+     * @throws IllegalArgumentException if {@code macAddress} is null
+     * @throws IOException if any I/O error occur
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
-    public void notify( final String macAddress )
-        throws  UnknownHostException,
-                SocketException,
+    public void notify( @Nonnull final String macAddress )
+        throws  SocketException,
                 IllegalArgumentException,
                 IOException
     {
@@ -69,35 +58,32 @@ public class WakeOnLan
     }
 
     /**
-     * NEEDDOC
+     * Notify {@code macAddress} using {@code broadcastAddress}
      *
-     * @param broadcastAddress
-     * @param macAddress
-     * @throws UnknownHostException
-     * @throws SocketException
-     * @throws IllegalArgumentException
-     * @throws IOException
-     */
+     * @param broadcastAddress broadcast to use
+     * @param macAddress MAC address to use
+     * @throws SocketException if any
+     * @throws IllegalArgumentException if {@code macAddress} is null
+     * @throws IOException if any I/O error occur
+      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public void notify(
         final String broadcastAddress,
         final String macAddress
-        )
-        throws  UnknownHostException,
-                SocketException,
-                IllegalArgumentException,
-                IOException
+        ) throws SocketException,
+                 IllegalArgumentException,
+                 IOException
     {
         final String safeBroadcastAddress = fixBroadcastAddress( broadcastAddress );
-        final byte[] macBytes             = WakeOnLan.getMacAddressBytes(macAddress);
+        final byte[] macBytes             = getMacAddressBytes( macAddress );
         final byte[] bytes                = new byte[6 + (16 * macBytes.length)];
 
         for( int i = 0; i < 6; i++ ) {
-            bytes[i] = -1;
+            bytes[ i ] = -1;
             }
 
         for( int i = 6; i < bytes.length; i += macBytes.length ) {
-            System.arraycopy(macBytes, 0, bytes, i, macBytes.length);
+            System.arraycopy( macBytes, 0, bytes, i, macBytes.length );
             }
 
         final InetAddress     address = InetAddress.getByName( safeBroadcastAddress );
@@ -127,21 +113,12 @@ public class WakeOnLan
         return broadcastAddress;
     }
 
-    /**
-     * NEEDDOC
-     *
-     * @param macAddress
-     * @return NEEDDOC
-     * @throws IllegalArgumentException
-     */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    private static byte[] getMacAddressBytes(
-            final String macAddress
-            )
+    private static byte[] getMacAddressBytes( final String macAddress )
         throws IllegalArgumentException
     {
-        final byte[]      bytes   = new byte[6];
-        final String[]    hex     = macAddress.split("(\\:|\\-)");
+        final byte[]   bytes = new byte[ 6 ];
+        final String[] hex   = macAddress.split( "(\\:|\\-)" );
 
         if( hex.length != 6 ) {
             throw new IllegalArgumentException(
@@ -151,7 +128,7 @@ public class WakeOnLan
 
         try {
             for( int i = 0; i < 6; i++ ) {
-                bytes[i] = (byte)Integer.parseInt(hex[i], 16);
+                bytes[ i ] = (byte)Integer.parseInt( hex[ i ], 16 );
                 }
             }
         catch( final NumberFormatException e ) {

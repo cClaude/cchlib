@@ -6,19 +6,21 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * NEEDDOC
+ * Allow to create XML writer
+ *
+ * @since 3.02
  */
 public final class XMLWriter extends Writer
-    //implements Appendable, Flushable, Closeable
 {
-    private final Writer writer;
     private final StringBuilder sbuffer = new StringBuilder();
+    private final Writer writer;
 
     /**
-     * NEEDDOC
-     * @param writer
+     * Create a new {@link XMLWriter}
+     *
+     * @param writer Related {@link Writer}
      */
-    public XMLWriter(final Writer writer)
+    public XMLWriter( final Writer writer )
     {
         this.writer = writer;
     }
@@ -36,82 +38,102 @@ public final class XMLWriter extends Writer
     }
 
     /**
-     * NEEDDOC
+     * Basic XML encoding
      */
     @Override
-    public void write(final char[] cbuf, final int off, final int len)
+    public void write( final char[] cbuf, final int off, final int len )
         throws IOException
     {
-        synchronized(super.lock) {
-            this.sbuffer.setLength(0);
+        synchronized( super.lock ) {
+            this.sbuffer.setLength( 0 );
 
-            for(int i = off; i < len; i++) {
-                switch(cbuf[i]) {
-                case 62:
-                    this.sbuffer.append("&gt;");
+            for( int i = off; i < len; i++ ) {
+                final char c = cbuf[ i ];
+
+                switch( c ) {
+
+                case 62 : // '>'
+                    this.sbuffer.append( "&gt;" );
                     break;
-                case 60:
-                    this.sbuffer.append("&lt;");
+
+                case 60 : // '<'
+                    this.sbuffer.append( "&lt;" );
                     break;
-                case 38:
-                    this.sbuffer.append("&amp;");
+
+                case 38 : // '&'
+                    this.sbuffer.append( "&amp;" );
                     break;
+
                 default:
-                    this.sbuffer.append(cbuf[i]);
+                    this.sbuffer.append( c );
                     break;
                 }
             }
 
-            this.writer.write(this.sbuffer.toString());
+            this.writer.write( this.sbuffer.toString() );
         }
-
     }
 
+
     /**
-     * NEEDDOC
-     * @param throwable
+     * Store a stack trace into writer
+     *
+     * @param anException
+     *            The {@link Throwable} object to include
      * @throws IOException
+     *             if any I/O occur
      */
-    public void write(final Throwable throwable)
+    public void write( final Throwable anException )
         throws IOException
     {
         final StringWriter sw = new StringWriter();
-        throwable.printStackTrace(new PrintWriter(sw));
-        write(sw.toString());
+
+        anException.printStackTrace( new PrintWriter( sw ) );
+
+        write( sw.toString() );
     }
 
     /**
-     * NEEDDOC
+     * Add a string into {@link XMLWriter} stream without any conversion.
+     *
      * @param str
+     *            {@link String} to add
      * @throws IOException
+     *             if any I/O occur
      */
-    public void rawWrite(final String str)
-        throws IOException
+    public void rawWrite( final String str ) throws IOException
     {
-        this.writer.write(str);
+        this.writer.write( str );
     }
 
     /**
-     * NEEDDOC
-     * @param cbuf
+     * Add an array of char into {@link XMLWriter} stream without any conversion.
+     *
+     * @param chars
+     *            Array of char to add
      * @throws IOException
-     */
-    public void rawWrite(final char[] cbuf)
-        throws IOException
+     *             if any I/O occur
+    */
+    public void rawWrite( final char[] chars ) throws IOException
     {
-        this.writer.write(cbuf);
+        this.writer.write( chars );
     }
 
     /**
-     * NEEDDOC
-     * @param cbuf
+     * Add an array of char into {@link XMLWriter} stream without any conversion.
+     *
+     * @param chars
+     *            Array of char to add
      * @param off
+     *            First offset to add
      * @param len
+     *            Number of char to add
      * @throws IOException
+     *             if any I/O occur
      */
-    public void rawWrite(final char[] cbuf, final int off, final int len)
+    public void rawWrite( final char[] chars, final int off, final int len )
         throws IOException
     {
-        this.writer.write(cbuf, off, len);
+        this.writer.write( chars, off, len );
     }
 }

@@ -19,16 +19,18 @@ import com.googlecode.cchlib.NeedDoc;
  * @since 4.1.8
  */
 @NeedDoc
-public class JTableColumnsAutoSizer implements TableModelListener, ComponentListener
+public class JTableColumnsAutoSizer
+    implements TableModelListener, ComponentListener
 {
     public static final int DEFAULT_COLUMN_MARGIN = 5;
-    private final JTable table;
-    private final int columnMargin;
+
+    private final JTable                table;
+    private final int                   columnMargin;
     private final ForceColumnWidthModel forceColumnWidthModel;
 
     /**
-     *
-     * @param table
+     * NEEDDOC
+     * @param table NEEDDOC
      */
     public JTableColumnsAutoSizer( final JTable table )
     {
@@ -36,34 +38,19 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
     }
 
     /**
-     *
-     * @param table
-     * @param columnMargin
+     * NEEDDOC
+     * @param table NEEDDOC
+     * @param columnMargin NEEDDOC
      */
     public JTableColumnsAutoSizer( final JTable table, final int columnMargin )
     {
-        this( table, columnMargin, new ForceColumnWidthModel() {
-            @Override
-            public boolean isWidthFor( final int columnIndex )
-            {
-                return false;
-            }
-            @Override
-            public int getWidthFor( final int columnIndex )
-            {
-                throw new UnsupportedOperationException();
-            }
-            @Override
-            public int getRemainingColumnIndex()
-            {
-                return -1;
-            }});
+        this( table, columnMargin, new DefaultForceColumnWidthModel() );
     }
 
     /**
-     *
-     * @param table
-     * @param forceColumnWidthModel
+     * NEEDDOC
+     * @param table NEEDDOC
+     * @param forceColumnWidthModel NEEDDOC
      */
     public JTableColumnsAutoSizer(
         final JTable                table,
@@ -74,10 +61,10 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
     }
 
     /**
-     *
-     * @param table
-     * @param columnMargin
-     * @param forceColumnWidthModel
+     * NEEDDOC
+     * @param table NEEDDOC
+     * @param columnMargin NEEDDOC
+     * @param forceColumnWidthModel NEEDDOC
      */
     public JTableColumnsAutoSizer(
         final JTable                table,
@@ -91,7 +78,7 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
     }
 
     /**
-     *
+     * NEEDDOC
      */
     public void apply()
     {
@@ -123,7 +110,6 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
 
         adjustMaximumWidths( minWidths, maxWidths );
 
-
         final int remainingIndex = this.forceColumnWidthModel.getRemainingColumnIndex();
 
         for( int i = 0; i < minWidths.length; i++ ) {
@@ -144,7 +130,10 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
             }
     }
 
-    private void adjustMaximumWidths( final int[] minWidths, final int[] maxWidths )
+    private void adjustMaximumWidths(
+        final int[] minWidths,
+        final int[] maxWidths
+        )
     {
         if( this.table.getWidth() > 0 ) {
             // to prevent infinite loops in exceptional situations
@@ -168,14 +157,14 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
         )
     {
         int                maxWidth     = headerWidth;
-        final TableColumn        column       = this.table.getColumnModel().getColumn(columnIndex);
+        final TableColumn  column       = this.table.getColumnModel().getColumn(columnIndex);
         TableCellRenderer  cellRenderer = column.getCellRenderer();
 
-        if(cellRenderer == null) {
+        if( cellRenderer == null ) {
             cellRenderer = new DefaultTableCellRenderer();
             }
 
-        for(int row = 0; row < this.table.getModel().getRowCount(); row++) {
+        for( int row = 0; row < this.table.getModel().getRowCount(); row++ ) {
             final Component rendererComponent = cellRenderer.getTableCellRendererComponent(
                 this.table,
                 this.table.getModel().getValueAt(row, columnIndex),
@@ -198,8 +187,8 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
         int largestIndex = 0;
         int largestValue = 0;
 
-        for(int i = 0; i < widths.length; i++) {
-            if(widths[i] > largestValue) {
+        for( int i = 0; i < widths.length; i++ ) {
+            if( widths[i] > largestValue ) {
                 largestIndex = i;
                 largestValue = widths[i];
             }
@@ -232,13 +221,13 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
      * Invoke {@link #apply()}
      */
     @Override//ComponentListener
-    public void componentResized( final ComponentEvent e )
+    public void componentResized( final ComponentEvent event )
     {
         apply();
     }
 
     @Override//ComponentListener
-    public void componentMoved( final ComponentEvent e )
+    public void componentMoved( final ComponentEvent event )
     {
         // empty
     }
@@ -247,13 +236,13 @@ public class JTableColumnsAutoSizer implements TableModelListener, ComponentList
      * Invoke {@link #apply()}
      */
     @Override//ComponentListener
-    public void componentShown( final ComponentEvent e )
+    public void componentShown( final ComponentEvent event )
     {
         apply();
     }
 
     @Override//ComponentListener
-    public void componentHidden( final ComponentEvent e )
+    public void componentHidden( final ComponentEvent event )
     {
         // empty
     }

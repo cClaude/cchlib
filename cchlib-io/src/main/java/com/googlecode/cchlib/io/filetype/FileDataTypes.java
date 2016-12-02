@@ -124,9 +124,9 @@ public class FileDataTypes
 
     /**
      * NEEDDOC
-     * @param file
+     * @param file NEEDDOC
      * @return NEEDDOC
-     * @throws IOException
+     * @throws IOException NEEDDOC
      */
     public static ExtendedFileDataTypeDescription findExtendedFileDataTypeDescription(
             final File file
@@ -140,7 +140,7 @@ public class FileDataTypes
 
         final ImageIOFileData image;
 
-        try (InputStream is = new BufferedInputStream( new FileInputStream( file ) )) {
+        try( InputStream is = new BufferedInputStream( new FileInputStream( file ) ) ) {
             image = new ImageIOFileData( is );
             }
 

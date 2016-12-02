@@ -13,20 +13,22 @@ import javax.imageio.stream.ImageInputStream;
  *
  * @since 4.1.7
  */
-public
-class ImageIOFileData
+public class ImageIOFileData
 {
     private Dimension dimension;
-    private String formatName;
+    private String    formatName;
 
     /**
+     * NEEDDOC
      *
      * @param is
+     *            NEEDDOC
      * @throws IOException
+     *             NEEDDOC
      */
     public ImageIOFileData( final InputStream is ) throws IOException
     {
-        try( ImageInputStream iis = ImageIO.createImageInputStream( is ) ) {
+        try (ImageInputStream iis = ImageIO.createImageInputStream( is )) {
             final Iterator<ImageReader> readers = ImageIO.getImageReaders( iis );
 
             if( readers.hasNext() ) {
@@ -34,18 +36,19 @@ class ImageIOFileData
                 try {
                     reader.setInput( iis );
                     this.formatName = reader.getFormatName();
-                    this.dimension  = new Dimension( reader.getWidth(0), reader.getHeight(0) );
-                    }
+                    this.dimension = new Dimension( reader.getWidth( 0 ), reader.getHeight( 0 ) );
+                }
                 finally {
                     reader.dispose();
-                    }
                 }
-            // else { dimension = null; }
             }
+            // else { dimension = null; }
+        }
     }
 
     /**
      * Returns {@link Dimension} of this picture
+     *
      * @return {@link Dimension} of this picture
      * @see ImageReader#getWidth(int)
      * @see ImageReader#getHeight(int)
@@ -57,6 +60,7 @@ class ImageIOFileData
 
     /**
      * Returns a String identifying the format of the input source.
+     *
      * @return the format name, as a String.
      * @see ImageReader#getFormatName()
      */

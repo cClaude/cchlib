@@ -141,7 +141,7 @@ public class MySQLAdmin
 
     /**
      * NEEDDOC
-     * @param inputfile NEEDDOC
+     * @param inputFile NEEDDOC
      * @throws IOException if any
      */
     public void applySQL( final File inputFile ) throws IOException

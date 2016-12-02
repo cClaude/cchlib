@@ -77,9 +77,6 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         return this.attributes;
     }
 
-    /**
-     * @since 4.2
-     */
     private void readObject( final ObjectInputStream in )
         throws IOException, ClassNotFoundException
     {
