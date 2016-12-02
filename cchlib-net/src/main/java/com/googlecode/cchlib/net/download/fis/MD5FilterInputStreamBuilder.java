@@ -1,9 +1,10 @@
 package com.googlecode.cchlib.net.download.fis;
 
+import java.io.File;
 import java.io.FilterInputStream;
 import java.io.InputStream;
 import com.googlecode.cchlib.io.checksum.MD5FilterInputStream;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 
 /**
  * NEEDDOC
@@ -11,7 +12,7 @@ import com.googlecode.cchlib.net.download.DownloadFileURL;
  * @since 4.1.7
  */
 public class MD5FilterInputStreamBuilder
-    implements DownloadFilterInputStreamBuilder
+    implements DownloadFilterInputStreamBuilder<File>
 {
     /**
      *
@@ -34,17 +35,20 @@ public class MD5FilterInputStreamBuilder
     }
 
     /**
-     * Set filter result on {@link DownloadFileURL}.
+     * Set filter result on {@link ContentDownloadURI}.
      *
      * @param filter    Closed filter to use for result
      * @param dURL      DownloadFileURL that will received result.
      */
     @Override
     public void storeFilterResult(
-        final FilterInputStream filter,
-        final DownloadFileURL   dURL
+        final FilterInputStream        filter,
+        final ContentDownloadURI<File> dURL
         )
     {
-        dURL.setProperty( "HashCode",  MD5FilterInputStream.class.cast( filter ).getHashString() );
+        dURL.setProperty(
+            DefaultFilterInputStreamBuilder.HASH_CODE,
+            MD5FilterInputStream.class.cast( filter ).getHashString()
+            );
     }
 }

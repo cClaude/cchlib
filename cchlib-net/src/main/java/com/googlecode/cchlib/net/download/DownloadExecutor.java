@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.net.download;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Collection;
 import java.util.List;
@@ -24,9 +25,9 @@ import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
  */
 public class DownloadExecutor
 {
-    private static final int TWO_SECONDS = 2 * 1000;
+    private static final long TWO_SECONDS = 2_000L;
     private final ThreadPoolExecutor pool;
-    private final DownloadFilterInputStreamBuilder downloadFilterBuilder;
+    private final DownloadFilterInputStreamBuilder<File> downloadFilterBuilder;
 
     /**
      * Create DownloadExecutor
@@ -36,12 +37,12 @@ public class DownloadExecutor
      */
     public DownloadExecutor(
         final int                               downloadMaxThread,
-        final DownloadFilterInputStreamBuilder  downloadFilterBuilder
+        final DownloadFilterInputStreamBuilder<File>  downloadFilterBuilder
         )
     {
-        final BlockingQueue<Runnable> queue  = new LinkedBlockingDeque<>();
+        final BlockingQueue<Runnable> queue = new LinkedBlockingDeque<>();
 
-        this.pool    = new ThreadPoolExecutor(
+        this.pool = new ThreadPoolExecutor(
                 0, // min thread
                 downloadMaxThread, // max thread
                 0, // keepAliveTime
@@ -95,18 +96,18 @@ public class DownloadExecutor
      * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
      * @see DownloadToString
-     * @see DownloadFileURL
+     * @see ContentDownloadURI
      * @see DownloadStringURL
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void add(
-            final Collection<? extends DownloadURL> downloadURLs,
+            final Collection<? extends DownloadURI> downloadURLs,
             final DownloadEvent                     eventHandler
             )
         throws  RejectedExecutionException,
                 DownloadConfigurationException
     {
-        for( final DownloadURL u: downloadURLs ) {
+        for( final DownloadURI u: downloadURLs ) {
             addDownload( u, eventHandler );
             }
     }
@@ -124,18 +125,18 @@ public class DownloadExecutor
      * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
      * @see DownloadToString
-     * @see DownloadFileURL
+     * @see ContentDownloadURI
      * @see DownloadStringURL
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void add(
-            final Iterable<DownloadURL> downloadURLs,
+            final Iterable<DownloadURI> downloadURLs,
             final DownloadEvent         eventHandler
             )
         throws  RejectedExecutionException,
                 DownloadConfigurationException
     {
-        for( final DownloadURL u: downloadURLs ) {
+        for( final DownloadURI u: downloadURLs ) {
             addDownload( u, eventHandler );
            }
     }
@@ -146,46 +147,64 @@ public class DownloadExecutor
      * Read general description for more details
      * </p>
      *
-     * @param downloadURL   A valid {@link DownloadURL}.
+     * @param downloadURL   A valid {@link DownloadURI}.
      * @param eventHandler  A valid {@link DownloadEvent} according to downloadURL type
      *
      * @throws RejectedExecutionException if task cannot be accepted for execution
      * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
      * @see DownloadToString
-     * @see DownloadFileURL
+     * @see ContentDownloadURI
      * @see DownloadStringURL
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void addDownload(
-            final DownloadURL   downloadURL,
+            final DownloadURI   downloadURL,
             final DownloadEvent eventHandler
             )
         throws  RejectedExecutionException,
-                DownloadConfigurationException // $codepro.audit.disable unnecessaryExceptions
+                DownloadConfigurationException
     {
-        Runnable command;
+        final Runnable command;
 
-        if( downloadURL instanceof DownloadStringURL ) {
-            final DownloadStringURL downloadStringURL = DownloadStringURL.class.cast( downloadURL );
+        if( downloadURL instanceof ContentDownloadURI ) {
+            final Class<?> type = ContentDownloadURI.class.cast( downloadURL ).getType();
 
-            command = new DownloadToString( downloadStringURL, eventHandler );
+            if( type.isAssignableFrom( String.class ) ) {
+                @SuppressWarnings({ "rawtypes", "unchecked" })
+                final ContentDownloadURI<String> downloadStringURL
+                    = (ContentDownloadURI)downloadURL;
+
+                command = new DownloadToString( downloadStringURL, eventHandler );
+            } else if( type.isAssignableFrom( File.class ) ) {
+                @SuppressWarnings({ "rawtypes", "unchecked" })
+                final ContentDownloadURI<File> downloadFileURL
+                    = (ContentDownloadURI)downloadURL;
+
+                if( eventHandler instanceof DownloadFileEvent ) {
+                    final DownloadFileEvent fileEventHandler = DownloadFileEvent.class.cast( eventHandler );
+
+                    command = new DownloadToFile(
+                            downloadFileURL,
+                            fileEventHandler ,
+                            this.downloadFilterBuilder
+                            );
+                    }
+                else {
+                    throw new BadDownloadEventException(
+                            "Illegal DownloadEvent: " + eventHandler
+                           );
+                    }
+            } else {
+                throw new BadDownloadURLException(
+                    "Can not handle ContentDownloadURI with content: " + type
+                    );
             }
-        else if( downloadURL instanceof DownloadFileURL ) {
-            final DownloadFileURL downloadFileURL = DownloadFileURL.class.cast( downloadURL );
-
-            if( eventHandler instanceof DownloadFileEvent ) {
-                final DownloadFileEvent fileEventHandler = DownloadFileEvent.class.cast( eventHandler );
-
-                command = new DownloadToFile( downloadFileURL, fileEventHandler , this.downloadFilterBuilder );
-                }
-            else {
-                throw new BadDownloadEventException();
-                }
-            }
-        else {
-            throw new BadDownloadURLException();
-            }
+        } else {
+            throw new BadDownloadURLException(
+                "Can not handle DownloadURI with content: " + downloadURL
+                );
+        }
 
         this.pool.execute( command );
     }

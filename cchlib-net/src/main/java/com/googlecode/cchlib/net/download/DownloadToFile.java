@@ -16,24 +16,28 @@ import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
  * @since 4.1.5
  */
 @Beta
-public class DownloadToFile extends AbstractDownload
+public class DownloadToFile extends AbstractContentDownload<File>
 {
-    private static final class MyInputStream extends InputStream {
+    private static final class MyInputStream extends InputStream
+    {
+        private final DownloadFilterInputStreamBuilder<File> downloadFilterBuilder;
+        private final FilterInputStream                filter;
+        private final InputStream                      inputStream;
 
-        private final DownloadFilterInputStreamBuilder downloadFilterBuilder;
-        private final FilterInputStream filter;
-        private final InputStream inputStream;
-
-        public MyInputStream( @Nullable final DownloadFilterInputStreamBuilder downloadFilterBuilder, final InputStream inputStream )
+        public MyInputStream(
+            @Nullable
+            final DownloadFilterInputStreamBuilder<File> downloadFilterBuilder,
+            final InputStream inputStream
+            )
         {
             this.downloadFilterBuilder = downloadFilterBuilder;
 
             if( downloadFilterBuilder != null ) {
-                this.filter = downloadFilterBuilder.createFilterInputStream( inputStream );
+                this.filter      = downloadFilterBuilder.createFilterInputStream( inputStream );
                 this.inputStream = this.filter;
                 }
             else {
-                this.filter = null;
+                this.filter      = null;
                 this.inputStream = inputStream;
                }
        }
@@ -45,13 +49,14 @@ public class DownloadToFile extends AbstractDownload
         }
 
         @Override
-        public int read(final byte[] b ) throws IOException
+        public int read( final byte[] b ) throws IOException
         {
             return this.inputStream.read( b );
         }
 
         @Override
-        public int read(final byte[] b, final int off, final int len ) throws IOException
+        public int read( final byte[] b, final int off, final int len )
+            throws IOException
         {
             return this.inputStream.read( b, off, len );
         }
@@ -64,7 +69,7 @@ public class DownloadToFile extends AbstractDownload
             }
         }
 
-        public void storeFilterResult( final DownloadFileURL dURL )
+        public void storeFilterResult( final ContentDownloadURI<File> dURL )
         {
             if( this.downloadFilterBuilder != null ) {
                 this.downloadFilterBuilder.storeFilterResult( this.filter, dURL );
@@ -72,19 +77,19 @@ public class DownloadToFile extends AbstractDownload
         }
     }
 
-    private final DownloadFilterInputStreamBuilder downloadFilterBuilder;
+    private final DownloadFilterInputStreamBuilder<File> downloadFilterBuilder;
 
     /**
      * Create a new DownloadToFile
      *
-     * @param downloadURL
-     * @param fileEventHandler
-     * @param downloadFilterBuilder
+     * @param downloadURL NEEDDOC
+     * @param fileEventHandler NEEDDOC
+     * @param downloadFilterBuilder NEEDDOC
      */
     public DownloadToFile(
-        final DownloadFileURL                   downloadURL,
+        final ContentDownloadURI<File>          downloadURL,
         final DownloadFileEvent                 fileEventHandler,
-        final DownloadFilterInputStreamBuilder  downloadFilterBuilder
+        final DownloadFilterInputStreamBuilder<File>  downloadFilterBuilder
         )
     {
         super( downloadURL, fileEventHandler );
@@ -96,8 +101,7 @@ public class DownloadToFile extends AbstractDownload
     protected void download( final InputStream inputStream )
             throws DownloadIOException, IOException
     {
-        final File                  file = DownloadFileEvent.class.cast( getDownloadEvent() ).createDownloadTmpFile();
-        final DownloadFileURL       dURL = DownloadFileURL.class.cast( getDownloadURL() );
+        final File  file = DownloadFileEvent.class.cast( getDownloadEvent() ).createDownloadTmpFile();
 
         // TODO : To test
 
@@ -111,12 +115,17 @@ public class DownloadToFile extends AbstractDownload
             throw new DownloadIOException( getDownloadURL(), file, e );
             }
 
+        final ContentDownloadURI<File> dURL = getDownloadURL();
+
         storeLocalFile( dURL, closedMis );
 
-        dURL.setResultAsFile( file );
+        dURL.setResult( file );
     }
 
-    private void storeLocalFile( final DownloadFileURL dURL, final MyInputStream closedMis )
+    private void storeLocalFile(
+        final ContentDownloadURI<File> dURL,
+        final MyInputStream            closedMis
+        )
     {
         // InputStream must be close to be store.
         closedMis.storeFilterResult( dURL );

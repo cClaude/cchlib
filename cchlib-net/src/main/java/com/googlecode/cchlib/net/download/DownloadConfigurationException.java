@@ -17,4 +17,9 @@ public class DownloadConfigurationException extends Exception
         // empty
     }
 
+    public DownloadConfigurationException( final String message )
+    {
+        super( message );
+    }
+
 }

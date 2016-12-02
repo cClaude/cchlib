@@ -1,15 +1,18 @@
 package com.googlecode.cchlib.net.download;
 
 /**
- * {@link Runnable} that support an {@link DownloadURL} getter.
+ * {@link Runnable} that support an {@link DownloadURI} getter.
+ *
+ * @param <R>
+ *            Result expected type for download
  *
  * @since 4.1.7
  */
-public interface RunnableDownload extends Runnable
+public interface RunnableDownload<R> extends Runnable
 {
     /**
-     * Returns {@link DownloadURL} of this download task
-     * @return {@link DownloadURL} of this download task
+     * Returns {@link DownloadURI} of this download task
+     * @return {@link DownloadURI} of this download task
      */
-    DownloadURL getDownloadURL();
+    ContentDownloadURI<R> getDownloadURL();
 }

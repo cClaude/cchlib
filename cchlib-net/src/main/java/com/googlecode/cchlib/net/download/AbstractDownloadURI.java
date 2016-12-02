@@ -17,16 +17,16 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 /**
- * Default implementation of {@link DownloadURL}
+ * Default implementation of {@link DownloadURI}
  *
  * @since 4.1.7
  */
-public abstract class AbstractDownloadURL
-    implements DownloadURL, Serializable
+public abstract class AbstractDownloadURI
+    implements DownloadURI, Serializable
 {
     private static final long serialVersionUID = 4L;
 
-    private static final Logger LOGGER = Logger.getLogger( AbstractDownloadURL.class );
+    private static final Logger LOGGER = Logger.getLogger( AbstractDownloadURI.class );
 
     private       URI                uri;
     private       URL                url;
@@ -47,7 +47,7 @@ public abstract class AbstractDownloadURL
      * @throws NullPointerException
      *             if url is null
      */
-    public AbstractDownloadURL(
+    public AbstractDownloadURI(
         final URL                   url,
         final Map<String,String>    requestPropertyMap,
         final Proxy                 proxy
@@ -77,7 +77,7 @@ public abstract class AbstractDownloadURL
      *             found, or if some other error occurred while
      *             constructing the URL
      */
-    public AbstractDownloadURL(
+    public AbstractDownloadURI(
         final URI                   uri,
         final Map<String,String>    requestPropertyMap,
         final Proxy                 proxy
@@ -92,12 +92,13 @@ public abstract class AbstractDownloadURL
     /**
      * Set the url.
      *
-     * @param url {@link URL} to set
-     * @throws NullPointerException if {@code url} is null
-     * @throws URISyntaxException if {@code url} is not valid
-     * @deprecated Use {@link #setURI(URL)} instead
+     * @param url
+     *            {@link URL} to set
+     * @throws NullPointerException
+     *             if {@code url} is null
+     * @throws URISyntaxException
+     *             if {@code url} is not valid
      */
-    @Deprecated
     protected final void setURL( final URL url ) throws URISyntaxException
     {
         setURI( url );
@@ -106,9 +107,12 @@ public abstract class AbstractDownloadURL
     /**
      * Set the internal {@code uri}.
      *
-     * @param url {@link URL} to set
-     * @throws NullPointerException if {@code url} is null
-     * @throws URISyntaxException if {@code url} is not valid
+     * @param url
+     *            {@link URL} to set
+     * @throws NullPointerException
+     *             if {@code url} is null
+     * @throws URISyntaxException
+     *             if {@code url} is not valid
      */
     protected final void setURI( final URL url ) throws URISyntaxException
     {
@@ -123,10 +127,12 @@ public abstract class AbstractDownloadURL
     /**
      * Set the uri.
      *
-     * @param uri {@link URI} to set
+     * @param uri
+     *            {@link URI} to set
      * @throws MalformedURLException
-     *
-     * @throws NullPointerException if uri is null
+     *             if {@code uri} can not be converted into {@link URL}
+     * @throws NullPointerException
+     *             if {@code uri} is null
      */
     protected final void setURI( final URI uri ) throws MalformedURLException
     {
@@ -144,6 +150,12 @@ public abstract class AbstractDownloadURL
         return this.uri;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.googlecode.cchlib.net.download.DownloadURI#getURL()
+     *
+     * This entry should be protected, public usage is deprecated
+     */
     @Override
     public final URL getURL()
     {
@@ -151,10 +163,10 @@ public abstract class AbstractDownloadURL
     }
 
     /**
-     * Returns {@link URLConnection} for this {@link DownloadURL}
+     * Returns {@link URLConnection} for this {@link DownloadURI}
      * using {@link Proxy} if one is define
      *
-     * @return {@link URLConnection} for this {@link DownloadURL}
+     * @return {@link URLConnection} for this {@link DownloadURI}
      * @throws IOException
      *             if any
      */

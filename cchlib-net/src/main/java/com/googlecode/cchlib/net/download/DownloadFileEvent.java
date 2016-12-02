@@ -16,4 +16,19 @@ public interface DownloadFileEvent extends DownloadEvent
      * @throws IOException If a file could not be created
      */
     File createDownloadTmpFile() throws IOException;
+
+    /**
+     * Convert {@link DownloadURI} to a {@link ContentDownloadURI}&lt;File&gt;
+     *
+     * @param downloader {@link DownloadURI} for current {@link DownloadFileEvent}
+     *
+     * @return a {@link ContentDownloadURI}&lt;File&gt;
+     */
+    static ContentDownloadURI<File> getDownloader( final DownloadURI downloader )
+    {
+        @SuppressWarnings({"unchecked","squid:S1488"})
+        final ContentDownloadURI<File> fileDownloader =  (ContentDownloadURI<File>)downloader;
+
+        return fileDownloader;
+    }
 }

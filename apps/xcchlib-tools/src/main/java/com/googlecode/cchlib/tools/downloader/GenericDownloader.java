@@ -16,14 +16,13 @@ import java.util.concurrent.RejectedExecutionException;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.filetype.FileDataTypeDescription;
 import com.googlecode.cchlib.io.filetype.FileDataTypes;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DownloadConfigurationException;
 import com.googlecode.cchlib.net.download.DownloadEvent;
 import com.googlecode.cchlib.net.download.DownloadExecutor;
 import com.googlecode.cchlib.net.download.DownloadFileEvent;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
 import com.googlecode.cchlib.net.download.DownloadIOException;
-import com.googlecode.cchlib.net.download.DownloadStringURL;
-import com.googlecode.cchlib.net.download.DownloadURL;
+import com.googlecode.cchlib.net.download.DownloadURI;
 import com.googlecode.cchlib.net.download.cache.URICache;
 import com.googlecode.cchlib.net.download.fis.DefaultFilterInputStreamBuilder;
 
@@ -35,7 +34,7 @@ public class GenericDownloader
 {
     private static final Logger LOGGER = Logger.getLogger( GenericDownloader.class );
 
-    private Object lock = new Object();
+    private final Object lock = new Object();
     private final URICache cache;
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
@@ -73,46 +72,45 @@ public class GenericDownloader
         this.loggerListener             = gdauir.getAbstractLogger();
 
         if( LOGGER.isDebugEnabled() ) {
-            LOGGER.debug( "destinationDirectoryFile = " + destinationDirectoryFile );
+            LOGGER.debug( "destinationDirectoryFile = " + this.destinationDirectoryFile );
             }
 
         final File cacheIndexFile = new File( rootCacheDirectoryFile, ".cache" );
 
-        this.cache = new URICache( destinationDirectoryFile, cacheIndexFile );
+        this.cache = new URICache( this.destinationDirectoryFile, cacheIndexFile );
         this.cache.setAutoStorage( true );
 
         try  {
             this.cache.load();
             }
-        catch( FileNotFoundException ignore ) {
+        catch( final FileNotFoundException ignore ) {
             LOGGER.warn( "* warn: cache file not found - " + this.cache.getCacheFile() );
             }
-        catch( Exception ignore ) {
+        catch( final Exception ignore ) {
             LOGGER.warn( "* warn: can't load cache file : " + ignore.getMessage() );
             }
     }
 
     /**
-     * Returns an {@link Iterable} object of {@link DownloadFileURL}s to download,
+     * Returns an {@link Iterable} object of {@link ContentDownloadURI}s to download,
      * must be implement by parent class.
-     * @return an {@link Iterable} object of {@link DownloadFileURL}s to download
+     * @return an {@link Iterable} object of {@link ContentDownloadURI}s to download
      * @throws IOException
      * @throws DownloadConfigurationException
      * @throws RejectedExecutionException
      * @throws URISyntaxException
      */
-    final
-    protected Collection<DownloadFileURL> collectDownloadURLs()
+    protected Collection<ContentDownloadURI<File>> collectDownloadURLs()
         throws  IOException,
                 RejectedExecutionException,
                 DownloadConfigurationException, URISyntaxException
     {
-        final Collection<DownloadFileURL>   urls        = new HashSet<DownloadFileURL>();
-        final List<DownloadStringURL>       contentList = loads( gdai.getURLDownloadAndParseCollection() );
+        final Collection<ContentDownloadURI<File>>   urls        = new HashSet<>();
+        final List<ContentDownloadURI<String>>       contentList = loads( this.gdai.getURLDownloadAndParseCollection() );
 
-        for( DownloadStringURL pageContent : contentList ) {
+        for( final ContentDownloadURI<String> pageContent : contentList ) {
             urls.addAll(
-                gdai.getURLToDownloadCollection( gdauir, pageContent )
+                this.gdai.getURLToDownloadCollection( this.gdauir, pageContent )
                 );
             }
 
@@ -127,42 +125,40 @@ public class GenericDownloader
      * @throws DownloadConfigurationException
      * @throws RejectedExecutionException
      */
-    protected List<DownloadStringURL> loads( final Collection<DownloadStringURL> urls ) throws IOException, RejectedExecutionException, DownloadConfigurationException
+    protected List<ContentDownloadURI<String>> loads(
+        final Collection<ContentDownloadURI<String>> urls
+        ) throws IOException, RejectedExecutionException, DownloadConfigurationException
     {
-        //final List<String>      result              = new ArrayList<String>();
-        final List<DownloadStringURL>   result              = new ArrayList<DownloadStringURL>();
-        final DownloadExecutor          downloadExecutor    = new DownloadExecutor( downloadMaxThread, null );
+        final List<ContentDownloadURI<String>> result           = new ArrayList<>();
+        final DownloadExecutor                 downloadExecutor = new DownloadExecutor( this.downloadMaxThread, null );
 
-        loggerListener.downloadStateInit( new DownloadStateEvent() {
-            @Override
-            public int getDownloadListSize()
-            {
-                return urls.size();
-            }
-        });
+        this.loggerListener.downloadStateInit( () -> urls.size() );
 
         final DownloadEvent eventStringHandler = new DownloadEvent()
         {
             @Override
-            public void downloadStart( final DownloadURL dURL )
+            public void downloadStart( final DownloadURI dURL )
             {
-                loggerListener.downloadStart( dURL );
+                GenericDownloader.this.loggerListener.downloadStart( dURL );
             }
             @Override
-            public void downloadDone( DownloadURL dURL )
+            public void downloadDone( final DownloadURI dURL )
             {
                 if( LOGGER.isDebugEnabled() ) {
                     LOGGER.debug( "downloadDone: dURL= " + dURL );
                     }
 
-                result.add( DownloadStringURL.class.cast( dURL ) );
+                @SuppressWarnings("unchecked")
+                final ContentDownloadURI<String> downloader = (ContentDownloadURI<String>)dURL;
 
-                loggerListener.downloadDone( dURL );
+                result.add( downloader );
+
+                GenericDownloader.this.loggerListener.downloadDone( dURL );
             }
             @Override
-            public void downloadFail( DownloadIOException e )
+            public void downloadFail( final DownloadIOException e )
             {
-                loggerListener.downloadFail( e );
+                GenericDownloader.this.loggerListener.downloadFail( e );
             }
         };
 
@@ -181,49 +177,43 @@ public class GenericDownloader
      */
     public void onClickStartDownload() throws IOException, RejectedExecutionException, DownloadConfigurationException, URISyntaxException
     {
-        final Collection<DownloadFileURL>   urls                = collectDownloadURLs();
-        final DownloadExecutor              downloadExecutor    = new DownloadExecutor(
-                downloadMaxThread,
+        final Collection<ContentDownloadURI<File>> urls             = collectDownloadURLs();
+        final DownloadExecutor                     downloadExecutor = new DownloadExecutor(
+                this.downloadMaxThread,
 //                new MD5FilterInputStreamBuilder()
-                new DefaultFilterInputStreamBuilder()
+                new DefaultFilterInputStreamBuilder<File>()
                 );
 
-        final DownloadFileEvent eventHandler = new DownloadFileEvent()
+        final DownloadFileEvent eventFileHandler = new DownloadFileEvent()
         {
             int size = 0;
 
             private void updateDisplay()
             {
-                synchronized( lock  ) {
-                    size++;
+                synchronized( GenericDownloader.this.lock  ) {
+                    this.size++;
                     }
 
                 LOGGER.info(
                     "downloadExecutor.getPollActiveCount() = " + downloadExecutor.getPollActiveCount()
                     + " * downloadExecutor.getPoolQueueSize() = " + downloadExecutor.getPoolQueueSize()
-                    + " * size = " + size
+                    + " * size = " + this.size
                     + " * size2 = " + (downloadExecutor.getPollActiveCount() + downloadExecutor.getPoolQueueSize() )
                     );
 
-                loggerListener.downloadStateChange( new DownloadStateEvent() {
-                    @Override
-                    public int getDownloadListSize()
-                    {
-                        return size;
-                    }
-                });
+                GenericDownloader.this.loggerListener.downloadStateChange( ( ) -> this.size);
             }
             @Override
-            public void downloadStart( DownloadURL dURL )
+            public void downloadStart( final DownloadURI dURL )
             {
-                loggerListener.downloadStart( dURL );
+                GenericDownloader.this.loggerListener.downloadStart( dURL );
             }
             @Override
-            public void downloadFail( DownloadIOException e )
+            public void downloadFail( final DownloadIOException e )
             {
                 final File file = e.getFile();
 
-                loggerListener.downloadFail( e );
+                GenericDownloader.this.loggerListener.downloadFail( e );
 
                 if( file != null ) {
                     file.delete();
@@ -232,22 +222,22 @@ public class GenericDownloader
                 updateDisplay();
             }
             @Override
-            public void downloadDone( DownloadURL dURL )
+            public void downloadDone( final DownloadURI dURL )
             {
-                final DownloadFileURL   dfURL       = DownloadFileURL.class.cast( dURL );
-                final String            hashString  = (String)dfURL.getProperty(
+                final ContentDownloadURI<File> downloader = DownloadFileEvent.getDownloader( dURL );
+                final String                   hashString = downloader.getStringProperty(
                         DefaultFilterInputStreamBuilder.HASH_CODE
                         );
 
-                URI uri = cache.findURI( hashString );
+                final URI uri = GenericDownloader.this.cache.findURI( hashString );
 
                 if( uri != null ) {
                     // Already downloaded
-                    alreadyDownloaded( dfURL );
+                    alreadyDownloaded( downloader );
                     }
                 else {
                     // New file
-                    newFileDownloaded( dfURL );
+                    newFileDownloaded( downloader );
                     }
 
                 updateDisplay();
@@ -257,11 +247,11 @@ public class GenericDownloader
             public File createDownloadTmpFile() throws IOException
             {
                 try {
-                    return File.createTempFile( "download", null, cache.getTempDirectoryFile() );
+                    return File.createTempFile( "download", null, GenericDownloader.this.cache.getTempDirectoryFile() );
                     }
-                catch( IOException e ) {
+                catch( final IOException e ) {
                     LOGGER.error(
-                        "createTempFile Error: cache.getTempDirectoryFile() = " + cache.getTempDirectoryFile(),
+                        "createTempFile Error: cache.getTempDirectoryFile() = " + GenericDownloader.this.cache.getTempDirectoryFile(),
                         e
                         );
                     throw e;
@@ -270,21 +260,21 @@ public class GenericDownloader
         };
 
         if( LOGGER.isTraceEnabled() ) {
-            LOGGER.trace( "Cache content: " + cache );
+            LOGGER.trace( "Cache content: " + this.cache );
             }
 
         final int statsAskedDownload = urls.size();
         int statsLauchedDownload = 0;
 
-        for( DownloadFileURL du: urls ) {
-            if( cache.isInCacheIndex( du.getURL() ) ) {
+        for( final ContentDownloadURI<File> du: urls ) {
+            if( this.cache.isInCacheIndex( du.getURI() ) ) {
                 // skip this entry !
                 if( LOGGER.isDebugEnabled() ) {
                     LOGGER.debug( "Already in cache (Skip): " + du.getURL() );
                     }
                 }
             else {
-                downloadExecutor.addDownload( du, eventHandler );
+                downloadExecutor.addDownload( du, eventFileHandler );
                 statsLauchedDownload++;
                 }
             }
@@ -299,16 +289,16 @@ public class GenericDownloader
         try {
             this.cache.store();
             }
-        catch( IOException ioe ) {
+        catch( final IOException ioe ) {
             LOGGER.error( "Error while storing cache index", ioe );
 
             throw ioe;
             }
     }
 
-    private void alreadyDownloaded( final DownloadFileURL dfURL )
+    private void alreadyDownloaded( final ContentDownloadURI<File> dfURL )
     {
-        final File file = dfURL.getResultAsFile();
+        final File file = dfURL.getResult();
 
         // Remove this file !
         file.delete();
@@ -318,15 +308,15 @@ public class GenericDownloader
             }
     }
 
-    private void newFileDownloaded( final DownloadFileURL dfURL )
+    private void newFileDownloaded( final ContentDownloadURI<File> dfURL )
     {
-        final File file = dfURL.getResultAsFile();
+        final File file = dfURL.getResult();
 
         if( ! isFileValidAccordingToConstraints( dfURL ) ) {
             // out of constraints : remove this file
             file.delete();
 
-            loggerListener.oufOfConstraints( dfURL );
+            this.loggerListener.oufOfConstraints( dfURL );
 
             return;
             }
@@ -339,7 +329,7 @@ public class GenericDownloader
         try {
             type = FileDataTypes.findDataTypeDescription( file );
             }
-        catch( IOException e ) {
+        catch( final IOException e ) {
             type = null;
             }
 
@@ -351,58 +341,58 @@ public class GenericDownloader
             }
 
         // Create new file name
-        File ffile = new File(
-                destinationDirectoryFile,
+        final File ffile = new File(
+                this.destinationDirectoryFile,
                 hashString + extension
                 );
 
         // Rename file
-        boolean isRename = file.renameTo( ffile );
+        final boolean isRename = file.renameTo( ffile );
 
         if( isRename ) {
             // Set new name for this file.
-            dfURL.setResultAsFile( ffile );
+            dfURL.setResult( ffile );
 
             // Notify
-            loggerListener.downloadStored( dfURL );
+            this.loggerListener.downloadStored( dfURL );
 
             // Add to cache
-            Date date = new Date(); // TODO get date of end of download ?
-            cache.add( dfURL.getURI(), date, hashString, ffile.getName() );
+            final Date date = new Date(); // TODO get date of end of download ?
+            this.cache.add( dfURL.getURI(), date, hashString, ffile.getName() );
             }
         else {
             File file2;
 
             if( ffile.exists() ) {
-                file2 = new File( destinationDirectoryFile, file.getName() + '.' + hashString + extension + ".exists" );
+                file2 = new File( this.destinationDirectoryFile, file.getName() + '.' + hashString + extension + ".exists" );
                 }
             else {
-                file2 = new File( destinationDirectoryFile, file.getName() + '.' + hashString + extension + "tmp" );
+                file2 = new File( this.destinationDirectoryFile, file.getName() + '.' + hashString + extension + "tmp" );
                 }
 
             if( file.renameTo( file2 ) ) {
                 // Rename to something better
-                dfURL.setResultAsFile( file2 );
+                dfURL.setResult( file2 );
 
-                loggerListener.downloadCantRename( dfURL, file, file2 );
+                this.loggerListener.downloadCantRename( dfURL, file, file2 );
                 }
             else {
                 // Can not rename at all
-                loggerListener.downloadCantRename( dfURL, file, ffile );
+                this.loggerListener.downloadCantRename( dfURL, file, ffile );
                 }
             }
     }
 
     // is file valid according to constrains
     private boolean isFileValidAccordingToConstraints(
-        final DownloadFileURL dfURL
+        final ContentDownloadURI<File> dfURL
         )
     {
         final Dimension dimension   = (Dimension)dfURL.getProperty( DefaultFilterInputStreamBuilder.DIMENSION );
         final String    formatName  = (String)dfURL.getProperty( DefaultFilterInputStreamBuilder.FORMAT_NAME );
 
         if( dimension != null ) {
-            if( dimension.width < 100 || dimension.height < 100 ) {
+            if( (dimension.width < 100) || (dimension.height < 100) ) {
                 return false;
                 }
 
@@ -413,16 +403,6 @@ public class GenericDownloader
 
         return true;
     }
-
-//    private String computeHashString( final File file )
-//        throws NoSuchAlgorithmException, IOException
-//    {
-//        // Compute MD5 hash code
-//        MessageDigestFile   mdf         = new MessageDigestFile();
-//        byte[]              digestKey   = mdf.compute( file );
-//
-//        return MessageDigestFile.computeDigestKeyString( digestKey );
-//    }
 
     public void onClickStopDownload()
     {

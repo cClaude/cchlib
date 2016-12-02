@@ -17,4 +17,8 @@ public class BadDownloadURLException
         // Empty
     }
 
+    public BadDownloadURLException( final String message )
+    {
+        super( message );
+    }
 }

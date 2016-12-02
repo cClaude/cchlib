@@ -5,21 +5,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.filetype.ImageIOFileData;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 
 /**
- * NEEDDOC
+ * Default implementation for {@link DownloadFilterInputStreamBuilder}
+ *
+ * @param <R>
+ *            Result expected type for download
  *
  * @since 4.1.7
  */
-public class DefaultFilterInputStreamBuilder
-    implements DownloadFilterInputStreamBuilder
+public class DefaultFilterInputStreamBuilder<R>
+    implements DownloadFilterInputStreamBuilder<R>
 {
     private static final Logger LOGGER = Logger.getLogger( DefaultFilterInputStreamBuilder.class );
 
     /**
      * Property name for {@link java.awt.Dimension Dimension}
-     * if {@link DownloadFileURL} is a valid picture
+     * if {@link ContentDownloadURI} is a valid picture
      * <br>
      * Property result is return in a {@link java.awt.Dimension Dimension} object
      */
@@ -27,14 +30,14 @@ public class DefaultFilterInputStreamBuilder
 
     /**
      * Property name for picture format name
-     * if {@link DownloadFileURL} is a valid picture
+     * if {@link ContentDownloadURI} is a valid picture
      * <br>
      * Property result is return in a {@link String} object
      */
     public static final String FORMAT_NAME = "FormatName";
 
     /**
-     * Property name for hash code of {@link DownloadFileURL}
+     * Property name for hash code of {@link ContentDownloadURI}
      * content.
      * <br>
      * Property result is return in a {@link String} object
@@ -42,7 +45,7 @@ public class DefaultFilterInputStreamBuilder
     public static final String HASH_CODE = "HashCode";
 
     /**
-     *
+     * Create {@link DefaultFilterInputStreamBuilder}
      */
     public DefaultFilterInputStreamBuilder()
     {
@@ -63,15 +66,15 @@ public class DefaultFilterInputStreamBuilder
     }
 
     /**
-     * Set filter result on {@link DownloadFileURL}.
+     * Set filter result on {@link ContentDownloadURI}.
      *
      * @param filter    Closed filter to use for result
      * @param dURL      DownloadFileURL that will received result.
      */
     @Override
     public void storeFilterResult(
-        final FilterInputStream filter,
-        final DownloadFileURL   dURL
+        final FilterInputStream     filter,
+        final ContentDownloadURI<R> downloader
         )
     {
         final DefaultFilterInputStream f = (DefaultFilterInputStream)filter;
@@ -79,8 +82,8 @@ public class DefaultFilterInputStreamBuilder
         try {
             final ImageIOFileData infos = f.geImageIOFileData();
 
-            dURL.setProperty( DIMENSION, infos.getDimension() );
-            dURL.setProperty( FORMAT_NAME, infos.getFormatName() );
+            downloader.setProperty( DIMENSION, infos.getDimension() );
+            downloader.setProperty( FORMAT_NAME, infos.getFormatName() );
             }
         catch( final IllegalStateException e ) {
             LOGGER.error( e );
@@ -89,6 +92,6 @@ public class DefaultFilterInputStreamBuilder
             LOGGER.warn( e );
             }
 
-        dURL.setProperty( HASH_CODE,  f.getHashString() );
+        downloader.setProperty( HASH_CODE,  f.getHashString() );
     }
 }

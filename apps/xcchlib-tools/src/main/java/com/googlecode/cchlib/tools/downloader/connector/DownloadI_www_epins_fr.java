@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.tools.downloader.connector;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.AbstractCollection;
@@ -7,9 +8,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
-import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
@@ -57,25 +57,25 @@ public class DownloadI_www_epins_fr
     }
 
     @Override
-    public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
+    public Collection<ContentDownloadURI<String>> getURLDownloadAndParseCollection()
             throws MalformedURLException
     {
         return Collections.emptyList();
     }
 
     @Override
-    public Collection<DownloadFileURL> getURLToDownloadCollection(
+    public Collection<ContentDownloadURI<File>> getURLToDownloadCollection(
             final GenericDownloaderAppUIResults   gdauir,
-            final DownloadStringURL               content2Parse
+            final ContentDownloadURI<String>      content2Parse
             )
             throws MalformedURLException
     {
-        return new AbstractCollection<DownloadFileURL>()
+        return new AbstractCollection<ContentDownloadURI<File>>()
         {
             @Override
-            public Iterator<DownloadFileURL> iterator()
+            public Iterator<ContentDownloadURI<File>> iterator()
             {
-                return new Iterator<DownloadFileURL>()
+                return new Iterator<ContentDownloadURI<File>>()
                 {
                     private final StringBuilder buildURL_sb1 = new StringBuilder();
                     //private StringBuilder buildURL_sb2 = new StringBuilder();
@@ -87,7 +87,7 @@ public class DownloadI_www_epins_fr
                         return this.i<MAX;
                     }
                     @Override
-                    public DownloadFileURL next()
+                    public ContentDownloadURI<File> next()
                     {
                         try {
                             return buildDownloadURL( this.i++ );
@@ -101,7 +101,7 @@ public class DownloadI_www_epins_fr
                     {
                         throw new UnsupportedOperationException();
                     }
-                    private DownloadFileURL buildDownloadURL( final int i ) throws MalformedURLException, URISyntaxException
+                    private ContentDownloadURI<File> buildDownloadURL( final int i ) throws MalformedURLException, URISyntaxException
                     {
 
                         this.buildURL_sb1.setLength( 0 );
@@ -130,14 +130,14 @@ public class DownloadI_www_epins_fr
     }
 
     @Override
-    public DownloadStringURL getDownloadStringURL( final int pageNumber )
+    public ContentDownloadURI<String> getDownloadStringURL( final int pageNumber )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();// NOT USE
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom( final String src, final int regexpIndex )
+    public ContentDownloadURI<File> getDownloadURLFrom( final String src, final int regexpIndex )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();// NOT USE

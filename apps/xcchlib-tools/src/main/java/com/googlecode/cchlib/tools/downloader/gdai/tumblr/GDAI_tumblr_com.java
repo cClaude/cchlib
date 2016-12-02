@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 
 import java.awt.Frame;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URI;
@@ -10,10 +11,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
-import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
@@ -110,9 +110,9 @@ public abstract class GDAI_tumblr_com
     }
 
     @Override
-    public Collection<DownloadFileURL> getURLToDownloadCollection(
+    public Collection<ContentDownloadURI<File>> getURLToDownloadCollection(
             final GenericDownloaderAppUIResults   gdauir,
-            final DownloadStringURL               content2Parse
+            final ContentDownloadURI<String>      content2Parse
             )
             throws MalformedURLException
     {
@@ -122,7 +122,7 @@ public abstract class GDAI_tumblr_com
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom(
+    public ContentDownloadURI<File> getDownloadURLFrom(
         final String src,
         final int    regexpIndex
         ) throws MalformedURLException, URISyntaxException
@@ -171,10 +171,10 @@ public abstract class GDAI_tumblr_com
         final String prefix2 = prefix1.substring( 0, pos + 1 );
 
         final URL       defaultURL;
-        final List<URI> alternateURI = new ArrayList<URI>();
+        final List<URI> alternateURI = new ArrayList<>();
         {
             // Build list of URL
-            final List<String> urls = new ArrayList<String>();
+            final List<String> urls = new ArrayList<>();
 
             for( int i = 0; i<TUMBLR_COM_KNOWN_SIZES.length; i++ ) {
                 if( size >= TUMBLR_COM_KNOWN_SIZES[ i ] ) {
@@ -249,7 +249,7 @@ public abstract class GDAI_tumblr_com
                 );
     }
 
-    static DownloadStringURL getDownloadStringURL(
+    static ContentDownloadURI<String> getDownloadStringURL(
             final String    hostname,
             final int       pageNumber,
             final Proxy     proxy

@@ -2,27 +2,33 @@ package com.googlecode.cchlib.net.download.fis;
 
 import java.io.FilterInputStream;
 import java.io.InputStream;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 
 /**
- * NEEDDOC
+ * Factory for {@link FilterInputStream}
+ *
+ * @param <R>
+ *            Result expected type for download
  */
-public interface DownloadFilterInputStreamBuilder
+public interface DownloadFilterInputStreamBuilder<R>
 {
     /**
-     * NEEDDOC
+     * Create a {@link FilterInputStream}
      *
-     * @param is
-     * @return NEEDDOC
+     * @param is Parent {@link InputStream}
+     * @return a {@link FilterInputStream}
      */
     FilterInputStream createFilterInputStream( InputStream is );
 
     /**
-     * NEEDDOC
+     * Set the {@link FilterInputStream}
      *
-     * @param filter
-     * @param dURL
+     * @param filter the {@link FilterInputStream} to set
+     * @param downloader Related {@link ContentDownloadURI}
      */
-    void storeFilterResult( FilterInputStream filter, DownloadFileURL dURL );
+    void storeFilterResult(
+        FilterInputStream     filter,
+        ContentDownloadURI<R> downloader
+        );
 
 }

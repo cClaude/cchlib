@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.tools.downloader.connector;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -7,21 +8,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
-import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
-
-/**
- *
- *
- *
- */
 public class DownloadI_www_bloggif_com
     extends AbstractDownloaderAppInterface
 {
@@ -55,10 +49,10 @@ public class DownloadI_www_bloggif_com
     }
 
     @Override
-    public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
+    public Collection<ContentDownloadURI<String>> getURLDownloadAndParseCollection()
             throws MalformedURLException, URISyntaxException
     {
-        final ArrayList<DownloadStringURL> list = new ArrayList<DownloadStringURL>();
+        final ArrayList<ContentDownloadURI<String>> list = new ArrayList<>();
 
         for( int i=1; i<getPageCount(); i++ ) {
             list.add( new DefaultDownloadStringURL( htmlURLBase + i, null, getProxy() ) );
@@ -68,9 +62,9 @@ public class DownloadI_www_bloggif_com
     }
 
     @Override
-    public Collection<DownloadFileURL> getURLToDownloadCollection(
+    public Collection<ContentDownloadURI<File>> getURLToDownloadCollection(
             final GenericDownloaderAppUIResults   gdauir,
-            final DownloadStringURL               content2Parse
+            final ContentDownloadURI<String>      content2Parse
             )
             throws MalformedURLException, URISyntaxException
     {
@@ -79,7 +73,7 @@ public class DownloadI_www_bloggif_com
                 "<img class=\"img_progress ....\" src=\""
                 };
 
-        final Collection<DownloadFileURL> imagesURLCollection = new HashSet<DownloadFileURL>();
+        final Collection<ContentDownloadURI<File>> imagesURLCollection = new HashSet<>();
 
         for( final String regexp : regexps ) {
             final String[] strs = content2Parse.toString().split( regexp );
@@ -94,7 +88,9 @@ public class DownloadI_www_bloggif_com
                 final String  src = s.substring( 0, end );
 
                 //imagesURLCollection.add( new URL( serverRootURLString + src ) );
-                imagesURLCollection.add( new DefaultDownloadFileURL( src, null, getProxy() ) );
+                imagesURLCollection.add(
+                        new DefaultDownloadFileURL( src, null, getProxy() )
+                        );
                 }
             }
 
@@ -106,15 +102,14 @@ public class DownloadI_www_bloggif_com
     }
 
     @Override
-    public DownloadStringURL getDownloadStringURL( final int pageNumber )
+    public ContentDownloadURI<String> getDownloadStringURL( final int pageNumber )
             throws MalformedURLException
     {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom( final String src, final int regexpIndex )
-            throws MalformedURLException
+    public ContentDownloadURI<File> getDownloadURLFrom( final String src, final int regexpIndex )
     {
         throw new UnsupportedOperationException();
     }

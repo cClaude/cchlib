@@ -2,6 +2,7 @@ package com.googlecode.cchlib.net.download;
 
 import java.io.File;
 import java.io.IOException;
+import javax.annotation.Nullable;
 
 /**
  * Exception generate when a error occur during download process
@@ -11,16 +12,22 @@ import java.io.IOException;
 public class DownloadIOException extends Exception
 {
     private static final long serialVersionUID = 1L;
-    private final DownloadURL downloadURL;
-    private final File file;
+
+    private final DownloadURI downloadURL;
+    private final File        file;
 
     /**
-     * NEEDDOC
+     * Create a DownloadIOException
      *
      * @param downloadURL
+     *            The related {@link DownloadURI}
      * @param cause
+     *            The cause
      */
-    public DownloadIOException( final DownloadURL downloadURL, final Throwable cause )
+    public DownloadIOException(
+            final DownloadURI downloadURL,
+            final Exception   cause
+            )
     {
         super( downloadURL.getURL().toExternalForm(), cause );
 
@@ -29,13 +36,20 @@ public class DownloadIOException extends Exception
     }
 
     /**
-     * NEEDDOC
+     * Create a DownloadIOException
      *
      * @param downloadURL
+     *            The related {@link DownloadURI}
      * @param file
+     *            The local {@link File}
      * @param cause
+     *            The cause
      */
-    public DownloadIOException( final DownloadURL downloadURL, final File file, final IOException cause )
+    public DownloadIOException(
+        final DownloadURI downloadURL,
+        final File        file,
+        final IOException cause
+        )
     {
         super( downloadURL.getURL().toExternalForm(), cause );
 
@@ -44,16 +58,17 @@ public class DownloadIOException extends Exception
     }
 
     /**
-     * @return the {@link DownloadURL} that cause this exception
+     * @return the {@link DownloadURI} that cause this exception
      */
-    public DownloadURL getDownloadURL()
+    public DownloadURI getDownloadURL()
     {
         return this.downloadURL;
     }
 
     /**
-     * @return the temporary file if exist or null
+     * @return the related file (may be a temporary file) or null
      */
+    @Nullable
     public File getFile()
     {
         return this.file;

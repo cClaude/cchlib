@@ -4,7 +4,7 @@ import java.awt.Frame;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
-import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
@@ -15,7 +15,7 @@ class GDAI_tumblr_com_ForHost
     private static final long serialVersionUID = 1L;
     private static final String SITE_NAME_GENERIC = "*.tumblr.com";
 
-    private DefaultComboBoxConfig   comboBoxConfig;
+    private final DefaultComboBoxConfig   comboBoxConfig;
     private String                  _hostname_;
     private GDAI_tumblr_com_Config config;
 
@@ -50,22 +50,21 @@ class GDAI_tumblr_com_ForHost
         this.comboBoxConfig = comboBoxConfig;
         this.config         = config;
         this.comboBoxConfig_hostname_ = comboBoxConfig.getComboBoxSelectedValue();
-        
+
         super.addComboBoxConfig( comboBoxConfig );
     }
 
     @Override
     protected String getCurrentHostName()
     {
-        return ( comboBoxConfig == null ) ? // ( comboBoxConfig == null ) ?
-                _hostname_
+        return ( this.comboBoxConfig == null ) ?
+                this._hostname_
                 :
-                //comboBoxConfig.getComboBoxSelectedValue();
-                comboBoxConfig_hostname_;
+                this.comboBoxConfig_hostname_;
     }
 
     @Override
-    public DownloadStringURL getDownloadStringURL( int pageNumber )
+    public ContentDownloadURI<String> getDownloadStringURL( final int pageNumber )
             throws MalformedURLException, URISyntaxException
     {
         return getDownloadStringURL( getCurrentHostName(), pageNumber, getProxy() );
@@ -84,8 +83,8 @@ class GDAI_tumblr_com_ForHost
             @Override
             public void onClick()
             {
-                GDAI_tumblr_com_ConfigJDialog dialog
-                    = new GDAI_tumblr_com_ConfigJDialog( ownerFrame, config );
+                final GDAI_tumblr_com_ConfigJDialog dialog
+                    = new GDAI_tumblr_com_ConfigJDialog( GDAI_tumblr_com_ForHost.this.ownerFrame, GDAI_tumblr_com_ForHost.this.config );
 
                 dialog.setVisible( true );
             }
@@ -95,25 +94,25 @@ class GDAI_tumblr_com_ForHost
     @Override
     public void setSelectedItems( final List<Item> selectedItems )
     {
-        if( selectedItems.size() > 0 ) {
-            comboBoxConfig_hostname_ = selectedItems.get( 0 ).getJComboBoxText();
+        if( ! selectedItems.isEmpty() ) {
+            this.comboBoxConfig_hostname_ = selectedItems.get( 0 ).getJComboBoxText();
             }
     }
 
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "GDAI_tumblr_com_ForHost [comboBoxConfig=" );
-        builder.append( comboBoxConfig );
+        builder.append( this.comboBoxConfig );
         builder.append( ", _hostname_=" );
-        builder.append( _hostname_ );
+        builder.append( this._hostname_ );
         builder.append( ", config=" );
-        builder.append( config );
+        builder.append( this.config );
         builder.append( ", ownerFrame=" );
-        builder.append( ownerFrame );
+        builder.append( this.ownerFrame );
         builder.append( ", comboBoxConfig_hostname_=" );
-        builder.append( comboBoxConfig_hostname_ );
+        builder.append( this.comboBoxConfig_hostname_ );
         builder.append( ", getCurrentHostName()=" );
         builder.append( getCurrentHostName() );
         builder.append( ']' );

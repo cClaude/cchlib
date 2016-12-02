@@ -1,18 +1,14 @@
 package com.googlecode.cchlib.tools.downloader;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
-import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
-
-/**
- *
- */
 public interface GenericDownloaderAppInterface
 {
     /**
@@ -47,7 +43,6 @@ public interface GenericDownloaderAppInterface
     int getMaxPageCount();
 
     /**
-     *
      * @return relative directory cache name
      */
     String getCacheRelativeDirectoryCacheName();
@@ -55,47 +50,25 @@ public interface GenericDownloaderAppInterface
     /**
      * Returns a list of {@link DownloadStringURL} to parse
      * @return a list of {@link DownloadStringURL} to parse
-     * @throws MalformedURLException
-     * @throws URISyntaxException 
+     * @throws MalformedURLException if any
+     * @throws URISyntaxException  if any
      */
-    Collection<DownloadStringURL> getURLDownloadAndParseCollection()
+    @SuppressWarnings("squid:S1160")
+    Collection<ContentDownloadURI<String>> getURLDownloadAndParseCollection()
         throws MalformedURLException, URISyntaxException;
 
-    /**
-     *
-     * @param gdauir
-     * @param content2Parse
-     * @return TODOC
-     * @throws MalformedURLException
-     * @throws URISyntaxException 
-     */
-    Collection<DownloadFileURL> getURLToDownloadCollection(
+    @SuppressWarnings("squid:S1160")
+    Collection<ContentDownloadURI<File>> getURLToDownloadCollection(
         GenericDownloaderAppUIResults   gdauir,
-        DownloadStringURL               content2Parse
+        ContentDownloadURI<String>      content2Parse
         ) throws MalformedURLException, URISyntaxException;
 
-    /**
-     *
-     * @return TODOC
-     */
     Collection<GenericDownloaderAppComboBoxConfig> getComboBoxConfigCollection();
 
-    /**
-     *
-     * @return TODOC
-     */
     Proxy getProxy();
 
-    /**
-     *
-     * @param proxy
-     */
     void setProxy( Proxy proxy );
 
-    /**
-     *
-     * @return TODOC
-     */
     GenericDownloaderAppButton getButtonConfig();
 
     void setSelectedItems( List<Item> selectedItems );

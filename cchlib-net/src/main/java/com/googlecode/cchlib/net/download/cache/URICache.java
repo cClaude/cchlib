@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Map.Entry;
+import javax.annotation.Nullable;
 import javax.swing.event.EventListenerList;
 import org.apache.log4j.Logger;
 
@@ -28,6 +29,8 @@ public class URICache implements Closeable
     /** Cache all access should be synchronized on this object */
     private final CacheContent theCache;
 
+    private final URICachePersistenceManager persistenceManager = new SimpleTextPersistenceManagerV2();
+
     private final File cacheRootDirFile;
 
     /**
@@ -35,10 +38,10 @@ public class URICache implements Closeable
      * to access
      */
     private File theCacheFile;
+
     private boolean autostore;
-    private int autostoreThreshold = AUTOSTORE_DEFAULT_THRESHOLD;
-    private int modificationCount = 0;
-    private final URICachePersistenceManager persistenceManager = new SimpleTextPersistenceManagerV2();
+    private int     autostoreThreshold = AUTOSTORE_DEFAULT_THRESHOLD;
+    private int     modificationCount  = 0;
 
     /**
      * Create a new URLCache using a default cache {@link File} stored
@@ -71,11 +74,16 @@ public class URICache implements Closeable
     /**
      * Create a new URLCache
      *
-     * @param cacheRootDirFile Root {@link File} directory.
-     * @param cacheFilename    Cache index filename
-     * @throws NullPointerException if cacheFilename is null
-     * @throws NullPointerException if cacheRootDirFile is null
-     * @throws IOException if cacheRootDirFile is not a valid directory
+     * @param cacheRootDirFile
+     *            Root {@link File} directory.
+     * @param cacheFilename
+     *            Cache index filename
+     * @throws NullPointerException
+     *             if cacheFilename is null
+     * @throws NullPointerException
+     *             if cacheRootDirFile is null
+     * @throws IOException
+     *             if cacheRootDirFile is not a valid directory
      */
     public URICache( final File cacheRootDirFile, final String cacheFilename )
         throws IOException
@@ -88,11 +96,16 @@ public class URICache implements Closeable
     /**
      * Create a new URLCache
      *
-     * @param cacheRootDirFile Root {@link File} directory.
-     * @param cacheFile        Cache index {@link File}
-     * @throws NullPointerException if cacheFilename is null
-     * @throws NullPointerException if cacheRootDirFile is null
-     * @throws IOException if cacheRootDirFile is not a valid directory
+     * @param cacheRootDirFile
+     *            Root {@link File} directory.
+     * @param cacheFile
+     *            Cache index {@link File}
+     * @throws NullPointerException
+     *             if cacheFilename is null
+     * @throws NullPointerException
+     *             if cacheRootDirFile is null
+     * @throws IOException
+     *             if cacheRootDirFile is not a valid directory
      */
     public URICache( final File cacheRootDirFile, final File cacheFile )
             throws IOException
@@ -112,10 +125,10 @@ public class URICache implements Closeable
     }
 
     /**
-     * Check if an {@link URI} is in cache, but don't care about
-     * data.
+     * Check if an {@link URI} is in cache, but don't care about data.
      *
-     * @param uri {@link URI} to check
+     * @param uri
+     *            {@link URI} to check
      * @return true if {@link URI} is in cache, false otherwise
      */
     public boolean isInCacheIndex( final URI uri )
@@ -124,13 +137,13 @@ public class URICache implements Closeable
     }
 
     /**
-     * Check if an {@link URI} is in cache and if file is
-     * already in cache directory.
+     * Check if an {@link URI} is in cache and if file is already in
+     * cache directory.
      *
-     * @param uri {@link URI} to check
-     * @return true if {@link URI} is in cache and if
-     *   cached file exist in directory cache,
-     *   false otherwise
+     * @param uri
+     *            {@link URI} to check
+     * @return true if {@link URI} is in cache and if cached file exist
+     *         in directory cache, false otherwise
      */
     public boolean isInCache( final URI uri )
     {
@@ -148,15 +161,19 @@ public class URICache implements Closeable
     }
 
     /**
-     * Check if an {@link URL} is in cache and if file is
-     * already in cache directory.
+     * Check if an {@link URL} is in cache and if file is already in
+     * cache directory.
      *
-     * @param url {@link URL} to check
-     * @return true if {@link URL} is in cache and if
-     *   cached file exist in directory cache,
-     *   false otherwise
-     * @throws URISyntaxException
+     * @param url
+     *            {@link URL} to check
+     * @return true if {@link URL} is in cache and if cached file exist
+     *         in directory cache, false otherwise
+     * @throws URISyntaxException if {@code url } is not valid
+     *
+     * @see #isInCacheIndex(URI)
+     * @deprecated use {@link #isInCacheIndex(URI)} instead
      */
+    @Deprecated
     public boolean isInCacheIndex( final URL url ) throws URISyntaxException
     {
         return isInCache( url.toURI() );
@@ -169,8 +186,10 @@ public class URICache implements Closeable
      * @param date
      * @param contentHashCode URL content Hash code, or null
      * @param filename        Local filename
-     * @throws URISyntaxException
+     * @throws URISyntaxException if {@code url } is not valid
+     * @deprecated use {@link #add(URI, Date, String, String)} instead
      */
+    @Deprecated
     public void add(
         final URL    url,
         final Date   date,
@@ -185,19 +204,24 @@ public class URICache implements Closeable
      * Add a new ({@link URI},filename) couple in cache
      *
      * @param uri             {@link URI} for this filename
-     * @param date
+     * @param date            The {@link Date} for this entry
      * @param contentHashCode URL content Hash code, or null
      * @param filename        Local filename
      */
     public void add(
         final URI    uri,
+        @Nullable
         final Date   date,
         final String contentHashCode,
+        @Nullable
         final String filename
         )
     {
         synchronized( this.theCache ) {
-            this.theCache.put( uri, new DefaultURICacheEntry( date, contentHashCode, filename ) );
+            this.theCache.put(
+                uri,
+                new DefaultURICacheEntry( date, contentHashCode, filename )
+                );
 
             this.modificationCount++;
             }
@@ -208,10 +232,12 @@ public class URICache implements Closeable
     /**
      * Retrieve {@link URI} in cache
      *
-     * @param uri {@link URI} to retrieve
-     * @return {@link URIDataCacheEntry} for giving <code>uri</code> if in cache,
-     *         null otherwise
+     * @param uri
+     *            {@link URI} to retrieve
+     * @return {@link URIDataCacheEntry} for giving <code>uri</code>
+     *         if in cache, null otherwise
      */
+    @Nullable
     public URIDataCacheEntry get( final URI uri )
     {
         synchronized( this.theCache ) {
@@ -221,9 +247,12 @@ public class URICache implements Closeable
 
     /**
      * Returns {@link URI} for this hashcode if exist, null otherwise
+     *
      * @param hashCode
+     *            Hash code to find
      * @return {@link URI} for this hashcode if exist, null otherwise
      */
+    @Nullable
     public URI findURI( final String hashCode )
     {
         synchronized( this.theCache ) {
@@ -248,19 +277,24 @@ public class URICache implements Closeable
      * @param url {@link URL} to retrieve
      * @return filename for giving {@link URL},
      *         or null if URL is not in cache
-     * @throws URISyntaxException
+     * @throws URISyntaxException if {@code url } is not valid
+     *
+     * @deprecated use {@link #getRelativeFilename(URI)} instead
      */
+    @Deprecated
     public String getRelativeFilename( final URL url ) throws URISyntaxException
     {
         return getRelativeFilename( url.toURI() );
     }
 
     /**
-     * NEEDDOC
+     * Returns filename for giving {@link URI}
      *
-     * @param uri
-     * @return NEEDDOC
+     * @param uri {@link URI} to retrieve
+     * @return filename for giving {@link URL},
+     *         or null if URL is not in cache
      */
+    @Nullable
     public String getRelativeFilename( final URI uri )
     {
         final URIDataCacheEntry entry = get( uri );

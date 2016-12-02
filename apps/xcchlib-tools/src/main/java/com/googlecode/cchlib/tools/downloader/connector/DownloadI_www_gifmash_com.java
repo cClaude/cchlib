@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.tools.downloader.connector;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
-import com.googlecode.cchlib.net.download.DownloadStringURL;
 import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
@@ -54,7 +54,7 @@ public class DownloadI_www_gifmash_com
     }
 
     @Override
-    public DownloadStringURL getDownloadStringURL( final int pageNumber ) throws MalformedURLException, URISyntaxException
+    public ContentDownloadURI<String> getDownloadStringURL( final int pageNumber ) throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadStringURL(
             String.format(
@@ -67,9 +67,9 @@ public class DownloadI_www_gifmash_com
     }
 
     @Override
-    public Collection<DownloadFileURL> getURLToDownloadCollection(
+    public Collection<ContentDownloadURI<File>> getURLToDownloadCollection(
             final GenericDownloaderAppUIResults gdauir,
-            final DownloadStringURL             content2Parse
+            final ContentDownloadURI<String>    content2Parse
             ) throws MalformedURLException
     {
         // <img class="event-item-lol-image" src="https://chzgifs.files.wordpress.com/2012/06/bald-eagle-in-slow-motion.gif" a
@@ -81,7 +81,7 @@ public class DownloadI_www_gifmash_com
     }
 
     @Override
-    public DownloadFileURL getDownloadURLFrom( final String src, final int regexpIndex )
+    public ContentDownloadURI<File> getDownloadURLFrom( final String src, final int regexpIndex )
             throws MalformedURLException, URISyntaxException
     {
         return new DefaultDownloadFileURL( src, null, getProxy() );

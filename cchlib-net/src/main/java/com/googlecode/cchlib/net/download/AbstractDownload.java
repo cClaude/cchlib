@@ -5,39 +5,42 @@ import java.io.InputStream;
 import org.apache.log4j.Logger;
 
 /**
- * Abstract Downloader for {@link DownloadURL}
+ * Abstract Downloader for {@link DownloadURI}
+ *
+ * @param <R>
+ *            Result expected type for download
  *
  * @since 4.1.5
  */
 //NOT public
-abstract class AbstractDownload implements RunnableDownload
+abstract class AbstractDownload<R> implements RunnableDownload<R>
 {
     private static final Logger LOGGER = Logger.getLogger( AbstractDownload.class );
 
     // Use getDownloadURL() to access to this object
-    private final DownloadURL downloadURL;
+    private final ContentDownloadURI<R> downloader;
     // Use getDownloadEvent() to access to this object
     private final DownloadEvent event;
 
     /**
      * Create a download task using a proxy
      *
-     * @param downloadURL           A valid {@link DownloadURL}.
+     * @param downloader            A valid {@link ContentDownloadURI}.
      * @param event                 A valid {@link DownloadEvent}.
      * @throws NullPointerException if one of event or downloadURL parameters is null.
      */
     public AbstractDownload(
-            final DownloadURL   downloadURL,
-            final DownloadEvent event
+            final ContentDownloadURI<R>   downloader,
+            final DownloadEvent           event
             )
     {
         this.event          = event;
-        this.downloadURL    = downloadURL;
+        this.downloader     = downloader;
 
         if( event == null ) {
             throw new NullPointerException( "Not valid DownloadEvent" );
             }
-        if( downloadURL == null ) {
+        if( downloader == null ) {
             throw new NullPointerException( "Not DownloadURL DownloadEvent" );
             }
     }
@@ -71,16 +74,16 @@ abstract class AbstractDownload implements RunnableDownload
     }
 
     @Override
-    public final DownloadURL getDownloadURL()
+    public final ContentDownloadURI<R> getDownloadURL()
     {
-        return this.downloadURL;
+        return this.downloader;
     }
 
    /**
      * Must update {@link #getDownloadURL()} content to set result
      *
      * @param inputStream {@link InputStream} based on URL.
-     * @throws DownloadIOException
+     * @throws DownloadIOException if any I/O error occur on download stream
      */
     protected abstract void download( InputStream inputStream )
             throws IOException, DownloadIOException;

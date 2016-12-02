@@ -7,11 +7,9 @@ import java.net.URI;
 import java.net.URL;
 
 /**
- * NEEDDOC
- *
  * @since 4.1.7
  */
-public interface DownloadURL extends Serializable
+public interface DownloadURI extends Serializable
 {
     /**
      * @return the related {@link URL}.
@@ -25,10 +23,12 @@ public interface DownloadURL extends Serializable
     URI getURI();
 
     /**
-     * Opens a connection to this URL and returns an InputStream for reading
-     * from that connection.
+     * Opens a connection to this URL and returns an InputStream for
+     * reading from that connection.
+     *
      * @return InputStream ready for reading from internal {@link URL}
-     * @throws IOException if any
+     * @throws IOException
+     *             if {@link InputStream} could not be created
      */
     InputStream getInputStream() throws IOException;
 }

@@ -12,15 +12,15 @@ import java.util.Map;
  *
  * @since 4.1.7
  */
-public final class DefaultDownloadStringURL
-    extends AbstractDownloadURL
-        implements DownloadStringURL
+public /* TODO add final */ class DefaultDownloadStringURL
+    extends AbstractDownloadURI
+        implements ContentDownloadURI<String>
 {
     private static final long serialVersionUID = 2L;
     private String str;
 
     /**
-     * Define the {@link URL} for this {@link DownloadURL}
+     * Define the {@link URL} for this {@link DownloadURI}
      * @param url The {@link URL}
      * @param requestPropertyMap    A {@link Map} of request properties to put
      *                              on {@link URLConnection} (could be null)
@@ -39,7 +39,7 @@ public final class DefaultDownloadStringURL
     }
 
     /**
-     * Define the {@link URL} for this {@link DownloadURL}
+     * Define the {@link URL} for this {@link DownloadURI}
      * @param spec                  the {@link String} to parse as a URL.
      * @param requestPropertyMap    A {@link Map} of request properties to put
      *                              on {@link URLConnection} (could be null)
@@ -59,15 +59,51 @@ public final class DefaultDownloadStringURL
     }
 
     @Override
-    public String getResultAsString()
+    public String getResult()
     {
         return this.str;
     }
 
     @Override
-    public void setResultAsString( final String str )
+    public void setResult( final String str )
     {
         this.str = str;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @throws UnsupportedOperationException Not supported
+     */
+    @Override
+    public void setProperty( final String name, final Object value )
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     * @throws UnsupportedOperationException Not supported
+     */
+    @Override
+    public Object getProperty( final String name )
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     * @throws UnsupportedOperationException Not supported
+     */
+    @Override
+    public String getStringProperty( final String name )
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Class<String> getType()
+    {
+        return String.class;
     }
 
     @Override

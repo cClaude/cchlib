@@ -1,29 +1,42 @@
 package com.googlecode.cchlib.net.download.cache;
 
 import java.util.Date;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
- * NEEDDOC
+ * Default implementation for {@link URIDataCacheEntry}
  */
 public class DefaultURICacheEntry implements URIDataCacheEntry
 {
     private final String  hashCode;
     private final Date    date;
-    private String  filename;
+    @Nullable
+    private final String  filename;
 
     /**
-     * NEEDDOC
+     * Create a {@link URIDataCacheEntry}
      *
-     * @param date NEEDDOC
-     * @param hashCode NEEDDOC
-     * @param filename NEEDDOC
+     * @param date
+     *            {@link Date} for this entry. If null use current date.
+     * @param hashCode
+     *            Hash code for this entry
+     * @param filename
+     *            Local file name for this entry
      */
     public DefaultURICacheEntry(
+        @Nullable
         final Date   date,
+        @Nonnull
         final String hashCode,
+        @Nullable
         final String filename
         )
     {
+        if( hashCode == null ) {
+            throw new IllegalArgumentException( "hashCode is null" );
+        }
+
         this.date     = (date == null) ? new Date() : date;
         this.hashCode = hashCode;
 
@@ -53,6 +66,7 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
     }
 
     @Override
+    @Nullable
     public String getRelativeFilename()
     {
         return this.filename;
@@ -61,18 +75,20 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
     @Override
     public int hashCode()
     {
-        final int prime = 31; // $codepro.audit.disable numericLiterals
+        final int prime = 31;
+
         int result = 1;
         result = (prime * result) + ((this.date == null) ? 0 : this.date.hashCode());
         result = (prime * result)
                 + ((this.filename == null) ? 0 : this.filename.hashCode());
         result = (prime * result)
                 + ((this.hashCode == null) ? 0 : this.hashCode.hashCode());
+
         return result;
     }
 
     @Override
-    public boolean equals( final Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals, cyclomaticComplexity
+    public boolean equals( final Object obj )
     {
         if( this == obj ) {
             return true;
@@ -80,7 +96,7 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
         if( obj == null ) {
             return false;
         }
-        if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
+        if( getClass() != obj.getClass() ) {
             return false;
         }
         final DefaultURICacheEntry other = (DefaultURICacheEntry)obj;
@@ -105,13 +121,23 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
         } else if( !this.hashCode.equals( other.hashCode ) ) {
             return false;
         }
+
         return true;
     }
 
     @Override
     public String toString()
     {
-        return "DefaultURICacheEntry [hashCode=" + this.hashCode + ", date=" + this.date
-                + ", filename=" + this.filename + "]";
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append( "DefaultURICacheEntry [hashCode=" );
+        builder.append( this.hashCode );
+        builder.append( ", date=" );
+        builder.append( this.date );
+        builder.append( ", filename=" );
+        builder.append( this.filename );
+        builder.append( "]" );
+
+        return builder.toString();
     }
 }

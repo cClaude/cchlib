@@ -12,9 +12,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DownloadIOException;
-import com.googlecode.cchlib.net.download.DownloadURL;
+import com.googlecode.cchlib.net.download.DownloadURI;
 import com.googlecode.cchlib.tools.downloader.LoggerListener;
 
 /**
@@ -30,17 +30,25 @@ public abstract class DisplayTableModel
     private final ConcurrentHashMap<Integer,DisplayTableModelEntry> list = new ConcurrentHashMap<>();
     private JTable jTable;
 
-    @I18nString private final String columnNameURL    = "URL";
-    @I18nString private final String columnNameState  = "State";
-    @I18nString private final String columnNameFile   = "File";
-    @I18nString private final String columnNameParent = "Parent URL";
+    @I18nString private String columnNameURL;
+    @I18nString private String columnNameState;
+    @I18nString private String columnNameFile;
+    @I18nString private String columnNameParent;
 
     /**
      *
      */
     public DisplayTableModel()
     {
-        //empty !
+        ensureNotStatic();
+    }
+
+    private void ensureNotStatic()
+    {
+        this.columnNameURL    = "URL";
+        this.columnNameState  = "State";
+        this.columnNameFile   = "File";
+        this.columnNameParent = "Parent URL";
     }
 
     public final void setJTable( final JTable jTable )
@@ -53,7 +61,7 @@ public abstract class DisplayTableModel
      */
     public final synchronized void clear()
     {
-        list.clear();
+        this.list.clear();
 
         super.fireTableDataChanged();
     }
@@ -62,7 +70,7 @@ public abstract class DisplayTableModel
     {
         final URI uri = url.toURI();
 
-        for( final Entry<Integer, DisplayTableModelEntry> entry : list.entrySet() ) {
+        for( final Entry<Integer, DisplayTableModelEntry> entry : this.list.entrySet() ) {
             if( entry.getValue().getURL().toURI().equals( uri ) ) {
                 return entry.getKey().intValue();
                 }
@@ -74,34 +82,30 @@ public abstract class DisplayTableModel
     }
 
     @Override // AbstractTableModel
-    final
     public int getColumnCount()
     {
         return DisplayTableModelEntry.ENTRY_COLUMN_COUNT;
     }
 
     @Override // AbstractTableModel
-    final
     public String getColumnName( final int columnIndex )
     {
         switch( columnIndex ) {
-            case 0 : return columnNameURL;
-            case 1 : return columnNameState;
-            case 2 : return columnNameFile;
-            case 3 : return columnNameParent;
+            case 0 : return this.columnNameURL;
+            case 1 : return this.columnNameState;
+            case 2 : return this.columnNameFile;
+            case 3 : return this.columnNameParent;
             default: return null;
         }
     }
 
     @Override // AbstractTableModel
-    final
     public synchronized int getRowCount()
     {
-        return list.size();
+        return this.list.size();
     }
 
     @Override // AbstractTableModel
-    final
     public synchronized Object getValueAt( final int rowIndex, final int columnIndex )
     {
         return getRow( rowIndex ).getColumn( columnIndex );
@@ -115,27 +119,32 @@ public abstract class DisplayTableModel
      */
     public DisplayTableModelEntry getRow( final int rowIndex )
     {
-        return list.get( Integer.valueOf( rowIndex ) );
+        return this.list.get( Integer.valueOf( rowIndex ) );
     }
 
-    @Override // LoggerListener
-    final
-    public synchronized void downloadStart( final DownloadURL dURL )
+    @Override // DownloadEvent
+    public void downloadStart( final DownloadURI downloader )
     {
         final int index = this.list.size();
 
-        this.list.put( Integer.valueOf( index ), new DisplayTableModelEntry( dURL ) );
+        this.list.put(
+                Integer.valueOf( index ),
+                new DisplayTableModelEntry( (ContentDownloadURI<?>)downloader )
+                );
 
         super.fireTableDataChanged();
 
-        SwingUtilities.invokeLater( ( ) -> {
-            jTable.getSelectionModel().setSelectionInterval(index, index);
-            jTable.scrollRectToVisible(new Rectangle(jTable.getCellRect(index, 0, true)));
+        SwingUtilities.invokeLater( () -> {
+            this.jTable.getSelectionModel().setSelectionInterval( index, index );
+
+            this.jTable.scrollRectToVisible(
+                    new Rectangle( this.jTable.getCellRect( index, 0, true ) )
+                    );
         });
     }
 
     private final synchronized void updateDisplay(
-        final DownloadURL                 dURL,
+        final DownloadURI                 dURL,
         final DisplayTableModelEntryState state
         )
     {
@@ -146,7 +155,7 @@ public abstract class DisplayTableModel
                 LOGGER.fatal( "URL not in list: " + dURL );
                 }
             else {
-                list.get( Integer.valueOf( index ) ).setState( state );
+                this.list.get( Integer.valueOf( index ) ).setState( state );
 
                 super.fireTableRowsUpdated( index, index );
                 }
@@ -156,50 +165,45 @@ public abstract class DisplayTableModel
             }
     }
 
-    @Override // LoggerListener
-    final
-    public synchronized void downloadDone( final DownloadURL dURL )
+    @Override // DownloadEvent
+    public synchronized void downloadDone( final DownloadURI dURL )
     {
         updateDisplay( dURL, DisplayTableModelEntryState.DONE );
     }
 
-    @Override
+    @Override // LoggerListener
     public synchronized void oufOfConstraints(
-            final DownloadFileURL dfURL
+            final ContentDownloadURI<File> dfURL
             )
     {
         updateDisplay( dfURL, DisplayTableModelEntryState.OUT_OF_CONSTRAINTS );
     }
 
     @Override // LoggerListener
-    final
-    public synchronized void downloadCantRename(
-            final DownloadURL   dURL,
-            final File          tmpFile,
-            final File          expectedCacheFile
-            )
+    public void downloadCantRename(
+        final ContentDownloadURI<File>  downloader,
+        final File                      tmpFile,
+        final File                      expectedCacheFile
+        )
     {
-        updateDisplay( dURL, DisplayTableModelEntryState.CANT_RENAME );
+        updateDisplay( downloader, DisplayTableModelEntryState.CANT_RENAME );
     }
 
     @Override // LoggerListener
-    final
-    public synchronized void downloadStored( final DownloadURL dURL )
+    public void downloadStored( final ContentDownloadURI<File> downloader )
     {
-        updateDisplay( dURL, DisplayTableModelEntryState.STORED );
+        updateDisplay( downloader, DisplayTableModelEntryState.STORED );
     }
 
     @Override // LoggerListener
-    final
     public synchronized void downloadFail(
             final DownloadIOException dioe
             )
     {
-        final DownloadURL dURL  = dioe.getDownloadURL();
+        final DownloadURI dURL  = dioe.getDownloadURL();
 
         updateDisplay( dURL, DisplayTableModelEntryState.DOWNLOAD_ERROR );
 
         LOGGER.warn( "DownloadFail", dioe );
     }
-
 }

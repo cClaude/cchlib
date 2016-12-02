@@ -13,7 +13,7 @@ import com.googlecode.cchlib.io.IOHelper;
  *
  * @since 4.1.5
  */
-public class DownloadToString extends AbstractDownload
+public class DownloadToString extends AbstractContentDownload<String>
 {
     /**
      * Create a download task for {@link String}
@@ -21,16 +21,16 @@ public class DownloadToString extends AbstractDownload
      * @param eventHandler  Event to use for notifications
      */
     public DownloadToString(
-            final DownloadStringURL downloadURL,
-            final DownloadEvent     eventHandler
-            )
+        final ContentDownloadURI<String> downloadURL,
+        final DownloadEvent              eventHandler
+        )
     {
         super( downloadURL, eventHandler );
     }
 
     @Override
     protected void download( final InputStream inputStream )
-            throws IOException, DownloadIOException // $codepro.audit.disable unnecessaryExceptions
+            throws IOException, DownloadIOException
     {
         final CharArrayWriter buffer = new CharArrayWriter();
 
@@ -38,8 +38,6 @@ public class DownloadToString extends AbstractDownload
             IOHelper.copy( r, buffer );
             }
 
-        final DownloadStringURL dURL = DownloadStringURL.class.cast( getDownloadURL() );
-
-        dURL.setResultAsString( buffer.toString() );
+        getDownloadURL().setResult( buffer.toString() );
     }
 }

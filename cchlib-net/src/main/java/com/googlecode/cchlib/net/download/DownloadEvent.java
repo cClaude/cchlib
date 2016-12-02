@@ -8,20 +8,23 @@ package com.googlecode.cchlib.net.download;
 public interface DownloadEvent
 {
     /**
+     * Indicate that download start for this {@code downloadURL}
      *
-     * @param dURL
+     * @param downloadURL The {@link DownloadURI}
      */
-    void downloadStart( final DownloadURL dURL );
+    void downloadStart( final DownloadURI downloadURL );
 
     /**
+     * Indicate that download is done (success) for this {@code downloadURL}
      *
-     * @param dURL
+     * @param downloadURL The {@link DownloadURI}
      */
-    void downloadDone( final DownloadURL dURL );
+    void downloadDone( final DownloadURI downloadURL );
 
     /**
+     * Indicate that download fail for this {@code downloadURL}
      *
-     * @param dioe
+     * @param downloadURLError The {@link DownloadIOException}
      */
-    void downloadFail( final DownloadIOException dioe );
+    void downloadFail( final DownloadIOException downloadURLError );
 }

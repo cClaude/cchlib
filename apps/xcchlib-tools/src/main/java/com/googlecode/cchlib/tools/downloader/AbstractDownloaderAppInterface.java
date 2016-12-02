@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.tools.downloader;
 
+import java.io.File;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.Proxy;
@@ -11,13 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
-import com.googlecode.cchlib.net.download.DownloadStringURL;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 
-/**
- *
- *
- */
 public abstract class AbstractDownloaderAppInterface
     implements GenericDownloaderAppInterface, Serializable
 {
@@ -50,43 +46,44 @@ public abstract class AbstractDownloaderAppInterface
     }
 
     @Override
-    final public String getSiteName() { return this.siteName; }
+    public final String getSiteName()
+    {
+        return this.siteName;
+    }
 
     @Override
-    final public int getNumberOfPicturesByPage() { return this.numberOfPicturesByPage; }
+    public final int getNumberOfPicturesByPage()
+    {
+        return this.numberOfPicturesByPage;
+    }
 
     @Override// GenericDownloaderAppInterface
-    final// FIXME: remove this
-    public int getPageCount()
+    public final int getPageCount()
     {
         return this.pageCount;
     }
 
     @Override// GenericDownloaderAppInterface
-    final// FIXME: remove this
-    public void setPageCount( final int pageCount )
+    public final void setPageCount( final int pageCount )
     {
         // TODO  >= 1; // Min value ???
         this.pageCount = pageCount;
     }
 
     @Override// GenericDownloaderAppInterface
-    final// FIXME: remove this
-    public int getMaxPageCount()
+    public final int getMaxPageCount()
     {
         return Integer.MAX_VALUE; //Default value !
     }
 
     @Override// GenericDownloaderAppInterface
-    final// FIXME: remove this
-    public Proxy getProxy()
+    public final Proxy getProxy()
     {
         return this.proxy;
     }
 
     @Override// GenericDownloaderAppInterface
-    final// FIXME: remove this
-    public void setProxy( final Proxy proxy )
+    public final void setProxy( final Proxy proxy )
     {
         this.proxy = proxy;
     }
@@ -98,7 +95,7 @@ public abstract class AbstractDownloaderAppInterface
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract DownloadStringURL getDownloadStringURL( final int pageNumber )
+    public abstract ContentDownloadURI<String> getDownloadStringURL( final int pageNumber )
             throws MalformedURLException, URISyntaxException;
 
     /**
@@ -107,10 +104,10 @@ public abstract class AbstractDownloaderAppInterface
      * {@link #getDownloadStringURL(int)}
      */
     @Override// GenericDownloaderAppInterface
-    public Collection<DownloadStringURL> getURLDownloadAndParseCollection()
+    public Collection<ContentDownloadURI<String>> getURLDownloadAndParseCollection()
             throws MalformedURLException, URISyntaxException
     {
-        final List<DownloadStringURL> sdURLList = new ArrayList<DownloadStringURL>();
+        final List<ContentDownloadURI<String>> sdURLList = new ArrayList<>();
 
         for( int i=1; i<= getPageCount(); i++ ) {
             sdURLList.add( getDownloadStringURL( i ) );
@@ -128,7 +125,7 @@ public abstract class AbstractDownloaderAppInterface
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract DownloadFileURL getDownloadURLFrom( String src, int regexpIndex )
+    public abstract ContentDownloadURI<File> getDownloadURLFrom( String src, int regexpIndex )
         throws MalformedURLException, URISyntaxException;
 
     public interface RegExgSplitter
@@ -152,35 +149,16 @@ public abstract class AbstractDownloaderAppInterface
         public char getLastChar() { return this.lastChar; }
     }
 
-    /*
-     * Default implementation of {@link GenericDownloaderAppInterface#getURLToDownloadCollection(GenericDownloaderAppUIResults, String)},
-     * that use {@link AbstractDownloadInterface#getDownloadURLFrom(String, int)}
-     *
-     * @param gdauir
-     * @param content2Parse
-     * @param regexps
-     * @return TODOC
-     * @see GenericDownloaderAppInterface#getURLToDownloadCollection(GenericDownloaderAppUIResults, String)
-     * @see AbstractDownloadInterface#getDownloadURLFrom(String, int)
-     */
-    /**
-     * TODOC
-     *
-     * @param gdauir
-     * @param content2Parse
-     * @param regexps
-     * @return a {@link Collection} of {@link DownloadFileURL}
-     */
-    public final Collection<DownloadFileURL> getURLToDownloadCollection(
+    public final Collection<ContentDownloadURI<File>> getURLToDownloadCollection(
         final GenericDownloaderAppUIResults gdauir,
-        final DownloadStringURL             content2Parse,
+        final ContentDownloadURI<String>    content2Parse,
         final RegExgSplitter[]              regexps
         )
     {
-        final Set<DownloadFileURL> imagesURLCollection = new HashSet<DownloadFileURL>();
+        final Set<ContentDownloadURI<File>> imagesURLCollection = new HashSet<>();
 
         for( final RegExgSplitter regexp : regexps ) {
-            final String[] strs = content2Parse.getResultAsString().split( regexp.getBeginRegExp() );
+            final String[] strs = content2Parse.getResult().split( regexp.getBeginRegExp() );
 
             if( LOGGER.isDebugEnabled() ) {
                 LOGGER.debug( "> img founds = " + (strs.length - 1));
@@ -193,7 +171,7 @@ public abstract class AbstractDownloaderAppInterface
 
                 try {
                     //imagesURLCollection.add( getDownloadURLFrom( src, i ) );
-                    final DownloadFileURL dfURL = getDownloadURLFrom( src, i );
+                    final ContentDownloadURI<File> dfURL = getDownloadURLFrom( src, i );
 
                     dfURL.setProperty( DownloadFileURL_PARENT_URL_PROPERTY, content2Parse.getURL() );
 
@@ -207,7 +185,7 @@ public abstract class AbstractDownloaderAppInterface
                             + "\n<<-------"
                             );
                     LOGGER.warn( "URL Exception content2Parse:\n------->>\n"
-                            + content2Parse.getResultAsString()
+                            + content2Parse.getResult()
                             + "\n<<-------"
                             );
                     }
@@ -221,10 +199,6 @@ public abstract class AbstractDownloaderAppInterface
         return imagesURLCollection;
     }
 
-    /**
-     *
-     * @param entry
-     */
     protected void addComboBoxConfig( final GenericDownloaderAppComboBoxConfig entry )
     {
         if( this.comboBoxConfigList == null ) {
@@ -235,6 +209,7 @@ public abstract class AbstractDownloaderAppInterface
     }
 
     /**
+     * {@inheritDoc}
      * @see DefaultComboBoxConfig
      */
     @Override// GenericDownloaderAppInterface

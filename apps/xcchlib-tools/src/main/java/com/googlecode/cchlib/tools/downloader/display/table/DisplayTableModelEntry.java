@@ -3,23 +3,8 @@ package com.googlecode.cchlib.tools.downloader.display.table;
 import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
-import com.googlecode.cchlib.net.download.DownloadFileURL;
-import com.googlecode.cchlib.net.download.DownloadURL;
+import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
-
-/**
-*
-*/
-//NOT public
-enum DisplayTableModelEntryState {
-    INIT,
-    SKIP,
-    DONE,
-    CANT_RENAME,
-    STORED,
-    DOWNLOAD_ERROR,
-    OUT_OF_CONSTRAINTS,
-    };
 
 /**
  *
@@ -27,14 +12,17 @@ enum DisplayTableModelEntryState {
 // NOT public
 class DisplayTableModelEntry implements Serializable
 {
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
+
     public static final int ENTRY_COLUMN_COUNT = 3;
-    private DownloadURL dURL;
+
+    private final ContentDownloadURI<?> downloader;
+
     private DisplayTableModelEntryState state;
 
-    public DisplayTableModelEntry( final DownloadURL dURL )
+    public <T> DisplayTableModelEntry( final ContentDownloadURI<T> downloader )
     {
-        this.dURL   = dURL;
+        this.downloader = downloader;
 
         setState( DisplayTableModelEntryState.INIT );
     }
@@ -42,8 +30,8 @@ class DisplayTableModelEntry implements Serializable
     public Object getColumn( final int columnIndex )
     {
         switch( columnIndex ) {
-            case 0 : return dURL.getURL().toExternalForm();
-            case 1 : return state.toString();
+            case 0 : return this.downloader.getURL().toExternalForm();
+            case 1 : return this.state.toString();
             case 2 : return getFile();      // Could be null
             case 3 : return getParentURL(); // Could be null
             default: return null;
@@ -55,7 +43,7 @@ class DisplayTableModelEntry implements Serializable
      */
     public DisplayTableModelEntryState getState()
     {
-        return state;
+        return this.state;
     }
 
     /**
@@ -71,9 +59,11 @@ class DisplayTableModelEntry implements Serializable
      */
     public File getFile()
     {
-        if( this.dURL instanceof DownloadFileURL ) {
-            return DownloadFileURL.class.cast( dURL ).getResultAsFile();
-            }
+        final Object result = this.downloader.getResult();
+
+        if( result instanceof File ) {
+            return (File)result;
+        }
 
         return null;
     }
@@ -83,25 +73,18 @@ class DisplayTableModelEntry implements Serializable
      */
     public URL getParentURL()
     {
-        if( this.dURL instanceof DownloadFileURL ) {
-            Object value = DownloadFileURL.class.cast( dURL ).getProperty(
-                AbstractDownloaderAppInterface.DownloadFileURL_PARENT_URL_PROPERTY
-                );
+        final Object objectURL = this.downloader.getProperty( AbstractDownloaderAppInterface.DownloadFileURL_PARENT_URL_PROPERTY );
 
-            if( value instanceof URL ) {
-                return URL.class.cast( value );
-                }
-            }
+        if( objectURL instanceof URL ) {
+            return (URL)objectURL;
+        }
 
         return null;
     }
 
-    /**
-     * @return the DownloadURL
-     */
-    public DownloadURL getDownloadURL()
+    public ContentDownloadURI<?> getDownloader()
     {
-        return this.dURL;
+        return this.downloader;
     }
 
     /**
@@ -109,6 +92,6 @@ class DisplayTableModelEntry implements Serializable
      */
     public URL getURL()
     {
-        return this.dURL.getURL();
+        return this.downloader.getURL();
     }
 }
