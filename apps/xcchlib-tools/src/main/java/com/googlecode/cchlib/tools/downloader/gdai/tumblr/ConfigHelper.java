@@ -31,21 +31,21 @@ public class ConfigHelper
         }
     }
 
-    public static Config load()
+    public static Config load() throws JSONHelperException
     {
-        final ConfigImpl config = loadOldConfig();
-
-        return config;
+        return JSONHelper.load( getConfigFile(), ConfigImpl.class );
+        // return loadOldConfig();
     }
 
-    private static ConfigImpl loadOldConfig()
+    private static Config loadOldConfig()
     {
-        // Was: return new GDAI_tumblr_com_Config(); (deprecated)
-        final GDAI_tumblr_com_Config old = new GDAI_tumblr_com_Config();
+        return new GDAI_tumblr_com_Config(); // (deprecated)
+    }
 
+    private static ConfigImpl loadOldConfigAndCreateNewConfig()
+    {
         final ConfigImpl config = new ConfigImpl();
-        config.setDataFromVector( old.toVector() );
+        config.setDataFromVector( loadOldConfig().toVector() );
         return config;
     }
-
 }

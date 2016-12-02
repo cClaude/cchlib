@@ -1,8 +1,10 @@
 package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
+import javax.annotation.Nonnull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.cchlib.lang.StringHelper;
 
@@ -10,6 +12,9 @@ class ConfigImpl implements Config
 {
     private static final long serialVersionUID = 1L;
 
+    private static final int Comparator = 0;
+
+    @Nonnull
     private List<EntryImpl> entries = new ArrayList<>();
 
     public ConfigImpl()
@@ -19,12 +24,21 @@ class ConfigImpl implements Config
 
     public List<EntryImpl> getEntries()
     {
+        Collections.sort(
+            this.entries,
+            (o1,o2) -> o1.getName().compareTo( o2.getName() )
+            );
+
         return this.entries;
     }
 
     public void setEntries( final List<EntryImpl> entries )
     {
-        this.entries = entries;
+        if( entries == null ) {
+            this.entries.clear();
+        } else {
+            this.entries = entries;
+        }
     }
 
     @JsonIgnore

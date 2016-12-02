@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.json.JSONHelperException;
 
 @SuppressWarnings({"squid:S00101","squid:MaximumInheritanceDepth"})
 public class GDAI_tumblr_com_ConfigJDialogApp extends JDialog
@@ -74,22 +75,27 @@ public class GDAI_tumblr_com_ConfigJDialogApp extends JDialog
 
     /**
      * Launch the application.
+     *
+     * @throws JSONHelperException if configuration can not be loaded
      */
-    public static void main( final String[] args )
+    public static void main( final String[] args ) throws JSONHelperException
     {
         final Config config = ConfigHelper.load();
 
-        EventQueue.invokeLater( ( ) -> {
-            try {
-                final GDAI_tumblr_com_ConfigJDialogApp frame
-                    = new GDAI_tumblr_com_ConfigJDialogApp( null, config );
+        EventQueue.invokeLater( () -> runMain( config ) );
+    }
 
-                frame.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
-                frame.setVisible( true );
-                }
-            catch( final Exception e ) {
-                LOGGER.error( "Can not load application", e );
-                }
-        });
+    private static void runMain( final Config config )
+    {
+        try {
+            final GDAI_tumblr_com_ConfigJDialogApp frame
+                = new GDAI_tumblr_com_ConfigJDialogApp( null, config );
+
+            frame.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
+            frame.setVisible( true );
+            }
+        catch( final Exception e ) {
+            LOGGER.error( "Can not load application", e );
+            }
     }
 }
