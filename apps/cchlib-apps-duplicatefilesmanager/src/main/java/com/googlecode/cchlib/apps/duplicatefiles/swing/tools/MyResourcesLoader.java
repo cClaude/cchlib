@@ -11,10 +11,10 @@ import javax.swing.Icon;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.Version;
 import com.googlecode.cchlib.VisibleForTesting;
-import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelperException;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config.FiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config.FiltersConfigFileHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.ResourcesPath;
+import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.resources.ResourcesLoader;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
 

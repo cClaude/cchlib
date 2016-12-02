@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.util.Properties;
 import javax.annotation.Nullable;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
 import com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesApp;
 import com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesI18nPrep;
 import com.googlecode.cchlib.io.FileHelper;
+import com.googlecode.cchlib.json.JSONHelper;
+import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
 import com.googlecode.cchlib.util.properties.PropertiesPopulatorRuntimeException;
@@ -60,14 +61,15 @@ public final class PreferencesControlerFactory
         }
 
         final File preferencesFileToUse = useDefaultFile ? getJSONPreferencesFile() : preferencesFile;
-        final ObjectMapper mapper = new ObjectMapper();
+        //final ObjectMapper mapper = new ObjectMapper();
 
         Preferences preferences;
 
         try {
-            preferences = mapper.readValue( preferencesFileToUse, PreferencesBean.class);
+            //preferences = mapper.readValue( preferencesFileToUse, PreferencesBean.class);
+            preferences = JSONHelper.load( preferencesFileToUse, PreferencesBean.class );
         }
-        catch( final IOException e ) {
+        catch( final JSONHelperException e ) {
             if( useDefaultFile ) {
                 LOGGER.warn( "Can not read JSON preferences file, create a new one : " + preferencesFileToUse, e );
 

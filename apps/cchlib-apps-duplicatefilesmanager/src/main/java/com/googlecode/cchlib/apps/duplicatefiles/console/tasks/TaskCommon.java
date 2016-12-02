@@ -7,14 +7,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
-import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelper;
-import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelperException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
+import com.googlecode.cchlib.json.JSONHelper;
+import com.googlecode.cchlib.json.JSONHelperException;
 
 /**
  * Handle file filters for files and directories

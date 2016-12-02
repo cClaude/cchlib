@@ -17,6 +17,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControle
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.swing.DialogHelper;
 
 @I18nName("PreferencesDialogWB")
@@ -137,7 +138,7 @@ public final class PreferencesDialogWB
         try {
             prefs.save();
         }
-        catch( final IOException e ) {
+        catch( final IOException | JSONHelperException e ) {
             LOGGER.error( "Pref error", e );
 
             DialogHelper.showMessageExceptionDialog(

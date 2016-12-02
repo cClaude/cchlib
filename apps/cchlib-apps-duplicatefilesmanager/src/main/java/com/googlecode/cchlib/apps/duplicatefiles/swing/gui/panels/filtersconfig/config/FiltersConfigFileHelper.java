@@ -2,8 +2,8 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig
 
 import java.io.File;
 import java.io.InputStream;
-import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelper;
-import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelperException;
+import com.googlecode.cchlib.json.JSONHelper;
+import com.googlecode.cchlib.json.JSONHelperException;
 
 public class FiltersConfigFileHelper
 {

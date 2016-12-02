@@ -5,8 +5,8 @@ import java.io.InputStream;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.apps.duplicatefiles.TestResultsHelper;
-import com.googlecode.cchlib.apps.duplicatefiles.common.JSONHelperException;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.MyResourcesLoader;
+import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
 public class FiltersConfigFileHelperTest

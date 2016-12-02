@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.prefs;
 
 import java.awt.Dimension;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,13 +10,13 @@ import java.util.Locale;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig.Feature;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.result.SelectFirstMode;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.result.SortMode;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.util.Dimensions;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.util.SerializableDimension;
+import com.googlecode.cchlib.json.JSONHelper;
+import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 
@@ -100,7 +101,7 @@ public class PreferencesControler implements Serializable
         }
     }
 
-    public void save() throws IOException
+    public void save() throws IOException, JSONHelperException
     {
         PreferencesBean       preferencesBean;
         PreferencesProperties preferencesProperties;
@@ -121,10 +122,12 @@ public class PreferencesControler implements Serializable
 
         preferencesProperties.save();
 
-        final ObjectMapper mapper = new ObjectMapper();
+        //final ObjectMapper mapper = new ObjectMapper();
 
-        mapper.configure( Feature.INDENT_OUTPUT, true );
-        mapper.writeValue( PreferencesControlerFactory.getJSONPreferencesFile(), preferencesBean);
+        //mapper.configure( Feature.INDENT_OUTPUT, true );
+        final File jsonFile = PreferencesControlerFactory.getJSONPreferencesFile();
+        //mapper.writeValue( jsonFile, preferencesBean);
+        JSONHelper.toJSON( jsonFile, preferencesBean, true );
     }
 
     public void setLocale( final Locale locale )
