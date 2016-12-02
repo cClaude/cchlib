@@ -13,7 +13,7 @@ import com.googlecode.cchlib.io.IOHelper;
  *
  * @since 4.1.5
  */
-public class DownloadToString extends AbstractContentDownload<String>
+public class DownloadToString extends AbstractDownload<String>
 {
     /**
      * Create a download task for {@link String}

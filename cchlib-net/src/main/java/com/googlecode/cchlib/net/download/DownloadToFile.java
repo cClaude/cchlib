@@ -16,7 +16,7 @@ import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
  * @since 4.1.5
  */
 @Beta
-public class DownloadToFile extends AbstractContentDownload<File>
+public class DownloadToFile extends AbstractDownload<File>
 {
     private static final class MyInputStream extends InputStream
     {
