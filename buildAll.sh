@@ -24,3 +24,13 @@ cat .logs/mvn-install.log | grep -v "warning: no description for" \
 pushd apps
 ./buildAllApps.sh | tee ../.logs/buildAllApps.log
 popd
+
+# Some cleanup
+rm -fr /tmp/FolderTreeBuilderTest*
+rm -fr /tmp/cchlib-test-io-*
+rm -fr /tmp/content*-file*-*.png*
+rm -fr /tmp/dup-file*.png
+rm -fr /tmp/notduplicate-*
+rm -fr /tmp/part-*.png
+rm -fr /tmp/testCopyURLFile*
+
