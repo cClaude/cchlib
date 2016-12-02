@@ -7,24 +7,29 @@ import com.googlecode.cchlib.servlet.exception.RequestParameterNumberFormatExcep
 /**
  * NEEDDOC
  */
-public final class Tools
+public final class HttpServletHelper
 {
-    private Tools()
+    private HttpServletHelper()
     {
         // All static
     }
 
     /**
      * Returns the value of a request parameter as a String.
-     * <BR>
-     * You should only use this method when you are sure the parameter
-     * has only one value. If the parameter might have more than one value,
-     * use getParameterValues(java.lang.String).
      *
-     * @param request HttpServletRequest from servlet or JSP
-     * @param name a String containing the name of the parameter whose value is requested
+     * <p>
+     * You should only use this method when you are sure the parameter
+     * has only one value. If the parameter might have more than one
+     * value, use getParameterValues(java.lang.String).
+     *
+     * @param request
+     *            HttpServletRequest from servlet or JSP
+     * @param name
+     *            a String containing the name of the parameter whose
+     *            value is requested
      * @return a String representing the single value of the parameter
-     * @throws RequestParameterNotFoundException  if the parameter does not exist.
+     * @throws RequestParameterNotFoundException
+     *             if the parameter does not exist.
      * @see HttpServletRequest#getParameter(String)
      * @see #getParameterValues(HttpServletRequest, String)
      */
@@ -46,11 +51,16 @@ public final class Tools
     /**
      * Returns the value of a request parameter as an integer.
      *
-     * @param request HttpServletRequest from servlet or JSP
-     * @param name a String containing the name of the parameter whose value is requested
+     * @param request
+     *            HttpServletRequest from servlet or JSP
+     * @param name
+     *            a String containing the name of the parameter whose
+     *            value is requested
      * @return a String representing the single value of the parameter
-     * @throws RequestParameterNotFoundException  if the parameter does not exist.
-     * @throws RequestParameterNumberFormatException if the value is not an integer
+     * @throws RequestParameterNotFoundException
+     *             if the parameter does not exist.
+     * @throws RequestParameterNumberFormatException
+     *             if the value is not an integer
      */
     @SuppressWarnings({"squid:S1160"})
     public static final int getIntParameter(
@@ -71,13 +81,17 @@ public final class Tools
     }
 
     /**
-     * Returns an array of String objects containing all of the
-     * values the given request parameter has.
+     * Returns an array of String objects containing all of the values
+     * the given request parameter has.
      *
-     * @param request HttpServletRequest from servlet or JSP
-     * @param name a String containing the name of the parameter whose value is requested
+     * @param request
+     *            HttpServletRequest from servlet or JSP
+     * @param name
+     *            a String containing the name of the parameter whose
+     *            value is requested
      * @return an array of String objects containing the parameter's values
-     * @throws RequestParameterNotFoundException if the parameter does not exist.
+     * @throws RequestParameterNotFoundException
+     *             if the parameter does not exist.
      * @see HttpServletRequest#getParameter(String)
      * @see #getParameter(HttpServletRequest, String)
      */
@@ -97,14 +111,19 @@ public final class Tools
     }
 
     /**
-     * Returns an array of int containing all of the
-     * values the given request parameter has.
+     * Returns an array of int containing all of the values the
+     * given request parameter has.
      *
-     * @param request HttpServletRequest to use
-     * @param name a String containing the name of the parameter whose value is requested
+     * @param request
+     *            HttpServletRequest to use
+     * @param name
+     *            a String containing the name of the parameter
+     *            whose value is requested
      * @return a String representing the single value of the parameter
-     * @throws RequestParameterNotFoundException  if the parameter does not exist.
-     * @throws RequestParameterNumberFormatException if at least one value is not an integer
+     * @throws RequestParameterNotFoundException
+     *             if the parameter does not exist.
+     * @throws RequestParameterNumberFormatException
+     *             if at least one value is not an integer
      */
     @SuppressWarnings({"squid:S1160"})
     public static final int[] getIntParameterValues(
@@ -117,24 +136,28 @@ public final class Tools
         return toInt( getParameterValues( request, name ) );
     }
 
-
     /**
      * NEEDDOC
+     *
      * @param request
+     *            NEEDDOC
      * @param name
+     *            NEEDDOC
      * @return NEEDDOC
      * @throws NumberFormatException
+     *             NEEDDOC
      * @throws RequestParameterNotFoundException
+     *             NEEDDOC
      * @throws RequestParameterNumberFormatException
+     *             NEEDDOC
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static final int getIntAttributeOrParameter(
-            final HttpServletRequest request,
-            final String             name
-            )
-        throws  NumberFormatException,
-                RequestParameterNotFoundException,
-                RequestParameterNumberFormatException
+        final HttpServletRequest request,
+        final String             name
+        ) throws  NumberFormatException,
+                  RequestParameterNotFoundException,
+                  RequestParameterNumberFormatException
     {
         final Object value = request.getAttribute( name );
 
@@ -157,9 +180,13 @@ public final class Tools
 
     /**
      * NEEDDOC
+     *
      * @param request
+     *            NEEDDOC
      * @param name
+     *            NEEDDOC
      * @param defaultValue
+     *            NEEDDOC
      * @return NEEDDOC
      */
     @SuppressWarnings("squid:S1166")
@@ -179,14 +206,15 @@ public final class Tools
 
     /**
      * Create a int Array from a String array
-     * @param values {@link String} array that must contain only number
+     *
+     * @param values
+     *            {@link String} array that must contain only number
      * @return a int Array
-     * @throws NumberFormatException if any String is not a number
+     * @throws NumberFormatException
+     *             if any String is not a number
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    public static final int[] toInt(
-            final String[] values
-            )
+    public static final int[] toInt( final String[] values )
         throws NumberFormatException
     {
         final int[] ivalues = new int[ values.length ];
@@ -197,5 +225,4 @@ public final class Tools
 
         return ivalues;
     }
-
 }
