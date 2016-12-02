@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.tools.downloader;
 
+import com.googlecode.cchlib.tools.downloader.common.LoggerListener;
+
 /**
  * TODOC
  */

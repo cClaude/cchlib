@@ -2,6 +2,7 @@ package com.googlecode.cchlib.tools.downloader.display.table;
 
 import java.awt.Rectangle;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -15,7 +16,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DownloadIOException;
 import com.googlecode.cchlib.net.download.DownloadURI;
-import com.googlecode.cchlib.tools.downloader.LoggerListener;
+import com.googlecode.cchlib.tools.downloader.common.LoggerListener;
 
 /**
  *
@@ -204,6 +205,16 @@ public abstract class DisplayTableModel
 
         updateDisplay( dURL, DisplayTableModelEntryState.DOWNLOAD_ERROR );
 
-        LOGGER.warn( "DownloadFail", dioe );
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "DownloadFail", dioe );
+        } else {
+            final Throwable parentCause = dioe.getCause();
+
+            if( parentCause instanceof FileNotFoundException ) {
+                LOGGER.warn( "DownloadFail: " + parentCause.getMessage() );
+            } else {
+                LOGGER.warn( "DownloadFail (" + parentCause.getClass() + ")", dioe );
+            }
+        }
     }
 }

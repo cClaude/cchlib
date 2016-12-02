@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
-import javax.annotation.Nonnull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.cchlib.lang.StringHelper;
 
@@ -12,17 +11,15 @@ class ConfigImpl implements Config
 {
     private static final long serialVersionUID = 1L;
 
-    private static final int Comparator = 0;
-
-    @Nonnull
-    private List<EntryImpl> entries = new ArrayList<>();
+    private final List<EntryImpl> entries = new ArrayList<>();
 
     public ConfigImpl()
     {
         // Empty
     }
 
-    public List<EntryImpl> getEntries()
+    @Override
+    public List<? extends Entry> getEntries()
     {
         Collections.sort(
             this.entries,
@@ -34,10 +31,10 @@ class ConfigImpl implements Config
 
     public void setEntries( final List<EntryImpl> entries )
     {
-        if( entries == null ) {
-            this.entries.clear();
-        } else {
-            this.entries = entries;
+        this.entries.clear();
+
+        if( entries != null ) {
+            this.entries.addAll( entries );
         }
     }
 

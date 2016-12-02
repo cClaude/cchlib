@@ -3,7 +3,7 @@ package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,7 +14,7 @@ import com.googlecode.cchlib.lang.StringHelper;
 /**
  * Configuration panel for {@link GDAI_tumblr_com}
  */
-// public
+// Not public
 abstract class GDAI_tumblr_com_ConfigJPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
@@ -23,13 +23,13 @@ abstract class GDAI_tumblr_com_ConfigJPanel extends JPanel
     private static final String ACTIONCMD_REMOVE = "ACTIONCMD_REMOVE";
 
     private JTable table;
-    private ActionListener actionListener;
     private final GDAI_tumblr_com_ConfigTableModel tableModel;
 
     /**
      * Create the panel.
      * @param config
      */
+    @SuppressWarnings({"squid:S00117","squid:S1199"})
     public GDAI_tumblr_com_ConfigJPanel(
         final Config config
         )
@@ -60,7 +60,7 @@ abstract class GDAI_tumblr_com_ConfigJPanel extends JPanel
         {
             final JButton btnAdd = new JButton( "Add" );
             btnAdd.setActionCommand( ACTIONCMD_ADD );
-            btnAdd.addActionListener( getActionListener() );
+            btnAdd.addActionListener( this::actionPerformed );
             final GridBagConstraints gbc_btnAdd = new GridBagConstraints();
             gbc_btnAdd.fill = GridBagConstraints.BOTH;
             gbc_btnAdd.insets = new Insets(0, 0, 5, 0);
@@ -71,7 +71,7 @@ abstract class GDAI_tumblr_com_ConfigJPanel extends JPanel
         {
             final JButton btnRemove = new JButton( "Remove" );
             btnRemove.setActionCommand( ACTIONCMD_REMOVE );
-            btnRemove.addActionListener( getActionListener() );
+            btnRemove.addActionListener( this::actionPerformed );
             final GridBagConstraints gbc_btnRemove = new GridBagConstraints();
             gbc_btnRemove.fill = GridBagConstraints.BOTH;
             gbc_btnRemove.insets = new Insets(0, 0, 5, 0);
@@ -91,11 +91,7 @@ abstract class GDAI_tumblr_com_ConfigJPanel extends JPanel
         }
         {
             final JButton btnOk = new JButton( "OK" );
-            btnOk.addActionListener(evt -> {
-                config.setDataFromVector( GDAI_tumblr_com_ConfigJPanel.this.tableModel.getDataVector() );
-
-                okClicked();
-            });
+            btnOk.addActionListener( evt -> onOK( config ) );
             final GridBagConstraints gbc_btnOk = new GridBagConstraints();
             gbc_btnOk.fill = GridBagConstraints.BOTH;
             gbc_btnOk.gridx = 1;
@@ -104,28 +100,33 @@ abstract class GDAI_tumblr_com_ConfigJPanel extends JPanel
         }
     }
 
+    private void onOK( final Config config )
+    {
+        config.setDataFromVector(
+                this.tableModel.getDataVector()
+                );
+
+        okClicked();
+    }
+
     abstract void cancelClicked();
     abstract void okClicked();
 
-    private ActionListener getActionListener()
+    // ActionListener
+    private void actionPerformed( final ActionEvent event  )
     {
-        if( this.actionListener == null ) {
-            this.actionListener = event -> {
-                final String cmd = event.getActionCommand();
+        final String cmd = event.getActionCommand();
 
-                switch( cmd )
-                {
-                    case ACTIONCMD_ADD :
-                        addEntry();
-                        break;
-                    case ACTIONCMD_REMOVE :
-                        removeEntry();
-                        break;
-                }
-            };
+        switch( cmd )
+        {
+            case ACTIONCMD_ADD :
+                addEntry();
+                break;
+
+            case ACTIONCMD_REMOVE :
+                removeEntry();
+                break;
         }
-
-        return this.actionListener;
     }
 
     protected void removeEntry()

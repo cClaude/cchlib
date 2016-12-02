@@ -11,14 +11,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
-import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
-import com.googlecode.cchlib.tools.downloader.PolyURLDownloadFileURL;
+import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.proxy.PolyURLDownloadFileURL;
 
 public abstract class GDAI_tumblr_com
     extends AbstractDownloaderAppInterface
@@ -105,7 +106,7 @@ public abstract class GDAI_tumblr_com
     }
 
     @Override
-    public Collection<ContentDownloadURI<File>> getURLToDownloadCollection(
+    public Collection<ContentDownloadURI<File>> computeURLsAndGetDownloader(
             final GenericDownloaderAppUIResults   gdauir,
             final ContentDownloadURI<String>      content2Parse
             )
@@ -213,25 +214,15 @@ public abstract class GDAI_tumblr_com
 
     public static final GDAI_tumblr_com createAllEntries(
         final Frame ownerFrame
-        )
+        ) throws JSONHelperException
     {
-        final String[] blogNames;
-        final String[] blogDescriptions;
-        final GDAI_tumblr_com_Config config = new GDAI_tumblr_com_Config();
-        {
-            final Collection<Entry> entries = config.getEntriesCollection();
+        final Config                config  = ConfigHelper.load();
+        final List<? extends Entry> entries = config.getEntries();
 
-            blogNames        = new String[ entries.size() ];
-            blogDescriptions = new String[ entries.size() ];
-
-            int i = 0;
-            for( final Entry entry : entries ) {
-                blogNames[ i ]          = entry.getName();
-                blogDescriptions[ i++ ] = entry.getDescription();
-                }
-
-            LOGGER.info( "Found " + entries.size() + " count." );
-        }
+        final String[] blogNames        =
+                ConfigHelper.toArrayString( entries, entry -> entry.getName() );
+        final String[] blogDescriptions =
+                ConfigHelper.toArrayString( entries, entry -> entry.getDescription() );;
 
         return new GDAI_tumblr_com_ForHost(
                 ownerFrame,

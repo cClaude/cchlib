@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.tools.downloader;
+package com.googlecode.cchlib.tools.downloader.proxy;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,9 +1,12 @@
 package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.Collection;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.json.JSONHelper;
 import com.googlecode.cchlib.json.JSONHelperException;
+import com.googlecode.cchlib.util.Wrappable;
 
 public class ConfigHelper
 {
@@ -19,7 +22,7 @@ public class ConfigHelper
             );
     }
 
-    public static void save( final Config config ) throws ConfigIOException
+    static void save( final Config config ) throws ConfigIOException
     {
         final File configFile = getConfigFile();
 
@@ -31,21 +34,33 @@ public class ConfigHelper
         }
     }
 
-    public static Config load() throws JSONHelperException
+    static Config load() throws JSONHelperException
     {
         return JSONHelper.load( getConfigFile(), ConfigImpl.class );
-        // return loadOldConfig();
     }
 
-    private static Config loadOldConfig()
-    {
-        return new GDAI_tumblr_com_Config(); // (deprecated)
-    }
+    public static <S,R> R[] toArray(
+            final Collection<S>  values,
+            final Wrappable<S,R> wrapper,
+            final Class<R>       type
+            )
+        {
+            @SuppressWarnings("unchecked")
+            final R[] results = (R[]) Array.newInstance( type, values.size() );
+            int i = 0;
 
-    private static ConfigImpl loadOldConfigAndCreateNewConfig()
+            for( final S value : values ) {
+                results[ i++ ] = wrapper.wrap( value );
+            }
+
+            return results;
+        }
+
+    public static <S> String[] toArrayString(
+            final Collection<S>       values,
+            final Wrappable<S,String> wrapper
+            )
     {
-        final ConfigImpl config = new ConfigImpl();
-        config.setDataFromVector( loadOldConfig().toVector() );
-        return config;
+        return toArray( values, wrapper, String.class );
     }
 }

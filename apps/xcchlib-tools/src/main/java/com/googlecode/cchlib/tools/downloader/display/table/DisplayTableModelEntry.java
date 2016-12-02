@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
-import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 
 /**
  *

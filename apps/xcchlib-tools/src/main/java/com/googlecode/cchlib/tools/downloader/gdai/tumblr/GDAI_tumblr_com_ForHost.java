@@ -92,7 +92,7 @@ class GDAI_tumblr_com_ForHost
     }
 
     @Override
-    public void setSelectedItems( final List<Item> selectedItems )
+    public void doSelectedItems( final List<Item> selectedItems )
     {
         if( ! selectedItems.isEmpty() ) {
             this.comboBoxConfig_hostname_ = selectedItems.get( 0 ).getJComboBoxText();

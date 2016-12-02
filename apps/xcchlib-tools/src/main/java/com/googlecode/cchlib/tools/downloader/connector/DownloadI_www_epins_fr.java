@@ -8,12 +8,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
-import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
+import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 
 
 /**
@@ -64,7 +65,7 @@ public class DownloadI_www_epins_fr
     }
 
     @Override
-    public Collection<ContentDownloadURI<File>> getURLToDownloadCollection(
+    public Collection<ContentDownloadURI<File>> computeURLsAndGetDownloader(
             final GenericDownloaderAppUIResults   gdauir,
             final ContentDownloadURI<String>      content2Parse
             )
@@ -150,9 +151,9 @@ public class DownloadI_www_epins_fr
     }
 
     @Override
-    public void setSelectedItems( final List<Item> selectedItems )
+    public void doSelectedItems( final List<Item> selectedItems )
     {
-        // TODO Auto-generated method stub
-
+        // TODO Not implemented
+        Logger.getLogger( getClass() ).warn( "NOT IMPLEMENTED" );
     }
 }

@@ -37,7 +37,10 @@ import javax.swing.UnsupportedLookAndFeelException; // $codepro.audit.disable un
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.tools.downloader.common.DownloadStateEvent;
+import com.googlecode.cchlib.tools.downloader.common.LoggerListener;
 import com.googlecode.cchlib.tools.downloader.connector.DownloadI_senorgif;
 import com.googlecode.cchlib.tools.downloader.connector.DownloadI_www_bloggif_com;
 import com.googlecode.cchlib.tools.downloader.connector.DownloadI_www_epins_fr;
@@ -47,13 +50,54 @@ import com.googlecode.cchlib.tools.downloader.connector.DownloadI_www_gifpal_com
 import com.googlecode.cchlib.tools.downloader.display.table.DisplayTableBuilder;
 import com.googlecode.cchlib.tools.downloader.display.table.DisplayTableModel;
 import com.googlecode.cchlib.tools.downloader.gdai.tumblr.GDAI_tumblr_com;
+import com.googlecode.cchlib.tools.downloader.proxy.ProxyEntry;
 
 /**
  * Application starting class
  */
-@SuppressWarnings("squid:MaximumInheritanceDepth")
+@SuppressWarnings({
+    "squid:MaximumInheritanceDepth", // Swing
+    "squid:S00117" // Generated code
+    })
 public class GenericDownloaderUIApp extends JFrame
 {
+    //Not static
+    private final class MyDisplayTableModel extends DisplayTableModel {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void error( final URL url, final File file, final Throwable cause )
+        {
+            LOGGER.error(  ("*** ERROR: " + "Error while download: ") + url + " to file: " + file, cause );
+        }
+
+        @Override
+        public void downloadStateInit( final DownloadStateEvent event )
+        {
+            //TODO
+            GenericDownloaderUIApp.this.displayJProgressBar.setMinimum( 0 );
+            GenericDownloaderUIApp.this.displayJProgressBar.setMaximum( event.getDownloadListSize() );
+            GenericDownloaderUIApp.this.displayJProgressBar.setValue( 0 );
+            GenericDownloaderUIApp.this.displayJProgressBar.setEnabled( true );
+            GenericDownloaderUIApp.this.displayJProgressBar.setIndeterminate( false );
+            GenericDownloaderUIApp.this.displayJProgressBar.setStringPainted( true );
+            //TODO
+
+            LOGGER.info( "init :" + event.getDownloadListSize() );
+        }
+
+        @Override
+        public void downloadStateChange( final DownloadStateEvent event )
+        {
+            //TODO
+            GenericDownloaderUIApp.this.displayJProgressBar.setValue( event.getDownloadListSize() );
+            GenericDownloaderUIApp.this.displayJProgressBar.setString( "loading " + event.getDownloadListSize() );
+            //TODO
+
+            LOGGER.info( "downloadStateChange :" + event.getDownloadListSize() );
+        }
+    }
+
     private final class MyActionListener implements ActionListener
     {
         @Override
@@ -118,6 +162,7 @@ public class GenericDownloaderUIApp extends JFrame
 
     private static final int DOWNLOAD_THREAD_NUMBER_DEFAULT = 10;
     private static final int DOWNLOAD_THREAD_NUMBER_MAX = 50;
+
     private static final String ACTION_QUIT = "ACTION_QUIT";
     private static final String ACTION_STOP = "ACTION_STOP";
     private static final String ACTION_START = "ACTION_START";
@@ -125,8 +170,11 @@ public class GenericDownloaderUIApp extends JFrame
     private GenericDownloader genericDownloader_useLock;
     /** lock for genericDownloader access */
     private final Object genericDownloaderLock = new Object();
+
     private transient ActionListener actionListener;
-    private transient WindowListener windowListener;
+    private transient WindowListener appWindowListener;
+
+    private final DisplayTableModel displayTableModel = new MyDisplayTableModel();
 
     private ArrayList<GenericDownloaderAppInterface> downloadEntriesTypeList;
     private DefaultComboBoxModel<ProxyEntry> proxyComboBoxModel;
@@ -138,7 +186,7 @@ public class GenericDownloaderUIApp extends JFrame
     private JLabel downloadThreadNumberJLabel;
     private JLabel proxyJLabel;
     private JMenu mnFile;
-    private JMenuBar menuBar;
+    private JMenuBar appMenuBar;
     private JMenuItem mntmQuit;
     private JPanel cardsPanel;
     private final JPanel contentPane;
@@ -149,46 +197,17 @@ public class GenericDownloaderUIApp extends JFrame
     private SpinnerNumberModel downloadThreadNumberSpinnerModel;
     private JTable displayJTable;
 
-    /**
-     * Launch the application.
-     */
-    public static void main( final String[] args )
-    {
-        EventQueue.invokeLater( GenericDownloaderUIApp::run );
-    }
-
-    private static void run()
-    {
-        try {
-            UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-            }
-        catch( ClassNotFoundException | InstantiationException
-                | IllegalAccessException
-                | UnsupportedLookAndFeelException e ) {
-
-            LOGGER.fatal( "Can not set LookAndFeel", e );
-            }
-
-        try {
-            final GenericDownloaderUIApp frame = new GenericDownloaderUIApp();
-            frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-                    GenericDownloaderUIApp.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png"))
-                    );
-            frame.setTitle( APP_NAME );
-            }
-        catch( final Exception e ) {
-            LOGGER.fatal( "main() exception", e );
-
-            final String title = "GenericDownloaderUIApp";
-
-            DialogHelper.showMessageExceptionDialog( title , e );
-            }
-    }
-
     private void init()
     {
         this.downloadEntriesTypeList = new ArrayList<>();
-        this.downloadEntriesTypeList.add( GDAI_tumblr_com.createAllEntries( this ) );
+
+        try {
+            this.downloadEntriesTypeList.add( GDAI_tumblr_com.createAllEntries( this ) );
+        }
+        catch( final JSONHelperException e ) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         this.downloadEntriesTypeList.add( new DownloadI_senorgif() );
         this.downloadEntriesTypeList.add( new DownloadI_www_bloggif_com() );
@@ -217,7 +236,7 @@ public class GenericDownloaderUIApp extends JFrame
         //
         this.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
         this.setVisible( true );
-        this.addWindowListener( getWindowListener() );
+        this.addWindowListener( getAppWindowListener() );
     }
 
     private ActionListener getActionListener()
@@ -229,12 +248,12 @@ public class GenericDownloaderUIApp extends JFrame
         return this.actionListener;
     }
 
-    private WindowListener getWindowListener()
+    private WindowListener getAppWindowListener()
     {
-        if( this.windowListener == null ) {
-            this.windowListener = new MyWindowListener();
+        if( this.appWindowListener == null ) {
+            this.appWindowListener = new MyWindowListener();
         }
-        return this.windowListener;
+        return this.appWindowListener;
     }
 
     protected boolean windowClosing()
@@ -265,6 +284,7 @@ public class GenericDownloaderUIApp extends JFrame
     /**
      * Create the frame.
      */
+    @SuppressWarnings("squid:S1199")
     public GenericDownloaderUIApp()
     {
         init();
@@ -272,11 +292,11 @@ public class GenericDownloaderUIApp extends JFrame
         //setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( 600, 500 );
         {
-            this.menuBar = new JMenuBar();
-            setJMenuBar(this.menuBar);
+            this.appMenuBar = new JMenuBar();
+            setJMenuBar(this.appMenuBar);
             {
                 this.mnFile = new JMenu("File");
-                this.menuBar.add(this.mnFile);
+                this.appMenuBar.add(this.mnFile);
                 {
                     this.mntmQuit = new JMenuItem("Quit");
                     this.mntmQuit.setActionCommand( ACTION_QUIT );
@@ -482,98 +502,69 @@ public class GenericDownloaderUIApp extends JFrame
         gdai.setProxy( proxy );
         // gdai.setPageCount( pageCount ); set in GenericDownloaderUIPanel
 
-        new Thread( ( ) -> {
-             final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
+        new Thread( () -> startDownload( gdai, downloadThreadNumber ) ).start();
+    }
+
+    private void startDownload(
+        final GenericDownloaderAppInterface gdai,
+        final int downloadThreadNumber
+        )
+    {
+        final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
+        {
+            @Override
+            public int getDownloadThreadCount()
             {
-                @Override
-                public int getDownloadThreadCount()
-                {
-                    return downloadThreadNumber;
-                }
-                @Override
-                public LoggerListener getAbstractLogger()
-                {
-                    return GenericDownloaderUIApp.this.displayTableModel;
-                }
-            };
+                return downloadThreadNumber;
+            }
+            @Override
+            public LoggerListener getAbstractLogger()
+            {
+                return GenericDownloaderUIApp.this.displayTableModel;
+            }
+        };
 
-            try {
-                //GenericDownloader
-                synchronized( this.genericDownloaderLock ) {
-                    this.genericDownloader_useLock = new GenericDownloader(gdai, gdauir);
-                    }
-
-                this.genericDownloader_useLock.onClickStartDownload();
-
-                synchronized( this.genericDownloaderLock ) {
-                    this.genericDownloader_useLock = null;
-                    }
-                LOGGER.info( "done" );
-                }
-            catch( final Exception e ) {
-                LOGGER.fatal( "fatal", e );
+        try {
+            //GenericDownloader
+            synchronized( this.genericDownloaderLock ) {
+                this.genericDownloader_useLock = new GenericDownloader(gdai, gdauir);
                 }
 
-            this.startJButton.setEnabled( true );
-            this.stopJButton.setEnabled( false );
-            this.siteJComboBox.setEnabled( true );
-            this.proxyJComboBox.setEnabled( true );
-            this.downloadThreadNumberJSpinner.setEnabled( true );
-            this.siteJComboBox.setEnabled( true );
+            this.genericDownloader_useLock.onClickStartDownload();
 
-            for( final GenericDownloaderUIPanel pannel : this.downloaderUIPanels ) {
-                pannel.setEnabledAllComponents( true );
+            synchronized( this.genericDownloaderLock ) {
+                this.genericDownloader_useLock = null;
                 }
+            LOGGER.info( "done" );
+            }
+        catch( final Exception e ) {
+            LOGGER.fatal( "fatal", e );
+            }
 
-            this.displayJProgressBar.setIndeterminate( false );
-            this.displayJProgressBar.setEnabled( false );
-            this.displayJProgressBar.setString( "Ready." );
-        }).start();
+        this.startJButton.setEnabled( true );
+        this.stopJButton.setEnabled( false );
+        this.siteJComboBox.setEnabled( true );
+        this.proxyJComboBox.setEnabled( true );
+        this.downloadThreadNumberJSpinner.setEnabled( true );
+        this.siteJComboBox.setEnabled( true );
+
+        for( final GenericDownloaderUIPanel pannel : this.downloaderUIPanels ) {
+            pannel.setEnabledAllComponents( true );
+            }
+
+        this.displayJProgressBar.setIndeterminate( false );
+        this.displayJProgressBar.setEnabled( false );
+        this.displayJProgressBar.setString( "Ready." );
     }
 
     private static List<ProxyEntry> createProxyList()
     {
-        final List<ProxyEntry> l = new ArrayList<ProxyEntry>();
+        final List<ProxyEntry> l = new ArrayList<>();
 
         //l.add(  new ProxyEntry( "xxx.yyy.zzz.2", 3128 ) );
 
         return l;
     }
-
-    private final DisplayTableModel displayTableModel = new DisplayTableModel()
-    {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void error( final URL url, final File file, final Throwable cause )
-        {
-            LOGGER.error(  ("*** ERROR: " + "Error while download: ") + url + " to file: " + file, cause );
-        }
-        @Override
-        public void downloadStateInit( final DownloadStateEvent event )
-        {
-            //TODO
-            GenericDownloaderUIApp.this.displayJProgressBar.setMinimum( 0 );
-            GenericDownloaderUIApp.this.displayJProgressBar.setMaximum( event.getDownloadListSize() );
-            GenericDownloaderUIApp.this.displayJProgressBar.setValue( 0 );
-            GenericDownloaderUIApp.this.displayJProgressBar.setEnabled( true );
-            GenericDownloaderUIApp.this.displayJProgressBar.setIndeterminate( false );
-            GenericDownloaderUIApp.this.displayJProgressBar.setStringPainted( true );
-            //TODO
-
-            LOGGER.info( "init :" + event.getDownloadListSize() );
-        }
-        @Override
-        public void downloadStateChange( final DownloadStateEvent event )
-        {
-            //TODO
-            GenericDownloaderUIApp.this.displayJProgressBar.setValue( event.getDownloadListSize() );
-            GenericDownloaderUIApp.this.displayJProgressBar.setString( "loading " + event.getDownloadListSize() );
-            //TODO
-
-            LOGGER.info( "downloadStateChange :" + event.getDownloadListSize() );
-        }
-    };
 
     /**
      * @wbp.factory
@@ -585,6 +576,42 @@ public class GenericDownloaderUIApp extends JFrame
         final DisplayTableBuilder builder = new DisplayTableBuilder( this, this.displayTableModel );
 
         return builder.getJTable();
+    }
+
+    /**
+     * Launch the application.
+     */
+    public static void main( final String[] args )
+    {
+        EventQueue.invokeLater( GenericDownloaderUIApp::run );
+    }
+
+    private static void run()
+    {
+        try {
+            UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
+            }
+        catch( ClassNotFoundException | InstantiationException
+                | IllegalAccessException
+                | UnsupportedLookAndFeelException e ) {
+
+            LOGGER.fatal( "Can not set LookAndFeel", e );
+            }
+
+        try {
+            final GenericDownloaderUIApp frame = new GenericDownloaderUIApp();
+            frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
+                    GenericDownloaderUIApp.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png"))
+                    );
+            frame.setTitle( APP_NAME );
+            }
+        catch( final Exception e ) {
+            LOGGER.fatal( "main() exception", e );
+
+            final String title = "GenericDownloaderUIApp";
+
+            DialogHelper.showMessageExceptionDialog( title , e );
+            }
     }
 }
 

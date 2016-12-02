@@ -1,14 +1,14 @@
-package com.googlecode.cchlib.tools.downloader;
+package com.googlecode.cchlib.tools.downloader.proxy;
 
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
-class ProxyEntry
+public class ProxyEntry
 {
-    private Proxy proxy;
-    private String displayString;
+    private final Proxy proxy;
+    private final String displayString;
 
-    public ProxyEntry( String hostname, int port )
+    public ProxyEntry( final String hostname, final int port )
     {
         this( new Proxy( Proxy.Type.HTTP, new InetSocketAddress( hostname, port ) ) );
     }
@@ -18,7 +18,7 @@ class ProxyEntry
         this( proxy, proxy.toString() );
     }
 
-    public ProxyEntry( Proxy proxy, String displayString )
+    public ProxyEntry( final Proxy proxy, final String displayString )
     {
         this.proxy = proxy;
         this.displayString = displayString;
@@ -27,11 +27,11 @@ class ProxyEntry
     @Override
     public String toString()
     {
-        return displayString;
+        return this.displayString;
     }
 
     public Proxy getProxy()
     {
-        return proxy;
+        return this.proxy;
     }
 }

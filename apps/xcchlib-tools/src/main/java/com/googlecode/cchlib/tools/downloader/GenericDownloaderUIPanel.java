@@ -96,7 +96,7 @@ public class GenericDownloaderUIPanel
         for( final GenericDownloaderAppComboBoxConfig entry : config.getComboBoxConfigCollection() )
         // $hide<<$
         {
-            final GenericDownloaderUIPanelEntry entryJPanel = new GenericDownloaderUIPanelEntry( e -> config.setSelectedItems( getSelectedItems() ));
+            final GenericDownloaderUIPanelEntry entryJPanel = new GenericDownloaderUIPanelEntry( e -> config.doSelectedItems( getSelectedItems() ));
             final GridBagConstraints gbc_entryJPanel = new GridBagConstraints();
             gbc_entryJPanel.gridwidth = 3;
             //gbc_entryJPanel.insets = new Insets(0, 0, 0, 0);

@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.tools.downloader;
+package com.googlecode.cchlib.tools.downloader.common;
 
 import java.io.File;
 import java.io.Serializable;
@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
+import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 
 public abstract class AbstractDownloaderAppInterface
     implements GenericDownloaderAppInterface, Serializable
@@ -24,8 +28,9 @@ public abstract class AbstractDownloaderAppInterface
 
     private final String  siteName;
     private final int     numberOfPicturesByPage;
-    private int     pageCount;
-    private Proxy   proxy;
+
+    private int                                      pageCount;
+    private Proxy                                    proxy;
     private List<GenericDownloaderAppComboBoxConfig> comboBoxConfigList;
 
     /**

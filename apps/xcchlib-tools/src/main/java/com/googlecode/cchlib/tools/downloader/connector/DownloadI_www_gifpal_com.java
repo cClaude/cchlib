@@ -5,20 +5,21 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
 import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
-import com.googlecode.cchlib.tools.downloader.AbstractDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
+import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 
 
 /**
  *
- *
+ * http://www.gifpal.com/gallery/top-week/3/
  *
  */
 public class DownloadI_www_gifpal_com
@@ -26,7 +27,10 @@ public class DownloadI_www_gifpal_com
         implements GenericDownloaderAppInterface
 {
     private static final long serialVersionUID = 1L;
-    private static final String __SERVER_ROOT_URL_STR = "http://www.gifpal.com";
+
+    private static final Logger LOGGER = Logger.getLogger( DownloadI_www_gifpal_com.class );
+
+    private static final String ROOT_URL_STR = "http://www.gifpal.com";
 
     /**
      * param1 = sort
@@ -36,23 +40,27 @@ public class DownloadI_www_gifpal_com
      * http://www.gifpal.com/gallery-contents-json.php?sort=top-today&page=2
      * http://www.gifpal.com/gallery-contents-json.php?sort=top-week&page=2
      * http://www.gifpal.com/gallery-contents-json.php?sort=top&page=2
+     *
+     * http://www.gifpal.com/gallery/top-week/3/
      */
-    private static final String __HTML_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/gallery-contents-json.php?sort=%s&page=%d";
+    private static final String HTML_URL_BASE_FMT
+        // = ROOT_URL_STR + "/gallery-contents-json.php?sort=%s&page=%d";
+        = ROOT_URL_STR + "/gallery/top-week/%d/";
 
     private static final String SITE_NAME = "www.gifpal.com";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 16;
+
     /** number of pages to explore */
-    private static final int DEFAULT_MAX_PAGES = 3;
+    private static final int DEFAULT_MAX_PAGES = 5;
 
     /**
      * param1 = image_id
      *
      * http://www.gifpal.com/uimages/WVrkTTeOoI.gif
      */
-    private static final String IMG_URL_BASE_FMT   = __SERVER_ROOT_URL_STR + "/uimages/%s.gif";
+    private static final String IMG_URL_BASE_FMT   = ROOT_URL_STR + "/uimages/%s.gif";
 
     private static final String CACHE_FOLDER_NAME = "com.gifpal.www";
-
 
     private final DefaultComboBoxConfig comboBoxConfig;
 
@@ -86,7 +94,7 @@ public class DownloadI_www_gifpal_com
     {
         return new DefaultDownloadStringURL(
             String.format(
-                __HTML_URL_BASE_FMT,
+                HTML_URL_BASE_FMT,
                 this.comboBoxConfig.getComboBoxSelectedValue(),
                 Integer.valueOf( pageNumber )
                 ),
@@ -96,7 +104,7 @@ public class DownloadI_www_gifpal_com
     }
 
     @Override
-    public Collection<ContentDownloadURI<File>> getURLToDownloadCollection(
+    public Collection<ContentDownloadURI<File>> computeURLsAndGetDownloader(
             final GenericDownloaderAppUIResults   gdauir,
             final ContentDownloadURI<String>      content2Parse
             )
@@ -121,9 +129,9 @@ public class DownloadI_www_gifpal_com
     }
 
     @Override
-    public void setSelectedItems( final List<Item> selectedItems )
+    public void doSelectedItems( final List<Item> selectedItems )
     {
-        // TODO Auto-generated method stub
-
+        // TODO Not implemented
+        LOGGER.warn( "NOT IMPLEMENTED" );
     }
 }

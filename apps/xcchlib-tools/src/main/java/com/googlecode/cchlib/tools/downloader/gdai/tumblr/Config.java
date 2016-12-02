@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Vector;
 
 @SuppressWarnings({
@@ -13,4 +14,5 @@ public interface Config extends Serializable
 
     void setDataFromVector( final Vector<Vector<?>> dataVector );
 
+    List<? extends Entry> getEntries();
 }
