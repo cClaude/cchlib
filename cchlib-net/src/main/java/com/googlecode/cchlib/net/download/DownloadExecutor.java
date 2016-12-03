@@ -17,7 +17,7 @@ import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
  * <p>
  * {@link DownloadExecutor} use a {@link ThreadPoolExecutor} to
  * manage downloads.
- * </p>
+ *
  * @since 4.1.5
  * @see DownloadToFile
  * @see DownloadToString
@@ -32,11 +32,13 @@ public class DownloadExecutor
     /**
      * Create DownloadExecutor
      *
-     * @param downloadMaxThread Max number of parallel threads
+     * @param downloadMaxThread
+     *            Max number of parallel threads
      * @param downloadFilterBuilder
+     *            Related {@link DownloadFilterInputStreamBuilder}
      */
     public DownloadExecutor(
-        final int                               downloadMaxThread,
+        final int                                     downloadMaxThread,
         final DownloadFilterInputStreamBuilder<File>  downloadFilterBuilder
         )
     {
@@ -57,13 +59,15 @@ public class DownloadExecutor
     /**
      * Executes the given task sometime in the future.
      * <p>
-     * This method is mainly here to offer the possibility to retry a failed
-     * download.
-     * </p>
+     * This method is mainly here to offer the possibility to retry
+     * a failed download.
      *
-     * @param command the task to execute
-     * @throws RejectedExecutionException if task cannot be accepted for execution
-     * @throws NullPointerException if command is null
+     * @param command
+     *            the task to execute
+     * @throws RejectedExecutionException
+     *             if task cannot be accepted for execution
+     * @throws NullPointerException
+     *             if command is null
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void execute( final Runnable command )
@@ -87,17 +91,20 @@ public class DownloadExecutor
      * Add downloads based on a {@link Collection} of {@link URL}
      * <p>
      * Read general description for more details
-     * </p>
      *
-     * @param downloadURLs      {@link Collection} of {@link URL} to download.
-     * @param eventHandler  A valid {@link DownloadEvent} according downloadURLs type
+     * @param downloadURLs
+     *            {@link Collection} of {@link URL} to download.
+     * @param eventHandler
+     *            A valid {@link DownloadEvent} according downloadURLs type
      *
-     * @throws RejectedExecutionException if task cannot be accepted for execution
-     * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
+     * @throws RejectedExecutionException
+     *             if task cannot be accepted for execution
+     * @throws DownloadConfigurationException
+     *             if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
      * @see DownloadToString
      * @see ContentDownloadURI
-     * @see DownloadStringURL
+     * @see DownloadURI
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void add(
@@ -116,17 +123,20 @@ public class DownloadExecutor
      * Add downloads based on an {@link Iterable} object of {@link URL}
      * <p>
      * Read general description for more details
-     * </p>
      *
-     * @param downloadURLs  {@link Iterable} of {@link URL} to download.
-     * @param eventHandler  A valid {@link DownloadEvent} according to downloadURLs type
+     * @param downloadURLs
+     *            {@link Iterable} of {@link URL} to download.
+     * @param eventHandler
+     *            A valid {@link DownloadEvent} according to downloadURLs type
      *
-     * @throws RejectedExecutionException if task cannot be accepted for execution
-     * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
+     * @throws RejectedExecutionException
+     *             if task cannot be accepted for execution
+     * @throws DownloadConfigurationException
+     *             if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
      * @see DownloadToString
      * @see ContentDownloadURI
-     * @see DownloadStringURL
+     * @see DownloadURI
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void add(
@@ -145,17 +155,21 @@ public class DownloadExecutor
      * Add a download for giving {@link URL}
      * <p>
      * Read general description for more details
-     * </p>
      *
-     * @param downloadURL   A valid {@link DownloadURI}.
-     * @param eventHandler  A valid {@link DownloadEvent} according to downloadURL type
+     * @param downloadURL
+     *            A valid {@link DownloadURI}.
+     * @param eventHandler
+     *            A valid {@link DownloadEvent} according to
+     *            {@code downloadURL} type
      *
-     * @throws RejectedExecutionException if task cannot be accepted for execution
-     * @throws DownloadConfigurationException if downloadURLs or eventHandler are not a valid subtype
+     * @throws RejectedExecutionException
+     *             if task cannot be accepted for execution
+     * @throws DownloadConfigurationException
+     *             if downloadURLs or eventHandler are not a valid subtype
      * @see DownloadToFile
      * @see DownloadToString
      * @see ContentDownloadURI
-     * @see DownloadStringURL
+     * @see DownloadURI
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void addDownload(
@@ -192,17 +206,25 @@ public class DownloadExecutor
                     }
                 else {
                     throw new BadDownloadEventException(
-                            "Illegal DownloadEvent: " + eventHandler
-                           );
+                        "Illegal "
+                            + DownloadEvent.class.getSimpleName()
+                            + ": " + eventHandler
+                       );
                     }
             } else {
                 throw new BadDownloadURLException(
-                    "Can not handle ContentDownloadURI with content: " + type
+                    "Can not handle "
+                        + ContentDownloadURI.class.getSimpleName()
+                        + " with content: "
+                        + type
                     );
             }
         } else {
             throw new BadDownloadURLException(
-                "Can not handle DownloadURI with content: " + downloadURL
+                "Can not handle "
+                    + DownloadURI.class.getSimpleName()
+                    + " with content: "
+                    + downloadURL
                 );
         }
 
@@ -212,9 +234,9 @@ public class DownloadExecutor
     /**
      * Blocks until all tasks have completed execution
      * <p>
-     * DownloadExecutor is no more valid after this call. Any call to
-     * add or execute methods will cause an {@link RejectedExecutionException}
-     * </p>
+     * DownloadExecutor is no more valid after this call. Any call
+     * to add or execute methods will cause an
+     * {@link RejectedExecutionException}
      */
     public void waitClose()
     {
@@ -228,7 +250,9 @@ public class DownloadExecutor
     }
 
     /**
-     * Returns the approximate number of threads that are actively executing tasks.
+     * Returns the approximate number of threads that are actively
+     * executing tasks.
+     *
      * @return the number of threads
      */
     public int getPollActiveCount()

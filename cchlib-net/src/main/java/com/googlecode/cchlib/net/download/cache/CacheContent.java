@@ -34,7 +34,7 @@ public interface CacheContent extends Iterable<Map.Entry<URI,URIDataCacheEntry>>
     /**
      * Retrieve {@link URI} using {@code hashCode}
      *
-     * @param uri
+     * @param hashCode
      *            The hash code
      * @return The {@link URI} for giving {@code hashCode}, or null
      *         if entry can not be found

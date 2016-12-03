@@ -23,7 +23,7 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
  */
 public class SimpleZipTest
 {
-    private static final int  EXPECTED_FILE_COUNT = 85;
+    private static final int  EXPECTED_FILE_COUNT     = 87;
     private static final long EXPECTED_ZIP_MIN_LENGTH = 100_000L;
 
     private static final Logger LOGGER = Logger.getLogger( SimpleZipTest.class );

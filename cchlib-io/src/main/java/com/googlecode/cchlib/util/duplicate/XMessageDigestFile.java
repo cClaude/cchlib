@@ -251,7 +251,7 @@ public class XMessageDigestFile
      *
      * @param digestHexKey Hex String that represent a digest
      * @return digest has an array of bytes
-     * @throws NumberFormatException
+     * @throws NumberFormatException if any
      * @see #computeDigestKeyString(byte[])
      */
     public static byte[] computeDigestKey(

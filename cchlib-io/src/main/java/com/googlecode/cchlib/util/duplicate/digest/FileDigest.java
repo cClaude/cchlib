@@ -251,7 +251,7 @@ public class FileDigest
     /**
      * NEEDDOC
      *
-     * @param returnCurrentBuffer
+     * @param returnCurrentBuffer NEEDDOC
      * @return NEEDDOC
      * @throws CancelRequestException NEEDDOC
      */

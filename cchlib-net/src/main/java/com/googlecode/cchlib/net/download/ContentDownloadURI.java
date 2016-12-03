@@ -26,10 +26,10 @@ public interface ContentDownloadURI<R> extends DownloadURI
     R getResult();
 
     /**
-     * Set {@link File} for this {@link DownloadURI}
+     * Setter result for this {@link DownloadURI}
      *
-     * @param file
-     *            {@link File} to set
+     * @param resultContener
+     *            Container to set
      */
     void setResult( R resultContener );
 

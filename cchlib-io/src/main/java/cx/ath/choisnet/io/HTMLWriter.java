@@ -12,11 +12,13 @@ public final class HTMLWriter extends Writer
 {
     private final Writer        writer;
     private final StringBuilder sbuffer = new StringBuilder();
+
     private int tabLength = 4;
 
     /**
      * NEEDDOC
-     * @param writer destination Writer
+     *
+     * @param writer Destination Writer
      * @throws NullPointerException if writer is null
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
@@ -31,14 +33,15 @@ public final class HTMLWriter extends Writer
 
     /**
      * NEEDDOC
-     * @param writer destination Writer
-     * @param tabLength number of HTML space character to write for
+     *
+     * @param writer Destination Writer
+     * @param tabLength Number of HTML space character to write for
      *        each tab [0x09] character
      * @throws NullPointerException if writer is null
      * @throws IllegalArgumentException if tabLength is negative
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    public HTMLWriter(final Writer writer, final int tabLength)
+    public HTMLWriter( final Writer writer, final int tabLength )
         throws NullPointerException, IllegalArgumentException
     {
         this( writer );
@@ -66,12 +69,12 @@ public final class HTMLWriter extends Writer
      * Writes a string without modifications.
      *
      * @param htmlWellFormatString String to be written
-     * @throws java.io.IOException
+     * @throws java.io.IOException if any I/O occur
      */
-    public void rawWrite(final String htmlWellFormatString)
-        throws java.io.IOException
+    public void rawWrite( final String htmlWellFormatString )
+        throws IOException
     {
-        this.writer.write(htmlWellFormatString);
+        this.writer.write( htmlWellFormatString );
     }
 
     /**
@@ -79,31 +82,27 @@ public final class HTMLWriter extends Writer
      *
      * @param throwable exception to get the stack trace.
      * @see Throwable#printStackTrace(PrintWriter)
-     * @throws java.io.IOException
+     * @throws IOException  if any I/O occur
      */
-    public void rawWrite(final Throwable throwable)
-        throws java.io.IOException
+    public void rawWrite( final Throwable throwable ) throws IOException
     {
         final StringWriter sw = new StringWriter();
 
-        throwable.printStackTrace(new PrintWriter(sw));
+        throwable.printStackTrace( new PrintWriter( sw ) );
 
         rawWrite( sw.toString() );
     }
 
     /**
+     * {@inheritDoc}
      * Format characters into HTML
-     *
-     * @param cbuf
-     * @param off
-     * @param len
-     * @throws IOException
      */
     @Override
-    public void write(final char[] cbuf, final int off, final int len) throws IOException
+    public void write( final char[] cbuf, final int off, final int len )
+        throws IOException
     {
-        synchronized(super.lock) {
-            this.writer.write( toString(cbuf,off,len) );
+        synchronized( super.lock ) {
+            this.writer.write( toString( cbuf, off, len ) );
             }
     }
 
@@ -112,7 +111,7 @@ public final class HTMLWriter extends Writer
      * This is typically to be use to write into a &lt;textarea&gt;
      * @param throwable exception to get the stack trace.
      * @see Throwable#printStackTrace(PrintWriter)
-     * @throws IOException
+     * @throws IOException if any I/O occur
      */
     public void write(final Throwable throwable)
         throws IOException
@@ -188,6 +187,7 @@ public final class HTMLWriter extends Writer
                 }
             str = this.sbuffer.toString();
         }
+
         return str;
     }
 }

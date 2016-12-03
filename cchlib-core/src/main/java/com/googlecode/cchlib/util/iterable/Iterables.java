@@ -68,8 +68,6 @@ public class Iterables
      *
      * @param <T>
      *            Type of the Iterator
-     * @param type
-     *            Type of content
      * @param values
      *            Values for the {@link Iterable}
      * @return a new {@link Iterable}
