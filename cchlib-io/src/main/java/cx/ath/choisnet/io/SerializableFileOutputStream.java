@@ -10,51 +10,93 @@ import java.io.OutputStream;
 import java.io.Serializable;
 
 /**
- * NEEDDOC
+ * Similar to {@link FileOutputStream} but implement {@link Serializable}
+ * <p>
+ * Serialization implement follow those rules:
+ * <ul>
+ * <li>When object should be serialize, stream is properly close
+ * and every informations related to this stream are save throw
+ * serialization.
+ * <li>When object is restored by serialization process, a new
+ * stream is created and data will be added to the existing
+ * file
+ * </ul>
+ *
+ * This implementation could not be use if serialization is
+ * used throw a network or any action that change under laying
+ * file system
+ *
+ * @since 2.01
+ *
+ * @see FileOutputStream
+ * @see Serializable
+ * @see SerializableFileWriter
  */
 public class SerializableFileOutputStream
     extends OutputStream
         implements Serializable
 {
     private static final long serialVersionUID = 1L;
+
     /** @serial */
     private final File file;
+
     private transient OutputStream output;
 
     /**
-     * NEEDDOC
+     * Creates a file output stream to write to the file represented by
+     * the specified File object.
+     *
      * @param file
+     *            the file to be opened for writing.
+     *
      * @throws FileNotFoundException
+     *             if the file exists but is a directory rather than a regular
+     *             file, does not exist but cannot be created, or cannot be
+     *             opened for any other reason
+     *
+     * @see FileOutputStream
+     * @see SecurityManager#checkWrite(String)
      */
-    public SerializableFileOutputStream(final File file)
+    public SerializableFileOutputStream( final File file )
         throws FileNotFoundException
     {
-        this(file, false);
+        this( file, false );
     }
 
     /**
-     * NEEDDOC
+     * Creates a file output stream to write to the file represented by
+     * the specified File object. If the second argument is true, then
+     * bytes will be written to the end of the file rather than the
+     * beginning.
+     *
      * @param file
+     *            the file to be opened for writing.
      * @param append
+     *            if true, then bytes will be written to the end of the
+     *            file rather than the beginning
+     *
      * @throws FileNotFoundException
+     *             if the file exists but is a directory rather than a regular
+     *             file, does not exist but cannot be created, or cannot be
+     *             opened for any other reason
+     *
+     * @see FileOutputStream
+     * @see SecurityManager#checkWrite(String)
      */
-    public SerializableFileOutputStream( final File file, final boolean append )
-        throws FileNotFoundException
+    public SerializableFileOutputStream(
+        final File    file,
+        final boolean append
+        ) throws FileNotFoundException
     {
         this.file = file;
 
         open( append );
     }
 
-    /**
-     * NEEDDOC
-     * @param append
-     * @throws FileNotFoundException
-     */
-    private void open(final boolean append)
-        throws FileNotFoundException
+    private void open( final boolean append ) throws FileNotFoundException
     {
-        this.output = new FileOutputStream(this.file, append);
+        this.output = new FileOutputStream( this.file, append );
     }
 
     @Override
@@ -72,10 +114,11 @@ public class SerializableFileOutputStream
     @Override
     public void write( final int b ) throws IOException
     {
-        this.output.write(b);
+        this.output.write( b );
     }
 
-    private void writeObject(final ObjectOutputStream stream)
+    // Serialization
+    private void writeObject( final ObjectOutputStream stream )
         throws IOException
     {
         this.output.flush();
@@ -84,10 +127,12 @@ public class SerializableFileOutputStream
         stream.defaultWriteObject();
     }
 
-    private void readObject(final ObjectInputStream stream)
+    // Serialization
+    private void readObject( final ObjectInputStream stream )
         throws IOException, ClassNotFoundException
     {
         stream.defaultReadObject();
-        open(true);
+
+        open( true /* append */ );
     }
 }
