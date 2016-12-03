@@ -26,13 +26,17 @@ public class DefaultDownloadFileURL
 
     /**
      * Define the {@link URL} for this {@link DownloadURI}
-     * @param url                   The {@link URL}
-     * @param requestPropertyMap    A {@link Map} of request properties to put
-     *                              on {@link URLConnection} (could be null)
-     * @param proxy                 {@link Proxy} to use for download (could be null)
-     * @throws URISyntaxException if this URL is not formatted
-     *         strictly according to to RFC2396 and cannot be
-     *         converted to a URI.
+     *
+     * @param url
+     *            The {@link URL}
+     * @param requestPropertyMap
+     *            A {@link Map} of request properties to put on
+     *            {@link URLConnection} (could be null)
+     * @param proxy
+     *            {@link Proxy} to use for download (could be null)
+     * @throws URISyntaxException
+     *             if this URL is not formatted strictly according
+     *             to RFC2396 and cannot be converted to a URI.
      */
     public DefaultDownloadFileURL(
         final URL                   url,
@@ -45,14 +49,19 @@ public class DefaultDownloadFileURL
 
     /**
      * Define the {@link URL} for this {@link DownloadURI}
-     * @param spec                  The {@link URL}
-     * @param requestPropertyMap    A {@link Map} of request properties to put
-     *                              on {@link URLConnection} (could be null)
-     * @param proxy                 {@link Proxy} to use for download (could be null)
-     * @throws MalformedURLException If the spec specifies an unknown protocol
-     * @throws URISyntaxException if this URL is not formatted
-     *         strictly according to to RFC2396 and cannot be
-     *         converted to a URI.
+     *
+     * @param spec
+     *            The {@link URL}
+     * @param requestPropertyMap
+     *            A {@link Map} of request properties to put on
+     *            {@link URLConnection} (could be null)
+     * @param proxy
+     *            {@link Proxy} to use for download (could be null)
+     * @throws MalformedURLException
+     *             If the spec specifies an unknown protocol
+     * @throws URISyntaxException
+     *             if this URL is not formatted strictly according
+     *             to RFC2396 and cannot be converted to a URI.
      */
     public DefaultDownloadFileURL(
         final String                spec,
@@ -133,8 +142,10 @@ public class DefaultDownloadFileURL
     private String toString( final Collection<?> collection )
     {
         final StringBuilder builder = new StringBuilder();
+
         builder.append( '[' );
         boolean first = true;
+
         for( final Iterator<?> iterator = collection.iterator(); iterator.hasNext();) {
             if( first ) {
                 first = false;
@@ -145,6 +156,7 @@ public class DefaultDownloadFileURL
             builder.append( iterator.next() );
             }
         builder.append( ']' );
+
         return builder.toString();
     }
 }

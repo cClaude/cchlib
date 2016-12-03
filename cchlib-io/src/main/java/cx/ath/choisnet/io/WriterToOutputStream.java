@@ -10,20 +10,19 @@ import java.nio.charset.CharsetDecoder;
 
 /**
  * NEEDDOC
- *
  */
 public class WriterToOutputStream extends OutputStream
 {
     private static final int BUFFER_SIZE = 1024;
 
-    private final Writer writer;
+    private final Writer         writer;
     private final CharsetDecoder decoder;
-    private final byte[] writeBuffer;
-    private final CharBuffer charBuffer;
+    private final byte[]         writeBuffer;
+    private final CharBuffer     charBuffer;
 
     /**
      * NEEDDOC
-     * @param writer
+     * @param writer NEEDDOC
      */
     public WriterToOutputStream( final Writer writer )
     {
@@ -32,12 +31,12 @@ public class WriterToOutputStream extends OutputStream
 
     /**
      * NEEDDOC
-     * @param writer
-     * @param charset
+     * @param writer NEEDDOC
+     * @param charset NEEDDOC
      */
     public WriterToOutputStream( final Writer writer, final Charset charset)
     {
-        this.writeBuffer = new byte[1];
+        this.writeBuffer = new byte[ 1 ];
         this.charBuffer  = CharBuffer.allocate( BUFFER_SIZE );
         this.writer      = writer;
         this.decoder     = charset.newDecoder();
@@ -66,7 +65,7 @@ public class WriterToOutputStream extends OutputStream
     @Override
     public void write( final byte[] b ) throws IOException
     {
-        write(b, 0, b.length);
+        write( b, 0, b.length );
     }
 
     @Override

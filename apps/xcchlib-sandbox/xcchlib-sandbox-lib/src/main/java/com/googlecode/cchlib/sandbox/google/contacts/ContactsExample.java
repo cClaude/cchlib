@@ -360,8 +360,9 @@ public class ContactsExample
      *
      * @param parameters
      */
-    private void listEntries( final ContactsExampleParameters parameters )
-            throws IOException, ServiceException
+    private void listEntries(
+            final ContactsExampleParameters parameters
+            ) throws IOException, ServiceException
     {
         if( parameters.isGroupFeed() ) {
             final ContactGroupFeed groupFeed = this.service.getFeed( this.feedUrl, ContactGroupFeed.class );
@@ -387,19 +388,23 @@ public class ContactsExample
                 if( photoLink.getEtag() != null ) {
                     final Service.GDataRequest request = this.service.createLinkQueryRequest( photoLink );
                     request.execute();
-                    final InputStream in = request.getResponseStream();
-                    final ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    final RandomAccessFile file = new RandomAccessFile( "/tmp/"
-                            + entry.getSelfLink().getHref().substring( entry.getSelfLink().getHref().lastIndexOf( '/' ) + 1 ), "rw" );
-                    final byte[] buffer = new byte[4096];
 
-                    for( int read; (read = in.read( buffer )) != -1; out.write( buffer, 0, read ) ) {
-                        // empty
+                    try( final InputStream in = request.getResponseStream() ) {
+                        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+                        try( final RandomAccessFile file = new RandomAccessFile( "/tmp/"
+                                + entry.getSelfLink().getHref().substring( entry.getSelfLink().getHref().lastIndexOf( '/' ) + 1 ), "rw" ) ) {
+
+                            final byte[] buffer = new byte[4096];
+
+                            for( int read; (read = in.read( buffer )) != -1; out.write( buffer, 0, read ) ) {
+                                // empty
+                            }
+
+                            file.write( out.toByteArray() );
+                        }
                     }
 
-                    file.write( out.toByteArray() );
-                    file.close();
-                    in.close();
                     request.end();
                 }
             }

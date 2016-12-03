@@ -22,18 +22,20 @@ public class GoogleReadConfigFactoryTest {
     @Before
     public void setup()
     {
-        instance = GoogleReadConfigFactory.getInstance();
+        this.instance = GoogleReadConfigFactory.getInstance();
 
-        Assert.assertNotNull(instance);
+        Assert.assertNotNull(this.instance);
     }
 
     @Test
-    @Ignore // FIXME @Ignore Add sample in source code...
     public void test_load() throws FileNotFoundException, IOException
     {
-        final File file = FileHelper.getUserHomeDirFile( "Dropbox/#CallRecorder/#Config/google-contacts.csv" );
+        // FIXME @Ignore Add sample in source code...
+        final File file = FileHelper.getUserHomeDirectoryFile(
+                "Dropbox/#CallRecorder/#Config/google-contacts.csv"
+                );
 
-        final Config config = instance.load( file );
+        final Config config = this.instance.load( file );
 
         Assert.assertNotNull( config );
         Assert.assertEquals( 580, config.getContacts().size() );
@@ -47,7 +49,7 @@ public class GoogleReadConfigFactoryTest {
         try(final InputStream inStream = this.getClass().getResourceAsStream( resourceName )) {
             Assert.assertNotNull( "File not found : " + resourceName, inStream );
 
-            final Config config = instance.load( inStream );
+            final Config config = this.instance.load( inStream );
 
             Assert.assertNotNull( config );
             Assert.assertEquals( 1, config.getContacts().size() );

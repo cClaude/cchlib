@@ -18,7 +18,10 @@ public class GoogleContactsTest {
     @Test
     public void test_createGoogleContacts_1() throws FileNotFoundException, IOException
     {
-        final File file = FileHelper.getUserHomeDirFile( "Dropbox/#CallRecorder/#Config/google-contacts.csv" );
+        // FIXME use something more standard...
+        final File file = FileHelper.getUserHomeDirectoryFile(
+                "Dropbox/#CallRecorder/#Config/google-contacts.csv"
+                );
 
         if( ! file.exists() ) {
             // skip test
@@ -43,13 +46,13 @@ public class GoogleContactsTest {
             System.out.println( "# NO NAME >>> " + GoogleContacts.toJSON( c ).toString() );
         } );
 
-        contacts.stream().filter( c-> (c.getName() == null && c.getEmails().size() == 0) ).forEach( c -> {
+        contacts.stream().filter( c-> ((c.getName() == null) && (c.getEmails().size() == 0)) ).forEach( c -> {
             System.out.println( "# NO NAME & NO MAIL >>> " +GoogleContacts.toJSON( c ).toString() );
         } );
 
         contacts.parallelStream().filter( c -> c.getEmails().size() > 2 ).forEach( c -> System.out.println(" AA" + c.getName() ) );
 
-        long count = contacts.stream().filter( c -> c.getEmails().size() > 2 ).count();
+        final long count = contacts.stream().filter( c -> c.getEmails().size() > 2 ).count();
         System.out.println(" totola= " + count );
     }
 

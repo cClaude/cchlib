@@ -52,7 +52,7 @@ public class JavaDESEncryption
 
     public static void main(final String[] args) {
 
-        final File folderFile    = FileHelper.getUserHomeDirFile();
+        final File folderFile    = FileHelper.getUserHomeDirectoryFile();
         final File clearFile     = new File( folderFile, "input.txt" );
         final File encryptedFile = new File( folderFile, "encrypted.txt" );
         final File decryptedFile = new File( folderFile, "decrypted.txt" );

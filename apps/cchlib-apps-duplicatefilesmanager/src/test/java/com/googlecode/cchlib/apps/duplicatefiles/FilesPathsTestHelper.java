@@ -15,7 +15,7 @@ public class FilesPathsTestHelper
     public static Path getStartPath()
     {
         // TODO implements a better solution to avoid very long test !
-        final Path path_home = FileHelper.getUserHomeDirFile().toPath();
+        final Path path_home = FileHelper.getUserHomeDirectoryFile().toPath();
         final Path path_for_tests;
 
         // Unix: .config folder (could be exist if running cygwin)

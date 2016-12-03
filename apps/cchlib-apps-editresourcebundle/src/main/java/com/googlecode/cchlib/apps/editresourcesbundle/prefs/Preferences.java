@@ -22,7 +22,10 @@ public class Preferences extends PreferencesData implements Serializable
     private static final Logger LOGGER = Logger.getLogger( Preferences.class );
     private static final long serialVersionUID = 3L;
 
-    private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
+    private static final String  DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
+    private static final boolean LOAD               = false;
+    private static final boolean SAVE               = true;
+
     private final PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
     private final File preferencesFile;
 
@@ -31,7 +34,7 @@ public class Preferences extends PreferencesData implements Serializable
      */
     private Preferences()
     {
-        this.preferencesFile = createPropertiesFile();
+        this.preferencesFile = createPropertiesFile( SAVE );
     }
 
     /**
@@ -46,16 +49,27 @@ public class Preferences extends PreferencesData implements Serializable
     {
         this.preferencesFile = preferencesFile;
 
-        pp.populateBean( properties, this );
+        this.pp.populateBean( properties, this );
     }
 
     /**
      * Returns properties {@link File} object
      * @return properties {@link File} object
      */
-    private static File createPropertiesFile()
+    private static File createPropertiesFile( final boolean save )
     {
-        return FileHelper.getUserHomeDirFile( DEFAULT_PREFS_FILE );
+        final File configFile = FileHelper.getUserConfigDirectoryFile( DEFAULT_PREFS_FILE );
+
+        if( save ) {
+            return configFile;
+        } else {
+            if( configFile.exists() ) {
+                return configFile;
+            } else {
+                // Obsolete location
+                return FileHelper.getUserHomeDirectoryFile( DEFAULT_PREFS_FILE );
+            }
+        }
     }
 
     /**
@@ -78,43 +92,58 @@ public class Preferences extends PreferencesData implements Serializable
 
     /**
      * Returns user preferences if exist or default
+     *
      * @return user preferences if exist or default
      */
     public static Preferences createPreferences()
     {
         // Try to load pref
-        final File preferencesFile = createPropertiesFile();
+        final File preferencesFile = createPropertiesFile( LOAD );
 
         try {
             return new Preferences(
-                preferencesFile,
-                PropertiesHelper.loadProperties( preferencesFile )
-                );
+                    preferencesFile,
+                    PropertiesHelper.loadProperties( preferencesFile )
+                    );
+        }
+        catch( final FileNotFoundException e ) {
+            final String message = String.format(
+                    "No prefs '%s'. Use default",
+                    preferencesFile
+                    );
+
+            LOGGER.info( message );
+
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( message, e );
+            } else {
+                LOGGER.info( message );
             }
-        catch( final FileNotFoundException e ) { // $codepro.audit.disable logExceptions
-            LOGGER.info( String.format( "No prefs '%s'. Use default", preferencesFile ) );
-            }
+        }
         catch( final IOException e ) {
             final String msg = "Cannot load preferences: " + preferencesFile;
+
             LOGGER.warn( msg, e );
 
             DialogHelper.showMessageExceptionDialog( null, msg, e );
-            }
+        }
 
         return createDefaultPreferences();
     }
 
     /**
      * Save Preferences to disk
+     *
      * @throws IOException if any
      */
     public void save() throws IOException
     {
         final Properties properties = new Properties();
 
-        pp.populateProperties( this, properties );
+        this.pp.populateProperties( this, properties );
 
-        final File prefs = getPreferencesFile();
+        // final File prefs = getPreferencesFile(); Config file migration
+        final File prefs = createPropertiesFile( SAVE );
         PropertiesHelper.saveProperties(prefs, properties, StringHelper.EMPTY );
         LOGGER.info( "Preferences saved in " + prefs );
     }
@@ -159,11 +188,13 @@ public class Preferences extends PreferencesData implements Serializable
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
+
         builder.append( "Preferences [preferencesFile=" );
-        builder.append( preferencesFile );
+        builder.append( this.preferencesFile );
         builder.append( ", super=" );
         builder.append( super.toString() );
         builder.append( ']' );
+
         return builder.toString();
     }
 }

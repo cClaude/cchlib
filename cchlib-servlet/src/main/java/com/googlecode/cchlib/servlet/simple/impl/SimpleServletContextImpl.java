@@ -11,6 +11,8 @@ import com.googlecode.cchlib.servlet.simple.SimpleServletContext;
 
 /**
  * Default {@link SimpleServletContext} implementation
+ *
+ * @since 3.02
  */
 public class SimpleServletContextImpl
     implements SimpleServletContext
@@ -53,6 +55,10 @@ public class SimpleServletContextImpl
         }
     }
 
+    /**
+     * Returns a {@link Map} of all init parameters
+     * @return a {@link Map} of all init parameters
+     */
     public Map<String,String> getInitParameters()
     {
         if( this.initParametersMap == null ) {
@@ -78,6 +84,10 @@ public class SimpleServletContextImpl
         return this.initParametersMap;
     }
 
+    /**
+     * Returns a {@link Iterator} of all init parameters names
+     * @return a {@link Iterator} of all init parameters names
+     */
     public Iterator<String> getInitParameterNames()
     {
         return getInitParameters().keySet().iterator();

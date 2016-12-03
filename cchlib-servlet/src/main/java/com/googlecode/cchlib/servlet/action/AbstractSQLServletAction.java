@@ -21,9 +21,9 @@ public abstract class AbstractSQLServletAction
     /**
      * NEEDDOC
      * @return NEEDDOC
-     * @throws ServletActionException
-     * @throws NamingException
-     * @throws SQLException
+     * @throws ServletActionException if any
+     * @throws NamingException if any
+     * @throws SQLException if any
      */
     @SuppressWarnings({"squid:S1160"})
     public abstract ActionServlet.Action doSQL()
@@ -34,7 +34,7 @@ public abstract class AbstractSQLServletAction
     /**
      * Returns the DataSource
      * @return the DataSource
-     * @throws NamingException
+     * @throws NamingException if any
      */
     public abstract DataSource getDataSource()
         throws NamingException;
@@ -42,8 +42,8 @@ public abstract class AbstractSQLServletAction
     /**
      * Returns the connection
      * @return the connection
-     * @throws NamingException
-     * @throws SQLException
+     * @throws NamingException if any
+     * @throws SQLException if any
      */
     @SuppressWarnings("squid:S1160")
     public Connection getConnection()
@@ -84,10 +84,7 @@ public abstract class AbstractSQLServletAction
         try {
             nextAction= doSQL();
             }
-        catch( final NamingException e ) {
-            throw new ServletActionException( e );
-            }
-        catch( final SQLException e ) {
+        catch( final NamingException | SQLException e ) {
             throw new ServletActionException( e );
             }
         finally {
@@ -144,7 +141,7 @@ public abstract class AbstractSQLServletAction
      *         false if it is an update count or there are no results
      * @throws SQLException if a database access error occurs or this
      *         method is called on a closed Statement
-     * @throws NamingException
+     * @throws NamingException if any
      * @see Statement#execute(String)
      */
     @SuppressWarnings("squid:S1160")

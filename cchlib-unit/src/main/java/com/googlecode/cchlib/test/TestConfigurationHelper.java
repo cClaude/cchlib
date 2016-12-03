@@ -81,9 +81,30 @@ public class TestConfigurationHelper
         this.config = new TestConfigurationHelper.Config();
     }
 
-    private static File getConfigFile()
+    private static File getConfigSaveFile()
     {
-        return FileHelper.getUserHomeDirFile( TestConfigurationHelper.class.getName() + ".properties" );
+        return FileHelper.getUserConfigDirectoryFile(
+                TestConfigurationHelper.class.getName() + ".properties"
+                );
+    }
+
+    private static File getConfigLoadFile()
+    {
+        final File configFile = getConfigSaveFile();
+
+        if( configFile.isFile() ) {
+            return configFile;
+        }
+
+        final File deprecatedConfigFile = FileHelper.getUserHomeDirectoryFile(
+                TestConfigurationHelper.class.getName() + ".properties"
+                );
+
+        if( deprecatedConfigFile.isFile() ) {
+            return deprecatedConfigFile;
+        }
+
+        return configFile;
     }
 
     /**
@@ -93,7 +114,10 @@ public class TestConfigurationHelper
      */
     public void load() throws IOException
     {
-        final Properties properties = PropertiesHelper.loadProperties( getConfigFile() );
+        final Properties properties =
+                PropertiesHelper.loadProperties(
+                        getConfigLoadFile()
+                        );
 
         this.pp.populateBean( properties , this.config );
     }
@@ -109,7 +133,7 @@ public class TestConfigurationHelper
 
         this.pp.populateProperties( this.config, properties );
 
-        PropertiesHelper.saveProperties( getConfigFile(), properties );
+        PropertiesHelper.saveProperties( getConfigSaveFile(), properties );
     }
 
     /**

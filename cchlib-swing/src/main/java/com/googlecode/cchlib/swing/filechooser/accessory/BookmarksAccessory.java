@@ -96,7 +96,7 @@ public class BookmarksAccessory
             File       tmpDir = FileHelper.getTmpDirFile();
 
             if( tmpDir.equals( dir ) ) {
-                tmpDir = FileHelper.getUserHomeDirFile();
+                tmpDir = FileHelper.getUserHomeDirectoryFile();
                 }
 
             // FIXME : why ????

@@ -125,7 +125,7 @@ public class PreferencesControler implements Serializable
         //final ObjectMapper mapper = new ObjectMapper();
 
         //mapper.configure( Feature.INDENT_OUTPUT, true );
-        final File jsonFile = PreferencesControlerFactory.getJSONPreferencesFile();
+        final File jsonFile = PreferencesControlerFactory.getJSONPreferencesSaveFile();
         //mapper.writeValue( jsonFile, preferencesBean);
         JSONHelper.save( jsonFile, preferencesBean, JSONHelper.PRETTY_PRINT );
     }

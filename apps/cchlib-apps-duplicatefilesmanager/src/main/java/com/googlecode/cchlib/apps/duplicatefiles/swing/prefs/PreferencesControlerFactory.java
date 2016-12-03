@@ -22,7 +22,7 @@ public final class PreferencesControlerFactory
 {
     private static final Logger LOGGER = Logger.getLogger( PreferencesControlerFactory.class );
 
-    private static final String JSON_PREFS_FILE = '.' + Preferences.class.getName() + ".json";
+    private static final String JSON_PREFS_FILE = Preferences.class.getName() + ".json";
     private static final String PROPERTIES_PREFS_FILE = '.' + Preferences.class.getName() + ".properties";
 
     private PreferencesControlerFactory()
@@ -60,7 +60,7 @@ public final class PreferencesControlerFactory
             LOGGER.debug( "createPreferences(" + preferencesFile + ") - useDefaultFile=" + useDefaultFile );
         }
 
-        final File preferencesFileToUse = useDefaultFile ? getJSONPreferencesFile() : preferencesFile;
+        final File preferencesFileToUse = useDefaultFile ? getJSONPreferencesLoadFile() : preferencesFile;
         //final ObjectMapper mapper = new ObjectMapper();
 
         Preferences preferences;
@@ -86,11 +86,6 @@ public final class PreferencesControlerFactory
         }
 
         return new PreferencesControler( preferences );
-    }
-
-    static File getJSONPreferencesFile()
-    {
-        return FileHelper.getUserHomeDirFile( JSON_PREFS_FILE );
     }
 
     private static Preferences createPropertiesPreferences()
@@ -138,8 +133,31 @@ public final class PreferencesControlerFactory
         return preferencesProperties;
     }
 
+    static File getJSONPreferencesSaveFile()
+    {
+        return FileHelper.getUserConfigDirectoryFile( JSON_PREFS_FILE );
+    }
+
+    static File getJSONPreferencesLoadFile()
+    {
+        final File file = getJSONPreferencesSaveFile();
+
+        if( file.exists() ) {
+            return file;
+        } else {
+            final File oldFile = FileHelper.getUserConfigDirectoryFile( JSON_PREFS_FILE );
+
+            if( oldFile.exists() ) {
+                return oldFile;
+            } else {
+                return file;
+            }
+        }
+    }
+
+    @Deprecated
     static File getPropertiesPreferencesFile()
     {
-        return FileHelper.getUserHomeDirFile( PROPERTIES_PREFS_FILE );
+        return FileHelper.getUserHomeDirectoryFile( PROPERTIES_PREFS_FILE );
     }
 }

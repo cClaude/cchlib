@@ -12,18 +12,25 @@ public class ExternalAppException extends IOException
 {
     private static final long serialVersionUID = 1L;
 
-    public ExternalAppException(final String msg)
+    public ExternalAppException( final String message )
     {
-        super(msg);
+        super( message );
     }
 
-    public ExternalAppException(final String msg, final Throwable cause)
+    public ExternalAppException(
+            final String    message,
+            final Throwable cause
+            )
     {
-        super(msg);
-        initCause(cause);
+        super( message, cause );
     }
 
-    public static String getStackTraceString(final Throwable e)
+    public ExternalAppException( final Throwable cause )
+    {
+        super( cause );
+    }
+
+    public static String getStackTraceString( final Throwable e )
     {
         final StringWriter sw = new StringWriter();
 
