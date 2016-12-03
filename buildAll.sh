@@ -3,6 +3,7 @@
 set +ex
 
 mvn clean install | tee .logs/mvn-install.log
+MVN_EXIT="$?"
 
 cat .logs/mvn-install.log | grep "warning: no description for" | sort | uniq > .logs/mvn-install-warn-no-desc.log
 cat .logs/mvn-install.log | grep "warning: no @param for" | sort | uniq > .logs/mvn-install-warn-no-param.log
@@ -20,6 +21,12 @@ cat .logs/mvn-install.log | grep -v "warning: no description for" \
   | grep -v "warning: empty" \
   | grep -v "error: reference not found" \
   > .logs/mvn-install-others.log
+
+if [ ! "${MVN_EXIT}" -eq "0" ];
+then
+  echo "[ERROR] in ${MVN} ${MVN_PARAM}"
+  exit 1
+fi
 
 pushd apps
 ./buildAllApps.sh | tee ../.logs/buildAllApps.log
