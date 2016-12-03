@@ -191,7 +191,11 @@ public abstract class TaskCommon implements CommandTask
                 createParentDirsOf( this.jsonOutputFile ); // TODO should be optional
 
                 try {
-                    JSONHelper.toJSON( this.jsonOutputFile, hashFilesList, this.prettyJson );
+                    JSONHelper.toJSON(
+                            this.jsonOutputFile,
+                            hashFilesList,
+                            this.prettyJson
+                            );
                 }
                 catch( final JSONHelperException e ) {
                     CLIHelper.printError( "Error while writing JSON result", this.jsonOutputFile, e );

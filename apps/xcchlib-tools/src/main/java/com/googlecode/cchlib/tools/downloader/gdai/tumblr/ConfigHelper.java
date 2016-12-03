@@ -27,7 +27,7 @@ public class ConfigHelper
         final File configFile = getConfigFile();
 
         try {
-            JSONHelper.toJSON( configFile, config, true );
+            JSONHelper.save( configFile, config, JSONHelper.PRETTY_PRINT );
         }
         catch( final JSONHelperException e ) {
             throw new ConfigIOException( configFile.toString(), e );

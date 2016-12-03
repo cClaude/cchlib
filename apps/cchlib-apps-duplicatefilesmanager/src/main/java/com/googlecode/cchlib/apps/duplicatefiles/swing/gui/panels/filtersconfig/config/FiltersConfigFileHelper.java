@@ -7,8 +7,6 @@ import com.googlecode.cchlib.json.JSONHelperException;
 
 public class FiltersConfigFileHelper
 {
-    private static final boolean PRETTY_JSON = true;
-
     private FiltersConfigFileHelper()
     {
         // All static
@@ -19,7 +17,7 @@ public class FiltersConfigFileHelper
         final FiltersConfig value
         ) throws JSONHelperException
     {
-        JSONHelper.toJSON( jsonFile, value, PRETTY_JSON );
+        JSONHelper.save( jsonFile, value, JSONHelper.PRETTY_PRINT );
     }
 
     public static FiltersConfig load( final InputStream json )

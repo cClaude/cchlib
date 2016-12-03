@@ -127,7 +127,7 @@ public class PreferencesControler implements Serializable
         //mapper.configure( Feature.INDENT_OUTPUT, true );
         final File jsonFile = PreferencesControlerFactory.getJSONPreferencesFile();
         //mapper.writeValue( jsonFile, preferencesBean);
-        JSONHelper.toJSON( jsonFile, preferencesBean, true );
+        JSONHelper.save( jsonFile, preferencesBean, JSONHelper.PRETTY_PRINT );
     }
 
     public void setLocale( final Locale locale )
