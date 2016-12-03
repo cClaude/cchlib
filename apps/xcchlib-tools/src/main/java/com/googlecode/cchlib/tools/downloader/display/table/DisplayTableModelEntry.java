@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.net.URL;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
-import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
+import com.googlecode.cchlib.tools.downloader.common.PropertiesNames;
 
 /**
  *
@@ -73,7 +73,7 @@ class DisplayTableModelEntry implements Serializable
      */
     public URL getParentURL()
     {
-        final Object objectURL = this.downloader.getProperty( AbstractDownloaderAppInterface.DownloadFileURL_PARENT_URL_PROPERTY );
+        final Object objectURL = this.downloader.getProperty( PropertiesNames.DownloadFileURL_PARENT_URL_PROPERTY );
 
         if( objectURL instanceof URL ) {
             return (URL)objectURL;

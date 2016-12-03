@@ -12,6 +12,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.tools.downloader.common.DownloaderData;
+import com.googlecode.cchlib.tools.downloader.common.DownloaderHandler;
 
 public class GenericDownloaderUIPanel
     extends JPanel
@@ -20,18 +22,24 @@ public class GenericDownloaderUIPanel
     private JLabel pageScanCountJLabel;
     @I18nString private final String numberOfPicturesByPageTxt = "%d picture(s) by page";
     private JSpinner pageScanCountJSpinner;
-    private final GenericDownloaderAppInterface config;
     private SpinnerNumberModel pageScanCountSpinnerModel;
     private final List<GenericDownloaderUIPanelEntry> entryJPanelList = new ArrayList<GenericDownloaderUIPanelEntry>();
+
+    //private final GenericDownloaderAppInterface config;
+    private final DownloaderData    data;
+    private final DownloaderHandler handler;
 
     /**
      * Create the panel.
      */
+    @SuppressWarnings({"squid:S00117"})
     public GenericDownloaderUIPanel(
-        final GenericDownloaderAppInterface config
+        final DownloaderData      data,
+        final DownloaderHandler   handler
         )
     {
-        this.config = config;
+        this.data    = data;
+        this.handler = handler;
 
         final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{50, 50, 50, 0};
@@ -41,7 +49,7 @@ public class GenericDownloaderUIPanel
         setLayout(gridBagLayout);
 
         {
-            final JLabel sitenameJLabel = new JLabel( config.getSiteName() );
+            final JLabel sitenameJLabel = new JLabel( this.data.getSiteName() );
             sitenameJLabel.setHorizontalAlignment(SwingConstants.CENTER);
             final GridBagConstraints gbc_sitenameJLabel = new GridBagConstraints();
             gbc_sitenameJLabel.fill = GridBagConstraints.HORIZONTAL;
@@ -52,37 +60,46 @@ public class GenericDownloaderUIPanel
             add(sitenameJLabel, gbc_sitenameJLabel);
         }
         {
-            pageScanCountJLabel = new JLabel( "Pages to scan :" );
-            pageScanCountJLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+            this.pageScanCountJLabel = new JLabel( "Pages to scan :" );
+            this.pageScanCountJLabel.setHorizontalAlignment(SwingConstants.RIGHT);
             final GridBagConstraints gbc_pageScanCountJLabel = new GridBagConstraints();
             gbc_pageScanCountJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_pageScanCountJLabel.insets = new Insets(0, 0, 5, 5);
             gbc_pageScanCountJLabel.anchor = GridBagConstraints.NORTH;
             gbc_pageScanCountJLabel.gridx = 0;
             gbc_pageScanCountJLabel.gridy = 1;
-            add(pageScanCountJLabel, gbc_pageScanCountJLabel);
+            add(this.pageScanCountJLabel, gbc_pageScanCountJLabel);
         }
         {
-            pageScanCountSpinnerModel
+            this.pageScanCountSpinnerModel
                 = new SpinnerNumberModel(
-                        config.getPageCount(),
+                        this.data.getPageCount(),
                         1,
-                        config.getMaxPageCount(),
+                        this.data.getMaxPageCount(),
                         1
                         );
-            pageScanCountJSpinner = new JSpinner( pageScanCountSpinnerModel );
-            pageScanCountJSpinner.addChangeListener(event -> config.setPageCount( pageScanCountSpinnerModel.getNumber().intValue() ));
+            this.pageScanCountJSpinner = new JSpinner( this.pageScanCountSpinnerModel );
+            this.pageScanCountJSpinner.addChangeListener(
+                    event -> this.data.setPageCount(
+                            this.pageScanCountSpinnerModel.getNumber().intValue()
+                        )
+                    );
 
             final GridBagConstraints gbc_pageScanCountJSpinner = new GridBagConstraints();
             gbc_pageScanCountJSpinner.fill = GridBagConstraints.HORIZONTAL;
             gbc_pageScanCountJSpinner.insets = new Insets(0, 0, 5, 5);
             gbc_pageScanCountJSpinner.gridx = 1;
             gbc_pageScanCountJSpinner.gridy = 1;
-            add(pageScanCountJSpinner, gbc_pageScanCountJSpinner);
+            add(this.pageScanCountJSpinner, gbc_pageScanCountJSpinner);
         }
         {
             final JLabel numberOfPicturesByPageLabel = new JLabel();
-            numberOfPicturesByPageLabel.setText( String.format( numberOfPicturesByPageTxt, Integer.valueOf( config.getNumberOfPicturesByPage() ) ) );
+            numberOfPicturesByPageLabel.setText(
+                    String.format(
+                            this.numberOfPicturesByPageTxt,
+                            Integer.valueOf( this.data.getNumberOfPicturesByPage() )
+                            )
+                    );
             final GridBagConstraints gbc_numberOfPicturesByPageLabel = new GridBagConstraints();
             gbc_numberOfPicturesByPageLabel.insets = new Insets(0, 0, 5, 0);
             gbc_numberOfPicturesByPageLabel.fill = GridBagConstraints.HORIZONTAL;
@@ -93,10 +110,10 @@ public class GenericDownloaderUIPanel
 
         int lineNumber = 0;
         // $hide>>$
-        for( final GenericDownloaderAppComboBoxConfig entry : config.getComboBoxConfigCollection() )
+        for( final GenericDownloaderAppComboBoxConfig entry : this.handler.getComboBoxConfigCollection() )
         // $hide<<$
         {
-            final GenericDownloaderUIPanelEntry entryJPanel = new GenericDownloaderUIPanelEntry( e -> config.doSelectedItems( getSelectedItems() ));
+            final GenericDownloaderUIPanelEntry entryJPanel = new GenericDownloaderUIPanelEntry( e -> this.handler.doSelectedItems( getSelectedItems() ));
             final GridBagConstraints gbc_entryJPanel = new GridBagConstraints();
             gbc_entryJPanel.gridwidth = 3;
             //gbc_entryJPanel.insets = new Insets(0, 0, 0, 0);
@@ -107,7 +124,7 @@ public class GenericDownloaderUIPanel
 
             entryJPanel.setDescription( entry.getDescription() );
             entryJPanel.setJComboBoxEntry( entry.getJComboBoxEntry() );
-            entryJPanelList.add( entryJPanel );
+            this.entryJPanelList.add( entryJPanel );
 
             lineNumber++;
         } // for(...)
@@ -166,7 +183,7 @@ public class GenericDownloaderUIPanel
         } // for(...)*/
 
         // $hide>>$
-        final GenericDownloaderAppButton button = config.getButtonConfig();
+        final GenericDownloaderAppButton button = this.handler.getButtonConfig();
         if( button != null )
         // $hide<<$
         {
@@ -180,27 +197,36 @@ public class GenericDownloaderUIPanel
         }
     }
 
-    public GenericDownloaderAppInterface getGenericDownloaderAppInterface()
+//    public GenericDownloaderAppInterface getGenericDownloaderAppInterface()
+//    {
+//        return this.config;
+//    }
+    public DownloaderData getDownloaderData()
     {
-        return this.config;
+        return this.data;
+    }
+
+    public DownloaderHandler getDownloaderHandler()
+    {
+        return this.handler;
     }
 
     public void setReadOnly( final boolean isReadOnly )
     {
         final boolean enabled = ! isReadOnly;
 
-        pageScanCountJSpinner.setEnabled( enabled  );
+        this.pageScanCountJSpinner.setEnabled( enabled  );
     }
 
     public void setEnabledAllComponents( final boolean enabled )
     {
-        pageScanCountJSpinner.setEnabled( enabled );
+        this.pageScanCountJSpinner.setEnabled( enabled );
 
 //        for( JComboBox<String> jcb : stringsJComboBoxList ) {
 //            jcb.setEnabled( enabled );
 //            }
 
-        for( final GenericDownloaderUIPanelEntry entry : entryJPanelList ) {
+        for( final GenericDownloaderUIPanelEntry entry : this.entryJPanelList ) {
             entry.setEnabledAllComponents( enabled );
             }
     }

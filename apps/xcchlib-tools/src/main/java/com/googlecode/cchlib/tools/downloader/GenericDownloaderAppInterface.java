@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.tools.downloader;
 
-import com.googlecode.cchlib.tools.downloader.common.DownloaderData;
-import com.googlecode.cchlib.tools.downloader.common.DownloaderHandler;
+import com.googlecode.cchlib.tools.downloader.common.SiteConfig;
 
+@Deprecated
 public interface GenericDownloaderAppInterface
-    extends DownloaderData, DownloaderHandler
+    extends SiteConfig
 {
     // deprecated
 }

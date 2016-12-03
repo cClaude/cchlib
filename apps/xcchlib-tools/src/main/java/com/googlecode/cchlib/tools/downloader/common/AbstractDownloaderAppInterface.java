@@ -15,16 +15,13 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppComboBoxConfig;
-import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 
 public abstract class AbstractDownloaderAppInterface
-    implements GenericDownloaderAppInterface, Serializable
+    implements com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface, Serializable
 {
     private static final long serialVersionUID = 1L;
     private static final transient Logger LOGGER = Logger.getLogger( AbstractDownloaderAppInterface.class );
-
-    public static final String DownloadFileURL_PARENT_URL_PROPERTY = "parent";
 
     private final String  siteName;
     private final int     numberOfPicturesByPage;
@@ -94,16 +91,17 @@ public abstract class AbstractDownloaderAppInterface
     }
 
     /**
-     * TODOC !
-     * @param pageNumber
-     * @return TODOC
-     * @throws MalformedURLException
-     * @throws URISyntaxException
+     * NEEDDOC !
+     * @param pageNumber NEEDDOC
+     * @return NEEDDOC
+     * @throws MalformedURLException NEEDDOC
+     * @throws URISyntaxException NEEDDOC
      */
     public abstract ContentDownloadURI<String> getDownloadStringURL( final int pageNumber )
             throws MalformedURLException, URISyntaxException;
 
     /**
+     * {@inheritDoc}
      * Default implementation based on
      * {@link #getPageCount()} and on
      * {@link #getDownloadStringURL(int)}
@@ -178,7 +176,7 @@ public abstract class AbstractDownloaderAppInterface
                     //imagesURLCollection.add( getDownloadURLFrom( src, i ) );
                     final ContentDownloadURI<File> dfURL = getDownloadURLFrom( src, i );
 
-                    dfURL.setProperty( DownloadFileURL_PARENT_URL_PROPERTY, content2Parse.getURL() );
+                    dfURL.setProperty( PropertiesNames.DownloadFileURL_PARENT_URL_PROPERTY, content2Parse.getURL() );
 
                     imagesURLCollection.add( dfURL );
                     }

@@ -25,6 +25,8 @@ import com.googlecode.cchlib.net.download.DownloadIOException;
 import com.googlecode.cchlib.net.download.DownloadURI;
 import com.googlecode.cchlib.net.download.cache.URICache;
 import com.googlecode.cchlib.net.download.fis.DefaultFilterInputStreamBuilder;
+import com.googlecode.cchlib.tools.downloader.common.DownloaderData;
+import com.googlecode.cchlib.tools.downloader.common.DownloaderHandler;
 import com.googlecode.cchlib.tools.downloader.common.LoggerListener;
 
 /**
@@ -137,25 +139,22 @@ public class GenericDownloader
     private final URICache cache;
     private final File  destinationDirectoryFile;
     private final int   downloadMaxThread;
-    private final LoggerListener loggerListener;
-    private final GenericDownloaderAppInterface gdai;
-    private final GenericDownloaderAppUIResults gdauir;
 
-    /**
-     *
-     * @param gdai
-     * @param gdauir
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
+    private final LoggerListener loggerListener;
+    private final GenericDownloaderAppUIResults gdauir;
+    //private final DownloaderData data;
+    private final DownloaderHandler handler;
+
     public GenericDownloader(
-            final GenericDownloaderAppInterface gdai,
+            final DownloaderData                data,
+            final DownloaderHandler             handler,
             final GenericDownloaderAppUIResults gdauir
             )
         throws IOException, ClassNotFoundException
     {
-        this.gdai   = gdai;
-        this.gdauir = gdauir;
+        //this.data    = data;
+        this.handler = handler;
+        this.gdauir  = gdauir;
 
         final File rootCacheDirectoryFile =
                 new File(
@@ -166,7 +165,7 @@ public class GenericDownloader
         rootCacheDirectoryFile.mkdirs();
         // TODO: verify if directory exist ?
 
-        this.destinationDirectoryFile   = new File( rootCacheDirectoryFile, gdai.getCacheRelativeDirectoryCacheName() );
+        this.destinationDirectoryFile   = new File( rootCacheDirectoryFile, data.getCacheRelativeDirectoryCacheName() );
         this.downloadMaxThread          = gdauir.getDownloadThreadCount();
         this.loggerListener             = gdauir.getAbstractLogger();
 
@@ -205,11 +204,11 @@ public class GenericDownloader
                 DownloadConfigurationException, URISyntaxException
     {
         final Collection<ContentDownloadURI<File>>   urls        = new HashSet<>();
-        final List<ContentDownloadURI<String>>       contentList = loads( this.gdai.getURLDownloadAndParseCollection() );
+        final List<ContentDownloadURI<String>>       contentList = loads( this.handler.getURLDownloadAndParseCollection() );
 
         for( final ContentDownloadURI<String> pageContent : contentList ) {
             urls.addAll(
-                this.gdai.computeURLsAndGetDownloader( this.gdauir, pageContent )
+                this.handler.computeURLsAndGetDownloader( this.gdauir, pageContent )
                 );
             }
 

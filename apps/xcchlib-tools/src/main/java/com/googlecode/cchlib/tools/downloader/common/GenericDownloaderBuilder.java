@@ -13,7 +13,6 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 
-@Deprecated
 public class GenericDownloaderBuilder implements GenericDownloaderAppInterface
 {
     private final DownloaderData    data;

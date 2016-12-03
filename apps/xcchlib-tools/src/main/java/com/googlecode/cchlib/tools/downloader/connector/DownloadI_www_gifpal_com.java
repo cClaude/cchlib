@@ -45,7 +45,7 @@ public class DownloadI_www_gifpal_com
      */
     private static final String HTML_URL_BASE_FMT
         // = ROOT_URL_STR + "/gallery-contents-json.php?sort=%s&page=%d";
-        = ROOT_URL_STR + "/gallery/top-week/%d/";
+        = ROOT_URL_STR + "/gallery/%s/%d/";
 
     private static final String SITE_NAME = "www.gifpal.com";
     private static final int NUMBER_OF_PICTURES_BY_PAGE = 16;

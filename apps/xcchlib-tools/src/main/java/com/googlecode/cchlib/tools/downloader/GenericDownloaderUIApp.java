@@ -40,7 +40,10 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.tools.downloader.common.DownloadStateEvent;
+import com.googlecode.cchlib.tools.downloader.common.DownloaderData;
+import com.googlecode.cchlib.tools.downloader.common.DownloaderHandler;
 import com.googlecode.cchlib.tools.downloader.common.LoggerListener;
+import com.googlecode.cchlib.tools.downloader.common.SiteConfig;
 import com.googlecode.cchlib.tools.downloader.connector.DownloadI_senorgif;
 import com.googlecode.cchlib.tools.downloader.connector.DownloadI_www_bloggif_com;
 import com.googlecode.cchlib.tools.downloader.connector.DownloadI_www_epins_fr;
@@ -57,13 +60,25 @@ import com.googlecode.cchlib.tools.downloader.proxy.ProxyEntry;
  */
 @SuppressWarnings({
     "squid:MaximumInheritanceDepth", // Swing
-    "squid:S00117" // Generated code
+    "squid:S00117", "squid:S00116" // Generated code
     })
 public class GenericDownloaderUIApp extends JFrame
 {
-    //Not static
-    private final class MyDisplayTableModel extends DisplayTableModel {
+    private static final class MyDisplayTableModel extends DisplayTableModel
+    {
         private static final long serialVersionUID = 1L;
+
+        private final GenericDownloaderUIApp frame;
+
+        MyDisplayTableModel( final GenericDownloaderUIApp frame )
+        {
+            this.frame = frame;
+        }
+
+        public JProgressBar getDisplayJProgressBar()
+        {
+            return this.frame.displayJProgressBar;
+        }
 
         @Override
         public void error( final URL url, final File file, final Throwable cause )
@@ -74,57 +89,31 @@ public class GenericDownloaderUIApp extends JFrame
         @Override
         public void downloadStateInit( final DownloadStateEvent event )
         {
+            LOGGER.info( "downloadStateInit " + event );
             //TODO
-            GenericDownloaderUIApp.this.displayJProgressBar.setMinimum( 0 );
-            GenericDownloaderUIApp.this.displayJProgressBar.setMaximum( event.getDownloadListSize() );
-            GenericDownloaderUIApp.this.displayJProgressBar.setValue( 0 );
-            GenericDownloaderUIApp.this.displayJProgressBar.setEnabled( true );
-            GenericDownloaderUIApp.this.displayJProgressBar.setIndeterminate( false );
-            GenericDownloaderUIApp.this.displayJProgressBar.setStringPainted( true );
+            getDisplayJProgressBar().setMinimum( 0 );
+            final int downloadListSize = event.getDownloadListSize();
+            getDisplayJProgressBar().setMaximum( downloadListSize );
+            getDisplayJProgressBar().setValue( 0 );
+            getDisplayJProgressBar().setEnabled( true );
+            getDisplayJProgressBar().setIndeterminate( false );
+            getDisplayJProgressBar().setStringPainted( true );
             //TODO
 
-            LOGGER.info( "init :" + event.getDownloadListSize() );
+            LOGGER.info( "setMaximum downloadListSize = " + downloadListSize );
         }
 
         @Override
         public void downloadStateChange( final DownloadStateEvent event )
         {
+            LOGGER.info( "downloadStateChange " + event );
+
             //TODO
-            GenericDownloaderUIApp.this.displayJProgressBar.setValue( event.getDownloadListSize() );
-            GenericDownloaderUIApp.this.displayJProgressBar.setString( "loading " + event.getDownloadListSize() );
+            getDisplayJProgressBar().setValue( event.getDownloadListSize() );
+            getDisplayJProgressBar().setString( "loading " + event.getDownloadListSize() );
             //TODO
 
-            LOGGER.info( "downloadStateChange :" + event.getDownloadListSize() );
-        }
-    }
-
-    private final class MyActionListener implements ActionListener
-    {
-        @Override
-        public void actionPerformed( final ActionEvent event )
-        {
-            final String cmd = event.getActionCommand();
-
-            if( ACTION_QUIT.equals( cmd ) ) {
-                // Simulate call to windows close !
-
-                if( windowClosing() ) {
-                    windowClosed();
-                    }
-                }
-            else if( ACTION_STOP.equals( cmd ) ) {
-                if( GenericDownloaderUIApp.this.stopJButton.isEnabled() ) {
-                    stopDownload();
-                    }
-                }
-            else if( ACTION_START.equals( cmd ) ) {
-                if( GenericDownloaderUIApp.this.startJButton.isEnabled() ) {
-                    startDownload();
-                    }
-                }
-            else {
-                LOGGER.warn( "Unknown ActionCommand " + cmd );
-                }
+            LOGGER.info( "downloadStateChange setValue = " + event.getDownloadListSize() );
         }
     }
 
@@ -171,115 +160,30 @@ public class GenericDownloaderUIApp extends JFrame
     /** lock for genericDownloader access */
     private final Object genericDownloaderLock = new Object();
 
-    private transient ActionListener actionListener;
     private transient WindowListener appWindowListener;
 
-    private final DisplayTableModel displayTableModel = new MyDisplayTableModel();
+    private final DisplayTableModel                   displayTableModel;
+    private final ArrayList<GenericDownloaderUIPanel> downloaderUIPanels
+        = new ArrayList<>();
 
-    private ArrayList<GenericDownloaderAppInterface> downloadEntriesTypeList;
     private DefaultComboBoxModel<ProxyEntry> proxyComboBoxModel;
-    private GenericDownloaderUIPanel[] downloaderUIPanels;
     private JButton startJButton;
     private JButton stopJButton;
     private JComboBox<ProxyEntry> proxyJComboBox;
-    private JComboBox<String> siteJComboBox;
+    private JComboBox<String>     siteJComboBox;
     private JLabel downloadThreadNumberJLabel;
     private JLabel proxyJLabel;
-    private JMenu mnFile;
-    private JMenuBar appMenuBar;
+    private JMenu     mnFile;
+    private JMenuBar  appMenuBar;
     private JMenuItem mntmQuit;
     private JPanel cardsPanel;
-    private final JPanel contentPane;
     private JPanel panel;
     private JProgressBar displayJProgressBar;
     private JScrollPane cardsPanel_JScrollPane;
     private JSpinner downloadThreadNumberJSpinner;
-    private SpinnerNumberModel downloadThreadNumberSpinnerModel;
     private JTable displayJTable;
-
-    private void init()
-    {
-        this.downloadEntriesTypeList = new ArrayList<>();
-
-        try {
-            this.downloadEntriesTypeList.add( GDAI_tumblr_com.createAllEntries( this ) );
-        }
-        catch( final JSONHelperException e ) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        this.downloadEntriesTypeList.add( new DownloadI_senorgif() );
-        this.downloadEntriesTypeList.add( new DownloadI_www_bloggif_com() );
-        this.downloadEntriesTypeList.add( new DownloadI_www_gifgirl_org() );
-        this.downloadEntriesTypeList.add( new DownloadI_www_gifmash_com() );
-        this.downloadEntriesTypeList.add( new DownloadI_www_gifpal_com() );
-        this.downloadEntriesTypeList.add( new DownloadI_www_epins_fr() );
-
-        this.downloaderUIPanels = new GenericDownloaderUIPanel[ this.downloadEntriesTypeList.size() ];
-
-        for( int i = 0; i < this.downloaderUIPanels.length; i++ ) {
-            final GenericDownloaderAppInterface entry = this.downloadEntriesTypeList.get( i );
-
-            this.downloaderUIPanels[ i ] = new GenericDownloaderUIPanel( entry );
-            }
-
-        this.proxyComboBoxModel = new DefaultComboBoxModel<>();
-        this.proxyComboBoxModel.addElement( new ProxyEntry( Proxy.NO_PROXY ) );
-
-        for( final ProxyEntry entry : createProxyList() ) {
-            this.proxyComboBoxModel.addElement( entry );
-            }
-
-        //
-        // Init closing
-        //
-        this.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
-        this.setVisible( true );
-        this.addWindowListener( getAppWindowListener() );
-    }
-
-    private ActionListener getActionListener()
-    {
-        if( this.actionListener == null ) {
-            this.actionListener = new MyActionListener();
-            }
-
-        return this.actionListener;
-    }
-
-    private WindowListener getAppWindowListener()
-    {
-        if( this.appWindowListener == null ) {
-            this.appWindowListener = new MyWindowListener();
-        }
-        return this.appWindowListener;
-    }
-
-    protected boolean windowClosing()
-    {
-        synchronized( this.genericDownloaderLock ) {
-            if( this.genericDownloader_useLock != null ) {
-                LOGGER.error( "windowClosing() - Already running !" );
-
-                //FIXME ASK USER !
-                return false;
-                }
-            }
-        //genericDownloader_useLock
-        //FIXME: if( could_be_close )
-        //try to cancel launched tasks
-        //wait for a while (running tasks)
-        //save cache
-        super.dispose();
-        return true;
-    }
-
-    protected void windowClosed()
-    {
-        //genericDownloader_useLock
-        System.exit( 0 ); // FIXME: Kill all
-    }
+    private SpinnerNumberModel downloadThreadNumberSpinnerModel;
+    private final JPanel contentPane;
 
     /**
      * Create the frame.
@@ -289,11 +193,13 @@ public class GenericDownloaderUIApp extends JFrame
     {
         init();
 
+        this.displayTableModel = new MyDisplayTableModel( this );
+
         //setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( 600, 500 );
         {
             this.appMenuBar = new JMenuBar();
-            setJMenuBar(this.appMenuBar);
+            setJMenuBar( this.appMenuBar );
             {
                 this.mnFile = new JMenu("File");
                 this.appMenuBar.add(this.mnFile);
@@ -327,27 +233,32 @@ public class GenericDownloaderUIApp extends JFrame
             this.cardsPanel_JScrollPane.setViewportView(this.cardsPanel);
             this.cardsPanel.setLayout(new CardLayout(0, 0));
 
-            for( int i = 0; i < this.downloaderUIPanels.length; i++ ) {
-                this.cardsPanel.add( this.downloaderUIPanels[ i ], this.downloaderUIPanels[ i ].getGenericDownloaderAppInterface().getSiteName() );
-                }
+            for( final GenericDownloaderUIPanel panel : this.downloaderUIPanels ) {
+                this.cardsPanel.add(
+                        panel,
+                        panel.getDownloaderData().getSiteName()
+                        );
+            }
         }
         {
-            this.siteJComboBox = new JComboBox<String>();
+            this.siteJComboBox = new JComboBox<>();
             this.siteJComboBox.addItemListener(event -> {
                 final CardLayout cl = (CardLayout)(this.cardsPanel.getLayout());
                 final String panelName = String.class.cast( event.getItem() );
                 cl.show(this.cardsPanel, panelName );
 
-                for( int i = 0; i < this.downloaderUIPanels.length; i++ ) {
-                    final GenericDownloaderAppInterface c = this.downloaderUIPanels[ i ].getGenericDownloaderAppInterface();
-                    if( c.getSiteName().equals( panelName ) ) {
+                for( final GenericDownloaderUIPanel panel : this.downloaderUIPanels ) {
+                    final DownloaderData data = panel.getDownloaderData();
+
+                    if( data.getSiteName().equals( panelName ) ) {
                         //xxxxx
                         break;
                         }
                     }
             });
-            for( final GenericDownloaderUIPanel p : this.downloaderUIPanels ) {
-                this.siteJComboBox.addItem( p.getGenericDownloaderAppInterface().getSiteName() );
+
+            for( final GenericDownloaderUIPanel panel : this.downloaderUIPanels ) {
+                this.siteJComboBox.addItem( panel.getDownloaderData().getSiteName() );
                 }
 
             final GridBagConstraints gbc_siteJComboBox = new GridBagConstraints();
@@ -398,6 +309,7 @@ public class GenericDownloaderUIApp extends JFrame
             gbc_downloadThreadNumberJSpinner.gridy = 2;
             this.contentPane.add(this.downloadThreadNumberJSpinner, gbc_downloadThreadNumberJSpinner);
         }
+
         {
             final JScrollPane displayJScrollPane = new JScrollPane();
             final GridBagConstraints gbc_displayJScrollPane = new GridBagConstraints();
@@ -447,6 +359,87 @@ public class GenericDownloaderUIApp extends JFrame
         }
     }
 
+    private void downloaderUIPanelsInt()
+    {
+        final ArrayList<SiteConfig> downloadEntriesTypeList = new ArrayList<>();
+
+        try {
+            downloadEntriesTypeList.add( GDAI_tumblr_com.createAllEntries( this ) );
+        }
+        catch( final JSONHelperException e ) {
+            LOGGER.error( "GDAI_tumblr_com Fail", e );
+        }
+
+        downloadEntriesTypeList.add( new DownloadI_senorgif() );
+        downloadEntriesTypeList.add( new DownloadI_www_bloggif_com() );
+        downloadEntriesTypeList.add( new DownloadI_www_gifgirl_org() );
+        downloadEntriesTypeList.add( new DownloadI_www_gifmash_com() );
+        downloadEntriesTypeList.add( new DownloadI_www_gifpal_com() );
+        downloadEntriesTypeList.add( new DownloadI_www_epins_fr() );
+
+        for( final SiteConfig entry : downloadEntriesTypeList ) {
+            this.downloaderUIPanels.add( new GenericDownloaderUIPanel( entry, entry ) );
+        }
+
+        LOGGER.info( "Load " + this.downloaderUIPanels.size() + " sites" );
+    }
+
+    private void init()
+    {
+        downloaderUIPanelsInt();
+
+        this.proxyComboBoxModel = new DefaultComboBoxModel<>();
+        this.proxyComboBoxModel.addElement( new ProxyEntry( Proxy.NO_PROXY ) );
+
+        for( final ProxyEntry entry : createProxyList() ) {
+            this.proxyComboBoxModel.addElement( entry );
+            }
+
+        //
+        // Init closing
+        //
+        this.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
+        this.setVisible( true );
+        this.addWindowListener( getAppWindowListener() );
+    }
+
+    private ActionListener getActionListener()
+    {
+        return this::actionPerformedActionListener;
+    }
+
+    private WindowListener getAppWindowListener()
+    {
+        if( this.appWindowListener == null ) {
+            this.appWindowListener = new MyWindowListener();
+        }
+        return this.appWindowListener;
+    }
+
+    protected boolean windowClosing()
+    {
+        synchronized( this.genericDownloaderLock ) {
+            if( this.genericDownloader_useLock != null ) {
+                LOGGER.error( "windowClosing() - Already running !" );
+
+                //FIXME ASK USER !
+                return false;
+                }
+            }
+        //genericDownloader_useLock
+        //FIXME: if( could_be_close )
+        //try to cancel launched tasks
+        //wait for a while (running tasks)
+        //save cache
+        super.dispose();
+        return true;
+    }
+
+    protected void windowClosed()
+    {
+        //genericDownloader_useLock
+        System.exit( 0 ); // FIXME: Kill all
+    }
 
     protected void stopDownload()
     {
@@ -488,26 +481,30 @@ public class GenericDownloaderUIApp extends JFrame
         this.displayTableModel.clear();
 
         // UI get values
-        final GenericDownloaderAppInterface gdai  = this.downloadEntriesTypeList.get( this.siteJComboBox.getSelectedIndex() );
-        final GenericDownloaderUIPanel      panel = this.downloaderUIPanels[ this.siteJComboBox.getSelectedIndex() ];
+        //final GenericDownloaderAppInterface gdai__  = this.downloadEntriesTypeList.get( this.siteJComboBox.getSelectedIndex() );
+        final GenericDownloaderUIPanel panel    = this.downloaderUIPanels.get( this.siteJComboBox.getSelectedIndex() );
+        final DownloaderData           data     = panel.getDownloaderData();
+        final DownloaderHandler        handler  = panel.getDownloaderHandler();
         final Proxy proxy = this.proxyComboBoxModel.getElementAt( this.proxyJComboBox.getSelectedIndex() ).getProxy();
         final int downloadThreadNumber = this.downloadThreadNumberSpinnerModel.getNumber().intValue();
 
         LOGGER.info( "proxy: " + proxy.toString() );
         LOGGER.info( "downloadThreadNumber: " + downloadThreadNumber );
-        LOGGER.info( "CacheRelativeDirectoryCacheName: " + gdai.getCacheRelativeDirectoryCacheName() );
-        LOGGER.info( "PageScanCount: " + panel.getGenericDownloaderAppInterface().getPageCount() );
-        LOGGER.info( "GenericDownloaderAppInterface: " + gdai );
+        LOGGER.info( "CacheRelativeDirectoryCacheName: " + data.getCacheRelativeDirectoryCacheName() );
+        LOGGER.info( "PageScanCount: " + data.getPageCount() );
+        LOGGER.info( "data: " + data );
+        LOGGER.info( "handler: " + handler );
 
-        gdai.setProxy( proxy );
+        data.setProxy( proxy );
         // gdai.setPageCount( pageCount ); set in GenericDownloaderUIPanel
 
-        new Thread( () -> startDownload( gdai, downloadThreadNumber ) ).start();
+        new Thread( () -> startDownload( data, handler, downloadThreadNumber ) ).start();
     }
 
     private void startDownload(
-        final GenericDownloaderAppInterface gdai,
-        final int downloadThreadNumber
+        final DownloaderData    data,
+        final DownloaderHandler handler,
+        final int               downloadThreadNumber
         )
     {
         final GenericDownloaderAppUIResults gdauir = new GenericDownloaderAppUIResults()
@@ -527,34 +524,37 @@ public class GenericDownloaderUIApp extends JFrame
         try {
             //GenericDownloader
             synchronized( this.genericDownloaderLock ) {
-                this.genericDownloader_useLock = new GenericDownloader(gdai, gdauir);
+                this.genericDownloader_useLock =
+                        new GenericDownloader( data, handler, gdauir);
                 }
 
             this.genericDownloader_useLock.onClickStartDownload();
 
-            synchronized( this.genericDownloaderLock ) {
-                this.genericDownloader_useLock = null;
-                }
-            LOGGER.info( "done" );
+             LOGGER.info( "done" );
             }
         catch( final Exception e ) {
             LOGGER.fatal( "fatal", e );
             }
+        finally {
+            synchronized( this.genericDownloaderLock ) {
+                this.genericDownloader_useLock = null;
+                }
 
-        this.startJButton.setEnabled( true );
-        this.stopJButton.setEnabled( false );
-        this.siteJComboBox.setEnabled( true );
-        this.proxyJComboBox.setEnabled( true );
-        this.downloadThreadNumberJSpinner.setEnabled( true );
-        this.siteJComboBox.setEnabled( true );
+            this.startJButton.setEnabled( true );
+            this.stopJButton.setEnabled( false );
+            this.siteJComboBox.setEnabled( true );
+            this.proxyJComboBox.setEnabled( true );
+            this.downloadThreadNumberJSpinner.setEnabled( true );
+            this.siteJComboBox.setEnabled( true );
 
-        for( final GenericDownloaderUIPanel pannel : this.downloaderUIPanels ) {
-            pannel.setEnabledAllComponents( true );
-            }
+            for( final GenericDownloaderUIPanel pannel : this.downloaderUIPanels ) {
+                pannel.setEnabledAllComponents( true );
+                }
 
-        this.displayJProgressBar.setIndeterminate( false );
-        this.displayJProgressBar.setEnabled( false );
-        this.displayJProgressBar.setString( "Ready." );
+            this.displayJProgressBar.setIndeterminate( false );
+            this.displayJProgressBar.setEnabled( false );
+            this.displayJProgressBar.setString( "Ready." );
+        }
     }
 
     private static List<ProxyEntry> createProxyList()
@@ -600,8 +600,11 @@ public class GenericDownloaderUIApp extends JFrame
 
         try {
             final GenericDownloaderUIApp frame = new GenericDownloaderUIApp();
-            frame.setIconImage(Toolkit.getDefaultToolkit().getImage(
-                    GenericDownloaderUIApp.class.getResource("/javax/swing/plaf/basic/icons/image-delayed.png"))
+            frame.setIconImage(
+                Toolkit.getDefaultToolkit().getImage(
+                    GenericDownloaderUIApp.class.getResource(
+                            "/javax/swing/plaf/basic/icons/image-delayed.png")
+                            )
                     );
             frame.setTitle( APP_NAME );
             }
@@ -611,6 +614,32 @@ public class GenericDownloaderUIApp extends JFrame
             final String title = "GenericDownloaderUIApp";
 
             DialogHelper.showMessageExceptionDialog( title , e );
+            }
+    }
+
+    private final void actionPerformedActionListener( final ActionEvent event )
+    {
+        final String cmd = event.getActionCommand();
+
+        if( ACTION_QUIT.equals( cmd ) ) {
+            // Simulate call to windows close !
+
+            if( GenericDownloaderUIApp.this.windowClosing() ) {
+                GenericDownloaderUIApp.this.windowClosed();
+                }
+            }
+        else if( ACTION_STOP.equals( cmd ) ) {
+            if( GenericDownloaderUIApp.this.stopJButton.isEnabled() ) {
+                GenericDownloaderUIApp.this.stopDownload();
+                }
+            }
+        else if( ACTION_START.equals( cmd ) ) {
+            if( GenericDownloaderUIApp.this.startJButton.isEnabled() ) {
+                GenericDownloaderUIApp.this.startDownload();
+                }
+            }
+        else {
+            LOGGER.warn( "Unknown ActionCommand " + cmd );
             }
     }
 }

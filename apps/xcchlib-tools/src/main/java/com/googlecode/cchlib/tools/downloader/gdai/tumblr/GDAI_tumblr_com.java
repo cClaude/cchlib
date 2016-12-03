@@ -3,7 +3,6 @@ package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 import java.awt.Frame;
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.Proxy;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -14,7 +13,6 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
-import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
 import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
@@ -28,39 +26,6 @@ public abstract class GDAI_tumblr_com
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( GDAI_tumblr_com.class );
 
-    /*
-     * http://[NAME].tumblr.com
-     */
-    private static final String SERVER_ROOT_URL_STR_FMT = "http://%s.tumblr.com";
-
-    /*
-     * http://[NAME].tumblr.com/
-     * http://[NAME].tumblr.com/page/[NUMBER]
-     */
-    private static final String HTML_URL_BASE1_FMT = SERVER_ROOT_URL_STR_FMT + "/page/%d";
-    private static final String HTML_URL_BASEx_FMT = SERVER_ROOT_URL_STR_FMT + "/page/%d";
-
-    //private static final String SITE_NAME_ALL     = "www.tumblr.com";
-    /*
-     * [NAME].tumblr.com
-     *
-     * Use for label AND for cache directory name
-     */
-    static final String SITE_NAME_FMT = "%s.tumblr.com";
-    static final int NUMBER_OF_PICTURES_BY_PAGE = -1;
-
-    /** number of pages to explore */
-    static final int DEFAULT_MAX_PAGES_BLOGS = 32;
-    //private static final int DEFAULT_MAX_PAGES_ALL = 16;
-
-    private static final  int[] TUMBLR_COM_KNOWN_SIZES = {
-            1280,
-             500,
-             400,
-             250,
-             100
-           };
-
     protected GDAI_tumblr_com(
         final String displaySiteName,
         final int    maxPages
@@ -68,7 +33,7 @@ public abstract class GDAI_tumblr_com
     {
         this(
                 displaySiteName,
-                NUMBER_OF_PICTURES_BY_PAGE,
+                TumblrComData.NUMBER_OF_PICTURES_BY_PAGE,
                 maxPages
                 );
     }
@@ -88,7 +53,7 @@ public abstract class GDAI_tumblr_com
     @Override
     public String getCacheRelativeDirectoryCacheName()
     {
-        final String[]      fullHostName = String.format( SITE_NAME_FMT, getCurrentHostName() ).split( "\\." );
+        final String[]      fullHostName = String.format( TumblrComData.SITE_NAME_FMT, getCurrentHostName() ).split( "\\." );
         final StringBuilder sb           = new StringBuilder();
         int                 i            = fullHostName.length - 1;
 
@@ -172,12 +137,12 @@ public abstract class GDAI_tumblr_com
             // Build list of URL
             final List<String> urls = new ArrayList<>();
 
-            for( int i = 0; i<TUMBLR_COM_KNOWN_SIZES.length; i++ ) {
-                if( size >= TUMBLR_COM_KNOWN_SIZES[ i ] ) {
+            for( int i = 0; i<TumblrComData.TUMBLR_COM_KNOWN_SIZES.length; i++ ) {
+                if( size >= TumblrComData.TUMBLR_COM_KNOWN_SIZES[ i ] ) {
                     break;
                     }
                 urls.add(
-                    prefix2 + TUMBLR_COM_KNOWN_SIZES[ i ] + extension
+                    prefix2 + TumblrComData.TUMBLR_COM_KNOWN_SIZES[ i ] + extension
                     );
                 }
 
@@ -204,14 +169,6 @@ public abstract class GDAI_tumblr_com
         return new PolyURLDownloadFileURL( defaultURL, null, getProxy(), alternateURI, src );
     }
 
-    public static final GDAI_tumblr_com createForHost(
-        final Frame     ownerFrame,
-        final String    hostname
-        )
-    {
-        return new GDAI_tumblr_com_ForHost( ownerFrame, hostname );
-    }
-
     public static final GDAI_tumblr_com createAllEntries(
         final Frame ownerFrame
         ) throws JSONHelperException
@@ -232,32 +189,6 @@ public abstract class GDAI_tumblr_com
                         blogDescriptions
                         ),
                 config
-                );
-    }
-
-    static ContentDownloadURI<String> getDownloadStringURL(
-            final String    hostname,
-            final int       pageNumber,
-            final Proxy     proxy
-            )
-            throws MalformedURLException, URISyntaxException
-    {
-        final String fmt;
-
-        if( pageNumber == 1 ) {
-            fmt = HTML_URL_BASE1_FMT;
-            }
-        else {
-            fmt = HTML_URL_BASEx_FMT;
-            }
-        return new DefaultDownloadStringURL(
-                String.format(
-                    fmt,
-                    hostname,
-                    Integer.valueOf( pageNumber )
-                    ),
-                null,
-                proxy
                 );
     }
 

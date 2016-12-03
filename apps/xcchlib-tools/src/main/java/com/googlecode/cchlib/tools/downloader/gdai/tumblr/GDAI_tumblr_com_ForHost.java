@@ -13,7 +13,6 @@ class GDAI_tumblr_com_ForHost
     extends GDAI_tumblr_com
 {
     private static final long serialVersionUID = 1L;
-    private static final String SITE_NAME_GENERIC = "*.tumblr.com";
 
     private final DefaultComboBoxConfig  comboBoxConfig;
     private String                      _hostname_;
@@ -28,9 +27,9 @@ class GDAI_tumblr_com_ForHost
         )
     {
         super(
-                String.format( SITE_NAME_FMT, hostname ),
-                NUMBER_OF_PICTURES_BY_PAGE,
-                DEFAULT_MAX_PAGES_BLOGS
+                String.format( TumblrComData.SITE_NAME_FMT, hostname ),
+                TumblrComData.NUMBER_OF_PICTURES_BY_PAGE,
+                TumblrComData.DEFAULT_MAX_PAGES_BLOGS
                 );
 
         this.ownerFrame     = ownerFrame;
@@ -44,7 +43,7 @@ class GDAI_tumblr_com_ForHost
         final Config                config
         )
     {
-        super( SITE_NAME_GENERIC, DEFAULT_MAX_PAGES_BLOGS );
+        super( TumblrComData.SITE_NAME_GENERIC, TumblrComData.DEFAULT_MAX_PAGES_BLOGS );
 
         this.ownerFrame     = ownerFrame;
         this.comboBoxConfig = comboBoxConfig;
@@ -67,7 +66,7 @@ class GDAI_tumblr_com_ForHost
     public ContentDownloadURI<String> getDownloadStringURL( final int pageNumber )
             throws MalformedURLException, URISyntaxException
     {
-        return getDownloadStringURL( getCurrentHostName(), pageNumber, getProxy() );
+        return TumblrComHelper.getDownloadStringURL( getCurrentHostName(), pageNumber, getProxy() );
     }
 
     @Override
