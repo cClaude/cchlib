@@ -6,9 +6,6 @@ import java.net.Proxy;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -17,12 +14,11 @@ import java.util.Map;
  * @since 4.1.7
  */
 public class DefaultDownloadFileURL
-    extends AbstractDownloadURI
+    extends AbstractContentDownloadURI<File>
         implements ContentDownloadURI<File>
 {
     private static final long serialVersionUID = 4L;
     private File file;
-    private HashMap<String,Object> properties;
 
     /**
      * Define the {@link URL} for this {@link DownloadURI}
@@ -91,70 +87,16 @@ public class DefaultDownloadFileURL
     }
 
     @Override
-    public void setProperty( final String name, final Object value )
-    {
-        if( this.properties == null ) {
-            this.properties = new HashMap<>();
-            }
-
-        this.properties.put( name, value );
-    }
-
-    @Override
-    public Object getProperty( final String name )
-    {
-        if( this.properties == null ) {
-            return null;
-            }
-        else {
-            return this.properties.get( name );
-            }
-    }
-
-    @Override
-    public String getStringProperty( final String name )
-    {
-        final Object object = getProperty( name );
-
-        if( object instanceof String ) {
-            return (String)object;
-        }
-
-        return null;
-    }
-
-    @Override
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
 
         builder.append( "DefaultDownloadFileURL [getURL()=" );
         builder.append( getURL() );
-        builder.append( "DefaultDownloadFileURL [file=" );
+        builder.append( ", file=" );
         builder.append( this.file );
         builder.append( ", properties=" );
-        builder.append( (this.properties != null) ? toString( this.properties.entrySet() ) : null );
-        builder.append( ']' );
-
-        return builder.toString();
-    }
-
-    private String toString( final Collection<?> collection )
-    {
-        final StringBuilder builder = new StringBuilder();
-
-        builder.append( '[' );
-        boolean first = true;
-
-        for( final Iterator<?> iterator = collection.iterator(); iterator.hasNext();) {
-            if( first ) {
-                first = false;
-                }
-            else {
-                builder.append( ", " );
-                }
-            builder.append( iterator.next() );
-            }
+        builder.append( propertiesToString( this ) );
         builder.append( ']' );
 
         return builder.toString();

@@ -13,7 +13,7 @@ import java.util.Map;
  * @since 4.1.7
  */
 public /* TODO add final */ class DefaultDownloadStringURL
-    extends AbstractDownloadURI
+    extends AbstractContentDownloadURI<String>
         implements ContentDownloadURI<String>
 {
     private static final long serialVersionUID = 2L;
@@ -70,36 +70,6 @@ public /* TODO add final */ class DefaultDownloadStringURL
         this.str = str;
     }
 
-    /**
-     * {@inheritDoc}
-     * @throws UnsupportedOperationException Not supported
-     */
-    @Override
-    public void setProperty( final String name, final Object value )
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @throws UnsupportedOperationException Not supported
-     */
-    @Override
-    public Object getProperty( final String name )
-    {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * {@inheritDoc}
-     * @throws UnsupportedOperationException Not supported
-     */
-    @Override
-    public String getStringProperty( final String name )
-    {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public Class<String> getType()
     {
@@ -109,11 +79,14 @@ public /* TODO add final */ class DefaultDownloadStringURL
     @Override
     public String toString()
     {
-        final StringBuilder sb = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
-        sb.append( "StringDownloadURL [getURL()=" ).append( getURL() );
-        sb.append( ']' );
+        builder.append( "DefaultDownloadFileURL [getURL()=" );
+        builder.append( getURL() );
+        builder.append( ", properties=" );
+        builder.append( propertiesToString( this ) );
+        builder.append( ']' );
 
-        return sb.toString();
+        return builder.toString();
     }
 }
