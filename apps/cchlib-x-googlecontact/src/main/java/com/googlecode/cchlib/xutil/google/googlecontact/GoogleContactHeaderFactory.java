@@ -15,10 +15,26 @@ import com.googlecode.cchlib.xutil.google.googlecontact.analyser.GoogleContactCS
 import com.googlecode.cchlib.xutil.google.googlecontact.analyser.TypeInfo;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.GoogleContact;
 
-public class GoogleContactHeaderFactory {
+public class GoogleContactHeaderFactory
+{
+    private static final class GoogleContactHeaderMapImpl implements GoogleContactHeader
+    {
+        private final Map<Integer, HeaderMethodContener> unmodifiableMapIndexMethodConteners;
 
-    private static final class HeaderMethodContenerImpl implements HeaderMethodContener {
+        private GoogleContactHeaderMapImpl( final GoogleContactHeaderFactory factory )
+        {
+            this.unmodifiableMapIndexMethodConteners = Collections.unmodifiableMap( new HashMap<>( factory.indexMethodConteners ) );
+        }
 
+        @Override
+        public Map<Integer,HeaderMethodContener> getIndexMethodConteners()
+        {
+               return this.unmodifiableMapIndexMethodConteners;
+        }
+    }
+
+    private static final class HeaderMethodContenerImpl implements HeaderMethodContener
+    {
         private final Method method;
 
         public HeaderMethodContenerImpl( final AnalyserMethodContener methodContener )
@@ -38,22 +54,24 @@ public class GoogleContactHeaderFactory {
         public String toString()
         {
             final StringBuilder builder = new StringBuilder();
+
             builder.append( "HeaderMethodContenerImpl [method=" );
             builder.append( this.method );
             builder.append( ']' );
+
             return builder.toString();
         }
     }
 
-    private static final class HeaderCustomTypeMethodContenerImpl implements HeaderCustomTypeMethodContener {
-
+    private static final class HeaderCustomTypeMethodContenerImpl implements HeaderCustomTypeMethodContener
+    {
         private final String                            header;
         private final AnalyserCustomTypeMethodContener  customTypeMethodContener;
         private final String                            prefix;
         private final int                               position;
         private final String                            suffix;
         private final Map<Integer,HeaderMethodContener> innerMethodContener = new HashMap<>();
-        private final TypeInfo typeInfo;
+        private final TypeInfo                          typeInfo;
 
         public HeaderCustomTypeMethodContenerImpl(
             final AnalyserCustomTypeMethodContener customTypeMethodContener,
@@ -73,11 +91,11 @@ public class GoogleContactHeaderFactory {
                 this.typeInfo = customTypeMethodContener.getTypeInfo();
             } else {
                 final String message = "Can not parse [" + header + "] - Did not match";
+
                 LOGGER.error( message );
 
                 throw new GoogleContactFactoryException( message );
             }
-
        }
 
         @Override
@@ -115,16 +133,19 @@ public class GoogleContactHeaderFactory {
         {
             this.innerMethodContener.put( Integer.valueOf( index ), methodContener );
         }
+
         @Override
         public HeaderMethodContener get( final int index )
         {
             return this.innerMethodContener.get( Integer.valueOf( index ) );
         }
+
         @Override
         public int size()
         {
             return this.innerMethodContener.size();
         }
+
         @Override
         public Iterator<HeaderMethodContener> iterator()
         {
@@ -137,19 +158,20 @@ public class GoogleContactHeaderFactory {
             return this.typeInfo;
         }
     }
-
-    private static final int SUFFIX_MATCHER_INDEX = 3;
-    private static final int POSITION_MATCHER_INDEX = 2;
-    private static final int PREFIX_MATCHER_INDEX = 1;
-
     private static final Logger LOGGER = Logger.getLogger( GoogleContactHeaderFactory.class );
+
+    private static final int SUFFIX_MATCHER_INDEX   = 3;
+    private static final int POSITION_MATCHER_INDEX = 2;
+    private static final int PREFIX_MATCHER_INDEX   = 1;
+
     private static final Pattern HEADER_PATTERN = Pattern.compile( "([a-zA-Z -]+) ([0-9]+) - ([a-zA-Z \\-]+)" );
-    private static final HeaderMethodContener NULL_CONTENER = ( ) -> null;
+
+    private static final HeaderMethodContener NULL_CONTENER = () -> null;
 
     private final GoogleContactAnalyser googleContactAnalyser = new GoogleContactAnalyser();
     private final Map<Integer,HeaderMethodContener> indexMethodConteners = new HashMap<>();
 
-    @SuppressWarnings("squid:S3346")
+    @SuppressWarnings("squid:S3346") // assert usage
     private GoogleContactHeaderFactory( final String[] headers ) throws GoogleContactFactoryException
     {
         for( int index = 0; index<headers.length; ) {
@@ -185,7 +207,7 @@ public class GoogleContactHeaderFactory {
         assert this.indexMethodConteners.size() == headers.length;
     }
 
-    @SuppressWarnings("squid:S3346")
+    @SuppressWarnings("squid:S3346") // assert usage
     private int addCustomType(
         final String[]                       headers,
         final int                            index,
@@ -196,6 +218,7 @@ public class GoogleContactHeaderFactory {
         final int      parameterCount = typeInfo.getParameterCount();
 
         assert this.indexMethodConteners.get( Integer.valueOf( index ) ) == null;
+
         this.indexMethodConteners.put( Integer.valueOf( index ), customTypeMethodContener );
 
         for( int i = 0; i<parameterCount; i++ ) {
@@ -213,15 +236,19 @@ public class GoogleContactHeaderFactory {
 
             if( i != 0 ) {
                 assert this.indexMethodConteners.get( Integer.valueOf( index + i ) ) == null;
+
                 this.indexMethodConteners.put( Integer.valueOf( index + i ), NULL_CONTENER );
             }
         }
 
         assert parameterCount > 0;
+
         return parameterCount;
     }
 
-    private HeaderMethodContener newHeaderMethodContener( final AnalyserMethodContener methodContener )
+    private HeaderMethodContener newHeaderMethodContener(
+            final AnalyserMethodContener methodContener
+            )
     {
         assert !(methodContener instanceof AnalyserCustomTypeMethodContener);
 
@@ -261,7 +288,7 @@ public class GoogleContactHeaderFactory {
         return parentTypeInfo.getMethodForStrings().get( header );
     }
 
-    @SuppressWarnings("squid:S3346")
+    @SuppressWarnings("squid:S3346") // assert usage
     private AnalyserCustomTypeMethodContener findAnalyserCustomTypeMethodContener(
         final TypeInfo parentTypeInfo,
         final String   header
@@ -298,14 +325,6 @@ public class GoogleContactHeaderFactory {
     {
         final GoogleContactHeaderFactory factory = new GoogleContactHeaderFactory( headers );
 
-        return new GoogleContactHeader() {
-            private final Map<Integer, HeaderMethodContener> unmodifiableMapIndexMethodConteners = Collections.unmodifiableMap( new HashMap<>( factory.indexMethodConteners ) );
-
-            @Override
-            public Map<Integer,HeaderMethodContener> getIndexMethodConteners()
-            {
-                   return this.unmodifiableMapIndexMethodConteners;
-            }
-        };
+        return new GoogleContactHeaderMapImpl( factory );
     }
 }

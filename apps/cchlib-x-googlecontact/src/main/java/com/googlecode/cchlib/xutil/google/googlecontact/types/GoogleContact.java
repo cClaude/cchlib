@@ -9,8 +9,8 @@ import com.googlecode.cchlib.xutil.google.googlecontact.util.Header;
 /**
  * {@link GoogleContactType} implementation
  */
-public class GoogleContact implements GoogleContactType { // $codepro.audit.disable largeNumberOfFields, largeNumberOfMethods
-
+public class GoogleContact implements GoogleContactType
+{
     private static final long serialVersionUID = 1L;
 
     private String name;

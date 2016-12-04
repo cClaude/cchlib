@@ -1,10 +1,12 @@
 package com.googlecode.cchlib.xutil.google.googlecontact;
 
+import static com.googlecode.cchlib.xutil.google.googlecontact.assertions.GoogleContactAssertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.xutil.google.googlecontact.analyser.GoogleContacAnalyserException;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.BasicEntry;
@@ -16,33 +18,33 @@ public class GoogleContactFactoryTest extends Data
     public void testDataBasic()
     {
         // validate data header
-        Assert.assertEquals(
+        assertEquals(
             HEADERS_BASIC.length,
             new HashSet<>( Arrays.asList( HEADERS_BASIC ) ).size()
             );
 
         // validate data entry
-        Assert.assertEquals( HEADERS_BASIC.length, ENTRY_BASIC.length );
+        assertEquals( HEADERS_BASIC.length, ENTRY_BASIC.length );
     }
 
     @Test
     public void testData2Mails()
     {
         // validate data header
-        Assert.assertEquals(
+        assertEquals(
             HEADERS_2MAILS.length,
             new HashSet<>( Arrays.asList( HEADERS_2MAILS ) ).size()
             );
 
         // validate data entry
-        Assert.assertEquals( HEADERS_2MAILS.length, ENTRY_2MAILS.length );
+        assertEquals( HEADERS_2MAILS.length, ENTRY_2MAILS.length );
     }
 
     @Test
     public void testData1()
     {
         // validate data header
-        Assert.assertEquals(
+        assertEquals(
             HEADERS0.length,
             new HashSet<>( Arrays.asList( HEADERS0 ) ).size()
             );
@@ -52,68 +54,72 @@ public class GoogleContactFactoryTest extends Data
     public void testData2()
     {
         // validate data header
-        Assert.assertEquals(
+        assertEquals(
             HEADERS1.length,
             new HashSet<>( Arrays.asList( HEADERS1 ) ).size()
             );
 
         // validate data entry
-        Assert.assertEquals( HEADERS1.length, ENTRY1.length );
+        assertEquals( HEADERS1.length, ENTRY1.length );
     }
 
     @Test
     public void test_newGoogleContact_1() throws GoogleContacAnalyserException
     {
-        final GoogleContactFactory builder = new GoogleContactFactory( HEADERS1, false );
+        final GoogleContactFactory builder      = new GoogleContactFactory( HEADERS1, false );
+        final GoogleContact       googleContact = builder.newGoogleContact( ENTRY1 );
 
-        final GoogleContact googleContact = builder.newGoogleContact( ENTRY1 );
-
-        Assert.assertNotNull( googleContact );
-
-        Assert.assertEquals( "2019-01-01", googleContact.getBirthday() );
+        assertThat( googleContact ).isNotNull();
+        assertThat( googleContact ).hasBirthday( "2319-01-01" );
 
         final Collection<BasicEntry> customFields = googleContact.getCustomFields();
-        Assert.assertEquals( 1,  customFields.size()  );
+
+        assertThat( customFields ).hasSize( 1 );
 
         final BasicEntry firstCustomField = customFields.iterator().next();
-        Assert.assertEquals( "Custom1 Type",  firstCustomField.getType()  );
-        Assert.assertEquals( "Custom1 Value", firstCustomField.getValue() );
+
+        assertThat( firstCustomField )
+            .hasType( "Custom1 Type" )
+            .hasValue( "Custom1 Value" );
 
         final Collection<BasicEntry> emails = googleContact.getEmails();
-        Assert.assertEquals( 2,  emails.size() );
+
+        assertThat( emails ).hasSize( 2 );
 
         final Iterator<BasicEntry> emailsIterator = emails.iterator();
         final BasicEntry firstEmail = emailsIterator.next();
-        Assert.assertEquals( "Home",  firstEmail.getType()  );
-        Assert.assertEquals( "Email2@X.X", firstEmail.getValue() );
+
+        assertThat( firstEmail ).hasType( "Home" );
+        assertThat( firstEmail ).hasValue( "Email2@X.X" );
 
         final BasicEntry secondEmail = emailsIterator.next();
-        Assert.assertEquals( "* Work",  secondEmail.getType()  );
-        Assert.assertEquals( "Email1@X.X", secondEmail.getValue() );
+
+        assertThat( secondEmail ).hasType( "* Work" );
+        assertThat( secondEmail ).hasValue( "Email1@X.X" );
     }
 
     @Test
     public void test_newGoogleContact_2MAILS() throws GoogleContacAnalyserException
     {
         final GoogleContactFactory builder = new GoogleContactFactory( HEADERS_2MAILS, true );
-
         final GoogleContact googleContact = builder.newGoogleContact( ENTRY_2MAILS );
 
-        Assert.assertNotNull( googleContact );
+        assertThat( googleContact ).isNotNull();
 
-        Assert.assertEquals( null, googleContact.getBirthday() ); // Not Set
-        Assert.assertEquals( "With 2 Mails", googleContact.getName() );
+        assertThat( googleContact.getBirthday() ).isNull(); // Not Set
+        assertThat( googleContact ).hasName( "With 2 Mails" );
 
         final Collection<BasicEntry> emails = googleContact.getEmails();
-        Assert.assertEquals( 2,  emails.size() );
+
+        assertThat( emails ).hasSize( 2 );
 
         final Iterator<BasicEntry> emailsIterator = emails.iterator();
         final BasicEntry firstEmail = emailsIterator.next();
-        Assert.assertEquals( "Home",  firstEmail.getType()  );
-        Assert.assertEquals( "email2", firstEmail.getValue() );
+
+        assertThat( firstEmail ).hasType( "Home" ).hasValue( "email2" );
 
         final BasicEntry secondEmail = emailsIterator.next();
-        Assert.assertEquals( "* Work",  secondEmail.getType()  );
-        Assert.assertEquals( "email1", secondEmail.getValue() );
+
+        assertThat( secondEmail ).hasType( "* Work" ).hasValue( "email1" );
     }
 }

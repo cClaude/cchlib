@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.xutil.google.googlecontact;
 
 import java.lang.reflect.InvocationTargetException;
+import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.GoogleContact;
 import com.googlecode.cchlib.xutil.google.googlecontact.util.GoogleContactType;
@@ -8,14 +9,18 @@ import com.googlecode.cchlib.xutil.google.googlecontact.util.GoogleContactType;
 /**
  * Build {@link GoogleContact}, see {@link #newGoogleContact(String[])}
  */
-public class GoogleContactFactory {
+public class GoogleContactFactory
+{
     private static final Logger LOGGER = Logger.getLogger( GoogleContactFactory.class );
 
     private final GoogleContactHeader googleContactHeader;
-    private final boolean ignoreEmptyCels;
+    private final boolean             ignoreEmptyCels;
 
-    @SuppressWarnings("squid:S3346")
-    public GoogleContactFactory( final String[] headers, final boolean ignoreEmptyCels ) throws GoogleContactFactoryException
+    @SuppressWarnings("squid:S3346") // assert usage
+    public GoogleContactFactory(
+            final String[] headers,
+            final boolean  ignoreEmptyCels
+            ) throws GoogleContactFactoryException
     {
         this.googleContactHeader = GoogleContactHeaderFactory.newGoogleContactHeader( headers );
         this.ignoreEmptyCels     = ignoreEmptyCels;
@@ -29,12 +34,17 @@ public class GoogleContactFactory {
 
     /**
      * Create a new {@link GoogleContact}
-     * @param entry Array of strings with cell values, according to <code>headers</code> given in
-     *        factory constructor
+     *
+     * @param entry
+     *            Array of strings with cell values, according to
+     *            {@code headers} given in factory constructor
      * @return a non null GoogleContact
-     * @throws GoogleContactFactoryException if any error occur
+     * @throws GoogleContactFactoryException
+     *             if any error occur
      */
-    public GoogleContact newGoogleContact( final String[] entry ) throws GoogleContactFactoryException
+    @Nonnull
+    public GoogleContact newGoogleContact( @Nonnull final String[] entry )
+            throws GoogleContactFactoryException
     {
         final GoogleContact googleContact = new GoogleContact();
 
@@ -45,7 +55,6 @@ public class GoogleContactFactory {
                     );
         }
 
-
       for( int index = 0; index < entry.length ; ) {
             final int inc = invoker( googleContact, entry, index );
 
@@ -53,15 +62,16 @@ public class GoogleContactFactory {
 
             index += inc;
         }
+
         return googleContact;
     }
 
-    @SuppressWarnings("squid:S3346")
+    @SuppressWarnings("squid:S3346") // assert usage
     private int invoker(
-            final GoogleContact googleContact,
-            final String[]      entry,
-            final int           index
-            ) throws GoogleContactFactoryException
+        final GoogleContact googleContact,
+        final String[]      entry,
+        final int           index
+        ) throws GoogleContactFactoryException
     {
         final HeaderMethodContener methodContener = this.googleContactHeader.getIndexMethodConteners().get( Integer.valueOf( index ) );
 
@@ -111,10 +121,10 @@ public class GoogleContactFactory {
         return size;
     }
 
-    /**
-     * @return true is value has been set
+    /*
+     * return true is value has been set
      */
-    @SuppressWarnings("squid:S3346")
+    @SuppressWarnings("squid:S3346") // assert usage
     private boolean invoke(
         final HeaderMethodContener  methodContener,
         final String                cellContent,
@@ -143,11 +153,10 @@ public class GoogleContactFactory {
     }
 
     private void addElement(
-            final GoogleContactType     googleContactType,
-            final HeaderMethodContener  methodContener,
-            final GoogleContactType     element
-            )
-            throws GoogleContactFactoryException
+        final GoogleContactType     googleContactType,
+        final HeaderMethodContener  methodContener,
+        final GoogleContactType     element
+        ) throws GoogleContactFactoryException
     {
         try {
             methodContener.getMethod().invoke( googleContactType, element );
