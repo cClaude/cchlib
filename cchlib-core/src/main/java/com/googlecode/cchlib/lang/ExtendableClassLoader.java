@@ -1,4 +1,3 @@
-// $codepro.audit.disable com.instantiations.assist.eclipse.analysis.doNotSubclassClassLoader
 package com.googlecode.cchlib.lang;
 
 import java.io.File;
@@ -13,19 +12,34 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import javax.annotation.Nullable;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.NeedTestCases;
 
 /**
  * A custom {@link ClassLoader} able to add extra directory or jar
- */
+ * <p>
+ * This class implements a {@link ClassLoader} that allow to extend the
+ * possible path to look up to load a class.
+ * <p>
+ * Based on SimpleClassLoader class proposed by Chuck McManis in
+ * JavaWorld' article :<br>
+ * {@linkplain http://www.javaworld.com/javaworld/jw-10-indepth.html}<br>
+ * {@linkplain http://www.javaworld.com/javaworld/jw-10-1996/jw-10-indepth.html}
+ *
+ * @author  C. McManis
+ * @author  Olivier Dedieu
+ * @author  Claude CHOISNET
+ * @since   2.00
+*/
 @NeedDoc
 @NeedTestCases
 public class ExtendableClassLoader extends ClassLoader
 {
     private static final Logger LOGGER = Logger.getLogger( ExtendableClassLoader.class );
     private static final int BUFFER_SIZE = 4096;
+    private static final byte[] NOT_FOUND = null;
 
     /** ArrayList preserve insert order */
     private final ArrayList<File>              paths = new ArrayList<>();
@@ -73,8 +87,7 @@ public class ExtendableClassLoader extends ClassLoader
      * @param path Path to add, could be a directory or a jar.
      * @throws IOException if any
      */
-    public void addClassPath( final String path )
-        throws IOException
+    public void addClassPath( final String path ) throws IOException
     {
         addClassPath( new File( path ) );
     }
@@ -89,89 +102,92 @@ public class ExtendableClassLoader extends ClassLoader
         throws IOException
     {
         if( pathFile.isFile() ) {
-            synchronized( jars ) {
-                jars.put( pathFile, new JarFile( pathFile ) );
+            synchronized( this.jars ) {
+                this.jars.put( pathFile, new JarFile( pathFile ) );
                 }
             }
         else {
-            synchronized( paths ) {
-                paths.add( pathFile );
+            synchronized( this.paths ) {
+                this.paths.add( pathFile );
                 }
             }
     }
 
-// TODO should fail if a class from this path is in memory
-//    /**
-//     * Remove a path for this class loader.
-//     *
-//     * @param path
-//     */
-//    public void removeClassPath( final String path )
-//    {
-//        removeClassPath( new File( path ) );
-//    }
+    /**
+     * Remove a class path
+     * <P>
+     * Remark: the previous loaded classes with this path are not unloaded.
+     *
+     * @param path
+     *            the class path to remove
+     * @throws IOException
+     *             if any error occur while closing jar
+     * @see #removeClassPath(File)
+     */
+    public void removeClassPath( final String path ) throws IOException
+    {
+        removeClassPath( new File( path ) );
+    }
 
-// TODO should fail if a class from this path is in memory
-//    /**
-//     * Remove a path for this class loader.
-//     *
-//     * @param path
-//     */
-//    public void removeClassPath( final File path )
-//    {
-//        JarFile found;
-//
-//        synchronized( jars ) {
-//            found = jars.remove(path);
-//            }
-//
-//        if( found == null ) {
-//            synchronized( paths ) {
-//                paths.remove( path );
-//                }
-//            }
-//    }
+    /**
+     * Remove a class path
+     * <P>
+     * Remark: the previous loaded class with this path are not unloaded.
+     *
+     * @param path
+     *            the class path to remove
+     * @throws IOException
+     *             if any error occur while closing jar
+     */
+    public void removeClassPath( final File path ) throws IOException
+    {
+        boolean notRemoved = true;
+
+        synchronized( this.jars ) {
+            try (JarFile jar = this.jars.remove( path )) {
+                // Just to close
+                notRemoved = jar != null;
+            }
+        }
+
+        if( notRemoved ) {
+            synchronized( this.paths ) {
+                this.paths.remove( path );
+            }
+        }
+    }
 
     /**
      * Try to get bytes array of the class from extra class path.
-     * @param className The class name
+     *
+     * @param className
+     *            The class name
      * @return a byte array with the stream content
      */
-    private byte[] getClassFromAddedClassPaths(
-        final String className
-        )
+    private byte[] getClassFromAddedClassPaths( final String className )
     {
-        final String fileName = className.replace('.', '/') + ".class";
-        byte[]       result   = null;
+        final String fileName = className.replace( '.', '/' ) + ".class";
 
         for( final File path : this.paths ) {
-            final File f = new File(path, fileName); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.pathManipulation
+            final File file = new File( path, fileName );
 
-            if( f.exists() ) {
-                try {
-                    result = toBytes( new FileInputStream( f ) );
-                    }
-                catch( final IOException e ) {
-                    LOGGER.warn( "Can not read : " + f, e );
-                    //Try to continue anyway
-                    }
-                break;
+            if( file.exists() ) {
+                final byte[] result = loadClassFromFile( file );
+
+                if( result != null ) {
+                    return result;
                 }
             }
+        }
 
         for( final Map.Entry<File, JarFile> entry : this.jars.entrySet() ) {
             try (JarFile jarFile = entry.getValue()) {
                 final JarEntry jarEntry = jarFile.getJarEntry( fileName );
 
-                if( jarEntry != null ) {
-                    try {
-                        result = toBytes( jarFile.getInputStream( jarEntry ) );
-                    }
-                    catch( final IOException e ) {
-                        LOGGER.warn( "Can not read : " + jarEntry.getName() + " from : " + jarFile.getName(), e );
-                        // Try to continue anyway
-                    }
-                    break;
+                final byte[] result = loadClassFromJar( jarFile, jarEntry );
+
+                if( result != null ) {
+                    return result;
                 }
             }
             catch( final IOException closeIOException ) {
@@ -179,43 +195,63 @@ public class ExtendableClassLoader extends ClassLoader
             }
         }
 
-        return result;
+        return NOT_FOUND;
+    }
+
+    @Nullable
+    private static byte[] loadClassFromFile( final File file )
+    {
+        try {
+            return toBytes( new FileInputStream( file ) );
+            }
+        catch( final IOException e ) {
+            LOGGER.warn( "Can not read : " + file, e );
+
+            //Try to continue anyway
+            return NOT_FOUND;
+            }
+    }
+
+    @Nullable
+    private static byte[] loadClassFromJar(
+        final JarFile  jarFile,
+        final JarEntry jarEntry
+        )
+    {
+        if( jarEntry != null ) {
+            try {
+                return toBytes( jarFile.getInputStream( jarEntry ) );
+            }
+            catch( final IOException e ) {
+                LOGGER.warn( "Can not read : " + jarEntry.getName() + " from : " + jarFile.getName(), e );
+
+                // Try to continue anyway
+            }
+        }
+        return NOT_FOUND;
     }
 
     @Override
     public URL findResource( final String name )
     {
-        for( final File path : this.paths) {
-            final File f = new File( path, name );
+        for( final File path : this.paths ) {
+            final File file = new File( path, name );
 
-            if( f.exists() ) {
-                try {
-                    @SuppressWarnings("deprecation")
-                    final
-                    URL url = f.toURL();
+            if( file.exists() ) {
+                final URL url = findResourceFromFile( file );
+
+                if( url != null ) {
                     return url;
-                    }
-                catch( final MalformedURLException ignore ) {
-                    throw new RuntimeException( ignore ); // Should not occur
-                    }
                 }
             }
+        }
 
         for( final Map.Entry<File, JarFile> entry : this.jars.entrySet() ) {
-            try (final JarFile jarFile = entry.getValue()) {
+            try( final JarFile jarFile = entry.getValue() ) {
                 final JarEntry jarEntry = jarFile.getJarEntry( name );
 
-                if( jarEntry != null ) {
-                    try {
-                        @SuppressWarnings("deprecation")
-                        final URL jarURL = entry.getKey().toURL();
+                findResourceFromJar( entry.getKey(), jarEntry );
 
-                        return new URL( "jar:" + jarURL.toString() + "!/" + jarEntry.getName() );
-                    }
-                    catch( final MalformedURLException ignore ) {
-                        throw new RuntimeException( ignore ); // Should not occur
-                    }
-                }
             }
             catch( final IOException closeIOException ) {
                 LOGGER.warn( "Can close jar file : " + entry.getValue(), closeIOException );
@@ -225,11 +261,49 @@ public class ExtendableClassLoader extends ClassLoader
         return null;
     }
 
+    @SuppressWarnings({
+        "deprecation", // File.toURL()
+        "squid:CallToDeprecatedMethod", // File.toURL()
+        "squid:S00112" // new RuntimeException()
+        })
+    private URL findResourceFromFile( final File file )
+    {
+        try {
+            return file.toURL();
+        }
+        catch( final MalformedURLException ignore ) {
+            throw new RuntimeException( ignore ); // Should not occur
+        }
+    }
+
+    @SuppressWarnings("squid:S00112") // new RuntimeException()
+    private URL findResourceFromJar( final File jarFile, final JarEntry jarEntry )
+    {
+        if( jarEntry != null ) {
+            try {
+                @SuppressWarnings({"deprecation","squid:CallToDeprecatedMethod"})
+                final URL jarURL = jarFile.toURL();
+
+                return new URL(
+                    "jar:" + jarURL.toString() + "!/" + jarEntry.getName()
+                    );
+            }
+            catch( final MalformedURLException ignore ) {
+                throw new RuntimeException( ignore ); // Should not occur
+            }
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Put inputStream content into a array of bytes, and close the stream.
-     * @param inputStream An {@link InputStream} where the class should loader
+     *
+     * @param inputStream
+     *            An {@link InputStream} where the class should loader
      * @return a byte array with the stream content
-     * @throws IOException if any
+     * @throws IOException
+     *             if any
      */
     protected static final byte[] toBytes(
         final InputStream inputStream
@@ -259,39 +333,57 @@ public class ExtendableClassLoader extends ClassLoader
     }
 
     @Override
-    public synchronized Class<?> loadClass( // $codepro.audit.disable synchronizedMethod
+    @SuppressWarnings("squid:S1166") // Ignore some exceptions
+    public synchronized Class<?> loadClass(
             final String    className,
             final boolean   resolveIt
             )
         throws ClassNotFoundException
     {
         if( resolveIt ) {
+            //
+            // Find in current class loader
+            //
             final ClassLoader parent = getParent();
 
             if( parent != null ) {
                 try {
                     return parent.loadClass( className );
                     }
-                catch( final ClassNotFoundException ignore ) { // $codepro.audit.disable emptyCatchClause, logExceptions
-                    // Try again later
+                catch( final ClassNotFoundException ignore ) {
+                    // Try others solution above, so ignore previous exception
                     }
                 }
             }
 
-        Class<?> classResult = cache.get( className );
+        //
+        // Find from cache
+        //
+        final Class<?> classResult = this.cache.get( className );
 
         if( classResult != null ) {
             return classResult;
             }
 
-        byte[] classData;
+        return deepLoadClass( className, resolveIt );
+    }
+
+    @SuppressWarnings("squid:S1166") // Ignore some exceptions
+    private Class<?> deepLoadClass(
+        final String className,
+        final boolean resolveIt
+        ) throws ClassNotFoundException, ClassFormatError
+    {
+        Class<?> classResult;
+        byte[]   classData;
 
         try {
             classResult = super.findSystemClass( className );
 
             return classResult;
             }
-        catch( final ClassNotFoundException ignore ) { // $codepro.audit.disable logExceptions
+        catch( final ClassNotFoundException ignore ) {
+            // Try from added class path, so ignore previous exception
             classData = getClassFromAddedClassPaths( className );
             }
 
@@ -309,7 +401,7 @@ public class ExtendableClassLoader extends ClassLoader
             resolveClass( classResult );
             }
 
-        cache.put( className, classResult );
+        this.cache.put( className, classResult );
 
         return classResult;
     }
@@ -318,6 +410,6 @@ public class ExtendableClassLoader extends ClassLoader
     protected Class<?> findClass( final String name )
         throws ClassNotFoundException
     {
-        return loadClass(name);
+        return loadClass( name );
     }
 }
