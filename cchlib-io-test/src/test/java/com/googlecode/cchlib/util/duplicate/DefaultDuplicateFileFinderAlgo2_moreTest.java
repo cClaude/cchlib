@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.duplicate;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -8,7 +9,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.InitialStatus;
@@ -56,15 +56,15 @@ public class DefaultDuplicateFileFinderAlgo2_moreTest extends DefaultDuplicateFi
         final InitialStatus initialStatus = dff.getInitialStatus();
 
         // quick check pass 1
-        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 6 );
-        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 6 );
+        assertThat( initialStatus.getFiles() ).isEqualTo( 6 );
+        assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 6 );
 
         dff.find();
 
         final Map<String, Set<File>> files = dff.getFiles();
 
         // 2 different files
-        Assertions.assertThat( files.size() ).isEqualTo( 2 );
+        assertThat( files.size() ).isEqualTo( 2 );
 
         final Iterator<Entry<String, Set<File>>> iterator = files.entrySet().iterator();
 
@@ -82,9 +82,9 @@ public class DefaultDuplicateFileFinderAlgo2_moreTest extends DefaultDuplicateFi
             result1 = secondEntry;
         }
 
-        Assertions.assertThat( result1.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
-        Assertions.assertThat( result1.getValue() ).containsOnly( file1, file2, file3 );
-        Assertions.assertThat( result2.getValue() ).containsOnly( file5, file6 );
+        assertThat( result1.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( result1.getValue() ).containsOnly( file1, file2, file3 );
+        assertThat( result2.getValue() ).containsOnly( file5, file6 );
     }
 
 }

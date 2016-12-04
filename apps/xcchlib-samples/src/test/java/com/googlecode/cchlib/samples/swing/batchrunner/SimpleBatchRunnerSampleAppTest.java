@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.samples.swing.batchrunner;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.util.Locale;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.Threads;

@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.tools;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.Objects;
@@ -37,7 +37,7 @@ public class MyResourcesLoaderTest
             LOGGER.info( "getResources() - m: " + m + " => " + result );
 
             // add additional test code here
-            Assertions.assertThat( result ).isNotNull();
+            assertThat( result ).isNotNull();
             }
 
         LOGGER.info( "All resources found" );
@@ -55,7 +55,7 @@ public class MyResourcesLoaderTest
                 LOGGER.info( "m: " + m + " => " + result );
 
                 // add additional test code here
-                Assertions.assertThat( result ).isNotNull();
+                assertThat( result ).isNotNull();
             }
         }
     }

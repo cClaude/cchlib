@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.io;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import org.apache.log4j.Logger;

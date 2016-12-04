@@ -1,12 +1,11 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.swing;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import javax.swing.Icon;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +35,7 @@ public class IconResourcesTest
                 LOGGER.info( "IconResources: " + methodResult );
                 LOGGER.info( "this.iconResourcesIntance: " + this.iconResourcesIntance );
 
-               Assertions.assertThat( methodResult == this.iconResourcesIntance ).isTrue();
+               assertThat( methodResult == this.iconResourcesIntance ).isTrue();
             } else {
                 Assert.fail();
             }
@@ -57,9 +56,9 @@ public class IconResourcesTest
                   final Icon result = (Icon)o;
 
                   // add additional test code here
-                  Assertions.assertThat( result ).isNotNull();
-                  Assertions.assertThat( result.getIconWidth() ).isEqualTo( 16 );
-                  Assertions.assertThat( result.getIconHeight() ).isEqualTo( 16 );
+                  assertThat( result ).isNotNull();
+                  assertThat( result.getIconWidth() ).isEqualTo( 16 );
+                  assertThat( result.getIconHeight() ).isEqualTo( 16 );
                   }
               }
       }

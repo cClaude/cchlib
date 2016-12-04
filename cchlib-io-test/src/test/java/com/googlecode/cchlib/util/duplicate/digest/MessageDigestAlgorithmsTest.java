@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.util.duplicate.digest;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import org.junit.Test;

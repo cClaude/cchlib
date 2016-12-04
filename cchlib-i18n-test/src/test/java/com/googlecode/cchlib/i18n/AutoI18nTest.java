@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.i18n;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class AutoI18nTest 
+public class AutoI18nTest
 {
     @Test
     public void testCONSTANTS()

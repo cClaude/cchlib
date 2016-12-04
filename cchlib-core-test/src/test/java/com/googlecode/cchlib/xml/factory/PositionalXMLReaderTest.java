@@ -1,6 +1,6 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.xml.factory;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -17,7 +17,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Document;
@@ -81,7 +80,7 @@ public class PositionalXMLReaderTest
         LOGGER.info( "---expecteds2 XML---\n" + new String( expecteds2 ) + "\n---" );
         LOGGER.info( "---actuals2 XML---\n" + new String( actuals2 ) + "\n---" );
 
-        Assertions.assertThat( actuals2 ).isEqualTo( expecteds2 );
+        assertThat( actuals2 ).isEqualTo( expecteds2 );
 
         LOGGER.info( "Done" );
     }

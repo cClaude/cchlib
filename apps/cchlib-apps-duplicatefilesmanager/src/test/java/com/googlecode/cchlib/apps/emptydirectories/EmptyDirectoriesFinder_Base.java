@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.apps.emptydirectories;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.apps.duplicatefiles.FilesPathsTestHelper;
@@ -72,7 +72,7 @@ public abstract class EmptyDirectoriesFinder_Base<FILTER> {
 
             getLogger().info( "filter.createPathSet().size() = " + pathSet.size() );
 
-            Assertions.assertThat( myFilter.getPathList().size() ).isEqualTo( pathSet.size() );
+            assertThat( myFilter.getPathList().size() ).isEqualTo( pathSet.size() );
 
             for( final Path p : myFilter.getPathList() ) {
                 getLogger().info( "p = " + p );

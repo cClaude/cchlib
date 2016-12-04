@@ -1,6 +1,6 @@
-// $codepro.audit.disable avoidAutoBoxing, questionableName, numericLiterals
 package com.googlecode.cchlib.util;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import org.fest.assertions.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +28,7 @@ import cx.ath.choisnet.util.FormattedProperties;
 import cx.ath.choisnet.util.FormattedPropertiesLine;
 
 @SuppressWarnings("resource")
-public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMethods
+public class FormattedPropertiesTest
 {
     private static final String ISO_8859_1 = "ISO-8859-1";
     private static final String REF        = "FormattedPropertiesTest.properties";
@@ -101,13 +100,13 @@ public class FormattedPropertiesTest // $codepro.audit.disable largeNumberOfMeth
             final String expecting = referenceProperties.getProperty( key );
             final String actual    = actualProperties.getProperty( key );
 
-            Assertions.assertThat( actual ).isEqualTo( expecting );
+            assertThat( actual ).isEqualTo( expecting );
         }
 
         final int actual   = actualProperties.size();
         final int expected = referenceProperties.size();
 
-        Assertions.assertThat( actual  ).as( "bad size()" ).isEqualTo( expected );
+        assertThat( actual  ).as( "bad size()" ).isEqualTo( expected );
     }
 
     private static void delete( final File file )

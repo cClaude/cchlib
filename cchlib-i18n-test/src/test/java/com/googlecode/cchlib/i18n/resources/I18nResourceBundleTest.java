@@ -1,10 +1,9 @@
 package com.googlecode.cchlib.i18n.resources;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import org.fest.assertions.Assertions;
 import org.junit.Ignore;
 import org.junit.Test;
 import com.googlecode.cchlib.i18n.I18NResources;
@@ -43,8 +42,8 @@ public class I18nResourceBundleTest
 
         final I18nResourceBundle result = new I18nResourceBundle(resourceBundleFullBaseName, locale);
 
-        Assertions.assertThat( result ).isNotNull();
-        Assertions.assertThat( result.getResourceBundle() ).isNotNull();
+        assertThat( result ).isNotNull();
+        assertThat( result.getResourceBundle() ).isNotNull();
     }
 
     @Test(expected = java.lang.IllegalArgumentException.class)
@@ -56,7 +55,7 @@ public class I18nResourceBundleTest
 
         final I18nResourceBundle result = new I18nResourceBundle(resourceBundleFullBaseName, locale);
 
-        Assertions.assertThat( result ).isNotNull();
+        assertThat( result ).isNotNull();
     }
 
     @Test(expected = java.lang.IllegalArgumentException.class)
@@ -68,7 +67,7 @@ public class I18nResourceBundleTest
 
         final I18nResourceBundle result = new I18nResourceBundle(resourceBundleFullBaseName, locale);
 
-        Assertions.assertThat( result ).isNotNull();
+        assertThat( result ).isNotNull();
      }
 
     @Test
@@ -80,7 +79,7 @@ public class I18nResourceBundleTest
 
         final I18nResourceBundle result = new I18nResourceBundle( resourceBundle, resourceBundleFullBaseName );
 
-        Assertions.assertThat( result ).isNotNull();
+        assertThat( result ).isNotNull();
     }
 
     @Test
@@ -94,8 +93,8 @@ public class I18nResourceBundleTest
 
         final ResourceBundle result = fixture.getResourceBundle();
 
-        Assertions.assertThat( result ).isNotNull();
-        Assertions.assertThat( result ).isEqualTo( resourceBundle );
+        assertThat( result ).isNotNull();
+        assertThat( result ).isEqualTo( resourceBundle );
     }
 
     @Test
@@ -109,8 +108,8 @@ public class I18nResourceBundleTest
 
         final String result = fixture.getResourceBundleFullBaseName();
 
-        Assertions.assertThat( result ).isNotNull();
-        Assertions.assertThat( result ).isEqualTo( RESOURCE_BUNDLE_FULL_BASENAME );
+        assertThat( result ).isNotNull();
+        assertThat( result ).isEqualTo( RESOURCE_BUNDLE_FULL_BASENAME );
     }
 
     @Test
@@ -124,8 +123,8 @@ public class I18nResourceBundleTest
 
         final String result = fixture.getString( KEY );
 
-        Assertions.assertThat( result ).isNotNull();
-        Assertions.assertThat( result ).isEqualTo( VALUE );
+        assertThat( result ).isNotNull();
+        assertThat( result ).isEqualTo( VALUE );
     }
 
     @Test(expected = com.googlecode.cchlib.i18n.resources.MissingResourceException.class)
@@ -139,7 +138,7 @@ public class I18nResourceBundleTest
 
         final String result = fixture.getString( BAD_KEY );
 
-        Assertions.assertThat( result ).isNotNull();
+        assertThat( result ).isNotNull();
     }
 
     @Test
@@ -170,8 +169,8 @@ public class I18nResourceBundleTest
 
         final String result = fixture.getString( KEY );
 
-        Assertions.assertThat( result ).isNotNull();
-        Assertions.assertThat( result ).isEqualTo( VALUE );
+        assertThat( result ).isNotNull();
+        assertThat( result ).isEqualTo( VALUE );
     }
 
     @Test

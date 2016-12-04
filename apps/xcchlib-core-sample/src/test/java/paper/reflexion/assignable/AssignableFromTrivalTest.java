@@ -1,8 +1,7 @@
 package paper.reflexion.assignable;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import org.junit.Test;
-
 
 public class AssignableFromTrivalTest
 {

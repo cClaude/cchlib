@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.duplicate.digest;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.io.IOHelper;
@@ -44,7 +44,7 @@ public class FileDigestTest extends Base {
         instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
-        Assertions.assertThat( md5 ).isEqualTo( oldMD5 );
+        assertThat( md5 ).isEqualTo( oldMD5 );
     }
 
     @Test
@@ -58,7 +58,7 @@ public class FileDigestTest extends Base {
         instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
-        Assertions.assertThat( md5 ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( md5 ).isEqualTo( IO.MD5_FOR_PNG_FILE );
     }
 
     @Test
@@ -71,13 +71,13 @@ public class FileDigestTest extends Base {
                 );
         final FileDigest instance = factory.newInstance();
 
-        Assertions.assertThat( instance.getBufferSize() ).isEqualTo( DefaultFileDigestFactory.MIN_BUFFER_SIZE );
+        assertThat( instance.getBufferSize() ).isEqualTo( DefaultFileDigestFactory.MIN_BUFFER_SIZE );
 
         final FileDigestListener listener = newMyFileDigestListener();
         instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
-        Assertions.assertThat( md5 ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( md5 ).isEqualTo( IO.MD5_FOR_PNG_FILE );
     }
 
     @Test
@@ -94,7 +94,7 @@ public class FileDigestTest extends Base {
             instance.computeNext(false);
         }
 
-        Assertions.assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
         instance.reset();
 
         final File fileZIP = IO.createZipTempFile();
@@ -104,7 +104,7 @@ public class FileDigestTest extends Base {
             instance.computeNext(false);
         }
 
-        Assertions.assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_ZIP_FILE );
+        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_ZIP_FILE );
         instance.reset();
 
         instance.setFile( filePNG, listener );
@@ -114,7 +114,7 @@ public class FileDigestTest extends Base {
         }
 
         instance.reset();
-        Assertions.assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
     }
 
     @Test
@@ -135,15 +135,15 @@ public class FileDigestTest extends Base {
         while( instance.hasNext() ) {
             final byte[] currentBuffer = instance.computeNext(true);
 
-            Assertions.assertThat( currentBuffer ).isEqualTo( bytesPNG );
+            assertThat( currentBuffer ).isEqualTo( bytesPNG );
 
             final String hash = DFFPass2WithMultiThreadSupportImpl.computeHash( messageDigest, sb, currentBuffer );
             LOGGER.info( "File:" + filePNG + " subHash " + hash );
 
-            Assertions.assertThat( hash ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+            assertThat( hash ).isEqualTo( IO.MD5_FOR_PNG_FILE );
         }
 
-        Assertions.assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
         instance.reset();
     }
 
@@ -170,10 +170,10 @@ public class FileDigestTest extends Base {
             hashs.add( hash );
         }
 
-        Assertions.assertThat( hashs.size() ).isEqualTo( 2 );
-        Assertions.assertThat( hashs.get( 0 ) ).isEqualTo( PNG_FILE_FIRST_MD5 );
-        Assertions.assertThat( hashs.get( 1 ) ).isEqualTo( PNG_FILE_SECOND_MD5 );
-        Assertions.assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( hashs.size() ).isEqualTo( 2 );
+        assertThat( hashs.get( 0 ) ).isEqualTo( PNG_FILE_FIRST_MD5 );
+        assertThat( hashs.get( 1 ) ).isEqualTo( PNG_FILE_SECOND_MD5 );
+        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
         instance.reset();
     }
 
@@ -188,7 +188,7 @@ public class FileDigestTest extends Base {
             instance.computeNext( false );
         }
 
-        Assertions.assertThat( instance.digestString() ).isEqualTo( md5 );
+        assertThat( instance.digestString() ).isEqualTo( md5 );
         instance.reset();
     }
 

@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.util.duplicate;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.InitialStatus;
@@ -47,16 +47,16 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
 
         InitialStatus initialStatus = dff.getInitialStatus();
 
-        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
+        assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
 
         dff.addFile( file3 );
 
         initialStatus = dff.getInitialStatus();
 
         // new file
-        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
+        assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
     }
 
     @Test(expected=IllegalStateException.class)
@@ -72,8 +72,8 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
 
         InitialStatus initialStatus = dff.getInitialStatus();
 
-        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
+        assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
 
         dff.find();
 
@@ -100,20 +100,20 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
 
         final InitialStatus initialStatus = dff.getInitialStatus();
 
-        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
+        assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() + file2.length() );
 
         dff.find();
 
         final Map<String, Set<File>> files = dff.getFiles();
-        Assertions.assertThat( files.size() ).isEqualTo( 1 );
+        assertThat( files.size() ).isEqualTo( 1 );
 
         final Entry<String, Set<File>> firstEntry = files.entrySet().iterator().next();
-        Assertions.assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
 
         final Set<File> setOfFiles = firstEntry.getValue();
-        Assertions.assertThat( setOfFiles.size() ).isEqualTo( 2 );
-        Assertions.assertThat( setOfFiles ).containsOnly( file1, file2 );
+        assertThat( setOfFiles.size() ).isEqualTo( 2 );
+        assertThat( setOfFiles ).containsOnly( file1, file2 );
 
         dff.removeEventListener( eventListener );
 
@@ -128,9 +128,9 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     {
         final Status status = dff.getStatus();
 
-        Assertions.assertThat( status.getBytes() ).isEqualTo( expected_bytes );
-        Assertions.assertThat( status.getFiles() ).isEqualTo( expected_files );
-        Assertions.assertThat( status.getSets() ).isEqualTo( expected_sets );
+        assertThat( status.getBytes() ).isEqualTo( expected_bytes );
+        assertThat( status.getFiles() ).isEqualTo( expected_files );
+        assertThat( status.getSets() ).isEqualTo( expected_sets );
     }
 
     @Test
@@ -149,8 +149,8 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
         InitialStatus initialStatus = dff.getInitialStatus();
 
         // File 3 is expected here.
-        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 3 );
-        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 3 );
+        assertThat( initialStatus.getFiles() ).isEqualTo( 3 );
+        assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 3 );
 
         // Delete file 3 now !
         file3.delete();
@@ -158,20 +158,20 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
         initialStatus = dff.getInitialStatus();
 
         // File 3 no more expected here.
-        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 2 );
+        assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 2 );
 
         dff.find();
 
         final Map<String, Set<File>> files = dff.getFiles();
-        Assertions.assertThat( files.size() ).isEqualTo( 1 );
+        assertThat( files.size() ).isEqualTo( 1 );
 
         final Entry<String, Set<File>> firstEntry = files.entrySet().iterator().next();
-        Assertions.assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
 
         final Set<File> setOfFiles = firstEntry.getValue();
-        Assertions.assertThat( setOfFiles.size() ).isEqualTo( 2 );
-        Assertions.assertThat( setOfFiles ).containsOnly( file1, file2 );
+        assertThat( setOfFiles.size() ).isEqualTo( 2 );
+        assertThat( setOfFiles ).containsOnly( file1, file2 );
     }
 
     @Test
@@ -193,21 +193,21 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
         file3.delete();
 
         // File 3 is still expected here.
-        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 3 );
-        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 3 );
+        assertThat( initialStatus.getFiles() ).isEqualTo( 3 );
+        assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 3 );
 
         dff.find();
 
         final Map<String, Set<File>> files = dff.getFiles();
-        Assertions.assertThat( files.size() ).isEqualTo( 1 );
+        assertThat( files.size() ).isEqualTo( 1 );
 
         final Entry<String, Set<File>> firstEntry = files.entrySet().iterator().next();
-        Assertions.assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
 
         // File 3 is no more expected here.
         final Set<File> setOfFiles = firstEntry.getValue();
-        Assertions.assertThat( setOfFiles.size() ).isEqualTo( 2 );
-        Assertions.assertThat( setOfFiles ).containsOnly( file1, file2 );
+        assertThat( setOfFiles.size() ).isEqualTo( 2 );
+        assertThat( setOfFiles ).containsOnly( file1, file2 );
     }
 
     @Test
@@ -232,19 +232,19 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
         final InitialStatus initialStatus = dff.getInitialStatus();
 
         // File 3 is not expected here.
-        Assertions.assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
-        Assertions.assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 2 );
+        assertThat( initialStatus.getFiles() ).isEqualTo( 2 );
+        assertThat( initialStatus.getBytes() ).isEqualTo( file1.length() * 2 );
 
         dff.find();
 
         final Map<String, Set<File>> files = dff.getFiles();
-        Assertions.assertThat( files.size() ).isEqualTo( 1 );
+        assertThat( files.size() ).isEqualTo( 1 );
 
         final Entry<String, Set<File>> firstEntry = files.entrySet().iterator().next();
-        Assertions.assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
 
         final Set<File> setOfFiles = firstEntry.getValue();
-        Assertions.assertThat( setOfFiles.size() ).isEqualTo( 2 );
-        Assertions.assertThat( setOfFiles ).containsOnly( file1, file2 );
+        assertThat( setOfFiles.size() ).isEqualTo( 2 );
+        assertThat( setOfFiles ).containsOnly( file1, file2 );
     }
 }

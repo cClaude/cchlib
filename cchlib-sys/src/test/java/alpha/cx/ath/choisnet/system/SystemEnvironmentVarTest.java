@@ -1,10 +1,10 @@
 package alpha.cx.ath.choisnet.system;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Iterator;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,7 +44,7 @@ public class SystemEnvironmentVarTest
     @Test
     public void test_getVarNames()
     {
-        final Iterable<String> iter = javaSysEnv.getVarNames();
+        final Iterable<String> iter = this.javaSysEnv.getVarNames();
 
         logStrings( iter );
 
@@ -58,31 +58,31 @@ public class SystemEnvironmentVarTest
         final String name   = "nameForTest";
         final String value  = "value";
 
-        final int count0 = count( javaSysEnv.getVarNames() );
+        final int count0 = count( this.javaSysEnv.getVarNames() );
 
         // ADD
-        javaSysEnv.setVar( name, value );
-        Assertions.assertThat( javaSysEnv.getVarNames() ).contains( name );
-        Assertions.assertThat( javaSysEnv.getVarObjectKeys() ).contains( name );
+        this.javaSysEnv.setVar( name, value );
+        assertThat( this.javaSysEnv.getVarNames() ).contains( name );
+        assertThat( this.javaSysEnv.getVarObjectKeys() ).contains( name );
 
-        final int count1 = count( javaSysEnv.getVarNames() );
-        Assertions.assertThat( count1 ).isGreaterThanOrEqualTo( count0 );
+        final int count1 = count( this.javaSysEnv.getVarNames() );
+        assertThat( count1 ).isGreaterThanOrEqualTo( count0 );
 
         // GET
-        final String nValue = javaSysEnv.getVar( name );
-        Assertions.assertThat( nValue ).isEqualTo( value ).isNotSameAs( value );
+        final String nValue = this.javaSysEnv.getVar( name );
+        assertThat( nValue ).isEqualTo( value ).isNotSameAs( value );
 
-        final int count2 = count( javaSysEnv.getVarNames() );
-        Assertions.assertThat( count2 ).isGreaterThanOrEqualTo( count1 );
+        final int count2 = count( this.javaSysEnv.getVarNames() );
+        assertThat( count2 ).isGreaterThanOrEqualTo( count1 );
 
         // DELETE
-        javaSysEnv.deleteVar( name );
+        this.javaSysEnv.deleteVar( name );
 
-        final int count3 = count( javaSysEnv.getVarNames() );
-        Assertions.assertThat( count3 ).isLessThan( count2 );
+        final int count3 = count( this.javaSysEnv.getVarNames() );
+        assertThat( count3 ).isLessThan( count2 );
 
-        final String nValue2 = javaSysEnv.getVar( name );
-        Assertions.assertThat( nValue2 ).isNull();
+        final String nValue2 = this.javaSysEnv.getVar( name );
+        assertThat( nValue2 ).isNull();
 
         LOGGER.info( "done" );
     }
@@ -90,7 +90,7 @@ public class SystemEnvironmentVarTest
     @Test
     public void test_getVarObjectKeys()
     {
-        final Iterable<Serializable> iter = javaSysEnv.getVarObjectKeys();
+        final Iterable<Serializable> iter = this.javaSysEnv.getVarObjectKeys();
 
         logSerializable( iter );
 
@@ -104,31 +104,31 @@ public class SystemEnvironmentVarTest
         final String  key   = "nameForTest";
         final Integer value = Integer.MAX_VALUE;
 
-        final int count0 = count( javaSysEnv.getVarObjectKeys() );
+        final int count0 = count( this.javaSysEnv.getVarObjectKeys() );
 
         // ADD
-        javaSysEnv.setVarObject( key, value );
-        Assertions.assertThat( javaSysEnv.getVarNames() ).contains( key );
-        Assertions.assertThat( javaSysEnv.getVarObjectKeys() ).contains( key );
+        this.javaSysEnv.setVarObject( key, value );
+        assertThat( this.javaSysEnv.getVarNames() ).contains( key );
+        assertThat( this.javaSysEnv.getVarObjectKeys() ).contains( key );
 
-        final int count1 = count( javaSysEnv.getVarObjectKeys() );
-        Assertions.assertThat( count1 ).isGreaterThanOrEqualTo( count0 );
+        final int count1 = count( this.javaSysEnv.getVarObjectKeys() );
+        assertThat( count1 ).isGreaterThanOrEqualTo( count0 );
 
         // GET
-        final Serializable nValue = javaSysEnv.getVarObject( key );
-        Assertions.assertThat( nValue ).isEqualTo( value ).isNotSameAs( value );
+        final Serializable nValue = this.javaSysEnv.getVarObject( key );
+        assertThat( nValue ).isEqualTo( value ).isNotSameAs( value );
 
-        final int count2 = count( javaSysEnv.getVarObjectKeys() );
-        Assertions.assertThat( count2 ).isGreaterThanOrEqualTo( count1 );
+        final int count2 = count( this.javaSysEnv.getVarObjectKeys() );
+        assertThat( count2 ).isGreaterThanOrEqualTo( count1 );
 
         // DELETE
-        javaSysEnv.deleteVarObject( key );
+        this.javaSysEnv.deleteVarObject( key );
 
-        final int count3 = count( javaSysEnv.getVarObjectKeys() );
-        Assertions.assertThat( count3 ).isLessThan( count2 );
+        final int count3 = count( this.javaSysEnv.getVarObjectKeys() );
+        assertThat( count3 ).isLessThan( count2 );
 
-        final Serializable nValue2 = javaSysEnv.getVarObject( key );
-        Assertions.assertThat( nValue2 ).isNull();
+        final Serializable nValue2 = this.javaSysEnv.getVarObject( key );
+        assertThat( nValue2 ).isNull();
 
         LOGGER.info( "done" );
     }
@@ -139,30 +139,30 @@ public class SystemEnvironmentVarTest
         final File     key   = new File( "TEST" );
         final TestBean value = new TestBean( 1, "MyTest" );
 
-        final int count0 = count( javaSysEnv.getVarObjectKeys() );
+        final int count0 = count( this.javaSysEnv.getVarObjectKeys() );
 
         // ADD
-        javaSysEnv.setVarObject( key, value );
-        Assertions.assertThat( javaSysEnv.getVarObjectKeys() ).contains( key );
+        this.javaSysEnv.setVarObject( key, value );
+        assertThat( this.javaSysEnv.getVarObjectKeys() ).contains( key );
 
-        final int count1 = count( javaSysEnv.getVarObjectKeys() );
-        Assertions.assertThat( count1 ).isGreaterThanOrEqualTo( count0 );
+        final int count1 = count( this.javaSysEnv.getVarObjectKeys() );
+        assertThat( count1 ).isGreaterThanOrEqualTo( count0 );
 
         // GET
-        final Serializable nValue = javaSysEnv.getVarObject( key );
-        Assertions.assertThat( nValue ).isEqualTo( value ).isNotSameAs( value );
+        final Serializable nValue = this.javaSysEnv.getVarObject( key );
+        assertThat( nValue ).isEqualTo( value ).isNotSameAs( value );
 
-        final int count2 = count( javaSysEnv.getVarObjectKeys() );
-        Assertions.assertThat( count2 ).isGreaterThanOrEqualTo( count1 );
+        final int count2 = count( this.javaSysEnv.getVarObjectKeys() );
+        assertThat( count2 ).isGreaterThanOrEqualTo( count1 );
 
         // DELETE
-        javaSysEnv.deleteVarObject( key );
+        this.javaSysEnv.deleteVarObject( key );
 
-        final int count3 = count( javaSysEnv.getVarObjectKeys() );
-        Assertions.assertThat( count3 ).isLessThan( count2 );
+        final int count3 = count( this.javaSysEnv.getVarObjectKeys() );
+        assertThat( count3 ).isLessThan( count2 );
 
-        final Serializable nValue2 = javaSysEnv.getVarObject( key );
-        Assertions.assertThat( nValue2 ).isNull();
+        final Serializable nValue2 = this.javaSysEnv.getVarObject( key );
+        assertThat( nValue2 ).isNull();
 
         LOGGER.info( "done" );
     }
@@ -175,7 +175,7 @@ public class SystemEnvironmentVarTest
         throws Exception
     {
         // add additional set up code here
-        javaSysEnv = SystemEnvironmentVarFactory.getJavaSystemEnvironmentVar();
+        this.javaSysEnv = SystemEnvironmentVarFactory.getJavaSystemEnvironmentVar();
     }
 
     /**

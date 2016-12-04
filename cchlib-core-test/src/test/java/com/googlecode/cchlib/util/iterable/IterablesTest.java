@@ -1,7 +1,6 @@
-// $codepro.audit.disable importOrder, numericLiterals
 package com.googlecode.cchlib.util.iterable;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.util.Collection;

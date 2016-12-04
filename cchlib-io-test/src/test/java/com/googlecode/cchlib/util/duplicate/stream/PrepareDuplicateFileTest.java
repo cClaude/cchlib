@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.duplicate.stream;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -13,7 +14,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
 
@@ -72,17 +72,17 @@ public class PrepareDuplicateFileTest {
                     LOGGER.warn( "File length has changed : " + f + " + " + fileLength + '/' + f.length() );
                 }
 
-                Assertions.assertThat( fileLength ).isGreaterThan( 0L );
+                assertThat( fileLength ).isGreaterThan( 0L );
             } );
         } );
 
         DuplicateHelpers.removeNonDuplicate( files );
 
         files.entrySet().forEach( entry -> {
-            Assertions.assertThat( entry.getKey() )
+            assertThat( entry.getKey() )
                 .describedAs( "No empty files : " + entry )
                 .isGreaterThan( 0L );
-            Assertions.assertThat( entry.getValue().size() )
+            assertThat( entry.getValue().size() )
                 .as( "Not a duplicate : " + entry )
                 .isGreaterThan( 1 );
         } );

@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console.filefilter;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.googlecode.cchlib.json.JSONHelper;
@@ -33,7 +33,7 @@ public class FileFiltersConfigTest
         LOGGER.info( "testSave() jsonString = " + jsonString );
         LOGGER.info( "testSave() expected   = " + JSON_FULL_OUT );
 
-        Assertions.assertThat( jsonString )
+        assertThat( jsonString )
             .isEqualTo( JSON_FULL_OUT );
     }
 
@@ -53,14 +53,14 @@ public class FileFiltersConfigTest
 
     private void runTest( final CustomFileFilterConfig cffc )
     {
-      Assertions.assertThat( cffc ).isNotNull();
+      assertThat( cffc ).isNotNull();
 
-      Assertions.assertThat( cffc.getExcludeNames() )
+      assertThat( cffc.getExcludeNames() )
           .contains( FileFilterConfigTestTools.STR1 )
           .contains( FileFilterConfigTestTools.STR2 )
           .hasSize( 2 );
 
-      Assertions.assertThat( cffc.getExcludePaths() )
+      assertThat( cffc.getExcludePaths() )
           .contains( FileFilterConfigTestTools.PATH1 )
           .contains( FileFilterConfigTestTools.PATH2 )
           .hasSize( 2 );

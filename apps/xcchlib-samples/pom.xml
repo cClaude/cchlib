@@ -3,17 +3,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <!-- parent>
+  <parent>
     <groupId>com.googlecode.cchlib</groupId>
     <artifactId>cchlib</artifactId>
     <version>4.2-SNAPSHOT</version>
-  </parent -->
+  </parent>
 
   <artifactId>xcchlib-samples</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-x-samples</name>
-  <groupId>com.googlecode.cchlib</groupId>
-  <version>4.2-SNAPSHOT</version>
+<!--   <groupId>com.googlecode.cchlib</groupId> -->
+<!--   <version>4.2-SNAPSHOT</version> -->
 
   <prerequisites>
     <maven>3.0.0</maven>
@@ -46,6 +46,7 @@
   </repositories>
 
   <dependencies>
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
@@ -58,27 +59,6 @@
         <version>4.2-SNAPSHOT</version>
     </dependency>
 
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.17</version>
-      <type>jar</type>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.easytesting</groupId>
-      <artifactId>fest-assert</artifactId>
-      <version>1.4</version>
-      <scope>test</scope>
-    </dependency>
  </dependencies>
 
   <build>

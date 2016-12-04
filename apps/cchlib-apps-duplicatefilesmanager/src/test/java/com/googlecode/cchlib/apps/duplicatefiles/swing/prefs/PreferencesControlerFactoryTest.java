@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.prefs;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.FileNotFoundException;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
@@ -53,7 +53,7 @@ public class PreferencesControlerFactoryTest
     {
         final PreferencesControler pref = PreferencesControlerFactory.createDefaultPreferences();
 
-        Assertions.assertThat( pref ).isNotNull();
+        assertThat( pref ).isNotNull();
 
         LOGGER.info( "createDefaultPreferences() : pref = " + pref );
     }
@@ -82,9 +82,9 @@ public class PreferencesControlerFactoryTest
         LOGGER.info( "createPreferences_default_file() : error = " + error );
         LOGGER.info( "createPreferences_default_file() : done  = " + done );
 
-        Assertions.assertThat( error ).isNull();
-        Assertions.assertThat( pref ).isNotNull();
-        Assertions.assertThat( done ).isTrue();
+        assertThat( error ).isNull();
+        assertThat( pref ).isNotNull();
+        assertThat( done ).isTrue();
     }
 
     @Test(expected=FileNotFoundException.class)
@@ -102,7 +102,7 @@ public class PreferencesControlerFactoryTest
         final File tmpDir = FileHelper.getTmpDirFile();
         final File file   = new File( tmpDir, "NotExistingFile" );
 
-        Assertions.assertThat( file ).doesNotExist();
+        assertThat( file ).doesNotExist();
 
         return file;
     }

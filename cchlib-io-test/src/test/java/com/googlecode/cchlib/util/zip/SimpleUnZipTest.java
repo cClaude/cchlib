@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.util.zip;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
@@ -52,13 +52,13 @@ public class SimpleUnZipTest
             unzipDestDirFile.exists()
             );
 
-        Assertions.assertThat( countAtBeginning ).isEqualTo( 0 );
-        Assertions.assertThat( countAtEnd ).isEqualTo( listener.getCount() );
-        Assertions.assertThat( countAtEnd ).isEqualTo( EXPECTED_FILE_COUNT );
+        assertThat( countAtBeginning ).isEqualTo( 0 );
+        assertThat( countAtEnd ).isEqualTo( listener.getCount() );
+        assertThat( countAtEnd ).isEqualTo( EXPECTED_FILE_COUNT );
 
         final long count = SimpleUnZip.computeFilesCount( IO.createZipInputFile() );
 
-        Assertions.assertThat( countAtEnd ).isEqualTo( count );
+        assertThat( countAtEnd ).isEqualTo( count );
     }
 
     @Test(expected=FileNotFoundException.class)

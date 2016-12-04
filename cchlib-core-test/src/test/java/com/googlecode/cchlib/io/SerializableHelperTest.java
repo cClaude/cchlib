@@ -1,6 +1,6 @@
-// $codepro.audit.disable
 package com.googlecode.cchlib.io;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import java.io.File;
@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -38,7 +37,7 @@ public class SerializableHelperTest
         final String result = SerializableHelper.clone( value, clazz );
 
         // add additional test code here
-        Assertions.assertThat( result ).isNotNull().isEqualTo( value ).isNotSameAs( value );
+        assertThat( result ).isNotNull().isEqualTo( value ).isNotSameAs( value );
     }
 
 // Should not occur

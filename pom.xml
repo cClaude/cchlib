@@ -285,11 +285,15 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.17</version>
-      <type>jar</type>
-      <scope>compile</scope>
     </dependency>
 
     <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+
+    <dependency><!-- Test only -->
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12-beta-1</version>
@@ -302,20 +306,16 @@
       </exclusions>
     </dependency>
 
-    <dependency>
+    <!-- Project URL https://github.com/alexruiz/fest-assert-2.x -->
+    <!-- https://mvnrepository.com/artifact/org.easytesting/fest-assert-core -->
+    <dependency><!-- Test only -->
       <groupId>org.easytesting</groupId>
-      <artifactId>fest-assert</artifactId>
-      <version>1.4</version>
+      <artifactId>fest-assert-core</artifactId>
+      <version>2.0M10</version>
       <scope>test</scope>
     </dependency>
 
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <version>3.0.0</version>
-    </dependency>
-
-    <dependency>
+    <dependency><!-- Test only -->
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <version>1.9.5</version>

@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console.filefilter;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.util.Collection;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.googlecode.cchlib.json.JSONHelper;
@@ -27,7 +27,7 @@ public class CustomFileFilterConfigTest
         final String expected = FileFilterConfigTestTools.JSON_FULL_OUT1;
         LOGGER.info( "testSaveExcludeNames() expected   = " + expected );
 
-        Assertions.assertThat( jsonString ).isEqualTo( expected );
+        assertThat( jsonString ).isEqualTo( expected );
     }
 
     @Test
@@ -36,10 +36,10 @@ public class CustomFileFilterConfigTest
         final CustomFileFilterConfig value = JSONHelper.fromJSON( FileFilterConfigTestTools.JSON_SIMPLE_IN1, CustomFileFilterConfig.class );
 
         final Collection<String> excludeNames = value.getExcludeNames();
-        Assertions.assertThat( excludeNames ).contains( FileFilterConfigTestTools.STR1 ).contains( FileFilterConfigTestTools.STR2 ).hasSize( 2 );
+        assertThat( excludeNames ).contains( FileFilterConfigTestTools.STR1 ).contains( FileFilterConfigTestTools.STR2 ).hasSize( 2 );
 
         final Collection<String> excludePaths = value.getExcludePaths();
-        Assertions.assertThat( excludePaths ).isNull();
+        assertThat( excludePaths ).isNull();
     }
 
     @Test
@@ -50,12 +50,12 @@ public class CustomFileFilterConfigTest
                 CustomFileFilterConfig.class
                 );
 
-        Assertions.assertThat( value.getExcludeNames() )
+        assertThat( value.getExcludeNames() )
             .contains( FileFilterConfigTestTools.STR1 )
             .contains( FileFilterConfigTestTools.STR2 )
             .hasSize( 2 );
 
-        Assertions.assertThat( value.getExcludePaths() ).isNull();
+        assertThat( value.getExcludePaths() ).isNull();
     }
 
     @Test
@@ -72,7 +72,7 @@ public class CustomFileFilterConfigTest
         LOGGER.info( "testSave() jsonString = " + jsonString );
         LOGGER.info( "testSave() expected   = " + FileFilterConfigTestTools.JSON_FULL_OUT3 );
 
-        Assertions.assertThat( jsonString )
+        assertThat( jsonString )
             .isEqualTo( FileFilterConfigTestTools.JSON_FULL_OUT3 );
     }
 
@@ -84,12 +84,12 @@ public class CustomFileFilterConfigTest
                 CustomFileFilterConfig.class
                 );
 
-        Assertions.assertThat( value.getExcludeNames() )
+        assertThat( value.getExcludeNames() )
             .contains( FileFilterConfigTestTools.STR1 )
             .contains( FileFilterConfigTestTools.STR2 )
             .hasSize( 2 );
 
-        Assertions.assertThat( value.getExcludePaths() )
+        assertThat( value.getExcludePaths() )
             .contains( FileFilterConfigTestTools.PATH1 )
             .contains( FileFilterConfigTestTools.PATH2 )
             .hasSize( 2 );

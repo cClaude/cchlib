@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.duplicate.digest;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -7,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IO;
 import com.googlecode.cchlib.util.CancelRequestException;
@@ -49,10 +49,10 @@ public class FileDigestTest2_IT extends Base {
             hashs.add( hash );
         }
 
-        Assertions.assertThat( hashs.size() ).isEqualTo( 2 );
-        Assertions.assertThat( hashs.get( 0 ) ).isEqualTo( PNG_FILE_FIRST_MD5 );
-        Assertions.assertThat( hashs.get( 1 ) ).isEqualTo( PNG_FILE_SECOND_MD5 );
-        Assertions.assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( hashs.size() ).isEqualTo( 2 );
+        assertThat( hashs.get( 0 ) ).isEqualTo( PNG_FILE_FIRST_MD5 );
+        assertThat( hashs.get( 1 ) ).isEqualTo( PNG_FILE_SECOND_MD5 );
+        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
 
         instance.reset();
     }

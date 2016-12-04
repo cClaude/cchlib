@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.util.emptydirectories.lookup;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.zip;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileIterator;
 import com.googlecode.cchlib.io.IO;
@@ -63,7 +63,7 @@ public class SimpleZipTest
         // Could crash if file is use by a other process (i.e. git indexing)
         Files.delete( file.toPath() );
 
-        Assertions.assertThat( file ).doesNotExist();
+        assertThat( file ).doesNotExist();
     }
 
     @Test
@@ -93,9 +93,9 @@ public class SimpleZipTest
         LOGGER.info( "Zip " + listener.getCount() + " items" );
         LOGGER.info( "unzipCount = " + unzipCount );
 
-        Assertions.assertThat( listener.getCount() ).isEqualTo( unzipCount );
-        Assertions.assertThat( listener.getCount() ).isEqualTo( EXPECTED_FILE_COUNT );
-        Assertions.assertThat( zipLength ).isGreaterThan( EXPECTED_ZIP_MIN_LENGTH );
+        assertThat( listener.getCount() ).isEqualTo( unzipCount );
+        assertThat( listener.getCount() ).isEqualTo( EXPECTED_FILE_COUNT );
+        assertThat( zipLength ).isGreaterThan( EXPECTED_ZIP_MIN_LENGTH );
     }
 
     @Test
@@ -121,9 +121,9 @@ public class SimpleZipTest
         LOGGER.info( "Zip " + listener.getCount() + " items" );
         LOGGER.info( "unzipCount = " + unzipCount );
 
-        Assertions.assertThat( listener.getCount() ).isEqualTo( unzipCount );
-        Assertions.assertThat( listener.getCount() ).isEqualTo( EXPECTED_FILE_COUNT );
-        Assertions.assertThat( zipLength ).isGreaterThan( EXPECTED_ZIP_MIN_LENGTH );
+        assertThat( listener.getCount() ).isEqualTo( unzipCount );
+        assertThat( listener.getCount() ).isEqualTo( EXPECTED_FILE_COUNT );
+        assertThat( zipLength ).isGreaterThan( EXPECTED_ZIP_MIN_LENGTH );
     }
 
     @Test
@@ -160,9 +160,9 @@ public class SimpleZipTest
         LOGGER.info( "Zip " + listener.getCount() + " items" );
         LOGGER.info( "unzipCount = " + unzipCount );
 
-        Assertions.assertThat( listener.getCount() ).isEqualTo( unzipCount );
-        Assertions.assertThat( listener.getCount() ).isEqualTo( EXPECTED_FILE_COUNT + 1 /* root folder */ );
-        Assertions.assertThat( zipLength ).isGreaterThan( EXPECTED_ZIP_MIN_LENGTH );
+        assertThat( listener.getCount() ).isEqualTo( unzipCount );
+        assertThat( listener.getCount() ).isEqualTo( EXPECTED_FILE_COUNT + 1 /* root folder */ );
+        assertThat( zipLength ).isGreaterThan( EXPECTED_ZIP_MIN_LENGTH );
     }
 
     @Test
@@ -192,9 +192,9 @@ public class SimpleZipTest
         LOGGER.info( "Zip " + listener.getCount() + " items" );
         LOGGER.info( "unzipCount = " + unzipCount );
 
-        Assertions.assertThat( listener.getCount() ).isEqualTo( entriesList.size() );
-        Assertions.assertThat( listener.getCount() ).isEqualTo( unzipCount );
-        Assertions.assertThat( listener.getCount() ).isEqualTo( EXPECTED_FILE_COUNT );
-        Assertions.assertThat( zipLength ).isGreaterThan( EXPECTED_ZIP_MIN_LENGTH );
+        assertThat( listener.getCount() ).isEqualTo( entriesList.size() );
+        assertThat( listener.getCount() ).isEqualTo( unzipCount );
+        assertThat( listener.getCount() ).isEqualTo( EXPECTED_FILE_COUNT );
+        assertThat( zipLength ).isGreaterThan( EXPECTED_ZIP_MIN_LENGTH );
     }
 }

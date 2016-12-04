@@ -1,9 +1,8 @@
-// $codepro.audit.disable avoidAutoBoxing, unnecessaryExceptions, importOrder, numericLiterals
 package com.googlecode.cchlib.lang.reflect;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +33,7 @@ public class InvokerByNameTest
         assertNotNull( test );
 
         final Object result = test.invoke( instance, params );
-        Assertions.assertThat( result ).isEqualTo( Object.class );
+        assertThat( result ).isEqualTo( Object.class );
     }
 
 
@@ -81,7 +80,7 @@ public class InvokerByNameTest
         final String result = fixture.formatMethodNameForException(format);
 
         // add additional test code here
-        Assertions.assertThat( result ).isEqualTo( "com.googlecode.cchlib.lang.reflect.MyTestByName.myTest" );
+        assertThat( result ).isEqualTo( "com.googlecode.cchlib.lang.reflect.MyTestByName.myTest" );
     }
 
     /**
@@ -150,7 +149,7 @@ public class InvokerByNameTest
 
         final Object result = fixture.invoke(null, params); // No method like these
 
-        Assertions.assertThat( result ).isNotNull();
+        assertThat( result ).isNotNull();
     }
 
     /**
@@ -165,7 +164,7 @@ public class InvokerByNameTest
 
         final Object result = fixture.invoke( params ); // No 'static' method like these
 
-        Assertions.assertThat( result ).isNotNull();
+        assertThat( result ).isNotNull();
     }
 
     /**
@@ -180,7 +179,7 @@ public class InvokerByNameTest
 
         final Object result = fixture.invoke( params ); // No 'static' method like these
 
-        Assertions.assertThat( result ).isNotNull();
+        assertThat( result ).isNotNull();
     }
 
     /**
@@ -199,9 +198,9 @@ public class InvokerByNameTest
 
         // add additional test code here
         assertNotNull(result);
-        Assertions.assertThat( result ).isNotNull();
-        Assertions.assertThat( result.getClass() ).isEqualTo( Integer.class );
-        Assertions.assertThat( result ).isEqualTo( 0 );
+        assertThat( result ).isNotNull();
+        assertThat( result ).isInstanceOf( Integer.class );
+        assertThat( result ).isEqualTo( 0 );
    }
 
     /**
@@ -221,9 +220,9 @@ public class InvokerByNameTest
 
         // add additional test code here
         assertNotNull(result);
-        Assertions.assertThat( result ).isNotNull();
-        Assertions.assertThat( result.getClass() ).isEqualTo( Integer.class );
-        Assertions.assertThat( result ).isEqualTo( 0 );
+        assertThat( result ).isNotNull();
+        assertThat( result ).isInstanceOf( Integer.class );
+        assertThat( result ).isEqualTo( 0 );
    }
 
     /**
@@ -245,9 +244,9 @@ public class InvokerByNameTest
         final Object result = fixture.invoke(instance, params);
 
         // add additional test code here
-        Assertions.assertThat( result ).isNotNull();
-        Assertions.assertThat( result.getClass() ).isEqualTo( String.class );
-        Assertions.assertThat( result ).isEqualTo( Integer.toString( value ) );
+        assertThat( result ).isNotNull();
+        assertThat( result ).isInstanceOf( String.class );
+        assertThat( result ).isEqualTo( Integer.toString( value ) );
     }
 
     /**
@@ -270,9 +269,9 @@ public class InvokerByNameTest
         final Object result = fixture.invoke(instance, params);
 
         // add additional test code here
-        Assertions.assertThat( result ).isNotNull();
-        Assertions.assertThat( result.getClass() ).isEqualTo( String.class );
-        Assertions.assertThat( result ).isEqualTo( Integer.toString( value1 + value2 ) );
+        assertThat( result ).isNotNull();
+        assertThat( result ).isInstanceOf( String.class );
+        assertThat( result ).isEqualTo( Integer.toString( value1 + value2 ) );
     }
 
     /**
@@ -295,17 +294,16 @@ public class InvokerByNameTest
         final Object result = fixture.invoke(instance, params);
 
         // add additional test code here
-        Assertions.assertThat( result ).isNotNull();
-        Assertions.assertThat( result.getClass() ).isEqualTo( String.class );
-        Assertions.assertThat( result ).isEqualTo( instance.myTest( value1, value2, value3 ) );
+        assertThat( result ).isNotNull();
+        assertThat( result ).isInstanceOf( String.class );
+        assertThat( result ).isEqualTo( instance.myTest( value1, value2, value3 ) );
     }
 
     /**
      * Perform pre-test initialization.
      */
     @Before
-    public void setUp()
-        throws Exception
+    public void setUp() throws Exception
     {
         // add additional set up code here
     }

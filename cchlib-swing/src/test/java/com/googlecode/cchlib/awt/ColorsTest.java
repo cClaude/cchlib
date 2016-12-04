@@ -1,18 +1,17 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.awt;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The class <code>ColorsTest</code> contains tests for the class <code>{@link Colors}</code>.
+ * The class {@code ColorsTest} contains tests for the class {@link Colors}.
  *
  * @version $Revision: 1.0 $
  */
@@ -27,9 +26,9 @@ public class ColorsTest
     public void testToColor_1()
         throws Exception
     {
-        Colors fixture = Colors.aliceblue;
+        final Colors fixture = Colors.aliceblue;
 
-        Color result = fixture.toColor();
+        final Color result = fixture.toColor();
 
         // add additional test code here
         Assert.assertNotNull(result);
@@ -50,15 +49,15 @@ public class ColorsTest
     public void testColors_vs_Color()
         throws Exception
     {
-        Class<Color> colorClass = Color.class;
+        final Class<Color> colorClass = Color.class;
 
-        for( Field f : colorClass.getFields() ) {
+        for( final Field f : colorClass.getFields() ) {
             if( f.getType().isAssignableFrom( Color.class ) ) {
                 if( Modifier.isStatic( f.getModifiers() ) ) {
 
-                    Color  color = getColor( f );
-                    Colors c     = Colors.find( color );
-                    String hex   = c == null ? "#??????" : c.toHexString();
+                    final Color  color = getColor( f );
+                    final Colors c     = Colors.find( color );
+                    final String hex   = c == null ? "#??????" : c.toHexString();
 
                     LOGGER.info( "color " + color + " is " + f.getName() + " *** Colors is " + c + " -> " + hex );
 
@@ -69,34 +68,34 @@ public class ColorsTest
         }
     }
 
-    private void checkColorByRGB( Color color, String colorName )
+    private void checkColorByRGB( final Color color, final String colorName )
     {
-        Colors c = Colors.find( color );
+        final Colors c = Colors.find( color );
 
-        Assertions.assertThat( c ).isNotNull();
-        Assertions.assertThat( normalize( colorName ) ).isEqualTo( c.name().toLowerCase() );
+        assertThat( c ).isNotNull();
+        assertThat( normalize( colorName ) ).isEqualTo( c.name().toLowerCase() );
     }
 
-    private String normalize( String colorName )
+    private String normalize( final String colorName )
     {
-        String str = colorName.toLowerCase();
+        final String str = colorName.toLowerCase();
 
         return str.replaceAll( "_", "" );
     }
 
 
-    private void checkColorByName( Color color, String colorName )
+    private void checkColorByName( final Color color, final String colorName )
     {
-        Colors c = Colors.find( normalize( colorName ) );
+        final Colors c = Colors.find( normalize( colorName ) );
 
-        Assertions.assertThat( c ).isNotNull();
+        assertThat( c ).isNotNull();
 
-        Color newColor = c.toColor();
+        final Color newColor = c.toColor();
 
-        Assertions.assertThat( newColor ).isEqualTo( color );
+        assertThat( newColor ).isEqualTo( color );
     }
 
-    private static Color getColor( Field f )
+    private static Color getColor( final Field f )
     {
         try {
             return (Color)f.get( null );
@@ -130,7 +129,7 @@ public class ColorsTest
     /**
      * Launch the test.
      */
-    public static void main(String[] args)
+    public static void main(final String[] args)
     {
         new org.junit.runner.JUnitCore().run(ColorsTest.class);
     }

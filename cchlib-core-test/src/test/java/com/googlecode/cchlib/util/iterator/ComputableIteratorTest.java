@@ -1,9 +1,9 @@
 package com.googlecode.cchlib.util.iterator;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import org.apache.log4j.Logger;
-import org.fest.assertions.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -57,7 +57,7 @@ public class ComputableIteratorTest extends ComputableIteratorTest_data {
         for( int expected = 0; expected < MAX; expected++ ) {
             final Integer value = iterator.next();
             LOGGER.info( "test_next_NoSuchElementException() - value=" + value + " exp: " + expected);
-            Assertions.assertThat( value ).isEqualTo( expected );
+            assertThat( value ).isEqualTo( expected );
         }
 
         iterator.next(); // SHOULD FAIL HERE
@@ -74,7 +74,7 @@ public class ComputableIteratorTest extends ComputableIteratorTest_data {
 
             LOGGER.info( "test_next_NoSuchElementException_for_ArrayList() - value=" + value );
 
-            Assertions.assertThat( value ).isEqualTo( expected );
+            assertThat( value ).isEqualTo( expected );
         }
 
         iterator.next(); // SHOULD FAIL HERE
@@ -88,10 +88,10 @@ public class ComputableIteratorTest extends ComputableIteratorTest_data {
         int expected = 0;
 
         while( iterator.hasNext() ) {
-            Assertions.assertThat( iterator.next() ).isEqualTo( expected++ );
+            assertThat( iterator.next() ).isEqualTo( expected++ );
         }
 
-        Assertions.assertThat( expected ).isEqualTo( MAX );
+        assertThat( expected ).isEqualTo( MAX );
     }
 
     @Test
@@ -101,10 +101,10 @@ public class ComputableIteratorTest extends ComputableIteratorTest_data {
         int expected = 0;
 
         while( iterator.hasNext() ) {
-            Assertions.assertThat( iterator.next() ).isEqualTo( expected++ );
+            assertThat( iterator.next() ).isEqualTo( expected++ );
         }
 
-        Assertions.assertThat( expected ).isEqualTo( MAX );
+        assertThat( expected ).isEqualTo( MAX );
     }
 
     @Test
@@ -119,14 +119,14 @@ public class ComputableIteratorTest extends ComputableIteratorTest_data {
             LOGGER.info( "test_values_null_support() - value=" + value );
 
             if( expected == NULL_INDEX ) {
-                Assertions.assertThat( value ).isNull();;
+                assertThat( value ).isNull();;
             } else {
-                Assertions.assertThat( value ).isEqualTo( expected );
+                assertThat( value ).isEqualTo( expected );
             }
             expected++;
         }
 
-        Assertions.assertThat( expected ).isEqualTo( MAX );
+        assertThat( expected ).isEqualTo( MAX );
     }
 
     @Test
@@ -141,13 +141,13 @@ public class ComputableIteratorTest extends ComputableIteratorTest_data {
             LOGGER.info( "test_values_null_support_for_ArrayList() - value=" + value );
 
             if( expected == NULL_INDEX ) {
-                Assertions.assertThat( value ).isNull();;
+                assertThat( value ).isNull();;
             } else {
-                Assertions.assertThat( value ).isEqualTo( expected );
+                assertThat( value ).isEqualTo( expected );
             }
             expected++;
         }
 
-        Assertions.assertThat( expected ).isEqualTo( MAX );
+        assertThat( expected ).isEqualTo( MAX );
     }
 }
