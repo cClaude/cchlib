@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @since 4.1.7
  */
-public class DefaultDownloadFileURL
+public class FileDownloader
     extends AbstractContentDownloadURI<File>
         implements ContentDownloadURI<File>
 {
@@ -34,7 +34,7 @@ public class DefaultDownloadFileURL
      *             if this URL is not formatted strictly according
      *             to RFC2396 and cannot be converted to a URI.
      */
-    public DefaultDownloadFileURL(
+    public FileDownloader(
         final URL                   url,
         final Map<String, String>   requestPropertyMap,
         final Proxy                 proxy
@@ -59,7 +59,7 @@ public class DefaultDownloadFileURL
      *             if this URL is not formatted strictly according
      *             to RFC2396 and cannot be converted to a URI.
      */
-    public DefaultDownloadFileURL(
+    public FileDownloader(
         final String                spec,
         final Map<String, String>   requestPropertyMap,
         final Proxy                 proxy

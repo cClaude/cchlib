@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @since 4.1.7
  */
-public /* TODO add final */ class DefaultDownloadStringURL
+public /* TODO add final */ class StringDownloader
     extends AbstractContentDownloadURI<String>
         implements ContentDownloadURI<String>
 {
@@ -29,7 +29,7 @@ public /* TODO add final */ class DefaultDownloadStringURL
      *         strictly according to to RFC2396 and cannot be
      *         converted to a URI.
      */
-    public DefaultDownloadStringURL(
+    public StringDownloader(
         final URL                   url,
         final Map<String, String>   requestPropertyMap,
         final Proxy                 proxy
@@ -49,7 +49,7 @@ public /* TODO add final */ class DefaultDownloadStringURL
      *         strictly according to to RFC2396 and cannot be
      *         converted to a URI.
      */
-    public DefaultDownloadStringURL(
+    public StringDownloader(
         final String                spec,
         final Map<String, String>   requestPropertyMap,
         final Proxy                 proxy
