@@ -6,7 +6,13 @@ mvnPackageJar()
   echo "-- mvnPackageJar($1) --"
   pushd "$1"
   mvn clean package
+  MVN_EXIT="$?"
   popd
+  if [ ! "${MVN_EXIT}" -eq "0" ];
+  then
+    echo "[ERROR] in ${MVN} ${MVN_PARAM}"
+    exit 1
+  fi
 }
 
 mvnInstallJar()
@@ -14,7 +20,13 @@ mvnInstallJar()
   echo "-- mvnInstallJar($1) --"
   pushd "$1"
   mvn clean install
+  MVN_EXIT="$?"
   popd
+  if [ ! "${MVN_EXIT}" -eq "0" ];
+  then
+    echo "[ERROR] in ${MVN} ${MVN_PARAM}"
+    exit 1
+  fi
 }
 
 saveJars()
