@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.sandbox.java.core;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
@@ -7,31 +8,47 @@ import java.security.NoSuchAlgorithmException;
 
 public class FileCheckSumExample
 {
-    public static void main(String[] args) throws NoSuchAlgorithmException, IOException
+    private FileCheckSumExample()
     {
-        InputStream is = FileCheckSumExample.class.getResourceAsStream( "output.txt" );
-        //String filepath = "C:\\Users\\nikos7\\Desktop\\output.txt";
+        // Sample
+    }
 
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA1");
+    @SuppressWarnings("squid:S106")
+    public static void main( final String[] args )
+        throws NoSuchAlgorithmException, IOException
+    {
+        try( InputStream is = new FileInputStream( "pom.xml" ) ) {
 
-        //FileInputStream fileInput = new FileInputStream(filepath);
-        byte[] dataBytes = new byte[1024];
-        int    bytesRead = 0;
+            final String checkSum = getCheckSum( is );
 
-        while ((bytesRead = is.read(dataBytes)) != -1) {
-            messageDigest.update(dataBytes, 0, bytesRead);
-            }
+            System.out.println("Checksum for the File: " + checkSum );
+        }
+    }
 
-        byte[] digestBytes = messageDigest.digest();
+    private static String getCheckSum( final InputStream is )
+        throws NoSuchAlgorithmException, IOException
+    {
+        final MessageDigest messageDigest = MessageDigest.getInstance( "SHA1" );
 
-        StringBuffer sb = new StringBuffer("");
+        final byte[] dataBytes = new byte[ 1024 ];
+        int          bytesRead;
 
-        for (int i = 0; i < digestBytes.length; i++) {
-            sb.append(Integer.toString((digestBytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
+        while( (bytesRead = is.read( dataBytes )) != -1 ) {
+            messageDigest.update( dataBytes, 0, bytesRead );
+        }
 
-        System.out.println("Checksum for the File: " + sb.toString());
+        final byte[]        digestBytes = messageDigest.digest();
+        final StringBuilder sb          = new StringBuilder();
 
-        is.close();
+        for( int i = 0; i < digestBytes.length; i++ ) {
+            sb.append(
+                Integer.toString(
+                    (digestBytes[ i ] & 0xff) + 0x100,
+                    16
+                    ).substring( 1 )
+                );
+        }
+
+        return sb.toString();
     }
 }
