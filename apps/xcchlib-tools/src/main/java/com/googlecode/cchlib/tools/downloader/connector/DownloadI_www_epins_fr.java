@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
-import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
+import com.googlecode.cchlib.net.download.FileDownloader;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
@@ -118,7 +118,7 @@ public class DownloadI_www_epins_fr
                         //buildURL_sb1.append( buildURL_sb2.substring( start, end ) );
                         this.buildURL_sb1.append( htmlURLFmt2 );
 
-                        return new DefaultDownloadFileURL( this.buildURL_sb1.toString(), null, getProxy() );
+                        return new FileDownloader( this.buildURL_sb1.toString(), null, getProxy() );
                     }
                 };
             }

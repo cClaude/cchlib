@@ -5,9 +5,9 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
-import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
+import com.googlecode.cchlib.tools.downloader.comboconfig.DefaultComboBoxConfig;
 
 class GDAI_tumblr_com_ForHost
     extends GDAI_tumblr_com

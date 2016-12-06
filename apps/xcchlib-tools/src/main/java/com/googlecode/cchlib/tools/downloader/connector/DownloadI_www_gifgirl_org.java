@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
-import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
-import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
-import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
+import com.googlecode.cchlib.net.download.FileDownloader;
+import com.googlecode.cchlib.net.download.StringDownloader;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
-import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
+import com.googlecode.cchlib.tools.downloader.comboconfig.DefaultComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.comboconfig.GenericDownloaderAppComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 
 
@@ -181,7 +181,7 @@ public class DownloadI_www_gifgirl_org
 
         final URL url = createURL( today );
 
-        return new DefaultDownloadStringURL(
+        return new StringDownloader(
                 url ,
                 this.requestPropertyMap,
                 getProxy()
@@ -226,7 +226,7 @@ public class DownloadI_www_gifgirl_org
     public ContentDownloadURI<File> getDownloadURLFrom( final String src, final int regexpIndex )
             throws MalformedURLException, URISyntaxException
     {
-        return new DefaultDownloadFileURL( src, this.requestPropertyMap, getProxy() );
+        return new FileDownloader( src, this.requestPropertyMap, getProxy() );
     }
 
     @Override

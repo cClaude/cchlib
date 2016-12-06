@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
-import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
-import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
+import com.googlecode.cchlib.tools.downloader.comboconfig.DefaultComboBoxConfig;
+import com.googlecode.cchlib.tools.downloader.comboconfig.GenericDownloaderAppComboBoxConfig;
 
 public abstract class AbstractDownloaderAppInterface
     implements com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface, Serializable

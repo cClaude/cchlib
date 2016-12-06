@@ -7,9 +7,9 @@ import java.util.Collection;
 import java.util.List;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
-import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
+import com.googlecode.cchlib.tools.downloader.comboconfig.GenericDownloaderAppComboBoxConfig;
 
 public interface DownloaderHandler
 {

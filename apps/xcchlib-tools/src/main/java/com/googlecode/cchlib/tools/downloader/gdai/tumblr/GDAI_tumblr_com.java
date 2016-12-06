@@ -12,10 +12,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
-import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
-import com.googlecode.cchlib.tools.downloader.DefaultComboBoxConfig;
+import com.googlecode.cchlib.net.download.FileDownloader;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
+import com.googlecode.cchlib.tools.downloader.comboconfig.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.proxy.PolyURLDownloadFileURL;
 
@@ -104,7 +104,7 @@ public abstract class GDAI_tumblr_com
 
         if( pos < 0 ) {
             // <0  - No extension: Try to download any way.
-            return new DefaultDownloadFileURL( src, null, getProxy() );
+            return new FileDownloader( src, null, getProxy() );
             }
 
         final String extension = src.substring( pos );
@@ -115,7 +115,7 @@ public abstract class GDAI_tumblr_com
 
         if( pos < 0 ) {
             // Unknown format: Try to download any way.
-            return new DefaultDownloadFileURL( src, null, getProxy() );
+            return new FileDownloader( src, null, getProxy() );
             }
 
         final int size;
@@ -127,7 +127,7 @@ public abstract class GDAI_tumblr_com
         catch( final Exception e ) {
             LOGGER.warn( "size of " + src, e );
             // Can not find picture size: Try to download any way.
-            return new DefaultDownloadFileURL( src, null, getProxy() );
+            return new FileDownloader( src, null, getProxy() );
             }
         final String prefix2 = prefix1.substring( 0, pos + 1 );
 

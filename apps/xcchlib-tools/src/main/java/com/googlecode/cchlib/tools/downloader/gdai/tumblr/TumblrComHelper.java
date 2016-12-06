@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URISyntaxException;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
-import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
+import com.googlecode.cchlib.net.download.StringDownloader;
 
 public class TumblrComHelper
 {
@@ -28,7 +28,7 @@ public class TumblrComHelper
         else {
             fmt = TumblrComData.HTML_URL_BASEx_FMT;
             }
-        return new DefaultDownloadStringURL(
+        return new StringDownloader(
                 String.format(
                     fmt,
                     hostname,

@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
+import com.googlecode.cchlib.net.download.FileDownloader;
 
 /**
  * TODOC
  *
  */
-public class PolyURLDownloadFileURL extends DefaultDownloadFileURL
+public class PolyURLDownloadFileURL extends FileDownloader
 {
     private static final long serialVersionUID = 1L;
     private static final String INITIAL_VALUE_PROPERTY = "initialValue";
@@ -60,9 +60,9 @@ public class PolyURLDownloadFileURL extends DefaultDownloadFileURL
             try {
                 return super.getInputStream();
                 }
-            catch( IOException ioe ) {
-                if( nextURIIndex < nextURIs.size() ) {
-                    super.setURI( nextURIs.get( nextURIIndex++ ) );
+            catch( final IOException ioe ) {
+                if( this.nextURIIndex < this.nextURIs.size() ) {
+                    super.setURI( this.nextURIs.get( this.nextURIIndex++ ) );
                     }
                 else {
                     throw ioe;

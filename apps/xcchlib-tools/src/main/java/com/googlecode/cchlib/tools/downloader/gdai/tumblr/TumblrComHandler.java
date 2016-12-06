@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
-import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
+import com.googlecode.cchlib.net.download.FileDownloader;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface.DefaultRegExgSplitter;
@@ -84,7 +84,7 @@ public class TumblrComHandler
 
         if( pos < 0 ) {
             // <0  - No extension: Try to download any way.
-            return new DefaultDownloadFileURL(
+            return new FileDownloader(
                     src,
                     null,
                     getDownloaderData().getProxy()
@@ -99,7 +99,7 @@ public class TumblrComHandler
 
         if( pos < 0 ) {
             // Unknown format: Try to download any way.
-            return new DefaultDownloadFileURL( src, null, getDownloaderData().getProxy() );
+            return new FileDownloader( src, null, getDownloaderData().getProxy() );
             }
 
         final int size;
@@ -111,7 +111,7 @@ public class TumblrComHandler
         catch( final Exception e ) {
             LOGGER.warn( "size of " + src, e );
             // Can not find picture size: Try to download any way.
-            return new DefaultDownloadFileURL( src, null, getDownloaderData().getProxy() );
+            return new FileDownloader( src, null, getDownloaderData().getProxy() );
             }
         final String prefix2 = prefix1.substring( 0, pos + 1 );
 

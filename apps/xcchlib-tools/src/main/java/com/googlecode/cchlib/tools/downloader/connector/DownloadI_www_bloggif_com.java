@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
-import com.googlecode.cchlib.net.download.DefaultDownloadFileURL;
-import com.googlecode.cchlib.net.download.DefaultDownloadStringURL;
+import com.googlecode.cchlib.net.download.FileDownloader;
+import com.googlecode.cchlib.net.download.StringDownloader;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
@@ -55,7 +55,7 @@ public class DownloadI_www_bloggif_com
         final ArrayList<ContentDownloadURI<String>> list = new ArrayList<>();
 
         for( int i=1; i<getPageCount(); i++ ) {
-            list.add( new DefaultDownloadStringURL( htmlURLBase + i, null, getProxy() ) );
+            list.add( new StringDownloader( htmlURLBase + i, null, getProxy() ) );
             }
 
         return list;
@@ -89,7 +89,7 @@ public class DownloadI_www_bloggif_com
 
                 //imagesURLCollection.add( new URL( serverRootURLString + src ) );
                 imagesURLCollection.add(
-                        new DefaultDownloadFileURL( src, null, getProxy() )
+                        new FileDownloader( src, null, getProxy() )
                         );
                 }
             }

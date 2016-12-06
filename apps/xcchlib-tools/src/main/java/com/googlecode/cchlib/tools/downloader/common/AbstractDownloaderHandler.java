@@ -12,8 +12,8 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.net.download.ContentDownloadURI;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
-import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
+import com.googlecode.cchlib.tools.downloader.comboconfig.GenericDownloaderAppComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface.RegExgSplitter;
 
 public abstract class AbstractDownloaderHandler implements DownloaderHandler

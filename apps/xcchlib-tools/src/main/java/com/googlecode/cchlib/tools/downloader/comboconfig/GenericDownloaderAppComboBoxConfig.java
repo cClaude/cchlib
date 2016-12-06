@@ -1,6 +1,7 @@
-package com.googlecode.cchlib.tools.downloader;
+package com.googlecode.cchlib.tools.downloader.comboconfig;
 
 import java.util.List;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry;
 
 /**
  * TODOC

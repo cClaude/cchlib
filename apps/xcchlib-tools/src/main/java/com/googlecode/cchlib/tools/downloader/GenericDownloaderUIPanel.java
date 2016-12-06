@@ -12,6 +12,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.tools.downloader.comboconfig.GenericDownloaderAppComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.common.DownloaderData;
 import com.googlecode.cchlib.tools.downloader.common.DownloaderHandler;
 

@@ -1,7 +1,8 @@
-package com.googlecode.cchlib.tools.downloader;
+package com.googlecode.cchlib.tools.downloader.comboconfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry;
 
 /**
  *
@@ -9,14 +10,14 @@ import java.util.List;
 public class DefaultComboBoxConfig
     implements GenericDownloaderAppComboBoxConfig
 {
-    private String labelString;
+    private final String labelString;
     private int selectedIndex;
-    private List<GenericDownloaderUIPanelEntry.Item> items = new ArrayList<>();
+    private final List<GenericDownloaderUIPanelEntry.Item> items = new ArrayList<>();
 
     private static class Item implements GenericDownloaderUIPanelEntry.Item
     {
-        private String jComboBoxText;
-        private String selectedDescription;
+        private final String jComboBoxText;
+        private final String selectedDescription;
 
         public Item( final String jComboBoxText, final String selectedDescription )
         {
@@ -26,22 +27,22 @@ public class DefaultComboBoxConfig
 
         @Override
         public String getJComboBoxText() {
-            return jComboBoxText;
+            return this.jComboBoxText;
         }
 
         @Override
         public String getSelectedDescription() {
-            return selectedDescription;
+            return this.selectedDescription;
         }
 
         @Override
         public String toString()
         {
-            StringBuilder builder = new StringBuilder();
+            final StringBuilder builder = new StringBuilder();
             builder.append( "Item [jComboBoxText=" );
-            builder.append( jComboBoxText );
+            builder.append( this.jComboBoxText );
             builder.append( ", selectedDescription=" );
-            builder.append( selectedDescription );
+            builder.append( this.selectedDescription );
             builder.append( ']' );
             return builder.toString();
         }
@@ -126,14 +127,14 @@ public class DefaultComboBoxConfig
     @Override
     public List<GenericDownloaderUIPanelEntry.Item> getJComboBoxEntry()
     {
-        return items;
+        return this.items;
     }
 
     @Override
     public String toString()
     {
         final int maxLen = 10;
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "DefaultComboBoxConfig [getSelectedIndex()=" );
         builder.append( getSelectedIndex() );
         builder.append( ", getComboBoxSelectedValue()=" );
@@ -141,8 +142,8 @@ public class DefaultComboBoxConfig
         builder.append( ", getDescription()=" );
         builder.append( getDescription() );
         builder.append( ", items=" );
-        builder.append( items != null ? items.subList( 0,
-                Math.min( items.size(), maxLen ) ) : null );
+        builder.append( this.items != null ? this.items.subList( 0,
+                Math.min( this.items.size(), maxLen ) ) : null );
         builder.append( ']' );
         return builder.toString();
     }
