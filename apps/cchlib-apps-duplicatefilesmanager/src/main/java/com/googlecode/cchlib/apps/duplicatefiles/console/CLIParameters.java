@@ -6,7 +6,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -14,6 +13,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersC
 import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.HashComputeTaskListener;
 import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.ListenerFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.Command;
+import com.googlecode.cchlib.cli.apachecli.OptionBuilderInstance;
 import com.googlecode.cchlib.json.JSONHelper;
 import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
@@ -66,77 +66,80 @@ public class CLIParameters
     private static Options createCLIOptions()
     {
         final Options options = new Options();
+        final OptionBuilderInstance builder = new OptionBuilderInstance();
 
         options.addOption(
-            OptionBuilder.withLongOpt( HELP )
+            builder.withLongOpt( HELP )
                 .withDescription( "Display this message" )
                 .hasArg( false )
                 .create( "h" )
             );
         options.addOption(
-            OptionBuilder.withLongOpt( ALGORITHM )
+            builder.withLongOpt( ALGORITHM )
                 .withDescription( ALGORITHM_DESCRIPTION )
                 .hasArg()
                 .create()
             );
         options.addOption(
-                OptionBuilder.withLongOpt( DIRECTORIY_TO_SCAN )
-                    .withDescription( "Directory to scan" )
-                    .hasArg()
-                    .create( "d" )
-                );
+            builder.withLongOpt( DIRECTORIY_TO_SCAN )
+                .withDescription( "Directory to scan" )
+                .hasArg()
+                .create( "d" )
+            );
         options.addOption(
-                OptionBuilder.withLongOpt( JSON_OUT )
-                    .withDescription( "Optionnal output json file" )
-                    .hasArg()
-                    .create()
-                );
+            builder.withLongOpt( JSON_OUT )
+                .withDescription( "Optionnal output json file" )
+                .hasArg()
+                .create()
+            );
         options.addOption(
-                OptionBuilder.withLongOpt( PRETTY_JSON )
-                    .withDescription( "Format JSON" )
-                    .hasArg( false )
-                    .create()
-                );
+            builder.withLongOpt( PRETTY_JSON )
+                .withDescription( "Format JSON" )
+                .hasArg( false )
+                .create()
+            );
         options.addOption(
-                OptionBuilder.withLongOpt( ONLY_DUPLICATES )
-                    .withDescription( "Remove non duplicates entries" )
-                    .hasArg( false )
-                    .create()
-                );
+            builder.withLongOpt( ONLY_DUPLICATES )
+                .withDescription( "Remove non duplicates entries" )
+                .hasArg( false )
+                .create()
+            );
 
         options.addOption(
-                OptionBuilder.withLongOpt( JSON_IN )
-                    .withDescription( "Input file" )
-                    .hasArg()
-                    .create()
-                );
+            builder.withLongOpt( JSON_IN )
+                .withDescription( "Input file" )
+                .hasArg()
+                .create()
+            );
 
-        options.addOptionGroup( getOptionGroupVerboseQuiet() );
-        options.addOptionGroup( getOptionGroupFilesFilter() );
+        options.addOptionGroup( getOptionGroupVerboseQuiet( builder ) );
+        options.addOptionGroup( getOptionGroupFilesFilter( builder ) );
 
         options.addOption(
-                OptionBuilder.withLongOpt( COMMAND )
-                    .withDescription( COMMAND_DESCRIPTION )
-                    .hasArg()
-                    .create( "c" )
-                );
+            builder.withLongOpt( COMMAND )
+                .withDescription( COMMAND_DESCRIPTION )
+                .hasArg()
+                .create( "c" )
+            );
 
         return options;
     }
 
     @SuppressWarnings("static-access")
-    private static OptionGroup getOptionGroupVerboseQuiet()
+    private static OptionGroup getOptionGroupVerboseQuiet(
+        final OptionBuilderInstance builder
+        )
     {
         final OptionGroup optgrp = new OptionGroup();
 
         optgrp.addOption(
-            OptionBuilder.withLongOpt( VERBOSE )
+            builder.withLongOpt( VERBOSE )
                 .withDescription( "Display extrat informations during process" )
                 .hasArg( false )
                 .create( "x" )
             );
         optgrp.addOption(
-            OptionBuilder.withLongOpt( QUIET )
+            builder.withLongOpt( QUIET )
                 .withDescription( "Minimal output" )
                 .hasArg( false )
                 .create( "q" )
@@ -146,22 +149,24 @@ public class CLIParameters
     }
 
     @SuppressWarnings("static-access")
-    private static OptionGroup getOptionGroupFilesFilter()
+    private static OptionGroup getOptionGroupFilesFilter(
+        final OptionBuilderInstance builder
+        )
     {
         final OptionGroup optgrp = new OptionGroup();
 
         optgrp.addOption(
-                OptionBuilder.withLongOpt( FILES_FILTER )
-                    .withDescription( "File filter (json format)" )
-                    .hasArgs()
-                    .create()
-                );
+            builder.withLongOpt( FILES_FILTER )
+                .withDescription( "File filter (json format)" )
+                .hasArgs()
+                .create()
+            );
         optgrp.addOption(
-                OptionBuilder.withLongOpt( FILES_FILTER_FROM_FILE )
-                    .withDescription( "Filename of json files filter" )
-                    .hasArgs()
-                    .create()
-                );
+            builder.withLongOpt( FILES_FILTER_FROM_FILE )
+                .withDescription( "Filename of json files filter" )
+                .hasArgs()
+                .create()
+            );
 
         return optgrp;
     }
