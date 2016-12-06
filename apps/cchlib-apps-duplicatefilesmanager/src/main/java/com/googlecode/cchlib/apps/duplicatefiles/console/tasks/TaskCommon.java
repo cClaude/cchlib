@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
@@ -14,6 +15,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFa
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 import com.googlecode.cchlib.json.JSONHelper;
+import com.googlecode.cchlib.json.JSONHelper.PrintMode;
 import com.googlecode.cchlib.json.JSONHelperException;
 
 /**
@@ -190,11 +192,19 @@ public abstract class TaskCommon implements CommandTask
             if( this.jsonOutputFile != null ) {
                 createParentDirsOf( this.jsonOutputFile ); // TODO should be optional
 
+                final Set<PrintMode> printMode;
+
+                if( this.prettyJson ) {
+                    printMode = JSONHelper.PRETTY_PRINT;
+                } else {
+                    printMode = JSONHelper.COMPACT_PRINT;
+                }
+
                 try {
-                    JSONHelper.toJSON(
+                    JSONHelper.save(
                             this.jsonOutputFile,
                             hashFilesList,
-                            this.prettyJson
+                            printMode
                             );
                 }
                 catch( final JSONHelperException e ) {
