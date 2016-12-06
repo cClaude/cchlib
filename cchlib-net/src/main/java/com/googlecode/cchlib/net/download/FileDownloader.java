@@ -91,7 +91,7 @@ public class FileDownloader
     {
         final StringBuilder builder = new StringBuilder();
 
-        builder.append( "DefaultDownloadFileURL [getURL()=" );
+        builder.append( "FileDownloader [getURL()=" );
         builder.append( getURL() );
         builder.append( ", file=" );
         builder.append( this.file );

@@ -81,7 +81,7 @@ public /* TODO add final */ class StringDownloader
     {
         final StringBuilder builder = new StringBuilder();
 
-        builder.append( "DefaultDownloadFileURL [getURL()=" );
+        builder.append( "StringDownloader [getURL()=" );
         builder.append( getURL() );
         builder.append( ", properties=" );
         builder.append( propertiesToString( this ) );
