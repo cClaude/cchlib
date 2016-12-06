@@ -1,18 +1,21 @@
 package com.googlecode.cchlib.cli.apachecli;
 
+import javax.annotation.concurrent.ThreadSafe;
 import org.apache.commons.cli.Option;
 
 /**
- * OptionBuilder allows the user to create Options using descriptive methods.
+ * {@link OptionBuilderInstance} allows the user to create Options
+ * using descriptive methods.
  *
  * <p>Details on the Builder pattern can be found at
  * <a href="http://c2.com/cgi-bin/wiki?BuilderPattern">
  * http://c2.com/cgi-bin/wiki?BuilderPattern</a>.</p>
  *
  * @author John Keyes (john at integralsource.com)
- * @version $Revision: 754830 $, $Date: 2009-03-16 00:26:44 -0700 (Mon, 16 Mar 2009) $
- * @since 1.0
+ * @author Claude Choisnet
+ * @since 4.2
  */
+@ThreadSafe
 public final class OptionBuilderInstance
 {
     /** long option */
@@ -40,11 +43,11 @@ public final class OptionBuilderInstance
     private char valuesep;
 
     /**
-     * private constructor to prevent instances being created
+     * Create a {@link OptionBuilderInstance}
      */
     public OptionBuilderInstance()
     {
-        // hide the constructor
+        // Empty
     }
 
     /**
@@ -68,7 +71,7 @@ public final class OptionBuilderInstance
      * The next Option created will have the following long option value.
      *
      * @param newLongopt the long option value
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance withLongOpt(final String newLongopt)
     {
@@ -80,7 +83,7 @@ public final class OptionBuilderInstance
     /**
      * The next Option created will require an argument value.
      *
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance hasArg()
     {
@@ -94,7 +97,7 @@ public final class OptionBuilderInstance
      * <code>hasArg</code> is true.
      *
      * @param hasArg if true then the Option has an argument value
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance hasArg(final boolean hasArg)
     {
@@ -107,7 +110,7 @@ public final class OptionBuilderInstance
      * The next Option created will have the specified argument value name.
      *
      * @param name the name for the argument value
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance withArgName(final String name)
     {
@@ -119,7 +122,7 @@ public final class OptionBuilderInstance
     /**
      * The next Option created will be required.
      *
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance isRequired()
     {
@@ -131,7 +134,7 @@ public final class OptionBuilderInstance
     /**
      * The next Option created uses <code>sep</code> as a means to
      * separate argument values.
-     *
+     * <p>
      * <b>Example:</b>
      * <pre>
      * Option opt = withValueSeparator(':')
@@ -144,7 +147,7 @@ public final class OptionBuilderInstance
      *
      * @param sep The value separator to be used for the argument values.
      *
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance withValueSeparator(final char sep)
     {
@@ -156,7 +159,7 @@ public final class OptionBuilderInstance
     /**
      * The next Option created uses '<code>=</code>' as a means to
      * separate argument values.
-     *
+     * <p>
      * <b>Example:</b>
      * <pre>
      * Option opt = withValueSeparator()
@@ -167,7 +170,7 @@ public final class OptionBuilderInstance
      * String propertyValue = opt.getValue(1);
      * </pre>
      *
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance withValueSeparator()
     {
@@ -181,7 +184,7 @@ public final class OptionBuilderInstance
      * is true.
      *
      * @param newRequired if true then the Option is required
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance isRequired(final boolean newRequired)
     {
@@ -193,7 +196,7 @@ public final class OptionBuilderInstance
     /**
      * The next Option created can have unlimited argument values.
      *
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance hasArgs()
     {
@@ -206,7 +209,7 @@ public final class OptionBuilderInstance
      * The next Option created can have <code>num</code> argument values.
      *
      * @param num the number of args that the option can have
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance hasArgs(final int num)
     {
@@ -218,7 +221,7 @@ public final class OptionBuilderInstance
     /**
      * The next Option can have an optional argument.
      *
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance hasOptionalArg()
     {
@@ -231,7 +234,7 @@ public final class OptionBuilderInstance
     /**
      * The next Option can have an unlimited number of optional arguments.
      *
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance hasOptionalArgs()
     {
@@ -246,7 +249,7 @@ public final class OptionBuilderInstance
      *
      * @param numArgs - the maximum number of optional arguments
      * the next Option created can have.
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance hasOptionalArgs(final int numArgs)
     {
@@ -261,7 +264,7 @@ public final class OptionBuilderInstance
      * of <code>type</code>.
      *
      * @param newType the type of the Options argument value
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance withType(final Object newType)
     {
@@ -274,7 +277,7 @@ public final class OptionBuilderInstance
      * The next Option created will have the specified description
      *
      * @param newDescription a description of the Option's purpose
-     * @return the OptionBuilder instance
+     * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance withDescription(final String newDescription)
     {
@@ -284,11 +287,11 @@ public final class OptionBuilderInstance
     }
 
     /**
-     * Create an Option using the current settings and with
+     * Create an {@link Option} using the current settings and with
      * the specified Option <code>char</code>.
      *
-     * @param opt the character representation of the Option
-     * @return the Option instance
+     * @param opt the character representation of the {@link Option}
+     * @return the {@link Option} instance
      * @throws IllegalArgumentException if <code>opt</code> is not
      * a valid character.  See Option.
      */
@@ -299,9 +302,9 @@ public final class OptionBuilderInstance
     }
 
     /**
-     * Create an Option using the current settings
+     * Create an {@link Option} using the current settings
      *
-     * @return the Option instance
+     * @return the {@link Option} instance
      * @throws IllegalArgumentException if <code>longOpt</code> has not been set.
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -317,12 +320,12 @@ public final class OptionBuilderInstance
     }
 
     /**
-     * Create an Option using the current settings and with
+     * Create an {@link Option} using the current settings and with
      * the specified Option <code>char</code>.
      *
-     * @param opt the <code>java.lang.String</code> representation
-     * of the Option
-     * @return the Option instance
+     * @param opt the {@link String} representation
+     * of the {@link Option}
+     * @return the {@link Option} instance
      * @throws IllegalArgumentException if <code>opt</code> is not
      * a valid character.  See Option.
      */

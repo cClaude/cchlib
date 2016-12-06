@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.cli.apachecli;
 
+import javax.annotation.concurrent.NotThreadSafe;
+
 /**
  * OptionBuilder allows the user to create Options using descriptive methods.
  *
@@ -8,12 +10,13 @@ package com.googlecode.cchlib.cli.apachecli;
  * http://c2.com/cgi-bin/wiki?BuilderPattern</a>.</p>
  *
  * @author John Keyes (john at integralsource.com)
- * @version $Revision: 754830 $, $Date: 2009-03-16 00:26:44 -0700 (Mon, 16 Mar 2009) $
- * @since 1.0
+ * @author Claude Choisnet
+ * @since 4.2
  * @deprecated see {@link OptionBuilderInstance}
  */
 @Deprecated
-@SuppressWarnings("squid:S1133") // Not my code (copy of apachecli)
+@SuppressWarnings("squid:S1133")
+@NotThreadSafe
 public final class OptionBuilder
 {
     private static OptionBuilderInstance instance;
@@ -90,7 +93,7 @@ public final class OptionBuilder
     /**
      * The next Option created uses <code>sep</code> as a means to
      * separate argument values.
-     *
+     * <p>
      * <b>Example:</b>
      * <pre>
      * Option opt = OptionBuilder.withValueSeparator(':')
@@ -113,7 +116,7 @@ public final class OptionBuilder
     /**
      * The next Option created uses '<code>=</code>' as a means to
      * separate argument values.
-     *
+     * <p>
      * <b>Example:</b>
      * <pre>
      * Option opt = OptionBuilder.withValueSeparator()
