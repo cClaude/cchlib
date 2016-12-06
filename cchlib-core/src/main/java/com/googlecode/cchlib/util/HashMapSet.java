@@ -477,6 +477,7 @@ public class HashMapSet<KEY,VALUE>
      * @param <V> the type of values
      * @see HashMapSet.ComputeKeyIterable
      */
+    @FunctionalInterface
     public interface ComputeKeyInterface<K,V>
     {
         /**

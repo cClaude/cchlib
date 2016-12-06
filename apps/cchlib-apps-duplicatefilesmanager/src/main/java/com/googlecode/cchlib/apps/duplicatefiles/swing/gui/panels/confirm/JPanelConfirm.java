@@ -104,7 +104,9 @@ public class JPanelConfirm extends JPanel
         }
     }
 
-    private final class ConfirmTableCellRenderer extends DefaultTableCellRenderer {
+    @SuppressWarnings("squid:MaximumInheritanceDepth")
+    private final class ConfirmTableCellRenderer extends DefaultTableCellRenderer
+    {
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -169,12 +171,7 @@ public class JPanelConfirm extends JPanel
     private AbstractTableModel tableModel;
     private JPanelConfirmModel tableDataToDelete;
 
-    @I18nString private final String[] columnsHeaders = {
-        "File to delete",
-        "Length",
-        "Kept",
-        "Deleted"
-        };
+    @I18nString private String[] columnsHeaders;
     @I18nString private String txtWaiting;
     @I18nString private String txtTitle;
     @I18nString private String txtMsgDone;
@@ -183,6 +180,7 @@ public class JPanelConfirm extends JPanel
     @I18nString private String txtIconKo;
     @I18nString private String txtIconKoButDelete;
 
+    @SuppressWarnings({"squid:S00117","squid:S1199"})
     public JPanelConfirm()
     {
         beSurNonFinal();
@@ -258,6 +256,12 @@ public class JPanelConfirm extends JPanel
         this.msgStr_doDeleteExceptiontitle = "Error while deleting files";
         this.txtIconKo = "File already exist";
         this.txtIconKoButDelete = "File does not exist";
+        this.columnsHeaders = new String[] {
+                "File to delete",
+                "Length",
+                "Kept",
+                "Deleted"
+                };
     }
 
     public void populate(
@@ -348,25 +352,16 @@ public class JPanelConfirm extends JPanel
         )
     {
         final AtomicInteger count = new AtomicInteger();
-        //int                     c = 0;
 
         if( set != null ) {
-
             set.stream().forEach( file -> {
-                //if( !file.isSelectedToDelete() ) {
                 if( function.apply( file ) ) {
                     count.incrementAndGet();
                 }
             } );
-//            for( final KeyFileState f:s ) {
-//                if(!f.isSelectedToDelete()) {
-//                    c++;
-//                }
-//            }
         }
 
         return Integer.valueOf( count.get() );
-        //return Integer.valueOf( c );
     }
 
     private static Integer computeDeleted(
@@ -378,19 +373,6 @@ public class JPanelConfirm extends JPanel
         final Function<KeyFileState, Boolean>   function    = file -> Boolean.valueOf( file.isSelectedToDelete() );
 
         return computeKeepDelete( set, function  );
-        /*
-        int                     c = 0;
-
-        if( s != null ) {
-            for(final KeyFileState f:s) {
-                if(f.isSelectedToDelete()) {
-                    c++;
-                }
-            }
-        }
-
-        return Integer.valueOf( c );
-        */
     }
 
     public void doDelete( //
