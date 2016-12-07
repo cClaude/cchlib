@@ -23,48 +23,49 @@ import javax.swing.border.SoftBevelBorder;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Resources;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 
 /**
  * Handle layout
  */
-public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel // $codepro.audit.disable largeNumberOfFields
+public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( RemoveEmptyDirectoriesPanelWB.class );
 
-    protected static final String ACTION_IMPORT_DIRS = "ACTION_IMPORT_DIRS";
-    protected static final String ACTION_ADD_DIRS = "ACTION_ADD_DIRS";
-    protected static final String ACTION_REMOVE_DIR = "ACTION_REMOVE_DIR";
+    protected static final String ACTION_IMPORT_DIRS     = "ACTION_IMPORT_DIRS";
+    protected static final String ACTION_ADD_DIRS        = "ACTION_ADD_DIRS";
+    protected static final String ACTION_REMOVE_DIR      = "ACTION_REMOVE_DIR";
     protected static final String ACTION_FIND_EMPTY_DIRS = "ACTION_FIND_EMPTY_DIRS";
     protected static final String ACTION_CANCEL          = "ACTION_CANCEL";
     protected static final String ACTION_SELECT_ALL_LEAFONLY            = "ACTION_SELECT_ALL_LEAFONLY";
     protected static final String ACTION_SELECT_ALL_SELECTABLE_NODES    = "ACTION_SELECT_ALL_SELECTABLE_NODES";
-    protected static final String ACTION_UNSELECT_ALL  = "ACTION_UNSELECT_ALL";
-    protected static final String ACTION_START_REMDIRS = "ACTION_START_REMDIRS";
+    protected static final String ACTION_UNSELECT_ALL    = "ACTION_UNSELECT_ALL";
+    protected static final String ACTION_START_REMDIRS   = "ACTION_START_REMDIRS";
 
+    private JScrollPane scrollPaneJList;
+    @I18nToolTipText private final JButton btnImportDirectories;
     private final JButton btnAddRootDirectory;
     private final JButton btnCancel;
-    private final @I18nToolTipText JButton btnImportDirectories;
+    private final JButton btnDeselectAll;
     private final JButton btnRemoveRootDirectory;
     private final JButton btnSelectAll;
     private final JButton btnSelectAllLeaf;
-    private final JButton btnDeselectAll;
     private final JButton btnStartDelete;
     private final JButton btnStartScan;
     private final JList<File> jListRootDirectories;
     private final JProgressBar progressBar;
     private final JSeparator separator;
     private final JTree jTreeEmptyDirectories;
-    private final SimpleFileDrop scrollPaneJListSimpleFileDrop;
 
-    protected abstract ActionListener getActionListener();
-    protected abstract void addRootDirectory( List<File> files );
+    private transient SimpleFileDrop scrollPaneJListSimpleFileDrop;
 
     /**
      * Create the frame.
      * @param resources
      */
+    @SuppressWarnings({"squid:S00117","squid:S1199"}) // Generated code
     public RemoveEmptyDirectoriesPanelWB( final Resources resources )
     {
         setSize( 800, 400 );
@@ -92,23 +93,19 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel // $codepro.a
             this.add(this.btnAddRootDirectory, gbc_btnAddRootDirectory);
         }
         {
-            final JScrollPane scrollPaneJList = new JScrollPane();
+            this.scrollPaneJList = new JScrollPane();
             final GridBagConstraints gbc_scrollPaneJList = new GridBagConstraints();
             gbc_scrollPaneJList.fill = GridBagConstraints.BOTH;
             gbc_scrollPaneJList.gridheight = 5;
             gbc_scrollPaneJList.insets = new Insets(0, 0, 5, 5);
             gbc_scrollPaneJList.gridx = 0;
             gbc_scrollPaneJList.gridy = 0;
-            this.add(scrollPaneJList, gbc_scrollPaneJList);
+            this.add(this.scrollPaneJList, gbc_scrollPaneJList);
 
-            this.scrollPaneJListSimpleFileDrop = new SimpleFileDrop( scrollPaneJList, (final List<File> files) -> {
-                new Thread(() -> {
-                    addRootDirectory( files );
-                }, "filesDropped()").start();
-            });
+            initScrollPaneFileDrop( this.scrollPaneJList );
 
             this.jListRootDirectories = createJList();
-            scrollPaneJList.setViewportView(this.jListRootDirectories);
+            this.scrollPaneJList.setViewportView(this.jListRootDirectories);
         }
         {
             this.btnImportDirectories = new JButton("Import directories");
@@ -253,6 +250,9 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel // $codepro.a
         }
     }
 
+    protected abstract ActionListener getActionListener();
+    protected abstract void addRootDirectory( List<File> files );
+
     /**
      * @wbp.factory
      * @wbp.factory.parameter.source border new javax.swing.border.SoftBevelBorder( javax.swing.border.BevelBorder.LOWERED, null, null,
@@ -271,10 +271,28 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel // $codepro.a
      */
     public static JList<File> createJList()
     {
-        final FileListModel model   = new FileListModel();
-        final JList<File>   list    = new JList<>( model );
+        return new JList<>( new FileListModel() );
+    }
 
-        return list;
+    private void initScrollPaneFileDrop( final JScrollPane scrollPaneJList )
+    {
+        this.scrollPaneJListSimpleFileDrop =
+                new SimpleFileDrop(
+                    scrollPaneJList,
+                    (final List<File> files) ->
+                       Threads.start(
+                           "scrollPaneJListSimpleFileDrop",
+                           () -> addRootDirectory( files )
+                           )
+                    );
+    }
+
+    private SimpleFileDrop getScrollPaneFileDrop()
+    {
+        if( this.scrollPaneJListSimpleFileDrop == null ) {
+            initScrollPaneFileDrop( this.scrollPaneJList );
+        }
+        return this.scrollPaneJListSimpleFileDrop;
     }
 
     public FileListModel getJListRootDirectoriesModel()
@@ -345,7 +363,8 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel // $codepro.a
 
     public void enable_startDelete()
     {
-        this.scrollPaneJListSimpleFileDrop.remove();
+        getScrollPaneFileDrop().remove();
+
         this.btnAddRootDirectory.setEnabled( false );
         this.btnImportDirectories.setEnabled( false );
         this.btnRemoveRootDirectory.setEnabled( false );
@@ -362,7 +381,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel // $codepro.a
 
     protected void enable_findBegin()
     {
-        this.scrollPaneJListSimpleFileDrop.remove();
+        getScrollPaneFileDrop().remove();
 
         this.btnAddRootDirectory.setEnabled( false );
         this.btnImportDirectories.setEnabled( false );
@@ -384,7 +403,7 @@ public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel // $codepro.a
     protected void enable_findTaskDone()
     {
         try {
-            this.scrollPaneJListSimpleFileDrop.addDropTargetListener();
+            getScrollPaneFileDrop().addDropTargetListener();
             }
         catch( HeadlessException | TooManyListenersException e ) {
             LOGGER.error( "Can not create Drop Listener", e );
