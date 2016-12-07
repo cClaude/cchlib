@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.apps.emptydirectories;
+package com.googlecode.cchlib.apps.emptydirectories.gui.tree.model;
 
 import java.io.File;
 import javax.swing.JFrame;
@@ -10,12 +10,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTree;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellRenderer;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel2;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 
-public class DebugJTree {
+public class DebugJTree
+{
     private static final Logger LOGGER = Logger.getLogger( DebugJTree.class );
 
     @Mock

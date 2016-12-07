@@ -18,13 +18,14 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.EmptyDirectoryTreeCellRenderer;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeCellEditor;
-import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel;
+import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel1;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable1;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.filechooser.FileSelectionMode;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializerCustomize;
 import com.googlecode.cchlib.swing.filechooser.LasyJFCCustomizer;
@@ -120,6 +121,7 @@ public class RemoveEmptyDirectoriesPanel
 
         return this.findDeleteAdapter;
     }
+
     protected void findTaskDoneFindDeleteListener( final boolean isCancel )
     {
         LOGGER.info( "find thread done" );
@@ -166,7 +168,7 @@ public class RemoveEmptyDirectoriesPanel
     {
         // Create a JTree and tell it to display our model
         final JTree jTreeDir = super.getJTreeEmptyDirectories();
-        this.treeModel = new FolderTreeModel( jTreeDir );
+        this.treeModel = new FolderTreeModel1( jTreeDir );
         jTreeDir.setModel( this.treeModel );
 
         jTreeDir.addTreeSelectionListener((final TreeSelectionEvent event) -> {
@@ -267,7 +269,7 @@ public class RemoveEmptyDirectoriesPanel
 
         if( super.getBtnStartDelete().isEnabled() ) {
             // NOTE: do not use of SwingUtilities.invokeLater( task )
-            new Thread( this::startDelete, "onStartDelete()" ).start();
+            Threads.start( "onStartDelete()", this::startDelete );
         }
     }
     @Override
@@ -276,6 +278,7 @@ public class RemoveEmptyDirectoriesPanel
         if( this.actionListener == null ) {
             this.actionListener = this::actionPerformedActionListener;
         }
+
         return this.actionListener;
     }
 

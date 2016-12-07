@@ -7,8 +7,6 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
 import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
@@ -20,24 +18,31 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.util.emptydirectories.Folder;
 import com.googlecode.cchlib.util.iterable.Iterables;
-import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
-public final class FolderTreeModel
+public final class FolderTreeModel1
     extends DefaultTreeModel
         implements FolderTreeModelable1
 {
-    private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger( FolderTreeModel.class );
+    @FunctionalInterface
+    private interface EventFunction
+    {
+        void function( TreeModelListener listener, TreeModelEvent event );
+    }
 
-    private final FolderTreeBuilder folderTreeBuilder;
-    private final Set<EmptyFolder> selectedNodes = new HashSet<>();
-    @Deprecated private final JTree jTree;
+    private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger( FolderTreeModel1.class );
+
+    private final FolderTreeBuilder    folderTreeBuilder;
+    private final HashSet<EmptyFolder> selectedNodes = new HashSet<>();
+    @Deprecated
+    private final JTree jTree;
+
     private volatile Object lock = new Object();
 
-    public FolderTreeModel( final JTree jTree )
+    public FolderTreeModel1( final JTree jTree )
     {
         // Support for multiple root - add an fake hidden root
-        // this tree is new empty...
+        // this new tree is empty...
         super( new DefaultMutableTreeNode( "Root" ) );
 
         this.jTree = jTree;
@@ -60,8 +65,8 @@ public final class FolderTreeModel
     @Override //FileTreeModelable
     public final int size()
     {
-        int                       count   = 0;
-        final Iterator<FolderTreeNode>  iter    = this.nodeIterator();
+        int                            count = 0;
+        final Iterator<FolderTreeNode> iter  = this.nodeIterator();
 
         while( iter.hasNext() ) {
             iter.next();
@@ -120,8 +125,7 @@ public final class FolderTreeModel
     }
 
     @Override // FileTreeModelable
-    final
-    public boolean isSelectable( final TreePath path )
+    public final boolean isSelectable( final TreePath path )
     {
         if( path != null ) {
             final Object value = path.getLastPathComponent();
@@ -151,7 +155,7 @@ public final class FolderTreeModel
                         changeState = node.isLeaf();
                         }
                     else {
-                        changeState = (node.getFolder() instanceof EmptyFolder);
+                        changeState = node.getFolder() instanceof EmptyFolder;
                         }
 
                     if( changeState ) {
@@ -183,39 +187,65 @@ public final class FolderTreeModel
             }
     }
 
-    /**
+    /*
      * Call when the tree structure below the path has completely changed.
      */
     @Deprecated
-    protected final void fireTreeStructureChanged(final TreePath parentPath)
+    protected final void fireTreeStructureChanged( final TreePath parentPath )
     {
         if( parentPath == null ) {
             LOGGER.warn( "no TreePath while invoke fireTreeStructureChanged()" );
             return;
             }
 
-        try {
-            final Object[]        pairs   = this.listenerList.getListenerList();
-            TreeModelEvent  e       = null;
-
-            for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
-                if( pairs[i] == TreeModelListener.class ) {
-                    if( e == null ) {
-                        e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
-                        }
-
-                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
-
-                    l.treeStructureChanged( e );
-                    }
-                }
+         try {
+             sendEvent(
+                     parentPath,
+                     (l,e)-> l.treeStructureChanged( e )
+                     );
+//            final Object[] pairs = this.listenerList.getListenerList();
+//            TreeModelEvent event = null;
+//
+//            for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
+//                if( pairs[i] == TreeModelListener.class ) {
+//                    if( event == null ) {
+//                        event = new TreeModelEvent(this, parentPath, null, null);
+//                        }
+//
+//                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
+//
+//                    l.treeStructureChanged( event );
+//                    }
+//                }
             }
         catch( final RuntimeException e ) {
             LOGGER.error( "UI Error : parentPath=" + parentPath, e );
             }
     }
 
-    /**
+    private void sendEvent(
+            final TreePath      parentPath,
+            final EventFunction functionSelector
+            )
+    {
+        final Object[] pairs = this.listenerList.getListenerList();
+        TreeModelEvent event = null;
+
+        for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
+            if( pairs[i] == TreeModelListener.class ) {
+                if( event == null ) {
+                    event = new TreeModelEvent(this, parentPath, null, null);
+                    }
+
+                final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
+
+                //l.treeStructureChanged( event );
+                functionSelector.function( l, event );
+                }
+            }
+    }
+
+    /*
      * Call when the tree structure below the path has completely changed.
      */
     protected final void treeNodesChanged(final TreePath parentPath)
@@ -226,20 +256,21 @@ public final class FolderTreeModel
             }
 
         try {
-            final Object[]        pairs   = this.listenerList.getListenerList();
-            TreeModelEvent  e       = null;
-
-            for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
-                if( pairs[i] == TreeModelListener.class ) {
-                    if( e == null ) {
-                        e = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
-                        }
-
-                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
-
-                    l.treeNodesChanged( e );
-                    }
-                }
+            sendEvent( parentPath, (l,e) -> l.treeNodesChanged( e ) );
+//            final Object[] pairs = this.listenerList.getListenerList();
+//            TreeModelEvent event = null;
+//
+//            for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
+//                if( pairs[i] == TreeModelListener.class ) {
+//                    if( event == null ) {
+//                        event = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
+//                        }
+//
+//                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
+//
+//                    l.treeNodesChanged( event );
+//                    }
+//                }
             }
         catch( final RuntimeException e ) {
             LOGGER.error( "UI Error : parentPath=" + parentPath, e );
@@ -258,15 +289,17 @@ public final class FolderTreeModel
     /**
      * Returns a TreePath containing the specified node.
      */
-    protected final TreePath getPath( TreeNode node )
+    protected final TreePath getPath( final TreeNode pathNode )
     {
         final List<TreeNode> list = new ArrayList<>();
+        TreeNode             node = pathNode;
 
         // Add all nodes to list
         while( node != null ) {
             list.add( node );
             node = node.getParent();
             }
+
         Collections.reverse( list );
 
         // Convert array of nodes to TreePath
@@ -292,8 +325,7 @@ public final class FolderTreeModel
 
     public Iterable<FolderTreeNode> rootNodes()
     {
-        @SuppressWarnings("unchecked")
-        final Enumeration<Object> enumeration = getRootNode().children(); // never null
+        final Enumeration<?> enumeration = getRootNode().children(); // never null
 
         return Iterables.wrap( enumeration, FolderTreeNode.class::cast);
     }
@@ -338,58 +370,7 @@ public final class FolderTreeModel
 
     protected Iterator<FolderTreeNode> nodeIterator()
     {
-        final List<Iterator<FolderTreeNode>> iterators = new ArrayList<>();
-
-        for( final FolderTreeNode rn : rootNodes() ) {
-            iterators.add( new SingletonIterator<>( rn ) );
-            }
-
-        return new Iterator<FolderTreeNode>()
-        {
-            @Override
-            public boolean hasNext()
-            {
-                final Iterator<Iterator<FolderTreeNode>> globalIterator = iterators.iterator();
-
-                while( globalIterator.hasNext() ) {
-                    final Iterator<FolderTreeNode> current = globalIterator.next();
-
-                    if( current.hasNext() ) {
-                        return true;
-                        }
-                    }
-
-                return false;
-            }
-            @Override
-            public FolderTreeNode next()
-            {
-                // Find next non empty iterator.
-                final Iterator<Iterator<FolderTreeNode>> globalIterator = iterators.iterator();
-
-                while( globalIterator.hasNext() ) {
-                    final Iterator<FolderTreeNode> current = globalIterator.next();
-
-                    if( current.hasNext() ) {
-                        final FolderTreeNode node = current.next();
-
-                        // Add children to global iterator
-                        iterators.add( node.iterator() );
-
-                        return node;
-                        }
-                    else {
-                        globalIterator.remove(); // remove empty entry
-                        }
-                    }
-                throw new NoSuchElementException();
-            }
-            @Override
-            public void remove()
-            {
-                throw new UnsupportedOperationException();
-            }
-        };
+        return new FolderTreeNodeIterator( rootNodes() );
     }
 
     /**
@@ -419,18 +400,23 @@ public final class FolderTreeModel
                 final JTree jTreeDir = getJTree();
 
                 //Expend all nodes
-                for (int i = 0; i < jTreeDir.getRowCount(); i++) {
-                    try {
-                        jTreeDir.expandRow( i );
-                        }
-                    catch( final Exception e ) {
-                        LOGGER.error( "expandRow( " + i + " )", e );
-                        }
-                     }
+                for( int rowIndex = 0; rowIndex < jTreeDir.getRowCount(); rowIndex++ ) {
+                    expandRow( jTreeDir, rowIndex );
+                    }
                 }
             catch( final Exception e ) {
                 LOGGER.error( "expandAllRows()", e );
                 }
+            }
+    }
+
+    private static void expandRow( final JTree jTreeDir, final int rowIndex )
+    {
+        try {
+            jTreeDir.expandRow( rowIndex );
+            }
+        catch( final Exception e ) {
+            LOGGER.error( "expandRow( " + rowIndex + " )", e );
             }
     }
 

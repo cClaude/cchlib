@@ -7,7 +7,6 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
@@ -19,71 +18,11 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.util.emptydirectories.Folder;
 import com.googlecode.cchlib.util.iterable.Iterables;
-import com.googlecode.cchlib.util.iterator.SingletonIterator;
 
-/**
- *
- */
-public final
-class FolderTreeModel2
+final class FolderTreeModel2
     extends DefaultTreeModel
         implements FolderTreeModelable2
 {
-    private static final class FolderTreeModel2Iterator implements Iterator<FolderTreeNode> {
-        private final List<Iterator<FolderTreeNode>> iterators;
-
-        private FolderTreeModel2Iterator( final List<Iterator<FolderTreeNode>> iterators )
-        {
-            this.iterators = iterators;
-        }
-
-        @Override
-        public boolean hasNext()
-        {
-            final Iterator<Iterator<FolderTreeNode>> globalIterator = this.iterators.iterator();
-
-            while( globalIterator.hasNext() ) {
-                final Iterator<FolderTreeNode> current = globalIterator.next();
-
-                if( current.hasNext() ) {
-                    return true;
-                    }
-                }
-
-            return false;
-        }
-
-        @Override
-        public FolderTreeNode next()
-        {
-            // Find next non empty iterator.
-            final Iterator<Iterator<FolderTreeNode>> globalIterator = this.iterators.iterator();
-
-            while( globalIterator.hasNext() ) {
-                final Iterator<FolderTreeNode> current = globalIterator.next();
-
-                if( current.hasNext() ) {
-                    final FolderTreeNode node = current.next();
-
-                    // Add children to global iterator
-                    this.iterators.add( node.iterator() );
-
-                    return node;
-                    }
-                else {
-                    globalIterator.remove(); // remove empty entry
-                    }
-                }
-            throw new NoSuchElementException();
-        }
-
-        @Override
-        public void remove()
-        {
-            throw new UnsupportedOperationException();
-        }
-    }
-
     private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( FolderTreeModel2.class );
 
@@ -92,9 +31,6 @@ class FolderTreeModel2
     @SuppressWarnings("squid:S1948") // Object is serializable
     private volatile Object lock = new Object();
 
-    /**
-     *
-     */
     public FolderTreeModel2()
     {
         // Support for multiple root - add an fake hidden root
@@ -107,8 +43,8 @@ class FolderTreeModel2
     @Override //FileTreeModelable
     public int size()
     {
-        int                       count   = 0;
-        final Iterator<FolderTreeNode>  iter    = this.nodeIterator();
+        int                            count = 0;
+        final Iterator<FolderTreeNode> iter  = this.nodeIterator();
 
         while( iter.hasNext() ) {
             iter.next();
@@ -203,7 +139,7 @@ class FolderTreeModel2
             }
     }
 
-    /**
+    /*
      * Call when the tree structure below the path has completely changed.
      */
     protected final void treeNodesChanged( final TreePath parentPath )
@@ -289,10 +225,9 @@ class FolderTreeModel2
      */
     public Iterable<FolderTreeNode> rootNodes()
     {
-        @SuppressWarnings("unchecked")
-        final Enumeration<Object> enumeration = getRootNode().children(); // never null
+        final Enumeration<?> enumeration = getRootNode().children(); // never null
 
-        return Iterables.wrap( enumeration, FolderTreeNode.class::cast);
+        return Iterables.wrap( enumeration, FolderTreeNode.class::cast );
     }
 
     /**
@@ -330,18 +265,13 @@ class FolderTreeModel2
 
             return last;
             }
+
         return null;
     }
 
     protected Iterator<FolderTreeNode> nodeIterator()
     {
-        final List<Iterator<FolderTreeNode>> iterators = new ArrayList<>();
-
-        for( final FolderTreeNode rn : rootNodes() ) {
-            iterators.add( new SingletonIterator<>( rn ) );
-            }
-
-        return new FolderTreeModel2Iterator( iterators );
+        return new FolderTreeNodeIterator( rootNodes() );
     }
 
     @Override
