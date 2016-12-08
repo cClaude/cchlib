@@ -1,73 +1,92 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import javax.swing.Icon;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import com.googlecode.cchlib.io.SerializableHelper;
 import com.googlecode.cchlib.lang.Objects;
 import com.googlecode.cchlib.lang.reflect.Methods;
 
 /**
- * The class <code>MyStaticResourcesTest</code> contains tests for the class <code>{@link IconResources}</code>.
+ * This class contains tests for the class {@link IconResources}.
  */
 public class IconResourcesTest
 {
     private static final Logger LOGGER = Logger.getLogger( IconResourcesTest.class );
-    private List<Method>  staticMethodsList;
-    private List<Method>  methodsList;
-    private IconResources iconResourcesIntance;
 
     @Test
     public void test_AllStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
-        for( final Method method : this.staticMethodsList ) {
-            LOGGER.info( "m: " + method );
-            final Object methodResult = method.invoke( null, Objects.emptyArray() );
+        final IconResources iconResourcesGetIntance = IconResources.getInstance();
 
-            LOGGER.info( "m: " + method + " => " + methodResult );
+        final List<Method> staticMethodsList = Methods.getStaticMethods( IconResources.class );
 
-            if( methodResult instanceof IconResources ) {
-                LOGGER.info( "IconResources: " + methodResult );
-                LOGGER.info( "this.iconResourcesIntance: " + this.iconResourcesIntance );
+        assertThat( staticMethodsList ).hasSize( 1 );
 
-               assertThat( methodResult == this.iconResourcesIntance ).isTrue();
-            } else {
-                Assert.fail();
-            }
-        }
+        final Method method = staticMethodsList.get( 0 );
+
+        LOGGER.info( "method: " + method );
+        final Object methodResult = method.invoke( null, Objects.emptyArray() );
+
+        LOGGER.info( "method: " + method + " => " + methodResult );
+        LOGGER.info( "this.iconResourcesIntance: " + iconResourcesGetIntance );
+
+        assertThat( methodResult ).isInstanceOf( IconResources.class );
+        assertThat( methodResult == iconResourcesGetIntance ).isTrue();
     }
 
-      @Test
-      public void test_AllNoneStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
-      {
-
-          for( final Method method : this.methodsList ) {
-              LOGGER.info( "m: " + method );
-
-              if( method.getReturnType().equals( Icon.class ) ) {
-                  final Object o = method.invoke( this.iconResourcesIntance, Objects.emptyArray() );
-
-                  LOGGER.info( "m: " + method + " => " + o );
-                  final Icon result = (Icon)o;
-
-                  // add additional test code here
-                  assertThat( result ).isNotNull();
-                  assertThat( result.getIconWidth() ).isEqualTo( 16 );
-                  assertThat( result.getIconHeight() ).isEqualTo( 16 );
-                  }
-              }
-      }
-
-    @Before
-    public void setUp() throws Exception
+    @Test
+    public void test_AllNoneStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
-        this.staticMethodsList    = Methods.getStaticMethods( IconResources.class );
-        this.methodsList          = Methods.getPublicMethods( IconResources.class );
-        this.iconResourcesIntance = IconResources.getInstance();
+        final IconResources iconResourcesGetIntance = IconResources.getInstance();
+
+        testIconResourcesMethodsResults( iconResourcesGetIntance );
+    }
+
+    @Test
+    public void test_serialization()
+        throws  IllegalAccessException,
+                IllegalArgumentException,
+                InvocationTargetException,
+                ClassNotFoundException,
+                IOException
+    {
+        final IconResources iconResourcesGetIntance = IconResources.getInstance();
+        final IconResources copy = SerializableHelper.clone( iconResourcesGetIntance, IconResources.class );
+
+        // This is a copy (test serialization)
+        assertThat( iconResourcesGetIntance == copy ).isFalse();
+
+        testIconResourcesMethodsResults( copy );
+    }
+
+    private void testIconResourcesMethodsResults( final IconResources iconResources )
+            throws  IllegalAccessException,
+                    IllegalArgumentException,
+                    InvocationTargetException
+    {
+        for( final Method method : Methods.getPublicMethods( IconResources.class ) ) {
+            LOGGER.info( "method: " + method );
+
+            if( method.getReturnType().equals( Icon.class ) ) {
+                final Object result = method.invoke( iconResources, Objects.emptyArray() );
+
+                LOGGER.info( "method: " + method + " => " + result );
+
+                assertThat( result ).isNotNull();
+                assertThat( result ).isInstanceOf( Icon.class );
+
+                final Icon actual = (Icon)result;
+
+                // add additional test code here
+                assertThat( actual.getIconWidth() ).isEqualTo( 16 );
+                assertThat( actual.getIconHeight() ).isEqualTo( 16 );
+            }
+        }
     }
 }

@@ -7,7 +7,21 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.SerializableIcon;
 
 public class IconResources implements Serializable
 {
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
+
+    private static final String DELETED_FILE_ICON_PNG             = "deletedFileIcon.png";
+    private static final String DELETE_EMPTY_FILES_PANEL_ICON_PNG = "deleteEmptyFilesPanelIcon.png";
+
+    private static final String DUPLICATE_FILES_PANEL_ICON_PNG = "duplicateFilesPanelIcon.png";
+
+    private static final String EMPTY_ICON_PNG               = "emptyIcon.png";
+    private static final String EMPTY_LEAF_ICON_PNG          = "emptyLeafIcon.png";
+    private static final String EMPTY_LEAF_SELECTED_ICON_PNG = "emptyLeafSelectedIcon.png";
+    private static final String EMPTY_SELECTED_ICON_PNG      = "emptySelectedIcon.png";
+
+    private static final String FILE_ICON_PNG = "fileIcon.png";
+
+    private static final String REMOVE_EMPTY_DIRECTORIES_PANEL_ICON_PNG = "removeEmptyDirectoriesPanelIcon.png";
 
     private static class MyIcon implements SerializableIcon
     {
@@ -35,18 +49,16 @@ public class IconResources implements Serializable
 
     private MyIcon emptyIcon;
     private MyIcon emptySelectedIcon;
-    @Deprecated private Icon emptySelectedByUserIcon;
-    @Deprecated private Icon emptySelectedAndSelectedByUserIcon;
+
 
     private MyIcon emptyLeafIcon;
     private MyIcon emptyLeafSelectedIcon;
-    @Deprecated private Icon emptyLeafSelectedByUserIcon;
-    @Deprecated private Icon emptyLeafSelectedAndSelectedByUserIcon;
+
+    private MyIcon deleteEmptyFilesPanelIcon;
+    private MyIcon deletedFileIcon;
 
     private MyIcon duplicateFilesPanelIcon;
     private MyIcon removeEmptyDirectoriesPanelIcon;
-    private MyIcon deleteEmptyFilesPanelIcon;
-    private MyIcon deletedFileIcon;
     private MyIcon fileIcon;
 
     private IconResources()
@@ -71,15 +83,10 @@ public class IconResources implements Serializable
         return new MyIcon( resourceName );
     }
 
-    private Icon newImageIcon( final String resourceName )
-    {
-        return MyResourcesLoader.getImageIcon( resourceName );
-    }
-
     public Icon getEmptyIcon()
     {
         if( this.emptyIcon == null ) {
-            this.emptyIcon = newSerializableIcon( "emptyIcon.png" );
+            this.emptyIcon = newSerializableIcon( EMPTY_ICON_PNG );
             }
         return this.emptyIcon.getIcon();
     }
@@ -87,7 +94,7 @@ public class IconResources implements Serializable
     public Icon getEmptySelectedIcon()
     {
         if( this.emptySelectedIcon == null ) {
-            this.emptySelectedIcon = newSerializableIcon( "emptySelectedIcon.png" );
+            this.emptySelectedIcon = newSerializableIcon( EMPTY_SELECTED_ICON_PNG );
             }
         return this.emptySelectedIcon.getIcon();
     }
@@ -95,7 +102,7 @@ public class IconResources implements Serializable
     public Icon getEmptyLeafIcon()
     {
         if( this.emptyLeafIcon == null ) {
-            this.emptyLeafIcon = newSerializableIcon( "emptyLeafIcon.png" );
+            this.emptyLeafIcon = newSerializableIcon( EMPTY_LEAF_ICON_PNG );
             }
         return this.emptyLeafIcon.getIcon();
     }
@@ -103,7 +110,9 @@ public class IconResources implements Serializable
     public Icon getEmptyLeafSelectedIcon()
     {
         if( this.emptyLeafSelectedIcon == null ) {
-            this.emptyLeafSelectedIcon = newSerializableIcon( "emptyLeafSelectedIcon.png" );
+            this.emptyLeafSelectedIcon = newSerializableIcon(
+                    EMPTY_LEAF_SELECTED_ICON_PNG
+                    );
             }
         return this.emptyLeafSelectedIcon.getIcon();
     }
@@ -111,7 +120,9 @@ public class IconResources implements Serializable
     public Icon getDuplicateFilesPanelIcon()
     {
         if( this.duplicateFilesPanelIcon == null ) {
-            this.duplicateFilesPanelIcon = newSerializableIcon( "duplicateFilesPanelIcon.png" );
+            this.duplicateFilesPanelIcon = newSerializableIcon(
+                    DUPLICATE_FILES_PANEL_ICON_PNG
+                    );
             }
         return this.duplicateFilesPanelIcon.getIcon();
     }
@@ -119,7 +130,9 @@ public class IconResources implements Serializable
     public Icon getRemoveEmptyDirectoriesPanelIcon()
     {
         if( this.removeEmptyDirectoriesPanelIcon == null ) {
-            this.removeEmptyDirectoriesPanelIcon = newSerializableIcon( "removeEmptyDirectoriesPanelIcon.png" );
+            this.removeEmptyDirectoriesPanelIcon = newSerializableIcon(
+                    REMOVE_EMPTY_DIRECTORIES_PANEL_ICON_PNG
+                    );
             }
         return this.removeEmptyDirectoriesPanelIcon.getIcon();
     }
@@ -127,7 +140,9 @@ public class IconResources implements Serializable
     public Icon getDeleteEmptyFilesPanelIcon()
     {
         if( this.deleteEmptyFilesPanelIcon == null ) {
-            this.deleteEmptyFilesPanelIcon = newSerializableIcon( "deleteEmptyFilesPanelIcon.png" );
+            this.deleteEmptyFilesPanelIcon = newSerializableIcon(
+                    DELETE_EMPTY_FILES_PANEL_ICON_PNG
+                    );
             }
         return this.deleteEmptyFilesPanelIcon.getIcon();
     }
@@ -135,7 +150,7 @@ public class IconResources implements Serializable
     public Icon getDeletedFileIcon()
     {
         if( this.deletedFileIcon == null ) {
-            this.deletedFileIcon = newSerializableIcon( "deletedFileIcon.png" );
+            this.deletedFileIcon = newSerializableIcon( DELETED_FILE_ICON_PNG );
             }
         return this.deletedFileIcon.getIcon();
     }
@@ -143,44 +158,32 @@ public class IconResources implements Serializable
     public Icon getFileIcon()
     {
         if( this.fileIcon == null ) {
-            this.fileIcon = newSerializableIcon( "fileIcon.png" );
+            this.fileIcon = newSerializableIcon( FILE_ICON_PNG );
             }
         return this.fileIcon.getIcon();
     }
 
-    @Deprecated
-    public Icon getEmptySelectedByUserIcon()
+    public Icon getCurrentEmptySelectedIcon()
     {
-        if( this.emptySelectedByUserIcon == null ) {
-            this.emptySelectedByUserIcon = newImageIcon( "emptySelectedByUserIcon.png" );
-            }
-        return this.emptySelectedByUserIcon;
+        // FIXME under mouse icon should be different
+        return getEmptySelectedIcon();
     }
 
-    @Deprecated
-    public Icon getEmptySelectedAndSelectedByUserIcon()
+    public Icon getCurrentEmptyIcon()
     {
-        if( this.emptySelectedAndSelectedByUserIcon == null ) {
-            this.emptySelectedAndSelectedByUserIcon = newImageIcon( "emptySelectedAndSelectedByUserIcon.png" );
-            }
-        return this.emptySelectedAndSelectedByUserIcon;
+        // FIXME under mouse icon should be different
+        return getEmptyIcon();
     }
 
-    @Deprecated
-    public Icon getEmptyLeafSelectedByUserIcon()
+    public Icon getCurrentEmptyLeafSelectedIcon()
     {
-        if( this.emptyLeafSelectedByUserIcon == null ) {
-            this.emptyLeafSelectedByUserIcon = newImageIcon( "emptyLeafSelectedByUserIcon.png" );
-            }
-        return this.emptyLeafSelectedByUserIcon;
+        // FIXME under mouse icon should be different
+        return getEmptyLeafSelectedIcon();
     }
 
-    @Deprecated
-    public Icon getEmptyLeafSelectedAndSelectedByUserIcon()
+    public Icon getCurrentEmptyLeafIcon()
     {
-        if( this.emptyLeafSelectedAndSelectedByUserIcon == null ) {
-            this.emptyLeafSelectedAndSelectedByUserIcon = newImageIcon( "emptyLeafSelectedAndSelectedByUserIcon.png" );
-            }
-        return this.emptyLeafSelectedAndSelectedByUserIcon;
+        // FIXME under mouse icon should be different
+        return getEmptyLeafIcon();
     }
 }

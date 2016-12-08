@@ -12,38 +12,16 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 import com.googlecode.cchlib.util.emptydirectories.Folder;
 
-/**
- *
- */
-public final
-class EmptyDirectoryTreeCellRenderer
+@SuppressWarnings("squid:MaximumInheritanceDepth")
+public final class EmptyDirectoryTreeCellRenderer
     extends DefaultTreeCellRenderer
         implements TreeCellRenderer
 {
     private static final long serialVersionUID = 1L;
 
-    private final IconResources iconResources = IconResources.getInstance();
-//    private Icon nodeLeafIcon;
-//    private Icon nodeLeafSelectedIcon;
-//    private Icon nodeLeafSelectedByUserIcon;
-//    private Icon nodeLeafSelectedAndSelectedByUserIcon;
-
-//    private Icon nodeLeafEmptyIcon;
-//    private Icon nodeLeafEmptySelectedIcon;
-//    private Icon nodeLeafEmptySelectedByUserIcon;
-//    private Icon nodeLeafEmptySelectedAndSelectedByUserIcon;
-
     public EmptyDirectoryTreeCellRenderer( final FolderTreeModelable model )
     {
-//        this.nodeLeafIcon                          = IconResources.getEmptyIcon();
-//        this.nodeLeafSelectedIcon                  = IconResources.getEmptySelectedIcon();
-//        this.nodeLeafSelectedByUserIcon            = IconResources.getEmptySelectedByUserIcon();
-//        this.nodeLeafSelectedAndSelectedByUserIcon = IconResources.getEmptySelectedAndSelectedByUserIcon();
-
-//        this.nodeLeafEmptyIcon                          = IconResources.getEmptyLeafIcon();
-//        this.nodeLeafEmptySelectedIcon                  = IconResources.getEmptyLeafSelectedIcon();
-//        this.nodeLeafEmptySelectedByUserIcon            = IconResources.getEmptyLeafSelectedByUserIcon();
-//        this.nodeLeafEmptySelectedAndSelectedByUserIcon = IconResources.getEmptyLeafSelectedAndSelectedByUserIcon();
+        // Empty
     }
 
     @Override
@@ -102,35 +80,41 @@ class EmptyDirectoryTreeCellRenderer
             }
     }
 
-    @SuppressWarnings("deprecation") // FIXME A finir
     private Icon getNodeLeafIconSelected(
         final boolean selected,
         final boolean selectedByUser
         )
     {
         if( selectedByUser ) {
-            //return selected ?  nodeLeafSelectedAndSelectedByUserIcon : nodeLeafSelectedByUserIcon;
-            return selected ?  iconResources.getEmptySelectedAndSelectedByUserIcon() : iconResources.getEmptySelectedByUserIcon();
+            return selected ?
+                IconResources.getInstance().getCurrentEmptySelectedIcon()
+                :
+                IconResources.getInstance().getCurrentEmptyIcon();
            }
         else {
-            //return selected ?  nodeLeafSelectedIcon : nodeLeafIcon;
-            return selected ?  iconResources.getEmptySelectedIcon() : iconResources.getEmptyIcon();
+            return selected ?
+                IconResources.getInstance().getEmptySelectedIcon()
+                :
+                IconResources.getInstance().getEmptyIcon();
             }
     }
 
-    @SuppressWarnings("deprecation") // FIXME A finir
     private Icon getNodeLeafEmptyRendererIcon(
         final boolean selected,
         final boolean selectedByUser
         )
     {
         if( selectedByUser ) {
-            //return selected ?  nodeLeafEmptySelectedAndSelectedByUserIcon : nodeLeafEmptySelectedByUserIcon;
-            return selected ?  iconResources.getEmptyLeafSelectedAndSelectedByUserIcon() : iconResources.getEmptyLeafSelectedByUserIcon();
+            return selected ?
+                IconResources.getInstance().getCurrentEmptyLeafSelectedIcon()
+                :
+                IconResources.getInstance().getCurrentEmptyLeafIcon();
             }
         else {
-            //return selected ?  nodeLeafEmptySelectedIcon : nodeLeafEmptyIcon;
-            return selected ?  iconResources.getEmptyLeafSelectedIcon() : iconResources.getEmptyLeafIcon();
+            return selected ?
+                IconResources.getInstance().getEmptyLeafSelectedIcon()
+                :
+                IconResources.getInstance().getEmptyLeafIcon();
             }
     }
 
