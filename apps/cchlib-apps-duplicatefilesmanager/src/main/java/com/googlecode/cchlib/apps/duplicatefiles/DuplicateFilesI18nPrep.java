@@ -26,6 +26,7 @@ import com.googlecode.cchlib.lang.Threads;
  * <br>
  * This class is design to generate i18n files
  */
+@SuppressWarnings("ucd") // Development configuration entry point
 public class DuplicateFilesI18nPrep
 {
     private DuplicateFilesI18nPrep() {} // All static

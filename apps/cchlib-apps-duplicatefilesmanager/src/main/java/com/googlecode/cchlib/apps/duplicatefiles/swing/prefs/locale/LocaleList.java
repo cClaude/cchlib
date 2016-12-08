@@ -5,10 +5,7 @@ import java.util.Locale;
 import com.googlecode.cchlib.util.iterator.AbstractIteratorWrapper;
 import com.googlecode.cchlib.util.iterator.ArrayIterator;
 
-/**
- *
- */
-public class LocaleList implements ListContener<Locale>
+public class LocaleList implements Iterable<ListInfo<Locale>>
 {
     private final class LocalesListInfo extends AbstractIteratorWrapper<Locale, ListInfo<Locale>>
     {
@@ -49,9 +46,6 @@ public class LocaleList implements ListContener<Locale>
         };
     private final String txtStringDefaultLocale;
 
-    /**
-     *
-     */
     public LocaleList( final String txtStringDefaultLocale )
     {
         this.txtStringDefaultLocale = txtStringDefaultLocale;
@@ -66,11 +60,5 @@ public class LocaleList implements ListContener<Locale>
     private Iterator<Locale> getContentIterator()
     {
         return new ArrayIterator<>( this.locales );
-    }
-
-    @Override
-    public Iterable<Locale> getContentIterable()
-    {
-        return this::getContentIterator;
     }
 }

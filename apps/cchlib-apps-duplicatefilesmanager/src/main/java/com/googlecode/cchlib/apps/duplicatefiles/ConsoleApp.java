@@ -12,6 +12,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.CommandTask;
 /**
  * Handle console mode
  */
+@SuppressWarnings("ucd") // CLI entry point
 public class ConsoleApp
 {
     private ConsoleApp()
