@@ -15,7 +15,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.TaskCommon;
  *  - on file filters
  *  - test if files exists
  */
-public class DuplicatesFilterTask extends TaskCommon implements CommandTask
+class DuplicatesFilterTask extends TaskCommon implements CommandTask
 {
     private final File inputFile;
 
@@ -25,7 +25,7 @@ public class DuplicatesFilterTask extends TaskCommon implements CommandTask
      * @param cli Parameters from CLI
      * @throws CLIParametersException if any
      */
-    public DuplicatesFilterTask( final CLIParameters cli ) throws CLIParametersException
+    DuplicatesFilterTask( final CLIParameters cli ) throws CLIParametersException
     {
         super( cli );
 

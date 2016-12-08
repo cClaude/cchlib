@@ -295,6 +295,7 @@ public class CLIParameters
         if( bufferSize < DefaultFileDigestFactory.DEFAULT_BUFFER_SIZE ) {
             bufferSize = DefaultFileDigestFactory.DEFAULT_BUFFER_SIZE;
         }
+
         return new DefaultFileDigestFactory( getAlgorithms(), bufferSize );
     }
 
