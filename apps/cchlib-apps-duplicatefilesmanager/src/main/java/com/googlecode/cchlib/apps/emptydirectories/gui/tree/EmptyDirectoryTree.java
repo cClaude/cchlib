@@ -7,7 +7,7 @@ import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable2;
 
-public class EmptyDirectoryTree extends JTree
+public final class EmptyDirectoryTree extends JTree
 {
     private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( EmptyDirectoryTree.class );

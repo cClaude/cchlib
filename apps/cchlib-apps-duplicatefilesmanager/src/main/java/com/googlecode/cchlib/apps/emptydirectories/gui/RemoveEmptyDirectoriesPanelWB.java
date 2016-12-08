@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.emptydirectories.gui;
 
 import java.awt.GridBagConstraints;
@@ -29,7 +28,7 @@ import com.googlecode.cchlib.swing.dnd.SimpleFileDrop;
 /**
  * Handle layout
  */
-public abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
+abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( RemoveEmptyDirectoriesPanelWB.class );

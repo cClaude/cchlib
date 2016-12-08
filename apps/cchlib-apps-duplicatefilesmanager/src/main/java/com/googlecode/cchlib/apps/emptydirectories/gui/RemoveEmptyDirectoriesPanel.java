@@ -50,7 +50,10 @@ public class RemoveEmptyDirectoriesPanel
 
     private final AppToolKit dfToolKit;
     private final Window mainWindow;
+
     private FolderTreeModelable1 treeModel;
+    //private FolderTreeModelable2 treeModel;
+
     private WaitingJFileChooserInitializer waitingJFileChooserInitializer;
 
     @I18nString private String jFileChooserInitializerMessage;
@@ -112,14 +115,21 @@ public class RemoveEmptyDirectoriesPanel
             // Init Adapter
             final FindDeleteListener findDeleteListener = this::findTaskDoneFindDeleteListener;
 
-            this.findDeleteAdapter = new FindDeleteAdapter(
-                    getJListRootDirectoriesModel(),
-                    this.treeModel,
-                    findDeleteListener
-                    );
+            this.findDeleteAdapter = newFindDeleteAdapter( findDeleteListener );
         }
 
         return this.findDeleteAdapter;
+    }
+
+    private FindDeleteAdapter newFindDeleteAdapter(
+            final FindDeleteListener findDeleteListener
+            )
+    {
+        return new FindDeleteAdapter(
+                getJListRootDirectoriesModel(),
+                this.treeModel,
+                findDeleteListener
+                );
     }
 
     protected void findTaskDoneFindDeleteListener( final boolean isCancel )
@@ -129,7 +139,7 @@ public class RemoveEmptyDirectoriesPanel
         // TODO: find a better solution to expand tree
         // during build.
 
-        this.treeModel.expandAllRows();
+        expandAllRows();
 
         enable_findTaskDone();
 
@@ -143,6 +153,11 @@ public class RemoveEmptyDirectoriesPanel
         else {
             pBar.setString( this.txtProgressBarSelectFileToDelete );
         }
+    }
+
+    private void expandAllRows()
+    {
+        this.treeModel.expandAllRows();
     }
 
     private void initListRootDirectories()
@@ -169,25 +184,35 @@ public class RemoveEmptyDirectoriesPanel
         // Create a JTree and tell it to display our model
         final JTree jTreeDir = super.getJTreeEmptyDirectories();
         this.treeModel = new FolderTreeModel1( jTreeDir );
+        // this.treeModel = new FolderTreeModel2( jTreeDir );
         jTreeDir.setModel( this.treeModel );
 
-        jTreeDir.addTreeSelectionListener((final TreeSelectionEvent event) -> {
-            final Object currentSelectedNodeModel = jTreeDir.getLastSelectedPathComponent();
-
-            if( currentSelectedNodeModel instanceof FolderTreeNode ) {
-                final FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
-
-                if( selectedNode.getFolder() instanceof EmptyFolder ) {
-                    this.treeModel.toggleSelected( selectedNode );
-                } // else click on a none empty folder => ignore
-            }
-        });
+        jTreeDir.addTreeSelectionListener(
+            (final TreeSelectionEvent event) -> valueChangedTreeSelectionListener( jTreeDir, event )
+            );
 
         final EmptyDirectoryTreeCellRenderer cellRenderer = new EmptyDirectoryTreeCellRenderer( this.treeModel );
 
         jTreeDir.setCellRenderer( cellRenderer );
         jTreeDir.setCellEditor( new FolderTreeCellEditor( this.treeModel, cellRenderer ) );
         jTreeDir.setEditable( true );
+    }
+
+    private void valueChangedTreeSelectionListener(
+        final JTree              jTreeDir,
+        @SuppressWarnings("squid:S1172") // could be use
+        final TreeSelectionEvent event
+        )
+    {
+        final Object currentSelectedNodeModel = jTreeDir.getLastSelectedPathComponent();
+
+        if( currentSelectedNodeModel instanceof FolderTreeNode ) {
+            final FolderTreeNode selectedNode = (FolderTreeNode)currentSelectedNodeModel;
+
+            if( selectedNode.getFolder() instanceof EmptyFolder ) {
+                this.treeModel.toggleSelected( selectedNode );
+            } // else click on a none empty folder => ignore
+        }
     }
 
     private void initProgressBar()
@@ -249,7 +274,7 @@ public class RemoveEmptyDirectoriesPanel
             this.treeModel.setSelectAll( onlyLeaf, true );
             LOGGER.info( "onSelectAll() : size=" + this.treeModel.getSelectedEmptyFoldersSize() );
 
-            this.treeModel.expandAllRows();
+            expandAllRows();
             }
     }
 
@@ -259,7 +284,7 @@ public class RemoveEmptyDirectoriesPanel
             LOGGER.info( "onUnselectAll()" );
 
             this.treeModel.setSelectAll( false, false );
-            this.treeModel.expandAllRows();
+            expandAllRows();
             }
     }
 

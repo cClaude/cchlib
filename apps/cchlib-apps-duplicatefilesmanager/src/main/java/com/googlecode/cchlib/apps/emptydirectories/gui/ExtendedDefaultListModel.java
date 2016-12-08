@@ -8,7 +8,7 @@ import com.googlecode.cchlib.lang.Enumerable;
  * @see DefaultListModel
  * @see Enumerable
  */
-public class ExtendedDefaultListModel<E>
+class ExtendedDefaultListModel<E>
     extends DefaultListModel<E>
         implements Enumerable<E>
 {
