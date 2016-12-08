@@ -28,8 +28,8 @@ final class VerboseHashComputeListener implements HashComputeTaskListener
     }
 
     @Override
-    public void printCurrentFile( final String hash, final File file )
+    public void printCurrentFile( final Object result, final File file )
     {
-        CLIHelper.printMessage( hash + "\t" + file );
+        CLIHelper.printMessage( "" + result + "\t" + file );
     }
 }

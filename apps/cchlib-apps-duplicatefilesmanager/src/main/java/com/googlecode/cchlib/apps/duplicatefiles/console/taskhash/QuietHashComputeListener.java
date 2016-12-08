@@ -17,7 +17,7 @@ final class QuietHashComputeListener implements HashComputeTaskListener
     }
 
     @Override
-    public void printCurrentFile( final String hash, final File file )
+    public void printCurrentFile( final Object result, final File file )
     {
         // Empty - ignore
     }
