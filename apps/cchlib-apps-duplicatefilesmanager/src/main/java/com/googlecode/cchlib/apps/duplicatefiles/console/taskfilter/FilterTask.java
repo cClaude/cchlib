@@ -14,7 +14,9 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.TaskCommon;
 /**
  * Filter JSON list base on file filters
  */
-public class FilterTask extends TaskCommon implements CommandTask
+public class FilterTask
+    extends TaskCommon<HashFiles>
+        implements CommandTask<HashFiles>
 {
     private final File inputFile;
 

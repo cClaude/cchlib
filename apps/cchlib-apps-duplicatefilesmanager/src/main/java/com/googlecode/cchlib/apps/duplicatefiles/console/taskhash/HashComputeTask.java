@@ -20,8 +20,8 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
  * Compute hash code of all files (recursive)
  */
 public class HashComputeTask
-    extends TaskCommon
-        implements CommandTask, CollectFileInternalTask.Config
+    extends TaskCommon<HashFiles>
+        implements CommandTask<HashFiles>, CollectFileInternalTask.Config
 {
     private final FileDigestFactory       fileDigestFactory;
     private final File                    directoryFile;
@@ -88,7 +88,7 @@ public class HashComputeTask
             final String   hash   = computeHash( file );
             final HashFile result = new HashFile( hash, file );
 
-            HashComputeTask.this.listener.printCurrentFile( hash, file );
+            this.listener.printCurrentFile( hash, file );
 
             return result;
         }

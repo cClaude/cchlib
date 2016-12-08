@@ -21,7 +21,7 @@ import com.googlecode.cchlib.json.JSONHelperException;
 /**
  * Handle file filters for files and directories
  */
-public abstract class TaskCommon implements CommandTask
+public abstract class TaskCommon<R> implements CommandTask<R>
 {
     private final File       jsonOutputFile;
     private final FileFilter directoriesFileFilter;
@@ -183,8 +183,8 @@ public abstract class TaskCommon implements CommandTask
     }
 
     @Override
-    @SuppressWarnings("squid:S1066") // Easiest to read with 2 statements
-    public void saveResultIfRequired( final List<HashFiles> hashFilesList )
+    @SuppressWarnings("squid:S1066") // Easiest to read with an if in 2 statements
+    public void saveResultIfRequired( final List<R> hashFilesList )
         throws CLIParametersException
     {
         if( hashFilesList != null ) {

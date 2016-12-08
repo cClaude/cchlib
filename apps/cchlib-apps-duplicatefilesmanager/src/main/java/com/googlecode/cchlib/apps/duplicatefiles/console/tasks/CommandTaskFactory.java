@@ -6,7 +6,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 /**
  *
  */
-public interface CommandTaskFactory
+@SuppressWarnings("squid:S1609") // Need a super class
+public interface CommandTaskFactory<T>
 {
     /**
      *
@@ -14,5 +15,5 @@ public interface CommandTaskFactory
      * @return
      * @throws CLIParametersException
      */
-    CommandTask newInstance( CLIParameters cli ) throws CLIParametersException;
+    CommandTask<T> newInstance( CLIParameters cli ) throws CLIParametersException;
 }

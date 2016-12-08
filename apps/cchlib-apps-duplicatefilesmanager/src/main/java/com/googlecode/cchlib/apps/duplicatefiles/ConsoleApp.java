@@ -5,7 +5,6 @@ import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.Command;
 import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.CommandTask;
 
@@ -44,12 +43,12 @@ public class ConsoleApp
 
     }
 
-    private static void startApp( final CLIParameters cli )
+    private static <T> void startApp( final CLIParameters cli )
         throws CLIParametersException
     {
-        final Command           cmd         = cli.getCommand();
-        final CommandTask       task        = cmd.newTask( cli );
-        final List<HashFiles>   listResult  = task.doTask();
+        final Command        cmd        = cli.getCommand();
+        final CommandTask<T> task       = cmd.newTask( cli );
+        final List<T>        listResult = task.doTask();
 
         task.saveResultIfRequired( listResult );
     }

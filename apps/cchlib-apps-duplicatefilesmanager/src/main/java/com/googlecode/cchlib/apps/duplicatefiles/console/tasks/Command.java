@@ -9,8 +9,9 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.HashComputeTas
 /**
  * Commands list
  */
-@SuppressWarnings("squid:S00115")
-public enum Command {
+@SuppressWarnings("squid:S00115") // use for command line.
+public enum Command
+{
     /**
      * Build HashFiles list
      */
@@ -25,11 +26,12 @@ public enum Command {
      * Filter an existing HashFiles list
      */
     DuplicateFilter( DuplicatesFilterTaskFactory.class ),
+
     ;
 
-    private Class<? extends CommandTaskFactory> clazz;
+    private Class<? extends CommandTaskFactory<?>> clazz;
 
-    private Command( final Class<? extends CommandTaskFactory> clazz )
+    private Command( final Class<? extends CommandTaskFactory<?>> clazz )
     {
         this.clazz = clazz;
     }
@@ -41,10 +43,11 @@ public enum Command {
      * @return current {@link CommandTask}
      * @throws CLIParametersException if any (command not found)
      */
-    public CommandTask newTask( final CLIParameters cli ) throws CLIParametersException
+    @SuppressWarnings("unchecked")
+    public <R> CommandTask<R> newTask( final CLIParameters cli ) throws CLIParametersException
     {
         try {
-            return this.clazz.newInstance().newInstance( cli );
+            return (CommandTask<R>)this.clazz.newInstance().newInstance( cli );
         }
         catch( InstantiationException | IllegalAccessException e ) {
             throw new CommandTaskException( e );

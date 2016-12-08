@@ -2,12 +2,11 @@ package com.googlecode.cchlib.apps.duplicatefiles.console.tasks;
 
 import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
-import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 
 /**
  * Handle --command option
  */
-public interface CommandTask
+public interface CommandTask<R>
 {
     /**
      * Run related task for this command
@@ -17,7 +16,7 @@ public interface CommandTask
      * @throws CLIParametersException if any
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    List<HashFiles> doTask()
+    List<R> doTask()
         throws
             CommandTaskException,
             CLIParametersException;
@@ -28,6 +27,6 @@ public interface CommandTask
      * @param listResult Result to store
      * @throws CLIParametersException if any
      */
-    void saveResultIfRequired( List<HashFiles> listResult )
+    void saveResultIfRequired( List<R> listResult )
         throws CLIParametersException;
 }

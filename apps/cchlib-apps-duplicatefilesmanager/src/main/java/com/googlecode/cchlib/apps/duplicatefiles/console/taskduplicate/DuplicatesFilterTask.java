@@ -15,7 +15,9 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.TaskCommon;
  *  - on file filters
  *  - test if files exists
  */
-class DuplicatesFilterTask extends TaskCommon implements CommandTask
+class DuplicatesFilterTask
+    extends TaskCommon<HashFiles>
+        implements CommandTask<HashFiles>
 {
     private final File inputFile;
 
