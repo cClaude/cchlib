@@ -10,7 +10,7 @@ import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
-import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.HashComputeTaskListener;
+import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.FileComputeTaskListener;
 import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.ListenerFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.tasks.Command;
 import com.googlecode.cchlib.cli.apachecli.OptionBuilderInstance;
@@ -318,7 +318,7 @@ public class CLIParameters
         }
     }
 
-    public HashComputeTaskListener getHashComputeListener()
+    public FileComputeTaskListener getHashComputeListener()
     {
         if( isQuiet() ) {
             return ListenerFactory.getBuilder().createQuietListener();

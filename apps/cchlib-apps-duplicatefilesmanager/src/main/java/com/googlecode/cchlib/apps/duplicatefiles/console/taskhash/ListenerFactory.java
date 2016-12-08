@@ -12,18 +12,18 @@ public class ListenerFactory
         return new ListenerFactory();
     }
 
-    public HashComputeTaskListener createQuietListener()
+    public FileComputeTaskListener createQuietListener()
     {
-        return new QuietHashComputeListener();
+        return new QuietFileComputeListener();
     }
 
-    public HashComputeTaskListener createVerboseListener()
+    public FileComputeTaskListener createVerboseListener()
     {
-        return new VerboseHashComputeListener();
+        return new VerboseFileComputeListener();
     }
 
-    public HashComputeTaskListener createDefaultListener()
+    public FileComputeTaskListener createDefaultListener()
     {
-        return new DefaultHashComputeListener();
+        return new DefaultFileComputeListener();
     }
 }

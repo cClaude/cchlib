@@ -25,7 +25,7 @@ public class HashComputeTask
 {
     private final FileDigestFactory       fileDigestFactory;
     private final File                    directoryFile;
-    private final HashComputeTaskListener listener;
+    private final FileComputeTaskListener listener;
 
     /**
      * Create {@link HashComputeTask} based on <code>cli</code>
