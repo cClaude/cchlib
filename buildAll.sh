@@ -2,6 +2,8 @@
 #
 set +ex
 
+[ -d .logs ] || mkdir .logs
+
 mvn clean install | tee .logs/mvn-install.log
 MVN_EXIT="$?"
 
