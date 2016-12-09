@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.io.IOHelper;
 import cx.ath.choisnet.xml.XMLParser;
 import cx.ath.choisnet.xml.XMLParserErrorHandler;
@@ -25,15 +26,22 @@ public class XMLFileParserDOMImplTest
     @Before
     public void setUpClass() throws Exception
     {
-        this.xmlFile = File.createTempFile( "~XMLParser_", ".xml" ); // $codepro.audit.disable deleteTemporaryFiles
-        InputStream s = XMLParser.class.getResourceAsStream( "survey-sample.xml" );
-        IOHelper.copy( s, this.xmlFile );
-        s.close();
+        final File tmpdir = FileHelper.createTempDir();
+        tmpdir.deleteOnExit();
 
-        this.dtdFile = new File( this.xmlFile.getParentFile(), "survey.dtd" );
-        s = XMLParser.class.getResourceAsStream( "survey.dtd" );
-        IOHelper.copy( s, this.dtdFile );
-        s.close();
+        this.xmlFile = new File( tmpdir, "XMLParser.xml" );
+        this.xmlFile.deleteOnExit();
+
+        try( InputStream s = XMLParser.class.getResourceAsStream( "survey-sample.xml" ) ) {
+            IOHelper.copy( s, this.xmlFile );
+        };
+
+        this.dtdFile = new File( tmpdir, "survey.dtd" );
+        this.dtdFile.deleteOnExit();
+
+        try( InputStream s = XMLParser.class.getResourceAsStream( "survey.dtd" ) ) {
+            IOHelper.copy( s, this.dtdFile );
+        }
 
         LOGGER.info( "XML File is " + this.xmlFile );
         LOGGER.info( "DTD File is " + this.dtdFile );
