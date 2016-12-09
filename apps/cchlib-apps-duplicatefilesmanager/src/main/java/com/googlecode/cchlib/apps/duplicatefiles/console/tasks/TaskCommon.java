@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.Nonnull;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
@@ -188,29 +189,49 @@ public abstract class TaskCommon<R> implements CommandTask<R>
         throws CLIParametersException
     {
         if( hashFilesList != null ) {
-
             if( this.jsonOutputFile != null ) {
-                createParentDirsOf( this.jsonOutputFile ); // TODO should be optional
-
-                final Set<PrintMode> printMode;
-
-                if( this.prettyJson ) {
-                    printMode = JSONHelper.PRETTY_PRINT;
-                } else {
-                    printMode = JSONHelper.COMPACT_PRINT;
-                }
-
-                try {
-                    JSONHelper.save(
-                            this.jsonOutputFile,
-                            hashFilesList,
-                            printMode
-                            );
-                }
-                catch( final JSONHelperException e ) {
-                    CLIHelper.printError( "Error while writing JSON result", this.jsonOutputFile, e );
-                }
+                saveResult( hashFilesList );
             }
+        }
+    }
+
+    private void saveResult( @Nonnull final List<R> hashFilesList )
+        throws CLIParametersException
+    {
+        createParentDirsOf( this.jsonOutputFile ); // TODO should be optional
+
+        final Set<PrintMode> printMode;
+
+        if( this.prettyJson ) {
+            printMode = JSONHelper.PRETTY_PRINT;
+        } else {
+            printMode = JSONHelper.COMPACT_PRINT;
+        }
+
+        try {
+            JSONHelper.save(
+                    this.jsonOutputFile,
+                    hashFilesList,
+                    printMode
+                    );
+
+            if( isVerbose() ) {
+                CLIHelper.printMessage( "Saved to " + getBestPath( this.jsonOutputFile ) );
+            }
+        }
+        catch( final JSONHelperException e ) {
+            CLIHelper.printError( "Error while writing JSON result", this.jsonOutputFile, e );
+        }
+    }
+
+    @SuppressWarnings("squid:S1166") // Ignore IOException
+    private String getBestPath( final File file )
+    {
+        try {
+            return file.getCanonicalPath();
+        }
+        catch( final IOException e ) {
+            return file.getPath();
         }
     }
 }

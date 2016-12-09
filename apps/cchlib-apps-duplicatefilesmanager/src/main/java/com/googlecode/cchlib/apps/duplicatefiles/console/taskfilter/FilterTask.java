@@ -18,7 +18,7 @@ public class FilterTask
     extends TaskCommon<HashFiles>
         implements CommandTask<HashFiles>
 {
-    private final File inputFile;
+    private final CLIParameters cli;
 
     /**
      * Create a {@link FilterTask} based on <code>cli</code>
@@ -30,13 +30,13 @@ public class FilterTask
     {
         super( cli );
 
-        this.inputFile = cli.getJsonInputFile();
+        this.cli = cli;
    }
 
     @Override
     public List<HashFiles> doTask() throws CLIParametersException
     {
-        final List<HashFiles>     list     = JSONLoaderHelper.loadDuplicate( this.inputFile );
+        final List<HashFiles>     list     = JSONLoaderHelper.loadDuplicate( this.cli );
         final Iterator<HashFiles> iterator = list.iterator();
 
         while( iterator.hasNext() ) {

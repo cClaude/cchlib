@@ -7,9 +7,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 import com.googlecode.cchlib.json.JSONHelper;
 import com.googlecode.cchlib.json.JSONHelperException;
 
-/**
- *
- */
 public class JSONLoaderHelper
 {
     private JSONLoaderHelper()
@@ -17,46 +14,22 @@ public class JSONLoaderHelper
         // All static
     }
 
-    /*
-     *
-     * @param hashJsonInputFile
-     * @return
-     * @throws CLIParametersException
-     *
-    public static List<HashFile> loadHash( final File hashJsonInputFile  )
+    public static List<HashFiles> loadDuplicate( final CLIParameters cli )
         throws CLIParametersException
     {
-        try {
-            return JSONHelper.load(
-                    hashJsonInputFile,
-                    new TypeReference<List<HashFile>>() {}
-                    );
-        }
-        catch( final JSONHelperException e ) {
-            throw new CLIParametersException(
-                    CLIParameters.JSON_IN, "Error while reading :" + hashJsonInputFile, e
-                    );
-        }
-    }
-*/
-    /**
-     *
-     * @param duplicateInputFile
-     * @return
-     * @throws CLIParametersException
-     */
-    public static List<HashFiles> loadDuplicate( final File duplicateInputFile )
-        throws CLIParametersException
-    {
+        final File duplicateInputFile = cli.getJsonInputFile();
+
         try {
             return JSONHelper.load(
                     duplicateInputFile,
                     new TypeReference<List<HashFiles>>() { /* define ref only */ }
                     );
         }
-        catch( final JSONHelperException e ) {
+        catch( final JSONHelperException cause ) {
             throw new CLIParametersException(
-                    CLIParameters.JSON_IN, "Error while reading :" + duplicateInputFile, e
+                    cli.getJsonInputFileParameter(),
+                    "Error while reading :" + duplicateInputFile,
+                    cause
                     );
         }
     }

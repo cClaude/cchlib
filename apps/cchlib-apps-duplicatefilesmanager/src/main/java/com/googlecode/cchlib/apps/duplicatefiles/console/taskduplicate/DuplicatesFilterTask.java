@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles.console.taskduplicate;
 
-import java.io.File;
 import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
@@ -19,7 +18,7 @@ class DuplicatesFilterTask
     extends TaskCommon<HashFiles>
         implements CommandTask<HashFiles>
 {
-    private final File inputFile;
+    private final CLIParameters cli;
 
     /**
      * Create a {@link FilterTask} based on <code>cli</code>
@@ -31,13 +30,13 @@ class DuplicatesFilterTask
     {
         super( cli );
 
-        this.inputFile = cli.getJsonInputFile();
+        this.cli = cli;
    }
 
     @Override
     public List<HashFiles> doTask() throws CLIParametersException
     {
-        final List<HashFiles> list = JSONLoaderHelper.loadDuplicate( this.inputFile );
+        final List<HashFiles> list = JSONLoaderHelper.loadDuplicate( this.cli );
 
         if( isOnlyDuplicates() ) {
             removeNonDuplicates( list );

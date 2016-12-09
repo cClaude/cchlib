@@ -25,6 +25,7 @@ import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
  */
 public class CLIParameters
 {
+    private static final String USE_CANONICAL_PATH     = "use-canonical-path";
     private static final String ALGORITHM              = "algorithm";
     private static final String BUFFER_SIZE            = "buffer-size";
     private static final String COMMAND                = "command";
@@ -37,18 +38,21 @@ public class CLIParameters
     private static final String PRETTY_JSON            = "pretty-json";
     private static final String QUIET                  = "quiet";
     private static final String VERBOSE                = "verbose";
-    public  static final String JSON_IN                = "input";
+    private static final String JSON_IN                = "input";
 
     private static final String ALGORITHM_DESCRIPTION
         = "Algorithm names : " + Arrays.toString( MessageDigestAlgorithms.values() );
     private static final String COMMAND_DESCRIPTION
         = "Command names : " + Arrays.toString( Command.values() );
+    private static final String USE_CANONICAL_PATH_DESCRIPTION
+        = "Use canonical path when possible";
 
+    private Boolean           canonicalPath;
     private Boolean           onlyDuplicates;
     private Boolean           prettyJson;
-    @SuppressWarnings("squid:S1845")
+    @SuppressWarnings("squid:S1845") // Constant and field names differ only by capitalization
     private Boolean           quiet;
-    @SuppressWarnings("squid:S1845")
+    @SuppressWarnings("squid:S1845") // Constant and field names differ only by capitalization
     private Boolean           verbose;
     private CommandLine       commandLine;
     private FileFiltersConfig fileFiltersConfig;
@@ -116,11 +120,17 @@ public class CLIParameters
         options.addOptionGroup( getOptionGroupFilesFilter( builder ) );
 
         options.addOption(
-            builder.withLongOpt( COMMAND )
-                .withDescription( COMMAND_DESCRIPTION )
-                .hasArg()
-                .create( "c" )
-            );
+                builder.withLongOpt( COMMAND )
+                    .withDescription( COMMAND_DESCRIPTION )
+                    .hasArg()
+                    .create( "c" )
+                );
+        options.addOption(
+                builder.withLongOpt( USE_CANONICAL_PATH )
+                    .withDescription( USE_CANONICAL_PATH_DESCRIPTION )
+                    .hasArg( false )
+                    .create( "C" )
+                );
 
         return options;
     }
@@ -219,13 +229,21 @@ public class CLIParameters
 
     public File getJsonInputFile() throws CLIParametersException
     {
-        final File jsonFile = getOptionalFile( JSON_IN );
+        final File jsonFile = getOptionalFile( getJsonInputFileParameter() );
 
         if( jsonFile != null ) {
             return jsonFile;
         }
 
-        throw new CLIParametersException( JSON_IN, "Parameter is required" );
+        throw new CLIParametersException(
+                getJsonInputFileParameter(),
+                "Parameter is required"
+                );
+    }
+
+    public String getJsonInputFileParameter()
+    {
+        return JSON_IN;
     }
 
     public File getJsonOutputFile()
@@ -318,7 +336,7 @@ public class CLIParameters
         }
     }
 
-    public FileComputeTaskListener getHashComputeListener()
+    public FileComputeTaskListener getFileComputeListener()
     {
         if( isQuiet() ) {
             return ListenerFactory.getBuilder().createQuietListener();
@@ -445,4 +463,16 @@ public class CLIParameters
 
         return command;
     }
+
+    public boolean isCanonicalPath()
+    {
+        if( this.canonicalPath == null ) {
+            this.canonicalPath = Boolean.valueOf(
+                    this.commandLine.hasOption( USE_CANONICAL_PATH )
+                    );
+        }
+
+        return this.canonicalPath.booleanValue();
+    }
+
 }

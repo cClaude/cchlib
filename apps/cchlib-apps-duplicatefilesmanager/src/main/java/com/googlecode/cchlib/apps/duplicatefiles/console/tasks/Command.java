@@ -5,6 +5,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
 import com.googlecode.cchlib.apps.duplicatefiles.console.taskduplicate.DuplicatesFilterTaskFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.taskfilter.FilterTaskFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.console.taskhash.HashComputeTaskFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.console.taskquicklist.QuickListTaskFactory;
 
 /**
  * Commands list
@@ -27,6 +28,10 @@ public enum Command
      */
     DuplicateFilter( DuplicatesFilterTaskFactory.class ),
 
+    /**
+     * 'Quick' list files
+     */
+    QuickFileList( QuickListTaskFactory.class ),
     ;
 
     private Class<? extends CommandTaskFactory<?>> clazz;

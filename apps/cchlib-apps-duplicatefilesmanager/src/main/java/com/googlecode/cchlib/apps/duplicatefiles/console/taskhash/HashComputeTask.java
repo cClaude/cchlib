@@ -39,7 +39,7 @@ public class HashComputeTask
 
         this.fileDigestFactory     = cli.getFileDigestFactory();
         this.directoryFile         = cli.getDirectory();
-        this.listener              = cli.getHashComputeListener();
+        this.listener              = cli.getFileComputeListener();
     }
 
     @Override // CollectFileInternalTask.Config
