@@ -1,22 +1,22 @@
 package cx.ath.choisnet.net;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
 
-@SuppressWarnings("resource")
 public class URLHelperTest
 {
     private static final Logger LOGGER = Logger.getLogger( URLHelperTest.class );
@@ -26,7 +26,7 @@ public class URLHelperTest
     @Before
     public void setUp() throws MalformedURLException
     {
-        this.testURL = new URL( "https://code.google.com/p/cchlib/" );
+        this.testURL = new URL( "https://github.com/cClaude/cchlib/" );
     }
 
     /**
@@ -37,10 +37,7 @@ public class URLHelperTest
     {
         LOGGER.warn( "Checking Internet connection using: " + this.testURL );
 
-        try {
-            final InputStream is = this.testURL.openStream();
-
-            is.close();
+        try( final InputStream is = this.testURL.openStream()) {
             return true;
             }
         catch( final IOException e ) {
@@ -49,25 +46,25 @@ public class URLHelperTest
             }
     }
 
-    /**
-     * Test method for {@link cx.ath.choisnet.net.URLHelper#toString(java.net.URL)}.
-     * @throws IOException
-     */
+    @Test
+    public void test_if_not_internet_access()
+    {
+        // at least one test is required (if no Internet access)
+
+        assertThat( this.testURL ).isNotNull();
+    }
+
     @Test
     public void testToStringURL() throws IOException
     {
         // Is Internet access allowed ?
         Assume.assumeTrue( isInternetAccessAllowed() );
 
-        final String s = URLHelper.toString( this.testURL );
+        final String actual = URLHelper.toString( this.testURL );
 
-        Assert.assertNotNull( s );
+        assertThat( actual ).isNotNull();
     }
 
-    /**
-     * Test method for {@link cx.ath.choisnet.net.URLHelper#copy(java.net.URL, java.io.OutputStream)}.
-     * @throws IOException
-     */
     @Test
     public void testCopyURLOutputStream() throws IOException
     {
@@ -77,33 +74,27 @@ public class URLHelperTest
         final ByteArrayOutputStream os = new ByteArrayOutputStream();
         URLHelper.copy( this.testURL, os );
 
-        final String s = os.toString();
+        final String actual = os.toString();
 
-        Assert.assertNotNull( s );
+        assertThat( actual ).isNotNull();
     }
 
-    /**
-     * Test method for {@link cx.ath.choisnet.net.URLHelper#copy(java.net.URL, java.io.File)}.
-     * @throws IOException
-     */
     @Test
     public void testCopyURLFile() throws IOException
     {
         // Is Internet access allowed ?
         Assume.assumeTrue( isInternetAccessAllowed() );
 
-        final File file = File.createTempFile( "testCopyURLFile", "tmp" ); // $codepro.audit.disable deleteTemporaryFiles
+        final File file = File.createTempFile( "testCopyURLFile", "tmp" );
+        file.deleteOnExit();
+
         URLHelper.copy( this.testURL, file );
 
-        final String s = IOHelper.toString( file );
+        final String actual = IOHelper.toString( file );
 
-        Assert.assertNotNull( s );
+        assertThat( actual ).isNotNull();
     }
 
-    /**
-     * Test method for {@link cx.ath.choisnet.net.URLHelper#copy(java.net.URL, java.io.Writer)}.
-     * @throws IOException
-     */
     @Test
     public void testCopyURLWriter() throws IOException
     {
@@ -114,15 +105,15 @@ public class URLHelperTest
 
         URLHelper.copy( this.testURL, writer );
 
-        final String s = writer.toString();
+        final String actual = writer.toString();
 
-        Assert.assertNotNull( s );
+        assertThat( actual ).isNotNull();
     }
 
     /**
-     * Test method for {@link cx.ath.choisnet.net.URLHelper#copy(java.net.URL, java.io.Writer, java.lang.String)}.
-     * @throws IOException
-     * @throws UnsupportedEncodingException
+     * Test method for {@link URLHelper#copy(URL,Writer,String)}.
+     * @throws IOException if any
+     * @throws UnsupportedEncodingException if any
      */
     @Test
     public void testCopyURLWriterString() throws UnsupportedEncodingException, IOException
@@ -134,14 +125,8 @@ public class URLHelperTest
 
         URLHelper.copy( this.testURL, writer, Charset.defaultCharset().displayName() );
 
-        final String str = writer.toString();
+        final String actual = writer.toString();
 
-        Assert.assertNotNull( str );
-    }
-
-    @Test
-    public void testNeverFailTest()
-    {
-        // empty
+        assertThat( actual ).isNotNull();
     }
 }
