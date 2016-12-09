@@ -76,9 +76,9 @@ public final class IO
 
     public static final InputStream createZipInputFile() throws FileNotFoundException
     {
-        final File file = createTmpFile( "./src/test/resources/com/googlecode/cchlib/io/mysrc.zip" );
+        final String filename = "./src/test/resources/com/googlecode/cchlib/io/mysrc.zip";
 
-        return new FileInputStream( file );
+        return new FileInputStream( filename );
     }
 
     public static final File createTmpFile(final String filename )
