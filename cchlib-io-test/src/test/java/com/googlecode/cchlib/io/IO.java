@@ -62,7 +62,11 @@ public final class IO
      */
     public static final File createZipTempFile( final String prefixName ) throws IOException
     {
-        return IOHelper.copy( createZipInputFile(), File.createTempFile( prefixName + '-', ".zip" ) );
+        final File destinationFile = File.createTempFile( prefixName + '-', ".zip" );
+
+        destinationFile.deleteOnExit();
+
+        return IOHelper.copy( createZipInputFile(), destinationFile );
     }
 
     public static final File createZipTempFile() throws IOException
@@ -72,7 +76,18 @@ public final class IO
 
     public static final InputStream createZipInputFile() throws FileNotFoundException
     {
-        return new FileInputStream( "./src/test/resources/com/googlecode/cchlib/io/mysrc.zip" );
+        final File file = createTmpFile( "./src/test/resources/com/googlecode/cchlib/io/mysrc.zip" );
+
+        return new FileInputStream( file );
+    }
+
+    public static final File createTmpFile(final String filename )
+    {
+        final File file = new File( filename );
+
+        file.deleteOnExit();
+
+        return file;
     }
 
     /**
@@ -96,7 +111,11 @@ public final class IO
         try {
             final String prefix = fromClassPrefix.getSimpleName();
 
-            return File.createTempFile( prefix, suffix );
+            final File tmpFile = File.createTempFile( prefix, suffix );
+
+            tmpFile.deleteOnExit();
+
+            return tmpFile;
         }
         catch( final IOException e ) {
             throw new RuntimeException( e );
@@ -110,7 +129,11 @@ public final class IO
         try {
             final Path path = Files.createTempDirectory( prefix );
 
-            return path.toFile();
+            final File tmpFile = path.toFile();
+
+            tmpFile.deleteOnExit();
+
+            return tmpFile;
         }
         catch( final IOException e ) {
             throw new RuntimeException( e );
