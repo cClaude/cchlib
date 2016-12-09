@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -129,15 +128,15 @@ public class JPanelConfirm extends JPanel
                     setHorizontalAlignment(SwingConstants.LEFT);
 
                     if( b.booleanValue() ) {
-                        setIcon( JPanelConfirm.this.iconOk );
+                        setIcon( JPanelConfirm.this.dfToolKit.getResources().getSmallOKIcon() );
                         }
                     else {
                         if( f.isFileExists() ) {
-                            setIcon( JPanelConfirm.this.iconKo );
+                            setIcon( JPanelConfirm.this.dfToolKit.getResources().getSmallKOIcon() );
                             setToolTipText( JPanelConfirm.this.txtIconKo );
                             }
                         else {
-                            setIcon( JPanelConfirm.this.iconKoButDelete );
+                            setIcon( JPanelConfirm.this.dfToolKit.getResources().getSmallOKButOKIcon() );
                             setToolTipText( JPanelConfirm.this.txtIconKoButDelete );
                             }
                         }
@@ -165,9 +164,6 @@ public class JPanelConfirm extends JPanel
     private final JProgressBar jProgressBarDeleteProcess;
     private final JButton jButtonDoScript;
 
-    private final Icon iconOk;
-    private final Icon iconKo;
-    private final Icon iconKoButDelete;
     private AbstractTableModel tableModel;
     private JPanelConfirmModel tableDataToDelete;
 
@@ -239,10 +235,6 @@ public class JPanelConfirm extends JPanel
             this.jButtonDoScript.setVisible(false);
             // $hide<<$
         }
-
-        this.iconOk          = this.dfToolKit.getResources().getSmallOKIcon();
-        this.iconKo          = this.dfToolKit.getResources().getSmallKOIcon();
-        this.iconKoButDelete = this.dfToolKit.getResources().getSmallOKButOKIcon();
 
         setSize(320, 240);
     }
