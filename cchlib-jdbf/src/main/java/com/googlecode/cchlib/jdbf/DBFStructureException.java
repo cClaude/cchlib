@@ -7,13 +7,14 @@ public class DBFStructureException extends DBFException
 {
     private static final long serialVersionUID = 1L;
 
-    public DBFStructureException()
+    public DBFStructureException( final String message )
     {
+        super( message );
     }
 
-    public DBFStructureException( String msg )
+    public DBFStructureException( final String message, final Exception cause )
     {
-        super( msg );
+        super( message, cause );
     }
 
 }

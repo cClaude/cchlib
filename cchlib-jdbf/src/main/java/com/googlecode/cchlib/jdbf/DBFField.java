@@ -4,6 +4,7 @@ package com.googlecode.cchlib.jdbf;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import javax.annotation.Nonnull;
 
 /**
  * DBFField represents a field specification in an dbf file.
@@ -60,7 +61,7 @@ public class DBFField
     private short reserv3;                    /* 21-22 */
     @SuppressWarnings("unused")
     private byte setFieldsFlag;               /* 23 */
-    private final byte[] reserv4 = new byte[ 7];    /* 24-30 */
+    private final byte[] reserv4 = new byte[ 7 ]; /* 24-30 */
     @SuppressWarnings("unused")
     private byte indexFieldFlag;              /* 31 */
     /* Field struct variables end here */
@@ -80,7 +81,7 @@ public class DBFField
      * @return the created DBFField object.
      * @throws IOException If any stream reading problems occurs.
      */
-    protected static DBFField createField( final DataInput in )
+    static DBFField createField( final DataInput in )
         throws IOException
     {
         final DBFField field = new DBFField();
@@ -120,18 +121,37 @@ public class DBFField
      *
      * @param output OutputStream
      * @throws IOException if any stream related issues occur.
+     * @deprecated use {@link #write(DBFField, DataOutput)} instead
      */
-    protected void write( final DataOutput output ) throws IOException
+    @Deprecated
+    void write( final DataOutput output ) throws IOException
+    {
+        write( this, output );
+    }
+
+    /**
+     * Writes the content of DBFField object into the stream as per DBF
+     * format specifications.
+     *
+     * @param field
+     *            {@link DBFField} to write
+     * @param output
+     *            OutputStream
+     * @throws IOException
+     *             if any stream related issues occur.
+     */
+    static void write( final DBFField field, final DataOutput output )
+        throws IOException
     {
         // Field Name
-        output.write( this.fieldName);        /* 0-10 */
-        output.write( new byte[ 11 - this.fieldName.length]);
+        output.write( field.fieldName);        /* 0-10 */
+        output.write( new byte[ 11 - field.fieldName.length]);
 
         // data type
-        output.writeByte( this.dataType); /* 11 */
+        output.writeByte( field.dataType); /* 11 */
         output.writeInt( 0x00);   /* 12-15 */
-        output.writeByte( this.fieldLength); /* 16 */
-        output.writeByte( this.decimalCount); /* 17 */
+        output.writeByte( field.fieldLength); /* 16 */
+        output.writeByte( field.decimalCount); /* 17 */
         output.writeShort( (short)0x00); /* 18-19 */
         output.writeByte( (byte)0x00); /* 20 */
         output.writeShort( (short)0x00); /* 21-22 */
@@ -161,6 +181,17 @@ public class DBFField
     }
 
     /**
+     * Returns the data type of the field.
+     *
+     * @return Data type as {@link DBFType}.
+     */
+    @Nonnull
+    public DBFType getDBFType()
+    {
+        return DBFType.get( this.dataType );
+    }
+
+    /**
      * Returns field length.
      *
      * @return field length as int.
@@ -187,8 +218,10 @@ public class DBFField
     /**
      * Sets the name of the field.
      * @param name Name of the field as String.
+     * @return
+     * @return this element for initialization chaining
      * */
-    public void setName( final String name )
+    public DBFField setName( final String name )
     {
         if( name == null) {
             throw new IllegalArgumentException( "Field name cannot be null" );
@@ -200,21 +233,24 @@ public class DBFField
 
         this.fieldName      = name.getBytes();
         this.nameNullIndex  = this.fieldName.length;
+
+        return this;
     }
 
     /**
      * Sets the data type of the field.
      *
      * @param value Type of the field. One of the following: C, L, N, F, D, M
+     * @return this element for initialization chaining
      * @throws IllegalArgumentException if value is not in specified range
      */
     @SuppressWarnings("squid:S128")
-    public void setDataType( final byte value )
+    public DBFField setDataType( final byte value )
     {
         switch( value ) {
             case FIELD_TYPE_D:
                 this.fieldLength = 8; /* fall through */
-            case FIELD_TYPE_C: // $codepro.audit.disable nonTerminatedCaseClause
+            case FIELD_TYPE_C:
             case FIELD_TYPE_L:
             case FIELD_TYPE_N:
             case FIELD_TYPE_F:
@@ -225,6 +261,8 @@ public class DBFField
             default:
                 throw new IllegalArgumentException( "Unknown data type");
         }
+
+        return this;
     }
 
     /**
@@ -233,8 +271,9 @@ public class DBFField
      * This method should be called before calling setDecimalCount().
      *
      * @param length Length of the field as integer.
+     * @return this element for initialization chaining
      */
-    public void setFieldLength( final int length )
+    public DBFField setFieldLength( final int length )
     {
         if( length <= 0 ) {
             throw new IllegalArgumentException( "Field length should be a positive number" );
@@ -244,6 +283,8 @@ public class DBFField
             }
 
         this.fieldLength = length;
+
+        return this;
     }
 
     /**
@@ -252,8 +293,9 @@ public class DBFField
      * should be set by calling setFieldLength().
      *
      * @param value Size of the decimal field.
+     * @return this element for initialization chaining
      */
-    public void setDecimalCount( final int value )
+    public DBFField setDecimalCount( final int value )
     {
         if( value < 0 ) {
             throw new IllegalArgumentException( "Decimal length should be a positive number" );
@@ -263,6 +305,8 @@ public class DBFField
             }
 
         this.decimalCount = (byte)value;
+
+        return this;
     }
 
 }

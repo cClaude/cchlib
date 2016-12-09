@@ -140,7 +140,8 @@ class DBFHeader
         dataOutput.writeShort( Utils.littleEndian( this.reserv4 ) ); /* 30-31 */
 
         for( int i=0; i<this.fieldArray.length; i++ ) {
-            this.fieldArray[ i ].write( dataOutput );
+            //this.fieldArray[ i ].write( dataOutput );
+            DBFField.write( this.fieldArray[ i ], dataOutput );
             }
 
         dataOutput.writeByte( this.terminator1 ); /* n+1 */

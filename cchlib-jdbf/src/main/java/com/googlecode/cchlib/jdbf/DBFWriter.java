@@ -1,17 +1,16 @@
 package com.googlecode.cchlib.jdbf;
 
+import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import javax.annotation.Nonnull;
 import com.googlecode.cchlib.lang.StringHelper;
 
 /**
@@ -20,15 +19,12 @@ import com.googlecode.cchlib.lang.StringHelper;
  * Create an object, then define fields by creating DBFField objects and add
  * them to the DBFWriter object add records using the addRecord() method and
  * then call write() method.
- * </p>
  */
 public class DBFWriter extends DBFBase
 {
     /* other class variables */
-    private DBFHeader               header;
+    private final DBFHeader         header;
     private final List<Object[]>    records     = new ArrayList<>();
-    private int                     recordCount = 0;
-    private RandomAccessFile        raf         = null;  /* Open and append records to an existing DBF */
     private final Calendar          calendar    = new GregorianCalendar();
 
     // private boolean appendMode = false - not handled
@@ -41,49 +37,30 @@ public class DBFWriter extends DBFBase
         this.header = new DBFHeader();
     }
 
-    /**
-     * Creates a DBFWriter which can append to records to an existing DBF file.
-     *
-     * @param dbfFile
-     *            The file passed in shouls be a valid DBF file.
-     * @throws DBFException
-     *             if the passed in file does exist but not a valid DBF file, or
-     *             if an IO error occurs.
-     */
-    public DBFWriter( final File dbfFile ) throws DBFException
+    protected void readHeaderFrom( final DataInput raf ) throws IOException
     {
-        try {
-            this.raf = new RandomAccessFile( dbfFile, "rw" );
+        this.header.read( raf );
+    }
 
-            /* before proceeding check whether the passed in File object is an
-             * empty/non-existent file or not. */
-            if( !dbfFile.exists() || (dbfFile.length() == 0) ) {
-                this.header = new DBFHeader();
-                return;
-                }
+    protected void writeHeaderFrom( final DataOutput raf ) throws IOException
+    {
+        this.header.write( raf );
+    }
 
-            this.header = new DBFHeader();
-            this.header.read( this.raf );
+    protected int getHeaderNumberOfRecords()
+    {
+        return this.header.getNumberOfRecords();
+    }
 
-            /* position file pointer at the end of the raf */
-            this.raf.seek( this.raf.length() - 1 /* to ignore the END_OF_DATA
-                                                  * byte at EoF */);
-            }
-        catch( final FileNotFoundException e ) {
-            throw new DBFException( "Specified file is not found. "
-                    + e.getMessage(), e );
-            }
-        catch( final IOException e ) {
-            throw new DBFException( e.getMessage() + " while reading header", e );
-            }
-
-        this.recordCount = this.header.getNumberOfRecords();
+    protected void setHeaderNumberOfRecords( final int numberOfRecords )
+    {
+        this.header.setNumberOfRecords( numberOfRecords );
     }
 
     /**
      * Sets fields.
      *
-     * @param fields
+     * @param fields Array of fields to set
      * @throws DBFException if an IO error occurs.
      */
     public void setFields( final DBFField[] fields ) throws DBFException
@@ -91,16 +68,6 @@ public class DBFWriter extends DBFBase
         validateParams( fields );
 
         this.header.setDBFFields( fields );
-
-        try {
-            if( (this.raf != null) && (this.raf.length() == 0) ) {
-                /*this is a new/non-existent file. So write header before proceeding */
-                this.header.write( this.raf );
-                }
-            }
-        catch( final IOException e ) {
-            throw new DBFException( "Error accesing file", e );
-            }
     }
 
     private void validateParams( final DBFField[] fields )
@@ -127,21 +94,10 @@ public class DBFWriter extends DBFBase
     {
         addRecordValidateParams( values );
 
-        if( this.raf == null ) {
-            this.records.add( values );
-        } else {
-            try {
-                writeRecord( this.raf, values );
-                this.recordCount++;
-            }
-            catch( final IOException e ) {
-                throw new DBFException( "Error occured while writing record. "
-                        + e.getMessage(), e );
-            }
-        }
+        this.records.add( values );
     }
 
-    private void addRecordValidateParams( final Object[] values )
+    protected void addRecordValidateParams( @Nonnull final Object[] values )
         throws DBFStructureException
     {
         if( this.header.getDBFFields() == null ) {
@@ -163,46 +119,16 @@ public class DBFWriter extends DBFBase
         }
     }
 
-    @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private void handleAddRecordForField( final Object[] values, final int i )
         throws DBFStructureException
     {
-        final byte   dataType = this.header.getDBFField( i ).getDataType();
-        final Object value    = values[ i ];
+        final DBFType dbfType = this.header.getDBFField( i ).getDBFType();
 
-        switch( dataType ) {
-            case 'C':
-                if( !(value instanceof String) ) {
-                    throw new DBFStructureException( "Invalid value for field [Type C]:" + i );
-                }
-                break;
-
-            case 'L':
-                if( !(value instanceof Boolean) ) {
-                    throw new DBFStructureException( "Invalid value for field [Type L]:" + i );
-                }
-                break;
-
-            case 'N':
-                if( !(value instanceof Double) ) {
-                    throw new DBFStructureException( "Invalid value for field [Type N]:" + i );
-                }
-                break;
-
-            case 'D':
-                if( !(value instanceof Date) ) {
-                    throw new DBFStructureException( "Invalid value for field [Type D]:" + i );
-                }
-                break;
-
-            case 'F':
-                if( !(value instanceof Double) ) {
-                    throw new DBFStructureException( "Invalid value for field [Type F]:" + i );
-                }
-                break;
-
-            default :
-                throw new DBFStructureException( "Illegal dataType: " + dataType );
+        try {
+            dbfType.checkValue( values[ i ] );
+        }
+        catch( final DBFStructureException e ) {
+            throw new DBFStructureException( e.getMessage() + ": " + i, e );
         }
     }
 
@@ -215,34 +141,23 @@ public class DBFWriter extends DBFBase
     public void write( final OutputStream out ) throws DBFException
     {
         try {
-            if( this.raf == null ) {
-                final DataOutputStream outStream = new DataOutputStream( out );
+            final DataOutputStream outStream = new DataOutputStream( out );
 
-                this.header.setNumberOfRecords( this.records.size() );
-                this.header.write( outStream );
+            this.header.setNumberOfRecords( this.records.size() );
+            this.header.write( outStream );
 
-                /* Now write all the records */
-                final int recCount = this.records.size();
+            /* Now write all the records */
+            final int recCount = this.records.size();
 
-                for( int i = 0; i < recCount; i++ ) { /* iterate through
-                                                         * records */
-                    final Object[] values = this.records.get( i );
+            for( int i = 0; i < recCount; i++ ) { /* iterate through
+                                                     * records */
+                final Object[] values = this.records.get( i );
 
-                    writeRecord( outStream, values );
-                }
-
-                outStream.write( END_OF_DATA );
-                outStream.flush();
-            } else {
-                /* everything is written already. just update the header for
-                 * record count and the END_OF_DATA mark */
-                this.header.setNumberOfRecords( this.recordCount );
-                this.raf.seek( 0 );
-                this.header.write( this.raf );
-                this.raf.seek( this.raf.length() );
-                this.raf.writeByte( END_OF_DATA );
-                this.raf.close();
+                writeRecord( outStream, values );
             }
+
+            outStream.write( END_OF_DATA );
+            outStream.flush();
         }
         catch( final IOException e ) {
             throw new DBFException( e );
@@ -254,7 +169,7 @@ public class DBFWriter extends DBFBase
         this.write( null );
     }
 
-    private void writeRecord(
+    protected void writeRecord(
         final DataOutput dataOutput,
         final Object[]   objectArray //
         ) throws IOException
