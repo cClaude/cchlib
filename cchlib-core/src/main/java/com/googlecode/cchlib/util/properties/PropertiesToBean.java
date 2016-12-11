@@ -40,7 +40,10 @@ class PropertiesToBean<E>
             }
      }
 
-    public void populateMethods( final Map<String, PropertiesPopulatorAnnotation<E, Method>> getterSetterMap)
+    @SuppressWarnings("squid:S3346") // assert usage
+    public void populateMethods(
+        final Map<String, PropertiesPopulatorAnnotation<E, Method>> getterSetterMap
+        )
     {
         for( final Entry<String, PropertiesPopulatorAnnotation<E, Method>> entry : getterSetterMap.entrySet() ) {
             final PropertiesPopulatorAnnotation<E, Method> value = entry.getValue();
@@ -61,7 +64,7 @@ class PropertiesToBean<E>
                 catch( IllegalArgumentException | IllegalAccessException | PropertiesPopulatorRuntimeException | InvocationTargetException | ConvertCantNotHandleTypeException e ) {
                     LOGGER.warn( "Cannot set field for Method: " + getter + " * strValue=[" + strValue + "] / defaultValue=[" + defaultValue + ']', e );
                 }
-                }
+            }
             else {
                 final PropertiesPopulatorAnnotationForMethod<E> entryValue = (PropertiesPopulatorAnnotationForMethod<E>)value;
                 final Method setter = entryValue.getSetter();
@@ -72,10 +75,10 @@ class PropertiesToBean<E>
 
                 if( type.isArray() ) {
                     handleArrayMethod( entry.getKey(), entryValue, this.prefix, this.prefixLength );
-                    }
+                }
                 else {
                     handleNonArrayMethod( entry.getKey(), entryValue, type );
-                    }
+                }
             }
         }
     }
@@ -129,8 +132,11 @@ class PropertiesToBean<E>
             }
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void setValue( final Method method, final Object realValue ) //
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
+        throws IllegalAccessException,
+               IllegalArgumentException,
+               InvocationTargetException
     {
         method.invoke( this.bean, realValue );
     }
@@ -160,7 +166,7 @@ class PropertiesToBean<E>
 
             if( (array == null) || (length != Array.getLength( array )) ) {
                 array = Array.newInstance( componentType, length );
-                //field.set( bean, array );
+
                 propertiesPopulatorAnnotation.getSetter().invoke( this.bean, array );
                 }
 
@@ -197,7 +203,7 @@ class PropertiesToBean<E>
         )
     {
         final String defaultValue = getDefaultValue( entryValue );
-        final Field field         = entryValue.getField();
+        final Field  field        = entryValue.getField();
         final String strValue     = getStringValue( field.getName(), defaultValue );
 
         final boolean fieldIsAccessible = field.isAccessible();
@@ -216,12 +222,7 @@ class PropertiesToBean<E>
                 contener.setConvertToString( strValue );
                 }
             else {
-                try {
-                    entryValue.getPropertiesPopulatorSetter().setValue( this.bean, strValue, type );
-                    }
-                catch( final ConvertCantNotHandleTypeException | PropertiesPopulatorRuntimeException | InvocationTargetException e ) {
-                    throw new PopulatorException( "Bad type for field", field, field.getType() );
-                    }
+                handleNonArrayField( entryValue, type, field, strValue );
                 }
             }
         catch( IllegalAccessException | IllegalArgumentException e ) {
@@ -230,6 +231,21 @@ class PropertiesToBean<E>
             }
         finally {
             field.setAccessible( fieldIsAccessible );
+            }
+    }
+
+    private void handleNonArrayField(
+        final PropertiesPopulatorAnnotationForField<E> entryValue,
+        final Class<?>                                 type,
+        final Field                                    field,
+        final String                                   strValue
+        ) throws IllegalAccessException
+    {
+        try {
+            entryValue.getPropertiesPopulatorSetter().setValue( this.bean, strValue, type );
+            }
+        catch( final ConvertCantNotHandleTypeException | PropertiesPopulatorRuntimeException | InvocationTargetException e ) {
+            throw new PopulatorException( "Bad type for field", field, field.getType(), e );
             }
     }
 
@@ -263,11 +279,13 @@ class PropertiesToBean<E>
         return defaultValue;
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void handleArrayField(
         final PropertiesPopulatorAnnotationForField<E>  propertiesPopulatorAnnotation,
         final StringBuilder                             prefix,
         final int                                       prefixLength
-        ) throws ArrayIndexOutOfBoundsException, PropertiesPopulatorRuntimeException
+        ) throws ArrayIndexOutOfBoundsException,
+                 PropertiesPopulatorRuntimeException
     {
         final Field        field        = propertiesPopulatorAnnotation.getField();
         final List<String> stringValues = getStringValues( prefix, prefixLength, field.getName() );
@@ -302,13 +320,13 @@ class PropertiesToBean<E>
     }
 
     private void populateArray( //
-            final Object array,
-            final Class<?> arrayType,
-            final int length,
-            final List<String> stringValues,
-            final PropertiesPopulatorSetter<E,?> propertiesPopulatorSetter,
-            final Class<?> componentType
-            )
+        final Object                         array,
+        final Class<?>                       arrayType,
+        final int                            length,
+        final List<String>                   stringValues,
+        final PropertiesPopulatorSetter<E,?> propertiesPopulatorSetter,
+        final Class<?>                       componentType
+        )
     {
         for( int i = 0; i < length; i ++ ) {
             try {
@@ -326,29 +344,33 @@ class PropertiesToBean<E>
     }
 
     private List<String> getStringValues( //
-        StringBuilder prefix, //
-        final int prefixLength, //
-        final String name //
+        final StringBuilder prefixStringBuilder, //
+        final int           prefixLength, //
+        final String        name //
         )
     {
-        final List<String>  values    = new ArrayList<>();
+        final List<String>  values = new ArrayList<>();
+        final StringBuilder valuePrefix;
+
+        if( prefixStringBuilder == null ) {
+            assert prefixLength == 0;
+
+            valuePrefix = new StringBuilder();
+            }
+        else {
+            valuePrefix = prefixStringBuilder;
+        }
 
         // TODO: handle default values ???
 
-        if( prefix == null ) {
-            assert prefixLength == 0;
-
-            prefix = new StringBuilder();
-            }
-
         // Put arrays values in a list of strings
-        for(int i=0;;i++ ) {
-            prefix.setLength( prefixLength );
-            prefix.append(  name );
-            prefix.append( '.' );
-            prefix.append( i );
+        for( int i=0; ;i++ ) {
+            valuePrefix.setLength( prefixLength );
+            valuePrefix.append(  name );
+            valuePrefix.append( '.' );
+            valuePrefix.append( i );
 
-            final String strValue = this.properties.getProperty( prefix.toString() );
+            final String strValue = this.properties.getProperty( valuePrefix.toString() );
 
             if( strValue == null ) {
                 break;
@@ -357,6 +379,7 @@ class PropertiesToBean<E>
                 values.add( strValue );
                 }
             }
+
         return values;
     }
 }

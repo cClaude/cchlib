@@ -7,7 +7,8 @@ import java.lang.reflect.Method;
 //NOT public
 final class PropertiesPopulatorAnnotationForMethodImpl<E> //
     extends AbstractPropertiesPopulatorAnnotation<E,Method> //
-        implements PropertiesPopulatorAnnotationForMethod<E>, PropertiesPopulatorSetter<E,Method>
+        implements  PropertiesPopulatorAnnotationForMethod<E>,
+                    PropertiesPopulatorSetter<E,Method>
 {
     private final Method getter;
     private final Method setter;
@@ -28,8 +29,13 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E> //
     }
 
     @Override
-    public void setValue( final E bean, final String strValue, final Class<?> type ) throws IllegalArgumentException, IllegalAccessException,
-            ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException, InvocationTargetException
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public void setValue( final E bean, final String strValue, final Class<?> type )
+        throws IllegalArgumentException,
+               IllegalAccessException,
+               ConvertCantNotHandleTypeException,
+               PropertiesPopulatorRuntimeException,
+               InvocationTargetException
     {
         final Object[] parameters = new Object[] { convertStringToObject( strValue, type ) };
 
@@ -37,8 +43,16 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E> //
     }
 
     @Override
-    public void setArrayEntry( final Object array, final int index, final String strValue, final Class<?> type ) throws ArrayIndexOutOfBoundsException,
-            IllegalArgumentException, ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public void setArrayEntry(
+        final Object   array,
+        final int      index,
+        final String   strValue,
+        final Class<?> type
+        ) throws ArrayIndexOutOfBoundsException,
+                 IllegalArgumentException,
+                 ConvertCantNotHandleTypeException,
+                 PropertiesPopulatorRuntimeException
     {
         Array.set( array, index, convertStringToObject( strValue, type ) );
     }
@@ -76,7 +90,6 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E> //
     @Override
     public FieldOrMethod getFieldOrMethod()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new FieldOrMethod( this.setter );
     }
 }

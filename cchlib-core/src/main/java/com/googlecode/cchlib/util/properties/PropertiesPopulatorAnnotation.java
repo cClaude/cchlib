@@ -4,13 +4,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * NEEDDOC
  *
  * @param <E> Type of the object to populate
  * @param <METHOD_OR_FIELD> Type {@link Method} or {@link Field}
  */
-//NOT public
 @SuppressWarnings("squid:S00119")
+//NOT public
 interface PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD>
 {
     /**

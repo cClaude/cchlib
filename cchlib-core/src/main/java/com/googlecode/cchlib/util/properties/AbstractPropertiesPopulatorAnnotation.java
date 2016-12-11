@@ -32,19 +32,6 @@ abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
         return o.toString();
     }
 
-    /**
-     * @deprecated Use {@link #convertStringToObject(String,Class<?>)} instead
-     */
-    @Deprecated
-    @SuppressWarnings("squid:S00100")
-    protected static final Object private_convertStringToObject(
-        final String   strValue, //
-        final Class<?> type //
-        ) throws ConvertCantNotHandleTypeException
-    {
-        return convertStringToObject( strValue, type );
-    }
-
     @SuppressWarnings({ "squid:MethodCyclomaticComplexity", "squid:S1871" })
     protected static final Object convertStringToObject(
         final String   strValue, //

@@ -6,7 +6,8 @@ import java.lang.reflect.Field;
 //NOT public
 final class PropertiesPopulatorAnnotationForFieldImpl<E> //
     extends AbstractPropertiesPopulatorAnnotation<E,Field> //
-        implements PropertiesPopulatorAnnotationForField<E>,PropertiesPopulatorSetter<E,Field>
+        implements PropertiesPopulatorAnnotationForField<E>,
+                   PropertiesPopulatorSetter<E,Field>
 {
     private final Field field;
 
@@ -18,15 +19,27 @@ final class PropertiesPopulatorAnnotationForFieldImpl<E> //
     }
 
     @Override
-    public void setValue( final E bean, final String strValue, final Class<?> type ) throws IllegalArgumentException, IllegalAccessException,
-            ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public void setValue( final E bean, final String strValue, final Class<?> type )
+        throws IllegalArgumentException,
+               IllegalAccessException,
+               ConvertCantNotHandleTypeException,
+               PropertiesPopulatorRuntimeException
     {
         this.field.set( bean, convertStringToObject( strValue, type ) );
     }
 
     @Override
-    public void setArrayEntry( final Object array, final int index, final String strValue, final Class<?> type ) throws ArrayIndexOutOfBoundsException,
-            IllegalArgumentException, ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public void setArrayEntry(
+        final Object   array,
+        final int      index,
+        final String   strValue,
+        final Class<?> type
+        ) throws ArrayIndexOutOfBoundsException,
+                 IllegalArgumentException,
+                 ConvertCantNotHandleTypeException,
+                 PropertiesPopulatorRuntimeException
     {
         Array.set( array, index, convertStringToObject( strValue, type ) );
     }

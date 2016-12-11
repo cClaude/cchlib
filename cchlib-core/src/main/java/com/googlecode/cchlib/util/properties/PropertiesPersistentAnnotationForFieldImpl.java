@@ -6,7 +6,8 @@ import java.lang.reflect.InvocationTargetException;
 //NOT public
 final class PropertiesPersistentAnnotationForFieldImpl<E> //
     extends AbstractPropertiesPersistentAnnotation<E,Field> //
-        implements PropertiesPopulatorSetter<E,Field>, PropertiesPopulatorAnnotationForField<E>
+        implements PropertiesPopulatorSetter<E,Field>,
+                   PropertiesPopulatorAnnotationForField<E>
 {
     private final Field field;
 
@@ -18,17 +19,30 @@ final class PropertiesPersistentAnnotationForFieldImpl<E> //
     }
 
     @Override
-    public void setValue( final E bean, final String strValue, final Class<?> type ) throws IllegalArgumentException, IllegalAccessException,
-            ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException, InvocationTargetException
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public void setValue( final E bean, final String strValue, final Class<?> type )
+        throws IllegalArgumentException,
+               IllegalAccessException,
+               ConvertCantNotHandleTypeException,
+               PropertiesPopulatorRuntimeException,
+               InvocationTargetException
     {
-        final Object swingObject = field.get( bean );
+        final Object swingObject = this.field.get( bean );
 
         setValue( swingObject, strValue );
     }
 
     @Override
-    public void setArrayEntry( final Object array, final int index, final String strValue, final Class<?> type ) throws ArrayIndexOutOfBoundsException,
-            IllegalArgumentException, ConvertCantNotHandleTypeException, PropertiesPopulatorRuntimeException
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public void setArrayEntry(
+        final Object    array,
+        final int      index,
+        final String   strValue,
+        final Class<?> type
+        ) throws ArrayIndexOutOfBoundsException,
+                 IllegalArgumentException,
+                 ConvertCantNotHandleTypeException,
+                 PropertiesPopulatorRuntimeException
     {
         throw new PersistentException( "@Persistent does not handle array" );
     }
@@ -36,7 +50,7 @@ final class PropertiesPersistentAnnotationForFieldImpl<E> //
     @Override
     public Field getMethodOrField()
     {
-        return field;
+        return this.field;
     }
 
     @Override
@@ -48,12 +62,12 @@ final class PropertiesPersistentAnnotationForFieldImpl<E> //
     @Override
     public Field getField()
     {
-        return field;
+        return this.field;
     }
 
     @Override
     public FieldOrMethod getFieldOrMethod()
     {
-        return new FieldOrMethod( field );
+        return new FieldOrMethod( this.field );
     }
 }

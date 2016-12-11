@@ -5,6 +5,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 //NOT public
+@SuppressWarnings("squid:S00119")
 abstract class AbstractPropertiesPersistentAnnotation<E,METHOD_OR_FIELD> //
     implements PropertiesPersistentAnnotation<E,METHOD_OR_FIELD>
 {
@@ -24,11 +25,13 @@ abstract class AbstractPropertiesPersistentAnnotation<E,METHOD_OR_FIELD> //
     @Override
     public final String defaultValue()
     {
-        return persistent.defaultValue();
+        return this.persistent.defaultValue();
     }
 
     @Override
-    public final String toString( final Object swingObject ) throws PropertiesPopulatorRuntimeException
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    public final String toString( final Object swingObject )
+        throws PropertiesPopulatorRuntimeException
     {
         if( swingObject instanceof JTextField ) {
             return JTextField.class.cast( swingObject ).getText();
