@@ -12,10 +12,24 @@ public class JSONHelperException extends Exception
     /**
      * Create a JSONHelperException
      *
-     * @param cause Cause exception.
+     * @param cause
+     *            Cause exception.
      */
     public JSONHelperException( final IOException cause )
     {
         super( cause );
+    }
+
+    /**
+     * Create a JSONHelperException
+     *
+     * @param message
+     *            the detail message
+     * @param cause
+     *            Cause exception.
+     */
+    public JSONHelperException( final String message, final IOException cause )
+    {
+        super( message, cause );
     }
 }
