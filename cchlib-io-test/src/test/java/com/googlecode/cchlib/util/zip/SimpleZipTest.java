@@ -13,7 +13,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileIterator;
-import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.io.IOTestHelper;
 import com.googlecode.cchlib.util.CollectionHelper;
 import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.iterator.IteratorWrapper;
@@ -23,7 +23,7 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
  */
 public class SimpleZipTest
 {
-    private static final int  EXPECTED_FILE_COUNT     = 87;
+    private static final int  EXPECTED_FILE_COUNT     = 97;
     private static final long EXPECTED_ZIP_MIN_LENGTH = 100_000L;
 
     private static final Logger LOGGER = Logger.getLogger( SimpleZipTest.class );
@@ -40,9 +40,9 @@ public class SimpleZipTest
         return new File( new File("."), getZipSourceDirectoryName() );
     }
 
-    private static final File getZipDestinationFile()
+    private static final File getZipDestinationFile() throws IOException
     {
-        return IO.createTempFile( SimpleZipTest.class, "mysrc.zip" );
+        return IOTestHelper.createTempFile( SimpleZipTest.class, "mysrc.zip" );
     }
 
     private static Iterator<SimpleZipEntry> getEntries(

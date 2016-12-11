@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.io.IOTestHelper;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.DFFPass2WithMultiThreadSupportImpl;
@@ -34,7 +34,7 @@ public class FileDigestTest extends Base {
 
     @Test
     public void compateWithMessageDigestFile() throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final File   file   = IO.createPNGTempFile();
+        final File   file   = IOTestHelper.createPNGTempFile();
         final String oldMD5 = XMessageDigestFileTest.getMD5( file );
 
         final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5 );
@@ -49,7 +49,7 @@ public class FileDigestTest extends Base {
 
     @Test
     public void testComputeFile() throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final File file = IO.createPNGTempFile();
+        final File file = IOTestHelper.createPNGTempFile();
 
         final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5 );
         final FileDigest instance = factory.newInstance();
@@ -58,12 +58,12 @@ public class FileDigestTest extends Base {
         instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
-        assertThat( md5 ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( md5 ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
     }
 
     @Test
     public void testComputeFile_buffer10() throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final File file = IO.createPNGTempFile();
+        final File file = IOTestHelper.createPNGTempFile();
 
         final FileDigestFactory factory = new DefaultFileDigestFactory(
                 MessageDigestAlgorithms.MD5,
@@ -77,12 +77,12 @@ public class FileDigestTest extends Base {
         instance.computeFile( file, listener );
 
         final String md5 = instance.digestString();
-        assertThat( md5 ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( md5 ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
     }
 
     @Test
     public void testComputeNext() throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final File filePNG = IO.createPNGTempFile();
+        final File filePNG = IOTestHelper.createPNGTempFile();
 
         final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5 );
         final FileDigest instance = factory.newInstance();
@@ -94,17 +94,17 @@ public class FileDigestTest extends Base {
             instance.computeNext(false);
         }
 
-        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( instance.digestString() ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
         instance.reset();
 
-        final File fileZIP = IO.createZipTempFile();
+        final File fileZIP = IOTestHelper.createZipTempFile();
         instance.setFile( fileZIP, listener );
 
         while( instance.hasNext() ) {
             instance.computeNext(false);
         }
 
-        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_ZIP_FILE );
+        assertThat( instance.digestString() ).isEqualTo( IOTestHelper.MD5_FOR_ZIP_FILE );
         instance.reset();
 
         instance.setFile( filePNG, listener );
@@ -114,13 +114,13 @@ public class FileDigestTest extends Base {
         }
 
         instance.reset();
-        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( instance.digestString() ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
     }
 
     @Test
     public void testComputeNext_byStep_oneStep() throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final File   filePNG  = IO.createPNGTempFile();
-        final byte[] bytesPNG = IO.createPNG();
+        final File   filePNG  = IOTestHelper.createPNGTempFile();
+        final byte[] bytesPNG = IOTestHelper.createPNG();
 
         final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5, (int)filePNG.length() );
         final FileDigest instance = factory.newInstance();
@@ -140,16 +140,16 @@ public class FileDigestTest extends Base {
             final String hash = DFFPass2WithMultiThreadSupportImpl.computeHash( messageDigest, sb, currentBuffer );
             LOGGER.info( "File:" + filePNG + " subHash " + hash );
 
-            assertThat( hash ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+            assertThat( hash ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
         }
 
-        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( instance.digestString() ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
         instance.reset();
     }
 
     @Test
     public void testComputeNext_byStep_twoStep() throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final File filePNG = IO.createPNGTempFile();
+        final File filePNG = IOTestHelper.createPNGTempFile();
 
         final FileDigestFactory factory = new DefaultFileDigestFactory( MessageDigestAlgorithms.MD5, 8192 );
         final FileDigest instance = factory.newInstance();
@@ -173,7 +173,7 @@ public class FileDigestTest extends Base {
         assertThat( hashs.size() ).isEqualTo( 2 );
         assertThat( hashs.get( 0 ) ).isEqualTo( PNG_FILE_FIRST_MD5 );
         assertThat( hashs.get( 1 ) ).isEqualTo( PNG_FILE_SECOND_MD5 );
-        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( instance.digestString() ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
         instance.reset();
     }
 
@@ -199,7 +199,7 @@ public class FileDigestTest extends Base {
 
     @Test
     public void test_verify_FIRST_MD5() throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final byte[] bytesPNG = IO.createPNG();
+        final byte[] bytesPNG = IOTestHelper.createPNG();
 
         final File file = createFile( bytesPNG, 0, 8192 );
 
@@ -208,7 +208,7 @@ public class FileDigestTest extends Base {
 
     @Test
     public void test_verify_SECOND_MD5() throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final byte[] bytesPNG = IO.createPNG();
+        final byte[] bytesPNG = IOTestHelper.createPNG();
 
         final File file = createFile( bytesPNG, 8192, bytesPNG.length );
 

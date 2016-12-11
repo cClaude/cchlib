@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.io.IOTestHelper;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.InitialStatus;
 
 /**
@@ -74,7 +74,7 @@ public class DefaultDuplicateFileFinderAlgo2_moreTest extends DefaultDuplicateFi
         final Entry<String, Set<File>> result1;
         final Entry<String, Set<File>> result2;
 
-        if( IO.MD5_FOR_PNG_FILE.equals( firstEntry.getKey() ) ) {
+        if( IOTestHelper.MD5_FOR_PNG_FILE.equals( firstEntry.getKey() ) ) {
             result1 = firstEntry;
             result2 = secondEntry;
         } else {
@@ -82,7 +82,7 @@ public class DefaultDuplicateFileFinderAlgo2_moreTest extends DefaultDuplicateFi
             result1 = secondEntry;
         }
 
-        assertThat( result1.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( result1.getKey() ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
         assertThat( result1.getValue() ).containsOnly( file1, file2, file3 );
         assertThat( result2.getValue() ).containsOnly( file5, file6 );
     }

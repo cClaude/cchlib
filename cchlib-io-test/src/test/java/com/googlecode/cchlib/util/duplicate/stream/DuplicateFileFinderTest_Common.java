@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.io.IOTestHelper;
 import com.googlecode.cchlib.util.MapSetHelper;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
 import com.googlecode.cchlib.util.duplicate.digest.DefaultFileDigestFactory;
@@ -77,10 +77,10 @@ abstract class DuplicateFileFinderTest_Common {
     public void test_computeHash() throws IOException, IllegalStateException, NoSuchAlgorithmException, InterruptedException, ExecutionException
     {
         final Map<Long, Set<File>> mapSet = newHashMap(
-                IO.createPNGTempFile(),
-                IO.createPNGTempFile(),
-                IO.createZipTempFile(),
-                IO.createZipTempFile()
+                IOTestHelper.createPNGTempFile(),
+                IOTestHelper.createPNGTempFile(),
+                IOTestHelper.createZipTempFile(),
+                IOTestHelper.createZipTempFile()
                 );
 
         Assert.assertEquals( 2, mapSet.size() );

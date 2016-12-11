@@ -14,7 +14,7 @@ public class InputStreamThreadTest
     @Test
     public void testInputStreamThread() throws IOException
     {
-        try( InputStream sourceIS0 = IO.createPNGInputStream() ) {
+        try( InputStream sourceIS0 = IOTestHelper.createPNGInputStream() ) {
             final InputStreamThread isThread = new InputStreamThread(
                     getClass().getName(),
                     sourceIS0,
@@ -26,7 +26,7 @@ public class InputStreamThreadTest
 
             isThread.start();
 
-            final InputStream sourceIS1  = IO.createPNGInputStream();
+            final InputStream sourceIS1  = IOTestHelper.createPNGInputStream();
             final boolean     r          = IOHelper.isEquals( sourceIS1, copy );
 
             Assert.assertTrue( r );

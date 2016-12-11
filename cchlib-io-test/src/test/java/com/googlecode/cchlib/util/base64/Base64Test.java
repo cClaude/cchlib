@@ -15,7 +15,7 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.io.IOTestHelper;
 import com.googlecode.cchlib.io.IOHelper;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.test.ArrayAssert;
@@ -205,7 +205,7 @@ public class Base64Test
             testAndCompare2SunBASE64( array2 );
         }
 
-        try (InputStream pngIS = IO.createPNGInputStream()) {
+        try (InputStream pngIS = IOTestHelper.createPNGInputStream()) {
             final byte[] bytes = IOHelper.toByteArray( pngIS );
 
             testAndCompare2SunBASE64( bytes );
@@ -378,7 +378,7 @@ public class Base64Test
         // ENCODE InputStream
         char[]      encodedPNGFileInB64CharArray;
 
-        try( InputStream in = IO.createPNGInputStream() ) {
+        try( InputStream in = IOTestHelper.createPNGInputStream() ) {
             final CharArrayWriter caw = new CharArrayWriter();
 
             try {
@@ -399,7 +399,7 @@ public class Base64Test
         {
             final byte[] sunDecode = iharderDecode( encodedPNGFileInB64CharArray );
 
-            try( InputStream pngIS = IO.createPNGInputStream() ) {
+            try( InputStream pngIS = IOTestHelper.createPNGInputStream() ) {
                 final boolean same        = IOHelper.isEquals( pngIS, sunDecode );
 
                 LOGGER.info( "decode with sun - R=" + same );
@@ -417,7 +417,7 @@ public class Base64Test
         out.close();
 
         // Check results
-        try( final InputStream in = IO.createPNGInputStream() ) {
+        try( final InputStream in = IOTestHelper.createPNGInputStream() ) {
             try( final InputStream is = new ByteArrayInputStream( out.toByteArray() ) ) {
                 final boolean same = IOHelper.isEquals( in, is );
 

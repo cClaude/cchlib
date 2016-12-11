@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.junit.Test;
-import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.io.IOTestHelper;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.InitialStatus;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.Status;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
@@ -38,9 +38,9 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     {
         final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
-        final File file1 = IO.createPNGTempFile( "dup-file1" );
-        final File file2 = IO.createPNGTempFile( "dup-file2" );
-        final File file3 = IO.createZipTempFile( "notduplicate" );
+        final File file1 = IOTestHelper.createPNGTempFile( "dup-file1" );
+        final File file2 = IOTestHelper.createPNGTempFile( "dup-file2" );
+        final File file3 = IOTestHelper.createZipTempFile( "notduplicate" );
 
         dff.addFile( file1 );
         dff.addFile( file2 );
@@ -64,8 +64,8 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     {
         final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
-        final File file1 = IO.createPNGTempFile( "dup-file1" );
-        final File file2 = IO.createPNGTempFile( "dup-file2" );
+        final File file1 = IOTestHelper.createPNGTempFile( "dup-file1" );
+        final File file2 = IOTestHelper.createPNGTempFile( "dup-file2" );
 
         dff.addFile( file1 );
         dff.addFile( file2 );
@@ -85,9 +85,9 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     {
         final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
-        final File file1 = IO.createPNGTempFile( "dup-file1" );
-        final File file2 = IO.createPNGTempFile( "dup-file2" );
-        final File file3 = IO.createZipTempFile( "notduplicate" );
+        final File file1 = IOTestHelper.createPNGTempFile( "dup-file1" );
+        final File file2 = IOTestHelper.createPNGTempFile( "dup-file2" );
+        final File file3 = IOTestHelper.createZipTempFile( "notduplicate" );
 
         final DuplicateFileFinderEventListener eventListener = new LoggerEventListener();
         dff.addEventListener( eventListener  );
@@ -109,7 +109,7 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
         assertThat( files.size() ).isEqualTo( 1 );
 
         final Entry<String, Set<File>> firstEntry = files.entrySet().iterator().next();
-        assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( firstEntry.getKey() ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
 
         final Set<File> setOfFiles = firstEntry.getValue();
         assertThat( setOfFiles.size() ).isEqualTo( 2 );
@@ -138,9 +138,9 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     {
         final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
-        final File file1 = IO.createPNGTempFile( "dup-file1" );
-        final File file2 = IO.createPNGTempFile( "dup-file2" );
-        final File file3 = IO.createPNGTempFile( "dup-file3-removed" );
+        final File file1 = IOTestHelper.createPNGTempFile( "dup-file1" );
+        final File file2 = IOTestHelper.createPNGTempFile( "dup-file2" );
+        final File file3 = IOTestHelper.createPNGTempFile( "dup-file3-removed" );
 
         dff.addFile( file1 );
         dff.addFile( file2 );
@@ -167,7 +167,7 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
         assertThat( files.size() ).isEqualTo( 1 );
 
         final Entry<String, Set<File>> firstEntry = files.entrySet().iterator().next();
-        assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( firstEntry.getKey() ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
 
         final Set<File> setOfFiles = firstEntry.getValue();
         assertThat( setOfFiles.size() ).isEqualTo( 2 );
@@ -179,9 +179,9 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     {
         final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
-        final File file1 = IO.createPNGTempFile( "dup-file1" );
-        final File file2 = IO.createPNGTempFile( "dup-file2" );
-        final File file3 = IO.createPNGTempFile( "dup-file3-removed" );
+        final File file1 = IOTestHelper.createPNGTempFile( "dup-file1" );
+        final File file2 = IOTestHelper.createPNGTempFile( "dup-file2" );
+        final File file3 = IOTestHelper.createPNGTempFile( "dup-file3-removed" );
 
         dff.addFile( file1 );
         dff.addFile( file2 );
@@ -202,7 +202,7 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
         assertThat( files.size() ).isEqualTo( 1 );
 
         final Entry<String, Set<File>> firstEntry = files.entrySet().iterator().next();
-        assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( firstEntry.getKey() ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
 
         // File 3 is no more expected here.
         final Set<File> setOfFiles = firstEntry.getValue();
@@ -215,9 +215,9 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     {
         final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
 
-        final File file1 = IO.createPNGTempFile( "dup-file1" );
-        final File file2 = IO.createPNGTempFile( "dup-file2" );
-        final File file3 = IO.createPNGTempFile( "dup-file3-removed" );
+        final File file1 = IOTestHelper.createPNGTempFile( "dup-file1" );
+        final File file2 = IOTestHelper.createPNGTempFile( "dup-file2" );
+        final File file3 = IOTestHelper.createPNGTempFile( "dup-file3-removed" );
 
         final DuplicateFileFinderEventListener eventListener = new LoggerEventListener();
         dff.addEventListener( eventListener  );
@@ -241,7 +241,7 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
         assertThat( files.size() ).isEqualTo( 1 );
 
         final Entry<String, Set<File>> firstEntry = files.entrySet().iterator().next();
-        assertThat( firstEntry.getKey() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( firstEntry.getKey() ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
 
         final Set<File> setOfFiles = firstEntry.getValue();
         assertThat( setOfFiles.size() ).isEqualTo( 2 );

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.io.IOTestHelper;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.duplicate.DFFPass2WithMultiThreadSupportImpl;
 
@@ -28,7 +28,7 @@ public class FileDigestTest2_IT extends Base {
 
     @Test
     public void testComputeNext_byStep_twoStep() throws NoSuchAlgorithmException, IOException, CancelRequestException {
-        final File filePNG = IO.createPNGTempFile();
+        final File filePNG = IOTestHelper.createPNGTempFile();
 
         final FileDigestFactory factory = new DefaultFileDigestFactory( "MD5", 8192 );
         final FileDigest instance = factory.newInstance();
@@ -52,7 +52,7 @@ public class FileDigestTest2_IT extends Base {
         assertThat( hashs.size() ).isEqualTo( 2 );
         assertThat( hashs.get( 0 ) ).isEqualTo( PNG_FILE_FIRST_MD5 );
         assertThat( hashs.get( 1 ) ).isEqualTo( PNG_FILE_SECOND_MD5 );
-        assertThat( instance.digestString() ).isEqualTo( IO.MD5_FOR_PNG_FILE );
+        assertThat( instance.digestString() ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
 
         instance.reset();
     }

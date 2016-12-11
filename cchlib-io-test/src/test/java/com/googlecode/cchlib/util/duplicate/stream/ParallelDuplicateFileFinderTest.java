@@ -12,7 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import com.googlecode.cchlib.io.IO;
+import com.googlecode.cchlib.io.IOTestHelper;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinderEventListener;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
@@ -71,10 +71,10 @@ public class ParallelDuplicateFileFinderTest extends DuplicateFileFinderTest_Com
         throws IOException, IllegalStateException, NoSuchAlgorithmException, InterruptedException, ExecutionException
     {
         final Map<Long, Set<File>> mapSet = newHashMap(
-                IO.createPNGTempFile(),
-                IO.createPNGTempFile(),
-                IO.createZipTempFile(),
-                IO.createZipTempFile()
+                IOTestHelper.createPNGTempFile(),
+                IOTestHelper.createPNGTempFile(),
+                IOTestHelper.createZipTempFile(),
+                IOTestHelper.createZipTempFile()
                 );
 
         Assert.assertEquals( 2, mapSet.size() );

@@ -17,7 +17,7 @@ public class CloneInputStreamThreadTest
     @Deprecated
     public void testCloneInputStreamThread() throws IOException
     {
-        try (InputStream sourceIS0 = IO.createPNGInputStream()) {
+        try (InputStream sourceIS0 = IOTestHelper.createPNGInputStream()) {
             final CloneInputStreamThread  threadIS    = new CloneInputStreamThread(
                     getClass().getName(),
                     sourceIS0,
@@ -36,7 +36,7 @@ public class CloneInputStreamThreadTest
             }
             threadIS.start();
             LOGGER.info( "start()" );
-            final byte[] source = IO.createPNG();
+            final byte[] source = IOTestHelper.createPNG();
             for (final TestRunnable run : runs) {
                 final byte[] bytes = run.getInputStreamAsBytes();
                 Assert.assertArrayEquals( source, bytes );
