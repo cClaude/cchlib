@@ -21,18 +21,18 @@ import com.googlecode.cchlib.NeedTestCases;
 @NeedTestCases
 public class DataSourceFactory
 {
-    private static final class LoggerDataSource extends AbstractDataSource
+    private static final class DataSourceWithLogger extends AbstractDataSource
     {
         private final Logger logger;
 
-        private LoggerDataSource( //
-                final String url, //
-                final String username, //
-                final String password, //
-                final Logger parentLogger, //
-                final int loginTimeout, //
+        private DataSourceWithLogger( //
+                final String      url, //
+                final String      username, //
+                final String      password, //
+                final Logger      parentLogger, //
+                final int         loginTimeout, //
                 final PrintWriter logWriter, //
-                final Logger logger //
+                final Logger      logger //
                 )
         {
             super( url, username, password, parentLogger, loginTimeout, logWriter );
@@ -61,9 +61,9 @@ public class DataSourceFactory
         }
     }
 
-    private static final class PWDataSource extends AbstractDataSource
+    private static final class DataSourceWithPrintWriter extends AbstractDataSource
     {
-        private PWDataSource( //
+        private DataSourceWithPrintWriter( //
                 final String        url, //
                 final String        username, //
                 final String        password, //
@@ -109,14 +109,22 @@ public class DataSourceFactory
     /**
      * Create a simple {@link DataSource} based on a standard driver class object.
      *
-     * @param driverClassName Driver class name
-     * @param url Database URL according to driver specifications
-     * @param username Default username for connection use by {@link DataSource#getConnection()}
-     * @param password Default password for connection use by {@link DataSource#getConnection()}
-     * @param logger Valid {@link PrintWriter} that will use as define by {@link DataSource#getLogWriter()}
+     * @param driverClassName
+     *            Driver class name
+     * @param url
+     *            Database URL according to driver specifications
+     * @param username
+     *            Default username for connection use by {@link DataSource#getConnection()}
+     * @param password
+     *            Default password for connection use by {@link DataSource#getConnection()}
+     * @param logger
+     *            Valid {@link PrintWriter} that will use as define by
+     *            {@link DataSource#getLogWriter()}
      * @return a simple {@link DataSource}
-     * @throws NullPointerException if driverClassName or logger is null
-     * @throws DataSourceFactoryClassNotFoundException if driver class not found
+     * @throws NullPointerException
+     *             if driverClassName or logger is null
+     * @throws DataSourceFactoryClassNotFoundException
+     *             if driver class not found
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DataSource buildDataSource(
@@ -141,16 +149,25 @@ public class DataSourceFactory
     /**
      * Create a simple {@link DataSource} based on a standard driver class object.
      *
-     * @param driverClassName Driver class name
-     * @param url Database URL according to driver specifications
-     * @param username Default username for connection use by {@link DataSource#getConnection()}
-     * @param password Default password for connection use by {@link DataSource#getConnection()}
-     * @param timeout default login timeout in second for {@link DataSource},
-     *        see {@link DataSource#getLoginTimeout()}
-     * @param logger Valid {@link Logger} that will use as define by {@link DataSource#getLogWriter()}
+     * @param driverClassName
+     *            Driver class name
+     * @param url
+     *            Database URL according to driver specifications
+     * @param username
+     *            Default username for connection use by {@link DataSource#getConnection()}
+     * @param password
+     *            Default password for connection use by {@link DataSource#getConnection()}
+     * @param timeout
+     *            default login timeout in second for {@link DataSource},
+     *            see {@link DataSource#getLoginTimeout()}
+     * @param logger
+     *            Valid {@link Logger} that will use as define by
+     *            {@link DataSource#getLogWriter()}
      * @return a simple {@link DataSource}
-     * @throws DataSourceFactoryClassNotFoundException if driver class not found
-     * @throws NullPointerException if driverClassName or logger is null
+     * @throws DataSourceFactoryClassNotFoundException
+     *             if driver class not found
+     * @throws NullPointerException
+     *             if driverClassName or logger is null
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DataSource buildDataSource(
@@ -174,7 +191,7 @@ public class DataSourceFactory
 
         final PrintWriter pwLogger = newPrintWriterFromLogger( logger );
 
-        return new LoggerDataSource( url, username, password, logger, timeout, pwLogger, logger );
+        return new DataSourceWithLogger( url, username, password, logger, timeout, pwLogger, logger );
     }
 
     private static PrintWriter newPrintWriterFromLogger( final Logger logger )
@@ -201,15 +218,25 @@ public class DataSourceFactory
     /**
      * Create a simple {@link DataSource} based on a standard driver class object.
      *
-     * @param driverClassName Driver class name
-     * @param url Database URL according to driver specifications
-     * @param username Default username for connection use by {@link DataSource#getConnection()}
-     * @param password Default password for connection use by {@link DataSource#getConnection()}
-     * @param timeout default login timeout in second for {@link DataSource}, see {@link DataSource#getLoginTimeout()}
-     * @param logger Valid {@link PrintWriter} that will use as define by {@link DataSource#getLogWriter()}
+     * @param driverClassName
+     *            Driver class name
+     * @param url
+     *            Database URL according to driver specifications
+     * @param username
+     *            Default username for connection use by {@link DataSource#getConnection()}
+     * @param password
+     *            Default password for connection use by {@link DataSource#getConnection()}
+     * @param timeout
+     *            default login timeout in second for {@link DataSource},
+     *            see {@link DataSource#getLoginTimeout()}
+     * @param logger
+     *            Valid {@link PrintWriter} that will use as define by
+     *            {@link DataSource#getLogWriter()}
      * @return a simple {@link DataSource}
-     * @throws DataSourceFactoryClassNotFoundException if driver class not found
-     * @throws NullPointerException if driverClassName or logger is null
+     * @throws DataSourceFactoryClassNotFoundException
+     *             if driver class not found
+     * @throws NullPointerException
+     *             if driverClassName or logger is null
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static DataSource buildDataSource(
@@ -232,10 +259,11 @@ public class DataSourceFactory
 
         loadDriver( driverClassName );
 
-        return new PWDataSource( url, username, password, NO_PARENT_LOGGER, timeout, logger );
+        return new DataSourceWithPrintWriter( url, username, password, NO_PARENT_LOGGER, timeout, logger );
     }
 
-    private static void loadDriver( final String driverClassName ) throws DataSourceFactoryClassNotFoundException
+    private static void loadDriver( final String driverClassName )
+        throws DataSourceFactoryClassNotFoundException
     {
         try {
             Class.forName( driverClassName );

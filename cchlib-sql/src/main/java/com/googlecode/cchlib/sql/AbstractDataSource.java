@@ -7,8 +7,8 @@ import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 
-abstract class AbstractDataSource implements DataSource {
-
+abstract class AbstractDataSource implements DataSource
+{
     private final String url;
     private final String username;
     private final String password;
