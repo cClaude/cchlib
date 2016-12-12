@@ -2,6 +2,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig
 
 import java.io.File;
 import java.io.InputStream;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.googlecode.cchlib.json.JSONHelper;
 import com.googlecode.cchlib.json.JSONHelperException;
 
@@ -17,7 +18,7 @@ public class FiltersConfigFileHelper
         final FiltersConfig value
         ) throws JSONHelperException
     {
-        JSONHelper.save( jsonFile, value, JSONHelper.PRETTY_PRINT );
+        JSONHelper.save( jsonFile, value, JSONHelper.PRETTY_PRINT, Include.NON_NULL );
     }
 
     public static FiltersConfig load( final InputStream json )

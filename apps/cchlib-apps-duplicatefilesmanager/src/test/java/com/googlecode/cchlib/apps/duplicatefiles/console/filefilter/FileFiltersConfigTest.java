@@ -4,7 +4,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.googlecode.cchlib.json.JSONHelper;
 import com.googlecode.cchlib.json.JSONHelperException;
 
@@ -19,7 +18,7 @@ public class FileFiltersConfigTest
             + "}";
 
     @Test
-    public void testSave() throws JsonProcessingException
+    public void testSave() throws JSONHelperException
     {
         final FileFiltersConfig config = new FileFiltersConfig();
 

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Collection;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.googlecode.cchlib.json.JSONHelper;
 import com.googlecode.cchlib.json.JSONHelperException;
 
@@ -14,7 +13,7 @@ public class CustomFileFilterConfigTest
     private static final Logger LOGGER = Logger.getLogger( CustomFileFilterConfigTest.class );
 
     @Test
-    public void testSaveExcludeNames() throws JsonProcessingException
+    public void testSaveExcludeNames() throws JSONHelperException
     {
         final CustomFileFilterConfig test = new CustomFileFilterConfig();
 
@@ -59,7 +58,7 @@ public class CustomFileFilterConfigTest
     }
 
     @Test
-    public void testSave() throws JsonProcessingException
+    public void testSave() throws JSONHelperException
     {
         final CustomFileFilterConfig test = new CustomFileFilterConfig();
 

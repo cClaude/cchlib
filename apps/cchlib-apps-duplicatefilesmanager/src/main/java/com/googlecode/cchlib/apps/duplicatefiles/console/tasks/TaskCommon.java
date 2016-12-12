@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.Nonnull;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParametersException;
@@ -212,7 +213,8 @@ public abstract class TaskCommon<R> implements CommandTask<R>
             JSONHelper.save(
                     this.jsonOutputFile,
                     hashFilesList,
-                    printMode
+                    printMode,
+                    Include.NON_NULL
                     );
 
             if( isVerbose() ) {
