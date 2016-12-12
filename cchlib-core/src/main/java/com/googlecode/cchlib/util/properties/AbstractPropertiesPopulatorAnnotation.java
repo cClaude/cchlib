@@ -85,7 +85,7 @@ abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
     @SuppressWarnings("rawtypes")
     private static Object getEnumValueUnchecked(
         final Class  enumType,
-        final String  enumName
+        final String enumName
         )
     {
         @SuppressWarnings({ "unchecked", "squid:S1488" })

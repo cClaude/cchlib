@@ -24,9 +24,10 @@ import com.googlecode.cchlib.NeedTestCases;
  * possible path to look up to load a class.
  * <p>
  * Based on SimpleClassLoader class proposed by Chuck McManis in
- * JavaWorld' article :<br>
- * {@linkplain http://www.javaworld.com/javaworld/jw-10-indepth.html}<br>
- * {@linkplain http://www.javaworld.com/javaworld/jw-10-1996/jw-10-indepth.html}
+ * JavaWorld' article :
+ * <p>
+ * http://www.javaworld.com/javaworld/jw-10-indepth.html<br>
+ * http://www.javaworld.com/javaworld/jw-10-1996/jw-10-indepth.html
  *
  * @author  C. McManis
  * @author  Olivier Dedieu

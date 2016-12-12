@@ -52,7 +52,6 @@ public final class FolderTreeNode
         this( folder, true, model );
     }
 
-
     @Override
     public void setUserObject( final Object userObject )
     {
