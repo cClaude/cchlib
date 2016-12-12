@@ -4,30 +4,58 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
+import javax.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 /**
  * Helper to JSON Serialization
+ *
+ * @since 4.2
  */
 public class JSONHelper
 {
+    @FunctionalInterface
+    private interface ObjectWriterGetter
+    {
+        ObjectWriter getObjectWriter( ObjectMapper mapper );
+    }
+
     /** NEEDDOC */
     public enum PrintMode {
         /** NEEDDOC */
-        PRETTY,
-        /** NEEDDOC */
-        PRETTY_ARRAYS
+        PRETTY( JSONHelper::getPrettyPrintObjectWriter ),
+        /**
+         * Same than {@link #PRETTY} but also format array using
+         * default indentation
+         *          * @see DefaultIndenter#SYSTEM_LINEFEED_INSTANCE
+         */
+        PRETTY_ARRAYS( JSONHelper::getPrettyPrintArrayObjectWriter ),
+        ;
+
+        private ObjectWriterGetter objectWriterGetter;
+
+        private PrintMode( final ObjectWriterGetter objectWriterGetter )
+        {
+            this.objectWriterGetter = objectWriterGetter;
+        }
+
+        private ObjectWriter getObjectWriter( final ObjectMapper mapper )
+        {
+            return this.objectWriterGetter.getObjectWriter( mapper );
+
+        }
     }
 
     /**
@@ -55,16 +83,18 @@ public class JSONHelper
      * @param value
      *            Object to convert
      * @return a JSON String
-     * @throws JsonProcessingException
+     * @throws JSONHelperException
      *             if any
      */
-    public static <T> String toJSON( //
-        final T value
-        ) throws JsonProcessingException
+    public static <T> String toJSON( final T value )
+        throws JSONHelperException
     {
-        final ObjectMapper mapper = new ObjectMapper();
-
-        return mapper.writeValueAsString( value );
+        try {
+            return new ObjectMapper().writeValueAsString( value );
+        }
+        catch( final JsonProcessingException e ) {
+            throw new JSONHelperException( e );
+        }
     }
 
     /**
@@ -194,23 +224,56 @@ public class JSONHelper
      *            File to use to store {@code value}
      * @param value
      *            Object to serialize
-     * @param prettyJson
-     *            If true format output
-     * @throws JSONHelperException
-     * @deprecated Use {@link #save(File, Object, Set)} instead
+     * @param printMode
+     *            Define JSON presentation
+     * @param serializationInclusionMode
+     *            Fix setting default POJO property inclusion strategy for serialization (see
+     *            {@link ObjectMapper#setSerializationInclusion(Include)}).
+     *            If value is null, use default strategy.
+     * @throws JSONHelperException if any error occur
+     * @see PrintMode
+     * @see #COMPACT_PRINT
+     * @see #PRETTY_PRINT
      */
-    @Deprecated
-    public static <T> void toJSON( //
-            final File    jsonFile,
-            final T       value,
-            final boolean prettyJson
-            ) throws JSONHelperException
+    public static <T> void save( //
+        final File           jsonFile,
+        final T              value,
+        final Set<PrintMode> printMode,
+        @Nullable
+        final Include        serializationInclusionMode
+        ) throws JSONHelperException
     {
-        if( prettyJson ) {
-            save( jsonFile, value, EnumSet.of( PrintMode.PRETTY ) );
-        } else {
-            save( jsonFile, value, EnumSet.noneOf( PrintMode.class ) );
+        try {
+            createObjectWriter( printMode, serializationInclusionMode )
+                .writeValue( jsonFile, value );
         }
+        catch( final IOException e ) {
+            throw new JSONHelperException( e );
+        }
+    }
+
+    private static ObjectWriter createObjectWriter(
+        final Set<PrintMode> printMode,
+        final Include        serializationInclusionMode
+        )
+    {
+        final ObjectMapper mapper = new ObjectMapper();
+
+        if( serializationInclusionMode == null ) {
+            mapper.setSerializationInclusion( serializationInclusionMode );
+        }
+
+        final ObjectWriter writer;
+
+        if( isUseArraysPrettyPrint( printMode ) ) {
+            writer = PrintMode.PRETTY_ARRAYS.getObjectWriter( mapper );
+        }  else if( isUseStandardPrettyPrint( printMode ) ) {
+            writer = PrintMode.PRETTY.getObjectWriter( mapper );
+        } else {
+            writer = mapper.writer();
+        }
+
+        return writer;
     }
 
     /**
@@ -218,36 +281,31 @@ public class JSONHelper
      *
      * @param <T>
      *            Type of object to convert
-     * @param jsonFile
-     *            File to use to store {@code value}
+     * @param out
+     *            OutputStream to use to store {@code value}
      * @param value
      *            Object to serialize
      * @param printMode
      *            Define JSON presentation
-     * @throws JSONHelperException
+     * @param serializationInclusionMode
+     *            Fix setting default POJO property inclusion strategy for serialization (see
+     *            {@link ObjectMapper#setSerializationInclusion(Include)}).
+     *            If value is null, use default strategy.
+     * @throws JSONHelperException if any error occur
      * @see PrintMode
      * @see #COMPACT_PRINT
      * @see #PRETTY_PRINT
      */
-    public static <T> void save( //
-            final File           jsonFile,
-            final T              value,
-            final Set<PrintMode> printMode
-            ) throws JSONHelperException
+    public static <T> void save(
+        final OutputStream   out,
+        final T              value,
+        final Set<PrintMode> printMode,
+        final Include        serializationInclusionMode
+        ) throws JSONHelperException
     {
-        final ObjectMapper mapper = new ObjectMapper();
-
-        mapper.setSerializationInclusion( Include.NON_NULL );
-
         try {
-            if( isUseStandardPrettyPrint( printMode ) ) {
-                prettyPrint( jsonFile, value, mapper );
-            }
-            else if( isUseArraysPrettyPrint( printMode ) ) {
-                prettyPrintArray( jsonFile, value, mapper );
-            } else {
-                mapper.writeValue( jsonFile, value );
-            }
+            createObjectWriter( printMode, serializationInclusionMode )
+                .writeValue( out, value );
         }
         catch( final IOException e ) {
             throw new JSONHelperException( e );
@@ -271,7 +329,6 @@ public class JSONHelper
         return isUseArraysPrettyPrint();
     }
 
-
     private static boolean isUseStandardPrettyPrint( final Set<PrintMode> printMode )
     {
         if( isContaint( printMode, PrintMode.PRETTY ) ) {
@@ -293,35 +350,24 @@ public class JSONHelper
         return Boolean.getBoolean( "UseArraysPrettyPrint" );
     }
 
-    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    private static <T> void prettyPrint(
-            final File         jsonFile,
-            final T            value,
-            final ObjectMapper mapper
-            )
-        throws
-            IOException,
-            JsonGenerationException,
-            JsonMappingException
+    private static ObjectWriter getPrettyPrintObjectWriter( final ObjectMapper mapper )
     {
-        mapper.writerWithDefaultPrettyPrinter().writeValue( jsonFile, value );
+        return mapper.writerWithDefaultPrettyPrinter();
     }
 
-    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    private static <T> void prettyPrintArray(
-            final File         jsonFile,
-            final T            value,
-            final ObjectMapper mapper
-            )
-        throws
-            IOException,
-            JsonGenerationException,
-            JsonMappingException
+    private static ObjectWriter getPrettyPrintArrayObjectWriter( final ObjectMapper mapper )
     {
-        final DefaultPrettyPrinter pp = new DefaultPrettyPrinter();
+        final PrettyPrinter        pp = mapper.getSerializationConfig().getDefaultPrettyPrinter();
+        final DefaultPrettyPrinter dpp;
 
-        pp.indentArraysWith( DefaultIndenter.SYSTEM_LINEFEED_INSTANCE );
+        if( pp instanceof DefaultPrettyPrinter ) {
+            dpp = (DefaultPrettyPrinter)pp;
+        } else {
+            dpp = new DefaultPrettyPrinter();
+        }
 
-        mapper.writer( pp ).writeValue( jsonFile, value );
+        dpp.indentArraysWith( DefaultIndenter.SYSTEM_LINEFEED_INSTANCE );
+
+        return mapper.writer( dpp );
     }
 }
