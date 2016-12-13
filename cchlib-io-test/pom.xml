@@ -17,24 +17,27 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-io</artifactId>
       <version>4.2-SNAPSHOT</version>
-      <scope>test</scope>
     </dependency>
+
+    <dependency>
+        <groupId>com.googlecode.cchlib</groupId>
+        <artifactId>cchlib-unit</artifactId>
+        <version>4.2-SNAPSHOT</version>
+        <scope>test</scope>
+    </dependency>
+
     <dependency><!-- base64 for test cases (no regression) / no more using sun version -->
       <groupId>net.iharder</groupId>
       <artifactId>base64</artifactId>
       <scope>test</scope>
       <version>2.3.8</version>
     </dependency>
-    <dependency>
-    	<groupId>com.googlecode.cchlib</groupId>
-    	<artifactId>cchlib-unit</artifactId>
-    	<version>4.2-SNAPSHOT</version>
-    	<scope>test</scope>
-    </dependency>
+
   </dependencies>
 
   <build>

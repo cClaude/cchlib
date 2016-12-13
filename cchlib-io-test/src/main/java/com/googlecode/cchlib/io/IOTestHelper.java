@@ -55,7 +55,10 @@ public final class IOTestHelper
      */
     public static final File createPNGTempFile( final String prefixName ) throws IOException
     {
-        return IOHelper.toFile( createPNG(), File.createTempFile( prefixName + '-', ".png" ) );
+        return IOHelper.toFile(
+                createPNG(),
+                File.createTempFile( prefixName + '-', ".png" )
+                );
     }
 
     /**
