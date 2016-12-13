@@ -17,8 +17,8 @@ import com.googlecode.cchlib.util.duplicate.DigestEventListener;
 
 /**
  * Compute hash code for a file.
- * <br/>
- * Basic usage:<br/>
+ * <br>
+ * Basic usage:<br>
  * Just invoke {@link #computeFile(File, FileDigestListener)}
  * <P>This class is not thread safe</P>
  *

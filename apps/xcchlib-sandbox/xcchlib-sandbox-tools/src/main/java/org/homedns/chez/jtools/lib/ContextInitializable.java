@@ -25,7 +25,7 @@ public interface ContextInitializable<T>
 
 /**
 ** Nom du conteneur de servlet - contexte
-** <br/>
+** <br>
 ** ex: "/mywebapp"
 */
 public String getServletContextName(); // ---------------------------------

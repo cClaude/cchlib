@@ -13,12 +13,12 @@
 */
 package cx.ath.choisnet.html;
 
-import java.util.LinkedList;
 import java.net.URLEncoder;
+import java.util.LinkedList;
 
 /**
 ** <p>Class permettant de construire proprement une URL de manière simple.</p>
-** ex 1: <br/>
+** ex 1: <br>
 ** <pre>
 **  StringURL aStringURL = nRew StringURL( "http://www.web.site1/forward" );
 **
@@ -28,7 +28,7 @@ import java.net.URLEncoder;
 **  value = aStringURL.toString( "UTF-8" );
 ** </pre>
 ** <br />
-** ex 2: <br/>
+** ex 2: <br>
 ** <pre>
 **  String url = new StringURL( "http://www.web.site1/forward" )
 **                  .append( "URL", "http://www.web.site2/something" )
@@ -54,10 +54,10 @@ public class StringURL
 private static final long serialVersionUID = 1L;
 
 /** */
-private String baseURL;
+private final String baseURL;
 
 /** */
-private LinkedList<String[]> params;
+private final LinkedList<String[]> params;
 
 /**
 **
@@ -66,7 +66,7 @@ private LinkedList<String[]> params;
 ** @see java.nio.charset.Charset
 ** @see javax.servlet.ServletResponse#getCharacterEncoding()
 */
-public StringURL( String baseURL ) // -------------------------------------
+public StringURL( final String baseURL ) // -------------------------------------
 {
  this.params    = new LinkedList<String[]>();
  this.baseURL   = baseURL;
@@ -80,9 +80,9 @@ public StringURL append( // -----------------------------------------------
     final String paramValue
     )
 {
- String[] entry = { paramName, paramValue };
+ final String[] entry = { paramName, paramValue };
 
- params.add( entry );
+ this.params.add( entry );
 
  return this;
 }
@@ -131,7 +131,7 @@ private String toString( // -----------------------------------------------
 {
  boolean first;
 
- if( baseURL.indexOf( '?' ) == -1 ) {
+ if( this.baseURL.indexOf( '?' ) == -1 ) {
     //
     // Pas de paramétre dans 'baseURL'
     //
@@ -141,9 +141,9 @@ private String toString( // -----------------------------------------------
     first = false;
     }
 
- StringBuilder sb = new StringBuilder( baseURL );
+ final StringBuilder sb = new StringBuilder( this.baseURL );
 
- for( String[] param : params ) {
+ for( final String[] param : this.params ) {
     if( first ) {
         first = false;
         sb.append( '?' );
@@ -163,7 +163,7 @@ private String toString( // -----------------------------------------------
 /**
 **
 */
-public String toString( String charsetName ) // ---------------------------
+public String toString( final String charsetName ) // ---------------------------
     throws java.io.UnsupportedEncodingException
 {
  return toString( "&", charsetName );
@@ -172,7 +172,7 @@ public String toString( String charsetName ) // ---------------------------
 /**
 **
 */
-public String toHTML( String charsetName ) // -----------------------------
+public String toHTML( final String charsetName ) // -----------------------------
     throws java.io.UnsupportedEncodingException
 {
  return toString( "&amp;", charsetName );

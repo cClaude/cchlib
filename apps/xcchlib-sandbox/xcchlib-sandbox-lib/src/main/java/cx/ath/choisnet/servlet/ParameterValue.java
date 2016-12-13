@@ -75,11 +75,11 @@ public boolean booleanValue(); // -----------------------------------------
 ** </p>
 ** Pour que la valeur soit 'true', il faut que l'une des conditions
 ** suivante soit remplie :
-** <br/>
+** <br>
 ** La valeur trouvee est "on" ou "true" (non sensible e la casse).
-** <br/>
+** <br>
 ** La valeur trouvee est un entier stritement positif ( v > 0 ).
-** <br/>
+** <br>
 **
 ** @return la valeur sous forme de boolean du parametre, si le parametre
 **         n'existe pas la valeur par defaut (defautValue) est retournee.

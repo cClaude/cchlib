@@ -18,8 +18,8 @@ import java.text.SimpleDateFormat;
  ** Cette classe gere les problemes d'heure au sens commun (heure, minutes, secondes)
  ** <P>
  ** <P>
- * NOTES:<br/>
- * - Cette classe est {@link Serializable}<br/>
+ * NOTES:<br>
+ * - Cette classe est {@link Serializable}<br>
  **
  ** @author Claude CHOISNET
  ** @since 1.00

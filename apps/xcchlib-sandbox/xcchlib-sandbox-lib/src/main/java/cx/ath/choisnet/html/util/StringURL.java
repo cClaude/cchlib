@@ -20,7 +20,7 @@ import java.net.URLEncoder;
 /**
 ** <p>Class permettant de construire proprement une URL de maniére simple.</p>
 **
-** ex 1: <br/>
+** ex 1: <br>
 ** <pre>
 **  StringURL aStringURL = new StringURL( "http://www.web.site1/forward" );
 **
@@ -30,7 +30,7 @@ import java.net.URLEncoder;
 **  value = aStringURL.toString( "UTF-8" );
 ** </pre>
 ** <br />
-** ex 2: <br/>
+** ex 2: <br>
 ** <pre>
 **  String url = new StringURL( "http://www.web.site1/forward" )
 **                  .append( "URL", "http://www.web.site2/something" )

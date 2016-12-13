@@ -78,7 +78,7 @@ public static <T> T getContext( // ----------------------------------------
 ** Recherche du context de l'application {@link ContextInitializable#getServletContextName()}
 ** é partir sur la liste des contextes disponibles trouvé é l'aide du request
 ** donnée.
-** <br/>
+** <br>
 ** Si le contexte n'est pas trouvé, c'est le contexte lié au request qui
 ** sera utilisé.
 **

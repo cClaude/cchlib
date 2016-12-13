@@ -51,7 +51,7 @@ public class DHCPMessage
     private DHCPParameters          dhcpParameters;
 
     /**
-     ** Creates a DHCPMessage object <br/>
+     ** Creates a DHCPMessage object<br>
      ** initializes the object, sets the host to a specified host name, and binds to a specified port.
      **
      ** @param serverInetAddress
@@ -72,7 +72,7 @@ public class DHCPMessage
     }
 
     /**
-     ** Creates a DHCPMessage object <br/>
+     ** Creates a DHCPMessage object <br>
      ** initializes the object, sets the host to a specified host name, and binds to a specified port.
      **
      ** @param serverInetAddress
@@ -88,7 +88,7 @@ public class DHCPMessage
     }
 
     /**
-     ** Creates a DHCPMessage object <br/>
+     ** Creates a DHCPMessage object <br>
      ** initializes the object, sets the host to the broadcast address, and binds to a specified port.
      **
      ** @param dhcpParameters
@@ -100,7 +100,7 @@ public class DHCPMessage
     }
 
     /**
-     ** Creates a DHCPMessage object <br/>
+     ** Creates a DHCPMessage object <br>
      ** initializes the object, sets the host to the broadcast address, the local subnet, binds to the default server
      * port.
      */

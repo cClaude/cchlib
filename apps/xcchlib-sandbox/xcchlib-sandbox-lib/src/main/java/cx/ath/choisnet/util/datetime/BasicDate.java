@@ -57,8 +57,8 @@ import java.text.SimpleDateFormat;
  **
  ** </PRE>
  ** <P>
- * NOTE:<br/>
- * - Cette classe est {@link Serializable}<br/>
+ * NOTE:<br>
+ * - Cette classe est {@link Serializable}<br>
  * - Mais cette classe n'est pas "compatible an 10 000" ;-)
  **
  ** @author Claude CHOISNET

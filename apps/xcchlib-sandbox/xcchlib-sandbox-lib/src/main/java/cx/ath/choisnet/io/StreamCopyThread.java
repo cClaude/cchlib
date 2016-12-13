@@ -23,7 +23,7 @@ import java.io.OutputStream;
 /**
 ** <p>Classe permettant de lire ou de copier un flux de maniere assynchrone</p>
 **
-** Usage:<br/>
+** Usage:<br>
 ** <pre>
 **  StreamCopyThread procErrThread = new StreamCopyThread( process.getErrorStream(), stderr );
 **

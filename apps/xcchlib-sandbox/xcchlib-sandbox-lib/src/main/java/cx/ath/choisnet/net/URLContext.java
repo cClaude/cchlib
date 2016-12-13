@@ -29,9 +29,9 @@ import java.util.TreeMap;
 ** Classe permettant de concerver un context lors d'echange de
 ** flux HTTP.
 **
-** See :<br/>
-** <a href="http://www.faqs.org/rfcs/rfc2068.html">RFC 2068</a><br/>
-** <a href="http://www.faqs.org/rfcs/rfc2109.html">RFC 2109</a><br/>
+** See :<br>
+** <a href="http://www.faqs.org/rfcs/rfc2068.html">RFC 2068</a><br>
+** <a href="http://www.faqs.org/rfcs/rfc2109.html">RFC 2109</a><br>
 ** </p>
 ** <p>
 ** BUG: Ne gere pas *encore* les cookies multiples...
@@ -237,7 +237,7 @@ for( int n = 0;; n++ ) { // n=0 has no key, and the HTTP return status in the va
 ** Permet de definir des proprietes utilise par toutes les requetes
 ** emise e l'aide de l'objet courant.
 ** </p>
-** Typiquement on initialisera un echange par<br/>
+** Typiquement on initialisera un echange par<br>
 ** <pre>
 ** URLContext ctxt = new URLContext();
 **
