@@ -27,6 +27,7 @@ import com.googlecode.cchlib.util.HashMapSet;
  * @deprecated use {@link DuplicateFileFinder} instead.
  */
 @Deprecated
+@SuppressWarnings({"squid:S1166","squid:S134"})
 public class XDuplicateFileCollector
     extends XDefaultDigestFileCollector
 {
@@ -72,7 +73,7 @@ public class XDuplicateFileCollector
      *  It first call {@link #pass1Add(Iterable)} and
      *  then {@link #pass2()}.
      * </p>
-     * @param files
+     * @param files files to add
      * @throws IllegalStateException if {@link #pass2()} already call.
     */
     @Override
@@ -115,25 +116,6 @@ public class XDuplicateFileCollector
             }
         }
     }
-
-//    /**
-//     * Returns number of Set of File that should be examined
-//     * by {@link #pass2()}. Return potential duplicate
-//     * Set.
-//     * <p>
-//     * Warning:<BR>
-//     * This value is only valid after doing all
-//     * call to {@link #pass1Add(Iterable)} and
-//     * before calling {@link #pass2()}.
-//     * </p>
-//     *
-//     * @return number of Set of File that should be examined
-//     * by {@link #pass2()}.
-//     */
-//    public int getPass1SetToCheckSize()
-//    {
-//        return mapLengthFiles.size();
-//    }
 
     /**
      * Returns intermediate informations, statistics
@@ -234,7 +216,7 @@ public class XDuplicateFileCollector
         catch(final IOException e) {
             notify(e,f);
             }
-        catch( final CancelRequestException e ) { // $codepro.audit.disable logExceptions
+        catch( final CancelRequestException e ) {
             setCancelProcess( true );
             }
     }

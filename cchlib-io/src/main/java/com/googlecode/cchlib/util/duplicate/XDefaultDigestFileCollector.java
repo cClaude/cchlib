@@ -90,7 +90,7 @@ public class XDefaultDigestFileCollector
      *          );
      * </pre>
      *
-     * @param files
+     * @param files to add
      * @throws CancelRequestException if any listeners ask to cancel operation
      * @see DigestEventListener#ioError(IOException, File)
      * @see DigestEventListener#computeDigest(File)
