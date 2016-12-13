@@ -56,22 +56,17 @@ public final class PreferencesControlerFactory
         }
 
         final File preferencesFileToUse = useDefaultFile ? getJSONPreferencesLoadFile() : preferencesFile;
-        //final ObjectMapper mapper = new ObjectMapper();
 
         Preferences preferences;
 
         try {
-            //preferences = mapper.readValue( preferencesFileToUse, PreferencesBean.class);
             preferences = JSONHelper.load( preferencesFileToUse, PreferencesBean.class );
         }
         catch( final JSONHelperException e ) {
             if( useDefaultFile ) {
                 LOGGER.warn( "Can not read JSON preferences file, create a new one : " + preferencesFileToUse, e );
 
-                @SuppressWarnings("deprecation")
-                final Preferences propertiesPreferences = PreferencesProperties.loadPropertiesPreferences();
-
-                preferences = propertiesPreferences;
+                preferences = new PreferencesBean();
             } else {
                 final FileNotFoundException fnfe = new FileNotFoundException(
                         "Can not read JSON custom preferences file"

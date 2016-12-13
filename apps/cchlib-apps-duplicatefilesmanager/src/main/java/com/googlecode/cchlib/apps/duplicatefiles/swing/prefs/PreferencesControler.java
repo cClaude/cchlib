@@ -2,7 +2,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.prefs;
 
 import java.awt.Dimension;
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -102,52 +101,18 @@ public class PreferencesControler implements Serializable
         }
     }
 
-    public void save() throws IOException, JSONHelperException
+    public void save() throws JSONHelperException
     {
-        //saveProperties(); - not more requited....
-
-        final PreferencesBean preferencesBean = getPreferencesBean();
-        final File            jsonFile        = PreferencesControlerFactory.getJSONPreferencesSaveFile();
+        final File jsonFile = PreferencesControlerFactory.getJSONPreferencesSaveFile();
 
         LOGGER.info( "save Preferences to : " + jsonFile );
 
         JSONHelper.save(
                 jsonFile,
-                preferencesBean,
+                this.preferences,
                 JSONHelper.PRETTY_PRINT,
                 Include.NON_NULL
                 );
-    }
-
-    // Support old configurations file format.
-    @SuppressWarnings({ "deprecation", "squid:CallToDeprecatedMethod" })
-    private PreferencesBean getPreferencesBean()
-    {
-        final PreferencesBean preferencesBean;
-
-        if( this.preferences instanceof PreferencesProperties ) {
-            preferencesBean = PreferencesProperties.class.cast( this.preferences )
-                    .getPreferencesBean();
-            LOGGER.warn( "save Preferences use a deprecated support class: " + this.preferences.getClass() );
-        }
-        else if( this.preferences instanceof PreferencesBean ) {
-            preferencesBean = PreferencesBean.class.cast( this.preferences );
-        } else {
-            throw new PreferencesException( "Can not handle preferences type : " + this.preferences );
-        }
-        return preferencesBean;
-    }
-
-    // Support old configurations file format.
-    @SuppressWarnings({ "deprecation", "unused", "squid:CallToDeprecatedMethod" })
-    private void saveProperties() throws JSONHelperException
-    {
-        try {
-            PreferencesProperties.saveProperties( this.preferences );
-        }
-        catch( final IOException e ) {
-            throw new JSONHelperException( "OLD format not supported", e );
-        }
     }
 
     public void setLocale( final Locale locale )
@@ -181,7 +146,7 @@ public class PreferencesControler implements Serializable
         final Dimension newDimension = createFixedMinDimension( dimension, MINIMUM_WINDOW_WIDTH, MINIMUM_WINDOW_HEIGHT );
 
         // TODO remove this later...
-        this.preferences.setMinimumWindowDimension( Dimensions.toSerializableDimension( newDimension ) );
+        //this.preferences.setMinimumWindowDimension( Dimensions.toSerializableDimension( newDimension ) );
 
         return newDimension;
     }
@@ -250,7 +215,7 @@ public class PreferencesControler implements Serializable
         final Dimension newDimension = createFixedMinDimension( dimension, MINIMUM_PREFERENCE_WIDTH, MINIMUM_PREFERENCE_HEIGHT );
 
         // TODO remove this later...
-        this.preferences.setMinimumPreferenceDimension( Dimensions.toSerializableDimension( newDimension ) );
+        //this.preferences.setMinimumPreferenceDimension( Dimensions.toSerializableDimension( newDimension ) );
 
         return newDimension;
    }

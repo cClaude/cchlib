@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -138,7 +137,7 @@ public final class PreferencesDialogWB
         try {
             prefs.save();
         }
-        catch( final IOException | JSONHelperException e ) {
+        catch( final JSONHelperException e ) {
             LOGGER.error( "Pref error", e );
 
             DialogHelper.showMessageExceptionDialog(
