@@ -5,7 +5,8 @@ set +ex
 [ -d .logs ] || mkdir .logs
 
 mvn clean install | tee .logs/mvn-install.log
-MVN_EXIT="$?"
+MVN_EXIT="${PIPESTATUS[0]}"
+# MVN_EXIT="$?" - Not valid due to pipe
 
 cat .logs/mvn-install.log | grep "warning: no description for" | sort | uniq > .logs/mvn-install-warn-no-desc.log
 cat .logs/mvn-install.log | grep "warning: no @param for" | sort | uniq > .logs/mvn-install-warn-no-param.log
