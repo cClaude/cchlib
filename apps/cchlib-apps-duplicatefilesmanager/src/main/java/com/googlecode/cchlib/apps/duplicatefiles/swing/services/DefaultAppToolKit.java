@@ -10,6 +10,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JFileChooser;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
@@ -175,7 +176,7 @@ final class DefaultAppToolKit
     @Override // DFToolKit
     public void sleep( final long ms )
     {
-        Threads.sleep( ms );
+        Threads.sleep( ms, TimeUnit.MILLISECONDS );
     }
 
     @Override // DFToolKit

@@ -25,7 +25,6 @@ import com.googlecode.cchlib.net.download.fis.DownloadFilterInputStreamBuilder;
  */
 public class DownloadExecutor
 {
-    private static final long TWO_SECONDS = 2_000L;
     private final ThreadPoolExecutor pool;
     private final DownloadFilterInputStreamBuilder<File> downloadFilterBuilder;
 
@@ -243,7 +242,7 @@ public class DownloadExecutor
         // Wait pool finish
         do {
             // TODO: handle shutdown() use pool.awaitTermination( 1, TimeUnit.SECONDS );
-            Threads.sleep( TWO_SECONDS );
+            Threads.sleep( 2, TimeUnit.SECONDS );
             } while( this.pool.getActiveCount() > 0 );
 
         this.pool.shutdown();

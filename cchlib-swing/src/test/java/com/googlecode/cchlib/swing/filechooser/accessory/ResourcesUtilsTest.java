@@ -2,6 +2,7 @@ package com.googlecode.cchlib.swing.filechooser.accessory;
 
 import java.awt.FlowLayout;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import org.apache.log4j.Logger;
@@ -33,7 +34,7 @@ public class ResourcesUtilsTest
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         LOGGER.info( "myTestJButton() done" );
 
-        Threads.sleep( 3_000 );
+        Threads.sleep( 3, TimeUnit.SECONDS );
     }
 
     @Test

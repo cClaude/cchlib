@@ -2,6 +2,7 @@ package com.googlecode.cchlib.samples.swing.batchrunner;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.batchrunner.ihm.BRFrameBuilder;
@@ -17,7 +18,7 @@ public class SimpleBatchRunnerSampleAppTest
         final String[] args = new String[ 0 ];
 
         SimpleBatchRunnerSampleApp.main( args );
-        Threads.sleep( 3_000 );
+        Threads.sleep( 3, TimeUnit.SECONDS );
     }
 
     @Test

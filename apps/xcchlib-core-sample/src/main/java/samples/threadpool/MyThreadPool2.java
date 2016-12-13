@@ -44,7 +44,7 @@ public class MyThreadPool2
         mtp.runTask( new MyTask2( "abracadabra" ) );
 
         // Wait 2 sec and stop
-        Threads.sleep( 2_000 );
+        Threads.sleep( 2, TimeUnit.SECONDS );
         mtp.shutDown();
     }
 
@@ -73,7 +73,7 @@ class MyTask2 implements Runnable
             System.out.println( "Reversing one character per second."
                     + reversedString );
 
-            if( Threads.sleepAndNotify( 1_000 ) ) {
+            if( Threads.sleepAndNotify( 1, TimeUnit.SECONDS ) ) {
                 break; // unfinished task !!
                 }
             }

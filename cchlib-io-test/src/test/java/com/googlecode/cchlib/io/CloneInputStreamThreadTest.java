@@ -3,6 +3,7 @@ package com.googlecode.cchlib.io;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
@@ -121,7 +122,7 @@ public class CloneInputStreamThreadTest
         public byte[] getInputStreamAsBytes() throws IOException
         {
             while( ! isReady() ) {
-                Threads.sleep( 500 );
+                Threads.sleep( 500, TimeUnit.MILLISECONDS );
                 }
 
             return this.bytes;

@@ -3,6 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.prefs;
 import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
@@ -67,7 +68,7 @@ public class PreferencesControlerFactoryTest
 
         // Wait max 10 seconds for result
         for( int i = 0; i<20; i++ ) {
-            Threads.sleep( 500 );
+            Threads.sleep( 500, TimeUnit.MILLISECONDS );
 
             if( runner.isDone() ) {
                 break;

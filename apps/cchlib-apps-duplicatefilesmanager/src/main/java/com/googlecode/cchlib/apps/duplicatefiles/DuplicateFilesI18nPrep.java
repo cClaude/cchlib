@@ -4,6 +4,7 @@ import java.awt.Window;
 import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.about.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.DuplicateFilesFrame;
@@ -65,7 +66,7 @@ public class DuplicateFilesI18nPrep
                 }
             }
 
-        Threads.sleep( 1000 );
+        Threads.sleep( 1, TimeUnit.SECONDS );
     }
 
     private static PreferencesControler getPreferences()

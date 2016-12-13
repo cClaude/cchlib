@@ -1,6 +1,7 @@
 package test.reflexion;
 
 import java.lang.reflect.Field;
+import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.Threads;
 
@@ -99,7 +100,7 @@ public class SetAccessibleTst
             final int typedValue = ((Integer)value).intValue();
             f.set( this, Integer.valueOf( typedValue + 1 ) );
 
-            Threads.sleep( this.delay );
+            Threads.sleep( this.delay, TimeUnit.MILLISECONDS );
 
             assert accessible == true;
             f.setAccessible( accessible ); // Restore previous value

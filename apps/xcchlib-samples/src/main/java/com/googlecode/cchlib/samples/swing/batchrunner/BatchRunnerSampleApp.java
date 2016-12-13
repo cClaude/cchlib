@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream; // $codepro.audit.disable unnecessaryImport
 import java.io.OutputStream; // $codepro.audit.disable unnecessaryImport
+import java.util.concurrent.TimeUnit;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -151,7 +152,7 @@ public class BatchRunnerSampleApp extends JPanel
 
             LOGGER.info( "DO execute_DoesNothing() : " + sourceFile + " -> " + destinationFile );
 
-            Threads.sleep( 10_000 );
+            Threads.sleep( 10, TimeUnit.SECONDS );
 
             LOGGER.info( "DONE execute_DoesNothing() : " + sourceFile + " -> " + destinationFile );
         }

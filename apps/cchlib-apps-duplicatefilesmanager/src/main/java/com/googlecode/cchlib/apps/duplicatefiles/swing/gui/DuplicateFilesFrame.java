@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TooManyListenersException;
+import java.util.concurrent.TimeUnit;
 import javax.swing.AbstractButton;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
@@ -492,7 +493,7 @@ public final class DuplicateFilesFrame
         final Runnable task = () -> {
             LOGGER.info( "initComponentsJPanelConfirm begin" );
 
-            Threads.sleep( 1000 );
+            Threads.sleep( 1, TimeUnit.SECONDS );
 
             try {
                 LOGGER.info( "initComponentsJPanelConfirm start" );

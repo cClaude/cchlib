@@ -44,16 +44,10 @@ public class MyThreadPool1
         mtp.runTask( new MyTask1( "abracadabra" ) );
 
         // Wait 2 sec and stop
-        Threads.sleep( 2_000 );
+        Threads.sleep( 2, TimeUnit.SECONDS );
 
         mtp.shutDown();
     }
-
-//    private static void callCancel()
-//    {
-//        futureTask.cancel(true);
-//        System.out.println("Cancelling...");
-//    }
 }
 
 class MyTask1 implements Runnable

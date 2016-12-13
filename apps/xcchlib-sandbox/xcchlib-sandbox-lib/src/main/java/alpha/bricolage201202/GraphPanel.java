@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.Serializable;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import com.googlecode.cchlib.lang.Threads;
 
 @SuppressWarnings("squid:MaximumInheritanceDepth")
@@ -163,7 +164,7 @@ public class GraphPanel extends GraphPanelHideEdges implements Runnable
                     }
                 }
 
-            if( Threads.sleepAndNotify( 100L ) ) {
+            if( Threads.sleepAndNotify( 100L, TimeUnit.MILLISECONDS ) ) {
                 break;
             }
         }

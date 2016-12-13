@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
@@ -220,7 +221,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             while(this.displayRunning) {
                 updateDisplay();
 
-                if( Threads.sleepAndNotify( 300 ) ) {
+                if( Threads.sleepAndNotify( 300, TimeUnit.MILLISECONDS ) ) {
                     return;
                     }
                 }

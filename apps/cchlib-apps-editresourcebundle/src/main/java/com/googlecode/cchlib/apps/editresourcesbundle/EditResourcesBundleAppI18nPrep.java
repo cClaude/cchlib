@@ -3,6 +3,7 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
@@ -45,7 +46,7 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
 
         final Locale defaultLocale = Locale.ENGLISH;
 
-        Threads.sleep( 1_000 );
+        Threads.sleep( 1, TimeUnit.SECONDS );
 
         final I18nAutoCoreUpdatable[] i18nConteners = {
             mainFrame,

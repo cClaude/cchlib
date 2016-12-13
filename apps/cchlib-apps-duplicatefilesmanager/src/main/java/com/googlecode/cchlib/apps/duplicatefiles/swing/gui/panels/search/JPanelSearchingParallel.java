@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import org.apache.log4j.Logger;
@@ -414,7 +415,7 @@ public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurren
             while(this.displayRunning) {
                 updateDisplay();
 
-                if( Threads.sleepAndNotify(  300 ) ) {
+                if( Threads.sleepAndNotify( 300, TimeUnit.MILLISECONDS ) ) {
                     return;
                     }
                 }

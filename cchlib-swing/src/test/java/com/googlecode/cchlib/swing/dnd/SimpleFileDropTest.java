@@ -3,6 +3,7 @@ package com.googlecode.cchlib.swing.dnd;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.util.TooManyListenersException;
+import java.util.concurrent.TimeUnit;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -51,7 +52,7 @@ public class SimpleFileDropTest
         simpleFileDrop.addDropTargetListener();
         LOGGER.info( "SimpleFileDrop() wait for files" );
 
-        Threads.sleep( 5 * 1000);
+        Threads.sleep( 5, TimeUnit.SECONDS );
 
         // disabled listener
         simpleFileDrop.remove();

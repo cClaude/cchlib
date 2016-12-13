@@ -2,6 +2,7 @@ package com.googlecode.cchlib.sandbox.swing;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -166,7 +167,7 @@ class ProgressCells extends JFrame {
         final int i = ((Integer)value).intValue();
         table.setValueAt( Integer.valueOf( i + 1 ), row, column );
 
-        Threads.sleep( 1_000 );
+        Threads.sleep( 1, TimeUnit.SECONDS );
     }
 
     public static void main( final String[] args )
