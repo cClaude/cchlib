@@ -78,7 +78,7 @@ abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
                 return null;
             }
         } else {
-            throw new ConvertCantNotHandleTypeException();
+            throw new ConvertCantNotHandleTypeException( "Value is \"" + strValue + "\", expected type is " + type );
         }
     }
 
