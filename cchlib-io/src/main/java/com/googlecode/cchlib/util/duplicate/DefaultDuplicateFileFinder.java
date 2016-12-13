@@ -14,7 +14,11 @@ import javax.annotation.Nonnull;
  */
 public class DefaultDuplicateFileFinder implements DuplicateFileFinder {
 
-    private enum State { PASS1, PASS2, DONE };
+    private enum State {
+        PASS1,
+        PASS2,
+        DONE
+        }
     private final DFFConfig dffConfig;
 
     private final DFFPass1 pass1Delegator;
@@ -43,12 +47,6 @@ public class DefaultDuplicateFileFinder implements DuplicateFileFinder {
         }
     };
 
-    /**
-     *
-     * @param dffConfig
-     * @param dffPass1
-     * @param dffPass2
-     */
     public DefaultDuplicateFileFinder( //
         final DFFConfig dffConfig, //
         final DFFPass1  dffPass1, //
@@ -59,8 +57,10 @@ public class DefaultDuplicateFileFinder implements DuplicateFileFinder {
 
         this.dffConfig = dffConfig;
 
-        this.pass1Delegator = new DFFPass1Impl( this.dffConfig );
-        this.pass2Delegator = new DFFPass2Impl( this.dffConfig );
+        //this.pass1Delegator = new DFFPass1Impl( this.dffConfig );
+        //this.pass2Delegator = new DFFPass2Impl( this.dffConfig );
+        this.pass1Delegator = dffPass1;
+        this.pass2Delegator = dffPass2;
     }
 
     @Override
