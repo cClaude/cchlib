@@ -1,7 +1,9 @@
 package com.googlecode.cchlib.sql.mysql;
 
+import java.util.Collection;
 import java.util.Set;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.sql.DataSource;
 import com.googlecode.cchlib.sql.DataSourceFactory;
 import com.googlecode.cchlib.sql.DataSourceFactoryClassNotFoundException;
@@ -38,15 +40,34 @@ public final class MySQL
         // All static
     }
 
+    /**
+     * Create URL connection to MySQL using default
+     *
+     * @param host
+     *            Host name for the database
+     * @return a connection URL (has a String)
+     */
     public static String getURL( final String host )
     {
         return getURL( host, MySQL.DEFAULT_PORT, null );
     }
 
+    /**
+     * Create URL connection to MySQL
+     *
+     * @param host
+     *            Host name for the database
+     * @param port
+     *            Port of the database (default is {@link #DEFAULT_PORT}
+     * @param parameters
+     *            Extras parameters for special need (see {@link MySQLParameters})
+     * @return a connection URL (has a String)
+     */
     public static String getURL(
-        @Nonnull final String      host,
-        final int                  port,
-        final Set<MySQLParameters> parameters
+        @Nonnull final String host,
+        final int             port,
+        @Nullable
+        final Collection<? extends MySQLParametersConfig> parameters
         )
     {
         final StringBuilder sb = new StringBuilder();
@@ -56,8 +77,15 @@ public final class MySQL
         if( (parameters != null) && !parameters.isEmpty() ) {
             sb.append( '?' );
 
-            if( parameters.contains( MySQLParameters.HANDLE_0000_00_00_00_00_00_TIMESTAMP ) ) {
-                sb.append( "zeroDateTimeBehavior=convertToNull" );
+            boolean first = true;
+
+            for( final MySQLParametersConfig mySQLParameters : parameters ) {
+                if( first ) {
+                    first = false;
+                } else {
+                    sb.append( "&amp;" );
+                }
+                sb.append( mySQLParameters.getParameterConfig() );
             }
         }
         return sb.toString();
@@ -65,7 +93,11 @@ public final class MySQL
 
     private static String getURL( final MySQLConfig mysql )
     {
-        return getURL( mysql.getHostname(), mysql.getPort(), mysql.getParameters() );
+        return getURL(
+                mysql.getHostname(),
+                mysql.getPort(),
+                mysql.getParameters()
+                );
     }
 
     /**
