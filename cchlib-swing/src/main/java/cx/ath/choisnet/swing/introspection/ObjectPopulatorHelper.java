@@ -87,13 +87,13 @@ public class ObjectPopulatorHelper
      *
      * @param <OBJECT> type of object
      * @param fieldObject - this is typical result from {@link SwingIntrospectorItem#getFieldObject(Object)}
-     * @param iItem
+     * @param iItem NEEDDOC
      *
      * @return return  representing by this field
      *         (only some swing components are supported)
      * @throws SwingIntrospectorUnsupportedClassException if don't know how
      *         to handle type.
-     * @throws SwingIntrospectorParseException
+     * @throws SwingIntrospectorParseException if any
      */
     @SuppressWarnings({
         "squid:MethodCyclomaticComplexity", // Dispatcher

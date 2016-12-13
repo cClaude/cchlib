@@ -116,7 +116,7 @@ public abstract class JPopupMenuForJTextField
     /**
      * Create a menu for copy action (using default listener)
      *
-     * @param contextMenu
+     * @param contextMenu Context menu
      * @param textForCopy Label text for paste menu
      * @return a menu for copy action
     */

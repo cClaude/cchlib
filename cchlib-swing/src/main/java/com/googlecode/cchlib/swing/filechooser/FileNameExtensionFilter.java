@@ -33,8 +33,8 @@ public class FileNameExtensionFilter extends SwingFileFilter
      * Creates a FileNameExtensionFilter with the
      * specified description and file name extension.
      *
-     * @param description
-     * @param extension
+     * @param description String to describe filter
+     * @param extension Extension to filter
      */
     public FileNameExtensionFilter( final String description, final String extension )
     {
@@ -47,8 +47,8 @@ public class FileNameExtensionFilter extends SwingFileFilter
      * Creates a FileNameExtensionFilter with the
      * specified description and file name extensions.
      *
-     * @param description
-     * @param extensions
+     * @param description String to describe filter
+     * @param extensions Arrays of extensions to filter
      * (need Java 1.5)
      */
     public FileNameExtensionFilter( final String description, final String...extensions )
@@ -75,6 +75,7 @@ public class FileNameExtensionFilter extends SwingFileFilter
                 return true;
                 }
             }
+
         return false;
     }
 

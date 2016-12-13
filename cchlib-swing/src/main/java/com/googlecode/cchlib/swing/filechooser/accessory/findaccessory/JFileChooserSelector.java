@@ -8,8 +8,9 @@ import java.io.File;
 interface JFileChooserSelector
 {
     /**
+     * Set default selection.
      *
-     * @param f
+     * @param file Default selected file
      */
-    void goTo(File f);
+    void goTo( File file );
 }

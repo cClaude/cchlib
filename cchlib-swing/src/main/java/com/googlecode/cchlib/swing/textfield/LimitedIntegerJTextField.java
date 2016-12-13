@@ -121,7 +121,7 @@ public class LimitedIntegerJTextField extends JTextField
     /**
      * TextField that is limited to integer values, and limit this integer to an maxValue
      * @param maxValue maxValue for current JTextField, range [0...maxValue]
-     * @param radix
+     * @param radix NEEDDOC
      * @throws IllegalArgumentException if maxValue is negative
      *
      */
@@ -202,8 +202,8 @@ public class LimitedIntegerJTextField extends JTextField
 
     /**
      * NEEDDOC
-     * @param value
-     * @throws IllegalArgumentException
+     * @param value NEEDDOC
+     * @throws IllegalArgumentException NEEDDOC
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setValue( final int value ) throws IllegalArgumentException
@@ -216,8 +216,8 @@ public class LimitedIntegerJTextField extends JTextField
     /**
      * Set radix
      *
-     * @param radix
-     * @throws IllegalArgumentException
+     * @param radix NEEDDOC
+     * @throws IllegalArgumentException NEEDDOC
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setRadix( final int radix ) throws IllegalArgumentException
@@ -230,8 +230,8 @@ public class LimitedIntegerJTextField extends JTextField
 
     /**
      * NEEDDOC
-     * @param value
-     * @throws IllegalArgumentException
+     * @param value NEEDDOC
+     * @throws IllegalArgumentException  NEEDDOC
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void checkValue( final int value ) throws IllegalArgumentException

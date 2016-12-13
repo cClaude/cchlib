@@ -604,8 +604,8 @@ public class FindAccessoryImpl
     }
 
     /**
-        Invoked by FindAction objects to start and stop searches.
-     * @param command
+     * Invoked by FindAction objects to start and stop searches.
+     * @param command NEEDDOC
      */
     @Override//ActionContener
     public void action(final String command)

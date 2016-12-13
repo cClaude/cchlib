@@ -57,8 +57,8 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
 
     /**
      * Get a FramePopulator for giving values
-     * @param frame
-     * @param object
+     * @param frame NEEDDOC
+     * @param object NEEDDOC
      * @return FramePopulator for these instances
      */
     @Override
@@ -113,7 +113,7 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
     }
 
     /**
-     * @param beanname
+     * @param beanname NEEDDOC
      * @return the OBJECT_ENTRY
      */
     protected OBJECT_ENTRY getObjectEntry(final String beanname)

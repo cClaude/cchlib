@@ -39,8 +39,8 @@ public class FindAccessory
 
     /**
      * NEEDDOC
-     * @param parent
-     * @param max
+     * @param parent NEEDDOC
+     * @param max NEEDDOC
      */
     public FindAccessory(final JFileChooser parent, final int max)
     {
@@ -49,7 +49,7 @@ public class FindAccessory
 
     /**
      * NEEDDOC
-     * @param parent
+     * @param parent NEEDDOC
      */
     public FindAccessory(final JFileChooser parent)
     {

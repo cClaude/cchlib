@@ -80,12 +80,19 @@ public class Bean implements Serializable
 
     /**
      * Build a Bean from a Field
-     * @param field Field for contender (typically a Frame or a Dialog)
+     *
+     * @param field
+     *            Field for contender (typically a Frame or a Dialog)
      * @throws IllegalArgumentException
+     *             if {@link Field} is not valid
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public Bean( final Field field ) throws IllegalArgumentException
     {
+        if( field == null ) {
+            throw new IllegalArgumentException();
+        }
+
         this.fieldName = field.getName();
 
         final int begin = this.fieldName.indexOf( SEPARATOR );

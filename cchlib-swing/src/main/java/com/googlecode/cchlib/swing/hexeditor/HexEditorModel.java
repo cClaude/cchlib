@@ -29,13 +29,13 @@ public interface HexEditorModel //extends Closeable
     int getCursorPos();
 
     /**
-     *
+     * NEEDDOC
      */
     void incCursorPos();
 
     /**
-     *
-     * @param index
+     * NEEDDOC
+     * @param index NEEDDOC
      */
     void setCursorPos( int index );
 

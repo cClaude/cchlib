@@ -163,23 +163,23 @@ public class JFileChooserInitializer implements Serializable
     }
 
     /**
-     *
-     * @param l
+     * Add a listener
+     * @param listener Listener to add
      * @since 4.1.6
      */
-    public void addFooListener( final JFileChooserInitializerListener l )
+    public void addFooListener( final JFileChooserInitializerListener listener )
     {
-        this.listenerList.add( JFileChooserInitializerListener.class, l );
+        this.listenerList.add( JFileChooserInitializerListener.class, listener );
     }
 
     /**
-     *
-     * @param l
+     * Remove a listener
+     * @param listener Listener to remove
      * @since 4.1.6
      */
-    public void removeFooListener( final JFileChooserInitializerListener l )
+    public void removeFooListener( final JFileChooserInitializerListener listener )
     {
-        this.listenerList.remove( JFileChooserInitializerListener.class, l );
+        this.listenerList.remove( JFileChooserInitializerListener.class, listener );
     }
 
     /**

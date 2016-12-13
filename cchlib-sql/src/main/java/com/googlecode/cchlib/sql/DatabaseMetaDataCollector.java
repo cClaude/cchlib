@@ -123,7 +123,7 @@ public class DatabaseMetaDataCollector implements Mappable, Serializable
     /**
      * Returns list of table name for current schema
      *
-     * @param tableTypes
+     * @param tableTypes NEEDDOC
      * @return list of table name for current schema
      * @throws SQLException
      *             if a database access error occurs

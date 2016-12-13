@@ -14,10 +14,10 @@ public interface ObjectPopulator<FRAME,OBJECT_ENTRY>
 {
     /**
      * Populate object from frame
-     * @param entry
-     * @param rootItem
-     * @throws IntrospectionException
-     * @throws SwingIntrospectorException
+     * @param entry NEEDDOC
+     * @param rootItem NEEDDOC
+     * @throws IntrospectionException if any
+     * @throws SwingIntrospectorException if any
      */
     void populateObject(
         OBJECT_ENTRY                     entry,

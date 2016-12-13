@@ -9,9 +9,8 @@ import cx.ath.choisnet.lang.introspection.method.IntrospectionParameters;
 
 /**
  * @author CC
- * @param <FRAME>
- * @param <OBJECT>
- *
+ * @param <FRAME> NEEDDOC
+ * @param <OBJECT> NEEDDOC
  */
 @SuppressWarnings("squid:S00119")
 public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
