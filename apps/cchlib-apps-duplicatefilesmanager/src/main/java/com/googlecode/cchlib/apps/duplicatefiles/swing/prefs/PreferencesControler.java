@@ -10,6 +10,7 @@ import java.util.Locale;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.log4j.Logger;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.result.SelectFirstMode;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.result.SortMode;
@@ -103,31 +104,50 @@ public class PreferencesControler implements Serializable
 
     public void save() throws IOException, JSONHelperException
     {
-        PreferencesBean       preferencesBean;
-        PreferencesProperties preferencesProperties;
+        //saveProperties(); - not more requited....
+
+        final PreferencesBean preferencesBean = getPreferencesBean();
+        final File            jsonFile        = PreferencesControlerFactory.getJSONPreferencesSaveFile();
+
+        LOGGER.info( "save Preferences to : " + jsonFile );
+
+        JSONHelper.save(
+                jsonFile,
+                preferencesBean,
+                JSONHelper.PRETTY_PRINT,
+                Include.NON_NULL
+                );
+    }
+
+    // Support old configurations file format.
+    @SuppressWarnings({ "deprecation", "squid:CallToDeprecatedMethod" })
+    private PreferencesBean getPreferencesBean()
+    {
+        final PreferencesBean preferencesBean;
 
         if( this.preferences instanceof PreferencesProperties ) {
-            preferencesProperties = PreferencesProperties.class.cast( this.preferences );
-            preferencesBean       = preferencesProperties.getPreferencesBean();
+            preferencesBean = PreferencesProperties.class.cast( this.preferences )
+                    .getPreferencesBean();
+            LOGGER.warn( "save Preferences use a deprecated support class: " + this.preferences.getClass() );
         }
         else if( this.preferences instanceof PreferencesBean ) {
             preferencesBean = PreferencesBean.class.cast( this.preferences );
-            preferencesProperties = new PreferencesProperties( //
-                    PreferencesControlerFactory.getPropertiesPreferencesFile(), //
-                    preferencesBean //
-                    );
         } else {
             throw new PreferencesException( "Can not handle preferences type : " + this.preferences );
         }
+        return preferencesBean;
+    }
 
-        preferencesProperties.save();
-
-        //final ObjectMapper mapper = new ObjectMapper();
-
-        //mapper.configure( Feature.INDENT_OUTPUT, true );
-        final File jsonFile = PreferencesControlerFactory.getJSONPreferencesSaveFile();
-        //mapper.writeValue( jsonFile, preferencesBean);
-        JSONHelper.save( jsonFile, preferencesBean, JSONHelper.PRETTY_PRINT );
+    // Support old configurations file format.
+    @SuppressWarnings({ "deprecation", "unused", "squid:CallToDeprecatedMethod" })
+    private void saveProperties() throws JSONHelperException
+    {
+        try {
+            PreferencesProperties.saveProperties( this.preferences );
+        }
+        catch( final IOException e ) {
+            throw new JSONHelperException( "OLD format not supported", e );
+        }
     }
 
     public void setLocale( final Locale locale )
@@ -332,7 +352,7 @@ public class PreferencesControler implements Serializable
         MessageDigestAlgorithms messageDigestAlgorithm = this.preferences.getMessageDigestAlgorithm();
 
         if( messageDigestAlgorithm == null ) {
-            messageDigestAlgorithm = PreferencesProperties.DEFAULT_MESSAGE_DIGEST_ALGORITHM;
+            messageDigestAlgorithm = Preferences.DEFAULT_MESSAGE_DIGEST_ALGORITHM;
 
             this.preferences.setMessageDigestAlgorithm( messageDigestAlgorithm );
         }

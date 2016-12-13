@@ -1,37 +1,42 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.prefs;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Properties;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.VisibleForTesting;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.result.SelectFirstMode;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.result.SortMode;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.util.SerializableDimension;
+import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 import com.googlecode.cchlib.util.properties.Populator;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
 import com.googlecode.cchlib.util.properties.PropertiesPopulator;
+import com.googlecode.cchlib.util.properties.PropertiesPopulatorRuntimeException;
 
 //NOT public
+/**
+ * @deprecated should be replace by {@link PreferencesBean}
+ */
+@Deprecated
 final class PreferencesProperties implements Preferences, Serializable
 {
     private static final long serialVersionUID = 2L;
 
     private static final Logger LOGGER = Logger.getLogger( PreferencesProperties.class );
 
-    private static final String DEFAULT_MESSAGE_DIGEST_ALGORITHM_NAME = "MD5";
-    static final MessageDigestAlgorithms DEFAULT_MESSAGE_DIGEST_ALGORITHM = MessageDigestAlgorithms.valueOf( DEFAULT_MESSAGE_DIGEST_ALGORITHM_NAME );
-
     private final PropertiesPopulator<PreferencesProperties> pp = new PropertiesPopulator<>(PreferencesProperties.class);
     private final File              preferencesFile;
     private final PreferencesBean   preferences;
 
-
-    PreferencesProperties(
+    private PreferencesProperties(
             final File              preferencesFile,
             final PreferencesBean   preferences
             )
@@ -40,7 +45,7 @@ final class PreferencesProperties implements Preferences, Serializable
         this.preferences     = preferences;
     }
 
-    void load(final Properties properties )
+    private void load( final Properties properties )
     {
         this.pp.populateBean( properties, this );
     }
@@ -49,7 +54,7 @@ final class PreferencesProperties implements Preferences, Serializable
      * Save Preferences to disk
      * @throws IOException if any
      */
-    void save() throws IOException
+    private void save() throws IOException
     {
         final Properties properties = new Properties();
 
@@ -152,7 +157,7 @@ final class PreferencesProperties implements Preferences, Serializable
     }
 
     @Override
-    @Populator(defaultValue=DEFAULT_MESSAGE_DIGEST_ALGORITHM_NAME)
+    @Populator(defaultValue=Preferences.DEFAULT_MESSAGE_DIGEST_ALGORITHM_NAME)
     public final MessageDigestAlgorithms getMessageDigestAlgorithm()
     {
         return this.preferences.getMessageDigestAlgorithm();
@@ -335,6 +340,84 @@ final class PreferencesProperties implements Preferences, Serializable
     public void setMaxParallelFilesPerThread( final int maxParallelFilesPerThread )
     {
         this.preferences.setMaxParallelFilesPerThread( maxParallelFilesPerThread );
+    }
+
+    static Preferences loadPropertiesPreferences()
+    {
+        // Try to load pref
+        final File preferencesFile = getPropertiesPreferencesFile();
+
+        return loadPropertiesPreferences( preferencesFile );
+    }
+
+    @VisibleForTesting
+    static Preferences loadPropertiesPreferences( final File preferencesFile )
+    {
+        Properties properties;
+
+        try {
+            properties = PropertiesHelper.loadProperties( preferencesFile );
+        }
+        catch( final FileNotFoundException fileNotFoundException ) {
+            properties = new Properties();
+
+            final String logMsg = String.format( "No prefs '%s'. Use default", preferencesFile );
+
+            if( PreferencesControlerFactory.LOGGER.isTraceEnabled() ) {
+                PreferencesControlerFactory.LOGGER.trace( logMsg, fileNotFoundException );
+            } else {
+                PreferencesControlerFactory.LOGGER.info( logMsg );
+            }
+        }
+        catch( final IOException e ) {
+            properties = new Properties();
+
+            final String msg = "Cannot load preferences: " + preferencesFile;
+            PreferencesControlerFactory.LOGGER.warn( msg, e );
+
+            DialogHelper.showMessageExceptionDialog( null, msg, e );
+        }
+
+        final PreferencesProperties preferencesProperties = new PreferencesProperties( preferencesFile, new PreferencesBean() );
+
+        try {
+            preferencesProperties.load( properties );
+        }
+        catch( final PropertiesPopulatorRuntimeException e ) {
+            final String message = "Can't load configuration: " + preferencesFile;
+
+            PreferencesControlerFactory.LOGGER.fatal( message, e );
+
+            DialogHelper.showMessageExceptionDialog( null, message, e );
+       }
+
+        return preferencesProperties;
+    }
+
+    private static File getPropertiesPreferencesFile()
+    {
+        return FileHelper.getUserHomeDirectoryFile(
+            PreferencesControlerFactory.PROPERTIES_PREFS_FILE
+            );
+    }
+
+    public static void saveProperties( final Preferences preferences ) throws IOException
+    {
+        final PreferencesProperties preferencesProperties;
+
+        if( preferences instanceof PreferencesProperties ) {
+            preferencesProperties = PreferencesProperties.class.cast( preferences );
+        }
+        else if( preferences instanceof PreferencesBean ) {
+            preferencesProperties = new PreferencesProperties( //
+                    PreferencesProperties.getPropertiesPreferencesFile(), //
+                    PreferencesBean.class.cast( preferences ) //
+                    );
+        } else {
+            throw new PreferencesException( "Can not handle preferences type : " + preferences );
+        }
+
+        preferencesProperties.save();
     }
 }
 

@@ -10,6 +10,8 @@ import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 
  interface Preferences extends Serializable
 {
+    static final String DEFAULT_MESSAGE_DIGEST_ALGORITHM_NAME = "MD5";
+    static final MessageDigestAlgorithms DEFAULT_MESSAGE_DIGEST_ALGORITHM = MessageDigestAlgorithms.valueOf( DEFAULT_MESSAGE_DIGEST_ALGORITHM_NAME );
     ConfigMode getConfigMode();
     void setConfigMode( ConfigMode configMode );
 
