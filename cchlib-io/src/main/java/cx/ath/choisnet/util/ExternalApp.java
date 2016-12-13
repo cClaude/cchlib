@@ -12,7 +12,7 @@ import cx.ath.choisnet.io.StreamCopyThread;
 /**
  * Allow to launch external process
  *
- * @since 3.01=
+ * @since 3.01
  *
  * @see Process
  * @see Runtime
@@ -165,7 +165,7 @@ public class ExternalApp
      * @see #run(String,InputStream,OutputStream,OutputStream)
      * @return the exit value for the subprocess.
      *         By convention, the value 0 indicates normal termination.
-     * @throws ExternalAppException
+     * @throws ExternalAppException if any
      */
     public static final int execute(
         final String        command,

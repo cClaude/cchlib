@@ -5,14 +5,14 @@ import java.util.EnumSet;
 import java.util.Set;
 
 /**
- * Configuration for {@link MySQL#getURL(String, int, java.util.Set)}
+ * Configuration for {@link MySQL#getURL(String, int, java.util.Collection)}
  *
  * @since 4.2
  */
 public enum MySQLParameters implements MySQLParametersConfig
 {
     /**
-     *  Handle : Value '0000-00-00 00:00:00' can be represented as {@link Timestamp}
+     *  Handle : Value '0000-00-00 00:00:00' can be represented as {@link java.sql.Timestamp}
      *  <p>
      *  Required for compatibility with MySQL 3.0
      */

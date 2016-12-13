@@ -31,7 +31,7 @@ public abstract class AbstractSimpleQueryServletAction
     /**
      * Returns DataSource
      * @return DataSource
-     * @throws NamingException
+     * @throws NamingException if any
      */
     protected abstract DataSource getDataSource()
         throws NamingException;

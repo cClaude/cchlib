@@ -150,7 +150,7 @@ public class Threads
     /**
      * Run a task and wait for the result until a timeout occur.
      *
-     * @param <T>
+     * @param <R>
      *            the type of the task's result
      * @param task
      *            the task to submit

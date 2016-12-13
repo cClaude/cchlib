@@ -3,60 +3,49 @@ package cx.ath.choisnet.io;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import com.googlecode.cchlib.Beta;
 
 /**
- * NEEDDOC
- *
+ * @deprecated no replacement
+ * @since 3.01
+ * @see StreamCopyThread
  */
-@Beta
+@Deprecated
+@SuppressWarnings({
+    "squid:S00112",
+    "squid:S1166",
+    "squid:CommentedOutCodeLine",
+    "squid:S135"
+    })
 public class WriterCopyThread
     extends Thread
-{// TODO Test case
+{
     private final Reader source;
     private final Writer destination;
     private boolean running;
     private final Object lock;
     private Writer spyWriter;
 
-    /**
-     * NEEDDOC
-     *
-     * @param source
-     * @param destination
-     * @throws IOException
-     */
     public WriterCopyThread(
         final Reader source,
         final Writer destination
-        )
-        throws IOException
+        ) throws IOException
     {
         this( null, source, destination );
     }
 
-    /**
-     * NEEDDOC
-     *
-     * @param threadName
-     * @param source
-     * @param destination
-     * @throws java.io.IOException
-     */
     public WriterCopyThread(
-            final String threadName,
-            final Reader source,
-            final Writer destination
-            )
-        throws IOException
+        final String threadName,
+        final Reader source,
+        final Writer destination
+        ) throws IOException
     {
-        this.lock = new Object();
-        this.spyWriter = null;
-        this.source = source;
+        this.lock        = new Object();
+        this.spyWriter   = null;
+        this.source      = source;
         this.destination = destination;
-        this.running = true;
+        this.running     = true;
 
-        setDaemon(true);
+        setDaemon( true );
 
         if( threadName == null ) {
             super.setName(
@@ -64,13 +53,10 @@ public class WriterCopyThread
                 );
             }
         else {
-            super.setName(threadName);
+            super.setName( threadName );
             }
     }
 
-    /**
-     * NEEDDOC
-     */
     @Override//Thread
     public void run()
     {
@@ -103,35 +89,19 @@ public class WriterCopyThread
                 this.destination.write( c );
                 }
             catch( final IOException e ) {
-                fireWriteIOException( e );
+                //fireWriteIOException( e );
                 }
             } // for
 
-        fireCloseReaderWriter();
+        //fireCloseReaderWriter();
     }
 
     private void fireReadIOException( final IOException e )
     {
-        // TODO !!!
         throw new RuntimeException( "StreamCopyThread.run() -  in "
                 + getName(), e );
     }
 
-    private void fireWriteIOException(final IOException e)
-    {
-        // TODO Auto-generated method stub
-    }
-
-    private void fireCloseReaderWriter()
-    {
-        // TODO Auto-generated method stub
-    }
-
-    /**
-     * NEEDDOC
-     *
-     * @param spyWriter
-     */
     public void registerSpyWriter( final Writer spyWriter )
     {
         synchronized(this.lock) {
@@ -139,9 +109,6 @@ public class WriterCopyThread
             }
     }
 
-    /**
-     * NEEDDOC
-     */
     public void stopSpyWriter()
     {
         synchronized(this.lock) {
@@ -149,11 +116,6 @@ public class WriterCopyThread
             }
     }
 
-    /**
-     * NEEDDOC
-     *
-     * @throws IOException
-     */
     public void cancel() throws IOException
     {
         this.running = false;

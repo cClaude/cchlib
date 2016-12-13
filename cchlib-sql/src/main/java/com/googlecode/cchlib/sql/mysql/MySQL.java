@@ -1,7 +1,6 @@
 package com.googlecode.cchlib.sql.mysql;
 
 import java.util.Collection;
-import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.sql.DataSource;
@@ -127,7 +126,7 @@ public final class MySQL
      * @param driverClassName
      *            Driver class
      * @param dbURL
-     *            String connection (see {@link #getURL(String, int, Set)})
+     *            String connection (see {@link #getURL(String, int, Collection)})
      * @param username
      *            Database user name
      * @param password

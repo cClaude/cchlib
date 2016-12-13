@@ -7,8 +7,9 @@ import java.util.EnumSet;
  * Configuration interface for {@link MySQL}
  *
  * @since 4.2
- * @see MySQL#newConnection(MySQLConfig)
+ *
  * @see MySQL#newDataSource(MySQLConfig)
+ * @see MySQL#newDataSource(String, String, String, String, int)
  */
 public interface MySQLConfig
 {
