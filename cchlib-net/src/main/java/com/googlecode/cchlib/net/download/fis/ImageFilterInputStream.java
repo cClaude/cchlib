@@ -21,12 +21,11 @@ public class ImageFilterInputStream extends CopyInputStream
         super( in );
     }
 
-
     /**
      * Returns an ImageIOFileData.
      * @return an ImageIOFileData.
-     * @throws IOException
-     * @throws IllegalStateException
+     * @throws IOException if any
+     * @throws IllegalStateException if any
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public ImageIOFileData geImageIOFileData() throws IllegalStateException, IOException

@@ -9,20 +9,22 @@ import java.io.RandomAccessFile;
  * NEEDDOC
  *
  */
-public class ArrayReadWriteAccessFile extends ArrayReadAccessFile implements ArrayReadWriteAccess
+public class ArrayReadWriteAccessFile
+    extends ArrayReadAccessFile
+        implements ArrayReadWriteAccess
 {
     /**
      * NEEDDOC
-     * @param f
-     * @throws FileNotFoundException
+     * @param file File
+     * @throws FileNotFoundException if any
      */
-    public ArrayReadWriteAccessFile( final File f ) throws FileNotFoundException
+    public ArrayReadWriteAccessFile( final File file ) throws FileNotFoundException
     {
-        super( new RandomAccessFile( f, "rw" ) );
+        super( new RandomAccessFile( file, "rw" ) );
     }
 
     @Override
-    public void setByte(final int index, final byte b)
+    public void setByte( final int index, final byte b )
     {
         try {
             this.raf.seek( index );

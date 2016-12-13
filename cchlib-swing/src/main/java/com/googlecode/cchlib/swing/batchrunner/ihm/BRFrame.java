@@ -57,9 +57,9 @@ public class BRFrame extends JFrame
     /**
      * Prepare the frame.
      * *
-     * @param panelLocaleResources
-     * @param xLocaleResources
-     * @param exitFunction
+     * @param panelLocaleResources NEEDDOC
+     * @param xLocaleResources NEEDDOC
+     * @param exitFunction NEEDDOC
      *
      * @see #createFrame(BRActionListener)
      */
@@ -80,7 +80,7 @@ public class BRFrame extends JFrame
     /**
      * Create the frame.
      *
-     * @param actionListener
+     * @param actionListener NEEDDOC
      */
     public final void createFrame( final BRActionListener actionListener )
     {

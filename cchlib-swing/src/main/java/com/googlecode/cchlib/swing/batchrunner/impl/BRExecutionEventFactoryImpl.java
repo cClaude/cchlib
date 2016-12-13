@@ -23,8 +23,10 @@ public class BRExecutionEventFactoryImpl implements BRExecutionEventFactory
     /**
      * NEEDDOC
      *
-     * @param progressMonitorParentComponent Parent component for progress monitor, typically the {@link BRFrame}.
+     * @param progressMonitorParentComponent
+     *            Parent component for progress monitor, typically the {@link BRFrame}.
      * @param progressMonitorMessage
+     *            NEEDDOC
      */
     @NeedDoc
     public BRExecutionEventFactoryImpl(
@@ -39,8 +41,10 @@ public class BRExecutionEventFactoryImpl implements BRExecutionEventFactory
     /**
      * NEEDDOC
      *
-     * @param progressMonitorParentComponent Parent component for progress monitor, typically the {@link BRFrame}.
+     * @param progressMonitorParentComponent
+     *            Parent component for progress monitor, typically the {@link BRFrame}.
      * @param resources
+     *            NEEDDOC
      */
     public BRExecutionEventFactoryImpl(
             final Component          progressMonitorParentComponent,
@@ -58,6 +62,11 @@ public class BRExecutionEventFactoryImpl implements BRExecutionEventFactory
     @Override
     public BRExecutionEvent newSBRExecutionEvent( final File sourceFile, final File destinationFile )
     {
-        return new BRExecutionEventImpl( sourceFile, destinationFile, this.progressMonitorParentComponent, this.progressMonitorMessage );
+        return new BRExecutionEventImpl(
+                sourceFile,
+                destinationFile,
+                this.progressMonitorParentComponent,
+                this.progressMonitorMessage
+                );
     }
 }

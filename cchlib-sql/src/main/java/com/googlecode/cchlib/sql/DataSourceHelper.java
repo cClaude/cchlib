@@ -88,8 +88,8 @@ public class DataSourceHelper
      * Create a <b>new</b> Connection to the data source
      *
      * @param dataSource Data source name
-     * @param userPass
-     * @param maxRetry
+     * @param userPass array of 2 String within user and password
+     * @param maxRetry max retry
      * @return a connection to the data source
      * @throws SQLException  if a database access error occurs
      */

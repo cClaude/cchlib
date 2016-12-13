@@ -15,14 +15,14 @@ public interface ArrayReadAccess extends Closeable
 
     /**
      * NEEDDOC
-     * @param index
+     * @param index NEEDDOC
      * @return NEEDDOC
      */
     byte getByte(int index);
 
     /**
      * NEEDDOC
-     * @param index
+     * @param index NEEDDOC
      * @return NEEDDOC
      */
     char getChar(int index);

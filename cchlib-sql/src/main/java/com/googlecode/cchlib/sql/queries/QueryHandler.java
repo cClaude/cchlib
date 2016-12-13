@@ -20,8 +20,8 @@ public interface QueryHandler<T>
      *
      * @param resultSet Result set return by SQL query.
      * @return Computed result from custom <code>resultSet</code> analysis
-     * @throws SQLException
-     * @throws QueryHandlerException
+     * @throws SQLException if any SQL error occur
+     * @throws QueryHandlerException if handler fail
      */
     @SuppressWarnings("squid:S1160")
     T handle( ResultSet resultSet ) throws SQLException, QueryHandlerException;

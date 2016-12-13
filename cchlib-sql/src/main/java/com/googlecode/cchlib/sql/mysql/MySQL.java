@@ -105,7 +105,7 @@ public final class MySQL
      *
      * @param mysql Configuration
      * @return a {@link DataSource}
-     * @throws DataSourceFactoryClassNotFoundException
+     * @throws DataSourceFactoryClassNotFoundException if any
      */
     public static DataSource newDataSource( //
         @Nonnull final MySQLConfig mysql

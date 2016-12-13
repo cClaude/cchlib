@@ -87,8 +87,8 @@ public class DBFWriter extends DBFBase
     /**
      * Add a record.
      *
-     * @param values
-     * @throws DBFException
+     * @param values Record to add
+     * @throws DBFException if any
      */
     public void addRecord( final Object[] values ) throws DBFException
     {

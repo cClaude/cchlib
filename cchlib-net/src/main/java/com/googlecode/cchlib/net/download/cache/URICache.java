@@ -183,7 +183,7 @@ public class URICache implements Closeable
      * Add a new ({@link URL},filename) couple in cache
      *
      * @param url             {@link URL} for this filename
-     * @param date
+     * @param date            Date for the entry
      * @param contentHashCode URL content Hash code, or null
      * @param filename        Local filename
      * @throws URISyntaxException if {@code url } is not valid

@@ -78,8 +78,8 @@ public class DBFFileWriter extends DBFWriter implements Closeable
     /**
      * Add a record.
      *
-     * @param values
-     * @throws DBFException
+     * @param values Record to add
+     * @throws DBFException if any
      */
     @Override
     public void addRecord( final Object[] values ) throws DBFException

@@ -5,18 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-/**
- * NEEDDOC
- *
- */
 public class ArrayReadAccessFile implements ArrayReadAccess
 {
     protected final RandomAccessFile raf;
 
-    /**
-     * NEEDDOC
-     * @param raf
-     */
     protected ArrayReadAccessFile(
         final RandomAccessFile raf
         )

@@ -11,7 +11,7 @@ public final class DefaultArrayReadWriteAccess implements ArrayReadWriteAccess
 
     /**
      * NEEDDOC
-     * @param buffer
+     * @param buffer NEEDDOC
      */
     public DefaultArrayReadWriteAccess(final byte[] buffer)
     {

@@ -218,7 +218,6 @@ public class DBFField
     /**
      * Sets the name of the field.
      * @param name Name of the field as String.
-     * @return
      * @return this element for initialization chaining
      * */
     public DBFField setName( final String name )

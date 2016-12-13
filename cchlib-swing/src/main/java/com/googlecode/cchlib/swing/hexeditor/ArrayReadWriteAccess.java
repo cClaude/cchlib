@@ -8,8 +8,8 @@ public interface ArrayReadWriteAccess extends ArrayReadAccess
 {
     /**
      * NEEDDOC
-     * @param index
-     * @param b
+     * @param index Index of the byte
+     * @param b Byte to set
      */
     void setByte(int index, byte b);
 }
