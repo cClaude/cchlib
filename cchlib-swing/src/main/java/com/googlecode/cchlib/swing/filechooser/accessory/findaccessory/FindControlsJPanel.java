@@ -3,7 +3,6 @@ package com.googlecode.cchlib.swing.filechooser.accessory.findaccessory;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -29,30 +28,35 @@ class FindControlsJPanel extends JPanel
      * search progress.
      */
     FindControlsJPanel(
-            FindAccessoryImpl findAccessoryImpl, ActionContener actionContener,
-            FindAction find,
-            FindAction stop,
-            boolean recurse
-            )
+        final FindAccessoryImpl findAccessoryImpl,
+        final ActionContener    actionContener,
+        final FindAction        find,
+        final FindAction        stop,
+        final boolean           recurse
+        )
     {
-        super();
         this.findAccessoryImpl = findAccessoryImpl;
+
         setLayout(new BorderLayout());
 
-        JToolBar tools = new JToolBar();
+        final JToolBar tools = new JToolBar();
         tools.setFloatable(false);
-        tools.add(this.findAccessoryImpl.actionStart = new FindAction(actionContener, FindAccessoryImpl.ACTION_START,null));
-        tools.add(this.findAccessoryImpl.actionStop = new FindAction(actionContener, FindAccessoryImpl.ACTION_STOP,null));
+
+        this.findAccessoryImpl.actionStart = new FindAction( actionContener, FindAccessoryImpl.ACTION_START, null );
+        this.findAccessoryImpl.actionStop  = new FindAction( actionContener, FindAccessoryImpl.ACTION_STOP , null );
+
+        tools.add( this.findAccessoryImpl.actionStart );
+        tools.add( this.findAccessoryImpl.actionStop  );
+
         add(tools,BorderLayout.WEST);
 
-        progress = new JLabel( StringHelper.EMPTY, SwingConstants.RIGHT );
+        this.progress = new JLabel( StringHelper.EMPTY, SwingConstants.RIGHT );
 
         // So that frequent updates will appear smooth
-        progress.setDoubleBuffered(true);
-
-        progress.setForeground(Color.black);
-        progress.setFont(new Font("Helvetica",Font.PLAIN,9));
-        add(progress,BorderLayout.EAST);
+        this.progress.setDoubleBuffered(true);
+        this.progress.setForeground(Color.black);
+        this.progress.setFont(new Font("Helvetica",Font.PLAIN,9));
+        add(this.progress,BorderLayout.EAST);
     }
 
     /**
@@ -62,11 +66,11 @@ class FindControlsJPanel extends JPanel
      * @param matches number of items found
      * @param total number of items investigated
      */
-    public void showProgress (int matches, int total)
+    public void showProgress (final int matches, final int total)
     {
-        if( progress == null ) {
+        if( this.progress == null ) {
             return;
             }
-        progress.setText(String.valueOf(matches)+'/'+String.valueOf(total));
+        this.progress.setText(String.valueOf(matches)+'/'+String.valueOf(total));
     }
 }
