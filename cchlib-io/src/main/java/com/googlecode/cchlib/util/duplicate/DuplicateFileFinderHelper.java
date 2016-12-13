@@ -4,6 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import javax.annotation.Nonnull;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
+import com.googlecode.cchlib.util.duplicate.single.DFFConfigImpl;
+import com.googlecode.cchlib.util.duplicate.single.DFFPass2Impl;
 
 /**
  * Allow to create {@link DuplicateFileFinder} objects
@@ -35,37 +37,11 @@ public final class DuplicateFileFinderHelper
                 IllegalArgumentException
     {
         final DFFConfig  dffConfig = new DFFConfigImpl( ignoreEmptyFiles, fileDigestFactory );
-        final DFFPass1   dffPass1  = new DFFPass1Impl( dffConfig );
-        final DFFPass2   dffPass2  = new DFFPass2Impl( dffConfig );
 
-        return new DefaultDuplicateFileFinder( dffConfig, dffPass1, dffPass2 );
-    }
-
-    /**
-     * Create a {@link DuplicateFileFinder}
-     *
-     * @param ignoreEmptyFiles true to ignore empty files
-     * @param fileDigestFactory a valid {@link FileDigestFactory}
-     * @param maxParallelFiles NEEDDOC
-     * @return an initialized DuplicateFileFinder
-     * @throws NoSuchAlgorithmException if algorithm on {@code fileDigestFactory}
-     *         is not valid
-     * @throws IllegalArgumentException if a parameter is not valid
-     */
-    @NeedDoc
-    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    public static DuplicateFileFinder newDuplicateFileFinderAlgo2( //
-            final boolean                       ignoreEmptyFiles, //
-            @Nonnull final FileDigestFactory    fileDigestFactory, //
-            final int                           maxParallelFiles //
-        ) throws
-            NoSuchAlgorithmException,
-            IllegalArgumentException
-    {
-        final DFFConfigWithMultiThreadSupport dffConfig = new DFFConfigWithMultiThreadSupportImpl( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
-        final DFFPass1   dffPass1  = new DFFPass1Impl( dffConfig );
-        final DFFPass2   dffPass2  = new DFFPass2WithMultiThreadSupportImpl( dffConfig );
-
-        return new DefaultDuplicateFileFinder( dffConfig, dffPass1, dffPass2 );
+        return new DefaultDuplicateFileFinder(
+                dffConfig,
+                new DFFPass1Impl( dffConfig ),
+                new DFFPass2Impl( dffConfig )
+                );
     }
 }

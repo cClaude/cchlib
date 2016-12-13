@@ -23,6 +23,7 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
  */
 public class SimpleZipTest
 {
+    // This value should be change when number of files change ;)
     private static final int  EXPECTED_FILE_COUNT     = 97;
     private static final long EXPECTED_ZIP_MIN_LENGTH = 100_000L;
 

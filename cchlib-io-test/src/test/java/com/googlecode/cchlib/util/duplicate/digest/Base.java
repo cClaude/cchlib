@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.duplicate.digest;
 
+import java.security.MessageDigest;
 import org.apache.log4j.Logger;
 
 public abstract class Base {
@@ -12,5 +13,23 @@ public abstract class Base {
     protected FileDigestListener newMyFileDigestListener()
     {
         return new MyFileDigestListener( getLogger() );
+    }
+
+
+    //Very special usage, need re-factoring to be documented
+    //not public
+    public static String computeHash(
+            final MessageDigest messageDigest,
+            final StringBuilder sb,
+            final byte[]        currentBuffer
+            )
+    {
+        messageDigest.reset();
+        messageDigest.update( currentBuffer );
+        final byte[] digest = messageDigest.digest();
+
+        sb.setLength( 0 );
+        FileDigestHelper.computeDigestKeyString( sb, digest );
+        return sb.toString();
     }
 }

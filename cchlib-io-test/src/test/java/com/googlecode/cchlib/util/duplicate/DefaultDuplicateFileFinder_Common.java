@@ -13,8 +13,8 @@ import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.InitialStatus;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder.Status;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
-public abstract class DefaultDuplicateFileFinder_Common extends Base {
-
+public abstract class DefaultDuplicateFileFinder_Common extends Base
+{
     protected abstract DuplicateFileFinder newDuplicateFileFinder( //
             final boolean           ignoreEmptyFiles, //
             final FileDigestFactory fileDigestFactory //
@@ -89,7 +89,7 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
         final File file2 = IOTestHelper.createPNGTempFile( "dup-file2" );
         final File file3 = IOTestHelper.createZipTempFile( "notduplicate" );
 
-        final DuplicateFileFinderEventListener eventListener = new LoggerEventListener();
+        final DuplicateFileFinderEventListener eventListener = newLoggerEventListener();
         dff.addEventListener( eventListener  );
 
         dff.addFile( file1 );
@@ -213,13 +213,16 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base {
     @Test
     public void testCompareTwoDuplicate_xx() throws NoSuchAlgorithmException, IOException
     {
-        final DuplicateFileFinder dff = newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory());
+        final DuplicateFileFinder dff = newDuplicateFileFinder(
+                DO_NOT_IGNORE_EMPTY_FILE,
+                getFileDigestFactory()
+                );
 
         final File file1 = IOTestHelper.createPNGTempFile( "dup-file1" );
         final File file2 = IOTestHelper.createPNGTempFile( "dup-file2" );
         final File file3 = IOTestHelper.createPNGTempFile( "dup-file3-removed" );
 
-        final DuplicateFileFinderEventListener eventListener = new LoggerEventListener();
+        final DuplicateFileFinderEventListener eventListener = newLoggerEventListener();
         dff.addEventListener( eventListener  );
 
         dff.addFile( file1 );

@@ -28,7 +28,15 @@ public class DefaultDuplicateFileFinderAlgo2_moreTest extends DefaultDuplicateFi
 
     private DuplicateFileFinder newDuplicateFileFinder() throws NoSuchAlgorithmException
     {
-        return DuplicateFileFinderHelper.newDuplicateFileFinderAlgo2( DO_NOT_IGNORE_EMPTY_FILE, getFileDigestFactory(), MAX_PARALLEL_FILES );
+        return DuplicateFileFinderHelper.newDuplicateFileFinder(
+                DO_NOT_IGNORE_EMPTY_FILE,
+                getFileDigestFactory()
+                );
+//        return DuplicateFileFinderHelper.newDuplicateFileFinderAlgo2(
+//                DO_NOT_IGNORE_EMPTY_FILE,
+//                getFileDigestFactory(),
+//                MAX_PARALLEL_FILES
+//                );
     }
 
     @Test
@@ -63,8 +71,8 @@ public class DefaultDuplicateFileFinderAlgo2_moreTest extends DefaultDuplicateFi
 
         final Map<String, Set<File>> files = dff.getFiles();
 
-        // 2 different files
-        assertThat( files.size() ).isEqualTo( 2 );
+        // 2 different type of files
+        assertThat( files ).hasSize( 2 );
 
         final Iterator<Entry<String, Set<File>>> iterator = files.entrySet().iterator();
 

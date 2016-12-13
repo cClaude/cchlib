@@ -306,6 +306,7 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
     private void prepareScan(
         final FileDigestFactory fileDigestFactory,
+        @SuppressWarnings("squid:S1172") // Need to be implemented
         final int               maxParallelFiles,
         final boolean           ignoreEmptyFiles
         ) throws NoSuchAlgorithmException
@@ -314,7 +315,8 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
         super.prepareScan();
 
-        this.dff = DuplicateFileFinderHelper.newDuplicateFileFinderAlgo2( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
+        //this.dff = DuplicateFileFinderHelper.newDuplicateFileFinderAlgo2( ignoreEmptyFiles, fileDigestFactory, maxParallelFiles );
+        this.dff = DuplicateFileFinderHelper.newDuplicateFileFinder( ignoreEmptyFiles, fileDigestFactory );
 
         updateDisplayThread();
     }

@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.util.duplicate;
+package com.googlecode.cchlib.util.duplicate.single;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +8,10 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.util.CancelRequestException;
 import com.googlecode.cchlib.util.HashMapSet;
+import com.googlecode.cchlib.util.duplicate.AbstractDFFPass2WithFileDigestListener;
+import com.googlecode.cchlib.util.duplicate.DFFConfig;
+import com.googlecode.cchlib.util.duplicate.DFFPass2;
+import com.googlecode.cchlib.util.duplicate.DuplicateHelpers;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
 
 /**
@@ -74,14 +78,6 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
 
             // if hashString is null, then file is lock or user has cancel task
             if( hashString != null ) {
-//                Set<File> setForThisHash = mapSetForThisLength.get( hashString );
-//
-//                if( setForThisHash == null ) {
-//                    setForThisHash = new HashSet<>();
-//                    mapSetForThisLength.put( hashString, setForThisHash );
-//                }
-//
-//                setForThisHash.add( file );
                 mapSetForThisLength.add( hashString, file );
             }
 

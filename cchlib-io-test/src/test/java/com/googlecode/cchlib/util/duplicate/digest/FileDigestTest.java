@@ -11,10 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.googlecode.cchlib.io.IOTestHelper;
 import com.googlecode.cchlib.io.IOHelper;
+import com.googlecode.cchlib.io.IOTestHelper;
 import com.googlecode.cchlib.util.CancelRequestException;
-import com.googlecode.cchlib.util.duplicate.DFFPass2WithMultiThreadSupportImpl;
 import com.googlecode.cchlib.util.duplicate.XMessageDigestFileTest;
 
 /**
@@ -137,7 +136,7 @@ public class FileDigestTest extends Base {
 
             assertThat( currentBuffer ).isEqualTo( bytesPNG );
 
-            final String hash = DFFPass2WithMultiThreadSupportImpl.computeHash( messageDigest, sb, currentBuffer );
+            final String hash = computeHash( messageDigest, sb, currentBuffer );
             LOGGER.info( "File:" + filePNG + " subHash " + hash );
 
             assertThat( hash ).isEqualTo( IOTestHelper.MD5_FOR_PNG_FILE );
@@ -165,7 +164,7 @@ public class FileDigestTest extends Base {
         while( instance.hasNext() ) {
             final byte[] currentBuffer = instance.computeNext(true);
 
-            final String hash = DFFPass2WithMultiThreadSupportImpl.computeHash( messageDigest, sb, currentBuffer );
+            final String hash = computeHash( messageDigest, sb, currentBuffer );
             LOGGER.info( "File:" + filePNG + " subHash " + hash + " buffer.len = " + currentBuffer.length );
             hashs.add( hash );
         }

@@ -53,12 +53,8 @@ public class DefaultDuplicateFileFinder implements DuplicateFileFinder {
         final DFFPass2  dffPass2 //
         )
     {
-        this.state = State.PASS1;
-
-        this.dffConfig = dffConfig;
-
-        //this.pass1Delegator = new DFFPass1Impl( this.dffConfig );
-        //this.pass2Delegator = new DFFPass2Impl( this.dffConfig );
+        this.state          = State.PASS1;
+        this.dffConfig      = dffConfig;
         this.pass1Delegator = dffPass1;
         this.pass2Delegator = dffPass2;
     }

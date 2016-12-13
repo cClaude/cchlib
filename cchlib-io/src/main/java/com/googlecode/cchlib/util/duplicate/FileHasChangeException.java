@@ -7,7 +7,8 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
 /**
  * @since 4.2
  */
-class FileHasChangeException extends IOException {
+public class FileHasChangeException extends IOException
+{
     private static final long serialVersionUID = 1L;
 
     protected FileHasChangeException( final String message )

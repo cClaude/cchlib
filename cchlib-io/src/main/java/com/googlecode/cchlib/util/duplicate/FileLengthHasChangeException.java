@@ -6,7 +6,8 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
 /**
  * @since 4.2
  */
-class FileLengthHasChangeException extends FileHasChangeException {
+public class FileLengthHasChangeException extends FileHasChangeException
+{
 
     private static final long serialVersionUID = 1L;
     private final long expectedLength;

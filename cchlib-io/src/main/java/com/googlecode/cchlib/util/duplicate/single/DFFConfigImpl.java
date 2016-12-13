@@ -1,16 +1,17 @@
-package com.googlecode.cchlib.util.duplicate;
+package com.googlecode.cchlib.util.duplicate.single;
 
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import javax.annotation.Nonnull;
 import com.googlecode.cchlib.util.HashMapSet;
+import com.googlecode.cchlib.util.duplicate.DFFConfig;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigest;
 import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
 
 /**
  * @since 4.2
  */
-class DFFConfigImpl implements DFFConfig
+public class DFFConfigImpl implements DFFConfig
 {
     /** Use by PASS1 */
     private final boolean ignoreEmptyFiles;
