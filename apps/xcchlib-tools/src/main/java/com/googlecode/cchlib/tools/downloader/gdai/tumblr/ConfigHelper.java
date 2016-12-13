@@ -3,6 +3,7 @@ package com.googlecode.cchlib.tools.downloader.gdai.tumblr;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.json.JSONHelper;
 import com.googlecode.cchlib.json.JSONHelperException;
@@ -27,7 +28,7 @@ public class ConfigHelper
         final File configFile = getConfigFile();
 
         try {
-            JSONHelper.save( configFile, config, JSONHelper.PRETTY_PRINT );
+            JSONHelper.save( configFile, config, JSONHelper.PRETTY_PRINT, Include.NON_NULL );
         }
         catch( final JSONHelperException e ) {
             throw new ConfigIOException( configFile.toString(), e );
