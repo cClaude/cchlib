@@ -10,7 +10,6 @@ import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
 /**
  *
- *
  */
 public final class DialogHelper
 {
@@ -65,21 +64,26 @@ public final class DialogHelper
                 buttons
                 );
     }
+
     /**
      * Open a message exception dialog, and wait for user input
      *
-     * @param parentWindow  the Window from which the dialog is displayed
-     *                      or null if this dialog has no owner.
-     * @param title         the title of the Dialog.
-     * @param exception     the exception to display stack trace
-     * @param buttonsText   String by references of buttons text.
+     * @param parentWindow
+     *            the Window from which the dialog is displayed or null
+     *            if this dialog has no owner.
+     * @param title
+     *            the title of the Dialog.
+     * @param exception
+     *            the exception to display stack trace
+     * @param buttonsText
+     *            String by references of buttons text.
      * @return index of button select by user.
      */
     public static int showMessageExceptionDialog(
-        final Window            parentWindow,
-        final String            title,
-        final Throwable         exception,
-        final String...         buttonsText
+        final Window    parentWindow,
+        final String    title,
+        final Throwable exception,
+        final String... buttonsText
         )
     {
         final AbstractButton[] buttons = new AbstractButton[ buttonsText.length ];
@@ -88,19 +92,21 @@ public final class DialogHelper
             buttons[ i ] = new JButton( buttonsText[ i ] );
             }
 
-        return showMessageExceptionDialog(parentWindow, title, exception, buttons);
+        return showMessageExceptionDialog( parentWindow, title, exception, buttons );
     }
-
-
 
     /**
      * Open a message exception dialog, and wait for user input
      *
-     * @param parentWindow  the Window from which the dialog is displayed
-     *                      or null if this dialog has no owner.
-     * @param title         the title of the Dialog.
-     * @param exception     the exception to display stack trace
-     * @param buttons       Buttons array for user input
+     * @param parentWindow
+     *            the Window from which the dialog is displayed or null
+     *            if this dialog has no owner.
+     * @param title
+     *            the title of the Dialog.
+     * @param exception
+     *            the exception to display stack trace
+     * @param buttons
+     *            Buttons array for user input
      * @return index of button select by user.
      */
     public static int showMessageExceptionDialog(
@@ -110,20 +116,8 @@ public final class DialogHelper
         final AbstractButton[]  buttons
         )
     {
-        final StringBuilder msg = new StringBuilder();
-
-        msg.append( "<html><b>" );
-        msg.append( exception.getLocalizedMessage() );
-        msg.append( "</b><br/>\n" );
-
-        for( final String l : ExceptionHelper.getStackTraceLines( exception ) ) {
-            msg.append( "<pre>" );
-            msg.append( l );
-            msg.append( "</pre>\n" );
-            }
-        msg.append( "</html>" );
-
-        final CustomDialogWB dialog = new CustomDialogWB(
+        final String         message = createHTMLMessage( exception );
+        final CustomDialogWB dialog  = new CustomDialogWB(
                 parentWindow,
                 buttons
                 );
@@ -132,8 +126,7 @@ public final class DialogHelper
             dialog.setTitle( title );
             }
 
-        dialog.getJLabelMessage().setText( msg.toString() );
-
+        dialog.setMessage( message );
         dialog.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
         dialog.setModal( true );
         dialog.setVisible( true );
@@ -141,10 +134,29 @@ public final class DialogHelper
         return dialog.getSelectedButtonIndex();
     }
 
+    private static String createHTMLMessage( final Throwable exception )
+    {
+        final StringBuilder msg = new StringBuilder();
+
+        msg.append( "<html><b>" );
+        msg.append( exception.getLocalizedMessage() );
+        msg.append( "</b><br/>\n" );
+
+        for( final String line : ExceptionHelper.getStackTraceLines( exception ) ) {
+            msg.append( "<pre>" );
+            msg.append( line );
+            msg.append( "</pre>\n" );
+            }
+
+        msg.append( "</html>" );
+
+        return msg.toString();
+    }
+
     private static JButton buildJButtonIconOrText(
-            final String    iconResourceName,
-            final String    textIfError
-            )
+        final String iconResourceName,
+        final String textIfError
+        )
     {
         final JButton button = new JButton();
 
@@ -154,18 +166,20 @@ public final class DialogHelper
     }
 
     private static void setAbstractButtonIconOrText(
-            final AbstractButton    button,
-            final String            iconResourceName,
-            final String            textIfError
-            )
+        final AbstractButton button,
+        final String         iconResourceName,
+        final String         textIfError
+        )
     {
         try {
             button.setIcon(
                 ResourcesLoader.getImageIcon( iconResourceName )
                 );
             }
-        catch( final ResourcesLoaderException e ) { // $codepro.audit.disable logExceptions
+        catch( final ResourcesLoaderException cause ) {
             button.setText( textIfError );
+
+            SafeSwingUtilities.printStackTrace( cause );
             }
     }
 }
