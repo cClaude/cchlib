@@ -40,10 +40,14 @@ public class GoogleContacts
     }
 
     /**
+     * @param reader
+     *            {@link Reader} within a google contact stream
      * @return a {@link List} of {@link GoogleContact} from a {@link Reader}
      *
-     * @throws IOException if an error occur when reading data
-     * @throws GoogleContacAnalyserException if an error occur when analyze data
+     * @throws IOException
+     *             if an error occur when reading data
+     * @throws GoogleContacAnalyserException
+     *             if an error occur when analyze data
      */
     @SuppressWarnings({"squid:S1160"})
     public static List<GoogleContact> createGoogleContacts(
@@ -88,11 +92,15 @@ public class GoogleContacts
         }
 
     /**
-     * @return a {@link List} of {@link GoogleContact} from a {@link InputStream}, assume
-     * stream was encoding using UTF-16
+     * @param inStream
+     *            {@link InputStream} within a google contact stream
+     * @return a {@link List} of {@link GoogleContact} from a {@link InputStream},
+     *          assume stream was encoding using UTF-16
      *
-     * @throws IOException if an error occur when reading data
-     * @throws GoogleContacAnalyserException if an error occur when analyze data
+     * @throws IOException
+     *             if an error occur when reading data
+     * @throws GoogleContacAnalyserException
+     *             if an error occur when analyze data
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static List<GoogleContact> createGoogleContacts(
@@ -113,11 +121,15 @@ public class GoogleContacts
     }
 
     /**
-     * @return a {@link List} of {@link GoogleContact} from a {@link File}, assume
-     * file was encoding using UTF-16
+     * @param file
+     *            {@link File} within a google contact stream
+     * @return a {@link List} of {@link GoogleContact} from a {@link File},
+     *          assume file was encoding using UTF-16
      *
-     * @throws IOException if an error occur when reading data
-     * @throws GoogleContacAnalyserException if an error occur when analyze data
+     * @throws IOException
+     *             if an error occur when reading data
+     * @throws GoogleContacAnalyserException
+     *             if an error occur when analyze data
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static List<GoogleContact> createGoogleContacts( @Nonnull final File file )
@@ -132,8 +144,9 @@ public class GoogleContacts
      * Convert multiple values use in google contact, into single values. Order in this
      * list could be important for some entries.
      *
-     * @param rawValue cell content use by google
-     * @return an unmodifiable {@link List} of {@link String}, return an empty list if rawValue is null
+     * @param rawValue Cell content use by google
+     * @return an unmodifiable {@link List} of {@link String}, return an empty list
+     *          if rawValue is null
      */
     public static List<String> toValues( @Nullable final String rawValue )
     {
@@ -216,6 +229,10 @@ public class GoogleContacts
 
     /**
      * @deprecated no replacement use java 8
+     *
+     * @param contacts Deprecated
+     * @param filter Deprecated
+     * @return Deprecated
      */
     @Deprecated
     public static Iterable<GoogleContact> all(
