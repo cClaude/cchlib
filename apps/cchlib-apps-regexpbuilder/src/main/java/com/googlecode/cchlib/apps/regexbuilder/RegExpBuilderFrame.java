@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.regexbuilder;
 
 import java.awt.AWTEvent;
@@ -22,15 +21,13 @@ import javax.swing.event.HyperlinkListener;
 import com.googlecode.cchlib.awt.DesktopHelper;
 import com.googlecode.cchlib.awt.PlatformDesktopNotSupportedException;
 
-/**
- *
- *
- */
-public class RegExpBuilderFrame // NOSONAR
+//NOT public
+class RegExpBuilderFrame
     extends JFrame
         implements HyperlinkListener
 {
     private static final long serialVersionUID = 1L;
+
     private XRegExpBuilderPanel panel;
 
     /**
