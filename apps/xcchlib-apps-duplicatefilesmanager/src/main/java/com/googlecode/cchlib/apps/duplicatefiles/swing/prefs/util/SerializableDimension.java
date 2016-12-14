@@ -26,7 +26,7 @@ public class SerializableDimension implements Serializable
     /**
      * Create {@link SerializableDimension} from a string
      *
-     * @param strValues Values a has a String : <code>"width,height"</code>
+     * @param strValues Values a has a String : {@code "width,height"}
      * @throws NumberFormatException if the string does not contain a parsable sequence of integers.
      */
     public SerializableDimension( final String strValues )

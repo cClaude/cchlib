@@ -21,7 +21,7 @@ public class FilterTask
     private final CLIParameters cli;
 
     /**
-     * Create a {@link FilterTask} based on <code>cli</code>
+     * Create a {@link FilterTask} based on {@code cli}
      *
      * @param cli Parameters from CLI
      * @throws CLIParametersException if any

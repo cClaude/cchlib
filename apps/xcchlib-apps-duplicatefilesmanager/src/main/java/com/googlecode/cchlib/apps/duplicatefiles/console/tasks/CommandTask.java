@@ -22,7 +22,7 @@ public interface CommandTask<R>
             CLIParametersException;
 
     /**
-     * Store <code>listResult</code> to JSON file
+     * Store {@code listResult} to JSON file
      *
      * @param listResult Result to store
      * @throws CLIParametersException if any

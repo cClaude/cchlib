@@ -37,7 +37,7 @@ public final class PreferencesControlerFactory
     }
 
     /**
-     * Create a {@link PreferencesControler} based on <code>preferencesFile</code>
+     * Create a {@link PreferencesControler} based on {@code preferencesFile}
      * when option {@link DuplicateFilesApp.PREFERENCE_FILE} is set.
      * Use default configuration file otherwise.
      *

@@ -22,7 +22,7 @@ class HashFile implements Serializable
     /**
      * Default constructor
      *
-     * @param hash Hash string for <code>file</code>
+     * @param hash Hash string for {@code file}
      * @param file Related file
      */
     public HashFile( final String hash, final File file )

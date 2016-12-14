@@ -25,7 +25,7 @@ public final class DividersLocation implements Serializable
     /**
      * Create {@link DividersLocation} from a string
      *
-     * @param strValues Values a has a String : <code>"mainDividerLocation,rightDividerLocation"</code>
+     * @param strValues Values a has a String : {@code "mainDividerLocation,rightDividerLocation"}
      * @throws NumberFormatException if the string does not contain a parsable sequence of integers.
      */
     public DividersLocation( final String strValues )

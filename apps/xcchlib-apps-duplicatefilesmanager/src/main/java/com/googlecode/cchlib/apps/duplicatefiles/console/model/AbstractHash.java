@@ -22,7 +22,7 @@ abstract class AbstractHash<T extends Comparable<T>> implements Serializable
     }
 
     /**
-     * Create a new object with a <code>hash<code> and an empty set
+     * Create a new object with a {@code hash} and an empty set
      *
      * @param hash Hash for this entry
      * @param length Length for this hash

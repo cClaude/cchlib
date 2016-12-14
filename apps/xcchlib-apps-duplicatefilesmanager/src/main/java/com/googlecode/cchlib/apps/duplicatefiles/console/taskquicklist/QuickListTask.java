@@ -28,7 +28,7 @@ class QuickListTask
     private final boolean                 isCanonicalPath;
 
     /**
-     * Create a {@link FilterTask} based on <code>cli</code>
+     * Create a {@link FilterTask} based on {@code cli}
      *
      * @param cli Parameters from CLI
      * @throws CLIParametersException if any

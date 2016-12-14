@@ -27,9 +27,9 @@ public class DualIcon implements Icon, SwingConstants
     //private int  iconIconGap;
 
     /**
-     * Creates a <CODE>DualIcon</CODE> with the specified icons, the default
-     * horizontal and vertical positioning and default gap. <CODE>icon2</CODE>
-     * is positioned to the right of <CODE>icon1</CODE> with a 4 pixel gap, and
+     * Creates a {@code DualIcon} with the specified icons, the default
+     * horizontal and vertical positioning and default gap. {@code icon2}
+     * is positioned to the right of {@code icon1} with a 4 pixel gap, and
      * the vertical centers of the icons are aligned.
      *
      * @param icon1
@@ -43,7 +43,7 @@ public class DualIcon implements Icon, SwingConstants
     }
 
     /**
-     * Creates a <CODE>DualIcon</CODE> with the specified icons, the specified
+     * Creates a {@code DualIcon} with the specified icons, the specified
      * horizontal and vertical positioning and the specified gap.
      *
      * @param icon1
@@ -70,7 +70,7 @@ public class DualIcon implements Icon, SwingConstants
      * @param iconIconGap
      *            the gap between the icons in pizels, ignored if the
      *            horizontalPosition and verticalPosition are both
-     *            <CODE>SwingConstants.CENTER</CODE>.
+     *            {@code SwingConstants.CENTER}.
      */
     public DualIcon(
         final Icon icon1,
@@ -92,46 +92,46 @@ public class DualIcon implements Icon, SwingConstants
         //this.iconIconGap = iconIconGap;
 
         if( horizontalPosition == CENTER ) {
-            width = Math.max( icon1.getIconWidth(), icon2.getIconWidth() );
+            this.width = Math.max( icon1.getIconWidth(), icon2.getIconWidth() );
         } else {
-            width = icon1.getIconWidth() + iconIconGap + icon2.getIconWidth();
+            this.width = icon1.getIconWidth() + iconIconGap + icon2.getIconWidth();
         }
 
         if( (verticalPosition == CENTER) || (horizontalPosition != CENTER) ) {
-            height = Math.max( icon1.getIconHeight(), icon2.getIconHeight() );
+            this.height = Math.max( icon1.getIconHeight(), icon2.getIconHeight() );
         } else {
-            height = icon1.getIconHeight() + iconIconGap
+            this.height = icon1.getIconHeight() + iconIconGap
                     + icon2.getIconHeight();
         }
 
         switch( horizontalPosition ) {
             case LEFT:
-                icon1HOffset = 0;
-                icon2HOffset = icon1.getIconWidth() + iconIconGap;
+                this.icon1HOffset = 0;
+                this.icon2HOffset = icon1.getIconWidth() + iconIconGap;
                 break;
             case CENTER:
-                icon1HOffset = (width - icon1.getIconWidth()) / 2;
-                icon2HOffset = (width - icon2.getIconWidth()) / 2;
+                this.icon1HOffset = (this.width - icon1.getIconWidth()) / 2;
+                this.icon2HOffset = (this.width - icon2.getIconWidth()) / 2;
                 break;
             case RIGHT:
-                icon1HOffset = icon2.getIconWidth() + iconIconGap;
-                icon2HOffset = 0;
+                this.icon1HOffset = icon2.getIconWidth() + iconIconGap;
+                this.icon2HOffset = 0;
                 break;
         }
 
         if( verticalPosition == CENTER ) {
-            icon1VOffset = (height - icon1.getIconHeight()) / 2;
-            icon2VOffset = (height - icon2.getIconHeight()) / 2;
+            this.icon1VOffset = (this.height - icon1.getIconHeight()) / 2;
+            this.icon2VOffset = (this.height - icon2.getIconHeight()) / 2;
         } else {
             if( horizontalPosition == CENTER ) {
-                icon1VOffset = (verticalPosition == TOP) ? 0 : icon2
+                this.icon1VOffset = (verticalPosition == TOP) ? 0 : icon2
                         .getIconHeight() + iconIconGap;
-                icon2VOffset = (verticalPosition == TOP) ? icon1.getIconHeight()
+                this.icon2VOffset = (verticalPosition == TOP) ? icon1.getIconHeight()
                         + iconIconGap : 0;
             } else {
-                icon1VOffset = (verticalPosition == TOP) ? 0 : height
+                this.icon1VOffset = (verticalPosition == TOP) ? 0 : this.height
                         - icon1.getIconHeight();
-                icon2VOffset = (verticalPosition == TOP) ? 0 : height
+                this.icon2VOffset = (verticalPosition == TOP) ? 0 : this.height
                         - icon2.getIconHeight();
             }
         }
@@ -155,31 +155,31 @@ public class DualIcon implements Icon, SwingConstants
     @Override
     public void paintIcon( final Component c, final Graphics g, final int x, final int y )
     {
-        icon1.paintIcon( c, g, x + icon1HOffset, y + icon1VOffset );
-        icon2.paintIcon( c, g, x + icon2HOffset, y + icon2VOffset );
+        this.icon1.paintIcon( c, g, x + this.icon1HOffset, y + this.icon1VOffset );
+        this.icon2.paintIcon( c, g, x + this.icon2HOffset, y + this.icon2VOffset );
     }
 
     /**
-     * Gets the width of the bounding rectangle of this <CODE>DualIcon</CODE>.
+     * Gets the width of the bounding rectangle of this {@code DualIcon}.
      *
      * @return the width in pixels
      */
     @Override
     public int getIconWidth()
     {
-        return width;
+        return this.width;
     }
 
     /**
      * Gets the height of the the bounding rectangle of this
-     * <CODE>DualIcon</CODE>.
+     * {@code DualIcon}.
      *
      * @return the height in pixels
      */
     @Override
     public int getIconHeight()
     {
-        return height;
+        return this.height;
     }
 
     private int checkHorizontalKey( final int key, final String exception )

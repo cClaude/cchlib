@@ -14,7 +14,7 @@ public class CLIHelper
     }
 
     /**
-     * Print <code>message</code> to stdout
+     * Print {@code message} to stdout
      *
      * @param message Message to print
      */
@@ -25,7 +25,7 @@ public class CLIHelper
     }
 
     /**
-     * Print <code>message</code> to stderr
+     * Print {@code message} to stderr
      *
      * @param message Message to print
      */
@@ -36,7 +36,7 @@ public class CLIHelper
     }
 
     /**
-     * Print <code>message</code> and <code>cause</code> related to a file to stderr
+     * Print {@code message} and {@code cause} related to a file to stderr
      *
      * @param message Message to print
      * @param file    Related file
@@ -52,7 +52,7 @@ public class CLIHelper
     }
 
     /**
-     * Print <code>message</code> and <code>cause</code> to stderr
+     * Print {@code message} and {@code cause} to stderr
      *
      * @param message Message to print
      * @param cause   Related cause
@@ -63,7 +63,7 @@ public class CLIHelper
     }
 
     /**
-     * Print a <code>description</code> and <code>object</code> to stderr
+     * Print a {@code description} and {@code object} to stderr
      *
      * @param description Message to print
      * @param object      Related object

@@ -28,7 +28,7 @@ public class HashComputeTask
     private final FileComputeTaskListener listener;
 
     /**
-     * Create {@link HashComputeTask} based on <code>cli</code>
+     * Create {@link HashComputeTask} based on {@code cli}
      *
      * @param cliHelper Helper for CLI parameters
      * @throws CLIParametersException

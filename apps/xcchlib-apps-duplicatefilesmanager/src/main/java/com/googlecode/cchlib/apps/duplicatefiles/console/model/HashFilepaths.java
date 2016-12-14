@@ -20,7 +20,7 @@ public class HashFilepaths extends AbstractHash<String>
     }
 
     /**
-     * Create a new object with a <code>hash<code> and an empty set
+     * Create a new object with a {@code hash} and an empty set
      *
      * @param hash Hash for this entry
      * @param length
