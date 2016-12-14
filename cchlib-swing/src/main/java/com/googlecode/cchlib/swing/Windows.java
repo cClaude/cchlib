@@ -10,6 +10,11 @@ import java.awt.event.ComponentEvent;
  */
 public class Windows
 {
+    private Windows()
+    {
+        // All static
+    }
+
     /**
      * Handle minimum of {@link Window}
      *
@@ -26,10 +31,10 @@ public class Windows
         window.setMinimumSize( minimumDimension );
         window.addComponentListener( new ComponentAdapter() {
             @Override
-            public void componentResized( ComponentEvent e )
+            public void componentResized( final ComponentEvent e )
             {
-                Dimension d    = window.getSize();
-                Dimension minD = window.getMinimumSize();
+                final Dimension d    = window.getSize();
+                final Dimension minD = window.getMinimumSize();
 
                 if( d.width < minD.width ) {
                     d.width = minD.width;
