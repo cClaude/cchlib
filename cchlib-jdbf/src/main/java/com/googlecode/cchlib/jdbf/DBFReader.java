@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * DBFReader class can creates objects to represent DBF data.
@@ -36,6 +37,8 @@ import java.util.Map;
  */
 public class DBFReader extends DBFBase
 {
+    private static final Logger LOGGER = Logger.getLogger( DBFReader.class );
+
     private static final String SOURCE_IS_NOT_OPEN = "Source is not open";
 
     private DataInputStream dataInputStream;
@@ -106,21 +109,29 @@ public class DBFReader extends DBFBase
                 final Object o = record[ i ];
 
                 if( o instanceof String ) {
-                    final DBFField f = getField( i );
-
-                    try {
-                        f.setName( String.class.cast( o ).trim() );
-                        }
-                    catch( final IllegalArgumentException e ) {
-                        // No change for this field.
-                        }
+                    setName( getField( i ), (String)o );
                     }
                 else {
                     throw new DBFStructureException( "Field '" + i + "' is not a String : " + o );
                     }
                 }
+
             this.header.setNumberOfRecords( this.header.getNumberOfRecords() - 1 );
+
             refreshMapFieldIndex();
+            }
+    }
+
+    private void setName( final DBFField field, final String name )
+    {
+        final String nameTrim = name.trim();
+
+        try {
+            field.setName( nameTrim );
+            }
+        catch( final IllegalArgumentException e ) {
+            // No change for this field.
+            LOGGER.warn( "DBFField:" + field + " can not set name: " + nameTrim, e );
             }
     }
 
@@ -237,6 +248,7 @@ public class DBFReader extends DBFBase
      * Returns the next row in the DBF stream as a {@link DBFRecord}
      *
      * @return The next row as a {@link DBFRecord}.
+     * @throws DBFException if any
      */
     public DBFRecord nextRecord() throws DBFException
     {
