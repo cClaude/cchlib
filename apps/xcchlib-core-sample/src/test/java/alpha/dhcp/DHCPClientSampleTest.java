@@ -1,8 +1,8 @@
 package alpha.dhcp;
 
 ///**
-// * The class <code>DHCPClientSampleTest</code> contains tests for the class
-// * {@link <code>DHCPClientSample</code>}
+// * The class {@link DHCPClientSampleTest} contains tests for the class
+// * {@link DHCPClientSample}
 // */
 //public class DHCPClientSampleTest
 //{

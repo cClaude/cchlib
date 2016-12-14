@@ -38,9 +38,9 @@ import com.googlecode.cchlib.util.Walkable;
  * <pre>
  *     1
  *    /L
- *   2 -----R----> 3 --R--> 4
+ *   2 -----R----&gt; 3 --R--&gt; 4
  *   |L            |L       |L
- *   5-R->6-R->7   8-R->9   10-R->11-R->12-R->13
+ *   5-R-&gt;6-R-&gt;7   8-R-&gt;9   10-R-&gt;11-R-&gt;12-R-&gt;13
  * </pre>
  *
  * @param <T> content type
