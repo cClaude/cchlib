@@ -234,7 +234,7 @@ public class URICache implements Closeable
      *
      * @param uri
      *            {@link URI} to retrieve
-     * @return {@link URIDataCacheEntry} for giving <code>uri</code>
+     * @return {@link URIDataCacheEntry} for giving {@code uri}
      *         if in cache, null otherwise
      */
     @Nullable
