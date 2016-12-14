@@ -183,7 +183,7 @@ public final class OptionBuilderInstance
      * The next Option created will be required if {@code required}
      * is true.
      *
-     * @param newRequired if true then the Option is required
+     * @param required if true then the Option is required
      * @return the {@link OptionBuilderInstance} instance
      */
     public OptionBuilderInstance isRequired( final boolean required )
@@ -305,7 +305,7 @@ public final class OptionBuilderInstance
      * Create an {@link Option} using the current settings
      *
      * @return the {@link Option} instance
-     * @throws IllegalArgumentException if <code>longOpt</code> has not been set.
+     * @throws IllegalArgumentException if {@code longOpt} has not been set.
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public Option create() throws IllegalArgumentException
