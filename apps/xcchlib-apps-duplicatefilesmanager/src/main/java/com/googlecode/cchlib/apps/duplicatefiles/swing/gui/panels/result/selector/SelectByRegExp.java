@@ -1,4 +1,3 @@
-// $codepro.audit.disable
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.result.selector;
 
 import java.awt.Color;
@@ -21,7 +20,11 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
 
+/**
+ * Create the select by regular expression panel.
+ */
 @I18nName("JPanelResult.SelectByRegExp")
+@SuppressWarnings({"squid:MaximumInheritanceDepth"})
 public class SelectByRegExp extends SelectorPanel
 {
     private static final long serialVersionUID = 1L;
@@ -37,9 +40,7 @@ public class SelectByRegExp extends SelectorPanel
     private final AppToolKit dFToolKit;
     private final DuplicateData duplicateData;
 
-    /**
-     * Create the select by regular expression panel.
-     */
+    @SuppressWarnings({"squid:S1199","squid:S00117"})
     public SelectByRegExp( final DuplicateData duplicateData )
     {
         beSurNonFinal();
@@ -91,9 +92,9 @@ public class SelectByRegExp extends SelectorPanel
             gbc_jButtonRegExDelete.gridy = 0;
 
             this.jButtonRegExDelete = new JButton( "Delete" );
-            this.jButtonRegExDelete.addActionListener((final ActionEvent event) -> {
-                onButtonRegExDelete();
-            });
+            this.jButtonRegExDelete.addActionListener(
+                (final ActionEvent event) -> onButtonRegExDelete()
+                );
             add(this.jButtonRegExDelete, gbc_jButtonRegExDelete);
         }
         {
@@ -103,9 +104,9 @@ public class SelectByRegExp extends SelectorPanel
             gbc_jButtonRegExRestore.gridy = 0;
 
             this.jButtonRegExRestore = new JButton( "Restore" );
-            this.jButtonRegExRestore.addActionListener((final ActionEvent event) -> {
-                onButtonRegExRestore();
-            });
+            this.jButtonRegExRestore.addActionListener(
+                (final ActionEvent event) -> onButtonRegExRestore()
+                );
             add( this.jButtonRegExRestore, gbc_jButtonRegExRestore );
         }
     }
@@ -119,7 +120,7 @@ public class SelectByRegExp extends SelectorPanel
     {
         try {
             return this.xComboBoxPatternRegEx.getSelectedPattern();
-            }
+        }
         catch( final java.util.regex.PatternSyntaxException e ) {
           JOptionPane.showMessageDialog(
                       this,
@@ -128,7 +129,7 @@ public class SelectByRegExp extends SelectorPanel
                       JOptionPane.ERROR_MESSAGE
                       );
           return null;
-              }
+      }
     }
 
     private void onButtonRegExDelete()
@@ -191,7 +192,7 @@ public class SelectByRegExp extends SelectorPanel
     @Override
     public void updateDisplay()
     {
-        final boolean b = !( this.dFToolKit.getPreferences().getConfigMode() == ConfigMode.BEGINNER );
+        final boolean b = this.dFToolKit.getPreferences().getConfigMode() != ConfigMode.BEGINNER;
 
         this.xComboBoxPatternRegEx.setEnabled( b );
         this.jCheckBoxKeepOne.setEnabled( b );
