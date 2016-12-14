@@ -29,7 +29,7 @@ public class CloneInputStreamThread extends Thread
      * @param exceptionHandlers NEEDDOC
      *
      * @throws IOException if an error occur while creating internal structure
-     * @throws NullPointerException if <code>is</code> is null
+     * @throws NullPointerException if {@code is} is null
      * @throws IllegalArgumentException if a parameter is not valid
      */
     public CloneInputStreamThread(
@@ -57,7 +57,7 @@ public class CloneInputStreamThread extends Thread
      * @param exceptionHandlers NEEDDOC
      *
      * @throws IOException if an error occur while creating internal structure
-     * @throws NullPointerException if <code>is</code> is null
+     * @throws NullPointerException if {@code is} is null
      * @throws IllegalArgumentException if a parameter is not valid
      */
     public CloneInputStreamThread(

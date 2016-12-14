@@ -149,7 +149,7 @@ public final class FileFilterHelper
     }
 
     /**
-     * Create {@link FileLengthFileFilter} for the giving <code>length</code>
+     * Create {@link FileLengthFileFilter} for the giving {@code length}
      *
      * @param length File length to expect
      * @return a {@link java.io.Serializable} {@link FileFilter}

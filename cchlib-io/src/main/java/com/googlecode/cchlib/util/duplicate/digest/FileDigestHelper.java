@@ -24,7 +24,7 @@ public final class FileDigestHelper {
      */
 
     /**
-     * Compute hex String value for digestKey and add value to the <code>stringBuilder</code>.
+     * Compute hex String value for digestKey and add value to the {@code stringBuilder}.
      *
      * @param stringBuilder
      *            {@link StringBuilder} within result will be appended
@@ -40,16 +40,16 @@ public final class FileDigestHelper {
     }
 
     /**
-     * Compute hex String value for digestKey and add value to the <code>stringBuilder</code>.
+     * Compute hex String value for digestKey and add value to the {@code stringBuilder}.
      *
      * @param stringBuilder
      *            {@link StringBuilder} within result will be appended
      * @param resetStringBuilder
-     *            if true <code>stringBuilder</code> will be reset before adding hex String of digestKey.
+     *            if true {@code stringBuilder} will be reset before adding hex String of digestKey.
      * @param digestKey
      *            digestKey to convert
      *
-     * @return <code>stringBuilder</code> as a String.
+     * @return {@code stringBuilder} as a String.
      */
     public static String computeDigestKeyString( final StringBuilder stringBuilder, final boolean resetStringBuilder, final byte[] digestKey )
     {
