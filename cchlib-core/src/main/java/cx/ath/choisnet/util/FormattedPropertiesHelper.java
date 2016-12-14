@@ -20,10 +20,10 @@ final class FormattedPropertiesHelper
     }
 
     /**
-     * Does not create a new {@link BufferedReader} if <code>aReader</code>
+     * Does not create a new {@link BufferedReader} if {@code aReader}
      * is already a {@link BufferedReader}
      * @param aReader {@link Reader} to convert (if needed)
-     * @return a {@link BufferedReader} based on <code>aReader</code>
+     * @return a {@link BufferedReader} based on {@code aReader}
      */
     static BufferedReader toBufferedReader( final Reader aReader )
     {
@@ -47,10 +47,10 @@ final class FormattedPropertiesHelper
     }
 
     /**
-     * Does not create a new {@link PrintWriter} if <code>out</code>
+     * Does not create a new {@link PrintWriter} if {@code out}
      * is already a {@link PrintWriter}
      * @param out {@link Writer} to convert (if needed)
-     * @return a {@link PrintWriter} based on <code>out</code>
+     * @return a {@link PrintWriter} based on {@code out}
      */
     static PrintWriter toPrintWriter( final Writer out )
     {
