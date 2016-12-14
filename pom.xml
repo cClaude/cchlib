@@ -151,7 +151,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>10.4</version>
         <configuration>
-          <failOnError>false</failOnError>
+<!--           <failOnError>false</failOnError> -->
           <charset>UTF-8</charset>
           <docencoding>UTF-8</docencoding>
           <docfilessubdirs>true</docfilessubdirs>
