@@ -44,7 +44,7 @@ public final class IOHelper
      *
      * @param inputFile     {@link File} to copy
      * @param outputFile    {@link File} to receive inputFile content.
-     * @return original <code>outputFile</code>.
+     * @return original {@code outputFile}.
      * @throws IOException if any IO occurred
      */
     public static File copy( @Nonnull final File inputFile, @Nonnull final File outputFile )
@@ -61,7 +61,7 @@ public final class IOHelper
      * @param inputFile     {@link File} to copy
      * @param outputFile    {@link File} to receive inputFile content.
      * @param buffer        Buffer to use for copy
-     * @return original <code>outputFile</code>.
+     * @return original {@code outputFile}.
      * @throws IOException if an I/O error occurs.
      */
     public static File copy(
@@ -84,7 +84,7 @@ public final class IOHelper
      * @param input         {@link InputStream} to copy (must be close)
      * @param outputFile    {@link File} to receive input content.
      * @param buffer        Buffer to use for copy
-     * @return original <code>outputFile</code>.
+     * @return original {@code outputFile}.
      * @throws IOException if an I/O error occurs.
      * @since 4.1.7
      */
@@ -107,7 +107,7 @@ public final class IOHelper
      *
      * @param input        {@link InputStream} to copy (must be close)
      * @param outputFile   {@link File} to receive InputStream content.
-     * @return original <code>outputFile</code>.
+     * @return original {@code outputFile}.
      * @throws IOException if an I/O error occurs.
      */
     public static File copy(
@@ -145,7 +145,7 @@ public final class IOHelper
      *
      * @param bytes Bytes array to store into file
      * @param file  {@link File} to create
-     * @return original <code>file</code> parameter value
+     * @return original {@code file} parameter value
      * @throws FileNotFoundException if the file exists but is a directory rather than a regular file,
      *         does not exist but cannot be created, or cannot be opened for any other reason
      * @throws IOException if an I/O error occurs.

@@ -10,7 +10,7 @@ interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD> {
 
     /**
      * Set value using a String. Best effort will be done to transform
-     * <code>strValue</code> to giving <code>type</code>
+     * {@code strValue} to giving {@code type}
      *
      * @param bean      Bean to use
      * @param strValue  Value to set

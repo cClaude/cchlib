@@ -47,7 +47,7 @@ public class MappableHelper
      *  NEEDDOC
      *
      * @param out   Output for result
-     * @param clazz Class to use to analyze <code>mappableObject</code>
+     * @param clazz Class to use to analyze {@code mappableObject}
      * @param map   Map of value
      * @throws IOException if any
      */
@@ -85,12 +85,12 @@ public class MappableHelper
     }
 
     /**
-     * Convert a <code>mappableObject</code> to an XML view
+     * Convert a {@code mappableObject} to an XML view
      *
      * @param out
      *      Output for result
      * @param clazz
-     *      Class to use to analyze <code>mappableObject</code>
+     *      Class to use to analyze {@code mappableObject}
      * @param mappableObject
      *      Object to analyze
      * @throws IOException if any
@@ -109,7 +109,7 @@ public class MappableHelper
     }
 
     /**
-     * Convert a <code>mappableObject</code> to an XML view
+     * Convert a {@code mappableObject} to an XML view
      *
      * @param out
      *      Output for result
@@ -129,7 +129,7 @@ public class MappableHelper
      * Returns {@link Mappable} object as XML
      *
      * @param clazz
-     *      Class to use to analyze <code>mappableObject</code>
+     *      Class to use to analyze {@code mappableObject}
      * @param mappableObject
      *      Object to analyze
      * @return {@link Mappable} object as XML

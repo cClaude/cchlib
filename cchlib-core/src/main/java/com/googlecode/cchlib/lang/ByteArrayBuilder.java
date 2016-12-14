@@ -459,7 +459,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
 
     /**
      * Returns internal buffer as a String by decoding
-     * the internal array of bytes using the specified <code>charset</code>.
+     * the internal array of bytes using the specified {@code charset}.
      *
      * @param charset {@link Charset} to use for encoding
      * @return a string representing the data in this sequence.
@@ -500,7 +500,7 @@ public class ByteArrayBuilder // $codepro.audit.disable largeNumberOfMethods
     }
 
     /**
-     * Copy  {@link ByteArrayBuilder} content to <code>out</code>
+     * Copy  {@link ByteArrayBuilder} content to {@code out}
      *
      * @param out A valid {@link OutputStream}
      * @throws IOException if any I/O error occurred

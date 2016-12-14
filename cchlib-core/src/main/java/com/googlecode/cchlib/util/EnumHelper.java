@@ -15,10 +15,14 @@ public final class EnumHelper
     /**
      * Build a valid {@link EnumSet} based on a {@link Collection} of {@link Enum} values.
      *
-     * @param <T> an {@link Enum}
-     * @param values a {@link Collection} of values or null (null will be handle as if collection was empty)
-     * @param valuesClass Enum class
-     * @return a none null {@link EnumSet} of <code>valuesClass</code>.
+     * @param <T>
+     *            an {@link Enum}
+     * @param values
+     *            a {@link Collection} of values or null (null will be handle as if
+     *            collection was empty)
+     * @param valuesClass
+     *            Enum class
+     * @return a none null {@link EnumSet} of {@code valuesClass}.
      */
     public static  <T extends Enum<T>> EnumSet<T> getSafeEnumSet(
         @Nullable final Collection<T> values,
@@ -42,13 +46,18 @@ public final class EnumHelper
     }
 
     /**
-     * Extract {@link Integer} value found immediately after {@link Enum} name in <code>stringValue</code>
+     * Extract {@link Integer} value found immediately after {@link Enum} name
+     * in {@code stringValue}
      *
-     * @param <T> an {@link Enum}
-     * @param enumValue     Value
-     * @param stringValue   String that should begin with the {@link Enum#name()}
+     * @param <T>
+     *            an {@link Enum}
+     * @param enumValue
+     *            Value
+     * @param stringValue
+     *            String that should begin with the {@link Enum#name()}
      * @return {@link Integer} value found immediately after {@link Enum} name or null
-     * @throws NumberFormatException if the value cannot be parsed as an integer.
+     * @throws NumberFormatException
+     *             if the value cannot be parsed as an integer.
      */
     public static <T extends Enum<T>> Integer getSuffixInteger(
         final T      enumValue,
@@ -77,5 +86,4 @@ public final class EnumHelper
             return null;
             }
     }
-
 }

@@ -6,24 +6,28 @@ import java.util.Set;
 
 /**
  * Give a view of a {@link Map} using real-time computed values
- * <p><u>Simple example:</u></p>
  * <p>
- * You have a <code>Map&lt;HashCode,String&gt;</code>
- * but you need a File instead of a String has value.<br>
- * <code>MapWrapper&lt;HashCode,String,File&gt;</code> is what you need.
- * </p>
+ * <u>Simple example:</u>
+ * <p>
+ * You have a {@code Map&lt;HashCode,String&gt;} but you need a File instead
+ * of a String has value.<br>
+ * {@code MapWrapper&lt;HashCode,String,File&gt;} is what you need.
  * <p>
  * HashCode will no create a copy of original {@link Map} but a view on it.
- * </p>
- * @param <K> Key (same for both maps)
- * @param <VS> Original (source) values type
- * @param <VR> Mapped (result) values type
+ *
+ * @param <K>
+ *            Key (same for both maps)
+ * @param <VS>
+ *            Original (source) values type
+ * @param <VR>
+ *            Mapped (result) values type
  * @since 4.1.7
  */
+@SuppressWarnings("squid:S00119")
 public class MapWrapper<K,VS,VR>
     implements Map<K,VR>
 {
-    private final Map<K,VS> map;
+    private final Map<K,VS>        map;
     private final Wrappable<VS,VR> wrapper;
     private final Wrappable<VR,VS> unwrapper;
 
@@ -48,66 +52,62 @@ public class MapWrapper<K,VS,VR>
     @Override
     public void clear()
     {
-        map.clear();
+        this.map.clear();
     }
 
     @Override
     public boolean containsKey( final Object key )
-        throws UnsupportedOperationException
     {
-        return map.containsKey( key );
+        return this.map.containsKey( key );
     }
 
     @Override
     public boolean containsValue( final Object value )
-        throws UnsupportedOperationException
     {
         @SuppressWarnings("unchecked")
         final
         VR v = (VR)value; // $codepro.audit.disable unnecessaryCast
-        return map.containsValue( unwrapper.wrap( v ) );
+        return this.map.containsValue( this.unwrapper.wrap( v ) );
     }
 
     @Override
     public Set<Map.Entry<K,VR>> entrySet()
     {
         return new SetWrapper<>(
-                map.entrySet(),
-                new EntryWrapper<>( wrapper ),
-                new EntryWrapper<>( unwrapper )
+                this.map.entrySet(),
+                new EntryWrapper<>( this.wrapper ),
+                new EntryWrapper<>( this.unwrapper )
             );
     }
 
     @Override
     public VR get( final Object key )
     {
-        return wrapper.wrap(  map.get( key ) );
+        return this.wrapper.wrap(  this.map.get( key ) );
     }
 
     @Override
     public boolean isEmpty()
     {
-        return map.isEmpty();
+        return this.map.isEmpty();
     }
 
     @Override
     public Set<K> keySet()
     {
-        return map.keySet();
+        return this.map.keySet();
     }
 
     @Override
     public VR put( final K key, final VR value )
-        throws UnsupportedOperationException
     {
-        final VS prev = map.put( key, unwrapper.wrap( value ) );
+        final VS prev = this.map.put( key, this.unwrapper.wrap( value ) );
 
-        return wrapper.wrap( prev );
+        return this.wrapper.wrap( prev );
     }
 
     @Override
     public void putAll( final Map<? extends K, ? extends VR> m )
-        throws UnsupportedOperationException
     {
         for( final Map.Entry<? extends K, ? extends VR> e : m.entrySet() ) {
             put( e.getKey(), e.getValue() );
@@ -116,21 +116,20 @@ public class MapWrapper<K,VS,VR>
 
     @Override
     public VR remove( final Object key )
-        throws UnsupportedOperationException
     {
-        return wrapper.wrap( map.remove( key ) );
+        return this.wrapper.wrap( this.map.remove( key ) );
     }
 
     @Override
     public int size()
     {
-        return map.size();
+        return this.map.size();
     }
 
     @Override
     public Collection<VR> values()
     {
-        return new CollectionWrapper<>( map.values(), wrapper, unwrapper );
+        return new CollectionWrapper<>( this.map.values(), this.wrapper, this.unwrapper );
     }
 
     public static class EntryWrapper<KEY,V0,V1>
@@ -145,7 +144,6 @@ public class MapWrapper<K,VS,VR>
 
         @Override
         public Map.Entry<KEY,V1> wrap( final Map.Entry<KEY,V0> o )
-                throws WrapperException
         {
             return new WrappedEntry( o );
         }
@@ -162,13 +160,13 @@ public class MapWrapper<K,VS,VR>
             @Override
             public KEY getKey()
             {
-                return o.getKey();
+                return this.o.getKey();
             }
 
             @Override
             public V1 getValue()
             {
-                return ewrapper.wrap( o.getValue() );
+                return EntryWrapper.this.ewrapper.wrap( this.o.getValue() );
             }
 
             @Override
@@ -180,15 +178,15 @@ public class MapWrapper<K,VS,VR>
             @Override
             public int hashCode()
             {
-                final int prime = 31; // $codepro.audit.disable
+                final int prime = 31;
                 int result = 1;
                 result = (prime * result) + getOuterType().hashCode();
-                result = (prime * result) + ((o == null) ? 0 : o.hashCode());
+                result = (prime * result) + ((this.o == null) ? 0 : this.o.hashCode());
                 return result;
             }
 
             @Override
-            public boolean equals( final Object obj ) // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals
+            public boolean equals( final Object obj )
             {
                 if( this == obj ) {
                     return true;
@@ -196,7 +194,7 @@ public class MapWrapper<K,VS,VR>
                 if( obj == null ) {
                     return false;
                     }
-                if( getClass() != obj.getClass() ) { // $codepro.audit.disable useEquals
+                if( getClass() != obj.getClass() ) {
                     return false;
                     }
                 @SuppressWarnings("unchecked")
@@ -205,12 +203,12 @@ public class MapWrapper<K,VS,VR>
                 if( !getOuterType().equals( other.getOuterType() ) ) {
                     return false;
                     }
-                if( o == null ) {
+                if( this.o == null ) {
                     if( other.o != null ) {
                         return false;
                         }
                     }
-                else if( !o.equals( other.o ) ) {
+                else if( !this.o.equals( other.o ) ) {
                     return false;
                     }
                 return true;

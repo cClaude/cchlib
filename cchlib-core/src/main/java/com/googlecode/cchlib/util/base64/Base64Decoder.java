@@ -66,7 +66,7 @@ public class Base64Decoder
      * @param str         String to decode
      * @param charsetName {@link java.nio.charset.Charset} to use to encode String
      * @return decoded String according to Charset
-     * @throws IllegalArgumentException If <code>str</code> can not be decoded, mainly according to size.
+     * @throws IllegalArgumentException If {@code str} can not be decoded, mainly according to size.
      * @throws UnsupportedEncodingException  If the named charset is not supported
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
@@ -86,7 +86,7 @@ public class Base64Decoder
      *
      * @param str String to decode
      * @return decoded String using default Charset
-     * @throws IllegalArgumentException If <code>str</code> can not be decoded, mainly according to size.
+     * @throws IllegalArgumentException If {@code str} can not be decoded, mainly according to size.
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static String decode( final String str )
@@ -102,7 +102,7 @@ public class Base64Decoder
      * @param str     String to decode
      * @param charset {@link java.nio.charset.Charset} to use to encode String
       * @return decoded String according to CharSet
-    * @throws IllegalArgumentException if <code>str</code> can not be decoded, mainly according to size.
+    * @throws IllegalArgumentException if {@code str} can not be decoded, mainly according to size.
      * @throws UnsupportedEncodingException  If the named charset is not supported
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -120,7 +120,7 @@ public class Base64Decoder
      * Efficient decode method for char arrays
      *
      * @param in Char array to decode
-     * @throws IllegalArgumentException if <code>in</code> can not be decoded, mainly according to size.
+     * @throws IllegalArgumentException if {@code in} can not be decoded, mainly according to size.
      * @return an array of bytes
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -135,7 +135,7 @@ public class Base64Decoder
      * @param in        Char array to decode
      * @param offset    Index of first char to use to decode
      * @param length    Number of char to read in array (must be divisible by 4)
-     * @throws IllegalArgumentException if <code>in</code> can not be decoded, mainly according to size.
+     * @throws IllegalArgumentException if {@code in} can not be decoded, mainly according to size.
      * @return an array of bytes
      */
     @SuppressWarnings({

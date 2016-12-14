@@ -218,7 +218,7 @@ public class Iterables
     }
 
     /**
-     * Returns the elements of <code>unfiltered</code> that satisfy a filter.
+     * Returns the elements of {@code unfiltered} that satisfy a filter.
      * The resulting iterable's iterator does not support remove().
      *
      * @param <T>

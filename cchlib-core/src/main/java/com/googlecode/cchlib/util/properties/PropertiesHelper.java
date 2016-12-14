@@ -38,7 +38,7 @@ public final class PropertiesHelper
        }
 
     /**
-    * Create a {@link Properties} from a <code>ressourceName</code>
+    * Create a {@link Properties} from a {@code ressourceName}
       *
      * @param classLoader   {@link ClassLoader} to use to find resource
      * @param resourceName  Resource name
@@ -99,7 +99,7 @@ public final class PropertiesHelper
     }
 
     /**
-     * Create a new {@link Properties} object with shadow copy of <code>propertiesMap</code>
+     * Create a new {@link Properties} object with shadow copy of {@code propertiesMap}
      *
      * @param propertiesMap Map to clone
      * @return a new {@link Properties}

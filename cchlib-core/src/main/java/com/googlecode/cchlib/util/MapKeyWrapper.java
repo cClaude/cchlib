@@ -6,19 +6,21 @@ import java.util.Set;
 
 /**
  * Give a view of a {@link Map} using real-time computed keys
- * <p><u>Simple example:</u></p>
  * <p>
- * You have a <code>Map&lt;String,HashCode&gt;</code>
- * but you need to access to map values using
- * a key build on File object.<br>
- * <code>MapKeyWrapper&lt;String,File,HashCode&gt;</code> is what you need.
- * </p>
+ * <u>Simple example:</u>
+ * <p>
+ * You have a {@code Map&lt;String,HashCode&gt;} but you need to access to map
+ * values using a key build on File object.<br>
+ * {@code MapKeyWrapper&lt;String,File,HashCode&gt;} is what you need.
  * <p>
  * MapKeyWrapper will no create a copy of original {@link Map} but a view on it.
- * </p>
- * @param <KS> Original (source) key type
- * @param <KR> Mapped (result) key type
- * @param <V> content type (same for both maps)
+ *
+ * @param <KS>
+ *            Original (source) key type
+ * @param <KR>
+ *            Mapped (result) key type
+ * @param <V>
+ *            content type (same for both maps)
  * @since 4.1.7
  */
 @SuppressWarnings("squid:S00119")
@@ -32,15 +34,18 @@ public class MapKeyWrapper<KS,KR,V>
     /**
      * Create a MapWrapper from a map
      *
-     * @param map       {@link Map} with original keys/values
-     * @param wrapper   A wrapper able to compute mapped keys from original keys
-     * @param unwrapper A wrapper able to compute original keys from mapped keys
+     * @param map
+     *            {@link Map} with original keys/values
+     * @param wrapper
+     *            A wrapper able to compute mapped keys from original keys
+     * @param unwrapper
+     *            A wrapper able to compute original keys from mapped keys
      */
     public MapKeyWrapper(
-            final Map<KS,V> map,
-            final Wrappable<KS,KR> wrapper,
-            final Wrappable<KR,KS> unwrapper
-            )
+        final Map<KS,V> map,
+        final Wrappable<KS,KR> wrapper,
+        final Wrappable<KR,KS> unwrapper
+        )
     {
         this.map = map;
         this.wrapper = wrapper;

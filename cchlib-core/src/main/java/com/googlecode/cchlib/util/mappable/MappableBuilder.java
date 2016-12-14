@@ -84,7 +84,7 @@ public class MappableBuilder
      * keys String are sorted.
      * </p>
      * @param object Object to examine.
-     * @return a Map view of the <code>object</code>
+     * @return a Map view of the {@code object}
      */
     public Map<String,String> toMap( final Object object )
     {

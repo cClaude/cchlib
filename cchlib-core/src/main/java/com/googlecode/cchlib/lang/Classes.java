@@ -16,7 +16,7 @@ public final class Classes
      *
      * @param <E> Type of the object
      * @param anObject Object to get the class
-     * @return Class of the object or null if <code>anObject</code> is null.
+     * @return Class of the object or null if {@code anObject} is null.
      */
     public static <E> Class<? extends E> getClass( @Nullable final E anObject )
     {
@@ -30,7 +30,7 @@ public final class Classes
      *
      * @param <E> Type of the object
      * @param aClass The class, could be null
-     * @return simple name of the class object or null if <code>anObject</code> is null.
+     * @return simple name of the class object or null if {@code anObject} is null.
      * @since 4.2
      */
     public static <E> String getSimpleName( @Nullable final Class<E> aClass )
@@ -43,7 +43,7 @@ public final class Classes
      *
      * @param <E> Type of the object
      * @param anObject Object to get the class
-     * @return simple name of the class object or null if <code>anObject</code> is null.
+     * @return simple name of the class object or null if {@code anObject} is null.
      * @since 4.2
      */
     public static <E> String getClassSimpleName( @Nullable final E anObject )

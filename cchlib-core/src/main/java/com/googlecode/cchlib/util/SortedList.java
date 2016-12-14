@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.TreeSet;
 import javax.annotation.Nullable;
 
 /**
  * This class is a List implementation which sorts the elements using the
  * comparator specified when constructing a new instance.
  * <br>
- * SortedList is design to be use when a List should be kept sorted.
+ * SortedList is design to be use when a List should be kept sorted, and
+ * when a {@link TreeSet} is not acceptable.
  *
  * @since 4.1.7
  */
@@ -21,7 +23,7 @@ public class SortedList<T> extends ArrayList<T>
     /**
      * Comparator used to sort the list.
      */
-    private Comparator<? super T> comparator = null;
+    private final Comparator<? super T> comparator;
 
     /**
      * Construct a new instance with the list elements sorted in their
@@ -29,7 +31,7 @@ public class SortedList<T> extends ArrayList<T>
      */
     public SortedList()
     {
-        // empty
+        this.comparator = null; // Natural order
     }
 
     /**
@@ -51,7 +53,7 @@ public class SortedList<T> extends ArrayList<T>
     @Override
     public boolean add( final T e )
     {
-        int insertionPoint = Collections.binarySearch( this, e, comparator );
+        final int insertionPoint = Collections.binarySearch( this, e, this.comparator );
 
         super.add((insertionPoint > -1) ? insertionPoint : (-insertionPoint) - 1, e );
 
@@ -69,7 +71,7 @@ public class SortedList<T> extends ArrayList<T>
     {
         boolean result = false;
 
-        for( T e : c ) {
+        for( final T e : c ) {
             result |= add( e );
             }
 
@@ -90,11 +92,11 @@ public class SortedList<T> extends ArrayList<T>
      * {@link #contains(Object)} method, since it is based on binary search.
      *
      * @param e element whose presence in this list is to be tested
-     * @return <code>true</code>, if the element is contained in this list;
-     * <code>false</code>, otherwise.
+     * @return {@code true}, if the element is contained in this list;
+     * {@code false}, otherwise.
      */
     public boolean containsElement( final T e )
     {
-        return Collections.binarySearch(this, e, comparator) > -1;
+        return Collections.binarySearch(this, e, this.comparator) > -1;
     }
 }

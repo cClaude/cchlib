@@ -26,7 +26,7 @@ public final class XIterables
      * @param <T>           the class of the elements of the expected {@link XIterable}
      * @param fromIterable  Source {@link Iterable}
      * @param function      Wrapper to use
-     * @return an {@link XIterable} that applies <code>function</code> to each element of fromIterable.
+     * @return an {@link XIterable} that applies {@code function} to each element of fromIterable.
      * @throws WrapperException if any error occurs while wrapping an element
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -37,17 +37,17 @@ public final class XIterables
     }
 
     /**
-     * Create an {@link XIterable} that applies <code>wrapper</code> to each element of <code>fromIterable</code>.
+     * Create an {@link XIterable} that applies {@code wrapper} to each element of {@code fromIterable}.
      * <p>
      * The returned iterable's iterator supports remove() if the provided iterator does.
-     * After a successful remove() call, <code>fromIterable</code> no longer contains the
+     * After a successful remove() call, {@code fromIterable} no longer contains the
      * corresponding element.
      *
      * @param <S>           the class of the elements of the source {@link Iterable}
      * @param <R>           the class of the elements of the expected {@link XIterable}
      * @param fromIterable  Iterable object to wrap
      * @param wrapper       Wrapper to use
-     * @return an {@link XIterable} that applies <code>wrapper</code> to each element of fromIterable.
+     * @return an {@link XIterable} that applies {@code wrapper} to each element of fromIterable.
      * @throws WrapperException if any error occurs while wrapping an element
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -58,12 +58,12 @@ public final class XIterables
     }
 
     /**
-     * Create an {@link XIterable} that applies <code>filter</code> to each element of <code>fromIterable</code>.
+     * Create an {@link XIterable} that applies {@code filter} to each element of {@code fromIterable}.
      *
      * @param <T>           the class of the elements of the {@link Iterable}
      * @param fromIterable  {@link Iterable} object to wrap
      * @param filter        Filter to use
-     * @return an {@link XIterable} that applies <code>filter</code> to each element of <code>fromIterable</code>.
+     * @return an {@link XIterable} that applies {@code filter} to each element of {@code fromIterable}.
      */
     public static <T> XIterable<T> filter( final Iterable<T> fromIterable, final Selectable<T> filter )
     {

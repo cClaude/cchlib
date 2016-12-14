@@ -69,7 +69,7 @@ public interface XIterable<T> extends Iterable<T>
     List<T> toList();
 
     /**
-     * Replace <code>list</code> content by element found on this iterable object.
+     * Replace {@code list} content by element found on this iterable object.
      * <p>
      * Default implementation should be
      * <pre>
@@ -78,16 +78,16 @@ public interface XIterable<T> extends Iterable<T>
      * </pre>
      *
      * @param list {@link List} where result will be copied.
-     * @return value of <code>list</code> parameter for chaining.
+     * @return value of {@code list} parameter for chaining.
      */
     List<T> setToList( List<T> list );
 
     /**
      * Add the content of the current {@link XIterable} into the
-     * giving <code>list</code>
+     * giving {@code list}
      *
      * @param list {@link List} where result will be appended.
-     * @return value of <code>list</code> parameter for chaining.
+     * @return value of {@code list} parameter for chaining.
      */
     List<T> addToList( List<T> list );
 

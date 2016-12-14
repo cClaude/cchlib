@@ -83,16 +83,16 @@ public final class WrapperHelper
     }
 
     /**
-     * Give a view of a collection of type <code>S</code> by returning
-     * a collection of type <code>S</code>.
+     * Give a view of a collection of type {@code S} by returning
+     * a collection of type {@code S}.
      *
      * @param <S> Type of the source collection
      * @param <R> Type of the result collection
      * @param collection Collection to wrap
-     * @param wrapper Method to transform object of type <code>S</code>
-     *                into type <code>R</code>
-     * @param unwrapper Reflexive method of <code>wrapper</code>
-     * @return a collection of type <code>S</code>
+     * @param wrapper Method to transform object of type {@code S}
+     *                into type {@code R}
+     * @param unwrapper Reflexive method of {@code wrapper}
+     * @return a collection of type {@code S}
      */
     public static <S,R> Collection<R> toCollection(
         final Collection<S>   collection,
