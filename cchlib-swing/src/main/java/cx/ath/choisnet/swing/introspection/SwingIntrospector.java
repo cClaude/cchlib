@@ -223,7 +223,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
                 this.itemsMap.put( beanName, rootItem );
                 }
             else {
-                LOGGER.warn( "* Igore (no $root): " + rootItem.getItemsCollection() );
+                LOGGER.warn( "* Ignore (no $root): " + rootItem.getItemsCollection() );
                 }
             }
 
