@@ -128,9 +128,9 @@ public class BRFrame extends JFrame
      * This method is design to be use with a custom layout.
      * <BR>
      * Example :
-     * <pre><code>
+     * <pre>
      *   {@link #addToContentPanel}( panel, BorderLayout.WEST );
-     * </code></pre>
+     * </pre>
      *
      * @param comp the component to be added
      * @param constraints an object expressing layout constraints for this component

@@ -7,8 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * The class <code>DefaultSBRLocaleResourcesTest</code> contains tests for the
- * class <code>{@link DefaultBRLocaleResources}</code>.
+ * The class {@link DefaultSBRLocaleResourcesTest} contains tests for the
+ * class  {@link DefaultBRLocaleResources}.
  *
  * @version $Revision: 1.0 $
  */

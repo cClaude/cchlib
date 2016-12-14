@@ -6,14 +6,13 @@ import java.lang.reflect.Field;
 import org.apache.log4j.Logger;
 
 /**
- * <p>NEEDDOC: Documentation, and some examples.</p>
- *
+ * NEEDDOC: Documentation, and some examples.
  * <p>
- * Field name must use following syntax:
- * <i>beanPrefix</i><b>_</b><i>beanName</i>[<b>$root</b>[<b>$</b>[<i>index</i>]]
- * </p>
+ * Field name must use following syntax: <i>beanPrefix</i><b>_</b><i>beanName</i>[<b>$root</b>[<b>$</b>[<i>index</i>]]
+ * <p>
  * Where:
  * <table class="TableCustomDescription">
+ * <caption>Field names to Methods conversion</caption>
  * <tr>
  * <th>field</th>
  * <th>Description</th>
@@ -24,9 +23,7 @@ import org.apache.log4j.Logger;
  * <td><i>beanPrefix</i></td>
  * <td>bean type</td>
  * <td>{@link #getBeanPrefix()}</td>
- * <td>ignored, so could be anything, just by
- * convention it's clearer to have field started by
- * it's type</td>
+ * <td>ignored, so could be anything, just by convention it's clearer to have field started by it's type</td>
  * </tr>
  * <tr>
  * <td><b>_</b></td>
@@ -41,18 +38,15 @@ import org.apache.log4j.Logger;
  * <td></td>
  * </tr>
  * <tr>
- * <td><b>$root</b></i></td>
- * <td>a tag to define main field, field where data
- * will be read (optional, but need ONE item for each beanName)</td>
+ * <td><i><b>$root</b></i></td>
+ * <td>a tag to define main field, field where data will be read (optional, but need ONE item for each beanName)</td>
  * <td>{@link #isRoot()}</td>
- * <td>if true {@link SwingIntrospector} create a
- * {@link SwingIntrospectorRootItem} otherwise it create a
+ * <td>if true {@link SwingIntrospector} create a {@link SwingIntrospectorRootItem} otherwise it create a
  * {@link SwingIntrospectorItem}</td>
  * </tr>
  * <tr>
  * <td><i>index</i></td>
- * <td>is an index if a Object bean need to be define by
- * more than frame {@link Component}.</td>
+ * <td>is an index if a Object bean need to be define by more than frame {@link Component}.</td>
  * <td>{@link #isIndexed()} {@link #getIndex()}</td>
  * <td></td>
  * </tr>
@@ -183,9 +177,6 @@ public class Bean implements Serializable
         return this.nameSuffix != null;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString()
     {

@@ -90,8 +90,9 @@ public class DefaultFrameFieldPopulator<FRAME, OBJECT>
 
     /**
      * Handle frame populate operation for String.
-     * <BR>
+     * <p>
      * <table class="TableCustomDescription">
+     * <caption>Supported types / implementation</caption>
      * <tr>
      * <th>Supported type</th>
      * <th>Handle description</th>

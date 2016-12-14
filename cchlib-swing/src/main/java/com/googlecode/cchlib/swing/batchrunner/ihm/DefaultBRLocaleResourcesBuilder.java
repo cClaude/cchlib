@@ -18,11 +18,11 @@ public class DefaultBRLocaleResourcesBuilder
 
     private static final Logger LOGGER = Logger.getLogger( DefaultBRLocaleResourcesBuilder.class );
 
-    /** {@value} */
+    /** Default class support for resources */
     public static final Class<DefaultBRLocaleResources> DEFAULT_CLASS = DefaultBRLocaleResources.class;
-    /** {@value} */
+    /** Default resource bundle : {@value} */
     public static final String RESOURCE_BUNDLE = ".ResourceBundle";
-    /** {@value} */
+    /** Default resource bundle : {@value} */
     public static final String DEFAULT_RESOURCE_BUNDLE = ".DefaultResourceBundle";
 
     private ResourceBundle rb;

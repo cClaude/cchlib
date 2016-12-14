@@ -12,24 +12,22 @@ import javax.swing.event.ListDataEvent;
 
 /**
  * e<B>X</B>tended <B>ComboBox</B> is a JComboBox with extra features...
- * </P>
- * - Unlike JComboBox, by default XComboBox is editable (could be remove using {@link #setEditable(boolean)}),
- * <BR>
- * <BR>
- * - XComboBox handle mouse wheel by default (could be disable or customize
- * using {@link XComboBoxAttribute#NO_MOUSE_WHEEL_LISTENER} and
- * {@link #handleMouseWheelMoved(MouseWheelEvent)},
- * <BR>
- * <BR>
- * - XComboBox handle insertion of <B>new</B> values by default (could be disable or customize
- * using {@link XComboBoxAttribute#NO_DEFAULT_ACTION_LISTENER} and
- * {@link #defaultActionPerformed(ActionEvent)}.
- * <BR>
- * <BR>
- * - XComboBox can control number of entries and limit
- * combo box list to a fixed number of elements {@link #setMaximumItem(int)},
- * you must consider overwrite {@link #removeOldestItems(int)}
- * to provide your own rules to delete oldest items.
+ *
+ * <ul>
+ * <li>Unlike JComboBox, by default XComboBox is editable (could be remove using
+ * {@link #setEditable(boolean)}),</li>
+ * <li>XComboBox handle mouse wheel by default (could be disable or customize using
+ * {@link XComboBoxAttribute#NO_MOUSE_WHEEL_LISTENER} and
+ * {@link #handleMouseWheelMoved(MouseWheelEvent)},</li>
+ * <li>XComboBox handle insertion of <B>new</B> values by default
+ * (could be disable or customize using
+ * {@link XComboBoxAttribute#NO_DEFAULT_ACTION_LISTENER} and
+ * {@link #defaultActionPerformed(ActionEvent)}.</li>
+ * <li>XComboBox can control number of entries and limit combo box list to a
+ * fixed number of elements {@link #setMaximumItem(int)}, you must consider
+ * overwrite {@link #removeOldestItems(int)} to provide your own rules
+ * to delete oldest items.</li>
+ * </ul>
  *
  * @since 4.1.6
  */

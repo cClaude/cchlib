@@ -6,7 +6,7 @@ import com.googlecode.cchlib.swing.batchrunner.misc.MissingResourceValueExceptio
 /**
  * Default implementation for {@link BRFrameBuilder}
  *
- * @see {@link BRFrame}
+ * @see BRFrame
  */
 public abstract class AbstractDefaultBRFrameBuilderRessourceBundle extends AbstractBRFrameBuilder
 {

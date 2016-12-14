@@ -26,15 +26,14 @@ public class EditorPaneWithPrintStream extends JEditorPane
     private AbstractAction      actionClear     = null;
 
     /**
-     *  Creates a new EditorPaneWithPrintStream. The document model is set to "text/html".
-     *  <p>
-     *  This EditorPane is readonly.
-     *  <BR>
-     *  Messages can be logged in a text file.
-     *  </p>
+     * Creates a new EditorPaneWithPrintStream. The document model is set to "text/html".
+     * <p>
+     * This EditorPane is readonly. <BR>
+     * Messages can be logged in a text file.
      *
-     *  @param logFile  this is the file into which the log is written. if <code>logFile</code> is
-     *                  <code>null</code>, there is no log file
+     * @param logFile
+     *            this is the file into which the log is written. if {@code logFile}
+     *            is {@code null}, there is no log file
      */
     public EditorPaneWithPrintStream( final File logFile )
     {
@@ -75,13 +74,14 @@ public class EditorPaneWithPrintStream extends JEditorPane
     }
 
     /**
-     *  Replaces the gadget's text.
+     * Replaces the gadget's text.
+     * <p>
+     * This is useful for clearing the gadget. This doesn't affect the
+     * {@code PrintStream} or the log file.
      *
-     *  <p>This is useful for clearing the gadget. This doesn't
-     *  affect the <code>PrintStream</code> or the log file.
-     *
-     *  @param  str        the new text to replace
-     *                     the gadgets content or <code>null</code>to clear the gadget.
+     * @param str
+     *            the new text to replace the gadgets content or {@code null}
+     *            to clear the gadget.
      */
     @Override
     public void setText( final String str )

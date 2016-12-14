@@ -12,12 +12,14 @@ import java.io.Serializable;
 public interface BRExecutionEventFactory extends Serializable
 {
     /**
-     * Create a {@link BRExecutionEvent} for <code>sourceFile</code>
-     * and for <code>destinationFile</code>.
+     * Create a {@link BRExecutionEvent} for {@code sourceFile} and for
+     * {@code destinationFile}.
      *
-     * @param sourceFile      Current source file
-     * @param destinationFile Current destination file according to
-     *                        {@link BRRunnable#buildOutputFile(File)}
+     * @param sourceFile
+     *            Current source file
+     * @param destinationFile
+     *            Current destination file according to
+     *            {@link BRRunnable#buildOutputFile(File)}
      *
      * @return a {@link BRExecutionEvent}
      * @see BRRunnable#buildOutputFile(File)

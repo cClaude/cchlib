@@ -28,17 +28,18 @@ public class TexfFieldWithPrintStream extends JTextArea
     private AbstractAction      actionClear     = null;
 
     /**
-     *  Constructs a new text area for logging messages.
-     *  <p>
-     *  The area is read only and wraps lines as they exceed the right margin.
-     *  <BR>
-     *  Messages can be logged in a text file.
+     * Constructs a new text area for logging messages.
+     * <p>
+     * The area is read only and wraps lines as they exceed the right margin. <BR>
+     * Messages can be logged in a text file.
      *
-     *
-     *  @param rows     the number of rows &gr;= 0
-     *  @param columns  the number of columns &gr;= 0
-     *  @param logFile  this is the file into which the log is written. if <code>logFile</code> is
-     *                  <code>null</code>, there is no log file
+     * @param rows
+     *            the number of rows &gt;= 0
+     * @param columns
+     *            the number of columns &gt;= 0
+     * @param logFile
+     *            this is the file into which the log is written. if {@code logFile}
+     *            is {@code null}, there is no log file
      */
     public TexfFieldWithPrintStream( final int rows, final int columns, final File logFile )
     {
@@ -60,20 +61,18 @@ public class TexfFieldWithPrintStream extends JTextArea
     }
 
     /**
-     *  Returns the stream used by this gadget to write data to.
+     * Returns the stream used by this gadget to write data to.
+     * <p>
+     * <b>warning</b><BR>
+     * Theoretically if you use this stream for {@link System#setErr(PrintStream)},
+     * you will create a recursion deadlock if an exception is thrown within the
+     * {@code write} method of the stream. This case has never been
+     * experienced however.
      *
-     *  <p>
-     *  <b>warning</b><BR>
-     *  Theoretically if you use this stream for <code>System.setErr</code>,
-     *  you will create a recursion deadlock if an exception is thrown
-     *  within the <code>write</code> method of the stream. This case
-     *  has never been experienced however.
+     * @return the {@link PrintStream}, useful for redirecting system output to.
      *
-     *  @return the <code>PrintStream</code>, useful
-     *                      for redirecting system output to.
-     *
-     *  @see System#setOut( PrintStream )
-     *  @see System#setErr( PrintStream )
+     * @see System#setOut(PrintStream )
+     * @see System#setErr(PrintStream )
      */
     public PrintStream getPrintStream()
     {
@@ -110,14 +109,11 @@ public class TexfFieldWithPrintStream extends JTextArea
     }
 
     /**
-     *  Replaces the gadget's text.
-     *  This is useful for clearing
-     *  the gadget. This doesn't
-     *  affect the <code>PrintStream</code>
-     *  or the log file.
+     * Replaces the gadget's text. This is useful for clearing the gadget.
+     * This doesn't affect the {@link PrintStream} or the log file.
      *
-     *  @param str the new text to replace or <code>null</code>
-     *        to clear the gadget.
+     * @param str
+     *            the new text to replace or {@code null} to clear the gadget.
      */
     @Override
     public void setText( final String str )

@@ -23,10 +23,10 @@ public class DefaultListCellRenderer<E> extends JLabel
 {
     private static final long serialVersionUID = 1L;
     /**
-     * An empty <code>Border</code>. This field might not be used. To change the
-     * <code>Border</code> used by this renderer override the
-     * <code>getListCellRendererComponent</code> method and set the border
-     * of the returned component directly.
+     * An empty {@link Border}. This field might not be used. To change the
+     * {@link Border} used by this renderer override the
+     * {@link  #getListCellRendererComponent(JList, Object, int, boolean, boolean)}7
+     * method and set the border of the returned component directly.
      */
     private static final Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
     private static final Border DEFAULT_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
@@ -36,8 +36,8 @@ public class DefaultListCellRenderer<E> extends JLabel
      * Constructs a default renderer object for an item
      * in a list.
      */
-    public DefaultListCellRenderer() {
-        super();
+    public DefaultListCellRenderer()
+    {
         setOpaque(true);
         setBorder(getNoFocusBorder());
         setName("List.cellRenderer");
@@ -126,14 +126,12 @@ public class DefaultListCellRenderer<E> extends JLabel
     }
 
     /**
-     * Overridden for performance reasons.
-     * See the <a href="#override">Implementation Note</a>
-     * for more information.
+     * Overridden for performance reasons. See the
+     * <a href="#override">Implementation Note</a> for more information.
      *
+     * @return {@code true} if the background is completely opaque and differs
+     *         from the JList's background; {@code false} otherwise
      * @since 1.5
-     * @return <code>true</code> if the background is completely opaque
-     *         and differs from the JList's background;
-     *         <code>false</code> otherwise
      */
     @Override
     public boolean isOpaque() {
@@ -349,18 +347,16 @@ public class DefaultListCellRenderer<E> extends JLabel
 
     /**
      * A subclass of DefaultListCellRenderer that implements UIResource.
-     * DefaultListCellRenderer doesn't implement UIResource
-     * directly so that applications can safely override the
-     * cellRenderer property with DefaultListCellRenderer subclasses.
+     * DefaultListCellRenderer doesn't implement UIResource directly so
+     * that applications can safely override the cellRenderer property with
+     * DefaultListCellRenderer subclasses.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans<sup><font size="-2">TM</font></sup>
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Warning:</strong> Serialized objects of this class will not be
+     * compatible with future Swing releases. The current serialization support
+     * is appropriate for short term storage or RMI between applications running
+     * the same version of Swing. As of 1.4, support for long term storage of
+     * all JavaBeans<sup>TM</sup> has been added to the
+     * {@code java.beans} package. Please see {@link java.beans.XMLEncoder}.
      */
     @SuppressWarnings({
         "squid:MaximumInheritanceDepth", // Swing

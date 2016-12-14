@@ -37,7 +37,7 @@ import com.googlecode.cchlib.swing.filechooser.FileSelectionMode;
  *              ...
  *          }
  *      }).addDropTargetListener();
- * </code>
+ * </pre>
  * <p>
  * You can specify the border that will appear when files are being dragged by
  * calling the constructor with a <tt>javax.swing.border.Border</tt>. Only
@@ -302,7 +302,7 @@ public class SimpleFileDrop
 
     /**
      * Create a SimpleFileDrop with a default border, add attache immediately the
-     * listener ({@link #addDropTargetListener()} to the <code>jList</code>.
+     * listener ({@link #addDropTargetListener()} to the {@code jList}.
      *
      * @param jList           {@link JList} of {@link File}
      * @param jListModel      Model of the {@code jList}

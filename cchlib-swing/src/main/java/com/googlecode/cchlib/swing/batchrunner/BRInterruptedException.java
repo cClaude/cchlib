@@ -13,22 +13,22 @@ public class BRInterruptedException extends Exception
     private Serializable customObject;
     private boolean hide;
 
-    public BRInterruptedException( Throwable cause )
+    public BRInterruptedException( final Throwable cause )
     {
         super( cause );
-        
+
         setHide( cause instanceof BRUserCancelException );
     }
 
-    public BRInterruptedException( String message )
+    public BRInterruptedException( final String message )
     {
         super( message );
     }
 
-    public BRInterruptedException( String message, Throwable cause )
+    public BRInterruptedException( final String message, final Throwable cause )
     {
         super( message, cause );
-        
+
         setHide( cause instanceof BRUserCancelException );
     }
 
@@ -57,15 +57,15 @@ public class BRInterruptedException extends Exception
      */
     public boolean isHide()
     {
-        return hide;
+        return this.hide;
     }
 
     /**
-     * Set <code>hide</code> attribute.
-     * 
-     * @param hide <code>hide</code> attribute to set.
+     * Set {@code hide} attribute.
+     *
+     * @param hide Value to set.
      */
-    public void setHide( boolean hide )
+    public void setHide( final boolean hide )
     {
         this.hide = hide;
     }

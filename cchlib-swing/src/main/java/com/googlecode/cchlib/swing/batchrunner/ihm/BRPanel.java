@@ -203,7 +203,7 @@ public class BRPanel extends JPanel
     }
 
     /**
-     * Add {@link File} to source files list if <code>file<code> is allowed according to
+     * Add {@link File} to source files list if {@code file} is allowed according to
      * {@link BRPanelConfig#getSourceFileFilter()}
      *
      * @param file File to add
@@ -319,7 +319,7 @@ public class BRPanel extends JPanel
     }
 
     /**
-     * Runs each <code>EnableListener</code>'s <code>stateChanged</code>
+     * Runs each {@code EnableListener}'s {@code stateChanged}
      * method.
      *
      * @param enable enable or disable panel's buttons

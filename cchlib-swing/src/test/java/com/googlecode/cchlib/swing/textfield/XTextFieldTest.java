@@ -7,8 +7,8 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.i18n.SwingAutoI18nCoreFactory;
 
 /**
- * The class <code>XTextFieldTest</code> contains tests for the class {@link
- * <code>XTextField</code>}
+ * The class {@link XTextFieldTest} contains tests for the class
+ * {@link XTextField}
  */
 public class XTextFieldTest
 {
@@ -30,7 +30,7 @@ public class XTextFieldTest
         final XTextField xTextField = new XTextField("test only");
 
         Locale.setDefault( Locale.ENGLISH );
-        AutoI18nCore autoI18n = SwingAutoI18nCoreFactory.getCurrentSwingAutoI18nCore();
+        final AutoI18nCore autoI18n = SwingAutoI18nCoreFactory.getCurrentSwingAutoI18nCore();
         xTextField.performeI18n( autoI18n );
 
         final String copyText = xTextField.getTextForCopy();
@@ -46,7 +46,7 @@ public class XTextFieldTest
         final XTextField xTextField = new XTextField("test only");
 
         Locale.setDefault( Locale.FRENCH );
-        AutoI18nCore autoI18n = SwingAutoI18nCoreFactory.getCurrentSwingAutoI18nCore();
+        final AutoI18nCore autoI18n = SwingAutoI18nCoreFactory.getCurrentSwingAutoI18nCore();
         xTextField.performeI18n( autoI18n );
 
         final String copyText = xTextField.getTextForCopy();

@@ -59,7 +59,7 @@ public final class OptionBuilder
 
     /**
      * The next Option created will require an argument value if
-     * <code>hasArg</code> is true.
+     * {@code hasArg} is true.
      *
      * @param hasArg if true then the Option has an argument value
      * @return the OptionBuilder instance
@@ -91,7 +91,7 @@ public final class OptionBuilder
     }
 
     /**
-     * The next Option created uses <code>sep</code> as a means to
+     * The next Option created uses {@code sep} as a means to
      * separate argument values.
      * <p>
      * <b>Example:</b>
@@ -114,7 +114,7 @@ public final class OptionBuilder
     }
 
     /**
-     * The next Option created uses '<code>=</code>' as a means to
+     * The next Option created uses '{@code =}' as a means to
      * separate argument values.
      * <p>
      * <b>Example:</b>
@@ -135,15 +135,15 @@ public final class OptionBuilder
     }
 
     /**
-     * The next Option created will be required if <code>required</code>
+     * The next Option created will be required if {@code required}
      * is true.
      *
-     * @param newRequired if true then the Option is required
+     * @param required if true then the Option is required
      * @return the OptionBuilder instance
      */
-    public static OptionBuilderInstance isRequired(final boolean newRequired)
+    public static OptionBuilderInstance isRequired( final boolean required )
     {
-        return getOptionBuilderInstance().isRequired( newRequired );
+        return getOptionBuilderInstance().isRequired( required );
     }
 
     /**
@@ -157,12 +157,12 @@ public final class OptionBuilder
     }
 
     /**
-     * The next Option created can have <code>num</code> argument values.
+     * The next Option created can have {@code num} argument values.
      *
      * @param num the number of args that the option can have
      * @return the OptionBuilder instance
      */
-    public static OptionBuilderInstance hasArgs(final int num)
+    public static OptionBuilderInstance hasArgs( final int num )
     {
         return getOptionBuilderInstance().hasArgs( num );
     }
@@ -201,7 +201,7 @@ public final class OptionBuilder
 
     /**
      * The next Option created will have a value that will be an instance
-     * of <code>type</code>.
+     * of {@code type}.
      *
      * @param newType the type of the Options argument value
      * @return the OptionBuilder instance

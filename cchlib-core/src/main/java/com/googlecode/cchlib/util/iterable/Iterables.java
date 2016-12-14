@@ -151,11 +151,12 @@ public class Iterables
     }
 
     /**
-     * Returns an {@link Iterable} that applies <code>wrapper</code> to each element of fromIterable.
+     * Returns an {@link Iterable} that applies {@code wrapper} to each element
+     * of fromIterable.
      * <p>
-     * The returned iterable's iterator supports remove() if the provided iterator does. After a successful remove()
-     * call, <code>iterable</code> no longer contains the corresponding element.
-     * </p>
+     * The returned iterable's iterator supports remove() if the provided iterator
+     * does. After a successful remove() call, {@code iterable} no longer contains
+     * the corresponding element.
      *
      * @param <S>
      *            Type of the source Iterator
@@ -165,7 +166,7 @@ public class Iterables
      *            Original {@link Iterable}
      * @param wrapper
      *            Wrapper to use
-     * @return an {@link Iterable} that applies <code>wrapper</code> to each element of fromIterable.
+     * @return an {@link Iterable} that applies {@code wrapper} to each element of fromIterable.
      * @throws WrapperException
      *             if any
      */

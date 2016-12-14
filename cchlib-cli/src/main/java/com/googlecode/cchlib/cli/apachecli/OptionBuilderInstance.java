@@ -94,7 +94,7 @@ public final class OptionBuilderInstance
 
     /**
      * The next Option created will require an argument value if
-     * <code>hasArg</code> is true.
+     * {@code hasArg} is true.
      *
      * @param hasArg if true then the Option has an argument value
      * @return the {@link OptionBuilderInstance} instance
@@ -132,7 +132,7 @@ public final class OptionBuilderInstance
     }
 
     /**
-     * The next Option created uses <code>sep</code> as a means to
+     * The next Option created uses {@code sep} as a means to
      * separate argument values.
      * <p>
      * <b>Example:</b>
@@ -157,7 +157,7 @@ public final class OptionBuilderInstance
     }
 
     /**
-     * The next Option created uses '<code>=</code>' as a means to
+     * The next Option created uses '{@code =}' as a means to
      * separate argument values.
      * <p>
      * <b>Example:</b>
@@ -180,15 +180,15 @@ public final class OptionBuilderInstance
     }
 
     /**
-     * The next Option created will be required if <code>required</code>
+     * The next Option created will be required if {@code required}
      * is true.
      *
      * @param newRequired if true then the Option is required
      * @return the {@link OptionBuilderInstance} instance
      */
-    public OptionBuilderInstance isRequired(final boolean newRequired)
+    public OptionBuilderInstance isRequired( final boolean required )
     {
-        this.required = newRequired;
+        this.required = required;
 
         return this;
     }
@@ -206,7 +206,7 @@ public final class OptionBuilderInstance
     }
 
     /**
-     * The next Option created can have <code>num</code> argument values.
+     * The next Option created can have {@code num} argument values.
      *
      * @param num the number of args that the option can have
      * @return the {@link OptionBuilderInstance} instance
@@ -261,7 +261,7 @@ public final class OptionBuilderInstance
 
     /**
      * The next Option created will have a value that will be an instance
-     * of <code>type</code>.
+     * of {@code type}.
      *
      * @param newType the type of the Options argument value
      * @return the {@link OptionBuilderInstance} instance
@@ -288,11 +288,11 @@ public final class OptionBuilderInstance
 
     /**
      * Create an {@link Option} using the current settings and with
-     * the specified Option <code>char</code>.
+     * the specified Option {@code char}.
      *
      * @param opt the character representation of the {@link Option}
      * @return the {@link Option} instance
-     * @throws IllegalArgumentException if <code>opt</code> is not
+     * @throws IllegalArgumentException if {@code opt} is not
      * a valid character.  See Option.
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -321,12 +321,12 @@ public final class OptionBuilderInstance
 
     /**
      * Create an {@link Option} using the current settings and with
-     * the specified Option <code>char</code>.
+     * the specified Option {@code char}.
      *
      * @param opt the {@link String} representation
      * of the {@link Option}
      * @return the {@link Option} instance
-     * @throws IllegalArgumentException if <code>opt</code> is not
+     * @throws IllegalArgumentException if {@code opt} is not
      * a valid character.  See Option.
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
