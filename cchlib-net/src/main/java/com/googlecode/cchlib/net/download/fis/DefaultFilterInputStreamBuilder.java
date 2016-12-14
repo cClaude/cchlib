@@ -68,19 +68,28 @@ public class DefaultFilterInputStreamBuilder<R>
     /**
      * Set filter result on {@link ContentDownloadURI}.
      *
-     * @param filter    Closed filter to use for result
-     * @param dURL      DownloadFileURL that will received result.
+     * @param filter
+     *            A {@link DefaultFilterInputStream} filter to use for result
+     * @param downloader
+     *            {@link ContentDownloadURI} that will received result.
+     * @throws IllegalArgumentException
+     *             if filter is not a {@link DefaultFilterInputStream}
      */
     @Override
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void storeFilterResult(
         final FilterInputStream     filter,
         final ContentDownloadURI<R> downloader
-        )
+        ) throws IllegalArgumentException
     {
-        final DefaultFilterInputStream f = (DefaultFilterInputStream)filter;
+        if( !( filter instanceof DefaultFilterInputStream) ) {
+            throw new IllegalArgumentException( "filter is not a DefaultFilterInputStream" );
+        }
+
+        final DefaultFilterInputStream dFilter = (DefaultFilterInputStream)filter;
 
         try {
-            final ImageIOFileData infos = f.geImageIOFileData();
+            final ImageIOFileData infos = dFilter.geImageIOFileData();
 
             downloader.setProperty( DIMENSION, infos.getDimension() );
             downloader.setProperty( FORMAT_NAME, infos.getFormatName() );
@@ -92,6 +101,6 @@ public class DefaultFilterInputStreamBuilder<R>
             LOGGER.warn( e );
             }
 
-        downloader.setProperty( HASH_CODE,  f.getHashString() );
+        downloader.setProperty( HASH_CODE,  dFilter.getHashString() );
     }
 }
