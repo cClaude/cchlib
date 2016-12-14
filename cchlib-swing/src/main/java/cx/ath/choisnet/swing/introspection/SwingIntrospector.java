@@ -69,28 +69,34 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 
             if( LOGGER.isDebugEnabled() ) {
                 LOGGER.debug( clazz.getName() + " # fields = " + fields.length );
-                }
+            }
 
-            for( final Field f : fields ) {
-                if( isSubClass( f.getType(), Component.class ) ) {
+            for( final Field field : fields ) {
+                if( isSubClass( field.getType(), Component.class ) ) {
                     try {
-                        final Bean bean = new Bean( f );
+                        final Bean bean = new Bean( field );
 
                         final List<SwingIntrospectorItem<FRAME>> list = getListForBean( map, bean );
 
                         // Add Field informations to the list
                         list.add(
-                                new SwingIntrospectorItem<FRAME>( bean, f, this.attribs )
+                                new SwingIntrospectorItem<FRAME>( bean, field, this.attribs )
                                 );
-                        }
+                    }
                     catch( final IllegalArgumentException ignoreBadFieldName ) {
                         // Ignore this field
-                        if( LOGGER.isDebugEnabled() ) {
-                            LOGGER.debug( "buildSwingIntrospectorItemMap - ignoreBadFieldName", ignoreBadFieldName );
+                        final String message = "buildSwingIntrospectorItemMap - ignoreBadFieldName \""
+                                + field.getName() + "\" for field: " + field;
+
+                        if( LOGGER.isTraceEnabled() ) {
+                            LOGGER.trace( message, ignoreBadFieldName );
                             }
+                        else {
+                            LOGGER.debug( message );
                         }
                     }
                 }
+            }
         }
 
         private Field[] getFields( final Class<?> clazz )

@@ -92,7 +92,7 @@ public class Bean implements Serializable
         final int begin = this.fieldName.indexOf( SEPARATOR );
 
         if( begin <= 0 ) {
-            LOGGER.warn( "Not bean: " + this.fieldName  );
+            // LOGGER.warn( "Not bean: " + this.fieldName  ); - useless
             throw new IllegalArgumentException( this.fieldName );
         }
         else { // if( begin > 0 ),- NOSONAR

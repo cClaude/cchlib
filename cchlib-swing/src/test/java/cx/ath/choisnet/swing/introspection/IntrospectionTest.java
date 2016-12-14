@@ -10,10 +10,10 @@ import cx.ath.choisnet.lang.introspection.IntrospectionException;
 import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
 
-@SuppressWarnings("boxing")
 public class IntrospectionTest
 {
-    private static Logger LOGGER = Logger.getLogger(IntrospectionTest.class);
+    private static Logger LOGGER = Logger.getLogger( IntrospectionTest.class );
+
     private TstFrame tstFrame;
     private SwingIntrospector<TstFrame, TstObject, DefaultIntrospectionItem<TstObject>> swingIntrospector;
 
@@ -23,7 +23,7 @@ public class IntrospectionTest
         LOGGER.info( "-- setUp()" );
 
         this.tstFrame = new TstFrame();
-        this.swingIntrospector = tstFrame.getSwingIntrospector();
+        this.swingIntrospector = this.tstFrame.getSwingIntrospector();
     }
 
     @Test
@@ -43,7 +43,7 @@ public class IntrospectionTest
                 SwingIntrospectorException
     {
         LOGGER.info( "-- test_initComponentsWithException()" );
-        tstFrame.initComponentsWithException();
+        this.tstFrame.initComponentsWithException();
         //TODO: need some extra check !
     }
 
@@ -54,15 +54,15 @@ public class IntrospectionTest
                 ParseException
     {
         LOGGER.info( "-- test_populateObject()" );
-        tstFrame.initComponentsWithException();
+        this.tstFrame.initComponentsWithException();
 
-        tstFrame.randomObject();
-        LOGGER.info( "RND :" + tstFrame.getTstObject() );
-        tstFrame.populateObject();
-        LOGGER.info( "F=>O:" + tstFrame.getTstObject() );
+        this.tstFrame.randomObject();
+        LOGGER.info( "RND :" + this.tstFrame.getTstObject() );
+        this.tstFrame.populateObject();
+        LOGGER.info( "F=>O:" + this.tstFrame.getTstObject() );
 
         //need some extra check ?
-        compareFrameObject( tstFrame );
+        compareFrameObject( this.tstFrame );
     }
 
     @Test
@@ -72,15 +72,15 @@ public class IntrospectionTest
                 ParseException
     {
         LOGGER.info( "-- test_populateFrame()" );
-        tstFrame.initComponentsWithException();
+        this.tstFrame.initComponentsWithException();
 
-        tstFrame.randomObject();
-        LOGGER.info( "RND :" + tstFrame.getTstObject() );
-        tstFrame.populateFrame();
+        this.tstFrame.randomObject();
+        LOGGER.info( "RND :" + this.tstFrame.getTstObject() );
+        this.tstFrame.populateFrame();
         LOGGER.info( "O=>F" );
 
         //need some extra check ?
-        compareFrameObject( tstFrame );
+        compareFrameObject( this.tstFrame );
     }
 
     private void compareFrameObject( final TstFrame frame )
