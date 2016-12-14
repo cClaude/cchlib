@@ -3,12 +3,14 @@ package com.googlecode.cchlib.net;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import com.googlecode.cchlib.lang.UnsupportedSystemException;
 
 /**
  * GetServiceByName lookup port numbers in the /etc/services file
+ *
  * @author Jeffrey M. Hunter (jhunter@idevelopment.info)
  * @author http://www.idevelopment.info/
  * @author Claude CHOISNET
@@ -53,8 +55,8 @@ public class GetServiceByName
     }
 
     /**
-     * The <code>parseServicesLine()</code> method is called by
-     * <code>getPortNumberForTcpIpService()</code> to parse a non-comment line
+     * The {@code parseServicesLine()} method is called by
+     * {@code getPortNumberForTcpIpService()} to parse a non-comment line
      * in the <tt>/etc/services</tt> file and save the values.
      *
      * @param line
@@ -119,7 +121,7 @@ public class GetServiceByName
     }
 
     /**
-     * The <code>getServiceByName()</code> method Search the /etc/services file
+     * The {@code getServiceByName()} method Search the /etc/services file
      * for a service name and class. Return the port number.
      *
      * @param ipService
@@ -147,7 +149,7 @@ public class GetServiceByName
     }
 
     /**
-     * The <code>getServiceByName()</code> method Search the /etc/services file
+     * The {@code getServiceByName()} method Search the /etc/services file
      * for a service name and class. Return the port number.
      * <p>
      * For example, given this line in <tt>/etc/services</tt>,
@@ -175,11 +177,9 @@ public class GetServiceByName
             )
             throws GetServiceByNameException
     {
-        try( BufferedReader br = new BufferedReader(
-                    new InputStreamReader(
-                        new FileInputStream( this.servicesFile )
-                        )
-                    ) ) {
+        try( final InputStream    fis = new FileInputStream( this.servicesFile );
+             final BufferedReader br  = newBufferedReader( fis )
+             ) {
             int port = -1;
 
             // Read /etc/services file.
@@ -201,4 +201,8 @@ public class GetServiceByName
             }
     }
 
+    private BufferedReader newBufferedReader( final InputStream inStream )
+    {
+        return new BufferedReader( new InputStreamReader( inStream ) );
+    }
 }
