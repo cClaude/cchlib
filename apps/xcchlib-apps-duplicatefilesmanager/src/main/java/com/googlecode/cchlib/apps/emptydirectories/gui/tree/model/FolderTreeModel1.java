@@ -257,20 +257,6 @@ public final class FolderTreeModel1
 
         try {
             sendEvent( parentPath, (l,e) -> l.treeNodesChanged( e ) );
-//            final Object[] pairs = this.listenerList.getListenerList();
-//            TreeModelEvent event = null;
-//
-//            for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
-//                if( pairs[i] == TreeModelListener.class ) {
-//                    if( event == null ) {
-//                        event = new TreeModelEvent(this, parentPath, null, null); // $codepro.audit.disable avoidInstantiationInLoops
-//                        }
-//
-//                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
-//
-//                    l.treeNodesChanged( event );
-//                    }
-//                }
             }
         catch( final RuntimeException e ) {
             LOGGER.error( "UI Error : parentPath=" + parentPath, e );
@@ -286,7 +272,7 @@ public final class FolderTreeModel1
       treeNodesChanged( path );
     }
 
-    /**
+    /*
      * Returns a TreePath containing the specified node.
      */
     protected final TreePath getPath( final TreeNode pathNode )
