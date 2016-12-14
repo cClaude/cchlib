@@ -17,48 +17,35 @@ import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
  */
 public interface AppToolKit extends Serializable
 {
-    /** prepare {@link FileChooser} components (workaround for win32) */
+    /** prepare {@link JFileChooser} components (workaround for win32) */
     void initJFileChooser();
 
-    /** */
     JFileChooserInitializer getJFileChooserInitializer( Window parentWindow, FileChooserEntryPoint componentName );
 
-    /** */
     JFileChooser getJFileChooser( Window parentWindow, FileChooserEntryPoint componentName );
 
     /** Play error sound */
     void beep();
 
-    /** */
     void openDesktop( File file );
 
-    /** */
     Locale getValidLocale();
 
-    /** */
     void sleep(long ms);
 
-    /** */
     PreferencesControler getPreferences();
 
-    /** */
     Frame getMainFrame();
 
-    /** */
     void setEnabledJButtonCancel( boolean b );
 
-    /** */
     boolean isEnabledJButtonCancel();
 
-    /** */
     void initComponentsJPanelConfirm();
 
-    /** */
     Resources getResources();
 
-    /** */
     List<File> getRootDirectoriesList();
 
-    /** */
     I18nResourceBundleName getI18nResourceBundleName();
 }

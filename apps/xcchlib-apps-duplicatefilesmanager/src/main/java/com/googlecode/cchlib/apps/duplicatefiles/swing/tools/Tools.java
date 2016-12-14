@@ -2,9 +2,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.tools;
 
 import org.apache.log4j.Logger;
 
-/**
- *
- */
 public class Tools
 {
     private static final Logger LOGGER = Logger.getLogger( Tools.class );
@@ -16,7 +13,9 @@ public class Tools
 
     /**
      * Launch task in a new thread and log errors
-     * @param runner
+     *
+     * @param runner task to launch
+     * @param threadName thread name
      */
     public static void run( final Runnable runner, final String threadName )
     {
@@ -29,5 +28,4 @@ public class Tools
             }
         }, threadName).start();
     }
-
 }

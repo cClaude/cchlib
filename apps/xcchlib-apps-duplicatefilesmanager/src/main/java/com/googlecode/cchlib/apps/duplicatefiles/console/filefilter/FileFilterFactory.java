@@ -67,24 +67,18 @@ public class FileFilterFactory
         return new FileFilterFor( this.ffc == null ? null : this.ffc.getFiles() );
     }
 
-    /**
-    *
-    * @param ffc
-    * @param verbose
-    * @return
-    */
-   public static FileFilter getFileFilterForDirectories( final FileFiltersConfig ffc, final boolean verbose  )
+   public static FileFilter getFileFilterForDirectories(
+       final FileFiltersConfig ffc,
+       final boolean           verbose
+       )
    {
        return new FileFilterFactory( ffc, verbose ).forDirectories().newFileFilter();
    }
 
-   /**
-    *
-    * @param ffc
-    * @param verbose
-    * @return
-    */
-   public static FileFilter getFileFilterForFiles( final FileFiltersConfig ffc, final boolean verbose  )
+    public static FileFilter getFileFilterForFiles(
+        final FileFiltersConfig ffc,
+        final boolean           verbose
+        )
    {
        return new FileFilterFactory( ffc, verbose ).forFiles().newFileFilter();
    }

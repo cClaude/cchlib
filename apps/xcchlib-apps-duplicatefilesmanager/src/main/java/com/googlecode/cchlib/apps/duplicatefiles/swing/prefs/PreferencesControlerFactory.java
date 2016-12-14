@@ -27,7 +27,7 @@ public final class PreferencesControlerFactory
 
     /**
      * Create a default {@link PreferencesControler} for {@link DuplicateFilesI18nPrep},
-     * or if option {@link DuplicateFilesApp.NO_PREFERENCE} is set
+     * or if option {@link DuplicateFilesApp#NO_PREFERENCE} is set
      *
      * @return a valid {@link PreferencesControler}
      */
@@ -38,7 +38,7 @@ public final class PreferencesControlerFactory
 
     /**
      * Create a {@link PreferencesControler} based on {@code preferencesFile}
-     * when option {@link DuplicateFilesApp.PREFERENCE_FILE} is set.
+     * when option {@link DuplicateFilesApp#PREFERENCE_FILE} is set.
      * Use default configuration file otherwise.
      *
      * @param preferencesFile Null or path to an existing file.

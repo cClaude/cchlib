@@ -26,7 +26,7 @@ public class HashFiles extends AbstractHash<File>
      * Create a new object with a {@code hash} and an empty set
      *
      * @param hash Hash for this entry
-     * @param length
+     * @param length File length for this hash
      */
     public HashFiles( @Nonnull final String hash, final long length )
     {

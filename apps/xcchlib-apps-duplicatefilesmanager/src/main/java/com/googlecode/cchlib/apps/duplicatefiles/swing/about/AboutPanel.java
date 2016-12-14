@@ -1,4 +1,3 @@
-// $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.swing.about;
 
 import java.awt.Color;
@@ -45,9 +44,6 @@ public final class AboutPanel extends JPanel
     @I18n private final JTextArea jTextArea;
     private final TitledBorder titleBorder;
 
-    /**
-     * Creates new form AboutPanel
-     */
     @SuppressWarnings("squid:S1199")
     public AboutPanel(
         final Resources        resources,

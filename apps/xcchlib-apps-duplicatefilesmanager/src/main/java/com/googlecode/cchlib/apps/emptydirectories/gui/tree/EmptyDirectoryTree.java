@@ -37,7 +37,7 @@ public final class EmptyDirectoryTree extends JTree
             }
     }
 
-    /**
+    /*
      * Call when the tree structure below the path has completely changed.
      */
     protected final void fireTreeStructureChanged(final TreePath parentPath)
@@ -101,5 +101,4 @@ public final class EmptyDirectoryTree extends JTree
                 }
              }
     }
-
 }

@@ -33,9 +33,9 @@ import com.googlecode.cchlib.swing.textfield.XTextField;
 
 /**
  * <pre>
- * -> add comment if a folder is a child of an other
- *    one, say that it will be ignored, and ignore it !
- * -> store a tree of folders list to find duplicate !
+ * - add comment if a folder is a child of an other
+ *   one, say that it will be ignored, and ignore it !
+ * - store a tree of folders list to find duplicate !
  *
  * Create classes TreeFile and TreeFile.Node
  *
@@ -118,12 +118,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     @I18nString private String   txtIncludeDir;
     @I18nString private String   txtIncludeFile;
 
-    /**
-     * Create the panel.
-     * @throws TooManyListenersException
-     */
-    public JPanelSelectFoldersOrFiles()
-        throws TooManyListenersException
+    public JPanelSelectFoldersOrFiles() throws TooManyListenersException
     {
         beSurNonFinal();
 
@@ -273,6 +268,8 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
     /**
      * @wbp.factory
+     *
+     * @return a new {@link XTextField}
      */
     public static XTextField createXTextField()
     {
@@ -336,10 +333,13 @@ public class JPanelSelectFoldersOrFiles extends JPanel
         new Thread( this::selectFile, "onJButtonSelectFile()" ).start();
     }
 
+    @SuppressWarnings("squid:UnusedPrivateMethod") // Yes, this is use !
     private void selectFile()
     {
         final JFileChooser jfc = getJFileChooser();
+
         jfc.setFileSelectionMode( JFileChooser.FILES_ONLY );
+
         final int returnVal = jfc.showOpenDialog( JPanelSelectFoldersOrFiles.this );
 
         if( returnVal == JFileChooser.APPROVE_OPTION ) {
@@ -368,6 +368,7 @@ public class JPanelSelectFoldersOrFiles extends JPanel
 
             removeEntry( selected );
         }
+
         this.tableModelSelectedFoldersOrFiles.fireTableDataChanged();
     }
 

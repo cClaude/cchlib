@@ -45,12 +45,12 @@ public final class PreferencesDialogWB
 
     /**
      * Create the frame
+     *
+     * @param mainWindowDimension Frame dimension
      */
     @SuppressWarnings("squid:S1199")
     public PreferencesDialogWB( final Dimension mainWindowDimension )
     {
-        super();
-
         setTitle("Preferences");
         setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
         setBounds( 100, 100, 550, 450 );

@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIHelper;
 import com.googlecode.cchlib.apps.duplicatefiles.console.CLIParameters;
@@ -23,8 +22,6 @@ public class ConsoleApp
      * Launch application in console mode
      *
      * @param args Parameters from command line
-     * @throws CLIParametersException
-     * @throws NoSuchAlgorithmException
      */
     public static void main( final String[] args )
     {
@@ -40,7 +37,6 @@ public class ConsoleApp
         catch( final CLIParametersException e ) {
             CLIHelper.printErrorAndExit( cli, e );
         }
-
     }
 
     private static <T> void startApp( final CLIParameters cli )

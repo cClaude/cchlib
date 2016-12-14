@@ -21,9 +21,6 @@ import com.googlecode.cchlib.swing.table.ForceColumnWidthModel;
 import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
 import com.googlecode.cchlib.util.iterable.Iterables;
 
-/**
- *
- */
 @I18nName("emptyfiles.WorkingTableModel")
 public class WorkingTableModel
     extends AbstractTableModel
@@ -44,7 +41,7 @@ public class WorkingTableModel
 
         private Columns() { this.forceColumnWidth = 0; }
         private Columns( final int forceColumnWidth ) { this.forceColumnWidth = forceColumnWidth; }
-        public int getForceColumnWidth() { return forceColumnWidth; }
+        public int getForceColumnWidth() { return this.forceColumnWidth; }
         };
     private int[] forceColumnWidths;
     @I18nString private final String[] columnNames = {
@@ -61,57 +58,37 @@ public class WorkingTableModel
     private final boolean             selectedDefaultState = true; // FIXME : should be configurable
 
     private final FileInfoFormater fileInfoFormater;
-//    private Icon deletedFileIcon = IconResources.getDeletedFileIcon();
-//    private Icon fileIcon = IconResources.getFileIcon();
     private final IconResources iconResources = IconResources.getInstance();
 
-    /**
-     *
-     */
     public WorkingTableModel( final FileInfoFormater fileInfoFormater )
     {
         this.fileInfoFormater = fileInfoFormater;
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#getRowCount()
-     */
     @Override
     public int getRowCount()
     {
-        return fileList.size();
+        return this.fileList.size();
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#getColumnCount()
-     */
     @Override
     public int getColumnCount()
     {
-        return columnNames.length;
+        return this.columnNames.length;
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#getColumnName(int)
-     */
     @Override
     public String getColumnName( final int columnIndex )
     {
-        return columnNames[ columnIndex ];
+        return this.columnNames[ columnIndex ];
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#getColumnClass(int)
-     */
     @Override
     public Class<?> getColumnClass( final int columnIndex )
     {
-        return columnTypes[columnIndex];
+        return this.columnTypes[columnIndex];
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#isCellEditable(int, int)
-     */
     @Override
     public boolean isCellEditable( final int rowIndex, final int columnIndex )
     {
@@ -124,9 +101,6 @@ public class WorkingTableModel
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#getValueAt(int, int)
-     */
     @Override
     public Object getValueAt( final int rowIndex, final int columnIndex )
     {
@@ -139,7 +113,7 @@ public class WorkingTableModel
                 final FileInfo fi = getFileInfo( file );
 
                 //return fi.isDeleted() ? deletedFileIcon : fileIcon;
-                return fi.isDeleted() ? iconResources.getDeletedFileIcon() : iconResources.getFileIcon();
+                return fi.isDeleted() ? this.iconResources.getDeletedFileIcon() : this.iconResources.getFileIcon();
             }
             case FILE_SELECTED :
                 {
@@ -156,9 +130,6 @@ public class WorkingTableModel
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
-     */
     @Override
     public void setValueAt( final Object aValue, final int rowIndex, final int columnIndex )
     {
@@ -237,7 +208,7 @@ public class WorkingTableModel
         fireTableDataChanged();
     }
 
-    public boolean doDelete( final int rowIndex ) // $codepro.audit.disable booleanMethodNamingConvention
+    public boolean doDelete( final int rowIndex )
     {
         final File     file  = this.fileList.get( rowIndex );
         final FileInfo value = getFileInfo( file );
@@ -261,14 +232,14 @@ public class WorkingTableModel
             }
 
         return false;
-   }
+    }
 
     private FileInfo getFileInfo( final File file )
     {
         FileInfo value = this.lasyInfoMap.get( file );
 
         if( value == null ) {
-            value = new FileInfo( file, selectedDefaultState, fileInfoFormater );
+            value = new FileInfo( file, this.selectedDefaultState, this.fileInfoFormater );
 
             this.lasyInfoMap.put( file, value );
             }
@@ -314,14 +285,14 @@ public class WorkingTableModel
 
     private int[] getForceColumnWidths()
     {
-        if( forceColumnWidths == null ) {
-            forceColumnWidths = new int[ Columns.values().length ];
+        if( this.forceColumnWidths == null ) {
+            this.forceColumnWidths = new int[ Columns.values().length ];
 
-            for( int i = 0; i<forceColumnWidths.length; i++ ) {
-                forceColumnWidths[ i ] = Columns.values()[ i ].getForceColumnWidth();
+            for( int i = 0; i<this.forceColumnWidths.length; i++ ) {
+                this.forceColumnWidths[ i ] = Columns.values()[ i ].getForceColumnWidth();
                 }
             }
-        return forceColumnWidths;
+        return this.forceColumnWidths;
     }
 
     @Override//ForceColumnWidthModel

@@ -3,7 +3,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig
 import java.io.Serializable;
 
 /**
- * @see FilterConfig
+ * @see FiltersConfig
  */
 public class FilterEntry implements Serializable
 {

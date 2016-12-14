@@ -59,12 +59,6 @@ public class DuplicateFilesMainPanel
         //Empty
     }
 
-    /**
-     * Create the frame.
-     * @param dfToolKit
-     * @throws TooManyListenersException
-     * @throws HeadlessException
-     */
     public DuplicateFilesMainPanel(
         final DuplicateFilesFrameWB mainActionListenerSupport
         )
@@ -198,9 +192,11 @@ public class DuplicateFilesMainPanel
     }
 
     /**
-     * @throws TooManyListenersException
-     * @throws HeadlessException
      * @wbp.factory
+     *
+     * @return the {@link JPanelSelectFoldersOrFiles} panel
+     * @throws HeadlessException if any
+     * @throws TooManyListenersException if any
      */
     public JPanelSelectFoldersOrFiles createJPanel0Select()
         throws HeadlessException, TooManyListenersException
@@ -210,6 +206,8 @@ public class DuplicateFilesMainPanel
 
     /**
      * @wbp.factory
+     *
+     * @return the {@link JPanelConfig} panel
      */
     public JPanelConfig createJPanel1Config()
     {
@@ -218,6 +216,8 @@ public class DuplicateFilesMainPanel
 
     /**
      * @wbp.factory
+     *
+     * @return the {@link JPanelSearching} panel
      */
     public JPanelSearching createJPanel2Searching()
     {
@@ -234,6 +234,8 @@ public class DuplicateFilesMainPanel
 
     /**
      * @wbp.factory
+     *
+     * @return the {@link JPanelResult} panel
      */
     public JPanelResult createJPanel3Result()
     {
@@ -242,6 +244,8 @@ public class DuplicateFilesMainPanel
 
     /**
      * @wbp.factory
+     *
+     * @return the {@link JPanelConfirm} panel
      */
     public JPanelConfirm createJPanel4Confirm()
     {

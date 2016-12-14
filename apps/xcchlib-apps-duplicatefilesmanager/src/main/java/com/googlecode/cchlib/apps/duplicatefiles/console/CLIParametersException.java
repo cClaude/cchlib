@@ -20,10 +20,11 @@ public class CLIParametersException extends Exception
     }
 
     /**
+     * Create a CLIParametersException
      *
-     * @param parameterName
-     * @param cliMessage
-     * @param cause
+     * @param parameterName Parameter name (optionnal, could be null)
+     * @param cliMessage Message to display
+     * @param cause The cause
      */
     public CLIParametersException(
             final String    parameterName,
@@ -38,9 +39,10 @@ public class CLIParametersException extends Exception
     }
 
     /**
+     * Create a CLIParametersException
      *
-     * @param parameterName
-     * @param cliMessage
+     * @param parameterName Parameter name (optionnal, could be null)
+     * @param cliMessage Message to display
      */
     public CLIParametersException(
             final String parameterName,

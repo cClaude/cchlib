@@ -44,6 +44,7 @@ public enum Command
     /**
      * Create a {@link CommandTask} from {@link CLIParameters}
      *
+     * @param <R> Result type of task
      * @param cli Current {@link CLIParameters} to create task
      * @return current {@link CommandTask}
      * @throws CLIParametersException if any (command not found)

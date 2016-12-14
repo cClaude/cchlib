@@ -33,9 +33,6 @@ import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 import com.googlecode.cchlib.swing.list.LeftDotListCellRenderer;
 import com.googlecode.cchlib.util.emptydirectories.EmptyFolder;
 
-/**
- *
- */
 @I18nName("RemoveEmptyDirectoriesPanel")
 @SuppressWarnings({"squid:MaximumInheritanceDepth"})
 public class RemoveEmptyDirectoriesPanel
@@ -64,9 +61,6 @@ public class RemoveEmptyDirectoriesPanel
     @I18nString private String txtProgressBarSelectFileToDelete;
     @I18nString private String txtProgressBarDeleteSelectedFiles;
 
-    /**
-     *
-     */
     public RemoveEmptyDirectoriesPanel(
         final Window mainWindow
         )

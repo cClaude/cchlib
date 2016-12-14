@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.emptyfiles.panel.select;
 
 import java.awt.BorderLayout;
@@ -78,9 +77,6 @@ public class SelectDirecoriesJPanel extends JPanel
 
     @I18nToolTipText private final JButton importButton;
 
-    /**
-     * Create the panel.
-     */
     @SuppressWarnings({"squid:S00117","squid:S1199"}) // Generated code
     public SelectDirecoriesJPanel( final RemoveEmptyFilesJPanel removeEmptyFilesJPanel )
     {

@@ -161,8 +161,10 @@ public abstract class TaskCommon<R> implements CommandTask<R>
     /**
      * Create parents directories of a file
      *
-     * @param file File to create
+     * @param file
+     *            File to create
      * @throws CLIParametersException
+     *             if can not create parent dir
      */
     public static void createParentDirsOf( final File file )
         throws CLIParametersException

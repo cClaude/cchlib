@@ -19,7 +19,7 @@ public interface FolderTreeModelable extends TreeModel, Serializable
     /**
      * Returns true if current path could be selected, that mean
      * it's an empty directory.
-     * @param path
+     * @param path The path to test
      * @return true if current path could be modify.
      */
     boolean isSelectable( TreePath path );
@@ -27,28 +27,11 @@ public interface FolderTreeModelable extends TreeModel, Serializable
     Iterable<EmptyFolder> getSelectedEmptyFolders();
     int getSelectedEmptyFoldersSize();
 
-    /**
-     *
-     * @param emptyFolder
-     */
     void add( EmptyFolder emptyFolder );
 
-    /**
-     *
-     * @param onlyLeaf
-     * @param selected
-     */
     void setSelectAll( boolean onlyLeaf, boolean selected );
 
-    /**
-     *
-     * @param selectedNode
-     */
     void toggleSelected( FolderTreeNode selectedNode );
 
-    /**
-     *
-     * @param aNode
-     */
     void updateState( FolderTreeNode aNode );
 }

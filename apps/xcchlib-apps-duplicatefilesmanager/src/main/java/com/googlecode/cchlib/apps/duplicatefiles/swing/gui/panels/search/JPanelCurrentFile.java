@@ -1,4 +1,3 @@
-// $codepro.audit.disable avoidInstantiationInLoops, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search;
 
 import java.awt.GridBagConstraints;
@@ -12,6 +11,7 @@ import javax.swing.SwingConstants;
 public class JPanelCurrentFile extends JPanel
 {
     private static final long serialVersionUID = 1L;
+
     private final JLabel[]     jLabelCurrentFiles ;
     private final JTextField[] jTextFieldCurrentFiles;
 

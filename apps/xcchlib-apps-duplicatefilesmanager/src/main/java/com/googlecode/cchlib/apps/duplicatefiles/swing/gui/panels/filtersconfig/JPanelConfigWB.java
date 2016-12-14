@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig;
 
 import java.awt.GridBagConstraints;
@@ -44,6 +43,7 @@ public abstract class JPanelConfigWB extends JPanel
     /**
      * Create the panel.
      */
+    @SuppressWarnings({"squid:S00117","squid:S1199"})
     public JPanelConfigWB()
     {
         final PreferencesControler prefs = getAppToolKit().getPreferences();
@@ -176,6 +176,8 @@ public abstract class JPanelConfigWB extends JPanel
 
     /**
      * @wbp.factory
+     *
+     * @return A combo box for filters
      */
     public static JComboBox<FilterType> createJComboBoxFilterType()
     {

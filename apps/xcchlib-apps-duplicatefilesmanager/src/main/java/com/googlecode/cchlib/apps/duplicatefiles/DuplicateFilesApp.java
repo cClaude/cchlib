@@ -42,8 +42,8 @@ public class DuplicateFilesApp
      *
      * @param args Parameters from command line
      *
-     * @throws ParseException
-     * @throws FileNotFoundException
+     * @throws ParseException if can not parse arguments
+     * @throws FileNotFoundException if config file not found
      */
     public static void main( final String[] args ) throws ParseException, FileNotFoundException
     {

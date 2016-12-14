@@ -5,9 +5,6 @@ import java.io.Serializable;
 import java.util.Date;
 import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 
-/**
- *
- */
 public class FileInfo implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -15,10 +12,11 @@ public class FileInfo implements Serializable
     private final File file;
     private final FileInfoFormater fileInfoFormater;
 
-     /**
-     *
-     */
-    public FileInfo( final File file, final boolean selected, final FileInfoFormater fileInfoFormater )
+    public FileInfo(
+        final File             file,
+        final boolean          selected,
+        final FileInfoFormater fileInfoFormater
+        )
     {
         this.file             = file;
         this.selected         = selected;
@@ -31,7 +29,7 @@ public class FileInfo implements Serializable
             return false;
             }
         else {
-            return selected;
+            return this.selected;
             }
     }
 
@@ -42,21 +40,21 @@ public class FileInfo implements Serializable
 
     public Date getLastModifiedDate()
     {
-        return new Date( file.lastModified() );
+        return new Date( this.file.lastModified() );
     }
 
     public boolean isDeleted()
     {
-        return ! file.exists();
+        return ! this.file.exists();
     }
 
     public String getLengthString()
     {
-        return fileInfoFormater.formatLength( file );
+        return this.fileInfoFormater.formatLength( this.file );
     }
 
     public String getFileAttributsString()
     {
-        return fileInfoFormater.formatAttributs( file );
+        return this.fileInfoFormater.formatAttributs( this.file );
     }
 }

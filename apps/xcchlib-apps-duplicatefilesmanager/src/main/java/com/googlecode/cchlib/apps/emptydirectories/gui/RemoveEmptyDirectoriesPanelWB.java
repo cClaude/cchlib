@@ -3,7 +3,7 @@ package com.googlecode.cchlib.apps.emptydirectories.gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
-import java.awt.Insets; // $codepro.audit.disable unnecessaryImport
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.List;
@@ -60,10 +60,6 @@ abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
 
     private transient SimpleFileDrop scrollPaneJListSimpleFileDrop;
 
-    /**
-     * Create the frame.
-     * @param resources
-     */
     @SuppressWarnings({"squid:S00117","squid:S1199"}) // Generated code
     public RemoveEmptyDirectoriesPanelWB( final Resources resources )
     {
@@ -254,8 +250,11 @@ abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
 
     /**
      * @wbp.factory
-     * @wbp.factory.parameter.source border new javax.swing.border.SoftBevelBorder( javax.swing.border.BevelBorder.LOWERED, null, null,
-                null, null )
+     * @wbp.factory.parameter.source border new javax.swing.border.SoftBevelBorder( javax.swing.border.BevelBorder.LOWERED, null, null, null, null )
+     *
+     *
+     * @param border Border for the JTree
+     * @return the JTree for empty directories
      */
     public static JTree createJTree(final Border border)
     {
@@ -267,6 +266,8 @@ abstract class RemoveEmptyDirectoriesPanelWB extends JPanel
 
     /**
      * @wbp.factory
+     *
+     * @return a JList of File base on the model
      */
     public static JList<File> createJList()
     {

@@ -516,7 +516,11 @@ public final class DuplicateFilesFrame
         return getDuplicateFilesMainPanel().getJButtonCancel().isEnabled();
     }
 
-    /** Add entry from CLI */
+    /**
+     * Add entry from CLI
+     *
+     * @param entry Entry to add
+     */
     public void addEntry( final String entry )
     {
         final File entryFile = new File( entry );

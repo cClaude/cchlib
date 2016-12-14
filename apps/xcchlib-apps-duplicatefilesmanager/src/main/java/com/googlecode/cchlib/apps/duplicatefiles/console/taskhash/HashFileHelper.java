@@ -18,12 +18,6 @@ public class HashFileHelper
         // All static
     }
 
-    /**
-     *
-     * @param hashFileList
-     * @param verbose
-     * @return
-     */
     public static List<HashFiles> convert( //
        final List<HashFile> hashFileList,
        final boolean        verbose
@@ -42,12 +36,6 @@ public class HashFileHelper
            );
     }
 
-    /**
-     *
-     * @param sortedDuplicates
-     * @param verbose
-     * @return
-     */
     private static List<HashFiles> convertSorted( //
         final List<HashFile> sortedHashFileList,
         final boolean        verbose

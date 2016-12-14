@@ -44,9 +44,6 @@ public class JPanelConfigFilter
     @I18nIgnore private final JCheckBox jCheckBoxRegExp;
     @I18nIgnore private final XComboBoxPattern xComboBoxPatternRegExp;
 
-    /**
-     * Create the panel.
-     */
     public JPanelConfigFilter(
         final String titleBorderText,
         final String regExpText
@@ -142,6 +139,7 @@ public class JPanelConfigFilter
     }
 
     /**
+     * @param key The check-box key
      * @return the JCheckBox for giving key
      */
     public FileTypeCheckBox getFileTypeCheckBox( final int key )

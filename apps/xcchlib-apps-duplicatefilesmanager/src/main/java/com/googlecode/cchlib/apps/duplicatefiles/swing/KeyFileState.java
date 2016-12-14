@@ -26,8 +26,8 @@ public final class KeyFileState
     /**
      * File object
      *
-     * @param key
-     * @param file
+     * @param key  Key value
+     * @param file Related file object
      */
     public KeyFileState(final String key, final File file)
     {

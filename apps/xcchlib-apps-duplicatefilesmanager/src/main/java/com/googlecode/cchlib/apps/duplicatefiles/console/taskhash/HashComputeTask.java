@@ -30,8 +30,8 @@ public class HashComputeTask
     /**
      * Create {@link HashComputeTask} based on {@code cli}
      *
-     * @param cliHelper Helper for CLI parameters
-     * @throws CLIParametersException
+     * @param cli CLI parameters
+     * @throws CLIParametersException if any
      */
     public HashComputeTask( final CLIParameters cli ) throws CLIParametersException
     {

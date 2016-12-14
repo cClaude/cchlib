@@ -18,12 +18,6 @@ public class FileFilterBuilderImpl implements FileFilterBuilder, Serializable {
     private final Collection<String> namesList;
     private final Pattern            pattern;
 
-    /**
-     * Create a FileFilterBuilder
-     *
-     * @param namesList
-     * @param pattern
-     */
     public FileFilterBuilderImpl( //
             @Nonnull final Collection<String> namesList, //
             @Nonnull final Pattern            pattern //

@@ -25,8 +25,6 @@ public class AboutDialog
 
     /**
      * Create the dialog.
-     *
-     * @param dfToolKit
      */
     public AboutDialog()
     {

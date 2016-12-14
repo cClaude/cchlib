@@ -70,12 +70,6 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n
     private final JMenu     jMenuHelp;
     private final JMenuItem jMenuItemAbout;
 
-    /**
-     * Create the frame.
-     * @param dfToolKit
-     * @throws TooManyListenersException
-     * @throws HeadlessException
-     */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S3346","squid:S1199"})
     public DuplicateFilesFrameWB( final PreferencesControler preferences )
         throws
