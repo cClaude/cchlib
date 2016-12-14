@@ -2,6 +2,7 @@ package com.googlecode.cchlib.test;
 
 import java.io.IOException;
 import java.io.Serializable;
+import javax.annotation.Nonnull;
 import com.googlecode.cchlib.io.SerializableHelper;
 
 /**
@@ -9,9 +10,13 @@ import com.googlecode.cchlib.io.SerializableHelper;
  *
  * @since 4.1.5
  */
-final
-public class SerializableTestCaseHelper
+public final class SerializableTestCaseHelper
 {
+    private SerializableTestCaseHelper()
+    {
+        // All static
+    }
+
     /**
      * Clone giving object using Serialization and
      * verify that objects are different (not same reference)
@@ -22,18 +27,18 @@ public class SerializableTestCaseHelper
      * and make you own test.
      * </P>
      * @param <T>       Type of object
-     * @param anObject  Object to clone
+     * @param anObject  Object to clone (not null)
      * @return a clone copy of giving object
-     * @throws java.io.IOException
-     * @throws ClassNotFoundException
+     * @throws IOException if any
+     * @throws ClassNotFoundException if class can not be found
      * @see #cloneOverSerialization(Serializable)
      */
+    @SuppressWarnings("squid:S1160")
     public static <T extends Serializable> T testSerialization(
-            T anObject
-            )
-        throws IOException, ClassNotFoundException
+        @Nonnull final T anObject
+        ) throws IOException, ClassNotFoundException
     {
-        T copy = cloneOverSerialization(anObject);
+        final T copy = cloneOverSerialization( anObject );
 
         org.junit.Assert.assertEquals( "Values do not matches", anObject, copy);
         org.junit.Assert.assertFalse( "Must be not same Object !", anObject==copy);
@@ -45,18 +50,19 @@ public class SerializableTestCaseHelper
      * Clone giving object using Serialization.
      *
      * @param <T>       Type of object
-     * @param anObject  Object to clone
+     * @param anObject  Object to clone (not null)
      * @return a clone copy of giving object
-     * @throws java.io.IOException
-     * @throws ClassNotFoundException
+     * @throws IOException if any
+     * @throws ClassNotFoundException if class can not be found
      */
+    @SuppressWarnings("squid:S1160")
     public static <T extends Serializable> T cloneOverSerialization(
-            T anObject
-            )
-        throws java.io.IOException, ClassNotFoundException
+        @Nonnull final T anObject
+        ) throws IOException, ClassNotFoundException
     {
         @SuppressWarnings("unchecked")
-        Class<T> clazz = (Class<T>)anObject.getClass(); // $codepro.audit.disable unnecessaryCast
+        final
+        Class<T> clazz = (Class<T>)anObject.getClass();
 
         return SerializableHelper.clone( anObject, clazz );
     }

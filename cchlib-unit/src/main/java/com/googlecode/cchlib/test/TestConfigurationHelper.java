@@ -20,6 +20,7 @@ import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 public class TestConfigurationHelper
 {
     private final PropertiesPopulator<TestConfigurationHelper.Config> pp = new PropertiesPopulator<>( TestConfigurationHelper.Config.class );
+
     private final Config config;
 
     /**
@@ -46,6 +47,8 @@ public class TestConfigurationHelper
 
         /**
          * Set a collection of existing MAC Address accessible by current computer.
+         *
+         * @param macAddrs MAC Address collection
          */
         public void setExistingMACAddressCollection( final Collection<String> macAddrs )
         {
@@ -60,6 +63,8 @@ public class TestConfigurationHelper
 
         /**
          * Set a collection of existing MAC Address accessible by current computer.
+         *
+         * @param macAddrs MAC Address array
          */
         public void setExistingMACAddressCollection( final String...macAddrs )
         {

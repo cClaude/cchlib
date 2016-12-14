@@ -23,11 +23,14 @@ public class ArrayAssert
     }
 
     /**
-     * Asserts that two arrays are equal. If they
-     * are not, an AssertionError is thrown.
+     * Asserts that two arrays are equal. If they are not, an AssertionError is thrown.
      *
-     * @param expected expected bytes array value.
-     * @param actual actual bytes array value.
+     * @param <T>
+     *            Array type
+     * @param expected
+     *            expected bytes array value.
+     * @param actual
+     *            actual bytes array value.
      */
     public static <T> void assertEquals(
         final T[] expected,
@@ -38,13 +41,17 @@ public class ArrayAssert
     }
 
     /**
-     * Asserts that two arrays are equal. If they
-     * are not, an AssertionError is thrown with the
-     * given message.
+     * Asserts that two arrays are equal. If they are not, an AssertionError is
+     * thrown with the given message.
      *
-     * @param message the identifying message for the AssertionError (null okay)
-     * @param expected expected bytes array value.
-     * @param actual actual bytes array value.
+     * @param <T>
+     *            Array type
+     * @param message
+     *            the identifying message for the AssertionError (null okay)
+     * @param expected
+     *            expected bytes array value.
+     * @param actual
+     *            actual bytes array value.
      */
     public static <T> void assertEquals(
             final String    message,
