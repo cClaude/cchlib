@@ -37,7 +37,7 @@ public final class FileHelper
      *
      * @return File object for current user home directory
      * @since 4.1.6
-     * @deprecated use {@link getUserHomeDirectoryFile()} instead
+     * @deprecated use {@link #getUserHomeDirectoryFile()} instead
      */
     @Deprecated
     public static File getUserHomeDirFile()

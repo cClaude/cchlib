@@ -12,6 +12,5 @@
  * (Author:anil@linuxense.com) - Create in 2003, last update 2004
  * </li>
  * </ul>
- * </p>
  */
 package com.googlecode.cchlib.jdbf;

@@ -22,6 +22,8 @@ public interface FileDataTypeMatch
      * @return true if value is acceptable for this match at this offset
      * @throws IllegalStateException
      *             if giving offset is outside valid range.
+     * @throws StreamOverrunException
+     *             if any.
      */
     boolean isValid( int offset, int value ) throws StreamOverrunException;
 
