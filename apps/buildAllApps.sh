@@ -41,11 +41,11 @@ JARS_DIRECTORY=.releases
 
 [ -d "${JARS_DIRECTORY}" ] || mkdir "${JARS_DIRECTORY}"
 
-mvnPackageJar cchlib-apps-duplicatefilesmanager/
-mvnPackageJar cchlib-apps-editresourcebundle/
-mvnPackageJar cchlib-apps-regexpbuilder/
+mvnPackageJar xcchlib-apps-duplicatefilesmanager/
+mvnPackageJar xcchlib-apps-editresourcebundle/
+mvnPackageJar xcchlib-apps-regexpbuilder/
 
-mvnInstallJar cchlib-x-googlecontact/
+mvnInstallJar xcchlib-googlecontact/
 
 mvnPackageJar xcchlib-core-sample/
 mvnPackageJar xcchlib-samples/
