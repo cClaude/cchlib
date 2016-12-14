@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.swing;
 
+import java.awt.GraphicsEnvironment;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
@@ -42,5 +43,41 @@ public class SafeSwingUtilities
         catch( final Exception e ) {
             LOGGER.warn( "Unexpected error", e );
             }
+    }
+
+    /**
+     * Tests whether or not a display, keyboard, and mouse can be supported in
+     * this environment. If this method returns true, a HeadlessException is
+     * thrown from areas of the Toolkit and GraphicsEnvironment that are
+     * dependent on a display, keyboard, or mouse.
+     * <p>
+     * This just an alias for
+     * <pre>
+     *  GraphicsEnvironment.isHeadless()
+     * </pre>
+     *
+     * @return true if this environment cannot support a display, keyboard,
+     *         and mouse; false otherwise
+     * @see GraphicsEnvironment
+     * @since 4.2
+     */
+    public static boolean isHeadless()
+    {
+        return GraphicsEnvironment.isHeadless();
+    }
+
+    /**
+     * This is a private method, for swing tools to display some
+     * deep exceptions.
+     *
+     * @param cause The cause
+     */
+    @SuppressWarnings("squid:S1148")
+    public static void printStackTrace( final Exception cause )
+    {
+        // TODO improve this to be able to configure a LOGGER throw
+        // JVM properties, but keep this has the default choice, this
+        // how the swing frame work did.
+        cause.printStackTrace();
     }
 }

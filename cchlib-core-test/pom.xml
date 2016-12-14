@@ -1,71 +1,76 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
   http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.googlecode.cchlib</groupId>
-        <version>4.2-SNAPSHOT</version>
-        <artifactId>cchlib</artifactId>
-    </parent>
-    <artifactId>cchlib-core-test</artifactId>
-    <packaging>jar</packaging>
-    <name>cchlib-core-test</name>
-    <description>Contain core library, provide generics features</description>
-    <url>http://choisnet.ath.cx/cchlib/</url>
-    <inceptionYear>2002</inceptionYear>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.googlecode.cchlib</groupId>
+    <version>4.2-SNAPSHOT</version>
+    <artifactId>cchlib</artifactId>
+  </parent>
+  <artifactId>cchlib-core-test</artifactId>
+  <packaging>jar</packaging>
+  <name>cchlib-core-test</name>
 
-    <!-- Global properties -->
-    <properties>
-        <build.date>${maven.build.timestamp}</build.date>
-        <buildNumber>${maven.build.timestamp}</buildNumber>
-        <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.java.source.version>1.8</project.java.source.version>
-        <project.java.target.version>1.8</project.java.target.version>
-    </properties>
+  <!-- Global properties -->
+  <properties>
+  <!--
+      <build.date>${maven.build.timestamp}</build.date>
+      <buildNumber>${maven.build.timestamp}</buildNumber>
+      <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.java.source.version>1.8</project.java.source.version>
+      <project.java.target.version>1.8</project.java.target.version>
+  -->
+  </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>18.0-rc2</version>
-            <classifier>site</classifier>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.cchlib</groupId>
-            <artifactId>cchlib-core</artifactId>
-            <version>4.2-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.cchlib</groupId>
-            <artifactId>cchlib-io</artifactId>
-            <version>4.2-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+  <dependencies>
+  
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core</artifactId>
+      <version>4.2-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+      
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-io</artifactId>
+      <version>4.2-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+      
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>18.0-rc2</version>
+      <classifier>site</classifier>
+      <scope>test</scope>
+    </dependency>
+      
+  </dependencies>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>version.properties</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>version.properties</exclude>
-                </excludes>
-            </resource>
-        </resources>
+  <build>
+    <resources>
+    <!-- 
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>version.properties</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>version.properties</exclude>
+        </excludes>
+      </resource>
+    -->
+    </resources>
 
-        <extensions>
-        </extensions>
+    <extensions>
+    </extensions>
 
-    </build>
+  </build>
 </project>
