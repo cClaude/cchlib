@@ -52,5 +52,5 @@ mvnPackageJar xcchlib-samples/
 mvnPackageJar xcchlib-sandbox/
 mvnPackageJar xcchlib-tools/
 
-saveJars cchlib-apps-duplicatefilesmanager
-saveJars cchlib-apps-editresourcebundle
+saveJars xcchlib-apps-duplicatefilesmanager
+saveJars xcchlib-apps-editresourcebundle
