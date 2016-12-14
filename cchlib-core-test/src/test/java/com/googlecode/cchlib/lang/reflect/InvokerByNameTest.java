@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The class <code>InvokerByNameTest</code> contains tests for the class <code>{@link InvokerByName}</code>.
+ * The class InvokerByNameTest contains tests for the class {@link InvokerByName}.
  *
  * @version $Revision: 1.0 $
  */

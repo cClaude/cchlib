@@ -1,12 +1,10 @@
-// $codepro.audit.disable constantNamingConvention
 package com.googlecode.cchlib.lang.reflect;
 
 import org.fest.util.VisibleForTesting;
 
-
-
 /**
- * The class <code>InvokerByNameFactory</code> implements static methods that return instances of the class <code>{@link InvokerByName}</code>.
+ * The class {@link InvokerByNameFactory} implements static methods that return
+ * instances of the class {@link InvokerByName}.
  *
  * @version $Revision: 1.0 $
  */
@@ -23,7 +21,7 @@ public class InvokerByNameFactory
     }
 
     /**
-     * Create an instance of the class <code>{@link InvokerByName}</code>.
+     * Create an instance of the class {@link InvokerByName}.
      */
     public static InvokerByName<?> createInvokerByName() throws ClassNotFoundException
     {
@@ -31,7 +29,7 @@ public class InvokerByNameFactory
     }
 
     /**
-     * Create an instance of the class <code>{@link InvokerByName}</code>.
+     * Create an instance of the class {@link InvokerByName}.
      */
     public static InvokerByName<MyTestByName> createInvokerByClass()
     {
@@ -39,7 +37,7 @@ public class InvokerByNameFactory
     }
 
     /**
-     * Create an instance of the class <code>{@link InvokerByName}</code>.
+     * Create an instance of the class {@link InvokerByName}.
      * @throws ClassNotFoundException
      */
     public static InvokerByName<?> createInvokerByName3() throws ClassNotFoundException

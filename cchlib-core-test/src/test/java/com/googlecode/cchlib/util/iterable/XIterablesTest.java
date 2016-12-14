@@ -12,7 +12,7 @@ import com.googlecode.cchlib.util.Wrappable;
 import com.googlecode.cchlib.util.iterator.Selectable;
 
 /**
- * The class <code>XIterablesTest</code> contains tests for the class <code>{@link XIterables}</code>.
+ * The class XIterablesTest contains tests for the class {@link XIterables}.
  *
  * @version $Revision: 1.0 $
  */

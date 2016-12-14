@@ -13,7 +13,7 @@ import com.googlecode.cchlib.util.iterator.Iterators;
 import com.googlecode.cchlib.util.iterator.Selectable;
 
 /**
- * The class <code>IterablesTest</code> contains tests for the class <code>{@link Iterables}</code>.
+ * The class IterablesTest contains tests for the class {@link Iterables}.
  *
  * @version $Revision: 1.0 $
  */

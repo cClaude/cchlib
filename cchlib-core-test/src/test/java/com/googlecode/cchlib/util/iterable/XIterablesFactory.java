@@ -3,8 +3,8 @@ package com.googlecode.cchlib.util.iterable;
 
 
 /**
- * The class <code>XIterablesFactory</code> implements static methods that return instances
- * of the class <code>{@link XIterables}</code>.
+ * The classXIterablesFactory implements static methods that return instances
+ * of the class {@link XIterables}.
  *
  * @version $Revision: 1.0 $
  */

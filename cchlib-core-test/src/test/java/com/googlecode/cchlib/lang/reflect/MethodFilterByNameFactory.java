@@ -1,7 +1,8 @@
 package com.googlecode.cchlib.lang.reflect;
 
 /**
- * The class <code>MethodFilterByNameFactory</code> implements static methods that return instances of the class <code>{@link MethodFilterByName}</code>.
+ * The class MethodFilterByNameFactory implements static methods that return
+ * instances of the class {@link MethodFilterByName}.
  *
  * @version $Revision: 1.0 $
  */
@@ -13,7 +14,7 @@ public class MethodFilterByNameFactory
     }
 
     /**
-     * Create an instance of the class <code>{@link MethodFilterByName}</code>.
+     * Create an instance of the class {@link MethodFilterByName}.
      *
      * @generatedBy CodePro at 23/06/13 12:16
      */

@@ -14,7 +14,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * The class <code>SerializableHelperTest</code> contains tests for the class <code>{@link SerializableHelper}</code>.
+ * The class {@link SerializableHelperTest} contains tests for the class
+ * {@link SerializableHelper}.
  *
  * @version $Revision: 1.0 $
  */
