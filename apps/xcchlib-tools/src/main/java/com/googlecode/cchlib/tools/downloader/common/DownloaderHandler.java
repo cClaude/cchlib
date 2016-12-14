@@ -26,8 +26,8 @@ public interface DownloaderHandler
     Collection<GenericDownloaderAppComboBoxConfig> getComboBoxConfigCollection();
 
     /**
-     * Returns a list of {@link DownloadStringURL} to parse
-     * @return a list of {@link DownloadStringURL} to parse
+     * Returns a list of {@link ContentDownloadURI} to parse
+     * @return a list of {@link ContentDownloadURI} to parse
      * @throws MalformedURLException if any
      * @throws URISyntaxException  if any
      */

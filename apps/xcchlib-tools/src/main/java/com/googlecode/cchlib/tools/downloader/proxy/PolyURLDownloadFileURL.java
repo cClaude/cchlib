@@ -12,10 +12,6 @@ import java.util.List;
 import java.util.Map;
 import com.googlecode.cchlib.net.download.FileDownloader;
 
-/**
- * TODOC
- *
- */
 public class PolyURLDownloadFileURL extends FileDownloader
 {
     private static final long serialVersionUID = 1L;
@@ -23,17 +19,6 @@ public class PolyURLDownloadFileURL extends FileDownloader
     private final List<URI> nextURIs;
     private int             nextURIIndex = 0;
 
-    /**
-     * TODOC
-     *
-     * @param defaultURL
-     * @param requestPropertyMap
-     * @param proxy
-     * @param nextURLs
-     * @param initialValue
-     *
-     * @throws URISyntaxException
-     */
     public PolyURLDownloadFileURL(
         final URL                   defaultURL,
         final Map<String,String>    requestPropertyMap,
@@ -49,10 +34,6 @@ public class PolyURLDownloadFileURL extends FileDownloader
         setProperty( INITIAL_VALUE_PROPERTY, initialValue );
     }
 
-    /**
-     * TODOC
-     * @throws URISyntaxException
-     */
     @Override
     public InputStream getInputStream() throws IOException
     {
@@ -71,10 +52,6 @@ public class PolyURLDownloadFileURL extends FileDownloader
             }
     }
 
-    /**
-     * TODOC
-     * @return TODOC
-     */
     public String getInitialURLString()
     {
         return String.class.cast(
