@@ -35,6 +35,23 @@ pushd apps
 ./buildAllApps.sh | tee ../.logs/buildAllApps.log
 popd
 
+cat .logs/buildAllApps.log | grep "warning: no description for" | sort | uniq > .logs/build-all-apps-warn-no-desc.log
+cat .logs/buildAllApps.log | grep "warning: no @param for" | sort | uniq > .logs/build-all-apps-warn-no-param.log
+cat .logs/buildAllApps.log | grep "warning: no @return" | sort | uniq > .logs/build-all-apps-warn-no-return.log
+cat .logs/buildAllApps.log | grep "error: unknown tag:" | sort | uniq > .logs/build-all-apps-error-unknown-tag.log
+cat .logs/buildAllApps.log | grep "error: exception not thrown:" | sort | uniq > .logs/build-all-apps-error-not-thrown.log
+cat .logs/buildAllApps.log | grep "warning: empty" | sort | uniq > .logs/build-all-apps-warning-empty.log
+cat .logs/buildAllApps.log | grep "error: reference not found" | sort | uniq > .logs/build-all-apps-error-reference-not-found.log
+
+cat .logs/buildAllApps.log | grep -v "warning: no description for" \
+  | grep -v "warning: no @param for" \
+  | grep -v "warning: no @return" \
+  | grep -v "error: unknown tag:" \
+  | grep -v "error: exception not thrown:" \
+  | grep -v "warning: empty" \
+  | grep -v "error: reference not found" \
+  > .logs/build-all-apps-others.log
+
 # Some cleanup
 rm -fr /tmp/FolderTreeBuilderTest*
 rm -fr /tmp/cchlib-test-io-*
