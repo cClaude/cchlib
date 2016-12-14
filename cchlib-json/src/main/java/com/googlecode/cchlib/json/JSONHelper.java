@@ -106,7 +106,7 @@ public class JSONHelper
      *            JSON String
      * @param type
      *            Expected type
-     * @return an object of type <code>type<code>
+     * @return an object of type {@code T}
      *
      * @throws JSONHelperException
      *             if any
@@ -135,7 +135,7 @@ public class JSONHelper
      *            JSON File
      * @param type
      *            Expected type
-     * @return an object of type <code>type<code>
+     * @return an object of type {@code T}
      *
      * @throws JSONHelperException
      *             if any
