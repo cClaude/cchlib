@@ -10,8 +10,8 @@ package com.googlecode.cchlib.i18n.core;
 public interface AutoI18nCore
 {
     /**
-     * Apply internationalization on <code>objectToI18n</code> based on
-     * class definition <code>clazz</code>.
+     * Apply internationalization on {@code objectToI18n} based on
+     * class definition {@code clazz}.
      *
      * @param <T>          Type of {@code objectToI18n}
      * @param objectToI18n Object to internationalize

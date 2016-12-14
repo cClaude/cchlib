@@ -13,7 +13,8 @@ import com.googlecode.cchlib.test.SerializableTestCaseHelper;
 
 
 /**
- * The class <code>I18nResourceBundleTest</code> contains tests for the class <code>{@link I18nResourceBundle}</code>.
+ * The class I18nResourceBundleTest contains tests for the class
+ * {@link I18nResourceBundle}.
  */
 public class I18nResourceBundleTest
 {

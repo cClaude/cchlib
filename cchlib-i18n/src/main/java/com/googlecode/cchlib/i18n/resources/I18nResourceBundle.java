@@ -34,7 +34,7 @@ public class I18nResourceBundle implements I18nInterface, Serializable
      *
      * @param resourceBundleFullBaseName base name for this resource bundle
      * @param locale                    {@link Locale} to use
-     * @throws IllegalArgumentException if <code>resourceBundleFullBaseName</code> is null
+     * @throws IllegalArgumentException if {@code resourceBundleFullBaseName} is null
      */
     protected I18nResourceBundle( //
         final String resourceBundleFullBaseName,
@@ -99,7 +99,7 @@ public class I18nResourceBundle implements I18nInterface, Serializable
     }
 
     /**
-     * <code>ResourceBundle</code> is not serializable so this serializes
+     * {@code ResourceBundle} is not serializable so this serializes
      * the base bundle name and the locale with the hopes that this
      * will be enough to look up the message again when this instance
      * is deserialized. This assumes the new place where this object

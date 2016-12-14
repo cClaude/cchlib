@@ -12,7 +12,7 @@ public class IndexKeys extends IndexKV implements Keys, Serializable
     private final int    size;
 
     /**
-     * new IndexKeys with <code>keyBase</code> and <code>size</code> possible values
+     * new IndexKeys with {@code keyBase} and {@code size} possible values
      * @param keyBase base name ('.' will be added between keyBase and key index)
      * @param size number of name (and values) for this key
      */
@@ -30,8 +30,8 @@ public class IndexKeys extends IndexKV implements Keys, Serializable
         if( index < 0 ) {
             throw new IndexOutOfBoundsException( "index=" + index + " must getter than 0" );
             }
-        if( index >= size ) {
-            throw new IndexOutOfBoundsException( "index=" + index + " less than " + size );
+        if( index >= this.size ) {
+            throw new IndexOutOfBoundsException( "index=" + index + " less than " + this.size );
             }
 
         return  this.keyBase + '.' + index;
@@ -40,7 +40,7 @@ public class IndexKeys extends IndexKV implements Keys, Serializable
     @Override
     public int size()
     {
-        return size;
+        return this.size;
     }
 
     @Override
@@ -48,9 +48,9 @@ public class IndexKeys extends IndexKV implements Keys, Serializable
     {
         final StringBuilder builder = new StringBuilder();
         builder.append( "IndexKeys [keyBase=" );
-        builder.append( keyBase );
+        builder.append( this.keyBase );
         builder.append( ", size=" );
-        builder.append( size );
+        builder.append( this.size );
         builder.append( ']' );
         return builder.toString();
     }

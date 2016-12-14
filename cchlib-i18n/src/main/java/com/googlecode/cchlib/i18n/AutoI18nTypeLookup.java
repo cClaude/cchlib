@@ -12,10 +12,10 @@ import java.lang.reflect.Field;
 public interface AutoI18nTypeLookup extends Serializable
 {
     /**
-     * Try to find {@link AutoI18nType} for this <code>field</code>.
+     * Try to find {@link AutoI18nType} for this {@code field}.
      *
      * @param field {@link Field} to analyse.
-     * @return an  {@link AutoI18nType} if this <code>field</code> is supported, null otherwise.
+     * @return an  {@link AutoI18nType} if this {@code field} is supported, null otherwise.
      */
     AutoI18nType lookup( Field field );
 }
