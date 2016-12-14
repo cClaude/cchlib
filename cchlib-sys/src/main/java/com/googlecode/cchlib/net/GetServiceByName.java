@@ -38,6 +38,9 @@ public class GetServiceByName
 
     /**
      * Create an GetServiceByName
+     *
+     * @param services {@link Services} support
+     * @throws UnsupportedSystemException if services system is not support
      */
     public GetServiceByName( final Services services ) throws UnsupportedSystemException
     {
@@ -51,7 +54,7 @@ public class GetServiceByName
      */
     public GetServiceByName() throws UnsupportedSystemException
     {
-       this( new Services() );
+       this( ServicesFactory.newServices() );
     }
 
     /**
