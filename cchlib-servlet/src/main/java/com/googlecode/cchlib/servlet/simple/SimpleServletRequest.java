@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 public interface SimpleServletRequest
 {
     /**
-    * Return a {@link ParameterValue} for this <code>name</code>
+    * Return a {@link ParameterValue} for this {@code name}
     * @param name Name of the parameter you want
-    * @return a {@link ParameterValue} for this <code>name</code>
+    * @return a {@link ParameterValue} for this {@code name}
     */
     ParameterValue getParameter(String name);
 

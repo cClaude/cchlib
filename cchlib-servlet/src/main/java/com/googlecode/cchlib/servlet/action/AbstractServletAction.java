@@ -254,7 +254,7 @@ public abstract class AbstractServletAction implements ServletAction
      * Debug/Check helper
      *
      * @param o object to check
-     * @throws ServletActionAssertException if <code>o</code> not null
+     * @throws ServletActionAssertException if {@code o} not null
      */
     public static void assertNull( final Object o )
         throws ServletActionAssertException
@@ -267,7 +267,7 @@ public abstract class AbstractServletAction implements ServletAction
      *
      * @param message message to print if error
      * @param o object to check
-     * @throws ServletActionAssertException if <code>o</code> not null
+     * @throws ServletActionAssertException if {@code o} not null
      */
     public static void assertNull(
             final String message,
@@ -293,7 +293,7 @@ public abstract class AbstractServletAction implements ServletAction
      * Debug/Check helper
      *
      * @param o object to check
-     * @throws ServletActionAssertException if <code>o</code> is null
+     * @throws ServletActionAssertException if {@code o} is null
      */
     public static void assertNotNull( final Object o )
         throws ServletActionAssertException
@@ -306,7 +306,7 @@ public abstract class AbstractServletAction implements ServletAction
      *
      * @param message message to print if error
      * @param o object to check
-     * @throws ServletActionAssertException if <code>o</code> is null
+     * @throws ServletActionAssertException if {@code o} is null
      */
     public static void assertNotNull(
             final String message,
