@@ -8,9 +8,9 @@
     <artifactId>cchlib</artifactId>
     <version>4.2-SNAPSHOT</version>
   </parent>
-  <artifactId>cchlib-x-googlecontact</artifactId>
+  <artifactId>xcchlib-googlecontact</artifactId>
   <packaging>jar</packaging>
-  <name>cchlib-x-googlecontact</name>
+  <name>xcchlib-googlecontact</name>
 
   <!-- Global properties -->
   <properties>

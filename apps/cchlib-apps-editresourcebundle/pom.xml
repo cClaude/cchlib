@@ -9,7 +9,7 @@
     <version>4.2-SNAPSHOT</version>
   </parent>
 
-  <artifactId>cchlib-apps-editresourcebundle</artifactId>
+  <artifactId>xcchlib-apps-editresourcebundle</artifactId>
   <name>EditResourcesBundle</name>
   <packaging>jar</packaging>
   <description>Tools based on cchlib</description>

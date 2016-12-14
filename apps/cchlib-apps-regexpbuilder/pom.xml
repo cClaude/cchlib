@@ -7,14 +7,14 @@
     <version>4.2-SNAPSHOT</version>
   </parent>
 
-  <artifactId>cchlib-apps-regexpbuilder</artifactId>
+  <artifactId>xcchlib-apps-regexpbuilder</artifactId>
   <name>cchlib-apps-regexpbuilder</name>
   <packaging>jar</packaging>
   <description>Simple App based on cchlib</description>
   <url>https://github.com/cClaude/cchlib/</url>
 
   <dependencies>
-  
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
@@ -22,7 +22,7 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-swing</artifactId>

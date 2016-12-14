@@ -9,7 +9,7 @@
     <version>4.2-SNAPSHOT</version>
   </parent>
 
-  <artifactId>cchlib-apps-duplicatefilesmanager</artifactId>
+  <artifactId>xcchlib-apps-duplicatefilesmanager</artifactId>
   <name>DuplicateFilesManager</name>
   <packaging>jar</packaging>
 
@@ -78,7 +78,7 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.6.3</version>
     </dependency>-->
-    
+
     <dependency>
      <groupId>com.googlecode.cchlib</groupId>
      <artifactId>cchlib-io-test</artifactId>
