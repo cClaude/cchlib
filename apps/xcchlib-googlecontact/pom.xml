@@ -14,8 +14,8 @@
 
   <!-- Global properties -->
   <properties>
-    <!-- project.java.source.version>1.8</project.java.source.version -->
-    <!-- project.java.target.version>1.8</project.java.target.version -->
+    <!-- Javadoc is build and did not break the build if any error -->
+    <maven.javadoc.plugin.fail.on.error>false</maven.javadoc.plugin.fail.on.error>
   </properties>
 
   <dependencies>
@@ -45,18 +45,11 @@
         <version>4.2-SNAPSHOT</version>
     </dependency>
 
-<!-- REQUIRED ???? -->
-<!--     <dependency> -->
-<!--       <groupId>org.easytesting</groupId> -->
-<!--       <artifactId>fest-reflect</artifactId> -->
-<!--       <version>1.4.1</version> -->
-<!--       <scope>test</scope> -->
-<!--     </dependency> -->
-
   </dependencies>
 
   <build>
     <resources>
+      <!--  
       <resource>
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
@@ -71,6 +64,7 @@
           <exclude>version.properties</exclude>
         </excludes>
       </resource>
+      -->
     </resources>
 
     <extensions>

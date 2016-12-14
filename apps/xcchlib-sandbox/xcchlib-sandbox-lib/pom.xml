@@ -13,18 +13,19 @@
   <name>cchlib-x-sandbox-lib</name>
   <packaging>jar</packaging>
 
-  <prerequisites>
-    <maven>3.0.0</maven>
-  </prerequisites>
 
   <!-- Global properties -->
   <properties>
+    <!--
     <build.date>${maven.build.timestamp}</build.date>
     <buildNumber>${maven.build.timestamp}</buildNumber>
     <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.java.source.version>1.8</project.java.source.version>
     <project.java.target.version>1.8</project.java.target.version>
+    -->
+    <!-- Javadoc is build and did not break the build if any error -->
+    <maven.javadoc.plugin.fail.on.error>false</maven.javadoc.plugin.fail.on.error>
   </properties>
 
   <dependencies>
@@ -34,31 +35,25 @@
         <artifactId>google-api-services-drive</artifactId>
         <version>v2-rev102-1.17.0-rc</version>
     </dependency>
-    <!--dependency>
-        <groupId>com.google.api.client</groupId>
-        <artifactId>google-api-client-googleapis</artifactId>
-        <version>1.4.1-beta</version>
-    </dependency-->
+
     <dependency>
         <groupId>com.google.api.client</groupId>
         <artifactId>google-api-client-extensions</artifactId>
         <version>1.4.1-beta</version>
     </dependency>
-    <!--dependency>
-        <groupId>com.google.api.client</groupId>
-        <artifactId>google-api-client-googleapis-json</artifactId>
-        <version>1.2.3-alpha</version>
-    </dependency-->
+
     <dependency>
         <groupId>com.google.http-client</groupId>
         <artifactId>google-http-client-jackson2</artifactId>
         <version>1.17.0-rc</version>
     </dependency>
+    
     <dependency>
         <groupId>com.google.oauth-client</groupId>
         <artifactId>google-oauth-client-jetty</artifactId>
         <version>1.17.0-rc</version>
     </dependency>
+    
     <dependency>
         <groupId>com.google.api.client</groupId>
         <artifactId>google-api-client-http</artifactId>
@@ -76,6 +71,7 @@
         <artifactId>core</artifactId>
         <version>1.47.1</version>
     </dependency>
+    
     <dependency>
         <groupId>com.google.inject</groupId>
         <artifactId>guice</artifactId>
@@ -93,11 +89,16 @@
       <artifactId>cchlib-io</artifactId>
       <version>4.2-SNAPSHOT</version>
     </dependency>
+    
   </dependencies>
 
   <build>
-    <extensions />
+    <extensions>
+    </extensions>
+    
     <plugins>
+    
+      <!-- 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -112,6 +113,8 @@
           <encoding>${project.build.sourceEncoding}</encoding>
         </configuration>
       </plugin>
+      -->
+      <!-- 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -131,6 +134,7 @@
           <source>${project.java.source.version}</source>
       </configuration>
       </plugin>
+      -->
     </plugins>
   </build>
 
