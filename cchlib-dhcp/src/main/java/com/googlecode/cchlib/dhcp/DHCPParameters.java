@@ -20,8 +20,8 @@ import java.util.Arrays;
  * @author Jason Goldschmidt and Nick Stone
  * @author Claude CHOISNET
  */
-public class DHCPParameters {
-
+public class DHCPParameters
+{
     public static final byte   OP_OPTION_BOOTREQUEST = 1;
     public static final byte   OP_OPTION_BOOTREPLY   = 2;
 
@@ -40,7 +40,7 @@ public class DHCPParameters {
     private final byte[]       sname                 = new byte[64]; // Optional server host name
     private final byte[]       file                  = new byte[128]; // Boot file name
 
-    /** internal representaton of DHCP Options */
+    /** internal representation of DHCP Options */
     private DHCPOptions        dhcpOptions;
 
     /** Lock Object */
@@ -104,7 +104,7 @@ public class DHCPParameters {
         return message;
     }
 
-    /**
+    /*
      * Convert a specified byte array containing a DHCP message into a DHCPParameters object.
      *
      * @param ibuf
@@ -185,7 +185,7 @@ public class DHCPParameters {
 
     /**
      * Get message Op code / message type.
-     *
+     * @return message Op code / message type.
      * @see #setOp(byte)
      */
     public byte getOp() // ----------------------------------------------------
@@ -208,7 +208,7 @@ public class DHCPParameters {
 
     /**
      * Get hardware address type.
-     *
+     * @return hardware address type.
      * @see #setHType(byte)
      */
     public byte getHType() // -------------------------------------------------
@@ -231,7 +231,7 @@ public class DHCPParameters {
 
     /**
      * Get hardware address length.
-     *
+     * @return hardware address length.
      * @see #setHLen(byte)
      */
     public byte getHLen() // --------------------------------------------------
@@ -254,7 +254,7 @@ public class DHCPParameters {
 
     /**
      * Get hops field.
-     *
+     * @return hops field.
      * @see #setHOps(byte)
      */
     public byte getHOps() // --------------------------------------------------
@@ -277,7 +277,7 @@ public class DHCPParameters {
 
     /**
      * Get transaction ID.
-     *
+     * @return transaction ID.
      * @see #setXId(int)
      */
     public int getXId() // ----------------------------------------------------
@@ -300,7 +300,7 @@ public class DHCPParameters {
 
     /**
      * Get seconds elapsed since client began address acquisition or renewal process.
-     *
+     * @return seconds elapsed since client began address acquisition or renewal process.
      * @see #setSecs(short)
      */
     public short getSecs() // -------------------------------------------------
@@ -323,7 +323,7 @@ public class DHCPParameters {
 
     /**
      * Get flags field.
-     *
+     * @return flags field.
      * @see #setFlags(short)
      */
     public short getFlags() // ------------------------------------------------
@@ -346,7 +346,7 @@ public class DHCPParameters {
 
     /**
      * Get client IP address.
-     *
+     * @return client IP address.
      * @see #setCIAddr(byte[])
      */
     public byte[] getCIAddr() // ----------------------------------------------
@@ -369,7 +369,7 @@ public class DHCPParameters {
 
     /**
      * Get 'your' (client) IP address.
-     *
+     * @return 'your' (client) IP address.
      * @see #setYIAddr(byte[])
      */
     public byte[] getYIAddr() // ----------------------------------------------
@@ -392,7 +392,7 @@ public class DHCPParameters {
 
     /**
      * Get address of next server to use in bootstrap.
-     *
+     * @return address of next server to use in bootstrap.
      * @see #setSIAddr(byte[])
      */
     public byte[] getSIAddr() // ----------------------------------------------
@@ -415,7 +415,7 @@ public class DHCPParameters {
 
     /**
      * Get relay agent IP address.
-     *
+     * @return relay agent IP address.
      * @see #setGIAddr(byte[])
      */
     public byte[] getGIAddr() // ----------------------------------------------
@@ -438,7 +438,7 @@ public class DHCPParameters {
 
     /**
      * Get client harware address.
-     *
+     * @return client harware address.
      * @see #setChaddr(byte[])
      */
     public byte[] getCHAddr() // ----------------------------------------------
@@ -461,7 +461,7 @@ public class DHCPParameters {
 
     /**
      * Get optional server host name.
-     *
+     * @return optional server host name.
      * @see #setSName(byte[])
      */
     public byte[] getSName() // -----------------------------------------------
@@ -483,7 +483,7 @@ public class DHCPParameters {
     }
 
     /**
-     * Get boot file name.
+     * @return boot file name.
      *
      * @see #setFile(byte[])
      */
@@ -528,7 +528,7 @@ public class DHCPParameters {
     }
 
     /**
-     * Set boot file name.
+     * @return boot file name.
      *
      * @see #setFile(byte[])
      * @see #setFilename(String,String)
@@ -600,6 +600,7 @@ public class DHCPParameters {
      *
      * @param optNum
      *            option number
+     * @return specified DHCP option
      */
     public byte[] getOption( final byte optNum ) // ---------------------------
     {
@@ -611,11 +612,12 @@ public class DHCPParameters {
      *
      * @param optNum
      *            option number
-     *
+     * @return specified DHCP option
      * @throws IllegalArgumentException
      *             if field is not exactly 1 byte long
      * @throws NullPointerException
      *             if option is not defined
+     *
      */
     public byte getOptionAsByte( final byte optNum ) // -----------------------
             throws IllegalArgumentException, NullPointerException

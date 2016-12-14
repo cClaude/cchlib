@@ -99,8 +99,8 @@ public class GoogleContacts
      *
      * @throws IOException
      *             if an error occur when reading data
-     * @throws GoogleContacAnalyserException
-     *             if an error occur when analyze data
+     * @throws UnsupportedEncodingException
+     *             if any
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static List<GoogleContact> createGoogleContacts(
@@ -128,8 +128,8 @@ public class GoogleContacts
      *
      * @throws IOException
      *             if an error occur when reading data
-     * @throws GoogleContacAnalyserException
-     *             if an error occur when analyze data
+     * @throws FileNotFoundException
+     *             if any
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public static List<GoogleContact> createGoogleContacts( @Nonnull final File file )
