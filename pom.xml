@@ -149,7 +149,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>10.4</version>
+        <version>${maven.javadoc.plugin.version}</version>
         <configuration>
 <!--           <failOnError>false</failOnError> -->
           <charset>UTF-8</charset>
@@ -158,13 +158,22 @@
           <optimize>true</optimize>
           <showWarnings>${project.javadoc.warning}</showWarnings>
           <showDeprecation>true</showDeprecation>
-          <show>protected</show>
-         <excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented</excludePackageNames>
+          <showProtected>true</showProtected>
+          <excludePackageNames>${project.javadoc.excludePackageNames}</excludePackageNames>
           <links>
             <link>http://docs.oracle.com/javase/8/docs/api/</link>
           </links>
           <source>${project.java.source.version}</source>
+          <target>${project.java.target.version}</target>
         </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
