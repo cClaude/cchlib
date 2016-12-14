@@ -1,4 +1,3 @@
-// $codepro.audit.disable
 package com.googlecode.cchlib.apps.emptyfiles;
 
 import java.awt.BorderLayout;
@@ -14,7 +13,10 @@ public class EmptyfilesTestApp extends JFrame
 
     /**
      * Launch the application.
+     *
+     * @param args Parameter from CLI
      */
+
     public static void main( final String[] args )
     {
         EventQueue.invokeLater( () -> {

@@ -25,8 +25,8 @@ public final class FolderTreeNode
      * Create a root FileTreeNode
      *
      * @param folder {@link EmptyFolder} object for this root FileTreeNode
-     * @param selected
-     * @param model Modelable
+     * @param selected Default selection
+     * @param model The model
      */
     private FolderTreeNode(
         final Folder              folder,
@@ -34,8 +34,6 @@ public final class FolderTreeNode
         final FolderTreeModelable model
         )
     {
-        super();
-
         this.folder   = folder;
         this.selected = false;
         this.model    = model;
@@ -45,7 +43,7 @@ public final class FolderTreeNode
      * Create a root FileTreeNode
      *
      * @param folder {@link EmptyFolder} object for this root FileTreeNode
-     * @param model
+     * @param model The model
      */
     private FolderTreeNode( final Folder folder, final FolderTreeModelable model )
     {
@@ -83,11 +81,8 @@ public final class FolderTreeNode
         return this.folder;
     }
 
-    /**
+    /*
      * Create a child node on this node.
-     *
-     * @param newFolder
-     * @return
      */
     public FolderTreeNode addFolder( final Folder newFolder )
     {

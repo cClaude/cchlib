@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.emptyfiles.panel.remove;
 
 import java.awt.BorderLayout;
@@ -21,7 +20,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
 
 @I18nName("emptyfiles.WorkingJPanel")
-public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
+public class WorkingJPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( WorkingJPanel.class );
@@ -38,9 +37,7 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
     private final JScrollPane scrollPane;
     private final JButton restartButton;
 
-    /**
-     * Create the panel.
-     */// $codepro.audit.disable sourceLength
+    @SuppressWarnings({"squid:S00117","squid:S1199"})
     public WorkingJPanel(
         final RemoveEmptyFilesJPanel removeEmptyFilesJPanel,
         final WorkingTableModel      tableModel
@@ -96,17 +93,17 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
                     applySelectionState();
                 });
 
-                autoSizer = new JTableColumnsAutoSizer( table, tableModel );
-                tableModel.addTableModelListener( autoSizer );
-                table.addComponentListener( autoSizer );
+                this.autoSizer = new JTableColumnsAutoSizer( this.table, tableModel );
+                tableModel.addTableModelListener( this.autoSizer );
+                this.table.addComponentListener( this.autoSizer );
             }
         }
         {
             this.deselectAllButton = new JButton("Deselect All");
             this.deselectAllButton.setIcon( removeEmptyFilesJPanel.getResources().getDeselectAllIcon() );
-            this.deselectAllButton.addActionListener((final ActionEvent e) -> {
-                tableModel.doUnselectAll();
-            });
+            this.deselectAllButton.addActionListener(
+                (final ActionEvent e) -> tableModel.doUnselectAll()
+                );
 
             final GridBagConstraints gbc_deselectAllButton = new GridBagConstraints();
             gbc_deselectAllButton.fill = GridBagConstraints.HORIZONTAL;
@@ -118,9 +115,10 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         {
             this.selectAllButton = new JButton("Select All");
             this.selectAllButton.setIcon( removeEmptyFilesJPanel.getResources().getSelectAllIcon() );
-            this.selectAllButton.addActionListener((final ActionEvent e) -> {
-                tableModel.doSelectAll();
-            });
+            this.selectAllButton.addActionListener(
+                (final ActionEvent e) -> tableModel.doSelectAll()
+                );
+
             final GridBagConstraints gbc_selectAllButton = new GridBagConstraints();
             gbc_selectAllButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_selectAllButton.insets = new Insets(0, 0, 5, 0);
@@ -130,9 +128,10 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         }
         {
             this.restartButton = new JButton("Restart");
-            this.restartButton.addActionListener((final ActionEvent e) -> {
-                removeEmptyFilesJPanel.restart();
-            });
+            this.restartButton.addActionListener(
+                (final ActionEvent e) -> removeEmptyFilesJPanel.restart()
+                );
+
             final GridBagConstraints gbc_restartButton = new GridBagConstraints();
             gbc_restartButton.fill = GridBagConstraints.HORIZONTAL;
             gbc_restartButton.insets = new Insets(0, 0, 5, 0);
@@ -151,9 +150,10 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         }
         {
             this.deleteButton = new JButton("Delete");
-            this.deleteButton.addActionListener((final ActionEvent e) -> {
-                doDelete();
-            });
+            this.deleteButton.addActionListener(
+                (final ActionEvent e) -> doDelete()
+                );
+
             final GridBagConstraints gbc_deleteButton = new GridBagConstraints();
             gbc_deleteButton.fill = GridBagConstraints.BOTH;
             gbc_deleteButton.gridx = 1;
@@ -162,32 +162,25 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         }
     }
 
-//    private void fixDisplay()
-//    {
-//        //JTableColumnWidth.fixColumnWidth( table );
-//        //JTableColumnsAutoSizer.sizeColumnsToFit( table, JTableColumnsAutoSizer.DEFAULT_COLUMN_MARGIN, tableModel );
-//        autoSizer.apply();
-//    }
-
     private void applySelectionState()
     {
-        switch( tableModel.getSelectionState() ) {
+        switch( this.tableModel.getSelectionState() ) {
             case ALL_SELECTED:
-                deleteButton.setEnabled( true );
-                selectAllButton.setEnabled( false );
-                deselectAllButton.setEnabled( true );
+                this.deleteButton.setEnabled( true );
+                this.selectAllButton.setEnabled( false );
+                this.deselectAllButton.setEnabled( true );
                break;
 
             case AT_LEAST_ONE_FILE_SELECTED:
-                deleteButton.setEnabled( true );
-                selectAllButton.setEnabled( true );
-                deselectAllButton.setEnabled( true );
+                this.deleteButton.setEnabled( true );
+                this.selectAllButton.setEnabled( true );
+                this.deselectAllButton.setEnabled( true );
                 break;
 
             case NONE_SELECTED:
-                deleteButton.setEnabled( false );
-                selectAllButton.setEnabled( true );
-                deselectAllButton.setEnabled( false );
+                this.deleteButton.setEnabled( false );
+                this.selectAllButton.setEnabled( true );
+                this.deselectAllButton.setEnabled( false );
                 break;
             }
     }
@@ -199,7 +192,7 @@ public class WorkingJPanel extends JPanel // $codepro.audit.disable largeNumberO
         this.progressBar.setMaximum( this.tableModel.getSelectedRowCount() );
         this.progressBar.setEnabled( true );
 
-        new Thread( new DeleteTask( this, tableModel, progressBar ), "doDelete()" ).start();
+        new Thread( new DeleteTask( this, this.tableModel, this.progressBar ), "doDelete()" ).start();
     }
 
     private void setEnabledAll( final boolean b )
