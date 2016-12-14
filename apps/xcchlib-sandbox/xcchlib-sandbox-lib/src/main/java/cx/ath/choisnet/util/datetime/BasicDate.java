@@ -66,9 +66,9 @@ import java.text.SimpleDateFormat;
  ** @see BasicTime
  **
  */
-public class BasicDate implements Serializable, Cloneable, DateInterface {
-    /** serialVersionUID */
-    private static final long               serialVersionUID = 1L;
+public class BasicDate implements Serializable, DateInterface
+{
+    private static final long serialVersionUID = 1L;
 
     /**
      ** Chaene de formatage pour la class BasicDateFormat de la methode toString()
@@ -698,9 +698,9 @@ public class BasicDate implements Serializable, Cloneable, DateInterface {
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + day;
-        result = prime * result + month;
-        result = prime * result + year;
+        result = (prime * result) + this.day;
+        result = (prime * result) + this.month;
+        result = (prime * result) + this.year;
         return result;
     }
 
@@ -717,13 +717,13 @@ public class BasicDate implements Serializable, Cloneable, DateInterface {
             return false;
         }
         final BasicDate other = (BasicDate)obj;
-        if( day != other.day ) {
+        if( this.day != other.day ) {
             return false;
         }
-        if( month != other.month ) {
+        if( this.month != other.month ) {
             return false;
         }
-        if( year != other.year ) {
+        if( this.year != other.year ) {
             return false;
         }
         return true;

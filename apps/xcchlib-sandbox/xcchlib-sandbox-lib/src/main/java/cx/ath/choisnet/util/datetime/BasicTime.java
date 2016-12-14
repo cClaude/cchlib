@@ -26,9 +26,9 @@ import java.text.SimpleDateFormat;
  **
  ** @see BasicDate
  */
-public class BasicTime implements Serializable, Cloneable, TimeInterface {
-    /** serialVersionUID */
-    private static final long               serialVersionUID = 1L;
+public class BasicTime implements Serializable, TimeInterface
+{
+    private static final long serialVersionUID = 1L;
 
     /**
      ** Chaene de formatage pour la class SimpleDateFormat du resultat de la methode toString()
@@ -536,9 +536,9 @@ public class BasicTime implements Serializable, Cloneable, TimeInterface {
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + hours;
-        result = prime * result + minutes;
-        result = prime * result + seconds;
+        result = (prime * result) + this.hours;
+        result = (prime * result) + this.minutes;
+        result = (prime * result) + this.seconds;
         return result;
     }
 
@@ -555,13 +555,13 @@ public class BasicTime implements Serializable, Cloneable, TimeInterface {
             return false;
         }
         final BasicTime other = (BasicTime)obj;
-        if( hours != other.hours ) {
+        if( this.hours != other.hours ) {
             return false;
         }
-        if( minutes != other.minutes ) {
+        if( this.minutes != other.minutes ) {
             return false;
         }
-        if( seconds != other.seconds ) {
+        if( this.seconds != other.seconds ) {
             return false;
         }
         return true;
