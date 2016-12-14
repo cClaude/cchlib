@@ -1,12 +1,10 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.tools;
 
 import java.awt.Image;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.util.Properties;
 import javax.swing.Icon;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.Version;
@@ -242,27 +240,6 @@ public final class MyResourcesLoader
 
             return null;
             }
-    }
-
-    /**
-     * Build {@link Properties} for giving resource name
-     * @param name Resource name
-     * @return {@link Properties} for giving resource name
-     * @throws ResourcesLoaderException If resource is not found
-     */
-    @VisibleForTesting
-    public static final Properties getProperties( final String name )
-    {
-        final Properties prop = new Properties();
-
-        try( final InputStream is = MyResourcesLoader.getResourceAsStream( name ) ) {
-            prop.load( is );
-            }
-        catch( IOException | ResourcesLoaderException e ) {
-            LOGGER.error( "Can't load properties: " + name, e );
-            }
-
-        return prop;
     }
 
     public static Resources getResources()
