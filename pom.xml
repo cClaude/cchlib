@@ -28,6 +28,8 @@
     <!-- see http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javadoc.html -->
     <!-- additionalparam>-Xdoclint:none</additionalparam -->
     <!-- additionalparam>-Xdoclint:accessibility</additionalparam -->
+    <!-- Javadoc is build and the build if any error -->
+    <maven.javadoc.plugin.fail.on.error>true</maven.javadoc.plugin.fail.on.error>
 
     <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
     <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
@@ -151,7 +153,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven.javadoc.plugin.version}</version>
         <configuration>
-<!--           <failOnError>false</failOnError> -->
+          <failOnError>${maven.javadoc.plugin.fail.on.error}</failOnError>
           <charset>UTF-8</charset>
           <docencoding>UTF-8</docencoding>
           <docfilessubdirs>true</docfilessubdirs>
