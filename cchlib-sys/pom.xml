@@ -15,27 +15,12 @@
   <description>Provide system related features. </description>
   <url>http://choisnet.ath.cx/cchlib/</url>
 
-  <!-- Distribution management -->
-  <!-- distributionManagement>
-    <repository>
-      <id>googlecode.cchlib.repo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>googlecode.cchlib.snapshotrepo</id>
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement -->
-
   <!-- Global properties -->
   <properties>
-    <!-- project.build.sourceEncoding>UTF-8</project.build.sourceEncoding -->
-    <!-- project.java.source.version>1.7</project.java.source.version -->
-    <!-- project.java.target.version>1.7</project.java.target.version -->
   </properties>
 
   <dependencies>
+  
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
@@ -67,13 +52,17 @@
         <artifactId>commons-lang</artifactId>
         <version>2.6</version>
     </dependency>
+    
   </dependencies>
 
   <build>
+  
     <extensions>
     </extensions>
+    
     <plugins>
     </plugins>
+    
   </build>
 
 </project>

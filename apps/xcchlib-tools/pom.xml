@@ -11,10 +11,11 @@
   <name>xcchlib-tools</name>
   <packaging>jar</packaging>
   <description>Tools based on cchlib</description>
-  <url>http://choisnet.ath.cx/cchlib/</url>
+  <url>https://github.com/cClaude/cchlib/</url>
 
   <properties>
-    <!-- See parent pom -->
+    <!-- Javadoc is build and did not break the build if any error -->
+    <maven.javadoc.plugin.fail.on.error>false</maven.javadoc.plugin.fail.on.error>
   </properties>
 
   <dependencies>
@@ -36,9 +37,9 @@
     </dependency>
 
     <dependency>
-     <groupId>com.googlecode.cchlib</groupId>
-     <artifactId>cchlib-swing</artifactId>
-     <version>4.2-SNAPSHOT</version>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-swing</artifactId>
+      <version>4.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -48,22 +49,22 @@
     </dependency>
 
     <dependency>
-        <groupId>com.googlecode.cchlib</groupId>
-        <artifactId>cchlib-net</artifactId>
-        <version>4.2-SNAPSHOT</version>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-net</artifactId>
+      <version>4.2-SNAPSHOT</version>
     </dependency>
 
     <dependency>
-     <groupId>com.googlecode.cchlib</groupId>
-     <artifactId>cchlib-json</artifactId>
-     <version>4.2-SNAPSHOT</version>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-json</artifactId>
+      <version>4.2-SNAPSHOT</version>
     </dependency>
 
     <!-- required by PhoneRecordSorterCLIApp -->
     <dependency>
-        <groupId>com.googlecode.cchlib</groupId>
-        <artifactId>cchlib-x-googlecontact</artifactId>
-        <version>4.2-SNAPSHOT</version>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-x-googlecontact</artifactId>
+      <version>4.2-SNAPSHOT</version>
     </dependency>
 
     <!-- CSVReader -->
@@ -75,32 +76,10 @@
 
     <!-- flexjson.JSONDeserializer, flexjson.JSONSerializer -->
     <dependency>
-        <groupId>net.sf.flexjson</groupId>
-        <artifactId>flexjson</artifactId>
-        <version>3.2</version>
+      <groupId>net.sf.flexjson</groupId>
+      <artifactId>flexjson</artifactId>
+      <version>3.2</version>
     </dependency>
-
-<!--     <dependency> -->
-<!--       <groupId>log4j</groupId> -->
-<!--       <artifactId>log4j</artifactId> -->
-<!--       <version>1.2.17</version> -->
-<!--       <type>jar</type> -->
-<!--       <scope>compile</scope> -->
-<!--     </dependency> -->
-
-<!--     <dependency> -->
-<!--       <groupId>junit</groupId> -->
-<!--       <artifactId>junit</artifactId> -->
-<!--       <version>4.11</version> -->
-<!--       <scope>test</scope> -->
-<!--     </dependency> -->
-
-<!--     <dependency> -->
-<!--       <groupId>org.easytesting</groupId> -->
-<!--       <artifactId>fest-assert</artifactId> -->
-<!--       <version>1.4</version> -->
-<!--       <scope>test</scope> -->
-<!--     </dependency> -->
 
   </dependencies>
 

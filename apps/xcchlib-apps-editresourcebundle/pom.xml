@@ -22,6 +22,7 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
@@ -29,21 +30,25 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
+
     <dependency>
      <groupId>com.googlecode.cchlib</groupId>
      <artifactId>cchlib-io</artifactId>
      <version>4.2-SNAPSHOT</version>
     </dependency>
+
     <dependency>
      <groupId>com.googlecode.cchlib</groupId>
      <artifactId>cchlib-swing</artifactId>
      <version>4.2-SNAPSHOT</version>
     </dependency>
+
     <dependency>
      <groupId>com.googlecode.cchlib</groupId>
      <artifactId>cchlib-i18n</artifactId>
      <version>4.2-SNAPSHOT</version>
     </dependency>
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-unit</artifactId>
@@ -54,7 +59,9 @@
   </dependencies>
 
   <build>
+
     <finalName>${project.name}-${project.version}-r${buildNumber}</finalName>
+
     <plugins>
 
       <plugin>
@@ -86,6 +93,7 @@
       </plugin>
 
     </plugins>
+
   </build>
 
 </project>

@@ -12,37 +12,24 @@
   <artifactId>xcchlib-samples</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-x-samples</name>
-<!--   <groupId>com.googlecode.cchlib</groupId> -->
-<!--   <version>4.2-SNAPSHOT</version> -->
-
-  <prerequisites>
-    <maven>3.0.0</maven>
-  </prerequisites>
 
   <!-- Global properties -->
   <properties>
-    <build.date>${maven.build.timestamp}</build.date>
-    <buildNumber>${maven.build.timestamp}</buildNumber>
-    <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.java.source.version>1.8</project.java.source.version>
-    <project.java.target.version>1.8</project.java.target.version>
-
-    <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
-    <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
-    <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
   </properties>
 
   <repositories>
+
     <repository>
       <id>google-releases</id>
       <name>Google Releases</name>
       <url>https://oss.sonatype.org/content/repositories/google-releases</url>
     </repository>
+
     <repository>
       <id>google-api-services</id>
       <url>http://mavenrepo.google-api-java-client.googlecode.com/hg</url>
     </repository>
+
   </repositories>
 
   <dependencies>
@@ -62,50 +49,13 @@
  </dependencies>
 
   <build>
+
     <extensions>
-      <extension><!-- maven on googlecode -->
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
-      </extension>
     </extensions>
+
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.compiler.plugin.version}</version>
-        <configuration>
-          <verbose />
-          <optimize>true</optimize>
-          <showWarnings>true</showWarnings>
-          <showDeprecation>true</showDeprecation>
-          <source>${project.java.source.version}</source>
-          <target>${project.java.target.version}</target>
-          <encoding>${project.build.sourceEncoding}</encoding>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven.javadoc.plugin.version}</version>
-        <configuration>
-          <charset>UTF-8</charset>
-          <docencoding>UTF-8</docencoding>
-          <docfilessubdirs>true</docfilessubdirs>
-          <optimize>true</optimize>
-          <showWarnings>true</showWarnings>
-          <showDeprecation>true</showDeprecation>
-          <excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented:cx.ath.choisnet.tools.*</excludePackageNames>
-          <links>
-            <link>http://docs.oracle.com/javase/7/docs/api/</link>
-          </links>
-          <show>protected</show>
-          <source>${project.java.source.version}</source>
-      </configuration>
-      </plugin>
     </plugins>
+
   </build>
 
-  <modules>
-  </modules>
 </project>

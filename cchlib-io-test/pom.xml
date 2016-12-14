@@ -8,6 +8,7 @@
     <artifactId>cchlib</artifactId>
     <version>4.2-SNAPSHOT</version>
   </parent>
+  
   <artifactId>cchlib-io-test</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-io-test</name>
@@ -41,12 +42,13 @@
   </dependencies>
 
   <build>
+  
     <extensions>
     </extensions>
+    
     <plugins>
     </plugins>
+    
   </build>
 
-  <modules>
-  </modules>
 </project>

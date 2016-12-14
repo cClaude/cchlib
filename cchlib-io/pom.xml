@@ -8,6 +8,7 @@
     <artifactId>cchlib</artifactId>
     <version>4.2-SNAPSHOT</version>
   </parent>
+
   <artifactId>cchlib-io</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-io</name>
@@ -17,6 +18,7 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
@@ -24,37 +26,24 @@
       <type>jar</type>
       <scope>compile</scope>
     </dependency>
+
     <dependency><!-- base64 for test cases (no regression) / no more using sun version -->
       <groupId>net.iharder</groupId>
       <artifactId>base64</artifactId>
       <scope>test</scope>
       <version>2.3.8</version>
     </dependency>
+
   </dependencies>
 
   <build>
+
     <extensions>
     </extensions>
+
     <plugins>
-
-      <!-- attach Javadoc to maven artifacts -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven.javadoc.plugin.version}</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
     </plugins>
+
   </build>
 
-  <modules>
-  </modules>
 </project>

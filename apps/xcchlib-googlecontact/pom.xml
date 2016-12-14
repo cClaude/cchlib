@@ -8,6 +8,7 @@
     <artifactId>cchlib</artifactId>
     <version>4.2-SNAPSHOT</version>
   </parent>
+
   <artifactId>xcchlib-googlecontact</artifactId>
   <packaging>jar</packaging>
   <name>xcchlib-googlecontact</name>
@@ -19,6 +20,7 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
@@ -48,45 +50,16 @@
   </dependencies>
 
   <build>
+
     <resources>
-      <!--  
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>version.properties</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>false</filtering>
-        <excludes>
-          <exclude>version.properties</exclude>
-        </excludes>
-      </resource>
-      -->
     </resources>
 
     <extensions>
     </extensions>
 
     <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven.jar.plugin.version}</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>com.googlecode.cchlib.Version</mainClass>
-              <addClasspath>true</addClasspath>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-
     </plugins>
+
   </build>
 
 </project>

@@ -7,20 +7,13 @@
     <version>4.2-SNAPSHOT</version>
     <artifactId>cchlib</artifactId>
   </parent>
+  
   <artifactId>cchlib-core-test</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-core-test</name>
 
   <!-- Global properties -->
   <properties>
-  <!--
-      <build.date>${maven.build.timestamp}</build.date>
-      <buildNumber>${maven.build.timestamp}</buildNumber>
-      <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <project.java.source.version>1.8</project.java.source.version>
-      <project.java.target.version>1.8</project.java.target.version>
-  -->
   </properties>
 
   <dependencies>
@@ -50,27 +43,13 @@
   </dependencies>
 
   <build>
+  
     <resources>
-    <!-- 
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>version.properties</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>false</filtering>
-        <excludes>
-          <exclude>version.properties</exclude>
-        </excludes>
-      </resource>
-    -->
     </resources>
 
     <extensions>
     </extensions>
 
   </build>
+  
 </project>

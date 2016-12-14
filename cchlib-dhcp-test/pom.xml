@@ -8,6 +8,7 @@
     <artifactId>cchlib</artifactId>
     <version>4.2-SNAPSHOT</version>
   </parent>
+
   <artifactId>cchlib-dhcp-test</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-dhcp-test</name>
@@ -17,6 +18,7 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-dhcp</artifactId>
@@ -24,19 +26,24 @@
       <type>jar</type>
       <scope>test</scope>
     </dependency>
+
     <dependency>
         <groupId>com.googlecode.cchlib</groupId>
         <artifactId>cchlib-unit</artifactId>
         <version>4.2-SNAPSHOT</version>
         <scope>test</scope>
     </dependency>
+
   </dependencies>
 
   <build>
+
     <extensions>
     </extensions>
+
     <plugins>
     </plugins>
+
   </build>
 
 </project>
