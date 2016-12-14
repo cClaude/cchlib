@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 /**
  * Provide some tools for LookAndFeel
@@ -20,73 +21,96 @@ public final class LookAndFeelHelper
     /**
      * Change LookAndFeel.
      *
-     * @param frame    Root frame
-     * @param lnfName  LookAndFeel name to set
-     * @throws ClassNotFoundException if the LookAndFeel class could not be found
-     * @throws InstantiationException if a new instance of the class couldn't be created
-     * @throws IllegalAccessException if the class or initializer isn't accessible
-     * @throws UnsupportedLookAndFeelException if lnf.isSupportedLookAndFeel() is false
-     * @throws ClassCastException if className does not identify a class that extends LookAndFeel
+     * @param frame
+     *            Root frame
+     * @param lnfName
+     *            LookAndFeel name to set
+     * @throws LookAndFeelModifyException
+     *             if the LookAndFeel class could not be set
      */
-    public static void setLookAndFeel( JFrame frame, String lnfName )
-        throws ClassNotFoundException,
-               InstantiationException,
-               IllegalAccessException,
-               UnsupportedLookAndFeelException,
-               ClassCastException
+    public static void setLookAndFeel( final JFrame frame, final String lnfName )
+        throws LookAndFeelModifyException
     {
-        // http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-        UIManager.setLookAndFeel(lnfName);
-        SwingUtilities.updateComponentTreeUI(frame);
+        try {
+            setLookAndFeelRaw( frame, lnfName );
+        }
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException cause ) {
+            throw new LookAndFeelModifyException( lnfName, cause );
+        }
+    }
+
+    /**
+     * Change LookAndFeel. Based on
+     * <br>
+     * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+     *
+     * @param frame
+     *            Root frame
+     * @param lnfName
+     *            LookAndFeel name to set
+     * @throws ClassNotFoundException
+     *             if the LookAndFeel class could not be found
+     * @throws InstantiationException
+     *             if a new instance of the class couldn't be created
+     * @throws IllegalAccessException
+     *             if the class or initializer isn't accessible
+     * @throws UnsupportedLookAndFeelException
+     *             if lnf.isSupportedLookAndFeel() is false
+     * @throws ClassCastException
+     *             if className does not identify a class that extends LookAndFeel
+     */
+    private static void setLookAndFeelRaw( final JFrame frame, final String lnfName )
+        throws  ClassNotFoundException,
+                InstantiationException,
+                IllegalAccessException,
+                UnsupportedLookAndFeelException
+    {
+        UIManager.setLookAndFeel( lnfName );
+        SwingUtilities.updateComponentTreeUI( frame );
         frame.pack();
     }
 
     /**
-     * Change LookAndFeel, but never goes to Exception.
-     * If any error occur, just report exception stack trace
-     * to {@link System#err}.
+     * Change LookAndFeel, but never goes to Exception. If any error occur,
+     * just report exception stack trace to {@link System#err}.
      *
-     * @param frame    Root frame
-     * @param lnfName  LookAndFeel name to set
+     * @param frame
+     *            Root frame
+     * @param lnfName
+     *            LookAndFeel name to set
+     * @return true if LookAndFeel has change, false otherwise
      */
-    public static void setLookAndFeelNoException(
+    public static boolean setLookAndFeelNoException(
         final JFrame frame,
         final String lnfName
         )
     {
         try {
-            setLookAndFeel( frame, lnfName );
+            setLookAndFeelRaw( frame, lnfName );
+
+            return true;
             }
-        catch( Exception e ) {
+        catch( final Exception cause ) {
             // ClassNotFoundException
             // InstantiationException
             // IllegalAccessException
             // UnsupportedLookAndFeelException
-            final String message =
-                "Can not change LookAndFeel: "
-                    + e.getLocalizedMessage();
 
             // Launch a thread outside event thread
-            new Thread( new Runnable() {
-                @Override
-                public void run()
-                {
-                    // Append task to event thread.
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run()
-                        {
-                            JOptionPane.showInternalConfirmDialog(
-                                    frame,
-                                    message
-                                    );
-                        }
-                    });
-                }
-            },"LookAndFeelHelper.setLookAndFeelNoException()").start();
+            new Thread(
+                (Runnable)() -> SwingUtilities.invokeLater(
+                    () -> JOptionPane.showInternalConfirmDialog(
+                            frame,
+                            "Can not change LookAndFeel: "
+                            )
+                            ),
+                "LookAndFeelHelper.setLookAndFeelNoException()" + cause.getLocalizedMessage()
+                ).start();
 
             // TODO open a dialog !??
-            e.printStackTrace();
+            SafeSwingUtilities.printStackTrace( cause );
+
+            return false;
         }
     }
 }
