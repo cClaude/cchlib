@@ -1,15 +1,15 @@
 package com.googlecode.cchlib.dhcp;
 
 /*
- ** -----------------------------------------------------------------------
- **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
- **                      Adapte du code de Jason Goldschmidt and Nick Stone
- **                      edu.bucknell.net.JDHCP.DHCPOptions
- **                      http://www.eg.bucknell.edu/~jgoldsch/dhcp/
- **                      et base sur les RFCs 1700, 2131 et 2132
- **  3.02.015 2006.06.22 Claude CHOISNET
- **                      implemente java.io.Serializable
- ** -----------------------------------------------------------------------
+ * -----------------------------------------------------------------------
+ *  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
+ *                      Adapte du code de Jason Goldschmidt and Nick Stone
+ *                      edu.bucknell.net.JDHCP.DHCPOptions
+ *                      http://www.eg.bucknell.edu/~jgoldsch/dhcp/
+ *                      et base sur les RFCs 1700, 2131 et 2132
+ *  3.02.015 2006.06.22 Claude CHOISNET
+ *                      implemente java.io.Serializable
+ * -----------------------------------------------------------------------
  */
 
 import java.io.ByteArrayOutputStream;
@@ -26,219 +26,167 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- **
- ** <pre>
- * * CHAMP   OCTETS  DESCRIPTION
- * *
- * * op          1   Code operation du message:/
- * *                 type du message. 1 = BOOTREQUEST, 2 = BOOTREPLY
- * *
- * * htype       1   Adresse materielle, voir la section ARP dans le RFC "Assigned Numbers" ;
- * *                 par ex., '1' = Ethernet 10Mb.
- * *
- * * hlen        1   Longueur de l'adresse materielle (par ex. '6' for Ethernet 10Mb).
- * *
- * * hops        1   Mis e zero par le client, utilise de maniere optionnelle par les agents
- * *                 de relais quand on demarre via un agent de relais
- * *
- * * xid         4   Identifiant de transaction, un nombre aleatoire choisi par le client,
- * *                 utilise par le client et le serveur pour associer les messages et les
- * *                 reponses entre un client et un serveur
- * *
- * * secs        2   Rempli par le client, les secondes s'ecoulent depuis le processus
- * *                 d'acquisition ou de renouvellement d'adresse du client
- * *
- * * flags       2   Drapeaux (voir figure 2).
- * *
- * * ciaddr      4   Adresse IP des clients, rempli seulement si le client est dans un etat
- * *                 AFFECTe, RENOUVELLEMENT ou REAFFECTATION
- * *                 et peut repondre aux requetes ARP
- * *
- * * yiaddr      4   'votre' (client) adresse IP.
- * *
- * * siaddr      4   Adresse IP du prochain serveur e utiliser pour le processus de demarrage;
- * *                 retournee par le serveur dans DHCPOFFER et DHCPACK.
- * *
- * * giaddr      4   Adresse IP de l'agent de relais, utilisee pour demarrer via un agent de relais.
- * *
- * * chaddr     16   Adresse materielle des clients (Address MAC).
- * *
- * * sname      64   Nom d'hete du serveur optionnel, chaene de caracteres terminee par
- * *                 un caractere nul.
- * *
- * * fichier   128   Nom du fichier de demarrage, chaene terminee par un caractere nul;
- * *                 nom "generic" ou nul dans le DHCPDISCOVER,
- * *                 nom du repertoire explicite dans DHCPOFFER.
- * *
- * * options   var   Champ de parametres optionnels.
- **
- ** </pre>
- **
- ** @author Jason Goldschmidt
- ** @author Claude CHOISNET
+ *
+ * <pre>
+ * CHAMP   OCTETS  DESCRIPTION
+ *
+ * op          1   Code operation du message:/
+ *                 type du message. 1 = BOOTREQUEST, 2 = BOOTREPLY
+ *
+ * htype       1   Adresse materielle, voir la section ARP dans le RFC "Assigned Numbers" ;
+ *                 par ex., '1' = Ethernet 10Mb.
+ *
+ * hlen        1   Longueur de l'adresse materielle (par ex. '6' for Ethernet 10Mb).
+ *
+ * hops        1   Mis e zero par le client, utilise de maniere optionnelle par les agents
+ *                 de relais quand on demarre via un agent de relais
+ *
+ * xid         4   Identifiant de transaction, un nombre aleatoire choisi par le client,
+ *                 utilise par le client et le serveur pour associer les messages et les
+ *                 reponses entre un client et un serveur
+ *
+ * secs        2   Rempli par le client, les secondes s'ecoulent depuis le processus
+ *                 d'acquisition ou de renouvellement d'adresse du client
+ *
+ * flags       2   Drapeaux (voir figure 2).
+ *
+ * ciaddr      4   Adresse IP des clients, rempli seulement si le client est dans un etat
+ *                 AFFECTe, RENOUVELLEMENT ou REAFFECTATION
+ *                 et peut repondre aux requetes ARP
+ *
+ * yiaddr      4   'votre' (client) adresse IP.
+ *
+ * siaddr      4   Adresse IP du prochain serveur e utiliser pour le processus de demarrage;
+ *                 retournee par le serveur dans DHCPOFFER et DHCPACK.
+ *
+ * giaddr      4   Adresse IP de l'agent de relais, utilisee pour demarrer via un agent de relais.
+ *
+ * chaddr     16   Adresse materielle des clients (Address MAC).
+ *
+ * sname      64   Nom d'hete du serveur optionnel, chaene de caracteres terminee par
+ *                 un caractere nul.
+ *
+ * fichier   128   Nom du fichier de demarrage, chaene terminee par un caractere nul;
+ *                 nom "generic" ou nul dans le DHCPDISCOVER,
+ *                 nom du repertoire explicite dans DHCPOFFER.
+ *
+ * options   var   Champ de parametres optionnels.
+ *
+ * </pre>
+ *
+ * @author Jason Goldschmidt
+ * @author Claude CHOISNET
  */
 public class DHCPOptions implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private static final String DHCP_OPTIONS_PROPERTIES = "DHCPOptions.properties";
 
     /** Calculer lors du premier appel */
     private transient /*static*/ Properties properties;
 
-    /** */
+    private static final byte[]        MAGIC_COOKIE       = { 0x63, (byte)0x82, 0x53, 0x63 };
     private static final String        MSG_FORMAT_PATTERN = "OPT[{0,number,##0}]\t=";
 
-    /** */
     private static final MessageFormat msgFmt           = new MessageFormat( MSG_FORMAT_PATTERN );
-
-    /** */
     private final Object[]             msgFmtObjects    = new Object[1];
 
-    /** serialVersionUID */
-    private static final long                serialVersionUID          = 1L;
-
-    private static final byte[]              MAGIC_COOKIE              = { 0x63, (byte)0x82, 0x53, 0x63 };
-
     /**
-     ** <p>
      * DHCP option constants
-     * </p>
-     **
-     **
      */
     public static final byte                 REQUESTED_IP              = 50;
 
     /**
-     ** <p>
      * DHCP option constants
-     * </p>
-     **
-     **
      */
     public static final byte                 LEASE_TIME                = 51;
 
     /**
-     ** <p>
      * DHCP option constants
-     * </p>
-     **
-     **
      */
     public static final byte                 MESSAGE_TYPE              = 53;
 
     /**
-     ** <p>
      * DHCP option constants
-     * </p>
-     **
-     **
      */
     public static final byte                 T1_TIME                   = 58;
 
     /**
-     ** <p>
      * DHCP option constants
-     * </p>
-     **
-     **
      */
     public static final byte                 T2_TIME                   = 59;
 
     /**
-     ** <p>
      * DHCP option constants
-     * </p>
-     **
-     **
      */
     public static final byte                 CLASS_ID                  = 60;
 
     /**
-     ** <p>
      * DHCP option constants
-     * </p>
-     **
-     **
      */
     public static final byte                 CLIENT_ID                 = 61;
 
     /**
-     ** <p>
      * DHCP option constants
-     * </p>
-     **
-     ** End option
+     * <p>
+     * End option
      */
     public static final byte                 END_OPTION                = (byte)0xFF;
 
     /**
-     ** <p>
      * DHCP option value for {@link #MESSAGE_TYPE} (RFC 2132)
-     * </p>
-     **
-     ** Code for DHCPDISCOVER Message
+     * <p>
+     * Code for DHCPDISCOVER Message
      */
     public static final byte                 MESSAGE_TYPE_DHCPDISCOVER = 1;
 
     /**
-     ** <p>
      * DHCP option value for {@link #MESSAGE_TYPE} (RFC 2132)
-     * </p>
-     **
-     ** Code for DHCPOFFER Message
+     * <p>
+     * Code for DHCPOFFER Message
      */
     public static final byte                 MESSAGE_TYPE_DHCPOFFER    = 2;
 
     /**
-     ** <p>
      * DHCP option value for {@link #MESSAGE_TYPE} (RFC 2132)
-     * </p>
-     **
-     ** Code for DHCPREQUEST Message
+     * <p>
+     * Code for DHCPREQUEST Message
      */
     public static final byte                 MESSAGE_TYPE_DHCPREQUEST  = 3;
 
     /**
-     ** <p>
      * DHCP option value for {@link #MESSAGE_TYPE} (RFC 2132)
-     * </p>
-     **
-     ** Code for DHCPDECLINE Message
+     * <p>
+     * Code for DHCPDECLINE Message
      */
     public static final byte                 MESSAGE_TYPE_DHCPDECLINE  = 4;
 
     /**
-     ** <p>
      * DHCP option value for {@link #MESSAGE_TYPE} (RFC 2132)
-     * </p>
-     **
-     ** Code for DHCPACK Message
+     * <p>
+     * Code for DHCPACK Message
      */
     public static final byte                 MESSAGE_TYPE_DHCPACK      = 5;
 
     /**
-     ** <p>
      * DHCP option value for {@link #MESSAGE_TYPE} (RFC 2132)
-     * </p>
-     **
-     ** Code for DHCPNAK Message
+     * <p>
+     * Code for DHCPNAK Message
      */
     public static final byte                 MESSAGE_TYPE_DHCPNAK      = 6;
 
     /**
-     ** <p>
      * DHCP option value for {@link #MESSAGE_TYPE} (RFC 2132)
-     * </p>
-     **
-     ** Code for DHCPRELEASE Message
+     * <p>
+     * Code for DHCPRELEASE Message
      */
     public static final byte                 MESSAGE_TYPE_DHCPRELEASE  = 7;
 
     /**
-     ** <p>
      * DHCP option value for {@link #MESSAGE_TYPE} (RFC 2132)
-     * </p>
-     **
-     ** Code for DHCPINFORM Message
+     * <p>
+     * Code for DHCPINFORM Message
      */
     public static final byte                 MESSAGE_TYPE_DHCPINFORM   = 8;
 
@@ -250,13 +198,13 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Changes an existing option to new value
-     **
-     ** @param option
+     * Changes an existing option to new value
+     *
+     * @param option
      *            The node's option code
-     ** @param value
+     * @param value
      *            Content of node option
-     **
+     *
      */
     public void setOption( final byte option, final byte[] value ) // ---------
     {
@@ -264,13 +212,13 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Changes an existing option to new value
-     **
-     ** @param option
+     * Changes an existing option to new value
+     *
+     * @param option
      *            The node's option code
-     ** @param value
+     * @param value
      *            Content of node option (1 byte)
-     **
+     *
      */
     public void setOption( final byte option, final byte value ) // -----------
     {
@@ -278,13 +226,13 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Changes an existing option to new value
-     **
-     ** @param option
+     * Changes an existing option to new value
+     *
+     * @param option
      *            The node's option code
-     ** @param value
+     * @param value
      *            Content of node option
-     **
+     *
      */
     public void setOption( // -------------------------------------------------
             final byte option, final DHCPOptionEntry value )
@@ -293,12 +241,12 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Changes or Append all options found in anOtherDHCPOptions
-     **
-     ** @param anOtherDHCPOptions
+     * Changes or Append all options found in anOtherDHCPOptions
+     *
+     * @param anOtherDHCPOptions
      *            collection to append
-     **
-     ** @see #setOptions(Collection)
+     *
+     * @see #setOptions(Collection)
      */
     public void setOptions( // ------------------------------------------------
             final DHCPOptions anOtherDHCPOptions )
@@ -307,11 +255,11 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     **
-     ** @param aCollection
+     *
+     * @param aCollection
      *            collection to append
-     **
-     ** @see #setOptions(DHCPOptions)
+     *
+     * @see #setOptions(DHCPOptions)
      */
     public void setOptions( // ------------------------------------------------
             final Collection<Map.Entry<Byte, DHCPOptionEntry>> aCollection )
@@ -322,7 +270,7 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Clear internal options list
+     * Clear internal options list
      */
     public void clear() // ----------------------------------------------------
     {
@@ -330,9 +278,9 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Removes option with specified bytecode
-     **
-     ** @param code
+     * Removes option with specified bytecode
+     *
+     * @param code
      *            The code of option to be removed
      */
     public void removeOption( final Byte code ) // ----------------------------
@@ -341,9 +289,9 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Removes option with specified bytecode
-     **
-     ** @param code
+     * Removes option with specified bytecode
+     *
+     * @param code
      *            The code of option to be removed
      */
     public void removeOption( final byte code ) // ----------------------------
@@ -352,12 +300,12 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Fetches value of option by its option code
-     **
-     ** @param code
+     * Fetches value of option by its option code
+     *
+     * @param code
      *            The node's option code
-     **
-     ** @return a valid DHCPOptionEntry containing the value of option code. null is returned if option is not set.
+     *
+     * @return a valid DHCPOptionEntry containing the value of option code. null is returned if option is not set.
      */
     public DHCPOptionEntry getDHCPOptionEntry( final byte code ) // -----------
     {
@@ -365,12 +313,12 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Fetches value of option by its option code
-     **
-     ** @param code
+     * Fetches value of option by its option code
+     *
+     * @param code
      *            The node's option code
-     **
-     ** @return byte array containing the value of option entryCode. null is returned if option is not set.
+     *
+     * @return byte array containing the value of option entryCode. null is returned if option is not set.
      */
     public byte[] getOption( final byte code ) // -----------------------------
     {
@@ -384,10 +332,10 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Clear internal options list, and converts an options DataInputStream stream to a list (ignore 4 first bytes,
+     * Clear internal options list, and converts an options DataInputStream stream to a list (ignore 4 first bytes,
      * vendor magic cookie)
-     **
-     ** @param dis
+     *
+     * @param dis
      *            DataInputStream representation of the options list
      */
     public void init( final DataInputStream dis ) // --------------------------
@@ -415,9 +363,9 @@ public class DHCPOptions implements Serializable
     }
 
     /**
-     ** Converts a linked options list to a byte array
-     **
-     ** @return array representation of optionsTable
+     * Converts a linked options list to a byte array
+     *
+     * @return array representation of optionsTable
      */
     public byte[] toByteArray() // --------------------------------------------
     {
@@ -447,19 +395,19 @@ public class DHCPOptions implements Serializable
         return baos.toByteArray();
     }
 
-    /** NEEDDOC */
+    // NEEDDOC
     public Set<Map.Entry<Byte, DHCPOptionEntry>> getOptionSet() // -------------
     {
         return Collections.unmodifiableSet( new TreeMap<Byte, DHCPOptionEntry>( this.optionsTable ).entrySet() );
     }
 
-    /** NEEDDOC */
+    // NEEDDOC
     public String toHexString() // --------------------------------------------
     {
         return DHCPParameters.toHexString( this.toByteArray() );
     }
 
-    /** NEEDDOC */
+    // NEEDDOC
     public DHCPOptions getClone() // ------------------------------------------
     {
         final DHCPOptions copy = new DHCPOptions();
@@ -521,7 +469,7 @@ public class DHCPOptions implements Serializable
         return sb.toString();
     }
 
-    /** NEEDDOC */
+    // NEEDDOC
     public String getProperty( final String name ) // -------------------------
     {
         if( this.properties == null ) {
@@ -545,7 +493,7 @@ public class DHCPOptions implements Serializable
         return this.properties.getProperty( name );
     }
 
-    /** NEEDDOC */
+    // NEEDDOC
     public String getOptionComment( final byte option ) // --------------------
     {
         final String value = getProperty( "OPTION_NUM." + option );
@@ -563,7 +511,7 @@ public class DHCPOptions implements Serializable
         }
     }
 
-    /** NEEDDOC */
+    // NEEDDOC
     public String getSubComment( final byte option, final byte[] code ) // ----
     {
         if( code.length != 1 ) {
@@ -573,7 +521,7 @@ public class DHCPOptions implements Serializable
         }
     }
 
-    /** NEEDDOC */
+    // NEEDDOC
     public String getSubComment( final byte option, final byte code ) // ------
     {
         final String value = getProperty( option + "." + code );
@@ -584,6 +532,4 @@ public class DHCPOptions implements Serializable
             return "Unkown option.code " + option + "." + code;
         }
     }
-
-} // class
-
+}

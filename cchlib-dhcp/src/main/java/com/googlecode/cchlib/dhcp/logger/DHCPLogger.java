@@ -6,4 +6,5 @@ public interface DHCPLogger {
 
     void println( String string );
     void println( String string, DHCPMessage dhcpMessageReceived );
+    void printStackTrace( Exception cause );
 }

@@ -1,5 +1,8 @@
 package com.googlecode.cchlib.dhcp;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /*
@@ -13,21 +16,22 @@ import java.io.Serializable;
  */
 
 /**
- ** This class represents a linked list of options for a DHCP message. Its purpose is to ease option handling such as
- * add, remove, or change.
- **
- ** @author Claude CHOISNET
+ * This class represents a linked list of options for a DHCP message. Its purpose
+ * is to ease option handling such as add, remove, or change.
+ *
+ * @author Claude CHOISNET
  */
-public class DHCPOptionEntry implements Serializable {
-    /** serialVersionUID */
+public class DHCPOptionEntry implements Serializable
+{
     private static final long serialVersionUID = 1L;
 
-    private transient byte[]  value;
+    private transient byte[] value;
 
     public DHCPOptionEntry( // ------------------------------------------------
-            final byte[] b,
-            final int off,
-            final int len )
+        final byte[] b,
+        final int off,
+        final int len
+        )
     {
         this.value = new byte[len];
 
@@ -51,7 +55,7 @@ public class DHCPOptionEntry implements Serializable {
     }
 
     /**
-     ** @return true if all bytes are eguals to 0, false otherwise
+     * @return true if all bytes are eguals to 0, false otherwise
      */
     public boolean isNull() // ------------------------------------------------
     {
@@ -67,7 +71,11 @@ public class DHCPOptionEntry implements Serializable {
     @Override
     public String toString() // -----------------------------------------------
     {
-        return "(" + value.length + "/" + DHCPParameters.toHexString( value ) + ")";
+        return "("
+                + this.value.length
+                + "/"
+                + DHCPParameters.toHexString( this.value )
+                + ")";
     }
 
     public DHCPOptionEntry getClone() // --------------------------------------
@@ -75,11 +83,11 @@ public class DHCPOptionEntry implements Serializable {
         return new DHCPOptionEntry( getOptionValue() );
     }
 
-    /**
-     ** interface java.io.Serializable
+    /*
+     * interface java.io.Serializable
      */
-    private void writeObject( final java.io.ObjectOutputStream stream ) // ----------
-            throws java.io.IOException
+    private void writeObject( final ObjectOutputStream stream )
+        throws IOException
     {
         stream.defaultWriteObject();
 
@@ -88,11 +96,11 @@ public class DHCPOptionEntry implements Serializable {
         stream.write( this.value );
     }
 
-    /**
-     ** interface java.io.Serializable
+    /*
+     * interface java.io.Serializable
      */
-    private void readObject( final java.io.ObjectInputStream stream ) // ------------
-            throws java.io.IOException, ClassNotFoundException
+    private void readObject( final ObjectInputStream stream )
+        throws IOException, ClassNotFoundException
     {
         stream.defaultReadObject();
 
@@ -100,5 +108,4 @@ public class DHCPOptionEntry implements Serializable {
 
         stream.readFully( this.value );
     }
-
 }

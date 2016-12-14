@@ -1,12 +1,12 @@
 package com.googlecode.cchlib.dhcp.client.sample;
 
-import java.net.BindException;
-import java.net.SocketException;
-import com.googlecode.cchlib.dhcp.DHCPOptions;
+import com.googlecode.cchlib.dhcp.DHCPHelper;
 import com.googlecode.cchlib.dhcp.DHCPParameters;
 import com.googlecode.cchlib.dhcp.DHCPSocket;
 import com.googlecode.cchlib.dhcp.client.DHCPSimpleClient;
-import com.googlecode.cchlib.dhcp.logger.DefaultDHCPLogger;
+import com.googlecode.cchlib.dhcp.client.DHCPSocketBuilder;
+import com.googlecode.cchlib.dhcp.logger.DHCPLogger;
+import com.googlecode.cchlib.dhcp.logger.SystemOutDHCPLogger;
 
 /**
  ** dhcp client simulation program
@@ -15,84 +15,64 @@ public class DHCPClientSample
 {
     private DHCPClientSample()
     {
-        // All static
+        // App
     }
 
     /**
-     ** .java com.googlecode.cchlib.dhcp.client.sample.DHCPClientSample 00-0D-56-D7-2A-A5
+     * Run using
+     * <pre>
+     *  java com.googlecode.cchlib.dhcp.client.sample.DHCPClientSample 00-0D-56-D7-2A-A5
+     * </pre>
+     *
+     * @param args An array of one String within the MAC Address
      */
-    public static void main( final String[] args ) // -------------------------
+    public static void main__( final String[] args ) // -------------------------
     {
+        final DHCPLogger logger = newDHCPLogger();
+
         if( args.length == 0 ) {
-            System.out.println( "Usage: dhcpclient <ethernet_addresss>\n" + "\tie. dhcpclient 12:34:56:76:89:AB" );
+            logger.println(
+                "Usage: dhcpclient <ethernet_addresss>\n"
+                    + "\tie. dhcpclient 12:34:56:76:89:AB"
+                );
             System.exit( 1 );
         }
 
-        final String hwaddr = args[ 0 ];
-
-        // create socket
-        // Use port 67 if you are configuring as a bootp relay agent
-        try( final DHCPSocket mySocket = new DHCPSocket( DHCPSocket.CLIENT_PORT ) ) {
-
-            //
-            //
-            //
-            final DHCPParameters params = getDefaultDHCPParameters( DHCPSimpleClient.addrToByte( hwaddr ) );
-
-            // Put the hardware address of the computer you are using here.
-            final DHCPSimpleClient aClient = new DHCPSimpleClient( mySocket, params, hwaddr, new DefaultDHCPLogger() );
-
-            aClient.start(); // start the client. Sit back and enjoy the simulation fun
-        }
-        catch( final BindException e ) {
-            System.err.println( "Socket Bind Error: " );
-            System.err.print( "Another process is bound to this port ("
-                    +  DHCPSocket.CLIENT_PORT
-                    + ") or you do not have access to bind a process to this port" );
-
-            System.exit( 1 );
-        }
-        catch( final SocketException e ) {
-            System.err.println( "SocketException: " + e );
-
-            e.printStackTrace( System.err );
-
-            System.exit( 1 );
-        }
+        run( logger, args[ 0 ] );
     }
 
-    private static DHCPParameters getDefaultDHCPParameters( final byte[] hwaddr )
+    public static void main( final String[] args )
     {
-        final DHCPParameters dhcpParameters = new DHCPParameters();
+        final DHCPLogger logger = newDHCPLogger();
 
-        dhcpParameters.setOp( (byte)0 ); // -- init --
-        dhcpParameters.setHType( (byte)6 ); // IEEE802.3
-        dhcpParameters.setHLen( (byte)6 ); // Taille adresse MAC
-        dhcpParameters.setHOps( (byte)0 );
-        dhcpParameters.setXId( (byte)0 ); // -- init -- should be a random int
-        dhcpParameters.setSecs( (short)0 );
-        dhcpParameters.setFlags( (short)0 );
+        run( logger, "00-0D-56-D7-FF-FF" );
+    }
 
-        // set globaly defined hwaddr
-        dhcpParameters.setChaddr( hwaddr );
+    public static void run(
+        final DHCPLogger logger ,
+        final String     macAddress
+        )
+    {
+        final DHCPParameters params = DHCPHelper.newDHCPParameters( macAddress );
 
-        // Uncomment below to set host up as a bootp relay agent. Do this
-        // if you are trying to send messages containing hardware adresses
-        // other than your own.
+        // Put the hardware address of the computer you are using here.
+        final DHCPSimpleClient aClient = new DHCPSimpleClient(
+                newDHCPSocketBuilder(),
+                params,
+                logger
+                );
 
-        // try {
-        // dhcpParameters.setGIAddr( java.net.InetAddress.getLocalHost().getAddress() );
-        // }
-        // catch( java.net.UnknownHostException e ) {
-        // throw new RuntimeException( e );
-        // }
+        aClient.start(); // start the client. Sit back and enjoy the simulation fun
+    }
 
-        dhcpParameters.setOption( DHCPOptions.MESSAGE_TYPE, DHCPOptions.MESSAGE_TYPE_DHCPDISCOVER );
+    private static DHCPSocketBuilder newDHCPSocketBuilder()
+    {
+        return DHCPHelper.newDHCPSocketBuilder( DHCPSocket.CLIENT_PORT );
+    }
 
-        dhcpParameters.setOption( DHCPOptions.CLASS_ID, "xp_etu" );
-        // dhcpParameters.setOption( DHCPOptions.CLIENT_ID, "usine" );
-
-        return dhcpParameters;
+    private static DHCPLogger newDHCPLogger()
+    {
+        return new SystemOutDHCPLogger();
     }
 
 }

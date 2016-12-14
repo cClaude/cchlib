@@ -22,11 +22,11 @@ import java.net.UnknownHostException;
  */
 public class DHCPMessage
 {
-    @SuppressWarnings("squid:S1313") // Broadcast Addr
+    @SuppressWarnings("squid:S1313") // Broadcast Address
     public static final String BROADCAST_IP_ADDR = "255.255.255.255";
 
     /**
-     ** @see #BROADCAST_IP_ADDR
+     * @see #BROADCAST_IP_ADDR
      */
     public static final InetAddress BROADCAST_ADDR;
 
@@ -42,56 +42,61 @@ public class DHCPMessage
         }
     }
 
-    /** port of the servername */
+    /** port of the server */
     private int                     messagePort;
 
-    /** InetAddress of the servername */
+    /** InetAddress of the server */
     private InetAddress             messageInetAddress;
 
     private DHCPParameters          dhcpParameters;
 
     /**
-     ** Creates a DHCPMessage object<br>
-     ** initializes the object, sets the host to a specified host name, and binds to a specified port.
-     **
-     ** @param serverInetAddress
+     * Creates a DHCPMessage object<br>
+     * initializes the object, sets the host to a specified host name,
+     * and binds to a specified port.
+     *
+     * @param serverInetAddress
      *            the host InetAddress
-     ** @param port
+     * @param port
      *            the port number
-     ** @param dhcpParameters
+     * @param dhcpParameters
      *            A DHCPParameters object
      */
     public DHCPMessage( // ----------------------------------------------------
-            final InetAddress serverInetAddress,
-            final int port,
-            final DHCPParameters dhcpParameters )
+        final InetAddress    serverInetAddress,
+        final int            port,
+        final DHCPParameters dhcpParameters
+        )
     {
         this.messageInetAddress = serverInetAddress;
-        this.messagePort = port;
-        this.dhcpParameters = dhcpParameters;
+        this.messagePort        = port;
+        this.dhcpParameters     = dhcpParameters;
     }
 
     /**
-     ** Creates a DHCPMessage object <br>
-     ** initializes the object, sets the host to a specified host name, and binds to a specified port.
-     **
-     ** @param serverInetAddress
+     * Creates a DHCPMessage object <br>
+     * initializes the object, sets the host to a specified host name, and
+     * binds to a specified port.
+     *
+     * @param serverInetAddress
      *            the host InetAddress
-     ** @param port
+     * @param port
      *            the port number
      */
     public DHCPMessage( // ----------------------------------------------------
-            final InetAddress serverInetAddress,
-            final int port )
+        final InetAddress serverInetAddress,
+        final int         port
+        )
     {
         this( serverInetAddress, port, new DHCPParameters() );
     }
 
     /**
-     ** Creates a DHCPMessage object <br>
-     ** initializes the object, sets the host to the broadcast address, and binds to a specified port.
-     **
-     ** @param dhcpParameters
+     * Creates a DHCPMessage object <br>
+     * initializes the object, sets the host to the broadcast address,
+     * and binds to a specified port.
+     *
+     * @param dhcpParameters
      *            A DHCPParameters object
      */
     public DHCPMessage( final DHCPParameters dhcpParameters ) // --------------
@@ -100,9 +105,9 @@ public class DHCPMessage
     }
 
     /**
-     ** Creates a DHCPMessage object <br>
-     ** initializes the object, sets the host to the broadcast address, the local subnet, binds to the default server
-     * port.
+     * Creates a DHCPMessage object <br>
+     * initializes the object, sets the host to the broadcast address, the
+     * local subnet, binds to the default server port.
      */
     public DHCPMessage() // ---------------------------------------------------
     {
@@ -110,12 +115,12 @@ public class DHCPMessage
     }
 
     /**
-     ** Set message destination port.
-     **
-     ** @param inPortNum
+     * Set message destination port.
+     *
+     * @param inPortNum
      *            port on message destination host
-     **
-     ** @return current 'this' object
+     *
+     * @return current 'this' object
      */
     public DHCPMessage setPort( final int inPortNum ) // ----------------------
     {
@@ -125,9 +130,9 @@ public class DHCPMessage
     }
 
     /**
-     ** Get message destination port
-     **
-     ** @return an interger representation of the message destination port
+     * Get message destination port
+     *
+     * @return an integer representation of the message destination port
      */
     public int getPort() // ---------------------------------------------------
     {
@@ -135,9 +140,10 @@ public class DHCPMessage
     }
 
     /**
-     ** Set message InetAddress
-     **
-     ** @return current 'this' object
+     * Set message InetAddress
+     *
+     * @param messageInetAddress Message address
+     * @return current 'this' object
      */
     public DHCPMessage setInetAddress( final InetAddress messageInetAddress ) // -----
     {
@@ -147,9 +153,9 @@ public class DHCPMessage
     }
 
     /**
-     ** Get message InetAddress
-     **
-     ** @return a {@link InetAddress} representing the message destination server
+     * Get message InetAddress
+     *
+     * @return a {@link InetAddress} representing the message destination server
      */
     public InetAddress getInetAddress() // ------------------------------------
     {
@@ -164,11 +170,10 @@ public class DHCPMessage
     }
 
     /**
-     ** Set message {@link DHCPParameters}
-     **
-     ** @param dhcpParameters
+     * Set message {@link DHCPParameters}
+     *
+     * @param dhcpParameters
      *            a valid {@link DHCPParameters} object
-     **
      */
     public void setDHCPParameters( final DHCPParameters dhcpParameters ) // ---
     {
@@ -176,11 +181,10 @@ public class DHCPMessage
     }
 
     /**
-     ** Set message {@link DHCPParameters} from an other {@link DHCPMessage}
-     **
-     ** @param anOtherDHCPMessage
+     * Set message {@link DHCPParameters} from an other {@link DHCPMessage}
+     *
+     * @param anOtherDHCPMessage
      *            an other {@link DHCPMessage}
-     **
      */
     public void setDHCPParameters( // -----------------------------------------
             final DHCPMessage anOtherDHCPMessage )
@@ -189,9 +193,9 @@ public class DHCPMessage
     }
 
     /**
-     ** Get message DHCPParameters
-     **
-     ** @return a {@link DHCPParameters}
+     * Get message DHCPParameters
+     *
+     * @return a {@link DHCPParameters}
      */
     public DHCPParameters getDHCPParameters() // ------------------------------
     {
@@ -199,9 +203,9 @@ public class DHCPMessage
     }
 
     /**
-     ** Find if messages have same xid value
-     **
-     ** @return a true if boot message have same xid value
+     * Find if messages have same xid value
+     * @param aOtherDHCPMessage an other message
+     * @return a true if boot message have same xid value
      */
     public boolean isSameThread( final DHCPMessage aOtherDHCPMessage ) // -----
     {
@@ -209,25 +213,14 @@ public class DHCPMessage
     }
 
     /**
-     ** Return message type value
-     **
-     ** @return a byte with in value of message type
+     * Return message type value
+     *
+     * @return a byte with in value of message type
      */
     public byte getMessageType() // -------------------------------------------
     {
         return this.getDHCPParameters().getOptionAsByte( DHCPOptions.MESSAGE_TYPE );
     }
-
-//    public DHCPMessage getClone() // ---------------------------------------
-//    {
-//        final DHCPMessage copy = new DHCPMessage();
-//
-//        copy.messageInetAddress = this.messageInetAddress;
-//        copy.messagePort = this.messagePort;
-//        copy.dhcpParameters = this.dhcpParameters.getClone();
-//
-//        return copy;
-//    }
 
     public String toHexString() // --------------------------------------------
     {
@@ -249,5 +242,4 @@ public class DHCPMessage
 
         return sb.toString();
     }
-
-} // class
+}

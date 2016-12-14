@@ -15,6 +15,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import com.googlecode.cchlib.dhcp.logger.DHCPLogger;
 
 /**
  ** This class represents a Socket for sending DHCP Messages
@@ -22,35 +23,37 @@ import java.net.SocketTimeoutException;
  ** @author Jason Goldschmidt
  ** @author Claude CHOISNET
  */
-public class DHCPSocket extends DatagramSocket {
+public class DHCPSocket extends DatagramSocket
+{
     /**
-     ** Default DHCP client port (68)
+     * Default DHCP client port (68)
      */
     public static final int CLIENT_PORT         = 68;
 
     /**
-     ** Default DHCP server port (67)
+     * Default DHCP server port (67)
      */
     public static final int SERVER_PORT         = 67;
 
     /**
-     ** Default MTU for ethernet (1500 bytes)
+     * Default MTU for Ethernet (1500 bytes)
      */
     public static final int DEFAULT_PACKET_SIZE = 1500;
 
     /**
-     ** Default socket timeout (3 second)
+     * Default socket timeout (3 second)
      */
     public static final int DEFAULT_SOTIME_OUT  = 3000;
 
-    private int             packetSize;
+    private int packetSize;
 
     /**
-     ** Constructor for creating DHCPSocket bound to the specified local address, on a specific port.
-     **
-     ** @param port
+     * Constructor for creating DHCPSocket bound to the specified local address,
+     * on a specific port.
+     *
+     * @param port
      *            local port to use
-     ** @param laddr
+     * @param laddr
      *            local address to bind
      */
     public DHCPSocket( final int port, final InetAddress laddr ) throws SocketException
@@ -61,9 +64,9 @@ public class DHCPSocket extends DatagramSocket {
     }
 
     /**
-     ** Constructor for creating DHCPSocket on a specific port on the local machine.
-     **
-     ** @param port
+     * Constructor for creating DHCPSocket on a specific port on the local machine.
+     *
+     * @param port
      *            local port to use
      */
     public DHCPSocket( final int port ) throws SocketException
@@ -73,9 +76,6 @@ public class DHCPSocket extends DatagramSocket {
         init();
     }
 
-    /**
-**
-*/
     private void init() throws SocketException
     {
         // set default time out
@@ -85,9 +85,10 @@ public class DHCPSocket extends DatagramSocket {
     }
 
     /**
-     ** Sets the Maximum Transfer Unit for the UDP DHCP Packets to be set. Default is 1500, MTU for Ethernet
-     **
-     ** @param packetSize
+     * Sets the Maximum Transfer Unit for the UDP DHCP Packets to be set.
+     * Default is 1500, MTU for Ethernet
+     *
+     * @param packetSize
      *            integer representing desired MTU
      */
     public void setMTU( final int packetSize ) // -----------------------------
@@ -96,19 +97,18 @@ public class DHCPSocket extends DatagramSocket {
     }
 
     /**
-     ** Returns the set MTU for this socket
-     **
-     ** @return the Maximum Transfer Unit set for this socket
-     **/
+     * Returns the set MTU for this socket
+     * @return the Maximum Transfer Unit set for this socket
+     */
     public int getMTU() // ----------------------------------------------------
     {
         return this.packetSize;
     }
 
     /**
-     ** Sends a DHCPMessage object to a predifined host.
-     **
-     ** @param inMessage
+     * Sends a DHCPMessage object to a predifined host.
+     *
+     * @param inMessage
      *            well-formed DHCPMessage to be sent to a server
      */
     public synchronized void send( final DHCPMessage inMessage ) throws IOException
@@ -117,18 +117,23 @@ public class DHCPSocket extends DatagramSocket {
     }
 
     /**
-     ** Receives a datagram packet containing a DHCP Message into a DHCPMessage object.
-     **
-     ** @param message
+     * Receives a datagram packet containing a DHCP Message into a DHCPMessage object.
+     *
+     * @param message
      *            DHCPMessage object to receive new message into
-     **
-     ** @return true if message is received, false if timeout occurs.
-     **
-     ** @return a valid DHCPMessage, if message is received or null if timeout occurs.
+     * @param logger
+     *            A valid {@link DHCPLogger}
+     *
+     * @return true if message is received, false if timeout occurs.
+     * @throws IOException
+     *             if any (but not SocketTimeoutException)
      */
-    public synchronized boolean receive( final DHCPMessage message ) throws IOException
+    public synchronized boolean receive(
+        final DHCPMessage message,
+        final DHCPLogger  logger
+        ) throws IOException
     {
-        final DHCPParameters params = receive();
+        final DHCPParameters params = receive( logger );
 
         if( params != null ) {
             message.setDHCPParameters( params );
@@ -140,27 +145,33 @@ public class DHCPSocket extends DatagramSocket {
     }
 
     /**
-     ** Receives a datagram packet containing a DHCP Message into a DHCPMessage object.
-     **
-     ** @return a valid DHCPMessage, if message is received or null if timeout occurs.
+     * Receives a datagram packet containing a DHCP Message into a DHCPMessage object.
+     *
+     * @return a valid DHCPMessage, if message is received or null if timeout occurs.
+     *
+     * @param logger
+     *            A valid {@link DHCPLogger}
+     * @throws IOException
+     *             if any (but not SocketTimeoutException)
      */
-    public synchronized DHCPParameters receive() throws IOException
+    public synchronized DHCPParameters receive( final DHCPLogger logger ) throws IOException
     {
         try {
-            final DatagramPacket incoming = new DatagramPacket( new byte[this.packetSize], this.packetSize );
+            final DatagramPacket incoming = new DatagramPacket(
+                    new byte[ this.packetSize ],
+                    this.packetSize
+                    );
 
             // block on receive for SO_TIMEOUT
             super.receive( incoming );
 
             return DHCPParameters.newInstance( incoming.getData() );
         }
-        catch( final SocketTimeoutException e ) {
-            System.err.println( "SocketTimeoutException: " + e );
-            e.printStackTrace( System.err );
+        catch( final SocketTimeoutException cause ) {
+            logger.println( "SocketTimeoutException: " + cause );
+            logger.printStackTrace( cause );
 
             return null;
         }
-
     }
-
 }

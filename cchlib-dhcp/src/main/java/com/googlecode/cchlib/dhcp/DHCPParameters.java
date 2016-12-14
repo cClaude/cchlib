@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.dhcp;
 
 /*
- ** -----------------------------------------------------------------------
- **  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
- **                      Adapte du code de Jason Goldschmidt and Nick Stone
- **                      et base sur les RFCs 1700, 2131 et 2132
- ** -----------------------------------------------------------------------
+ * -----------------------------------------------------------------------
+ *  3.02.014 2006.06.21 Claude CHOISNET - Version initiale
+ *                      Adapte du code de Jason Goldschmidt and Nick Stone
+ *                      et base sur les RFCs 1700, 2131 et 2132
+ * -----------------------------------------------------------------------
  */
 
 import java.io.ByteArrayInputStream;
@@ -15,10 +15,10 @@ import java.io.DataOutputStream;
 import java.util.Arrays;
 
 /**
- ** This class represents a DHCP Message.
- **
- ** @author Jason Goldschmidt and Nick Stone
- ** @author Claude CHOISNET
+ * This class represents a DHCP Message.
+ *
+ * @author Jason Goldschmidt and Nick Stone
+ * @author Claude CHOISNET
  */
 public class DHCPParameters {
 
@@ -47,7 +47,7 @@ public class DHCPParameters {
     protected Object lock = new Object();
 
     /**
-     ** Creates a empty DHCPParameters
+     * Creates a empty DHCPParameters
      */
     public DHCPParameters() // ------------------------------------------------
     {
@@ -55,9 +55,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Converts current DHCPParameters object to a byte array.
-     **
-     ** @return a byte array with information from DHCPParameters object.
+     * Converts current DHCPParameters object to a byte array.
+     *
+     * @return a byte array with information from DHCPParameters object.
      */
     public byte[] toByteArray() // --------------------------------------------
     {
@@ -95,9 +95,6 @@ public class DHCPParameters {
         }
     }
 
-    /**
-**
-*/
     public static DHCPParameters newInstance( final byte[] ibuf ) // -------------
     {
         final DHCPParameters message = new DHCPParameters();
@@ -108,12 +105,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Convert a specified byte array containing a DHCP message into a DHCPParameters object.
-     **
-     ** @param ibuf
+     * Convert a specified byte array containing a DHCP message into a DHCPParameters object.
+     *
+     * @param ibuf
      *            byte array to convert to a DHCPParameters object
-     **
-     ** @return a DHCPParameters object with information from byte array.
+     *
+     * @return a DHCPParameters object with information from byte array.
      */
     private void init( final byte[] ibuf ) // ---------------------------------
             throws ArrayIndexOutOfBoundsException
@@ -172,14 +169,14 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set message Op code / message type.
-     **
-     ** @param inOp
+     * Set message Op code / message type.
+     *
+     * @param inOp
      *            message Op code / message type
-     **
-     ** @see #getOp()
-     ** @see #OP_OPTION_BOOTREQUEST
-     ** @see #OP_OPTION_BOOTREPLY
+     *
+     * @see #getOp()
+     * @see #OP_OPTION_BOOTREQUEST
+     * @see #OP_OPTION_BOOTREPLY
      */
     public void setOp( final byte inOp ) // -----------------------------------
     {
@@ -187,9 +184,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get message Op code / message type.
-     **
-     ** @see #setOp(byte)
+     * Get message Op code / message type.
+     *
+     * @see #setOp(byte)
      */
     public byte getOp() // ----------------------------------------------------
     {
@@ -197,12 +194,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set hardware address type.
-     **
-     ** @param htype
+     * Set hardware address type.
+     *
+     * @param htype
      *            hardware address type
-     **
-     ** @see #getHType()
+     *
+     * @see #getHType()
      */
     public void setHType( final byte htype ) // ------------------------------
     {
@@ -210,9 +207,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get hardware address type.
-     **
-     ** @see #setHType(byte)
+     * Get hardware address type.
+     *
+     * @see #setHType(byte)
      */
     public byte getHType() // -------------------------------------------------
     {
@@ -220,12 +217,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set hardware address length.
-     **
-     ** @param hlen
+     * Set hardware address length.
+     *
+     * @param hlen
      *            hardware address length
-     **
-     ** @see #getHLen()
+     *
+     * @see #getHLen()
      */
     public void setHLen( final byte hlen ) // ---------------------------------
     {
@@ -233,9 +230,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get hardware address length.
-     **
-     ** @see #setHLen(byte)
+     * Get hardware address length.
+     *
+     * @see #setHLen(byte)
      */
     public byte getHLen() // --------------------------------------------------
     {
@@ -243,12 +240,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set hops field.
-     **
-     ** @param hops
+     * Set hops field.
+     *
+     * @param hops
      *            hops field
-     **
-     ** @see #getHOps()
+     *
+     * @see #getHOps()
      */
     public void setHOps( final byte hops ) // ---------------------------------
     {
@@ -256,9 +253,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get hops field.
-     **
-     ** @see #setHOps(byte)
+     * Get hops field.
+     *
+     * @see #setHOps(byte)
      */
     public byte getHOps() // --------------------------------------------------
     {
@@ -266,12 +263,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set transaction ID.
-     **
-     ** @param xid
+     * Set transaction ID.
+     *
+     * @param xid
      *            transactionID
-     **
-     ** @see #getXId()
+     *
+     * @see #getXId()
      */
     public void setXId( final int xid ) // ----------------------------------
     {
@@ -279,9 +276,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get transaction ID.
-     **
-     ** @see #setXId(int)
+     * Get transaction ID.
+     *
+     * @see #setXId(int)
      */
     public int getXId() // ----------------------------------------------------
     {
@@ -289,12 +286,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set seconds elapsed since client began address acquisition or renewal process.
-     **
-     ** @param secs
+     * Set seconds elapsed since client began address acquisition or renewal process.
+     *
+     * @param secs
      *            seconds elapsed since client began address acquisition or renewal process
-     **
-     ** @see #getSecs()
+     *
+     * @see #getSecs()
      */
     public void setSecs( final short secs ) // --------------------------------
     {
@@ -302,9 +299,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get seconds elapsed since client began address acquisition or renewal process.
-     **
-     ** @see #setSecs(short)
+     * Get seconds elapsed since client began address acquisition or renewal process.
+     *
+     * @see #setSecs(short)
      */
     public short getSecs() // -------------------------------------------------
     {
@@ -312,12 +309,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set flags field.
-     **
-     ** @param flags
+     * Set flags field.
+     *
+     * @param flags
      *            flags field
-     **
-     ** @see #getFlags()
+     *
+     * @see #getFlags()
      */
     public void setFlags( final short flags ) // ------------------------------
     {
@@ -325,9 +322,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get flags field.
-     **
-     ** @see #setFlags(short)
+     * Get flags field.
+     *
+     * @see #setFlags(short)
      */
     public short getFlags() // ------------------------------------------------
     {
@@ -335,12 +332,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set client IP address.
-     **
-     ** @param ciaddr
+     * Set client IP address.
+     *
+     * @param ciaddr
      *            client IP address
-     **
-     ** @see #getCIAddr()
+     *
+     * @see #getCIAddr()
      */
     public void setCIAddr( final byte[] ciaddr ) // ---------------------------
     {
@@ -348,9 +345,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get client IP address.
-     **
-     ** @see #setCIAddr(byte[])
+     * Get client IP address.
+     *
+     * @see #setCIAddr(byte[])
      */
     public byte[] getCIAddr() // ----------------------------------------------
     {
@@ -358,12 +355,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set 'your' (client) IP address.
-     **
-     ** @param yiaddr
+     * Set 'your' (client) IP address.
+     *
+     * @param yiaddr
      *            'your' (client) IP address
-     **
-     ** @see #getYIAddr()
+     *
+     * @see #getYIAddr()
      */
     public void setYIAddr( final byte[] yiaddr ) // ---------------------------
     {
@@ -371,9 +368,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get 'your' (client) IP address.
-     **
-     ** @see #setYIAddr(byte[])
+     * Get 'your' (client) IP address.
+     *
+     * @see #setYIAddr(byte[])
      */
     public byte[] getYIAddr() // ----------------------------------------------
     {
@@ -381,12 +378,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set address of next server to use in bootstrap.
-     **
-     ** @param siaddr
+     * Set address of next server to use in bootstrap.
+     *
+     * @param siaddr
      *            address of next server to use in bootstrap
-     **
-     ** @see #getSIAddr()
+     *
+     * @see #getSIAddr()
      */
     public void setSIAddr( final byte[] siaddr ) // ---------------------------
     {
@@ -394,9 +391,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get address of next server to use in bootstrap.
-     **
-     ** @see #setSIAddr(byte[])
+     * Get address of next server to use in bootstrap.
+     *
+     * @see #setSIAddr(byte[])
      */
     public byte[] getSIAddr() // ----------------------------------------------
     {
@@ -404,12 +401,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set relay agent IP address.
-     **
-     ** @param giaddr
+     * Set relay agent IP address.
+     *
+     * @param giaddr
      *            relay agent IP address
-     **
-     ** @see #getGIAddr()
+     *
+     * @see #getGIAddr()
      */
     public void setGIAddr( final byte[] giaddr ) // ---------------------------
     {
@@ -417,9 +414,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get relay agent IP address.
-     **
-     ** @see #setGIAddr(byte[])
+     * Get relay agent IP address.
+     *
+     * @see #setGIAddr(byte[])
      */
     public byte[] getGIAddr() // ----------------------------------------------
     {
@@ -427,12 +424,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set client harware address.
-     **
-     ** @param chaddr
+     * Set client harware address.
+     *
+     * @param chaddr
      *            client hardware address
-     **
-     ** @see #getCHAddr()
+     *
+     * @see #getCHAddr()
      */
     public void setChaddr( final byte[] chaddr ) // ---------------------------
     {
@@ -440,9 +437,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get client harware address.
-     **
-     ** @see #setChaddr(byte[])
+     * Get client harware address.
+     *
+     * @see #setChaddr(byte[])
      */
     public byte[] getCHAddr() // ----------------------------------------------
     {
@@ -450,12 +447,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set optional server host name.
-     **
-     ** @param sname
+     * Set optional server host name.
+     *
+     * @param sname
      *            server host name
-     **
-     ** @see #getSName()
+     *
+     * @see #getSName()
      */
     public void setSName( final byte[] sname ) // -----------------------------
     {
@@ -463,9 +460,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get optional server host name.
-     **
-     ** @see #setSName(byte[])
+     * Get optional server host name.
+     *
+     * @see #setSName(byte[])
      */
     public byte[] getSName() // -----------------------------------------------
     {
@@ -473,12 +470,12 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set boot file name.
-     **
-     ** @param file
+     * Set boot file name.
+     *
+     * @param file
      *            boot file name
-     **
-     ** @see #getFile()
+     *
+     * @see #getFile()
      */
     public void setFile( final byte[] file ) // -------------------------------
     {
@@ -486,9 +483,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Get boot file name.
-     **
-     ** @see #setFile(byte[])
+     * Get boot file name.
+     *
+     * @see #setFile(byte[])
      */
     public byte[] getFile() // ------------------------------------------------
     {
@@ -496,16 +493,16 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set boot file name.
-     **
-     ** @param filename
+     * Set boot file name.
+     *
+     * @param filename
      *            boot file name
-     ** @param charsetName
+     * @param charsetName
      *            the name of a supported charset
-     **
-     ** @see #setFile(byte[])
-     ** @see #setFilename(String)
-     ** @see #getFilename()
+     *
+     * @see #setFile(byte[])
+     * @see #setFilename(String)
+     * @see #getFilename()
      */
     public void setFilename( // -----------------------------------------------
             final String filename, final String charsetName ) throws java.io.UnsupportedEncodingException
@@ -514,15 +511,15 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set boot file name.
-     **
-     ** @param filename
+     * Set boot file name.
+     *
+     * @param filename
      *            boot file name
-     **
-     ** @see #setFile(byte[])
-     ** @see #setFilename(String,String)
-     ** @see #getFilename()
-     ** @see String#getBytes()
+     *
+     * @see #setFile(byte[])
+     * @see #setFilename(String,String)
+     * @see #getFilename()
+     * @see String#getBytes()
      */
     public void setFilename( // -----------------------------------------------
             final String filename )
@@ -531,11 +528,11 @@ public class DHCPParameters {
     }
 
     /**
-     ** Set boot file name.
-     **
-     ** @see #setFile(byte[])
-     ** @see #setFilename(String,String)
-     ** @see #setFilename(String)
+     * Set boot file name.
+     *
+     * @see #setFile(byte[])
+     * @see #setFilename(String,String)
+     * @see #setFilename(String)
      */
     public String getFilename() // --------------------------------------------
     {
@@ -543,11 +540,11 @@ public class DHCPParameters {
     }
 
     /**
-     ** Sets DHCP options in DHCPParameters. If option already exists then remove old option and insert a new one.
-     **
-     ** @param optNum
+     * Sets DHCP options in DHCPParameters. If option already exists then remove old option and insert a new one.
+     *
+     * @param optNum
      *            option number
-     ** @param optionDataArray
+     * @param optionDataArray
      *            option data
      */
     public void setOption( // -------------------------------------------------
@@ -557,11 +554,11 @@ public class DHCPParameters {
     }
 
     /**
-     ** Sets DHCP options in DHCPParameters. If option already exists then remove old option and insert a new one.
-     **
-     ** @param optNum
+     * Sets DHCP options in DHCPParameters. If option already exists then remove old option and insert a new one.
+     *
+     * @param optNum
      *            option number
-     ** @param optionData
+     * @param optionData
      *            option data (1 byte)
      */
     public void setOption( // -------------------------------------------------
@@ -571,14 +568,14 @@ public class DHCPParameters {
     }
 
     /**
-     ** Sets DHCP options in DHCPParameters. If option already exists then remove old option and insert a new one.
-     **
-     ** @param optNum
+     * Sets DHCP options in DHCPParameters. If option already exists then remove old option and insert a new one.
+     *
+     * @param optNum
      *            option number
-     ** @param optionData
+     * @param optionData
      *            option data (use default charset)
-     **
-     ** @see String#getBytes()
+     *
+     * @see String#getBytes()
      */
     public void setOption( // -------------------------------------------------
             final byte optNum, final String optionData )
@@ -587,10 +584,10 @@ public class DHCPParameters {
     }
 
     /**
-     ** @param anOtherDHCPParameters
+     * @param anOtherDHCPParameters
      *            xxx
-     **
-     ** @see DHCPOptions#setOptions(DHCPOptions)
+     *
+     * @see DHCPOptions#setOptions(DHCPOptions)
      */
     public void setOptions( // ------------------------------------------------
             final DHCPParameters anOtherDHCPParameters )
@@ -599,9 +596,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Returns specified DHCP option that matches the input code. Null is returned if option is not set.
-     **
-     ** @param optNum
+     * Returns specified DHCP option that matches the input code. Null is returned if option is not set.
+     *
+     * @param optNum
      *            option number
      */
     public byte[] getOption( final byte optNum ) // ---------------------------
@@ -610,14 +607,14 @@ public class DHCPParameters {
     }
 
     /**
-     ** Returns specified DHCP option that matches the input code. Null is returned if option is not set.
-     **
-     ** @param optNum
+     * Returns specified DHCP option that matches the input code. Null is returned if option is not set.
+     *
+     * @param optNum
      *            option number
-     **
-     ** @throws IllegalArgumentException
+     *
+     * @throws IllegalArgumentException
      *             if field is not exactly 1 byte long
-     ** @throws NullPointerException
+     * @throws NullPointerException
      *             if option is not defined
      */
     public byte getOptionAsByte( final byte optNum ) // -----------------------
@@ -632,8 +629,8 @@ public class DHCPParameters {
         return datas[ 0 ];
     }
 
-    /**
-     ** Set value form src to dest
+    /*
+     * Set value form src to dest
      */
     private static final void set( // -----------------------------------------
             final byte[] src, final byte[] dest, final String fieldname, final boolean autoAlign )
@@ -649,8 +646,8 @@ public class DHCPParameters {
         }
     }
 
-    /**
-     ** Set value form src to dest
+    /*
+     * Set value form src to dest
      */
     private static final void set( // -----------------------------------------
             final byte[] src, final byte[] dest, final String fieldname )
@@ -664,9 +661,6 @@ public class DHCPParameters {
         }
     }
 
-    /**
-**
-*/
     @Override
     public String toString() // -----------------------------------------------
     {
@@ -717,9 +711,6 @@ public class DHCPParameters {
         return sb.toString();
     }
 
-    /**
-**
-*/
     public DHCPParameters getClone() // ---------------------------------------
     {
         final DHCPParameters copy = new DHCPParameters();
@@ -729,8 +720,8 @@ public class DHCPParameters {
         return copy;
     }
 
-    /**
-     ** interface java.io.Serializable ($$$ A FINIR$$$)
+    /*
+     * interface java.io.Serializable ($$$ A FINIR$$$)
      */
     private void writeObject( final java.io.ObjectOutputStream stream ) // ----------
             throws java.io.IOException
@@ -741,8 +732,8 @@ public class DHCPParameters {
         // stream.write( this.value );
     }
 
-    /**
-     ** interface java.io.Serializable ($$$ A FINIR$$$)
+    /*
+     * interface java.io.Serializable ($$$ A FINIR$$$)
      */
     private void readObject( final java.io.ObjectInputStream stream ) // ------------
             throws java.io.IOException, ClassNotFoundException
@@ -758,9 +749,6 @@ public class DHCPParameters {
         // stream.readFully( this.value );
     }
 
-    /**
-**
-*/
     public String toHexString() // --------------------------------------------
     {
         final StringBuilder sb = new StringBuilder();
@@ -770,8 +758,8 @@ public class DHCPParameters {
         return sb.toString();
     }
 
-    /**
-     ** Converts byte[] end with '0' to a new String
+    /*
+     * Converts byte[] end with '0' to a new String
      */
     public static final String toString( final byte[] bytes ) // --------
     {
@@ -825,7 +813,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Converts byte[] => Strings
+     * Converts byte[] to Strings
+     * @param bytes Arrays of bytes to convert
+     * @return String hexa value
      */
     public static final String ip4AddrToString( final byte[] bytes ) // -------
     {
@@ -846,7 +836,9 @@ public class DHCPParameters {
     }
 
     /**
-     ** Converts byte[] => long
+     * Converts byte[] to long
+     * @param bytes Arrays of bytes to convert
+     * @return long value
      */
     public static final long byteToLong( final byte[] bytes ) // --------------
     {
@@ -870,6 +862,4 @@ public class DHCPParameters {
 
         return true;
     }
-
-} // class
-
+}
