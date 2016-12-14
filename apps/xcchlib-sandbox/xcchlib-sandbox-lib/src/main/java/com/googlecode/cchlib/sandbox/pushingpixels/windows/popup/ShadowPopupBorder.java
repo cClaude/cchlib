@@ -114,7 +114,7 @@ final class ShadowPopupBorder extends AbstractBorder {
 	 *            the component for which this border insets value applies
 	 * @param insets
 	 *            the object to be reinitialized
-	 * @return the <code>insets</code> object
+	 * @return the {@code insets} object
 	 */
 	@Override
 	public Insets getBorderInsets(Component c, Insets insets) {

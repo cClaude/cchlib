@@ -309,7 +309,7 @@ public class BasicFlexiSliderUI extends FlexiSliderUI
     }
 
     /**
-     * Invoked by <code>installUI</code> to create a layout manager object to
+     * Invoked by {@code installUI} to create a layout manager object to
      * manage the {@link JFlexiSlider}.
      *
      * @return a layout manager object

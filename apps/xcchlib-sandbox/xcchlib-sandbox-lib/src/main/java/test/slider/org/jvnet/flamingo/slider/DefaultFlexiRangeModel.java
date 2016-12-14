@@ -2,7 +2,8 @@ package test.slider.org.jvnet.flamingo.slider;
 
 import javax.swing.event.*;
 
-public class DefaultFlexiRangeModel implements FlexiRangeModel {
+public class DefaultFlexiRangeModel implements FlexiRangeModel
+{
 	/** The listeners waiting for model changes. */
 	protected EventListenerList listenerList = new EventListenerList();
 
@@ -31,7 +32,7 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 	}
 
 	/**
-	 * Runs each <code>ChangeListener</code>'s <code>stateChanged</code>
+	 * Runs each {@code ChangeListener}'s {@code stateChanged}
 	 * method.
 	 */
 	protected void fireStateChanged() {
@@ -46,9 +47,9 @@ public class DefaultFlexiRangeModel implements FlexiRangeModel {
 
 	/**
 	 * Returns an array of all the change listeners registered on this
-	 * <code>DefaultBoundedRangeModel</code>.
+	 * {@code DefaultBoundedRangeModel}.
 	 * 
-	 * @return all of this model's <code>ChangeListener</code>s or an empty
+	 * @return all of this model's {@code ChangeListener}s or an empty
 	 *         array if no change listeners are currently registered
 	 * 
 	 * @see #addChangeListener
