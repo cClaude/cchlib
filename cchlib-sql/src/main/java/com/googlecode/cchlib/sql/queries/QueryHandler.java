@@ -15,11 +15,11 @@ import com.googlecode.cchlib.sql.SimpleSQL;
 public interface QueryHandler<T>
 {
     /**
-     * User function than transform <code>resultSet</code> into an
-     * action or a computed <code>T</code> result.
+     * User function than transform {@code resultSet} into an
+     * action or a computed {@code T} result.
      *
      * @param resultSet Result set return by SQL query.
-     * @return Computed result from custom <code>resultSet</code> analysis
+     * @return Computed result from custom {@code resultSet} analysis
      * @throws SQLException if any SQL error occur
      * @throws QueryHandlerException if handler fail
      */

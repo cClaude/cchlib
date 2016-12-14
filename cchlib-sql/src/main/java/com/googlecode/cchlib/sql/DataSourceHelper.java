@@ -24,7 +24,7 @@ public class DataSourceHelper
 
     /**
      * Call {@link AutoCloseable#close()} but hide {@link IOException} if
-     * <code>closeable</code> is not null.
+     * {@code closeable} is not null.
      *
      * @param closeable AutoCloseable object to close (could be null)
      */
