@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.swing.filechooser.accessory;
 
-import static org.junit.Assume.assumeFalse;
 import java.awt.FlowLayout;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +8,6 @@ import javax.swing.JFrame;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.Threads;
-import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class ResourcesUtilsTest
 {
@@ -18,7 +16,7 @@ public class ResourcesUtilsTest
     @Test
     public void myTestJButton()
     {
-        assumeFalse( SafeSwingUtilities.isHeadless() );
+        //assumeFalse( SafeSwingUtilities.isHeadless() );
 
         final ResourcesUtils  resourcesUtils = new ResourcesUtils();
         final JFrame          frame = new JFrame();

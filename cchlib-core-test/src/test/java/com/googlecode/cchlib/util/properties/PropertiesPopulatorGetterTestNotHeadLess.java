@@ -1,14 +1,12 @@
 package com.googlecode.cchlib.util.properties;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assume.assumeFalse;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class PropertiesPopulatorGetterTestNotHeadLess
 {
@@ -18,7 +16,7 @@ public class PropertiesPopulatorGetterTestNotHeadLess
     public void test_PropertiesPopulator_without_prefix_populateProperties() throws PopulatorException
     {
         // Stop if GUI usage is not allowed
-        assumeFalse( SafeSwingUtilities.isHeadless() );
+        //assumeFalse( SafeSwingUtilities.isHeadless() );
 
         final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
             = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
@@ -58,7 +56,7 @@ public class PropertiesPopulatorGetterTestNotHeadLess
     public void test_PropertiesPopulator_without_prefix_populateBean() throws PopulatorException
     {
         // Stop if GUI usage is not allowed
-        assumeFalse( SafeSwingUtilities.isHeadless() );
+        //assumeFalse( SafeSwingUtilities.isHeadless() );
 
         final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
             = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
@@ -105,7 +103,7 @@ public class PropertiesPopulatorGetterTestNotHeadLess
     public void test_PropertiesPopulator_without_prefix_full_test() throws PopulatorException
     {
         // Stop if GUI usage is not allowed
-        assumeFalse( SafeSwingUtilities.isHeadless() );
+        //assumeFalse( SafeSwingUtilities.isHeadless() );
 
         final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
             = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
@@ -141,7 +139,7 @@ public class PropertiesPopulatorGetterTestNotHeadLess
     public void test_PropertiesPopulator_with_prefix() throws PopulatorException
     {
         // Stop if GUI usage is not allowed
-        assumeFalse( SafeSwingUtilities.isHeadless() );
+        //assumeFalse( SafeSwingUtilities.isHeadless() );
 
         final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
             = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
@@ -176,7 +174,7 @@ public class PropertiesPopulatorGetterTestNotHeadLess
     public void test_PropertiesPopulator2() throws PopulatorException
     {
         // Stop if GUI usage is not allowed
-        assumeFalse( SafeSwingUtilities.isHeadless() );
+        //assumeFalse( SafeSwingUtilities.isHeadless() );
 
         final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
             = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
@@ -211,7 +209,7 @@ public class PropertiesPopulatorGetterTestNotHeadLess
     public void test_loadsave() throws IOException
     {
         // Stop if GUI usage is not allowed
-        assumeFalse( SafeSwingUtilities.isHeadless() );
+        //assumeFalse( SafeSwingUtilities.isHeadless() );
 
         final File file = File.createTempFile(
                 this.getClass().getName(),

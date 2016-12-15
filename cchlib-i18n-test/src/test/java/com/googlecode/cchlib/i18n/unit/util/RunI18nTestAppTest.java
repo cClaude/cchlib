@@ -32,7 +32,6 @@ import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart;
 import com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReference;
 import com.googlecode.cchlib.i18n.unit.strings.errors.I18nStringWithErrorsTestReference;
-import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 /**
  * Integration test for I18n
@@ -46,14 +45,14 @@ public class RunI18nTestAppTest
     {
         final ArrayList<TestReference> list = new ArrayList<>();
 
-        if( ! SafeSwingUtilities.isHeadless() ) {
+        //if( ! SafeSwingUtilities.isHeadless() ) {
             list.add( new I18nBaseNamePart() );
             list.add( new I18nDefaultPart() );
             list.add( new I18nForcedPart() );
             list.add( new I18nToolTipTextIgnorePart() );
             list.add( new I18nToolTipTextPart() );
             list.add( new I18nToolTipText_for_JTabbedPanePart() );
-        }
+        //}
 
         list.add( new AutoI18nBasicInterfacePart() );
         list.add( new I18nStringPart() );
