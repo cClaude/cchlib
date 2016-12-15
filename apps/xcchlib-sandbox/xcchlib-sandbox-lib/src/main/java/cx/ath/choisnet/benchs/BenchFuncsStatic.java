@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
+import java.util.Vector;
 
 /*
 ** <p>
@@ -28,114 +29,105 @@ import java.util.TreeSet;
 */
 public class BenchFuncsStatic
 {
-private static final int BENCH_COUNT    = 10;
-private static final int COMPUTE_COUNT  = 500000;
+    private static final int BENCH_COUNT    = 10;
+    private static final int COMPUTE_COUNT  = 500000;
 
-private static final Stats<String> stats = new Stats<String>();
+    private static final Stats<String> stats = new Stats<>();
 
-/**
-**
-*/
-public static final <T> void appendS( // ----------------------------------
-    final Collection<T> list,
-    final T             item
-    )
-{
- list.add( item );
-}
-
-/**
-**
-*/
-public final <T> void append_( // -----------------------------------------
-    final Collection<T> list,
-    final T             item
-    )
-{
- list.add( item );
-}
-
-/**
-**
-*/
-public static final <T> void benchS( // -----------------------------------
-    final Collection<T> list,
-    final T             item,
-    final String        label
-    )
-{
- final long begin = System.nanoTime();
-
- for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    appendS( list, item );
+    private BenchFuncsStatic()
+    {
+        // App
     }
 
- final long end     = System.nanoTime();
- final long delay   = end - begin;
-
- stats.get( label + ".appendS() : static call" ).addDelay( delay );
-}
-
-/**
-**
-*/
-public final <T> void bench_( // ------------------------------------------
-    final Collection<T> list,
-    final T             item,
-    final String        label
-    )
-{
- final long begin = System.nanoTime();
-
- for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    append_( list, item );
+    private static final <T> void appendS( // ----------------------------------
+        final Collection<T> list,
+        final T             item
+        )
+    {
+        list.add( item );
     }
 
- final long end     = System.nanoTime();
- final long delay   = end - begin;
-
- stats.get( label + ".append_() : instance call" ).addDelay( delay );
-}
-
-/**
-**
-*/
-public static final void printDot() // ------------------------------------
-{
- System.out.print( '.' );
- System.out.flush();
-}
-
-/**
-**
-*/
-public static final void main( final String[] args ) // -------------------
-{
- final File     item1    = new File( "." );
- final String   label1   = "ArrayList<File>()";
-
- final Long     item2   = new Long( -1 );
- final String   label2  = "TreeSet<Long>()";
-
- final String   item3   = "String";
- final String   label3  = "Vector<String>()";
-
- final BenchFuncsStatic instance = new BenchFuncsStatic();
-
- for( int i = 0; i<BENCH_COUNT; i++ ) {
-
-    benchS( new ArrayList<File>(), item1, label1 );             printDot();
-    benchS( new java.util.Vector<String>(), item3, label3 );    printDot();
-    benchS( new TreeSet<Long>(), item2, label2 );               printDot();
-
-    instance.bench_( new ArrayList<File>(), item1, label1 );            printDot();
-    instance.bench_( new java.util.Vector<String>(), item3, label3 );   printDot();
-    instance.bench_( new TreeSet<Long>(), item2, label2 );              printDot();
-
-    System.out.println( " " + i + "/" + BENCH_COUNT );
+    private final <T> void append0( // -----------------------------------------
+        final Collection<T> list,
+        final T             item
+        )
+    {
+        list.add( item );
     }
 
- System.out.println( stats );
-}
+    private static final <T> void benchS( // -----------------------------------
+        final Collection<T> list,
+        final T             item,
+        final String        label
+        )
+    {
+        final long begin = System.nanoTime();
 
-} // class
+        for( int i = 0; i < COMPUTE_COUNT; i++ ) {
+            appendS( list, item );
+        }
+
+        final long end   = System.nanoTime();
+        final long delay = end - begin;
+
+        stats.get( label + ".appendS() : static call" ).addDelay( delay );
+    }
+
+    private final <T> void bench0( // ------------------------------------------
+        final Collection<T> list,
+        final T             item,
+        final String        label
+        )
+    {
+        final long begin = System.nanoTime();
+
+        for( int i = 0; i < COMPUTE_COUNT; i++ ) {
+            append0( list, item );
+        }
+
+        final long end   = System.nanoTime();
+        final long delay = end - begin;
+
+        stats.get( label + ".append_() : instance call" ).addDelay( delay );
+    }
+
+    private static final void printDot() // ------------------------------------
+    {
+        System.out.print( '.' );
+        System.out.flush();
+    }
+
+    public static final void main( final String[] args ) // -------------------
+    {
+        final File     item1    = new File( "." );
+        final String   label1   = "ArrayList<File>()";
+
+        final Long     item2   = new Long( -1 );
+        final String   label2  = "TreeSet<Long>()";
+
+        final String   item3   = "String";
+        final String   label3  = "Vector<String>()";
+
+        final BenchFuncsStatic instance = new BenchFuncsStatic();
+
+        for( int i = 0; i<BENCH_COUNT; i++ ) {
+            benchS( new ArrayList<>(), item1, label1 );
+            printDot();
+            benchS( new Vector<>()   , item3, label3 );
+            printDot();
+            benchS( new TreeSet<>()  , item2, label2 );
+            printDot();
+
+            instance.bench0( new ArrayList<>(), item1, label1 );
+            printDot();
+            instance.bench0( new Vector<>()   , item3, label3 );
+            printDot();
+            instance.bench0( new TreeSet<>()  , item2, label2 );
+            printDot();
+
+            System.out.println( " " + i + "/" + BENCH_COUNT );
+        }
+
+        System.out.println( stats );
+    }
+}

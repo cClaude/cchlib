@@ -12,103 +12,95 @@
 package cx.ath.choisnet.benchs;
 
 /*
-** <p>
-** .java cx.ath.choisnet.benchs.BenchString
-** </p>
-**
-**
-** @author  Claude CHOISNET
-** @version 3.02.039
-**
-*/
-public class BenchString
+ ** <p>
+ ** .java cx.ath.choisnet.benchs.BenchString
+ ** </p>
+ **
+ **
+ ** @author  Claude CHOISNET
+ ** @version 3.02.039
+ **
+ */
+public final class BenchString
 {
-private static final int BENCH_COUNT    = 5;
-private static final int COMPUTE_COUNT  = 20000;
+    private static final int           BENCH_COUNT   = 5;
+    private static final int           COMPUTE_COUNT = 20000;
 
-private static final Stats<String> stats = new Stats<String>();
+    private static final Stats<String> stats         = new Stats<>();
 
-/**
-**
-*/
-public static final void benchString() // ---------------------------------
-{
- String s = "";
-
- final long begin = System.nanoTime();
-
- for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    s += "a";
+    private BenchString()
+    {
+        // App
     }
 
- final long end     = System.nanoTime();
- final long delay   = end - begin;
+    private static final void benchString() // ---------------------------------
+    {
+        String s = "";
 
- stats.get( "String" ).addDelay( delay );
-}
+        final long begin = System.nanoTime();
 
-/**
-**
-*/
-public static final void benchStringBuffer() // ---------------------------
-{
- StringBuffer sb = new StringBuffer();
+        for( int i = 0; i < COMPUTE_COUNT; i++ ) {
+            s += "a";
+        }
 
- final long begin = System.nanoTime();
+        final long end   = System.nanoTime();
+        final long delay = end - begin;
 
- for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    sb.append( 'a' );
+        stats.get( "String" ).addDelay( delay );
     }
 
- final long end     = System.nanoTime();
- final long delay   = end - begin;
+    private static final void benchStringBuffer() // ---------------------------
+    {
+        final StringBuffer sb = new StringBuffer();
 
- stats.get( "StringBuffer" ).addDelay( delay );
-}
+        final long begin = System.nanoTime();
 
-/**
-**
-*/
-public static final void benchStringBuilder() // --------------------------
-{
- StringBuilder sb = new StringBuilder();
+        for( int i = 0; i < COMPUTE_COUNT; i++ ) {
+            sb.append( 'a' );
+        }
 
- final long begin = System.nanoTime();
+        final long end   = System.nanoTime();
+        final long delay = end - begin;
 
- for( int i = 0; i<COMPUTE_COUNT; i++ ) {
-    sb.append( 'a' );
+        stats.get( "StringBuffer" ).addDelay( delay );
     }
 
- final long end     = System.nanoTime();
- final long delay   = end - begin;
+    private static final void benchStringBuilder() // --------------------------
+    {
+        final StringBuilder sb = new StringBuilder();
 
- stats.get( "StringBuilder" ).addDelay( delay );
-}
+        final long begin = System.nanoTime();
 
-/**
-**
-*/
-public static final void printDot() // ------------------------------------
-{
- System.out.print( '.' );
- System.out.flush();
-}
+        for( int i = 0; i < COMPUTE_COUNT; i++ ) {
+            sb.append( 'a' );
+        }
 
-/**
-**
-*/
-public static final void main( final String[] args ) // -------------------
-{
- for( int i = 0; i<BENCH_COUNT; i++ ) {
+        final long end   = System.nanoTime();
+        final long delay = end - begin;
 
-    benchString();          printDot();
-    benchStringBuffer();    printDot();
-    benchStringBuilder();   printDot();
-
-    System.out.println( " " + i + "/" + BENCH_COUNT );
+        stats.get( "StringBuilder" ).addDelay( delay );
     }
 
- System.out.println( stats );
-}
+    private static final void printDot() // ------------------------------------
+    {
+        System.out.print( '.' );
+        System.out.flush();
+    }
 
-} // class
+    public static final void main( final String[] args ) // -------------------
+    {
+        for( int i = 0; i < BENCH_COUNT; i++ ) {
+
+            benchString();
+            printDot();
+            benchStringBuffer();
+            printDot();
+            benchStringBuilder();
+            printDot();
+
+            System.out.println( " " + i + "/" + BENCH_COUNT );
+        }
+
+        System.out.println( stats );
+    }
+}

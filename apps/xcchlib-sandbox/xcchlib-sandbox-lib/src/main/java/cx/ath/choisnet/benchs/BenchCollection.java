@@ -1,14 +1,14 @@
 /*
-** -----------------------------------------------------------------------
-** Nom           : cx/ath/choisnet/util/benchs/BenchCollection.java
-** Description   :
-**
-**  3.02.039 2006.08.11 Claude CHOISNET - Version initiale
-** -----------------------------------------------------------------------
-**
-** cx.ath.choisnet.benchs.BenchCollection
-**
-*/
+ ** -----------------------------------------------------------------------
+ ** Nom           : cx/ath/choisnet/util/benchs/BenchCollection.java
+ ** Description   :
+ **
+ **  3.02.039 2006.08.11 Claude CHOISNET - Version initiale
+ ** -----------------------------------------------------------------------
+ **
+ ** cx.ath.choisnet.benchs.BenchCollection
+ **
+ */
 package cx.ath.choisnet.benchs;
 
 import java.io.File;
@@ -19,126 +19,112 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 /*
-** <p>
-** .java cx.ath.choisnet.benchs.BenchCollection
-** </p>
-**
-**
-** @author  Claude CHOISNET
-** @version 3.02.039
-**
-*/
+ ** <p>
+ ** .java cx.ath.choisnet.benchs.BenchCollection
+ ** </p>
+ **
+ **
+ ** @author  Claude CHOISNET
+ ** @version 3.02.039
+ **
+ */
 public class BenchCollection
 {
-/** */
-private static final String aString = "a";
+    private static final String aString  = "a";
+    private static final Long   aLong    = Long.valueOf( -1 );
+    private static final File   aFile    = new File( "." );
+    private static final Object anObject = new Object();
 
-/** */
-private static final Long aLong = new Long( -1 );
+    private final int           benchCount;
+    private final int           computeCount;
 
-/** */
-private static final File aFile = new File( "." );
+    private final Stats<String> stats    = new Stats<String>();
 
-/** */
-private static final Object anObject = new Object();
-
-/** */
-// private static final int BENCH_COUNT = 1000;
-private final int benchCount;
-
-/** */
-// private static final int COMPUTE_COUNT = 50;
-private final int computeCount;
-
-/** */
-private final Stats<String> stats = new Stats<String>();
-
-
-/**
-**
-*/
-protected BenchCollection( // ---------------------------------------------
-    final int benchCount,
-    final int computeCount
-    )
-{
- this.benchCount    = benchCount;
- this.computeCount  = computeCount;
-}
-
-/**
-**
-*/
-public final <T> void bench( // -------------------------------------------
-     final Collection<T>    list,
-     final T                item,
-     final String           label
-     )
-{
- final long begin = System.nanoTime();
-
- for( int i = 0; i<this.computeCount; i++ ) {
-    list.add( item );
+    private BenchCollection(
+        final int benchCount,
+        final int computeCount
+        )
+    {
+        this.benchCount   = benchCount;
+        this.computeCount = computeCount;
     }
 
- final long end     = System.nanoTime();
- final long delay   = end - begin;
+    private final <T> void bench( // -------------------------------------------
+        final Collection<T> list,
+        final T             item,
+        final String        label
+        )
+    {
+        final long begin = System.nanoTime();
 
- stats.get( label + ".add()" ).addDelay( delay );
-}
+        for( int i = 0; i < this.computeCount; i++ ) {
+            list.add( item );
+        }
 
-/**
-**
-*/
-public static final void printDot() // ------------------------------------
-{
- System.out.print( '.' );
- System.out.flush();
-}
+        final long end = System.nanoTime();
+        final long delay = end - begin;
 
-/**
-**
-*/
-public final void doit() // -----------------------------------------------
-{
- System.out.println( "Iteration: " + this.benchCount );
- System.out.println( "Items    : " + this.computeCount );
-
- for( int i = 0; i<this.benchCount; i++ ) {
-
-    bench( new ArrayList<File>(), aFile, "ArrayList<File>()" ); printDot();
-    bench( new ArrayList<Long>(), aLong, "ArrayList<Long>()" ); printDot();
-    bench( new ArrayList<Object>(), anObject, "ArrayList<Object>()" ); printDot();
-    bench( new ArrayList<String>(), aString, "ArrayList<String>()" ); printDot();
-
-    bench( new LinkedList<File>(), aFile, "LinkedList<File>()" ); printDot();
-    bench( new LinkedList<Long>(), aLong, "LinkedList<Long>()" ); printDot();
-    bench( new LinkedList<Object>(), anObject, "LinkedList<Object>()" ); printDot();
-    bench( new LinkedList<String>(), aString, "LinkedList<String>()" ); printDot();
-
-    bench( new Vector<File>(), aFile, "Vector<File>()" ); printDot();
-    bench( new Vector<Long>(), aLong, "Vector<Long>()" ); printDot();
-    bench( new Vector<Object>(), anObject, "Vector<Object>()" ); printDot();
-    bench( new Vector<String>(), aString, "Vector<String>()" ); printDot();
-
-    bench( new HashSet<File>(), aFile, "HashSet<File>()" ); printDot();
-    bench( new HashSet<Long>(), aLong, "HashSet<Long>()" ); printDot();
-    bench( new HashSet<Object>(), anObject, "HashSet<Object>()" ); printDot();
-    bench( new HashSet<String>(), aString, "HashSet<String>()" ); printDot();
-
-    System.out.println( " " + i + "/" + this.benchCount );
+        this.stats.get( label + ".add()" ).addDelay( delay );
     }
 
- System.out.println( stats );
-}
+    private static final void printDot() // ------------------------------------
+    {
+        System.out.print( '.' );
+        System.out.flush();
+    }
 
-/**
-**
-*/
-public static final void main( final String[] args ) // -------------------
-{
- new BenchCollection( 1000, 50 ).doit();
- new BenchCollection( 10, 50000 ).doit();
-}
+    private final void doit() // -----------------------------------------------
+    {
+        System.out.println( "Iteration: " + this.benchCount );
+        System.out.println( "Items    : " + this.computeCount );
 
-} // class
+        for( int i = 0; i < this.benchCount; i++ ) {
+
+            bench( new ArrayList<>(), aFile   , "ArrayList<File>()" );
+            printDot();
+            bench( new ArrayList<>(), aLong   , "ArrayList<Long>()" );
+            printDot();
+            bench( new ArrayList<>(), anObject, "ArrayList<Object>()" );
+            printDot();
+            bench( new ArrayList<>(), aString , "ArrayList<String>()" );
+            printDot();
+
+            bench( new LinkedList<>(), aFile  , "LinkedList<File>()" );
+            printDot();
+            bench( new LinkedList<>(), aLong  , "LinkedList<Long>()" );
+            printDot();
+            bench( new LinkedList<>(), anObject, "LinkedList<Object>()" );
+            printDot();
+            bench( new LinkedList<>(), aString , "LinkedList<String>()" );
+            printDot();
+
+            bench( new Vector<>(), aFile   , "Vector<File>()" );
+            printDot();
+            bench( new Vector<>(), aLong   , "Vector<Long>()" );
+            printDot();
+            bench( new Vector<>(), anObject, "Vector<Object>()" );
+            printDot();
+            bench( new Vector<>(), aString , "Vector<String>()" );
+            printDot();
+
+            bench( new HashSet<>(), aFile, "HashSet<File>()" );
+            printDot();
+            bench( new HashSet<>(), aLong, "HashSet<Long>()" );
+            printDot();
+            bench( new HashSet<>(), anObject, "HashSet<Object>()" );
+            printDot();
+            bench( new HashSet<>(), aString, "HashSet<String>()" );
+            printDot();
+
+            System.out.println( " " + i + "/" + this.benchCount );
+        }
+
+        System.out.println( this.stats );
+    }
+
+    public static final void main( final String[] args ) // -------------------
+    {
+        new BenchCollection( 1000, 50 ).doit();
+        new BenchCollection( 10, 50000 ).doit();
+    }
+}
