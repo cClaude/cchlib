@@ -115,7 +115,7 @@ public final class SafeSwingUtilities
             button.setText( "testJButton" );
             return true;
         }
-        catch( final Exception dontCareThisException ) {
+        catch( final Exception | NoClassDefFoundError dontCareThisException ) {
             // don't are this exception
         }
 
