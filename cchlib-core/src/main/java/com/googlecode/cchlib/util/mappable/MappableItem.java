@@ -50,13 +50,28 @@ public enum MappableItem
 
     /**
      * Try to include private methods result into map
+     * <br>
+     * If set, try all methods (even private) : collect methods
+     * using {@link Class#getDeclaredMethods()} (could be less efficient),
+     * <br>
+     * otherwise will use {@link Class#getMethods()} to collect
+     * methods
      */
     TRY_PRIVATE_METHODS,
 
     /**
      * Try to include protected methods result into map
+     * <br>
+     * If set, try all methods (even private) : collect methods
+     * using {@link Class#getDeclaredMethods()} (could be less efficient),
+     * <br>
+     * otherwise will use {@link Class#getMethods()} to collect
+     * methods
      */
-    TRY_PROTECTED_METHODS;
+    TRY_PROTECTED_METHODS,
+
+    // TODO : DO_STATIC
+    ;
 
     /**
      * Add all methods returning primitive and arrays
@@ -71,7 +86,7 @@ public enum MappableItem
     /**
      * Add all primitives types in map.
      */
-    public static final  Set<MappableItem> MAPPABLE_ITEM_SHOW_ALL =  Collections.unmodifiableSet( // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutableConstantField
+    public static final Set<MappableItem> MAPPABLE_ITEM_SHOW_ALL =  Collections.unmodifiableSet( // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.mutableConstantField
         EnumSet.of(
             ALL_PRIMITIVE_TYPE
             )

@@ -90,7 +90,7 @@ public class MappableBuilder
     {
         final Map<String,String> map     = new HashMap<>();
         final Class<?>           clazz   = object.getClass();
-        final Method[]           methods = getDeclaredMethods(clazz);
+        final Set<Method>        methods = getMethodsToHandle(clazz);
 
         for( final Method method : methods ) {
             if( (method.getParameterTypes().length == 0)
@@ -248,7 +248,6 @@ public class MappableBuilder
                 }
             }
         }
-
     }
 
     private void handleIteratorForMap(
@@ -361,25 +360,42 @@ public class MappableBuilder
     }
 
     /** Build methods list to handle */
-    private final Method[] getDeclaredMethods( final Class<?> clazz )
+    private final Set<Method> getMethodsToHandle( final Class<?> type )
     {
         if( !this.mappableItemSet.contains( MappableItem.DO_PARENT_CLASSES ) ) {
-            return clazz.getDeclaredMethods();
+            return getMethods( type );
             }
 
-        final Set<Method> methodsSet = new HashSet<>();
+        final Set<Method> methods = new HashSet<>();
 
-        for( final Method method : clazz.getDeclaredMethods() ) {
-            methodsSet.add( method );
+        for( final Method method : getMethods( type ) ) {
+            methods.add( method );
             }
 
-        for( Class<?> aClass = clazz.getSuperclass(); aClass != null; aClass = aClass.getSuperclass() ) {
-            for( final Method method : aClass.getDeclaredMethods() ) {
-                methodsSet.add( method );
-                }
+        for( Class<?> supertype = type.getSuperclass(); supertype != null; supertype = supertype.getSuperclass() ) {
+            methods.addAll( getMethods( supertype ) );
             }
 
-         return methodsSet.toArray( new Method[ methodsSet.size() ] );
+         return methods;
+    }
+
+    private Set<Method> getMethods( final Class<?> type )
+    {
+        final Set<Method> methods = new HashSet<>();
+        final Method[]    methodsArray;
+
+        if( this.mappableItemSet.contains( MappableItem.TRY_PRIVATE_METHODS ) ||
+            this.mappableItemSet.contains( MappableItem.TRY_PROTECTED_METHODS ) ) {
+            methodsArray = type.getDeclaredMethods();
+        } else {
+            methodsArray = type.getMethods();
+        }
+
+        for( final Method method : methodsArray ) {
+            methods.add( method );
+        }
+
+        return methods;
     }
 
     @NeedDoc
