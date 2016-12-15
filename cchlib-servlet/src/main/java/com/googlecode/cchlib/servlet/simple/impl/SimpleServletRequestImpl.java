@@ -33,16 +33,32 @@ public class SimpleServletRequestImpl
             this.paramName = paramName;
         }
 
+        private String[] getRequestParameterValues( final String parameterName )
+        {
+            return SimpleServletRequestImpl.this.request.getParameterValues( parameterName );
+        }
+
+        private String getRequestParameter( final String parameterName )
+        {
+            return SimpleServletRequestImpl.this.request.getParameter( parameterName );
+        }
+
+        @Override
+        public boolean exists()
+        {
+            return getRequestParameterValues( this.paramName ) != null;
+        }
+
         @Override
         public String[] toArray()
         {
-            return SimpleServletRequestImpl.this.request.getParameterValues( this.paramName );
+            return getRequestParameterValues( this.paramName );
         }
 
         @Override
         public String toString()
         {
-            return SimpleServletRequestImpl.this.request.getParameter( this.paramName );
+            return getRequestParameter( this.paramName );
         }
 
         @Override
