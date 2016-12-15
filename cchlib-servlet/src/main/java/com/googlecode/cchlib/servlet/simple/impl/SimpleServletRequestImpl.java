@@ -17,11 +17,12 @@ import com.googlecode.cchlib.servlet.simple.UserAgent;
 public class SimpleServletRequestImpl
     implements SimpleServletRequest
 {
-    private static final String MSIE = "msie";
-    private static final String OPERA = "opera";
-    private static final String COMPATIBLE = "compatible";
-    private static final String MOZILLA = "mozilla";
     private static final Logger LOGGER = Logger.getLogger( SimpleServletRequestImpl.class );
+
+    private static final String MSIE       = "msie";
+    private static final String OPERA      = "opera";
+    private static final String COMPATIBLE = "compatible";
+    private static final String MOZILLA    = "mozilla";
 
     private final class DefaultParameterValue implements ParameterValue
     {
@@ -35,17 +36,17 @@ public class SimpleServletRequestImpl
         @Override
         public String[] toArray()
         {
-            return SimpleServletRequestImpl.this.request.getParameterValues(this.paramName);
+            return SimpleServletRequestImpl.this.request.getParameterValues( this.paramName );
         }
 
         @Override
         public String toString()
         {
-            return SimpleServletRequestImpl.this.request.getParameter(this.paramName);
+            return SimpleServletRequestImpl.this.request.getParameter( this.paramName );
         }
 
         @Override
-        public String toString(final String defaultValue)
+        public String toString( final String defaultValue )
         {
             try {
                 final String value = toString();
@@ -64,26 +65,39 @@ public class SimpleServletRequestImpl
         @Override
         public boolean booleanValue()
         {
-            return booleanValue(false);
+            return booleanValue( false );
         }
 
         @Override
-        public boolean booleanValue(final boolean defaultValue)
+        public boolean booleanValue( final boolean defaultValue )
         {
-            String value;
+            String value = toString();
+
+            if( value == null ) {
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( "ParameterValue.booleanValue( \"" + defaultValue + "\" )" );
+                }
+
+                return defaultValue;
+            }
+
+            value = value.toLowerCase();
+
+            if( "on".equals( value ) || "true".equals( value ) ) {
+                return true;
+                }
 
             try {
-                value = toString().toLowerCase();
-                if("on".equals(value) || "true".equals(value)) {
-                    return true;
-                    }
+                return Integer.parseInt( value ) > 0;
                 }
-            catch(final Exception e) {
-                LOGGER.warn( "ParameterValue.booleanValue( \"" + defaultValue + "\" )", e );
+            catch( final NumberFormatException e ) {
+                LOGGER.warn(
+                    "ParameterValue.booleanValue( \"" + defaultValue + "\" ) : " + value,
+                    e
+                    );
 
                 return defaultValue;
                 }
-            return Integer.parseInt(value) > 0;
         }
 
         @Override
@@ -96,7 +110,7 @@ public class SimpleServletRequestImpl
         public int intValue(final int defaultValue)
         {
             try {
-                return Integer.parseInt(toString());
+                return Integer.parseInt( toString() );
                 }
             catch(final Exception e) {
                 LOGGER.warn( "ParameterValue.intValue( \"" + defaultValue + "\" )", e );

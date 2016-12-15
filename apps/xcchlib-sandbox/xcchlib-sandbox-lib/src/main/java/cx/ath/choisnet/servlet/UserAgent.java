@@ -15,17 +15,13 @@
 package cx.ath.choisnet.servlet;
 
 /**
-** <p>
-** Enumération des navigateur WEB connus
-** </p>
-**
-**
-** @author  Claude CHOISNET
-** @since   2.01.030
-** @version 3.01.018
-**
-** @see cx.ath.choisnet.servlet.SimpleServletRequest
-** @see cx.ath.choisnet.servlet.SimpleServletRequest#getUserAgentDetails()
+* <p>
+* Enumération des navigateur WEB connus
+*
+*
+* @author  Claude CHOISNET
+* @since   2.01.030
+* @version 3.01.018
 */
 public enum UserAgent
 {

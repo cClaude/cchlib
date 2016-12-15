@@ -22,8 +22,6 @@ package cx.ath.choisnet.servlet;
 ** @since   2.01.030
 ** @version 2.01.030
 **
-** @see javax.servlet.http.HttpServletRequest
-** @see ParameterValueWrapper
 */
 public interface ParameterValue
 {
