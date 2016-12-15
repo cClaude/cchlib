@@ -54,27 +54,38 @@
 
   <!-- maven on ftp : Distribution management -->
   <distributionManagement>
+    <!--
+      RELEASE ;
+      (repository,id)=ftp.cchlib.repo.release
 
+      For svn on googlecode :
+      (repository,url)=dav:https://cchlib.googlecode.com/svn/maven-repo/releases
+
+      For git on googlecode :
+      (repository,url)=dav:https://${google.code.project.name}.googlecode.com/git/maven/2
+
+      For FTP
+      (repository,url)=ftp://choisnet.ath.cx/repository/cchlib/release
+
+      SNAPSHOT :
+      (snapshotRepository,id)=ftp.cchlib.repo.snapshot
+      (repository,url)=ftp://choisnet.ath.cx/repository/cchlib/release
+      (snapshotRepository,uniqueVersion)=false
+     -->
+    <!--
     <repository>
-      <id>ftp.cchlib.repo.release</id>
-      <!-- svn on googlecode
-      <url>dav:https://cchlib.googlecode.com/svn/maven-repo/releases</url>
-      -->
-      <!-- git on googlecode
-      <url>dav:https://${google.code.project.name}.googlecode.com/git/maven/2</url>
-      -->
-      <!--
-      <url>ftp://choisnet.ath.cx/repository/cchlib/release</url>
-       -->
+      <id></id>
+      <url></url>
     </repository>
+    -->
 
+    <!--
     <snapshotRepository>
-      <!--
-      <id>ftp.cchlib.repo.snapshot</id>
-      <url>ftp://choisnet.ath.cx/repository/cchlib/release</url>
+      <id></id>
+      <url></url>
       <uniqueVersion>false</uniqueVersion>
-      -->
      </snapshotRepository>
+     -->
 
   </distributionManagement>
 
