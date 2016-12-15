@@ -88,12 +88,10 @@ public class OptionHelper
         // All static
     }
 
-    @SuppressWarnings("squid:S1172") // Unused method parameters should be removed (squid:S1172) - Well, this method is used...
+    @SuppressWarnings("squid:S1172") // Unused method parameters should be removed - Well, this method is used...
     private static String toOpt( final IsOption optionEnum )
     {
-        final Option option = optionEnum.getOption();
-
-        return option.getOpt();
+        return optionEnum.getOption().getOpt();
     }
 
     public static <E extends Enum<E> & IsOption> void addOptionsFromOptionEnum(
@@ -107,9 +105,9 @@ public class OptionHelper
     }
 
     public static <E extends Enum<E> & IsOption> Set<E> getSelectedOptions(
-            final CommandLine   commandLine,
-            final Class<E>      enumType
-            )
+        final CommandLine   commandLine,
+        final Class<E>      enumType
+        )
     {
         final EnumSet<E> result = EnumSet.noneOf( enumType );
 
@@ -123,25 +121,25 @@ public class OptionHelper
     }
 
     public static <E extends Enum<E> & IsOption> String getOptionValue(
-            final CommandLine commandLine,
-            final E           optionEnum
-            )
+        final CommandLine commandLine,
+        final E           optionEnum
+        )
     {
         return commandLine.getOptionValue( toOpt( optionEnum ) );
     }
 
     public static <E extends Enum<E> & IsOption> boolean hasOption(
-            final CommandLine commandLine,
-            final E           optionEnum
-            )
+        final CommandLine commandLine,
+        final E           optionEnum
+        )
     {
         return commandLine.hasOption( toOpt( optionEnum ) );
     }
 
     public static <E extends Enum<E> & IsOption> String[] getOptionValues(
-            final CommandLine commandLine,
-            final E           optionEnum
-            )
+        final CommandLine commandLine,
+        final E           optionEnum
+        )
     {
         return commandLine.getOptionValues( toOpt( optionEnum ) );
     }
