@@ -7,7 +7,7 @@
     <version>4.2-SNAPSHOT</version>
     <artifactId>cchlib</artifactId>
   </parent>
-  
+
   <artifactId>cchlib-core-test</artifactId>
   <packaging>jar</packaging>
   <name>cchlib-core-test</name>
@@ -17,21 +17,21 @@
   </properties>
 
   <dependencies>
-  
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-core</artifactId>
       <version>4.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
-      
+
     <dependency>
       <groupId>com.googlecode.cchlib</groupId>
       <artifactId>cchlib-io</artifactId>
       <version>4.2-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
-      
+
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
@@ -39,11 +39,18 @@
       <classifier>site</classifier>
       <scope>test</scope>
     </dependency>
-      
+
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-swing</artifactId>
+      <version>4.2-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
-  
+
     <resources>
     </resources>
 
@@ -51,5 +58,5 @@
     </extensions>
 
   </build>
-  
+
 </project>
