@@ -5,21 +5,21 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 //NOT public
-class BeanAnnotationOnGetters implements BeanAnnotation
+class BeanAnnotationOnFieldsNotHeadLess implements BeanAnnotationNotHeadLess
 {
-    protected String    aString;
-    private   int       aInt;
-    private   float     aFloat;
-    private boolean[]   someBooleans;
+    @Populator protected String    aString;
+    @Populator private   int       aInt;
+    @Populator private   float     aFloat;
+    @Populator public    boolean[] someBooleans;
 
     /** default text ERROR */
-    private final JTextField aJTextField;
+    @Persistent private final JTextField aJTextField;
     /** default state unselected */
-    private final JCheckBox aJCheckBox;
+    @Persistent private final JCheckBox aJCheckBox;
     /** With a model, but non selected value */
-    private final JComboBox<String>  aJComboBox;
+    @Persistent private final JComboBox<String>  aJComboBox;
 
-    public BeanAnnotationOnGetters()
+    public BeanAnnotationOnFieldsNotHeadLess()
     {
         this.aJTextField = new JTextField();
         this.aJTextField.setText( "ERROR" );
@@ -27,10 +27,10 @@ class BeanAnnotationOnGetters implements BeanAnnotation
         this.aJCheckBox  = new JCheckBox();
         this.aJCheckBox.setSelected(false);
 
-        this.aJComboBox  = new JComboBox<String>( BeanAnnotation.getComboBoxModel() );
+        this.aJComboBox  = new JComboBox<String>( BeanAnnotationNotHeadLess.getComboBoxModel() );
     }
 
-    public BeanAnnotationOnGetters(
+    public BeanAnnotationOnFieldsNotHeadLess(
         final String    aString,
         final int       aInt,
         final float     aFloat,
@@ -55,44 +55,36 @@ class BeanAnnotationOnGetters implements BeanAnnotation
     @Override
     public String toString()
     {
-        return Tools.toString( this );
+        return BeanAnnotationNotHeadLess.toString( this );
     }
 
     @Override
-    @Populator
     public final String getaString()
     {
-        return aString;
+        return this.aString;
     }
-
     @Override
-    public
-    final void setaString(final String aString)
+    public final void setaString(final String aString)
     {
         this.aString = aString;
     }
 
     @Override
-    @Populator
     public final int getaInt()
     {
-        return aInt;
+        return this.aInt;
     }
-
     @Override
-    public
-    final void setaInt(final int aInt)
+    public final void setaInt(final int aInt)
     {
         this.aInt = aInt;
     }
 
     @Override
-    @Populator
     public final float getaFloat()
     {
-        return aFloat;
+        return this.aFloat;
     }
-
     @Override
     public final void setaFloat(final float aFloat)
     {
@@ -100,36 +92,31 @@ class BeanAnnotationOnGetters implements BeanAnnotation
     }
 
     @Override
-    @Populator
     public final boolean[] getSomeBooleans()
     {
         return this.someBooleans;
     }
-
     @Override
-    public final void setSomeBooleans( final boolean[] someBooleans )
+    public final void setSomeBooleans(final boolean[] someBooleans)
     {
         this.someBooleans = someBooleans;
     }
 
     @Override
-    @Persistent
     public JTextField getaJTextField()
     {
-        return aJTextField;
+        return this.aJTextField;
     }
 
     @Override
-    @Persistent
     public JCheckBox getaJCheckBox()
     {
-        return aJCheckBox;
+        return this.aJCheckBox;
     }
 
     @Override
-    @Persistent
     public JComboBox<String> getaJComboBox()
     {
-        return aJComboBox;
+        return this.aJComboBox;
     }
 }

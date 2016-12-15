@@ -1,25 +1,29 @@
-// $codepro.audit.disable importOrder, numericLiterals
 package com.googlecode.cchlib.util.properties;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeFalse;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
-public class PropertiesPopulatorGetterTest
+public class PropertiesPopulatorGetterTestNotHeadLess
 {
-    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulatorGetterTest.class );
+    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulatorGetterTestNotHeadLess.class );
 
     @Test
     public void test_PropertiesPopulator_without_prefix_populateProperties() throws PopulatorException
     {
-        final PropertiesPopulator<BeanAnnotationOnGetters> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnGetters.class );
-        final BeanAnnotationOnGetters bean
-            = new BeanAnnotationOnGetters(
+        // Stop if GUI usage is not allowed
+        assumeFalse( SafeSwingUtilities.isHeadless() );
+
+        final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
+            = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
+        final BeanAnnotationOnGettersNotHeadLess bean
+            = new BeanAnnotationOnGettersNotHeadLess(
                     "MyTestString",
                     1,
                     1.5F,
@@ -53,10 +57,13 @@ public class PropertiesPopulatorGetterTest
     @Test
     public void test_PropertiesPopulator_without_prefix_populateBean() throws PopulatorException
     {
-        final PropertiesPopulator<BeanAnnotationOnGetters> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnGetters.class );
-        final BeanAnnotationOnGetters bean
-        = new BeanAnnotationOnGetters(
+        // Stop if GUI usage is not allowed
+        assumeFalse( SafeSwingUtilities.isHeadless() );
+
+        final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
+            = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
+        final BeanAnnotationOnGettersNotHeadLess bean
+        = new BeanAnnotationOnGettersNotHeadLess(
                 "MyTestString",
                 1,
                 1.5F,
@@ -83,7 +90,7 @@ public class PropertiesPopulatorGetterTest
 
         Tools.logProperties( LOGGER, properties );
 
-        final BeanAnnotationOnGetters copy = new BeanAnnotationOnGetters();
+        final BeanAnnotationOnGettersNotHeadLess copy = new BeanAnnotationOnGettersNotHeadLess();
         pp.populateBean(properties, copy);
 
         LOGGER.info( "copy : " + copy );
@@ -97,10 +104,13 @@ public class PropertiesPopulatorGetterTest
     @Test
     public void test_PropertiesPopulator_without_prefix_full_test() throws PopulatorException
     {
-        final PropertiesPopulator<BeanAnnotationOnGetters> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnGetters.class );
-        final BeanAnnotationOnGetters bean
-            = new BeanAnnotationOnGetters(
+        // Stop if GUI usage is not allowed
+        assumeFalse( SafeSwingUtilities.isHeadless() );
+
+        final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
+            = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
+        final BeanAnnotationOnGettersNotHeadLess bean
+            = new BeanAnnotationOnGettersNotHeadLess(
                     "MyTestString",
                     1,
                     1.5F,
@@ -115,7 +125,7 @@ public class PropertiesPopulatorGetterTest
 
         Tools.logProperties( LOGGER, properties );
 
-        final BeanAnnotationOnGetters copy = new BeanAnnotationOnGetters();
+        final BeanAnnotationOnGettersNotHeadLess copy = new BeanAnnotationOnGettersNotHeadLess();
         pp.populateBean(properties, copy);
 
         LOGGER.info( "expected : [" + bean + "]" );
@@ -130,10 +140,13 @@ public class PropertiesPopulatorGetterTest
     @Test
     public void test_PropertiesPopulator_with_prefix() throws PopulatorException
     {
-        final PropertiesPopulator<BeanAnnotationOnGetters> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnGetters.class );
-        final BeanAnnotationOnGetters bean
-            = new BeanAnnotationOnGetters(
+        // Stop if GUI usage is not allowed
+        assumeFalse( SafeSwingUtilities.isHeadless() );
+
+        final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
+            = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
+        final BeanAnnotationOnGettersNotHeadLess bean
+            = new BeanAnnotationOnGettersNotHeadLess(
                     "MyTestString",
                     1,
                     1.5F,
@@ -149,7 +162,7 @@ public class PropertiesPopulatorGetterTest
 
         Tools.logProperties( LOGGER, properties );
 
-        final BeanAnnotationOnGetters copy = new BeanAnnotationOnGetters();
+        final BeanAnnotationOnGettersNotHeadLess copy = new BeanAnnotationOnGettersNotHeadLess();
         pp.populateBean( prefix, properties, copy );
 
         LOGGER.info( "expected : [" + bean + "]" );
@@ -162,10 +175,13 @@ public class PropertiesPopulatorGetterTest
     @Test
     public void test_PropertiesPopulator2() throws PopulatorException
     {
-        final PropertiesPopulator<BeanAnnotationOnGetters> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnGetters.class );
-        final BeanAnnotationOnGetters bean
-            = new BeanAnnotationOnGetters(
+        // Stop if GUI usage is not allowed
+        assumeFalse( SafeSwingUtilities.isHeadless() );
+
+        final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
+            = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
+        final BeanAnnotationOnGettersNotHeadLess bean
+            = new BeanAnnotationOnGettersNotHeadLess(
                     "MyTestString",
                     1,
                     1.5F,
@@ -181,7 +197,7 @@ public class PropertiesPopulatorGetterTest
 
         Tools.logProperties( LOGGER, properties );
 
-        final BeanAnnotationOnGetters copy = new BeanAnnotationOnGetters();
+        final BeanAnnotationOnGettersNotHeadLess copy = new BeanAnnotationOnGettersNotHeadLess();
         pp.populateBean( prefix, properties, copy );
 
         LOGGER.info( "expected : [" + bean + "]" );
@@ -194,11 +210,14 @@ public class PropertiesPopulatorGetterTest
     @Test
     public void test_loadsave() throws IOException
     {
+        // Stop if GUI usage is not allowed
+        assumeFalse( SafeSwingUtilities.isHeadless() );
+
         final File file = File.createTempFile(
                 this.getClass().getName(),
                 ".properties"
                 );
-        final BeanAnnotationOnGetters bean = new BeanAnnotationOnGetters(
+        final BeanAnnotationOnGettersNotHeadLess bean = new BeanAnnotationOnGettersNotHeadLess(
             "This is my test String",
             1024,
             2.65F,
@@ -207,9 +226,9 @@ public class PropertiesPopulatorGetterTest
             true,
             3 // selected index in model
             );
-        PropertiesPopulator.saveProperties( file, bean, BeanAnnotationOnGetters.class );
+        PropertiesPopulator.saveProperties( file, bean, BeanAnnotationOnGettersNotHeadLess.class );
 
-        final BeanAnnotationOnGetters copy = PropertiesPopulator.loadProperties( file, new BeanAnnotationOnGetters(), BeanAnnotationOnGetters.class );
+        final BeanAnnotationOnGettersNotHeadLess copy = PropertiesPopulator.loadProperties( file, new BeanAnnotationOnGettersNotHeadLess(), BeanAnnotationOnGettersNotHeadLess.class );
 
         LOGGER.info( "File = [" + file + "]" );
         LOGGER.info( "expected : [" + bean + "]" );

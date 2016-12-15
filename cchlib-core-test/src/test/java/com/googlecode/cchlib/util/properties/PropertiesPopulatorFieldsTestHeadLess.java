@@ -1,4 +1,3 @@
-// $codepro.audit.disable importOrder, numericLiterals
 package com.googlecode.cchlib.util.properties;
 
 import static org.junit.Assert.assertEquals;
@@ -8,24 +7,21 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-public class PropertiesPopulatorFieldsTest
+public class PropertiesPopulatorFieldsTestHeadLess
 {
-    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulatorFieldsTest.class );
+    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulatorFieldsTestHeadLess.class );
 
     @Test
     public void test_PropertiesPopulator_without_prefix() throws PopulatorException
     {
-        final PropertiesPopulator<BeanAnnotationOnFields> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnFields.class );
-        final BeanAnnotationOnFields bean
-            = new BeanAnnotationOnFields(
+        final PropertiesPopulator<BeanAnnotationOnFieldsHeadLess> pp
+            = new PropertiesPopulator<>( BeanAnnotationOnFieldsHeadLess.class );
+        final BeanAnnotationOnFieldsHeadLess bean
+            = new BeanAnnotationOnFieldsHeadLess(
                     "MyTestString",
                     1,
                     1.5F,
-                    new boolean[]{true,false,false,false,false},
-                    "MyTestString for JTextField",
-                    true,
-                    3 // selected index in model
+                    new boolean[]{true,false,false,false,false}
                     );
 
         final Properties properties = new Properties();
@@ -33,7 +29,7 @@ public class PropertiesPopulatorFieldsTest
 
         Tools.logProperties( LOGGER, properties );
 
-        final BeanAnnotationOnFields copy = new BeanAnnotationOnFields();
+        final BeanAnnotationOnFieldsHeadLess copy = new BeanAnnotationOnFieldsHeadLess();
         pp.populateBean(properties, copy);
 
         LOGGER.info( "expected : [" + bean + "]" );
@@ -48,17 +44,14 @@ public class PropertiesPopulatorFieldsTest
     @Test
     public void test_PropertiesPopulator_with_prefix() throws PopulatorException
     {
-        final PropertiesPopulator<BeanAnnotationOnFields> pp
-            = new PropertiesPopulator<BeanAnnotationOnFields>( BeanAnnotationOnFields.class );
-        final BeanAnnotationOnFields bean
-            = new BeanAnnotationOnFields(
+        final PropertiesPopulator<BeanAnnotationOnFieldsHeadLess> pp
+            = new PropertiesPopulator<BeanAnnotationOnFieldsHeadLess>( BeanAnnotationOnFieldsHeadLess.class );
+        final BeanAnnotationOnFieldsHeadLess bean
+            = new BeanAnnotationOnFieldsHeadLess(
                     "MyTestString",
                     1,
                     1.5F,
-                    new boolean[]{true,false,false,false,false},
-                    "MyTestString for JTextField",
-                    true,
-                    3 // selected index in model
+                    new boolean[]{true,false,false,false,false}
                     );
 
         final String prefix = "with_a_prefix.";
@@ -67,7 +60,7 @@ public class PropertiesPopulatorFieldsTest
 
         Tools.logProperties( LOGGER, properties );
 
-        final BeanAnnotationOnFields copy = new BeanAnnotationOnFields();
+        final BeanAnnotationOnFieldsHeadLess copy = new BeanAnnotationOnFieldsHeadLess();
         pp.populateBean( prefix, properties, copy );
 
         LOGGER.info( "expected : [" + bean + "]" );
@@ -80,17 +73,14 @@ public class PropertiesPopulatorFieldsTest
     @Test
     public void test_PropertiesPopulator2() throws PopulatorException
     {
-        final PropertiesPopulator<BeanAnnotationOnFields> pp
-            = new PropertiesPopulator<BeanAnnotationOnFields>( BeanAnnotationOnFields.class );
-        final BeanAnnotationOnFields bean
-            = new BeanAnnotationOnFields(
+        final PropertiesPopulator<BeanAnnotationOnFieldsHeadLess> pp
+            = new PropertiesPopulator<BeanAnnotationOnFieldsHeadLess>( BeanAnnotationOnFieldsHeadLess.class );
+        final BeanAnnotationOnFieldsHeadLess bean
+            = new BeanAnnotationOnFieldsHeadLess(
                     "MyTestString",
                     1,
                     1.5F,
-                    new boolean[]{true,false,false,false,false},
-                    "MyTestString for JTextField",
-                    true,
-                    3 // selected index in model
+                    new boolean[]{true,false,false,false,false}
                     );
 
         final String prefix = "with_a_prefix.";
@@ -99,7 +89,7 @@ public class PropertiesPopulatorFieldsTest
 
         Tools.logProperties( LOGGER, properties );
 
-        final BeanAnnotationOnFields copy = new BeanAnnotationOnFields();
+        final BeanAnnotationOnFieldsHeadLess copy = new BeanAnnotationOnFieldsHeadLess();
         pp.populateBean( prefix, properties, copy );
 
         LOGGER.info( "expected : [" + bean + "]" );
@@ -140,18 +130,15 @@ public class PropertiesPopulatorFieldsTest
                 this.getClass().getName(),
                 ".properties"
                 );
-        final BeanAnnotationOnFields bean = new BeanAnnotationOnFields(
+        final BeanAnnotationOnFieldsHeadLess bean = new BeanAnnotationOnFieldsHeadLess(
             "This is my test String",
             1024,
             2.65F,
-            new boolean[]{true,false,true},
-            "JTextField text",
-            true,
-            2 // selected index in boolean array / well just testing :p
+            new boolean[]{true,false,true}
             );
-        PropertiesPopulator.saveProperties( file, bean, BeanAnnotationOnFields.class );
+        PropertiesPopulator.saveProperties( file, bean, BeanAnnotationOnFieldsHeadLess.class );
 
-        final BeanAnnotationOnFields copy = PropertiesPopulator.loadProperties( file, new BeanAnnotationOnFields(), BeanAnnotationOnFields.class );
+        final BeanAnnotationOnFieldsHeadLess copy = PropertiesPopulator.loadProperties( file, new BeanAnnotationOnFieldsHeadLess(), BeanAnnotationOnFieldsHeadLess.class );
 
         LOGGER.info( "File = [" + file + "]" );
         LOGGER.info( "expected : [" + bean + "]" );

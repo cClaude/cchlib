@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.util.properties;
 
 class PPStrangeClass implements PopulatorContener
@@ -17,7 +16,7 @@ class PPStrangeClass implements PopulatorContener
     }
 
     @Override
-    public void setConvertToString( String s )
+    public void setConvertToString( final String s )
     {
         this.privateRealContent = s;
     }
@@ -25,9 +24,9 @@ class PPStrangeClass implements PopulatorContener
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append("PPStrangeClass [privateRealContent=");
-        builder.append(privateRealContent);
+        builder.append(this.privateRealContent);
         builder.append(']');
         return builder.toString();
     }
@@ -39,13 +38,13 @@ class PPStrangeClass implements PopulatorContener
         int result = 1;
         result = (prime
                 * result)
-                + ((privateRealContent == null) ? 0 : privateRealContent
+                + ((this.privateRealContent == null) ? 0 : this.privateRealContent
                         .hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(final Object obj)
     {
         if (this == obj) {
             return true;
@@ -56,12 +55,12 @@ class PPStrangeClass implements PopulatorContener
         if (!(obj instanceof PPStrangeClass)) {
             return false;
             }
-        PPStrangeClass other = (PPStrangeClass) obj;
-        if (privateRealContent == null) {
+        final PPStrangeClass other = (PPStrangeClass) obj;
+        if (this.privateRealContent == null) {
             if (other.privateRealContent != null) {
                 return false;
             }
-        } else if (!privateRealContent.equals(other.privateRealContent)) {
+        } else if (!this.privateRealContent.equals(other.privateRealContent)) {
             return false;
         }
         return true;
