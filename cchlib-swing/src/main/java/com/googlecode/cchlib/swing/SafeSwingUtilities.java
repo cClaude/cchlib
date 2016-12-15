@@ -1,15 +1,17 @@
 package com.googlecode.cchlib.swing;
 
 import java.awt.GraphicsEnvironment;
+import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 /**
  * A collection of utility methods for Swing.
  */
-public class SafeSwingUtilities
+public final class SafeSwingUtilities
 {
     private static final Logger LOGGER = Logger.getLogger( SafeSwingUtilities.class );
+    private static Boolean swingAvailable;
 
     private SafeSwingUtilities()
     {
@@ -78,6 +80,46 @@ public class SafeSwingUtilities
     public static boolean isSwingAvailable()
     {
         return ! isHeadless();
+    }
+
+    /**
+     * Ensure property {@code java.awt.headless} is correctly set according to
+     * environment configuration.
+     *
+     * @return true is environment support to graphical objects
+     *         creation
+     */
+    public static boolean isHeadlessCorrect()
+    {
+        if( swingAvailable == null ) {
+            computeSwingAvailable();
+        }
+
+        return swingAvailable.booleanValue() ? true : isHeadless();
+    }
+
+    private static void computeSwingAvailable()
+    {
+        synchronized( SafeSwingUtilities.class ) {
+            if( swingAvailable == null ) {
+                swingAvailable = Boolean.valueOf( tryToCreateJButton() );
+            }
+        }
+    }
+
+    @SuppressWarnings("squid:S1166") // don't are this exception
+    private static boolean tryToCreateJButton()
+    {
+        try {
+            final JButton button = new JButton();
+            button.setText( "testJButton" );
+            return true;
+        }
+        catch( final Exception dontCareThisException ) {
+            // don't are this exception
+        }
+
+        return false;
     }
 
     /**
