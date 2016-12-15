@@ -1,6 +1,6 @@
-// $codepro.audit.disable
 package com.googlecode.cchlib.io.checksum;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,52 +18,76 @@ import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 public class XMD5Test
 {
     private static final Logger LOGGER = Logger.getLogger( XMD5Test.class );
-    private XMessageDigestFile   mdf;
+    private XMessageDigestFile  mdf;
     private List<File>          fileList;
 
     @Before
     public void setUp() throws Exception
     {
-        this.mdf        = new XMessageDigestFile( "MD5" );
-        this.fileList   = FilesTestCaseHelper.getFilesListFrom( FileHelper.getTmpDirFile(), FileFilterHelper.fileFileFilter() );
+        this.mdf      = new XMessageDigestFile( "MD5" );
+        this.fileList = FilesTestCaseHelper.getFilesListFrom( FileHelper.getTmpDirFile(), FileFilterHelper.fileFileFilter() );
     }
 
     @Test
     public void test_getHashString() throws IOException
     {
-        for( final File f : this.fileList ) {
+        for( final File file : this.fileList ) {
             try {
-                final String hashString1 = MD5.getHashString( f ).toUpperCase();
-
-                final byte[] digestKey = this.mdf.compute( f );
-                final String hashString2 = XMessageDigestFile.computeDigestKeyString( digestKey ).toUpperCase();
-
-                LOGGER.info( "F:" + f + " MD5(1)" + hashString1 + " MD5(2)" + hashString2 );
-
-                Assert.assertEquals( hashString2, hashString1 );
+                test_getHashString( file );
             }
             catch( final FileNotFoundException ignore ) {
                 // Ignore
             }
         }
     }
-    @Test
+    private void test_getHashString( final File file ) throws IOException
+    {
+        final long   lastModified = file.lastModified();
+        final long   length       = file.length();
 
+        final String hashString1 = MD5.getHashString( file ).toUpperCase();
+        final String hashString2 = computeOldNewVersion( file );
+
+        if( ToolBox.fileNotChanged( file, lastModified, length ) ) {
+            LOGGER.info(
+                    "File: " + file +
+                    " MD5(1)" + hashString1 +
+                    " MD5(2)" + hashString2
+                    );
+
+            assertThat( hashString1 )
+                .isEqualTo( hashString2 )
+                .as( "Bad checksum for file: " + file );
+        }
+    }
+
+    private String computeOldNewVersion( final File file ) throws IOException
+    {
+        final byte[] digestKey = this.mdf.compute( file );
+
+        return XMessageDigestFile.computeDigestKeyString( digestKey ).toUpperCase();
+    }
+
+    @Test
     public void test_getHash() throws IOException
     {
-        for( final File f : this.fileList ) {
+        for( final File file : this.fileList ) {
+            final long   lastModified = file.lastModified();
+            final long   length       = file.length();
+
             try {
-                final byte[] hash1 = MD5.getHash( f );
-                final byte[] digestKey = this.mdf.compute( f );
+                final byte[] hash1     = MD5.getHash( file );
+                final byte[] digestKey = this.mdf.compute( file );
 
-                LOGGER.info( "F:" + f );
+                if( ToolBox.fileNotChanged( file, lastModified, length ) ) {
+                    LOGGER.info( "File: " + file );
 
-                Assert.assertArrayEquals( digestKey, hash1 );
+                    Assert.assertArrayEquals( digestKey, hash1 );
+                }
             }
             catch( final FileNotFoundException ignore ) {
                 // Ignore
             }
         }
     }
-
 }
