@@ -7,20 +7,19 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.io.Reader;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 /**
  * Clipboard manipulations
  *
  * @since 4.2
- *
  */
-public class ClipboardHelper
+public final class ClipboardHelper
 {
     private ClipboardHelper()
     {
         // All static
     }
-
 
     /**
      * Returns String representing the current contents of
@@ -70,9 +69,9 @@ public class ClipboardHelper
                 }
             return buf.toString();
             }
-        catch( final IOException | UnsupportedFlavorException e ) {
+        catch( final IOException | UnsupportedFlavorException cause ) {
             // log, but ignore
-            e.printStackTrace();
+            SafeSwingUtilities.printStackTrace( cause );
             }
 
         return null;
@@ -81,11 +80,13 @@ public class ClipboardHelper
     /**
      * Set String content to clipboard
      *
-     * @param str String to put in clipboard
+     * @param str
+     *            String to put in clipboard
      *
-     * @throws IllegalStateException if the clipboard is currently
-     * unavailable. For example, on some platforms, the system clipboard
-     * is unavailable while it is accessed by another application.
+     * @throws IllegalStateException
+     *             if the clipboard is currently unavailable. For example,
+     *             on some platforms, the system clipboard is unavailable
+     *             while it is accessed by another application.
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public static final void setClipboardContents( final String str ) //
@@ -99,9 +100,10 @@ public class ClipboardHelper
     /**
      * Test if clipboard contain text.
      *
-     * @param requestor the object requesting the clip data (not used)
+     * @param requestor
+     *            the object requesting the clip data (not used)
      *
-     * @return true if clip-board contains text.
+     * @return true if clip-board contains text, false otherwise.
      */
     public static final boolean isClipboardContainingText(
         final Object requestor

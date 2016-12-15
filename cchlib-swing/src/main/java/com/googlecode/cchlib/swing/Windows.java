@@ -8,7 +8,7 @@ import java.awt.event.ComponentEvent;
 /**
  * Tools for {@link Window}
  */
-public class Windows
+public final class Windows
 {
     private Windows()
     {
@@ -16,54 +16,60 @@ public class Windows
     }
 
     /**
-     * Handle minimum of {@link Window}
+     * Handle minimum size of {@link Window}
      *
-     * @param window the {@link Window}
-     * @param minimumDimension the new minimum {@link Dimension} of this window
-     *
-      * @since 4.1.7
+     * @param window
+     *            the {@link Window}
+     * @param minimumDimension
+     *            the new minimum {@link Dimension} of this window
+     * @since 4.1.7
      */
     public static void handleMinimumSize(
-        final Window     window,
-        final Dimension  minimumDimension
+        final Window    window,
+        final Dimension minimumDimension
         )
     {
         window.setMinimumSize( minimumDimension );
         window.addComponentListener( new ComponentAdapter() {
             @Override
-            public void componentResized( final ComponentEvent e )
+            public void componentResized( final ComponentEvent event )
             {
-                final Dimension d    = window.getSize();
-                final Dimension minD = window.getMinimumSize();
+                final Dimension dimension = window.getSize();
+                final Dimension minimum   = window.getMinimumSize();
 
-                if( d.width < minD.width ) {
-                    d.width = minD.width;
+                if( dimension.width < minimum.width ) {
+                    dimension.width = minimum.width;
                     }
 
-                if( d.height < minD.height ) {
-                    d.height = minD.height;
+                if( dimension.height < minimum.height ) {
+                    dimension.height = minimum.height;
                     }
 
-                window.setSize( d );
+                window.setSize( dimension );
             }
         });
     }
 
     /**
-     * Handle minimum of {@link Window}
+     * Handle minimum size of {@link Window}
      *
-     * @param window the {@link Window}
-     * @param width the specified width
-     * @param height the specified height
-     *
+     * @param window
+     *            the {@link Window}
+     * @param minimumWidth
+     *            the specified width
+     * @param minimumHeight
+     *            the specified height
      * @since 4.1.7
      */
     public static void handleMinimumSize(
-        final Window     window,
-        final int        width,
-        final int        height
+        final Window window,
+        final int    minimumWidth,
+        final int    minimumHeight
         )
     {
-        handleMinimumSize( window, new Dimension( width, height ) );
+        handleMinimumSize(
+            window,
+            new Dimension( minimumWidth, minimumHeight )
+            );
     }
 }

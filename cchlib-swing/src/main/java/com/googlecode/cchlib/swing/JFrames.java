@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 /**
  * Tools for {@link JFrame}
  */
-public class JFrames
+public final class JFrames
 {
     private JFrames()
     {
@@ -15,7 +15,7 @@ public class JFrames
     }
 
     /**
-     * Handle minimum of JFrame
+     * Handle minimum size of JFrame
      *
      * @param jFrame the {@link JFrame}
      * @param minimumDimension the new minimum {@link Dimension} of this window
@@ -23,15 +23,15 @@ public class JFrames
       * @since 4.1.7
      */
     public static void handleMinimumSize(
-        final Window     jFrame,
-        final Dimension  minimumDimension
+        final Window    jFrame,
+        final Dimension minimumDimension
         )
     {
         Windows.handleMinimumSize( jFrame, minimumDimension );
     }
 
     /**
-     * Handle minimum of JFrame
+     * Handle minimum size of JFrame
      *
      * @param jFrame the {@link JFrame}
      * @param width the specified width
@@ -40,12 +40,11 @@ public class JFrames
      * @since 4.1.7
      */
     public static void handleMinimumSize(
-        final JFrame     jFrame,
-        final int width,
-        final int height
+        final JFrame jFrame,
+        final int    width,
+        final int    height
         )
     {
         Windows.handleMinimumSize( jFrame, width, height );
     }
-
 }

@@ -6,8 +6,13 @@ import javax.swing.JDialog;
 /**
  * Tools for {@link JDialog}
  */
-public class JDialogs
+public final class JDialogs
 {
+    private JDialogs()
+    {
+        // All static
+    }
+
     /**
      * Handle minimum of {@link JDialog}
      *
