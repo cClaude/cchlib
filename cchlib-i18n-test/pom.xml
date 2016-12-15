@@ -42,6 +42,13 @@
     </dependency>
 
     <dependency>
+        <groupId>com.googlecode.cchlib</groupId>
+        <artifactId>cchlib-swing</artifactId>
+        <version>4.2-SNAPSHOT</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>18.0-rc2</version>

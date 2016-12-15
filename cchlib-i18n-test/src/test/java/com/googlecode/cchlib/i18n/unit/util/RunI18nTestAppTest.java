@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
@@ -31,6 +32,7 @@ import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart;
 import com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReference;
 import com.googlecode.cchlib.i18n.unit.strings.errors.I18nStringWithErrorsTestReference;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 /**
  * Integration test for I18n
@@ -40,27 +42,32 @@ public class RunI18nTestAppTest
     private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );
     private static final int NUMBERS_OF_UNUSED = 2;
 
-    private static TestReference[] getTests()
+    private static Iterable<TestReference> getTests()
     {
-        return new TestReference[] {
-                new AutoI18nBasicInterfacePart(),
-                new I18nBaseNamePart(),
-                new I18nDefaultPart(),
-                new I18nForcedPart(),
-                new I18nStringPart(),
-                new I18nStringTestReference(),
-                new I18nStringWithErrorsTestReference(),
-                new I18nToolTipTextIgnorePart(),
-                new I18nToolTipTextPart(),
-                new I18nToolTipText_for_JTabbedPanePart(),
-                };
+        final ArrayList<TestReference> list = new ArrayList<>();
+
+        if( ! SafeSwingUtilities.isHeadless() ) {
+            list.add( new I18nBaseNamePart() );
+            list.add( new I18nDefaultPart() );
+            list.add( new I18nForcedPart() );
+            list.add( new I18nToolTipTextIgnorePart() );
+            list.add( new I18nToolTipTextPart() );
+            list.add( new I18nToolTipText_for_JTabbedPanePart() );
+        }
+
+        list.add( new AutoI18nBasicInterfacePart() );
+        list.add( new I18nStringPart() );
+        list.add( new I18nStringTestReference() );
+        list.add( new I18nStringWithErrorsTestReference() );
+
+        return list;
     }
 
     @Test
     public void runPrepTest() throws FileNotFoundException, IOException, I18nPrepException
     {
-        final PrepTestPartInterface prepTest = TestUtils.createPrepTest();
-        final TestReference[]       tests    = getTests();
+        final PrepTestPartInterface   prepTest = TestUtils.createPrepTest();
+        final Iterable<TestReference> tests    = getTests();
 
         int syntaxeExceptionCount = 0;
         int missingResourceExceptionCount = 0;
@@ -152,7 +159,8 @@ public class RunI18nTestAppTest
             throws FileNotFoundException, IOException
     {
         final Properties prop   = new Properties();
-        try (final Reader reader = new FileReader( result.getOutputFile() )) {
+
+        try( final Reader reader = new FileReader( result.getOutputFile() ) ) {
             prop.load( reader );
         }
 
@@ -169,7 +177,7 @@ public class RunI18nTestAppTest
         final ResourceBundle validMessageBundleResource = TestUtils.VALID_MESSAGE_BUNDLE.createResourceBundle( Locale.ENGLISH );
 
         final Set<String>         propertiyNames = validMessageBundleResource.keySet();
-        final Map<String, String> map           = new HashMap<String, String>( propertiyNames.size() );
+        final Map<String, String> map            = new HashMap<>( propertiyNames.size() );
 
         propertiyNames.forEach( t -> map.put( t, validMessageBundleResource.getString( t ) ) );
 
@@ -179,7 +187,7 @@ public class RunI18nTestAppTest
     @Test
     public void runPerformeI18nTest()
     {
-        final TestReference[] tests = getTests();
+        final Iterable<TestReference> tests = getTests();
 
         for( final TestReference test : tests ) {
             LOGGER.info( "testing " + test  );
@@ -206,5 +214,4 @@ public class RunI18nTestAppTest
     {
         new I18nStringWithErrorsTestReference().performeI18n();
     }
-
 }
