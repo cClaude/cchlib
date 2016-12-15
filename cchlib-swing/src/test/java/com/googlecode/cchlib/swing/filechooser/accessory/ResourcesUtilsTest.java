@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.swing.filechooser.accessory;
 
+import static org.junit.Assume.assumeFalse;
 import java.awt.FlowLayout;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -8,10 +9,8 @@ import javax.swing.JFrame;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.Threads;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
-/**
- *
- */
 public class ResourcesUtilsTest
 {
     private static final Logger LOGGER = Logger.getLogger( ResourcesUtilsTest.class );
@@ -19,8 +18,11 @@ public class ResourcesUtilsTest
     @Test
     public void myTestJButton()
     {
+        assumeFalse( SafeSwingUtilities.isHeadless() );
+
         final ResourcesUtils  resourcesUtils = new ResourcesUtils();
         final JFrame          frame = new JFrame();
+
         frame.setLayout( new FlowLayout() );
 
         for( final ResourcesUtils.ID id : ResourcesUtils.ID.values() ) {
@@ -49,7 +51,7 @@ public class ResourcesUtilsTest
 
     private void testText( final Locale locale )
     {
-        final ResourcesUtils  resourcesUtils = new ResourcesUtils( locale );
+        final ResourcesUtils resourcesUtils = new ResourcesUtils( locale );
 
         for( final ResourcesUtils.ID id : ResourcesUtils.ID.values() ) {
             final String txt = resourcesUtils.getText( id );
@@ -58,15 +60,5 @@ public class ResourcesUtilsTest
             }
 
         LOGGER.info( "testText() done for " + locale );
-    }
-
-    static abstract class TstFrame extends JFrame
-    {
-        private static final long serialVersionUID = 1L;
-    }
-
-    public static void main( final String[] args )
-    {
-        new ResourcesUtilsTest().myTestJButton();
     }
 }
