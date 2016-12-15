@@ -153,8 +153,8 @@ public final class FileHelper
      * creates a new directory somewhere beneath the system's temporary
      * directory (as defined by the java.io.tmpdir
      * system property), and returns its name.
-     *
-     * <p>This method assumes that the temporary volume is writable,
+     * <p>
+     * This method assumes that the temporary volume is writable,
      * has free inodes and free blocks.
      *
      * @return the newly-created directory
