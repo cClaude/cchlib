@@ -1,11 +1,13 @@
 package cx.ath.choisnet.swing.introspection;
 
+import static org.junit.Assume.assumeTrue;
 import java.text.ParseException;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import cx.ath.choisnet.lang.introspection.IntrospectionException;
 import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
@@ -20,9 +22,12 @@ public class IntrospectionTest
     @Before
     public void setUp() throws Exception
     {
+        // Stop if GUI usage is not allowed
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
         LOGGER.info( "-- setUp()" );
 
-        this.tstFrame = new TstFrame();
+        this.tstFrame          = new TstFrame();
         this.swingIntrospector = this.tstFrame.getSwingIntrospector();
     }
 

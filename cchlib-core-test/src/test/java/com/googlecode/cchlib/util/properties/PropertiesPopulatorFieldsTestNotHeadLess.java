@@ -1,21 +1,31 @@
 package com.googlecode.cchlib.util.properties;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeTrue;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class PropertiesPopulatorFieldsTestNotHeadLess
 {
     private static final Logger LOGGER = Logger.getLogger( PropertiesPopulatorFieldsTestNotHeadLess.class );
 
+    @Before
+    public void setUp() throws Exception
+    {
+        // Stop if GUI usage is not allowed
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+    }
+
     @Test
     public void test_PropertiesPopulator_without_prefix() throws PopulatorException
     {
         // Stop if GUI usage is not allowed
-        //assumeFalse( SafeSwingUtilities.isHeadless() );
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
         final PropertiesPopulator<BeanAnnotationOnFieldsNotHeadLess> pp
             = new PropertiesPopulator<>( BeanAnnotationOnFieldsNotHeadLess.class );
@@ -50,8 +60,6 @@ public class PropertiesPopulatorFieldsTestNotHeadLess
     @Test
     public void test_PropertiesPopulator_with_prefix() throws PopulatorException
     {
-        // Stop if GUI usage is not allowed
-        //assumeFalse( SafeSwingUtilities.isHeadless() );
 
         final PropertiesPopulator<BeanAnnotationOnFieldsNotHeadLess> pp
             = new PropertiesPopulator<BeanAnnotationOnFieldsNotHeadLess>( BeanAnnotationOnFieldsNotHeadLess.class );
@@ -85,9 +93,6 @@ public class PropertiesPopulatorFieldsTestNotHeadLess
     @Test
     public void test_PropertiesPopulator2() throws PopulatorException
     {
-        // Stop if GUI usage is not allowed
-        //assumeFalse( SafeSwingUtilities.isHeadless() );
-
         final PropertiesPopulator<BeanAnnotationOnFieldsNotHeadLess> pp
             = new PropertiesPopulator<BeanAnnotationOnFieldsNotHeadLess>( BeanAnnotationOnFieldsNotHeadLess.class );
         final BeanAnnotationOnFieldsNotHeadLess bean
@@ -120,9 +125,6 @@ public class PropertiesPopulatorFieldsTestNotHeadLess
     @Test
     public void test_PopulatorContener() throws PopulatorException
     {
-        // Stop if GUI usage is not allowed
-        //assumeFalse( SafeSwingUtilities.isHeadless() );
-
         final PropertiesPopulator<BeanWithPopulatorContener> pp
             = new PropertiesPopulator<BeanWithPopulatorContener>(
                     BeanWithPopulatorContener.class
@@ -147,9 +149,6 @@ public class PropertiesPopulatorFieldsTestNotHeadLess
     @Test
     public void test_loadsave() throws IOException
     {
-        // Stop if GUI usage is not allowed
-        //assumeFalse( SafeSwingUtilities.isHeadless() );
-
         final File file = File.createTempFile(
                 this.getClass().getName(),
                 ".properties"

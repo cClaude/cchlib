@@ -1,8 +1,10 @@
 package com.googlecode.cchlib.util.mappable;
 
+import static org.junit.Assume.assumeTrue;
 import java.io.File;
 import javax.swing.JLabel;
 import org.junit.Test;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class MappableBuilderTest extends MappableBuilderTestHelper
 {
@@ -10,7 +12,7 @@ public class MappableBuilderTest extends MappableBuilderTestHelper
     public void tstMappableJLabel_TRY_PROTECTED_METHODS()
     {
         // Stop if GUI usage is not allowed
-        //assumeFalse( SafeSwingUtilities.isHeadless() );
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
         final MappableBuilderFactory factory = newMappableBuilder_TRY_PROTECTED_METHODS();
 
@@ -24,7 +26,7 @@ public class MappableBuilderTest extends MappableBuilderTestHelper
     public void tstMappableJLabel_TRY_PRIVATE_METHODS()
     {
         // Stop if GUI usage is not allowed
-        //assumeFalse( SafeSwingUtilities.isHeadless() );
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
         final MappableBuilderFactory factory = newMappableBuilder_TRY_PRIVATE_METHODS();
 
@@ -38,7 +40,7 @@ public class MappableBuilderTest extends MappableBuilderTestHelper
     public void tstMappableJLabel_only_public_METHODS()
     {
         // Stop if GUI usage is not allowed
-        //assumeFalse( SafeSwingUtilities.isHeadless() );
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
         final MappableBuilderFactory factory = newMappableBuilder_only_public_METHODS();
 

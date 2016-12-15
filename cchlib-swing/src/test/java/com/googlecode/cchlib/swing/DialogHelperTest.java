@@ -1,55 +1,30 @@
 package com.googlecode.cchlib.swing;
 
+import static org.junit.Assume.assumeTrue;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- *
- *
- */
 public class DialogHelperTest
 {
     private static final Logger LOGGER = Logger.getLogger( DialogHelperTest.class );
 
-    @BeforeClass
-    public static void setUpClass() throws Exception
-    {
-        // Not use yet
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception
-    {
-        // Not use yet
-    }
-
-    @Before
-    public void setUp()
-    {
-        // Not use yet
-    }
-
-    @After
-    public void tearDown()
-    {
-        // Not use yet
-    }
-
     @Test
     public void test_showMessageExceptionDialog1()
     {
+        // Stop if GUI usage is not allowed
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
         runtest_showMessageExceptionDialog( e -> DialogHelper.showMessageExceptionDialog( "Just for testing", e ));
     }
 
     @Test
     public void test_showMessageExceptionDialog2()
     {
+        // Stop if GUI usage is not allowed
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
         runtest_showMessageExceptionDialog( e -> {
             final AbstractButton[] buttons = new AbstractButton[5];
 

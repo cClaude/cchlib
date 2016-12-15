@@ -60,10 +60,24 @@ public class SafeSwingUtilities
      *         and mouse; false otherwise
      * @see GraphicsEnvironment
      * @since 4.2
+     * @see #isSwingAvailable()
      */
     public static boolean isHeadless()
     {
         return GraphicsEnvironment.isHeadless();
+    }
+
+    /**
+     * Return true is swing is available, return this opposite of
+     * {@link #isHeadless()}
+     *
+     * @return true is swing is available
+     * @since 4.2
+     * @see #isHeadless()
+     */
+    public static boolean isSwingAvailable()
+    {
+        return ! isHeadless();
     }
 
     /**

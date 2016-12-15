@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.swing.dnd;
 
+import static org.junit.Assume.assumeTrue;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.util.TooManyListenersException;
@@ -11,6 +12,7 @@ import javax.swing.JScrollPane;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.lang.Threads;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class SimpleFileDropTest
 {
@@ -20,6 +22,9 @@ public class SimpleFileDropTest
     public void simpleFileDropTest()
         throws HeadlessException, TooManyListenersException
     {
+        // Stop if GUI usage is not allowed
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
         // Prepare data model
         final DefaultListModel<File> model_files = new DefaultListModel<File>();
 

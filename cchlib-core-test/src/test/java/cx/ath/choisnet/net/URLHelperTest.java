@@ -1,6 +1,7 @@
 package cx.ath.choisnet.net;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assume.assumeTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.File;
@@ -12,7 +13,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import org.apache.log4j.Logger;
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.io.IOHelper;
@@ -58,7 +58,7 @@ public class URLHelperTest
     public void testToStringURL() throws IOException
     {
         // Is Internet access allowed ?
-        Assume.assumeTrue( isInternetAccessAllowed() );
+        assumeTrue( isInternetAccessAllowed() );
 
         final String actual = URLHelper.toString( this.testURL );
 
@@ -69,7 +69,7 @@ public class URLHelperTest
     public void testCopyURLOutputStream() throws IOException
     {
         // Is Internet access allowed ?
-        Assume.assumeTrue( isInternetAccessAllowed() );
+        assumeTrue( isInternetAccessAllowed() );
 
         final ByteArrayOutputStream os = new ByteArrayOutputStream();
         URLHelper.copy( this.testURL, os );
@@ -83,7 +83,7 @@ public class URLHelperTest
     public void testCopyURLFile() throws IOException
     {
         // Is Internet access allowed ?
-        Assume.assumeTrue( isInternetAccessAllowed() );
+        assumeTrue( isInternetAccessAllowed() );
 
         final File file = File.createTempFile( "testCopyURLFile", "tmp" );
         file.deleteOnExit();
@@ -99,7 +99,7 @@ public class URLHelperTest
     public void testCopyURLWriter() throws IOException
     {
         // Is Internet access allowed ?
-        Assume.assumeTrue( isInternetAccessAllowed() );
+        assumeTrue( isInternetAccessAllowed() );
 
         final CharArrayWriter writer = new CharArrayWriter();
 
@@ -119,7 +119,7 @@ public class URLHelperTest
     public void testCopyURLWriterString() throws UnsupportedEncodingException, IOException
     {
         // Is Internet access allowed ?
-        Assume.assumeTrue( isInternetAccessAllowed() );
+        assumeTrue( isInternetAccessAllowed() );
 
         final CharArrayWriter writer = new CharArrayWriter();
 

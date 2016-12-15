@@ -1,8 +1,10 @@
 package com.googlecode.cchlib.awt;
 
+import static org.junit.Assume.assumeTrue;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.junit.Test;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class DesktopHelperTest
 {
@@ -10,7 +12,8 @@ public class DesktopHelperTest
     public void testDesktopHelper()
         throws PlatformDesktopNotSupportedException, MalformedURLException
     {
-        //assumeFalse( SafeSwingUtilities.isHeadless() );
+        // Stop if GUI usage is not allowed
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
         final URL url = new URL( "https://code.google.com/p/cchlib/" );
 

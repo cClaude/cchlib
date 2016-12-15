@@ -11,7 +11,7 @@ The API is still under migration to GitHub but snapshots are available. There is
 You could specify it directly in your POM or in your settings.xml between the tags <repositories>:
 
 '''xml
-  <repositories> 
+  <repositories>
     <repository>
       <id>cchlib.snapshots</id>
       <name>cchlib Repository (snapshots)</name>
@@ -26,6 +26,12 @@ You could specify it directly in your POM or in your settings.xml between the ta
     </repository>
   </repositories>
 '''
+
+Build
+-----
+
+If graphical environment is not available while building you must launch build
+using : -Djava.awt.headless=true
 
 News and Website
 ----------------
