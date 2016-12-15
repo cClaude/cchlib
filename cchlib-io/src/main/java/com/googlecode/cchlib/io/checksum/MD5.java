@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.io.checksum;
 
 import java.io.BufferedInputStream;
@@ -9,14 +8,49 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
 /**
+ * Compute MD5 not using standard Java library
  *
  * @author Santeri Paavolainen http://www.helsinki.fi/~sjpaavol/programs/md5/
  * @author Stephen Ostermiller http://ostermiller.org/contact.pl?regarding=Java+Utilities
  * @author Claude CHOISNET (remove some memory leaks, provide some optimization)
  * @since 4.1.7
  */
+@SuppressWarnings("squid:UselessParenthesesCheck")
 public class MD5
 {
+    /**
+     * The current state from which the hash sum
+     * can be computed or updated.
+     */
+    private final MD5State workingState = new MD5State();
+
+    /**
+     * Cached copy of the final MD5 hash sum.  This is created when
+     * the hash is requested and it is invalidated when the hash
+     * is updated.
+     */
+    private final MD5State finalState = new MD5State();
+
+    /**
+     * Temporary buffer cached here for performance reasons.
+     */
+    private final int[] decodeBuffer = new int[16];
+
+    /**
+     * 64 bytes of padding that can be added if the length
+     * is not divisible by 64.
+     */
+    private static final byte[] PADDING = {
+      (byte) 0x80, 0, 0, 0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0,
+             };
+
     /**
      * Class constructor
      */
@@ -68,66 +102,75 @@ public class MD5
     /**
      * Gets the MD5 hash of the given byte array.
      *
-     * @param b byte array for which an MD5 hash is desired.
+     * @param bytes
+     *            byte array for which an MD5 hash is desired.
      * @return Array of 16 bytes, the hash of all updated bytes.
      */
-    public static byte[] getHash( final byte[] b )
+    public static byte[] getHash( final byte[]  bytes )
     {
         final MD5 md5 = new MD5();
-        md5.update(b);
+        md5.update( bytes );
         return md5.getHash();
     }
 
     /**
      * Gets the MD5 hash of the given byte array.
      *
-     * @param b byte array for which an MD5 hash is desired.
+     * @param bytes
+     *            byte array for which an MD5 hash is desired.
      * @return 32-character hex representation the data's MD5 hash.
      */
-    public static String getHashString( final byte[] b )
+    public static String getHashString( final byte[] bytes )
     {
         final MD5 md5 = new MD5();
-        md5.update(b);
+        md5.update( bytes );
         return md5.getHashString();
     }
 
     /**
      * Gets the MD5 hash the data on the given InputStream.
      *
-     * @param in byte array for which an MD5 hash is desired.
+     * @param in
+     *            byte array for which an MD5 hash is desired.
      * @return Array of 16 bytes, the hash of all updated bytes.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException
+     *             if an I/O error occurs.
      */
     public static byte[] getHash( final InputStream in ) throws IOException
     {
-        final MD5       md5     = new MD5();
-        final byte[]    buffer  = new byte[1024];
-        int       read;
-
-        while( (read = in.read(buffer)) != -1 ) {
-            md5.update(buffer, read);
-            }
+        final MD5 md5 = computeHash( in, new byte[ 1024 ] );
 
         return md5.getHash();
+    }
+
+    private static MD5 computeHash(
+        final InputStream in,
+        final byte[]      buffer
+        ) throws IOException
+    {
+        final MD5 md5 = new MD5();
+        int       read;
+
+        while( (read = in.read( buffer )) != -1 ) {
+            md5.update( buffer, read );
+            }
+
+        return md5;
     }
 
     /**
      * Gets the MD5 hash the data on the given InputStream.
      *
-     * @param in byte array for which an MD5 hash is desired.
+     * @param in
+     *            stream for which an MD5 hash is desired.
      * @return 32-character hex representation the data's MD5 hash.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException
+     *             if an I/O error occurs.
      */
     public static String getHashString( final InputStream in )
         throws IOException
     {
-        final MD5       md5     = new MD5();
-        final byte[]    buffer  = new byte[1024];
-        int       read;
-
-        while((read = in.read(buffer)) != -1 ) {
-            md5.update(buffer, read);
-            }
+        final MD5 md5 = computeHash( in, new byte[ 1024 ] );
 
         return md5.getHashString();
     }
@@ -135,16 +178,18 @@ public class MD5
     /**
      * Gets the MD5 hash of the given file.
      *
-     * @param f file for which an MD5 hash is desired.
+     * @param file
+     *            file for which an MD5 hash is desired.
      * @return Array of 16 bytes, the hash of all updated bytes.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException
+     *             if an I/O error occurs.
      */
-    public static byte[] getHash( final File f ) throws IOException
+    public static byte[] getHash( final File file ) throws IOException
     {
         byte[] hash;
 
-        try( final InputStream is = new BufferedInputStream( new FileInputStream( f ) ) ) {
-            hash  = getHash(is);
+        try( final InputStream is = new BufferedInputStream( new FileInputStream( file ) ) ) {
+            hash = getHash( is );
             }
 
         return hash;
@@ -153,16 +198,18 @@ public class MD5
     /**
      * Gets the MD5 hash of the given file.
      *
-     * @param f file array for which an MD5 hash is desired.
+     * @param file
+     *            file array for which an MD5 hash is desired.
      * @return 32-character hex representation the data's MD5 hash.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException
+     *             if an I/O error occurs.
      */
-    public static String getHashString( final File f )
+    public static String getHashString( final File file )
         throws IOException
     {
         String hash;
 
-        try( final InputStream is = new BufferedInputStream( new FileInputStream( f ) ) ) {
+        try( final InputStream is = new BufferedInputStream( new FileInputStream( file ) ) ) {
             hash = getHashString(is);
             }
 
@@ -171,61 +218,72 @@ public class MD5
 
     /**
      * Gets the MD5 hash of the given String.
-     * The string is converted to bytes using the current
-     * platform's default character encoding.
+     * <p>
+     * The string is converted to bytes using the current platform's
+     * default character encoding.
      *
-     * @param s String for which an MD5 hash is desired.
+     * @param str
+     *            String for which an MD5 hash is desired.
      * @return Array of 16 bytes, the hash of all updated bytes.
      */
-    public static byte[] getHash( final String s )
+    public static byte[] getHash( final String str )
     {
         final MD5 md5 = new MD5();
-        md5.update( s );
+        md5.update( str );
         return md5.getHash();
     }
 
     /**
      * Gets the MD5 hash of the given String.
-     * The string is converted to bytes using the current
-     * platform's default character encoding.
+     * <p>
+     * The string is converted to bytes using the current platform's
+     * default character encoding.
      *
-     * @param s String for which an MD5 hash is desired.
+     * @param str
+     *            String for which an MD5 hash is desired.
      * @return 32-character hex representation the data's MD5 hash.
      */
-    public static String getHashString(final String s)
+    public static String getHashString( final String str )
     {
         final MD5 md5 = new MD5();
-        md5.update(s);
+        md5.update( str );
         return md5.getHashString();
     }
 
     /**
      * Gets the MD5 hash of the given String.
      *
-     * @param s String for which an MD5 hash is desired.
+     * @param str String for which an MD5 hash is desired.
      * @param enc The name of a supported character encoding.
      * @return Array of 16 bytes, the hash of all updated bytes.
      * @throws UnsupportedEncodingException If the named encoding is not supported.
      */
-    public static byte[] getHash(final String s, final String enc) throws UnsupportedEncodingException
+    public static byte[] getHash( final String str, final String enc )
+        throws UnsupportedEncodingException
     {
         final MD5 md5 = new MD5();
-        md5.update(s, enc);
+        md5.update( str, enc );
         return md5.getHash();
     }
 
     /**
      * Gets the MD5 hash of the given String.
      *
-     * @param s String for which an MD5 hash is desired.
-     * @param enc The name of a supported character encoding.
+     * @param str
+     *            String for which an MD5 hash is desired.
+     * @param charsetName
+     *            The name of a supported character encoding.
      * @return 32-character hex representation the data's MD5 hash.
-     * @throws UnsupportedEncodingException If the named encoding is not supported.
+     * @throws UnsupportedEncodingException
+     *             If the named encoding is not supported.
      */
-    public static String getHashString(final String s, final String enc) throws UnsupportedEncodingException
+    public static String getHashString(
+        final String str,
+        final String charsetName
+        ) throws UnsupportedEncodingException
     {
         final MD5 md5 = new MD5();
-        md5.update(s, enc);
+        md5.update( str, charsetName );
         return md5.getHashString();
     }
 
@@ -264,6 +322,7 @@ public class MD5
      * @param offset Offset to buffer array.
      * @param length number of bytes to hash.
      */
+    @SuppressWarnings("squid:S1226")
     private void update( final MD5State state, final byte[] buffer, final int offset, int length )
     {
         this.finalState.valid = false;
@@ -346,71 +405,42 @@ public class MD5
     /**
      * Updates this hash with a single byte.
      *
-     * @param b byte to be hashed.
+     * @param aByte byte to be hashed.
      */
-    public void update( final byte b )
+    public void update( final byte aByte )
     {
-        final byte[] buffer = new byte[1];
-        buffer[0] = b;
-        update( buffer, 1 );
+        update( new byte[] { aByte }, 1 );
     }
 
     /**
      * Update this hash with a String.
-     * The string is converted to bytes using the current
-     * platform's default character encoding.
+     * <p>
+     * The string is converted to bytes using the current platform's
+     * default character encoding.
      *
-     * @param s String to be hashed.
+     * @param str
+     *            String to be hashed.
      */
-    public void update( final String s )
+    public void update( final String str )
     {
-        update( s.getBytes() );
+        update( str.getBytes() );
     }
 
     /**
      * Update this hash with a String.
      *
-     * @param s String to be hashed.
-     * @param enc The name of a supported character encoding.
-     * @throws UnsupportedEncodingException If the named encoding is not supported.
+     * @param str
+     *            String to be hashed.
+     * @param charsetName
+     *            The name of a supported character encoding.
+     * @throws UnsupportedEncodingException
+     *             If the named encoding is not supported.
      */
-    public void update( final String s, final String enc ) throws UnsupportedEncodingException
+    public void update( final String str, final String charsetName )
+        throws UnsupportedEncodingException
     {
-        update( s.getBytes( enc ) );
+        update( str.getBytes( charsetName ) );
     }
-
-    /**
-     * The current state from which the hash sum
-     * can be computed or updated.
-     */
-    private final MD5State workingState = new MD5State();
-
-    /**
-     * Cached copy of the final MD5 hash sum.  This is created when
-     * the hash is requested and it is invalidated when the hash
-     * is updated.
-     */
-    private final MD5State finalState = new MD5State();
-
-    /**
-     * Temporary buffer cached here for performance reasons.
-     */
-    private final int[] decodeBuffer = new int[16];
-
-    /**
-     * 64 bytes of padding that can be added if the length
-     * is not divisible by 64.
-     */
-    private static final byte[] PADDING = {
-      (byte) 0x80, 0, 0, 0, 0, 0, 0, 0,
-             0, 0, 0, 0, 0, 0, 0, 0,
-             0, 0, 0, 0, 0, 0, 0, 0,
-             0, 0, 0, 0, 0, 0, 0, 0,
-             0, 0, 0, 0, 0, 0, 0, 0,
-             0, 0, 0, 0, 0, 0, 0, 0,
-             0, 0, 0, 0, 0, 0, 0, 0,
-             0, 0, 0, 0, 0, 0, 0, 0,
-             };
 
     /**
      * Contains internal state of the MD5 class.
@@ -422,19 +452,6 @@ public class MD5
          * True if this state is valid.
          */
         private boolean valid = true;
-
-        /**
-         * Reset to initial state.
-         */
-        private void reset()
-        {
-            this.state[0] = 0x67452301;
-            this.state[1] = 0xefcdab89;
-            this.state[2] = 0x98badcfe;
-            this.state[3] = 0x10325476;
-
-            this.bitCount = 0;
-        }
 
         /**
          * 128-byte state
@@ -456,6 +473,19 @@ public class MD5
         private MD5State()
         {
             reset();
+        }
+
+        /**
+         * Reset to initial state.
+         */
+        private void reset()
+        {
+            this.state[0] = 0x67452301;
+            this.state[1] = 0xefcdab89;
+            this.state[2] = 0x98badcfe;
+            this.state[3] = 0x10325476;
+
+            this.bitCount = 0;
         }
 
         /**
@@ -496,52 +526,57 @@ public class MD5
             buf.append( Integer.toHexString( intVal ) );
             }
 
-        return buf.toString().toUpperCase(); // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.internationalization.useLocaleSpecificMethods
+        return buf.toString().toUpperCase();
     }
 
+    @SuppressWarnings({"squid:S1226","squid:S00100"})
     private static int FF( int a, final int b, final int c, final int d, final int x, final int s, final int ac )
     {
         a += ((b & c) | (~b & d));
         a += x;
         a += ac;
-        //return rotateLeft(a, s) + b;
+        //return rotateLeft(a, s) + b; -
         a = (a << s) | (a >>> (32 - s));
         return a + b;
     }
 
+    @SuppressWarnings({"squid:S1226","squid:S00100"})
     private static int GG( int a, final int b, final int c, final int d, final int x, final int s, final int ac )
     {
         a += ((b & d) | (c & ~d));
         a += x;
         a += ac;
-        //return rotateLeft(a, s) + b;
+        //return rotateLeft(a, s) + b; -
         a = (a << s) | (a >>> (32 - s));
         return a + b;
     }
 
+    @SuppressWarnings({"squid:S1226","squid:S00100"})
     private static int HH( int a, final int b, final int c, final int d, final int x, final int s, final int ac )
     {
         a += (b ^ c ^ d);
         a += x;
         a += ac;
-        //return rotateLeft(a, s) + b;
+        //return rotateLeft(a, s) + b; -
         a = (a << s) | (a >>> (32 - s));
         return a + b;
     }
 
+    @SuppressWarnings({"squid:S1226","squid:S00100"})
     private static int II( int a, final int b, final int c, final int d, final int x, final int s, final int ac )
     {
         a += (c ^ (b | ~d));
         a += x;
         a += ac;
-        //return rotateLeft(a, s) + b;
+        //return rotateLeft(a, s) + b; -
         a = (a << s) | (a >>> (32 - s));
         return a + b;
     }
 
     private static byte[] encode( final long l )
     {
-        final byte[] out = new byte[8];
+        final byte[] out = new byte[ 8 ];
+
         out[0] = (byte) (l & 0xff);
         out[1] = (byte) ((l >>> 8) & 0xff);
         out[2] = (byte) ((l >>> 16) & 0xff);
@@ -550,15 +585,15 @@ public class MD5
         out[5] = (byte) ((l >>> 40) & 0xff);
         out[6] = (byte) ((l >>> 48) & 0xff);
         out[7] = (byte) ((l >>> 56) & 0xff);
+
         return out;
     }
 
     private static byte[] encode( final int[] input, final int len )
     {
         final byte[] out = new byte[len];
-        int i, j;
 
-        for (i = j = 0; j  < len; i++, j += 4) {
+        for( int i = 0, j = 0; j  < len; i++, j += 4 ) {
             out[j] = (byte) (input[i] & 0xff);
             out[j + 1] = (byte) ((input[i] >>> 8) & 0xff);
             out[j + 2] = (byte) ((input[i] >>> 16) & 0xff);
@@ -570,9 +605,7 @@ public class MD5
 
     private int[] decode( final byte[] buffer, final int len, final int offset )
     {
-      int i, j;
-
-      for (i = j = 0; j < len; i++, j += 4) {
+      for( int i = 0, j = 0; j < len; i++, j += 4) {
           this.decodeBuffer[i] = (
                   (buffer[j + offset] & 0xff)) |
                 (((buffer[j + 1 + offset] & 0xff)) << 8) |
@@ -580,10 +613,11 @@ public class MD5
                 (((buffer[j + 3 + offset] & 0xff)) << 24
                 );
           }
+
       return this.decodeBuffer;
     }
 
-    private static void transform(final MD5State state, final int[] x)
+    private static void transform( final MD5State state, final int[] x )
     {
         int a = state.state[0];
         int b = state.state[1];
