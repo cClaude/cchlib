@@ -46,11 +46,9 @@ public class SMS implements Serializable
     /** Not a field, best value between 'time' and 'xtraDate' @serial */
     private Date computedDate;
 
-    /**
-     *
-     */
     public SMS()
     {
+        // Empty
     }
 
     /**
@@ -58,13 +56,13 @@ public class SMS implements Serializable
      */
     public String getFrom()
     {
-        return from;
+        return this.from;
     }
 
     /**
      * @param from the from to set
      */
-    public void setFrom( String from )
+    public void setFrom( final String from )
     {
         this.from = from;
     }
@@ -74,13 +72,13 @@ public class SMS implements Serializable
      */
     public String getTo()
     {
-        return to;
+        return this.to;
     }
 
     /**
      * @param to the to to set
      */
-    public void setTo( String to )
+    public void setTo( final String to )
     {
         this.to = to;
     }
@@ -90,13 +88,13 @@ public class SMS implements Serializable
      */
     public String getBody()
     {
-        return body;
+        return this.body;
     }
 
     /**
      * @param body the body to set
      */
-    public void setBody( String body )
+    public void setBody( final String body )
     {
         this.body = body;
     }
@@ -106,13 +104,13 @@ public class SMS implements Serializable
      */
     public String getTime()
     {
-        return time;
+        return this.time;
     }
 
     /**
      * @param time the time to set
      */
-    public void setTime( String time )
+    public void setTime( final String time )
     {
         this.time = time;
     }
@@ -123,15 +121,15 @@ public class SMS implements Serializable
      */
     public Date getComputedTimeDate()
     {
-        if( computedTimeDate == null ) {
+        if( this.computedTimeDate == null ) {
             // time should not be null !
-            if( time == null ) {
+            if( this.time == null ) {
                 throw new RuntimeException(
                     "Field 'time' is null"
                     );
             }
 
-            if( time.length() == 0 ) {
+            if( this.time.length() == 0 ) {
                 // No way to compute 'time'
                 return null;
             }
@@ -139,35 +137,35 @@ public class SMS implements Serializable
             // Time should be:
             // "13/07/2010 21:45:16"
             //  01 34 6789 12 45 78 (19 chars)
-            if( time.length() == 19 ) {
-                Calendar c = Calendar.getInstance();
+            if( this.time.length() == 19 ) {
+                final Calendar c = Calendar.getInstance();
 
-                int day         = Integer.parseInt( time.substring( 0, 2 ) );
-                int month       = Integer.parseInt( time.substring( 3, 5 ) );
-                int year        = Integer.parseInt( time.substring( 6, 10 ) );
-                int hourOfDay   = Integer.parseInt( time.substring( 11, 13 ) );
-                int minute      = Integer.parseInt( time.substring( 14, 16 ) );
-                int second      = Integer.parseInt( time.substring( 17, 19 ) );
+                final int day         = Integer.parseInt( this.time.substring( 0, 2 ) );
+                final int month       = Integer.parseInt( this.time.substring( 3, 5 ) );
+                final int year        = Integer.parseInt( this.time.substring( 6, 10 ) );
+                final int hourOfDay   = Integer.parseInt( this.time.substring( 11, 13 ) );
+                final int minute      = Integer.parseInt( this.time.substring( 14, 16 ) );
+                final int second      = Integer.parseInt( this.time.substring( 17, 19 ) );
 
                 c.set( year, month-1, day, hourOfDay, minute, second );
 
-                computedTimeDate = c.getTime();
+                this.computedTimeDate = c.getTime();
             }
-            else if( "Time".equals( time )){
+            else if( "Time".equals( this.time )){
                 //Header!
-                computedTimeDate = new Date(0);
+                this.computedTimeDate = new Date(0);
 
                 //Remove source
                 this.setXtraSource( StringHelper.EMPTY );
             }
             else {
                 throw new RuntimeException(
-                    "'time' is [" + time + "] len=" + time.length()
+                    "'time' is [" + this.time + "] len=" + this.time.length()
                     );
             }
         }
 
-        return computedTimeDate;
+        return this.computedTimeDate;
     }
 
 
@@ -176,13 +174,13 @@ public class SMS implements Serializable
      */
     public String getStorage()
     {
-        return storage;
+        return this.storage;
     }
 
     /**
      * @param storage the storage to set
      */
-    public void setStorage( String storage )
+    public void setStorage( final String storage )
     {
         this.storage = storage;
     }
@@ -192,13 +190,13 @@ public class SMS implements Serializable
      */
     public String getPdu()
     {
-        return pdu;
+        return this.pdu;
     }
 
     /**
      * @param pdu the pdu to set
      */
-    public void setPdu( String pdu )
+    public void setPdu( final String pdu )
     {
         this.pdu = pdu;
     }
@@ -208,13 +206,13 @@ public class SMS implements Serializable
      */
     public String getXtraSource()
     {
-        return xtraSource;
+        return this.xtraSource;
     }
 
     /**
      * @param xtraSource the xtraSource to set
      */
-    public void setXtraSource( String xtraSource )
+    public void setXtraSource( final String xtraSource )
     {
         this.xtraSource = xtraSource;
     }
@@ -224,13 +222,13 @@ public class SMS implements Serializable
      */
     public Date getXtraDate()
     {
-        return xtraDate;
+        return this.xtraDate;
     }
 
     /**
      * @param xtraDate the xtraDate to set
      */
-    public void setXtraDate( Date xtraDate )
+    public void setXtraDate( final Date xtraDate )
     {
         this.xtraDate = xtraDate;
     }
@@ -239,7 +237,7 @@ public class SMS implements Serializable
      * @param xtraDate the xtraDate to set
      * @throws ParseException
      */
-    public void setXtraDate( String xtraDate )
+    public void setXtraDate( final String xtraDate )
         throws ParseException
     {
         final DateFormat df = new SimpleDateFormat( DATE_FORMAT_ISO );
@@ -254,39 +252,38 @@ public class SMS implements Serializable
      */
     public Date getComputedDate()
     {
-        if( computedDate != null ) {
-            return computedDate;
+        if( this.computedDate != null ) {
+            return this.computedDate;
             }
 
-        if( xtraDate != null ) {
+        if( this.xtraDate != null ) {
             // Force to xtraDate
-            computedDate = xtraDate;
-            return computedDate;
+            this.computedDate = this.xtraDate;
+            return this.computedDate;
             }
 
         // Try to use 'time' field
         if( getComputedTimeDate() != null ) {
-            //Date cTimeDate = getComputedTimeDate();
 
             if( SMSConfig.isDateValid( this ) ) {
-                computedDate = getComputedTimeDate();
+                this.computedDate = getComputedTimeDate();
                 }
             }
 
-        if( computedDate == null ) {
-            LOGGER.warn( "'time' not valid [" + time + "] - generate fake date" );
+        if( this.computedDate == null ) {
+            LOGGER.warn( "'time' not valid [" + this.time + "] - generate fake date" );
 
-            xtraDate = computedDate = getFakeDate();
+            this.xtraDate = this.computedDate = getFakeDate();
             }
 
-        return computedDate;
+        return this.computedDate;
     }
 
     /**
      * Build fake unique date for sorting process
      * @return fake unique date for sorting process
      */
-    private synchronized static Date getFakeDate()
+    private static synchronized Date getFakeDate()
     {
         return new Date( fakeDate++ );
     }
@@ -297,41 +294,34 @@ public class SMS implements Serializable
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "SMS [\"From\";\"To\";\"Body\";\"Time\";\"Storage\";\"PDU\";\"XTime\";\"XSource\"]=[" );
 
         try {
             appendEntry(builder);
         }
-        catch( IOException improbable ) {
-            //improbable
-            improbable.printStackTrace();
+        catch( final IOException improbable ) {
+            // improbable
+            LOGGER.warn( "improbable", improbable );
         }
 
         return builder.toString();
     }
 
-    public void appendEntry( Appendable a ) throws IOException
+    public void appendEntry( final Appendable a ) throws IOException
     {
-//        final DateFormat df0 = new SimpleDateFormat( DATE_FORMAT_ISO );
-//        //a.append( df0.format( getComputedTimeDate() ) );
-//        a.append( "" + getComputedTimeDate() );
-//        a.append( ' ' );
-//        a.append( df0.format( getComputedDate() ) );
-//        a.append( ' ' );
-
         a.append( '"' );
-        a.append( from );
+        a.append( this.from );
         a.append( "\";\"" );
-        a.append( to );
+        a.append( this.to );
         a.append( "\";\"" );
-        a.append( body );
+        a.append( this.body );
         a.append( "\";\"" );
-        a.append( time );
+        a.append( this.time );
         a.append( "\";\"" );
-        a.append( storage );
+        a.append( this.storage );
         a.append( "\";\"" );
-        a.append( pdu );
+        a.append( this.pdu );
 
         a.append( "\";\"" );
         final Date d = getXtraDate();
@@ -342,7 +332,7 @@ public class SMS implements Serializable
             a.append( df.format( d ) );
         }
         a.append( "\";\"" );
-        a.append( xtraSource );
+        a.append( this.xtraSource );
         a.append( '"' );
     }
 

@@ -3,12 +3,12 @@ package oldies.tools.smstools.myphoneexplorer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.apache.log4j.Logger;
 
-/**
- *
- */
 public class SMSConfig
 {
+    private static final Logger LOGGER = Logger.getLogger( SMSConfig.class );
+
     private static String[] badDatesString = {
         "2010-07-13.21-45-16", // 13/07/2010 21:45:16
     };
@@ -24,7 +24,7 @@ public class SMSConfig
                 badDates[ i ] = fmt.parse( badDatesString[ i ] );
             }
             catch( final ParseException e ) {
-                e.printStackTrace();
+                LOGGER.warn( badDatesString[ i ], e );
             }
         }
     }
@@ -63,8 +63,8 @@ public class SMSConfig
             return false;
         }
 
-        for(final Date d:badDates) {
-            if(date.equals( d )) {
+        for( final Date badDate : badDates ) {
+            if(date.equals( badDate ) ) {
                 return false;
             }
         }

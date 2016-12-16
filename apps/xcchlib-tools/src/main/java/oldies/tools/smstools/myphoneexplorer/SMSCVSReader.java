@@ -13,44 +13,35 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import au.com.bytecode.opencsv.CSVReader;
 
-/**
- *
- */
-public class SMSCVSReader
-    implements Closeable
+public class SMSCVSReader implements Closeable
 {
-    private static final Logger LOGGER = Logger.getLogger(SMSCVSReader.class);
+    private static final Logger LOGGER = Logger.getLogger( SMSCVSReader.class );
 
     /**
       * CVS Separator value.
       */
      public static final char CSV_SEPARATOR = ';';
 
-     private CSVReader csvr;
-     private final File srcFile;
+     private final File     srcFile;
      private ArrayList<SMS> smsList;
+     private CSVReader      csvr;
 
-    /**
-     * @param srcFile
-     * @throws FileNotFoundException
-     *
-     */
-    public SMSCVSReader(final File srcFile) throws FileNotFoundException
+    public SMSCVSReader( final File srcFile ) throws FileNotFoundException
     {
         this.srcFile = srcFile;
         this.csvr    = new CSVReader(
-                new BufferedReader(
-                        new FileReader( srcFile )
-                        ),
-                        CSV_SEPARATOR
-                        );
+            new BufferedReader( new FileReader( srcFile ) ),
+            CSV_SEPARATOR
+            );
     }
 
     @Override
     public void close() throws IOException
     {
-        this.csvr.close();
-        this.csvr = null;
+        if( this.csvr != null ) {
+            this.csvr.close();
+            this.csvr = null;
+        }
     }
 
     private boolean readEntry() throws IOException, ParseException
@@ -74,15 +65,15 @@ public class SMSCVSReader
         //
         final SMS sms = new SMS();
 
-        sms.setFrom( line[0] );
-        sms.setTo  ( line[1] );
-        sms.setBody( line[2] );
-        sms.setTime( line[3] );
+        sms.setFrom   ( line[0] );
+        sms.setTo     ( line[1] );
+        sms.setBody   ( line[2] );
+        sms.setTime   ( line[3] );
         sms.setStorage( line[4] );
-        sms.setPdu ( line[5] );
+        sms.setPdu    ( line[5] );
 
         if( line.length == 8) {
-            sms.setXtraDate( line[6] );
+            sms.setXtraDate  ( line[6] );
             sms.setXtraSource( line[7] );
         }
         else {
@@ -111,13 +102,14 @@ public class SMSCVSReader
     /**
      * Returns list of SMS
      * @return list of SMS
-     * @throws IOException
-     * @throws ParseException
+     * @throws IOException if any
+     * @throws ParseException if any
      */
     public List<SMS> getSMSList() throws IOException, ParseException
     {
         if( this.smsList == null ) {
-            this.smsList = new ArrayList<SMS>();
+            this.smsList = new ArrayList<>();
+
             readAll();
         }
 

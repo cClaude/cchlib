@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import org.apache.log4j.Logger;
 
-/**
- *
- */
-public class SMSLoaderPass2 
+public class SMSLoaderPass2
 {
     private static final Logger LOGGER = Logger.getLogger(SMSLoaderPass2.class);
 
@@ -17,32 +14,32 @@ public class SMSLoaderPass2
         //All static
     }
 
-    /**
-     * @param args
-     * @throws IOException 
-     * @throws ParseException 
-     * @throws InconsistantSMSException 
-     */
-    public static void main( String[] args ) throws IOException, ParseException, InconsistantSMSException
+    public static void main( final String[] args ) throws IOException, ParseException, InconsistantSMSException
     {
         LOGGER.info( "starting" );
 
-        String[] inFiles = {
+        final String[] inFiles = {
             "outputPass1.csv"
             };
-        String  outFile = "outputPass2.csv";
+        final String  outFile = "outputPass2.csv";
 
-        SMSLoader loader = new SMSLoader();
+        run( inFiles, outFile );
+    }
+
+    public static void run( final String[] inFiles, final String outFile )
+        throws InconsistantSMSException, IOException, ParseException
+    {
+        final SMSLoader loader = new SMSLoader();
 
         //
         // Read all files
         //
-        for( String fn : inFiles ) {
-            File            f = new File( fn );
+        for( final String filename : inFiles ) {
+            final File file = new File( filename );
 
-            LOGGER.info( "reading: " + f );
+            LOGGER.info( "reading: " + file );
 
-            loader.addFile( f );
+            loader.addFile( file );
         }
 
         loader.removeClones();

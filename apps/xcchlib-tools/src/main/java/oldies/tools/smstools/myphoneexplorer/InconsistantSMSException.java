@@ -1,20 +1,22 @@
 package oldies.tools.smstools.myphoneexplorer;
 
-/**
- * 
- */
-public class InconsistantSMSException extends Exception 
+public class InconsistantSMSException extends Exception
 {
     private static final long serialVersionUID = 1L;
-    private String fieldName;
-    private SMS previousSMS;
-    private SMS currentSMS;
 
-    public InconsistantSMSException( String fieldName, SMS previousSMS, SMS currentSMS )
+    private final String  fieldName;
+    private final SMS     previousSMS;
+    private final SMS     currentSMS;
+
+    public InconsistantSMSException(
+        final String fieldName,
+        final SMS previousSMS,
+        final SMS currentSMS
+        )
     {
-        this.fieldName = fieldName;
+        this.fieldName   = fieldName;
         this.previousSMS = previousSMS;
-        this.currentSMS = currentSMS;
+        this.currentSMS  = currentSMS;
     }
 
     @Override

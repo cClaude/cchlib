@@ -12,14 +12,81 @@ import java.util.HashMap;
 import java.util.List;
 import org.apache.log4j.Logger;
 
-/**
- *
- */
+
 public class SMSLoader
 {
-    private static final Logger LOGGER = Logger.getLogger(SMSLoader.class);
+    private static final Logger LOGGER = Logger.getLogger( SMSLoader.class );
 
-    private final List<SMS> smsList = new ArrayList<SMS>();
+    private static final class CloneRemover
+    {
+        final HashMap<String,SMS> map           = new HashMap<>();
+        final ArrayList<SMS>      badClonesList = new ArrayList<>();
+
+        public void remove( final List<SMS> smsList ) throws InconsistantSMSException
+        {
+            for( final SMS sms : smsList ) {
+                remove( sms );
+            }
+
+            smsList.clear();
+            LOGGER.info( "SMS (no clone) count: " + this.map.size() );
+
+            smsList.addAll( this.badClonesList );
+            this.badClonesList.clear();
+
+            for( final SMS sms : this.map.values() ) {
+                smsList.add( sms );
+            }
+
+            this.map.clear();
+        }
+
+        private void remove( final SMS sms ) throws InconsistantSMSException
+        {
+            final String  pdu = sms.getPdu();
+            final SMS     old = this.map.get( pdu );
+
+            if( old != null ) {
+                //already a SMS with this PDU
+
+                if( ! old.getFrom().equals( sms.getFrom() ) ) {
+                    throw new InconsistantSMSException( "From", old, sms );
+                }
+
+                if( ! old.getTo().equals( sms.getTo() ) ) {
+                    throw new InconsistantSMSException( "To", old, sms );
+                }
+
+                if( ! old.getBody().equals( sms.getBody() ) ) {
+                    throw new InconsistantSMSException( "Body", old, sms );
+                }
+
+                if( ! old.getTime().equals( sms.getTime() ) ) {
+                    LOGGER.warn(
+                        "** Inconsistant 'Time' :"
+                            + old.getTime()
+                            + " / "
+                            + sms.getTime()
+                            + " (Not real clone)"
+                            );
+                    this.badClonesList.add( sms );
+                }
+
+                if( ! old.getStorage().equals( sms.getStorage() ) ) {
+                    throw new InconsistantSMSException( "Storage", old, sms );
+                }
+
+                if( ! old.getPdu().equals( sms.getPdu() ) ) {
+                    throw new InconsistantSMSException( "PDU", old, sms );
+                }
+            }
+            else {
+                this.map.put( sms.getPdu(), sms );
+            }
+        }
+    }
+
+    private final List<SMS> smsList = new ArrayList<>();
 
     public SMSLoader()
     {
@@ -27,22 +94,22 @@ public class SMSLoader
     }
 
     /**
-     * @param f SMS File (CVS formated)
-     * @throws IOException
-     * @throws ParseException
+     * @param file SMS File (CVS formated)
+     * @throws IOException if any
+     * @throws ParseException if any
      */
-    public void addFile( final File f ) throws IOException, ParseException
+    public void addFile( final File file ) throws IOException, ParseException
     {
-        load( f );
+        load( file );
 
         LOGGER.info( "SMS count: " + this.smsList.size() );
     }
 
-    private void load(final File f) throws IOException, ParseException
+    private void load( final File file ) throws IOException, ParseException
     {
-        LOGGER.info( "reading: " + f );
+        LOGGER.info( "reading: " + file );
 
-        try( SMSCVSReader r = new SMSCVSReader( f ) ) {
+        try( SMSCVSReader r = new SMSCVSReader( file ) ) {
             this.smsList.addAll( r.getSMSList() );
         }
     }
@@ -57,64 +124,10 @@ public class SMSLoader
         LOGGER.info( "removeClones()" );
 
         // Remove clone
-        final HashMap<String,SMS> map             = new HashMap<String,SMS>();
-        final ArrayList<SMS>      badClonesList   = new ArrayList<SMS>();
-
-        for(final SMS sms:this.smsList) {
-            final String  pdu = sms.getPdu();
-            final SMS     old = map.get( pdu );
-
-            if( old != null ) {
-                //already a SMS with this PDU
-
-                if( ! old.getFrom().equals( sms.getFrom() ) ) {
-                    throw new InconsistantSMSException( "From", old, sms );
-                }
-                if( ! old.getTo().equals( sms.getTo() ) ) {
-                    throw new InconsistantSMSException( "To", old, sms );
-                }
-                if( ! old.getBody().equals( sms.getBody() ) ) {
-                    throw new InconsistantSMSException( "Body", old, sms );
-                }
-                if( ! old.getTime().equals( sms.getTime() ) ) {
-                    //throw new InconsistantSMSException( "Time", old, sms );
-                    LOGGER.warn(
-                        "** Inconsistant 'Time' :"
-                            + old.getTime()
-                            + " / "
-                            + sms.getTime()
-                            + " (Not real clone)"
-                            );
-                    badClonesList.add( sms );
-                }
-                if( ! old.getStorage().equals( sms.getStorage() ) ) {
-                    throw new InconsistantSMSException( "Storage", old, sms );
-                }
-                if( ! old.getPdu().equals( sms.getPdu() ) ) {
-                    throw new InconsistantSMSException( "PDU", old, sms );
-                }
-            }
-            else {
-                map.put( sms.getPdu(), sms );
-            }
-        }
-
-        this.smsList.clear();
-        LOGGER.info( "SMS (no clone) count: " + map.size() );
-
-        this.smsList.addAll( badClonesList );
-        badClonesList.clear();
-
-        for(final SMS sms:map.values()) {
-            this.smsList.add( sms );
-        }
-
-        map.clear();
+        new CloneRemover().remove( this.smsList );
     }
 
-    /**
-     *
-     */
+
     public void sort()
     {
         //
@@ -129,9 +142,9 @@ public class SMSLoader
      * Save SMS to file
      *
      * @param outputFile output File
-     * @throws IOException
+     * @throws IOException if any
      */
-    public void save(final File outputFile) throws IOException
+    public void save( final File outputFile ) throws IOException
     {
         try( final Writer w = new BufferedWriter( new FileWriter( outputFile ) ) ) {
 
