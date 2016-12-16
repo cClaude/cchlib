@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.util.mappable;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assume.assumeTrue;
 import java.util.Map;
 import javax.swing.JLabel;
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
-/**
- *
- */
 public class MappableHelperTest
 {
     private static final Logger LOGGER = Logger.getLogger( MappableHelperTest.class );
@@ -15,17 +15,30 @@ public class MappableHelperTest
     @Test
     public void tstMappableJLabel()
     {
-        JLabel              object  = new JLabel( "testString" );
-        Map<String, String> map     = MappableHelper.toMap( object );
+        // Stop if GUI usage is not allowed
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
-        for( Map.Entry<String,String> e : map.entrySet() ) {
+        final JLabel              object  = new JLabel( "testString" );
+        final Map<String, String> map     = MappableHelper.toMap( object );
+
+        for( final Map.Entry<String,String> entry : map.entrySet() ) {
             LOGGER.info(
                 object.getClass().getSimpleName()
                 + "."
-                + e.getKey()
+                + entry.getKey()
                 + " = "
-                + e.getValue()
+                + entry.getValue()
                 );
         }
+
+        assertThat( map ).as( "Should have values" ).isNotEmpty();
+
+        assertThat( map )
+            .as( "Missign key : getClass()" )
+            .containsKey( "getClass()" );
+
+        assertThat( map.get( "getClass()" ) )
+            .as( "Unespected value for : getClass()" )
+            .isEqualTo( "class javax.swing.JLabel" );
     }
 }
