@@ -5,25 +5,24 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileFilterHelper;
 import com.googlecode.cchlib.test.FilesTestCaseHelper;
-import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 
-@SuppressWarnings("deprecation")
 public class XMD5Test
 {
     private static final Logger LOGGER = Logger.getLogger( XMD5Test.class );
 
-    private XMessageDigestFile  mdf;
-    private Iterable<File>      fileList;
+    @SuppressWarnings("deprecation")
+    private com.googlecode.cchlib.util.duplicate.XMessageDigestFile mdf;
+    private Iterable<File>                                          fileList;
 
     @Before
+    @SuppressWarnings("deprecation")
     public void setUp() throws Exception
     {
-        this.mdf      = new XMessageDigestFile( "MD5" );
+        this.mdf      = new com.googlecode.cchlib.util.duplicate.XMessageDigestFile( "MD5" );
         this.fileList = createTestFiles();
     }
 
@@ -51,11 +50,11 @@ public class XMD5Test
 
     private void test_getHashString( final File file ) throws IOException
     {
-        final long   lastModified = file.lastModified();
-        final long   length       = file.length();
+        final long lastModified = file.lastModified();
+        final long length       = file.length();
 
         final String hashString1 = MD5.getHashString( file ).toUpperCase();
-        final String hashString2 = computeOldNewVersion( file ).toUpperCase();
+        final String hashString2 = computeOldVersionHashString( file ).toUpperCase();
 
         if( ToolBox.fileNotChanged( file, lastModified, length ) ) {
             LOGGER.info(
@@ -70,11 +69,18 @@ public class XMD5Test
         }
     }
 
-    private String computeOldNewVersion( final File file ) throws IOException
+    @SuppressWarnings("deprecation")
+    private byte[] computeOldVersionHash( final File file ) throws IOException
     {
-        final byte[] digestKey = this.mdf.compute( file );
+        return this.mdf.compute( file );
+    }
 
-        return XMessageDigestFile.computeDigestKeyString( digestKey );
+    @SuppressWarnings("deprecation")
+    private String computeOldVersionHashString( final File file ) throws IOException
+    {
+        final byte[] digestKey = computeOldVersionHash( file );
+
+        return com.googlecode.cchlib.util.duplicate.XMessageDigestFile.computeDigestKeyString( digestKey );
     }
 
     @Test
@@ -86,12 +92,14 @@ public class XMD5Test
 
             try {
                 final byte[] hash1     = MD5.getHash( file );
-                final byte[] digestKey = this.mdf.compute( file );
+                final byte[] digestKey = computeOldVersionHash( file );
 
                 if( ToolBox.fileNotChanged( file, lastModified, length ) ) {
                     LOGGER.info( "File: " + file );
 
-                    Assert.assertArrayEquals( digestKey, hash1 );
+                    assertThat( digestKey )
+                        .as( "Hash arrays did not match for " + file )
+                        .isEqualTo( hash1 );
                 }
             }
             catch( final FileNotFoundException ignore ) {
