@@ -32,6 +32,7 @@ Build
 
 If graphical environment is not available while building you must launch build
 using : -Djava.awt.headless=true
+Under Jenkins you need to define -Dmaven.surefire.report.plugin.property.java.awt.headless=true
 
 News and Website
 ----------------
