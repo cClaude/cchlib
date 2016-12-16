@@ -12,25 +12,31 @@
 
   <!-- Global properties -->
   <properties>
-    <google.code.project.name>cchlib</google.code.project.name>
     <build.date>${maven.build.timestamp}</build.date>
     <buildNumber>${maven.build.timestamp}</buildNumber>
     <maven.build.timestamp.format>yyyyMMdd_HHmm</maven.build.timestamp.format>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
     <project.java.source.version>1.8</project.java.source.version>
     <project.java.target.version>1.8</project.java.target.version>
 
     <!-- Javadoc -->
     <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
     <project.javadoc.warning>false</project.javadoc.warning><!-- FIXME = true -->
-    <project.javadoc.excludePackageNames>deprecated.*:alpha.*:sample.*:*.undocumented:cx.ath.choisnet.tools.*</project.javadoc.excludePackageNames>
+    <project.javadoc.excludePackageNames>alpha.*:sample.*:*.private</project.javadoc.excludePackageNames>
     <!-- see http://docs.oracle.com/javase/8/docs/technotes/tools/unix/javadoc.html -->
     <!-- additionalparam>-Xdoclint:none</additionalparam -->
     <!-- additionalparam>-Xdoclint:accessibility</additionalparam -->
     <!-- Javadoc is build and the build if any error -->
     <maven.javadoc.plugin.fail.on.error>true</maven.javadoc.plugin.fail.on.error>
 
+    <maven.surefire.report.plugin.parallel>true</maven.surefire.report.plugin.parallel>
+    <maven.surefire.report.plugin.thread.count>2</maven.surefire.report.plugin.thread.count>
+    <maven.surefire.report.plugin.property.java.awt.headless>false</maven.surefire.report.plugin.property.java.awt.headless>
+
+    <!-- Plug-ins version -->
     <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
     <maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
   </properties>
@@ -381,7 +387,12 @@
         <artifactId>maven-surefire-report-plugin</artifactId>
         <version>2.19.1</version>
         <configuration>
-          <outputName>GoogleSearchTestResults</outputName>
+<!--           <outputName>GoogleSearchTestResults</outputName> -->
+          <parallel>${maven.surefire.report.plugin.parallel}</parallel>
+          <threadCount>${maven.surefire.report.plugin.thread.count}</threadCount>
+          <systemPropertyVariables>
+            <java.awt.headless>${maven.surefire.report.plugin.property.java.awt.headless}</java.awt.headless>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
 
