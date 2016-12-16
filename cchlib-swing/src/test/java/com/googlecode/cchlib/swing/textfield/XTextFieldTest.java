@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.swing.textfield;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
 import java.util.Locale;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -25,44 +25,48 @@ public class XTextFieldTest
     @Test
     public void testNoI18n()
     {
-        final XTextField xTextField = new XTextField("test only");
+        final XTextField xTextField = new XTextField( "test only" );
 
         final String copyText = xTextField.getTextForCopy();
-        Assert.assertEquals( "Copy", copyText );
+
+        assertThat( copyText ).as( "Default getTextForCopy() is wrong" ).isEqualTo( "Copy" );
 
         final String pasteText = xTextField.getTextForPaste();
-        Assert.assertEquals( "Paste", pasteText );
+
+        assertThat( pasteText ).as( "Default getTextForPaste() is wrong" ).isEqualTo( "Paste" );
     }
 
     @Test
     public void testI18n_ENGLISH()
     {
-        final XTextField xTextField = new XTextField("test only");
+        final XTextField xTextField = new XTextField( "test only" );
 
         Locale.setDefault( Locale.ENGLISH );
+
         final AutoI18nCore autoI18n = SwingAutoI18nCoreFactory.getCurrentSwingAutoI18nCore();
         xTextField.performeI18n( autoI18n );
 
         final String copyText = xTextField.getTextForCopy();
-        Assert.assertEquals( "Copy", copyText );
+        assertThat( copyText ).as( "Default getTextForCopy() for ENGLISH is wrong" ).isEqualTo( "Copy" );
 
         final String pasteText = xTextField.getTextForPaste();
-        Assert.assertEquals( "Paste", pasteText );
+        assertThat( pasteText ).as( "Default getTextForPaste() for ENGLISH is wrong" ).isEqualTo( "Paste" );
     }
 
     @Test
     public void testI18n_FRENCH()
     {
-        final XTextField xTextField = new XTextField("test only");
+        final XTextField xTextField = new XTextField( "test only" );
 
         Locale.setDefault( Locale.FRENCH );
+
         final AutoI18nCore autoI18n = SwingAutoI18nCoreFactory.getCurrentSwingAutoI18nCore();
         xTextField.performeI18n( autoI18n );
 
         final String copyText = xTextField.getTextForCopy();
-        Assert.assertEquals( "Copier", copyText );
+        assertThat( copyText ).as( "Default getTextForCopy() for FRENCH is wrong" ).isEqualTo( "Copier" );
 
         final String pasteText = xTextField.getTextForPaste();
-        Assert.assertEquals( "Coller", pasteText );
+        assertThat( pasteText ).as( "Default getTextForPaste() for FRENCH is wrong" ).isEqualTo( "Coller" );
     }
 }
