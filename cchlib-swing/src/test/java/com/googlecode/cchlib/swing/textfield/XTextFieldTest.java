@@ -1,9 +1,12 @@
 package com.googlecode.cchlib.swing.textfield;
 
+import static org.junit.Assume.assumeTrue;
 import java.util.Locale;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.i18n.SwingAutoI18nCoreFactory;
 
 /**
@@ -12,6 +15,13 @@ import com.googlecode.cchlib.swing.i18n.SwingAutoI18nCoreFactory;
  */
 public class XTextFieldTest
 {
+    @Before
+    public void setUp()
+    {
+        // Stop if GUI usage is not allowed
+        assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+    }
+
     @Test
     public void testNoI18n()
     {
