@@ -14,11 +14,10 @@ public class SafeSwingUtilitiesTest
     @Test
     public void test_isHeadlessCorrect()
     {
-        LOGGER.info( "SafeSwingUtilities.isHeadless()        = " + SafeSwingUtilities.isHeadless() );
-        LOGGER.info( "SafeSwingUtilities.isSwingAvailable()  = " + SafeSwingUtilities.isSwingAvailable() );
-
         final boolean headlessCorrect = SafeSwingUtilities.isHeadlessCorrect();
 
+        LOGGER.info( "SafeSwingUtilities.isHeadless()        = " + SafeSwingUtilities.isHeadless() );
+        LOGGER.info( "SafeSwingUtilities.isSwingAvailable()  = " + SafeSwingUtilities.isSwingAvailable() );
         LOGGER.info( "SafeSwingUtilities.isHeadlessCorrect() = " + headlessCorrect );
 
         System.getProperties().forEach(
