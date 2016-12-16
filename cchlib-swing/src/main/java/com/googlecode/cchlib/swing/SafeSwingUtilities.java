@@ -70,16 +70,21 @@ public final class SafeSwingUtilities
     }
 
     /**
-     * Return true is swing is available, return this opposite of
-     * {@link #isHeadless()}
+     * Return true is swing is available, return true if swing is really
+     * supported, false otherwise
      *
-     * @return true is swing is available
+     * @return true is swing is available, false otherwise
      * @since 4.2
      * @see #isHeadless()
+     * @see #isHeadlessCorrect()
      */
     public static boolean isSwingAvailable()
     {
-        return ! isHeadless();
+        if( swingAvailable == null ) {
+            computeSwingAvailable();
+        }
+
+        return swingAvailable.booleanValue();
     }
 
     /**
