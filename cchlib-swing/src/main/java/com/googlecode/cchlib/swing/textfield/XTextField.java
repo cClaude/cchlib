@@ -121,8 +121,7 @@ public class XTextField extends JTextField implements I18nAutoCoreUpdatable
     }
 
     /**
-     * TODO default localization
-     * @return default text for copy (no localization)
+     * @return Text string for copy menu
      */
     public String getTextForCopy()
     {
@@ -130,18 +129,51 @@ public class XTextField extends JTextField implements I18nAutoCoreUpdatable
     }
 
     /**
-     * TODO default localization
-     * @return default text for paste (no localization)
+     * Set text string for copy menu
+     * <p>
+     * Do not use this setter if you use {@link #performeI18n(AutoI18nCore)}
+     *
+     * @param copyText
+     *            Text string to use for copy menu
+     * @return current object for initialization chaining
+     * @see XTextField#performeI18n(AutoI18nCore)
+     */
+    public XTextField setTextForCopy( final String copyText )
+    {
+        this.copyTxt = copyText;
+        return this;
+    }
+
+    /**
+     * @return Text string for paste menu
      */
     public String getTextForPaste()
     {
         return this.pasteTxt ;
     }
 
+    /**
+     * Set text string for paste menu
+     * <p>
+     * Do not use this setter if you use {@link #performeI18n(AutoI18nCore)}
+     *
+     * @param pasteText
+     *            Text string to use for paste menu
+     * @return current object for initialization chaining
+     * @see XTextField#performeI18n(AutoI18nCore)
+     */
+    public XTextField setTextForPaste( final String pasteText )
+    {
+        this.pasteTxt = pasteText;
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
-
 }
