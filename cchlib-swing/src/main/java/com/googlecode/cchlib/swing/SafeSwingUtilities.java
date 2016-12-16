@@ -112,7 +112,10 @@ public final class SafeSwingUtilities
         }
     }
 
-    @SuppressWarnings("squid:S1166") // don't care this exception
+    @SuppressWarnings({
+        "squid:S1181", // Need to catch Error !
+        "squid:S1166" // don't care this exception
+        })
     private static boolean tryToCreateJButton()
     {
         try {
@@ -120,7 +123,7 @@ public final class SafeSwingUtilities
             button.setText( "testJButton" );
             return true;
         }
-        catch( final Exception | NoClassDefFoundError dontCareThisException ) {
+        catch( final Error dontCareThisException ) {
             // don't care this exception
         }
 
