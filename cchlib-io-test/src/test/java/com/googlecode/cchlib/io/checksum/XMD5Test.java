@@ -4,13 +4,11 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.io.FileFilterHelper;
-import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.test.FilesTestCaseHelper;
 import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 
@@ -18,14 +16,24 @@ import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 public class XMD5Test
 {
     private static final Logger LOGGER = Logger.getLogger( XMD5Test.class );
+
     private XMessageDigestFile  mdf;
-    private List<File>          fileList;
+    private Iterable<File>      fileList;
 
     @Before
     public void setUp() throws Exception
     {
         this.mdf      = new XMessageDigestFile( "MD5" );
-        this.fileList = FilesTestCaseHelper.getFilesListFrom( FileHelper.getTmpDirFile(), FileFilterHelper.fileFileFilter() );
+        this.fileList = createTestFiles();
+    }
+
+    private static final Iterable<File> createTestFiles()
+    {
+        //final File fromDirectory = FileHelper.getTmpDirFile() - issues with /tmp
+        // some files could change...
+        final File fromDirectory = new File( "." );
+
+        return FilesTestCaseHelper.getFiles( fromDirectory, FileFilterHelper.fileFileFilter() );
     }
 
     @Test

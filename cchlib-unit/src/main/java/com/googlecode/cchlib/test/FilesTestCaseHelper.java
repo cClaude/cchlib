@@ -28,9 +28,9 @@ public final class FilesTestCaseHelper
      * @return {@link File} {@link Iterator} from given directory
      */
     public static final Iterator<File> getFilesFrom(
-            final File        fileDirectory,
-            final FileFilter  fileFilter
-            )
+        final File       fileDirectory,
+        final FileFilter fileFilter
+        )
     {
         final SerializableFileFilter justFileFilter = FileFilterHelper.not(
                     FileFilterHelper.directoryFileFilter()
@@ -64,10 +64,12 @@ public final class FilesTestCaseHelper
      *                      could be null).
      * @return {@link File} {@link List} from given directory
      * @since 4.1.7
+     * @deprecated use {@link #getFiles(File, FileFilter)} instead
      */
+    @Deprecated
     public static final List<File> getFilesListFrom(
-        final File        fileDirectory,
-        final FileFilter  fileFilter
+        final File       fileDirectory,
+        final FileFilter fileFilter
         )
     {
         final List<File>        list = new ArrayList<>();
@@ -80,4 +82,21 @@ public final class FilesTestCaseHelper
         return list;
     }
 
+    /**
+     * Returns a {@link Iterable} {@link File} from given directory (directories
+     * will not be include in result)
+     * @param fileDirectory file directory to explore
+     * @param fileFilter    file filter for result files
+     *                      (does not filter directories,
+     *                      could be null).
+     * @return {@link Iterable} {@link File} from given directory
+     * @since 4.2
+     */
+    public static final Iterable<File> getFiles(
+        final File       fileDirectory,
+        final FileFilter fileFilter
+        )
+    {
+        return () -> getFilesFrom( fileDirectory, fileFilter );
+    }
 }
