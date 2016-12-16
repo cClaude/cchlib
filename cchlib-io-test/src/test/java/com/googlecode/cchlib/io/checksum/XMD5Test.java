@@ -40,13 +40,14 @@ public class XMD5Test
             }
         }
     }
+
     private void test_getHashString( final File file ) throws IOException
     {
         final long   lastModified = file.lastModified();
         final long   length       = file.length();
 
         final String hashString1 = MD5.getHashString( file ).toUpperCase();
-        final String hashString2 = computeOldNewVersion( file );
+        final String hashString2 = computeOldNewVersion( file ).toUpperCase();
 
         if( ToolBox.fileNotChanged( file, lastModified, length ) ) {
             LOGGER.info(
@@ -56,8 +57,8 @@ public class XMD5Test
                     );
 
             assertThat( hashString1 )
-                .isEqualTo( hashString2 )
-                .as( "Bad checksum for file: " + file );
+                .as( "Bad checksum for file: " + file )
+                .isEqualTo( hashString2 );
         }
     }
 
@@ -65,7 +66,7 @@ public class XMD5Test
     {
         final byte[] digestKey = this.mdf.compute( file );
 
-        return XMessageDigestFile.computeDigestKeyString( digestKey ).toUpperCase();
+        return XMessageDigestFile.computeDigestKeyString( digestKey );
     }
 
     @Test

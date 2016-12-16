@@ -89,8 +89,8 @@ public class DirectoryIteratorTest
         boolean res = dirRootFile.mkdirs();
 
         assertThat( res )
-            .isTrue()
-            .as( "Can't mkdirs(): " + dirRootFile );
+            .as( "Can't mkdirs(): " + dirRootFile )
+            .isTrue();
 
         final File[] dirs = {
             new File( dirRootFile, "dir1" ),
@@ -114,7 +114,9 @@ public class DirectoryIteratorTest
         for( final File dir : dirs ) {
             res = dir.mkdirs();
 
-            assertThat( res ).isTrue().as( "Can't mkdirs(): " + dir );
+            assertThat( res )
+                .as( "Can't mkdirs(): " + dir )
+                .isTrue();
             allFiles.add( dir );
             }
 
@@ -174,14 +176,14 @@ public class DirectoryIteratorTest
         }
 
         assertThat( diFFcount )
-            .isEqualTo( 3 )
-            .as( "Must find 2 directories (+1 rootdir)" );
+            .as( "Must find 2 directories (+1 rootdir)" )
+            .isEqualTo( 3 );
 
         // cleanup !
         IOHelper.deleteTree( dirRootFile );
 
         assertThat( dirRootFile )
-            .doesNotExist()
-            .as( "Can't delete(): " + dirRootFile );
+            .as( "Can't delete(): " + dirRootFile )
+            .doesNotExist();
     }
 }

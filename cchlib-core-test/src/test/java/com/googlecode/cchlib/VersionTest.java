@@ -35,7 +35,8 @@ public class VersionTest
 
         assertThat( version.getDate() )
             .as( "version.getDate()" )
-            .isNotNull().isCloseTo( now, deltaInMilliseconds );
+            .isNotNull()
+            .isCloseTo( now, deltaInMilliseconds );
 
         assertThat( version.toString() ).as( "version.toString()" ).isNotNull();
     }

@@ -66,9 +66,9 @@ public class XMD5FilterInputStreamTest
                         );
 
                 assertThat( hashString1 )
+                    .as( "Bad checksum for file: " + file )
                     .isEqualTo( hashString2 )
-                    .isEqualTo( hashString3 )
-                    .as( "Bad checksum for file: " + file );
+                    .isEqualTo( hashString3 );
             }
         }
     }
