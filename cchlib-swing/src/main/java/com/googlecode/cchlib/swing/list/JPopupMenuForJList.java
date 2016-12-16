@@ -12,12 +12,16 @@ import javax.swing.JPopupMenu;
 import javax.swing.ListModel;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.clipboard.ClipboardHelper;
+import com.googlecode.cchlib.swing.label.JPopupMenuForJLabel;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
+import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
+import com.googlecode.cchlib.swing.textfield.JPopupMenuForJTextField;
 
 /**
- * JPopupMenuForJTable is a context menu builder
+ * {@link JPopupMenuForJTable} is a context menu builder
  * for {@link JList}.
- * <p>Usage</p>
+ * <p>
+ * Usage :
  * <pre>
  * // create JList
  * ...
@@ -84,9 +88,12 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
  * <p>
  * Code inspired from
  * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
- * </p>
  *
  * @param <E> Type on {@link JList} elements
+ *
+ * @see JPopupMenuForJTextField
+ * @see JPopupMenuForJLabel
+ * @see JPopupMenuForJTable
  */
 public abstract class JPopupMenuForJList<E>
     extends AbstractJPopupMenuBuilder
@@ -241,14 +248,12 @@ public abstract class JPopupMenuForJList<E>
     }
 
     /**
-     * <P>
      * You must overwrite this method !
-     * </P>
      * <p>
      * Create a JPopupMenu for this row, this method
      * is call when user try to access to context menu
      * for the 'rowIndex' entry in JList.
-     * </P>
+     * <P>
      * Typically you would add something like :
      * <pre>
      * protected abstract JPopupMenu createContextMenu(

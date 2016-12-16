@@ -10,11 +10,18 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.clipboard.ClipboardHelper;
+import com.googlecode.cchlib.swing.label.JPopupMenuForJLabel;
+import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
+import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 
 /**
- * JPopupMenuForJTextField is a context menu builder
+ * {@link JPopupMenuForJTextField} is a context menu builder
  * for {@link JTextField}.
+ *
+ * @see JPopupMenuForJLabel
+ * @see JPopupMenuForJList
+ * @see JPopupMenuForJTable
  */
 public abstract class JPopupMenuForJTextField
     extends AbstractJPopupMenuBuilder
@@ -23,7 +30,7 @@ public abstract class JPopupMenuForJTextField
     private final JTextField jTextField;
 
     /**
-     * Create JPopupMenuForJTextField
+     * Create {@link JPopupMenuForJTextField}
      *
      * @param jTextField {@link JTextField} to use.
      */
@@ -53,8 +60,7 @@ public abstract class JPopupMenuForJTextField
     }
 
     /**
-     * Sets the value in the cell at rowIndex and
-     * columnIndex to aValue.
+     * Sets the value on the model.
      *
      * @param aValue the new value
      */
@@ -64,15 +70,15 @@ public abstract class JPopupMenuForJTextField
     }
 
     @Override
-    protected void addMouseListener( final MouseListener l )
+    protected void addMouseListener( final MouseListener listener )
     {
-        this.jTextField.addMouseListener( l );
+        this.jTextField.addMouseListener( listener );
     }
 
     @Override
-    protected void removeMouseListener( final MouseListener l )
+    protected void removeMouseListener( final MouseListener listener )
     {
-        this.jTextField.removeMouseListener( l );
+        this.jTextField.removeMouseListener( listener );
     }
 
     @Override
@@ -93,9 +99,8 @@ public abstract class JPopupMenuForJTextField
     }
 
     /**
-     * <P>
      * You must overwrite this method !
-     * </P>
+     * <P>
      * Create a JPopupMenu
      *
      * <pre>
@@ -109,7 +114,7 @@ public abstract class JPopupMenuForJTextField
      *      return contextMenu;
      *  }
      * </pre>
-     * @return {@link JPopupMenu} for this {@link JTextField}
+     * @return {@link JPopupMenu} for related {@link JTextField}
      */
     protected abstract JPopupMenu createContextMenu();
 
@@ -196,8 +201,8 @@ public abstract class JPopupMenuForJTextField
         final ActionEvent event
         )
     {
-    final String value = ClipboardHelper.getClipboardContents( JPopupMenuForJTextField.this );
-
-    setValue( value );
+        setValue(
+            ClipboardHelper.getClipboardContents( JPopupMenuForJTextField.this )
+            );
     }
 }

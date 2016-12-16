@@ -14,15 +14,21 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.clipboard.ClipboardHelper;
+import com.googlecode.cchlib.swing.label.JPopupMenuForJLabel;
+import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
+import com.googlecode.cchlib.swing.textfield.JPopupMenuForJTextField;
 
 /**
- * JPopupMenuForJTable is a context menu builder
+ * {@link JPopupMenuForJTable} is a context menu builder
  * for {@link JTable}.
  * <p>
  * Code inspired from
  * http://www.velocityreviews.com/forums/t146956-popupmenu-for-a-cell-in-a-jtable.html
- * </p>
+ *
+ * @see JPopupMenuForJTextField
+ * @see JPopupMenuForJList
+ * @see JPopupMenuForJLabel
  */
 public abstract class JPopupMenuForJTable
     extends AbstractJPopupMenuBuilder
@@ -35,7 +41,7 @@ public abstract class JPopupMenuForJTable
      *
      * @param jTable     {@link JTable} to use.
      * @param attributes Configuration see {@link Attributs}
-     * @throws NullPointerException if jTable est null
+     * @throws NullPointerException if jTable is null
      */
     public JPopupMenuForJTable(
         @Nonnull final JTable          jTable,
@@ -55,7 +61,7 @@ public abstract class JPopupMenuForJTable
      * Create JPopupMenuForJTable using default configuration
      *
      * @param jTable {@link JTable} to use.
-     * @throws NullPointerException if jTable est null
+     * @throws NullPointerException if jTable is null
      */
     public JPopupMenuForJTable( @Nonnull final JTable jTable )
     {
@@ -201,9 +207,8 @@ public abstract class JPopupMenuForJTable
     }
 
     /**
-     * <P>
      * You must overwrite this method !
-     * </P>
+     * <P>
      * Create a JPopupMenu for this cell, this method
      * is call when user try to access to context menu
      * for the 'rowIndex', 'columnIndex' entry in JTable..
