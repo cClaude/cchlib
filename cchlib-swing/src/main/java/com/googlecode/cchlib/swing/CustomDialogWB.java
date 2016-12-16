@@ -13,8 +13,10 @@ import javax.swing.AbstractButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import com.googlecode.cchlib.swing.label.JPopupMenuForJLabel;
 
 //NOT public
 @SuppressWarnings({
@@ -29,10 +31,10 @@ class CustomDialogWB extends JDialog
 
     private final JPanel contentPanel = new JPanel();
 
-    private JLabel         jLabelMessage; // TODO We should be able to copy this in clipboard.
-    private JScrollPane    scrollPane;
-    private JPanel         commandPanel;
-    private int            selectedButtonIndex;
+    private JLabel      jLabelMessage;
+    private JScrollPane scrollPane;
+    private JPanel      commandPanel;
+    private int         selectedButtonIndex;
 
     private transient ActionListener actionListener;
 
@@ -75,7 +77,9 @@ class CustomDialogWB extends JDialog
             this.contentPanel.setLayout(new BorderLayout());
             {
                 this.jLabelMessage = new JLabel();
-                this.contentPanel.add(this.jLabelMessage);
+                this.contentPanel.add( this.jLabelMessage );
+
+                createContextMenuForjLabelMessage();
             }
         }
         {
@@ -95,6 +99,29 @@ class CustomDialogWB extends JDialog
                 b.addActionListener( getActionListener() );
                 }
         }
+    }
+
+    private void createContextMenuForjLabelMessage()
+    {
+        new JPopupMenuForJLabel( this.jLabelMessage )
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected JPopupMenu createContextMenu()
+            {
+                final JPopupMenu contextMenu = new JPopupMenu();
+
+                addCopyMenuItem( contextMenu, getTextForCopy() );
+
+                return contextMenu;
+            }
+        }.addMenu();
+    }
+
+    protected String getTextForCopy()
+    {
+        return "Copy"; // TODO I18n
     }
 
     protected JLabel getJLabelMessage()

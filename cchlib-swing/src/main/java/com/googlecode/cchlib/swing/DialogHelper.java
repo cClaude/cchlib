@@ -8,9 +8,6 @@ import com.googlecode.cchlib.lang.ExceptionHelper;
 import com.googlecode.cchlib.resources.ResourcesLoader;
 import com.googlecode.cchlib.resources.ResourcesLoaderException;
 
-/**
- *
- */
 public final class DialogHelper
 {
     private DialogHelper()
