@@ -32,6 +32,7 @@ import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart;
 import com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReference;
 import com.googlecode.cchlib.i18n.unit.strings.errors.I18nStringWithErrorsTestReference;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 /**
  * Integration test for I18n
@@ -39,20 +40,21 @@ import com.googlecode.cchlib.i18n.unit.strings.errors.I18nStringWithErrorsTestRe
 public class RunI18nTestAppTest
 {
     private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );
+
     private static final int NUMBERS_OF_UNUSED = 2;
 
     private static Iterable<TestReference> getTests()
     {
         final ArrayList<TestReference> list = new ArrayList<>();
 
-        //if( ! SafeSwingUtilities.isHeadless() ) {
+        if( SafeSwingUtilities.isSwingAvailable() ) {
             list.add( new I18nBaseNamePart() );
             list.add( new I18nDefaultPart() );
             list.add( new I18nForcedPart() );
             list.add( new I18nToolTipTextIgnorePart() );
             list.add( new I18nToolTipTextPart() );
             list.add( new I18nToolTipText_for_JTabbedPanePart() );
-        //}
+        }
 
         list.add( new AutoI18nBasicInterfacePart() );
         list.add( new I18nStringPart() );
@@ -157,14 +159,14 @@ public class RunI18nTestAppTest
     private Map<String, String> computeEntriesCreatedByPrepMap( final Result result ) //
             throws FileNotFoundException, IOException
     {
-        final Properties prop   = new Properties();
+        final Properties prop = new Properties();
 
         try( final Reader reader = new FileReader( result.getOutputFile() ) ) {
             prop.load( reader );
         }
 
         final Set<String>         propertiyNames = prop.stringPropertyNames();
-        final Map<String, String> map           = new HashMap<String, String>( propertiyNames.size() );
+        final Map<String, String> map            = new HashMap<>( propertiyNames.size() );
 
         propertiyNames.forEach( t -> map.put( t, prop.getProperty( t ) ) );
 
