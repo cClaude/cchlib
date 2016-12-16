@@ -29,20 +29,6 @@ public class DBFTest
         System.out.println( s );
     }
 
-//    @Deprecated
-//    private File getTempDirFile()
-//    {
-//        final String tmpdir = System.getProperty( "java.io.tmpdir" );
-//
-//        return new File( tmpdir );
-//    }
-
-//    @Deprecated
-//    private File getTempFile( final String filename )
-//    {
-//        return new File( getTempDirFile(), filename );
-//    }
-
     private static File createTempFile() throws IOException
     {
         final File file = File.createTempFile( "DBFTest", ".dbf" );
@@ -55,7 +41,7 @@ public class DBFTest
         final double value
         ) throws DBFException
     {
-        //final DBFField field = createDBFField( fieldName, DBFField.FIELD_TYPE_N );
+        //final DBFField field = createDBFField( fieldName, DBFField.FIELD_TYPE_N ) -
         final DBFField field = DBFType.NUMERICAL.newDBFField( fieldName );
 
         final DBFWriter writer = new DBFWriter();
@@ -101,11 +87,6 @@ public class DBFTest
     {
         print( "Writing a sample DBF file ... ");
 
-//        final DBFField field = createDBFField( "F1", DBFField.FIELD_TYPE_N );
-//
-//        final DBFWriter writer = new DBFWriter();
-//        writer.setFields( new DBFField[] { field          } );
-//        writer.addRecord( new Object[]   {new Double( 3 ) } );
 
         final File      file   = createTempFile();
         final DBFWriter writer = createDBFWriter( "F1", 3D );
