@@ -1,5 +1,7 @@
 package com.googlecode.cchlib.io;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -7,48 +9,34 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import org.junit.Test;
 
-/**
- *
- */
-public class DirectoryIteratorTest 
+public class DirectoryIteratorTest
 {
-    final private static Logger LOGGER = Logger.getLogger(DirectoryIteratorTest.class);
+    final private static Logger LOGGER = Logger.getLogger( DirectoryIteratorTest.class );
 
-    public static final File TEMP_DIR_FILE    = new File( System.getProperty("java.io.tmpdir" ) );
+    public static final File TEMP_DIR_FILE_    = FileHelper.getTmpDirFile();
     public static final File SYSTEM_ROOT_FILE = new File( "/" );
-    public static final File NOT_EXIST_FILE   =  new File( "thisFileShoundNotExists" );
+    public static final File NOT_EXIST_FILE   = new File( "thisFileShoundNotExists" );
 
     @Test
     public void testNotExist()
     {
-        Iterator<File> iter = new DirectoryIterator( NOT_EXIST_FILE );
+        final Iterator<File> iter = new DirectoryIterator( NOT_EXIST_FILE );
 
         if( iter.hasNext() ) {
-            StringBuilder msg = new StringBuilder()
-                    .append( "Hum! : File '" )
-                    .append( NOT_EXIST_FILE )
-                    .append( " should not exist, so file: " )
-                    .append( iter.next() )
-                    .append( "' should not exist..." );
+            final String msg = "Hum! : File '" + NOT_EXIST_FILE
+                    + " should not exist, so file: " + iter.next()
+                    + "' should not exist...";
 
             LOGGER.error( msg );
-            fail(msg.toString());
+            fail( msg );
         }
 
         if( iter.hasNext() ) {
-            String msg = "*** error: this Iterator should be empty";
+            final String msg = "*** error: this Iterator should be empty";
 
-            LOGGER.error( (new StringBuilder())
-                    .append( "*** error: " )
-                    .append( iter.next() )
-                    .toString()
-                    );
+            LOGGER.error( "*** error: " + iter.next() );
             fail( msg );
         }
     }
@@ -56,117 +44,144 @@ public class DirectoryIteratorTest
     @Test
     public void testDirectoryIterator()
     {
-        int  fCount = 0;
-        long begin  = System.currentTimeMillis();
-        File rootFile = TEMP_DIR_FILE;
-        DirectoryIterator dirsIterator = new DirectoryIterator( rootFile );
+        final long              begin0      = System.currentTimeMillis();
+        final File              rootFile     = FileHelper.getTmpDirFile();
+        final DirectoryIterator dirsIterator = new DirectoryIterator( rootFile );
 
-        long end = System.currentTimeMillis();
+        final long end0 = System.currentTimeMillis();
 
         LOGGER.info( "---------------------" );
         LOGGER.info( "Root    : "  + rootFile );
-        LOGGER.info( "ms      : "  + (end-begin) );
+        LOGGER.info( "ms      : "  + (end0 - begin0) );
         LOGGER.info( "---------------------" );
 
-        begin  = System.currentTimeMillis();
-        for( File dirFile : dirsIterator ) {
+        final long begin1 = System.currentTimeMillis();
+
+        int  fCount = 0;
+        for( final File dirFile : dirsIterator ) {
             fCount++;
             LOGGER.info( "dir "  + dirFile );
-            assertTrue( "Is not a directory : " + dirFile, dirFile.isDirectory() );
+
+            assertThat( dirFile )
+                .as( "Is not a directory : " + dirFile  )
+                .isDirectory();
         }
-        end = System.currentTimeMillis();
+
+        final long end1 = System.currentTimeMillis();
 
         LOGGER.info( "---------------------" );
         LOGGER.info( "Count   : "  + fCount );
-        LOGGER.info( "ms      : "  + (end-begin) );
+        LOGGER.info( "ms      : "  + (end1-begin1) );
         LOGGER.info( "---------------------" );
     }
 
     @Test
     public void testDirStruct() throws IOException
     {
-        File dirRootFile = new File(TEMP_DIR_FILE, getClass().getName());
+        final File dirRootFile = FileHelper.createTempDir();
 
-        IOHelper.deleteTree(dirRootFile);
+        IOHelper.deleteTree( dirRootFile);
 
-        boolean res = dirRootFile.exists();
-        assertFalse( "Already exists (Can't delete): " + dirRootFile, res);
+        assertThat( dirRootFile )
+            .as( "Already exists (Can't delete): " + dirRootFile )
+            .doesNotExist();
 
-        res = dirRootFile.mkdirs();
-        assertTrue( "Can't mkdirs(): " + dirRootFile, res);
+        boolean res = dirRootFile.mkdirs();
 
-        File[] dirs = {
-                new File(dirRootFile, "dir1"),
-                new File(dirRootFile, "dir2"),
-                new File(dirRootFile, "dir2/dir21"),
-                new File(dirRootFile, "dir2/dir22"),
-                new File(dirRootFile, "dir2/dir23"),
-        };
-        File[] files = {
-                new File(dirRootFile, "a.txt"),
-                new File(dirRootFile, "ab"),
-                new File(dirRootFile, "dir2/dir21/b.txt"),
-                new File(dirRootFile, "dir2/dir21/b.tmp"),
+        assertThat( res )
+            .isTrue()
+            .as( "Can't mkdirs(): " + dirRootFile );
+
+        final File[] dirs = {
+            new File( dirRootFile, "dir1" ),
+            new File( dirRootFile, "dir2" ),
+            new File( dirRootFile, "dir2/dir21" ),
+            new File( dirRootFile, "dir2/dir22" ),
+            new File( dirRootFile, "dir2/dir23" ),
         };
 
-        List<File> allFiles = new ArrayList<>();
+        final File[] files = {
+            new File( dirRootFile, "a.txt" ),
+            new File( dirRootFile, "ab" ),
+            new File( dirRootFile, "dir2/dir21/b.txt" ),
+            new File( dirRootFile, "dir2/dir21/b.tmp" ),
+        };
+
+        final List<File> allFiles = new ArrayList<>();
 
         allFiles.add(dirRootFile);
 
-        for( File d : dirs ) {
-            res = d.mkdirs();
-            assertTrue( "Can't mkdirs(): " + d, res);
-            allFiles.add(d);
+        for( final File dir : dirs ) {
+            res = dir.mkdirs();
+
+            assertThat( res ).isTrue().as( "Can't mkdirs(): " + dir );
+            allFiles.add( dir );
             }
 
-        for( File f : files ) {
+        for( final File file : files ) {
             // Build some files and put something in it
-            IOHelper.toFile( f.getPath(), f );
+            IOHelper.toFile( file.getPath(), file );
             }
 
-        List<File> notFoundInFileIterator = new ArrayList<>(allFiles);
-        List<File> foundInFileIterator    = new ArrayList<>();
+        final List<File> notFoundInFileIterator = new ArrayList<>( allFiles );
+        final List<File> foundInFileIterator    = new ArrayList<>();
 
-        DirectoryIterator di = new DirectoryIterator( dirRootFile );
+        final DirectoryIterator di = new DirectoryIterator( dirRootFile );
 
-        for( File f : di ) {
-            assertTrue( "Is not a directory : " + f, f.isDirectory() );
-            foundInFileIterator.add( f );
+        for( final File dir : di ) {
+            assertThat( dir )
+                .as( "Is not a directory : " + dir )
+                .isDirectory();
 
-            boolean oldFound = notFoundInFileIterator.remove( f );
-            assertTrue( "File should not be here: " + f, oldFound);
+            foundInFileIterator.add( dir );
+
+            final boolean oldFound = notFoundInFileIterator.remove( dir );
+
+            assertThat( oldFound )
+                .as( "File should not be here: " + dir )
+                .isTrue();
         }
 
         LOGGER.info( "allFiles # " + allFiles.size() );
         LOGGER.info( "foundInFileIterator # " + foundInFileIterator.size() );
         LOGGER.info( "notFoundInFileIterator # " + notFoundInFileIterator.size() );
 
-        for( File f : notFoundInFileIterator ) {
-            LOGGER.info( "  > not found by Iterator: " + f );
+        for( final File file : notFoundInFileIterator ) {
+            LOGGER.info( "  > not found by Iterator: " + file );
         }
 
-        assertEquals("File count not equals !",allFiles.size(),foundInFileIterator.size());
-        assertEquals("Somes files not founds !",0,notFoundInFileIterator.size());
+        assertThat( foundInFileIterator )
+            .as( "File count not equals !" )
+            .hasSize( allFiles.size() );
+
+        assertThat( notFoundInFileIterator )
+            .as( "Somes files not founds !" )
+            .hasSize( 0 );
 
         //
         // Test FileFilter !
         //
-        FileFilter dirFF = (File f) -> f.getName().endsWith( "2" );
-        DirectoryIterator diFF = new DirectoryIterator(
-                            dirRootFile,
-                            dirFF
-                            );
+        final FileFilter        dirFF = (final File f) -> f.getName().endsWith( "2" );
+        final DirectoryIterator diFF  = new DirectoryIterator(
+                dirRootFile,
+                dirFF
+                );
         int diFFcount = 0;
-        for(File f:diFF) {
-            System.out.printf(">%s\n",f);
+
+        for( final File file : diFF ) {
+            LOGGER.info( String.format( ">%s\n", file ) );
             diFFcount++;
         }
-        assertEquals("Must find 2 directories (+1 rootdir)",3,diFFcount);
+
+        assertThat( diFFcount )
+            .isEqualTo( 3 )
+            .as( "Must find 2 directories (+1 rootdir)" );
 
         // cleanup !
-        IOHelper.deleteTree(dirRootFile);
+        IOHelper.deleteTree( dirRootFile );
 
-        res = dirRootFile.exists();
-        assertFalse( "Can't delete(): " + dirRootFile, res);
+        assertThat( dirRootFile )
+            .doesNotExist()
+            .as( "Can't delete(): " + dirRootFile );
     }
 }
