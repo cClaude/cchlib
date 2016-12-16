@@ -21,6 +21,10 @@ public class SafeSwingUtilitiesTest
 
         LOGGER.info( "SafeSwingUtilities.isHeadlessCorrect() = " + headlessCorrect );
 
+        System.getProperties().forEach(
+            ( key, value ) -> LOGGER.info( "System.getProperty( " + key + " ) = " + value )
+            );
+
         assertThat( headlessCorrect )
             .as( "Headless configuration is not valid, you must run the\n"
                     + "JVM using -Djava.awt.headless=true or configure your\n"
