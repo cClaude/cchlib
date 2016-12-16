@@ -13,45 +13,44 @@ import org.junit.Test;
 public class FileFilterHelperTest
 {
     private static final Logger LOGGER = Logger.getLogger(FileFilterHelperTest.class);
-    public static final File TEMP_DIR_FILE = new File( System.getProperty("java.io.tmpdir" ) );
 
     @Test
     public void test_directoryFileFilter()
     {
         LOGGER.info( "test_directoryFileFilter()" );
-        File        dir = new File( TEMP_DIR_FILE, this.getClass().getSimpleName() );
-        boolean     isDirCreated = dir.mkdir();
+        final File        dir = new File( FileHelper.getTmpDirFile(), this.getClass().getSimpleName() );
+        final boolean     isDirCreated = dir.mkdir();
         Assert.assertTrue( isDirCreated );
 
-        FileFilter     ff     = FileFilterHelper.directoryFileFilter();
+        final FileFilter     ff     = FileFilterHelper.directoryFileFilter();
 
-        boolean isDir = ff.accept( dir );
+        final boolean isDir = ff.accept( dir );
         Assert.assertTrue( isDir );
 
-        boolean isDirDeleted = dir.delete();
+        final boolean isDirDeleted = dir.delete();
         Assert.assertTrue( isDirDeleted );
     }
 
     @Test
     public void test_fileFileFilter() throws IOException
     {
-        File        file = File.createTempFile( this.getClass().getSimpleName(), ".tmp" );
-        boolean     isFileCreated = file.isFile();
+        final File        file = File.createTempFile( this.getClass().getSimpleName(), ".tmp" );
+        final boolean     isFileCreated = file.isFile();
         Assert.assertTrue( isFileCreated );
 
-        FileFilter     ff     = FileFilterHelper.fileFileFilter();
+        final FileFilter     ff     = FileFilterHelper.fileFileFilter();
 
-        boolean isFile = ff.accept( file );
+        final boolean isFile = ff.accept( file );
         Assert.assertTrue( isFile );
 
-        boolean isFileDeleted = file.delete();
+        final boolean isFileDeleted = file.delete();
         Assert.assertTrue( isFileDeleted );
     }
 
     @Test
     public void test_trueFileFilter()
     {
-        FileFilter     ff     = FileFilterHelper.trueFileFilter();
+        final FileFilter ff = FileFilterHelper.trueFileFilter();
 
         Assert.assertTrue( ff.accept( null ) );
     }
@@ -59,7 +58,7 @@ public class FileFilterHelperTest
     @Test
     public void test_falseFileFilter()
     {
-        FileFilter     ff     = FileFilterHelper.falseFileFilter();
+        final FileFilter ff = FileFilterHelper.falseFileFilter();
 
         Assert.assertFalse( ff.accept( null ) );
     }
@@ -67,7 +66,7 @@ public class FileFilterHelperTest
     @Test
     public void test_not()
     {
-        FileFilter     ff     = FileFilterHelper.not(
+        final FileFilter ff = FileFilterHelper.not(
             FileFilterHelper.falseFileFilter()
             );
 
@@ -77,33 +76,33 @@ public class FileFilterHelperTest
     @Test
     public void test_and()
     {
-        FileFilter     ff1    = FileFilterHelper.and(
+        final FileFilter ff1 = FileFilterHelper.and(
                 FileFilterHelper.trueFileFilter(),
                 FileFilterHelper.directoryFileFilter()
                 );
-        FileFilter     ff2 = FileFilterHelper.and(
+        final FileFilter ff2 = FileFilterHelper.and(
                 FileFilterHelper.trueFileFilter(),
                 FileFilterHelper.fileFileFilter()
                 );
-        FileFilter     ff3     = FileFilterHelper.and(
+        final FileFilter ff3 = FileFilterHelper.and(
                 FileFilterHelper.falseFileFilter(),
                 FileFilterHelper.directoryFileFilter()
                 );
 
-        File        dir = new File( TEMP_DIR_FILE, this.getClass().getSimpleName() );
-        boolean     isDirCreated = dir.mkdir();
+        final File        dir = new File( FileHelper.getTmpDirFile(), this.getClass().getSimpleName() );
+        final boolean     isDirCreated = dir.mkdir();
         Assert.assertTrue( isDirCreated );
 
-        boolean isDir1 = ff1.accept( dir );
+        final boolean isDir1 = ff1.accept( dir );
         Assert.assertTrue( isDir1 );
 
-        boolean isDir2 = ff2.accept( dir );
+        final boolean isDir2 = ff2.accept( dir );
         Assert.assertFalse( isDir2 );
 
-        boolean isDir3 = ff3.accept( dir );
+        final boolean isDir3 = ff3.accept( dir );
         Assert.assertFalse( isDir3 );
 
-        boolean isDirDeleted = dir.delete();
+        final boolean isDirDeleted = dir.delete();
         Assert.assertTrue( isDirDeleted );
     }
 /*
@@ -127,10 +126,10 @@ public class FileFilterHelperTest
         throws IOException
     {
         // Create a empty file !
-        File f = File.createTempFile( this.getClass().getName(), "tmp" );
+        final File f = File.createTempFile( this.getClass().getName(), "tmp" );
 
-        FileFilter ff1 = FileFilterHelper.zeroLengthFileFilter();
-        FileFilter ff2 = FileFilterHelper.noneZeroLengthFileFilter();
+        final FileFilter ff1 = FileFilterHelper.zeroLengthFileFilter();
+        final FileFilter ff2 = FileFilterHelper.noneZeroLengthFileFilter();
 
         Assert.assertTrue( "Should be empty", ff1.accept( f ) );
         Assert.assertFalse( "Should be empty", ff2.accept( f ));
@@ -141,7 +140,7 @@ public class FileFilterHelperTest
         Assert.assertFalse( "Should not be empty", ff1.accept( f ) );
         Assert.assertTrue( "Should not be empty", ff2.accept( f ));
 
-        boolean isDel = f.delete();
+        final boolean isDel = f.delete();
         Assert.assertTrue( "Can not delete file", isDel );
     }
 }
