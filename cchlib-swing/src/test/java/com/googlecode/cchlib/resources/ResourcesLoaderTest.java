@@ -45,6 +45,8 @@ public class ResourcesLoaderTest
         assertThat( icon )
             .as( "Can not find: " + ResourcesLoader.OK_ICON_32x32 )
             .isNotNull();
+        assertThat( icon.getIconWidth() ).isEqualTo( 32 );
+        assertThat( icon.getIconHeight() ).isEqualTo( 32 );
     }
 
     @Test
@@ -58,5 +60,5 @@ public class ResourcesLoaderTest
         assertThat( image )
             .as( "Can not find: " + ResourcesLoader.OK_ICON_32x32 )
             .isNotNull();
-    }
+   }
 }
