@@ -7,8 +7,6 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileFilterHelper;
-import com.googlecode.cchlib.test.FilesTestCaseHelper;
 
 public class XMD5Test
 {
@@ -23,16 +21,7 @@ public class XMD5Test
     public void setUp() throws Exception
     {
         this.mdf      = new com.googlecode.cchlib.util.duplicate.XMessageDigestFile( "MD5" );
-        this.fileList = createTestFiles();
-    }
-
-    private static final Iterable<File> createTestFiles()
-    {
-        //final File fromDirectory = FileHelper.getTmpDirFile() - issues with /tmp
-        // some files could change...
-        final File fromDirectory = new File( "." );
-
-        return FilesTestCaseHelper.getFiles( fromDirectory, FileFilterHelper.fileFileFilter() );
+        this.fileList = TestMD5Helper.createTestFiles();
     }
 
     @Test
@@ -69,18 +58,14 @@ public class XMD5Test
         }
     }
 
-    @SuppressWarnings("deprecation")
     private byte[] computeOldVersionHash( final File file ) throws IOException
     {
-        return this.mdf.compute( file );
+        return TestMD5Helper.computeOldVersionHash( this.mdf, file );
     }
 
-    @SuppressWarnings("deprecation")
     private String computeOldVersionHashString( final File file ) throws IOException
     {
-        final byte[] digestKey = computeOldVersionHash( file );
-
-        return com.googlecode.cchlib.util.duplicate.XMessageDigestFile.computeDigestKeyString( digestKey );
+        return TestMD5Helper.computeOldVersionHashString( this.mdf, file );
     }
 
     @Test

@@ -7,29 +7,25 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
-import com.googlecode.cchlib.io.FileFilterHelper;
-import com.googlecode.cchlib.io.FileHelper;
-import com.googlecode.cchlib.test.FilesTestCaseHelper;
-import com.googlecode.cchlib.util.duplicate.XMessageDigestFile;
 
-@SuppressWarnings({ "deprecation" })
 public class XMD5FilterInputStreamTest
 {
     private static final Logger LOGGER = Logger.getLogger( XMD5FilterInputStreamTest.class );
     private final byte[] buffer        = new byte[ 1024 ];
 
-    private XMessageDigestFile mdf;
-    private List<File>        fileList;
+    @SuppressWarnings("deprecation")
+    private com.googlecode.cchlib.util.duplicate.XMessageDigestFile mdf;
+    private Iterable<File>                                          fileList;
 
     @Before
+    @SuppressWarnings("deprecation")
     public void setUp() throws Exception
     {
-        this.mdf      = new XMessageDigestFile( "MD5" );
-        this.fileList = FilesTestCaseHelper.getFilesListFrom( FileHelper.getTmpDirFile(), FileFilterHelper.fileFileFilter() );
+        this.mdf      = new com.googlecode.cchlib.util.duplicate.XMessageDigestFile( "MD5" );
+        this.fileList = TestMD5Helper.createTestFiles();
     }
 
     @Test
@@ -54,7 +50,7 @@ public class XMD5FilterInputStreamTest
         final String hashString1 = computeHashNewVersion( file, this.buffer );
 
         if( ToolBox.fileNotChanged( file, lastModified, length ) ) {
-            final String hashString2 = computeOldNewVersion( file );
+            final String hashString2 = computeOldVersionHashString( file ).toUpperCase();
             final String hashString3 = MD5.getHashString( file ).toUpperCase();
 
             if( ToolBox.fileNotChanged( file, lastModified, length ) ) {
@@ -73,11 +69,9 @@ public class XMD5FilterInputStreamTest
         }
     }
 
-    private String computeOldNewVersion( final File file ) throws IOException
+    private String computeOldVersionHashString( final File file ) throws IOException
     {
-        final byte[] digestKey = this.mdf.compute( file );
-
-        return XMessageDigestFile.computeDigestKeyString( digestKey ).toUpperCase();
+        return TestMD5Helper.computeOldVersionHashString( this.mdf, file );
     }
 
     private static String computeHashNewVersion( final File file, final byte[] buffer )
