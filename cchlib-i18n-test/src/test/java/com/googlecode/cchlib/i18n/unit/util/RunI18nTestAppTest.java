@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.i18n.unit.util;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.junit.Test;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
@@ -41,13 +41,16 @@ public class RunI18nTestAppTest
 {
     private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );
 
-    private static final int NUMBERS_OF_UNUSED = 2;
+    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 2;
+    private static final int NUMBERS_OF_SWING_PROPERTIES  = 30;
+
+    private static final boolean DO_SWING = SafeSwingUtilities.isSwingAvailable() /*& false*/;
 
     private static Iterable<TestReference> getTests()
     {
         final ArrayList<TestReference> list = new ArrayList<>();
 
-        if( SafeSwingUtilities.isSwingAvailable() ) {
+        if( DO_SWING ) {
             list.add( new I18nBaseNamePart() );
             list.add( new I18nDefaultPart() );
             list.add( new I18nForcedPart() );
@@ -105,22 +108,25 @@ public class RunI18nTestAppTest
         LOGGER.info( "SecurityException = " + collector.getSecurityExceptionCollector().size() );
         LOGGER.info( "SetFieldException = " + collector.getSetFieldExceptionCollector().size() );
 
-        Assert.assertEquals( syntaxeExceptionCount , collector.getI18nSyntaxeExceptionCollector().size() );
-        Assert.assertEquals(  0, collector.getIllegalAccessExceptionCollector().size() );
-        Assert.assertEquals(  0, collector.getIllegalArgumentExceptionCollector().size() );
-        Assert.assertEquals(  0, collector.getInvocationTargetExceptionCollector().size() );
-        Assert.assertEquals(  0, collector.getMissingKeyExceptionCollector().size() );
-        Assert.assertEquals( missingResourceExceptionCount, collector.getMissingResourceExceptionCollector().size() );
-        Assert.assertEquals(  0, collector.getNoSuchMethodExceptionCollector().size() );
-        Assert.assertEquals(  0, collector.getMethodProviderSecurityExceptionCollector().size() );
-        Assert.assertEquals(  0, collector.getSecurityExceptionCollector().size() );
-        Assert.assertEquals(  0, collector.getSetFieldExceptionCollector().size() );
+        assertThat( collector.getI18nSyntaxeExceptionCollector().size() ).isEqualTo( syntaxeExceptionCount );
+
+        assertThat( collector.getIllegalAccessExceptionCollector().size() ).isZero();
+        assertThat( collector.getIllegalArgumentExceptionCollector().size() ).isZero();
+        assertThat( collector.getInvocationTargetExceptionCollector().size() ).isZero();
+        assertThat( collector.getMissingKeyExceptionCollector().size() ).isZero();
+
+        assertThat( collector.getMissingResourceExceptionCollector().size() ).isEqualTo( missingResourceExceptionCount );
+
+        assertThat( collector.getNoSuchMethodExceptionCollector().size() ).isZero();
+        assertThat( collector.getMethodProviderSecurityExceptionCollector().size() ).isZero();
+        assertThat( collector.getSecurityExceptionCollector().size() ).isZero();
+        assertThat( collector.getSetFieldExceptionCollector().size() ).isZero();
 
         final Map<String, String>  computeEntriesExistingInPropertiesMap = computeEntriesExistingInPropertiesMap();
         final int                  existingSize = computeEntriesExistingInPropertiesMap.size();
         LOGGER.info( "existing entries in properties = " + existingSize );
 
-        Assert.assertTrue( existingSize > 0 );
+        assertThat( existingSize ).isPositive();
 
         final Map<String,String> entriesCreatedByPrepMap = computeEntriesCreatedByPrepMap( result );
         final int                createdSize = entriesCreatedByPrepMap.size();
@@ -139,7 +145,18 @@ public class RunI18nTestAppTest
         display( "Not found in properties", notFoundInPropertiesSet );
         display( "Not found by Prep process", notFoundByPrepSet );
 
-        Assert.assertEquals( existingSize, createdSize + NUMBERS_OF_UNUSED );
+        LOGGER.info( "existing entries in properties = " + existingSize );
+        LOGGER.info( "created entries by Prep process = " + createdSize );
+
+        if( DO_SWING ) {
+            assertThat( createdSize )
+                .isEqualTo( existingSize - NUMBERS_OF_UNUSED_PROPERTIES );
+        } else {
+            assertThat( createdSize )
+                .isEqualTo(
+                    existingSize - NUMBERS_OF_UNUSED_PROPERTIES - NUMBERS_OF_SWING_PROPERTIES
+                    );
+        }
 
         LOGGER.info( "ALL runPrepTest() done" );
      }
