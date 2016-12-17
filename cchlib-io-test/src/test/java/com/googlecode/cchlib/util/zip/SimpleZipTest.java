@@ -24,7 +24,7 @@ import com.googlecode.cchlib.util.iterator.IteratorWrapper;
 public class SimpleZipTest
 {
     // This value should be change when number of files change ;)
-    private static final int  EXPECTED_FILE_COUNT     = 98;
+    private static final int  EXPECTED_FILE_COUNT     = computeExpectedFileCount();
     private static final long EXPECTED_ZIP_MIN_LENGTH = 100_000L;
 
     private static final Logger LOGGER = Logger.getLogger( SimpleZipTest.class );
@@ -34,6 +34,22 @@ public class SimpleZipTest
     private static final String getZipSourceDirectoryName()
     {
         return ZIP_SOURCE_DIRNAME;
+    }
+
+    private static int computeExpectedFileCount()
+    {
+        try {
+            return CollectionHelper.newList(
+                            getEntries(
+                                    getZipSourceDirectoryFile()
+                                    )
+                            ).size();
+        }
+        catch( final IOException e ) {
+            LOGGER.fatal( "can not computeExpectedFileCount()", e );
+
+            return Integer.MIN_VALUE;
+        }
     }
 
     private static final File getZipSourceDirectoryFile()
