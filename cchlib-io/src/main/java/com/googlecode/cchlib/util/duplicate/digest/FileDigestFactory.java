@@ -9,7 +9,8 @@ import java.security.NoSuchAlgorithmException;
  *  @since 4.2
  */
 @FunctionalInterface
-public interface FileDigestFactory {
+public interface FileDigestFactory
+{
     /**
      * Returns a new {@link FileDigest} instance according to factory.
      *

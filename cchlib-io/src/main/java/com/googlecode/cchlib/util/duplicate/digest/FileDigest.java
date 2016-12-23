@@ -134,7 +134,8 @@ public class FileDigest
             @Nonnull final FileDigestListener  listener
             )
         throws FileNotFoundException,
-               IOException, CancelRequestException
+               IOException,
+               CancelRequestException
     {
         setFile( file, listener );
 

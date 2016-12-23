@@ -51,11 +51,12 @@ public class DefaultFileDigestFactory implements FileDigestFactory
                 String.format(
                     "bufferSize (%d) should greater or equal to %d",
                         bufferSize,
-                        1024 )
+                        1024
+                        )
                 );
         }
 
-        this.algorithm = algorithm;
+        this.algorithm  = algorithm;
         this.bufferSize = bufferSize;
     }
 
@@ -126,6 +127,10 @@ public class DefaultFileDigestFactory implements FileDigestFactory
     @Override
     public String toString()
     {
-        return "DefaultFileDigestFactory [algorithm=" + this.algorithm + ", bufferSize=" + this.bufferSize + "]";
+        return "DefaultFileDigestFactory [algorithm="
+                + this.algorithm
+                + ", bufferSize="
+                + this.bufferSize
+                + ']';
     }
 }
