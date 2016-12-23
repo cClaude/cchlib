@@ -108,7 +108,7 @@ public class FileDigest
         )
     {
         this.computeDigestKeyStringBuilder.setLength( 0 );
-        FileDigestHelper.computeDigestKeyString( this.computeDigestKeyStringBuilder, digestKey );
+        FileDigestTools.computeDigestKeyString( this.computeDigestKeyStringBuilder, digestKey );
         return this.computeDigestKeyStringBuilder.toString();
     }
 
@@ -130,12 +130,11 @@ public class FileDigest
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public byte[] computeFile(
-            @Nonnull final File                file,
-            @Nonnull final FileDigestListener  listener
-            )
-        throws FileNotFoundException,
-               IOException,
-               CancelRequestException
+        @Nonnull final File                file,
+        @Nonnull final FileDigestListener  listener
+        ) throws FileNotFoundException,
+                 IOException,
+                 CancelRequestException
     {
         setFile( file, listener );
 
@@ -164,7 +163,10 @@ public class FileDigest
      * @throws FileNotFoundException NEEDDOC
      * @throws IllegalStateException NEEDDOC
      */
-    public void setFile( @Nonnull final File file, @Nonnull final FileDigestListener listener ) throws FileNotFoundException
+    public void setFile(
+        @Nonnull final File               file,
+        @Nonnull final FileDigestListener listener
+        ) throws FileNotFoundException
     {
         if( this.fis != null ) {
             // Previous resources not close. Expecting reset()
@@ -179,7 +181,7 @@ public class FileDigest
 
         this.mdd.reset();
         this.file = file;
-        this.fis = new FileInputStream(file);
+        this.fis  = new FileInputStream(file);
         this.fchannel = this.fis.getChannel();
         this.listener = listener;
         this.cancel = false;

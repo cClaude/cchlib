@@ -29,7 +29,7 @@ public abstract class Base {
         final byte[] digest = messageDigest.digest();
 
         sb.setLength( 0 );
-        FileDigestHelper.computeDigestKeyString( sb, digest );
+        FileDigestTools.computeDigestKeyString( sb, digest );
         return sb.toString();
     }
 }
