@@ -19,11 +19,6 @@ public final class Stats<K>
                 Locale.ENGLISH
                 );
     private SortedMap<Double,K> meanMap;
-    private final MessageFormat standDevMsgFmt
-      = new MessageFormat(
-                "  {0,number,#,##0} ns\t = {1}\n",
-                Locale.ENGLISH
-                );
     private SortedMap<Double,K> standDevMap;
 
     public Stats()
@@ -70,10 +65,11 @@ public final class Stats<K>
         sb.append( "Standard deviation:\n" );
 
         for( final Map.Entry<Double, K> entry : this.standDevMap.entrySet() ) {
-            params[ 0 ] = entry.getKey();
-            params[ 1 ] = entry.getValue().toString();
-
-            sb.append( this.standDevMsgFmt.format( params ) );
+            final Double k = entry.getKey();
+            final String v = entry.getValue().toString();
+            sb.append(
+                String.format( "%12.2f ns = %s%n", k, v )
+                );
         }
 
         return sb.toString();
@@ -104,14 +100,11 @@ public final class Stats<K>
      */
     private static final double sd( final double... values )
     {
-        double mean = 0d;
-
-        for( final double value : values ) {
-            mean += value;
+        if( values.length == 1 ) {
+            return Double.NaN;
         }
 
-        mean /= values.length;
-
+        final double mean = mean( values );
         double diffSquareTotal = 0d;
 
         for( final double value : values ) {

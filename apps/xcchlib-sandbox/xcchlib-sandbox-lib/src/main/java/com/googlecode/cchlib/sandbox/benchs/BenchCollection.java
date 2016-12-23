@@ -47,7 +47,7 @@ public class BenchCollection
             list.add( item );
         }
 
-        final long end = System.nanoTime();
+        final long end   = System.nanoTime();
         final long delay = end - begin;
 
         this.stats.get( label + ".add()" ).addDelay( delay );
