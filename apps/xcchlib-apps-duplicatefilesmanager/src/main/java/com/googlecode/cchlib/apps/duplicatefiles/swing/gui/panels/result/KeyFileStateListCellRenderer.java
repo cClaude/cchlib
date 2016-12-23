@@ -26,16 +26,21 @@ class KeyFileStateListCellRenderer
 
     private static final long       serialVersionUID     = 1L;
 
-    @I18nString private final String executableStr;
-    @I18nString private final String hiddenStr;
-    @I18nString private final String notExecutableStr;
-    @I18nString private final String notHiddenStr;
-    @I18nString private final String notReadableStr;
-    @I18nString private final String notWritableStr;
-    @I18nString private final String readableStr;
-    @I18nString private final String writableStr;
+    @I18nString private String executableStr;
+    @I18nString private String hiddenStr;
+    @I18nString private String notExecutableStr;
+    @I18nString private String notHiddenStr;
+    @I18nString private String notReadableStr;
+    @I18nString private String notWritableStr;
+    @I18nString private String readableStr;
+    @I18nString private String writableStr;
 
     public KeyFileStateListCellRenderer()
+    {
+        ensureNonFinalI18n();
+    }
+
+    private void ensureNonFinalI18n()
     {
         this.executableStr    = "Executable";
         this.notExecutableStr = "Not Executable";
@@ -101,11 +106,22 @@ class KeyFileStateListCellRenderer
         try {
             permStr = getPosixFilePermissions( path );
         }
+        catch( final NoSuchFileException e ) {
+            permStr = e.getMessage();
+
+            final String message = "File removed: " + path + " (" + e.getMessage() + ')';
+
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( message, e );
+            } else {
+                LOGGER.warn( message );
+            }
+        }
         catch( final IOException e ) {
             permStr = e.getMessage();
 
-            if( LOGGER.isDebugEnabled() ) {
-                LOGGER.debug( "Can not compute File Permissions of " + path, e );
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "Can not compute File Permissions of " + path + " (" + e.getMessage() + ')', e );
             }
         }
 
@@ -119,8 +135,19 @@ class KeyFileStateListCellRenderer
 
             return Enums.toString( perms );
         }
+        catch( final NoSuchFileException e ) {
+            final String message = "File removed: " + path + " (" + e.getMessage() + ')';
+
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( message, e );
+            } else {
+                LOGGER.warn( message );
+            }
+
+            throw e;
+        }
         catch( final UnsupportedOperationException e ) {
-            final String message = "Can not compute Posix File Permissions of " + path;
+            final String message = "Can not compute Posix File Permissions of " + path + " (" + e.getMessage() + ')';
 
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( message, e );
@@ -168,5 +195,4 @@ class KeyFileStateListCellRenderer
 
         return sb.toString();
     }
-
 }
