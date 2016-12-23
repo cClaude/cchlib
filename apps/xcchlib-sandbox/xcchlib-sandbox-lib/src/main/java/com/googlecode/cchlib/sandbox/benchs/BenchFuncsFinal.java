@@ -1,83 +1,79 @@
-/*
- ** -----------------------------------------------------------------------
- ** Nom           : cx/ath/choisnet/util/benchs/BenchFuncsFinal.java
- ** Description   :
- **
- **  3.02.039 2006.08.11 Claude CHOISNET - Version initiale
- ** -----------------------------------------------------------------------
- **
- ** cx.ath.choisnet.benchs.BenchFuncsFinal
- **
- */
-package cx.ath.choisnet.benchs;
+package com.googlecode.cchlib.sandbox.benchs;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
+import com.googlecode.cchlib.sandbox.benchs.tools.Stats;
 
-/*
- ** <p>
- ** .java cx.ath.choisnet.benchs.BenchFuncsFinal
- ** </p>
- **
- **
- ** @author  Claude CHOISNET
- ** @version 3.02.039
- **
+/**
+ * Small benchmark for 'final' qualifier.
+ *
+ * @since 3.02
  */
+@SuppressWarnings({"squid:S106"})
 public class BenchFuncsFinal
 {
-    private static final int           BENCH_COUNT   = 10;
-    private static final int           COMPUTE_COUNT = 500000;
+    private static final int BENCH_COUNT   = 10;
+    private static final int COMPUTE_COUNT = 500000;
 
-    private static final Stats<String> stats         = new Stats<>();
+    private static final Stats<String> stats = new Stats<>();
 
     private BenchFuncsFinal()
     {
         // App
     }
 
-    private static final <T> void appendFF( // ---------------------------------
-            final Collection<T> list, final T item )
+    private static final <T> void appendFunctionFinal(
+        final Collection<T> list,
+        final T             item
+        )
     {
         list.add( item );
     }
 
-    private static <T> void append_F( // ---------------------------------------
-            final Collection<T> list, final T item )
+    private static <T> void appendFunctionNonFinal(
+        final Collection<T> list,
+        final T             item
+        )
     {
         list.add( item );
     }
 
-    private static final <T> void benchFF( // ----------------------------------
-            final Collection<T> list, final T item, final String label )
+    private static final <T> void benchFunctionFinal(
+        final Collection<T> list,
+        final T             item,
+        final String        label
+        )
     {
         final long begin = System.nanoTime();
 
         for( int i = 0; i < COMPUTE_COUNT; i++ ) {
-            appendFF( list, item );
+            appendFunctionFinal( list, item );
         }
 
-        final long end = System.nanoTime();
+        final long end   = System.nanoTime();
         final long delay = end - begin;
 
-        stats.get( label + ".appendFF() : final method" ).addDelay( delay );
+        stats.get( label + ".appendFunctionFinal() : final method" ).addDelay( delay );
     }
 
-    private static <T> void bench_F( // ----------------------------------------
-            final Collection<T> list, final T item, final String label )
+    private static <T> void benchFunctionNonFinal(
+        final Collection<T> list,
+        final T             item,
+        final String        label
+        )
     {
         final long begin = System.nanoTime();
 
         for( int i = 0; i < COMPUTE_COUNT; i++ ) {
-            append_F( list, item );
+            appendFunctionNonFinal( list, item );
         }
 
-        final long end = System.nanoTime();
+        final long end   = System.nanoTime();
         final long delay = end - begin;
 
-        stats.get( label + ".append_F()" ).addDelay( delay );
+        stats.get( label + ".appendFunctionNonFinal()" ).addDelay( delay );
     }
 
     private static final void benchArrayListFile() // --------------------------
@@ -85,17 +81,17 @@ public class BenchFuncsFinal
         final File item = new File( "." );
         final String label = "ArrayList<File>()";
 
-        bench_F( new ArrayList<File>(), item, label );
-        benchFF( new ArrayList<File>(), item, label );
+        benchFunctionNonFinal( new ArrayList<File>(), item, label );
+        benchFunctionFinal( new ArrayList<File>(), item, label );
     }
 
     private static final void benchTreeSetLong() // ----------------------------
     {
-        final Long item = new Long( -1 );
+        final Long   item  = Long.valueOf( -1 );
         final String label = "TreeSet<Long>()";
 
-        bench_F( new TreeSet<Long>(), item, label );
-        benchFF( new TreeSet<Long>(), item, label );
+        benchFunctionNonFinal( new TreeSet<Long>(), item, label );
+        benchFunctionFinal( new TreeSet<Long>(), item, label );
     }
 
     private static final void benchVectorString() // ---------------------------
@@ -103,8 +99,8 @@ public class BenchFuncsFinal
         final String item = "String";
         final String label = "Vector<String>()";
 
-        bench_F( new java.util.Vector<String>(), item, label );
-        benchFF( new java.util.Vector<String>(), item, label );
+        benchFunctionNonFinal( new java.util.Vector<String>(), item, label );
+        benchFunctionFinal( new java.util.Vector<String>(), item, label );
     }
 
     private static final void printDot() // ------------------------------------
@@ -116,7 +112,6 @@ public class BenchFuncsFinal
     public static final void main( final String[] args ) // -------------------
     {
         for( int i = 0; i < BENCH_COUNT; i++ ) {
-
             benchArrayListFile();
             printDot();
             benchTreeSetLong();

@@ -1,58 +1,52 @@
-/*
-** -----------------------------------------------------------------------
-** Nom           : cx/ath/choisnet/util/benchs/BenchParamsFinal.java
-** Description   :
-**
-**  3.02.039 2006.08.11 Claude CHOISNET - Version initiale
-** -----------------------------------------------------------------------
-**
-** cx.ath.choisnet.benchs.BenchParamsFinal
-**
-*/
-package cx.ath.choisnet.benchs;
+package com.googlecode.cchlib.sandbox.benchs;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
 import java.util.Vector;
+import com.googlecode.cchlib.sandbox.benchs.tools.Stats;
 
-/*
- ** <p>
- ** .java cx.ath.choisnet.benchs.BenchParamsFinal
- ** </p>
- **
- **
- ** @author  Claude CHOISNET
- ** @version 3.02.039
- **
+/**
+ * Small benchmark for 'final' qualifier.
+ *
+ * @since 3.02
  */
+@SuppressWarnings({"squid:S106"})
 public class BenchParamsFinal
 {
-    private static final int           BENCH_COUNT   = 10;
-    private static final int           COMPUTE_COUNT = 500000;
+    private static final int BENCH_COUNT   = 10;
+    private static final int COMPUTE_COUNT = 500000;
 
-    private static final Stats<String> stats         = new Stats<>();
+    private static final Stats<String> stats = new Stats<>();
 
     private BenchParamsFinal()
     {
         // App
     }
 
-    private static final <T> void appendFF( // ---------------------------------
+    private static final <T> void appendFinalParameters(
         final Collection<T> list,
         final T             item
         )
     {
-        list.add( item );
+        if( item != null ) {
+            list.add( item );
+        }
     }
 
-    private static final <T> void appendF0( // ---------------------------------
-        final Collection<T> list,
-        final T             item
+    @SuppressWarnings({"squid:S1854", "null", "squid:S1226"})
+    private static final <T> void appendNonFinalParameters(
+        Collection<T> list,
+        T             item
         )
     {
-        list.add( item );
+        if( item != null ) {
+            list.add( item );
+        } else {
+            list = null; // ensure not final
+            item = null; // ensure not final
+        }
     }
 
     private static final <T> void benchF0( // ----------------------------------
@@ -64,13 +58,13 @@ public class BenchParamsFinal
         final long begin = System.nanoTime();
 
         for( int i = 0; i < COMPUTE_COUNT; i++ ) {
-            appendF0( list, item );
+            appendNonFinalParameters( list, item );
         }
 
         final long end   = System.nanoTime();
         final long delay = end - begin;
 
-        stats.get( label + ".appendF_()" ).addDelay( delay );
+        stats.get( label + ".appendNonFinalParameters()" ).addDelay( delay );
     }
 
     private static final <T> void benchFF( // ----------------------------------
@@ -82,13 +76,13 @@ public class BenchParamsFinal
         final long begin = System.nanoTime();
 
         for( int i = 0; i < COMPUTE_COUNT; i++ ) {
-            appendFF( list, item );
+            appendFinalParameters( list, item );
         }
 
         final long end   = System.nanoTime();
         final long delay = end - begin;
 
-        stats.get( label + ".appendFF()" ).addDelay( delay );
+        stats.get( label + ".appendFinalParameters()" ).addDelay( delay );
     }
 
     private static final void benchArrayListFile() // --------------------------
@@ -127,7 +121,6 @@ public class BenchParamsFinal
     public static final void main( final String[] args ) // -------------------
     {
         for( int i = 0; i < BENCH_COUNT; i++ ) {
-
             benchArrayListFile();
             printDot();
             benchTreeSetLong();

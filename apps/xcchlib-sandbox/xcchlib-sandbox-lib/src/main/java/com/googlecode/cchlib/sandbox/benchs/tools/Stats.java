@@ -1,51 +1,39 @@
-/*
-** -----------------------------------------------------------------------
-** Nom           : cx/ath/choisnet/util/benchs/Stats.java
-** Description   :
-**
-**  3.02.039 2006.08.11 Claude CHOISNET - Version initiale
-** -----------------------------------------------------------------------
-**
-** cx.ath.choisnet.benchs.Stats
-**
-*/
-package cx.ath.choisnet.benchs;
+package com.googlecode.cchlib.sandbox.benchs.tools;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-/*
-**
-** @author  Claude CHOISNET
-** @version 3.02.039
-*/
+/**
+ * @since 3.02
+ */
 public final class Stats<K>
 {
     private final Map<K,StatsEntry> map;
     private final MessageFormat meanMsgFmt
       = new MessageFormat(
                 "  {0,number,#,##0} ns\t = {1}\n",
-                java.util.Locale.ENGLISH
+                Locale.ENGLISH
                 );
     private SortedMap<Double,K> meanMap;
     private final MessageFormat standDevMsgFmt
       = new MessageFormat(
                 "  {0,number,#,##0} ns\t = {1}\n",
-                java.util.Locale.ENGLISH
+                Locale.ENGLISH
                 );
     private SortedMap<Double,K> standDevMap;
 
-    public Stats() // ---------------------------------------------------------
+    public Stats()
     {
         this.map         = new HashMap<>();
         this.standDevMap = null;
         this.meanMap     = null;
     }
 
-    public StatsEntry get( final K key ) // -----------------------------------------
+    public StatsEntry get( final K key )
     {
         StatsEntry entry = this.map.get( key );
 
@@ -91,7 +79,7 @@ public final class Stats<K>
         return sb.toString();
     }
 
-    public void compute() // --------------------------------------------------
+    private void compute()
     {
         if( (this.standDevMap != null) && (this.meanMap != null) ) {
             //
@@ -114,7 +102,7 @@ public final class Stats<K>
     /**
      ** Standard deviation - écart type
      */
-    public static final double sd( final double... values ) // ----------------------
+    private static final double sd( final double... values )
     {
         double mean = 0d;
 
@@ -141,7 +129,7 @@ public final class Stats<K>
     /**
      ** mean - moyenne
      */
-    public static final double mean( final double... values ) // --------------------
+    private static final double mean( final double... values )
     {
         double mean = 0d;
 

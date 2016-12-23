@@ -1,35 +1,21 @@
-/*
- ** -----------------------------------------------------------------------
- ** Nom           : cx/ath/choisnet/util/benchs/BenchFinal.java
- ** Description   :
- **
- **  3.02.039 2006.08.11 Claude CHOISNET - Version initiale
- ** -----------------------------------------------------------------------
- **
- ** cx.ath.choisnet.benchs.BenchFinal
- **
- */
-package cx.ath.choisnet.benchs;
+package com.googlecode.cchlib.sandbox.benchs;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import com.googlecode.cchlib.sandbox.benchs.tools.Stats;
 
-/*
- ** <p>
- ** .java cx.ath.choisnet.benchs.BenchFinal
- ** </p>
- **
- **
- ** @author  Claude CHOISNET
- ** @version 3.02.039
- **
+/**
+ * Small benchmark for 'final' qualifier.
+ *
+ * @since 3.02
  */
+@SuppressWarnings({"squid:S106"})
 public class BenchFinal
 {
     private static final int           BENCH_COUNT   = 50;
     private static final int           COMPUTE_COUNT = 50000;
 
-    private static final Stats<String> stats         = new Stats<String>();
+    private static final Stats<String> stats         = new Stats<>();
 
     private BenchFinal()
     {
@@ -38,6 +24,7 @@ public class BenchFinal
 
     private static final void benchStringBuffer() // ---------------------------
     {
+        @SuppressWarnings({"squid:S1149","squid:S1854"})
         StringBuffer sb = null; // ensure non final
         sb = new StringBuffer();
 
@@ -55,6 +42,7 @@ public class BenchFinal
 
     private static final void benchFStringBuffer() // --------------------------
     {
+        @SuppressWarnings("squid:S1149")
         final StringBuffer sb = new StringBuffer();
 
         final long begin = System.nanoTime();
@@ -71,6 +59,7 @@ public class BenchFinal
 
     private static final void benchStringBuilder() // --------------------------
     {
+        @SuppressWarnings("squid:S1854")
         StringBuilder sb = null; // ensure non final
         sb = new StringBuilder();
 
@@ -104,6 +93,7 @@ public class BenchFinal
 
     private static final void benchArrayList() // ------------------------------
     {
+        @SuppressWarnings("squid:S1854")
         ArrayList<String> sb = null; // ensure non final
         sb = new ArrayList<>();
 
@@ -121,7 +111,7 @@ public class BenchFinal
 
     private static final void benchFArrayList() // -----------------------------
     {
-        final ArrayList<String> sb = new ArrayList<String>();
+        final ArrayList<String> sb = new ArrayList<>();
 
         final long begin = System.nanoTime();
 
@@ -137,6 +127,7 @@ public class BenchFinal
 
     public static final void benchLinkedList() // ------------------------------
     {
+        @SuppressWarnings("squid:S1854")
         LinkedList<String> sb = null; // ensure non final
         sb = new LinkedList<>();
 
@@ -154,7 +145,7 @@ public class BenchFinal
 
     private static final void benchFLinkedList() // -----------------------------
     {
-        final LinkedList<String> sb = new LinkedList<String>();
+        final LinkedList<String> sb = new LinkedList<>();
 
         final long begin = System.nanoTime();
 

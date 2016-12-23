@@ -1,40 +1,29 @@
-/*
-** -----------------------------------------------------------------------
-** Nom           : cx/ath/choisnet/util/benchs/BenchString.java
-** Description   :
-**
-**  3.02.039 2006.08.11 Claude CHOISNET - Version initiale
-** -----------------------------------------------------------------------
-**
-** cx.ath.choisnet.benchs.BenchString
-**
-*/
-package cx.ath.choisnet.benchs;
+package com.googlecode.cchlib.sandbox.benchs;
 
-/*
- ** <p>
- ** .java cx.ath.choisnet.benchs.BenchString
- ** </p>
- **
- **
- ** @author  Claude CHOISNET
- ** @version 3.02.039
- **
+import com.googlecode.cchlib.sandbox.benchs.tools.Stats;
+
+/**
+ * Small benchmark for Strings.
+ *
+ * @since 3.02
  */
+@SuppressWarnings({"squid:S106"})
 public final class BenchString
 {
-    private static final int           BENCH_COUNT   = 5;
-    private static final int           COMPUTE_COUNT = 20000;
+    private static final int BENCH_COUNT   = 5;
+    private static final int COMPUTE_COUNT = 20000;
 
-    private static final Stats<String> stats         = new Stats<>();
+    private static final Stats<String> stats = new Stats<>();
 
     private BenchString()
     {
         // App
     }
 
+    @SuppressWarnings("squid:S1643")
     private static final void benchString() // ---------------------------------
     {
+        @SuppressWarnings({ "squid:S1481", "unused" })
         String s = "";
 
         final long begin = System.nanoTime();
@@ -51,6 +40,7 @@ public final class BenchString
 
     private static final void benchStringBuffer() // ---------------------------
     {
+        @SuppressWarnings("squid:S1149")
         final StringBuffer sb = new StringBuffer();
 
         final long begin = System.nanoTime();
@@ -90,7 +80,6 @@ public final class BenchString
     public static final void main( final String[] args ) // -------------------
     {
         for( int i = 0; i < BENCH_COUNT; i++ ) {
-
             benchString();
             printDot();
             benchStringBuffer();

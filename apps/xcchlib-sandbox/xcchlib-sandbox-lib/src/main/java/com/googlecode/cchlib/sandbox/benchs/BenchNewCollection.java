@@ -1,36 +1,25 @@
-/*
-** -----------------------------------------------------------------------
-** Nom           : cx/ath/choisnet/util/benchs/BenchNewCollection.java
-** Description   :
-**
-**  3.02.039 2006.08.11 Claude CHOISNET - Version initiale
-** -----------------------------------------------------------------------
-**
-** cx.ath.choisnet.benchs.BenchNewCollection
-**
-*/
-package cx.ath.choisnet.benchs;
+package com.googlecode.cchlib.sandbox.benchs;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Vector;
+import com.googlecode.cchlib.sandbox.benchs.tools.Stats;
 
-/*
- ** <p>
- ** .java cx.ath.choisnet.benchs.BenchNewCollection
- ** </p>
- **
- **
- ** @author  Claude CHOISNET
- ** @version 3.02.039
- **
+/**
+ * Small benchmark for Collections.
+ *
+ * @since 3.02
  */
+@SuppressWarnings({"squid:S106"})
 public class BenchNewCollection
 {
-    private static final int           BENCH_COUNT   = 10;
-    private static final int           COMPUTE_COUNT = 500000;
-    private static final Stats<String> stats         = new Stats<>();
+    private static final int BENCH_COUNT   = 10;
+    private static final int COMPUTE_COUNT = 500000;
+
+    private static final Stats<String> stats = new Stats<>();
+
+    private static final LinkedList<Collection<?>> objects = new LinkedList<>();
 
     private BenchNewCollection()
     {
@@ -39,47 +28,57 @@ public class BenchNewCollection
 
     private static final void benchNewVector( final int computeCount )
     {
+        objects.clear();
         final long begin = System.nanoTime();
 
         for( int i = 0; i < computeCount; i++ ) {
-            @SuppressWarnings("unused")
+            @SuppressWarnings("squid:S1149")
             final Collection<String> list = new Vector<>();
+
+            objects.add( list );
         }
 
         final long end   = System.nanoTime();
         final long delay = end - begin;
 
         stats.get( "new Vector<String>()" ).addDelay( delay );
+        objects.clear();
     }
 
     private static final void benchNewArrayList( final int computeCount )
     {
+        objects.clear();
         final long begin = System.nanoTime();
 
         for( int i = 0; i < computeCount; i++ ) {
-            @SuppressWarnings("unused")
             final Collection<String> list = new ArrayList<>();
+
+            objects.add( list );
         }
 
         final long end   = System.nanoTime();
         final long delay = end - begin;
 
         stats.get( "new ArrayList<String>()" ).addDelay( delay );
+        objects.clear();
     }
 
     private static final void benchNewLinkedList( final int computeCount )
     {
+        objects.clear();
         final long begin = System.nanoTime();
 
         for( int i = 0; i < computeCount; i++ ) {
-            @SuppressWarnings("unused")
             final Collection<String> list = new LinkedList<>();
+
+            objects.add( list );
         }
 
         final long end   = System.nanoTime();
         final long delay = end - begin;
 
         stats.get( "new LinkedList<String>()" ).addDelay( delay );
+        objects.clear();
     }
 
     private static final void printDot() // ------------------------------------
