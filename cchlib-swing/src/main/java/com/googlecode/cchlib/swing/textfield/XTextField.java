@@ -8,7 +8,7 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
- * e<B>X</B>tended <B>TextField</B> is a JTextField with extra features...
+ * e<B>X</B>tended <B>TextField</B> is a {@link JTextField} with extra features...
  * <ul>
  * <li>Copy/Paste support using context menu</li>
  * </ul>
