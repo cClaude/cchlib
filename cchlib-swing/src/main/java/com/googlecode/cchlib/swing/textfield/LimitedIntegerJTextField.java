@@ -6,10 +6,12 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.swing.textfield.IntegerTextLimiter.Limits;
 
 /**
- * NEEDDOC
+ * {@link LimitedIntegerJTextField} is a {@link JTextField} with
+ * copy/paste ({@link XTextField}) support and limit content text
+ * to an positive integer.
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
-public class LimitedIntegerJTextField extends JTextField implements Limits
+public class LimitedIntegerJTextField extends XTextField implements Limits
 {
     private static final long serialVersionUID = 1L;
 
@@ -30,7 +32,8 @@ public class LimitedIntegerJTextField extends JTextField implements Limits
     }
 
     /**
-     * TextField that is limited to integer values, and limit this integer to an maxValue, radix is set to 10.
+     * TextField that is limited to integer values, and limit this integer to an
+     * maxValue, radix is set to 10.
      *
      * @param maxValue
      *            maxValue for current JTextField, range [0...maxValue]
@@ -63,7 +66,7 @@ public class LimitedIntegerJTextField extends JTextField implements Limits
         setMaxValue( maxValue );
 
         final AbstractDocument doc = (AbstractDocument)getDocument();
-        doc.setDocumentFilter(new IntegerTextLimiter(this));
+        doc.setDocumentFilter( new IntegerTextLimiter(this) );
     }
 
     /**
@@ -132,9 +135,12 @@ public class LimitedIntegerJTextField extends JTextField implements Limits
     }
 
     /**
-     * NEEDDOC
-     * @param value NEEDDOC
-     * @throws IllegalArgumentException NEEDDOC
+     * Sets the text of this TextComponent to the specified {@code value}
+     *
+     * @param value
+     *            Value to set
+     * @throws IllegalArgumentException
+     *             if {@code value} is negative or greater than {@link #getMaxValue()}
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setValue( final int value ) throws IllegalArgumentException
