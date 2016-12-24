@@ -22,19 +22,23 @@ public class Preferences extends PreferencesData implements Serializable
     private static final Logger LOGGER = Logger.getLogger( Preferences.class );
     private static final long serialVersionUID = 3L;
 
-    private static final String  DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
-    private static final boolean LOAD               = false;
-    private static final boolean SAVE               = true;
+    private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
 
-    private final PropertiesPopulator<Preferences> pp = new PropertiesPopulator<>(Preferences.class);
-    private final File preferencesFile;
+    private final PropertiesPopulator<PreferencesData> pp;
+    private final File                                 preferencesFile;
+
+    private Preferences( final File preferencesFile )
+    {
+        this.pp              = new PropertiesPopulator<>( PreferencesData.class );
+        this.preferencesFile = preferencesFile;
+    }
 
     /**
      * Build default preferences (file not found)
      */
     private Preferences()
     {
-        this.preferencesFile = createPropertiesFile( SAVE );
+        this( createPropertiesFile( LoadSave.SAVE ) );
     }
 
     /**
@@ -47,27 +51,34 @@ public class Preferences extends PreferencesData implements Serializable
         final Properties    properties
         )
     {
-        this.preferencesFile = preferencesFile;
+        this( preferencesFile );
 
         this.pp.populateBean( properties, this );
     }
 
     /**
      * Returns properties {@link File} object
+     * @param loadSave Action
      * @return properties {@link File} object
      */
-    private static File createPropertiesFile( final boolean save )
+    private static File createPropertiesFile( final LoadSave loadSave )
     {
         final File configFile = FileHelper.getUserConfigDirectoryFile( DEFAULT_PREFS_FILE );
 
-        if( save ) {
+        if( loadSave == LoadSave.SAVE ) {
             return configFile;
         } else {
             if( configFile.exists() ) {
                 return configFile;
             } else {
                 // Obsolete location
-                return FileHelper.getUserHomeDirectoryFile( DEFAULT_PREFS_FILE );
+                final File obsolete = FileHelper.getUserHomeDirectoryFile( "." + DEFAULT_PREFS_FILE );
+
+                if( obsolete.exists() ) {
+                    return obsolete;
+                }
+
+                return configFile;
             }
         }
     }
@@ -98,7 +109,7 @@ public class Preferences extends PreferencesData implements Serializable
     public static Preferences createPreferences()
     {
         // Try to load pref
-        final File preferencesFile = createPropertiesFile( LOAD );
+        final File preferencesFile = createPropertiesFile( LoadSave.LOAD );
 
         try {
             return new Preferences(
@@ -121,7 +132,7 @@ public class Preferences extends PreferencesData implements Serializable
             }
         }
         catch( final IOException e ) {
-            final String msg = "Cannot load preferences: " + preferencesFile;
+            final String msg = "Can not load preferences: " + preferencesFile;
 
             LOGGER.warn( msg, e );
 
@@ -140,12 +151,13 @@ public class Preferences extends PreferencesData implements Serializable
     {
         final Properties properties = new Properties();
 
+        LOGGER.info( "Properties.size() = " + properties.size() );
         this.pp.populateProperties( this, properties );
+        LOGGER.info( "Properties.size() = " + properties.size() );
 
-        // final File prefs = getPreferencesFile(); Config file migration
-        final File prefs = createPropertiesFile( SAVE );
-        PropertiesHelper.saveProperties(prefs, properties, StringHelper.EMPTY );
-        LOGGER.info( "Preferences saved in " + prefs );
+        final File configFile = createPropertiesFile( LoadSave.SAVE );
+        PropertiesHelper.saveProperties( configFile, properties, StringHelper.EMPTY );
+        LOGGER.info( "Preferences saved in " + configFile );
     }
 
     /**
@@ -163,7 +175,7 @@ public class Preferences extends PreferencesData implements Serializable
     {
         String lnfClassname = getLookAndFeelClassName();
 
-        if( lnfClassname == null ) {
+        if( StringHelper.isNullOrEmpty( lnfClassname ) ) {
             lnfClassname = UIManager.getCrossPlatformLookAndFeelClassName();
             }
 
