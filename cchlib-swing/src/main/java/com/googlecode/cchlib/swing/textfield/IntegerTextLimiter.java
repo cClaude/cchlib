@@ -58,9 +58,10 @@ class IntegerTextLimiter extends DocumentFilter
          * @param value
          *            Value to set
          * @throws IllegalArgumentException
-         *             if {@code value} is negative or greater than {@link #getMaxValue()}
+         *             if {@code value} is smaller than {@link #getMinimum()} or
+         *             greater than {@link #getMaximum()}
          */
-        void setValue( @Nonnegative int currentValue );
+        void setValue( @Nonnegative int value );
     }
 
     private static final Logger LOGGER = Logger.getLogger( IntegerTextLimiter.class );

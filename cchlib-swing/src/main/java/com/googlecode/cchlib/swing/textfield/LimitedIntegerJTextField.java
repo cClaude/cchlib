@@ -271,8 +271,8 @@ public class LimitedIntegerJTextField extends XTextField
      * @param radix the radix
      * @return this component for initialization chaining
      * @throws IllegalArgumentException The radix is either smaller than
-     *          @java.lang.Character.MIN_RADIX or larger than
-     *          java.lang.Character.MAX_RADIX.
+     *          {@link Character#MIN_RADIX} or larger than
+     *          {@link Character#MAX_RADIX}
      * @see Character#digit(char, int)
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
