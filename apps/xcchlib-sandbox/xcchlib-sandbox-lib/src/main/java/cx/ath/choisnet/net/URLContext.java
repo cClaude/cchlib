@@ -42,13 +42,6 @@ public class URLContext implements Serializable
         init( context, null );
     }
 
-    /**
-     **
-     ** @param context
-     *            URLContext
-     ** @param proxy
-     **
-     */
     public URLContext( final URLContext context, final Proxy proxy )
     {
         init( context, proxy );
@@ -103,8 +96,9 @@ public class URLContext implements Serializable
 
     /**
      *
-    * @throws IOException NEEDDOC
-     *
+     * @param url NEEDDOC
+     * @return NEEDDOC
+     * @throws IOException NEEDDOC
      * @see #openConnection(URL)
      */
     public HttpURLConnection openHttpConnection( final URL url )
