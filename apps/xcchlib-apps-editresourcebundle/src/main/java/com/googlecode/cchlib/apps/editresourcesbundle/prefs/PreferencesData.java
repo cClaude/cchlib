@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import java.awt.Dimension;
@@ -12,47 +11,50 @@ import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.util.properties.Populator;
 
 //NOT public
-class PreferencesData implements Serializable // $codepro.audit.disable largeNumberOfMethods, largeNumberOfFields
+@SuppressWarnings({"squid:S00100","squid:S00116"})
+class PreferencesData implements Serializable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( PreferencesData.class );
-    private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-    private static final int COMPARE_FRAME_MIN_HEIGHT = 400;
-    private static final int COMPARE_FRAME_MIN_WIDTH = 600;
 
-    @Populator
+    private static final String DEFAULT_LOOK_AND_FEEL = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+
+    private static final int COMPARE_FRAME_MIN_HEIGHT = 400;
+    private static final int COMPARE_FRAME_MIN_WIDTH  = 600;
+
+    @Populator(defaultValue=DEFAULT_LOOK_AND_FEEL)
     private String lookAndFeelClassName;
-    @Populator
+    @Populator(defaultValueIsNull=true)
     private String localeLanguage;
-    @Populator
+    @Populator(defaultValue="600")
     private int windowWidth;
-    @Populator
+    @Populator(defaultValue="300")
     private int windowHeight;
     @Populator
     private boolean multiLineEditorLineWrap;
     @Populator
     private boolean multiLineEditorWordWrap;
-    @Populator
+    @Populator(defaultValue="200")
     private int multiLineEditorDimension_width;
-    @Populator
+    @Populator(defaultValue="200")
     private int multiLineEditorDimension_height;
     @Populator
     private boolean htmlPreview_W3C_LENGTH_UNITS;
     @Populator
     private boolean htmlPreview_HONOR_DISPLAY_PROPERTIES;
-    @Populator
+    @Populator(defaultValue="200")
     private int htmlPreviewDimension_width;
-    @Populator
+    @Populator(defaultValue="200")
     private int htmlPreviewDimension_height;
-    @Populator
+    @Populator(defaultValueIsNull=true)
     private String lastDirectory;
-    @Populator
+    @Populator(defaultValue="2")
     private int numberOfFiles;
 
     protected PreferencesData()
     {
         this.lookAndFeelClassName = DEFAULT_LOOK_AND_FEEL;
-        this.localeLanguage = null;
+        this.localeLanguage       = null;
    }
 
     public boolean isHTMLPreview_HONOR_DISPLAY_PROPERTIES()
@@ -74,7 +76,7 @@ class PreferencesData implements Serializable // $codepro.audit.disable largeNum
             this.htmlPreviewDimension_height = 100;
             }
 
-        return new Dimension( htmlPreviewDimension_width, htmlPreviewDimension_height );
+        return new Dimension( this.htmlPreviewDimension_width, this.htmlPreviewDimension_height );
     }
 
     public File getLastDirectory()
@@ -117,7 +119,7 @@ class PreferencesData implements Serializable // $codepro.audit.disable largeNum
             this.multiLineEditorDimension_height = 100;
             }
 
-        return new Dimension( multiLineEditorDimension_width, multiLineEditorDimension_height );
+        return new Dimension( this.multiLineEditorDimension_width, this.multiLineEditorDimension_height );
     }
 
     public boolean isMultiLineEditorLineWrap()
@@ -132,15 +134,15 @@ class PreferencesData implements Serializable // $codepro.audit.disable largeNum
 
     public int getNumberOfFiles()
     {
-        if( numberOfFiles < 2 ) {
-            LOGGER.warn( "(fix) Illegal value for numberOfFiles:" + numberOfFiles );
-            numberOfFiles = 2;
+        if( this.numberOfFiles < 2 ) {
+            LOGGER.warn( "(fix) Illegal value for numberOfFiles:" + this.numberOfFiles );
+            this.numberOfFiles = 2;
             }
-        else if( numberOfFiles > 10 ) {
-            LOGGER.warn( "(fix) Illegal value for numberOfFiles:" + numberOfFiles );
-            numberOfFiles = 10;
+        else if( this.numberOfFiles > 10 ) {
+            LOGGER.warn( "(fix) Illegal value for numberOfFiles:" + this.numberOfFiles );
+            this.numberOfFiles = 10;
             }
-        return numberOfFiles;
+        return this.numberOfFiles;
     }
 
     public Dimension getWindowDimension()
@@ -229,12 +231,10 @@ class PreferencesData implements Serializable // $codepro.audit.disable largeNum
 
     public void setNumberOfFiles( final int numberOfFiles )
     {
-        if( numberOfFiles < 2 ) {
-            LOGGER.warn( "Illegal value for numberOfFiles:" + numberOfFiles );
+        if( (numberOfFiles < 2) || (numberOfFiles > 10) ) {
+            LOGGER.warn( "Illegal value for numberOfFiles:  2 <= " + numberOfFiles + " <= 10 ");
             }
-        else if( numberOfFiles > 10 ) {
-            LOGGER.warn( "Illegal value for numberOfFiles:" + numberOfFiles );
-            }
+
         this.numberOfFiles = numberOfFiles;
     }
 
@@ -254,33 +254,33 @@ class PreferencesData implements Serializable // $codepro.audit.disable largeNum
     {
         final StringBuilder builder = new StringBuilder();
         builder.append( "PreferencesData [lookAndFeelClassName=" );
-        builder.append( lookAndFeelClassName );
+        builder.append( this.lookAndFeelClassName );
         builder.append( ", localeLanguage=" );
-        builder.append( localeLanguage );
+        builder.append( this.localeLanguage );
         builder.append( ", windowWidth=" );
-        builder.append( windowWidth );
+        builder.append( this.windowWidth );
         builder.append( ", windowHeight=" );
-        builder.append( windowHeight );
+        builder.append( this.windowHeight );
         builder.append( ", multiLineEditorLineWrap=" );
-        builder.append( multiLineEditorLineWrap );
+        builder.append( this.multiLineEditorLineWrap );
         builder.append( ", multiLineEditorWordWrap=" );
-        builder.append( multiLineEditorWordWrap );
+        builder.append( this.multiLineEditorWordWrap );
         builder.append( ", multiLineEditorDimension_width=" );
-        builder.append( multiLineEditorDimension_width );
+        builder.append( this.multiLineEditorDimension_width );
         builder.append( ", multiLineEditorDimension_height=" );
-        builder.append( multiLineEditorDimension_height );
+        builder.append( this.multiLineEditorDimension_height );
         builder.append( ", htmlPreview_W3C_LENGTH_UNITS=" );
-        builder.append( htmlPreview_W3C_LENGTH_UNITS );
+        builder.append( this.htmlPreview_W3C_LENGTH_UNITS );
         builder.append( ", htmlPreview_HONOR_DISPLAY_PROPERTIES=" );
-        builder.append( htmlPreview_HONOR_DISPLAY_PROPERTIES );
+        builder.append( this.htmlPreview_HONOR_DISPLAY_PROPERTIES );
         builder.append( ", htmlPreviewDimension_width=" );
-        builder.append( htmlPreviewDimension_width );
+        builder.append( this.htmlPreviewDimension_width );
         builder.append( ", htmlPreviewDimension_height=" );
-        builder.append( htmlPreviewDimension_height );
+        builder.append( this.htmlPreviewDimension_height );
         builder.append( ", lastDirectory=" );
-        builder.append( lastDirectory );
+        builder.append( this.lastDirectory );
         builder.append( ", numberOfFiles=" );
-        builder.append( numberOfFiles );
+        builder.append( this.numberOfFiles );
         builder.append( ']' );
         return builder.toString();
     }
