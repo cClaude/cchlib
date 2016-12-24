@@ -26,6 +26,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.JFrames;
 import com.googlecode.cchlib.swing.filechooser.DefaultJFCCustomizer;
@@ -44,8 +45,83 @@ public final class CompareResourcesBundleFrame
     extends CompareResourcesBundleFrameWB
         implements I18nAutoCoreUpdatable
 {
+    private class FrameActionListener implements ActionListener, Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void actionPerformed( final ActionEvent event )
+        {
+            final String  actionCommandString = event.getActionCommand();
+            final Integer index               = CompareResourcesBundleFrameAction.ACTIONCMD_SAVE_RIGHT_PREFIX.getIndex( actionCommandString );
+
+            if( index != null ) {
+                saveFile( index.intValue() + 1 );
+                }
+            else {
+                final CompareResourcesBundleFrameAction action = CompareResourcesBundleFrameAction.valueOf( actionCommandString );
+
+                action.doAction( CompareResourcesBundleFrame.this );
+/*
+                switch( action ) {
+                    case ACTIONCMD_OPEN:
+                        jMenuItem_Open();
+                        break;
+
+                    case ACTIONCMD_PREFS:
+                        openPreferences();
+                        break;
+
+                    case ACTIONCMD_QUIT:
+                        dispose();
+                        break;
+
+                    case ACTIONCMD_SAVE_ALL:
+                        saveAll();
+                        break;
+
+                    case ACTIONCMD_SAVE_LEFT:
+                        saveFile( 0 );
+                        break;
+
+                    case ACTIONCMD_SAVE_RIGHT_PREFIX:
+                        // should not occur
+                        break;
+                }
+*/
+            }
+        }
+    }
+
+    private final class MyDefaultJFCCustomizer extends DefaultJFCCustomizer
+    {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public void perfomeConfig( final JFileChooser jfc )
+        {
+            super.perfomeConfig( jfc );
+
+            jfc.setAccessory(
+                new TabbedAccessory()
+                    .addTabbedAccessory(
+                        new BookmarksAccessory(
+                            jfc,
+                            new DefaultBookmarksAccessoryConfigurator()
+                            )
+                        )
+                     .addTabbedAccessory(
+                         new LastSelectedFilesAccessory(
+                             jfc,
+                             CompareResourcesBundleFrame.this.lastSelectedFilesAccessoryDefaultConfigurator
+                             )
+                         )
+                );
+        }
+    }
+
     private static final Logger LOGGER = Logger.getLogger(CompareResourcesBundleFrame.class);
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private FilesConfig filesConfig;
     private CompareResourcesBundleTableModel tableModel;
@@ -215,31 +291,8 @@ public final class CompareResourcesBundleFrame
     public JFileChooserInitializer getJFileChooserInitializer()
     {
         if( this.jFileChooserInitializer == null ) {
-            final DefaultJFCCustomizer configurator = new DefaultJFCCustomizer()
-            {
-                private static final long serialVersionUID = 1L;
-                @Override
-                public void perfomeConfig(final JFileChooser jfc)
-                {
-                    super.perfomeConfig( jfc );
+            final DefaultJFCCustomizer configurator = new MyDefaultJFCCustomizer();
 
-                    jfc.setAccessory(
-                        new TabbedAccessory()
-                            .addTabbedAccessory(
-                                new BookmarksAccessory(
-                                    jfc,
-                                    new DefaultBookmarksAccessoryConfigurator()
-                                    )
-                                )
-                             .addTabbedAccessory(
-                                 new LastSelectedFilesAccessory(
-                                     jfc,
-                                     CompareResourcesBundleFrame.this.lastSelectedFilesAccessoryDefaultConfigurator
-                                     )
-                                 )
-                        );
-                }
-            };
             configurator.setFileFilter(
                 new FileNameExtensionFilter(
                         "Properties",
@@ -325,28 +378,38 @@ public final class CompareResourcesBundleFrame
         }
     }
 
-    private void jMenuItem_Open()
+    void saveAll()
     {
-        new Thread( ( ) -> {
-            // TODO: close prev
-            closeContent();
+        for( int i = 0; i<CompareResourcesBundleFrame.this.filesConfig.getNumberOfFiles(); i++ ) {
+            saveFile( i );
+            }
+    }
 
-            final FilesConfig fc     = new FilesConfig(this.filesConfig);
-            fc.setNumberOfFiles( this.preferences.getNumberOfFiles() );
+    void jMenuItem_Open()
+    {
+        Threads.start( "jMenuItemOpenAsync()", this::jMenuItemOpenAsync );
+    }
 
-            final LoadDialog  dialog = new LoadDialog(
-                    CompareResourcesBundleFrame.this,
-                    fc
-                    );
-            dialog.performeI18n(this.autoI18n);
-            dialog.setModal( true );
-            dialog.setVisible( true );
+    private void jMenuItemOpenAsync()
+    {
+        // TODO: close prev
+        closeContent();
 
-            if( fc.isFilesExists() ) {
-                this.filesConfig = fc;
-                updateDisplay();
-                }
-        }, "jMenuItem_Open()").start();
+        final FilesConfig fc     = new FilesConfig(this.filesConfig);
+        fc.setNumberOfFiles( this.preferences.getNumberOfFiles() );
+
+        final LoadDialog  dialog = new LoadDialog(
+                CompareResourcesBundleFrame.this,
+                fc
+                );
+        dialog.performeI18n(this.autoI18n);
+        dialog.setModal( true );
+        dialog.setVisible( true );
+
+        if( fc.isFilesExists() ) {
+            this.filesConfig = fc;
+            updateDisplay();
+            }
     }
 
     @Override
@@ -359,52 +422,7 @@ public final class CompareResourcesBundleFrame
         return this.frameActionListener;
     }
 
-    private class FrameActionListener implements ActionListener, Serializable
-    {
-        private static final long serialVersionUID = 1L;
 
-        @Override
-        public void actionPerformed( final ActionEvent event )
-        {
-            final String  actionCommandString = event.getActionCommand();
-            final Integer index               = CompareResourcesBundleFrameAction.ACTIONCMD_SAVE_RIGHT_PREFIX.getIndex( actionCommandString );
-
-            if( index != null ) {
-                saveFile( index.intValue() + 1 );
-                }
-            else {
-                final CompareResourcesBundleFrameAction action = CompareResourcesBundleFrameAction.valueOf( actionCommandString );
-
-                switch( action ) {
-                    case ACTIONCMD_OPEN:
-                        jMenuItem_Open();
-                        break;
-
-                    case ACTIONCMD_PREFS:
-                        openPreferences();
-                        break;
-
-                    case ACTIONCMD_QUIT:
-                        dispose();
-                        break;
-
-                    case ACTIONCMD_SAVE_ALL:
-                        for( int i = 0; i<CompareResourcesBundleFrame.this.filesConfig.getNumberOfFiles(); i++ ) {
-                            saveFile( i );
-                            }
-                        break;
-
-                    case ACTIONCMD_SAVE_LEFT:
-                        saveFile( 0 );
-                        break;
-
-                    case ACTIONCMD_SAVE_RIGHT_PREFIX:
-                        // should not occur
-                        break;
-                }
-            }
-        }
-    }
 
     /**
      * I18n this frame !
