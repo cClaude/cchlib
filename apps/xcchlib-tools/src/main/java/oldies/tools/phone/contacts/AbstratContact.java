@@ -5,20 +5,14 @@ import java.util.LinkedList;
 
 /**
  * AbstractContact try to unify all contact's formats
- *
  */
 public abstract class AbstratContact implements Contact, Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private ContactProperties contactProperties;
-    private LinkedList<String> values;
+    private final ContactProperties contactProperties;
+    private final LinkedList<String> values;
 
-    /**
-     *
-     * @param contactProperties
-     *
-     */
     protected AbstratContact(
         final ContactProperties contactProperties
         )
