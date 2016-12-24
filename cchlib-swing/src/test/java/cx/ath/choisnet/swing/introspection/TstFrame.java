@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -25,7 +24,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.text.MaskFormatter;
 import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 import cx.ath.choisnet.lang.introspection.IntrospectionException;
@@ -42,7 +40,7 @@ class TstFrame
 {
     private static final long serialVersionUID = 1L;
     private transient SwingIntrospector<TstFrame,TstObject,DefaultIntrospectionItem<TstObject>> introspector;
-    private TstObject tstObject = new TstObject();
+    private final TstObject tstObject = new TstObject();
 
     private JLabel                      jLabel_JCheckBox;
     private JCheckBox                   jCheckBox_TestBoolean$root;
@@ -83,11 +81,11 @@ class TstFrame
         try {
             initComponentsWithException();
         }
-        catch( SwingIntrospectorIllegalAccessException e ) {
+        catch( final SwingIntrospectorIllegalAccessException e ) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        catch( SwingIntrospectorException e ) {
+        catch( final SwingIntrospectorException e ) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -103,152 +101,152 @@ class TstFrame
             //mask.setValueClass( Integer.class );
             //mask.install( jFormattedTextField_TestFMTString$root );
             }
-        catch(ParseException e) {
+        catch(final ParseException e) {
             e.printStackTrace();
             }
         return mask;
     }
 
-    public void setJFormattedTextFieldValue( int intValue )
+    public void setJFormattedTextFieldValue( final int intValue )
     {
-        jFormattedTextField_TestFMTString$root.setValue( "11-22-33-44" );
+        this.jFormattedTextField_TestFMTString$root.setValue( "11-22-33-44" );
     }
 
     private void initComponents() {
         add(getJScrollPaneMain(), BorderLayout.CENTER);
         //add(getJPanelMain(), BorderLayout.CENTER);
         add(getjPanelBottom(), BorderLayout.SOUTH);
-    	setSize(348, 263);
+        setSize(348, 263);
     }
 
     private JLabel getJLabel_TestIntegerJComboBox() {
-    	if (jLabel_TestIntegerJComboBox == null) {
-    		jLabel_TestIntegerJComboBox = new JLabel();
-    		jLabel_TestIntegerJComboBox.setText("__");
-    	}
-    	return jLabel_TestIntegerJComboBox;
+        if (this.jLabel_TestIntegerJComboBox == null) {
+            this.jLabel_TestIntegerJComboBox = new JLabel();
+            this.jLabel_TestIntegerJComboBox.setText("__");
+        }
+        return this.jLabel_TestIntegerJComboBox;
     }
 
     public JSpinner getJSpinner_TestIntegerJSpinner() {
-    	if (jSpinner_TestIntegerJSpinner$root == null) {
-    		jSpinner_TestIntegerJSpinner$root = new JSpinner();
-    	}
-    	return jSpinner_TestIntegerJSpinner$root;
+        if (this.jSpinner_TestIntegerJSpinner$root == null) {
+            this.jSpinner_TestIntegerJSpinner$root = new JSpinner();
+        }
+        return this.jSpinner_TestIntegerJSpinner$root;
     }
 
     private JLabel getJLabel_JSpinner() {
-    	if (jLabel_JSpinner == null) {
-    		jLabel_JSpinner = new JLabel();
-    		jLabel_JSpinner.setText("JSpinner");
-    	}
-    	return jLabel_JSpinner;
+        if (this.jLabel_JSpinner == null) {
+            this.jLabel_JSpinner = new JLabel();
+            this.jLabel_JSpinner.setText("JSpinner");
+        }
+        return this.jLabel_JSpinner;
     }
 
     private JButton getJButtonRandomObject() {
-    	if (jButtonRandomObject == null) {
-    	    jButtonRandomObject = new JButton();
-    	    jButtonRandomObject.setText("Random Object");
-    	    jButtonRandomObject.addMouseListener(new MouseAdapter() {
+        if (this.jButtonRandomObject == null) {
+            this.jButtonRandomObject = new JButton();
+            this.jButtonRandomObject.setText("Random Object");
+            this.jButtonRandomObject.addMouseListener(new MouseAdapter() {
 
-    			@Override
-                public void mousePressed(MouseEvent event) {
-    				jButtonRandomObject_MouseMousePressed(event);
-    			}
-    		});
-    	}
-    	return jButtonRandomObject;
+                @Override
+                public void mousePressed(final MouseEvent event) {
+                    jButtonRandomObject_MouseMousePressed(event);
+                }
+            });
+        }
+        return this.jButtonRandomObject;
     }
 
     private JButton getJButtonPopulateFrame() {
-        if (jButtonPopulateFrame == null) {
-            jButtonPopulateFrame = new JButton();
-            jButtonPopulateFrame.setText("O => Frame");
-            jButtonPopulateFrame.addMouseListener(new MouseAdapter() {
+        if (this.jButtonPopulateFrame == null) {
+            this.jButtonPopulateFrame = new JButton();
+            this.jButtonPopulateFrame.setText("O => Frame");
+            this.jButtonPopulateFrame.addMouseListener(new MouseAdapter() {
 
                 @Override
-                public void mousePressed(MouseEvent event) {
+                public void mousePressed(final MouseEvent event) {
                     jButtonPopulateFrame_MouseMousePressed(event);
                 }
             });
         }
-        return jButtonPopulateFrame;
+        return this.jButtonPopulateFrame;
     }
 
     private JButton getJButtonPopulateObject() {
-        if (jButtonPopulateObject == null) {
-            jButtonPopulateObject = new JButton();
-            jButtonPopulateObject.setText("F => Object");
-            jButtonPopulateObject.addMouseListener(new MouseAdapter() {
+        if (this.jButtonPopulateObject == null) {
+            this.jButtonPopulateObject = new JButton();
+            this.jButtonPopulateObject.setText("F => Object");
+            this.jButtonPopulateObject.addMouseListener(new MouseAdapter() {
 
                 @Override
-                public void mousePressed(MouseEvent event) {
+                public void mousePressed(final MouseEvent event) {
                     jButtonPopulateObject_MouseMousePressed(event);
                 }
             });
         }
-        return jButtonPopulateObject;
+        return this.jButtonPopulateObject;
     }
 
     public JTextField getJTextField_TestIntegerJSlider() {
-        if (jTextField_TestIntegerJSlider == null) {
-            jTextField_TestIntegerJSlider = new JTextField();
-            jTextField_TestIntegerJSlider.setText("___");
-            jTextField_TestIntegerJSlider.setEditable( false );
+        if (this.jTextField_TestIntegerJSlider == null) {
+            this.jTextField_TestIntegerJSlider = new JTextField();
+            this.jTextField_TestIntegerJSlider.setText("___");
+            this.jTextField_TestIntegerJSlider.setEditable( false );
         }
-        return jTextField_TestIntegerJSlider;
+        return this.jTextField_TestIntegerJSlider;
     }
 
     private JLabel getJLabel_JTextField() {
-        if (jLabel_JTextField == null) {
-            jLabel_JTextField = new JLabel();
-            jLabel_JTextField.setText("JTextField");
+        if (this.jLabel_JTextField == null) {
+            this.jLabel_JTextField = new JLabel();
+            this.jLabel_JTextField.setText("JTextField");
         }
-        return jLabel_JTextField;
+        return this.jLabel_JTextField;
     }
 
     private JLabel getJLabel_JFormattedTextField() {
-        if (jLabel_JFormattedTextField == null) {
-            jLabel_JFormattedTextField = new JLabel();
-            jLabel_JFormattedTextField.setText("JFormattedTextField");
+        if (this.jLabel_JFormattedTextField == null) {
+            this.jLabel_JFormattedTextField = new JLabel();
+            this.jLabel_JFormattedTextField.setText("JFormattedTextField");
         }
-        return jLabel_JFormattedTextField;
+        return this.jLabel_JFormattedTextField;
     }
 
     private JLabel getJLabel_LimitedIntegerJTextField() {
-        if (jLabel_LimitedIntegerJTextField == null) {
-            jLabel_LimitedIntegerJTextField = new JLabel();
-            jLabel_LimitedIntegerJTextField.setText("LimitedIntegerJTextField");
+        if (this.jLabel_LimitedIntegerJTextField == null) {
+            this.jLabel_LimitedIntegerJTextField = new JLabel();
+            this.jLabel_LimitedIntegerJTextField.setText("LimitedIntegerJTextField");
         }
-        return jLabel_LimitedIntegerJTextField;
+        return this.jLabel_LimitedIntegerJTextField;
     }
 
     private JLabel getJLabel_JSlider() {
-        if (jLabel_JSlider == null) {
-            jLabel_JSlider = new JLabel();
-            jLabel_JSlider.setText("JSlider");
+        if (this.jLabel_JSlider == null) {
+            this.jLabel_JSlider = new JLabel();
+            this.jLabel_JSlider.setText("JSlider");
         }
-        return jLabel_JSlider;
+        return this.jLabel_JSlider;
     }
 
     private JLabel getJLabel_JComboBox() {
-        if (jLabel_JComboBox == null) {
-            jLabel_JComboBox = new JLabel();
-            jLabel_JComboBox.setText("JComboBox");
+        if (this.jLabel_JComboBox == null) {
+            this.jLabel_JComboBox = new JLabel();
+            this.jLabel_JComboBox.setText("JComboBox");
         }
-        return jLabel_JComboBox;
+        return this.jLabel_JComboBox;
     }
 
     private JLabel getJLabel_JCheckBox() {
-        if (jLabel_JCheckBox == null) {
-            jLabel_JCheckBox = new JLabel();
-            jLabel_JCheckBox.setText("JCheckBox");
+        if (this.jLabel_JCheckBox == null) {
+            this.jLabel_JCheckBox = new JLabel();
+            this.jLabel_JCheckBox.setText("JCheckBox");
         }
-        return jLabel_JCheckBox;
+        return this.jLabel_JCheckBox;
     }
 
     private JPanel getJPanelMain() {
-    	if (jPanelMain == null) {
-    		jPanelMain = new JPanel();
+        if (this.jPanelMain == null) {
+            this.jPanelMain = new JPanel();
 //    		jPanelMain.setLayout(new GroupLayout());
 //    		jPanelMain.add(getJLabel_JCheckBox(), new Constraints(new Leading(14, 12, 12), new Leading(12, 12, 12)));
 //    		jPanelMain.add(getJCheckBox_TestBoolean(), new Constraints(new Leading(164, 10, 10), new Leading(8, 10, 217)));
@@ -266,125 +264,113 @@ class TstFrame
 //    		jPanelMain.add(getJTextField_TestString(), new Constraints(new Leading(164, 93, 10, 10), new Leading(133, 10, 96)));
 //    		jPanelMain.add(getJLabel_JSpinner(), new Constraints(new Leading(14, 12, 12), new Leading(193, 12, 12)));
 //    		jPanelMain.add(getJSpinner_TestIntegerJSpinner(), new Constraints(new Leading(164, 93, 12, 12), new Leading(189, 12, 12)));
-            jPanelMain.setLayout(new GridLayout(7,3));
+            this.jPanelMain.setLayout(new GridLayout(7,3));
 
-            jPanelMain.add(getJLabel_JCheckBox());
-            jPanelMain.add(getJCheckBox_TestBoolean());
-            jPanelMain.add(Box.createHorizontalGlue());
+            this.jPanelMain.add(getJLabel_JCheckBox());
+            this.jPanelMain.add(getJCheckBox_TestBoolean());
+            this.jPanelMain.add(Box.createHorizontalGlue());
 
-            jPanelMain.add(getJLabel_JComboBox());
-            jPanelMain.add(getJComboBox_TestIntegerJComboBox());
-            jPanelMain.add(getJLabel_TestIntegerJComboBox());
+            this.jPanelMain.add(getJLabel_JComboBox());
+            this.jPanelMain.add(getJComboBox_TestIntegerJComboBox());
+            this.jPanelMain.add(getJLabel_TestIntegerJComboBox());
 
-            jPanelMain.add(getJLabel_JFormattedTextField());
-            jPanelMain.add(getJFormattedTextField_TestFMTString());
-            jPanelMain.add(Box.createHorizontalGlue());
+            this.jPanelMain.add(getJLabel_JFormattedTextField());
+            this.jPanelMain.add(getJFormattedTextField_TestFMTString());
+            this.jPanelMain.add(Box.createHorizontalGlue());
 
-            jPanelMain.add(getJLabel_JSlider());
-            jPanelMain.add(getJSlider_TestIntegerJSlider());
-            jPanelMain.add(getJTextField_TestIntegerJSlider());
+            this.jPanelMain.add(getJLabel_JSlider());
+            this.jPanelMain.add(getJSlider_TestIntegerJSlider());
+            this.jPanelMain.add(getJTextField_TestIntegerJSlider());
 
-            jPanelMain.add(getJLabel_JSpinner());
-            jPanelMain.add(getJSpinner_TestIntegerJSpinner());
-            jPanelMain.add(Box.createHorizontalGlue());
+            this.jPanelMain.add(getJLabel_JSpinner());
+            this.jPanelMain.add(getJSpinner_TestIntegerJSpinner());
+            this.jPanelMain.add(Box.createHorizontalGlue());
 
-            jPanelMain.add(getJLabel_LimitedIntegerJTextField());
-            jPanelMain.add(getJTextField_TestIntegerLimitedIntegerJTextField());
-            jPanelMain.add(Box.createHorizontalGlue());
+            this.jPanelMain.add(getJLabel_LimitedIntegerJTextField());
+            this.jPanelMain.add(getJTextField_TestIntegerLimitedIntegerJTextField());
+            this.jPanelMain.add(Box.createHorizontalGlue());
 
-            jPanelMain.add(getJLabel_JTextField());
-            jPanelMain.add(getJTextField_TestString());
-            jPanelMain.add(Box.createHorizontalGlue());
-    	}
-    	return jPanelMain;
+            this.jPanelMain.add(getJLabel_JTextField());
+            this.jPanelMain.add(getJTextField_TestString());
+            this.jPanelMain.add(Box.createHorizontalGlue());
+        }
+        return this.jPanelMain;
     }
 
     private JPanel getjPanelBottom() {
-    	if (jPanelBottom == null) {
-    		jPanelBottom = new JPanel();
-            jPanelBottom.add(getJButtonRandomObject());
-    		jPanelBottom.add(getJButtonPopulateObject());
-    		jPanelBottom.add(getJButtonPopulateFrame());
-    	}
-    	return jPanelBottom;
+        if (this.jPanelBottom == null) {
+            this.jPanelBottom = new JPanel();
+            this.jPanelBottom.add(getJButtonRandomObject());
+            this.jPanelBottom.add(getJButtonPopulateObject());
+            this.jPanelBottom.add(getJButtonPopulateFrame());
+        }
+        return this.jPanelBottom;
     }
 
     private JScrollPane getJScrollPaneMain() {
-    	if (jScrollPaneMain == null) {
-    		jScrollPaneMain = new JScrollPane();
-    		jScrollPaneMain.setViewportView(getJPanelMain());
-    		//jScrollPaneMain.addMouseWheelListener(this);
-    		jScrollPaneMain.setWheelScrollingEnabled( false );
-    	}
-    	return jScrollPaneMain;
+        if (this.jScrollPaneMain == null) {
+            this.jScrollPaneMain = new JScrollPane();
+            this.jScrollPaneMain.setViewportView(getJPanelMain());
+            //jScrollPaneMain.addMouseWheelListener(this);
+            this.jScrollPaneMain.setWheelScrollingEnabled( false );
+        }
+        return this.jScrollPaneMain;
     }
 
     public LimitedIntegerJTextField getJTextField_TestIntegerLimitedIntegerJTextField() {
-        if (jTextField_TestIntegerLimitedIntegerJTextField$root == null) {
-            jTextField_TestIntegerLimitedIntegerJTextField$root = new LimitedIntegerJTextField();
-            jTextField_TestIntegerLimitedIntegerJTextField$root.setMaxValue(2147483647);
-            jTextField_TestIntegerLimitedIntegerJTextField$root.setRadix(10);
+        if (this.jTextField_TestIntegerLimitedIntegerJTextField$root == null) {
+            this.jTextField_TestIntegerLimitedIntegerJTextField$root = new LimitedIntegerJTextField();
+            this.jTextField_TestIntegerLimitedIntegerJTextField$root.setMaximum( 2147483647 );
+            this.jTextField_TestIntegerLimitedIntegerJTextField$root.setRadix( 10 );
         }
-        return jTextField_TestIntegerLimitedIntegerJTextField$root;
+        return this.jTextField_TestIntegerLimitedIntegerJTextField$root;
     }
 
     public JFormattedTextField getJFormattedTextField_TestFMTString() {
-        if (jFormattedTextField_TestFMTString$root == null) {
-            jFormattedTextField_TestFMTString$root = new JFormattedTextField(getMaskFormatter());
+        if (this.jFormattedTextField_TestFMTString$root == null) {
+            this.jFormattedTextField_TestFMTString$root = new JFormattedTextField(getMaskFormatter());
             //jFormattedTextField_TestFMTString$root.setText("TestFMTString");
         }
-        return jFormattedTextField_TestFMTString$root;
+        return this.jFormattedTextField_TestFMTString$root;
     }
 
     public JTextField getJTextField_TestString() {
-        if (jTextField_TestString$root == null) {
-            jTextField_TestString$root = new JTextField();
-            jTextField_TestString$root.setText("TestString");
+        if (this.jTextField_TestString$root == null) {
+            this.jTextField_TestString$root = new JTextField();
+            this.jTextField_TestString$root.setText("TestString");
         }
-        return jTextField_TestString$root;
+        return this.jTextField_TestString$root;
     }
 
     public JSlider getJSlider_TestIntegerJSlider() {
-        if (jSlider_TestIntegerJSlider$root == null) {
-            jSlider_TestIntegerJSlider$root = new JSlider();
-            jSlider_TestIntegerJSlider$root.setMaximum(30);
-            jSlider_TestIntegerJSlider$root.setMinimum(20);
-            jSlider_TestIntegerJSlider$root.setValue(25);
-            jSlider_TestIntegerJSlider$root.addChangeListener(new ChangeListener() {
-
-                @Override
-                public void stateChanged(ChangeEvent event) {
-                    jSlider_TestIntegerJSlider$root_ChangeStateChanged(event);
-                }
-            });
+        if (this.jSlider_TestIntegerJSlider$root == null) {
+            this.jSlider_TestIntegerJSlider$root = new JSlider();
+            this.jSlider_TestIntegerJSlider$root.setMaximum(30);
+            this.jSlider_TestIntegerJSlider$root.setMinimum(20);
+            this.jSlider_TestIntegerJSlider$root.setValue(25);
+            this.jSlider_TestIntegerJSlider$root.addChangeListener(event -> jSlider_TestIntegerJSlider$root_ChangeStateChanged(event));
         }
-        return jSlider_TestIntegerJSlider$root;
+        return this.jSlider_TestIntegerJSlider$root;
     }
 
     public JComboBox<String> getJComboBox_TestIntegerJComboBox() {
-    	if (jComboBox_TestIntegerJComboBox$root == null) {
-    		jComboBox_TestIntegerJComboBox$root = new JComboBox<String>();
-    		jComboBox_TestIntegerJComboBox$root.setModel(new DefaultComboBoxModel<String>(new String[] { "item0", "item1", "item2", "item3" }));
-    		jComboBox_TestIntegerJComboBox$root.setDoubleBuffered(false);
-    		jComboBox_TestIntegerJComboBox$root.setBorder(null);
-    		jComboBox_TestIntegerJComboBox$root.addItemListener(new ItemListener() {
-
-    			@Override
-                public void itemStateChanged(ItemEvent event) {
-    				jComboBox_TestIntegerJComboBox$rootItemItemStateChanged(event);
-    			}
-    		});
-    	}
-    	return jComboBox_TestIntegerJComboBox$root;
+        if (this.jComboBox_TestIntegerJComboBox$root == null) {
+            this.jComboBox_TestIntegerJComboBox$root = new JComboBox<String>();
+            this.jComboBox_TestIntegerJComboBox$root.setModel(new DefaultComboBoxModel<String>(new String[] { "item0", "item1", "item2", "item3" }));
+            this.jComboBox_TestIntegerJComboBox$root.setDoubleBuffered(false);
+            this.jComboBox_TestIntegerJComboBox$root.setBorder(null);
+            this.jComboBox_TestIntegerJComboBox$root.addItemListener(event -> jComboBox_TestIntegerJComboBox$rootItemItemStateChanged(event));
+        }
+        return this.jComboBox_TestIntegerJComboBox$root;
     }
 
     public JCheckBox getJCheckBox_TestBoolean() {
-        if (jCheckBox_TestBoolean$root == null) {
-            jCheckBox_TestBoolean$root = new JCheckBox();
-            jCheckBox_TestBoolean$root.setSelected(true);
-            jCheckBox_TestBoolean$root.setText("TestBoolean");
+        if (this.jCheckBox_TestBoolean$root == null) {
+            this.jCheckBox_TestBoolean$root = new JCheckBox();
+            this.jCheckBox_TestBoolean$root.setSelected(true);
+            this.jCheckBox_TestBoolean$root.setText("TestBoolean");
         }
-        return jCheckBox_TestBoolean$root;
+        return this.jCheckBox_TestBoolean$root;
     }
 
 //    @SuppressWarnings("unused")
@@ -402,78 +388,74 @@ class TstFrame
 //        }
 //    }
 
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
         //installLnF();
-        SwingUtilities.invokeLater( new Runnable() {
-            @Override
-            public void run()
-            {
-                TstFrame frame = new TstFrame();
-                try {
-                    frame.initComponentsWithException();
-                }
-                catch( SwingIntrospectorIllegalAccessException e ) {
-                    e.printStackTrace();
-                }
-                catch( SwingIntrospectorException e ) {
-                    e.printStackTrace();
-                }
-                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-                frame.setTitle( "TstXFrame" );
-                frame.getContentPane().setPreferredSize( frame.getSize() );
-                frame.pack();
-                frame.setLocationRelativeTo( null );
-                frame.setVisible( true );
+        SwingUtilities.invokeLater( ( ) -> {
+            final TstFrame frame = new TstFrame();
+            try {
+                frame.initComponentsWithException();
             }
+            catch( final SwingIntrospectorIllegalAccessException e1 ) {
+                e1.printStackTrace();
+            }
+            catch( final SwingIntrospectorException e2 ) {
+                e2.printStackTrace();
+            }
+            frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+            frame.setTitle( "TstXFrame" );
+            frame.getContentPane().setPreferredSize( frame.getSize() );
+            frame.pack();
+            frame.setLocationRelativeTo( null );
+            frame.setVisible( true );
         } );
     }
 
-    private void jSlider_TestIntegerJSlider$root_ChangeStateChanged(ChangeEvent event)
+    private void jSlider_TestIntegerJSlider$root_ChangeStateChanged(final ChangeEvent event)
     {
-        jTextField_TestIntegerJSlider.setText(
+        this.jTextField_TestIntegerJSlider.setText(
                 Integer.toString(
-                        jSlider_TestIntegerJSlider$root.getValue()
+                        this.jSlider_TestIntegerJSlider$root.getValue()
                         )
                 );
     }
 
-    private void jButtonPopulateFrame_MouseMousePressed(MouseEvent event)
+    private void jButtonPopulateFrame_MouseMousePressed(final MouseEvent event)
     {
         System.out.println("jButtonPopulateFrame_MouseMousePressed");
 
         try {
             populateFrame();
             }
-        catch( IntrospectionInvokeException e ) {
+        catch( final IntrospectionInvokeException e ) {
             throw new RuntimeException( e );
             }
-        catch( SwingIntrospectorException e ) {
+        catch( final SwingIntrospectorException e ) {
             throw new RuntimeException( e );
             }
     }
 
-    private void jButtonPopulateObject_MouseMousePressed(MouseEvent event)
+    private void jButtonPopulateObject_MouseMousePressed(final MouseEvent event)
     {
         System.out.println("jButtonPopulateObject_MouseMousePressed");
 
         try {
             populateObject();
             }
-        catch( SwingIntrospectorException e ) {
+        catch( final SwingIntrospectorException e ) {
             throw new RuntimeException( e );
             }
-        catch( IntrospectionException e ) {
+        catch( final IntrospectionException e ) {
             throw new RuntimeException( e );
             }
-        System.out.println(tstObject);
+        System.out.println(this.tstObject);
     }
 
-    private void jButtonRandomObject_MouseMousePressed(MouseEvent event)
+    private void jButtonRandomObject_MouseMousePressed(final MouseEvent event)
     {
         System.out.println("jButtonRandomObject_MouseMousePressed");
         randomObject();
-        System.out.println(tstObject);
+        System.out.println(this.tstObject);
     }
 
     public SwingIntrospector<TstFrame, TstObject, DefaultIntrospectionItem<TstObject>> getSwingIntrospector()
@@ -490,7 +472,7 @@ class TstFrame
 
     public TstObject getTstObject()
     {
-        return tstObject;
+        return this.tstObject;
     }
 
     public void initComponentsWithException()
@@ -504,70 +486,70 @@ class TstFrame
         throws  IntrospectionInvokeException,
                 SwingIntrospectorException
     {
-        getSwingIntrospector().populateFrameWithException( this, tstObject );
+        getSwingIntrospector().populateFrameWithException( this, this.tstObject );
     }
 
     public void populateObject()
         throws  SwingIntrospectorException,
                 IntrospectionException
     {
-        getSwingIntrospector().populateObjectWithException( this, tstObject );
+        getSwingIntrospector().populateObjectWithException( this, this.tstObject );
     }
 
     public void randomObject()
     {
-        tstObject.randomize();
+        this.tstObject.randomize();
     }
 
-    private void jComboBox_TestIntegerJComboBox$rootItemItemStateChanged(ItemEvent event)
+    private void jComboBox_TestIntegerJComboBox$rootItemItemStateChanged(final ItemEvent event)
     {
-       int    index = jComboBox_TestIntegerJComboBox$root.getSelectedIndex();
+       final int    index = this.jComboBox_TestIntegerJComboBox$root.getSelectedIndex();
        //String text  = jComboBox_TestIntegerJComboBox$root.getItemAt( index ).toString();
-       String text  = jComboBox_TestIntegerJComboBox$root.getItemAt( index );
+       final String text  = this.jComboBox_TestIntegerJComboBox$root.getItemAt( index );
 
-       jLabel_TestIntegerJComboBox.setText( text );
+       this.jLabel_TestIntegerJComboBox.setText( text );
     }
 
     // scroll a combobox if it has the focus
     // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045691
     @Override
-    public void mouseWheelMoved(MouseWheelEvent e)
+    public void mouseWheelMoved(final MouseWheelEvent e)
     {
         final Component focusOwner = getFocusOwner();
 
         System.out.printf( "mouseWheelMoved: %s\n", focusOwner );
 
         if( focusOwner instanceof JComboBox ) {
-				JComboBox<?> combo = JComboBox.class.cast( focusOwner );
+                final JComboBox<?> combo = JComboBox.class.cast( focusOwner );
 
                 if (e.getWheelRotation() < 0) {
                     // scroll up
-                    int newIndex = combo.getSelectedIndex() - 1;
+                    final int newIndex = combo.getSelectedIndex() - 1;
                     if (newIndex >= 0) {
                         combo.setSelectedIndex(newIndex);
                     }
                 }
                 else {
                     // scroll down
-                    int newIndex = combo.getSelectedIndex() + 1;
+                    final int newIndex = combo.getSelectedIndex() + 1;
                     if (newIndex < combo.getItemCount()) {
                         combo.setSelectedIndex(newIndex);
                     }
                 }
             }
         else if( focusOwner instanceof JSlider ) {
-            JSlider slider = (JSlider)focusOwner;
+            final JSlider slider = (JSlider)focusOwner;
 
             if (e.getWheelRotation() < 0) {
                 // scroll up
-                int newIndex = slider.getValue() - 1;
+                final int newIndex = slider.getValue() - 1;
                 if (newIndex >= slider.getMinimum()) {
                     slider.setValue(newIndex);
                 }
             }
             else {
                 // scroll down
-                int newIndex = slider.getValue() + 1;
+                final int newIndex = slider.getValue() + 1;
                 if (newIndex <= slider.getMaximum()) {
                     slider.setValue(newIndex);
                 }

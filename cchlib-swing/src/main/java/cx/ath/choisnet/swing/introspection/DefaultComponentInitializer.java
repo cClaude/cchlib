@@ -154,7 +154,7 @@ public class DefaultComponentInitializer<OBJECT,OBJECT_ENTRY extends Introspecti
         if( maxValue == null ) {
             throw new SwingIntrospectorNoMaxValueException( beanname, iItem );
         }
-        lijtf.setMaxValue( Integer.class.cast( maxValue ).intValue() );
+        lijtf.setMaximum( Integer.class.cast( maxValue ).intValue() );
 
         final Object defaultValue = iItem.getDefaultValue();
         int    defaultValueInt;

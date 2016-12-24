@@ -24,10 +24,10 @@ class IntegerTextLimiter extends DocumentFilter
         /**
          * Returns the Integer minimum allowed value
          *
-         * @return the Integer max allowed value (value included)
+         * @return the Integer minimum allowed value (value included)
          */
         @Nonnegative
-        int getMinValue();
+        int getMinimum();
 
         /**
          * Returns the String to Integer conversion radix
@@ -38,12 +38,12 @@ class IntegerTextLimiter extends DocumentFilter
         int getRadix();
 
         /**
-         * Returns the Integer max allowed value
+         * Returns the Integer maximum allowed value
          *
-         * @return the Integer max allowed value (value included)
+         * @return the Integer maximum allowed value (value included)
          */
         @Nonnegative
-        int getMaxValue();
+        int getMaximum();
 
         /**
          * Returns text value as an integer
@@ -111,7 +111,7 @@ class IntegerTextLimiter extends DocumentFilter
 
             if( intValue >= 0 ) {
                 // Negative values are not allowed.
-                if( intValue <= this.limits.getMaxValue() ) {
+                if( intValue <= this.limits.getMaximum() ) {
                     // Value is not in range, but positive integer,
                     // let user finish...
                     return;

@@ -14,7 +14,8 @@ import com.googlecode.cchlib.swing.textfield.IntegerTextLimiter.Limits;
  * to an positive integer.
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
-public class LimitedIntegerJTextField extends XTextField implements Limits
+public class LimitedIntegerJTextField extends XTextField
+    implements IntegerTextLimiter.Limits
 {
     private static final class LimitedIntegerFocusListener implements FocusListener
     {
@@ -54,11 +55,11 @@ public class LimitedIntegerJTextField extends XTextField implements Limits
                 }
 
                 // Find best match...
-                if( currentValue > this.limits.getMaxValue() ) {
-                    this.limits.setValue( this.limits.getMaxValue() );
+                if( currentValue > this.limits.getMaximum() ) {
+                    this.limits.setValue( this.limits.getMaximum() );
                 }
-                if( currentValue < this.limits.getMinValue() ) {
-                    this.limits.setValue( this.limits.getMinValue() );
+                if( currentValue < this.limits.getMinimum() ) {
+                    this.limits.setValue( this.limits.getMinimum() );
                 }
             }
         }
@@ -69,9 +70,9 @@ public class LimitedIntegerJTextField extends XTextField implements Limits
     private static final Logger LOGGER = Logger.getLogger( LimitedIntegerJTextField.class );
 
     /** @serial */
-    private int minValue;
+    private int minimumValue;
     /** @serial */
-    private int maxValue;
+    private int maximumValue;
     /** @serial */
     private int radix;
 
@@ -125,8 +126,8 @@ public class LimitedIntegerJTextField extends XTextField implements Limits
     {
         super();
 
-        setMinValue( minValue );
-        setMaxValue( maxValue );
+        setMinimum( minValue );
+        setMaximum( maxValue );
         setRadix( radix );
 
         final AbstractDocument doc = (AbstractDocument)getDocument();
@@ -140,9 +141,9 @@ public class LimitedIntegerJTextField extends XTextField implements Limits
      */
     @Override
     @Nonnegative
-    public int getMinValue()
+    public int getMinimum()
     {
-        return this.minValue;
+        return this.minimumValue;
     }
 
     /**
@@ -150,9 +151,9 @@ public class LimitedIntegerJTextField extends XTextField implements Limits
      */
     @Override
     @Nonnegative
-    public int getMaxValue()
+    public int getMaximum()
     {
-        return this.maxValue;
+        return this.maximumValue;
     }
 
     /**
@@ -174,22 +175,22 @@ public class LimitedIntegerJTextField extends XTextField implements Limits
         try {
             final int value = Integer.parseInt( super.getText(), this.radix );
 
-            if( value < this.minValue  ) {
-                setValue( this.minValue );
+            if( value < this.minimumValue  ) {
+                setValue( this.minimumValue );
 
-                return this.minValue;
-            } else if( value > this.maxValue  ) {
-                setValue( this.maxValue );
+                return this.minimumValue;
+            } else if( value > this.maximumValue  ) {
+                setValue( this.maximumValue );
 
-                return this.maxValue;
-            } else { /* (value >= this.minValue) && (value <= this.maxValue) */
+                return this.maximumValue;
+            } else { /* (value >= this.minimumValue) && (value <= this.maximumValue) */
                 return value;
             }
         }
         catch( final NumberFormatException ignore ) {
             // continue using minimum
             final String message = "Text: " + super.getText()
-                    + " use minValue(" + this.minValue + ')';
+                    + " use minValue(" + this.minimumValue + ')';
 
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( message, ignore );
@@ -197,8 +198,8 @@ public class LimitedIntegerJTextField extends XTextField implements Limits
                 LOGGER.warn( message );
             }
 
-            setValue( this.minValue );
-            return this.minValue;
+            setValue( this.minimumValue );
+            return this.minimumValue;
         }
     }
 
@@ -211,14 +212,14 @@ public class LimitedIntegerJTextField extends XTextField implements Limits
      *         or if current value is greater than this new maxValue
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    public LimitedIntegerJTextField setMinValue( @Nonnegative final int minValue )
+    public LimitedIntegerJTextField setMinimum( @Nonnegative final int minValue )
         throws IllegalArgumentException
     {
         if( minValue < 0 ) { // minValue should be greater than 0
             throw new IllegalArgumentException( "minValue should be greater than 0" );
         }
 
-        this.minValue = minValue;
+        this.minimumValue = minValue;
 
         // Align current value with constraints
         setValue( getValue() );
@@ -235,16 +236,16 @@ public class LimitedIntegerJTextField extends XTextField implements Limits
      *         or if current value is greater than this new maxValue
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    public LimitedIntegerJTextField setMaxValue( @Nonnegative final int maxValue )
+    public LimitedIntegerJTextField setMaximum( @Nonnegative final int maxValue )
         throws IllegalArgumentException
     {
-        if( maxValue < this.minValue ) { // maxValue should be greater than minValue
+        if( maxValue < this.minimumValue ) { // maxValue should be greater than minValue
             throw new IllegalArgumentException(
-                "maxValue should be greater than minValue (" + this.minValue + ')'
+                "maxValue should be greater than minValue (" + this.minimumValue + ')'
                 );
         }
 
-        this.maxValue = maxValue;
+        this.maximumValue = maxValue;
 
         // Align current value with constraints
         setValue( getValue() );
@@ -301,22 +302,22 @@ public class LimitedIntegerJTextField extends XTextField implements Limits
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void checkValue( final int value ) throws IllegalArgumentException
     {
-        if( value > this.maxValue ) {
+        if( value > this.maximumValue ) {
             throw new IllegalArgumentException(
                 String.format(
-                        "Value(%d) is larger than maxValue(%d) ",
+                        "Value (%d) is larger than maximum (%d) ",
                         Integer.valueOf( value ),
-                        Integer.valueOf( this.maxValue )
+                        Integer.valueOf( this.maximumValue )
                         )
                 );
         }
 
-        if( value < this.minValue ) {
+        if( value < this.minimumValue ) {
             throw new IllegalArgumentException(
                 String.format(
-                        "Value(%d) smaller than minValue(%d) ",
+                        "Value (%d) smaller than minimum (%d) ",
                         Integer.valueOf( value ),
-                        Integer.valueOf( this.minValue )
+                        Integer.valueOf( this.minimumValue )
                         )
                 );
         }

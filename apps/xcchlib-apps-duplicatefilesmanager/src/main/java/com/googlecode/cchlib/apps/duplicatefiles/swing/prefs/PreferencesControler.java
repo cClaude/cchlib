@@ -30,8 +30,12 @@ public class PreferencesControler implements Serializable
     private static final double WINDOWS_MIN_HEIGTH = 200D;
     private static final double WINDOWS_MIN_WIDTH = 320D;
 
+    public static final int MIN_MESSAGE_DIGEST_BUFFER_SIZE = 1024;
+    public static final int MAX_DELETE_SLEEP_DELAIS = 1_000;
+    public static final int MIN_DELETE_SLEEP_DISPLAY_MAX_ENTRIES = 5;
+    public static final int MAX_DELETE_SLEEP_DISPLAY_MAX_ENTRIES = 100;
+
     private static final int DEFAULT_MESSAGEDIGEST_BUFFER_SIZE = 16 * 1024;
-    private static final int MIN_MESSAGE_DIGEST_BUFFER_SIZE = 1024;
     private static final int DEFAULT_DELETE_SLEEP_DELAIS = 100;
 
     private static final int MINIMUM_WINDOW_WIDTH = 640;

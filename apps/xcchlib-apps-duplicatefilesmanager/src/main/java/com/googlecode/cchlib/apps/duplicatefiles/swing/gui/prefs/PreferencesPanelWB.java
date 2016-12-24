@@ -154,7 +154,10 @@ class PreferencesPanelWB extends JPanel
             gbc_messageDigestBufferSizeTF.gridx = 1;
             gbc_messageDigestBufferSizeTF.gridy = 2;
             this.add(this.messageDigestBufferSizeTF, gbc_messageDigestBufferSizeTF);
-            this.messageDigestBufferSizeTF.setColumns(10);
+            this.messageDigestBufferSizeTF.setColumns( 10 );
+            this.messageDigestBufferSizeTF.setMinimum(
+                    PreferencesControler.MIN_MESSAGE_DIGEST_BUFFER_SIZE
+                    );
         }
         //--------------
         {
@@ -186,7 +189,10 @@ class PreferencesPanelWB extends JPanel
             gbc_deleteSleepDisplayTF.gridx = 1;
             gbc_deleteSleepDisplayTF.gridy = 3;
             this.add(this.deleteSleepDisplayTF, gbc_deleteSleepDisplayTF);
-            this.deleteSleepDisplayTF.setColumns(10);
+            this.deleteSleepDisplayTF.setColumns( 10 );
+            this.deleteSleepDisplayTF.setMaximum(
+                    PreferencesControler.MAX_DELETE_SLEEP_DELAIS
+                    );
         }
         {
             this.jLabelDefaultDeleteDelais = new JLabel();
@@ -216,7 +222,13 @@ class PreferencesPanelWB extends JPanel
             gbc_deleteSleepDisplayMaxEntriesTF.gridx = 1;
             gbc_deleteSleepDisplayMaxEntriesTF.gridy = 4;
             this.add(this.deleteSleepDisplayMaxEntriesTF, gbc_deleteSleepDisplayMaxEntriesTF);
-            this.deleteSleepDisplayMaxEntriesTF.setColumns(10);
+            this.deleteSleepDisplayMaxEntriesTF.setColumns( 10 );
+            this.deleteSleepDisplayMaxEntriesTF.setMinimum(
+                    PreferencesControler.MIN_DELETE_SLEEP_DISPLAY_MAX_ENTRIES
+                    );
+            this.deleteSleepDisplayMaxEntriesTF.setMaximum(
+                    PreferencesControler.MAX_DELETE_SLEEP_DISPLAY_MAX_ENTRIES
+                    );
         }
         {
             this.jLabelDefaultDeleteSleepDisplayMaxEntries = new JLabel();
@@ -311,15 +323,14 @@ class PreferencesPanelWB extends JPanel
         {
             // maxParallelFilesPerThreadTF must be init before maxParallelFilesPerThreadJSlider
             this.maxParallelFilesPerThreadTF = new JTextField();
-            this.maxParallelFilesPerThreadTF.setEditable(false);
-            //this.maxParallelFilesPerThreadTF.setText("10");
+            this.maxParallelFilesPerThreadTF.setEditable( false );
             final GridBagConstraints gbc_maxParallelFilesPerThreadTF = new GridBagConstraints();
             gbc_maxParallelFilesPerThreadTF.insets = new Insets(0, 0, 5, 5);
             gbc_maxParallelFilesPerThreadTF.fill = GridBagConstraints.HORIZONTAL;
             gbc_maxParallelFilesPerThreadTF.gridx = 2;
             gbc_maxParallelFilesPerThreadTF.gridy = 8;
             add(this.maxParallelFilesPerThreadTF, gbc_maxParallelFilesPerThreadTF);
-            this.maxParallelFilesPerThreadTF.setColumns(10);
+            this.maxParallelFilesPerThreadTF.setColumns( 10 );
         }
         {
             // maxParallelFilesPerThreadTF must be init before maxParallelFilesPerThreadJSlider
