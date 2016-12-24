@@ -427,9 +427,9 @@ public final class CompareResourcesBundleFrame
     /**
      * I18n this frame !
      *
-     * @param autoI18n
+     * {@inheritDoc}
      */
-    @Override // I18nAutoUpdatable
+    @Override // I18nAutoCoreUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
