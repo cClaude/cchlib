@@ -89,8 +89,15 @@ class IntegerTextLimiter extends DocumentFilter
         // greater than maxValue or negative
         }
         catch( final NumberFormatException e ) {
-            LOGGER.warn( "set new value error - restore to last valid value", e );
-            // No more and Integer, out of range !
+            // No more an Integer or out of range !
+            final String message = "Try to set invalid value [" + newValue
+                    + "] - restaure previous value [" + savePrevValue + ']';
+
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( message, e );
+            } else {
+                LOGGER.info( message );
+            }
         }
 
         Toolkit.getDefaultToolkit().beep(); // TODO : Use a custom toolkit (allow to configure beep())
