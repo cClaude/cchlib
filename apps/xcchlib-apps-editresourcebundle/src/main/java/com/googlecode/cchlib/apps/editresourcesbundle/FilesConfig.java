@@ -16,10 +16,34 @@ import cx.ath.choisnet.util.FormattedProperties;
 
 public class FilesConfig implements Serializable
 {
-    private static final long serialVersionUID = 2L;
+    @FunctionalInterface
+    private interface Loader {
+        void load( FilesConfig filesConfig ) throws IOException;
+    }
+
+    public enum FileType
+    {
+        PROPERTIES( filesConfig -> filesConfig.privateLoadProperties()),
+        FORMATTED_PROPERTIES( filesConfig -> filesConfig.privateLoadFormattedProperties()),
+        ;
+
+        private Loader loader;
+
+        private FileType( final Loader loader )
+        {
+            this.loader = loader;
+        }
+
+        public void loadSwitchFileType( final FilesConfig filesConfig )
+            throws IOException
+        {
+            this.loader.load( filesConfig );
+        }
+    }
+
+    private static final long serialVersionUID = 3L;
 
     private FileObject[] fileObjects;
-
     private FileType fileType
           = FileType.FORMATTED_PROPERTIES;
     private Set<FormattedProperties.Store> formattedPropertiesStore
@@ -31,10 +55,6 @@ public class FilesConfig implements Serializable
 
     private int numberOfFiles;
 
-    public enum FileType {
-        PROPERTIES,
-        FORMATTED_PROPERTIES
-        }
 
     /**
      * Build default {@link FilesConfig} (no file selected yet)
@@ -48,7 +68,7 @@ public class FilesConfig implements Serializable
     /**
      * Build {@link FilesConfig} based on a existing one
      *
-     * @param filesConfig
+     * @param filesConfig {@link FilesConfig} to copy.
      */
     public FilesConfig( final FilesConfig filesConfig )
     {
@@ -98,11 +118,6 @@ public class FilesConfig implements Serializable
         return this.fileObjects[ index ];
     }
 
-    /**
-     *
-     * @param fileObject
-     * @param index
-     */
     public void setFileObject(
         final FileObject fileObject,
         final int        index
@@ -112,8 +127,11 @@ public class FilesConfig implements Serializable
     }
 
     /**
-     * Returns the asked CustomProperties
-     * @return the asked CustomProperties
+     * Returns the asked {@link CustomProperties}
+     *
+     * @param index
+     *            Index for the {@link CustomProperties}
+     * @return the asked {@link CustomProperties}
      */
     public CustomProperties getCustomProperties( final int index )
     {
@@ -198,7 +216,7 @@ public class FilesConfig implements Serializable
             if( entry == null ) {
                 return false;
                 }
-            else if( ! entry.getFile().isFile() ) {
+            if( ! entry.getFile().isFile() ) {
                 return false;
                 }
             }
@@ -206,24 +224,20 @@ public class FilesConfig implements Serializable
         return true;
     }
 
-    /**
-     *
-     * @throws FileNotFoundException
-     * @throws IOException
-     */
     @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck") // switch on enum
     public void load() throws IOException
     {
-        switch( this.fileType )
-        {
-            case PROPERTIES:
-                privateLoadProperties();
-                break;
-
-            case FORMATTED_PROPERTIES :
-                privateLoadFormattedProperties();
-                break;
-        }
+        this.fileType.loadSwitchFileType( this );
+//        switch( this.fileType ) -
+//        { -
+//            case PROPERTIES: -
+//                privateLoadProperties(); -
+//                break; -
+// -
+//            case FORMATTED_PROPERTIES : -
+//                privateLoadFormattedProperties(); -
+//                break; -
+//        } -
     }
 
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
@@ -251,7 +265,8 @@ public class FilesConfig implements Serializable
             throws  FileNotFoundException,
                     IOException
     {
-        final CustomProperties cprop = new DefaultCustomProperties( this.getFileObject( index ), defaults );
+        /*final CustomProperties cprop = */
+        new DefaultCustomProperties( this.getFileObject( index ), defaults );
     }
 
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
