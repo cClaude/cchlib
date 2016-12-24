@@ -4,16 +4,12 @@ import java.util.Collection;
 import java.util.LinkedList;
 import com.googlecode.cchlib.lang.StringHelper;
 
-/**
- *
- *
- */
 public abstract class AbstractContactPropertiesBuilder
     implements ContactPropertiesBuilder
 {
-    private final LinkedList<String>             nameList    = new LinkedList<String>();
-    private final LinkedList<ContactValueType>     typeList    = new LinkedList<ContactValueType>();
-    private final LinkedList<String>             defaultList = new LinkedList<String>();
+    private final LinkedList<String>             nameList    = new LinkedList<>();
+    private final LinkedList<ContactValueType>   typeList    = new LinkedList<>();
+    private final LinkedList<String>             defaultList = new LinkedList<>();
 
     /**
      * Use {@link #setContactProperty(int, String, ContactValueType, String)}
@@ -23,13 +19,6 @@ public abstract class AbstractContactPropertiesBuilder
     { // empty
     }
 
-    /**
-     *
-     * @param index
-     * @param name
-     * @param type
-     * @param defaultValue
-     */
     protected void setContactProperty(
         final int                 index,
         final String             name,
