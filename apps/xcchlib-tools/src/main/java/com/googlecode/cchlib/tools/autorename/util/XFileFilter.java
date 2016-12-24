@@ -6,34 +6,31 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-/**
- *
- */
-public class XFileFilter 
+public class XFileFilter
 {
-    private FileFilter fileFilter;
-    
-    XFileFilter( FileFilter fileFilter )
+    private final FileFilter fileFilter;
+
+    XFileFilter( final FileFilter fileFilter )
     {
         this.fileFilter = fileFilter;
     }
-    
-    public Collection<File> getFiles( File file )
+
+    public Collection<File> getFiles( final File file )
     {
-        File[] files = file.listFiles( fileFilter );
-        
+        final File[] files = file.listFiles( this.fileFilter );
+
         if( files == null ) {
             return Collections.emptyList();
         }
 
-        Collection<File> filterFiles = new ArrayList<File>();
-        
-        for( File f : files ) {
+        final Collection<File> filterFiles = new ArrayList<>();
+
+        for( final File f : files ) {
             if( this.fileFilter.accept( f ) ) {
                 filterFiles.add( f );
                 }
         }
-        
+
         return filterFiles;
     }
 }

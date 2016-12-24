@@ -1,45 +1,31 @@
-/**
- *
- */
 package com.googlecode.cchlib.tools.autorename;
 
 import java.io.File;
 import java.util.EnumSet;
 import java.util.Set;
 
-/**
- * @author CC
- *
- */
 public class DirNameFileFilter extends DirFileFilter
 {
-    public enum Attrib{
+    public enum Attributes
+    {
         IGNORE_CASE
-        }
+    }
 
-    private final String  dirname;
-    EnumSet<Attrib> attribSet;
+    private final String        dirname;
+    private EnumSet<Attributes> attributes;
 
-    /**
-     * @param dirname
-     * @param attributes
-     *
-     */
-    public DirNameFileFilter( final String dirname, final Set<Attrib> attributes )
+    public DirNameFileFilter( final String dirname, final Set<Attributes> attributes )
     {
         this.dirname = dirname;
 
         if( attributes == null ) {
-            this.attribSet = EnumSet.noneOf( Attrib.class );
+            this.attributes = EnumSet.noneOf( Attributes.class );
         }
         else {
-            this.attribSet = EnumSet.copyOf( attributes );
+            this.attributes = EnumSet.copyOf( attributes );
             }
     }
 
-    /* (non-Javadoc)
-     * @see java.io.FileFilter#accept(java.io.File)
-     */
     @Override
     public boolean accept( final File file )
     {
@@ -47,7 +33,7 @@ public class DirNameFileFilter extends DirFileFilter
             return false;
         }
 
-        if( this.attribSet.contains( Attrib.IGNORE_CASE ) ) {
+        if( this.attributes.contains( Attributes.IGNORE_CASE ) ) {
             if( file.getName().equalsIgnoreCase( this.dirname ) ) {
                 return true;
             }

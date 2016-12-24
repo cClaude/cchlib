@@ -1,73 +1,67 @@
-/**
- *
- */
 package com.googlecode.cchlib.tools.autorename;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
-import java.io.FileFilter;
 
-/**
- * @author CC
- *
- */
 public class DateISOFileFilter implements FileFilter
 {
-    public enum Attrib{
+    public enum Attributes
+    {
         FILE_ONLY,
         DIRECTORY_ONLY,
         REMENBER_IGNORED_DIRECTORIES,
         REMENBER_IGNORED_FILES
-        };
+    }
+
     protected static final String ISO_PATTERN_STRING =
         "\\d\\d\\d\\d-\\d\\d-\\d\\d" ;
     protected static final Pattern ISO_PATTERN =
         Pattern.compile( ISO_PATTERN_STRING + ".*" );
 
-    private EnumSet<Attrib> attribSet;
-    private List<File> ignoredFilesFile;
-    private List<File> ignoredDirsFile;
+    private Set<Attributes> attributes;
+    private List<File>  ignoredFilesFile;
+    private List<File>  ignoredDirsFile;
 
-    /**
-     * @param attributes
-     *
-     */
-    public DateISOFileFilter( EnumSet<Attrib> attributes )
+    public DateISOFileFilter( final Set<Attributes> attributes )
     {
         if( attributes == null ) {
-            this.attribSet = EnumSet.noneOf( Attrib.class );
+            this.attributes = Collections.unmodifiableSet( EnumSet.noneOf( Attributes.class ) );
         }
         else {
-            this.attribSet = attributes;
+            this.attributes = Collections.unmodifiableSet( EnumSet.copyOf( attributes ) );
             }
 
-        if( attribSet.contains( Attrib.REMENBER_IGNORED_DIRECTORIES )) {
-            ignoredDirsFile = new ArrayList<File>();
+        if( this.attributes.contains( Attributes.REMENBER_IGNORED_DIRECTORIES )) {
+            this.ignoredDirsFile = new ArrayList<>();
         }
-        if( attribSet.contains( Attrib.REMENBER_IGNORED_FILES )) {
-            ignoredFilesFile = new ArrayList<File>();
+        if( this.attributes.contains( Attributes.REMENBER_IGNORED_FILES )) {
+            this.ignoredFilesFile = new ArrayList<>();
         }
-
     }
 
-    /* (non-Javadoc)
-     * @see java.io.FileFilter#accept(java.io.File)
-     */
-    @Override
-    public boolean accept( File file )
+    protected Set<Attributes> getAttributes()
     {
-        if( attribSet.contains( Attrib.FILE_ONLY ) && file.isDirectory() ) {
-            if( attribSet.contains( Attrib.REMENBER_IGNORED_DIRECTORIES )) {
-                ignoredDirsFile.add( file );
+        return this.attributes;
+    }
+
+    @Override
+    public boolean accept( final File file )
+    {
+        if( this.attributes.contains( Attributes.FILE_ONLY ) && file.isDirectory() ) {
+            if( this.attributes.contains( Attributes.REMENBER_IGNORED_DIRECTORIES )) {
+                this.ignoredDirsFile.add( file );
             }
             return false;
         }
-        if( attribSet.contains( Attrib.DIRECTORY_ONLY ) && file.isFile() ) {
-            if( attribSet.contains( Attrib.REMENBER_IGNORED_FILES )) {
-                ignoredFilesFile.add( file );
+        if( this.attributes.contains( Attributes.DIRECTORY_ONLY ) && file.isFile() ) {
+            if( this.attributes.contains( Attributes.REMENBER_IGNORED_FILES )) {
+                this.ignoredFilesFile.add( file );
                 }
             return false;
         }
@@ -76,13 +70,13 @@ public class DateISOFileFilter implements FileFilter
             return true;
         }
         else if( file.isDirectory() ) {
-            if( attribSet.contains( Attrib.REMENBER_IGNORED_DIRECTORIES )) {
-                ignoredDirsFile.add( file );
+            if( this.attributes.contains( Attributes.REMENBER_IGNORED_DIRECTORIES )) {
+                this.ignoredDirsFile.add( file );
             }
         }
         else if( file.isFile() ) {
-            if( attribSet.contains( Attrib.REMENBER_IGNORED_FILES )) {
-                ignoredFilesFile.add( file );
+            if( this.attributes.contains( Attributes.REMENBER_IGNORED_FILES )) {
+                this.ignoredFilesFile.add( file );
             }
         }
         else {
@@ -94,11 +88,11 @@ public class DateISOFileFilter implements FileFilter
 
     public void clear()
     {
-        if( ignoredFilesFile != null ) {
-            ignoredFilesFile.clear();
+        if( this.ignoredFilesFile != null ) {
+            this.ignoredFilesFile.clear();
         }
-        if( ignoredDirsFile != null ) {
-            ignoredDirsFile.clear();
+        if( this.ignoredDirsFile != null ) {
+            this.ignoredDirsFile.clear();
         }
     }
 
@@ -107,10 +101,10 @@ public class DateISOFileFilter implements FileFilter
      */
     public List<File> getIgnoredFilesCopy()
     {
-        if( ignoredFilesFile != null ) {
-            return new ArrayList<File>( ignoredFilesFile );
+        if( this.ignoredFilesFile != null ) {
+            return new ArrayList<>( this.ignoredFilesFile );
         }
-        return new ArrayList<File>();
+        return new ArrayList<>();
     }
 
     /**
@@ -118,26 +112,9 @@ public class DateISOFileFilter implements FileFilter
      */
     public List<File> getIgnoredDirsCopy()
     {
-        if( ignoredDirsFile != null ) {
-            return new ArrayList<File>( ignoredDirsFile );
+        if( this.ignoredDirsFile != null ) {
+            return new ArrayList<>( this.ignoredDirsFile );
         }
-        return new ArrayList<File>();
+        return new ArrayList<>();
     }
-//
-//    /**
-//     * @param ignoredFilesFile the ignoredFilesFile to set
-//     */
-//    public void addIgnoredFile( List<File> ignoredFilesFile )
-//    {
-//        this.ignoredFilesFile = ignoredFilesFile;
-//    }
-//
-//    /**
-//     * @param ignoredDirsFile the ignoredDirsFile to set
-//     */
-//    public void setIgnoredDirsFile( List<File> ignoredDirsFile )
-//    {
-//        this.ignoredDirsFile = ignoredDirsFile;
-//    }
-
 }

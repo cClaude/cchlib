@@ -9,15 +9,15 @@ public class AutoRenameMain
 {
     private final BadDateISOFileFilter level1FileFilter = new BadDateISOFileFilter(
             EnumSet.of(
-                    DateISOFileFilter.Attrib.DIRECTORY_ONLY,
-                    DateISOFileFilter.Attrib.REMENBER_IGNORED_DIRECTORIES
+                    DateISOFileFilter.Attributes.DIRECTORY_ONLY,
+                    DateISOFileFilter.Attributes.REMENBER_IGNORED_DIRECTORIES
 //                    DateISOFileFilter.Attrib.REMENBER_IGNORED_FILES
                     )
             );
 
    private final File homeDir;
    private static final FileFilter dirFileFilter    = new DirFileFilter();
-   private static final FileFilter level2FileFilter = new DirNameFileFilter( "prive", EnumSet.of( DirNameFileFilter.Attrib.IGNORE_CASE ) );
+   private static final FileFilter level2FileFilter = new DirNameFileFilter( "prive", EnumSet.of( DirNameFileFilter.Attributes.IGNORE_CASE ) );
 //    //private static final Pattern pLevel1 = Pattern.compile( "\\d\\d\\d\\d\\.\\d\\d\\.\\d\\d\\..*" );
 //    private static final String  pLevel1Str      =  "\\d\\d\\d\\d\\.";
 //    private static final Pattern pLevel1         = Pattern.compile( pLevel1Str + ".*" );
