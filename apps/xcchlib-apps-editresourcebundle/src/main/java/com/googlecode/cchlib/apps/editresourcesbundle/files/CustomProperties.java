@@ -55,13 +55,26 @@ public interface CustomProperties
      * @return true if file has been saved
      *
      * @throws FileNotFoundException
+     *             if file not found
      * @throws IOException
+     *             if any
      */
-    boolean store() // $codepro.audit.disable booleanMethodNamingConvention
-        throws FileNotFoundException, IOException;
+    @SuppressWarnings({"squid:S1160","squid:RedundantThrowsDeclarationCheck"})
+    boolean store() throws FileNotFoundException, IOException;
 
-    boolean storeAs( final File file ) // $codepro.audit.disable booleanMethodNamingConvention
-        throws FileNotFoundException, IOException;
+    /**
+     * Save content
+     *
+     * @param file
+     *            {@link File} to use
+     * @return true if file has been saved
+     * @throws FileNotFoundException
+     *             if file not found
+     * @throws IOException
+     *             if any
+     */
+    @SuppressWarnings({"squid:S1160","squid:RedundantThrowsDeclarationCheck"})
+    boolean storeAs( final File file ) throws FileNotFoundException, IOException;
 
     /**
      * Returns false if content has not been edited.
@@ -73,12 +86,11 @@ public interface CustomProperties
      * Adds a {@link ChangeListener}
      * @param listener the {@link ChangeListener} to add
      */
-    void addChangeListener(ChangeListener listener );
+    void addChangeListener( ChangeListener listener );
 
     /**
      * Removes a {@link ChangeListener}
      * @param listener the {@link ChangeListener} to remove
      */
-    void removeChangeListener(ChangeListener listener );
-
+    void removeChangeListener( ChangeListener listener );
 }
