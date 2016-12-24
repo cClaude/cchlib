@@ -29,10 +29,6 @@ import com.googlecode.cchlib.tools.downloader.common.DownloaderData;
 import com.googlecode.cchlib.tools.downloader.common.DownloaderHandler;
 import com.googlecode.cchlib.tools.downloader.common.LoggerListener;
 
-/**
- *
- *
- */
 public class GenericDownloader
 {
     //Not static
@@ -142,7 +138,6 @@ public class GenericDownloader
 
     private final LoggerListener loggerListener;
     private final GenericDownloaderAppUIResults gdauir;
-    //private final DownloaderData data;
     private final DownloaderHandler handler;
 
     public GenericDownloader(
@@ -152,7 +147,6 @@ public class GenericDownloader
             )
         throws IOException, ClassNotFoundException
     {
-        //this.data    = data;
         this.handler = handler;
         this.gdauir  = gdauir;
 
@@ -193,10 +187,10 @@ public class GenericDownloader
      * Returns an {@link Iterable} object of {@link ContentDownloadURI}s to download,
      * must be implement by parent class.
      * @return an {@link Iterable} object of {@link ContentDownloadURI}s to download
-     * @throws IOException
-     * @throws DownloadConfigurationException
-     * @throws RejectedExecutionException
-     * @throws URISyntaxException
+     * @throws IOException if any
+     * @throws DownloadConfigurationException if any
+     * @throws RejectedExecutionException if any
+     * @throws URISyntaxException if any
      */
     protected Collection<ContentDownloadURI<File>> collectDownloadURLs()
         throws  IOException,
@@ -220,8 +214,8 @@ public class GenericDownloader
      * @param urls {@link Iterable} object of {@link URL}s to parses
      * @return  a list of String with content of all URLS download content.
      * @throws IOException if any
-     * @throws DownloadConfigurationException
-     * @throws RejectedExecutionException
+     * @throws DownloadConfigurationException if any
+     * @throws RejectedExecutionException if any
      */
     protected List<ContentDownloadURI<String>> loads(
         final Collection<ContentDownloadURI<String>> urls
@@ -266,7 +260,11 @@ public class GenericDownloader
         return result;
     }
 
-    public void onClickStartDownload() throws IOException, RejectedExecutionException, DownloadConfigurationException, URISyntaxException
+    public void onClickStartDownload()
+        throws IOException,
+               RejectedExecutionException,
+               DownloadConfigurationException,
+               URISyntaxException
     {
         final Collection<ContentDownloadURI<File>> urls             = collectDownloadURLs();
         final DownloadExecutor                     downloadExecutor = new DownloadExecutor(
