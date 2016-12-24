@@ -1,70 +1,34 @@
-/**
- *
- */
 package oldies.tools.phone;
 
 import java.io.File;
 
-/**
- *
- *
- */
 public class BadFileFormatException extends Exception
 {
     private static final long serialVersionUID = 1L;
 
-    /**
-     *
-     */
-    public BadFileFormatException() {}
-
-    /**
-     * @param message
-     */
-    public BadFileFormatException(String message)
+    public BadFileFormatException( final String message )
     {
-        super(message);
+        super( message );
     }
 
-    /**
-     * @param cause
-     */
-    public BadFileFormatException(Throwable cause)
+    public BadFileFormatException( final Throwable cause )
     {
-        super(cause);
+        super( cause );
     }
 
-    /**
-     * @param message
-     * @param cause
-     */
     public BadFileFormatException(
-        final String message,
+        final String    message,
         final Throwable cause
         )
     {
-        super(message, cause);
+        super( message, cause );
     }
 
     /**
-     * @param message
-     * @param cause
-     * @param enableSuppression
-     * @param writableStackTrace
-     */
-    public BadFileFormatException(
-            String message,
-            Throwable cause,
-            boolean enableSuppression,
-            boolean writableStackTrace
-            )
-    {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
-    /**
-     * Create a BadFileFormatException for a specified file
-     * @param file File that cause this exception
+     * Create a BadFileFormatException for a specified {@code file}
+     *
+     * @param file
+     *            File that cause this exception
      */
     public BadFileFormatException( final File file )
     {
@@ -72,13 +36,16 @@ public class BadFileFormatException extends Exception
     }
 
     /**
+     * Create a BadFileFormatException for a specified {@code file}
+     * and {@code lineNumber}
      *
      * @param file
+     *            File that cause this exception
      * @param lineNumber
+     *            Related line
      */
     public BadFileFormatException( final File file, final int lineNumber )
     {
         super( file.getPath() + " at line: " + lineNumber );
     }
-
 }
