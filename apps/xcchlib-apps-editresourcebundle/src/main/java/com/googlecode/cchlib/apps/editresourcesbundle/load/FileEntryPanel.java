@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle.load;
 
 import java.awt.BorderLayout;
@@ -13,21 +12,17 @@ import javax.swing.border.TitledBorder;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 
 @I18nName("LoadDialog")
-public class FileEntryPanel extends JPanel
+//NOT public
+class FileEntryPanel extends JPanel
 {
-    private static final long serialVersionUID = 1L;
-    
-    private JButton selectFileButton;
-    private JTextField filenameTextField;
+    private static final long serialVersionUID = 2L;
 
-    /**
-     * Create the panel.
-     *
-     * @param msgTitle
-     * @param actionCommand
-     * @param actionListener
-     * @param msgButton
-     */
+    private static final Color TITLE_COLOR = new Color(51, 51, 51);
+    private static final Font  TITLE_FONT  = new Font("Dialog", Font.BOLD, 12);
+
+    private final JButton    selectFileButton;
+    private final JTextField filenameTextField;
+
     public FileEntryPanel(
         final String         msgTitle,
         final String         msgButton,
@@ -37,27 +32,28 @@ public class FileEntryPanel extends JPanel
     {
         setBorder(
             BorderFactory.createTitledBorder(
-                    null, msgTitle ,
+                    null, /* no border */
+                    msgTitle,
                     TitledBorder.LEADING,
                     TitledBorder.DEFAULT_POSITION,
-                    new Font("Dialog", Font.BOLD, 12),
-                    new Color(51, 51, 51)
+                    TITLE_FONT,
+                    TITLE_COLOR
                     )
                 );
         setLayout( new BorderLayout() );
 
-        selectFileButton = new JButton( msgButton );
-        selectFileButton.setActionCommand( actionCommand );
-        selectFileButton.addActionListener( actionListener );
-        add(selectFileButton, BorderLayout.WEST);
+        this.selectFileButton = new JButton( msgButton );
+        this.selectFileButton.setActionCommand( actionCommand );
+        this.selectFileButton.addActionListener( actionListener );
+        add(this.selectFileButton, BorderLayout.WEST);
 
-        filenameTextField = new JTextField();
-        add(filenameTextField, BorderLayout.CENTER);
+        this.filenameTextField = new JTextField();
+        add(this.filenameTextField, BorderLayout.CENTER);
     }
 
     public JTextField getJTextField()
     {
-        return filenameTextField;
+        return this.filenameTextField;
     }
 }
 
