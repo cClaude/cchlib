@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-import com.googlecode.cchlib.NeedDoc;
-
 /**
  *
  * A typically implementation of this interface is :
@@ -10,7 +8,7 @@ import com.googlecode.cchlib.NeedDoc;
  * </pre>
  * but could also perform internationalization on private objects.
  */
-@NeedDoc
+@SuppressWarnings("squid:S1609") // This is probably not an functional interface
 public interface I18nAutoCoreUpdatable
 {
     /**
