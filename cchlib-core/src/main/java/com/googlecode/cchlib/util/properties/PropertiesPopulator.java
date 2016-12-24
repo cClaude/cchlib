@@ -14,17 +14,15 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 /**
- * <p>PropertiesPopulator is a simple way to store values in a properties
- * with a minimum work.</p>
+ * PropertiesPopulator is a simple way to store values in a properties
+ * with a minimum work.
  * <p>
  * PropertiesPopulator is able to set or get {@link Field} values
  * annotates with {@link Populator} or {@link Persistent}.
- * </p>
  * <p>
  * <i>Warn:</i>Only primitive type are supported (and standard derived object) by
  * {@link Populator}.<br>
  * See {@link PopulatorContener} if you need to support extra type.
- * </p>
  * <br>
  * Swing components supported by {@link Persistent}
  * <ul>

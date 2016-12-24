@@ -77,7 +77,7 @@ public final class PropertiesHelper
         final String        comment
         ) throws IOException
     {
-        try (final OutputStream os = new FileOutputStream( propertiesFile )) {
+        try( final OutputStream os = new FileOutputStream( propertiesFile ) ) {
             properties.store( os, (comment == null) ? StringHelper.EMPTY : comment );
             }
     }
