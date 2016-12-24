@@ -18,7 +18,8 @@ import com.googlecode.cchlib.tools.downloader.comboconfig.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.comboconfig.GenericDownloaderAppComboBoxConfig;
 
 public abstract class AbstractDownloaderAppInterface
-    implements com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface, Serializable
+    implements com.googlecode.cchlib.tools.downloader.GenericDownloaderAppInterface,
+               Serializable
 {
     private static final long serialVersionUID = 1L;
     private static final transient Logger LOGGER = Logger.getLogger( AbstractDownloaderAppInterface.class );
@@ -30,11 +31,6 @@ public abstract class AbstractDownloaderAppInterface
     private Proxy                                    proxy;
     private List<GenericDownloaderAppComboBoxConfig> comboBoxConfigList;
 
-    /**
-     * @param siteName
-     * @param numberOfPicturesByPage
-     * @param pageCount
-     */
     protected AbstractDownloaderAppInterface(
         final String    siteName,
         final int       numberOfPicturesByPage,
@@ -120,13 +116,13 @@ public abstract class AbstractDownloaderAppInterface
     }
 
     /**
-     * TODOC
+     * NEEDDOC
      *
-     * @param src
-     * @param regexpIndex
-     * @return TODOC
-     * @throws MalformedURLException
-     * @throws URISyntaxException
+     * @param src NEEDDOC
+     * @param regexpIndex NEEDDOC
+     * @return NEEDDOC
+     * @throws MalformedURLException NEEDDOC
+     * @throws URISyntaxException NEEDDOC
      */
     public abstract ContentDownloadURI<File> getDownloadURLFrom( String src, int regexpIndex )
         throws MalformedURLException, URISyntaxException;
