@@ -1,16 +1,11 @@
 package oldies.tools.phone.contacts;
 
-/**
- *
- */
-public class DefaultContact extends AbstractContact {
+public class DefaultContact extends AbstractContact
+{
     private static final long serialVersionUID = 1L;
-    
-    private String[] values;
 
-    /**
-     * @param contactProperties
-     */
+    private final String[] values;
+
     public DefaultContact( final ContactProperties contactProperties )
     {
         super( contactProperties );
@@ -19,14 +14,14 @@ public class DefaultContact extends AbstractContact {
     }
 
     @Override
-    public String getValue( int propertyIndex )
+    public String getValue( final int propertyIndex )
     {
-        return values[ propertyIndex ];
+        return this.values[ propertyIndex ];
     }
 
     @Override
     public void setValue( final int propertyIndex, final String value )
     {
-        values[ propertyIndex ] = value;
+        this.values[ propertyIndex ] = value;
     }
 }
