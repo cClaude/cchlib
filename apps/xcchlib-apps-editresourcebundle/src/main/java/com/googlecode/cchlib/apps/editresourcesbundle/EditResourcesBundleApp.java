@@ -13,9 +13,16 @@ import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
  */
 public class EditResourcesBundleApp
 {
+    private EditResourcesBundleApp()
+    {
+        // App
+    }
+
     /**
-    * Launch application
-    */
+     * Launch application
+     *
+     * @param args CLI parameters (ignored)
+     */
     public static void main( final String[] args )
     {
         CompareResourcesBundleFrame.main(/* args */);
@@ -26,12 +33,21 @@ public class EditResourcesBundleApp
         return new DefaultI18nResourceBundleName( EditResourcesBundleApp.class.getPackage() );
     }
 
-    public static I18nSimpleResourceBundle getI18nSimpleResourceBundle( Locale locale )
+    public static I18nSimpleResourceBundle getI18nSimpleResourceBundle( final Locale locale )
     {
+        final Locale i18nLocale;
+
         if( locale == null ) {
-            locale = Locale.getDefault();
+            i18nLocale = Locale.getDefault();
             }
-        return new I18nSimpleResourceBundle( locale, EditResourcesBundleApp.getI18nResourceBundleName() );
+        else {
+            i18nLocale = locale;
+        }
+
+        return new I18nSimpleResourceBundle(
+                i18nLocale,
+                EditResourcesBundleApp.getI18nResourceBundleName()
+                );
     }
 
     public static Set<AutoI18nConfig> getConfig()
