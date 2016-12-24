@@ -224,20 +224,9 @@ public class FilesConfig implements Serializable
         return true;
     }
 
-    @SuppressWarnings("squid:SwitchLastCaseIsDefaultCheck") // switch on enum
     public void load() throws IOException
     {
         this.fileType.loadSwitchFileType( this );
-//        switch( this.fileType ) -
-//        { -
-//            case PROPERTIES: -
-//                privateLoadProperties(); -
-//                break; -
-// -
-//            case FORMATTED_PROPERTIES : -
-//                privateLoadFormattedProperties(); -
-//                break; -
-//        } -
     }
 
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
