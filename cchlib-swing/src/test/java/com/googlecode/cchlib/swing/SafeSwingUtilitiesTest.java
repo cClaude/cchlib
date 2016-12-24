@@ -2,6 +2,7 @@ package com.googlecode.cchlib.swing;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SafeSwingUtilitiesTest
@@ -12,6 +13,7 @@ public class SafeSwingUtilitiesTest
     // JVM using -Djava.awt.headless=true or configure your
     // environment to support Graphics objects
     @Test
+    @Ignore
     public void test_isHeadlessCorrect()
     {
         final boolean headlessCorrect = SafeSwingUtilities.isHeadlessCorrect();
