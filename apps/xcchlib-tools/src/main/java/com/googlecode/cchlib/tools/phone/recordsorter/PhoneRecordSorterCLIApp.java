@@ -11,10 +11,6 @@ import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.google.GoogleReadConfigFactory;
 
-/**
- *
- *
- */
 public class PhoneRecordSorterCLIApp
 {
     private static final Logger LOGGER = Logger.getLogger( PhoneRecordSorterCLIApp.class );
@@ -27,9 +23,10 @@ public class PhoneRecordSorterCLIApp
 
     /**
      * Launch the application.
-     * @throws IOException
-     * @throws UnsupportedOperationException
-     * @throws FileNotFoundException
+     *
+     * @throws IOException if any
+     * @throws UnsupportedOperationException if any
+     * @throws FileNotFoundException if any
      */
     public static void main( final String[] args ) throws FileNotFoundException, UnsupportedOperationException, IOException
     {
