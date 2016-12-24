@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry;
 
-/**
- *
- */
 public class DefaultComboBoxConfig
     implements GenericDownloaderAppComboBoxConfig
 {
@@ -14,6 +11,7 @@ public class DefaultComboBoxConfig
     private int selectedIndex;
     private final List<GenericDownloaderUIPanelEntry.Item> items = new ArrayList<>();
 
+    @SuppressWarnings("squid:S2176")
     private static class Item implements GenericDownloaderUIPanelEntry.Item
     {
         private final String jComboBoxText;
@@ -47,12 +45,7 @@ public class DefaultComboBoxConfig
             return builder.toString();
         }
     }
-    /**
-     *
-     * @param labelString
-     * @param comboBoxValues
-     * @param labelStrings
-     */
+
     public DefaultComboBoxConfig(
         final String   labelString,
         final String[] comboBoxValues,
@@ -70,13 +63,6 @@ public class DefaultComboBoxConfig
            }
     }
 
-    /**
-     *
-     * @param labelString
-     * @param minValue
-     * @param maxValue
-     * @param comments
-     */
     public DefaultComboBoxConfig(
         final String    labelString,
         final int       minValue,
@@ -110,11 +96,11 @@ public class DefaultComboBoxConfig
     @Override
     public String getComboBoxSelectedValue()
     {
-        if( this.items.size() > 0 ) {
-            return this.items.get( getSelectedIndex() ).getJComboBoxText();
+        if( this.items.isEmpty() ) {
+            return null;
             }
         else {
-            return null;
+            return this.items.get( getSelectedIndex() ).getJComboBoxText();
             }
     }
 
