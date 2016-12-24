@@ -5,11 +5,9 @@ import java.io.FileFilter;
 import java.util.EnumSet;
 import java.util.List;
 
-/**
- *
- */
-public class AutoRenameMain {
-    private BadDateISOFileFilter level1FileFilter = new BadDateISOFileFilter(
+public class AutoRenameMain
+{
+    private final BadDateISOFileFilter level1FileFilter = new BadDateISOFileFilter(
             EnumSet.of(
                     DateISOFileFilter.Attrib.DIRECTORY_ONLY,
                     DateISOFileFilter.Attrib.REMENBER_IGNORED_DIRECTORIES
@@ -17,7 +15,7 @@ public class AutoRenameMain {
                     )
             );
 
-   private File homeDir;
+   private final File homeDir;
    private static final FileFilter dirFileFilter    = new DirFileFilter();
    private static final FileFilter level2FileFilter = new DirNameFileFilter( "prive", EnumSet.of( DirNameFileFilter.Attrib.IGNORE_CASE ) );
 //    //private static final Pattern pLevel1 = Pattern.compile( "\\d\\d\\d\\d\\.\\d\\d\\.\\d\\d\\..*" );
@@ -36,7 +34,7 @@ public class AutoRenameMain {
 //        Pattern.compile( "__.__" )
 //    };
 
-    public AutoRenameMain( File homeDir )
+    public AutoRenameMain( final File homeDir )
     {
         this.homeDir = homeDir;
     }
@@ -48,38 +46,37 @@ public class AutoRenameMain {
 
     public void doJobLevel1( final File dirFile )
     {
-        //System.out.println( "LEVEL1: " + dirFile );
+        final File[] dirs = dirFile.listFiles( this.level1FileFilter );
 
-        File[] dirs = dirFile.listFiles( level1FileFilter );
+        final List<File> ignoredFiles = this.level1FileFilter.getIgnoredFilesCopy();
+        final List<File> ignoredDirs  = this.level1FileFilter.getIgnoredDirsCopy();
+        final List<File> isoFiles     = this.level1FileFilter.getIgnoredGoodISOCopy();
 
-        List<File> ignoredFiles = level1FileFilter.getIgnoredFilesCopy();
-        List<File> ignoredDirs  = level1FileFilter.getIgnoredDirsCopy();
-        List<File> isoFiles     = level1FileFilter.getIgnoredGoodISOCopy();
-
-        level1FileFilter.clear();
+        this.level1FileFilter.clear();
 
         if( dirs != null ) {
-            for( File d : dirs ) {
+            for( final File d : dirs ) {
                 doJobLevel2NotISO( d );
             }
         }
 
-        for( File f : isoFiles ) {
+        for( final File f : isoFiles ) {
             doJobLevel2ISO( f );
         }
 
-        for( File f : ignoredFiles ) {
-            System.out.println( "IGNORED FILE: " + f );
+        for( final File f : ignoredFiles ) {
+            println( "IGNORED FILE: " + f );
         }
 
-        for( File d : ignoredDirs ) {
+        for( final File d : ignoredDirs ) {
             doJobLevel1( d );
         }
     }
 
+
     public void doJobLevel2NotISO( final File dirFile )
     {
-        System.out.println( "LEVEL2 (NOT ISO): " + dirFile );
+        println( "LEVEL2 (NOT ISO): " + dirFile );
 
 //        String oldName = dirFile.getName();
 //        StringBuilder newName = new StringBuilder();
@@ -106,24 +103,20 @@ public class AutoRenameMain {
 //
 //        File newFile = new File( dirFile.getParentFile(), newName.toString() );
 //
-        File newFile = level1FileFilter.normalize( dirFile );
+        final File newFile = this.level1FileFilter.normalize( dirFile );
 
-        if( dirFile.renameTo( newFile ) ) {
+        if( renameTo( dirFile, newFile ) ) {
             doJobLevel2ISO( newFile );
         }
-        else {
-            System.err.println( "Can't rename [" + dirFile + "] to [" + newFile + "]" );
-        }
-
     }
+
 
     public void doJobLevel2ISO( final File dirFile )
     {
-        // System.out.println( "LEVEL2 (ISO): " + dirFile );
-        File[] dirs = dirFile.listFiles( level2FileFilter );
+        final File[] dirs = dirFile.listFiles( level2FileFilter );
 
         if( dirs != null ) {
-            for( File d : dirs ) {
+            for( final File d : dirs ) {
                 doJobLevel3( d );
             }
         }
@@ -131,80 +124,95 @@ public class AutoRenameMain {
 
     public void doJobLevel3( final File dirFile )
     {
-        //System.out.println( "LEVEL3: " + dirFile );
-        File[] dirs = dirFile.listFiles( dirFileFilter );
+        final File[] dirs = dirFile.listFiles( dirFileFilter );
 
         if( dirs != null ) {
-            for( File d : dirs ) {
-                String parentOfParentName = dirFile.getParentFile().getName();
-                String dirName = d.getName();
+            for( final File d : dirs ) {
+                final String parentOfParentName = dirFile.getParentFile().getName();
+                final String dirName = d.getName();
 
                 if( dirName.startsWith( parentOfParentName )) {
                     // Look good !
-                    // System.out.println( "L3: already done: " + d );
+                    // println( "L3: already done: " + d );
                 }
                 else if( dirName.equalsIgnoreCase( "prive" ) ) {
-                    File newFile = new File( dirFile, parentOfParentName + "(prive)" );
+                    final File newFile = new File( dirFile, parentOfParentName + "(prive)" );
 
-                    System.out.println( "L3 Found PRIVE : " + d + " ==> : " + newFile );
+                    println( "L3 Found PRIVE : " + d + " ==> : " + newFile );
 
-                    boolean res = d.renameTo( newFile );
-
-                    if( !res ) {
-                        System.err.println( "Can't rename [" + d + "] to [" + newFile + "]" );
-                    }
+                    renameTo( d, newFile );
                 }
-                else if( level1FileFilter.accept( dirFile ) ) {
+                else if( this.level1FileFilter.accept( dirFile ) ) {
                     // Look like bad iso !
-                    File newFile = level1FileFilter.normalize( dirFile );
+                    final File newFile = this.level1FileFilter.normalize( dirFile );
 
-                    System.out.println( "L3 Found BAD ISO : " + d + " ==> : " + newFile );
+                    println( "L3 Found BAD ISO : " + d + " ==> : " + newFile );
                 }
                 else {
-                    File newFile = new File( dirFile, parentOfParentName + "(" + d.getName() + ")" );
+                    final File newFile = new File( dirFile, parentOfParentName + "(" + d.getName() + ")" );
 
-                    System.out.println( "L3 Found prive? : [" + d.getName() + "][" + d + "] ==> : " + newFile );
+                    println( "L3 Found prive? : [" + d.getName() + "][" + d + "] ==> : " + newFile );
 
-//                boolean res = d.renameTo( newFile );
-//
-//                if( !res ) {
-//                    System.err.println( "Can't rename [" + d + "] to [" + newFile + "]" );
-//                }
+//                d.renameTo( d, newFile );
                 }
             }
         }
     }
 
-    /**
-     * @param args
-     */
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
-        File homeDir = new File( "ZZ:/Datas/Photos" );
+        String path;
 
-        System.out.println( "Running from: " + homeDir );
-        AutoRenameMain instance = new AutoRenameMain( homeDir );
+        if( args.length > 0 ) {
+            path = args[ 0 ];
+        } else {
+            path = "ZZ:/Datas/Photos";
+        }
+
+        launch( path );
+    }
+
+    public static void launch( final String path )
+    {
+        final File homeDir = new File( path );
+
+        println( "Running from: " + homeDir );
+        final AutoRenameMain instance = new AutoRenameMain( homeDir );
 
         instance.doJob();
-        System.out.println( "Done." );
+        println( "Done." );
     }
-/*
-    private static File buildRenameFile( File f, String newFilename )
+
+    private static File buildRenameFile( final File f, final String newFilename )
     {
         return new File( f.getParentFile(), newFilename );
     }
 
-    private static boolean rename( File f, String newFilename )
+    private static boolean rename( final File f, final String newFilename )
     {
-        File newFile = buildRenameFile( f, newFilename );
+        final File newFile = buildRenameFile( f, newFilename );
 
-        boolean res = f.renameTo( newFile );
+        return renameTo( f, newFile );
+    }
+
+    private static boolean renameTo( final File file, final File newFile )
+    {
+        final boolean res = file.renameTo( newFile );
 
         if( !res ) {
-            System.err.println( "Can't rename [" + f + "] to [" + newFile + "]" );
+            errPrintln( "Can not rename \"" + file + "\" to \"" + newFile + '"' );
         }
 
         return res;
     }
-*/
+
+    private static void println( final String str )
+    {
+        System.out.println( str );
+    }
+
+    private static void errPrintln( final String str )
+    {
+        System.out.println( str );
+    }
 }
