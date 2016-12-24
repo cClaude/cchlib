@@ -2,7 +2,6 @@ package com.googlecode.cchlib.tools.phone.recordsorter.conf.util;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -11,9 +10,11 @@ import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 public class DefaultContact implements Contact, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private SortedSet<String> numberSet = new TreeSet<>();
-    private String            name;
-    private boolean           backup = true;
+
+    private final SortedSet<String> numberSet = new TreeSet<>();
+
+    private String              name;
+    private boolean             backup = true;
     private Comparator<Contact> byNameComparator;
 
     @Override
@@ -22,24 +23,24 @@ public class DefaultContact implements Contact, Serializable
         final StringBuilder builder = new StringBuilder();
         builder.append( getClass().getSimpleName() );
         builder.append( " [numberSet=" );
-        builder.append( numberSet );
+        builder.append( this.numberSet );
         builder.append( ", name=" );
-        builder.append( name );
+        builder.append( this.name );
         builder.append( ", backup=" );
-        builder.append( backup );
+        builder.append( this.backup );
         builder.append( ']' );
         return builder.toString();
     }
 
     protected Set<String> internalNumberSet()
     {
-        return numberSet;
+        return this.numberSet;
     }
 
     @Override
     public String getName()
     {
-        return name;
+        return this.name;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class DefaultContact implements Contact, Serializable
     @Override
     public boolean isBackup()
     {
-        return backup;
+        return this.backup;
     }
 
     @Override
@@ -77,28 +78,16 @@ public class DefaultContact implements Contact, Serializable
     @Override
     public Iterable<String> getNumbers()
     {
-        return new Iterable<String>() {
-            @Override
-            public Iterator<String> iterator()
-            {
-                return internalNumberSet().iterator();
-            }
-        };
+        return () -> internalNumberSet().iterator();
     }
 
     @Override
     public Comparator<Contact> getByNameComparator()
     {
-        if( byNameComparator == null ) {
-            byNameComparator = new Comparator<Contact>() {
-                @Override
-                public int compare( final Contact o1, final Contact o2 )
-                {
-                    return o1.getName().compareTo( o2.getName() );
-                }
-            };
+        if( this.byNameComparator == null ) {
+            this.byNameComparator = ( o1, o2 ) -> o1.getName().compareTo( o2.getName() );
         }
-        return byNameComparator;
+        return this.byNameComparator;
     }
 
     @Override
