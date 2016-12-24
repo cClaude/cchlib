@@ -117,7 +117,7 @@ public class SMSLoader
     /**
      * Remove clone SMS from list
      *
-     * @throws InconsistantSMSException
+     * @throws InconsistantSMSException if any
      */
     public void removeClones() throws InconsistantSMSException
     {
