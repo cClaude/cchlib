@@ -1,102 +1,24 @@
 package com.googlecode.cchlib.swing.textfield;
 
-import java.awt.Toolkit;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.DocumentFilter;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.swing.textfield.IntegerTextLimiter.Limits;
 
 /**
  * NEEDDOC
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
-public class LimitedIntegerJTextField extends JTextField
+public class LimitedIntegerJTextField extends JTextField implements Limits
 {
     private static final long serialVersionUID = 1L;
+
     private static final Logger LOGGER = Logger.getLogger( LimitedIntegerJTextField.class );
 
     /** @serial */
     private int maxValue;
     /** @serial */
     private int radix;
-
-    /**
-    * Text limiter used to limit the value to integer and also the max integer value
-    * Should be used this way :
-    *
-    * AbstractDocument doc = (AbstractDocument) myTextComponent.getDocument();
-    * doc.setDocumentFilter(new IntegerTextLimiter(maxLength));
-    *
-    * @author CC
-    *
-    */
-    private class IntegerTextLimiter extends DocumentFilter
-    {
-        public IntegerTextLimiter()
-        {
-            // Empty
-        }
-
-        @Override
-        public void insertString(
-                final DocumentFilter.FilterBypass fb,
-                final int offset,
-                final String str,
-                final AttributeSet attrs
-                )
-            throws BadLocationException
-        {
-            replace(fb, offset, 0, str, attrs);
-        }
-
-        @Override
-        public void replace(
-                final DocumentFilter.FilterBypass fb,
-                final int offset,
-                final int length,
-                final String str,
-                final AttributeSet attrs
-                )
-            throws BadLocationException
-        {
-            // Store previous value! (should be valid)
-            final Document rdoc          = fb.getDocument().getDefaultRootElement().getDocument();
-            final String   savePrevValue = rdoc.getText( 0, rdoc.getLength() );
-
-            // Put new value
-            fb.replace(offset, length, str, attrs);
-
-            // Get new value, check it
-            final String   newValue = rdoc.getText( 0, rdoc.getLength() );
-            int            intValue;
-
-            try {
-                intValue = Integer.parseInt( newValue, LimitedIntegerJTextField.this.radix );
-
-                if( intValue <= LimitedIntegerJTextField.this.maxValue ) {
-                    if( intValue >=0 ) {
-                        // All OK, bye, bye
-                        return;
-                    }
-                }
-            // greater than maxValue or negative
-            }
-            catch( final NumberFormatException e ) {
-                LOGGER.warn( "set new value error - restore to last valid value", e );
-                // No more and Integer, out of range !
-            }
-
-            Toolkit.getDefaultToolkit().beep();
-
-            // clean up
-            rdoc.remove( 0, rdoc.getLength() );
-            // set old string
-            rdoc.insertString( 0, savePrevValue, attrs );
-        }
-    }
 
     /**
      * TextField that is limited to integer values, range [0...Integer.MAX_VALUE],
@@ -108,10 +30,12 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * TextField that is limited to integer values, and limit this integer to an maxValue,
-     * radix is set to 10.
-     * @param maxValue maxValue for current JTextField, range [0...maxValue]
-     * @throws IllegalArgumentException if maxValue is negative
+     * TextField that is limited to integer values, and limit this integer to an maxValue, radix is set to 10.
+     *
+     * @param maxValue
+     *            maxValue for current JTextField, range [0...maxValue]
+     * @throws IllegalArgumentException
+     *             if maxValue is negative
      */
     public LimitedIntegerJTextField( final int maxValue )
     {
@@ -120,9 +44,13 @@ public class LimitedIntegerJTextField extends JTextField
 
     /**
      * TextField that is limited to integer values, and limit this integer to an maxValue
-     * @param maxValue maxValue for current JTextField, range [0...maxValue]
-     * @param radix NEEDDOC
-     * @throws IllegalArgumentException if maxValue is negative
+     *
+     * @param maxValue
+     *            maxValue for current JTextField, range [0...maxValue]
+     * @param radix
+     *            The radix value for String to Integer conversion.
+     * @throws IllegalArgumentException
+     *             if maxValue is negative
      *
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
@@ -131,34 +59,36 @@ public class LimitedIntegerJTextField extends JTextField
     {
         super();
 
-        setRadix(radix);
+        setRadix( radix );
         setMaxValue( maxValue );
 
         final AbstractDocument doc = (AbstractDocument)getDocument();
-        doc.setDocumentFilter(new IntegerTextLimiter());
+        doc.setDocumentFilter(new IntegerTextLimiter(this));
     }
 
     /**
-     * NEEDDOC
-     * @return NEEDDOC
+     * Returns the Integer max allowed value
+     * @return the Integer max allowed value (value included)
      */
+    @Override
     public int getMaxValue()
     {
         return this.maxValue;
     }
 
     /**
-     * NEEDDOC
-     * @return NEEDDOC
+     * Returns the String to Integer conversion radix
+     * @return the String to Integer conversion radix
      */
+    @Override
     public int getRadix()
     {
         return this.radix;
     }
 
     /**
-     * NEEDDOC
-     * @return NEEDDOC
+     * Returns text value as an integer
+     * @return text value as an integer
      */
     public int getValue()
     {
@@ -181,13 +111,14 @@ public class LimitedIntegerJTextField extends JTextField
     }
 
     /**
-     * NEEDDOC
+     * Set the maximum value allowed
+     *
      * @param maxValue Maximum integer allowed by LimitedIntegerTextField
      * @throws IllegalArgumentException if maxValue is negative
      *         or if current value is greater than this new maxValue
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    public void setMaxValue(final int maxValue)
+    public void setMaxValue( final int maxValue )
         throws IllegalArgumentException
     {
         if( maxValue < 0 ) { // maxValue should be greater than 0
@@ -228,23 +159,25 @@ public class LimitedIntegerJTextField extends JTextField
         setValue( getValue() );
     }
 
-    /**
-     * NEEDDOC
-     * @param value NEEDDOC
-     * @throws IllegalArgumentException  NEEDDOC
-     */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void checkValue( final int value ) throws IllegalArgumentException
     {
         if( value > this.maxValue ) {
             throw new IllegalArgumentException(
-                String.format( "need a value(%d) less than %d ",Integer.valueOf( value ), Integer.valueOf( this.maxValue ) )
+                String.format(
+                        "need a value(%d) less than %d ",
+                        Integer.valueOf( value ),
+                        Integer.valueOf( this.maxValue )
+                        )
                 );
             }
 
         if( value < 0 ) {
             throw new IllegalArgumentException(
-                String.format( "need a value(%d) greater than: 0 ", Integer.valueOf( value ) )
+                String.format(
+                        "need a value(%d) greater than: 0 ",
+                        Integer.valueOf( value )
+                        )
                 );
             }
     }
