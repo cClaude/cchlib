@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream; // $codepro.audit.disable unnecessaryImport
 import java.io.OutputStream; // $codepro.audit.disable unnecessaryImport
+import java.util.Locale;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.VisibleForTesting;
 import com.googlecode.cchlib.samples.Samples;
@@ -95,8 +96,11 @@ public class SimpleBatchRunnerSampleApp extends AbstractBRRunnable
 
     /**
      * Launch the application.
-     * @param args Ignored
+     *
+     * @param args
+     *            Ignored
      * @throws MissingLocaleStringException
+     *             if a entry for current {@link Locale} is missing
      */
     public static void main( final String[] args ) throws MissingLocaleStringException
     {
