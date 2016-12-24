@@ -2,6 +2,7 @@ package com.googlecode.cchlib.util.properties;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import org.apache.log4j.Logger;
 
 //NOT public
 final class PropertiesPopulatorAnnotationForFieldImpl<E> //
@@ -9,6 +10,8 @@ final class PropertiesPopulatorAnnotationForFieldImpl<E> //
         implements PropertiesPopulatorAnnotationForField<E>,
                    PropertiesPopulatorSetter<E,Field>
 {
+    private static final Logger LOGGER = Logger.getLogger( AbstractPropertiesPopulatorAnnotation.class );
+
     private final Field field;
 
     PropertiesPopulatorAnnotationForFieldImpl( final Populator populator, final Field field )
@@ -26,7 +29,17 @@ final class PropertiesPopulatorAnnotationForFieldImpl<E> //
                ConvertCantNotHandleTypeException,
                PropertiesPopulatorRuntimeException
     {
-        this.field.set( bean, convertStringToObject( strValue, type ) );
+        try {
+            this.field.set( bean, convertStringToObject( strValue, type ) );
+        } catch( final NumberFormatException e ) {
+            final String message = "Can not set field \"" + this.field + "\" with value \"" + strValue + '"';
+
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( message, e );
+            } else {
+                LOGGER.warn( message + " : " + e.getMessage() );
+            }
+        }
     }
 
     @Override
