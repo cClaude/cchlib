@@ -20,6 +20,18 @@
   </properties>
 
   <dependencies>
+  
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-core</artifactId>
+      <version>4.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.googlecode.cchlib</groupId>
+      <artifactId>cchlib-io</artifactId>
+      <version>4.2-SNAPSHOT</version>
+    </dependency>
 
     <dependency>
         <groupId>com.google.apis</groupId>
@@ -74,12 +86,6 @@
       <artifactId>javaee-api</artifactId>
       <version>7.0</version>
    </dependency>
-
-    <dependency>
-      <groupId>com.googlecode.cchlib</groupId>
-      <artifactId>cchlib-io</artifactId>
-      <version>4.2-SNAPSHOT</version>
-    </dependency>
 
   </dependencies>
 
