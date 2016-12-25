@@ -1,15 +1,3 @@
-/*
-** -----------------------------------------------------------------------
-** Nom           : org/homedns/chez/jtools/webapptools/WEBAppToolsContext.java
-** Description   :
-** Encodage      : ANSI
-**
-**  1.01.001 2007.01.01 Claude CHOISNET - Version initiale
-** -----------------------------------------------------------------------
-**
-** org.homedns.chez.jtools.webapptools.WEBAppToolsContext
-**
-*/
 package org.homedns.chez.jtools.webapptools;
 
 import java.util.ArrayList;
@@ -19,91 +7,65 @@ import org.homedns.chez.jtools.lib.ContextInitializationException;
 import org.homedns.chez.jtools.lib.ContextLoader;
 
 /**
-**
-** @author Claude CHOISNET
-** @since   1.01.001
-** @version 1.01.001
-*/
-public class WEBAppToolsContext
-    implements java.io.Serializable
+ *
+ * @since 1.01
+ */
+public class WEBAppToolsContext implements java.io.Serializable
 {
-/** serialVersionUID */
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-/**
-**
-*/
-private static final WEBAppToolsInitializator contextInitializator
-               = new WEBAppToolsInitializator();
+    private static final WEBAppToolsInitializator contextInitializator
+        = new WEBAppToolsInitializator();
+    private final ArrayList<String>                     proxyViewURLs
+        = new ArrayList<>();
+    private final ArrayList<String>                     hostNameList
+        = new ArrayList<>();
 
-/**
-**
-*/
-private ArrayList<String> proxyViewURLs = new ArrayList<String>();
+    protected WEBAppToolsContext() // -----------------------------------------
+    {
+        // empty
+    }
 
-/**
-**
-*/
-private ArrayList<String> hostNameList = new ArrayList<String>();
+    /**
+     * Recherche de objet {@link WEBAppToolsContext} é partir du request courant,
+     * si l'objet n'a pas été trouvé on le crée.
+     *
+     * @param request
+     *            Objet {@link javax.servlet.http.HttpServletRequest} valide de la
+     *            requéte en cours.
+     */
+    public static WEBAppToolsContext getContext(
+        final HttpServletRequest request
+        ) throws ContextInitializationException
+    {
+        return ContextLoader.getContext(
+                request,
+                WEBAppToolsContext.class,
+                contextInitializator
+                );
+    }
 
-/**
-**
-*/
-protected WEBAppToolsContext() // -----------------------------------------
-{
- // empty
+    protected WEBAppToolsContext addProxyViewURL( final String url )
+    {
+        this.proxyViewURLs.add( url );
+
+        return this;
+    }
+
+    public List<String> getProxyViewURLs()
+    {
+        return this.proxyViewURLs;
+    }
+
+    protected WEBAppToolsContext addHostName( final String url )
+    {
+        this.hostNameList.add( url );
+
+        return this;
+    }
+
+    public List<String> getHostNames()
+    {
+        return this.hostNameList;
+    }
 }
-
-/**
-** Recherche de objet {@link WEBAppToolsContext} é partir du request
-** courant, si l'objet n'a pas été trouvé on le crée.
-**
-** @param request   Objet {@link javax.servlet.http.HttpServletRequest} valide
-**                  de la requéte en cours.
-**
-*/
-public static WEBAppToolsContext getContext( // ---------------------------
-    final HttpServletRequest request
-    )
-    throws ContextInitializationException
-{
- return ContextLoader.getContext( request, WEBAppToolsContext.class, contextInitializator );
-}
-
-/**
-**
-*/
-protected WEBAppToolsContext addProxyViewURL( String url ) // -------------
-{
- this.proxyViewURLs.add( url );
-
- return this;
-}
-
-/**
-**
-*/
-public List<String> getProxyViewURLs() // ---------------------------------
-{
- return this.proxyViewURLs;
-}
-
-/**
-**
-*/
-protected WEBAppToolsContext addHostName( String url ) // -----------------
-{
- this.hostNameList.add( url );
-
- return this;
-}
-
-/**
-**
-*/
-public List<String> getHostNames() // -------------------------------------
-{
- return this.hostNameList;
-}
-
-} // class
