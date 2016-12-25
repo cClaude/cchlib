@@ -9,14 +9,14 @@ public class FileCopyException extends IOException
 {
     private static final long serialVersionUID = 1L;
 
-    public FileCopyException(String message)
+    public FileCopyException( final String message )
     {
-        super(message);
+        super( message );
     }
 
-    public FileCopyException(String message, Throwable cause)
+    public FileCopyException( final String message, final Throwable cause )
     {
-        super(message);
-        super.initCause(cause);
+        super( message );
+        super.initCause( cause );
     }
 }
