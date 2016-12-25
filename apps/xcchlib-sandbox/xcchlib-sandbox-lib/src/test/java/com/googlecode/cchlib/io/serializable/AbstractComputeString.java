@@ -1,4 +1,4 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io.serializable;
 
 abstract class AbstractComputeString
 {
@@ -8,8 +8,8 @@ abstract class AbstractComputeString
 
     public String getFullContent( final int maxlength )
     {
-        final StringBuilder sb = new StringBuilder( getContent() );
-        final int len = sb.length();
+        final StringBuilder sb  = new StringBuilder( getContent() );
+        final int           len = sb.length();
 
         if( len < maxlength ) {
             sb.append( getSubContent( maxlength - len ) );

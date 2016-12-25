@@ -1,4 +1,4 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io.serializable;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -14,9 +14,9 @@ class A extends AbstractComputeString implements Serializable, Comparator<A>
 
     public A( final String content )
     {
-        this.content = content;
-        this.b = null;
-        this.c = null;
+        this.content       = content;
+        this.b              = null;
+        this.c              = null;
         this.hashCodeString = "HC:" + this.hashCode();
     }
 
@@ -72,8 +72,14 @@ class A extends AbstractComputeString implements Serializable, Comparator<A>
     @Override
     public String toString()
     {
-        return "{" + this.getClass().getSimpleName() + "@" + this.hashCode() + " :" + this.getContent() + "," + this.hashCodeString + " (B:"
-                + (this.b == null ? "NULL" : this.b.hashCode()) + ")(C:" + (this.c == null ? "NULL" : this.c.toString()) + ")}";
+        return "{"
+                + this.getClass().getSimpleName()
+                + "@" + this.hashCode() + " :"
+                + this.getContent() + ","
+                + this.hashCodeString
+                + " (B:" + (this.b == null ? "NULL" : this.b.hashCode())
+                + ")(C:" + (this.c == null ? "NULL" : this.c.toString())
+                + ")}";
     }
 
     public static final int compare( final String s1, final String s2 )

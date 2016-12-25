@@ -1,7 +1,10 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io.serializable;
 
-class C extends AbstractComputeString implements java.io.Serializable, java.util.Comparator<C> {
-    /** serialVersionUID */
+import java.io.Serializable;
+import java.util.Comparator;
+
+class C extends AbstractComputeString implements Serializable, Comparator<C>
+{
     private static final long serialVersionUID = 1L;
 
     private final String      content;
@@ -10,9 +13,9 @@ class C extends AbstractComputeString implements java.io.Serializable, java.util
 
     public C( final String content )
     {
-        this.content = content;
+        this.content        = content;
         this.hashCodeString = "HC:" + this.hashCode();
-        this.a = null;
+        this.a              = null;
     }
 
     public C setA( final A a )
@@ -79,7 +82,11 @@ class C extends AbstractComputeString implements java.io.Serializable, java.util
     @Override
     public String toString()
     {
-        return "{" + this.getClass().getSimpleName() + "@" + this.hashCode() + " :" + this.content + "," + this.hashCodeString + " (A:"
-                + (this.a == null ? "NULL" : this.a.toString()) + ")}";
+        return "{" + this.getClass().getSimpleName()
+            + "@" + this.hashCode() + " :"
+            + this.content + ","
+            + this.hashCodeString
+            + " (A:" + (this.a == null ? "NULL" : this.a.toString())
+            + ")}";
     }
 }

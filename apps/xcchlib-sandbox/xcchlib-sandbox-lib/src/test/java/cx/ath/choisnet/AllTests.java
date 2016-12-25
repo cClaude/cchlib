@@ -21,7 +21,6 @@ public class AllTests
         final TestSuite suite = new TestSuite( "CCHLib JUnit Tests" );
 
         suite.addTest( cx.ath.choisnet.util.ByteBufferTest.suite() );
-        suite.addTest( cx.ath.choisnet.io.SerializationTest.suite() );
 
         return suite;
     }

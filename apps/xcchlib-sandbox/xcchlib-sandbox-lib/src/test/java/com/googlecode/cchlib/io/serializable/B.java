@@ -1,4 +1,4 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io.serializable;
 
 class B extends A
 {

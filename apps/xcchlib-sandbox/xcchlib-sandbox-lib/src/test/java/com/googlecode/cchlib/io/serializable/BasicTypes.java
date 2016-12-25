@@ -1,7 +1,7 @@
-package cx.ath.choisnet.io;
+package com.googlecode.cchlib.io.serializable;
 
-class BasicTypes implements java.io.Serializable, Comparable<BasicTypes> {
-    /** serialVersionUID */
+class BasicTypes implements java.io.Serializable, Comparable<BasicTypes>
+{
     private static final long serialVersionUID = 1L;
 
     private final String      content;
@@ -9,15 +9,15 @@ class BasicTypes implements java.io.Serializable, Comparable<BasicTypes> {
     private final boolean     notBool;
     private final int         oInterger;
     private final long        oLong;
-    private final int[]       arrayOfInt       = new int[5];
+    private final int[]       arrayOfInt = new int[ 5 ];
 
     public BasicTypes( final boolean bool, final int anInteger, final String content )
     {
-        this.bool = bool;
-        this.notBool = !bool;
+        this.bool      = bool;
+        this.notBool   = !bool;
         this.oInterger = anInteger;
-        this.oLong = anInteger * 1000001L;
-        this.content = content;
+        this.oLong     = anInteger * 1000001L;
+        this.content   = content;
 
         for( int i = 0; i < this.arrayOfInt.length; i++ ) {
             this.arrayOfInt[ i ] = i + anInteger;
@@ -27,7 +27,13 @@ class BasicTypes implements java.io.Serializable, Comparable<BasicTypes> {
     @Override
     public String toString()
     {
-        final StringBuilder sb = new StringBuilder( "{" + this.bool + ";" + this.notBool + ";" + this.oInterger + ";" + this.oLong + ";" + this.content + "}" );
+        final StringBuilder sb = new StringBuilder( "{"
+                + this.bool + ";"
+                + this.notBool + ";"
+                + this.oInterger + ";"
+                + this.oLong + ";"
+                + this.content
+                + "}" );
 
         for( int i = 0; i < this.arrayOfInt.length; i++ ) {
             sb.append( ";" + this.arrayOfInt[ i ] );
