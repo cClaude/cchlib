@@ -1,4 +1,3 @@
-// $codepro.audit.disable blockDepth
 package com.googlecode.cchlib.tools.autorename;
 
 import java.io.File;
@@ -7,12 +6,10 @@ import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- *
- */
-public class AutoRenameStep1Main {
+public class AutoRenameStep1Main
+{
+    private final File homeDir;
 
-    private File homeDir;
     private static final FileFilter dirFileFilter    = new DirFileFilter();
     private static final FileFilter level2FileFilter = new DirNameFileFilter( "prive", EnumSet.of( DirNameFileFilter.Attributes.IGNORE_CASE ) );
     //private static final Pattern pLevel1 = Pattern.compile( "\\d\\d\\d\\d\\.\\d\\d\\.\\d\\d\\..*" );
@@ -31,7 +28,7 @@ public class AutoRenameStep1Main {
 //        Pattern.compile( "__.__" )
 //    };
 
-    public AutoRenameStep1Main( File homeDir )
+    public AutoRenameStep1Main( final File homeDir )
     {
         this.homeDir = homeDir;
     }
@@ -46,21 +43,21 @@ public class AutoRenameStep1Main {
         final File[] dirs = dirFile.listFiles( dirFileFilter );
 
         if( dirs != null ) {
-            for( File d : dirs ) {
-                String  name = d.getName();
-                Matcher m1   = pLevel1.matcher( name );
+            for( final File d : dirs ) {
+                final String  name = d.getName();
+                final Matcher m1   = pLevel1.matcher( name );
 
                 if( m1.matches() ) {
-                    String part2 = name.substring( 5 );
+                    final String part2 = name.substring( 5 );
 
                     for( int i = 0; i<pLevel1Part2.length; i++ ) {
-                        Matcher m2 = pLevel1Part2[ i ].matcher( part2 );
+                        final Matcher m2 = pLevel1Part2[ i ].matcher( part2 );
 
                         if( m2.matches() ) {
-                            String yyyy = name.substring( 0, 4 );
+                            final String yyyy = name.substring( 0, 4 );
                             String mm   = name.substring( 5, 7 );
                             String dd   = name.substring( 8, 10 );
-                            String end  = name.substring( 11 );
+                            final String end  = name.substring( 11 );
 
                             if( mm.equals( "__" ) ) {
                                 mm = "00";
@@ -70,14 +67,14 @@ public class AutoRenameStep1Main {
                                 dd = "00";
                             }
 
-                            File newFile = new File(
+                            final File newFile = new File(
                                     dirFile,
                                     yyyy + "-" + mm + "-" + dd + "." + end
                                     );
 
 //                            System.out.println( "Found (case" + i + "): " + d +" ==> : " + newFile );
 
-                            boolean res = d.renameTo( newFile );
+                            final boolean res = d.renameTo( newFile );
 
                             if( res ) {
                                 doJobLevel2( newFile );
@@ -101,7 +98,7 @@ public class AutoRenameStep1Main {
         final File[] dirs = dirFile.listFiles( level2FileFilter );
 
         if( dirs != null ) {
-            for( File d : dirs ) {
+            for( final File d : dirs ) {
                 doJobLevel3( d );
             }
         }
@@ -112,13 +109,13 @@ public class AutoRenameStep1Main {
         final File[] dirs = dirFile.listFiles( dirFileFilter );
 
         if( dirs != null ) {
-            for( File d : dirs ) {
-                String parentOfParentName = dirFile.getParentFile().getName();
-                File newFile = new File( dirFile, parentOfParentName + "(" + d.getName() + ")" );
+            for( final File d : dirs ) {
+                final String parentOfParentName = dirFile.getParentFile().getName();
+                final File newFile = new File( dirFile, parentOfParentName + "(" + d.getName() + ")" );
 
                 //System.out.println( "Found PRIVE : " + d + " ==> : " + newFile );
 
-                boolean res = d.renameTo( newFile );
+                final boolean res = d.renameTo( newFile );
 
                 if( !res ) {
                     System.err.println( "Can't rename [" + d + "] to [" + newFile + "]" );
@@ -127,18 +124,14 @@ public class AutoRenameStep1Main {
         }
     }
 
-    /**
-     * @param args
-     */
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
-        File homeDir = new File( "ZZ:/Datas/Photos" );
+        final File homeDir = new File( "ZZ:/Datas/Photos" );
 
         System.out.println( "Running from: " + homeDir );
-        AutoRenameStep1Main instance = new AutoRenameStep1Main( homeDir );
+        final AutoRenameStep1Main instance = new AutoRenameStep1Main( homeDir );
 
         instance.doJob();
         System.out.println( "Done." );
     }
-
 }
