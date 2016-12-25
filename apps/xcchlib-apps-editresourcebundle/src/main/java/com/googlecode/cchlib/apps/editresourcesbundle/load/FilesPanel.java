@@ -15,9 +15,6 @@ public class FilesPanel extends JPanel
     private final String msgButton;
     private final ActionListener actionListener;
 
-    /**
-    * Create the panel.
-    */
     public FilesPanel(
         final int               entryCount,
         final String            msgStringLeft,
@@ -39,25 +36,25 @@ public class FilesPanel extends JPanel
 
         panel.setLayout(new GridLayout(0, 1, 0, 0));
 
-        for( int i = 0; i<panelFiles.length; i++ ) {
+        for( int i = 0; i<this.panelFiles.length; i++ ) {
             panel.add( getPanelFile( i ) );
             }
    }
 
     public int getEntryCount()
     {
-        return panelFiles.length;
+        return this.panelFiles.length;
     }
 
     public FileEntryPanel getPanelFile( final int index )
     {
-        if( panelFiles[ index ] == null ) {
-            final String msgString     = (index == 0) ? msgStringLeft : String.format( msgStringFmt, Integer.valueOf( index ) );
+        if( this.panelFiles[ index ] == null ) {
+            final String msgString     = (index == 0) ? this.msgStringLeft : String.format( this.msgStringFmt, Integer.valueOf( index ) );
             final String actionCommand = LoadDialogAction.ACTIONCMD_SELECT_PREFIX.getActionCommand( index );
 
-            panelFiles[ index ] = new FileEntryPanel( msgString, msgButton, actionCommand , actionListener );
+            this.panelFiles[ index ] = new FileEntryPanel( msgString, this.msgButton, actionCommand , this.actionListener );
             }
 
-        return panelFiles[ index ];
+        return this.panelFiles[ index ];
     }
 }
