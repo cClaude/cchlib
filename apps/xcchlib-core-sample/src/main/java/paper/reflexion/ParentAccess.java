@@ -8,18 +8,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- *
- */
+@SuppressWarnings({
+    "squid:S1160", // More than one exception
+    "squid:RedundantThrowsDeclarationCheck"
+    })
 public class ParentAccess<C> implements Serializable
 {
     private static final long serialVersionUID = 1L;
-    private Class<C> clazz;
+    private final Class<C> clazz;
 
-    /**
-     *
-     */
-    public ParentAccess( Class<C> clazz )
+    public ParentAccess( final Class<C> clazz )
     {
         this.clazz = clazz;
     }
@@ -34,19 +32,19 @@ public class ParentAccess<C> implements Serializable
     public String toString()
     {
         final StringBuilder sb              = new StringBuilder();
-        final List<Field>    visibleFields  = Arrays.asList( clazz.getFields() );
-        final List<Field>    hiddenFields   = new ArrayList<Field>();
+        final List<Field>    visibleFields  = Arrays.asList( this.clazz.getFields() );
+        final List<Field>    hiddenFields   = new ArrayList<>();
 
-        for( Field f : clazz.getDeclaredFields() ) {
+        for( final Field f : this.clazz.getDeclaredFields() ) {
             if( ! visibleFields.contains( f ) ) {
                 hiddenFields.add( f );
                 }
             }
 
-        final List<Method> visibleMethods = Arrays.asList( clazz.getMethods() );
-        final List<Method> hiddenMethods  = new ArrayList<Method>();
+        final List<Method> visibleMethods = Arrays.asList( this.clazz.getMethods() );
+        final List<Method> hiddenMethods  = new ArrayList<>();
 
-        for( Method m : clazz.getDeclaredMethods() ) {
+        for( final Method m : this.clazz.getDeclaredMethods() ) {
             if( !visibleMethods.contains( m ) ) {
                 hiddenMethods.add( m );
                 }
@@ -56,19 +54,19 @@ public class ParentAccess<C> implements Serializable
           .append( this.clazz )
           .append( '\n' );
 
-        for( Field f : hiddenFields ) {
+        for( final Field f : hiddenFields ) {
             sb.append( "hidden field : " )
               .append( f )
               .append( '\n' );
             }
 
-        for( Field f : visibleFields ) {
+        for( final Field f : visibleFields ) {
             sb.append( "visible field : " )
               .append( f )
               .append( '\n' );
             }
 
-        for( Method m : clazz.getDeclaredMethods() ) {
+        for( final Method m : this.clazz.getDeclaredMethods() ) {
             if( !visibleMethods.contains( m ) ) {
                 sb.append( "hidden method : " )
                   .append( m )
@@ -76,7 +74,7 @@ public class ParentAccess<C> implements Serializable
                 }
             }
 
-        for( Method m : visibleMethods ) {
+        for( final Method m : visibleMethods ) {
             sb.append( "visible method : " )
               .append( m )
               .append( '\n' );
@@ -126,7 +124,7 @@ public class ParentAccess<C> implements Serializable
     public <T> T getObject(
             final C         thisObject,
             final String    fieldName,
-            Class<T>         returnClass
+            final Class<T>         returnClass
             )
         throws  NoSuchFieldException,
                 SecurityException,
@@ -148,7 +146,7 @@ public class ParentAccess<C> implements Serializable
     public <T> T silentGetObject(
             final C         thisObject,
             final String    fieldName,
-            Class<T>         returnClass
+            final Class<T>         returnClass
             )
     {
         try {
@@ -205,6 +203,4 @@ public class ParentAccess<C> implements Serializable
             throw new ParentAccessException( e );
             }
     }
-
-
 }
