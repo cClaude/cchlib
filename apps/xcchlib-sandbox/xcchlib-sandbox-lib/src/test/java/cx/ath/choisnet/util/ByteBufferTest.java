@@ -9,35 +9,35 @@ import com.googlecode.cchlib.io.SerializableHelper;
 public class ByteBufferTest
 {
     protected ByteBuffer testByteBuffer;
-    protected byte[]     bytes;
-    protected byte[]     bytes10 = { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+    protected byte[]     bytes524288;
+    protected byte[]     bytes10;
 
     @Before
-    protected void setUp()
+    public void setUp()
     {
-        this.bytes = new byte[ 1024 << (2 + 7) ];
+        this.bytes524288 = newBytes524288();
+        this.bytes10     = newBytes10();
 
-        for( int i = 0; i < this.bytes.length; i++ ) {
-            this.bytes[ i ] = (byte)(i % 256);
-        }
-
-        this.testByteBuffer = new ByteBuffer( this.bytes );
+        this.testByteBuffer = new ByteBuffer( this.bytes524288 );
     }
 
-//    public void testAppend()
-//    {
-//        final Iterator<String> iter = new ArrayIterator<String>( arrayOfString );
-//
-//        int size = 0;
-//
-//          while( iter.hasNext() ) { final String s = iter.next();
-//
-//          size++; }
-//
-//          assertEquals( size, arrayOfString.length );
-//    }
+    private static byte[] newBytes524288()
+    {
+        final byte[] bytes524288 = new byte[ 1024 << (2 + 7) ];
 
-    static void cmp( final ByteBuffer bb1, final ByteBuffer bb2 ) // ----------
+        for( int i = 0; i < bytes524288.length; i++ ) {
+            bytes524288[ i ] = (byte)(i % 256);
+        }
+
+        return bytes524288;
+    }
+
+    private static byte[] newBytes10()
+    {
+        return new byte[] { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
+    }
+
+    private static void cmp( final ByteBuffer bb1, final ByteBuffer bb2 )
     {
         assertThat( bb2.length() ).isEqualTo( bb1.length() );
 
@@ -48,7 +48,7 @@ public class ByteBufferTest
         assertThat( bb2.length() ).isEqualTo( b2.length );
         assertThat( b2.length ).isEqualTo( b1.length );
 
-        assertThat( b2 ).isNotEqualTo( b1 );
+        assertThat( b2 ).isNotSameAs( b1 );
 
         for( int i = 0; i < b1.length; i++ ) {
             assertThat( (int)b2[ i ] ).isEqualTo( b1[ i ] );
@@ -80,6 +80,7 @@ public class ByteBufferTest
     }
 
 
+    @Test
     public void testSerializable() throws IOException, ClassNotFoundException
     {
         final byte[]     serialization = SerializableHelper.toByteArray( this.testByteBuffer );
