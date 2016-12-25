@@ -1,31 +1,27 @@
 package cx.ath.choisnet.util;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.fest.assertions.api.Assertions.assertThat;
+import java.io.IOException;
+import org.junit.Before;
+import org.junit.Test;
 import com.googlecode.cchlib.io.SerializableHelper;
 
-public class ByteBufferTest extends TestCase
+public class ByteBufferTest
 {
     protected ByteBuffer testByteBuffer;
     protected byte[]     bytes;
     protected byte[]     bytes10 = { 9, 8, 7, 6, 5, 4, 3, 2, 1, 0 };
 
-    @Override
-    protected void setUp() // -------------------------------------------------
+    @Before
+    protected void setUp()
     {
-        this.bytes = new byte[1024 << (2 + 7)];
+        this.bytes = new byte[ 1024 << (2 + 7) ];
 
         for( int i = 0; i < this.bytes.length; i++ ) {
             this.bytes[ i ] = (byte)(i % 256);
         }
 
         this.testByteBuffer = new ByteBuffer( this.bytes );
-    }
-
-    public static Test suite() // ---------------------------------------------
-    {
-        return new TestSuite( ByteBufferTest.class );
     }
 
 //    public void testAppend()
@@ -43,48 +39,48 @@ public class ByteBufferTest extends TestCase
 
     static void cmp( final ByteBuffer bb1, final ByteBuffer bb2 ) // ----------
     {
-        assertEquals( bb1.length(), bb2.length() );
+        assertThat( bb2.length() ).isEqualTo( bb1.length() );
 
         final byte[] b1 = bb1.array();
         final byte[] b2 = bb2.array();
 
-        assertEquals( b1.length, bb1.length() );
-        assertEquals( b2.length, bb2.length() );
-        assertEquals( b1.length, b2.length );
+        assertThat( bb1.length() ).isEqualTo( b1.length );
+        assertThat( bb2.length() ).isEqualTo( b2.length );
+        assertThat( b2.length ).isEqualTo( b1.length );
 
-        assertNotSame( b1, b2 );
+        assertThat( b2 ).isNotEqualTo( b1 );
 
         for( int i = 0; i < b1.length; i++ ) {
-            assertEquals( b1[ i ], b2[ i ] );
+            assertThat( (int)b2[ i ] ).isEqualTo( b1[ i ] );
         }
 
-        assertEquals( 0, bb1.compareTo( bb1 ) );
-        assertEquals( 0, bb1.compareTo( bb2 ) );
-        assertEquals( 0, bb2.compareTo( bb1 ) );
-        assertEquals( 0, bb2.compareTo( bb2 ) );
+        assertThat( bb1.compareTo( bb1 ) ).isEqualTo( 0 );
+        assertThat( bb1.compareTo( bb2 ) ).isEqualTo( 0 );
+        assertThat( bb2.compareTo( bb1 ) ).isEqualTo( 0 );
+        assertThat( bb2.compareTo( bb2 ) ).isEqualTo( 0 );
 
-        assertTrue( bb1.equals( bb1 ) );
-        assertTrue( bb1.equals( bb2 ) );
-        assertTrue( bb2.equals( bb1 ) );
-        assertTrue( bb2.equals( bb2 ) );
+        assertThat( bb1.equals( bb1 ) ).isTrue();
+        assertThat( bb1.equals( bb2 ) ).isTrue();
+        assertThat( bb2.equals( bb1 ) ).isTrue();
+        assertThat( bb2.equals( bb2 ) ).isTrue();
     }
 
-    public void testClone() // ------------------------------------------------
-            throws CloneNotSupportedException
+    @Test
+    public void testClone() throws CloneNotSupportedException
     {
         final ByteBuffer bufferClone = this.testByteBuffer.clone();
 
         cmp( bufferClone, this.testByteBuffer );
 
-        assertTrue( bufferClone.length() == this.testByteBuffer.length() );
+        assertThat( bufferClone.length() == this.testByteBuffer.length() ).isTrue();
 
         bufferClone.append( this.bytes10 );
 
-        assertFalse( bufferClone.length() == this.testByteBuffer.length() );
+        assertThat( bufferClone.length() == this.testByteBuffer.length() ).isFalse();
     }
 
-    public void testSerializable() // -----------------------------------------
-            throws java.io.IOException, ClassNotFoundException
+
+    public void testSerializable() throws IOException, ClassNotFoundException
     {
         final byte[]     serialization = SerializableHelper.toByteArray( this.testByteBuffer );
         final ByteBuffer byteBuffer    = SerializableHelper.toObject( serialization, ByteBuffer.class );
