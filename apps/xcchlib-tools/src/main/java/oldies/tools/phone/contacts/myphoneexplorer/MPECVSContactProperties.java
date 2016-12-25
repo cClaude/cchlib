@@ -8,7 +8,6 @@ import oldies.tools.phone.contacts.ContactProperties;
 import oldies.tools.phone.contacts.DefaultContactProperties;
 import au.com.bytecode.opencsv.CSVReader;
 
-
 /**
  * Create a {@link ContactProperties} for a MyPhoneExplorer CVS file
  */
@@ -18,15 +17,6 @@ public class MPECVSContactProperties
 {
     private static final long serialVersionUID = 1L;
 
-    /**
-     *
-     * @param csvReader
-     * @param cvsFile
-     * @param charset
-     * @param cvsSeparator
-     * @throws IOException
-     * @throws BadFileFormatException
-     */
     public MPECVSContactProperties(
         final CSVReader csvReader,
         final File      cvsFile,

@@ -235,7 +235,7 @@ public class SMS implements Serializable
 
     /**
      * @param xtraDate the xtraDate to set
-     * @throws ParseException
+     * @throws ParseException if any
      */
     public void setXtraDate( final String xtraDate )
         throws ParseException

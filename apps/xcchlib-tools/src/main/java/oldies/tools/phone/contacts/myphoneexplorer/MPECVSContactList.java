@@ -3,6 +3,7 @@ package oldies.tools.phone.contacts.myphoneexplorer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -20,26 +21,18 @@ import au.com.bytecode.opencsv.CSVReader;
 /**
  * Create a {@link ContactProperties} for a MyPhoneExplorer CVS file
  */
-public class MPECVSContactList
-    implements ContactList
+public class MPECVSContactList implements ContactList
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( MPECVSContactList.class );
 
-    public static final char CSV_SEPARATOR = ',';
-    public static final String CHARSET="UTF8";
+    public static final char   CSV_SEPARATOR = ',';
+    public static final String CHARSET       = "UTF8";
+
+    private final List<Contact> contactList = new ArrayList<>();
 
     private MPECVSContactProperties contactProperties;
-    private List<Contact> contactList = new ArrayList<>();
 
-    /**
-     *
-     * @param myPhoneExplorerCVSFile
-     * @param charsetName
-     * @param cvsSeparator
-     * @throws IOException
-     * @throws BadFileFormatException
-     */
     public MPECVSContactList(
             final File         myPhoneExplorerCVSFile,
             final String    charsetName,
@@ -54,14 +47,6 @@ public class MPECVSContactList
             );
     }
 
-    /**
-     *
-     * @param myPhoneExplorerCVSFile
-     * @param cvsSeparator
-     * @throws BadFileFormatException
-     * @throws IOException
-     */
-    @SuppressWarnings("resource")
     public MPECVSContactList(
         final File         myPhoneExplorerCVSFile,
         final Charset    charset,
@@ -74,17 +59,8 @@ public class MPECVSContactList
             LOGGER.trace( "charset :" + charset );
             LOGGER.trace( "cvsSeparator :" + cvsSeparator );
             }
-        final CSVReader csvr = new CSVReader(
-                new BufferedReader(
-                    new InputStreamReader(
-                            new FileInputStream( myPhoneExplorerCVSFile ),
-                            charset
-                            )
-                        ),
-                        cvsSeparator
-                    );
 
-        try {
+        try( final CSVReader csvr = newCSVReader( myPhoneExplorerCVSFile, charset, cvsSeparator ) ) {
             this.contactProperties = new MPECVSContactProperties(
                     csvr,
                     myPhoneExplorerCVSFile,
@@ -95,6 +71,7 @@ public class MPECVSContactList
             // Expecting header definition on first line
             // Skip header
             String[] line = csvr.readNext();
+
             LOGGER.trace( "line: " + line );
 
             if( line == null ) {
@@ -117,14 +94,28 @@ public class MPECVSContactList
                 addContactFromLine( line );
                 }
             }
-        finally {
-            csvr.close();
-            }
     }
 
-    private void addContactFromLine( String[] line )
+    private CSVReader newCSVReader(
+        final File    myPhoneExplorerCVSFile,
+        final Charset charset,
+        final char    cvsSeparator
+        ) throws FileNotFoundException
     {
-        Contact c = new DefaultContact(contactProperties);
+        return new CSVReader(
+                new BufferedReader(
+                    new InputStreamReader(
+                            new FileInputStream( myPhoneExplorerCVSFile ),
+                            charset
+                            )
+                        ),
+                        cvsSeparator
+                    );
+    }
+
+    private void addContactFromLine( final String[] line )
+    {
+        final Contact c = new DefaultContact(this.contactProperties);
 
         for( int i = 0; i<line.length; i++ ) {
             c.setValue( i, line[ i ] );
