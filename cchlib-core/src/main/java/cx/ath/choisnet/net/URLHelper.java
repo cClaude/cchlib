@@ -1,13 +1,10 @@
 package cx.ath.choisnet.net;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
@@ -21,19 +18,18 @@ import com.googlecode.cchlib.io.IOHelper;
  */
 public final class URLHelper
 {
-
     private URLHelper()
     { // All static !
     }
 
-    private static BufferedReader getBufferedReader( final URL url ) throws IOException
+    public static BufferedReader newBufferedReader( final URL url ) throws IOException
     {
-        return new BufferedReader( new InputStreamReader( url.openStream() ) );
+        return IOHelper.newBufferedReader( url.openStream() );
     }
 
-    private static BufferedReader getBufferedReader( final URL url, final String charsetName ) throws IOException
+    public static BufferedReader newBufferedReader( final URL url, final String charsetName ) throws IOException
     {
-        return new BufferedReader( new InputStreamReader( url.openStream(), charsetName ) );
+        return IOHelper.newBufferedReader( url.openStream(), charsetName );
     }
 
     /**
@@ -45,7 +41,7 @@ public final class URLHelper
      */
     public static String toString( final URL url ) throws IOException
     {
-        try( final Reader reader = getBufferedReader( url ) ) {
+        try( final Reader reader = newBufferedReader( url ) ) {
             return IOHelper.toString( reader );
             }
     }
@@ -60,14 +56,14 @@ public final class URLHelper
     public static void copy( final URL url, final OutputStream output )
         throws IOException
     {
-        try (InputStream input = url.openStream()) {
-            IOHelper.copy(input, output);
+        try( InputStream input = url.openStream() ) {
+            IOHelper.copy( input, output );
             }
     }
 
     /**
      * Store URL content in a file
-     * <BR>
+     * <P>
      * File is not created if URL content can't be read
      * (Previous File is not also deleted in this case)
      *
@@ -77,16 +73,17 @@ public final class URLHelper
      * @throws IOException if any
      */
     @SuppressWarnings({
-        "squid:RedundantThrowsDeclarationCheck", // More than exception for JAVADOC
-        "squid:S1160"})
+        "squid:RedundantThrowsDeclarationCheck", // More than one exception for JAVADOC
+        "squid:S1160"
+        })
     public static void copy( final URL url, final File file )
         throws FileNotFoundException, IOException
     {
-        try (InputStream input = url.openStream(); OutputStream output = new BufferedOutputStream(
-                new FileOutputStream( file )
-        )) {
-            IOHelper.copy( input, output );
+        try( final InputStream  input  = url.openStream() ) {
+            try( final OutputStream output = IOHelper.newBufferedOutputStream( file ) ) {
+                IOHelper.copy( input, output );
             }
+        }
     }
 
     /**
@@ -99,8 +96,8 @@ public final class URLHelper
     public static void copy( final URL url, final Writer output )
         throws IOException
     {
-        try (Reader input = getBufferedReader( url )) {
-            IOHelper.copy(input, output);
+        try( final Reader input = newBufferedReader( url ) ) {
+            IOHelper.copy( input, output );
             }
     }
 
@@ -118,14 +115,13 @@ public final class URLHelper
         "squid:S1160" // Exception show different reasons
         })
     public static void copy(
-            final URL       url,
-            final Writer    output,
-            final String    charsetName
-            )
-        throws UnsupportedEncodingException, IOException
+        final URL       url,
+        final Writer    output,
+        final String    charsetName
+        ) throws UnsupportedEncodingException, IOException
     {
-        try (Reader input = getBufferedReader( url, charsetName )) {
-            IOHelper.copy(input, output);
+        try( final Reader input = newBufferedReader( url, charsetName ) ) {
+            IOHelper.copy( input, output );
             }
     }
 }
