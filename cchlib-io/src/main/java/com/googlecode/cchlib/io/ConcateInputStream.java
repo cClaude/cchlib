@@ -13,8 +13,8 @@ import java.io.InputStream;
  */
 public class ConcateInputStream extends InputStream
 {
-    private int currentStream;
     private final InputStream[] inputStreamArray;
+    private int currentStream;
 
     /**
      * Create a ConcateInputStream based on two {@link InputStream}
@@ -23,9 +23,9 @@ public class ConcateInputStream extends InputStream
      * @param secondInputStream Second {@link InputStream}
      */
     public ConcateInputStream(
-            final InputStream firstInputStream,
-            final InputStream secondInputStream
-            )
+        final InputStream firstInputStream,
+        final InputStream secondInputStream
+        )
     {
         this.currentStream       = 0;
         this.inputStreamArray    = new java.io.InputStream[2]; // $codepro.audit.disable numericLiterals
@@ -43,9 +43,9 @@ public class ConcateInputStream extends InputStream
      * @param datas         Second stream based on a {@link  String}
      */
     public ConcateInputStream(
-            final InputStream   inputStream,
-            final String        datas
-            )
+        final InputStream   inputStream,
+        final String        datas
+        )
     {
         this( inputStream, new ByteArrayInputStream( datas.getBytes() ) );
     }
@@ -79,8 +79,8 @@ public class ConcateInputStream extends InputStream
     @Override
     public int available() throws IOException
     {
-        if(currentStream < inputStreamArray.length) {
-            return inputStreamArray[currentStream].available();
+        if( this.currentStream < this.inputStreamArray.length ) {
+            return this.inputStreamArray[ this.currentStream ].available();
             }
         else {
             return 0;
@@ -90,7 +90,7 @@ public class ConcateInputStream extends InputStream
     @Override
     public void close() throws IOException
     {
-        for (final InputStream inputStreamArray1 : inputStreamArray) {
+        for( final InputStream inputStreamArray1 : this.inputStreamArray ) {
             inputStreamArray1.close();
         }
     }
@@ -100,8 +100,8 @@ public class ConcateInputStream extends InputStream
     {
         int result = -1;
 
-        for(; currentStream < inputStreamArray.length; currentStream++) {
-            result = inputStreamArray[currentStream].read();
+        for(; this.currentStream < this.inputStreamArray.length; this.currentStream++) {
+            result = this.inputStreamArray[this.currentStream].read();
 
             if(result != -1)  {
                 return result;
@@ -117,27 +117,15 @@ public class ConcateInputStream extends InputStream
         return false;
     }
 
-//    @Override
-//    public void mark(int i)
-//    {
-//        super.mark(i);
-//    }
-
-//    @Override
-//    public void reset() throws IOException
-//    {
-//        super.reset();
-//    }
-
     private void check() throws RuntimeException
     {
-        if(inputStreamArray == null) {
+        if(this.inputStreamArray == null) {
             throw new RuntimeException("inputStreamArray is null.");
             }
-        final int length = inputStreamArray.length;
+        final int length = this.inputStreamArray.length;
 
         for(int i = 0; i < length; i++)  {
-            if(inputStreamArray[i] == null) {
+            if(this.inputStreamArray[i] == null) {
                 throw new RuntimeException("one or more InputStream is null.");
                 }
             }
@@ -150,15 +138,15 @@ public class ConcateInputStream extends InputStream
 
         sb.append( getClass().getName() );
         sb.append('[');
-        sb.append(currentStream);
+        sb.append(this.currentStream);
         sb.append('/');
-        sb.append(inputStreamArray.length);
+        sb.append(this.inputStreamArray.length);
         sb.append(']');
-        sb.append(inputStreamArray[0].toString());
+        sb.append(this.inputStreamArray[0].toString());
 
-        for(int i = 1; i < inputStreamArray.length; i++) {
+        for(int i = 1; i < this.inputStreamArray.length; i++) {
             sb.append(',');
-            sb.append(inputStreamArray[i].toString());
+            sb.append(this.inputStreamArray[i].toString());
              }
 
         sb.append(']');
