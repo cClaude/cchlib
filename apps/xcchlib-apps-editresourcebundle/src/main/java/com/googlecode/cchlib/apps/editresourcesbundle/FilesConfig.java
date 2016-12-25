@@ -55,9 +55,10 @@ public class FilesConfig implements Serializable
 
     private int numberOfFiles;
 
-
     /**
      * Build default {@link FilesConfig} (no file selected yet)
+     *
+     * @param preferences Current {@link Preferences}
      */
     public FilesConfig( final Preferences preferences )
     {
@@ -111,6 +112,9 @@ public class FilesConfig implements Serializable
 
     /**
      * Returns the asked FileObject
+     *
+     * @param index
+     *            Index for the {@link CustomProperties}
      * @return the asked FileObject
      */
     public FileObject getFileObject( final int index )
