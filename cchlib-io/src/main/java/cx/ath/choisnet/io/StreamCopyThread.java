@@ -5,76 +5,98 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * NEEDDOC
+ * Classe permettant de lire ou de copier un flux de maniere assynchrone
  *
+ * <pre>
+ *  StreamCopyThread procErrThread = new StreamCopyThread( process.getErrorStream(), stderr );
+ *
+ *  procErrThread.start();
+ * </pre>
+ *
+ * @see WriterCopyThread
+ * @since 1.51
  */
 public class StreamCopyThread extends Thread
 {
-    private final InputStream source;
-    private final OutputStream destination;
-    private boolean running;
-    private boolean closeSource;
-    private static final int ERROR_MAX = 10;
-    private final Object lock;
-    private OutputStream spyStream;
+    private static final int    ERROR_MAX = 10;
 
-    public StreamCopyThread(final InputStream source, final OutputStream destination)
-        throws java.io.IOException
+    private final InputStream   source;
+    private final OutputStream  destination;
+
+    private final Object        lock = new Object();
+
+    private boolean             running;
+    private boolean             closeSource;
+
+    private OutputStream        spyStream   = null;
+
+    /**
+     * Build a new StreamCopyThread
+     *
+     * @param source
+     *            Flux source
+     * @param destination
+     *            Flux de destination
+     * @throws IOException
+     *             if any
+     */
+    public StreamCopyThread(
+        final InputStream   source,
+        final OutputStream  destination
+        )
+        throws IOException
     {
-        this.lock = new Object();
-
-        this.spyStream = null;
+        super();
 
         super.setName(
-            (new StringBuilder())
-                .append(getClass().getName()).append('@')
-                .append(Integer.toHexString(hashCode()))
-                .toString()
+                this.getClass().getName() + '@' + Integer.toHexString( hashCode() )
                 );
 
-        this.source = source;
-        this.destination = destination;
+        this.source        = source;
+        this.destination   = destination;
+        this.running       = true;
+        this.closeSource   = false;
 
-        this.running = true;
-
-        this.closeSource = false;
-
-        setDaemon(true);
+        setDaemon( true );
     }
 
-    public StreamCopyThread(final String threadName, final InputStream source, final OutputStream destination)
-        throws java.io.IOException
+    /**
+     * Build a new StreamCopyThread
+     *
+     * @param threadName
+     *            Nom de la tache qui sera cree
+     * @param source
+     *            Flux source
+     * @param destination
+     *            Flux de destination
+     * @throws IOException
+     *             if any
+     */
+    public StreamCopyThread(
+        final String        threadName,
+        final InputStream   source,
+        final OutputStream  destination
+        ) throws IOException
     {
-        this(source, destination);
-        super.setName(threadName);
+        this( source, destination );
+
+        super.setName( threadName );
     }
 
     @Override
     public void run()
     {
         int errorCount = 0;
+        int c;
 
-        for( ;; ) {
-            if( !this.running ) {
-                break; /* Loop/switch isn't completed */
-            }
-
-            int c;
-
+        while( this.running ) {
             try {
                 c = this.source.read();
-            }
-            catch( final IOException e ) {
-                throw new RuntimeException(
-                        "StreamCopyThread.run() - Internal error in "
-                                + getName(), e );
-            }
 
-            if( c == -1 ) {
-                break; /* Loop/switch isn't completed */
-            }
+                if( c == -1 ) {
+                    break;
+                }
 
-            try {
                 synchronized( this.lock ) {
                     if( this.spyStream != null ) {
                         this.spyStream.write( c );
@@ -84,54 +106,75 @@ public class StreamCopyThread extends Thread
                 this.destination.write( c );
             }
             catch( final java.io.IOException e ) {
-                if( errorCount++ > ERROR_MAX ) {
+                if( errorCount++ > 10 ) {
                     throw new RuntimeException(
-                            "StreamCopyThread.run() - Internal error ("
-                                    + ERROR_MAX + " times) in " + getName(), e );
+                        "StreamCopyThread.run() - Internal error (" + ERROR_MAX + " times) in " + getName(),
+                        e
+                        );
                 }
             }
-        } // for(;;)
-        // if(true) goto _L2; else goto _L1
-        // // 57 111:goto 2
-        // _L1:
+        }
+
         if( this.closeSource ) {
             try {
                 this.source.close();
             }
             catch( final java.io.IOException e ) {
                 throw new RuntimeException(
-                        (new StringBuilder())
-                                .append(
-                                        "StreamCopyThread.run() while closing source stream in " )
-                                .append( getName() ).toString(), e );
+                    "StreamCopyThread.run() while closing source stream in " + getName(),
+                    e
+                    );
             }
         }
     }
 
-    public void registerSpyStream(final OutputStream spystream)
+    /**
+     * Registers an OutputStream for spying what's going on in the StreamCopyThread thread.
+     *
+     * @param spystream NEEDDOC
+     */
+    public void registerSpyStream( final OutputStream spystream )
     {
-        synchronized(this.lock) {
+        synchronized( this.lock )
+        {
             this.spyStream = spystream;
         }
     }
 
+    /**
+     * Stops spying this StreamCopyThread.
+     */
     public void stopSpyStream()
     {
-        synchronized(this.lock) {
+        synchronized( this.lock )
+        {
             this.spyStream = null;
         }
     }
 
-    public void close()
-        throws java.io.IOException
+    /**
+     * L'appel de la methode close() entraine l'appel de la methode cancel()
+     * (arret du thread) puis la fermeture du flux de source.
+     * <p>
+     * Le flux destination n'est pas ferme.
+     *
+     * @throws IOException if any
+     */
+    public void close() throws IOException
     {
         this.closeSource = true;
 
         cancel();
     }
 
-    public void cancel()
-        throws java.io.IOException
+    /**
+     * L'appel de la methode cancel() entraine l'arret du thread.
+     * <p>
+     * Les flux ne sont pas fermes (ils restent en l'etat).
+     *
+     * @throws IOException if any
+     */
+    public void cancel() throws java.io.IOException
     {
         this.running = false;
     }
