@@ -566,11 +566,10 @@ public class GenericDownloaderUIApp extends JFrame
         return l;
     }
 
-    /**
+    /*
      * @wbp.factory
      * @wbp.factory.parameter.source displayTableModel displayTableModel
      */
-    //Needed for WindowsBuilder: static
     public JTable createJTable()
     {
         final DisplayTableBuilder builder = new DisplayTableBuilder( this, this.displayTableModel );
