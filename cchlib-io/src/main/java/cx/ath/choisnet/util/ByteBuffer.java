@@ -419,7 +419,7 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
         return newByteBuffer;
     }
 
-    /**
+    /*
      * java.io.Serializable
      *
      * @since 2.01.013
@@ -442,7 +442,7 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
         }
     }
 
-    /**
+    /*
      * java.io.Serializable
      *
      * @since 2.01.013
