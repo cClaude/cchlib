@@ -11,6 +11,7 @@ public class DesktopHelperTest
 {
     @Test
     @Ignore // Test disabled for CI
+    @SuppressWarnings("squid:S1607")
     public void testDesktopHelper()
         throws PlatformDesktopNotSupportedException, MalformedURLException
     {
