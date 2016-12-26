@@ -1,17 +1,3 @@
-/*
- ** -----------------------------------------------------------------------
- ** Nom           : cx/ath/choisnet/dns/PublicIPReaderFactory.java
- ** Description   :
- **
- **  1.00 2005.09.25 Claude CHOISNET - Version initiale
- **  1.02 2006.04.06 Claude CHOISNET
- **                  Reprise de la gestion des logs
- **                  Ajout de getCurrentPublicIP(PublicIPReader)
- ** -----------------------------------------------------------------------
- **
- ** cx.ath.choisnet.dns.PublicIPReaderFactory
- **
- */
 package cx.ath.choisnet.dns;
 
 import java.io.BufferedReader;
@@ -26,18 +12,18 @@ import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.io.FileHelper;
 
 /**
- **
- ** @author Claude CHOISNET
- ** @version 1.02
+ *
+ * @since 1.02
  */
 public class PublicIPReaderFactory
 {
     private static final class PublicIPReaderImpl implements PublicIPReader
     {
-        /** serialVersionUID */
         private static final long serialVersionUID = 2L;
+
         private final File ipFile;
 
         public PublicIPReaderImpl( final File ipFile )
@@ -46,8 +32,7 @@ public class PublicIPReaderFactory
         }
 
         @Override
-        public String getPreviousPublicIP() // - - - - - - - - - - - - - - -
-                throws PublicIPException
+        public String getPreviousPublicIP() throws PublicIPException
         {
             try {
                 return getIP( new FileReader( this.ipFile ) );
@@ -83,8 +68,7 @@ public class PublicIPReaderFactory
         }
 
         @Override
-        public String getCurrentPublicIP() // - - - - - - - - - - - - - - -
-                throws PublicIPException
+        public String getCurrentPublicIP() throws PublicIPException
         {
             String ip;
 
@@ -144,8 +128,7 @@ public class PublicIPReaderFactory
             }
         }
 
-        private void store( final String ip ) // - - - - - - - - - - - - - -
-                throws IOException
+        private void store( final String ip ) throws IOException
         {
             try( final Writer writer = new FileWriter( this.ipFile ) ) {
                 writer.write( ip + " " + new java.util.Date() );
@@ -159,27 +142,25 @@ public class PublicIPReaderFactory
     /** Service par defaut : http://myip.dtdns.com/ */
     public static final URL  PUBLIC_DEFAULT_IP_LOCATOR_URL = buildURL( "http://myip.dtdns.com/" );
 
-    /** Sauvegarde par defaut : C:/Tomcat-Tools.PublicIP */
-    public static final File _PUBLIC_DEFAULT_IP_FILE        = new File( "C:/PreviousPublicIP" );
+    public static final File PUBLIC_DEFAULT_IP_FILE
+            = FileHelper.getUserConfigDirectoryFile( "PreviousPublicIP" );
 
     private PublicIPReaderFactory()
     {
         // All static
     }
 
-    public static PublicIPReader getDefaultPublicIPReader() // ----------------
+    public static PublicIPReader getDefaultPublicIPReader()
     {
-        return new PublicIPReaderImpl( _PUBLIC_DEFAULT_IP_FILE );
+        return new PublicIPReaderImpl( PUBLIC_DEFAULT_IP_FILE );
     }
 
-    /**
-     ** @return l'@ IP publique ou null si elle n'a pas pu etre determinee
-     **
-     ** @since 1.02
+    /*
+     * @return l'@ IP publique ou null si elle n'a pas pu etre determinee
      */
-    public static String getCurrentPublicIP( // -------------------------------
-            final PublicIPReader publicIPReader
-            )
+    public static String getCurrentPublicIP(
+        final PublicIPReader publicIPReader
+        )
     {
         try {
             return publicIPReader.getCurrentPublicIP();
@@ -197,13 +178,12 @@ public class PublicIPReaderFactory
         }
     }
 
-    /**
-     ** @return l'@ IP publique ou un message precisant l'erreur si elle n'a pas pu etre determinee
-     **
-     ** @since 1.02
+    /*
+     * @return l'@ IP publique ou un message precisant l'erreur si elle n'a pas pu etre determinee
      */
-    public static String getCurrentPublicIPAsMessage( // ----------------------
-            final PublicIPReader publicIPReader )
+    public static String getCurrentPublicIPAsMessage(
+        final PublicIPReader publicIPReader
+        )
     {
         try {
             return publicIPReader.getCurrentPublicIP();
@@ -221,7 +201,7 @@ public class PublicIPReaderFactory
         }
     }
 
-    protected static final URL buildURL( final String url ) // ----------------
+    protected static final URL buildURL( final String url )
     {
         try {
             return new URL( url );
