@@ -8,8 +8,9 @@ import org.xml.sax.SAXException;
 import cx.ath.choisnet.xml.impl.SAXErrorHandlerImpl;
 
 /**
- * NEEDDOC
+ * Error handler to report errors and warnings
  *
+ * @since 1.51
  */
 public class XMLParserErrorHandler
 {
@@ -47,8 +48,9 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * NEEDDOC
-     *
+     * The following method is convenient methods to deal with
+     * {@link IOException}.
+      *
      * @param ioe a {@link IOException} object.
      * @throws XMLParserException if any.
      */
@@ -63,7 +65,8 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * NEEDDOC
+     * The following method is convenient methods to deal with
+     * {@link ParserConfigurationException}.
      *
      * @param pce a {@link ParserConfigurationException} object.
      * @throws XMLParserException if any.
@@ -79,7 +82,8 @@ public class XMLParserErrorHandler
     }
 
     /**
-     * NEEDDOC
+     * The following method is convenient methods to deal with
+     * {@link SAXException}.
      *
      * @param saxe a {@link SAXException} object.
      * @throws XMLParserException if any.
