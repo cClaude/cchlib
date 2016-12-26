@@ -5,15 +5,17 @@ import java.io.StringWriter;
 /**
  * StringBufferWriter offer some standard
  * method not provided by {@link StringWriter}
+ *
+ * @since 1.30
  */
-public final class StringBufferWriter
-    extends StringWriter
+public final class StringBufferWriter extends StringWriter
 {
     /**
      * Create a {@link StringBufferWriter}
      */
     public StringBufferWriter()
     {
+        super();
     }
 
     /**
@@ -21,7 +23,7 @@ public final class StringBufferWriter
      *
      * @param initialSize Initial buffer size
      */
-    public StringBufferWriter( int initialSize )
+    public StringBufferWriter( final int initialSize )
     {
         super( initialSize );
     }
@@ -32,10 +34,9 @@ public final class StringBufferWriter
      */
     public String cleanBuffer()
     {
-        StringBuffer sb     = getBuffer();
-        String       result = sb.toString();
+        final String result = getBuffer().toString();
 
-        sb.setLength(0);
+        getBuffer().setLength(0);
 
         return result;
     }
@@ -53,7 +54,7 @@ public final class StringBufferWriter
      * Set buffer length
      * @param len Length to set
      */
-    public void setLength(int len)
+    public void setLength( final int len )
     {
         getBuffer().setLength(len);
     }
