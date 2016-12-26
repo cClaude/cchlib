@@ -95,11 +95,6 @@ public class XMLParserDOM2
     protected XMLParserDOM2(
         final Set<Attributs> attributes,
         final ErrorHandler errorHandler
-        // boolean validation, // true
-        // boolean ignoreWhitespace, // true
-        // boolean ignoreComments, // false
-        // boolean putCDATAIntoText, // false
-        // boolean createEntityRefs, // false
         ) throws IOException, ParserConfigurationException, SAXException
     {
         this.documentBuilder = createDocumentBuilder( attributes, errorHandler );
@@ -107,27 +102,27 @@ public class XMLParserDOM2
     }
 
     /**
-     ** <P>
      * Create a XMLParser object with theses defaults flags :
-     * </P>
-     **
-     ** <PRE>
-     * *  validation          = true
-     * *  ignoreWhitespace    = true
-     * *  ignoreComments      = false
-     * *  putCDATAIntoText    = true --> false
-     * *  createEntityRefs    = false
+     *
+     * <PRE>
+     *  validation          = true
+     *  ignoreWhitespace    = true
+     *  ignoreComments      = false
+     *  putCDATAIntoText    = true --> false
+     *  createEntityRefs    = false
      ** </PRE>
+     *
+     * @param anURL NEEDDOC
+     * @param attributes NEEDDOC
+     * @param errorHandler NEEDDOC
+     * @throws IOException NEEDDOC
+     * @throws ParserConfigurationException NEEDDOC
+     * @throws SAXException NEEDDOC
      */
     public XMLParserDOM2(
         final URL anURL,
         final Set<Attributs> attributes,
         final ErrorHandler errorHandler
-        // boolean validation,
-        // boolean ignoreWhitespace,
-        // boolean ignoreComments,
-        // boolean putCDATAIntoText,
-        // boolean createEntityRefs,
         ) throws IOException, ParserConfigurationException, SAXException
     {
         this( attributes, errorHandler );
@@ -136,15 +131,9 @@ public class XMLParserDOM2
     }
 
     public XMLParserDOM2(
-        final InputStream aStream,
+        final InputStream    aStream,
         final Set<Attributs> attributes,
-        final ErrorHandler errorHandler
-        // boolean validation, // true
-        // boolean ignoreWhitespace, // true
-        // boolean ignoreComments, // false
-        // boolean putCDATAIntoText, // false
-        // boolean createEntityRefs, // false
-        // ErrorHandler errorHandler
+        final ErrorHandler   errorHandler
         ) throws IOException, ParserConfigurationException, SAXException
     {
         this( attributes, errorHandler );
@@ -165,11 +154,6 @@ public class XMLParserDOM2
 
     private static DocumentBuilderFactory createDocumentBuilderFactory(
         final Set<Attributs> attributes
-        // boolean validation,
-        // boolean ignoreWhitespace,
-        // boolean ignoreComments,
-        // boolean putCDATAIntoText,
-        // boolean createEntityRefs
         )
     {
         //
@@ -201,11 +185,6 @@ public class XMLParserDOM2
     private static DocumentBuilder createDocumentBuilder(
         final Set<Attributs> attributes,
         final ErrorHandler   errorHandler
-        // boolean validation,
-        // boolean ignoreWhitespace,
-        // boolean ignoreComments,
-        // boolean putCDATAIntoText,
-        // boolean createEntityRefs,
         ) throws ParserConfigurationException
     {
         final DocumentBuilderFactory dbf = createDocumentBuilderFactory( attributes );

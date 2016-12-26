@@ -14,16 +14,24 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Node;
 
 /**
- **
- **
- ** @author Claude CHOISNET
- ** @since 1.51.007
- ** @version 1.51.007
+ *
+ *
+ * @since 1.51.007
  */
 public class XMLDOMTools
 {
+    private XMLDOMTools()
+    {
+        // All static
+    }
+
     /**
      * This method writes a DOM document to a stream
+     *
+     * @param node Node to save
+     * @param output Output
+     * @throws TransformerConfigurationException if any
+     * @throws TransformerException if any
      */
     public static void writeXML( final Node node, final OutputStream output )
             throws TransformerConfigurationException, TransformerException
@@ -42,6 +50,11 @@ public class XMLDOMTools
 
     /**
      * This method writes a DOM document to a stream
+     *
+     * @param node Node to save
+     * @param output Output
+     * @throws TransformerConfigurationException if any
+     * @throws TransformerException if any
      */
     public static void writeXML( final Node node, final Writer output )
         throws TransformerConfigurationException, TransformerException
@@ -59,7 +72,10 @@ public class XMLDOMTools
     }
 
     /**
-     ** This method writes a DOM document to a String
+     * This method writes a DOM document to a String
+     *
+     * @param node Node to save in String
+     * @return XML String
      */
     public static String toString( final Node node ) // -----------------------------
     {
