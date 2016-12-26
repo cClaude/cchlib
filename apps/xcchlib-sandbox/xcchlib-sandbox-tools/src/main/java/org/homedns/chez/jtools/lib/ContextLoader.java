@@ -71,12 +71,13 @@ public class ContextLoader
      * @param request
      *            Objet {@link javax.servlet.http.HttpServletRequest} valide de la
      *            requéte en cours.
-     ** @param aContextInitializator
+     * @param aContextInitializator
      *            Initialisateur de l'objet.
-     **
-     ** @see ServletContext
-     ** @see ServletContext#getContext(String)
-     ** @see ContextInitializable#getServletContextName()
+     * @return the ServletContext
+     *
+     * @see ServletContext
+     * @see ServletContext#getContext(String)
+     * @see ContextInitializable#getServletContextName()
      */
     public static ServletContext getServletContext(
         final HttpServletRequest      request,
