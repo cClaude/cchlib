@@ -1,7 +1,7 @@
 package test;
 
 /**
- **  @version 1.00.000 2005.09.26 Claude CHOISNET - Version initiale
+ *  @since 1.0
  */
 public class Maths
 {
@@ -11,7 +11,10 @@ public class Maths
     }
 
     /**
-     ** Standard deviation - écart type
+     * Compute standard deviation (écart type)
+     *
+     * @param values List of values
+     * @return standard deviation
      */
     public static final double sd( final double... values ) // ----------------------
     {
