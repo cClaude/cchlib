@@ -64,9 +64,12 @@ public class URLContext implements Serializable
     }
 
     /**
-     ** Ouvre la connection et applique les RequestProperty de la connection courante.
-     **
-     ** @see URL#openConnection
+     * Ouvre la connection et applique les RequestProperty de la connection courante.
+     *
+     * @param url NEEDDOC
+     * @return NEEDDOC
+     * @throws IOException if any
+     * @see URL#openConnection
      */
     public URLConnection openConnection( final URL url )
         throws IOException

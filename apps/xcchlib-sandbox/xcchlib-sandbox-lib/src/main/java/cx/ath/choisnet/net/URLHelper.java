@@ -196,7 +196,7 @@ public class URLHelper
      *            URL to copy
      * @param outputFile
      *            File to create with {@code url} content, if URL is found.
-     *
+     * @return Current {@link Status}
      * @since 3.02.021
      */
     public Status download(

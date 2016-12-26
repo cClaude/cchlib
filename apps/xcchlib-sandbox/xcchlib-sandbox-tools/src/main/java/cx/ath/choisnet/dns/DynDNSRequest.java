@@ -1,11 +1,3 @@
-/*
- ** -----------------------------------------------------------------------
- ** Nom           : cx/ath/choisnet/dns/DynDNSRequest.java
- ** Description   :
- **
- ** 1.00 2005.09.03 Version initiale
- ** -----------------------------------------------------------------------
- */
 package cx.ath.choisnet.dns;
 
 import java.io.BufferedReader;
@@ -14,18 +6,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.util.base64.Base64Encoder;
 
 /**
- **
- ** @author Claude CHOISNET
- ** @version 1.0
+ *
+ * @since 1.0
  */
 public class DynDNSRequest implements DNSRequestInterface
 {
@@ -45,25 +39,26 @@ public class DynDNSRequest implements DNSRequestInterface
     /** Encode64( username:pass ) */
     private final String                     usernamePass;
 
-    /** Fichier destriner e recevoir les traces des mise e jours */
+    /** Keep log of IP in this file */
     private final File                       traceFile;
 
     private final DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss.SSSZ" );
 
-    public DynDNSRequest( // --------------------------------------------------
-            final File traceFile,
-            final String system,
-            final String hostnameList,
-            final String wildcard,
-            final String username,
-            final String password )
+    public DynDNSRequest(
+        final File   traceFile,
+        final String system,
+        final String hostnameList,
+        final String wildcard,
+        final String username,
+        final String password
+        )
     {
-        this.traceFile = traceFile;
-        this.system = system;
-        this.hostnameList = hostnameList;
-        this.wildcard = wildcard;
-        this.usernamePass = encodeBase64( username + ":" + password );
-        this.hostCount = hostnameList.split( "," ).length;
+        this.traceFile      = traceFile;
+        this.system         = system;
+        this.hostnameList   = hostnameList;
+        this.wildcard       = wildcard;
+        this.usernamePass   = encodeBase64( username + ":" + password );
+        this.hostCount      = hostnameList.split( "," ).length;
 
         LOGGER.info( " **INIT***********************************" );
         LOGGER.info( " * traceFile      = [" + traceFile + "]" );
@@ -76,14 +71,22 @@ public class DynDNSRequest implements DNSRequestInterface
         LOGGER.info( " *****************************************" );
     }
 
-    public DynDNSRequest( // --------------------------------------------------
-            final String system,
-            final String hostnameList,
-            final String wildcard,
-            final String username,
-            final String password )
+    public DynDNSRequest(
+        final String system,
+        final String hostnameList,
+        final String wildcard,
+        final String username,
+        final String password
+        )
     {
-        this( new File( "C:/DynDNS.log" ), system, hostnameList, wildcard, username, password );
+        this(
+            FileHelper.getUserHomeDirectoryFile( DynDNSRequest.class.getName() + ".log" ),
+            system,
+            hostnameList,
+            wildcard,
+            username,
+            password
+            );
     }
 
     protected static String encodeBase64( final String str ) // ---------------------
@@ -91,14 +94,15 @@ public class DynDNSRequest implements DNSRequestInterface
         try {
             return Base64Encoder.encode( str );
         }
-        catch( final java.io.UnsupportedEncodingException e ) {
+        catch( final UnsupportedEncodingException e ) {
             throw new RuntimeException( e );
         }
     }
 
     @Override
+    @SuppressWarnings({"squid:S1160","squid:RedundantThrowsDeclarationCheck"})
     public InputStream getInputStream( final String ip ) // -------------------------
-            throws java.net.MalformedURLException, IOException
+            throws MalformedURLException, IOException
     {
         final java.net.URL url;
         final StringBuilder sb = new StringBuilder();
@@ -132,7 +136,7 @@ public class DynDNSRequest implements DNSRequestInterface
 
             return conn.getInputStream();
         }
-        catch( final java.net.MalformedURLException e ) {
+        catch( final MalformedURLException e ) {
             LOGGER.error( "MalformedURLException [" + sb + "]" );
 
             throw e;
@@ -145,36 +149,48 @@ public class DynDNSRequest implements DNSRequestInterface
         try {
             final String[] results = privateUpdateIP( getInputStream( ip ) );
 
-            LOGGER.info( "----- updateIP result -----" );
-
-            for( int i = 0; i < results.length; i++ ) {
-                LOGGER.info( "(" + i + "):" + results[ i ] );
-            }
-
-            LOGGER.info( "------------------" );
+            logUpdateIP( results );
 
             final boolean result = checkReturnCode( results, this.hostCount );
 
-            //
-            //
-            //
-            final String traceMsg = "[" + result + "]" + ip + " - " + this.dateFormat.format( new java.util.Date() );
-
-            try (final Writer writer = new FileWriter( this.traceFile, true )) {
-                writer.write( traceMsg + "\n" );
-                writer.flush();
-            }
-            catch( final java.io.IOException e ) {
-                LOGGER.fatal( "Probleme lors de la mise a jour de : " + this.traceFile + " : " + traceMsg, e );
+            if( this.traceFile != null ) {
+                updateTraceFile( this.traceFile, ip, result );
             }
 
             return result;
         }
         catch( final Exception e ) {
-            e.printStackTrace( System.out );
+            LOGGER.fatal( "Error while update IP to : " + ip, e );
 
             return false;
         }
+    }
+
+    private void updateTraceFile( final File traceFile, final String ip , final boolean result  )
+    {
+
+        final String traceMsg = "[" + result + "]"
+                + ip + " - "
+                + this.dateFormat.format( new java.util.Date() );
+
+        try( final Writer writer = new FileWriter( traceFile, true ) ) {
+            writer.write( traceMsg + "\n" );
+            writer.flush();
+        }
+        catch( final IOException e ) {
+            LOGGER.warn( "Can not update : " + traceFile + " : " + traceMsg, e );
+        }
+    }
+
+    private void logUpdateIP( final String[] results )
+    {
+        LOGGER.info( "----- updateIP result -----" );
+
+        for( int i = 0; i < results.length; i++ ) {
+            LOGGER.info( "(" + i + "):" + results[ i ] );
+        }
+
+        LOGGER.info( "------------------" );
     }
 
     /**

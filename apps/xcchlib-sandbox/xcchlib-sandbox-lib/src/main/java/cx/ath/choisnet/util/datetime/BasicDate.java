@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 //** Elle ne gere pas les notions d'heure ou de calendrier, elle pourra etre
 //** complete en utilisant les methodes statiques de FullCalendar
@@ -31,7 +32,6 @@ import java.text.SimpleDateFormat;
  ** Cette classe gere les problemes de date au sens commun (jour, mois, annee)
  ** <P>
  * Elle ne gere pas les notions d'heure ou de calendrier.
- ** <P>
  **
  * <PRE>
  * *  Exemple 1:
@@ -41,7 +41,6 @@ import java.text.SimpleDateFormat;
  * *      System.err.println( "Nous sommes le : " + simpledate );
  **
  ** </PRE>
- ** <P>
  **
  * <PRE>
  * *  Exemple 2: Parcours d'une periode.
@@ -229,7 +228,7 @@ public class BasicDate implements Serializable, DateInterface
      ** @param day
      *            le jour interval [1..31] (depend du mois et de l'annee)
      **
-     ** @exception BasicDateException
+     ** @exception BasicDateException if any
      */
     public void set( final int year, final int month, final int day ) // ------------------------
             throws BasicDateException
@@ -261,7 +260,7 @@ public class BasicDate implements Serializable, DateInterface
      ** @param year
      *            le numero de l'annee [0..9999]
      **
-     ** @exception BasicDateException
+     ** @exception BasicDateException if any
      */
     public void setYear( final int year ) throws BasicDateException // -------------
     {
@@ -274,7 +273,7 @@ public class BasicDate implements Serializable, DateInterface
      ** @param month
      *            le mois [1..12]
      **
-     ** @exception BasicDateException
+     ** @exception BasicDateException if any
      */
     public void setMonth( final int month ) throws BasicDateException // -----------
     {
@@ -287,7 +286,7 @@ public class BasicDate implements Serializable, DateInterface
      ** @param day
      *            le jour [1..31]
      **
-     ** @exception BasicDateException
+     ** @exception BasicDateException if any
      */
     public void setDay( final int day ) throws BasicDateException // ---------------
     {
@@ -300,14 +299,13 @@ public class BasicDate implements Serializable, DateInterface
      ** @param javaDate
      *            date
      */
-    public void set( final java.util.Date javaDate ) // ----------------------------
+    public void set( final Date javaDate ) // ----------------------------
     {
         setWithFmtString( DATE_FMT.format( javaDate ) );
     }
 
-    /**
-     ** Initialise l'objet BasicDate avec une String formatee avec le format interne
-     ** <P>
+    /*
+     * Initialise l'objet BasicDate avec une String formatee avec le format interne
      */
     protected void setWithFmtString( final String fmtTime ) // ----------------------
     {
@@ -454,7 +452,7 @@ public class BasicDate implements Serializable, DateInterface
      ** @return true if and only if the instant of time represented by this BasicDate object is strictly earlier than the
      *         instant represented by when; false otherwise.
      **
-     ** @exception ClassCastException
+     ** @exception ClassCastException if any
      */
     @Override
     public boolean isBefore( final DateInterface anOtherDate ) // -------------------
@@ -472,7 +470,7 @@ public class BasicDate implements Serializable, DateInterface
      ** @return true if and only if the instant represented by thisBasicDate object is strictly later than the instant
      *         represented by when; false otherwise.
      **
-     ** @exception ClassCastException
+     ** @exception ClassCastException if any
      */
     @Override
     public boolean isAfter( final DateInterface anOtherDate ) // --------------------
@@ -597,23 +595,22 @@ public class BasicDate implements Serializable, DateInterface
     }
 
     /**
-     ** Methode permettant de calculer la duree en jours entre 2 dates BasicDate la date le l'object actuel est la
+     * Methode permettant de calculer la duree en jours entre 2 dates BasicDate la date le l'object actuel est la
      * reference de debut de periode
-     ** <P>
-     **
+     *
      * <PRE>
-     * *  // Calcul le nombre de jour d'un mois donne.
-     * *  BasicDate startDate = new BasicDate( yearNumber, monthNumber, 1 );
-     * *  BasicDate endDate   = new BasicDate( yearNumber, monthNumber, 1 );
-     * *  endDate.incMonth();
-     * *
-     * *  int countOfDayInTheMonth = startDate.countOfDay( endDate );
-     ** </PRE>
-     **
-     ** @param endOfPeriod
+     *  // Calcul le nombre de jour d'un mois donne.
+     *  BasicDate startDate = new BasicDate( yearNumber, monthNumber, 1 );
+     *  BasicDate endDate   = new BasicDate( yearNumber, monthNumber, 1 );
+     *  endDate.incMonth();
+     *
+     * int countOfDayInTheMonth = startDate.countOfDay( endDate );
+     * </PRE>
+     *
+     * @param endOfPeriod
      *            BasicDate initialise e la fin de la periode
-     **
-     ** @return duree (en jours) entre la date de debut et la date de fin
+     *
+     * @return duree (en jours) entre la date de debut et la date de fin
      */
     public int countOfDay( final BasicDate endOfPeriod ) // ------------------------
     {
