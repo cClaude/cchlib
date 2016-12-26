@@ -193,7 +193,7 @@ public class DynDNSRequest implements DNSRequestInterface
         LOGGER.info( "------------------" );
     }
 
-    /**
+    /*
      ** http://resolute.ucsd.edu/~diwaker/articles/java-proxy.html
      */
     public String[] privateUpdateIP( final InputStream inputStream ) // ------------
@@ -214,69 +214,91 @@ public class DynDNSRequest implements DNSRequestInterface
         return list.toArray( results );
     }
 
-    /**
-     **
-     ** Update Syntax Errors:
-     **
-     ** The codes below should never be returned except when developing a client. They indicate a serious problem with
-     * the syntax of the update sent by the client.
-     **
-     ** badsys The sycodestem parameter given is not valid. Valid system parameters are dyndns, statdns and custom.
-     **
-     ** badagent The user agent that was sent has been blocked for not following these specifications or no user agent
-     * was specified.
-     **
-     ** Account-Related Errors:
-     **
-     ** The codes below indicate that the client is not configured currently for the user's account. These return codes
-     * are given just once.
-     **
-     ** badauth The username or password specified are incorrect.
-     **
-     ** !donator An option available only to credited users (such as offline URL) was specified, but the user is not a
-     * credited user. If multiple hosts were specified, only a single !donator will be returned.
-     **
-     ** Update Complete:
-     **
-     ** The codes below indicate that the update of a hostname was completed successfully.
-     **
-     ** good The update was successful, and the hostname is now updated.
-     **
-     ** nochg The update changed no settings, and is considered abusive. Additional nochg updates will cause the hostname
-     * to become blocked.
-     **
-     ** Note that, for confirmation purposes, good and nochg messages will be followed by the IP address that the
-     * hostname was updated to. This value will be separated from the return code by a space.
-     **
-     ** Hostname-Related Errors:
-     **
-     ** The codes below indicate a problem with a specific hostname. The client should stop updating that hostname until
-     * the user confirms that the problem has been resolved.
-     **
-     ** notfqdn The hostname specified is not a fully-qualified domain name (not in the form hostname.dyndns.org or
-     * domain.com).
-     **
-     ** nohost The hostname specified does not exist (or is not in the service specified in the system parameter)
-     **
-     ** !yours The hostname specified exists, but not under the username specified.
-     **
-     ** abuse The hostname specified is blocked for update abuse.
-     **
-     ** Note that, if no hostnames were specified, notfqdn will be returned once. Server Error Conditions
-     **
-     ** The codes below indicate server errors that will have to be investigated. The client should stop and ask the user
-     * to contact support.
-     **
-     ** numhost Too many or too few hosts found
-     **
-     ** dnserr DNS error encountered
-     **
-     ** The return dnserr will be followed by a numeric packet ID which should be reported to the support department
-     * along with the error. Emergency Conditions
-     **
-     ** 911 There is a serious problem on our side, such as a database or DNS server failure. The client should stop
-     * updating until notified via the status page that the service is back up.
-     **
+    /*
+     * Update Syntax Errors:
+     *
+     * The codes below should never be returned except when developing a client.
+     * They indicate a serious problem with the syntax of the update sent by the
+     * client.
+     *
+     * badsys
+     *      The sycodestem parameter given is not valid. Valid system parameters
+     *      are dyndns, statdns and custom.
+     *
+     * badagent
+     *      The user agent that was sent has been blocked for not following these
+     *      specifications or no user agent was specified.
+     *
+     * Account-Related Errors:
+     *
+     * The codes below indicate that the client is not configured currently for
+     * the user's account. These return codes are given just once.
+     *
+     * badauth
+     *      The username or password specified are incorrect.
+     *
+     * !donator
+     *      An option available only to credited users (such as offline URL) was
+     *      specified, but the user is not a credited user. If multiple hosts
+     *      were specified, only a single !donator will be returned.
+     *
+     * Update Complete:
+     *
+     * The codes below indicate that the update of a hostname was completed
+     * successfully.
+     *
+     * good
+     *      The update was successful, and the hostname is now updated.
+     *
+     * nochg
+     *      The update changed no settings, and is considered abusive.
+     *      Additional nochg updates will cause the hostname to become
+     *      blocked.
+     *
+     * Note that, for confirmation purposes, good and nochg messages will be
+     * followed by the IP address that the hostname was updated to. This value
+     * will be separated from the return code by a space.
+     *
+     * Hostname-Related Errors:
+     *
+     * The codes below indicate a problem with a specific hostname. The client
+     * should stop updating that hostname until the user confirms that the
+     * problem has been resolved.
+     *
+     * notfqdn
+     *      The hostname specified is not a fully-qualified domain name (not
+     *      in the form hostname.dyndns.org or domain.com).
+     *
+     * nohost
+     *      The hostname specified does not exist (or is not in the service
+     *      specified in the system parameter)
+     *
+     * !yours
+     *      The hostname specified exists, but not under the username specified.
+     *
+     * abuse
+     *      The hostname specified is blocked for update abuse.
+     *
+     * Note that, if no hostnames were specified, notfqdn will be returned once.
+     * Server Error Conditions
+     *
+     * The codes below indicate server errors that will have to be investigated.
+     * The client should stop and ask the user to contact support.
+     *
+     * numhost
+     *      Too many or too few hosts found
+     *
+     * dnserr
+     *      DNS error encountered
+     *      The return dnserr will be followed by a numeric packet ID which should
+     *      be reported to the support department along with the error. Emergency
+     *      Conditions
+     *
+     * 911
+     *      There is a serious problem on our side, such as a database or DNS
+     *      server failure. The client should stop updating until notified via
+     *      the status page that the service is back up.
+     *
      */
     public static boolean checkReturnCode( // ---------------------------------
             final String[] results,
