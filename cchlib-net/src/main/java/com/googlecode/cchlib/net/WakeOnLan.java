@@ -17,6 +17,7 @@ public class WakeOnLan
     /** DEFAULT_BROADCAST_ADDR : {@value} */
     @SuppressWarnings("squid:S1313") // This is a broad cast IP
     public static final String DEFAULT_BROADCAST_ADDR = "255.255.255.255";
+
     /** DEFAULT_PORT : {@value} */
     public static final int DEFAULT_PORT = 7;
 

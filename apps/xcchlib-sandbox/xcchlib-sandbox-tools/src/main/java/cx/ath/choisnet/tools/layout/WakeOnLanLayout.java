@@ -5,7 +5,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import cx.ath.choisnet.net.WakeOnLan;
+import com.googlecode.cchlib.net.WakeOnLan;
 
 /**
  *
@@ -156,6 +156,4 @@ public class WakeOnLanLayout
             );
         this.out.flush();
     }
-
-
 }
