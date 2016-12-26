@@ -1,35 +1,23 @@
-/*
- ** -----------------------------------------------------------------------
- ** Nom           : cx\ath\choisnet\dns\PublicIP.java
- ** Description   :
- ** Encodage      : ANSI
- **
- **  1.00 2005.02.27 Claude CHOISNET
- **  1.02 2006.04.06 Claude CHOISNET
- **                  Adaptation aux evolutions de
- **                      cx.ath.choisnet.dns.PublicIPReader
- ** -----------------------------------------------------------------------
- **
- ** cx.ath.choisnet.dns.PublicIP
- **
- */
 package cx.ath.choisnet.dns;
 
 import org.apache.log4j.Logger;
 
 /**
-**
-*/
-public class PublicIP implements PublicIPReader {
-    /** serialVersionUID */
+ * @since 1.02
+ */
+public class PublicIP implements PublicIPReader
+{
     private static final long    serialVersionUID = 1L;
+
+    /** Gestion des traces (Serializable) */
+    private transient Logger transientLogger = null;
 
     /** Objet d'acquisition de l'IP publique */
     private final PublicIPReader publicIPReader;
     private long                 lastChangeTimeMillis;
 
     /**
-     ** Objet statique pour les traitements globaux au niveau de la JVM.
+     * Objet statique pour les traitements globaux au niveau de la JVM.
      */
     private static PublicIP      globalPublicIP   = null;
 
@@ -41,7 +29,7 @@ public class PublicIP implements PublicIPReader {
 
     public boolean hasChange() throws PublicIPException
     {
-        final String currentIP;
+        final String  currentIP;
         final boolean hasChange;
 
         try {
@@ -65,65 +53,54 @@ public class PublicIP implements PublicIPReader {
         return hasChange;
     }
 
-    public long getLastChangeTimeMillis() // ----------------------------------
+    public long getLastChangeTimeMillis()
     {
         return this.lastChangeTimeMillis;
     }
 
     @Override
-    public String getCurrentPublicIP() // -------------------------------------
-            throws PublicIPException
+    public String getCurrentPublicIP() throws PublicIPException
     {
         return this.publicIPReader.getCurrentPublicIP();
     }
 
     @Override
-    public String getPreviousPublicIP() // ------------------------------------
-            throws PublicIPException
+    public String getPreviousPublicIP() throws PublicIPException
     {
         return this.publicIPReader.getPreviousPublicIP();
     }
 
     @Override
-    public void storePublicIP() // --------------------------------------------
-            throws PublicIPException
+    public void storePublicIP() throws PublicIPException
     {
         this.publicIPReader.storePublicIP();
     }
 
-    public static PublicIP getGlobalPublicIP() // -----------------------------
+    public static synchronized PublicIP getGlobalPublicIP()
     {
         return globalPublicIP;
     }
 
-    public synchronized static void setGlobalPublicIP( // ---------------------
-            final PublicIP publicIP )
+    public static synchronized void setGlobalPublicIP( final PublicIP publicIP )
     {
         globalPublicIP = publicIP;
     }
 
-    public synchronized static void setOnceGlobalPublicIP( // -----------------
-            final PublicIP publicIP )
+    public static synchronized void setOnceGlobalPublicIP(
+        final PublicIP publicIP
+        )
     {
         if( globalPublicIP == null ) {
             globalPublicIP = publicIP;
         }
     }
 
-    /** Gestion des traces (Serializable) */
-    private transient Logger transientLogger = null;
-
-    /**
-     ** Gestion des traces (Serializable)
-     */
-    final protected Logger getLogger() // -------------
+    protected final  Logger getLogger()
     {
-        if( transientLogger == null ) {
-            transientLogger = Logger.getLogger( this.getClass() );
+        if( this.transientLogger == null ) {
+            this.transientLogger = Logger.getLogger( this.getClass() );
         }
 
-        return transientLogger;
+        return this.transientLogger;
     }
-
-} // class
-
+}
