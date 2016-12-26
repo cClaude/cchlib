@@ -14,6 +14,8 @@ public class DefaultComboBoxConfig
     @SuppressWarnings("squid:S2176")
     private static class Item implements GenericDownloaderUIPanelEntry.Item
     {
+        private static final long serialVersionUID = 1L;
+
         private final String jComboBoxText;
         private final String selectedDescription;
 
