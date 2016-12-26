@@ -1,35 +1,20 @@
-/*
- ** -----------------------------------------------------------------------
- ** Nom           : cx\ath\choisnet\tools\servlets\InitServletAbstractTask.java
- ** Description   :
- ** Encodage      : ANSI
- **
- **  1.00 2004.12.01 Claude CHOISNET
- **  1.10 2005.10.17 Claude CHOISNET
- ** -----------------------------------------------------------------------
- **
- ** cx.ath.choisnet.tools.servlets.InitServletAbstractTask
- **
- */
 package cx.ath.choisnet.tools.servlets;
 
 import org.apache.log4j.Logger;
 
 /**
- **
- **
- ** @author Claude CHOISNET
- ** @since 1.00
- ** @version 1.10
+ *
+ *
+ * @since 1.00
  */
 public abstract class InitServletAbstractTask implements InitServletTaskInterface
 {
     private static final Logger LOGGER = Logger.getLogger( InitServletAbstractTask.class );
 
-    private final String              instanceName;
-    private boolean             continueRunning;
+    private final String    instanceName;
+    private boolean         continueRunning;
 
-    public InitServletAbstractTask() // ---------------------------------------
+    public InitServletAbstractTask()
     {
         this( null );
     }

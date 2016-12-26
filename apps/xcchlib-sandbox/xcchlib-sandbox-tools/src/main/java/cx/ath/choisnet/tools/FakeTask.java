@@ -1,14 +1,3 @@
-/*
- ** -----------------------------------------------------------------------
- ** Nom           : cx/ath/choisnet/tools/FakeTask.java
- ** Description   :
- **
- ** 1.00 2005.08.21 Claude CHOISNET - Version initiale
- ** -----------------------------------------------------------------------
- **
- ** cx.ath.choisnet.tools.FakeTask
- **
- */
 package cx.ath.choisnet.tools;
 
 import javax.servlet.ServletConfig;
@@ -16,35 +5,35 @@ import org.apache.log4j.Logger;
 import cx.ath.choisnet.tools.servlets.InitServletTask;
 
 /**
- ** 
- ** @author Claude CHOISNET
- ** @version 1.0
+ *
+ *
+ * @since 1.00
  */
-public class FakeTask extends InitServletTask 
+public class FakeTask extends InitServletTask
 {
     private static final Logger LOGGER = Logger.getLogger( FakeTask.class );
 
+    private static final String MESSAGE_SEPARATOR = " *****************************************";
+
     @Override
-    public void init( // ------------------------------------------------------
-            ServletConfig servletConfig )
+    public void init( final ServletConfig servletConfig )
     {
-        log( " *****************************************" );
+        log( MESSAGE_SEPARATOR );
         log( " * " + this.hashCode() + ".init(" + servletConfig + ")" );
-        log( " *****************************************" );
+        log( MESSAGE_SEPARATOR );
     }
 
     @Override
-    public void run() // ------------------------------------------------------
+    public void run()
     {
-        log( " *****************************************" );
+        log( MESSAGE_SEPARATOR );
         log( " * " + this.hashCode() + ".run()" );
-        log( " *****************************************" );
+        log( MESSAGE_SEPARATOR );
     }
 
     @Override
-    public void log( String message ) // --------------------------------------
+    public void log( final String message )
     {
         LOGGER.trace( message );
     }
-
 }
