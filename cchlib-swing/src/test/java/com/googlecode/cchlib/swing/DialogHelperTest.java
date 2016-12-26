@@ -55,7 +55,7 @@ public class DialogHelperTest
 
         final int result = Threads.startAndWait(
                 () -> showMessageExceptionDialog_with_extra_button(),
-                3,
+                5,
                 TimeUnit.SECONDS
                 );
 
