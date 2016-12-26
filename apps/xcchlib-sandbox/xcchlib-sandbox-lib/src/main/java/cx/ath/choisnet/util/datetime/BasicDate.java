@@ -1,23 +1,8 @@
-/*
- ** $VER: BasicDate.java
- ** -----------------------------------------------------------------------
- ** Nom           : cx/ath/choisnet/util/datetime/BasicDate.java
- ** Description   :
- **
- **  1.03.___ 2000.10.29 Claude CHOISNET - Version initiale
- **  1.31.___ 2005.05.16 Claude CHOISNET
- **                      Prise en charge de la serialization e travers les
- **                      les methodes writeObject() et readObject()
- **                      Changement de la representation interne
- **  2.00.003 2005.09.17 Claude CHOISNET
- **                      Adapation JDK1.5 et DateInterface
- ** -----------------------------------------------------------------------
- **
- ** cx.ath.choisnet.util.datetime.BasicDate
- **
- */
 package cx.ath.choisnet.util.datetime;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.Format;
 import java.text.ParseException;
@@ -28,46 +13,44 @@ import java.util.Date;
 //** complete en utilisant les methodes statiques de FullCalendar
 
 /**
- **
- ** Cette classe gere les problemes de date au sens commun (jour, mois, annee)
- ** <P>
+ * Cette classe gere les problemes de date au sens commun (jour, mois, annee)
+ * <P>
  * Elle ne gere pas les notions d'heure ou de calendrier.
- **
+ *
  * <PRE>
- * *  Exemple 1:
- * *      BasicDate simpledate = new BasicDate();
- * *
- * *      // Produit une sortie au format yyyyMMdd
- * *      System.err.println( "Nous sommes le : " + simpledate );
- **
- ** </PRE>
- **
+ *  Exemple 1:
+ *      BasicDate simpledate = new BasicDate();
+ *
+ *      // Produit une sortie au format yyyyMMdd
+ *      System.err.println( "Nous sommes le : " + simpledate );
+ * </PRE>
+ *
  * <PRE>
- * *  Exemple 2: Parcours d'une periode.
- * *      BasicDate  firstDayDate = new BasicDate( getDebutDePeriode() );
- * *      BasicDate  lastDayDate  = new BasicDate( getFinDePeriode() );
- * *
- * *      for(    BasicDate currentDay = new BasicDate( firstDayDate );
- * *              currentDay.compareTo( lastDayDate ) <= 0;
- * *              currentDay.incDay()
- * *              ) {
- * *          // Reste du traitement : function( currentDay );
- * *          }
- **
- ** </PRE>
- ** <P>
+ *  Exemple 2: Parcours d'une periode.
+ *      BasicDate  firstDayDate = new BasicDate( getDebutDePeriode() );
+ *      BasicDate  lastDayDate  = new BasicDate( getFinDePeriode() );
+ *
+ *      for(    BasicDate currentDay = new BasicDate( firstDayDate );
+ *              currentDay.compareTo( lastDayDate ) <= 0;
+ *              currentDay.incDay()
+ *              ) {
+ *          // Reste du traitement : function( currentDay );
+ *          }
+ *
+ * </PRE>
+ * <P>
  * NOTE:<br>
  * - Cette classe est {@link Serializable}<br>
  * - Mais cette classe n'est pas "compatible an 10 000" ;-)
- **
- ** @author Claude CHOISNET
- ** @version 2.00.003
- ** @see BasicTime
- **
+ *
+ * @since 1.03
+ * @see BasicTime
  */
-public class BasicDate implements Serializable, DateInterface
+public class BasicDate implements Serializable, DateInterface<BasicDate>
 {
     private static final long serialVersionUID = 1L;
+
+    private static final long MILLISECONDS_BY_DAY = (1000L * 60L * 60L * 24L);
 
     /**
      ** Chaene de formatage pour la class BasicDateFormat de la methode toString()
@@ -134,10 +117,10 @@ public class BasicDate implements Serializable, DateInterface
      ** @param fmt
      *            format de la chaene, conformement e la classe BasicDateFormat.
      **
-     ** @exception java.text.ParseException
+     ** @exception ParseException if any
      */
     public BasicDate( final String date, final SimpleDateFormat fmt ) // -----------------
-            throws java.text.ParseException
+        throws ParseException
     {
         this( fmt.parse( date ) ); // -> BasicDate( java.util.Date javadate )
     }
@@ -167,18 +150,18 @@ public class BasicDate implements Serializable, DateInterface
     // }
 
     /**
-     ** Construit une date BasicDate avec la date specifiee
-     **
-     ** @param year
+     * Construit une date BasicDate avec la date specifiee
+     *
+     * @param year
      *            l'annee
-     ** @param month
+     * @param month
      *            le mois intervalle [1..12]
-     ** @param day
+     * @param day
      *            le jour
-     **
-     ** @see #set(int, int, int )
-     **
-     ** @exception BasicDateException
+     *
+     * @see #set(int, int, int )
+     *
+     * @exception BasicDateException if any
      */
     public BasicDate( final int year, final int month, final int day ) // ----------------------
             throws BasicDateException
@@ -187,12 +170,12 @@ public class BasicDate implements Serializable, DateInterface
     }
 
     /**
-     ** Construit une date BasicDate avec une date SQL
-     **
-     ** @param sqlDate
+     * Construit une date BasicDate avec une date SQL
+     *
+     * @param sqlDate
      *            Date au format java.sql.Date
-     **
-     ** @see #getSQLDate()
+     *
+     * @see #getSQLDate()
      */
     public BasicDate( final java.sql.Date sqlDate ) // -----------------------------
     {
@@ -204,12 +187,12 @@ public class BasicDate implements Serializable, DateInterface
         // 0123456789
         // YYYY-MM-DD
 
-        this.year = Integer.parseInt( strDate.substring( 0, 4 ) );
+        this.year  = Integer.parseInt( strDate.substring( 0, 4 ) );
         this.month = Integer.parseInt( strDate.substring( 5, 7 ) );
-        this.day = Integer.parseInt( strDate.substring( 8 ) );
+        this.day   = Integer.parseInt( strDate.substring( 8 ) );
     }
 
-    /**
+    /*
      **
      ** @exception BasicDateException
      *                public void set( int year, int month, int day ) // ------------------------ throws
@@ -230,8 +213,8 @@ public class BasicDate implements Serializable, DateInterface
      **
      ** @exception BasicDateException if any
      */
-    public void set( final int year, final int month, final int day ) // ------------------------
-            throws BasicDateException
+    public void set( final int year, final int month, final int day )
+        throws BasicDateException
     {
         if( (year < 0) || (year > 9999) ) {
             throw new BasicDateException( "BasicDate 'year' invalid = " + year );
@@ -255,12 +238,12 @@ public class BasicDate implements Serializable, DateInterface
     }
 
     /**
-     ** Modifie le numero de l'annee de l'objet BasicDate
-     **
-     ** @param year
+     * Modifie le numero de l'annee de l'objet BasicDate
+     *
+     * @param year
      *            le numero de l'annee [0..9999]
-     **
-     ** @exception BasicDateException if any
+     *
+     * @exception BasicDateException if any
      */
     public void setYear( final int year ) throws BasicDateException // -------------
     {
@@ -268,12 +251,12 @@ public class BasicDate implements Serializable, DateInterface
     }
 
     /**
-     ** Modifie le numero du mois de l'objet BasicDate
-     **
-     ** @param month
+     * Modifie le numero du mois de l'objet BasicDate
+     *
+     * @param month
      *            le mois [1..12]
-     **
-     ** @exception BasicDateException if any
+     *
+     * @exception BasicDateException if any
      */
     public void setMonth( final int month ) throws BasicDateException // -----------
     {
@@ -281,12 +264,12 @@ public class BasicDate implements Serializable, DateInterface
     }
 
     /**
-     ** Modifie le numero du jour de l'objet BasicDate
-     **
-     ** @param day
+     * Modifie le numero du jour de l'objet BasicDate
+     *
+     * @param day
      *            le jour [1..31]
-     **
-     ** @exception BasicDateException if any
+     *
+     * @exception BasicDateException if any
      */
     public void setDay( final int day ) throws BasicDateException // ---------------
     {
@@ -294,9 +277,9 @@ public class BasicDate implements Serializable, DateInterface
     }
 
     /**
-     ** Initialise l'objet BasicDate e partir d'un object java.util.Date
-     **
-     ** @param javaDate
+     * Initialise l'objet BasicDate e partir d'un object java.util.Date
+     *
+     * @param javaDate
      *            date
      */
     public void set( final Date javaDate ) // ----------------------------
@@ -318,9 +301,9 @@ public class BasicDate implements Serializable, DateInterface
     }
 
     /**
-     ** retourne le numero du jour.
-     **
-     ** @return le numero du jour [1..31]
+     * retourne le numero du jour.
+     *
+     * @return le numero du jour [1..31]
      */
     public int getDay()
     {
@@ -360,7 +343,7 @@ public class BasicDate implements Serializable, DateInterface
             return DATE_FMT.parse( this.toString() );
         }
         catch( final ParseException bug ) {
-            throw new RuntimeException( "BasicDate.getJavaDate() INTERNAL ERROR" );
+            throw new BasicDateTimeRuntimeException( "BasicDate.getJavaDate() INTERNAL ERROR", bug );
         }
     }
 
@@ -396,9 +379,9 @@ public class BasicDate implements Serializable, DateInterface
      ** @return true si les 2 dates correspondent au meme jour, false autrement.
      */
     @Override
-    public boolean equals( final DateInterface anotherDate ) // ---------------------
+    public boolean isEqualTo( final BasicDate anotherDate )
     {
-        return (this.compareTo( anotherDate ) == 0);
+        return compareTo( anotherDate ) == 0;
     }
 
     /**
@@ -414,69 +397,49 @@ public class BasicDate implements Serializable, DateInterface
      *         plus recente que la date passe en parametre.
      */
     @Override
-    public int compareTo( final DateInterface anotherDate ) // -----------------------
+    public int compareTo( final BasicDate anotherDate )
     {
-        if( anotherDate instanceof BasicDate ) {
-            final BasicDate aBasicDate = (BasicDate)anotherDate;
+        int cmp = this.year - anotherDate.year;
 
-            int cmp = this.year - aBasicDate.year;
+        if( cmp == 0 ) {
+            cmp = this.month - anotherDate.month;
 
             if( cmp == 0 ) {
-                cmp = this.month - aBasicDate.month;
-
-                if( cmp == 0 ) {
-                    cmp = this.day - aBasicDate.day;
-                }
-            }
-
-            return cmp;
-        } else {
-            final long res = this.longValue() - anotherDate.longValue();
-
-            if( res > 0 ) {
-                return 1;
-            } else if( res == 0 ) {
-                return 0;
-            } else {
-                return -1;
+                cmp = this.day - anotherDate.day;
             }
         }
+
+        return cmp;
     }
 
     /**
-     ** Tests if this date is before the specified date.
-     **
-     ** @param anOtherDate
+     * Tests if this date is before the specified date.
+     *
+     * @param anotherDate
      *            a BasicDate.
-     **
-     ** @return true if and only if the instant of time represented by this BasicDate object is strictly earlier than the
+     *
+     * @return true if and only if the instant of time represented by this BasicDate object is strictly earlier than the
      *         instant represented by when; false otherwise.
-     **
-     ** @exception ClassCastException if any
      */
     @Override
-    public boolean isBefore( final DateInterface anOtherDate ) // -------------------
-            throws ClassCastException
+    public boolean isBefore( final BasicDate anotherDate )
     {
-        return (this.compareTo( anOtherDate ) > 0);
+        return compareTo( anotherDate ) > 0;
     }
 
     /**
-     ** Tests if this date is after the specified date.
-     **
-     ** @param anOtherDate
+     * Tests if this date is after the specified date.
+     *
+     * @param anotherDate
      *            a BasicDate.
-     **
-     ** @return true if and only if the instant represented by thisBasicDate object is strictly later than the instant
+     *
+     * @return true if and only if the instant represented by thisBasicDate object is strictly later than the instant
      *         represented by when; false otherwise.
-     **
-     ** @exception ClassCastException if any
      */
     @Override
-    public boolean isAfter( final DateInterface anOtherDate ) // --------------------
-            throws ClassCastException
+    public boolean isAfter( final BasicDate anotherDate )
     {
-        return (this.compareTo( anOtherDate ) < 0);
+        return compareTo( anotherDate ) < 0;
     }
 
     /**
@@ -491,9 +454,6 @@ public class BasicDate implements Serializable, DateInterface
         return toStringYear() + toStringMonth() + toStringDay();
     }
 
-    /**
-**
-*/
     public String toStringYear() // -------------------------------------------
     {
         final String yearStr = "000" + this.year;
@@ -501,17 +461,11 @@ public class BasicDate implements Serializable, DateInterface
         return yearStr.substring( yearStr.length() - 4 );
     }
 
-    /**
-**
-*/
     public String toStringMonth() // ------------------------------------------
     {
         return ((this.month > 9) ? "" : "0") + this.month;
     }
 
-    /**
-**
-*/
     public String toStringDay() // --------------------------------------------
     {
         return ((this.day > 9) ? "" : "0") + this.day;
@@ -531,7 +485,6 @@ public class BasicDate implements Serializable, DateInterface
         return formatter.format( this.getJavaDate() );
     }
 
-    private static final long MILLISECONDS_BY_DAY = (1000L * 60L * 60L * 24L);
 
     /**
      ** NOTE: cette methode devrait retourner le nombre de jour depuis le 1er janvier de l'an 1.
@@ -551,18 +504,18 @@ public class BasicDate implements Serializable, DateInterface
      */
     public void incYear() // -------------------------------------------------
     {
-        int year = this.getYear() + 1; // Incremente
+        int newYear = this.getYear() + 1; // Incremente
 
-        if( year > 9999 ) {
+        if( newYear > 9999 ) {
             // Afin d'eviter e transmettre une exception, presque inutile ;-)
-            year = 0;
+            newYear = 0;
         }
 
         try {
-            set( year, this.getMonth(), this.getDay() );
+            set( newYear, this.getMonth(), this.getDay() );
         }
         catch( final BasicDateException ignore ) {
-            throw new RuntimeException( "incMonth() INTERNAL ERROR" );
+            throw new BasicDateTimeRuntimeException( "incMonth() INTERNAL ERROR", ignore );
         }
     }
 
@@ -573,24 +526,24 @@ public class BasicDate implements Serializable, DateInterface
      */
     public void incMonth() // -------------------------------------------------
     {
-        int year = this.getYear();
-        int month = this.getMonth() + 1; // Incremente
+        int newYear  = this.getYear();
+        int newMonth = this.getMonth() + 1; // Incremente
 
-        if( month > 12 ) {
-            month = 1; // Janvier
-            year += 1;
+        if( newMonth > 12 ) {
+            newMonth = 1; // Janvier
+            newYear += 1;
 
-            if( year > 9999 ) {
+            if( newYear > 9999 ) {
                 // Afin d'eviter e transmettre une exception, presque inutile ;-)
-                year = 0;
+                newYear = 0;
             }
         }
 
         try {
-            set( year, month, this.getDay() );
+            set( newYear, newMonth, this.getDay() );
         }
         catch( final BasicDateException ignore ) {
-            throw new RuntimeException( "incMonth() INTERNAL ERROR" );
+            throw new BasicDateTimeRuntimeException( "incMonth() INTERNAL ERROR", ignore );
         }
     }
 
@@ -614,7 +567,6 @@ public class BasicDate implements Serializable, DateInterface
      */
     public int countOfDay( final BasicDate endOfPeriod ) // ------------------------
     {
-        final long MILLISECONDS_BY_DAY = (1000L * 60L * 60L * 24L);
 
         final long msBeginOfPeriod = this.getJavaDate().getTime();
         final long dayBeginOfPeriod = msBeginOfPeriod / MILLISECONDS_BY_DAY;
@@ -646,29 +598,21 @@ public class BasicDate implements Serializable, DateInterface
         }
     }
 
-    /**
-**
-*/
+
     @Override
-    public DateInterface add( final DateInterface anotherDate ) // ------------------
+    public BasicDate add( final BasicDate anotherDate ) throws BasicDateTimeException
     {
-        throw new RuntimeException( "$$$$ NOT YET IMPLEMENTED $$$$" );
+        throw new UnsupportedOperationException( "$$$$ NOT YET IMPLEMENTED $$$$" );
     }
 
-    /**
-**
-*/
     @Override
-    public DateInterface sub( final DateInterface anotherDate ) // ------------------
+    public BasicDate sub( final BasicDate anotherDate ) throws BasicDateTimeException
     {
-        throw new RuntimeException( "$$$$ NOT YET IMPLEMENTED $$$$" );
+        throw new UnsupportedOperationException( "$$$$ NOT YET IMPLEMENTED $$$$" );
     }
 
-    /**
-**
-*/
-    private void writeObject( final java.io.ObjectOutputStream stream ) // ----------
-            throws java.io.IOException
+    private void writeObject( final ObjectOutputStream stream )
+        throws IOException
     {
         stream.defaultWriteObject();
 
@@ -677,17 +621,14 @@ public class BasicDate implements Serializable, DateInterface
         stream.writeInt( this.day );
     }
 
-    /**
-     **
-     */
-    private void readObject( final java.io.ObjectInputStream stream ) // ------------
-            throws java.io.IOException, ClassNotFoundException
+    private void readObject( final ObjectInputStream stream )
+        throws IOException, ClassNotFoundException
     {
         stream.defaultReadObject();
 
-        this.year = stream.readInt();
+        this.year  = stream.readInt();
         this.month = stream.readInt();
-        this.day = stream.readInt();
+        this.day   = stream.readInt();
     }
 
     @Override
@@ -725,6 +666,7 @@ public class BasicDate implements Serializable, DateInterface
         }
         return true;
     }
+
 
 //    /**
 //     ** Ajoute de UN jour e la date courante.

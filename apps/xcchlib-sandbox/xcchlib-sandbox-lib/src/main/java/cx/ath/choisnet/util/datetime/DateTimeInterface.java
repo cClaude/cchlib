@@ -1,41 +1,29 @@
-/*
-** $VER: DateTimeInterface.java
-** -----------------------------------------------------------------------
-** Nom           : cx/ath/choisnet/util/datetime/DateTimeInterface.java
-** Description   :
-**
-**  1.53.014 2005.05.20 Claude CHOISNET - Version initiale
-** -----------------------------------------------------------------------
-**
-** cx.ath.choisnet.util.datetime.DateTimeInterface
-**
-*/
 package cx.ath.choisnet.util.datetime;
 
 import java.text.Format;
 
 /**
-**
-** @author Claude CHOISNET
-** @since 1.53.014
-** @version 1.53.014
-*/
+ *
+ * @since 1.53.014
+ */
+@SuppressWarnings("squid:S1609") // Sonar is stupid, only one method for sonar plug-in here.
 public interface DateTimeInterface
 {
-/**
-** Renvoie la date associée au calendrier conformément é l'oject de formatage.
-**
-** @param formatter     Object de formattage contenant les caractéristiques
-**                      du texte attendu.
-** @see java.text.Format
-** @see java.text.DateFormat
-** @see java.text.SimpleDateFormat
-*/
-public abstract String toString( Format formatter ); // -------------------
+    /**
+     * Returns {@link DateTimeInterface} as a formatted String.
+     *
+     * @param formatter
+     *            Expected format
+     * @return a formatted String.
+     *
+     * @see java.text.Format
+     * @see java.text.DateFormat
+     * @see java.text.SimpleDateFormat
+     */
+    String toString( Format formatter );
 
-/**
-** retourne la valeur sous forme de long
-*/
-public abstract long longValue(); // --------------------------------------
-
-} // class
+    /**
+     * @return value has a long
+     */
+    long longValue();
+}

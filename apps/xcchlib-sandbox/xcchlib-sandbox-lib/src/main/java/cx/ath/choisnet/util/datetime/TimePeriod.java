@@ -1,251 +1,205 @@
-/*
-** $VER: TimePeriod.java
-** -----------------------------------------------------------------------
-** Nom           : cx/ath/choisnet/util/datetime/TimePeriod.java
-** Description   :
-**
-**  2.01.012 2005.10.07 Claude CHOISNET - Version initiale
-** -----------------------------------------------------------------------
-**
-** cx.ath.choisnet.util.datetime.TimePeriod
-**
-*/
 package cx.ath.choisnet.util.datetime;
 
-/*
-** <p>
-** Cette classe gère les problèmes d'écart d'heure au sens commun
-** (heure, minutes, secondes)
-** </p>
-**
-** @author  Claude CHOISNET
-** @version 2.01.012
-**
-*/
-public class TimePeriod
-        implements
-            java.io.Serializable,
-            Cloneable,
-            Comparable<TimePeriod>
-{
-/** serialVersionUID */
-private static final long serialVersionUID = 1L;
-
-/** */
-private long time;
-
-/** */
-private transient long lastTime;
-
-/** */
-private transient int lastDays;
-
-/** */
-private transient int lastHours;
-
-/** */
-private transient int lastMins;
-
-/** */
-private transient int lastSecs;
-
-/** */
-private transient int lastMilli;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /**
-**
-*/
-public TimePeriod( long millisecs ) // ------------------------------------
+ *
+ * Cette classe gère les problèmes d'écart d'heure au
+ * sens commun (heure, minutes, secondes)
+ *
+ * @since 2.01
+ */
+public class TimePeriod implements Serializable, Comparable<TimePeriod>
 {
- this.time = millisecs;
-}
+    private static final long serialVersionUID = 1L;
 
-/**
-**
-*/
-protected void validateFields() // ----------------------------------------
-{
- if( this.time != this.lastTime ) {
-    long value = this.time;
+    private long              time;
 
-    if( value < 0 ) {
-        value = -value;
+    private transient long    lastTime;
+    private transient int     lastDays;
+    private transient int     lastHours;
+    private transient int     lastMins;
+    private transient int     lastSecs;
+    private transient int     lastMilli;
+
+    public TimePeriod( final long millisecs )
+    {
+        this.time = millisecs;
+    }
+
+    protected void validateFields()
+    {
+        if( this.time != this.lastTime ) {
+            long value = this.time;
+
+            if( value < 0 ) {
+                value = -value;
+            }
+
+            this.lastMilli = (int)(value % 1000);
+            value = value / 1000;
+
+            this.lastSecs = (int)(value % 60);
+            value = value / 60;
+
+            this.lastMins = (int)(value % 60);
+            value = value / 60;
+
+            this.lastHours = (int)(value % 24);
+            value = value / 24;
+
+            this.lastDays = (int)(value);
+            this.lastTime = this.time;
+        }
+    }
+
+    @Override
+    public int compareTo( final TimePeriod anOtherTimePeriod )
+    {
+        return (int)(this.time - anOtherTimePeriod.longValue());
+    }
+
+    /**
+     * retourne le nombre milli-secondes représenté par la période courante.
+     *
+     * @return un long correspondant au nombre de milli-secondes.
+     */
+    public long longValue()
+    {
+        return this.time;
+    }
+
+    int[] intArray()
+    {
+        validateFields();
+
+        return new int[]{
+                this.lastDays,
+                this.lastHours,
+                this.lastMins,
+                this.lastSecs,
+                this.lastMilli
+                };
+    }
+
+    Integer[] toIntegerArray()
+    {
+        validateFields();
+
+        return new Integer[] {
+                Integer.valueOf( this.lastDays ),
+                Integer.valueOf( this.lastHours ),
+                Integer.valueOf( this.lastMins ),
+                Integer.valueOf( this.lastSecs ),
+                Integer.valueOf( this.lastMilli )
+                };
+    }
+
+    @Override
+    public String toString() // -----------------------------------------------
+    {
+        validateFields();
+
+        final StringBuilder sb = new StringBuilder();
+
+        if( this.lastDays > 0 ) {
+            sb.append( this.lastDays );
+            sb.append( "d " );
         }
 
-    this.lastMilli  = (int)( value % 1000 );
-    value           = value / 1000;
+        if( this.lastHours > 0 ) {
+            sb.append( this.lastHours );
+            sb.append( "h " );
+        }
 
-    this.lastSecs   = (int)( value % 60 );
-    value           = value / 60;
+        if( this.lastMins > 0 ) {
+            sb.append( this.lastMins );
+            sb.append( "m " );
+        }
 
-    this.lastMins   = (int)( value % 60 );
-    value           = value / 60;
+        if( this.lastSecs > 0 ) {
+            sb.append( this.lastSecs );
+            sb.append( "s " );
+        }
 
-    this.lastHours  = (int)( value % 24 );
-    value           = value / 24;
+        if( this.lastMilli > 0 ) {
+            sb.append( this.lastMilli );
+            sb.append( "ms " );
+        }
 
-    this.lastDays   = (int)( value );
-    this.lastTime   = this.time;
-    }
-}
-
-/**
-**
-*/
-@Override
-public int compareTo( TimePeriod anOtherTimePeriod ) // -------------------
-{
- return (int)( this.time - anOtherTimePeriod.longValue() );
-}
-
-/**
-**
-*/
-@Override
-public boolean equals( Object object ) // ---------------------------------
-{
- try {
-    return compareTo( (TimePeriod)object ) == 0;
-    }
- catch( ClassCastException e ) {
-    return false;
-    }
-}
-
-
-/**
-** retourne le nombre milli-secondes représenté par la période courante.
-**
-** @return un long correspondant au nombre de milli-secondes.
-*/
-public long longValue() // ------------------------------------------------
-{
- return this.time;
-}
-
-/**
-**
-*/
-public int[] intArray() // ------------------------------------------------
-{
- validateFields();
-
- int[] array = {
-    lastDays, lastHours, lastMins, lastSecs, lastMilli
-    };
-
- return array;
-}
-
-/**
-**
-*/
-public Integer[] toIntegerArray() // --------------------------------------
-{
- validateFields();
-
- Integer[] array = {
-    new Integer( lastDays ),
-    new Integer( lastHours ),
-    new Integer( lastMins ),
-    new Integer( lastSecs ),
-    new Integer( lastMilli )
-    };
-
- return array;
-}
-
-/**
-**
-*/
-@Override
-public String toString() // -----------------------------------------------
-{
- validateFields();
-
- final StringBuilder sb = new StringBuilder();
-
- if( lastDays > 0 ) {
-    sb.append( lastDays );
-    sb.append( "d " );
+        return sb.toString();
     }
 
- if( lastHours > 0 ) {
-    sb.append( lastHours );
-    sb.append( "h " );
+    /**
+     * Add {@code addTime} to current value
+     *
+     * @param addTime Value to add
+     * @return self reference
+     */
+    public TimePeriod add( final TimePeriod addTime )
+    {
+        this.time += addTime.longValue();
+
+        return this;
     }
 
- if( lastMins > 0 ) {
-    sb.append( lastMins );
-    sb.append( "m " );
+    /**
+     * Subtract {@code subTime} to current value
+     *
+     * @param subTime Value to subtract
+     * @return self reference
+     */
+    public TimePeriod sub( final TimePeriod subTime )
+    {
+        this.time -= subTime.longValue();
+
+        return this;
     }
 
- if( lastSecs > 0 ) {
-    sb.append( lastSecs );
-    sb.append( "s " );
+    private void writeObject( final ObjectOutputStream stream ) throws IOException
+    {
+        stream.defaultWriteObject();
+
+        stream.writeLong( this.time );
     }
 
- if( lastMilli > 0 ) {
-    sb.append( lastMilli );
-    sb.append( "ms " );
+    private void readObject( final ObjectInputStream stream )
+        throws IOException, ClassNotFoundException
+    {
+        stream.defaultReadObject();
+
+        this.time = stream.readLong();
     }
 
- return sb.toString();
-}
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = (prime * result) + (int)(this.time ^ (this.time >>> 32));
+        return result;
+    }
 
-/**
-** Ajout de périodes.
-**
-** @return self reference
-*/
-public TimePeriod add( TimePeriod addTime ) // ----------------------------
-{
- this.time += addTime.longValue();
-
- return this;
-}
-
-/**
-** Soustraction de périodes.
-**
-** @return self reference
-*/
-public TimePeriod sub( TimePeriod subTime ) // ----------------------------
-{
- this.time -= subTime.longValue();
-
- return this;
-}
-
-/**
-**
-*/
-private void writeObject( java.io.ObjectOutputStream stream ) // ----------
-     throws java.io.IOException
-{
- stream.defaultWriteObject();
-
- stream.writeLong( this.time );
-}
-
-/**
-**
-*/
-private void readObject( java.io.ObjectInputStream stream ) // ------------
-     throws
-        java.io.IOException,
-        ClassNotFoundException
-{
- stream.defaultReadObject();
-
- this.time = stream.readLong();
-}
-
-@Override
-public int hashCode()
-{
-    return super.hashCode();
-}
-
+    @Override
+    public boolean equals( final Object obj )
+    {
+        if( this == obj ) {
+            return true;
+        }
+        if( obj == null ) {
+            return false;
+        }
+        if( getClass() != obj.getClass() ) {
+            return false;
+        }
+        final TimePeriod other = (TimePeriod)obj;
+        if( this.time != other.time ) {
+            return false;
+        }
+        return true;
+    }
 } // class
 
