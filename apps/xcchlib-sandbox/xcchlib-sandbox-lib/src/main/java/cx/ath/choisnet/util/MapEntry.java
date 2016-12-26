@@ -1,80 +1,50 @@
-/*
-** -----------------------------------------------------------------------
-** Nom           : cx/ath/choisnet/util/MapEntry.java
-** Description   :
-**
-**  3.02.029 2006.07.20 Claude CHOISNET - Version initiale
-** -----------------------------------------------------------------------
-**
-** cx.ath.choisnet.util.MapEntry
-**
-*/
 package cx.ath.choisnet.util;
 
 import java.util.Map;
 
 /**
-** Implementation minimum de l'interface {@link java.util.Map.Entry}
-**
-** @author Claude CHOISNET
-** @since   3.02.029
-** @version 3.02.029
-**
-*/
-public class MapEntry<K,V>
-    implements Map.Entry<K,V>
+ * Implementation minimum de l'interface {@link java.util.Map.Entry}
+ *
+ * @since 3.02
+ */
+public class MapEntry<K,V> implements Map.Entry<K,V>
 {
     final K key;
     final V value;
 
-    /**
-    **
-    */
-    public MapEntry( final K key, final V value ) // ----------------------
+    public MapEntry( final K key, final V value )
     {
         this.key   = key;
         this.value = value;
     }
 
-    /**
-    **
-    */
     @Override
-    public K getKey() // --------------------------------------------------
+    public K getKey()
     {
         return this.key;
     }
 
-    /**
-    **
-    */
     @Override
-    public V getValue() // ------------------------------------------------
+    public V getValue()
     {
         return this.value;
     }
 
-    /**
-    **
-    */
     @Override
-    public V setValue( final V value ) // ---------------------------------
+    public V setValue( final V value )
     {
         throw new UnsupportedOperationException();
     }
 
-    /**
-    **
-    */
     @Override
-    public boolean equals( final Object o ) // ----------------------------
+    public boolean equals( final Object o )
     {
         if( o == null ) {
             return false;
             }
 
         if( o instanceof MapEntry ) {
-            MapEntry<?,?> anOtherMapEntry = MapEntry.class.cast( o );
+            final MapEntry<?,?> anOtherMapEntry = MapEntry.class.cast( o );
 
             return
                     (
@@ -95,16 +65,12 @@ public class MapEntry<K,V>
             }
     }
 
-    /**
-    **
-    */
     @Override
-    public int hashCode() // ----------------------------------------------
+    public int hashCode()
     {
         return
             (this.getKey()==null   ? 0 : this.getKey().hashCode())
             ^
             (this.getValue()==null ? 0 : this.getValue().hashCode());
     }
-
-} // class
+}
