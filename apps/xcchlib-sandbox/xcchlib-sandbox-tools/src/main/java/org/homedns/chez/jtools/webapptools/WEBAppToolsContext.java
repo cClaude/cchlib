@@ -1,5 +1,6 @@
 package org.homedns.chez.jtools.webapptools;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,7 @@ import org.homedns.chez.jtools.lib.ContextLoader;
  *
  * @since 1.01
  */
-public class WEBAppToolsContext implements java.io.Serializable
+public class WEBAppToolsContext implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
@@ -33,6 +34,8 @@ public class WEBAppToolsContext implements java.io.Serializable
      * @param request
      *            Objet {@link javax.servlet.http.HttpServletRequest} valide de la
      *            requéte en cours.
+     * @return a WEBAppToolsContext
+     * @throws ContextInitializationException if any
      */
     public static WEBAppToolsContext getContext(
         final HttpServletRequest request
