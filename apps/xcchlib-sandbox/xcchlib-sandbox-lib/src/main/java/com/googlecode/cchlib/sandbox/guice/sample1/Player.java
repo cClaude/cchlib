@@ -3,13 +3,26 @@ package com.googlecode.cchlib.sandbox.guice.sample1;
 
 public class Player
 {
-    public String name;
+    private String name;
 
-    public Player() {
+    public Player()
+    {
+         // bean
     }
 
     @Override
-    public String toString() {
-        return name;
+    public String toString()
+    {
+        return getName();
+    }
+
+    public String getName()
+    {
+        return this.name;
+    }
+
+    public void setName( final String name )
+    {
+        this.name = name;
     }
 }
