@@ -16,8 +16,8 @@
 
   <!-- Global properties -->
   <properties>
-    <!-- Javadoc is build and did not break the build if any error -->
-    <maven.javadoc.plugin.fail.on.error>false</maven.javadoc.plugin.fail.on.error>
+    <!-- Javadoc is build and break the build if any error -->
+    <maven.javadoc.plugin.fail.on.error>true</maven.javadoc.plugin.fail.on.error>
   </properties>
 
   <dependencies>
