@@ -48,7 +48,7 @@ public class SMSCVSReader implements Closeable
     {
         final String[] line = this.csvr.readNext();
 
-        LOGGER.trace( "line:" + line );
+        LOGGER.trace( "line:" + String.valueOf( line ) );
 
         if( line == null ) {
             return false; // eof

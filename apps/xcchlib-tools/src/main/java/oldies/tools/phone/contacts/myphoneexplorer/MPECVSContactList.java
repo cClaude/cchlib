@@ -72,7 +72,7 @@ public class MPECVSContactList implements ContactList
             // Skip header
             String[] line = csvr.readNext();
 
-            LOGGER.trace( "line: " + line );
+            LOGGER.trace( "line: " + String.valueOf( line ) );
 
             if( line == null ) {
                 throw new BadFileFormatException( myPhoneExplorerCVSFile, 1 );
