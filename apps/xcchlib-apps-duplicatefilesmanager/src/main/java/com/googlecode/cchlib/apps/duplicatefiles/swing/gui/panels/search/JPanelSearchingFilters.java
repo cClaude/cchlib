@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.regex.Pattern;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.FileFilterBuilder;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.FileFilterBuilders;
@@ -62,11 +64,11 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
         return true;
     }
 
-    private boolean acceptForDirectoriesFileFilter1( //
-        final boolean  skipHidden, //
-        final Pattern  regex, //
-        final String[] dirNames, //
-        final File     currentFile //
+    private boolean acceptForDirectoriesFileFilter1(
+        final boolean           skipHidden,
+        @Nullable final Pattern regex,
+        @Nonnull final String[] dirNames,
+        @Nonnull final File     currentFile
         )
     {
         // Hidden files
@@ -167,12 +169,12 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
     }
 
     @SuppressWarnings("squid:MethodCyclomaticComplexity")
-    private boolean acceptForIncludeFilesFileFilter( //
-        final boolean  skipHiddenFiles, //
-        final boolean  skipReadOnlyFiles, //
-        final Pattern  regex, //
-        final String[] fileExts, //
-        final File     currentFile //
+    private boolean acceptForIncludeFilesFileFilter(
+        final boolean           skipHiddenFiles,
+        final boolean           skipReadOnlyFiles,
+        @Nullable final Pattern regex,
+        @Nonnull final String[] fileExts,
+        @Nonnull final File     currentFile
         )
     {
         if( currentFile.isFile() ) {
@@ -231,11 +233,11 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
         final FileFilterBuilder excludeDirectoriesFileFilterBuilder = fileFilterBuilders.getExcludeDirs();
 
         if( excludeDirectoriesFileFilterBuilder != null ) {
-            final Pattern regex = excludeDirectoriesFileFilterBuilder.getRegExp();
+            @Nullable final Pattern regex = excludeDirectoriesFileFilterBuilder.getRegExp();
 
             //TODO: construire un automate pour tester
             //      une chaîne par rapport à un groupe de motif
-            final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
+            @Nonnull final String[] dirNames  = excludeDirectoriesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
 
             if( LOGGER.isDebugEnabled() ) {
                 LOGGER.debug( "newDirectoriesFileFilter 1: regex=" + regex );
@@ -287,8 +289,8 @@ abstract class JPanelSearchingFilters extends JPanelSearchingLayoutWB
         }
 
         if( includeFilesFileFilterBuilder != null ) {
-            final Pattern  regex    = includeFilesFileFilterBuilder.getRegExp();
-            final String[] fileExts = includeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
+            @Nullable final Pattern regex    = includeFilesFileFilterBuilder.getRegExp();
+            @Nonnull final String[] fileExts = includeFilesFileFilterBuilder.getNamePart().toArray( StringHelper.emptyArray() );
 
             if( LOGGER.isDebugEnabled() ) {
                 LOGGER.debug( "newFilesFileFilter 1: regex=" + regex );
