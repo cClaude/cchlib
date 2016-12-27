@@ -18,7 +18,8 @@ import com.googlecode.cchlib.i18n.core.resolve.Values;
 // NOT public
 final class I18nFieldString  extends AbstractI18nField
 {
-    private final class I18nResolverForString<T> implements I18nResolver {
+    private final class I18nResolverForString<T> implements I18nResolver
+    {
         private final T objectToI18n;
 
         private I18nResolverForString( final T objectToI18n )
@@ -35,21 +36,22 @@ final class I18nFieldString  extends AbstractI18nField
         @Override
         public I18nResolvedFieldGetter getI18nResolvedFieldGetter()
         {
-            return keys -> _getValues( objectToI18n, getField() );
+            return keys -> _getValues( this.objectToI18n, getField() );
         }
 
         @Override
         public I18nResolvedFieldSetter getI18nResolvedFieldSetter()
         {
-            return ( keys, values ) -> _setValue(objectToI18n, getField(), keys, values);
+            return ( keys, values ) -> _setValue(this.objectToI18n, getField(), keys, values);
         }
 
         @Override
         public String toString()
         {
             final StringBuilder builder = new StringBuilder();
+
             builder.append( "I18nResolverForString [objectToI18n=" );
-            builder.append( objectToI18n );
+            builder.append( this.objectToI18n );
             builder.append( ", getKeys()=" );
             builder.append( getKeys() );
             builder.append( ", getI18nResolvedFieldGetter()=" );
@@ -57,12 +59,16 @@ final class I18nFieldString  extends AbstractI18nField
             builder.append( ", getI18nResolvedFieldSetter()=" );
             builder.append( getI18nResolvedFieldSetter() );
             builder.append( ']' );
+
             return builder.toString();
         }
     }
 
     private static final long serialVersionUID = 1L;
 
+    @SuppressWarnings({
+        "squid:S3346" // assert usage
+        })
     public I18nFieldString(
         final I18nDelegator     i18nDelegator,
         final I18nKeyFactory    i18nKeyFactory,
@@ -87,6 +93,7 @@ final class I18nFieldString  extends AbstractI18nField
         return new I18nResolverForString<T>( objectToI18n );
     }
 
+    @SuppressWarnings("squid:S00100") // Method name
     private static final <T> Values _getValues( final T objectToI18n, final Field field )
             throws GetFieldException //
     {
@@ -100,6 +107,11 @@ final class I18nFieldString  extends AbstractI18nField
             }
     }
 
+    @SuppressWarnings({
+        "squid:S3346", // assert usage
+        "squid:S1850", // assert 'useless' test
+        "squid:S00100" // method name
+        })
     private static final <T> void _setValue( //
             final T      objectToI18n, //
             final Field  field, //
@@ -125,6 +137,7 @@ final class I18nFieldString  extends AbstractI18nField
             }
     }
 
+    @SuppressWarnings("squid:S00100") // Method name
     private static final <T> String _getComponent( final T objectToI18n, final Field field )
             throws IllegalArgumentException, IllegalAccessException
     {
