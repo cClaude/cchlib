@@ -9,7 +9,8 @@ public class ToolsTest
     @Test
     public void testToolsIconImage()
     {
-        Image res = Tools.getToolsIconImage();
+        // Check resource is there...
+        final Image res = Tools.getToolsIconImage();
 
         Assert.assertNotNull( res );
    }
