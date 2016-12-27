@@ -6,34 +6,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("squid:MaximumInheritanceDepth") // Because swing
 public class EmptyfilesTestApp extends JFrame
 {
     private static final long serialVersionUID = 1L;
+
     private final JPanel contentPane;
-
-    /**
-     * Launch the application.
-     *
-     * @param args Parameter from CLI
-     */
-
-    public static void main( final String[] args )
-    {
-        EventQueue.invokeLater( () -> {
-            try {
-                final EmptyfilesTestApp frame = new EmptyfilesTestApp();
-                frame.setVisible( true );
-            }
-            catch( final Exception e ) {
-                e.printStackTrace();
-            }
-        });
-    }
 
     /**
      * Create the frame.
      */
-    public EmptyfilesTestApp()
+    private EmptyfilesTestApp()
     {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setBounds( 100, 100, 450, 300 );
@@ -45,5 +28,23 @@ public class EmptyfilesTestApp extends JFrame
         //DFToolKit fake = new FakeDFToolKit();
         final RemoveEmptyFilesJPanel testPanel = new RemoveEmptyFilesJPanel();
         this.contentPane.add( testPanel );
+    }
+
+    /**
+     * Launch the application.
+     *
+     * @param args Parameter from CLI
+     */
+    public static void main( final String[] args )
+    {
+        EventQueue.invokeLater( () -> {
+            try {
+                final EmptyfilesTestApp frame = new EmptyfilesTestApp();
+                frame.setVisible( true );
+            }
+            catch( final Exception e ) {
+                e.printStackTrace();
+            }
+        });
     }
 }

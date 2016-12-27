@@ -144,7 +144,7 @@ public final class DuplicateFileBuilder
     public static PrepareDuplicateFile createFromFileVisitor( //
             final Stream<Path>              startPathsStream, //
             final FileVisitor<Path>         visitor, //
-            final EnumSet<FileVisitOption>  options, //
+            final Set<FileVisitOption>      options, //
             final int                       maxDepth, //
             final boolean                   ignoreEmptyFiles //
             ) throws IOException
