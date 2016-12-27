@@ -1,7 +1,7 @@
 package paper.java.core;
 
-public class DoubleVSdoubleEqualChecker {
-
+public class DoubleVSdoubleEqualChecker
+{
     public static void main(final String...args)
     {
         checkDouble();
