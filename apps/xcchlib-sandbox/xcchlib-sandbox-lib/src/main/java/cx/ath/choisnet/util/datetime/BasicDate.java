@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,23 +54,18 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
     private static final long MILLISECONDS_BY_DAY = (1000L * 60L * 60L * 24L);
 
     /**
-     ** Chaene de formatage pour la class BasicDateFormat de la methode toString()
+     * {@link DateFormat} format : {@value}
      */
-    protected static final String           DATEFMT          = "yyyyMMdd";
-
-    /**
-     ** Object de formatage pour la class BasicDateFormat de la methode toString()
-     */
-    protected static final SimpleDateFormat DATE_FMT         = new SimpleDateFormat( DATEFMT );
+    public static final String           DATEFMT          = "yyyyMMdd";
 
     /** Integer contenant le numero de l'annee de 0 e 9999 */
-    protected transient int                 year             = -1;
+    private transient int                 year             = -1;
 
     /** Integer contenant le numero du mois 1 e 12 */
-    protected transient int                 month            = -1;
+    private transient int                 month            = -1;
 
     /** Integer contenant le numero du jour 1 e 31 */
-    protected transient int                 day              = -1;
+    private transient int                 day              = -1;
 
     /**
      ** Construit avec la date du jour
@@ -284,7 +280,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      */
     public void set( final Date javaDate ) // ----------------------------
     {
-        setWithFmtString( DATE_FMT.format( javaDate ) );
+        setWithFmtString( new SimpleDateFormat( DATEFMT ).format( javaDate ) );
     }
 
     /*
@@ -340,7 +336,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
     public java.util.Date getJavaDate() // ------------------------------------
     {
         try {
-            return DATE_FMT.parse( this.toString() );
+            return new SimpleDateFormat( DATEFMT ).parse( this.toString() );
         }
         catch( final ParseException bug ) {
             throw new BasicDateTimeRuntimeException( "BasicDate.getJavaDate() INTERNAL ERROR", bug );
