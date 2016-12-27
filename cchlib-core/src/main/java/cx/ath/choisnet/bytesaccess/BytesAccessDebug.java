@@ -147,7 +147,7 @@ public abstract class BytesAccessDebug extends BytesAccess
         final int  value
         )
     {
-        if( ( value < 0 ) && (value > 255) ) {
+        if( ( value < 0 ) && ( value > 255 ) ) {
             throw new BytesAccessDebugRuntimeException(
                 "setInteger() value should be in [0..255] " + value
                     + " for (" + offset + ':' + mask + '/' + leftRot + ')'
