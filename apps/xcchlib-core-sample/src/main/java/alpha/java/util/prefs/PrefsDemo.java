@@ -25,12 +25,18 @@ import java.util.prefs.Preferences;
  * operation, a suitable default value is returned.
  *
  */
+@SuppressWarnings({
+    "squid:S106", // Standard outputs
+    "squid:S2275" // %n instead of /n
+    })
 public class PrefsDemo
 {
     // Define constants for the three possible operations.
-    private static final int GET   = 1;
-    private static final int CLEAR = 2;
-    private static final int PUT   = 3;
+    private enum Operation {
+        GET,
+        CLEAR,
+        PUT
+    }
 
     /**
      * Constructs the PrefsDemo application.
@@ -38,81 +44,70 @@ public class PrefsDemo
      * @param args
      **/
     @SuppressWarnings("null")
-    public PrefsDemo( final String... args )
+    private PrefsDemo( final String... args )
     {
         // Get the preferences node for this user and this package.
         final Preferences prefs = Preferences.userNodeForPackage( getClass() );
 
         // Decode the command-line arguments.
-        String command = null;
-        String param2 = null;
-        String param3 = null;
+        final String command;
+        String param2   = null;
+        String param3   = null;
         String newvalue = null;
-        boolean export = false;
+        boolean export  = false;
 
         System.err.println();
 
-        if( args.length == 0 ) {
-            System.err.println( "No command given, assuming 'get'" );
-            command = "get";
-        } else if( args.length == 1 ) {
+        if( args.length == 1 ) {
             command = args[ 0 ];
         } else if( args.length == 2 ) {
             command = args[ 0 ];
-            param2 = args[ 1 ];
+            param2  = args[ 1 ];
         } else if( args.length >= 3 ) {
             command = args[ 0 ];
-            param2 = args[ 1 ];
-            param3 = args[ 2 ];
+            param2  = args[ 1 ];
+            param3  = args[ 2 ];
+        } else {
+            System.err.println( "No command given, assuming 'get'" );
+            command = "get";
         }
 
         // Turn the string commands into ints so they can be used
         // in a switch.
-        int operation;
+        Operation operation;
 
-        if( command.equals( "get" ) ) {
-            operation = GET;
-        } else if( command.equals( "clear" ) ) {
-            operation = CLEAR;
-        } else if( command.equals( "put" ) ) {
-            operation = PUT;
+        if( "get".equals( command ) ) {
+            operation = Operation.GET;
+        } else if( "clear".equals( command ) ) {
+            operation = Operation.CLEAR;
+        } else if( "put".equals( command ) ) {
+            operation = Operation.PUT;
             newvalue = param2 != null ? param2 : "you forgot the value, dummy";
         } else {
             System.err.printf( "Don't understand command '%s', assuming 'get'\n", command );
-            operation = GET;
+            operation = Operation.GET;
         }
 
         // See if the 2nd parameter (for GET and CLEAR) or
         // 3rd parameter (for PUT) is the string "export".
-        if( (operation == GET) || (operation == CLEAR) ) {
+        if( (operation == Operation.GET) || (operation == Operation.CLEAR) ) {
             export = "export".equalsIgnoreCase( param2 );
-        } else if( operation == PUT ) {
+        } else if( operation == Operation.PUT ) {
             export = "export".equalsIgnoreCase( param3 );
         }
 
         // Do the operation requested by the command-line argument(s).
         switch( operation ) {
             case CLEAR:
-                System.err.println( "Clearing preferences" );
-                try {
-                    prefs.clear();
-                }
-                catch( final BackingStoreException bse ) {
-                    System.err.println( bse );
-                }
+                doClear( prefs );
                 break;
 
             case GET:
-                final String prefs_value = prefs.get( "PrefsValue", "default value" );
-                System.err.printf( "Got PrefsValue '%s' from prefs\n", prefs_value );
+                doGet( prefs );
                 break;
 
             case PUT:
-                System.err.printf( "Putting '%s' into prefs\n", newvalue );
-                prefs.put( "PrefsValue", newvalue );
-                final int num_puts = prefs.getInt( "num_puts", 0 );
-                prefs.putInt( "num_puts", num_puts + 1 );
-                System.err.printf( "Number of puts since clear is %d\n", Integer.valueOf( num_puts + 1 ) );
+                doPut( prefs, newvalue );
                 break;
         } // switch
 
@@ -131,11 +126,36 @@ public class PrefsDemo
         }
     } // constructor
 
+    private void doPut( final Preferences prefs, final String newvalue )
+    {
+        System.err.printf( "Putting '%s' into prefs\n", newvalue );
+        prefs.put( "PrefsValue", newvalue );
+        final int num_puts = prefs.getInt( "num_puts", 0 );
+        prefs.putInt( "num_puts", num_puts + 1 );
+        System.err.printf( "Number of puts since clear is %d\n", Integer.valueOf( num_puts + 1 ) );
+    }
+
+    private void doGet( final Preferences prefs )
+    {
+        final String prefs_value = prefs.get( "PrefsValue", "default value" );
+        System.err.printf( "Got PrefsValue '%s' from prefs\n", prefs_value );
+    }
+
+    private void doClear( final Preferences prefs )
+    {
+        System.err.println( "Clearing preferences" );
+        try {
+            prefs.clear();
+        }
+        catch( final BackingStoreException bse ) {
+            System.err.println( bse );
+        }
+    }
+
     public static void main( final String[] args )
     {
         new PrefsDemo( args );
         new PrefsDemo( "put", "something for prefs !" );
         new PrefsDemo( "get", "export" );
-    } // main
-
-} // class PrefsDemoApp
+    }
+}
