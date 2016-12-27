@@ -4,12 +4,13 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 /**
- * Simple demonstration of the most common usage of the Java Preferences API using the user and package based storage
- * node. This app uses the user tree to avoid collisions with other users and uses the package name, as is conventional,
- * to avoid collisions with other applications in other packages.
+ * Simple demonstration of the most common usage of the Java Preferences API
+ * using the user and package based storage node. This app uses the user tree
+ * to avoid collisions with other users and uses the package name, as is
+ * conventional, to avoid collisions with other applications in other packages.
  *
- * This is a simple command-line application. It stores only one key/value pair, in which key is the string
- * "PrefsValue".
+ * This is a simple command-line application. It stores only one key/value pair,
+ * in which key is the string "PrefsValue".
  *
  * Argument 1 may be either "get", "clear", or "put".
  *
@@ -17,14 +18,15 @@ import java.util.prefs.Preferences;
  *
  * If "clear", all prefs items for this package are cleared.
  *
- * If "put", the second command-line argument provides the value to be stored. If the second argument is null, a
- * suitable default value is used.
+ * If "put", the second command-line argument provides the value to be stored.
+ * If the second argument is null, a suitable default value is used.
  *
- * If "get" is requested the first time this application is run or after a "clear" operation, a suitable default value
- * is returned.
+ * If "get" is requested the first time this application is run or after a "clear"
+ * operation, a suitable default value is returned.
  *
- **/
-public class PrefsDemo {
+ */
+public class PrefsDemo
+{
     // Define constants for the three possible operations.
     private static final int GET   = 1;
     private static final int CLEAR = 2;
@@ -49,6 +51,7 @@ public class PrefsDemo {
         boolean export = false;
 
         System.err.println();
+
         if( args.length == 0 ) {
             System.err.println( "No command given, assuming 'get'" );
             command = "get";
@@ -57,7 +60,7 @@ public class PrefsDemo {
         } else if( args.length == 2 ) {
             command = args[ 0 ];
             param2 = args[ 1 ];
-        } else if( args.length == 3 ) {
+        } else if( args.length >= 3 ) {
             command = args[ 0 ];
             param2 = args[ 1 ];
             param3 = args[ 2 ];
@@ -66,6 +69,7 @@ public class PrefsDemo {
         // Turn the string commands into ints so they can be used
         // in a switch.
         int operation;
+
         if( command.equals( "get" ) ) {
             operation = GET;
         } else if( command.equals( "clear" ) ) {
