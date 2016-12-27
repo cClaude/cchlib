@@ -24,37 +24,52 @@ public class PhoneRecordSorterCLIApp
     /**
      * Launch the application.
      *
-     * @throws IOException if any
-     * @throws UnsupportedOperationException if any
-     * @throws FileNotFoundException if any
+     * @param args
+     *            CLI parameters, expected : sourceFolderFile destinationFolder googleContactFile
+     * @throws IOException
+     *             if any
+     * @throws UnsupportedOperationException
+     *             if any
+     * @throws FileNotFoundException
+     *             if any
      */
-    public static void main( final String[] args ) throws FileNotFoundException, UnsupportedOperationException, IOException
+    public static void main( final String[] args ) throws Exception
     {
-        //final File sourceFolderFile   = args.length > 0 ? new File( args[ 0 ] ) : null;
-        //final File destinationFolders = args.length > 1 ? new File( args[ 1 ] ) : null;
-        //final File googleContactFile  = args.length > 1 ? new File( args[ 2 ] ) : null;
+        final File sourceFolderFile  = getSourceFolderFile( args );
+        final File destinationFolder = getDestinationFolderFile( args );
+        final File googleContactFile = getGoogleContactFile( args );
 
-        //        final File sourceFolderFile   = new File( "C:/Users/Claude/Dropbox/#CallRecorder/_SortStep1_" );
-        //final File sourceFolderFile   = new File( "C:/Users/Claude/Dropbox/#CallRecorder/" );
-        final File sourceFolderFile   = new File( "E:/tmp/#CallRecorder" );
-        final File destinationFolder = new File( "E:/tmp/OUTPUT/" );
-        final File googleContactFile  = new File( "C:/Users/Claude/Dropbox/#CallRecorder/#Config/google-contacts.csv" );
-//                                                   C:\Users\Claude\Dropbox\#CallRecorder\_SortStep1_
-        LOGGER.info( "sourceFolderFile    = " + sourceFolderFile );
-        LOGGER.info( "destinationFolder   = " + destinationFolder );
-        LOGGER.info( "googleContactFile   = " + googleContactFile );
+        LOGGER.info( "sourceFolderFile  = " + sourceFolderFile );
+        LOGGER.info( "destinationFolder = " + destinationFolder );
+        LOGGER.info( "googleContactFile = " + googleContactFile );
 
         if( ! isDirectory( sourceFolderFile ) ) {
-             throw new IllegalArgumentException( "Parameter sourceFolderFile not valid : " + sourceFolderFile.isDirectory() );
+             throw new IllegalArgumentException( "Parameter sourceFolderFile not valid : " + sourceFolderFile );
         }
         if( ! isValid( destinationFolder ) ) {
             throw new IllegalArgumentException( "Parameter destinationFolders not valid : " + destinationFolder );
         }
         if( ! isFile( googleContactFile ) ) {
-            throw new IllegalArgumentException( "Parameter googleContactFile not valid : " + googleContactFile.getAbsolutePath() );
+            final String absolutePath = googleContactFile == null ? null : googleContactFile.getAbsolutePath();
+            throw new IllegalArgumentException( "Parameter googleContactFile not valid : " + absolutePath );
         }
 
         new PhoneRecordSorterCLIApp().run( sourceFolderFile,destinationFolder, googleContactFile );
+    }
+
+    private static File getGoogleContactFile( final String[] args )
+    {
+        return args.length > 2 ? new File( args[ 2 ] ) : null;
+    }
+
+    private static File getDestinationFolderFile( final String[] args )
+    {
+        return args.length > 1 ? new File( args[ 1 ] ) : null;
+    }
+
+    private static File getSourceFolderFile( final String[] args )
+    {
+        return args.length > 0 ? new File( args[ 0 ] ) : null;
     }
 
     private static boolean isValid( final File file )
@@ -73,11 +88,13 @@ public class PhoneRecordSorterCLIApp
     private static boolean isFile( final File file )
     {
         if( isValid( file ) ) {
-            return file.isFile();// && file.canRead();
+            return file.isFile();
         }
+
         return false;
     }
 
+    @SuppressWarnings({"squid:S1160","squid:RedundantThrowsDeclarationCheck"})
     public void run(
         final File sourceFolderFile,
         final File destinationFolder,
