@@ -15,16 +15,17 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.lf5.LF5Appender;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.io.IOHelper;
+import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 
 /**
  * Build test folder
  */
-public class BuildAppTest extends JFrame
+public class BuildAppTestApp extends JFrame
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger( BuildAppTest.class );
+    private static final Logger LOGGER = Logger.getLogger( BuildAppTestApp.class );
     private static final int DIFF_FILES_COUNT = 50;
     private static final int DUPLICATE_FILES_COUNT = 3;
 
@@ -33,25 +34,9 @@ public class BuildAppTest extends JFrame
     private LimitedIntegerJTextField duplicateFilesCount;
 
     /**
-     * Launch the application.
-     */
-    public static void main(final String[] args)
-    {
-        EventQueue.invokeLater(( ) -> {
-            try {
-                final BuildAppTest frame = new BuildAppTest();
-                frame.setVisible(true);
-                }
-            catch( final Exception e ) {
-                e.printStackTrace();
-                }
-            });
-    }
-
-    /**
      * Create the frame.
      */
-    public BuildAppTest()
+    public BuildAppTestApp()
     {
         final LF5Appender swingLogger = new LF5Appender();
 
@@ -118,21 +103,7 @@ public class BuildAppTest extends JFrame
         }
         {
             final JButton btnBuildFiles = new JButton("Build files");
-            btnBuildFiles.addActionListener(e -> new Thread( ( ) -> {
-                try {
-                    btnBuildFiles.setEnabled( false );
-                    test_BuidTst(
-                        BuildAppTest.this.diffFilesCount.getValue(),
-                        BuildAppTest.this.duplicateFilesCount.getValue()
-                        );
-                    }
-                catch( final IOException e1 ) {
-                    DialogHelper.showMessageExceptionDialog( "IOException", e1 );
-                    }
-                finally {
-                    btnBuildFiles.setEnabled( true );
-                    }
-            }).start());
+            btnBuildFiles.addActionListener(e -> Threads.start( () -> doBuildFiles( btnBuildFiles ) ) );
             final GridBagConstraints gbc_btnBuildFiles = new GridBagConstraints();
             gbc_btnBuildFiles.fill = GridBagConstraints.HORIZONTAL;
             gbc_btnBuildFiles.insets = new Insets(0, 0, 0, 5);
@@ -142,6 +113,24 @@ public class BuildAppTest extends JFrame
         }
 
     }
+
+    private void doBuildFiles( final JButton btnBuildFiles )
+    {
+        try {
+            btnBuildFiles.setEnabled( false );
+
+            test_BuidTst(
+                BuildAppTestApp.this.diffFilesCount.getValue(),
+                BuildAppTestApp.this.duplicateFilesCount.getValue()
+                );
+            }
+        catch( final IOException e1 ) {
+            DialogHelper.showMessageExceptionDialog( "IOException", e1 );
+            }
+        finally {
+            btnBuildFiles.setEnabled( true );
+            }
+        }
 
     private void test_BuidTst(
         final int diffFilesCount,
@@ -195,4 +184,21 @@ public class BuildAppTest extends JFrame
         LOGGER.info( "BuildAppTest done" );
     }
 
+    /**
+     * Launch the application.
+     *
+     * @param CLI parameters, ignore
+     */
+    public static void main( final String[] args )
+    {
+        EventQueue.invokeLater(( ) -> {
+            try {
+                final BuildAppTestApp frame = new BuildAppTestApp();
+                frame.setVisible(true);
+                }
+            catch( final Exception e ) {
+                e.printStackTrace();
+                }
+            });
+    }
 }
