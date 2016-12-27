@@ -7,27 +7,24 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * Having lost all my sources, backups, ...
+ * <br>
  * I have decompile the must recent version of my
  * jar i have found.
- * <BR>
- * <BR>
+ * <p>
  * But:
- * <BR>
+ * <br>
  * 1. Decompile operation lost all documentations
- * <BR>
+ * <br>
  * 2. I can not guarantee that the decompiled source
  *    code is conforms to the original
- * <BR>
+ * <br>
  * 3. As my test cases were not included in my old jar,
  *    I lost all my test cases..
- * <BR>
- * <BR>
+ * <p>
  * For these reasons, I have add this annotation to
  * identify actions I have to take (mainly for classes)
- * <BR>
- * <BR>
- * <B>Important:</B>
- * This annotation could be removed in the future.
+ *
+ * @deprecated This annotation could be removed in the future
  */
 @Documented
 @Inherited
