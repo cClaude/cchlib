@@ -12,12 +12,13 @@ import java.util.Arrays;
 import cx.ath.choisnet.util.ArrayHelper;
 
 /**
- * <P>
  * Unlike {@link java.util.BitSet} this class work directly on bits and offer
  * some basic tools to access and modify a custom structure does not come from
  * Java (typically C).
- * </P>
- * <BR>
+ * <p>
+ * This class was written to read Wii internal structures, but could be
+ * use to access any binaries.
+ * <p>
  * Supported type:
  *
  * <pre>
@@ -603,9 +604,10 @@ public abstract class BytesAccess implements Cloneable
      * @param mask NEEDDOC
      * @return boolean value for given offset/mask
      */
-    protected boolean getBoolean( // // $codepro.audit.disable booleanMethodNamingConvention
-            final int offset, //
-            final byte mask )
+    protected boolean getBoolean(
+        final int  offset,
+        final byte mask
+        )
     {
         return (mask & this.bytes[ offset ]) != 0;
     }
@@ -686,9 +688,10 @@ public abstract class BytesAccess implements Cloneable
     /* ---------------------------------------------------------------------- */
 
     protected void setBoolean( //
-            final int offset, //
-            final byte mask, //
-            final boolean bool )
+        final int     offset, //
+        final byte    mask, //
+        final boolean bool
+        )
     {
         final int umask = 0x00FF & mask; // be sure only 1 byte
         byte saveValue = (byte)(this.bytes[ offset ] & ~umask);
@@ -714,12 +717,13 @@ public abstract class BytesAccess implements Cloneable
     }
 
     protected void setUInteger(
-            final int offset, //
-            final byte mask0, //
-            final int rightRot, //
-            final byte mask1, //
-            final int leftRot, //
-            final int value )
+        final int offset, //
+        final byte mask0, //
+        final int rightRot, //
+        final byte mask1, //
+        final int leftRot, //
+        final int value
+        )
     {
         final int leftPart = (value >> rightRot) & ( mask0 & 0x00ff );
         setUInteger( offset, mask0, 0, leftPart );
@@ -729,9 +733,9 @@ public abstract class BytesAccess implements Cloneable
     }
 
     protected void setString( //
-        final int from, //
-        final int to, //
-        final String str,//
+        final int    from, //
+        final int    to,   //
+        final String str,  //
         final String charSet //
         ) throws UnsupportedEncodingException
     {
