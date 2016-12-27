@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.io.Serializable;
 import org.apache.log4j.Logger;
 
-public class MyClassSerializationFailUsingStaticAndLog4J extends SerialzationForTesting implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private final Logger      logger           = Logger.getLogger( getClass() );
+public class MyClassSerializationFailUsingStaticAndLog4J
+    extends SerialzationForTesting
+        implements Serializable
+{
+    private static final long serialVersionUID = 2L;
+    private static final Logger LOGGER = Logger.getLogger( MyClassSerializationFailUsingStaticAndLog4J.class );
 
     public MyClassSerializationFailUsingStaticAndLog4J( final String aValue )
     {
@@ -16,7 +19,7 @@ public class MyClassSerializationFailUsingStaticAndLog4J extends SerialzationFor
     @Override
     public void doJob()
     {
-        logger.info( getMessage() );
+        LOGGER.info( getMessage() );
     }
 
     public static void main( final String... args ) throws ClassNotFoundException, IOException
