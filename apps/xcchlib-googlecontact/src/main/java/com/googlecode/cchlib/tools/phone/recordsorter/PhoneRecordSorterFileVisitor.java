@@ -99,6 +99,7 @@ public final class PhoneRecordSorterFileVisitor implements FileVisitor<Path> {
         if( matcher.matches() ) {
             return matcher.group( 1 );
         }
+
         return null;
     }
 

@@ -15,8 +15,7 @@ public class AssignableFromTrivalTest
 
         // Typically this :
         @SuppressWarnings("unused")
-        final
-        Bird aBird = new Bird();
+        final Bird aBird = new Bird();
    }
 
     @Test
@@ -30,8 +29,7 @@ public class AssignableFromTrivalTest
 
         // Typically this :
         @SuppressWarnings("unused")
-        final
-        Vehicle aVehicle = new MyCar();
+        final Vehicle aVehicle = new MyCar();
     }
 
     @Test

@@ -71,6 +71,7 @@ class JPanelConfigHelper
                     LOGGER.error( ignore );
                     }
                 }
+
             return new FileFilterBuilderImpl( extsList, pattern );
             }
 
