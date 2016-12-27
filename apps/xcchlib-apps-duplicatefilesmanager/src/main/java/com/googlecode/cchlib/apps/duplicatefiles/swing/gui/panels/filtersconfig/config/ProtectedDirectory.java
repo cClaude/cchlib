@@ -1,10 +1,13 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config;
 
+import java.io.Serializable;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ConfigMode;
 
 // TODO not use yet
-public class ProtectedDirectory
+public class ProtectedDirectory implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private String     os;
     private ConfigMode level;
     private String     regex;
