@@ -1,28 +1,24 @@
 package com.googlecode.cchlib.dhcp.server;
 
-/*
- ** -----------------------------------------------------------------------
- **  3.02.040 2006.09.05 Claude CHOISNET - Version initiale
- ** -----------------------------------------------------------------------
- */
-
 import java.net.DatagramPacket;
 import com.googlecode.cchlib.dhcp.DHCPMessage;
 import com.googlecode.cchlib.dhcp.DHCPParameters;
 
 /**
- ** @author Claude CHOISNET
- ** @since 3.02.040
+ *
+ * @since 3.02
  */
-public class DHCPMessageFactory {
-
-    public static final DHCPMessage newInstance(
-            final DatagramPacket data )
+public class DHCPMessageFactory
+{
+    private DHCPMessageFactory()
     {
-        final DHCPParameters params = DHCPParameters.newInstance( data.getData() );
-        final DHCPMessage msg = new DHCPMessage( params );
-
-        return msg;
+        // Static
     }
 
+    public static final DHCPMessage newInstance( final DatagramPacket data )
+    {
+        final DHCPParameters params = DHCPParameters.newInstance( data.getData() );
+
+        return new DHCPMessage( params );
+    }
 }
