@@ -24,13 +24,23 @@ public class ThreadTimeOut
         }
     }
 
-    public static void main(final String[] args) throws Exception {
+    private ThreadTimeOut()
+    {
+        // App
+    }
+
+    @SuppressWarnings({
+        "squid:S106","squid:S106", // CLI App
+        "squid:S1166" // Hide TimeoutException
+        })
+    public static void main(final String[] args) throws Exception
+    {
         final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final Future<String> future = executor.submit(new CustomTask());
+        final Future<String>  future   = executor.submit( new CustomTask() );
 
         try {
             System.out.println("Started..");
-            System.out.println(future.get(3, TimeUnit.SECONDS));
+            System.out.println( future.get( 3, TimeUnit.SECONDS ) );
             System.out.println("Finished!");
         } catch (final TimeoutException e) {
             System.out.println("Terminated!");
