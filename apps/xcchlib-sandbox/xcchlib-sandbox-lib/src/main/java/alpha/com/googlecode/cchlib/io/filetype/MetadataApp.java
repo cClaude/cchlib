@@ -9,113 +9,154 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageInputStream;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import com.googlecode.cchlib.lang.StringHelper;
 
-public class Metadata 
+public class MetadataApp
 {
-     public static void main(String[] args) 
-    {
-        Metadata meta  = new Metadata();
-        
-        meta.processAllFilesIn( args[ 0 ] );
-    }
-    
-    public void processAllFilesIn( String directoryWithPicturesName )
-    {
-        File dirFile = new File( directoryWithPicturesName );
-        
-        File[]   files = dirFile.listFiles();
+    private static final int MAX_FILES = 50;
 
-        for( int i = 0; i< Math.min(  files.length, 1 ); i++ ) {
-            readAndDisplayMetadata( files[ i ] );
+    private void processAllFilesIn( final String directoryWithPicturesName )
+    {
+        final File   dirFile = new File( directoryWithPicturesName );
+        final File[] files   = dirFile.listFiles();
+
+        if( files != null ) {
+            for( int i = 0; i < Math.min( files.length, MAX_FILES ); i++ ) {
+                final File file = files[ i ];
+
+                println( "<!-- File: " + file + " -->" );
+                readAndDisplayMetadata( file );
+                println( StringHelper.EMPTY );
             }
+        } else {
+            println( "Not a valid directory: \"" + directoryWithPicturesName + '"' );
+        }
     }
 
-    void readAndDisplayMetadata( File file ) 
+    private void readAndDisplayMetadata( final File file )
     {
         try( ImageInputStream iis = ImageIO.createImageInputStream( file ) ) {
-            Iterator<ImageReader> readers = ImageIO.getImageReaders( iis );
-            readers.hasNext();
-            
+            final Iterator<ImageReader> readers = ImageIO.getImageReaders( iis );
+
             while( readers.hasNext() ) {
                 // pick the first available ImageReader
-                ImageReader reader = readers.next();
+                final ImageReader reader = readers.next();
 
                 // attach source to the reader
-                reader.setInput(iis, true);
+                reader.setInput( iis, true );
 
                 // read metadata of first image
                 IIOMetadata metadata;
-                
-                try {
-                    metadata = reader.getImageMetadata(0);
-                    }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                    break;
-                    }
 
-                String[] names = metadata.getMetadataFormatNames();
-                int     length = names.length;
-                
-                for( int i = 0; i < length; i++ ) {
-                    System.out.println( "Format name: " + names[ i ] );
-                    displayMetadata(metadata.getAsTree(names[i]));
-                    }
+                metadata = getImageMetadata( reader );
+
+                if( metadata != null ) {
+                    final String[] names = metadata.getMetadataFormatNames();
+
+                    displayMetadata( metadata, names );
                 }
             }
-        catch( IOException e ) {
-            e.printStackTrace();
+        }
+        catch( final IOException e ) {
+            printStackTrace( e );
             return;
-            }
+        }
     }
 
-    void displayMetadata( Node root )
+    private IIOMetadata getImageMetadata( final ImageReader reader )
+    {
+        try {
+            return reader.getImageMetadata( 0 );
+        }
+        catch( final IOException e ) {
+            printStackTrace( e );
+
+            return null;
+        }
+    }
+
+    private void displayMetadata( final IIOMetadata metadata, final String[] names )
+    {
+        final int length = names.length;
+
+        for( int i = 0; i < length; i++ ) {
+            println( "<!-- Format name: " + names[ i ] + " -->" );
+            displayMetadata( metadata.getAsTree( names[ i ] ) );
+        }
+    }
+
+    private void displayMetadata( final Node root )
     {
         displayMetadata( root, 0 );
     }
 
-    void indent(int level)
-    {
-        for( int i = 0; i < level; i++ ) {
-            System.out.print("    ");
-            }
-    }
-
-    void displayMetadata( Node node, int level )
+    private void displayMetadata( final Node node, final int level )
     {
         // print open tag of element
-        indent(level);
-        System.out.print("<" + node.getNodeName());
-        NamedNodeMap map = node.getAttributes();
-        
+        indent( level );
+        print( "<" + node.getNodeName() );
+        final NamedNodeMap map = node.getAttributes();
+
         if( map != null ) {
             // print attribute values
-            int length = map.getLength();
-            
+            final int length = map.getLength();
+
             for( int i = 0; i < length; i++ ) {
-                Node attr = map.item( i );
-                System.out.print(" " + attr.getNodeName() +
-                                 "=\"" + attr.getNodeValue() + "\"");
-                }
+                final Node attr = map.item( i );
+                print( " " + attr.getNodeName() + "=\"" + attr.getNodeValue() + "\"" );
+            }
         }
 
         Node child = node.getFirstChild();
         if( child == null ) {
             // no children, so close element and return
-            System.out.println("/>");
+            println( "/>" );
             return;
-            }
+        }
 
         // children, so close current tag
-        System.out.println( '>' );
+        println( ">" );
         while( child != null ) {
             // print children recursively
-            displayMetadata(child, level + 1);
+            displayMetadata( child, level + 1 );
             child = child.getNextSibling();
-            }
+        }
 
         // print close tag of element
-        indent(level);
-        System.out.println("</" + node.getNodeName() + ">");
+        indent( level );
+        println( "</" + node.getNodeName() + ">" );
+    }
+
+    private void indent( final int level )
+    {
+        for( int i = 0; i < level; i++ ) {
+            print( "    " );
+        }
+    }
+
+    @SuppressWarnings("squid:S106")
+    private void println( final String str )
+    {
+        System.out.println( str );
+    }
+
+    @SuppressWarnings("squid:S106")
+    private void print( final String str )
+    {
+        System.out.print( str );
+    }
+
+    @SuppressWarnings("squid:S1148")
+    private void printStackTrace( final IOException cause )
+    {
+        cause.printStackTrace();
+    }
+
+    public static void main( final String[] args )
+    {
+        final String   directoryWithPicturesName = "X:/My Skype Pictures"; //args[ 0 ];
+        final MetadataApp meta                      = new MetadataApp();
+
+        meta.processAllFilesIn( directoryWithPicturesName );
     }
 }
