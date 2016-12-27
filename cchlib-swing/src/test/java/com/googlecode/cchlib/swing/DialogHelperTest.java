@@ -29,6 +29,7 @@ public class DialogHelperTest
     }
 
     private static final Logger LOGGER = Logger.getLogger( DialogHelperTest.class );
+    private static final int SECONDS_TO_WAIT = 5;
 
     @Test
     public void test_showMessageExceptionDialog()
@@ -37,9 +38,11 @@ public class DialogHelperTest
         // Stop if GUI usage is not allowed
         assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
+        LOGGER.info( "test_showMessageExceptionDialog()" );
+
         final boolean result = Threads.startAndWait(
                 () -> showMessageExceptionDialog(),
-                3,
+                SECONDS_TO_WAIT,
                 TimeUnit.SECONDS
                 );
 
@@ -53,9 +56,11 @@ public class DialogHelperTest
         // Stop if GUI usage is not allowed
         assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
+        LOGGER.info( "test_showMessageExceptionDialog_with_extra_button()" );
+
         final int result = Threads.startAndWait(
                 () -> showMessageExceptionDialog_with_extra_button(),
-                5,
+                SECONDS_TO_WAIT,
                 TimeUnit.SECONDS
                 );
 
@@ -86,16 +91,26 @@ public class DialogHelperTest
 
     private final static boolean showMessageExceptionDialog()
     {
+        return showMessageExceptionDialog( createTitle() );
+    }
+
+    private static boolean showMessageExceptionDialog( final String title )
+    {
         try {
             crashTest();
 
             return false;
             }
         catch( final FakeException cause ) {
-            DialogHelper.showMessageExceptionDialog( "Just for testing", cause );
+            DialogHelper.showMessageExceptionDialog( title, cause );
 
             return true;
         }
+    }
+
+    private static String createTitle()
+    {
+        return "Just for testing: (closing in " + SECONDS_TO_WAIT + " seconds)";
     }
 
     private final static int showMessageExceptionDialog_with_extra_button()
@@ -114,7 +129,7 @@ public class DialogHelperTest
             };
             return DialogHelper.showMessageExceptionDialog(
                    (Window)null,
-                   "Just for testing",
+                   createTitle(),
                    cause,
                    buttons );
         }
@@ -124,9 +139,20 @@ public class DialogHelperTest
      * Test result directly from CLI to validate "copy" menu
      *
      * @param args Nothing
+     * @throws ExecutionException
+     * @throws InterruptedException
      */
-    public final static void main( final String[] args )
+    public final static void main( final String[] args ) throws Exception
     {
-        showMessageExceptionDialog();
+        showMessageExceptionDialog( "Close me" );
+
+        final DialogHelperTest instance = new DialogHelperTest();
+
+        instance.test_showMessageExceptionDialog();
+        instance.test_showMessageExceptionDialog_with_extra_button();
+
+        LOGGER.info( "Done..." );
+
+        System.exit( 0 );
     }
 }
