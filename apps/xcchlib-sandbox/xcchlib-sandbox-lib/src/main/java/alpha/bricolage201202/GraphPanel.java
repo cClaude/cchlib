@@ -342,8 +342,7 @@ public class GraphPanel extends GraphPanelHideEdges implements Runnable
                     + ((double)(y1 - y2) * (y1 - y2)))
                     - e.getLen()
                     );
-            this.offgraphics.setColor(len < 20 ? GraphPanel.arcColor2
-                    : len < 10 ? GraphPanel.arcColor1 : GraphPanel.arcColor3);
+            this.offgraphics.setColor( computeColor( len ) );
             this.offgraphics.drawLine(x1, y1, x2, y2);
 
             if (! getNode( e.getFrom() ).getNodeLabel().equals(IntuiGraph.INTUITEC)) {
@@ -365,6 +364,15 @@ public class GraphPanel extends GraphPanelHideEdges implements Runnable
                 this.offgraphics.setColor(GraphPanel.edgeColor);
             }
         }
+    }
+
+    private Color computeColor( final int len )
+    {
+        if( len < 10 ) {
+            return GraphPanel.arcColor1;
+        }
+
+        return len < 20 ? GraphPanel.arcColor2 : GraphPanel.arcColor3;
     }
 
     public void setHandCursor()
