@@ -19,7 +19,7 @@ import javax.swing.UIManager;
  * Visit http://www.regular-expressions.info for a detailed tutorial to regular
  * expressions.
  * </p>
- * 
+ *
  * @author Jan Goyvaerts
  * @author Claude CHOISNET
  * @version 1.1
@@ -27,48 +27,55 @@ import javax.swing.UIManager;
 
 public class RegExpApp
 {
-    boolean packFrame = false;
+    public static final boolean PACK_FRAME = false;
+    private final RegExpBuilderFrame frame;
 
     // Construct the application
     public RegExpApp()
     {
-    	RegExpBuilderFrame frame = new RegExpBuilderFrame();
+    	this.frame = new RegExpBuilderFrame();
+    }
+
+    public void show( final boolean packFrame )
+    {
         // Validate frames that have preset sizes
         // Pack frames that have useful preferred size info, e.g. from their
         // layout
         if( packFrame ) {
-            frame.pack();
+            this.frame.pack();
         } else {
-            frame.validate();
+            this.frame.validate();
         }
-        
+
         // Center the window
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Dimension frameSize = frame.getSize();
-        
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension frameSize = this.frame.getSize();
+
         if( frameSize.height > screenSize.height ) {
             frameSize.height = screenSize.height;
         }
         if( frameSize.width > screenSize.width ) {
             frameSize.width = screenSize.width;
         }
-        frame.setLocation( (screenSize.width - frameSize.width) / 2,
+        this.frame.setLocation( (screenSize.width - frameSize.width) / 2,
                 (screenSize.height - frameSize.height) / 2 );
-        frame.setVisible( true );
+        this.frame.setVisible( true );
     }
 
     // Main method
-    public static void main( String[] args )
+    public static void main( final String[] args )
     {
         try {
-            UIManager.setLookAndFeel( 
-                    UIManager.getSystemLookAndFeelClassName() 
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName()
                     );
             }
-        catch( Exception e ) {
+        catch( final Exception e ) {
             e.printStackTrace();
             }
-        @SuppressWarnings("unused")
-        RegExpApp instance = new RegExpApp();
+
+        final RegExpApp instance = new RegExpApp();
+
+        instance.show( PACK_FRAME );
     }
 }
