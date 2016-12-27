@@ -96,7 +96,7 @@ public abstract class AbstractDownloaderHandler implements DownloaderHandler
                     //imagesURLCollection.add( getDownloadURLFrom( src, i ) );
                     final ContentDownloadURI<File> dfURL = getDownloadURLFrom( src, i );
 
-                    dfURL.setProperty( PropertiesNames.DownloadFileURL_PARENT_URL_PROPERTY, content2Parse.getURL() );
+                    dfURL.setProperty( PropertiesNames.PARENT_URL_PROPERTY, content2Parse.getURL() );
 
                     imagesURLCollection.add( dfURL );
                     }

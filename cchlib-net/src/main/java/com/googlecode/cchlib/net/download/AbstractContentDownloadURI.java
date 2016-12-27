@@ -12,18 +12,27 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 public abstract class AbstractContentDownloadURI<T>
-    extends AbstractDownloadURI implements ContentDownloadURI<T>
+    extends AbstractDownloadURI
+        implements ContentDownloadURI<T>
 {
     private static final long serialVersionUID = 1L;
 
     private HashMap<String,Object> properties;
 
-    public AbstractContentDownloadURI( final URI uri, final Map<String, String> requestPropertyMap, final Proxy proxy ) throws MalformedURLException
+    public AbstractContentDownloadURI(
+        final URI                   uri,
+        final Map<String, String>   requestPropertyMap,
+        final Proxy                 proxy
+        ) throws MalformedURLException
     {
         super( uri, requestPropertyMap, proxy );
     }
 
-    public AbstractContentDownloadURI( final URL url, final Map<String, String> requestPropertyMap, final Proxy proxy ) throws URISyntaxException
+    public AbstractContentDownloadURI(
+        final URL                 url,
+        final Map<String, String> requestPropertyMap,
+        final Proxy               proxy
+        ) throws URISyntaxException
     {
         super( url, requestPropertyMap, proxy );
     }
@@ -39,6 +48,12 @@ public abstract class AbstractContentDownloadURI<T>
     }
 
     @Override
+    public final <P extends Enum<P>> void setProperty( final P name, final Object value )
+    {
+        setProperty( name.toString(), value );
+    }
+
+    @Override
     public final Object getProperty( final String name )
     {
         if( this.properties == null ) {
@@ -47,6 +62,12 @@ public abstract class AbstractContentDownloadURI<T>
         else {
             return this.properties.get( name );
             }
+    }
+
+    @Override
+    public final <P extends Enum<P>> Object getProperty( final P name )
+    {
+        return getProperty( name.toString() );
     }
 
     @Override

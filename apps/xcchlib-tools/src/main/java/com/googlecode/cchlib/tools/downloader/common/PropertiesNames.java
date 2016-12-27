@@ -1,7 +1,20 @@
 package com.googlecode.cchlib.tools.downloader.common;
 
-public class PropertiesNames {
+public enum PropertiesNames
+{
+    PARENT_URL_PROPERTY("parent"),
+    ;
 
-    public static final String DownloadFileURL_PARENT_URL_PROPERTY = "parent";
+    private String str;
 
+    private PropertiesNames( final String str )
+    {
+        this.str = str;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.str;
+    }
 }

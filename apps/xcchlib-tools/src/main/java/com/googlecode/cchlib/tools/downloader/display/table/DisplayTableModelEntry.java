@@ -73,7 +73,7 @@ class DisplayTableModelEntry implements Serializable
      */
     public URL getParentURL()
     {
-        final Object objectURL = this.downloader.getProperty( PropertiesNames.DownloadFileURL_PARENT_URL_PROPERTY );
+        final Object objectURL = this.downloader.getProperty( PropertiesNames.PARENT_URL_PROPERTY );
 
         if( objectURL instanceof URL ) {
             return (URL)objectURL;

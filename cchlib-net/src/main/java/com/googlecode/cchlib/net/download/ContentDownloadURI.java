@@ -46,6 +46,18 @@ public interface ContentDownloadURI<R> extends DownloadURI
     void setProperty( String name, Object value );
 
     /**
+     * Set custom property on this {@link DownloadURI}
+     *
+     * @param name
+     *            Name base on an {@link Enum#toString()} of property to set
+     * @param value
+     *            Property value
+     * @throws UnsupportedOperationException
+     *             if not supported
+     */
+    <T extends Enum<T>> void setProperty( T name, Object value );
+
+    /**
      * Get custom property
      *
      * @param name
@@ -57,6 +69,17 @@ public interface ContentDownloadURI<R> extends DownloadURI
     Object getProperty( String name );
 
     /**
+     * Get custom property
+     *
+     * @param name
+     *            Name of property to retrieve, name based on an {@link Enum#toString()}
+     * @return property value or null if property does not exist
+     * @throws UnsupportedOperationException
+     *             if not supported
+     */
+   <T extends Enum<T>> Object getProperty( T name );
+
+    /**
      * Get custom property has a String value
      *
      * @param name
@@ -66,4 +89,5 @@ public interface ContentDownloadURI<R> extends DownloadURI
      *             if not supported
      */
     String getStringProperty( String name );
+
 }
