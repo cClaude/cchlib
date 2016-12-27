@@ -1,6 +1,6 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.xutil.google.googlecontact;
 
+import static org.junit.Assume.assumeTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import org.junit.Test;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.xutil.google.googlecontact.types.GoogleContact;
 
-public class GoogleContactsTest {
-
+public class GoogleContactsTest
+{
     private static final String FULL_PATH = "/com/googlecode/cchlib/xutil/google/googlecontact/";
 
     @Test
@@ -23,10 +23,7 @@ public class GoogleContactsTest {
                 "Dropbox/#CallRecorder/#Config/google-contacts.csv"
                 );
 
-        if( ! file.exists() ) {
-            // skip test
-            return;
-        }
+        assumeTrue( file.exists() );
 
         final List<GoogleContact> contacts = GoogleContacts.createGoogleContacts( file );
 

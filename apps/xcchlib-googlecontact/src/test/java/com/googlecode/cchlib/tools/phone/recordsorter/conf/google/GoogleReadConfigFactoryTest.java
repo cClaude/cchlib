@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.tools.phone.recordsorter.conf.google;
 
+import static org.junit.Assume.assumeTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,8 +13,8 @@ import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.Config;
 import com.googlecode.cchlib.tools.phone.recordsorter.conf.ConfigFactory;
 
-public class GoogleReadConfigFactoryTest {
-
+public class GoogleReadConfigFactoryTest
+{
     private static final String FULL_PATH = "/com/googlecode/cchlib/xutil/google/googlecontact/";
     //private static final String RELATIVE_PATH = "googlecontact/";*
 
@@ -34,6 +35,8 @@ public class GoogleReadConfigFactoryTest {
         final File file = FileHelper.getUserHomeDirectoryFile(
                 "Dropbox/#CallRecorder/#Config/google-contacts.csv"
                 );
+
+        assumeTrue( file.exists() );
 
         final Config config = this.instance.load( file );
 
