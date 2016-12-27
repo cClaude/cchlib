@@ -288,7 +288,7 @@ public final class ConnectionDebug implements Connection {
 
     @Override
     public boolean isValid(final int timeout) throws SQLException {
-        return isValid(timeout);
+        return this.delegate.isValid( timeout );
     }
 
     @Override
