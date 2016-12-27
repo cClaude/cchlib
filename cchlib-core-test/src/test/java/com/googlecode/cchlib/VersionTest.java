@@ -44,9 +44,7 @@ public class VersionTest
     @Test
     public void test_main()
     {
-        final String[] args = null;
-
         // Just test if this call work (entry point valid)
-        Version.main( args );
+        Version.main( new String[ 0 ] );
     }
 }
