@@ -26,7 +26,6 @@ public abstract class DefaultDuplicateFileFinder_Common extends Base
         newDuplicateFileFinder(DO_NOT_IGNORE_EMPTY_FILE, (FileDigestFactory)null);
     }
 
-    //@Test(expected=NullPointerException.class)
     @Test(expected=IllegalArgumentException.class)
     public void testNullPointerException() throws NoSuchAlgorithmException
     {
