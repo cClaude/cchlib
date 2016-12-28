@@ -78,20 +78,18 @@
       (repository,url)=ftp://choisnet.ath.cx/repository/cchlib/release
       (snapshotRepository,uniqueVersion)=false
      -->
-    <!--
     <repository>
-      <id></id>
-      <url></url>
+      <id>ftp.cchlib.repo.release</id>
+      <!-- TODO : use a public URL -->
+      <url>ftp://framboise01/home/maven/public_html/repository/cchlib/release</url>
     </repository>
-    -->
 
-    <!--
     <snapshotRepository>
-      <id></id>
-      <url></url>
+      <id>ftp.cchlib.repo.snapshot</id>
+      <!-- TODO : use a public URL -->
+      <url>ftp://framboise01/home/maven/public_html/repository/cchlib/snapshot</url>
       <uniqueVersion>false</uniqueVersion>
      </snapshotRepository>
-     -->
 
   </distributionManagement>
 
@@ -112,7 +110,7 @@
   </developers>
 
   <repositories>
-
+<!-- use default
     <repository>
       <id>central</id>
       <name>Maven Repository Switchboard</name>
@@ -122,7 +120,7 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-
+ -->
   </repositories>
 
   <!-- BUILD
@@ -144,13 +142,13 @@
         <artifactId>wagon-webdav-jackrabbit</artifactId>
         <version>2.2</version>
       </extension> -->
-      <!-- Enabling the use of FTP
+
+      <!-- Enabling the use of FTP for deploy -->
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
          <artifactId>wagon-ftp</artifactId>
-         <version>2.6</version>
+         <version>2.10</version>
       </extension>
-      -->
     </extensions>
 
     <plugins>
