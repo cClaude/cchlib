@@ -123,6 +123,5 @@ public class IntrospectionTest
                 object.getTestString(),
                 frame.getJTextField_TestString().getText()
                 );
-
     }
 }

@@ -100,15 +100,16 @@ public class LimitedIntegerJTextField extends XTextField
     }
 
     /**
-     * TextField that is limited to integer values, and limit this integer to positive
+     * {@link JTextField} that is limited to integer values, and limit this integer to positive
      * range : [{@code minValue}...{@code maxValue}]
      *
+     * Use {@code minValue} as first value to {@link JTextField}.
      * @param minValue
-     *            {@code minValue} for current JTextField,
+     *            {@code minValue} for current {@link JTextField},
      *            range [{@code minValue}...{@code maxValue}],
      *            {@code minValue} should be zero or positive.
      * @param maxValue
-     *            {@code maxValue} for current JTextField,
+     *            {@code maxValue} for current {@link JTextField},
      *            range [{@code minValue}...{@code maxValue}],
      *            {@code maxValue} should be &gt;= {@code minValue}
      * @param radix
@@ -124,8 +125,47 @@ public class LimitedIntegerJTextField extends XTextField
         @Nonnegative final int radix
         ) throws IllegalArgumentException
     {
+        this( minValue, minValue, maxValue, radix );
+    }
+
+    /**
+     * {@link JTextField} that is limited to integer values, and limit this integer to positive
+     * range : [{@code minValue}...{@code maxValue}]
+     *
+     * @param initialValue
+     *            The initial value, should be valid regarding other parameters
+     * @param minValue
+     *            {@code minValue} for current {@link JTextField},
+     *            range [{@code minValue}...{@code maxValue}],
+     *            {@code minValue} should be zero or positive.
+     * @param maxValue
+     *            {@code maxValue} for current {@link JTextField},
+     *            range [{@code minValue}...{@code maxValue}],
+     *            {@code maxValue} should be &gt;= {@code minValue}
+     * @param radix
+     *            The radix value for String to Integer conversion.
+     * @throws IllegalArgumentException
+     *             if {@code minValue} is negative, if
+     *
+     */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
+    public LimitedIntegerJTextField(
+        @Nonnegative final int initialValue,
+        @Nonnegative final int minValue,
+        @Nonnegative final int maxValue,
+        @Nonnegative final int radix
+        ) throws IllegalArgumentException
+    {
         super();
 
+        // Apply requested values (initilization)
+        this.minimumValue = minValue;
+        this.maximumValue = maxValue;
+        this.radix        = radix;
+
+        setValue( initialValue );
+
+        // Check values
         setMinimum( minValue );
         setMaximum( maxValue );
         setRadix( radix );
