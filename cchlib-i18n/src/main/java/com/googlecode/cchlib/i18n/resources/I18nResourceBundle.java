@@ -14,7 +14,17 @@ import com.googlecode.cchlib.i18n.I18nInterface;
  */
 public class I18nResourceBundle implements I18nInterface, Serializable
 {
-    private static final long serialVersionUID = 3L;
+    private static final long serialVersionUID = 4L;
+
+    /** @serial */
+    private Locale locale;
+
+    /**
+    * This field is use to restore {@link #resourceBundle} during
+    * serialization process.
+    * @serial
+    */
+    private String resourceBundleFullBaseName;
 
     /**
      *  ResourceBundle does not implement {@link java.io.Serializable}
@@ -24,17 +34,14 @@ public class I18nResourceBundle implements I18nInterface, Serializable
     private transient ResourceBundle resourceBundle;
 
     /**
-    * This field is use to restore {@link #resourceBundle} during
-    * serialization process.
-    */
-    private String resourceBundleFullBaseName;
-
-    /**
      * Build I18nResourceBundle for locale
      *
-     * @param resourceBundleFullBaseName base name for this resource bundle
-     * @param locale                    {@link Locale} to use
-     * @throws IllegalArgumentException if {@code resourceBundleFullBaseName} is null
+     * @param resourceBundleFullBaseName
+     *            base name for this resource bundle
+     * @param locale
+     *            {@link Locale} to use
+     * @throws IllegalArgumentException
+     *             if {@code resourceBundleFullBaseName} is null
      */
     protected I18nResourceBundle( //
         final String resourceBundleFullBaseName,
@@ -42,45 +49,18 @@ public class I18nResourceBundle implements I18nInterface, Serializable
         )
     {
         if( resourceBundleFullBaseName == null ) {
-            throw newIllegalArgumentException( "resourceBundleFullBaseName is null" );
+            throw new IllegalArgumentException( "resourceBundleFullBaseName is null" );
             }
 
         if( locale == null ) {
-            throw newIllegalArgumentException( "locale is null" );
+            throw new IllegalArgumentException( "locale is null" );
             }
 
-        this.resourceBundleFullBaseName = resourceBundleFullBaseName;
-
-        buildResourceBundle( locale );
-    }
-
-    /**
-     * Create I18nResourceBundle using giving
-     * resource bundle and resource bundle baseName
-     *
-     * @param resourceBundle             ResourceBundle to use
-     * @param resourceBundleFullBaseName base name for this resource bundle
-     */
-    public I18nResourceBundle(
-        final ResourceBundle resourceBundle,
-        final String         resourceBundleFullBaseName
-        )
-    {
-        this( resourceBundleFullBaseName, resourceBundle.getLocale() );
-
-        this.resourceBundle = resourceBundle;
-    }
-
-    private IllegalArgumentException newIllegalArgumentException(
-        final String message
-        )
-    {
-        return new IllegalArgumentException( message );
+        setResourceBundle( resourceBundleFullBaseName, locale );
     }
 
     @Override // I18nInterface
-    public String getString( final String key )
-        throws MissingResourceException
+    public String getString( final String key ) throws MissingResourceException
     {
         try {
             return this.resourceBundle.getString( key );
@@ -91,7 +71,8 @@ public class I18nResourceBundle implements I18nInterface, Serializable
     }
 
     /**
-     * @return current ResourceBundle
+     * Returns the {@link ResourceBundle}
+     * @return the {@link ResourceBundle}
      */
     public ResourceBundle getResourceBundle()
     {
@@ -99,53 +80,56 @@ public class I18nResourceBundle implements I18nInterface, Serializable
     }
 
     /**
-     * {@code ResourceBundle} is not serializable so this serializes
-     * the base bundle name and the locale with the hopes that this
-     * will be enough to look up the message again when this instance
-     * is deserialized. This assumes the new place where this object
-     * was deserialized has the resource bundle available. If it does
-     * not, the original message will be reused.
+     * {@code ResourceBundle} is not serializable so this serializes the
+     * base bundle name and the locale with the hopes that this will be
+     * enough to look up the message again when this instance is deserialized.
+     * This assumes the new place where this object was deserialized has the
+     * resource bundle available. If it does not, the original message
+     * will be reused.
      *
-     * @param out where to write the serialized stream
-     * @throws IOException if any
+     * @param out
+     *            where to write the serialized stream
+     * @throws IOException
+     *             if any
      */
     private void writeObject( final ObjectOutputStream out ) throws IOException
     {
         // Default serialization process (store baseName for this resourceBundle)
         out.defaultWriteObject();
-
-        // store Locale for this resourceBundle
-        out.writeObject( this.resourceBundle.getLocale() );
     }
 
-    private void readObject( final ObjectInputStream in ) throws IOException, ClassNotFoundException
+    private void readObject( final ObjectInputStream in )
+        throws IOException, ClassNotFoundException
     {
         // Default serialization process  (restore baseName for this resourceBundle)
         in.defaultReadObject();
 
-        // restore Locale for this resourceBundle
-        final Locale locale = Locale.class.cast( in.readObject() );
-
         // Build a new ResourceBundle
-        buildResourceBundle( locale );
+        this.resourceBundle = newResourceBundle();
     }
 
-    private void buildResourceBundle( final Locale locale )
+    private ResourceBundle newResourceBundle()
     {
-        this.resourceBundle = ResourceBundle.getBundle( this.resourceBundleFullBaseName, locale );
+        return ResourceBundle.getBundle( this.resourceBundleFullBaseName, this.locale );
     }
 
-    protected void setResourceBundle( //
-        final ResourceBundle resourceBundle, //
-        final String resourceBundleFullBaseName //
+    protected void setResourceBundle(
+        final String resourceBundleFullBaseName,
+        final Locale locale
         )
     {
-        this.resourceBundle = resourceBundle;
         this.resourceBundleFullBaseName = resourceBundleFullBaseName;
+        this.locale                     = locale;
+        this.resourceBundle             = newResourceBundle();
     }
 
     protected String getResourceBundleFullBaseName()
     {
         return this.resourceBundleFullBaseName;
+    }
+
+    protected Locale getLocale()
+    {
+        return this.locale;
     }
 }
