@@ -48,6 +48,8 @@ public interface ContentDownloadURI<R> extends DownloadURI
     /**
      * Set custom property on this {@link DownloadURI}
      *
+     * @param <T>
+     *            Type of the enum
      * @param name
      *            Name base on an {@link Enum#toString()} of property to set
      * @param value
@@ -71,6 +73,8 @@ public interface ContentDownloadURI<R> extends DownloadURI
     /**
      * Get custom property
      *
+     * @param <T>
+     *            Type of the enum
      * @param name
      *            Name of property to retrieve, name based on an {@link Enum#toString()}
      * @return property value or null if property does not exist
