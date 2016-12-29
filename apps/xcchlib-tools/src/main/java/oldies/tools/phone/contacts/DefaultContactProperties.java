@@ -10,10 +10,6 @@ import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
 
-/**
- *
- *
- */
 public class DefaultContactProperties
     implements     ContactProperties,
                 Serializable
@@ -28,9 +24,6 @@ public class DefaultContactProperties
 
     private final Map<ContactValueType,Collection<Integer>> typeIndexMap = new HashMap<>();
 
-    /**
-     *
-     */
     public DefaultContactProperties(
         final ContactPropertiesBuilder builder
         )
@@ -62,7 +55,7 @@ public class DefaultContactProperties
             index++;
             }
 
-        LOGGER.info( "Number of properties: " + names.length );
+        LOGGER.info( "Number of properties: " + this.names.length );
     }
 
     @Override
@@ -116,7 +109,7 @@ public class DefaultContactProperties
     public void checkIndex( final int index )
         throws IllegalArgumentException
     {
-        if( index < 0 || index >= size() ) {
+        if( (index < 0) || (index >= size()) ) {
             throw new IllegalArgumentException( "Out of range:" + index );
             }
     }
