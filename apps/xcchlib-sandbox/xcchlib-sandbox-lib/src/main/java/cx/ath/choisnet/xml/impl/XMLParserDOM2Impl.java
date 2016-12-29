@@ -114,7 +114,7 @@ public class XMLParserDOM2Impl implements XMLParser
      *  validation          = true
      *  ignoreWhitespace    = true
      *  ignoreComments      = false
-     *  putCDATAIntoText    = true --> false
+     *  putCDATAIntoText    = true -&gt; false
      *  createEntityRefs    = false
      * </PRE>
      *

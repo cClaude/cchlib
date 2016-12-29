@@ -108,7 +108,7 @@ public class XMLParserDOM2
      *  validation          = true
      *  ignoreWhitespace    = true
      *  ignoreComments      = false
-     *  putCDATAIntoText    = true --> false
+     *  putCDATAIntoText    = true -&gt; false
      *  createEntityRefs    = false
      ** </PRE>
      *
