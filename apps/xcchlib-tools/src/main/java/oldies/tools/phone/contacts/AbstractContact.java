@@ -3,17 +3,11 @@ package oldies.tools.phone.contacts;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- *
- */
 public abstract class AbstractContact implements Contact
 {
     private static final long serialVersionUID = 1L;
     protected ContactProperties contactProperties;
 
-    /**
-     *
-     */
     public AbstractContact(
         final ContactProperties contactProperties
         )
@@ -36,7 +30,7 @@ public abstract class AbstractContact implements Contact
     @Override
     public String getValue( final String propertyName )
     {
-        return getValue( contactProperties.getIndex( propertyName ) );
+        return getValue( this.contactProperties.getIndex( propertyName ) );
     }
 
     @Override
@@ -45,7 +39,7 @@ public abstract class AbstractContact implements Contact
         final String value
         )
     {
-        setValue( contactProperties.getIndex( propertyName ), value );
+        setValue( this.contactProperties.getIndex( propertyName ), value );
     }
 
     @Override
@@ -53,10 +47,10 @@ public abstract class AbstractContact implements Contact
         final ContactValueType type
         )
     {
-        Collection<Integer> indexes    = this.contactProperties.getTypeCollection( type );
-        ArrayList<String>   vList    = new ArrayList<String>();
+        final Collection<Integer> indexes    = this.contactProperties.getTypeCollection( type );
+        final ArrayList<String>   vList    = new ArrayList<String>();
 
-        for( Integer index : indexes ) {
+        for( final Integer index : indexes ) {
             vList.add( getValue( index.intValue() ) );
             }
 
