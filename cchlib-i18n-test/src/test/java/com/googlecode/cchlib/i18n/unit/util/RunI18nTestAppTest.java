@@ -41,9 +41,13 @@ public class RunI18nTestAppTest
 {
     private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );
 
-    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 2;
+    // see REF.properties
+    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 3;
     private static final int NUMBERS_OF_SWING_PROPERTIES  = 30;
 
+    // When this class is modify, you must test both configuration
+    // (remove "& false" from comment)
+    // to ensure all CI will be able to have same result
     private static final boolean DO_SWING = SafeSwingUtilities.isSwingAvailable() /*& false*/;
 
     private static Iterable<TestReference> getTests()
