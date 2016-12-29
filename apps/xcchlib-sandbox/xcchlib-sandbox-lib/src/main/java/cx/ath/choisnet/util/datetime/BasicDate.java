@@ -32,14 +32,12 @@ import java.util.Date;
  *      BasicDate  lastDayDate  = new BasicDate( getFinDePeriode() );
  *
  *      for(    BasicDate currentDay = new BasicDate( firstDayDate );
- *              currentDay.compareTo( lastDayDate ) <= 0;
+ *              currentDay.compareTo( lastDayDate ) &lt;= 0;
  *              currentDay.incDay()
  *              ) {
  *          // Reste du traitement : function( currentDay );
  *          }
- *
  * </PRE>
- * <P>
  * NOTE:<br>
  * - Cette classe est {@link Serializable}<br>
  * - Mais cette classe n'est pas "compatible an 10 000" ;-)
@@ -575,9 +573,6 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
         return (int)countofday;
     }
 
-    /**
-**
-*/
     protected void check() throws BasicDateException // ----------------------
     {
         //
@@ -738,5 +733,4 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
 //            dateYYYYMMDD = calendar.getDate( SIMPLE_DATE_FORMAT );
 //        }
 //    }
-
-} // class
+}
