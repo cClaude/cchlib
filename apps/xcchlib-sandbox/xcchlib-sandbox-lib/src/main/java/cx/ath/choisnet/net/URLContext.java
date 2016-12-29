@@ -152,7 +152,7 @@ public class URLContext implements Serializable
      * Permet de definir des proprietes utilise par toutes les requetes
      * emise e l'aide de l'objet courant.
      * <p>
-     * Typiquement on initialisera un echange par<br>
+     * Typiquement on initialisera un echange par
      *
      * <pre>
      * URLContext ctxt = new URLContext();
@@ -162,7 +162,7 @@ public class URLContext implements Serializable
      * ctxt.setRequestProperty( "Accept", "*"+"/*" );
      * ctxt.setRequestProperty( "Connection", "Keep-Alive");
      * ctxt.setRequestProperty( "Cache-Control", "no-cache");
-     * <pre>
+     * </pre>
      *
      * @param key NEEDDOC
      * @param value NEEDDOC
@@ -200,8 +200,10 @@ public class URLContext implements Serializable
 
     /**
      * NEEDDOC
-     * @param dooutput NEEDDOC
-     * @see URLConnection#setDoOutput(boolean )
+     *
+     * @param dooutput
+     *            NEEDDOC
+     * @see URLConnection#setDoOutput(boolean)
      */
     public void setDoOutput( final boolean dooutput )
     {

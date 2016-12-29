@@ -197,6 +197,8 @@ public class URLHelper
      * @param outputFile
      *            File to create with {@code url} content, if URL is found.
      * @return Current {@link Status}
+     * @throws FileNotFoundException if any
+     * @throws IOException if any
      * @since 3.02.021
      */
     public Status download(
