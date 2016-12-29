@@ -10,9 +10,11 @@ import java.util.Arrays;
 import javax.annotation.Nonnull;
 
 /**
- * Buffer d'octects a taille variable, e ne pas confondre avec la classe
- * {@link java.nio.ByteBuffer} (java.nio.ByteBuffer) apparue dans le JDK 1.4.
- * Cette classe est comparable a la classe {@link StringBuilder}.
+ * {@link ByteBuffer} is a class similar than {@link StringBuilder}
+ * but for bytes.
+ * <p>
+ * There is class was written before {@link java.nio.ByteBuffer} that
+ * come with JDK 1.4, but is not really related.
  *
  * @since 1.53
  *
@@ -28,7 +30,8 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
     private transient int     lastPos;
 
     /**
-     * Constructs a ByteBuffer with no byte in it and an initial capacity of 2048 bytes.
+     * Constructs a {@link ByteBuffer} with no byte in it and an initial
+     * capacity of 2048 bytes.
      */
     public ByteBuffer() // ----------------------------------------------------
     {
@@ -36,7 +39,8 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
     }
 
     /**
-     * Constructs a ByteBuffer with no byte in it and the specified initial capacity
+     * Constructs a {@link ByteBuffer} with no byte in it and the specified
+     * initial capacity
      *
      * @param capacity
      *            the initial capacity.
@@ -69,6 +73,21 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
 
             this.append( bytes, 0, bytes.length );
         }
+    }
+
+    /**
+     * Constructs a {@link ByteBuffer} witch is a copy of the
+     * given {@code byteBuffer}
+     *
+     * @param byteBuffer
+     *            the {@link ByteBuffer} to copy.
+     */
+    public ByteBuffer( final ByteBuffer byteBuffer )
+    {
+        this.buffer  = new byte[ byteBuffer.buffer.length ];
+        this.lastPos = byteBuffer.lastPos;
+
+        System.arraycopy( byteBuffer.buffer, 0, this.buffer, 0, byteBuffer.lastPos );
     }
 
     /**
@@ -131,8 +150,9 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
     }
 
     /**
-     * Returns the current capacity. The capacity is the amount of storage available for newly inserted characters,
-     * beyond which an allocation will occur.
+     * Returns the current capacity. The capacity is the amount of storage
+     * available for newly inserted characters, beyond which an allocation
+     * will occur.
      *
      * @return the current capacity
      */
@@ -267,13 +287,13 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
      */
 
     /**
-     * Ajoute le contenu courant du flux correspondant au channel donne.
+     * Add {@code channel} content to current buffer.
      *
      * @param channel
-     *            byte a ajouter dans le buffer.
-     *
-     * @return l'objet ByteBuffer lui-meme
-     * @since 2.02.035
+     *            bytes to add
+     * @return Current {@link ByteBuffer} for initialization chaining
+     * @throws IOException if any
+     * @since 2.02
      */
     public ByteBuffer append( final ReadableByteChannel channel ) throws IOException
     {
@@ -281,15 +301,14 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
     }
 
     /**
-     * Ajoute le contenu courant du flux correspondant au channel donne.
+     * Add {@code channel} content to current buffer.
      *
      * @param channel
-     *            byte a ajouter dans le buffer.
+     *            bytes to add
      * @param bufferSize
-     *            taille du buffer utiliser pour le transfert des donnees.
-     *
-     * @return l'objet ByteBuffer lui-meme
-     *
+     *            buffer size to use for reading data.
+     * @return Current {@link ByteBuffer} for initialization chaining
+     * @throws IOException if any
      */
     public ByteBuffer append(
         final ReadableByteChannel channel,
@@ -324,20 +343,37 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
         return bufferCopy;
     }
 
-    public boolean startsWith( final ByteBuffer aByteBuffer )
+    /**
+     * Tests if this {@link ByteBuffer} starts with the specified prefix.
+     *
+     * @param prefix
+     *            the prefix
+     * @return true if the giving {@link ByteBuffer} represented by the
+     *         argument is a prefix of this {@link ByteBuffer};
+     *         false otherwise.
+     */
+    public boolean startsWith( final ByteBuffer prefix )
     {
-        return startsWith( aByteBuffer.array() );
+        return startsWith( prefix.array() );
     }
 
-    public boolean startsWith( final byte[] pattern )
+    /**
+     * Tests if this {@link ByteBuffer} starts with the specified prefix.
+     *
+     * @param prefix
+     *            the prefix
+     * @return true if the giving byte array represented by the
+     *         argument is a prefix of this {@link ByteBuffer};
+     *         false otherwise.
+     */
+    public boolean startsWith( final byte[] prefix )
     {
-        if( pattern.length > this.lastPos ) {
+        if( prefix.length > this.lastPos ) {
             return false;
         }
 
-        for( int i = 0; i < pattern.length; i++ ) {
-
-            if( this.buffer[ i ] != pattern[ i ] ) {
+        for( int i = 0; i < prefix.length; i++ ) {
+            if( this.buffer[ i ] != prefix[ i ] ) {
                 return false;
             }
         }
@@ -345,22 +381,39 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
         return true;
     }
 
-    public boolean endsWith( final ByteBuffer aByteBuffer )
+    /**
+     * Tests if this {@link ByteBuffer} ends with the specified prefix.
+     *
+     * @param prefix
+     *            the prefix
+     * @return true if the giving {@link ByteBuffer} represented by the
+     *         argument is a suffix of this {@link ByteBuffer};
+     *         false otherwise.
+     */
+    public boolean endsWith( final ByteBuffer prefix )
     {
-        return endsWith( aByteBuffer.array() );
+        return endsWith( prefix.array() );
     }
 
-    public boolean endsWith( final byte[] pattern )
+    /**
+     * Tests if this {@link ByteBuffer} ends with the specified prefix.
+     *
+     * @param prefix
+     *            the prefix
+     * @return true if the giving byte array represented by the
+     *         argument is a suffix of this {@link ByteBuffer};
+     *         false otherwise.
+     */
+    public boolean endsWith( final byte[] prefix )
     {
-        if( pattern.length > this.lastPos ) {
+        if( prefix.length > this.lastPos ) {
             return false;
         }
 
-        int j = this.lastPos - pattern.length;
+        int j = this.lastPos - prefix.length;
 
-        for( int i = 0; i < pattern.length; i++ ) {
-
-            if( this.buffer[ j++ ] != pattern[ i ] ) {
+        for( int i = 0; i < prefix.length; i++ ) {
+            if( this.buffer[ j++ ] != prefix[ i ] ) {
                 return false;
             }
         }
@@ -403,20 +456,17 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
         return new String( this.buffer, 0, this.lastPos );
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @deprecated use corresponding constructor instead.
+     */
     @Override
-    public ByteBuffer clone() throws CloneNotSupportedException
+    @Deprecated
+    @SuppressWarnings({"squid:S1182","squid:S2975","squid:S1133"})
+    public ByteBuffer clone()
     {
-        final ByteBuffer newByteBuffer = (ByteBuffer)super.clone();
-
-        newByteBuffer.buffer = new byte[this.buffer.length];
-
-        final int max = this.lastPos;
-
-        newByteBuffer.lastPos = max;
-
-        System.arraycopy( this.buffer, 0, newByteBuffer.buffer, 0, max );
-
-        return newByteBuffer;
+        return new ByteBuffer( this );
     }
 
     /*
@@ -501,9 +551,11 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
     /**
      * Create a {@link ByteBuffer} be consuming an {@link InputStream}
      *
-     * @param input {@link InputStream} to load in {@link ByteBuffer}
-     * @return The {@link ByteBuffer}
-     * @throws IOException if any
+     * @param input
+     *            {@link InputStream} to load in {@link ByteBuffer}
+     * @return The new {@link ByteBuffer}
+     * @throws IOException
+     *             if any
      */
     public static ByteBuffer newByteBuffer( @Nonnull final InputStream input )
         throws IOException
