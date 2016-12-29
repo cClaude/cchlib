@@ -19,6 +19,30 @@
     <splash.screen.image>com/googlecode/cchlib/apps/regexbuilder/splash.png</splash.screen.image>
   </properties>
 
+  <repositories>
+
+    <repository>
+      <id>cchlib-repository-release</id>
+      <name>The cchlib Repository</name>
+      <!-- TODO : use a public URL -->
+      <url>http://framboise01/maven/release/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
+    <repository>
+      <id>cchlib-repository-snapshot</id>
+      <name>The cchlib SNAPSHOT Repository</name>
+      <!-- TODO : use a public URL -->
+      <url>http://framboise01/maven/snapshot/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+
+  </repositories>
+
   <dependencies>
 
     <dependency>
