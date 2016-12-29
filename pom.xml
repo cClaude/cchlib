@@ -93,6 +93,29 @@
 
   </distributionManagement>
 
+  <repositories>
+    <repository>
+      <id>cchlib-repository-release</id>
+      <name>The cchlib Repository</name>
+      <!-- TODO : use a public URL -->
+      <url>http://framboise01/maven/release/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
+    <repository>
+      <id>cchlib-repository-snapshot</id>
+      <name>The cchlib SNAPSHOT Repository</name>
+      <!-- TODO : use a public URL -->
+      <url>http://framboise01/maven/snapshot/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+
+  </repositories>
+
   <!-- Developers listed by PMC Chair, PMC, Committers, Contributers, all alphabetical -->
   <developers>
 
@@ -108,20 +131,6 @@
     </developer>
 
   </developers>
-
-  <repositories>
-<!-- use default
-    <repository>
-      <id>central</id>
-      <name>Maven Repository Switchboard</name>
-      <layout>default</layout>
-      <url>http://repo1.maven.org/maven2</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
- -->
-  </repositories>
 
   <!-- BUILD
     * ALL sub project will have their java code compiled using java 1.6
@@ -385,7 +394,6 @@
         <artifactId>maven-surefire-report-plugin</artifactId>
         <version>2.19.1</version>
         <configuration>
-<!--           <outputName>GoogleSearchTestResults</outputName> -->
           <parallel>${maven.surefire.report.plugin.parallel}</parallel>
           <threadCount>${maven.surefire.report.plugin.thread.count}</threadCount>
           <systemPropertyVariables>
