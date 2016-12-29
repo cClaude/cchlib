@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n;
 
-import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 import java.io.Serializable;
 import java.util.Locale;
+import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 /**
  * Resolve value ({@link String}) from a string key ({@link String})
@@ -10,6 +10,7 @@ import java.util.Locale;
  *
  * @see AutoI18n
  */
+@FunctionalInterface
 public interface I18nInterface extends Serializable
 {
     /**
