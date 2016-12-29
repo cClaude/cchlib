@@ -1601,16 +1601,18 @@ public void parseGroup(final ContactGroupEntry group, final ElementParser parser
    * instances. The actual element type is matched by the name of the enum
    * instance, so the element names specified in the parameters should (almost)
    * match the name of enum instances. The exceptions are those elements what
-   * can be repeated, when the parameter format is "name&lt,n&gt,".* Due to this
+   * can be repeated, when the parameter format is "name&lt;n&gt;".* Due to this
    * formating convention we cannot use directly the valueOf() facility of the
    * enum.
    *
    * @param group      the group to build.
    * @param parameters list of element descriptions.
-   *
    */
-  public static void buildGroup(final ContactGroupEntry group,
-      final List<String> parameters) {
+  public static void buildGroup(
+      final ContactGroupEntry group,
+      final List<String>      parameters
+      )
+  {
     for (final String string : parameters) {
       if (!string.startsWith("--")) {
         throw new IllegalArgumentException("unknown argument: " + string);

@@ -70,8 +70,11 @@ public class ContactsExample
      *
      * @param parameters
      *            command line parameters
+     * @throws MalformedURLException if any
+     * @throws AuthenticationException if any
      */
-    public ContactsExample( final ContactsExampleParameters parameters ) throws MalformedURLException, AuthenticationException
+    public ContactsExample( final ContactsExampleParameters parameters )
+        throws MalformedURLException, AuthenticationException
     {
         this.projection = parameters.getProjection();
         final String url = parameters.getBaseUrl() + (parameters.isGroupFeed() ? "groups/" : "contacts/") + parameters.getUserName() + "/" + this.projection;
@@ -121,6 +124,8 @@ public class ContactsExample
      *
      * @param parameters
      *            parameters storing updated contact values.
+     * @throws IOException if any
+     * @throws ServiceException if any
      */
     public void updateEntry( final ContactsExampleParameters parameters )
         throws IOException, ServiceException
@@ -524,6 +529,8 @@ public class ContactsExample
      *
      * @param args
      *            Command-line arguments.
+     * @throws ServiceException if any
+     * @throws IOException if any
      */
     public static void main( final String[] args ) throws ServiceException, IOException
     {
