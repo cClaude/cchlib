@@ -30,7 +30,7 @@ public class GenericDownloaderUIPanel
     private final DownloaderData    data;
     private final DownloaderHandler handler;
 
-    /**
+    /*
      * Create the panel.
      */
     @SuppressWarnings({"squid:S00117"})

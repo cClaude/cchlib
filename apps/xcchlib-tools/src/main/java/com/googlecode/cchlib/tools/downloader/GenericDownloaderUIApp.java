@@ -579,6 +579,8 @@ public class GenericDownloaderUIApp extends JFrame
 
     /**
      * Launch the application.
+     *
+     * @param args CLI parameters (ignored)
      */
     public static void main( final String[] args )
     {

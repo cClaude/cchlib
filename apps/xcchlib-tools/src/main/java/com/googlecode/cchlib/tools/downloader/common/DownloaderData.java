@@ -17,14 +17,18 @@ public interface DownloaderData
     int getNumberOfPicturesByPage();
 
     /**
-     * Returns number of page to download (for UI). Value must be greater than 0 and
-     * less or equal than value return by {@link #getMaxPageCount()}.
+     * Returns number of page to download (for UI). Value must be greater
+     * than 0 and less or equal than value return by {@link #getMaxPageCount()}.
+     *
      * @return number of page to download
      */
     int getPageCount();
 
     /**
      * Set number of page to download
+     *
+     * @param pageCount
+     *            NEEDDOC
      * @see #getPageCount()
      */
     void setPageCount( int pageCount );

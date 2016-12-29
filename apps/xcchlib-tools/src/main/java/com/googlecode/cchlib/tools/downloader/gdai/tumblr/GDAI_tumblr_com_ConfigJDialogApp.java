@@ -53,7 +53,7 @@ public class GDAI_tumblr_com_ConfigJDialogApp extends JDialog
     private static final Logger LOGGER = Logger.getLogger( GDAI_tumblr_com_ConfigJDialogApp.class );
     private final JPanel contentPane;
 
-    /**
+    /*
      * Create the frame.
      */
     public GDAI_tumblr_com_ConfigJDialogApp(
@@ -73,7 +73,7 @@ public class GDAI_tumblr_com_ConfigJDialogApp extends JDialog
         this.contentPane.add(panel, BorderLayout.CENTER);
     }
 
-    /**
+    /*
      * Launch the application.
      *
      * @throws JSONHelperException if configuration can not be loaded
