@@ -10,6 +10,7 @@ import java.io.InputStream;
  *
  * @see BytesAccess
  */
+@SuppressWarnings("squid:S1192")
 public abstract class BytesAccessDebug extends BytesAccess
 {
     public BytesAccessDebug( final int bytesLength )
