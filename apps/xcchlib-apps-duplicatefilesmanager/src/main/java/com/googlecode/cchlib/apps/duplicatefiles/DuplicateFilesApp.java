@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+import java.awt.HeadlessException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Date;
@@ -19,6 +20,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControle
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControlerFactory;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.JFrames;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 /**
  * Application launcher
@@ -57,11 +59,22 @@ public class DuplicateFilesApp
 
         if( line != null ) {
             startApp( line );
-        }
+        } // else HELP already printed in CLI
     }
 
     private static void startApp( final CommandLine line ) throws FileNotFoundException
     {
+        if( SafeSwingUtilities.isHeadless() ) {
+            LOGGER.fatal( "Can not start Application, JVM is headless (no swing interface)" );
+            return;
+        }
+
+        if( ! SafeSwingUtilities.isSwingAvailable() ) {
+            LOGGER.fatal( "Can not start Application, JVM is not headless but there is "
+                    + "a configuration issue with Swing." );
+            return;
+        }
+
         final PreferencesControler preferences;
 
         if( line.hasOption( NO_PREFERENCE ) ) {
@@ -103,6 +116,9 @@ public class DuplicateFilesApp
             frame.getDFToolKit().initJFileChooser();
 
             JFrames.handleMinimumSize(frame, preferences.getMinimumWindowDimension());
+        }
+        catch( final HeadlessException e ) {
+            LOGGER.fatal( "Can't load application - swing is not available", e );
         }
         catch( final Exception e ) {
             LOGGER.fatal( "Can't load application", e );
