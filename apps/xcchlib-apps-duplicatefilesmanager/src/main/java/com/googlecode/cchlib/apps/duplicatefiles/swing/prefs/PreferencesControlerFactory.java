@@ -15,10 +15,9 @@ import com.googlecode.cchlib.json.JSONHelperException;
  */
 public final class PreferencesControlerFactory
 {
-    static final Logger LOGGER = Logger.getLogger( PreferencesControlerFactory.class );
+    private static final Logger LOGGER = Logger.getLogger( PreferencesControlerFactory.class );
 
     private static final String JSON_PREFS_FILE = Preferences.class.getName() + ".json";
-    static final String PROPERTIES_PREFS_FILE = '.' + Preferences.class.getName() + ".properties";
 
     private PreferencesControlerFactory()
     {
@@ -46,16 +45,15 @@ public final class PreferencesControlerFactory
      * @throws FileNotFoundException if file is not found.
      */
     public static PreferencesControler createPreferences(
-            @Nullable final File preferencesFile
-            ) throws FileNotFoundException
+        @Nullable final File preferencesFile
+        ) throws FileNotFoundException
     {
-        final boolean useDefaultFile = preferencesFile == null;
+        final boolean useDefaultFile       = preferencesFile == null;
+        final File    preferencesFileToUse = useDefaultFile ? getJSONPreferencesLoadFile() : preferencesFile;
 
         if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "createPreferences(" + preferencesFile + ") - useDefaultFile=" + useDefaultFile );
         }
-
-        final File preferencesFileToUse = useDefaultFile ? getJSONPreferencesLoadFile() : preferencesFile;
 
         Preferences preferences;
 
@@ -68,11 +66,14 @@ public final class PreferencesControlerFactory
 
                 preferences = new PreferencesBean();
             } else {
+                // Giving file does not exists
                 final FileNotFoundException fnfe = new FileNotFoundException(
-                        "Can not read JSON custom preferences file"
+                        "Can not read JSON custom preferences file \"" + preferencesFile + "\""
                         );
 
-                fnfe.initCause( e );
+                if( LOGGER.isTraceEnabled() ) {
+                    LOGGER.trace( preferencesFile, e );
+                }
 
                 throw fnfe;
             }
