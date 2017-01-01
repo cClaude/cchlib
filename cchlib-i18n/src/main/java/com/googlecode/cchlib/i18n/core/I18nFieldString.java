@@ -42,7 +42,7 @@ final class I18nFieldString  extends AbstractI18nField
         @Override
         public I18nResolvedFieldSetter getI18nResolvedFieldSetter()
         {
-            return ( keys, values ) -> _setValue(this.objectToI18n, getField(), keys, values);
+            return ( keys, values ) -> _setValue( this.objectToI18n, getField(), keys, values );
         }
 
         @Override
@@ -84,18 +84,22 @@ final class I18nFieldString  extends AbstractI18nField
     @Override
     public FieldType getFieldType()
     {
-        return (getMethodContener() != null) ? FieldType.METHODS_RESOLUTION : FieldType.SIMPLE_KEY;
+        return (getMethodContener() != null) ?
+                FieldType.METHODS_RESOLUTION : FieldType.SIMPLE_KEY;
     }
 
     @Override
-    public <T> I18nResolver createI18nResolver( final T objectToI18n, final I18nInterface i18nInterface )
+    public <T> I18nResolver createI18nResolver(
+        final T             objectToI18n,
+        final I18nInterface i18nInterface
+        )
     {
         return new I18nResolverForString<T>( objectToI18n );
     }
 
     @SuppressWarnings("squid:S00100") // Method name
     private static final <T> Values _getValues( final T objectToI18n, final Field field )
-            throws GetFieldException //
+        throws GetFieldException
     {
         try {
             final String value = _getComponent( objectToI18n, field );
@@ -113,11 +117,11 @@ final class I18nFieldString  extends AbstractI18nField
         "squid:S00100" // method name
         })
     private static final <T> void _setValue( //
-            final T      objectToI18n, //
-            final Field  field, //
-            final Keys   keys, //
-            final Values values //
-            ) throws SetFieldException //
+        final T      objectToI18n, //
+        final Field  field, //
+        final Keys   keys, //
+        final Values values //
+        ) throws SetFieldException //
     {
         // Keys and Values inconsistent size
         assert keys.size() == values.size() : "Keys and Values inconsistent size";
@@ -137,9 +141,12 @@ final class I18nFieldString  extends AbstractI18nField
             }
     }
 
-    @SuppressWarnings("squid:S00100") // Method name
+    @SuppressWarnings({
+        "squid:S00100", // Method name
+        "squid:RedundantThrowsDeclarationCheck"
+        })
     private static final <T> String _getComponent( final T objectToI18n, final Field field )
-            throws IllegalArgumentException, IllegalAccessException
+        throws IllegalArgumentException, IllegalAccessException
     {
         field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
 
@@ -150,6 +157,7 @@ final class I18nFieldString  extends AbstractI18nField
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
+
         builder.append( "I18nFieldString [getFieldType()=" );
         builder.append( getFieldType() );
         builder.append( ", getI18nDelegator()=" );
@@ -163,6 +171,7 @@ final class I18nFieldString  extends AbstractI18nField
         builder.append( ", getAutoI18nTypes()=" );
         builder.append( getAutoI18nTypes() );
         builder.append( ']' );
+
         return builder.toString();
     }
 }

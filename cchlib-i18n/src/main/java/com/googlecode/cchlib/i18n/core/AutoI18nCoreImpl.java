@@ -47,13 +47,14 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
     private <T> I18nClass<T> getI18nClass( final Class<? extends T> clazz )
     {
         @SuppressWarnings("unchecked")
-        I18nClass<T> i18nClass = (I18nClass<T>)this.map.get( clazz ); // $codepro.audit.disable unnecessaryCast
+        I18nClass<T> i18nClass = (I18nClass<T>)this.map.get( clazz );
 
         if( i18nClass == null ) {
             i18nClass = new I18nClassImpl<>( clazz, this.i18nDelegator );
 
             this.map.put( clazz, i18nClass );
             }
+
         return i18nClass;
     }
 
