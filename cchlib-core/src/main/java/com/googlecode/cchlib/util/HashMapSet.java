@@ -49,6 +49,7 @@ import com.googlecode.cchlib.util.iterator.CascadingIterator;
  * @param <KEY> the type of keys maintained by this map
  * @param <VALUE> the type of values
  */
+@SuppressWarnings("squid:S00119")
 public class HashMapSet<KEY,VALUE>
     extends HashMap<KEY,Set<VALUE>>
         implements  MapSet<KEY,VALUE>,
@@ -138,42 +139,36 @@ public class HashMapSet<KEY,VALUE>
      */
     public int valuesSize()
     {
-//        int size = 0;
-//
-//        for( final Set<? extends VALUE> s:super.values() ) {
-//            size += s.size();
-//            }
-//
-//        return size;
         return MapSetHelper.size( this );
     }
 
-//    /** CAN'T OVERWRITE containsValue() -> buggy (NOT SUPPORTED)
-//     * Returns true if this map maps
-//     * one or more keys to the specified value.
-//     * <p>
-//     * If value is a Set, looking for a Set&lt;V&gt;
-//     * in HashMapSet.
-//     * <br>
-//     * If value is not a Set, looking throws all
-//     * Set&lt;V&gt; to find at least a matching value.
-//     *
-//     * @return true if this map maps contains the
-//     *         specified value
-//     */
+    /*
+     * CAN'T OVERWRITE containsValue() -> buggy (NOT SUPPORTED)
+     * Returns true if this map maps
+     * one or more keys to the specified value.
+     * <p>
+     * If value is a Set, looking for a Set&lt;V&gt; in
+      HashMapSet.
+     * <br>
+     * If value is not a Set, looking throws all
+     * Set&lt;V&gt; to find at least a matching value.
+     *
+     * @return true if this map maps contains the
+     *         specified value
+     */
 //    @Override // Map
 //    public boolean containsValue( Object value )
-//    {
-//        if( value instanceof Set ) {
-//            return super.containsValue( value );
-//        }
-//        for(Set<? extends V> s:super.values()) {
-//            if( s.contains( value )) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+//    { -
+//        "if_ value instance of Set _ {"
+//            return super.containsValue( value ); -
+//        } -
+//        for_ Set<? extends V> s:super.values()_ { -
+//            if_ s.contains( value )_ { -
+//                return true; -
+//            } -
+//        } -
+//        return false; -
+//    } -
 
     /**
      * Not supported
