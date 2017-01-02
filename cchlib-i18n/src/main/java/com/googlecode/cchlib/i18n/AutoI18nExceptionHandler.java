@@ -3,6 +3,7 @@ package com.googlecode.cchlib.i18n;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
@@ -65,9 +66,14 @@ public interface AutoI18nExceptionHandler extends Serializable
      * @param cause         The exception to handle
      * @param i18nField     The {@link I18nField} concern by the exception
      * @param objectToI18n  Object to I18n that contain field.
-     * @param i18nInterface NEEDDOC
+     * @param i18nResource  NEEDDOC
      */
-    <T> void handleMissingResourceException( MissingResourceException cause, I18nField i18nField, T objectToI18n, I18nInterface i18nInterface );
+    <T> void handleMissingResourceException(
+        MissingResourceException cause,
+        I18nField                i18nField,
+        T                        objectToI18n,
+        I18nResource             i18nResource
+        );
 
     /**
      * NEEDDOC
@@ -108,5 +114,9 @@ public interface AutoI18nExceptionHandler extends Serializable
      * @param i18nField NEEDDOC
      * @param i18nResolver NEEDDOC
      */
-    void handleSetFieldException( SetFieldException cause, I18nField i18nField, I18nResolver i18nResolver );
+    void handleSetFieldException(
+        SetFieldException cause,
+        I18nField         i18nField,
+        I18nResolver      i18nResolver
+        );
 }

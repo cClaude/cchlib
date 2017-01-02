@@ -2,8 +2,8 @@ package com.googlecode.cchlib.i18n.core;
 
 import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.AutoI18nType;
-import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolvedFieldGetter;
@@ -17,6 +17,39 @@ import com.googlecode.cchlib.i18n.core.resolve.Values;
 //NOT public
 final class I18nFieldAutoI18nTypes extends AbstractI18nField
 {
+    private final class FieldI18nResolver<T> implements I18nResolver
+    {
+        private final T objectToI18n;
+
+        private FieldI18nResolver( final T objectToI18n )
+        {
+            this.objectToI18n = objectToI18n;
+        }
+
+        @Override
+        public Keys getKeys() throws MissingKeyException
+        {
+            try {
+               final Object fieldObject = _getComponent( this.objectToI18n, getField() );
+
+               return getAutoI18nTypes().getKeys( fieldObject, getKeyBase() );
+                }
+            catch( final IllegalArgumentException | IllegalAccessException e ) {
+                throw new MissingKeyException( e );
+                 }
+         }
+
+        @Override
+        public I18nResolvedFieldGetter getI18nResolvedFieldGetter() {
+            return keys -> _getValues( this.objectToI18n, getField(), getAutoI18nTypes() );
+        }
+
+        @Override
+        public I18nResolvedFieldSetter getI18nResolvedFieldSetter() {
+            return ( keys, values ) -> _setValues(this.objectToI18n, values, getField(), getAutoI18nTypes());
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
     public I18nFieldAutoI18nTypes(
@@ -39,34 +72,18 @@ final class I18nFieldAutoI18nTypes extends AbstractI18nField
     }
 
     @Override
-    public <T> I18nResolver createI18nResolver( final T objectToI18n, final I18nInterface i18nInterface )
+    public <T> I18nResolver createI18nResolver(
+        final T            objectToI18n,
+        final I18nResource i18nResource // TODO investigate why not use ?
+        )
     {
-        return new I18nResolver() {
-            @Override
-            public Keys getKeys() throws MissingKeyException
-            {
-                try {
-                   final Object fieldObject = _getComponent( objectToI18n, getField() );
-
-                   return getAutoI18nTypes().getKeys( fieldObject, getKeyBase() );
-                    }
-                catch( final IllegalArgumentException | IllegalAccessException e ) {
-                    throw new MissingKeyException( e );
-                     }
-           }
-
-            @Override
-            public I18nResolvedFieldGetter getI18nResolvedFieldGetter() {
-                return keys -> _getValues( objectToI18n, getField(), getAutoI18nTypes() );
-            }
-
-            @Override
-            public I18nResolvedFieldSetter getI18nResolvedFieldSetter() {
-                return ( keys, values ) -> _setValues(objectToI18n, values, getField(), getAutoI18nTypes());
-            }
-        };
+        return new FieldI18nResolver<T>( objectToI18n );
     }
 
+    @SuppressWarnings({
+        "squid:S3398", // can not move this method into a non static class
+        "squid:S00100" // Method name
+    })
     private static final <T> Values _getValues( //
             final T            objectToI18n, //
             final Field        field, //
@@ -82,6 +99,10 @@ final class I18nFieldAutoI18nTypes extends AbstractI18nField
         }
     }
 
+    @SuppressWarnings({
+        "squid:S3398", // can not move this method into a non static class
+        "squid:S00100" // Method name
+    })
     private static final <T> void _setValues( //
             final T            objectToI18n, //
             final Values       values, //
@@ -99,6 +120,10 @@ final class I18nFieldAutoI18nTypes extends AbstractI18nField
         }
     }
 
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S00100" // Method name
+    })
     private static final <T> Object _getComponent( final T objectToI18n, final Field field )
             throws IllegalArgumentException, IllegalAccessException
     {

@@ -6,13 +6,13 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import com.googlecode.cchlib.i18n.I18nInterface;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}
- * for {@link I18nInterface}
+ * for {@link I18nResource}
  */
-public class I18nResourceBundle implements I18nInterface, Serializable
+public class I18nResourceBundle implements I18nResource, Serializable
 {
     private static final long serialVersionUID = 4L;
 

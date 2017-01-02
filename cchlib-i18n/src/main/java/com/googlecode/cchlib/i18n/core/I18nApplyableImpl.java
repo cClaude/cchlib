@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.I18nInterface;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
@@ -19,13 +19,13 @@ class I18nApplyableImpl<T> implements I18nApplyable<T>
 {
     private class CurrentObjectInvoker
     {
-        private final T             objectToI18n;
-        private final I18nInterface i18nInterface;
+        private final T            objectToI18n;
+        private final I18nResource i18nResource;
 
-        public CurrentObjectInvoker( final T objectToI18n, final I18nInterface i18nInterface )
+        public CurrentObjectInvoker( final T objectToI18n, final I18nResource i18nResource )
         {
-            this.objectToI18n  = objectToI18n;
-            this.i18nInterface = i18nInterface;
+            this.objectToI18n = objectToI18n;
+            this.i18nResource = i18nResource;
         }
 
         public void performeI18n( final I18nField i18nField )
@@ -40,7 +40,8 @@ class I18nApplyableImpl<T> implements I18nApplyable<T>
 
         private void useResolverOn( final I18nField i18nField )
         {
-            final I18nResolver resolver = i18nField.createI18nResolver( this.objectToI18n, this.i18nInterface );
+            final I18nResolver resolver
+                = i18nField.createI18nResolver( this.objectToI18n, this.i18nResource );
 
             try {
                 final Keys keys = resolver.getKeys();
@@ -49,7 +50,7 @@ class I18nApplyableImpl<T> implements I18nApplyable<T>
                     LOGGER.trace( "keys = " + keys + " for " + i18nField );
                     }
 
-                final Values values = new ValuesFromKeys( this.i18nInterface, keys );
+                final Values values = new ValuesFromKeys( this.i18nResource, keys );
 
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace( "values = " + values );
@@ -57,11 +58,11 @@ class I18nApplyableImpl<T> implements I18nApplyable<T>
 
                 useResolverOn( i18nField, resolver, keys, values );
                 }
-            catch( final MissingResourceException e ) {
-                I18nApplyableImpl.this.i18nDelegator.handleMissingResourceException( e, i18nField, this.objectToI18n, this.i18nInterface );
+            catch( final MissingResourceException cause ) {
+                I18nApplyableImpl.this.i18nDelegator.handleMissingResourceException( cause, i18nField, this.objectToI18n, this.i18nResource );
                 }
-            catch( final MissingKeyException e ) {
-                I18nApplyableImpl.this.i18nDelegator.handleMissingKeyException( e, i18nField, resolver );
+            catch( final MissingKeyException cause ) {
+                I18nApplyableImpl.this.i18nDelegator.handleMissingKeyException( cause, i18nField, resolver );
                 }
         }
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.i18n.AutoI18nType;
-import com.googlecode.cchlib.i18n.I18nInterface;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 
 @NeedDoc
@@ -51,6 +51,8 @@ public interface I18nField extends Serializable
      */
     AutoI18nType getAutoI18nTypes();
 
+
+    // TODO: investigate why i18nResource is never use...
     @NeedDoc
-    <T> I18nResolver createI18nResolver( T objectToI18n, I18nInterface i18nInterface );
+    <T> I18nResolver createI18nResolver( T objectToI18n, I18nResource i18nResource );
 }

@@ -2,11 +2,11 @@ package com.googlecode.cchlib.i18n.resources;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import com.googlecode.cchlib.i18n.I18nInterface;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}
- * for {@link I18nInterface}
+ * for {@link I18nResource}
  */
 public class I18nSimpleResourceBundle extends I18nResourceBundle
 {

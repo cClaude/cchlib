@@ -2,8 +2,8 @@ package com.googlecode.cchlib.i18n.core;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolvedFieldGetter;
@@ -90,14 +90,17 @@ final class I18nFieldString  extends AbstractI18nField
 
     @Override
     public <T> I18nResolver createI18nResolver(
-        final T             objectToI18n,
-        final I18nInterface i18nInterface
+        final T            objectToI18n,
+        final I18nResource i18nResource // TODO investigate why not use ?
         )
     {
         return new I18nResolverForString<T>( objectToI18n );
     }
 
-    @SuppressWarnings("squid:S00100") // Method name
+    @SuppressWarnings({
+        "squid:S3398", // can not move this method into a non static class
+        "squid:S00100" // Method name
+    })
     private static final <T> Values _getValues( final T objectToI18n, final Field field )
         throws GetFieldException
     {
@@ -112,6 +115,7 @@ final class I18nFieldString  extends AbstractI18nField
     }
 
     @SuppressWarnings({
+        "squid:S3398", // can not move this method into a non static class
         "squid:S3346", // assert usage
         "squid:S1850", // assert 'useless' test
         "squid:S00100" // method name

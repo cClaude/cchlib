@@ -22,7 +22,7 @@ import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import com.googlecode.cchlib.i18n.EventCause;
-import com.googlecode.cchlib.i18n.I18nInterface;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolvedFieldGetter;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
@@ -44,12 +44,17 @@ public class I18nPrep
         private static final long serialVersionUID = 1L;
 
         @Override
-        public void ignoredField( final Field f, final String key, final EventCause eventCause, final String causeDecription )
+        public void ignoredField(
+            final Field      field,
+            final String     key,
+            final EventCause eventCause,
+            final String     causeDecription
+            )
         {
             if( LOGGER.isTraceEnabled() ) {
-                LOGGER.trace( "I18nPrep.ignoredField: " + key + " - field: " + f );
+                LOGGER.trace( "I18nPrep.ignoredField: " + key + " - field: " + field );
                 }
-            // incForKey( key ); // not use, should not increment value !
+            // note: incForKey( key ); - not use, should not increment value !
         }
 
         @Override
@@ -84,7 +89,10 @@ public class I18nPrep
     {
         private static final long serialVersionUID = 1L;
 
-        private MyAutoI18nLog4JExceptionHandler( final Level level, final Set<AutoI18nConfig> config )
+        private MyAutoI18nLog4JExceptionHandler(
+            final Level               level,
+            final Set<AutoI18nConfig> config
+            )
         {
             super( level, config );
         }
@@ -95,13 +103,14 @@ public class I18nPrep
             final MissingResourceException cause,
             final I18nField                i18nField,
             final Object                   objectToI18n,
-            final I18nInterface            i18nInterface
+            final I18nResource             i18nResource
             )
         {
             assert i18nField.getMethodContener() == null;
 
             try {
-                final I18nResolver resolver = i18nField.createI18nResolver( objectToI18n, i18nInterface );
+                // TODO investigate : i18nResource seems never use there
+                final I18nResolver resolver = i18nField.createI18nResolver( objectToI18n, i18nResource );
                 final Keys         keys     = resolver.getKeys();
 
                 final I18nResolvedFieldGetter getter = resolver.getI18nResolvedFieldGetter();
@@ -121,7 +130,7 @@ public class I18nPrep
                 LOGGER.error( i18nField, e );
             }
 
-            super.handleMissingResourceException( cause, i18nField, objectToI18n, i18nInterface );
+            super.handleMissingResourceException( cause, i18nField, objectToI18n, i18nResource );
         }
     }
 
@@ -134,8 +143,9 @@ public class I18nPrep
 
     private final Map<String,Integer> keyUsageCountMap     = new HashMap<>();
     private final Map<String,String>  missingPropertiesMap = new HashMap<>();
-    private AutoI18nCore        autoI18nCore;
-    private I18nDelegator       i18nDelegator;
+
+    private AutoI18nCore  autoI18nCore;
+    private I18nDelegator i18nDelegator;
 
     private File resourceBundleOutputFile;
 
@@ -170,7 +180,9 @@ public class I18nPrep
         if( this.autoI18nCore == null ) {
             final I18nDelegator delegator = getI18nDelegator();
 
-            delegator.addAutoI18nExceptionHandler( new MyAutoI18nLog4JExceptionHandler( Level.TRACE, this.config ) );
+            delegator.addAutoI18nExceptionHandler(
+                new MyAutoI18nLog4JExceptionHandler( Level.TRACE, this.config )
+                );
             delegator.addAutoI18nEventHandler( new AutoI18nLog4JEventHandler() );
             delegator.addAutoI18nEventHandler( new MyAutoI18nEventHandler() );
 
@@ -185,7 +197,7 @@ public class I18nPrep
         return this.i18nResourceBundle;
     }
 
-    private I18nInterface getI18nInterface()
+    private I18nResource getI18nInterface()
     {
         return this.i18nResourceBundle;
     }
@@ -207,12 +219,12 @@ public class I18nPrep
 
     public Map<String,String> getResourceBundleMap()
     {
-        final ResourceBundle      rb  = getResourceBundle();
-        final Map<String,String>  map = new HashMap<>();
-        final Enumeration<String> enu = rb.getKeys();
+        final ResourceBundle      rb   = getResourceBundle();
+        final Map<String,String>  map  = new HashMap<>();
+        final Enumeration<String> keys = rb.getKeys();
 
-        while( enu.hasMoreElements() ) {
-            final String key   = enu.nextElement();
+        while( keys.hasMoreElements() ) {
+            final String key   = keys.nextElement();
             final String value = rb.getString( key );
 
             map.put( key, value );

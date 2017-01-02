@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
-import com.googlecode.cchlib.i18n.I18nInterface;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JEventHandler;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
@@ -16,7 +16,7 @@ public class AutoI18nCoreFactory
 
     public static AutoI18nCore createAutoI18nCore(
         final Set<AutoI18nConfig> config,
-        final I18nInterface       i18nInterface
+        final I18nResource       i18nInterface
         )
     {
         final AutoI18nTypeLookup  defaultAutoI18nTypes = null;
@@ -27,10 +27,11 @@ public class AutoI18nCoreFactory
     public static AutoI18nCore createAutoI18nCore(
         final Set<AutoI18nConfig> config,
         final AutoI18nTypeLookup  defaultAutoI18nTypes,
-        final I18nInterface       i18nInterface
+        final I18nResource        i18nResource
         )
     {
-        final I18nDelegator i18nDelegator = new I18nDelegator( config, defaultAutoI18nTypes, i18nInterface );
+        final I18nDelegator i18nDelegator
+            = new I18nDelegator( config, defaultAutoI18nTypes, i18nResource );
 
         i18nDelegator.addAutoI18nExceptionHandler( new AutoI18nLog4JExceptionHandler( config ) );
         i18nDelegator.addAutoI18nEventHandler( new AutoI18nLog4JEventHandler() );

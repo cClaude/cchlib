@@ -1,35 +1,38 @@
 package com.googlecode.cchlib.i18n.core.resolve;
 
-import com.googlecode.cchlib.i18n.I18nInterface;
-import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.i18n.api.I18nResource;
+import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 public class ValuesFromKeys extends IndexValues
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( ValuesFromKeys.class );
 
-    public ValuesFromKeys( I18nInterface i18nInterface, Keys keys )
+    public ValuesFromKeys( final I18nResource i18nInterface, final Keys keys )
         throws MissingResourceException
     {
         super( createValuesFromKeys( i18nInterface, keys ) );
     }
 
-    private static String[] createValuesFromKeys( I18nInterface i18nInterface, Keys keys )
-        throws MissingResourceException
+    @SuppressWarnings("squid:S3346") // assert usage
+    private static String[] createValuesFromKeys(
+        final I18nResource i18nInterface,
+        final Keys         keys
+        ) throws MissingResourceException
     {
         assert keys.size() > 0;
 
-        String[] values = new String[ keys.size() ];
-        int      index  = 0;
+        final String[] values = new String[ keys.size() ];
+        int            index  = 0;
 
-        for( String key : keys ) {
+        for( final String key : keys ) {
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( "try key = " + key );
                 }
-            
+
             values[ index++ ] = i18nInterface.getString( key );
-            
+
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( "value for key = " + key + " is: " + values[ index-1 ] );
                 }

@@ -6,9 +6,9 @@ import java.util.EnumSet;
 import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
-import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
@@ -113,7 +113,7 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
         final MissingResourceException e,
         final I18nField                i18nField,
         final T                        objectToI18n,
-        final I18nInterface            i18nInterface
+        final I18nResource             i18nInterface
         )
     {
         switch( i18nField.getFieldType() ) {

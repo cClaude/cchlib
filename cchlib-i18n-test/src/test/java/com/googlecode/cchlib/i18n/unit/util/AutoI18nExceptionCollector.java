@@ -3,9 +3,9 @@ package com.googlecode.cchlib.i18n.unit.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
-import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
@@ -16,16 +16,16 @@ public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler
 {
     private static final long serialVersionUID = 1L;
 
-    private final CollectorImpl collectI18nSyntaxeException = new CollectorImpl();
-    private final CollectorImpl collectIllegalAccessException = new CollectorImpl();
-    private final CollectorImpl collectIllegalArgumentException = new CollectorImpl();
-    private final CollectorImpl collectInvocationTargetException = new CollectorImpl();
-    private final CollectorImpl collectMissingKeyException = new CollectorImpl();
-    private final CollectorImpl collectMissingResourceException = new CollectorImpl();
-    private final CollectorImpl collectNoSuchMethodException = new CollectorImpl();
+    private final CollectorImpl collectI18nSyntaxeException            = new CollectorImpl();
+    private final CollectorImpl collectIllegalAccessException          = new CollectorImpl();
+    private final CollectorImpl collectIllegalArgumentException        = new CollectorImpl();
+    private final CollectorImpl collectInvocationTargetException       = new CollectorImpl();
+    private final CollectorImpl collectMissingKeyException             = new CollectorImpl();
+    private final CollectorImpl collectMissingResourceException        = new CollectorImpl();
+    private final CollectorImpl collectNoSuchMethodException           = new CollectorImpl();
     private final CollectorImpl collectMethodProviderSecurityException = new CollectorImpl();
-    private final CollectorImpl collectSecurityException = new CollectorImpl();
-    private final CollectorImpl collectSetFieldException = new CollectorImpl();
+    private final CollectorImpl collectSecurityException               = new CollectorImpl();
+    private final CollectorImpl collectSetFieldException               = new CollectorImpl();
 
     @Override
     public void handleI18nSyntaxException( final I18nSyntaxException cause, final Field field )
@@ -34,25 +34,38 @@ public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler
     }
 
     @Override
-    public void handleIllegalAccessException( final IllegalAccessException cause, final I18nField i18nField )
+    public void handleIllegalAccessException(
+        final IllegalAccessException cause,
+        final I18nField              i18nField
+        )
     {
         this.collectIllegalAccessException.add( cause, i18nField );
     }
 
     @Override
-    public void handleIllegalArgumentException( final IllegalArgumentException cause, final I18nField i18nField )
+    public void handleIllegalArgumentException(
+        final IllegalArgumentException cause,
+        final I18nField                i18nField
+        )
     {
         this.collectIllegalArgumentException.add( cause, i18nField );
     }
 
     @Override
-    public void handleInvocationTargetException( final InvocationTargetException cause, final I18nField i18nField )
+    public void handleInvocationTargetException(
+        final InvocationTargetException cause,
+        final I18nField                 i18nField
+        )
     {
         this.collectInvocationTargetException.add( cause, i18nField );
     }
 
     @Override
-    public void handleMissingKeyException( final MissingKeyException cause, final I18nField i18nField, final I18nResolver i18nResolver )
+    public void handleMissingKeyException(
+        final MissingKeyException cause,
+        final I18nField           i18nField,
+        final I18nResolver        i18nResolver
+        )
     {
         this.collectMissingKeyException.add( cause, i18nField, i18nResolver );
     }
@@ -62,10 +75,10 @@ public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler
             final MissingResourceException cause,
             final I18nField                i18nField,
             final T                        objectToI18n,
-            final I18nInterface            i18nInterface
+            final I18nResource             i18nResource
             )
     {
-        this.collectMissingResourceException.add( cause, i18nField, objectToI18n, i18nInterface );
+        this.collectMissingResourceException.add( cause, i18nField, objectToI18n, i18nResource );
     }
 
     @Override
@@ -75,13 +88,19 @@ public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler
     }
 
     @Override
-    public void handleNoSuchMethodException( final NoSuchMethodException cause, final I18nField i18nField )
+    public void handleNoSuchMethodException(
+        final NoSuchMethodException cause,
+        final I18nField             i18nField
+        )
     {
         this.collectNoSuchMethodException.add( cause, i18nField );
     }
 
     @Override
-    public void handleSecurityException( final MethodProviderSecurityException cause, final Field field )
+    public void handleSecurityException(
+        final MethodProviderSecurityException cause,
+        final Field                           field
+        )
     {
         this.collectMethodProviderSecurityException.add( cause, field );
     }
@@ -93,7 +112,11 @@ public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler
     }
 
     @Override
-    public void handleSetFieldException( final SetFieldException cause, final I18nField i18nField, final I18nResolver i18nResolver )
+    public void handleSetFieldException(
+        final SetFieldException cause,
+        final I18nField         i18nField,
+        final I18nResolver      i18nResolver
+        )
     {
         this.collectSetFieldException.add( cause, i18nField, i18nResolver );
     }

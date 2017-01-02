@@ -15,9 +15,9 @@ import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import com.googlecode.cchlib.i18n.EventCause;
-import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
@@ -40,12 +40,12 @@ class I18nDelegator implements Serializable
     /** @serial */
     private final AutoI18nTypeLookup defaultTypes;
     private final AutoI18nTypeLookup allTypes = new AllAutoI18nTypes();
-    private final I18nInterface i18nInterface;
+    private final I18nResource i18nResource;
 
     public I18nDelegator(
         final Set<AutoI18nConfig>   userConfig,
         final AutoI18nTypeLookup    defaultAutoI18nTypes,
-        final I18nInterface         i18nInterface // TODO: use a factory
+        final I18nResource          i18nResource // TODO: use a factory
         )
     {
         this.config       = (userConfig == null) ? EnumSet.noneOf( AutoI18nConfig.class ) : EnumSet.copyOf( userConfig );
@@ -56,10 +56,11 @@ class I18nDelegator implements Serializable
             this.config.add( AutoI18nConfig.DISABLE );
             }
 
-        if( i18nInterface == null ) {
+        if( i18nResource == null ) {
             throw new NullPointerException( "i18nInterface is null" );
             }
-        this.i18nInterface = i18nInterface;
+
+        this.i18nResource = i18nResource;
     }
 
     protected void addAutoI18nEventHandler( final AutoI18nEventHandler eventHandler )
@@ -73,7 +74,7 @@ class I18nDelegator implements Serializable
     }
 
     public void fireIgnoreAnnotation(
-        final Field      f,
+        final Field      field,
         final Annotation i18n,
         final EventCause cause
         )
@@ -81,14 +82,19 @@ class I18nDelegator implements Serializable
         for( final AutoI18nEventHandler eventHandler : this.eventHandlerList ) {
             final String causeDescription = "cause by Annocation: " + i18n;
 
-            eventHandler.ignoredField( f, null, cause, causeDescription );
+            eventHandler.ignoredField( field, null, cause, causeDescription );
             }
     }
 
-    protected void fireIgnoreField( final Field f, final String k, final EventCause cause, final String causeDescription )
+    protected void fireIgnoreField(
+        final Field      field,
+        final String     key,
+        final EventCause cause,
+        final String     causeDescription
+        )
     {
         for( final AutoI18nEventHandler eventHandler : this.eventHandlerList ) {
-            eventHandler.ignoredField( f, k, cause, causeDescription );
+            eventHandler.ignoredField( field, key, cause, causeDescription );
             }
     }
 
@@ -113,9 +119,9 @@ class I18nDelegator implements Serializable
         return this.defaultTypes;
     }
 
-    public I18nInterface getI18nInterface(final Locale locale)
+    public I18nResource getI18nInterface( final Locale locale )
     {
-        return this.i18nInterface;
+        return this.i18nResource;
     }
 
     public void handleI18nSyntaxeException(
@@ -159,10 +165,10 @@ class I18nDelegator implements Serializable
     }
 
     public void handleMissingKeyException(
-            final MissingKeyException   cause,
-            final I18nField             i18nField,
-            final I18nResolver          i18nResolver
-            )
+        final MissingKeyException   cause,
+        final I18nField             i18nField,
+        final I18nResolver          i18nResolver
+        )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
             exceptionHandler.handleMissingKeyException( cause, i18nField, i18nResolver );
@@ -173,7 +179,7 @@ class I18nDelegator implements Serializable
         final MissingResourceException cause,
         final I18nField                field,
         final T                        objectToI18n,
-        final I18nInterface            i18nInterface
+        final I18nResource            i18nInterface
        )
     {
         for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
