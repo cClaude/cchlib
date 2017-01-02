@@ -1,6 +1,7 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n.core.internal;
 
 import java.io.Serializable;
+import com.googlecode.cchlib.i18n.core.I18nField;
 
 /**
  * I18n view of a {@link Class}.

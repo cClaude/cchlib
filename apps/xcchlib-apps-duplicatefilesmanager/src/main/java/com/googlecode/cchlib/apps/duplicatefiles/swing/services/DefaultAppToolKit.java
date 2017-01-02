@@ -24,8 +24,8 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
@@ -74,9 +74,9 @@ final class DefaultAppToolKit
     @Override // DFToolKit
     public I18nResourceBundleName getI18nResourceBundleName()
     {
-        return new DefaultI18nResourceBundleName(
+        return I18nResourceBundleNameFactory.newI18nResourceBundleName(
                 ResourcesPath.class,
-                DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME
+                I18nResourceBundleNameFactory.DEFAULT_MESSAGE_BUNDLE_BASENAME
                 );
     }
 

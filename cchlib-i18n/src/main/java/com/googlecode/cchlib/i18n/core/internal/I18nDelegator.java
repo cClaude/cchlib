@@ -1,15 +1,15 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n.core.internal;
 
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import com.googlecode.cchlib.i18n.AutoI18n;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
@@ -18,6 +18,7 @@ import com.googlecode.cchlib.i18n.EventCause;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
 import com.googlecode.cchlib.i18n.api.I18nResource;
+import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
@@ -27,12 +28,11 @@ import com.googlecode.cchlib.i18n.resources.MissingResourceException;
  *
  * @since 4.1.7
  */
-//not public
-class I18nDelegator implements Serializable
+public class I18nDelegator implements Serializable
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     /** @serial */
-    private final EnumSet<AutoI18nConfig> config;
+    private final AutoI18nConfigSet config;
     /** @serial */
     private final List<AutoI18nExceptionHandler> exceptionHandlerList = new ArrayList<>();
     /** @serial */
@@ -43,32 +43,30 @@ class I18nDelegator implements Serializable
     private final I18nResource i18nResource;
 
     public I18nDelegator(
-        final Set<AutoI18nConfig>   userConfig,
-        final AutoI18nTypeLookup    defaultAutoI18nTypes,
-        final I18nResource          i18nResource // TODO: use a factory
+        @Nonnull final AutoI18nConfigSet   config,
+        @Nullable final AutoI18nTypeLookup defaultAutoI18nTypes,
+        @Nonnull final I18nResource        i18nResource // TODO: use a factory
         )
     {
-        this.config       = (userConfig == null) ? EnumSet.noneOf( AutoI18nConfig.class ) : EnumSet.copyOf( userConfig );
-        this.defaultTypes = (defaultAutoI18nTypes == null) ? new DefaultAutoI18nTypes() : defaultAutoI18nTypes;
-
-        if( Boolean.getBoolean( AutoI18n.DISABLE_PROPERTIES )) {
-            // Internalization is disabled.
-            this.config.add( AutoI18nConfig.DISABLE );
+        if( config == null ) {
+            throw new NullPointerException( "config is null" );
             }
 
         if( i18nResource == null ) {
-            throw new NullPointerException( "i18nInterface is null" );
+            throw new NullPointerException( "i18nResource is null" );
             }
 
+        this.config       = config;
+        this.defaultTypes = (defaultAutoI18nTypes == null) ? new DefaultAutoI18nTypes() : defaultAutoI18nTypes;
         this.i18nResource = i18nResource;
     }
 
-    protected void addAutoI18nEventHandler( final AutoI18nEventHandler eventHandler )
+    public void addAutoI18nEventHandler( final AutoI18nEventHandler eventHandler )
     {
         this.eventHandlerList.add( eventHandler );
     }
 
-    protected void addAutoI18nExceptionHandler( final AutoI18nExceptionHandler exceptionHandler )
+    public void addAutoI18nExceptionHandler( final AutoI18nExceptionHandler exceptionHandler )
     {
         this.exceptionHandlerList.add( exceptionHandler );
     }
@@ -108,7 +106,7 @@ class I18nDelegator implements Serializable
 
     public Set<AutoI18nConfig> getConfig()
     {
-        return this.config;
+        return this.config.getSafeConfig();
     }
 
     /**

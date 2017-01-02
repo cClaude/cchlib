@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n.core.internal;
 
 import java.awt.Component;
 import java.awt.Window;
@@ -27,6 +27,9 @@ import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.i18n.core.I18nField;
+import com.googlecode.cchlib.i18n.core.MethodContener;
+import com.googlecode.cchlib.i18n.core.MethodProviderFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactoryImpl;
 import com.googlecode.cchlib.lang.DebugException;
@@ -69,15 +72,14 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         this.i18nKeyFactory    = new I18nKeyFactoryImpl( objectToI18nClass );
 
         Class<?> currentClass = objectToI18nClass;
+        boolean  stop         = false;
 
-        while( currentClass != null ) {
-            boolean stop = false;
+        while( (currentClass != null) && !stop ) {
 
             for( final Class<?> c : NOT_HANDLED_CLASS_TYPES ) {
                 if( currentClass.equals( c ) ) {
                     // Nothing to customize in default API classes
                     stop = true;
-                    break;
                     }
                 }
 
@@ -91,7 +93,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 currentClass = currentClass.getSuperclass();
                 }
             else {
-                break;
+                stop = true;
                 }
             }
         //?? TODO ?? eventHandle.ignoreSuperClass(?)
@@ -184,11 +186,14 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         return this.objectToI18nClass;
     }
 
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     private void addValueToCustomizeForToolTipText(
         final Field  field,
         final String id,
         final String method
-        ) throws MethodProviderNoSuchMethodException, MethodProviderSecurityException, I18nSyntaxException
+        ) throws MethodProviderNoSuchMethodException,
+                 MethodProviderSecurityException,
+                 I18nSyntaxException
     {
         final Class<?> fClass = field.getType();
 
@@ -300,8 +305,17 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             }
     }
 
-    private void addValueToCustomizeForString( final Field field, final String id, final String methodName ) //
-            throws MethodProviderSecurityException, MethodProviderNoSuchMethodException, I18nSyntaxException
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S1066" // Don't want to merge if statements
+        })
+    private void addValueToCustomizeForString(
+        final Field  field,
+        final String id,
+        final String methodName
+        ) throws MethodProviderSecurityException,
+                 MethodProviderNoSuchMethodException,
+                 I18nSyntaxException
     {
         // Check if field is a String
         if( !String.class.isAssignableFrom( field.getType() ) && !String[].class.isAssignableFrom( field.getType() ) ) {
@@ -337,12 +351,15 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         this.fieldList.add( i18nfield );
     }
 
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     private void addValueToCustomize(
         final Field         field,
         final String        id,
         final String        method,
         final AutoI18nType  autoI18nType
-        ) throws MethodProviderNoSuchMethodException, MethodProviderSecurityException, I18nSyntaxException
+        ) throws MethodProviderNoSuchMethodException,
+                 MethodProviderSecurityException,
+                 I18nSyntaxException
     {
         MethodContener methodContener;
 

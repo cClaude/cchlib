@@ -1,10 +1,13 @@
 package com.googlecode.cchlib.apps.duplicatefiles;
 
+import java.awt.HeadlessException;
 import java.awt.Window;
 import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Set;
+import java.util.TooManyListenersException;
 import java.util.concurrent.TimeUnit;
+import com.googlecode.cchlib.VisibleForTesting;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.about.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.DuplicateFilesFrame;
@@ -17,8 +20,10 @@ import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
+import com.googlecode.cchlib.i18n.prep.I18nPrepException;
+import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
+import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.lang.Threads;
 
@@ -30,10 +35,23 @@ import com.googlecode.cchlib.lang.Threads;
 @SuppressWarnings("ucd") // Development configuration entry point
 public class DuplicateFilesI18nPrep
 {
-    private DuplicateFilesI18nPrep() {} // All static
+    private DuplicateFilesI18nPrep()
+    {
+        // Empty
+    }
 
-    @SuppressWarnings("squid:S106")
     public static void main( final String[] args ) throws Exception
+    {
+        runDoPrep();
+    }
+
+    @VisibleForTesting
+    @SuppressWarnings({
+        "squid:S106", // System.err & System.out
+        "squid:RedundantThrowsDeclarationCheck"
+        })
+    static I18nPrepResult runDoPrep()
+        throws HeadlessException, I18nPrepException, TooManyListenersException
     {
         // Default language !
         final PreferencesControler preferences = getPreferences();
@@ -54,8 +72,8 @@ public class DuplicateFilesI18nPrep
         final Set<AutoI18nConfig>    config                 = AutoI18nConfigService.getInstance().getAutoI18nConfig();
         final I18nResourceBundleName i18nResourceBundleName = dfToolKit.getI18nResourceBundleName();
 
-        final I18nPrep i18nPrep = I18nPrepHelper.createI18nPrep( config, i18nResourceBundleName, preferences.getLocale() );
-        final Result   result   = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
+        final I18nPrep       i18nPrep = I18nPrepFactory.newI18nPrep( config, i18nResourceBundleName, preferences.getLocale() );
+        final I18nPrepResult result   = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
 
         I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result );
         I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result );
@@ -67,6 +85,8 @@ public class DuplicateFilesI18nPrep
             }
 
         Threads.sleep( 1, TimeUnit.SECONDS );
+
+        return result;
     }
 
     private static PreferencesControler getPreferences()

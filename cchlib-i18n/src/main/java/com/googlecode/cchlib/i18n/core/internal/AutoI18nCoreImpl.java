@@ -1,14 +1,16 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n.core.internal;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.I18nApplyable;
 
-//NOT public
-class AutoI18nCoreImpl implements AutoI18nCore, Serializable
+public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( AutoI18nCoreImpl.class );
@@ -24,7 +26,10 @@ class AutoI18nCoreImpl implements AutoI18nCore, Serializable
     }
 
     @Override
-    public <T> void performeI18n( final T objectToI18n, final Class<? extends T> clazz )
+    public <T> void performeI18n(
+        @Nonnull final T                  objectToI18n,
+        @Nonnull final Class<? extends T> clazz
+        )
     {
         assert objectToI18n != null : "Object to I18n is null";
         assert clazz != null : "Class of object to I18n is null";

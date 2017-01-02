@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n.core.internal;
 
 import javax.swing.AbstractButton;
 import javax.swing.JCheckBox;

@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n.core.internal;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

@@ -1,11 +1,5 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.i18n.sample.full;
 
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
-import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.util.EnumSet;
@@ -13,67 +7,54 @@ import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
 
+/**
+ * See {@link FakePanelAppCoreTest} for JUnit test
+ */
 public class FakePanelAppCore extends JFrame
 {
+    private enum Mode { DO_I18N, NO_I18N }
     private static final long serialVersionUID = 1L;
     private final JPanel contentPane;
 
-    /**
-     * Launch the application.
-     */
-    public static void main( String[] args )
-    {
-        start( false );
-        start( true  );
-    }
-
-    public static void start( final boolean doI18n )
-    {
-        EventQueue.invokeLater( () -> {
-            try {
-                FakePanelAppCore frame = new FakePanelAppCore( doI18n );
-                frame.setVisible( true );
-            }
-            catch( Exception e ) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    /**
-     * Create the frame.
-     */
-    public FakePanelAppCore( boolean doI18n )
+    private FakePanelAppCore( final Mode mode )
     {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( 800, 400 );
-        contentPane = new JPanel();
-        contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-        contentPane.setLayout( new BorderLayout( 0, 0 ) );
-        setContentPane( contentPane );
+        this.contentPane = new JPanel();
+        this.contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        this.contentPane.setLayout( new BorderLayout( 0, 0 ) );
+        setContentPane( this.contentPane );
 
-        FakePanel panel = new FakePanel();
+        final FakePanel panel = new FakePanel();
 
-        if( doI18n ) {
-            Locale locale = Locale.ENGLISH;
+        if( mode == Mode.DO_I18N ) {
+            final Locale locale = Locale.ENGLISH;
 
-            EnumSet<AutoI18nConfig> config                   = null;
-            I18nResourceBundleName  i18nResourceBundleName   = createI18nResourceBundleName();
-            AutoI18nCore            autoI18n                 = AutoI18nCoreFactory.createAutoI18nCore( config, i18nResourceBundleName, locale );
+            final EnumSet<AutoI18nConfig> config                   = null;
+            final I18nResourceBundleName  i18nResourceBundleName   = createI18nResourceBundleName();
+            final AutoI18nCore            autoI18n                 = AutoI18nCoreFactory.newAutoI18nCore( config, i18nResourceBundleName, locale );
 
             //autoI18n.setLocale( locale );
             panel.performeI18n( autoI18n );
             }
 
-        contentPane.add(panel, BorderLayout.CENTER);
+        this.contentPane.add(panel, BorderLayout.CENTER);
     }
 
     public static I18nResourceBundleName createI18nResourceBundleName( final String messageBundleBaseName)
     {
-        Class<FakePanelAppCore> packageMessageBundleBase = FakePanelAppCore.class;
+        final Class<FakePanelAppCore> packageMessageBundleBase = FakePanelAppCore.class;
 
-        return new DefaultI18nResourceBundleName(packageMessageBundleBase, messageBundleBaseName);
+        return I18nResourceBundleNameFactory.newI18nResourceBundleName(
+                packageMessageBundleBase,
+                messageBundleBaseName
+                );
     }
 
     public static I18nResourceBundleName createI18nResourceBundleName()
@@ -81,5 +62,29 @@ public class FakePanelAppCore extends JFrame
         final String messageBundleBaseName = "MessagesBundle";
 
         return createI18nResourceBundleName( messageBundleBaseName );
+    }
+
+    /**
+     * Launch the application.
+     *
+     * @param args Ignored
+     */
+    public static void main( final String[] args )
+    {
+        start( Mode.NO_I18N );
+        start( Mode.DO_I18N );
+    }
+
+    public static void start( final Mode mode )
+    {
+        EventQueue.invokeLater( () -> {
+            try {
+                final FakePanelAppCore frame = new FakePanelAppCore( mode );
+                frame.setVisible( true );
+            }
+            catch( final Exception e ) {
+                e.printStackTrace();
+            }
+        });
     }
 }

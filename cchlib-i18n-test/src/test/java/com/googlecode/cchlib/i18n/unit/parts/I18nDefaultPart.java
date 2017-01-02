@@ -13,7 +13,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
+import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
@@ -85,7 +85,7 @@ public class I18nDefaultPart extends JPanel implements I18nAutoCoreUpdatable, Te
     }
 
     @Override
-    public void beforePrepTest(final PrepTestPartInterface prepTest)
+    public void beforePrepTest(final PrepTestPart prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
     }

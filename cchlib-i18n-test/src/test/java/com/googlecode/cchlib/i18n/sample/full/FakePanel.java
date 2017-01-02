@@ -1,4 +1,3 @@
-// $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.i18n.sample.full;
 
 import java.awt.GridBagConstraints;
@@ -27,10 +26,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
-/**
- *
- */
-public class FakePanel
+class FakePanel
     extends JPanel
         implements I18nAutoCoreUpdatable
 {
@@ -49,11 +45,15 @@ public class FakePanel
     @I18n                 private final JLabel jLabel; // annotation not needed
     //TODO @I18n(method="myI18n") private Object dummy = new Object(); // ex: declare field to apply a custom method
 
-    private final JTextArea jTextAreaNoI18n;
     @I18n private final JTextArea jTextArea;
+
+    @I18n(id="myJTextFieldDefineWithId")
+    private final JTextField myJTextFieldDefineWithId; // use specific Id TODO
+
+
+    private final JTextArea jTextAreaNoI18n;
     private final JTextField  myJTextField;
     private final JEditorPane jEditorPane;
-    @I18n(id="myJTextFieldDefineWithId") private final JTextField myJTextFieldDefineWithId; // use specific Id TODO
     private final JProgressBar jProgressBarToI18n; // TODO
 
     @I18nToolTipText private final JButton buttonToolTipsButton; // Default process I18n on JButton and special I18n on tool tip text
@@ -75,14 +75,11 @@ public class FakePanel
     private final JMenuItem menuItem1_1_1;
     private final JMenuItem menuItem1_1_2;
 
-    /** // $codepro.audit.disable blockDepth
-     *
-     */
     public FakePanel()
     {
         this.panelTitleBorder = new TitledBorder(null, "TitleBorder", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
-        setBorder( panelTitleBorder );
+        setBorder( this.panelTitleBorder );
         final GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{80, 0, 0, 50, 0, 0};
         gridBagLayout.rowHeights = new int[]{25, 14, 0, 0, 0, 0, 0, 0, 0};
@@ -91,30 +88,30 @@ public class FakePanel
         setLayout(gridBagLayout);
 
         {
-            jLabel = new JLabel("jLabel");
-            jLabel.setToolTipText("<html>jLabel<br/>toolTipText to I18n</html>");
+            this.jLabel = new JLabel("jLabel");
+            this.jLabel.setToolTipText("<html>jLabel<br/>toolTipText to I18n</html>");
             final GridBagConstraints gbc_jLabel = new GridBagConstraints();
             gbc_jLabel.fill = GridBagConstraints.VERTICAL;
             gbc_jLabel.insets = new Insets(0, 0, 5, 5);
             gbc_jLabel.anchor = GridBagConstraints.EAST;
             gbc_jLabel.gridx = 0;
             gbc_jLabel.gridy = 1;
-            add(jLabel, gbc_jLabel);
+            add(this.jLabel, gbc_jLabel);
         }
         {
-            jProgressBar = new JProgressBar();
+            this.jProgressBar = new JProgressBar();
             this.jProgressBar.setStringPainted(true);
-            jProgressBar.setValue(50);
-            jProgressBar.setString( "My JProgressBar" );
-            jProgressBar.setToolTipText("<html>JProgressBar<br/>ToolTipText to i18n</html>");
-            jProgressBar.setOrientation(SwingConstants.VERTICAL);
+            this.jProgressBar.setValue(50);
+            this.jProgressBar.setString( "My JProgressBar" );
+            this.jProgressBar.setToolTipText("<html>JProgressBar<br/>ToolTipText to i18n</html>");
+            this.jProgressBar.setOrientation(SwingConstants.VERTICAL);
             final GridBagConstraints gbc_jProgressBar = new GridBagConstraints();
             gbc_jProgressBar.gridheight = 5;
             gbc_jProgressBar.fill = GridBagConstraints.VERTICAL;
             gbc_jProgressBar.insets = new Insets(0, 0, 5, 5);
             gbc_jProgressBar.gridx = 1;
             gbc_jProgressBar.gridy = 1;
-            add(jProgressBar, gbc_jProgressBar);
+            add(this.jProgressBar, gbc_jProgressBar);
         }
         {
             this.jProgressBarToI18n = new JProgressBar();
@@ -132,17 +129,17 @@ public class FakePanel
             add(this.jProgressBarToI18n, gbc_jProgressBarToI18n);
         }
         {
-            jTextAreaNoI18n = new JTextArea();
-            jTextAreaNoI18n.setEditable(false);
-            jTextAreaNoI18n.setToolTipText("<html>jTextArea<br/>ToolTipText to i18n</html>");
-            jTextAreaNoI18n.setText("jTextArea l1\r\njTextArea l2 (no I18n)");
+            this.jTextAreaNoI18n = new JTextArea();
+            this.jTextAreaNoI18n.setEditable(false);
+            this.jTextAreaNoI18n.setToolTipText("<html>jTextArea<br/>ToolTipText to i18n</html>");
+            this.jTextAreaNoI18n.setText("jTextArea l1\r\njTextArea l2 (no I18n)");
             final GridBagConstraints gbc_jTextAreaNoI18n = new GridBagConstraints();
             gbc_jTextAreaNoI18n.insets = new Insets(0, 0, 5, 0);
             gbc_jTextAreaNoI18n.gridheight = 4;
             gbc_jTextAreaNoI18n.fill = GridBagConstraints.BOTH;
             gbc_jTextAreaNoI18n.gridx = 3;
             gbc_jTextAreaNoI18n.gridy = 1;
-            add(jTextAreaNoI18n, gbc_jTextAreaNoI18n);
+            add(this.jTextAreaNoI18n, gbc_jTextAreaNoI18n);
         }
         {
             this.jTextArea = new JTextArea();
@@ -158,43 +155,43 @@ public class FakePanel
             add(this.jTextArea, gbc_jTextArea);
         }
         {
-            jLabelNoI18n = new JLabel("jLabel (No_I18n)");
+            this.jLabelNoI18n = new JLabel("jLabel (No_I18n)");
             final GridBagConstraints gbc_jLabelNoI18n = new GridBagConstraints();
             gbc_jLabelNoI18n.anchor = GridBagConstraints.EAST;
             gbc_jLabelNoI18n.insets = new Insets(0, 0, 5, 5);
             gbc_jLabelNoI18n.gridx = 0;
             gbc_jLabelNoI18n.gridy = 2;
-            add(jLabelNoI18n, gbc_jLabelNoI18n);
+            add(this.jLabelNoI18n, gbc_jLabelNoI18n);
         }
         {
-            jButton = new JButton("JButton ");
-            jButton.setToolTipText("<html>JButton<br/>toolTipText to I18n</html>");
+            this.jButton = new JButton("JButton ");
+            this.jButton.setToolTipText("<html>JButton<br/>toolTipText to I18n</html>");
             final GridBagConstraints gbc_jButton = new GridBagConstraints();
             gbc_jButton.anchor = GridBagConstraints.EAST;
             gbc_jButton.insets = new Insets(0, 0, 5, 5);
             gbc_jButton.gridx = 0;
             gbc_jButton.gridy = 3;
-            add(jButton, gbc_jButton);
+            add(this.jButton, gbc_jButton);
         }
         {
-            jCheckBox = new JCheckBox("jCheckBox");
-            jCheckBox.setToolTipText("<html>JCheckBox<br/>toolTipText to I18n</html>");
+            this.jCheckBox = new JCheckBox("jCheckBox");
+            this.jCheckBox.setToolTipText("<html>JCheckBox<br/>toolTipText to I18n</html>");
             final GridBagConstraints gbc_jCheckBox = new GridBagConstraints();
             gbc_jCheckBox.insets = new Insets(0, 0, 5, 5);
             gbc_jCheckBox.gridx = 0;
             gbc_jCheckBox.gridy = 4;
-            add(jCheckBox, gbc_jCheckBox);
+            add(this.jCheckBox, gbc_jCheckBox);
         }
         {
-            jPanel = new JPanel();
-            jPanel.setBorder(new TitledBorder(null, "My TitledBorder 2", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+            this.jPanel = new JPanel();
+            this.jPanel.setBorder(new TitledBorder(null, "My TitledBorder 2", TitledBorder.LEADING, TitledBorder.TOP, null, null));
             final GridBagConstraints gbc_jPanel = new GridBagConstraints();
             gbc_jPanel.gridwidth = 2;
             gbc_jPanel.insets = new Insets(0, 0, 5, 0);
             gbc_jPanel.fill = GridBagConstraints.BOTH;
             gbc_jPanel.gridx = 3;
             gbc_jPanel.gridy = 5;
-            add(jPanel, gbc_jPanel);
+            add(this.jPanel, gbc_jPanel);
 
             final GridBagLayout gbl_jPanel = new GridBagLayout();
             gbl_jPanel.columnWidths = new int[]{0, 0, 0};
@@ -204,17 +201,17 @@ public class FakePanel
             this.jPanel.setLayout(gbl_jPanel);
         }
         {
-            myJTextField = new JTextField();
-            myJTextField.setEditable(false);
-            myJTextField.setToolTipText("<html>jTextField<br/>toolTipText to I18n</html>");
-            myJTextField.setText("My JTextField");
+            this.myJTextField = new JTextField();
+            this.myJTextField.setEditable(false);
+            this.myJTextField.setToolTipText("<html>jTextField<br/>toolTipText to I18n</html>");
+            this.myJTextField.setText("My JTextField");
             final GridBagConstraints gbc_myJTextField = new GridBagConstraints();
             gbc_myJTextField.fill = GridBagConstraints.BOTH;
             gbc_myJTextField.insets = new Insets(0, 0, 5, 5);
             gbc_myJTextField.gridx = 0;
             gbc_myJTextField.gridy = 0;
-            jPanel.add(myJTextField, gbc_myJTextField);
-            myJTextField.setColumns(10);
+            this.jPanel.add(this.myJTextField, gbc_myJTextField);
+            this.myJTextField.setColumns(10);
         }
         {
             this.myJTextFieldDefineWithId = new JTextField();
@@ -228,16 +225,16 @@ public class FakePanel
             this.myJTextFieldDefineWithId.setColumns(10);
         }
         {
-            jEditorPane = new JEditorPane();
-            jEditorPane.setEditable(false);
-            jEditorPane.setToolTipText("<html>JEditorPane ligne1<br/>ToolTipText to I18n</html>");
-            jEditorPane.setText("JEditorPane line1\r\nJEditorPane line2\r\nJEditorPane line3\r\n");
+            this.jEditorPane = new JEditorPane();
+            this.jEditorPane.setEditable(false);
+            this.jEditorPane.setToolTipText("<html>JEditorPane ligne1<br/>ToolTipText to I18n</html>");
+            this.jEditorPane.setText("JEditorPane line1\r\nJEditorPane line2\r\nJEditorPane line3\r\n");
             final GridBagConstraints gbc_jEditorPane = new GridBagConstraints();
             gbc_jEditorPane.gridwidth = 2;
             gbc_jEditorPane.fill = GridBagConstraints.BOTH;
             gbc_jEditorPane.gridx = 0;
             gbc_jEditorPane.gridy = 1;
-            jPanel.add(jEditorPane, gbc_jEditorPane);
+            this.jPanel.add(this.jEditorPane, gbc_jEditorPane);
         }
         {
             this.buttonToolTipsButton = new JButton("button tool tips");

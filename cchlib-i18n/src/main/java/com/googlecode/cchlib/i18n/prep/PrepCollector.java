@@ -7,9 +7,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public final class PrepCollector<T> implements Iterable<Map.Entry<String,T>>
-{
-    private final Map<String,T> map = new HashMap<>();
+public final class PrepCollector<T> implements Iterable<Map.Entry<String, T>> {
+    private final Map<String, T> map = new HashMap<>();
 
     public void add( final String key, final T value )
     {
@@ -17,10 +16,10 @@ public final class PrepCollector<T> implements Iterable<Map.Entry<String,T>>
     }
 
     @Override
-    public Iterator<Map.Entry<String,T>> iterator()
+    public Iterator<Map.Entry<String, T>> iterator()
     {
-        final Set<Map.Entry<String,T>>       entrySet = this.map.entrySet();
-        final ArrayList<Map.Entry<String,T>> list     = new ArrayList<>( entrySet );
+        final Set<Map.Entry<String, T>> entrySet = this.map.entrySet();
+        final ArrayList<Map.Entry<String, T>> list = new ArrayList<>( entrySet );
 
         Collections.sort( list, this::compare );
 
@@ -35,5 +34,10 @@ public final class PrepCollector<T> implements Iterable<Map.Entry<String,T>>
     public boolean isEmpty()
     {
         return this.map.isEmpty();
+    }
+
+    public int size()
+    {
+        return this.map.size();
     }
 }

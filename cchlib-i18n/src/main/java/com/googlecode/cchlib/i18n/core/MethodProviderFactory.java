@@ -2,6 +2,7 @@ package com.googlecode.cchlib.i18n.core;
 
 import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.core.internal.I18nDelegator;
 
 public class MethodProviderFactory
 {

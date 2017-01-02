@@ -6,7 +6,7 @@ import org.junit.Ignore;
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
+import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
@@ -31,7 +31,7 @@ public final class AutoI18nBasicInterfacePart implements I18nAutoCoreUpdatable, 
     }
 
     @Override
-    public void beforePrepTest(final PrepTestPartInterface prepTest)
+    public void beforePrepTest(final PrepTestPart prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
     }

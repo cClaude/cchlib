@@ -193,7 +193,7 @@ public final class CompareResourcesBundleFrame
             LOGGER.trace( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResourceBundleName() );
             }
 
-        this.autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+        this.autoI18n = AutoI18nCoreFactory.newAutoI18nCore(
                 EditResourcesBundleApp.getConfig(),
                 EditResourcesBundleApp.getI18nSimpleResourceBundle( locale )
                 );

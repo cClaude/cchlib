@@ -17,7 +17,8 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
  * This includes public, protected, default (package)
  * access, and private fields, but excludes inherited
  * fields.
- * </p>
+ *
+ * @see AutoI18n
  */
 public enum AutoI18nConfig
 {
@@ -55,12 +56,12 @@ public enum AutoI18nConfig
      */
     ;
 
-    public static EnumSet<AutoI18nConfig> newAutoI18nConfig()
+    public static Set<AutoI18nConfig> newAutoI18nConfig()
     {
         return EnumSet.noneOf( AutoI18nConfig.class );
     }
 
-    public static EnumSet<AutoI18nConfig> newAutoI18nConfig(
+    public static Set<AutoI18nConfig> newAutoI18nConfig(
         final AutoI18nConfig first,
         final AutoI18nConfig...rest
         )
@@ -68,7 +69,7 @@ public enum AutoI18nConfig
         return EnumSet.of( first, rest );
     }
 
-    public static EnumSet<AutoI18nConfig> newAutoI18nConfig(
+    public static Set<AutoI18nConfig> newAutoI18nConfig(
         final Set<AutoI18nConfig> userConfig
         )
     {

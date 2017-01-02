@@ -1,14 +1,21 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n.core.internal;
 
 import java.lang.reflect.Field;
 import javax.swing.JTabbedPane;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
+import com.googlecode.cchlib.i18n.core.I18nField;
+import com.googlecode.cchlib.i18n.core.MethodContener;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 
 //NOT public
 final class I18nFieldFactory
 {
+    private I18nFieldFactory()
+    {
+        // All static
+    }
+
     public static I18nField createI18nFieldToolTipText(
         final I18nDelegator     i18nDelegator,
         final I18nKeyFactory    i18nKeyFactory,

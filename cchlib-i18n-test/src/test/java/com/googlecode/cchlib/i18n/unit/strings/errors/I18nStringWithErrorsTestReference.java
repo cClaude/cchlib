@@ -2,7 +2,7 @@ package com.googlecode.cchlib.i18n.unit.strings.errors;
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
+import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
@@ -21,7 +21,7 @@ public class I18nStringWithErrorsTestReference implements TestReference
     }
 
     @Override
-    public void beforePrepTest(final PrepTestPartInterface prepTest)
+    public void beforePrepTest(final PrepTestPart prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this.objectToI18n  );
    }

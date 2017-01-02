@@ -1,22 +1,25 @@
-// $codepro.audit.disable constantNamingConvention
 package com.googlecode.cchlib.i18n.unit.util;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
+import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
-import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
+import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
+import com.googlecode.cchlib.i18n.resources.XI18nResourceBundleName;
+import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.REF;
 
 public class TestUtils
@@ -25,13 +28,17 @@ public class TestUtils
         = new XI18nResourceBundleName( REF.class.getPackage(), REF.class.getSimpleName() );
 
     public static final I18nResourceBundleName NOT_VALID_MESSAGE_BUNDLE_BUT_EXIST
-        = new  DefaultI18nResourceBundleName( REF.class.getPackage(), REF.class.getSimpleName() + "-empty" );
+        = I18nResourceBundleNameFactory.newI18nResourceBundleName(
+                REF.class.getPackage(),
+                REF.class.getSimpleName() + "-empty"
+                );
 
     private TestUtils()
     {
+        // All static
     }
 
-    public static PrepTestPartInterface createPrepTest()
+    public static PrepTestPart newPrepTestPart()
     {
         // Default language !
         final Locale locale = Locale.ENGLISH;
@@ -40,8 +47,8 @@ public class TestUtils
         final PrintStream usageStatPrintStream    = System.err;
         final PrintStream notUsePrintStream       = System.out;
 
-        final EnumSet<AutoI18nConfig> config   = getPrepConfig();
-        final I18nPrep                autoI18n = I18nPrepHelper.createAutoI18nCore(
+        final Set<AutoI18nConfig> config   = getPrepConfig();
+        final I18nPrep            autoI18n = I18nPrepFactory.newI18nPrep(
                 config,
                 NOT_VALID_MESSAGE_BUNDLE_BUT_EXIST,
                 locale
@@ -50,7 +57,7 @@ public class TestUtils
 
         autoI18n.addAutoI18nExceptionHandler( exceptionCollector );
 
-        return new PrepTestPartInterface() {
+        return new PrepTestPart() {
             private final List<I18nAutoCoreUpdatable> list = new ArrayList<>();
             @Override
             public I18nPrep getAutoI18n()
@@ -86,18 +93,18 @@ public class TestUtils
     }
 
     public static void preparePrepTest(
-        final PrepTestPartInterface prepTest,
+        final PrepTestPart prepTest,
         final I18nAutoCoreUpdatable frame
         )
     {
         prepTest.add( frame );
     }
 
-    public static I18nPrepHelper.Result runPrepTest(
-        final PrepTestPartInterface prepTest
+    public static I18nPrepResult runPrepTest(
+        final PrepTestPart prepTest
         ) throws I18nPrepException
     {
-        final Result result = I18nPrepHelper.defaultPrep( prepTest.getAutoI18n(), prepTest.getI18nConteners());
+        final I18nPrepResult result = I18nPrepHelper.defaultPrep( prepTest.getAutoI18n(), prepTest.getI18nConteners());
 
         I18nPrepHelper.fmtUsageStatCollector( prepTest.getUsageStatPrintStream(), result );
         I18nPrepHelper.fmtNotUseCollector( prepTest.getNotUsePrintStream(), result );
@@ -107,8 +114,8 @@ public class TestUtils
 
     public static void performeI18n( final I18nAutoCoreUpdatable frame )
     {
-        final EnumSet<AutoI18nConfig> config   = getDebugConfig();
-        final AutoI18nCore            autoI18n = AutoI18nCoreFactory.createAutoI18nCore(
+        final Set<AutoI18nConfig> config   = getDebugConfig();
+        final AutoI18nCore        autoI18n = AutoI18nCoreFactory.newAutoI18nCore(
                 config,
                 VALID_MESSAGE_BUNDLE,
                 Locale.ENGLISH
@@ -117,13 +124,17 @@ public class TestUtils
         frame.performeI18n( autoI18n );
     }
 
-    public static EnumSet<AutoI18nConfig> getDebugConfig()
+    public static Set<AutoI18nConfig> getDebugConfig()
     {
-        return EnumSet.of( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS );
+        return Collections.unmodifiableSet(
+                EnumSet.of( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS )
+                );
     }
 
-    private static EnumSet<AutoI18nConfig> getPrepConfig()
+    private static Set<AutoI18nConfig> getPrepConfig()
     {
-        return EnumSet.noneOf( AutoI18nConfig.class );
+        return Collections.unmodifiableSet(
+                EnumSet.noneOf( AutoI18nConfig.class )
+                );
     }
 }

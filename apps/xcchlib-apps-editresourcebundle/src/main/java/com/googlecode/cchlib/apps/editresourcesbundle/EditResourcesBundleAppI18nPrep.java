@@ -2,6 +2,7 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
@@ -14,8 +15,9 @@ import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
+import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
+import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.lang.Threads;
 
 /**
@@ -25,9 +27,31 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
 {
     private static final Logger LOGGER = Logger.getLogger( EditResourcesBundleAppI18nPrep.class );
 
-    public static void main( final String[] args ) throws IOException
+    private boolean           done = false;
+    private I18nPrepResult    doneResult;
+    private I18nPrepException doneCause;
+
+    public boolean isDone()
     {
-        SwingUtilities.invokeLater( new EditResourcesBundleAppI18nPrep() );
+        return this.done;
+    }
+
+    public I18nPrepException getDoneCause()
+    {
+        return this.doneCause;
+    }
+
+    I18nPrepResult runDoPrep() throws InvocationTargetException, InterruptedException
+    {
+        final EditResourcesBundleAppI18nPrep instance = new EditResourcesBundleAppI18nPrep();
+
+        SwingUtilities.invokeAndWait( instance );
+
+        for( int i = 1; (i < 10) || ! this.done; i++ ) {
+            Threads.sleep( 1, TimeUnit.SECONDS );
+        }
+
+        return this.doneResult;
     }
 
     @Override
@@ -55,29 +79,35 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
             mLineFrame
             };
 
-        final I18nPrep i18nPrep = I18nPrepHelper.createI18nPrep(
+        final I18nPrep i18nPrep = I18nPrepFactory.newI18nPrep(
                 EditResourcesBundleApp.getConfig(),
                 EditResourcesBundleApp.getI18nResourceBundleName(),
                 defaultLocale
                 );
 
         try {
-            launchI18nPrep( i18nConteners, i18nPrep );
+            this.done       = true;
+            this.doneResult = launchI18nPrep( i18nConteners, i18nPrep );
+            this.doneCause  = null;
         }
-        catch( final I18nPrepException e ) {
-            e.printStackTrace();
+        catch( final I18nPrepException cause ) {
+            LOGGER.error( "I18n prep issue", cause );
+
+            this.done       = true;
+            this.doneResult = null;
+            this.doneCause  = cause;
         }
 
         LOGGER.info( "done" );
     }
 
     @SuppressWarnings("squid:S106")
-    private void launchI18nPrep(
+    private I18nPrepResult launchI18nPrep(
             final I18nAutoCoreUpdatable[] i18nConteners,
-            final I18nPrep i18nPrep
+            final I18nPrep                i18nPrep
             ) throws I18nPrepException
     {
-        final Result result = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
+        final I18nPrepResult result = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
 
         final PrintStream usageStatPrintStream = System.err;
         final PrintStream notUsePrintStream    = System.out;
@@ -87,5 +117,12 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
 
         System.err.flush();
         System.out.flush();
+
+        return result;
+    }
+
+    public static void main( final String[] args ) throws IOException
+    {
+        SwingUtilities.invokeLater( new EditResourcesBundleAppI18nPrep() );
     }
 }

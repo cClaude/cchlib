@@ -18,9 +18,8 @@ import org.junit.Test;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper.Result;
-import com.googlecode.cchlib.i18n.unit.PrepTestPartInterface;
+import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
+import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.parts.AutoI18nBasicInterfacePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nBaseNamePart;
@@ -74,7 +73,7 @@ public class RunI18nTestAppTest
     @Test
     public void runPrepTest() throws FileNotFoundException, IOException, I18nPrepException
     {
-        final PrepTestPartInterface   prepTest = TestUtils.createPrepTest();
+        final PrepTestPart   prepTest = TestUtils.newPrepTestPart();
         final Iterable<TestReference> tests    = getTests();
 
         int syntaxeExceptionCount = 0;
@@ -92,7 +91,7 @@ public class RunI18nTestAppTest
             test.beforePrepTest( prepTest );
             }
 
-        final I18nPrepHelper.Result result = TestUtils.runPrepTest( prepTest );
+        final I18nPrepResult result = TestUtils.runPrepTest( prepTest );
 
         // Value should not change (check after)
         for( final TestReference test : tests ) {
@@ -177,7 +176,7 @@ public class RunI18nTestAppTest
         LOGGER.info( " *** " );
     }
 
-    private Map<String, String> computeEntriesCreatedByPrepMap( final Result result ) //
+    private Map<String, String> computeEntriesCreatedByPrepMap( final I18nPrepResult result ) //
             throws FileNotFoundException, IOException
     {
         final Properties prop = new Properties();

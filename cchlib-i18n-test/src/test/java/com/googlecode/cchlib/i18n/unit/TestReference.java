@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.i18n.unit;
 
 public interface TestReference {
-    void beforePrepTest( PrepTestPartInterface prepTest );
+    void beforePrepTest( PrepTestPart prepTest );
 
     void performeI18n();
 

@@ -2,14 +2,15 @@ package com.googlecode.cchlib.i18n.logging;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.EnumSet;
 import java.util.Set;
+import javax.annotation.Nullable;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
 import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.I18nField;
+import com.googlecode.cchlib.i18n.core.internal.AutoI18nConfigSet;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
@@ -23,11 +24,14 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     implements AutoI18nExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private final EnumSet<AutoI18nConfig> config;
 
-    public AbstractAutoI18nLoggingExceptionHandler( final Set<AutoI18nConfig> userConfig )
+    private final AutoI18nConfigSet config;
+
+    public AbstractAutoI18nLoggingExceptionHandler(
+        @Nullable final AutoI18nConfigSet safeConfig
+        )
     {
-        this.config = (userConfig == null) ? EnumSet.noneOf( AutoI18nConfig.class ) : EnumSet.copyOf( userConfig );
+        this.config = safeConfig;
     }
 
     protected abstract void doHandle( String msg, Throwable e );
@@ -63,45 +67,55 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
         doHandle( msg, cause );
     }
 
-    protected EnumSet<AutoI18nConfig> getConfig()
+    protected Set<AutoI18nConfig> getConfig()
     {
-        return this.config;
+        return this.config.getSafeConfig();
     }
 
     @Override
     public void handleI18nSyntaxException(
-            final I18nSyntaxException e,
-            final Field f )
+        final I18nSyntaxException cause,
+        final Field               field
+        )
     {
-        doHandle( e.getMessage(), e );
+        doHandle( cause.getMessage(), cause );
     }
 
     @Override
-    public void handleIllegalAccessException( final IllegalAccessException cause, final I18nField i18nField )
+    public void handleIllegalAccessException(
+        final IllegalAccessException cause,
+        final I18nField              i18nField
+        )
     {
         doHandleForField( "IllegalAccessException", cause );
     }
 
     @Override
-    public void handleIllegalArgumentException( final IllegalArgumentException cause, final I18nField i18nField )
+    public void handleIllegalArgumentException(
+        final IllegalArgumentException cause,
+        final I18nField                i18nField
+        )
     {
         doHandleForField( "IllegalArgumentException", cause );
     }
 
     @Override
-    public void handleInvocationTargetException( final InvocationTargetException cause, final I18nField i18nField )
+    public void handleInvocationTargetException(
+        final InvocationTargetException cause,
+        final I18nField                 i18nField
+        )
     {
         doHandleForField( "InvocationTargetException", cause );
     }
 
     @Override
     public void handleMissingKeyException(
-        final MissingKeyException   e,
+        final MissingKeyException   cause,
         final I18nField             i18nField,
         final I18nResolver          i18nResolver
         )
     {
-        doHandleForField( "MissingKeyException", e );
+        doHandleForField( "MissingKeyException", cause );
     }
 
     @Override
@@ -110,7 +124,7 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
         "squid:SwitchLastCaseIsDefaultCheck" // Switch on enum (default useless)
         })
     public <T> void handleMissingResourceException(
-        final MissingResourceException e,
+        final MissingResourceException cause,
         final I18nField                i18nField,
         final T                        objectToI18n,
         final I18nResource             i18nInterface
@@ -118,19 +132,19 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     {
         switch( i18nField.getFieldType() ) {
             case SIMPLE_KEY :
-                doHandleMissingResourceException( e, i18nField );
+                doHandleMissingResourceException( cause, i18nField );
                 break;
             case LATE_KEY :
-                doHandleMissingResourceException( e, i18nField );
+                doHandleMissingResourceException( cause, i18nField );
                 break;
             case METHODS_RESOLUTION :
-                doHandleMissingResourceException_MissingMethodsResolution( e, i18nField );
+                doHandleMissingResourceException_MissingMethodsResolution( cause, i18nField );
                 break;
             case JCOMPONENT_TOOLTIPTEXT:
-                doHandleMissingResourceException( e, i18nField );
+                doHandleMissingResourceException( cause, i18nField );
                 break;
             case JCOMPONENT_MULTI_TOOLTIPTEXT:
-                doHandleMissingResourceException( e, i18nField ); // FIXME : todo check this !
+                doHandleMissingResourceException( cause, i18nField ); // FIXME : to do check this !
                 break;
             }
     }
@@ -142,13 +156,19 @@ public abstract class AbstractAutoI18nLoggingExceptionHandler
     }
 
     @Override
-    public void handleNoSuchMethodException( final NoSuchMethodException cause, final I18nField i18nField )
+    public void handleNoSuchMethodException(
+        final NoSuchMethodException cause,
+        final I18nField             i18nField
+        )
     {
         doHandleForField( "NoSuchMethodException", cause );
     }
 
     @Override
-    public void handleSecurityException( final MethodProviderSecurityException cause, final Field field )
+    public void handleSecurityException(
+        final MethodProviderSecurityException cause,
+        final Field                           field
+        )
     {
         doHandleForField( "SecurityException", cause );
     }

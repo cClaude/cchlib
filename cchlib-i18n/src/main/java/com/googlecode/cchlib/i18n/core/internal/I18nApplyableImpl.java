@@ -1,10 +1,13 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n.core.internal;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.api.I18nResource;
+import com.googlecode.cchlib.i18n.core.I18nApplyable;
+import com.googlecode.cchlib.i18n.core.I18nField;
+import com.googlecode.cchlib.i18n.core.MethodContener;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;

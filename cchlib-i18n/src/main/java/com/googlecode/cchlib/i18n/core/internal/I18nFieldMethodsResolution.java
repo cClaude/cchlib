@@ -1,9 +1,12 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n.core.internal;
 
 import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.AutoI18nType;
-import com.googlecode.cchlib.i18n.I18nInterface;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
+import com.googlecode.cchlib.i18n.api.I18nResource;
+import com.googlecode.cchlib.i18n.core.I18nField;
+import com.googlecode.cchlib.i18n.core.MethodContener;
+import com.googlecode.cchlib.i18n.core.I18nField.FieldType;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 
@@ -35,8 +38,11 @@ final class I18nFieldMethodsResolution
     }
 
     @Override
-    public <T> I18nResolver createI18nResolver( final T objectToI18n, final I18nInterface i18nInterface )
+    public <T> I18nResolver createI18nResolver(
+        final T            objectToI18n,
+        final I18nResource i18Resource
+        )
     {
-        return null;
+        throw new IllegalStateException();
     }
 }

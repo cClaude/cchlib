@@ -6,11 +6,14 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.annotation.Nonnull;
 import com.googlecode.cchlib.i18n.api.I18nResource;
 
 /**
  * Provide a default implementation based on {@link ResourceBundle}
  * for {@link I18nResource}
+ *
+ * @see I18nSimpleResourceBundle
  */
 public class I18nResourceBundle implements I18nResource, Serializable
 {
@@ -44,8 +47,8 @@ public class I18nResourceBundle implements I18nResource, Serializable
      *             if {@code resourceBundleFullBaseName} is null
      */
     protected I18nResourceBundle( //
-        final String resourceBundleFullBaseName,
-        final Locale locale
+        @Nonnull final String resourceBundleFullBaseName,
+        @Nonnull final Locale locale
         )
     {
         if( resourceBundleFullBaseName == null ) {
@@ -59,7 +62,7 @@ public class I18nResourceBundle implements I18nResource, Serializable
         setResourceBundle( resourceBundleFullBaseName, locale );
     }
 
-    @Override // I18nInterface
+    @Override // I18nResource
     public String getString( final String key ) throws MissingResourceException
     {
         try {

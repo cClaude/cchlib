@@ -19,7 +19,7 @@ public class AutoI18nCoreService
     {
         final AppToolKit appToolKit = AppToolKitService.getInstance().getAppToolKit();
 
-        return AutoI18nCoreFactory.createAutoI18nCore(
+        return AutoI18nCoreFactory.newAutoI18nCore(
                 AutoI18nConfigService.getInstance().getAutoI18nConfig(),
                 appToolKit.getI18nResourceBundleName(),
                 appToolKit.getValidLocale()

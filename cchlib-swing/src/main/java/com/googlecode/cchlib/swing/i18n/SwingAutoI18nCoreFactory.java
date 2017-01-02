@@ -32,7 +32,7 @@ public class SwingAutoI18nCoreFactory
             final EnumSet<AutoI18nConfig> config = EnumSet.noneOf( AutoI18nConfig.class );
             final I18nResourceBundleName  resourceBundleName = ( ) -> ResourcesLoader.class.getPackage().getName() + ".i18n";
 
-            current = AutoI18nCoreFactory.createAutoI18nCore( config, resourceBundleName, locale );
+            current = AutoI18nCoreFactory.newAutoI18nCore( config, resourceBundleName, locale );
             }
         return current;
     }

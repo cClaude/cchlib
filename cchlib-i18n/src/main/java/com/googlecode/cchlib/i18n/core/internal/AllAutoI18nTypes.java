@@ -1,4 +1,4 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n.core.internal;
 
 import com.googlecode.cchlib.i18n.core.resolve.IndexValues;
 import com.googlecode.cchlib.i18n.core.resolve.Values;

@@ -1,29 +1,25 @@
-package com.googlecode.cchlib.i18n.unit.util;
+package com.googlecode.cchlib.i18n.resources;
 
-import com.googlecode.cchlib.i18n.resources.DefaultI18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class XI18nResourceBundleName
-    extends DefaultI18nResourceBundleName
-        implements I18nResourceBundleName
+public class XI18nResourceBundleName implements I18nResourceBundleName
 {
-    private static final long serialVersionUID = 1L;
-
-    private Package packageMessageBundleBase;
-    private String messageBundleBaseName;
+    private final String  name;
+    private final Package packageMessageBundleBase;
+    private final String  messageBundleBaseName;
 
     public XI18nResourceBundleName(
         final Package packageMessageBundleBase,
         final String  messageBundleBaseName
         )
     {
-        super( packageMessageBundleBase, messageBundleBaseName );
-
+        this.name = I18nResourceBundleNameFactory.newI18nResourceBundleName(
+                packageMessageBundleBase,
+                messageBundleBaseName
+                ).getName();
         this.packageMessageBundleBase = packageMessageBundleBase;
-        this.messageBundleBaseName = messageBundleBaseName;
+        this.messageBundleBaseName    = messageBundleBaseName;
     }
 
     public XI18nResourceBundleName(
@@ -41,26 +37,32 @@ public class XI18nResourceBundleName
 
     public XI18nResourceBundleName( final Package packageMessageBundleBase )
     {
-        this( packageMessageBundleBase, DefaultI18nResourceBundleName.DEFAULT_MESSAGE_BUNDLE_BASENAME );
+        this( packageMessageBundleBase, I18nResourceBundleNameFactory.DEFAULT_MESSAGE_BUNDLE_BASENAME );
     }
 
     public Package getPackageMessageBundleBase()
     {
-        return packageMessageBundleBase;
+        return this.packageMessageBundleBase;
     }
 
     public String getMessageBundleBaseName()
     {
-        return messageBundleBaseName;
+        return this.messageBundleBaseName;
     }
 
     private I18nSimpleResourceBundle createI18nSimpleResourceBundle( final Locale locale )
     {
-        return new I18nSimpleResourceBundle( locale, this );
+        return new I18nSimpleResourceBundle( this, locale );
     }
 
     public ResourceBundle createResourceBundle( final Locale locale )
     {
         return createI18nSimpleResourceBundle( locale ).getResourceBundle();
+    }
+
+    @Override
+    public String getName()
+    {
+        return this.name;
     }
 }

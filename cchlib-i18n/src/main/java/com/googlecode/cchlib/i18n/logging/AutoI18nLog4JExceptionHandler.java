@@ -1,9 +1,11 @@
 package com.googlecode.cchlib.i18n.logging;
 
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.core.internal.AutoI18nConfigSet;
 
 /**
  * {@link com.googlecode.cchlib.i18n.AutoI18nExceptionHandler} using Log4J to trace
@@ -13,45 +15,48 @@ public class AutoI18nLog4JExceptionHandler
     extends AbstractAutoI18nLoggingExceptionHandler
 {
     private static final long serialVersionUID = 1L;
-    private final transient Logger LOGGER = Logger.getLogger(AutoI18nLog4JExceptionHandler.class);
+    private static final Logger LOGGER = Logger.getLogger( AutoI18nLog4JExceptionHandler.class );
+
+    private static final Level  DEFAULT_LEVEL = Level.WARN;
 
     /** @serial */
-    private Level level;
+    private final Level level;
 
     /**
      * Create object using Logger based on current class
      * with a level define has {@link Level#WARN}
-     * @param config Configuration
+     *
+     * @param safeConfig Configuration
      */
-    public AutoI18nLog4JExceptionHandler( Set<AutoI18nConfig> config )
+    public AutoI18nLog4JExceptionHandler( @Nonnull final AutoI18nConfigSet safeConfig )
     {
-        this( Level.WARN, config );
+        this( DEFAULT_LEVEL, safeConfig );
     }
 
     /**
      * Create object using giving {@link Logger}
      *
      * @param level  Level to use for logging
-     * @param config Configuration
+     * @param safeConfig Configuration
      */
     public AutoI18nLog4JExceptionHandler(
-            Level               level,
-            Set<AutoI18nConfig> config
-            )
+        @Nullable final Level            level,
+        @Nonnull final AutoI18nConfigSet safeConfig
+        )
     {
-        super( config );
+        super( safeConfig );
 
-        this.level  = level;
+        this.level = level == null ? DEFAULT_LEVEL : level;
     }
 
     @Override
-    protected void doHandle( String msg, Throwable e )
+    protected void doHandle( final String msg, final Throwable cause )
     {
         if( getConfig().contains( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS ) ) {
-            LOGGER.log( level, msg, e );
+            LOGGER.log( this.level, msg, cause );
             }
         else {
-            LOGGER.log( level, msg + " : " + e.getMessage() );
+            LOGGER.log( this.level, msg + " : " + cause.getMessage() );
             }
     }
 }
