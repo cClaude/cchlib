@@ -68,6 +68,7 @@ public class ByteBufferTest
     @Test
     public void testClone() throws CloneNotSupportedException
     {
+        @SuppressWarnings("deprecation")
         final ByteBuffer bufferClone = this.testByteBuffer.clone();
 
         cmp( bufferClone, this.testByteBuffer );
