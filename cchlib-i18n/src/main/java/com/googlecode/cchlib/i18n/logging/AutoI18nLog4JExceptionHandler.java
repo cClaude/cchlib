@@ -5,7 +5,7 @@ import javax.annotation.Nullable;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.internal.AutoI18nConfigSet;
+import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
 
 /**
  * {@link com.googlecode.cchlib.i18n.AutoI18nExceptionHandler} using Log4J to trace

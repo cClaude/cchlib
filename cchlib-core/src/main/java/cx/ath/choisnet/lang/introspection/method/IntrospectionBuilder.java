@@ -111,7 +111,7 @@ public class IntrospectionBuilder<O>
         final Set<IntrospectionParameters> parameters
         )
     {
-        return EnumHelper.getSafeEnumSet( parameters, IntrospectionParameters.class );
+        return EnumHelper.safeCopyOf( parameters, IntrospectionParameters.class );
     }
 
     private final void addGetter( final String beanName, final Method method )

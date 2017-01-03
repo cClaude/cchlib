@@ -20,17 +20,18 @@ public final class EnumHelper
      * @param values
      *            a {@link Collection} of values or null (null will be handle as if
      *            collection was empty)
-     * @param valuesClass
+     * @param valuesType
      *            Enum class
      * @return a none null {@link EnumSet} of {@code valuesClass}.
      */
-    public static  <T extends Enum<T>> EnumSet<T> getSafeEnumSet(
+    @SuppressWarnings("squid:S1319") // return an EnumSet (not a Set) to have same erasure than JDK
+    public static  <T extends Enum<T>> EnumSet<T> safeCopyOf(
         @Nullable final Collection<T> values,
-        final Class<T>                valuesClass
+        final Class<T>                valuesType
         )
     {
-        if( values == null ) {
-            return EnumSet.noneOf( valuesClass );
+        if( (values == null) || values.isEmpty() ) {
+            return EnumSet.noneOf( valuesType );
             }
         else {
             return EnumSet.copyOf( values );
@@ -59,6 +60,7 @@ public final class EnumHelper
      * @throws NumberFormatException
      *             if the value cannot be parsed as an integer.
      */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static <T extends Enum<T>> Integer getSuffixInteger(
         final T      enumValue,
         final String stringValue

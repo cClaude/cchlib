@@ -2,7 +2,7 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.services;
 
 import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.internal.AutoI18nConfigSet;
+import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
 
 /**
  * NEEDDOC

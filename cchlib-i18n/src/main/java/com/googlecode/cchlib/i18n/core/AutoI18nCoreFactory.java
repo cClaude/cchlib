@@ -8,7 +8,6 @@ import javax.annotation.Nullable;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import com.googlecode.cchlib.i18n.api.I18nResource;
-import com.googlecode.cchlib.i18n.core.internal.AutoI18nConfigSet;
 import com.googlecode.cchlib.i18n.core.internal.AutoI18nCoreImpl;
 import com.googlecode.cchlib.i18n.core.internal.I18nDelegator;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JEventHandler;
