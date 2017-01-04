@@ -58,6 +58,8 @@ class I18nApplyableImpl<T> implements I18nApplyable<T>
                     LOGGER.trace( "values = " + values );
                     }
 
+                I18nApplyableImpl.this.i18nDelegator.fireLocalizedField( i18nField, keys );
+
                 useResolverOn( i18nField, resolver, keys, values );
                 }
             catch( final MissingResourceException cause ) {

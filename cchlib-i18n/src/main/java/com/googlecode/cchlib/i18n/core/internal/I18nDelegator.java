@@ -18,6 +18,7 @@ import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
+import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
@@ -92,6 +93,17 @@ public class I18nDelegator implements Serializable
         for( final AutoI18nEventHandler eventHandler : this.eventHandlerList ) {
             eventHandler.ignoredField( field, key, cause, causeDescription );
             }
+    }
+
+    protected void fireLocalizedField( final I18nField i18nField, final Keys keys )
+    {
+        final Field field = i18nField.getField();
+
+        for( final String key : keys ) {
+            for( final AutoI18nEventHandler eventHandler : this.eventHandlerList ) {
+                eventHandler.localizedField( field, key );
+            }
+        }
     }
 
     /**
