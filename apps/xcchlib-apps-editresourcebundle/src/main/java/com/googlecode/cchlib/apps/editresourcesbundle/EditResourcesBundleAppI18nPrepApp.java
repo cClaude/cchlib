@@ -21,11 +21,11 @@ import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.lang.Threads;
 
 /**
- * Create resources bundles files
+ * This small App create resources bundles files
  */
-public class EditResourcesBundleAppI18nPrep implements Runnable
+public class EditResourcesBundleAppI18nPrepApp implements Runnable
 {
-    private static final Logger LOGGER = Logger.getLogger( EditResourcesBundleAppI18nPrep.class );
+    private static final Logger LOGGER = Logger.getLogger( EditResourcesBundleAppI18nPrepApp.class );
 
     private boolean           done = false;
     private I18nPrepResult    doneResult;
@@ -43,13 +43,17 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
 
     I18nPrepResult runDoPrep() throws InvocationTargetException, InterruptedException
     {
-        final EditResourcesBundleAppI18nPrep instance = new EditResourcesBundleAppI18nPrep();
+        final EditResourcesBundleAppI18nPrepApp instance = new EditResourcesBundleAppI18nPrepApp();
 
-        SwingUtilities.invokeAndWait( instance );
+        SwingUtilities.invokeLater( instance );
 
-        for( int i = 1; (i < 10) || ! this.done; i++ ) {
+        for( int i = 1; (i < 10) && ! this.done; i++ ) {
+            LOGGER.info( "Launch EditResourcesBundleAppI18nPrep not yet ready (" + i + ")" );
+
             Threads.sleep( 1, TimeUnit.SECONDS );
         }
+
+        LOGGER.info( "Launch EditResourcesBundleAppI18nPrep result: " + this.done );
 
         return this.doneResult;
     }
@@ -123,6 +127,6 @@ public class EditResourcesBundleAppI18nPrep implements Runnable
 
     public static void main( final String[] args ) throws IOException
     {
-        SwingUtilities.invokeLater( new EditResourcesBundleAppI18nPrep() );
+        SwingUtilities.invokeLater( new EditResourcesBundleAppI18nPrepApp() );
     }
 }

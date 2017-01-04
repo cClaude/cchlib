@@ -31,7 +31,10 @@ public class AutoI18nCoreFactory
     /**
      * Default configuration is handle by {@link AutoI18nConfigSet}
      */
-    @SuppressWarnings("squid:S2386") // Not mutable...
+    @SuppressWarnings({
+        "squid:S2386", // Not mutable...
+        "ucd" // API configuration
+        })
     public static final Set<AutoI18nConfig> DEFAULT_AUTO_I18N_CONFIG = null;
 
     /**
@@ -42,6 +45,7 @@ public class AutoI18nCoreFactory
     /**
      * Default {@link Locale}, this is a synonym for {@link Locale#getDefault()}
      */
+    @SuppressWarnings("ucd") // API configuration
     public static final Locale DEFAULT_LOCALE = null;
 
     private AutoI18nCoreFactory() {} // All static
@@ -57,6 +61,7 @@ public class AutoI18nCoreFactory
      *            The {@link I18nResource}
      * @return an {@link AutoI18nCore} with giving configuration
      */
+    @SuppressWarnings("ucd") // API
     public static AutoI18nCore newAutoI18nCore(
         @Nullable final Set<AutoI18nConfig> config,
         @Nullable final AutoI18nTypeLookup  defaultAutoI18nTypes,
@@ -127,6 +132,7 @@ public class AutoI18nCoreFactory
      *
      * @see I18nResourceBundleNameFactory
      */
+    @SuppressWarnings("ucd") // API
     public static AutoI18nCore newAutoI18nCore(
         @Nonnull final I18nResourceBundleName resourceBundleName,
         @Nullable final Locale                locale
@@ -147,6 +153,7 @@ public class AutoI18nCoreFactory
      *
      * @see I18nResourceBundleNameFactory
      */
+    @SuppressWarnings("ucd") // API
     public static AutoI18nCore newAutoI18nCore(
         @Nonnull final I18nResourceBundleName resourceBundleName
         )
@@ -164,6 +171,7 @@ public class AutoI18nCoreFactory
      *            the same name.
      * @return an {@link AutoI18nCore} using default configuration.
      */
+    @SuppressWarnings("ucd") // API
     public static AutoI18nCore newAutoI18nCore( final Class<?> referenceType )
     {
         return newAutoI18nCore(

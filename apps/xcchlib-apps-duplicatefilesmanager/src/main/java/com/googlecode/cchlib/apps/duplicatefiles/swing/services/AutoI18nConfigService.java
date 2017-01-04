@@ -25,7 +25,7 @@ public class AutoI18nConfigService
         if( this.autoI18nConfig == null ) {
             synchronized( this.lock ) {
                 if( this.autoI18nConfig == null ) {
-                    createAutoI18nConfigService();
+                    this.autoI18nConfig = newAutoI18nConfigService();
                 }
             }
         }
@@ -38,11 +38,11 @@ public class AutoI18nConfigService
         return getAutoI18nConfigSet().getSafeConfig();
     }
 
-    private void createAutoI18nConfigService()
+    private AutoI18nConfigSet newAutoI18nConfigService()
     {
-        this.autoI18nConfig = new AutoI18nConfigSet(
-                AutoI18nConfig.newAutoI18nConfig( AutoI18nConfig.DO_DEEP_SCAN )
-                );
+        return new AutoI18nConfigSet(
+            AutoI18nConfig.newAutoI18nConfig( AutoI18nConfig.DO_DEEP_SCAN )
+            );
     }
 
     public static AutoI18nConfigService getInstance()

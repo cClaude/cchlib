@@ -1,13 +1,14 @@
 package com.googlecode.cchlib.i18n.logging;
 
+import java.lang.reflect.Field;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.EventCause;
-import java.lang.reflect.Field;
 
 /**
  * {@link AutoI18nEventHandler}
  * to trace Localization events.
  */
+@SuppressWarnings("ucd") // API
 public abstract class AbstractAutoI18nLoggingEventHandler
     implements AutoI18nEventHandler
 {
@@ -15,41 +16,48 @@ public abstract class AbstractAutoI18nLoggingEventHandler
 
     /**
      * Log formatted message from {@link #ignoredField(Field, String, EventCause, String)}
-     * @param msg message to log
+     *
+     * @param msg
+     *            message to log
      */
-    protected abstract void logIgnoredField(String msg);
+    protected abstract void logIgnoredField( String msg );
 
     /**
      * Log formatted message from {@link #localizedField(Field, String)}
-     * @param msg message to log
+     *
+     * @param msg
+     *            message to log
      */
-    protected abstract void logLocalizedField(String msg);
+    protected abstract void logLocalizedField( String msg );
 
     @Override
-    final
-    public void ignoredField( Field f, String key, EventCause eventCause, String causeDecription )
+    public final void ignoredField(
+        final Field      field,
+        final String     key,
+        final EventCause eventCause,
+        final String     causeDecription
+        )
     {
         logIgnoredField(String.format(
             "Ignore field: %s (%s) [%s]%s key=%s - %s",
-            f.getName(),
-            f.getType(),
+            field.getName(),
+            field.getType(),
             eventCause,
             LogFieldFormat.toString( causeDecription ),
             key,
-            LogFieldFormat.toString( f )
+            LogFieldFormat.toString( field )
             ));
     }
 
     @Override
-    final
-    public void localizedField( Field f, String key )
+    public final void localizedField( final Field field, final String key )
     {
         logLocalizedField(String.format(
             "Localized field: %s (%s) key=%s - %s",
-            f.getName(),
-            f.getType(),
+            field.getName(),
+            field.getType(),
             key,
-            LogFieldFormat.toString( f )
+            LogFieldFormat.toString( field )
             ));
     }
 }

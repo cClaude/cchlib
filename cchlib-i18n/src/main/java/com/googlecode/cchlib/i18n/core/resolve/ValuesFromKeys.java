@@ -29,14 +29,16 @@ public class ValuesFromKeys extends IndexValues
         for( final String key : keys ) {
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( "try key = " + key );
-                }
+            }
 
-            values[ index++ ] = i18nInterface.getString( key );
+            final String value = i18nInterface.getString( key );
 
             if( LOGGER.isTraceEnabled() ) {
-                LOGGER.trace( "value for key = " + key + " is: " + values[ index-1 ] );
-                }
+                LOGGER.trace( "value for key = " + key + " is: " + value );
             }
+
+            values[ index++ ] = value;
+        }
 
         return values;
     }

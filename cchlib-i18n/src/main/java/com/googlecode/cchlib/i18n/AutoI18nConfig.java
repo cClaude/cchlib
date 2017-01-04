@@ -68,16 +68,4 @@ public enum AutoI18nConfig
     {
         return EnumSet.of( first, rest );
     }
-
-    public static Set<AutoI18nConfig> newAutoI18nConfig(
-        final Set<AutoI18nConfig> userConfig
-        )
-    {
-        if( userConfig == null ) {
-            return newAutoI18nConfig();
-            }
-        else {
-            return EnumSet.copyOf( userConfig );
-            }
-    }
 }

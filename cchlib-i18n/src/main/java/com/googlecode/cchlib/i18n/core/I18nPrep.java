@@ -4,12 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.ResourceBundle;
-import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.prep.I18nPrepStatResult;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
@@ -19,8 +17,6 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
  */
 public interface I18nPrep
 {
-    void addAutoI18nEventHandler( AutoI18nEventHandler eventHandler );
-
     void addAutoI18nExceptionHandler( AutoI18nExceptionHandler exceptionHandler );
 
     void closeOutputFile() throws IOException;
@@ -28,8 +24,6 @@ public interface I18nPrep
     AutoI18nCore getAutoI18nCore();
 
     I18nPrepStatResult getI18nPrepStatResult();
-
-    I18nResourceBundle getI18nResourceBundle();
 
     I18nResourceBundleName getI18nResourceBundleName();
 

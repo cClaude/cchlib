@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
@@ -17,13 +18,20 @@ public class QuickI18nTestFrame extends JFrame implements I18nAutoCoreUpdatable
     private static final long serialVersionUID = 1L;
     private final JPanel contentPane;
 
-    @I18nToolTipText private final JButton myButtonWithToolTipText1;
-    @I18nIgnore @I18nToolTipText private final JButton myButtonWithToolTipText2;
+    @I18nToolTipText
+    private final JButton myButtonWithToolTipText1;
+
+    @I18nIgnore // Field is ignore for I18n
+    @I18nToolTipText // but not tool tip text on the field.
+    private final JButton myButtonWithToolTipText2;
+
+    @I18nString
+    private String missingI18nEntry;
 
     /**
      * Create the frame.
      */
-    QuickI18nTestFrame()
+    private QuickI18nTestFrame()
     {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setBounds( 100, 100, 450, 300 );
@@ -39,6 +47,13 @@ public class QuickI18nTestFrame extends JFrame implements I18nAutoCoreUpdatable
         this.myButtonWithToolTipText2 = new JButton("my button with tool tip text 2 (no I18n)");
         this.myButtonWithToolTipText2.setToolTipText("my tool tip text 2 (no I18n)");
         this.contentPane.add(this.myButtonWithToolTipText2, BorderLayout.SOUTH);
+
+        noFinalStaticI18n();
+    }
+
+    private void noFinalStaticI18n()
+    {
+        this.missingI18nEntry = "This entry have no I18n";
     }
 
     @Override
@@ -55,6 +70,11 @@ public class QuickI18nTestFrame extends JFrame implements I18nAutoCoreUpdatable
     JButton getMyButtonWithToolTipText2()
     {
         return this.myButtonWithToolTipText2;
+    }
+
+    String getMissingI18nEntry()
+    {
+        return this.missingI18nEntry;
     }
 
     /**
@@ -79,12 +99,17 @@ public class QuickI18nTestFrame extends JFrame implements I18nAutoCoreUpdatable
     {
         final QuickI18nTestFrame frame = new QuickI18nTestFrame();
 
-        final AutoI18nCore autoI18n = AutoI18nCoreFactory.newAutoI18nCore(
-                QuickI18nTestFrame.class
-                );
+        final AutoI18nCore autoI18n = newAutoI18nCore();
 
         frame.performeI18n( autoI18n );
 
         return frame;
+    }
+
+    static AutoI18nCore newAutoI18nCore()
+    {
+        return AutoI18nCoreFactory.newAutoI18nCore(
+                QuickI18nTestFrame.class
+                );
     }
 }

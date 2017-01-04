@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import javax.swing.Icon;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
@@ -26,33 +27,66 @@ public class WorkingTableModel
     extends AbstractTableModel
         implements TableModel, Serializable, ForceColumnWidthModel
 {
+    private enum Columns {
+        FILE_ICON(
+            16 + JTableColumnsAutoSizer.DEFAULT_COLUMN_MARGIN,
+            (m,f) -> m.getIconValue( f ),
+            Icon.class
+            ),
+        FILE_SELECTED( (m,f) -> m.getSelectedValue( f ), Boolean.class ),
+        FILE_FILE( (m,f) -> f, String.class ),
+        FILE_SIZE( (m,f) -> m.getFileInfo( f ).getLengthString(), String.class ),
+        FILE_DATE( (m,f) -> m.getFileInfo( f ).getLastModifiedDate(), Date.class ),
+        FILE_ATTR( (m,f) -> m.getFileInfo( f ).getFileAttributsString(), String.class ),
+        ;
+        private final int                                       forceColumnWidth;
+        private final BiFunction<WorkingTableModel,File,Object> valueShowView;
+        private final Class<?>                                  type;
+
+        private Columns(
+            final BiFunction<WorkingTableModel,File,Object> valueShowView,
+            final Class<?>                                        type
+            )
+        {
+            this( 0, valueShowView, type );
+        }
+
+        private Columns(
+            final int                                       forceColumnWidth,
+            final BiFunction<WorkingTableModel,File,Object> valueShowView,
+            final Class<?>                                        type
+            )
+        {
+            this.forceColumnWidth = forceColumnWidth;
+            this.valueShowView    = valueShowView;
+            this.type             = type;
+        }
+
+        public int getForceColumnWidth()
+        {
+            return this.forceColumnWidth;
+        }
+
+        public Object getValue( final WorkingTableModel model, final File file )
+        {
+            return this.valueShowView.apply( model, file );
+        }
+
+        public Class<?> getColumnClass()
+        {
+            return this.type;
+        }
+
+        public String getLabel( final String[] columnNames )
+        {
+            return columnNames[ super.ordinal() ];
+        }
+    }
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( WorkingTableModel.class );
 
-    private enum Columns {
-        FILE_ICON( 16 + JTableColumnsAutoSizer.DEFAULT_COLUMN_MARGIN),
-        FILE_SELECTED,
-        FILE_FILE,
-        FILE_SIZE,
-        FILE_DATE,
-        FILE_ATTR,
-        ;
-        private int forceColumnWidth;
-
-        private Columns() { this.forceColumnWidth = 0; }
-        private Columns( final int forceColumnWidth ) { this.forceColumnWidth = forceColumnWidth; }
-        public int getForceColumnWidth() { return this.forceColumnWidth; }
-        };
     private int[] forceColumnWidths;
-    @I18nString private final String[] columnNames = {
-            ".",
-            "Delete",
-            "Filename",
-            "size",
-            "date",
-            "Attributs"
-            };
-    private final Class<?>[]          columnTypes = new Class[] { Icon.class, Boolean.class, String.class, String.class, Date.class, String.class };
+    @I18nString private String[] columnNames;
     private final List<File>          fileList    = new ArrayList<>();
     private final Map<File,FileInfo>  lasyInfoMap  = new HashMap<>();
     private final boolean             selectedDefaultState = true; // FIXME : should be configurable
@@ -63,6 +97,28 @@ public class WorkingTableModel
     public WorkingTableModel( final FileInfoFormater fileInfoFormater )
     {
         this.fileInfoFormater = fileInfoFormater;
+
+        i18nNotFinalStatic();
+    }
+
+    @SuppressWarnings("squid:S3346") // assert usage
+    private void i18nNotFinalStatic()
+    {
+        this.columnNames = new String[] {
+                ".",
+                "Delete",
+                "Filename",
+                "size",
+                "date",
+                "Attributs"
+                };
+
+        assert this.columnNames.length == Columns.values().length;
+    }
+
+    private Columns getColumns( final int columnIndex )
+    {
+        return Columns.values()[ columnIndex ];
     }
 
     @Override
@@ -74,19 +130,19 @@ public class WorkingTableModel
     @Override
     public int getColumnCount()
     {
-        return this.columnNames.length;
+        return Columns.values().length;
     }
 
     @Override
     public String getColumnName( final int columnIndex )
     {
-        return this.columnNames[ columnIndex ];
+        return getColumns( columnIndex ).getLabel( this.columnNames );
     }
 
     @Override
     public Class<?> getColumnClass( final int columnIndex )
     {
-        return this.columnTypes[columnIndex];
+        return getColumns( columnIndex ).getColumnClass();
     }
 
     @Override
@@ -98,36 +154,34 @@ public class WorkingTableModel
 
             return ! fi.isDeleted();
             }
+
         return false;
     }
 
     @Override
     public Object getValueAt( final int rowIndex, final int columnIndex )
     {
-        final Columns c = Columns.values()[ columnIndex ];
-        final File file = this.fileList.get( rowIndex );
+        final Columns column = Columns.values()[ columnIndex ];
+        final File    file   = this.fileList.get( rowIndex );
 
-        switch( c ) {
-            case FILE_ICON:
-            {
-                final FileInfo fi = getFileInfo( file );
+        return column.getValue( this, file );
+    }
 
-                //return fi.isDeleted() ? deletedFileIcon : fileIcon;
-                return fi.isDeleted() ? this.iconResources.getDeletedFileIcon() : this.iconResources.getFileIcon();
-            }
-            case FILE_SELECTED :
-                {
-                    final FileInfo fi = getFileInfo( file );
+    private Icon getIconValue( final File file )
+    {
+        final FileInfo fi = getFileInfo( file );
 
-                    return Boolean.valueOf( fi.isDeleted() ? false : fi.isSelected() );
-                }
-            case FILE_FILE : return file;
-            case FILE_DATE : return getFileInfo( file ).getLastModifiedDate();
-            case FILE_SIZE : return getFileInfo( file ).getLengthString();
-            case FILE_ATTR : return getFileInfo( file ).getFileAttributsString();
-        }
+        return fi.isDeleted() ?
+                this.iconResources.getDeletedFileIcon()
+                :
+                this.iconResources.getFileIcon();
+    }
 
-        return null;
+    private boolean getSelectedValue( final File file )
+    {
+        final FileInfo fi = getFileInfo( file );
+
+        return Boolean.valueOf( fi.isDeleted() ? false : fi.isSelected() );
     }
 
     @Override
@@ -148,7 +202,7 @@ public class WorkingTableModel
 
     SelectionState getSelectionState()
     {
-        boolean isAtLeastOneFileSelected = false;
+        boolean isAtLeastOneFileSelected   = false;
         boolean isAtLeastOneFileUnSelected = false;
 
         for( final FileInfo fi : getFileInfos() ) {
@@ -249,7 +303,7 @@ public class WorkingTableModel
 
     private Iterable<FileInfo> getFileInfos()
     {
-        return Iterables.transform( this.fileList, this::getFileInfo);
+        return Iterables.transform( this.fileList, this::getFileInfo );
     }
 
     public int getSelectedRowCount()

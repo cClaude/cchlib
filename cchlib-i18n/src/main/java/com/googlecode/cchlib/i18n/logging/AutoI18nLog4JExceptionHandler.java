@@ -4,7 +4,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
 
 /**
@@ -17,7 +16,7 @@ public class AutoI18nLog4JExceptionHandler
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( AutoI18nLog4JExceptionHandler.class );
 
-    private static final Level  DEFAULT_LEVEL = Level.WARN;
+    private static final Level DEFAULT_LEVEL = Level.WARN;
 
     /** @serial */
     private final Level level;
@@ -52,7 +51,7 @@ public class AutoI18nLog4JExceptionHandler
     @Override
     protected void doHandle( final String msg, final Throwable cause )
     {
-        if( getConfig().contains( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS ) ) {
+        if( getConfig().isPrintStacktraceInLogs() ) {
             LOGGER.log( this.level, msg, cause );
             }
         else {

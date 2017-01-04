@@ -2,7 +2,6 @@ package com.googlecode.cchlib.i18n.core.internal;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Locale;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.I18nApplyable;
@@ -140,7 +139,7 @@ class I18nApplyableImpl<T> implements I18nApplyable<T>
     }
 
     @Override
-    public void performeI18n( final T objectToI18n, final Locale locale )
+    public void performeI18n( final T objectToI18n )
     {
         if( objectToI18n == null ) {
             throw new NullPointerException( "objectToI18n is null" );
@@ -148,7 +147,7 @@ class I18nApplyableImpl<T> implements I18nApplyable<T>
 
         final CurrentObjectInvoker co = new CurrentObjectInvoker(
                 objectToI18n,
-                this.i18nDelegator.getI18nInterface( locale )
+                this.i18nDelegator.getI18nResource()
                 );
 
         for( final I18nField i18nField : this.i18nClass ) {

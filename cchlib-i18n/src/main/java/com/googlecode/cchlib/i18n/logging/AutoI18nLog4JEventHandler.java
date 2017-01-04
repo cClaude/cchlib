@@ -6,8 +6,8 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 
 /**
- * {@link AutoI18nEventHandler} using PrintStream
- * to trace Localization events.
+ * {@link AutoI18nLog4JEventHandler} using Log4J logger to log Localization
+ * events.
  */
 public class AutoI18nLog4JEventHandler
     extends AbstractAutoI18nLoggingEventHandler
@@ -20,53 +20,43 @@ public class AutoI18nLog4JEventHandler
     private final Level levelLocalizedField;
 
     /**
-     * Create object using Logger based on current class
-     * with a level define has {@link Level#WARN}
+     * Create object using Logger based on current class with a
+     * level define has {@link Level#TRACE} for ignored fields,
+     * and to {@link Level#DEBUG} for localized fields.
      */
     public AutoI18nLog4JEventHandler()
     {
-        this(Level.TRACE,Level.WARN);
+        this( Level.TRACE, Level.DEBUG );
     }
 
     /**
      * Create object using giving {@link Logger}
      *
-     * @param level Level to use for logging
+     * @param levelIgnoredField
+     *            Level to use for logging
+     *            {@link #ignoredField(Field, String, com.googlecode.cchlib.i18n.EventCause, String)}
+     *            informations
+     * @param levelLocalizedField
+     *            Level to use for logging {@link #localizedField(Field, String)} informations
      */
     public AutoI18nLog4JEventHandler(
-            final Level level
-            )
+        final Level levelIgnoredField,
+        final Level levelLocalizedField
+        )
     {
-        this.levelIgnoredField = level;
-        this.levelLocalizedField = level;
-    }
-
-    /**
-     * Create object using giving {@link Logger}
-     *
-     * @param levelIgnoredField Level to use for logging
-     *        {@link #ignoredField(Field, String, com.googlecode.cchlib.i18n.EventCause, String)} informations
-     * @param levelLocalizedField Level to use for logging
-     *        {@link #localizedField(Field, String)} informations
-     */
-    public AutoI18nLog4JEventHandler(
-            final Level levelIgnoredField,
-            final Level levelLocalizedField
-            )
-    {
-        this.levelIgnoredField = levelIgnoredField;
+        this.levelIgnoredField   = levelIgnoredField;
         this.levelLocalizedField = levelLocalizedField;
     }
 
     @Override
     protected void logIgnoredField( final String msg )
     {
-        LOGGER.log( levelIgnoredField, msg );
+        LOGGER.log( this.levelIgnoredField, msg );
     }
 
     @Override
     protected void logLocalizedField( final String msg )
     {
-        LOGGER.log( levelLocalizedField, msg );
+        LOGGER.log( this.levelLocalizedField, msg );
     }
 }

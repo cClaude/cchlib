@@ -1,18 +1,15 @@
 package com.googlecode.cchlib.i18n.core.resolve;
 
-/**
- *
- */
-public class FieldException extends Exception
+public class I18nFieldException extends Exception
 {
     private static final long serialVersionUID = 1L;
 
-    public FieldException( String message, Throwable cause )
+    I18nFieldException( final String message, final Throwable cause )
     {
         super( message, cause );
     }
-    
-    public FieldException( Throwable cause )
+
+    I18nFieldException( final Throwable cause )
     {
         super( cause );
     }

@@ -4,7 +4,8 @@ package com.googlecode.cchlib.i18n;
  * Event type for {@link AutoI18n} system
  */
 @SuppressWarnings("squid:S00115")
-public enum EventCause {
+public enum EventCause
+{
     FIELD_TYPE_IS_ANNOTATION,
     FIELD_TYPE_IS_PRIMITIVE,
     //FIELD_TYPE_IS_NUMBER,

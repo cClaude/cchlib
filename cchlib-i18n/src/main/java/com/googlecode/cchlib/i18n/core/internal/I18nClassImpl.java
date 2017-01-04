@@ -40,8 +40,8 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nClassImpl.class );
 
-    /** Array well know std API classes : do not use reflexion on theses classes */
-    /*package*/ static final Class<?>[] NOT_HANDLED_CLASS_TYPES = {
+    /** Array well know standard API classes : do not use reflexion on theses classes */
+    private static final Class<?>[] NOT_HANDLED_CLASS_TYPES = {
         Object.class,
         JFrame.class,
         JDialog.class,
@@ -58,13 +58,13 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     };
 
     private final Class<? extends T> objectToI18nClass;
-    private final List<I18nField> fieldList = new ArrayList<>();
-    private final I18nDelegator i18nDelegator;
-    private final I18nKeyFactory i18nKeyFactory;
+    private final List<I18nField>    fieldList = new ArrayList<>();
+    private final I18nDelegator      i18nDelegator;
+    private final I18nKeyFactory     i18nKeyFactory;
 
     public I18nClassImpl(
-        final Class<? extends T>    objectToI18nClass,
-        final I18nDelegator         i18nDelegator
+        final Class<? extends T> objectToI18nClass,
+        final I18nDelegator      i18nDelegator
         )
     {
         this.objectToI18nClass = objectToI18nClass;
@@ -99,7 +99,10 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         //?? TODO ?? eventHandle.ignoreSuperClass(?)
     }
 
-    private Field[] getFields( final I18nDelegator i18nDelegator, final Class<?> currentClass )
+    private Field[] getFields(
+        final I18nDelegator i18nDelegator,
+        final Class<?>      currentClass
+        )
     {
         final Field[] fields;
 
@@ -113,7 +116,11 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         return fields;
     }
 
-    private void handleFields( final I18nDelegator i18nDelegator, final Class<?> currentClass )
+    @SuppressWarnings("squid:S135") // single "break" or "continue"
+    private void handleFields(
+        final I18nDelegator i18nDelegator,
+        final Class<?>      currentClass
+        )
     {
         final Field[] fields = getFields( i18nDelegator, currentClass );
 
@@ -133,6 +140,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 }
 
             boolean skip = false;
+
             for( final Class<?> notHandleClass : NOT_HANDLED_FIELD_TYPES ) {
                 if( notHandleClass.isAssignableFrom( ftype ) ) {
                     i18nDelegator.fireIgnoreField( field, null, EventCause.FIELD_TYPE_IS_NOT_HANDLE, null );
@@ -140,6 +148,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                     break;
                     }
                 }
+
             if( skip ) {
                 continue; // ignore numbers
                 }
@@ -164,20 +173,24 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             }
     }
 
-    private void addValueToCustomizeForToolTipTextAndHandleErrors( final I18nDelegator i18nDelegator, final Field field, final I18nToolTipText toolTipText )
+    private void addValueToCustomizeForToolTipTextAndHandleErrors(
+        final I18nDelegator   i18nDelegator,
+        final Field           field,
+        final I18nToolTipText toolTipText
+        )
     {
         try {
             addValueToCustomizeForToolTipText( field, toolTipText.id(), toolTipText.method() );
-            }
-        catch( final MethodProviderSecurityException e ) {
-            i18nDelegator.handleSecurityException( e, field );
-            }
-        catch( final MethodProviderNoSuchMethodException e ) {
-            i18nDelegator.handleNoSuchMethodException( e, field );
-            }
-        catch( final I18nSyntaxException e ) {
-            i18nDelegator.handleI18nSyntaxeException( e, field );
-            }
+        }
+        catch( final MethodProviderSecurityException cause ) {
+            i18nDelegator.handleSecurityException( cause, field );
+        }
+        catch( final MethodProviderNoSuchMethodException cause ) {
+            i18nDelegator.handleNoSuchMethodException( cause, field );
+        }
+        catch( final I18nSyntaxException cause ) {
+            i18nDelegator.handleI18nSyntaxeException( cause, field );
+        }
     }
 
     @Override
@@ -204,10 +217,18 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 methodContener = null;
                 }
             else {
-                methodContener = MethodProviderFactory.getMethodProvider( this.i18nDelegator ).getMethods( this.objectToI18nClass, field, method );
+                methodContener = MethodProviderFactory
+                    .getMethodProvider( this.i18nDelegator )
+                        .getMethods( this.objectToI18nClass, field, method );
                 }
 
-            final I18nField i18nfield = I18nFieldFactory.createI18nFieldToolTipText( this.i18nDelegator, this.i18nKeyFactory, field, id, methodContener );
+            final I18nField i18nfield = I18nFieldFactory.newI18nFieldToolTipText(
+                                            this.i18nDelegator,
+                                            this.i18nKeyFactory,
+                                            field,
+                                            id,
+                                            methodContener
+                                            );
 
             this.fieldList.add( i18nfield );
             }
@@ -243,7 +264,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
 
         if( ! alreadyHandle ) {
             // No annotation, use default process
-            final AutoI18nType type = this.i18nDelegator.getDefaultAutoI18nTypes().lookup( field );
+            final AutoI18nType type = this.i18nDelegator.getAutoI18nTypeLookup().lookup( field );
 
             if( type != null ) {
                 addValueToCustomizeAndHandleErrors( field, type );
@@ -259,16 +280,16 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         try {
             addValueToCustomize( field, StringHelper.EMPTY, StringHelper.EMPTY, type );
             }
-        catch( final MethodProviderSecurityException e ) {
+        catch( final MethodProviderSecurityException cause ) {
             // Should not occur (no reflexion here)
-            this.i18nDelegator.handleSecurityException( e, field );
+            this.i18nDelegator.handleSecurityException( cause, field );
             }
-        catch( final MethodProviderNoSuchMethodException e ) {
+        catch( final MethodProviderNoSuchMethodException cause ) {
             // Should not occur (no reflexion here)
-            this.i18nDelegator.handleNoSuchMethodException( e, field );
+            this.i18nDelegator.handleNoSuchMethodException( cause, field );
             }
-        catch( final I18nSyntaxException e ) {
-            this.i18nDelegator.handleI18nSyntaxeException( e, field );
+        catch( final I18nSyntaxException cause ) {
+            this.i18nDelegator.handleI18nSyntaxeException( cause, field );
             }
     }
 
@@ -276,32 +297,36 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     {
         try {
             final AutoI18nType type = this.i18nDelegator.getAutoI18nTypes().lookup( field );
+
             addValueToCustomize( field, i18n.id(), i18n.method(), type );
             }
-        catch( final MethodProviderSecurityException e ) {
-            this.i18nDelegator.handleSecurityException( e, field );
+        catch( final MethodProviderSecurityException cause ) {
+            this.i18nDelegator.handleSecurityException( cause, field );
             }
-        catch( final MethodProviderNoSuchMethodException e ) {
-            this.i18nDelegator.handleNoSuchMethodException( e, field );
+        catch( final MethodProviderNoSuchMethodException cause ) {
+            this.i18nDelegator.handleNoSuchMethodException( cause, field );
             }
-        catch( final I18nSyntaxException e ) {
-            this.i18nDelegator.handleI18nSyntaxeException( e, field );
+        catch( final I18nSyntaxException cause ) {
+            this.i18nDelegator.handleI18nSyntaxeException( cause, field );
             }
     }
 
-    private void addValueToCustomizeForStringAndHandleErrors( final Field field, final I18nString i18nString )
+    private void addValueToCustomizeForStringAndHandleErrors(
+        final Field      field,
+        final I18nString i18nString
+        )
     {
         try {
             addValueToCustomizeForString( field, i18nString.id(), i18nString.method() );
             }
-        catch( final MethodProviderSecurityException e ) {
-            this.i18nDelegator.handleSecurityException( e, field );
+        catch( final MethodProviderSecurityException cause ) {
+            this.i18nDelegator.handleSecurityException( cause, field );
             }
-        catch( final MethodProviderNoSuchMethodException e ) {
-            this.i18nDelegator.handleNoSuchMethodException( e, field );
+        catch( final MethodProviderNoSuchMethodException cause ) {
+            this.i18nDelegator.handleNoSuchMethodException( cause, field );
             }
-        catch( final I18nSyntaxException e ) {
-            this.i18nDelegator.handleI18nSyntaxeException( e, field );
+        catch( final I18nSyntaxException cause ) {
+            this.i18nDelegator.handleI18nSyntaxeException( cause, field );
             }
     }
 
@@ -318,14 +343,19 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                  I18nSyntaxException
     {
         // Check if field is a String
-        if( !String.class.isAssignableFrom( field.getType() ) && !String[].class.isAssignableFrom( field.getType() ) ) {
+        if( isTypeString( field ) ) {
 
             if( LOGGER.isTraceEnabled() ) {
-                final boolean isAssignableFromString = String.class.isAssignableFrom( field.getType() );
+                final boolean isAssignableFromString      = String.class.isAssignableFrom( field.getType() );
                 final boolean isAssignableFromStringArray = String[].class.isAssignableFrom( field.getType() );
 
-                LOGGER.trace( new DebugException( "*** Syntaxe error " + field.getType() + " : isAssignableFromString = " + isAssignableFromString
-                        + " * isAssignableFromStringArray = " + isAssignableFromStringArray ) );
+                LOGGER.trace(
+                    new DebugException(
+                        "*** Syntaxe error " + field.getType()
+                        + " : isAssignableFromString = " + isAssignableFromString
+                        + " * isAssignableFromStringArray = " + isAssignableFromStringArray
+                        )
+                    );
             }
 
             throw new I18nStringNotAStringException( field );
@@ -343,12 +373,26 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         if( methodName.isEmpty() ) {
             methodContener = null;
         } else {
-            methodContener = MethodProviderFactory.getMethodProvider( this.i18nDelegator ).getMethods( this.objectToI18nClass, field, methodName );
+            methodContener = MethodProviderFactory
+                .getMethodProvider( this.i18nDelegator )
+                    .getMethods( this.objectToI18nClass, field, methodName );
         }
 
-        final I18nField i18nfield = I18nFieldFactory.createI18nStringField( this.i18nDelegator, this.i18nKeyFactory, field, id, methodContener );
+        final I18nField i18nfield = I18nFieldFactory.newI18nStringField(
+                                        this.i18nDelegator,
+                                        this.i18nKeyFactory,
+                                        field,
+                                        id,
+                                        methodContener
+                                        );
 
         this.fieldList.add( i18nfield );
+    }
+
+    private boolean isTypeString( final Field field )
+    {
+        return !String.class.isAssignableFrom( field.getType() )
+                && !String[].class.isAssignableFrom( field.getType() );
     }
 
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -367,11 +411,20 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             methodContener = null;
             }
         else {
-            methodContener = MethodProviderFactory.getMethodProvider( this.i18nDelegator ).getMethods( this.objectToI18nClass, field, method );
+            methodContener = MethodProviderFactory
+                .getMethodProvider( this.i18nDelegator )
+                    .getMethods( this.objectToI18nClass, field, method );
             }
 
         this.fieldList.add(
-                I18nFieldFactory.createI18nField( this.i18nDelegator, this.i18nKeyFactory, field, id, methodContener, autoI18nType )
+                I18nFieldFactory.newI18nField(
+                        this.i18nDelegator,
+                        this.i18nKeyFactory,
+                        field,
+                        id,
+                        methodContener,
+                        autoI18nType
+                        )
                 );
     }
 

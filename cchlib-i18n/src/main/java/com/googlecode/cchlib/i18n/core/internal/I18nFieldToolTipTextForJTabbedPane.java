@@ -5,7 +5,6 @@ import javax.swing.JTabbedPane;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.I18nField;
-import com.googlecode.cchlib.i18n.core.I18nField.FieldType;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolvedFieldGetter;

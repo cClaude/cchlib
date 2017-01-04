@@ -2,13 +2,14 @@ package com.googlecode.cchlib.i18n.core.internal;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nApplyable;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 
 public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
 {
@@ -17,12 +18,24 @@ public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
 
     private final Map<Class<?>,I18nClass<?>> map = new HashMap<>();
     private final I18nDelegator              i18nDelegator;
-    private final Locale                     locale;
 
     public AutoI18nCoreImpl( final I18nDelegator i18nDelegator )
     {
         this.i18nDelegator = i18nDelegator;
-        this.locale        = Locale.getDefault();
+    }
+
+    public AutoI18nConfigSet getConfig()
+    {
+        return this.i18nDelegator.getConfig();
+    }
+
+    /**
+     * Returns the {@link I18nDelegator} for {@link I18nResourceBuilder} process
+     * @return the {@link I18nDelegator}
+     */
+    public I18nDelegator getI18nDelegator()
+    {
+        return this.i18nDelegator;
     }
 
     @Override
@@ -34,7 +47,7 @@ public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
         assert objectToI18n != null : "Object to I18n is null";
         assert clazz != null : "Class of object to I18n is null";
 
-        if( this.i18nDelegator.getConfig().contains( AutoI18nConfig.DISABLE ) ) {
+        if( getConfig().getSafeConfig().contains( AutoI18nConfig.DISABLE ) ) {
             // Internalization is disabled.
             return;
             }
@@ -46,7 +59,7 @@ public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
         final I18nClass<T>     i18nClass = getI18nClass( clazz );
         final I18nApplyable<T> applyer   = new I18nApplyableImpl<>( i18nClass, this.i18nDelegator );
 
-        applyer.performeI18n( objectToI18n, this.locale );
+        applyer.performeI18n( objectToI18n );
     }
 
     private <T> I18nClass<T> getI18nClass( final Class<? extends T> clazz )
@@ -68,7 +81,6 @@ public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
     {
         return "AutoI18nCoreImpl [map=" + this.map
             + ", i18nDelegator=" + this.i18nDelegator
-            + ", locale=" + this.locale
             + "]";
     }
 }

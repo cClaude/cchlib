@@ -34,4 +34,26 @@ public class AutoI18nConfigSet implements Serializable
     {
         return this.config;
     }
+
+    public boolean contains( final AutoI18nConfig value )
+    {
+        return this.config.contains( value );
+    }
+
+    public boolean isPrintStacktraceInLogs()
+    {
+        return contains( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS );
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append( "AutoI18nConfigSet [config=" );
+        builder.append( this.config );
+        builder.append( "]" );
+
+        return builder.toString();
+    }
 }

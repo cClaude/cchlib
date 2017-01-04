@@ -13,20 +13,20 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
 
 public class QuickI18nTestPrep
 {
-    static I18nPrepResult runTest() throws I18nPrepException
+    static I18nPrepResult runTest( final QuickI18nTestFrame frame ) throws I18nPrepException
     {
-        // Default language !
+        // TODO Auto-generated method stub
+
+      // Default language !
         final Locale locale = Locale.ENGLISH;
 
-        // Build frame
-        final QuickI18nTestFrame frame = new QuickI18nTestFrame();
 
         // Define output
         final PrintStream usageStatPrintStream  = System.err;
         final PrintStream notUsePrintStream     = System.out;
 
         final I18nPrep autoI18n = I18nPrepFactory.newI18nPrep(
-                    AutoI18nConfig.newAutoI18nConfig(),
+                    AutoI18nConfig.newAutoI18nConfig( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS ),
                     I18nResourceBundleNameFactory.newI18nResourceBundleName(
                             frame.getClass()
                             ),
@@ -46,6 +46,9 @@ public class QuickI18nTestPrep
 
     public static void main( final String...args ) throws Exception
     {
-        runTest();
+        // Build frame
+        final QuickI18nTestFrame frame = QuickI18nTestFrame.newQuickI18nTestFrame();
+
+        runTest( frame );
     }
 }

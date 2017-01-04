@@ -6,11 +6,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nEventHandler;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
@@ -72,7 +69,7 @@ public class I18nDelegator implements Serializable
         this.exceptionHandlerList.add( exceptionHandler );
     }
 
-    public void fireIgnoreAnnotation(
+    protected void fireIgnoreAnnotation(
         final Field      field,
         final Annotation i18n,
         final EventCause cause
@@ -105,20 +102,23 @@ public class I18nDelegator implements Serializable
         return this.allTypes;
     }
 
-    public Set<AutoI18nConfig> getConfig()
+    public AutoI18nConfigSet getConfig()
     {
-        return this.config.getSafeConfig();
+        return this.config;
     }
 
     /**
-     * @return a {@link AutoI18nTypeLookup} that look only in default supported types.
+     * Returns the {@link AutoI18nTypeLookup}, this class is desing to filter
+     * supported type.
+     *
+     * @return the {@link AutoI18nTypeLookup}
      */
-    public AutoI18nTypeLookup getDefaultAutoI18nTypes()
+    public AutoI18nTypeLookup getAutoI18nTypeLookup()
     {
         return this.defaultTypes;
     }
 
-    public I18nResource getI18nInterface( final Locale locale )
+    public I18nResource getI18nResource()
     {
         return this.i18nResource;
     }

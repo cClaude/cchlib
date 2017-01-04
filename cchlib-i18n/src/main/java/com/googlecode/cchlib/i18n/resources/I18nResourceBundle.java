@@ -135,4 +135,18 @@ public class I18nResourceBundle implements I18nResource, Serializable
     {
         return this.locale;
     }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append( getClass().getSimpleName() ).append( " [locale=" );
+        builder.append( this.locale );
+        builder.append( ", resourceBundleFullBaseName=" );
+        builder.append( this.resourceBundleFullBaseName );
+        builder.append( ", getResourceBundle()=" );
+        builder.append( getResourceBundle() );
+        builder.append( "]" );
+        return builder.toString();
+    }
 }

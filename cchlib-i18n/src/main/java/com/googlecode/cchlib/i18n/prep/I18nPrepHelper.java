@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
  * Create resources bundles files
@@ -92,7 +93,7 @@ public final class I18nPrepHelper
     {
         final PrepCollector<Integer> usageStatCollector = new PrepCollector<>();
         final PrepCollector<String>  notUseCollector    = new PrepCollector<>();
-        final File                   outputFile         = newOutputFile( i18nPrep );
+        final File                   outputFile         = newOutputFile( i18nPrep.getI18nResourceBundleName() );
         final AutoI18nCore           autoI18n           = i18nPrep.getAutoI18nCore();
 
         i18nPrep.openOutputFile( outputFile );
@@ -106,11 +107,11 @@ public final class I18nPrepHelper
         return new I18nPrepResultImpl( notUseCollector, outputFile, usageStatCollector, i18nPrepStatResult );
     }
 
-    private static File newOutputFile( final I18nPrep i18nPrep )
+    private static File newOutputFile( final I18nResourceBundleName i18nResourceBundleName )
     {
         return new File(
             new File( "." ).getAbsoluteFile(),
-            i18nPrep.getI18nResourceBundleName().getName()
+            i18nResourceBundleName.getName()
             );
     }
 
@@ -144,7 +145,7 @@ public final class I18nPrepHelper
             final String key = entry.getKey();
 
             usageStatCollector.add( key, entry.getValue() );
-            knowKeyMap.remove( key );
+            // knowKeyMap.remove( key ); is this useful ?
         }
 
         for( final String key : statsMap.keySet() ) {

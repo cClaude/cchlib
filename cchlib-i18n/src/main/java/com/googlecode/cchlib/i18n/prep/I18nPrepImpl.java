@@ -51,7 +51,7 @@ import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 //Not public
 class I18nPrepImpl implements I18nPrep
 {
-    private final class AutoI18nEventHandlerImpl implements AutoI18nEventHandler
+    private final class AutoI18nEventHandlerPrepImpl implements AutoI18nEventHandler
     {
         private static final long serialVersionUID = 1L;
 
@@ -70,16 +70,16 @@ class I18nPrepImpl implements I18nPrep
         }
 
         @Override
-        public void localizedField( final Field f, final String key )
+        public void localizedField( final Field field, final String key )
         {
-            if( LOGGER.isDebugEnabled() ) {
-                LOGGER.debug( "I18nPrep.localizedField: " + key );
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "localizedField key =\"" + key + "\" : " + field );
                 }
 
             incForKey( key );
         }
 
-        private void incForKey( final String key )
+        private synchronized void incForKey( final String key )
         {
             assert key != null : "Key is null";
 
@@ -97,11 +97,11 @@ class I18nPrepImpl implements I18nPrep
         }
     }
 
-    private final class AutoI18nLog4JExceptionHandlerImpl extends AutoI18nLog4JExceptionHandler
+    private final class AutoI18nLog4JExceptionHandlerPrepImpl extends AutoI18nLog4JExceptionHandler
     {
         private static final long serialVersionUID = 1L;
 
-        private AutoI18nLog4JExceptionHandlerImpl(
+        private AutoI18nLog4JExceptionHandlerPrepImpl(
             @Nullable final Level            level,
             @Nonnull final AutoI18nConfigSet config
             )
@@ -121,7 +121,9 @@ class I18nPrepImpl implements I18nPrep
             assert i18nField.getMethodContener() == null;
 
             try {
-                // TODO investigate : i18nResource seems never use there
+                // TODO investigate : i18nResource seems never use there, and there is
+                // no reason to keep this information.
+                // We already know that related key is missing.
                 final I18nResolver resolver = i18nField.createI18nResolver( objectToI18n, i18nResource );
                 final Keys         keys     = resolver.getKeys();
 
@@ -132,10 +134,10 @@ class I18nPrepImpl implements I18nPrep
                 assert keys.size() > 0;
 
                 for( int i = 0; i < keys.size(); i++ ) {
-                    final String k = keys.get( i );
-                    final String v = values.get( i );
+                    final String key   = keys.get( i );
+                    final String value = values.get( i );
 
-                    I18nPrepImpl.this.missingPropertiesMap.put( k, v );
+                    addMissingProperties( key, value );
                 }
             }
             catch( MissingKeyException | GetFieldException e ) {
@@ -143,6 +145,11 @@ class I18nPrepImpl implements I18nPrep
             }
 
             super.handleMissingResourceException( cause, i18nField, objectToI18n, i18nResource );
+        }
+
+        private synchronized void addMissingProperties( final String key, final String value )
+        {
+            I18nPrepImpl.this.missingPropertiesMap.put( key, value );
         }
     }
 
@@ -172,20 +179,18 @@ class I18nPrepImpl implements I18nPrep
         this.defaultAutoI18nTypes   = defaultAutoI18nTypes;
         this.resourceBundleName     = resourceBundleName;
         this.i18nResourceBundle     = new I18nSimpleResourceBundle( resourceBundleName, locale );
+
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( this );
+        }
      }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#getI18nResourceBundleName()
-     */
     @Override
     public I18nResourceBundleName getI18nResourceBundleName()
     {
         return this.resourceBundleName;
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#getI18nPrepStatResult()
-     */
     @Override
     public I18nPrepStatResult getI18nPrepStatResult()
     {
@@ -201,9 +206,6 @@ class I18nPrepImpl implements I18nPrep
         return this.i18nDelegator;
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#getAutoI18nCore()
-     */
     @Override
     public AutoI18nCore getAutoI18nCore()
     {
@@ -211,10 +213,10 @@ class I18nPrepImpl implements I18nPrep
             final I18nDelegator delegator = getI18nDelegator();
 
             delegator.addAutoI18nExceptionHandler(
-                new AutoI18nLog4JExceptionHandlerImpl( Level.TRACE, this.config )
+                new AutoI18nLog4JExceptionHandlerPrepImpl( Level.TRACE, this.config )
                 );
             delegator.addAutoI18nEventHandler( new AutoI18nLog4JEventHandler() );
-            delegator.addAutoI18nEventHandler( new AutoI18nEventHandlerImpl() );
+            delegator.addAutoI18nEventHandler( new AutoI18nEventHandlerPrepImpl() );
 
             this.autoI18nCore = new AutoI18nCoreImpl( delegator );
             }
@@ -222,10 +224,6 @@ class I18nPrepImpl implements I18nPrep
         return this.autoI18nCore;
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#getI18nResourceBundle()
-     */
-    @Override
     public I18nResourceBundle getI18nResourceBundle()
     {
         return this.i18nResourceBundle;
@@ -236,36 +234,23 @@ class I18nPrepImpl implements I18nPrep
         return this.i18nResourceBundle;
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#getResourceBundle()
-     */
     @Override
     public ResourceBundle getResourceBundle()
     {
         return this.i18nResourceBundle.getResourceBundle();
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#addAutoI18nEventHandler(com.googlecode.cchlib.i18n.AutoI18nEventHandler)
-     */
-    @Override
     public void addAutoI18nEventHandler( final AutoI18nEventHandler eventHandler )
     {
         getI18nDelegator().addAutoI18nEventHandler( eventHandler );
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#addAutoI18nExceptionHandler(com.googlecode.cchlib.i18n.AutoI18nExceptionHandler)
-     */
     @Override
     public void addAutoI18nExceptionHandler( final AutoI18nExceptionHandler exceptionHandler )
     {
         getI18nDelegator().addAutoI18nExceptionHandler( exceptionHandler );
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#getResourceBundleMap()
-     */
     @Override
     public Map<String,String> getResourceBundleMap()
     {
@@ -283,18 +268,12 @@ class I18nPrepImpl implements I18nPrep
         return map;
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#openOutputFile(java.io.File)
-     */
     @Override
     public void openOutputFile( final File outputFile )
     {
         this.resourceBundleOutputFile = outputFile;
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#closeOutputFile()
-     */
     @Override
     public void closeOutputFile() throws IOException
     {
@@ -346,12 +325,37 @@ class I18nPrepImpl implements I18nPrep
         return new FileOutputStream( this.resourceBundleOutputFile );
     }
 
-    /* (non-Javadoc)
-     * @see com.googlecode.cchlib.i18n.core.I18nPrepInterface#getUsageMap()
-     */
     @Override
     public Map<String,Integer> getUsageMap()
     {
         return Collections.unmodifiableMap( this.keyUsageCountMap );
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append( "I18nPrepImpl [config=" );
+        builder.append( this.config );
+        builder.append( ", defaultAutoI18nTypes=" );
+        builder.append( this.defaultAutoI18nTypes );
+        builder.append( ", i18nResourceBundle=" );
+        builder.append( this.i18nResourceBundle );
+        builder.append( ", resourceBundleName=" );
+        builder.append( this.resourceBundleName );
+        builder.append( ", keyUsageCountMap=" );
+        builder.append( this.keyUsageCountMap );
+        builder.append( ", missingPropertiesMap=" );
+        builder.append( this.missingPropertiesMap );
+        builder.append( ", autoI18nCore=" );
+        builder.append( this.autoI18nCore );
+        builder.append( ", i18nDelegator=" );
+        builder.append( this.i18nDelegator );
+        builder.append( ", resourceBundleOutputFile=" );
+        builder.append( this.resourceBundleOutputFile );
+        builder.append( ", i18nPrepStatResult=" );
+        builder.append( this.i18nPrepStatResult );
+        builder.append( ']' );
+        return builder.toString();
     }
 }

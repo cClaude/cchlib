@@ -8,20 +8,20 @@ class MethodContenerImpl implements MethodContener
 {
     private static final long serialVersionUID = 1L;
 
-    private final Class<?> clazz;
-    private final String methodName;
+    private final Class<?>   clazz;
+    private final String     methodName;
     private final Class<?>[] parameterTypes;
     private transient Method method;
 
-    public MethodContenerImpl( final Class<?> clazz, final String methodName )
+    MethodContenerImpl( final Class<?> clazz, final String methodName )
     {
-        this(clazz,methodName, Classes.emptyArray());
+        this( clazz ,methodName, Classes.emptyArray() );
     }
 
-    public MethodContenerImpl( //
-            @Nonnull final Class<?> clazz, //
-            @Nonnull final String methodName, //
-            @Nonnull final Class<?> ... parameterTypes //
+    MethodContenerImpl(
+            @Nonnull final Class<?>   clazz,
+            @Nonnull final String     methodName,
+            @Nonnull final Class<?>...parameterTypes
             ) //
     {
         assert clazz != null : "clazz parameter is null";
@@ -40,6 +40,7 @@ class MethodContenerImpl implements MethodContener
     }
 
     @Override
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public Method getMethod() throws SecurityException, NoSuchMethodException
     {
         if( this.method == null ) {
@@ -49,12 +50,12 @@ class MethodContenerImpl implements MethodContener
         return this.method;
     }
 
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private static Method getMethodForClass(
-            final Class<?>   clazz,
-            final String     methodName,
-            final Class<?>[] parameterTypes
-            )
-            throws SecurityException, NoSuchMethodException
+        final Class<?>   clazz,
+        final String     methodName,
+        final Class<?>[] parameterTypes
+        ) throws SecurityException, NoSuchMethodException
     {
         return clazz.getMethod( methodName, parameterTypes );
     }

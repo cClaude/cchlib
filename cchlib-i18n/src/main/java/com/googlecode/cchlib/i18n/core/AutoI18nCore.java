@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.i18n.core;
 
-
 /**
  * Define a class able to be internationalized.
  *

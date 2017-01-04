@@ -27,5 +27,8 @@ public class QuickI18nTestFrameTest
         // No I18n for text in resource
         assertThat( b2.getText() ).isEqualTo( "my button with tool tip text 2 (no I18n)" );
         assertThat( b2.getToolTipText() ).isEqualTo( "I18n(my tool tip text 2)" );
+
+        // Check the missing entry (be sure it missing)
+        assertThat( frame.getMissingI18nEntry() ).isEqualTo( "This entry have no I18n" );
     }
 }
