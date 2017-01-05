@@ -2,29 +2,25 @@ package com.googlecode.cchlib.apps.duplicatefiles;
 
 import java.awt.HeadlessException;
 import java.awt.Window;
-import java.io.PrintStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
-import java.util.Set;
 import java.util.TooManyListenersException;
 import java.util.concurrent.TimeUnit;
 import com.googlecode.cchlib.VisibleForTesting;
-import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.about.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.prefs.PreferencesDialogWB;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControlerFactory;
-import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nConfigService;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.ResourcesPath;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nCoreService;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
-import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.core.I18nPrep;
-import com.googlecode.cchlib.i18n.prep.I18nPrepException;
-import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
-import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderHelper;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.lang.Threads;
 
 /**
@@ -40,27 +36,25 @@ public class DuplicateFilesI18nPrep
         // Empty
     }
 
+    @SuppressWarnings("squid:S106") // System.out
     public static void main( final String[] args ) throws Exception
     {
-        runDoPrep();
+        final I18nResourceBuilderResult result = runResourceBuilder();
+        I18nResourceBuilderHelper.fmtAll( System.out, result );
     }
 
     @VisibleForTesting
     @SuppressWarnings({
-        "squid:S106", // System.err & System.out
         "squid:RedundantThrowsDeclarationCheck"
         })
-    static I18nPrepResult runDoPrep()
-        throws HeadlessException, I18nPrepException, TooManyListenersException
+    static I18nResourceBuilderResult runResourceBuilder()
+        throws IOException, HeadlessException, TooManyListenersException
     {
         // Default language !
         final PreferencesControler preferences = getPreferences();
 
         // Build frame
         final DuplicateFilesFrame duplicateFilesFrame  = new DuplicateFilesFrame( preferences );
-        final AppToolKit          dfToolKit            = AppToolKitService.getInstance().createAppToolKit( preferences, duplicateFilesFrame );
-        final PrintStream         usageStatPrintStream = System.err;
-        final PrintStream         notUsePrintStream    = System.out;
 
         final I18nAutoCoreUpdatable[] i18nConteners = {
             duplicateFilesFrame,
@@ -69,21 +63,32 @@ public class DuplicateFilesI18nPrep
             new RemoveEmptyFilesJPanel()
             };
 
-        final Set<AutoI18nConfig>    config                 = AutoI18nConfigService.getInstance().getAutoI18nConfig();
-        final I18nResourceBundleName i18nResourceBundleName = dfToolKit.getI18nResourceBundleName();
+        final I18nResourceBuilder builder
+            = I18nResourceBuilderFactory.newI18nResourceBuilder(
+                    AutoI18nCoreService.getInstance().getAutoI18nCore()
+                    );
 
-        final I18nPrep       i18nPrep = I18nPrepFactory.newI18nPrep( config, i18nResourceBundleName, preferences.getLocale() );
-        final I18nPrepResult result   = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
+        for( final I18nAutoCoreUpdatable i18nObject : i18nConteners ) {
+            builder.append( i18nObject );
+        }
 
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result );
+        final File outputFile = I18nResourceBuilderHelper.newOutputFile(
+                ResourcesPath.class.getPackage()
+                );
 
+        builder.saveMissingResourceBundle( outputFile );
+
+        // Compute result
+        final I18nResourceBuilderResult result = builder.getResult();
+
+        // Dispose all windows.
         for( final I18nAutoCoreUpdatable contener : i18nConteners ) {
             if( contener instanceof Window ) {
                 ((Window)contener).dispose();
                 }
             }
 
+        // Wait to avoid some error trace from awt/swing
         Threads.sleep( 1, TimeUnit.SECONDS );
 
         return result;
