@@ -22,7 +22,7 @@ import com.googlecode.cchlib.tools.downloader.comboconfig.GenericDownloaderAppCo
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 
 
-/**
+/*
  * http://www.gifgirl.org/search?updated-max=2012-06-12T17:20:00-05:00&max-results=40&start=12&by-date=false
  * http://www.gifgirl.org/search?updated-max=2012-06-21T16:09:00-05:00&max-results=4
  * http://www.gifgirl.org/search?updated-max=2012-06-18T16:07:00-05:00&max-results=4&start=4&by-date=false

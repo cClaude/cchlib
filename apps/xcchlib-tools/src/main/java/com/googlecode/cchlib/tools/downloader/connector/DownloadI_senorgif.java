@@ -17,7 +17,7 @@ import com.googlecode.cchlib.tools.downloader.comboconfig.GenericDownloaderAppCo
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 
 
-/**
+/*
  * http://senorgif.memebase.com/page/5/ 1600
  */
 public class DownloadI_senorgif

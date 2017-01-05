@@ -17,7 +17,7 @@ import com.googlecode.cchlib.tools.downloader.comboconfig.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 
 
-/**
+/*
  *
  * http://www.gifpal.com/gallery/top-week/3/
  *

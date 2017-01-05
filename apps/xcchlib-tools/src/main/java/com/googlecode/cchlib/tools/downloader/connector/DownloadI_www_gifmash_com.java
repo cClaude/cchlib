@@ -17,7 +17,7 @@ import com.googlecode.cchlib.tools.downloader.comboconfig.GenericDownloaderAppCo
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 
 
-/**
+/*
  * http://www.gifmash.com/
  *
  * http://picasion.com/gallery/24151868/

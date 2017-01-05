@@ -17,7 +17,7 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 
 
-/**
+/*
  *
  *
  *http://www.photofunia.com/output/4/1/I/V/c/IVcOXqVdzyhMjNamUoG1IA_s.jpg
