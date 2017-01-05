@@ -15,6 +15,14 @@ public class I18nResourceBuilderHelper
         // All static
     }
 
+    /**
+     * Create a properties file base of {@code referenceType} class name.
+     *
+     * @param referenceType Type to use
+     * @return a properties file
+     * @throws IOException if can not build canonical path for current directory
+     * @see I18nResourceBundleNameFactory#newI18nResourceBundleName(Class)
+     */
     public static File newOutputFile( final Class<?> referenceType ) throws IOException
     {
         final I18nResourceBundleName rbn
@@ -24,6 +32,17 @@ public class I18nResourceBuilderHelper
         return newFileFromCurrentDirectory( filenamePrefix );
     }
 
+    /**
+     * Create a properties file base of {@code referencePackage} package name.
+     * <p>
+     * File name will be prefix by {@link I18nResourceBundleNameFactory#DEFAULT_MESSAGE_BUNDLE_BASENAME}
+     * value.
+     *
+     * @param referencePackage Package to use
+     * @return a properties file
+     * @throws IOException if can not build canonical path for current directory
+     * @see I18nResourceBundleNameFactory#newI18nResourceBundleName(Package)
+     */
     public static File newOutputFile( final Package referencePackage ) throws IOException
     {
         final I18nResourceBundleName rbn
@@ -33,14 +52,15 @@ public class I18nResourceBuilderHelper
         return newFileFromCurrentDirectory( filenamePrefix );
     }
 
-    private static File getCurrentDirectory() throws IOException
+    private static File getCurrentDirectoryCanonicalFile() throws IOException
     {
         return new File( "." ).getCanonicalFile();
     }
 
-    private static File newFileFromCurrentDirectory( final String filenamePrefix ) throws IOException
+    private static File newFileFromCurrentDirectory( final String filenamePrefix )
+        throws IOException
     {
-        return new File( getCurrentDirectory(), filenamePrefix + ".properties" );
+        return new File( getCurrentDirectoryCanonicalFile(), filenamePrefix + ".properties" );
     }
 
     public static void fmtAll(

@@ -61,7 +61,7 @@ public class I18nResourceBundleNameFactory
      *            Reference class to use for {@link ResourceBundle} access
      * @param messageBundleBaseName
      *            Filename prefix to use for {@link ResourceBundle}
-     *
+     * @return an {@link I18nResourceBundleName}
      */
     public static I18nResourceBundleName newI18nResourceBundleName(
         final Class<?> referenceClass,
@@ -76,6 +76,7 @@ public class I18nResourceBundleNameFactory
      * {@link #DEFAULT_MESSAGE_BUNDLE_BASENAME} value
      *
      * @param packageMessageBundleBase package to use
+     * @return an {@link I18nResourceBundleName}
      */
     public static I18nResourceBundleName newI18nResourceBundleName(
         final Package packageMessageBundleBase

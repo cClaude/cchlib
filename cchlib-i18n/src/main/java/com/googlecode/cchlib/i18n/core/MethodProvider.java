@@ -13,9 +13,9 @@ import com.googlecode.cchlib.i18n.MethodProviderSecurityException;
 public interface MethodProvider extends Serializable
 {
     /**
-     *
-     * @param type
-     * @param field
+     * NEEDDOC
+     * @param type NEEDDOC
+     * @param field NEEDDOC
      * @param methodName the name of the method
      * @return a {@link MethodContener} for the specified method.
      * @throws MethodProviderNoSuchMethodException if any reflexion error occur
