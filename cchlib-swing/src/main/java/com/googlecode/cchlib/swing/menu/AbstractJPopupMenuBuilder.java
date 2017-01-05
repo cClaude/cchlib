@@ -645,7 +645,7 @@ public abstract class AbstractJPopupMenuBuilder implements Serializable
         final Object          clientPropertyValue
         )
     {
-        menuItem.setActionCommand(actionCommand);
+        menuItem.setActionCommand( actionCommand );
         menuItem.putClientProperty( clientPropertyKey, clientPropertyValue );
         menuItem.addActionListener( listener );
         contextMenu.add( menuItem );
