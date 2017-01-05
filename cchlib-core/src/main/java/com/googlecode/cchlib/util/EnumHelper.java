@@ -2,6 +2,7 @@ package com.googlecode.cchlib.util;
 
 import java.util.Collection;
 import java.util.EnumSet;
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
@@ -13,21 +14,23 @@ public final class EnumHelper
     private EnumHelper(){}
 
     /**
-     * Build a valid {@link EnumSet} based on a {@link Collection} of {@link Enum} values.
+     * Build a valid {@link EnumSet} based on a {@link Collection}
+     * of {@link Enum} values.
      *
      * @param <T>
-     *            an {@link Enum}
+     *            Type of the {@link Enum}
      * @param values
-     *            a {@link Collection} of values or null (null will be handle as if
-     *            collection was empty)
+     *            a {@link Collection} of values or null (null will be handle
+     *            in the same way than an empty collection)
      * @param valuesType
      *            Enum class
      * @return a none null {@link EnumSet} of {@code valuesClass}.
      */
     @SuppressWarnings("squid:S1319") // return an EnumSet (not a Set) to have same erasure than JDK
-    public static  <T extends Enum<T>> EnumSet<T> safeCopyOf(
+    @Nonnull
+    public static <T extends Enum<T>> EnumSet<T> safeCopyOf(
         @Nullable final Collection<T> values,
-        final Class<T>                valuesType
+        @Nonnull final Class<T>       valuesType
         )
     {
         if( (values == null) || values.isEmpty() ) {
@@ -36,6 +39,37 @@ public final class EnumHelper
         else {
             return EnumSet.copyOf( values );
             }
+    }
+
+    /**
+     * Build a valid {@link EnumSet} based on an array
+     * of {@link Enum} values.
+     *
+     * @param <T>
+     *            Type of the {@link Enum}
+     * @param values
+     *            an array of values or null (null will be handle
+     *            in the same way than an empty array)
+     * @param valuesType
+     *            Enum class
+     * @return a none null {@link EnumSet} of {@code valuesClass}.
+     */
+    @SuppressWarnings("squid:S1319") // return an EnumSet (not a Set) to have same erasure than JDK
+    @Nonnull
+    public static <T extends Enum<T>> EnumSet<T> safeCopyOf(
+        @Nullable final T[]     values,
+        @Nonnull final Class<T> valuesType
+        )
+    {
+        final EnumSet<T> enumSet = EnumSet.noneOf( valuesType );
+
+        if( (values != null) && (values.length > 0) ) {
+            for( final T value : values ) {
+                enumSet.add( value );
+            }
+        }
+
+        return enumSet;
     }
 
     private static <T extends Enum<T>> boolean isPrefixOf(
