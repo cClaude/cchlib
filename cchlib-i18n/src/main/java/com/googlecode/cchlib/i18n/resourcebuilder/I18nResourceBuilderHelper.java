@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.i18n.resourcebuilder;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Map;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
@@ -14,14 +15,32 @@ public class I18nResourceBuilderHelper
         // All static
     }
 
-    public static File newOutputFile( final Class<?> referenceType )
+    public static File newOutputFile( final Class<?> referenceType ) throws IOException
     {
-        final File currentDirectory = new File( "." ).getAbsoluteFile();
         final I18nResourceBundleName rbn
             = I18nResourceBundleNameFactory.newI18nResourceBundleName( referenceType );
-        final String filename = rbn.getName();
+        final String filenamePrefix = rbn.getName();
 
-        return new File( currentDirectory, filename );
+        return newFileFromCurrentDirectory( filenamePrefix );
+    }
+
+    public static File newOutputFile( final Package referencePackage ) throws IOException
+    {
+        final I18nResourceBundleName rbn
+            = I18nResourceBundleNameFactory.newI18nResourceBundleName( referencePackage );
+        final String filenamePrefix = rbn.getName();
+
+        return newFileFromCurrentDirectory( filenamePrefix );
+    }
+
+    private static File getCurrentDirectory() throws IOException
+    {
+        return new File( "." ).getCanonicalFile();
+    }
+
+    private static File newFileFromCurrentDirectory( final String filenamePrefix ) throws IOException
+    {
+        return new File( getCurrentDirectory(), filenamePrefix + ".properties" );
     }
 
     public static void fmtAll(
@@ -32,6 +51,7 @@ public class I18nResourceBuilderHelper
         fmtLocalizedFields( ps, result );
         fmtIgnoredFields( ps, result );
         fmtMissingProperties( ps, result );
+        fmtUnusedProperties( ps, result );
     }
 
     public static void fmtLocalizedFields(
@@ -39,7 +59,11 @@ public class I18nResourceBuilderHelper
         final I18nResourceBuilderResult result
         )
     {
-        fmt( ps, "localizedFieldMap", result.getLocalizedFields() );
+        ps.println( "# localizedFieldMap (key:usageCount) " );
+
+        fmtData( ps, "# localized : ", " : ", result.getLocalizedFields() );
+
+        ps.println( '#' );
     }
 
     public static void fmtIgnoredFields(
@@ -47,29 +71,53 @@ public class I18nResourceBuilderHelper
         final I18nResourceBuilderResult result
         )
     {
-        fmt( ps, "ignoredFields", result.getIgnoredFields() );
+        ps.println( "# ignoredFields (key:usageCount) " );
+
+        fmtData( ps, "# ignored : ", " : ", result.getIgnoredFields() );
+
+        ps.println( '#' );
     }
 
-    private static void fmtMissingProperties(
+    public static void fmtMissingProperties(
         final PrintStream               ps,
         final I18nResourceBuilderResult result
         )
     {
-        fmt( ps, "missingProperties", result.getMissingProperties() );
-    }
+        ps.println( "# missingProperties (key:usageCount) " );
 
-    private static void fmt(
-        final PrintStream         ps ,
-        final String              name,
-        final Map<String,Integer> fieldUsageCounts
-        )
-    {
-        ps.println( "# " + name + " (key:usageCount) " );
-
-        for( final Map.Entry<String,Integer> entry : fieldUsageCounts.entrySet() ) {
-            ps.println( "lf: " + entry.getKey() + " : " + entry.getValue() );
-        }
+        fmtData( ps, "", " : ", result.getMissingProperties() );
 
         ps.println( '#' );
+        ps.flush();
+    }
+
+    public static void fmtUnusedProperties( final PrintStream ps, final I18nResourceBuilderResult result )
+    {
+        fmtKeyValue( ps, "unusedProperties", result.getUnusedProperties() );
+    }
+
+    private static void fmtKeyValue(
+        final PrintStream        ps ,
+        final String             name,
+        final Map<String,String> keysValues
+        )
+    {
+        ps.println( "# " + name + " (key=value) " );
+
+        fmtData( ps, "", "=", keysValues );
+
+        ps.println( '#' );
+    }
+
+    private static void fmtData(
+        final PrintStream   ps ,
+        final String        linePrefix,
+        final String        separator,
+        final Map<String,?> keyValues
+        )
+    {
+        for( final Map.Entry<String,?> entry : keyValues.entrySet() ) {
+            ps.println( linePrefix + entry.getKey() + separator + entry.getValue() );
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.googlecode.cchlib.i18n.resourcebuilder;
 import java.util.Locale;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.core.internal.AutoI18nCoreImpl;
 
 public class I18nResourceBuilderFactory
@@ -44,5 +45,30 @@ public class I18nResourceBuilderFactory
                 "Dont kwnon how to handle: " + autoI18nCore.getClass()
                 );
         }
+    }
+
+    /**
+     * Create a new {@link I18nResourceBuilder}
+     *
+     * @param autoI18nCore
+     *            The {@link AutoI18nCore} configuration to use to
+     *            internationalize the application.
+     * @param configExtension
+     *            Allow to extend configuration for this process.
+     * @return the {@link I18nResourceBuilder}
+     * @throws UnsupportedOperationException
+     *             if {@link AutoI18nCore} implementation is not supported.
+     */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    public static I18nResourceBuilder newI18nResourceBuilder(
+        final AutoI18nCore     autoI18nCore,
+        final AutoI18nConfig...configExtension
+        )
+    {
+        return newI18nResourceBuilder(
+                autoI18nCore,
+                AutoI18nCoreFactory.DEFAULT_LOCALE,
+                configExtension
+                );
     }
 }

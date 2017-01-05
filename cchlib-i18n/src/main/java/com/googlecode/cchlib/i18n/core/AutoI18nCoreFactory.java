@@ -112,12 +112,12 @@ public class AutoI18nCoreFactory
     public static AutoI18nCore newAutoI18nCore(
         @Nullable final Set<AutoI18nConfig>   config,
         @Nonnull final I18nResourceBundleName resourceBundleName,
-        @Nonnull final Locale                 locale
+        @Nullable final Locale                locale
         )
     {
          return newAutoI18nCore(
              config,
-             new I18nSimpleResourceBundle( resourceBundleName, locale )
+             newI18nSimpleResourceBundle( resourceBundleName, locale )
              );
     }
 
@@ -172,11 +172,23 @@ public class AutoI18nCoreFactory
      * @return an {@link AutoI18nCore} using default configuration.
      */
     @SuppressWarnings("ucd") // API
-    public static AutoI18nCore newAutoI18nCore( final Class<?> referenceType )
+    public static AutoI18nCore newAutoI18nCore( @Nonnull final Class<?> referenceType )
     {
         return newAutoI18nCore(
             I18nResourceBundleNameFactory.newI18nResourceBundleName( referenceType )
             );
+    }
+
+    public static AutoI18nCore newAutoI18nCore(
+        @Nullable final Set<AutoI18nConfig> config,
+        @Nonnull final Class<?>             referenceType
+        )
+    {
+        return newAutoI18nCore(
+                config,
+                I18nResourceBundleNameFactory.newI18nResourceBundleName( referenceType ),
+                DEFAULT_LOCALE
+                );
     }
 
     private static Locale getSafeLocale( final Locale locale )

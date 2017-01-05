@@ -6,13 +6,17 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
  *
  * @see I18nPrep
  * @see I18nPrepHelper
+ *
+ * @deprecated use {@link I18nResourceBuilderFactory} instead
  */
+@Deprecated
 public class I18nPrepFactory
 {
     private I18nPrepFactory()

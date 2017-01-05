@@ -6,14 +6,14 @@ import javax.swing.JButton;
 import org.junit.Test;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
-public class QuickI18nTestFrameTest
+public class QuickI18nTestFrameAppTest
 {
     @Test
     public void test_QuickI18nTestFrame()
     {
         assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
-        final QuickI18nTestFrame frame = QuickI18nTestFrame.newQuickI18nTestFrame();
+        final QuickI18nTestFrameApp frame = QuickI18nTestFrameApp.newQuickI18nTestFrame();
 
         assertThat( frame ).isNotNull();
 

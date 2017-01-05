@@ -15,7 +15,7 @@
 .sonar_lock
 apps/xcchlib-apps-duplicatefilesmanager/.classpath
 apps/xcchlib-apps-duplicatefilesmanager/bin/
-apps/xcchlib-apps-duplicatefilesmanager/com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.MessagesBundle
+apps/xcchlib-apps-duplicatefilesmanager/com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.MessagesBundle.properties
 apps/xcchlib-apps-duplicatefilesmanager/target/
 apps/xcchlib-apps-duplicatefilesmanager/testResults/
 apps/xcchlib-apps-editresourcebundle/.classpath
@@ -47,11 +47,10 @@ cchlib-dhcp-test/bin/
 cchlib-dhcp/bin/
 cchlib-i18n-test/.classpath
 cchlib-i18n-test/bin/
-cchlib-i18n-test/com.googlecode.cchlib.i18n.unit.REF-empty
+cchlib-i18n-test/com.googlecode.cchlib.i18n.sample.simple.QuickI18nTestFrameApp.properties
 cchlib-i18n-test/target/
 cchlib-i18n/.classpath
 cchlib-i18n/bin/
-cchlib-i18n/com.googlecode.cchlib.i18n.unit.REF-empty
 cchlib-i18n/target/
 cchlib-io-test/.classpath
 cchlib-io-test/bin/

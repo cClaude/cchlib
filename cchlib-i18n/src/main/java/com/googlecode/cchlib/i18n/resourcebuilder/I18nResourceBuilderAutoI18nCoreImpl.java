@@ -1,9 +1,15 @@
 package com.googlecode.cchlib.i18n.resourcebuilder;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.EnumSet;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
@@ -24,8 +30,10 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JEventHandler;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 import com.googlecode.cchlib.util.EnumHelper;
+import com.googlecode.cchlib.util.properties.PropertiesHelper;
 
 final class I18nResourceBuilderAutoI18nCoreImpl
     extends AbstractAutoI18nExceptionHandler // for AutoI18nExceptionHandler
@@ -39,15 +47,16 @@ final class I18nResourceBuilderAutoI18nCoreImpl
 
     private final AutoI18nConfigSet config;
     private final AutoI18nCoreImpl  builderAutoI18nCore;
+    private final I18nResource            i18nResource;
+    private final ResourceBundle    resourceBundle;
 
     private final I18nResourceBuilderResultImpl result = new I18nResourceBuilderResultImpl();
 
-    private transient Level level; // TODO = Level.DEBUG;
 
     public I18nResourceBuilderAutoI18nCoreImpl(
-        final AutoI18nCoreImpl originalAutoI18nCore,
-        final Locale           locale,
-        final AutoI18nConfig[] configExtension
+        @Nonnull final AutoI18nCoreImpl originalAutoI18nCore,
+        @Nullable final Locale          locale,
+        @Nonnull final AutoI18nConfig[] configExtension
         )
     {
         this.config               = newAutoI18nConfigSet( originalAutoI18nCore, configExtension );
@@ -55,6 +64,19 @@ final class I18nResourceBuilderAutoI18nCoreImpl
                                         originalAutoI18nCore,
                                         this.config
                                         );
+
+        this.i18nResource = originalAutoI18nCore.getI18nDelegator().getI18nResource();
+
+        if( ! (this.i18nResource instanceof I18nResourceBundle) ) {
+            throw new UnsupportedOperationException(
+                    "Dont kwnon how to handle: " + this.i18nResource.getClass()
+                        + " expected " + I18nResourceBundle.class
+                    );
+        }
+
+        final I18nResourceBundle i18nResourceBundle = (I18nResourceBundle)this.i18nResource;
+
+        this.resourceBundle = i18nResourceBundle.getResourceBundle();
 
         if( locale != null ) {
             Locale.setDefault( locale );
@@ -109,9 +131,28 @@ final class I18nResourceBuilderAutoI18nCoreImpl
 
     @Override // I18nResourceBuilder
     @SuppressWarnings("ucd") // API
-    public I18nResourceBuilderResult buildResult( final File outputFile )
+    public I18nResourceBuilderResult getResult()
     {
+        this.result.computeUnused( this.resourceBundle.keySet(), this.i18nResource );
+
         return this.result;
+    }
+
+    @Override // I18nResourceBuilder
+    @SuppressWarnings("ucd") // API
+    public void saveMissingResourceBundle( final File outputFile ) throws IOException
+    {
+        final Map<String,String> missingKeyValues = this.result.getMissingKeyValues();
+
+        final Properties properties= new Properties();
+
+        properties.putAll( missingKeyValues );
+
+        PropertiesHelper.saveProperties( outputFile, properties );
+
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug( "saveMissingResourceBundle: " + outputFile );
+        }
     }
 
     @Override // AutoI18nEventHandler
@@ -151,20 +192,11 @@ final class I18nResourceBuilderAutoI18nCoreImpl
     protected void doHandle( final String msg, final Throwable cause )
     {
         if( this.config.isPrintStacktraceInLogs() ) {
-            LOGGER.log( getLevel(), msg, cause );
+            LOGGER.log( Level.DEBUG, msg, cause );
             }
         else {
-            LOGGER.log( getLevel(), msg + " : " + cause.getMessage() );
+            LOGGER.log( Level.DEBUG, msg + " : " + cause.getMessage() );
             }
-    }
-
-    private Level getLevel()
-    {
-        if( this.level == null ) {
-            return Level.ALL;
-        }
-
-        return this.level;
     }
 
     @Override

@@ -2,10 +2,12 @@ package com.googlecode.cchlib.i18n.sample.simple;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.EnumSet;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
@@ -13,7 +15,7 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
-public class QuickI18nTestFrame extends JFrame implements I18nAutoCoreUpdatable
+public class QuickI18nTestFrameApp extends JFrame implements I18nAutoCoreUpdatable
 {
     private static final long serialVersionUID = 1L;
     private final JPanel contentPane;
@@ -31,7 +33,7 @@ public class QuickI18nTestFrame extends JFrame implements I18nAutoCoreUpdatable
     /**
      * Create the frame.
      */
-    private QuickI18nTestFrame()
+    private QuickI18nTestFrameApp()
     {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setBounds( 100, 100, 450, 300 );
@@ -86,7 +88,7 @@ public class QuickI18nTestFrame extends JFrame implements I18nAutoCoreUpdatable
     {
         EventQueue.invokeLater( () -> {
             try {
-                final QuickI18nTestFrame frame = newQuickI18nTestFrame();
+                final QuickI18nTestFrameApp frame = newQuickI18nTestFrame();
                 frame.setVisible( true );
             }
             catch( final Exception e ) {
@@ -95,11 +97,10 @@ public class QuickI18nTestFrame extends JFrame implements I18nAutoCoreUpdatable
         });
     }
 
-    static QuickI18nTestFrame newQuickI18nTestFrame()
+    static QuickI18nTestFrameApp newQuickI18nTestFrame()
     {
-        final QuickI18nTestFrame frame = new QuickI18nTestFrame();
-
-        final AutoI18nCore autoI18n = newAutoI18nCore();
+        final QuickI18nTestFrameApp frame    = new QuickI18nTestFrameApp();
+        final AutoI18nCore          autoI18n = newAutoI18nCore();
 
         frame.performeI18n( autoI18n );
 
@@ -109,7 +110,8 @@ public class QuickI18nTestFrame extends JFrame implements I18nAutoCoreUpdatable
     static AutoI18nCore newAutoI18nCore()
     {
         return AutoI18nCoreFactory.newAutoI18nCore(
-                QuickI18nTestFrame.class
+                EnumSet.of( AutoI18nConfig.DO_DEEP_SCAN ),
+                QuickI18nTestFrameApp.class
                 );
     }
 }

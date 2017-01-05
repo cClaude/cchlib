@@ -13,6 +13,7 @@ import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
+@Deprecated
 abstract class AbstractMessageBundleBaseName
 {
     protected AbstractMessageBundleBaseName()

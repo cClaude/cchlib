@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.i18n.resourcebuilder;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.PropertyResourceBundle;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
 /**
@@ -22,10 +24,17 @@ public interface I18nResourceBuilder
     /**
      * Generate final report
      *
-     * @param outputFile
-     *            A file where missing entries will be stores.
      * @return a {@link I18nResourceBuilderResult} - mainly for non
      *         regressions tests.
      */
-    I18nResourceBuilderResult buildResult( File outputFile );
+    I18nResourceBuilderResult getResult();
+
+    /**
+     * Save {@link PropertyResourceBundle} with only missing keys.
+     *
+     * @param outputFile
+     *            A file where missing entries will be stores.
+     * @throws IOException if any
+     */
+    void saveMissingResourceBundle( File outputFile ) throws IOException;
 }
