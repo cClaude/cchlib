@@ -1,4 +1,3 @@
-// $codepro.audit.disable largeNumberOfFields, numericLiterals
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.confirm;
 
 import java.awt.Component;

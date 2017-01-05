@@ -45,17 +45,16 @@ final class DuplicatesContextualMenu implements Serializable
 
     private void beSurNonFinal()
     {
-        this.txtMenuIgnoreThisSetMen = "Ignore theses files";
-
-        this.txtMenuSortList  = "Sort by";
-        this.txtMenuSortBySize = "Size";
-        this.txtMenuSortByName = "Filename";
-        this.txtMenuSortByPath = "File path";
-        this.txtMenuSortByDepth = "File depth";
-        this.txtMenuSortFirstFile = "Select first file";
-        this.txtMenuSortByNumberOfDuplicate = "Number of duplicate";
-        this.txtMenuFirstFileRandom = "Quick";
-        this.txtMenuFirstFileDepthAscendingOrder = "Depth Order Ascending";
+        this.txtMenuIgnoreThisSetMen              = "Ignore theses files";
+        this.txtMenuSortList                      = "Sort by";
+        this.txtMenuSortBySize                    = "Size";
+        this.txtMenuSortByName                    = "Filename";
+        this.txtMenuSortByPath                    = "File path";
+        this.txtMenuSortByDepth                   = "File depth";
+        this.txtMenuSortFirstFile                 = "Select first file";
+        this.txtMenuSortByNumberOfDuplicate       = "Number of duplicate";
+        this.txtMenuFirstFileRandom               = "Quick";
+        this.txtMenuFirstFileDepthAscendingOrder  = "Depth Order Ascending";
         this.txtMenuFirstFileDepthDescendingOrder = "Depth Order Descending";
     }
 
@@ -84,33 +83,9 @@ final class DuplicatesContextualMenu implements Serializable
         {
             final JMenuItem ignoreThisSetMenuItem = addJMenuItem( cm, DuplicatesContextualMenu.this.txtMenuIgnoreThisSetMen );
 
-//            ignoreThisSetMenuItem.addActionListener( new ActionListener()
-//            {
-//                @Override
-//                public void actionPerformed( final ActionEvent event )
-//                {
-//                    Runnable task = new Runnable() {
-//
-//                        @Override
-//                        public void run()
-//                        {
-//                            try {
-//                                doIgnoreThisSetOfFiles( rowIndex );
-//                            } finally {
-//                                jPanelResult.lockGUI( false );
-//                            }
-//                        }
-//
-//                    };
-//
-//                    jPanelResult.lockGUI( true );
-//                    new Thread( task, "doIgnoreThisSetOfFiles" ).start();
-//                 }
-//
-//            } );
             ignoreThisSetMenuItem.addActionListener( event -> {
-
                 DuplicatesContextualMenu.this.jPanelResult.lockGUI( true );
+
                 new Thread( ( ) -> {
                     try {
                         doIgnoreThisSetOfFiles( rowIndex );
@@ -122,27 +97,12 @@ final class DuplicatesContextualMenu implements Serializable
             } );
         }
 
-        /**
-         * @param cm
-         */
         private void createSelectFirstMenu( final JPopupMenu cm )
         {
             final JMenu sortFirstFileMenu = addJMenu( cm, DuplicatesContextualMenu.this.txtMenuSortFirstFile );
 
-//            final ActionListener sortByListener = new ActionListener()
-//            {
-//                @Override
-//                public void actionPerformed( final ActionEvent event )
-//                {
-//                    final JMenuItem menu = JMenuItem.class.cast( event.getSource() );
-//                    final SelectFirstMode selectFirstMode = SelectFirstMode.class.cast(
-//                            menu.getClientProperty( SelectFirstMode.class )
-//                            );
-//                    jPanelResult.getListModelDuplicatesFiles().updateCache( selectFirstMode );
-//                }
-//            };
-            final ActionListener sortByListener = event -> {
-                    final JMenuItem menu = JMenuItem.class.cast( event.getSource() );
+            final ActionListener sortByListener = event -> { // ActionListener.actionPerformed( final ActionEvent event )
+                    final JMenuItem       menu            = JMenuItem.class.cast( event.getSource() );
                     final SelectFirstMode selectFirstMode = SelectFirstMode.class.cast(
                             menu.getClientProperty( SelectFirstMode.class )
                             );
@@ -160,22 +120,10 @@ final class DuplicatesContextualMenu implements Serializable
         private void createSortByMenu( final JPopupMenu cm )
         {
             final JMenu sortListMenu = addJMenu( cm, DuplicatesContextualMenu.this.txtMenuSortList );
-
-//            final ActionListener sortByListener = new ActionListener()
-//            {
-//                @Override
-//                public void actionPerformed( final ActionEvent event )
-//                {
-//                    final JMenuItem menu = JMenuItem.class.cast( event.getSource() );
-//                    final SortMode sortMode = SortMode.class.cast(
-//                            menu.getClientProperty( SortMode.class )
-//                            );
-//                    jPanelResult.getListModelDuplicatesFiles().updateCache( sortMode );
-//                }
-//            };
-            final ActionListener sortByListener = event -> {
+            final ActionListener sortByListener = event -> { // ActionListener.actionPerformed( final ActionEvent event )
                 DuplicatesContextualMenu.this.jPanelResult.getListModelDuplicatesFiles().setSortMode(
-                        SortMode.class.cast( JMenuItem.class.cast( event.getSource() ).getClientProperty( SortMode.class ) ) );
+                        SortMode.class.cast( JMenuItem.class.cast( event.getSource() ).getClientProperty( SortMode.class ) )
+                        );
                 DuplicatesContextualMenu.this.jPanelResult.getListModelDuplicatesFiles().updateCache();
             };
 
@@ -204,17 +152,17 @@ final class DuplicatesContextualMenu implements Serializable
             gb.add( jcbmiMenuSortBySize );
             addJMenuItem( sortMenu, jcbmiMenuSortBySize, listener, clientPropertyKey, clientPropertyValue );
         }
-    }
 
-    private void doIgnoreThisSetOfFiles( final int rowIndex )
-    {
-        final KeyFiles                       element = this.jPanelResult.getJListDuplicatesFiles().getModel().getElementAt( rowIndex );
-        final String                         setKey  = element.getKey();
-        final Map<String, Set<KeyFileState>> hashMap = this.jPanelResult.getListModelDuplicatesFiles().getDuplicateFiles();
+        private void doIgnoreThisSetOfFiles( final int rowIndex )
+        {
+            final KeyFiles                       element = DuplicatesContextualMenu.this.jPanelResult.getJListDuplicatesFiles().getModel().getElementAt( rowIndex );
+            final String                         setKey  = element.getKey();
+            final Map<String, Set<KeyFileState>> hashMap = DuplicatesContextualMenu.this.jPanelResult.getListModelDuplicatesFiles().getDuplicateFiles();
 
-        hashMap.remove( setKey );
+            hashMap.remove( setKey );
 
-        this.jPanelResult.getListModelDuplicatesFiles().updateCache();
+            DuplicatesContextualMenu.this.jPanelResult.getListModelDuplicatesFiles().updateCache();
+        }
     }
 
     public void setPopupMenu()

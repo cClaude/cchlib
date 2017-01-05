@@ -9,7 +9,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
@@ -31,13 +30,13 @@ public abstract class JPanelConfigWB extends JPanel
 
     private final JPanel jPanelFilters;
 
-    private final JPanel jPanelFilesFilers;
+    private final JPanel       jPanelFilesFilers;
     private final TitledBorder jPanelFilesFilersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Files filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
-    private final JPanel jPanelDirectoryFilters;
-    private final Border jPanelDirectoryFiltersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Directories filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
+    private final JPanel       jPanelDirectoryFilters;
+    private final TitledBorder jPanelDirectoryFiltersTitledBorder = new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Directories filters", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
-    private final JPanel jPanelIgnore;
+    private final JPanel       jPanelIgnore;
     private final TitledBorder jPanelIgnoreTitledBorder = new TitledBorder(null, "Ignore", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
     /**

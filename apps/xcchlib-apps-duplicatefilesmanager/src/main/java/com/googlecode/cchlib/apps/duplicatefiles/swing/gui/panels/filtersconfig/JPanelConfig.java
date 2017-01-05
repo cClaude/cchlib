@@ -104,9 +104,10 @@ public class JPanelConfig
     {
         autoI18n.performeI18n( this, this.getClass() );
 
-        final AppToolKit appToolKit = getAppToolKit();
-        final FiltersConfig filtersConfig = appToolKit.getResources().getFiltersConfig();
-        final PreferencesControler prefs = appToolKit.getPreferences();
+        final AppToolKit           appToolKit    = getAppToolKit();
+        final FiltersConfig        filtersConfig = appToolKit.getResources().getFiltersConfig();
+        final PreferencesControler prefs         = appToolKit.getPreferences();
+
         this.jPanelIncFilesFilter = new JPanelConfigFilter(
                 getjPanelIncFilesFilterTitle(),
                 getjPanelIncFilesFilterRegExp(),

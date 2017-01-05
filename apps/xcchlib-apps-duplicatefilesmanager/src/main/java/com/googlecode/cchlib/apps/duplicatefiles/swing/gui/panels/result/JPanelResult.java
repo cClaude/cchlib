@@ -1,4 +1,3 @@
-// $codepro.audit.disable largeNumberOfFields, largeNumberOfMethods, constantNamingConvention
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.result;
 
 import java.io.File;
@@ -19,7 +18,6 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder.Attributs;
 
@@ -27,20 +25,20 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder.Attributs;
 @SuppressWarnings({
     "squid:MaximumInheritanceDepth" // because swing
     })
-public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable {
+public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable
+{
     private static final long               serialVersionUID = 2L;
     private static final Logger             LOGGER           = Logger.getLogger( JPanelResult.class );
 
     private final AppToolKit                dFToolKit;
     private final DuplicatesContextualMenu  duplicatesContextualMenu;
+    private FilesContextualMenu             keptIntactContextualMenu;
+    private FilesContextualMenu             willBeDeletedContextualMenu;
 
-    @I18nString
-    private String                          txtHiddenFirstLetter;
     // TODO: @I18nString private String txtCanExecuteFirstLetter ?
-    @I18nString
-    private String                          txtCanWriteFirstLetter;
-    @I18nString
-    private String                          txtCanReadFirstLetter;
+    @I18nString private String              txtHiddenFirstLetter;
+    @I18nString private String              txtCanWriteFirstLetter;
+    @I18nString private String              txtCanReadFirstLetter;
 
     public JPanelResult()
     {
@@ -48,9 +46,9 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
         beSurNonFinal();
 
-        this.dFToolKit = AppToolKitService.getInstance().getAppToolKit();
-
+        this.dFToolKit                = AppToolKitService.getInstance().getAppToolKit();
         this.duplicatesContextualMenu = new DuplicatesContextualMenu( this );
+
         createPopupMenus();
 
         SwingUtilities.invokeLater( this::setDividersLocation );
@@ -197,17 +195,27 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
 
     private void createPopupMenus()
     {
-        createKeyFileStatePopupMenu( getJListKeptIntact() );
-        createKeyFileStatePopupMenu( getJListWillBeDeleted() );
+        // Require to keep reference for I18n
+        this.keptIntactContextualMenu    = createKeyFileStatePopupMenu( getJListKeptIntact() );
+        this.willBeDeletedContextualMenu = createKeyFileStatePopupMenu( getJListWillBeDeleted() );
 
         this.duplicatesContextualMenu.setPopupMenu();
     }
 
-    private void createKeyFileStatePopupMenu( final JList<KeyFileState> jList )
+    private FilesContextualMenu createKeyFileStatePopupMenu(
+        final JList<KeyFileState> jList
+        )
     {
-        final JPopupMenuForJList<KeyFileState> menu //
-            = new FilesContextualMenu( this, jList, AbstractJPopupMenuBuilder.Attributs.MUST_BE_SELECTED, new Attributs[] {} );
+        final FilesContextualMenu menu = new FilesContextualMenu(
+                this,
+                jList,
+                AbstractJPopupMenuBuilder.Attributs.MUST_BE_SELECTED,
+                new Attributs[] {}
+                );
+
         menu.addMenu();
+
+        return menu;
     }
 
     public void clearSelected()
@@ -256,6 +264,9 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
     {
         autoI18n.performeI18n( this, getClass() );
         autoI18n.performeI18n( this.duplicatesContextualMenu, DuplicatesContextualMenu.class );
+        autoI18n.performeI18n( this.keptIntactContextualMenu, FilesContextualMenu.class );
+        autoI18n.performeI18n( this.willBeDeletedContextualMenu, FilesContextualMenu.class );
+
         this.duplicatesContextualMenu.setPopupMenu();
 
         super.getSelectorsJPanel().performeI18n( autoI18n );
