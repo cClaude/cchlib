@@ -100,7 +100,9 @@ public class JTableColumnsAutoSizer
                 minWidths[ columnIndex ] = maxWidths[ columnIndex ] = this.forceColumnWidthModel.getWidthFor( columnIndex );
                 }
             else {
-                final int headerWidth = headerFontMetrics.stringWidth(this.table.getColumnName(columnIndex));
+                final int headerWidth = headerFontMetrics.stringWidth(
+                        this.table.getColumnName( columnIndex )
+                        );
                 minWidths[columnIndex] = headerWidth + this.columnMargin;
 
                 final int maxWidth = getMaximalRequiredColumnWidth( columnIndex, headerWidth );
