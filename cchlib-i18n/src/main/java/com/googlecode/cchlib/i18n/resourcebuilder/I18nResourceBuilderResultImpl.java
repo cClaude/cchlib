@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
@@ -14,9 +15,9 @@ class I18nResourceBuilderResultImpl implements I18nResourceBuilderResult, Serial
 {
     private static final long serialVersionUID = 1L;
 
-    private final Map<String,Integer> localizedFieldMap    = new HashMap<>();
-    private final Map<String,Integer> ignoredFieldMap      = new HashMap<>();
-    private final Map<String,Integer> missingPropertiesMap = new HashMap<>();
+    private final Map<String,Integer> localizedFieldMap    = new LinkedHashMap<>();
+    private final Map<String,Integer> ignoredFieldMap      = new LinkedHashMap<>();
+    private final Map<String,Integer> missingPropertiesMap = new LinkedHashMap<>();
 
     private final Map<String,String>  missingPropertiesKeyValues = new HashMap<>();
     private final Map<String,String>  unusedPropertiesKeyValues  = new HashMap<>();
