@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.util.EnumSet;
 import java.util.List;
 
+@SuppressWarnings("squid:CommentedOutCodeLine")
 public class AutoRenameMain
 {
     private final BadDateISOFileFilter level1FileFilter = new BadDateISOFileFilter(
@@ -135,7 +136,7 @@ public class AutoRenameMain
                     // Look good !
                     // println( "L3: already done: " + d );
                 }
-                else if( dirName.equalsIgnoreCase( "prive" ) ) {
+                else if( "prive".equalsIgnoreCase( dirName ) ) {
                     final File newFile = new File( dirFile, parentOfParentName + "(prive)" );
 
                     println( "L3 Found PRIVE : " + d + " ==> : " + newFile );
@@ -188,11 +189,12 @@ public class AutoRenameMain
         return new File( f.getParentFile(), newFilename );
     }
 
-    private static boolean rename( final File f, final String newFilename )
+    @SuppressWarnings({ "squid:UnusedPrivateMethod", "unused" })
+    private static boolean rename( final File file, final String newFilename )
     {
-        final File newFile = buildRenameFile( f, newFilename );
+        final File newFile = buildRenameFile( file, newFilename );
 
-        return renameTo( f, newFile );
+        return renameTo( file, newFile );
     }
 
     private static boolean renameTo( final File file, final File newFile )
@@ -206,11 +208,13 @@ public class AutoRenameMain
         return res;
     }
 
+    @SuppressWarnings("squid:S106")
     private static void println( final String str )
     {
         System.out.println( str );
     }
 
+    @SuppressWarnings("squid:S106")
     private static void errPrintln( final String str )
     {
         System.out.println( str );
