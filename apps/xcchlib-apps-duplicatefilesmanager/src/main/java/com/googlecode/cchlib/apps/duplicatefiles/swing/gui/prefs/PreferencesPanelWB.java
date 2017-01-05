@@ -20,6 +20,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControle
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.locale.ListInfo;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.locale.LocaleList;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
@@ -28,6 +29,7 @@ import com.googlecode.cchlib.util.duplicate.digest.MessageDigestAlgorithms;
 @SuppressWarnings({
     "squid:S1199" // Generated code
     })
+@I18nName("PreferencesDialogWB.panel")
 class PreferencesPanelWB extends JPanel
 {
     private static final long serialVersionUID = 1L;
@@ -171,7 +173,7 @@ class PreferencesPanelWB extends JPanel
         }
         //--------------
         {
-            this.jLabelDeleteSleepDisplay = new JLabel("Delete delais");
+            this.jLabelDeleteSleepDisplay = new JLabel("Delete delay");
             final GridBagConstraints gbc_jLabelDeleteSleepDisplay = new GridBagConstraints();
             gbc_jLabelDeleteSleepDisplay.anchor = GridBagConstraints.EAST;
             gbc_jLabelDeleteSleepDisplay.insets = new Insets(0, 0, 5, 5);
@@ -356,7 +358,7 @@ class PreferencesPanelWB extends JPanel
             this.add(this.jCheckBoxWindowDimension, gbc_jCheckBoxWindowDimension);
         }
         {
-            this.jLabelWindowDimension = new JLabel("Main Window dimentions");
+            this.jLabelWindowDimension = new JLabel("Main Window dimensions");
             final GridBagConstraints gbc_jLabelWindowDimension = new GridBagConstraints();
             gbc_jLabelWindowDimension.anchor = GridBagConstraints.EAST;
             gbc_jLabelWindowDimension.insets = new Insets(0, 0, 5, 5);
@@ -489,6 +491,7 @@ class PreferencesPanelWB extends JPanel
                 }
         }
         //------------------
+        autoI18n.performeI18n( this, PreferencesPanelWB.class );
     }
 
     JComboBox<ConfigMode> getjComboBoxUserLevel()

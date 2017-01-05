@@ -15,9 +15,13 @@ public class DuplicateFilesI18nPrepTest
         I18nResourceBuilderHelper.fmtMissingProperties( System.err, result );
         I18nResourceBuilderHelper.fmtUnusedProperties( System.out, result );
 
-        assertThat( result.getIgnoredFields() ).as( "IgnoredFields" ).hasSize( 215 );
-        assertThat( result.getLocalizedFields() ).as("LocalizedFields").hasSize( 156 );
+        assertThat( result.getLocalizedFields() ).as("LocalizedFields").hasSize( 184 );
         assertThat( result.getMissingProperties() ).as("MissingProperties").isEmpty();;
-        assertThat( result.getUnusedProperties() ).as("UnusedProperties").hasSize( 1 );
+        assertThat( result.getUnusedProperties() ).as("UnusedProperties")
+            .hasSize( 1 )
+            .containsKey( "NOT_USED_KEY" );
+
+        // Don't really care about these values
+        assertThat( result.getIgnoredFields() ).as( "IgnoredFields" ).hasSize( 244 );
     }
 }

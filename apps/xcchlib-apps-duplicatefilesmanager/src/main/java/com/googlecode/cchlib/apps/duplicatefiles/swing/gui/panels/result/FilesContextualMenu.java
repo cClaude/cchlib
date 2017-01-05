@@ -18,15 +18,17 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
 
+@I18nName("duplicatefiles.FilesContextualMenu")
 final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
 {
     @SuppressWarnings("squid:S00115")
     private enum MenuAction
     {
-        ACTION_COMMAND_DeleteAllExceptTheseFiles(
+        DELETE_ALL_EXCEPT_THESE_FILES(
                 (t,actionObject) -> t.onDeleteAllExceptTheseFiles( actionObject )
             ),
         ACTION_COMMAND_DeleteAllInDir(
@@ -61,37 +63,27 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
             this.action.accept( filesContextualMenu, actionObject );
         }
     }
-    private static final String ACTION_OBJECT                            = "KeyFile";
 
-    private static final Logger LOGGER                                   = Logger.getLogger( FilesContextualMenu.class );
-    private static final long   serialVersionUID                         = 1L;
+    private static final Logger LOGGER           = Logger.getLogger( FilesContextualMenu.class );
+    private static final long   serialVersionUID = 1L;
 
-    private transient ActionListener    actionListenerContextSubMenu;
-    private final AppToolKit            dFToolKit;
-    private final JPanelResult          jPanelResult;
+    private static final String ACTION_OBJECT    = "KeyFile";
 
-    @I18nString
-    private String  txtCopy;
-    @I18nString
-    private String  txtDeleteAllExceptThisFile;
-    @I18nString
-    private String  txtDeleteAllInDir;
-    @I18nString
-    private String  txtDeleteDuplicateIn;
-    @I18nString
-    private String  txtDeleteThisFile;
-    @I18nString
-    private String  txtKeepAllExceptThisFile;
-    @I18nString
-    private String  txtKeepAllInDir;
-    @I18nString
-    private String  txtKeepNonDuplicateIn;
-    @I18nString
-    private String  txtKeepThisFile;
-    @I18nString
-    private String  txtOpenFile;
-    @I18nString
-    private String  txtOpenParentDirectory;
+    private final AppToolKit         dFToolKit;
+    private final JPanelResult       jPanelResult;
+    private transient ActionListener actionListenerContextSubMenu;
+
+    @I18nString private String txtCopy;
+    @I18nString private String txtDeleteAllExceptThisFile;
+    @I18nString private String txtDeleteAllInDir;
+    @I18nString private String txtDeleteDuplicateIn;
+    @I18nString private String txtDeleteThisFile;
+    @I18nString private String txtKeepAllExceptThisFile;
+    @I18nString private String txtKeepAllInDir;
+    @I18nString private String txtKeepNonDuplicateIn;
+    @I18nString private String txtKeepThisFile;
+    @I18nString private String txtOpenFile;
+    @I18nString private String txtOpenParentDirectory;
 
     FilesContextualMenu(
         final JPanelResult          jPanelResult,
@@ -103,9 +95,24 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
         super( jList, first, rest );
 
         this.jPanelResult = jPanelResult;
-        this.dFToolKit = AppToolKitService.getInstance().getAppToolKit();
+        this.dFToolKit    = AppToolKitService.getInstance().getAppToolKit();
 
-        beSurNonFinal();
+        nonFinalStaticI18nFields();
+    }
+
+    private void nonFinalStaticI18nFields()
+    {
+        this.txtCopy                    = "Copy";
+        this.txtOpenFile                = "Open (Handle by System)";
+        this.txtOpenParentDirectory     = "Open parent directory (Handle by System)";
+        this.txtDeleteThisFile          = "Delete this file";
+        this.txtDeleteAllExceptThisFile = "Delete all except this file";
+        this.txtKeepThisFile            = "Keep this file";
+        this.txtKeepAllExceptThisFile   = "Keep all except this file";
+        this.txtDeleteDuplicateIn       = "Delete duplicate in";
+        this.txtKeepNonDuplicateIn      = "Keep nonduplicate in";
+        this.txtKeepAllInDir            = "Keep all in dir";
+        this.txtDeleteAllInDir          = "Delete all in dir";
     }
 
     private void addContextSubMenuActionCommand(
@@ -162,21 +169,6 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
         }
     }
 
-    private void beSurNonFinal()
-    {
-        this.txtCopy                    = "Copy";
-        this.txtOpenFile                = "Open (Handle by System)";
-        this.txtOpenParentDirectory     = "Open parent directory (Handle by System)";
-        this.txtDeleteThisFile          = "Delete this file";
-        this.txtDeleteAllExceptThisFile = "Delete all except this file";
-        this.txtKeepThisFile            = "Keep this file";
-        this.txtKeepAllExceptThisFile   = "Keep all except this file";
-        this.txtDeleteDuplicateIn       = "Delete duplicate in";
-        this.txtKeepNonDuplicateIn      = "Keep nonduplicate in";
-        this.txtKeepAllInDir            = "Keep all in dir";
-        this.txtDeleteAllInDir          = "Delete all in dir";
-    }
-
     @Override
     protected JPopupMenu createContextMenu( final int rowIndex )
     {
@@ -204,7 +196,7 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
             // ONLY: jListKeptIntact
             addContextSubMenuActionCommand( this, cm, new JMenuItem( this.txtDeleteThisFile ), MenuAction.ACTION_COMMAND_DeleteTheseFiles, selected );
             // ONLY: jListKeptIntact
-            addContextSubMenuActionCommand( this, cm, new JMenuItem( this.txtDeleteAllExceptThisFile ), MenuAction.ACTION_COMMAND_DeleteAllExceptTheseFiles, selected );
+            addContextSubMenuActionCommand( this, cm, new JMenuItem( this.txtDeleteAllExceptThisFile ), MenuAction.DELETE_ALL_EXCEPT_THESE_FILES, selected );
         } else {
             // ONLY: jListWillBeDeleted
             addContextSubMenuActionCommand( this, cm, new JMenuItem( this.txtKeepThisFile ), MenuAction.ACTION_COMMAND_KeepTheseFiles, selected );
@@ -231,11 +223,12 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
         return e -> this.dFToolKit.openDesktop( file );
     }
 
-    private void doActionOnAllExceptTheseFiles( //
-        final Set<KeyFileState>         modelSet, //
-        final Iterable<KeyFileState>    selectedFiles, //
-        final Consumer<KeyFileState>    actionTrue, //
-        final Consumer<KeyFileState>    actionFalse //
+    private void doActionOnAllExceptTheseFiles(
+        final Set<KeyFileState>         modelSet,
+        @SuppressWarnings("squid:S1172") // Sonar does not support lambda !
+        final Iterable<KeyFileState>    selectedFiles,
+        final Consumer<KeyFileState>    actionTrue,
+        final Consumer<KeyFileState>    actionFalse
         )
     {
         if( modelSet != null ) {
@@ -250,6 +243,7 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
         }
     }
 
+    @SuppressWarnings("squid:UnusedPrivateMethod") // Sonar does not support lambda !
     private boolean isSelected(
         final Iterable<KeyFileState> selectedFiles,
         final KeyFileState           modelEntry
@@ -345,6 +339,10 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
         this.jPanelResult.updateDisplayKeptDelete( kf.getKey() );
     }
 
+    @SuppressWarnings({
+        "squid:S1066", // Collapsible "if" statements
+        "squid:S134" // To much "if"
+        })
     private void onDeleteDuplicateInDir(
         final String                               dirPath,
         final Map.Entry<String, Set<KeyFileState>> entry
@@ -388,18 +386,15 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
 
     private void onKeepAllExceptTheseFiles( final Object actionObject )
     {
-        final Selected selected = Selected.class.cast( actionObject );
-        final String key = selected.getKey();
-        //final Stream<KeyFileState> selectedFiles = selected.toKeyFileStateStream();
+        final Selected                 selected      = Selected.class.cast( actionObject );
+        final String                   key           = selected.getKey();
         final Collection<KeyFileState> selectedFiles = selected.getSelectedList();
-        final Set<KeyFileState> modelSet = this.jPanelResult.getListModelDuplicatesFiles().getStateSet( key );
 
-        final Consumer<KeyFileState> actionTrue = modelEntry -> {
-            modelEntry.setSelectedToDelete( true );
-        };
-        final Consumer<KeyFileState> actionFalse = modelEntry -> {
-            modelEntry.setSelectedToDelete( false );
-        };
+        final Set<KeyFileState> modelSet = this.jPanelResult
+                    .getListModelDuplicatesFiles().getStateSet( key );
+
+        final Consumer<KeyFileState> actionTrue  = modelEntry -> modelEntry.setSelectedToDelete( true );
+        final Consumer<KeyFileState> actionFalse = modelEntry -> modelEntry.setSelectedToDelete( false );
 
         doActionOnAllExceptTheseFiles( modelSet, selectedFiles, actionTrue, actionFalse );
 
@@ -421,6 +416,10 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
         this.jPanelResult.updateDisplayKeptDelete( k );
     }
 
+    @SuppressWarnings({
+        "squid:S1066", // Collapsible "if" statements
+        "squid:S134" // To much "if"
+        })
     private void onKeepNonDuplicateInDir( final Object actionObject )
     {
         final KeyFileState kf = (KeyFileState)actionObject;

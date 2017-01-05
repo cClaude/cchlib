@@ -51,7 +51,8 @@ public final class PreferencesDialogWB
     @SuppressWarnings("squid:S1199")
     public PreferencesDialogWB( final Dimension mainWindowDimension )
     {
-        setTitle("Preferences");
+        setTitle( "Preferences" ); // TODO: Is this take in account by I18n ?
+
         setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
         setBounds( 100, 100, 550, 450 );
         this.contentPanel = new JPanel();
