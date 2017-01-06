@@ -11,11 +11,14 @@ import java.util.ResourceBundle;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 
 /**
  * Create resources bundles files
+ * @deprecated use {@link I18nResourceBuilderFactory} instead
  */
+@Deprecated
 public final class I18nPrepHelper
 {
     private I18nPrepHelper()

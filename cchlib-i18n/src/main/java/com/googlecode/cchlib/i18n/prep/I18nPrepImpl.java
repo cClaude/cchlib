@@ -38,6 +38,7 @@ import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JEventHandler;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
@@ -47,7 +48,9 @@ import com.googlecode.cchlib.i18n.resources.MissingResourceException;
  *
  * @see I18nPrepFactory
  * @see I18nPrepHelper
+ * @deprecated use {@link I18nResourceBuilderFactory} instead
  */
+@Deprecated
 //Not public
 class I18nPrepImpl implements I18nPrep
 {

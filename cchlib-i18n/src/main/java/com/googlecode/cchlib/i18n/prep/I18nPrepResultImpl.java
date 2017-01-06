@@ -1,7 +1,12 @@
 package com.googlecode.cchlib.i18n.prep;
 
 import java.io.File;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 
+/**
+ * @deprecated use {@link I18nResourceBuilderFactory} instead
+ */
+@Deprecated
 final class I18nPrepResultImpl implements I18nPrepResult {
     private final PrepCollector<String>  notUseCollector;
     private final File                   outputFile;

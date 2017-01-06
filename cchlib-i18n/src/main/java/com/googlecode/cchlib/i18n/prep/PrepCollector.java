@@ -6,7 +6,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 
+/**
+ * @param <T> deprecated
+ * @deprecated use {@link I18nResourceBuilderFactory} instead
+ */
+@Deprecated
 public final class PrepCollector<T> implements Iterable<Map.Entry<String, T>> {
     private final Map<String, T> map = new HashMap<>();
 
