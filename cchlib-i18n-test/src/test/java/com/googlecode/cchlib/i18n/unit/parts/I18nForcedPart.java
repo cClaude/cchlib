@@ -135,6 +135,7 @@ public class I18nForcedPart
     }
 
     @Override
+    @Deprecated
     public void beforePrepTest(final PrepTestPart prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );

@@ -56,6 +56,7 @@ public class I18nToolTipText_for_JTabbedPanePart implements TestReferenceDepreca
     }
 
     @Override
+    @Deprecated
     public void beforePrepTest( final PrepTestPart prepTest )
     {
         TestUtils.preparePrepTest( prepTest, this );
@@ -78,6 +79,7 @@ public class I18nToolTipText_for_JTabbedPanePart implements TestReferenceDepreca
     }
 
     @Override
+    @Deprecated
     public void performeI18n()
     {
         afterPrepTest();

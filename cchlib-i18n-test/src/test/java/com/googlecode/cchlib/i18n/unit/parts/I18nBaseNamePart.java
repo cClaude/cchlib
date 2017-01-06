@@ -56,6 +56,7 @@ public class I18nBaseNamePart
     }
 
     @Override
+    @Deprecated
     public void beforePrepTest(final PrepTestPart prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
@@ -72,6 +73,7 @@ public class I18nBaseNamePart
     }
 
     @Override
+    @Deprecated
     public void performeI18n()
     {
         beforePerformeI18nTest();

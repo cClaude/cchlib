@@ -34,6 +34,7 @@ public class I18nToolTipTextIgnorePart implements I18nAutoCoreUpdatable, TestRef
     }
 
     @Override
+    @Deprecated
     public void beforePrepTest(final PrepTestPart prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
@@ -47,6 +48,7 @@ public class I18nToolTipTextIgnorePart implements I18nAutoCoreUpdatable, TestRef
     }
 
     @Override
+    @Deprecated
     public void performeI18n()
     {
         Assert.assertEquals( TEXT_INIT, this.myButtonWithToolTipText1.getText() );

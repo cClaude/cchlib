@@ -21,6 +21,7 @@ public class I18nStringWithErrorsTestReference implements TestReferenceDeprecate
     }
 
     @Override
+    @Deprecated
     public void beforePrepTest(final PrepTestPart prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this.objectToI18n  );

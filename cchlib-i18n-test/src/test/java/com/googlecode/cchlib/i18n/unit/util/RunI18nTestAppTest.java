@@ -19,6 +19,7 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
 import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.parts.AutoI18nBasicInterfacePart;
@@ -35,7 +36,10 @@ import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 /**
  * Integration test for I18n
+ *
+ * @deprecated use {@link I18nResourceBuilderFactory} instead
  */
+@Deprecated
 public class RunI18nTestAppTest
 {
     private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );

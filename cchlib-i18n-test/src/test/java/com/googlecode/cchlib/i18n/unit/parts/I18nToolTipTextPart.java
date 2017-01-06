@@ -3,7 +3,6 @@ package com.googlecode.cchlib.i18n.unit.parts;
 import javax.swing.JButton;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-import org.junit.Ignore;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
@@ -28,7 +27,6 @@ public class I18nToolTipTextPart implements I18nAutoCoreUpdatable, TestReference
         this.myButtonWithToolTipText1.setToolTipText( TOOLTIPTEXT_INIT );
     }
 
-    @Ignore
     @Override // I18nAutoCoreUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
@@ -36,6 +34,7 @@ public class I18nToolTipTextPart implements I18nAutoCoreUpdatable, TestReference
     }
 
     @Override
+    @Deprecated
     public void beforePrepTest(final PrepTestPart prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
@@ -49,6 +48,7 @@ public class I18nToolTipTextPart implements I18nAutoCoreUpdatable, TestReference
     }
 
     @Override
+    @Deprecated
     public void performeI18n()
     {
         Assert.assertEquals( TEXT_INIT, this.myButtonWithToolTipText1.getText() );

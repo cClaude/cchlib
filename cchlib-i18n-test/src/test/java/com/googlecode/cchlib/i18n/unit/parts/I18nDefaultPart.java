@@ -11,7 +11,6 @@ import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Assume;
-import org.junit.Ignore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
@@ -84,7 +83,6 @@ public class I18nDefaultPart
         }
     }
 
-    @Ignore
     @Override // I18nAutoCoreUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
@@ -92,6 +90,7 @@ public class I18nDefaultPart
     }
 
     @Override
+    @Deprecated
     public void beforePrepTest(final PrepTestPart prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
@@ -104,6 +103,7 @@ public class I18nDefaultPart
     }
 
     @Override
+    @Deprecated
     public void performeI18n()
     {
         afterPrepTest();
