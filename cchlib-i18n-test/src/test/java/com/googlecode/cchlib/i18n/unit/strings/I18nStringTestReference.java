@@ -1,24 +1,27 @@
 package com.googlecode.cchlib.i18n.unit.strings;
 
+import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.DEFAULT_BUNDLE_myGlobalStringID1;
+import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.DEFAULT_BUNDLE_myGlobalStringIDMethod2;
+import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.DEFAULT_BUNDLE_myString;
+import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.IGNORED_FIELDS;
+import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.INIT_myGlobalStringID1;
+import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.INIT_myGlobalStringIDMethod2;
+import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.INIT_myString;
+import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.LOCALIZED_FIELDS;
+import static org.fest.assertions.api.Assertions.assertThat;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
+import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
+import com.googlecode.cchlib.i18n.unit.REF;
+import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
-public class I18nStringTestReference implements TestReferenceDeprecated
+public class I18nStringTestReference implements TestReference, TestReferenceDeprecated
 {
-    private static final Logger LOGGER = Logger.getLogger( I18nStringTestReference.class );
-
-    static final String INIT_myString = "my-string-text-1";
-    static final String DEFAULT_BUNDLE_myString = "OK(myString)";
-
-    static final String INIT_myGlobalStringID1 = "my Global string 1 text";
-    static final String DEFAULT_BUNDLE_myGlobalStringID1 = "OK(I18nStringTestContener_GlobalStringID1)";
-
-    static final String INIT_myGlobalStringIDMethod2 = "my Global string 3 text";
-    static final String DEFAULT_BUNDLE_myGlobalStringIDMethod2 = "OK(myGlobalStringIDMethod2)";
-
+    // This is a I18nAutoCoreUpdatable object, should be
+    // discovers by I18n process
     private final I18nStringTestContener objectToI18n;
 
     public I18nStringTestReference()
@@ -26,40 +29,35 @@ public class I18nStringTestReference implements TestReferenceDeprecated
         this.objectToI18n = new I18nStringTestContener();
     }
 
+    private static final Logger getLogger()
+    {
+        return Logger.getLogger( I18nStringTestReference.class );
+    }
+
     @Override
+    @Deprecated
     public void beforePrepTest(final PrepTestPart prepTest)
     {
-        TestUtils.preparePrepTest( prepTest, this.objectToI18n  );
+        TestUtils.preparePrepTest( prepTest, this.objectToI18n );
    }
 
     @Override
     public void afterPrepTest()
     {
-        Assert.assertEquals( INIT_myString, this.objectToI18n.getMyString() );
-        Assert.assertEquals( INIT_myString, this.objectToI18n.getMyStringIgnore() );
-
-        Assert.assertEquals( INIT_myGlobalStringID1, this.objectToI18n.getMyGlobalStringID() );
-    }
+        beforePerformeI18nTest();
+   }
 
     @Override
     public void performeI18n()
     {
-        afterPrepTest();
+        beforePerformeI18nTest();
 
         // Also verify values using custom methods
-        Assert.assertEquals( INIT_myGlobalStringIDMethod2, this.objectToI18n.getMyGlobalStringIDMethod2() );
+        assertThat( this.objectToI18n.getMyGlobalStringIDMethod2() ).isEqualTo( INIT_myGlobalStringIDMethod2 );
 
         TestUtils.performeI18n( this.objectToI18n );
 
-        LOGGER.info( "TEST RESULT: this.myString = " + this.objectToI18n.getMyString() );
-        Assert.assertEquals( DEFAULT_BUNDLE_myString, this.objectToI18n.getMyString() );
-        Assert.assertEquals( INIT_myString, this.objectToI18n.getMyStringIgnore() );
-
-        LOGGER.info( "TEST RESULT: this.myGlobalStringID = " + this.objectToI18n.getMyGlobalStringID() );
-        Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringID1, this.objectToI18n.getMyGlobalStringID() );
-
-        LOGGER.info( "TEST RESULT: this.myGlobalStringIDMethod2 = " + this.objectToI18n.getMyGlobalStringIDMethod2() );
-        Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringIDMethod2, this.objectToI18n.getMyGlobalStringIDMethod2() );
+        afterPerformeI18nTest_WithValidBundle();
     }
 
     @Override
@@ -72,5 +70,83 @@ public class I18nStringTestReference implements TestReferenceDeprecated
     public int getMissingResourceExceptionCount()
     {
         return 0;
+    }
+
+    @Override // TestReference
+    public void beforePerformeI18nTest()
+    {
+        assertThat( this.objectToI18n.getMyString() ).isEqualTo( INIT_myString );
+        assertThat( this.objectToI18n.getMyStringIgnore() ).isEqualTo( INIT_myString );
+
+        assertThat( this.objectToI18n.getMyGlobalStringID() ).isEqualTo( INIT_myGlobalStringID1 );
+
+        assertThat( this.objectToI18n.getMyGlobalStringIDMethod2() ).isEqualTo( INIT_myGlobalStringIDMethod2 );
+     }
+
+    @Override // TestReference
+    public void afterPerformeI18nTest_WithValidBundle()
+    {
+        getLogger().info(
+            "afterPerformeI18nTest_WithValidBundle() RESULT: objectToI18n.getMyString() = "
+                + this.objectToI18n.getMyString()
+                );
+        getLogger().info(
+            "afterPerformeI18nTest_WithValidBundle() RESULT: objectToI18n.getMyStringIgnore() = "
+                + this.objectToI18n.getMyStringIgnore()
+                );
+        getLogger().info(
+            "afterPerformeI18nTest_WithValidBundle() RESULT: objectToI18n.getMyGlobalStringID() = "
+                + this.objectToI18n.getMyGlobalStringID()
+                );
+        getLogger().info(
+            "afterPerformeI18nTest_WithValidBundle() RESULT: objectToI18n.getMyGlobalStringIDMethod2() = "
+                + this.objectToI18n.getMyGlobalStringIDMethod2()
+                );
+
+        assertThat( this.objectToI18n.getMyString() )
+            .as( "getMyString():" + this.objectToI18n.getClass().getName() )
+            .isEqualTo( DEFAULT_BUNDLE_myString );
+
+        assertThat( this.objectToI18n.getMyStringIgnore() )
+            .as( "getMyStringIgnore():" + this.objectToI18n.getClass().getName() )
+            .isEqualTo( INIT_myString );
+
+        assertThat( this.objectToI18n.getMyGlobalStringID() )
+            .as( "getMyGlobalStringID():" + this.objectToI18n.getClass().getName() )
+           .isEqualTo( DEFAULT_BUNDLE_myGlobalStringID1 );
+
+        assertThat( this.objectToI18n.getMyGlobalStringIDMethod2() )
+            .as( "getMyGlobalStringIDMethod2():" + this.objectToI18n.getClass().getName() )
+            .isEqualTo( DEFAULT_BUNDLE_myGlobalStringIDMethod2 );
+    }
+
+    @Override // TestReference
+    public void afterPerformeI18nTest_WithNotValidBundle()
+    {
+        beforePerformeI18nTest(); // No Change
+    }
+
+    @Override // TestReference
+    public void afterResourceBuilderTest_WithValidBundle( final I18nResourceBuilderResult result )
+    {
+        assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
+        assertThat( result.getLocalizedFields() ).hasSize( LOCALIZED_FIELDS );
+        assertThat( result.getMissingProperties() ).hasSize( 0 );
+        assertThat( result.getUnusedProperties() ).hasSize( REF.size() - LOCALIZED_FIELDS );
+    }
+
+    @Override // TestReference
+    public void afterResourceBuilderTest_WithNotValidBundle( final I18nResourceBuilderResult result )
+    {
+        assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
+        assertThat( result.getLocalizedFields() ).hasSize( 0 );
+        assertThat( result.getMissingProperties() ).hasSize( LOCALIZED_FIELDS );
+        assertThat( result.getUnusedProperties() ).hasSize( 0 );
+     }
+
+    @Override // I18nAutoCoreUpdatable (required by tests and I18nResourceBuilder process)
+    public void performeI18n( final AutoI18nCore autoI18n )
+    {
+        autoI18n.performeI18n( this, I18nStringTestReference.class );
     }
 }
