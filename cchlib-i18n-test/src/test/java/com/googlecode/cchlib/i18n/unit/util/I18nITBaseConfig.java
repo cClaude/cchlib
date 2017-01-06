@@ -41,16 +41,7 @@ public abstract class I18nITBaseConfig
 
         builder.append( part );
 
-        // builder.saveMissingResourceBundle( outputFile );
-
-        //final PrintStream               printStream = System.out; // Define output
-        //final I18nResourceBuilderResult result      = builder.getResult();
-
-        //I18nResourceBuilderHelper.fmtAll( printStream, result );
-
         return builder.getResult();
-
-        //do_performeI18n( part, autoI18n );
     }
 
     protected I18nResourceBuilderResult do_I18nResourceBuilder_WithNotValidBundle(

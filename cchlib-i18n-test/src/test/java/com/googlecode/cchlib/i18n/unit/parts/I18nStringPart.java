@@ -11,6 +11,7 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
+import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
@@ -168,21 +169,24 @@ public class I18nStringPart
         assertThat( this.myGlobalStringIDMethod2 ).isEqualTo( DEFAULT_BUNDLE_myGlobalStringIDMethod2 );
     }
 
+    private static final int LOCALIZED_FIELDS = 2;
+    private static final int IGNORED_FIELDS   = 12;
+
     @Override // TestReference
     public void afterResourceBuilderTest_WithValidBundle( final I18nResourceBuilderResult result )
     {
-        assertThat( result.getIgnoredFields() ).hasSize( 10 );
-        assertThat( result.getLocalizedFields() ).hasSize( 2 );
+        assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
+        assertThat( result.getLocalizedFields() ).hasSize( LOCALIZED_FIELDS );
         assertThat( result.getMissingProperties() ).hasSize( 0 );
-        assertThat( result.getUnusedProperties() ).hasSize( 38 - 2 );
+        assertThat( result.getUnusedProperties() ).hasSize( REF.size() - LOCALIZED_FIELDS );
     }
 
     @Override // TestReference
     public void afterResourceBuilderTest_WithNotValidBundle( final I18nResourceBuilderResult result )
     {
-        assertThat( result.getIgnoredFields() ).hasSize( 10 );
+        assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
         assertThat( result.getLocalizedFields() ).hasSize( 0 );
-        assertThat( result.getMissingProperties() ).hasSize( 2 );
+        assertThat( result.getMissingProperties() ).hasSize( LOCALIZED_FIELDS );
         assertThat( result.getUnusedProperties() ).hasSize( 0 );
      }
 }

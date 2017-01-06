@@ -20,7 +20,6 @@ public class I18nStringTest extends I18nITBase
     {
         final I18nStringPart part = new I18nStringPart();
 
-
         runI18nTests_WithNotValidBundle( part );
     }
 

@@ -4,7 +4,13 @@ package com.googlecode.cchlib.i18n.unit;
  * Just to have a message bundle file base on this class
  *  (same package, same base name)
  */
-public interface REF
+public class REF
 {
-    // Empty
+    /**
+     * @return number of entries in properties file
+     */
+    public static final int size()
+    {
+        return 38;
+    }
 }

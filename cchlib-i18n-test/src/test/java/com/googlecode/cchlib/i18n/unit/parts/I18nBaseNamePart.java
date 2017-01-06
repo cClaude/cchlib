@@ -13,6 +13,7 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
+import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
@@ -130,15 +131,18 @@ public class I18nBaseNamePart
         beforePerformeI18nTest(); // No Change
     }
 
+    private static final int LOCALIZED_FIELDS = 4;
+    private static final int IGNORED_FIELDS   = 12;
+
     @Override // TestReference
     public void afterResourceBuilderTest_WithValidBundle( final I18nResourceBuilderResult result )
     {
         Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
-        assertThat( result.getIgnoredFields() ).hasSize( 10 );
-        assertThat( result.getLocalizedFields() ).hasSize( 4 );
+        assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
+        assertThat( result.getLocalizedFields() ).hasSize( LOCALIZED_FIELDS );
         assertThat( result.getMissingProperties() ).hasSize( 0 );
-        assertThat( result.getUnusedProperties() ).hasSize( 38 - 4 );
+        assertThat( result.getUnusedProperties() ).hasSize( REF.size() - LOCALIZED_FIELDS );
     }
 
     @Override // TestReference
@@ -146,9 +150,9 @@ public class I18nBaseNamePart
     {
         Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
-        assertThat( result.getIgnoredFields() ).hasSize( 10 );
+        assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
         assertThat( result.getLocalizedFields() ).hasSize( 0 );
-        assertThat( result.getMissingProperties() ).hasSize( 4 );
+        assertThat( result.getMissingProperties() ).hasSize( LOCALIZED_FIELDS );
         assertThat( result.getUnusedProperties() ).hasSize( 0 );
      }
 }
