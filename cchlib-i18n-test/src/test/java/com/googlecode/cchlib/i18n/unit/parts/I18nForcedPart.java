@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.i18n.unit.parts;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -11,16 +12,22 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Ignore;
 import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
+import com.googlecode.cchlib.i18n.unit.REF;
+import com.googlecode.cchlib.i18n.unit.TestReference;
 import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
-public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, TestReferenceDeprecated
+public class I18nForcedPart
+    extends JPanel
+        implements I18nAutoCoreUpdatable, TestReference, TestReferenceDeprecated
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nForcedPart.class );
@@ -136,24 +143,7 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
     @Override
     public void afterPrepTest()
     {
-        Assert.assertEquals( INIT_myJLabel, this.myJLabel.getText() );
-        Assert.assertEquals( INIT_myJButton, this.myJButton.getText() );
-        Assert.assertEquals( INIT_myJCheckBox, this.myJCheckBox.getText() );
-
-        Assert.assertEquals( 2, this.myJTabbedPane.getTabCount() );
-        Assert.assertEquals( INIT_myJTabbedPane1, this.myJTabbedPane.getTitleAt( 0 ) );
-        Assert.assertEquals( INIT_myJTabbedPane2, this.myJTabbedPane.getTitleAt( 1 ) );
-
-        Assert.assertEquals( INIT_myTitledBorder, this.myTitledBorder.getTitle() );
-
-        Assert.assertEquals( INIT_myJTextArea, this.myJTextArea.getText() );
-        Assert.assertEquals( INIT_myJTextArea, this.myJTextAreaNoI18n.getText() );
-
-        Assert.assertEquals( INIT_myJTextField, this.myJTextField.getText() );
-        Assert.assertEquals( INIT_myJTextField, this.myJTextFieldNoI18n.getText() );
-
-        Assert.assertEquals( INIT_myJEditorPane, this.myJEditorPane.getText() );
-        Assert.assertEquals( INIT_myJEditorPane, this.myJEditorPaneNoI18n.getText() );
+        beforePerformeI18nTest();
     }
 
     @Override
@@ -163,54 +153,7 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
 
         TestUtils.performeI18n( this );
 
-        {
-            final String r = this.myJLabel.getText();
-            LOGGER.info( "TEST RESULT: this.myJLabel.getText() = " + r );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJLabel, r );
-        }
-        {
-            final String r = this.myJButton.getText();
-            LOGGER.info( "TEST RESULT: this.myJButton.getText() = " + r );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJButton, r );
-        }
-        {
-            final String r = this.myJCheckBox.getText();
-            LOGGER.info( "TEST RESULT: this.myJCheckBox.getText() = " + r );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJCheckBox, r );
-        }
-        {
-            Assert.assertEquals( 2, this.myJTabbedPane.getTabCount() );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJTabbedPane1, this.myJTabbedPane.getTitleAt( 0 ) );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJTabbedPane2, this.myJTabbedPane.getTitleAt( 1 ) );
-        }
-        {
-            final String r = this.myTitledBorder.getTitle();
-            LOGGER.info( "TEST RESULT: this.myTitledBorder.getTitle() = " + r );
-            Assert.assertEquals( DEFAULT_BUNDLE_myTitledBorder, r );
-        }
-        {
-            final String r = this.myJTextArea.getText();
-            LOGGER.info( "TEST RESULT: this.myJTextArea.getText() = " + r );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJTextArea, r );
-
-            Assert.assertEquals( INIT_myJTextArea, this.myJTextAreaNoI18n.getText() );
-        }
-
-        {
-            final String r = this.myJTextField.getText();
-            LOGGER.info( "TEST RESULT: this.myJTextField.getText() = " + r );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJTextField, r );
-
-            Assert.assertEquals( INIT_myJTextField, this.myJTextFieldNoI18n.getText() );
-        }
-
-        {
-            final String r = this.myJEditorPane.getText();
-            LOGGER.info( "TEST RESULT: this.myJEditorPane.getText() = " + r );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJEditorPane, r );
-
-            Assert.assertEquals( INIT_myJEditorPane, this.myJEditorPaneNoI18n.getText() );
-        }
+        afterPerformeI18nTest_WithValidBundle();
     }
 
     @Override
@@ -224,4 +167,96 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
     {
         return 8;
     }
+
+    @Override // TestReference
+    public void beforePerformeI18nTest()
+    {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
+        assertThat( this.myJLabel.getText() ).isEqualTo( INIT_myJLabel );
+        assertThat( this.myJButton.getText() ).isEqualTo( INIT_myJButton );
+        assertThat( this.myJCheckBox.getText() ).isEqualTo( INIT_myJCheckBox );
+
+        assertThat( this.myJTabbedPane.getTabCount() ).isEqualTo( 2 );
+        assertThat( this.myJTabbedPane.getTitleAt( 0 ) ).isEqualTo( INIT_myJTabbedPane1 );
+        assertThat( this.myJTabbedPane.getTitleAt( 1 ) ).isEqualTo( INIT_myJTabbedPane2 );
+
+        assertThat( this.myTitledBorder.getTitle() ).isEqualTo( INIT_myTitledBorder );
+
+        assertThat( this.myJTextArea.getText() ).isEqualTo( INIT_myJTextArea );
+        assertThat( this.myJTextAreaNoI18n.getText() ).isEqualTo( INIT_myJTextArea );
+
+        assertThat( this.myJTextField.getText() ).isEqualTo( INIT_myJTextField );
+        assertThat( this.myJTextFieldNoI18n.getText() ).isEqualTo( INIT_myJTextField );
+
+        assertThat( this.myJEditorPane.getText() ).isEqualTo( INIT_myJEditorPane );
+        assertThat( this.myJEditorPaneNoI18n.getText() ).isEqualTo( INIT_myJEditorPane );
+    }
+
+    @Override // TestReference
+    public void afterPerformeI18nTest_WithValidBundle()
+    {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
+        LOGGER.info( "TEST RESULT: this.myJLabel.getText() = " + this.myJLabel.getText() );
+        LOGGER.info( "TEST RESULT: this.myJButton.getText() = " + this.myJButton.getText() );
+        LOGGER.info( "TEST RESULT: this.myJCheckBox.getText() = " + this.myJCheckBox.getText() );
+
+        LOGGER.info( "TEST RESULT: this.myTitledBorder.getTitle() = " + this.myTitledBorder.getTitle() );
+        LOGGER.info( "TEST RESULT: this.myJTextArea.getText() = " + this.myJTextArea.getText() );
+        LOGGER.info( "TEST RESULT: this.myJTextField.getText() = " + this.myJTextField.getText() );
+        LOGGER.info( "TEST RESULT: this.myJEditorPane.getText() = " + this.myJEditorPane.getText() );
+
+        assertThat( this.myJLabel.getText() ).isEqualTo( DEFAULT_BUNDLE_myJLabel );
+        assertThat( this.myJButton.getText() ).isEqualTo( DEFAULT_BUNDLE_myJButton );
+        assertThat( this.myJCheckBox.getText() ).isEqualTo( DEFAULT_BUNDLE_myJCheckBox );
+
+        assertThat( this.myJTabbedPane.getTabCount() ).isEqualTo( 2 );
+        assertThat( this.myJTabbedPane.getTitleAt( 0 ) ).isEqualTo( DEFAULT_BUNDLE_myJTabbedPane1 );
+        assertThat( this.myJTabbedPane.getTitleAt( 1 ) ).isEqualTo( DEFAULT_BUNDLE_myJTabbedPane2 );
+
+        assertThat( this.myTitledBorder.getTitle() ).isEqualTo( DEFAULT_BUNDLE_myTitledBorder );
+
+        assertThat( this.myJTextArea.getText() ).isEqualTo( DEFAULT_BUNDLE_myJTextArea );
+        assertThat( this.myJTextAreaNoI18n.getText() ).isEqualTo( INIT_myJTextArea );
+
+        assertThat( this.myJTextField.getText() ).isEqualTo( DEFAULT_BUNDLE_myJTextField );
+        assertThat( this.myJTextFieldNoI18n.getText() ).isEqualTo( INIT_myJTextField );
+
+        assertThat( this.myJEditorPane.getText() ).isEqualTo( DEFAULT_BUNDLE_myJEditorPane );
+        assertThat( this.myJEditorPaneNoI18n.getText() ).isEqualTo( INIT_myJEditorPane );
+    }
+
+    @Override // TestReference
+    public void afterPerformeI18nTest_WithNotValidBundle()
+    {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
+        beforePerformeI18nTest(); // No Change
+    }
+
+    private static final int LOCALIZED_FIELDS = 9;
+    private static final int IGNORED_FIELDS   = 25;
+
+    @Override // TestReference
+    public void afterResourceBuilderTest_WithValidBundle( final I18nResourceBuilderResult result )
+    {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
+        assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
+        assertThat( result.getLocalizedFields() ).hasSize( LOCALIZED_FIELDS );
+        assertThat( result.getMissingProperties() ).hasSize( 0 );
+        assertThat( result.getUnusedProperties() ).hasSize( REF.size() - LOCALIZED_FIELDS );
+    }
+
+    @Override // TestReference
+    public void afterResourceBuilderTest_WithNotValidBundle( final I18nResourceBuilderResult result )
+    {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
+        assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
+        assertThat( result.getLocalizedFields() ).hasSize( 0 );
+        assertThat( result.getMissingProperties() ).hasSize( LOCALIZED_FIELDS );
+        assertThat( result.getUnusedProperties() ).hasSize( 0 );
+     }
 }
