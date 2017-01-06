@@ -2,6 +2,8 @@ package com.googlecode.cchlib.i18n.resourcebuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Writer;
+import java.util.Properties;
 import java.util.PropertyResourceBundle;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 
@@ -37,4 +39,17 @@ public interface I18nResourceBuilder
      * @throws IOException if any
      */
     void saveMissingResourceBundle( File outputFile ) throws IOException;
+
+    /**
+     * Save {@link PropertyResourceBundle} with only missing keys.
+     *
+     * @param writer
+     *            an output character stream writer
+     * @param comments
+     *            a description of the property list.
+     * @throws IOException
+     *             if any
+     * @see Properties#store(Writer, String)
+     */
+    void saveMissingResourceBundle( Writer writer, String comments ) throws IOException;
 }

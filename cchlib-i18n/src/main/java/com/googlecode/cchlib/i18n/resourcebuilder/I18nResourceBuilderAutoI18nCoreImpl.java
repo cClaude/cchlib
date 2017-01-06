@@ -1,7 +1,10 @@
 package com.googlecode.cchlib.i18n.resourcebuilder;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.util.EnumSet;
 import java.util.Locale;
@@ -33,7 +36,6 @@ import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JEventHandler;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 import com.googlecode.cchlib.util.EnumHelper;
-import com.googlecode.cchlib.util.properties.PropertiesHelper;
 
 final class I18nResourceBuilderAutoI18nCoreImpl
     extends AbstractAutoI18nExceptionHandler // for AutoI18nExceptionHandler
@@ -142,17 +144,24 @@ final class I18nResourceBuilderAutoI18nCoreImpl
     @SuppressWarnings("ucd") // API
     public void saveMissingResourceBundle( final File outputFile ) throws IOException
     {
-        final Map<String,String> missingKeyValues = this.result.getMissingKeyValues();
-
-        final Properties properties= new Properties();
-
-        properties.putAll( missingKeyValues );
-
-        PropertiesHelper.saveProperties( outputFile, properties );
+        try( final Writer os = new BufferedWriter( new FileWriter( outputFile ) ) ) {
+            saveMissingResourceBundle( os, outputFile.toString() );
+        }
 
         if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "saveMissingResourceBundle: " + outputFile );
         }
+    }
+
+    @Override // I18nResourceBuilder
+    public void saveMissingResourceBundle( final Writer writer, final String comments )
+        throws IOException
+    {
+        final Map<String,String> missingKeyValues = this.result.getMissingKeyValues();
+        final Properties         properties       = new Properties();
+
+        properties.putAll( missingKeyValues );
+        properties.store( writer, comments );
     }
 
     @Override // AutoI18nEventHandler
