@@ -5,6 +5,7 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.unit.util.AutoI18nExceptionCollector;
 
+@Deprecated
 public interface PrepTestPart
 {
     void add(I18nAutoCoreUpdatable frame);
