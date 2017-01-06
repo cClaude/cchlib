@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.properties;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -64,7 +65,7 @@ public final class PropertiesHelper
     }
 
     /**
-     * Store properties content into a file.
+     * Store properties content into a file using a OutputStream.
      *
      * @param propertiesFile    File to use
      * @param properties        Properties to store.
@@ -77,7 +78,8 @@ public final class PropertiesHelper
         final String        comment
         ) throws IOException
     {
-        try( final OutputStream os = new FileOutputStream( propertiesFile ) ) {
+        // TODO allow to choice OutputStream / writer !
+        try( final OutputStream os = new BufferedOutputStream( new FileOutputStream( propertiesFile ) ) ) {
             properties.store( os, (comment == null) ? StringHelper.EMPTY : comment );
             }
     }
