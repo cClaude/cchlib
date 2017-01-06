@@ -1,19 +1,12 @@
 package com.googlecode.cchlib.i18n.core.internal;
 
-import java.awt.Component;
-import java.awt.Window;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JWindow;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nType;
@@ -43,18 +36,21 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     /** Array well know standard API classes : do not use reflexion on theses classes */
     private static final Class<?>[] NOT_HANDLED_CLASS_TYPES = {
         Object.class,
-        JFrame.class,
-        JDialog.class,
-        JWindow.class,
-        Window.class,
-        JPanel.class,
-        Component.class,
+        javax.swing.JFrame.class,
+        javax.swing.JDialog.class,
+        javax.swing.JWindow.class,
+        javax.swing.JPanel.class,
+        java.awt.Window.class,
+        java.awt.Component.class,
         JComponent.class,
         };
+
     private static final Class<?>[] NOT_HANDLED_FIELD_TYPES = {
         Number.class,
-        EnumSet.class,
+        java.util.EnumSet.class, // TODO: Should probably ignore all collections !
         Logger.class,
+        org.apache.log4j.Level.class,
+        java.util.logging.Logger.class,
     };
 
     private final Class<? extends T> objectToI18nClass;
@@ -126,18 +122,21 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
 
         for( final Field field : fields ) {
             if( field.isSynthetic() ) {
-                continue; // ignore member that was introduced by the compiler.
-                }
+                continue; // ignore member that was introduced by the compiler (no log)
+            }
             final Class<?> ftype = field.getType();
 
+            //
+            // Check special types
+            //
             if( ftype.isAnnotation() ) {
-                i18nDelegator.fireIgnoreField( field, null, EventCause.FIELD_TYPE_IS_ANNOTATION, null);
+                i18nDelegator.fireIgnoreField( field, null, EventCause.FIELD_TYPE_IS_ANNOTATION, null );
                 continue; // ignore annotations
-                }
+            }
             if( ftype.isPrimitive() ) {
                 i18nDelegator.fireIgnoreField( field, null, EventCause.FIELD_TYPE_IS_PRIMITIVE, null );
                 continue; // ignore primitive (numbers)
-                }
+            }
 
             boolean skip = false;
 
@@ -146,12 +145,12 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                     i18nDelegator.fireIgnoreField( field, null, EventCause.FIELD_TYPE_IS_NOT_HANDLE, null );
                     skip = true;
                     break;
-                    }
                 }
+            }
 
             if( skip ) {
                 continue; // ignore numbers
-                }
+            }
 
             // Special handle for tool tip text
             final I18nToolTipText toolTipText = field.getAnnotation( I18nToolTipText.class );
@@ -159,18 +158,19 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             if( toolTipText != null ) {
                 // Customize tool tip text of this field (if possible)
                 addValueToCustomizeForToolTipTextAndHandleErrors( i18nDelegator, field, toolTipText );
-                 }
+            }
+
             // Field mark has ignore (except for tool tip text)
             final I18nIgnore ignoreIt = field.getAnnotation( I18nIgnore.class );
 
             if( ignoreIt != null ) {
                 i18nDelegator.fireIgnoreField( field, null, EventCause.ANNOTATION_I18N_IGNORE_DEFINE, null );
                 continue;
-                }
+            }
 
             // Add field (if possible)
             addValueToCustomize( field );
-            }
+        }
     }
 
     private void addValueToCustomizeForToolTipTextAndHandleErrors(
@@ -215,12 +215,12 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
 
             if( method.isEmpty() ) {
                 methodContener = null;
-                }
+            }
             else {
                 methodContener = MethodProviderFactory
                     .getMethodProvider( this.i18nDelegator )
                         .getMethods( this.objectToI18nClass, field, method );
-                }
+            }
 
             final I18nField i18nfield = I18nFieldFactory.newI18nFieldToolTipText(
                                             this.i18nDelegator,
@@ -231,10 +231,10 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                                             );
 
             this.fieldList.add( i18nfield );
-            }
+        }
         else {
             this.i18nDelegator.fireIgnoreField( field, id, EventCause.ERR_TOOL_TIP_NOT_A_JCOMPONENT, null );
-            }
+        }
     }
 
     private void addValueToCustomize( final Field field )
@@ -247,20 +247,20 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             alreadyHandle = true;
 
             addValueToCustomizeForStringAndHandleErrors( field, i18nString );
-            }
+        }
 
         final I18n i18n = field.getAnnotation( I18n.class );
 
         if( i18n != null ) {
             if( alreadyHandle ) {
                 this.i18nDelegator.fireIgnoreAnnotation( field, i18n, EventCause.OTHER_ANNOTATION_ALREADY_EXIST );
-                }
+            }
             else {
                 alreadyHandle = true;
 
                 addValueToCustomizeAndHandleErrors( field, i18n );
-                }
             }
+        }
 
         if( ! alreadyHandle ) {
             // No annotation, use default process
@@ -268,29 +268,32 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
 
             if( type != null ) {
                 addValueToCustomizeAndHandleErrors( field, type );
-                }
+            }
             else {
                 this.i18nDelegator.fireIgnoreField( field, null, EventCause.NOT_HANDLED, null );
-                }
-          }
+            }
+        }
     }
 
-    private void addValueToCustomizeAndHandleErrors( final Field field, final AutoI18nType type )
+    private void addValueToCustomizeAndHandleErrors(
+        final Field        field,
+        final AutoI18nType type
+        )
     {
         try {
             addValueToCustomize( field, StringHelper.EMPTY, StringHelper.EMPTY, type );
-            }
+        }
         catch( final MethodProviderSecurityException cause ) {
             // Should not occur (no reflexion here)
             this.i18nDelegator.handleSecurityException( cause, field );
-            }
+        }
         catch( final MethodProviderNoSuchMethodException cause ) {
             // Should not occur (no reflexion here)
             this.i18nDelegator.handleNoSuchMethodException( cause, field );
-            }
+        }
         catch( final I18nSyntaxException cause ) {
             this.i18nDelegator.handleI18nSyntaxeException( cause, field );
-            }
+        }
     }
 
     private void addValueToCustomizeAndHandleErrors( final Field field, final I18n i18n )
@@ -299,16 +302,16 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             final AutoI18nType type = this.i18nDelegator.getAutoI18nTypes().lookup( field );
 
             addValueToCustomize( field, i18n.id(), i18n.method(), type );
-            }
+        }
         catch( final MethodProviderSecurityException cause ) {
             this.i18nDelegator.handleSecurityException( cause, field );
-            }
+        }
         catch( final MethodProviderNoSuchMethodException cause ) {
             this.i18nDelegator.handleNoSuchMethodException( cause, field );
-            }
+        }
         catch( final I18nSyntaxException cause ) {
             this.i18nDelegator.handleI18nSyntaxeException( cause, field );
-            }
+        }
     }
 
     private void addValueToCustomizeForStringAndHandleErrors(
@@ -318,16 +321,16 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
     {
         try {
             addValueToCustomizeForString( field, i18nString.id(), i18nString.method() );
-            }
+        }
         catch( final MethodProviderSecurityException cause ) {
             this.i18nDelegator.handleSecurityException( cause, field );
-            }
+        }
         catch( final MethodProviderNoSuchMethodException cause ) {
             this.i18nDelegator.handleNoSuchMethodException( cause, field );
-            }
+        }
         catch( final I18nSyntaxException cause ) {
             this.i18nDelegator.handleI18nSyntaxeException( cause, field );
-            }
+        }
     }
 
     @SuppressWarnings({

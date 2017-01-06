@@ -1,23 +1,22 @@
 package com.googlecode.cchlib.i18n.core.internal;
 
+import javax.swing.JEditorPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import com.googlecode.cchlib.i18n.core.resolve.IndexValues;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
 import com.googlecode.cchlib.i18n.types.AbstractType;
 import com.googlecode.cchlib.i18n.types.AbstractTypeUniqKeys;
-import javax.swing.JEditorPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
- * Default implementation for field with {@link com.googlecode.cchlib.i18n.annotation.I18n} annotation
+ * Default implementation for field with {@link com.googlecode.cchlib.i18n.annotation.I18n}
+ * annotation
  */
-/*not public*/ class AllAutoI18nTypes extends DefaultAutoI18nTypes
+//Not public
+class AllAutoI18nTypes extends DefaultAutoI18nTypes
 {
     private static final long serialVersionUID = 1L;
 
-    /**
-     *
-     */
     public AllAutoI18nTypes()
     {
         super();
@@ -34,14 +33,15 @@ import javax.swing.JTextField;
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, Values values )
+            @SuppressWarnings("squid:S3346") // assert usage
+            public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
-                
+
                 cast( toI18n ).setText( values.get( 0 ) );
             }
             @Override
-            public Values getText( Object toI18n )
+            public Values getText( final Object toI18n )
             {
                 return new IndexValues( cast( toI18n ).getText() );
             }
@@ -59,14 +59,15 @@ import javax.swing.JTextField;
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, Values values )
+            @SuppressWarnings("squid:S3346") // assert usage
+            public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
-                
+
                 cast( toI18n ).setText( values.get( 0 ) );
             }
             @Override
-            public Values getText( Object toI18n )
+            public Values getText( final Object toI18n )
             {
                 return new IndexValues( cast( toI18n ).getText() );
             }
@@ -84,14 +85,15 @@ import javax.swing.JTextField;
         {
             private static final long serialVersionUID = 1L;
             @Override
-            public void setText( Object toI18n, Values values )
+            @SuppressWarnings("squid:S3346") // assert usage
+            public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
 
                 cast( toI18n ).setText( values.get( 0 ) );
             }
             @Override
-            public Values getText( Object toI18n )
+            public Values getText( final Object toI18n )
             {
                 return new IndexValues( cast( toI18n ).getText() );
             }

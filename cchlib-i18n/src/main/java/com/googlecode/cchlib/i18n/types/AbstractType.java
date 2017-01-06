@@ -9,7 +9,7 @@ public abstract class AbstractType<T> implements AutoI18nType
     private static final long serialVersionUID = 1L;
     private final Class<T> type;
 
-    public AbstractType( Class<T> type )
+    public AbstractType( final Class<T> type )
     {
         this.type = type;
     }
@@ -19,9 +19,9 @@ public abstract class AbstractType<T> implements AutoI18nType
      * @return type for this object
      */
     @Override
-    final public Class<T> getType()
+    public final Class<T> getType()
     {
-        return type;
+        return this.type;
     }
 
     /**
@@ -31,20 +31,26 @@ public abstract class AbstractType<T> implements AutoI18nType
      * @return cast field to localize to current type
      * @see #getType()
      */
-    public final T cast( Object toI18n )
+    public final T cast( final Object toI18n )
     {
         try {
             return getType().cast( toI18n );
             }
-        catch( ClassCastException e ) {
-            throw new ClassCastException( "Try to cast '" + toI18n.getClass() + "' to " + getType() );
+        catch( final ClassCastException cause ) {
+            final ClassCastException ex = new ClassCastException(
+                    "Try to cast '" + toI18n.getClass() + "' to " + getType()
+                    );
+
+            ex.initCause( cause );
+
+            throw ex;
             }
     }
 
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "AbstractType [getType()=" );
         builder.append( getType() );
         builder.append( ']' );

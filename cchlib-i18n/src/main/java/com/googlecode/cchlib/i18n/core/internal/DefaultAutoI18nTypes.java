@@ -31,9 +31,11 @@ class DefaultAutoI18nTypes
 
     public AbstractType<AutoI18nBasicInterface> getAutoI18nBasicInterface()
     {
-        return new AbstractTypeUniqKeys<AutoI18nBasicInterface>( AutoI18nBasicInterface.class ) {
+        return new AbstractTypeUniqKeys<AutoI18nBasicInterface>( AutoI18nBasicInterface.class )
+        {
             private static final long serialVersionUID = 1L;
             @Override
+            @SuppressWarnings("squid:S3346") // assert usage
             public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
@@ -82,6 +84,7 @@ class DefaultAutoI18nTypes
         {
             private static final long serialVersionUID = 1L;
             @Override
+            @SuppressWarnings("squid:S3346") // assert usage
             public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
@@ -107,6 +110,7 @@ class DefaultAutoI18nTypes
         {
             private static final long serialVersionUID = 1L;
             @Override
+            @SuppressWarnings("squid:S3346") // assert usage
             public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
@@ -134,17 +138,17 @@ class DefaultAutoI18nTypes
             @Override
             public Keys getKeys( final Object toI18n, final String keyBaseName )
             {
-                final JTabbedPane  o      = cast( toI18n );
-                final int    len    = o.getTabCount();
+                final JTabbedPane o   = cast( toI18n );
+                final int         len = o.getTabCount();
 
                 return new IndexKeys( keyBaseName, len );
             }
             @Override
             public void setText( final Object toI18n, final Values values )
             {
-                final JTabbedPane  o      = cast( toI18n );
-                final int    len    = o.getTabCount();
-                int           index = 0;
+                final JTabbedPane o     = cast( toI18n );
+                final int         len   = o.getTabCount();
+                int               index = 0;
 
                 for( final String value : values ) {
                     o.setTitleAt( index++, value );
@@ -158,9 +162,9 @@ class DefaultAutoI18nTypes
             @Override
             public Values getText( final Object toI18n )
             {
-                final JTabbedPane    o      = cast( toI18n );
-                final int      len    = o.getTabCount();
-                final String[] values = new String[ len ];
+                final JTabbedPane o      = cast( toI18n );
+                final int         len    = o.getTabCount();
+                final String[]    values = new String[ len ];
 
                 for( int i = 0; i<len; i++ ) {
                     values[ i ] = o.getTitleAt( i );
@@ -182,6 +186,7 @@ class DefaultAutoI18nTypes
         {
             private static final long serialVersionUID = 1L;
             @Override
+            @SuppressWarnings("squid:S3346") // assert usage
             public void setText( final Object toI18n, final Values values )
             {
                 assert values.size() == 1;
