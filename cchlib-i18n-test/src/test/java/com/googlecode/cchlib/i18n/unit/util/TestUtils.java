@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
@@ -16,22 +17,24 @@ import com.googlecode.cchlib.i18n.prep.I18nPrepException;
 import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
-import com.googlecode.cchlib.i18n.resources.XI18nResourceBundleName;
+import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
-import com.googlecode.cchlib.i18n.unit.REF;
 
+/**
+ * @deprecated use {@link I18nResourceBuilderFactory} instead
+ */
+@Deprecated
 public class TestUtils
 {
-    public static final XI18nResourceBundleName VALID_MESSAGE_BUNDLE
-        = new XI18nResourceBundleName( REF.class.getPackage(), REF.class.getSimpleName() );
+    @Deprecated
+    public static final I18nResourceBundleName VALID_MESSAGE_BUNDLE
+        = new I18nITBaseConfig(){}.newI18nResourceBundleName_WithValidBundle();
 
+    @Deprecated
     public static final I18nResourceBundleName NOT_VALID_MESSAGE_BUNDLE_BUT_EXIST
-        = I18nResourceBundleNameFactory.newI18nResourceBundleName(
-                REF.class.getPackage(),
-                REF.class.getSimpleName() + "-empty"
-                );
+        = new I18nITBaseConfig(){}.newI18nResourceBundleName_WithExistingButNotValidBundle();
 
     private TestUtils()
     {
@@ -44,8 +47,8 @@ public class TestUtils
         final Locale locale = Locale.ENGLISH;
 
         // Define output
-        final PrintStream usageStatPrintStream    = System.err;
-        final PrintStream notUsePrintStream       = System.out;
+        final PrintStream usageStatPrintStream = System.err;
+        final PrintStream notUsePrintStream    = System.out;
 
         final Set<AutoI18nConfig> config   = getPrepConfig();
         final I18nPrep            autoI18n = I18nPrepFactory.newI18nPrep(
@@ -136,5 +139,13 @@ public class TestUtils
         return Collections.unmodifiableSet(
                 EnumSet.noneOf( AutoI18nConfig.class )
                 );
+    }
+
+    public static ResourceBundle createResourceBundle(
+        final I18nResourceBundleName resourceBundleName,
+        final Locale                 locale
+        )
+    {
+        return new I18nSimpleResourceBundle( resourceBundleName, locale ).getResourceBundle();
     }
 }
