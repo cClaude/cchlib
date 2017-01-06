@@ -1,6 +1,6 @@
-// $codepro.audit.disable largeNumberOfFields, constantNamingConvention
 package com.googlecode.cchlib.i18n.unit.parts;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import javax.swing.JButton;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
@@ -9,11 +9,14 @@ import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReference;
+import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
-public class I18nStringPart implements I18nAutoCoreUpdatable, TestReference
+public class I18nStringPart
+    implements I18nAutoCoreUpdatable, TestReference, TestReferenceDeprecated
 {
     private static final Logger LOGGER = Logger.getLogger( I18nStringPart.class );
     private static final String INIT_myString = "my-string-text-1";
@@ -39,26 +42,26 @@ public class I18nStringPart implements I18nAutoCoreUpdatable, TestReference
 
     public I18nStringPart()
     {
-        shouldNotBeFinal();
+        shouldNotBeFinalStatic();
     }
 
-    private void shouldNotBeFinal()
+    private void shouldNotBeFinalStatic()
     {
-        this.myString = INIT_myString;
-        this.myStringIgnore = INIT_myString;
+        this.myString         = INIT_myString;
+        this.myStringIgnore   = INIT_myString;
         this.myGlobalStringID = INIT_myGlobalStringID1;
     }
 
     @I18nCustomMethod
     public void customizeString1()
     {
-        myGlobalStringIDMethod1 = DEFAULT_BUNDLE_myGlobalStringIDMethod1;
+        this.myGlobalStringIDMethod1 = DEFAULT_BUNDLE_myGlobalStringIDMethod1;
     }
 
     @I18nCustomMethod
     public void customizeString2()
     {
-        myGlobalStringIDMethod2 = DEFAULT_BUNDLE_myGlobalStringIDMethod2;
+        this.myGlobalStringIDMethod2 = DEFAULT_BUNDLE_myGlobalStringIDMethod2;
     }
 
     @Override // I18nAutoCoreUpdatable
@@ -68,12 +71,14 @@ public class I18nStringPart implements I18nAutoCoreUpdatable, TestReference
     }
 
     @Override
+    @Deprecated
     public void beforePrepTest(final PrepTestPart prepTest)
     {
         TestUtils.preparePrepTest( prepTest, this );
    }
 
     @Override
+    @Deprecated
     public void afterPrepTest()
     {
         Assert.assertEquals( INIT_myString, this.myString );
@@ -86,6 +91,7 @@ public class I18nStringPart implements I18nAutoCoreUpdatable, TestReference
     }
 
     @Override
+    @Deprecated
     public void performeI18n()
     {
         afterPrepTest();
@@ -96,28 +102,18 @@ public class I18nStringPart implements I18nAutoCoreUpdatable, TestReference
 
         TestUtils.performeI18n( this );
 
-        LOGGER.info( "TEST RESULT: this.myString = " + this.myString );
-        Assert.assertEquals( DEFAULT_BUNDLE_myString, this.myString );
-        Assert.assertEquals( INIT_myString, this.myStringIgnore );
-
-        LOGGER.info( "TEST RESULT: this.myGlobalStringID = " + this.myGlobalStringID );
-        Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringID1, this.myGlobalStringID );
-
-        // No change, since there is a syntax exception
-        LOGGER.info( "TEST RESULT: this.myGlobalStringIDMethod1 = " + this.myGlobalStringIDMethod1 );
-        Assert.assertEquals( INIT_myGlobalStringIDMethod1, this.myGlobalStringIDMethod1 );
-
-        LOGGER.info( "TEST RESULT: this.myGlobalStringIDMethod2 = " + this.myGlobalStringIDMethod2 );
-        Assert.assertEquals( DEFAULT_BUNDLE_myGlobalStringIDMethod2, this.myGlobalStringIDMethod2 );
+        afterPerformeI18nTest_WithValidBundle();
     }
 
     @Override
+    @Deprecated
     public int getSyntaxeExceptionCount()
     {
         return 3;
     }
 
     @Override
+    @Deprecated
     public int getMissingResourceExceptionCount()
     {
         return 2;
@@ -125,6 +121,68 @@ public class I18nStringPart implements I18nAutoCoreUpdatable, TestReference
 
     public final String getMyString()
     {
-        return myString;
+        return this.myString;
     }
+
+    @Override // TestReference
+    public void beforePerformeI18nTest()
+    {
+        beforePerformeI18nTest_common();
+
+        assertThat( this.myGlobalStringIDMethod2 ).isEqualTo( INIT_myGlobalStringIDMethod2 );
+    }
+
+    private void beforePerformeI18nTest_common()
+    {
+        assertThat( this.myString ).isEqualTo( INIT_myString );
+        assertThat( this.myStringIgnore ).isEqualTo( INIT_myString );
+        assertThat( this.myGlobalStringID ).isEqualTo( INIT_myGlobalStringID1 );
+        assertThat( this.myGlobalStringIDMethod1 ).isEqualTo( INIT_myGlobalStringIDMethod1 );
+    }
+
+    @Override // TestReference
+    public void afterPerformeI18nTest_WithValidBundle()
+    {
+        LOGGER.info( "TEST RESULT: this.myString = " + this.myString );
+        LOGGER.info( "TEST RESULT: this.myGlobalStringID = " + this.myGlobalStringID );
+        LOGGER.info( "TEST RESULT: this.myGlobalStringIDMethod1 = " + this.myGlobalStringIDMethod1 );
+        LOGGER.info( "TEST RESULT: this.myGlobalStringIDMethod2 = " + this.myGlobalStringIDMethod2 );
+
+        assertThat( this.myString ).isEqualTo( DEFAULT_BUNDLE_myString );
+        assertThat( this.myStringIgnore ).isEqualTo( INIT_myString );
+
+        assertThat( this.myGlobalStringID ).isEqualTo( DEFAULT_BUNDLE_myGlobalStringID1 );
+
+        // No change, since there is a syntax exception
+        assertThat( this.myGlobalStringIDMethod1 ).isEqualTo( INIT_myGlobalStringIDMethod1 );
+
+        assertThat( this.myGlobalStringIDMethod2 ).isEqualTo( DEFAULT_BUNDLE_myGlobalStringIDMethod2 );
+    }
+
+    @Override // TestReference
+    public void afterPerformeI18nTest_WithNotValidBundle()
+    {
+        // No Change but custom methods ! Since content not in bundle !
+        beforePerformeI18nTest_common();
+
+        assertThat( this.myGlobalStringIDMethod2 ).isEqualTo( DEFAULT_BUNDLE_myGlobalStringIDMethod2 );
+    }
+
+    @Override // TestReference
+    public void afterResourceBuilderTest_WithValidBundle( final I18nResourceBuilderResult result )
+    {
+        assertThat( result.getIgnoredFields() ).hasSize( 10 );
+        assertThat( result.getLocalizedFields() ).hasSize( 2 );
+        assertThat( result.getMissingProperties() ).hasSize( 0 );
+        assertThat( result.getUnusedProperties() ).hasSize( 38 - 2 );
+    }
+
+    @Override // TestReference
+    public void afterResourceBuilderTest_WithNotValidBundle( final I18nResourceBuilderResult result )
+    {
+        assertThat( result.getIgnoredFields() ).hasSize( 10 );
+        assertThat( result.getLocalizedFields() ).hasSize( 0 );
+        assertThat( result.getMissingProperties() ).hasSize( 2 );
+        assertThat( result.getUnusedProperties() ).hasSize( 0 );
+     }
 }

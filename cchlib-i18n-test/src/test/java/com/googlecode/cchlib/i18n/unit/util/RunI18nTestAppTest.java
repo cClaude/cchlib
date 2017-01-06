@@ -20,7 +20,7 @@ import com.google.common.collect.Sets.SetView;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
 import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
-import com.googlecode.cchlib.i18n.unit.TestReference;
+import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.parts.AutoI18nBasicInterfacePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nBaseNamePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nDefaultPart;
@@ -49,9 +49,9 @@ public class RunI18nTestAppTest
     // to ensure all CI will be able to have same result
     private static final boolean DO_SWING = SafeSwingUtilities.isSwingAvailable() /*& false*/;
 
-    private static Iterable<TestReference> getTests()
+    private static Iterable<TestReferenceDeprecated> getTests()
     {
-        final ArrayList<TestReference> list = new ArrayList<>();
+        final ArrayList<TestReferenceDeprecated> list = new ArrayList<>();
 
         if( DO_SWING ) {
             list.add( new I18nBaseNamePart() );
@@ -74,27 +74,27 @@ public class RunI18nTestAppTest
     public void runPrepTest() throws FileNotFoundException, IOException, I18nPrepException
     {
         final PrepTestPart   prepTest = TestUtils.newPrepTestPart();
-        final Iterable<TestReference> tests    = getTests();
+        final Iterable<TestReferenceDeprecated> tests    = getTests();
 
         int syntaxeExceptionCount = 0;
         int missingResourceExceptionCount = 0;
 
         // Value should not change (check before)
-        for( final TestReference test : tests ) {
+        for( final TestReferenceDeprecated test : tests ) {
             test.afterPrepTest();
 
             syntaxeExceptionCount += test.getSyntaxeExceptionCount();
             missingResourceExceptionCount += test.getMissingResourceExceptionCount();
             }
 
-        for( final TestReference test : tests ) {
+        for( final TestReferenceDeprecated test : tests ) {
             test.beforePrepTest( prepTest );
             }
 
         final I18nPrepResult result = TestUtils.runPrepTest( prepTest );
 
         // Value should not change (check after)
-        for( final TestReference test : tests ) {
+        for( final TestReferenceDeprecated test : tests ) {
             test.afterPrepTest();
             }
 
@@ -195,7 +195,7 @@ public class RunI18nTestAppTest
 
     private Map<String, String> computeEntriesExistingInPropertiesMap()
     {
-        final ResourceBundle validMessageBundleResource = TestUtils.VALID_MESSAGE_BUNDLE.createResourceBundle( Locale.ENGLISH );
+        final ResourceBundle validMessageBundleResource = TestUtils.createResourceBundle( TestUtils.VALID_MESSAGE_BUNDLE, Locale.ENGLISH );
 
         final Set<String>         propertiyNames = validMessageBundleResource.keySet();
         final Map<String, String> map            = new HashMap<>( propertiyNames.size() );
@@ -208,9 +208,9 @@ public class RunI18nTestAppTest
     @Test
     public void runPerformeI18nTest()
     {
-        final Iterable<TestReference> tests = getTests();
+        final Iterable<TestReferenceDeprecated> tests = getTests();
 
-        for( final TestReference test : tests ) {
+        for( final TestReferenceDeprecated test : tests ) {
             LOGGER.info( "testing " + test  );
             test.performeI18n();
             }

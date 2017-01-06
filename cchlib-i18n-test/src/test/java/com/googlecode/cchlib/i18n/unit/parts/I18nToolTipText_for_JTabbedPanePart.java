@@ -10,10 +10,10 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
-import com.googlecode.cchlib.i18n.unit.TestReference;
+import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
-public class I18nToolTipText_for_JTabbedPanePart implements TestReference, I18nAutoCoreUpdatable
+public class I18nToolTipText_for_JTabbedPanePart implements TestReferenceDeprecated, I18nAutoCoreUpdatable
 {
     private static final Logger LOGGER = Logger.getLogger( I18nToolTipTextIgnorePart.class );
 

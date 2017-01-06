@@ -6,6 +6,7 @@ import java.util.Iterator;
 import com.googlecode.cchlib.util.iterator.Iterators;
 
 //not public
+@Deprecated
 class CollectorImpl implements Collector, Serializable
 {
     private static final long serialVersionUID = 1L;

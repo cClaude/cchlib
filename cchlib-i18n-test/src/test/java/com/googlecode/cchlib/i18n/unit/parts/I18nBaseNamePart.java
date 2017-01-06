@@ -1,21 +1,27 @@
-// $codepro.audit.disable
 package com.googlecode.cchlib.i18n.unit.parts;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Assume;
 import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReference;
+import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 @I18nName("I18nBaseNameTest")
-public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, TestReference
+public class I18nBaseNamePart
+    extends JPanel
+        implements I18nAutoCoreUpdatable, TestReference, TestReferenceDeprecated
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nBaseNamePart.class );
@@ -39,12 +45,12 @@ public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, T
     public I18nBaseNamePart()
     {
         {
-            myJLabel1 = new JLabel( INIT_myJLabel1 );
-            add( myJLabel1 );
+            this.myJLabel1 = new JLabel( INIT_myJLabel1 );
+            add( this.myJLabel1 );
         }
         {
-            myJLabel2 = new JLabel( INIT_myJLabel2 );
-            add( myJLabel2 );
+            this.myJLabel2 = new JLabel( INIT_myJLabel2 );
+            add( this.myJLabel2 );
         }
     }
 
@@ -67,26 +73,11 @@ public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, T
     @Override
     public void performeI18n()
     {
-        Assert.assertEquals( INIT_myString1, this.myString1 );
-        Assert.assertEquals( INIT_myString2, this.myString2 );
-
-        Assert.assertEquals( INIT_myJLabel1, this.myJLabel1.getText() );
-        Assert.assertEquals( INIT_myJLabel2, this.myJLabel2.getText() );
+        beforePerformeI18nTest();
 
         TestUtils.performeI18n( this );
 
-        Assert.assertEquals( DEFAULT_BUNDLE_myString1, this.myString1 );
-        Assert.assertEquals( DEFAULT_BUNDLE_myString2, this.myString2 );
-        {
-            final String r = this.myJLabel1.getText();
-            LOGGER.info( "TEST RESULT: this.myJLabel1.getText() = " + r );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJLabel1, r );
-        }
-        {
-            final String r = this.myJLabel2.getText();
-            LOGGER.info( "TEST RESULT: this.myJLabel2.getText() = " + r );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJLabel2, r );
-        }
+        afterPerformeI18nTest_WithValidBundle();
     }
 
     @Override
@@ -107,4 +98,57 @@ public class I18nBaseNamePart extends JPanel implements I18nAutoCoreUpdatable, T
         return 4;
     }
 
+    @Override // TestReference
+    public void beforePerformeI18nTest()
+    {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
+        assertThat( this.myString1 ).isEqualTo( INIT_myString1 );
+        assertThat( this.myString2 ).isEqualTo( INIT_myString2 );
+
+        assertThat( this.myJLabel1.getText() ).isEqualTo( INIT_myJLabel1 );
+        assertThat( this.myJLabel2.getText() ).isEqualTo( INIT_myJLabel2 );
+    }
+
+    @Override // TestReference
+    public void afterPerformeI18nTest_WithValidBundle()
+    {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
+        assertThat( this.myString1 ).isEqualTo( DEFAULT_BUNDLE_myString1 );
+        assertThat( this.myString2 ).isEqualTo( DEFAULT_BUNDLE_myString2 );
+
+        assertThat( this.myJLabel1.getText() ).isEqualTo( DEFAULT_BUNDLE_myJLabel1 );
+        assertThat( this.myJLabel2.getText() ).isEqualTo( DEFAULT_BUNDLE_myJLabel2 );
+    }
+
+    @Override // TestReference
+    public void afterPerformeI18nTest_WithNotValidBundle()
+    {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
+        beforePerformeI18nTest(); // No Change
+    }
+
+    @Override // TestReference
+    public void afterResourceBuilderTest_WithValidBundle( final I18nResourceBuilderResult result )
+    {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
+        assertThat( result.getIgnoredFields() ).hasSize( 10 );
+        assertThat( result.getLocalizedFields() ).hasSize( 4 );
+        assertThat( result.getMissingProperties() ).hasSize( 0 );
+        assertThat( result.getUnusedProperties() ).hasSize( 38 - 4 );
+    }
+
+    @Override // TestReference
+    public void afterResourceBuilderTest_WithNotValidBundle( final I18nResourceBuilderResult result )
+    {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
+        assertThat( result.getIgnoredFields() ).hasSize( 10 );
+        assertThat( result.getLocalizedFields() ).hasSize( 0 );
+        assertThat( result.getMissingProperties() ).hasSize( 4 );
+        assertThat( result.getUnusedProperties() ).hasSize( 0 );
+     }
 }

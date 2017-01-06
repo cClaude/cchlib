@@ -12,6 +12,7 @@ import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
+@Deprecated
 public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler
 {
     private static final long serialVersionUID = 1L;

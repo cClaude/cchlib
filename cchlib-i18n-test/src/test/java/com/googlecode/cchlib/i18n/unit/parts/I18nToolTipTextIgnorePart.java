@@ -8,10 +8,10 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
-import com.googlecode.cchlib.i18n.unit.TestReference;
+import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
-public class I18nToolTipTextIgnorePart implements I18nAutoCoreUpdatable, TestReference
+public class I18nToolTipTextIgnorePart implements I18nAutoCoreUpdatable, TestReferenceDeprecated
 {
     private static final Logger LOGGER = Logger.getLogger( I18nToolTipTextIgnorePart.class );
     private static final String TOOLTIPTEXT_INIT = "my tool tip text 1";

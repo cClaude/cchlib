@@ -1,4 +1,3 @@
-// $codepro.audit.disable largeNumberOfFields, constantNamingConvention, questionableName
 package com.googlecode.cchlib.i18n.unit.parts;
 
 import javax.swing.AbstractButton;
@@ -18,10 +17,10 @@ import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
-import com.googlecode.cchlib.i18n.unit.TestReference;
+import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
-public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, TestReference
+public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, TestReferenceDeprecated
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nForcedPart.class );
@@ -66,20 +65,20 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
     public I18nForcedPart()
     {
         {
-            myJLabel = new JLabel( INIT_myJLabel );
-            super.add( myJLabel );
+            this.myJLabel = new JLabel( INIT_myJLabel );
+            super.add( this.myJLabel );
         }
         {
-            myJButton = new JButton( INIT_myJButton );
-            super.add( myJButton );
+            this.myJButton = new JButton( INIT_myJButton );
+            super.add( this.myJButton );
         }
         {
-            myJCheckBox = new JCheckBox( INIT_myJCheckBox );
-            super.add( myJCheckBox );
+            this.myJCheckBox = new JCheckBox( INIT_myJCheckBox );
+            super.add( this.myJCheckBox );
         }
         {
-            myJTabbedPane = new JTabbedPane();
-            super.add( myJTabbedPane );
+            this.myJTabbedPane = new JTabbedPane();
+            super.add( this.myJTabbedPane );
             {
                 final JPanel panel1 = new JPanel();
                 this.myJTabbedPane.addTab(INIT_myJTabbedPane1, null, panel1, null);
@@ -93,31 +92,31 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
             }
         }
         {
-            myJTextArea = new JTextArea();
+            this.myJTextArea = new JTextArea();
             this.myJTextArea.setText( INIT_myJTextArea );
-            super.add( myJTextArea );
+            super.add( this.myJTextArea );
 
-            myJTextAreaNoI18n = new JTextArea();
+            this.myJTextAreaNoI18n = new JTextArea();
             this.myJTextAreaNoI18n.setText( INIT_myJTextArea );
-            super.add( myJTextAreaNoI18n );
+            super.add( this.myJTextAreaNoI18n );
         }
         {
-            myJTextField = new JTextField();
+            this.myJTextField = new JTextField();
             this.myJTextField.setText( INIT_myJTextField );
-            super.add( myJTextField );
+            super.add( this.myJTextField );
 
-            myJTextFieldNoI18n = new JTextField();
+            this.myJTextFieldNoI18n = new JTextField();
             this.myJTextFieldNoI18n.setText( INIT_myJTextField );
-            super.add( myJTextFieldNoI18n );
+            super.add( this.myJTextFieldNoI18n );
         }
         {
-            myJEditorPane = new JEditorPane();
+            this.myJEditorPane = new JEditorPane();
             this.myJEditorPane.setText( INIT_myJEditorPane );
-            super.add( myJEditorPane );
+            super.add( this.myJEditorPane );
 
-            myJEditorPaneNoI18n = new JEditorPane();
+            this.myJEditorPaneNoI18n = new JEditorPane();
             this.myJEditorPaneNoI18n.setText( INIT_myJEditorPane );
-            super.add( myJEditorPaneNoI18n );
+            super.add( this.myJEditorPaneNoI18n );
         }
     }
 
@@ -141,9 +140,9 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
         Assert.assertEquals( INIT_myJButton, this.myJButton.getText() );
         Assert.assertEquals( INIT_myJCheckBox, this.myJCheckBox.getText() );
 
-        Assert.assertEquals( 2, myJTabbedPane.getTabCount() );
-        Assert.assertEquals( INIT_myJTabbedPane1, myJTabbedPane.getTitleAt( 0 ) );
-        Assert.assertEquals( INIT_myJTabbedPane2, myJTabbedPane.getTitleAt( 1 ) );
+        Assert.assertEquals( 2, this.myJTabbedPane.getTabCount() );
+        Assert.assertEquals( INIT_myJTabbedPane1, this.myJTabbedPane.getTitleAt( 0 ) );
+        Assert.assertEquals( INIT_myJTabbedPane2, this.myJTabbedPane.getTitleAt( 1 ) );
 
         Assert.assertEquals( INIT_myTitledBorder, this.myTitledBorder.getTitle() );
 
@@ -180,9 +179,9 @@ public class I18nForcedPart extends JPanel implements I18nAutoCoreUpdatable, Tes
             Assert.assertEquals( DEFAULT_BUNDLE_myJCheckBox, r );
         }
         {
-            Assert.assertEquals( 2, myJTabbedPane.getTabCount() );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJTabbedPane1, myJTabbedPane.getTitleAt( 0 ) );
-            Assert.assertEquals( DEFAULT_BUNDLE_myJTabbedPane2, myJTabbedPane.getTitleAt( 1 ) );
+            Assert.assertEquals( 2, this.myJTabbedPane.getTabCount() );
+            Assert.assertEquals( DEFAULT_BUNDLE_myJTabbedPane1, this.myJTabbedPane.getTitleAt( 0 ) );
+            Assert.assertEquals( DEFAULT_BUNDLE_myJTabbedPane2, this.myJTabbedPane.getTitleAt( 1 ) );
         }
         {
             final String r = this.myTitledBorder.getTitle();

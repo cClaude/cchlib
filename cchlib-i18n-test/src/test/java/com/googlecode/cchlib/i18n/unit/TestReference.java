@@ -1,12 +1,15 @@
 package com.googlecode.cchlib.i18n.unit;
 
-public interface TestReference {
-    void beforePrepTest( PrepTestPart prepTest );
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 
-    void performeI18n();
+public interface TestReference extends I18nAutoCoreUpdatable
+{
+    void beforePerformeI18nTest();
 
-    void afterPrepTest();
+    void afterPerformeI18nTest_WithValidBundle();
+    void afterPerformeI18nTest_WithNotValidBundle();
 
-    int getSyntaxeExceptionCount();
-    int getMissingResourceExceptionCount();
+    void afterResourceBuilderTest_WithValidBundle( I18nResourceBuilderResult result );
+    void afterResourceBuilderTest_WithNotValidBundle( I18nResourceBuilderResult result );
 }
