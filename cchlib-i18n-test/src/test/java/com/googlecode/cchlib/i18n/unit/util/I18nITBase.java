@@ -20,6 +20,9 @@ public abstract class I18nITBase extends I18nITBaseConfig
         final I18nResourceBuilderResult result
         )
     {
+        // Should have same result.
+        part.afterPerformeI18nTest_WithValidBundle();
+
         part.afterResourceBuilderTest_WithValidBundle( result );
     }
 
@@ -38,6 +41,9 @@ public abstract class I18nITBase extends I18nITBaseConfig
         final I18nResourceBuilderResult result
         )
     {
+        // Should have same result.
+        part.afterPerformeI18nTest_WithNotValidBundle();
+
         part.afterResourceBuilderTest_WithNotValidBundle( result );
     }
 }
