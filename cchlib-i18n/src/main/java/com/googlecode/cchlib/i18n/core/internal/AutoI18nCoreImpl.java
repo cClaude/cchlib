@@ -53,7 +53,7 @@ public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
             }
 
         if( LOGGER.isDebugEnabled() ) {
-            LOGGER.debug( "I18n handle class " + clazz + " on " + objectToI18n );
+            LOGGER.debug( "I18n found class \"" + clazz.getName() + "\" for " + objectToI18n );
             }
 
         final I18nClass<T>     i18nClass = getI18nClass( clazz );
