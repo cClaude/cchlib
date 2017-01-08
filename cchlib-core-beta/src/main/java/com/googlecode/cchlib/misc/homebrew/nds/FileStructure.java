@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.misc.homebrew.nds;
 
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,8 +9,33 @@ import java.util.Map;
  */
 public abstract class FileStructure
 {
+    @FunctionalInterface
+    private interface Action<O,F,N,I> {
+        void accept(O o, F f, N n, I i);
+    }
+
     public enum FSType {
-        STRING, HEX, UNKNOWN
+        STRING( NDSFileFormat::printString ),
+        HEX( NDSFileFormat::printField ),
+        UNKNOWN( NDSFileFormat::printUField ),
+        ;
+
+        private Action<PrintStream,FSField,NDSFileFormat,Integer> action;
+
+        FSType( final Action<PrintStream,FSField,NDSFileFormat,Integer> action )
+        {
+            this.action = action;
+        }
+
+        public void printField(
+                final PrintStream out,
+                final FSField f,
+                final NDSFileFormat nds,
+                final int i
+                )
+        {
+            this.action.accept( out, f, nds, i );
+        }
     }
 
     protected static class FSField {
@@ -42,27 +68,27 @@ public abstract class FileStructure
 
         public String getField()
         {
-            return field;
+            return this.field;
         }
 
         public int getStart()
         {
-            return start;
+            return this.start;
         }
 
         public int getEnd()
         {
-            return end;
+            return this.end;
         }
 
         public int getLength()
         {
-            return length;
+            return this.length;
         }
 
         public FSType getType()
         {
-            return type;
+            return this.type;
         }
 
         @Override
@@ -71,15 +97,15 @@ public abstract class FileStructure
             final StringBuilder builder = new StringBuilder();
             builder.append( getClass().getSimpleName() );
             builder.append( " [field=" );
-            builder.append( field );
+            builder.append( this.field );
             builder.append( ", start=" );
-            builder.append( start );
+            builder.append( this.start );
             builder.append( ", end=" );
-            builder.append( end );
+            builder.append( this.end );
             builder.append( ", length=" );
-            builder.append( length );
+            builder.append( this.length );
             builder.append( ", type=" );
-            builder.append( type );
+            builder.append( this.type );
             builder.append( ']' );
             return builder.toString();
         }
@@ -98,15 +124,15 @@ public abstract class FileStructure
 
     protected Integer getNameIndex( final String fieldname )
     {
-        if( nameIndexMap == null ) {
-            nameIndexMap = new HashMap<>();
+        if( this.nameIndexMap == null ) {
+            this.nameIndexMap = new HashMap<>();
 
             for( int i = 0; i<getFieldCount(); i++ ) {
-                nameIndexMap.put( getFieldName( i ), Integer.valueOf( i ) );
+                this.nameIndexMap.put( getFieldName( i ), Integer.valueOf( i ) );
                 }
             }
 
-        return nameIndexMap.get( fieldname );
+        return this.nameIndexMap.get( fieldname );
     }
 
     public final String getFieldName( final int i ) {
@@ -119,7 +145,7 @@ public abstract class FileStructure
         final int length = f.getLength();
 
        final byte[] b = new byte[ length ];
-       System.arraycopy( bytes, start, b, 0, length );
+       System.arraycopy( this.bytes, start, b, 0, length );
        return b;
     }
 

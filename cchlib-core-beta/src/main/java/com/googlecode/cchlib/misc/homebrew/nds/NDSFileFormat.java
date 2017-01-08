@@ -6,6 +6,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 
 /**
  * NDS ROM file format
@@ -174,9 +175,13 @@ public class NDSFileFormat extends FileStructure
         final int    size   = getSize();
         final byte[] buffer = new byte[ size ];
 
+        int len;
+
         try( BufferedInputStream is = new BufferedInputStream( new FileInputStream( file ) ) ) {
-            is.read( buffer );
+            len = is.read( buffer );
             }
+
+        assert len == size;
 
         return new NDSFileFormat( buffer );
     }
@@ -196,25 +201,28 @@ public class NDSFileFormat extends FileStructure
         for( int i = 0; i<nds.getFieldCount(); i++ ) {
             final FSField f    = nds.getFieldInfo( i );
 
-            switch( f.getType() ) {
-                case STRING:
-                    System.out.println( f.getField() + " = \"" + nds.getFieldAsString( i ) + '\"' );
-                    break;
-
-                case HEX :
-                    printField( f, convertToHexa( nds.getBytes( i ) ) );
-                    break;
-
-                case UNKNOWN:
-                    printField( f, "UNKNOWN" );
-                    break;
-            }
+            f.getType().printField( System.out, f, nds, i );
         }
     }
 
-    private static void printField( final FSField f, final String value )
+    public static void printUField( final PrintStream out, final FSField f, final NDSFileFormat nds, final int i )
     {
-        System.out.println( f.getField() + " = " + value );
+        printField( out, f, "UNKNOWN" );
+    }
+
+    public static void printField( final PrintStream out, final FSField f, final NDSFileFormat nds, final int i )
+    {
+        printField( out, f, convertToHexa( nds.getBytes( i ) ) );
+    }
+
+    public static void printString( final PrintStream out , final FSField f, final NDSFileFormat nds, final int i  )
+    {
+        out.println( f.getField() + " = \"" + nds.getFieldAsString( i ) + '\"' );
+    }
+
+    private static void printField( final PrintStream out , final FSField f, final String value )
+    {
+        out.println( f.getField() + " = " + value );
     }
 
     @SuppressWarnings("boxing")
@@ -228,7 +236,4 @@ public class NDSFileFormat extends FileStructure
 
         return sb.toString();
     }
-
-
-
 }
