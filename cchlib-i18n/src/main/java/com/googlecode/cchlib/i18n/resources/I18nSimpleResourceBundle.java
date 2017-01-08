@@ -8,7 +8,10 @@ import com.googlecode.cchlib.i18n.api.I18nResource;
 /**
  * Provide a default implementation based on {@link ResourceBundle}
  * for {@link I18nResource}
+ *
+ * @deprecated use {@link I18nResourceFactory#newI18nResourceBundle(I18nResourceBundleName, Locale)} instead
  */
+@Deprecated
 public class I18nSimpleResourceBundle extends I18nResourceBundle
 {
     private static final long serialVersionUID = 3L;

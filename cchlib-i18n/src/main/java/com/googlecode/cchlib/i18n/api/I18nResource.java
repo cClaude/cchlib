@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Locale;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
-import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
+import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 
 /**
@@ -13,7 +13,7 @@ import com.googlecode.cchlib.i18n.resources.MissingResourceException;
  *
  * @see AutoI18n
  * @see I18nResourceBundle
- * @see I18nSimpleResourceBundle
+ * @see I18nResourceFactory
  */
 @FunctionalInterface
 public interface I18nResource extends Serializable

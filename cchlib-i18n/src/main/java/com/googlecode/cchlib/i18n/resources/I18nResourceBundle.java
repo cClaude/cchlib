@@ -13,7 +13,7 @@ import com.googlecode.cchlib.i18n.api.I18nResource;
  * Provide a default implementation based on {@link ResourceBundle}
  * for {@link I18nResource}
  *
- * @see I18nSimpleResourceBundle
+ * @see I18nResourceFactory
  */
 public class I18nResourceBundle implements I18nResource, Serializable
 {
@@ -46,7 +46,7 @@ public class I18nResourceBundle implements I18nResource, Serializable
      * @throws IllegalArgumentException
      *             if {@code resourceBundleFullBaseName} is null
      */
-    protected I18nResourceBundle( //
+    I18nResourceBundle( //
         @Nonnull final String resourceBundleFullBaseName,
         @Nonnull final Locale locale
         )
@@ -126,12 +126,12 @@ public class I18nResourceBundle implements I18nResource, Serializable
         this.resourceBundle             = newResourceBundle();
     }
 
-    protected String getResourceBundleFullBaseName()
+    public String getResourceBundleFullBaseName()
     {
         return this.resourceBundleFullBaseName;
     }
 
-    protected Locale getLocale()
+    public Locale getLocale()
     {
         return this.locale;
     }
@@ -140,13 +140,15 @@ public class I18nResourceBundle implements I18nResource, Serializable
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
+
         builder.append( getClass().getSimpleName() ).append( " [locale=" );
         builder.append( this.locale );
         builder.append( ", resourceBundleFullBaseName=" );
         builder.append( this.resourceBundleFullBaseName );
         builder.append( ", getResourceBundle()=" );
         builder.append( getResourceBundle() );
-        builder.append( "]" );
+        builder.append( ']' );
+
         return builder.toString();
     }
 }

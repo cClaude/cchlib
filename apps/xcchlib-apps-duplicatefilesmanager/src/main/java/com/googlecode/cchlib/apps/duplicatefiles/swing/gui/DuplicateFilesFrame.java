@@ -200,7 +200,7 @@ public final class DuplicateFilesFrame
             LOGGER.info( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
             LOGGER.info( "I18n Init: locale = " + currentLocale );
             LOGGER.info( "I18n Init: getValidLocale() = " + getDFToolKit().getValidLocale() );
-            LOGGER.info( "I18n Init: getI18nResourceBundleName() = " + getDFToolKit().getI18nResourceBundleName() );
+            LOGGER.info( "I18n Init: getI18nResource() = " + getDFToolKit().getI18nResource() );
             }
     }
 

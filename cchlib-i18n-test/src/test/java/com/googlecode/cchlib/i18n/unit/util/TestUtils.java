@@ -18,6 +18,7 @@ import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
 import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
@@ -30,17 +31,27 @@ public class TestUtils
 {
     @Deprecated
     public static final I18nResourceBundleName VALID_MESSAGE_BUNDLE
-        = new I18nITBaseConfig(){}.newI18nResourceBundleName_WithValidBundle();
+        = newI18nResourceBundleName(
+                new I18nITBaseConfig(){}.newI18nResourceBundleName_WithValidBundle()
+                );
 
     @Deprecated
     public static final I18nResourceBundleName NOT_VALID_MESSAGE_BUNDLE_BUT_EXIST
-        = new I18nITBaseConfig(){}.newI18nResourceBundleName_WithExistingButNotValidBundle();
+        = newI18nResourceBundleName(
+            new I18nITBaseConfig(){}.newI18nResourceBundleName_WithExistingButNotValidBundle()
+            );
 
     private TestUtils()
     {
         // All static
     }
 
+    private static I18nResourceBundleName newI18nResourceBundleName( final I18nResourceBundle i18nResourceBundle)
+    {
+        return () -> i18nResourceBundle.getResourceBundleFullBaseName();
+    }
+
+    @Deprecated
     public static PrepTestPart newPrepTestPart()
     {
         // Default language !
@@ -95,6 +106,7 @@ public class TestUtils
         };
     }
 
+    @Deprecated
     public static void preparePrepTest(
         final PrepTestPart prepTest,
         final I18nAutoCoreUpdatable frame
@@ -103,7 +115,8 @@ public class TestUtils
         prepTest.add( frame );
     }
 
-    public static I18nPrepResult runPrepTest(
+    @Deprecated
+   public static I18nPrepResult runPrepTest(
         final PrepTestPart prepTest
         ) throws I18nPrepException
     {
@@ -115,6 +128,7 @@ public class TestUtils
         return result;
     }
 
+    @Deprecated
     public static void performeI18n( final I18nAutoCoreUpdatable frame )
     {
         final Set<AutoI18nConfig> config   = getDebugConfig();
@@ -127,7 +141,7 @@ public class TestUtils
         frame.performeI18n( autoI18n );
     }
 
-    public static Set<AutoI18nConfig> getDebugConfig()
+    private static Set<AutoI18nConfig> getDebugConfig()
     {
         return Collections.unmodifiableSet(
                 EnumSet.of( AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS )
@@ -141,7 +155,7 @@ public class TestUtils
                 );
     }
 
-    public static ResourceBundle createResourceBundle(
+    static ResourceBundle createResourceBundle(
         final I18nResourceBundleName resourceBundleName,
         final Locale                 locale
         )

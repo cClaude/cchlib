@@ -21,8 +21,7 @@ public class AutoI18nCoreService
 
         return AutoI18nCoreFactory.newAutoI18nCore(
                 AutoI18nConfigService.getInstance().getAutoI18nConfig(),
-                appToolKit.getI18nResourceBundleName(),
-                appToolKit.getValidLocale()
+                appToolKit.getI18nResource()
                 );
     }
 

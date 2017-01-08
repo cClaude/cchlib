@@ -13,9 +13,7 @@ import com.googlecode.cchlib.i18n.core.internal.I18nDelegator;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JEventHandler;
 import com.googlecode.cchlib.i18n.logging.AutoI18nLog4JExceptionHandler;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
-import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
+import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
 
 /**
  * Create {@link AutoI18nCore} object for internationalization.
@@ -23,8 +21,7 @@ import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
  * @see AutoI18nConfig
  * @see I18nResource
  * @see I18nResourceBundle
- * @see I18nResourceBundleName
- * @see I18nResourceBundleNameFactory
+ * @see I18nResourceFactory
  */
 public class AutoI18nCoreFactory
 {
@@ -56,7 +53,7 @@ public class AutoI18nCoreFactory
      * @param config
      *            The wanted configuration, if null use default configuration
      * @param defaultAutoI18nTypes
-     *            NEEDDOC
+     *            The {@link AutoI18nTypeLookup}
      * @param i18nResource
      *            The {@link I18nResource}
      * @return an {@link AutoI18nCore} with giving configuration
@@ -80,13 +77,14 @@ public class AutoI18nCoreFactory
     }
 
     /**
-     * Create a reasonable {@link AutoI18nCore}
+     * Create a reasonable {@link AutoI18nCore} base on {@link #DEFAULT_AUTO_I18N_TYPES}
      *
      * @param config
      *            The wanted configuration, if null use default configuration
      * @param i18nResource
      *            The {@link I18nResource}
      * @return an {@link AutoI18nCore} with giving configuration
+     * @see #DEFAULT_AUTO_I18N_TYPES
      */
     public static AutoI18nCore newAutoI18nCore(
         @Nullable final Set<AutoI18nConfig> config,
@@ -102,22 +100,24 @@ public class AutoI18nCoreFactory
      * @param config
      *            The wanted configuration, if null use default configuration
      * @param resourceBundleName
-     *            The {@link I18nResourceBundleName}
+     *            The {@link com.googlecode.cchlib.i18n.resources.I18nResourceBundleName}
      * @param locale
      *            The wanted {@link Locale}, use {@link Locale#getDefault()} if null
      * @return an {@link AutoI18nCore} with giving configuration
      *
-     * @see I18nResourceBundleNameFactory
+     * @see com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory
+     * @deprecated use {@link I18nResourceFactory} and {@link #newAutoI18nCore(Set, I18nResource)} instead.
      */
+    @Deprecated
     public static AutoI18nCore newAutoI18nCore(
-        @Nullable final Set<AutoI18nConfig>   config,
-        @Nonnull final I18nResourceBundleName resourceBundleName,
-        @Nullable final Locale                locale
+        @Nullable final Set<AutoI18nConfig>                                        config,
+        @Nonnull final com.googlecode.cchlib.i18n.resources.I18nResourceBundleName resourceBundleName,
+        @Nullable final Locale                                                     locale
         )
     {
          return newAutoI18nCore(
              config,
-             newI18nSimpleResourceBundle( resourceBundleName, locale )
+             I18nResourceFactory.newI18nResourceBundle( resourceBundleName, locale )
              );
     }
 
@@ -125,22 +125,42 @@ public class AutoI18nCoreFactory
      * Create a reasonable {@link AutoI18nCore}
      *
      * @param resourceBundleName
-     *            The {@link I18nResourceBundleName}
+     *            The {@link com.googlecode.cchlib.i18n.resources.I18nResourceBundleName}
      * @param locale
      *            The wanted {@link Locale}, use {@link Locale#getDefault()} if null
      * @return an {@link AutoI18nCore} with giving configuration
      *
-     * @see I18nResourceBundleNameFactory
+     * @see com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory
+     * @deprecated use {@link I18nResourceFactory} and {@link #newAutoI18nCore(I18nResource)} instead.
      */
-    @SuppressWarnings("ucd") // API
+    @Deprecated
     public static AutoI18nCore newAutoI18nCore(
-        @Nonnull final I18nResourceBundleName resourceBundleName,
-        @Nullable final Locale                locale
+        @Nonnull final com.googlecode.cchlib.i18n.resources.I18nResourceBundleName resourceBundleName,
+        @Nullable final Locale                                                     locale
         )
     {
          return newAutoI18nCore(
              DEFAULT_AUTO_I18N_CONFIG,
-             newI18nSimpleResourceBundle( resourceBundleName, locale )
+             I18nResourceFactory.newI18nResourceBundle( resourceBundleName, locale )
+             );
+    }
+
+    /**
+     * Create a reasonable {@link AutoI18nCore} based on defaults
+     *
+     * @param i18nResource
+     *            The {@link I18nResource}
+     * @return an {@link AutoI18nCore} with giving configuration
+     * @see #DEFAULT_AUTO_I18N_CONFIG
+     * @see #DEFAULT_AUTO_I18N_TYPES
+     */
+    public static AutoI18nCore newAutoI18nCore(
+        @Nonnull final I18nResource resourceBundle
+        )
+    {
+         return newAutoI18nCore(
+             DEFAULT_AUTO_I18N_CONFIG,
+             resourceBundle
              );
     }
 
@@ -148,14 +168,15 @@ public class AutoI18nCoreFactory
      * Create a reasonable {@link AutoI18nCore}
      *
      * @param resourceBundleName
-     *            The {@link I18nResourceBundleName}
+     *            The {@link com.googlecode.cchlib.i18n.resources.I18nResourceBundleName}
      * @return an {@link AutoI18nCore} with giving configuration
      *
-     * @see I18nResourceBundleNameFactory
+     * @see com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory
+     * @deprecated use {@link I18nResourceFactory} and {@link #newAutoI18nCore(I18nResource)} instead.
      */
-    @SuppressWarnings("ucd") // API
+    @Deprecated
     public static AutoI18nCore newAutoI18nCore(
-        @Nonnull final I18nResourceBundleName resourceBundleName
+        @Nonnull final com.googlecode.cchlib.i18n.resources.I18nResourceBundleName resourceBundleName
         )
     {
          return newAutoI18nCore( resourceBundleName, DEFAULT_LOCALE  );
@@ -163,7 +184,8 @@ public class AutoI18nCoreFactory
 
     /**
      * Build a {@link AutoI18nCore} using default configuration, and
-     * use {@code referenceType} to access {@link ResourceBundle}.
+     * use {@code referenceType} to access {@link ResourceBundle} with
+     * {@link #DEFAULT_LOCALE}
      *
      * @param referenceType
      *            Class support for resource bundle. This is basically a class
@@ -175,7 +197,7 @@ public class AutoI18nCoreFactory
     public static AutoI18nCore newAutoI18nCore( @Nonnull final Class<?> referenceType )
     {
         return newAutoI18nCore(
-            I18nResourceBundleNameFactory.newI18nResourceBundleName( referenceType )
+            I18nResourceFactory.newI18nResource( referenceType, DEFAULT_LOCALE )
             );
     }
 
@@ -186,24 +208,7 @@ public class AutoI18nCoreFactory
     {
         return newAutoI18nCore(
                 config,
-                I18nResourceBundleNameFactory.newI18nResourceBundleName( referenceType ),
-                DEFAULT_LOCALE
-                );
-    }
-
-    private static Locale getSafeLocale( final Locale locale )
-    {
-        return locale == null ? Locale.getDefault() : locale;
-    }
-
-    private static I18nResource newI18nSimpleResourceBundle(
-        @Nonnull final I18nResourceBundleName resourceBundleName,
-        @Nullable final Locale                locale
-        )
-    {
-        return new I18nSimpleResourceBundle(
-                resourceBundleName,
-                getSafeLocale( locale )
+                I18nResourceFactory.newI18nResource( referenceType, DEFAULT_LOCALE )
                 );
     }
 }

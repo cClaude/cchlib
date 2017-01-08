@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Map;
 import java.util.stream.Stream;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
+import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
+import com.googlecode.cchlib.i18n.resources.ResourceBundleHelper;
 
 @SuppressWarnings("ucd") // API
 public class I18nResourceBuilderHelper
@@ -68,35 +68,31 @@ public class I18nResourceBuilderHelper
      * @param referenceType Type to use
      * @return a properties file
      * @throws IOException if can not build canonical path for current directory
-     * @see I18nResourceBundleNameFactory#newI18nResourceBundleName(Class)
+     * @see ResourceBundleHelper#newName(Class)
      */
     public static File newOutputFile( final Class<?> referenceType ) throws IOException
     {
-        final I18nResourceBundleName rbn
-            = I18nResourceBundleNameFactory.newI18nResourceBundleName( referenceType );
-        final String filenamePrefix = rbn.getName();
-
-        return newFileFromCurrentDirectory( filenamePrefix );
+        return newFileFromCurrentDirectory(
+                ResourceBundleHelper.newName( referenceType )
+                );
     }
 
     /**
      * Create a properties file base of {@code referencePackage} package name.
      * <p>
-     * File name will be prefix by {@link I18nResourceBundleNameFactory#DEFAULT_MESSAGE_BUNDLE_BASENAME}
+     * File name will be prefix by {@link I18nResourceFactory#DEFAULT_MESSAGE_BUNDLE_BASENAME}
      * value.
      *
      * @param referencePackage Package to use
      * @return a properties file
      * @throws IOException if can not build canonical path for current directory
-     * @see I18nResourceBundleNameFactory#newI18nResourceBundleName(Package)
+     * @see ResourceBundleHelper#newName(Package)
      */
     public static File newOutputFile( final Package referencePackage ) throws IOException
     {
-        final I18nResourceBundleName rbn
-            = I18nResourceBundleNameFactory.newI18nResourceBundleName( referencePackage );
-        final String filenamePrefix = rbn.getName();
-
-        return newFileFromCurrentDirectory( filenamePrefix );
+        return newFileFromCurrentDirectory(
+                ResourceBundleHelper.newName( referencePackage )
+                );
     }
 
     private static File getCurrentDirectoryCanonicalFile() throws IOException

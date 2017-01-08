@@ -9,7 +9,7 @@ import java.util.Locale;
 import javax.swing.JFileChooser;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Resources;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 
 /**
@@ -47,5 +47,5 @@ public interface AppToolKit extends Serializable
 
     List<File> getRootDirectoriesList();
 
-    I18nResourceBundleName getI18nResourceBundleName();
+    I18nResource getI18nResource();
 }

@@ -4,12 +4,11 @@ import java.util.ResourceBundle;
 
 /**
  * Allow to create {@link I18nResourceBundleName}
+ * @deprecated use {@link I18nResourceFactory} or {@link ResourceBundleHelper} instead
  */
+@Deprecated
 public class I18nResourceBundleNameFactory
 {
-    /** Default name for messages bundle : {@value} */
-    public static final String DEFAULT_MESSAGE_BUNDLE_BASENAME = "MessagesBundle";
-
     private I18nResourceBundleNameFactory()
     {
         // All static
@@ -73,7 +72,7 @@ public class I18nResourceBundleNameFactory
 
     /**
      * Create a {@link I18nResourceBundleName} based on package name and
-     * {@link #DEFAULT_MESSAGE_BUNDLE_BASENAME} value
+     * {@link I18nResourceFactory#DEFAULT_MESSAGE_BUNDLE_BASENAME} value
      *
      * @param packageMessageBundleBase package to use
      * @return an {@link I18nResourceBundleName}
@@ -82,6 +81,6 @@ public class I18nResourceBundleNameFactory
         final Package packageMessageBundleBase
         )
     {
-        return newI18nResourceBundleName( packageMessageBundleBase, DEFAULT_MESSAGE_BUNDLE_BASENAME );
+        return newI18nResourceBundleName( packageMessageBundleBase, I18nResourceFactory.DEFAULT_MESSAGE_BUNDLE_BASENAME );
     }
 }

@@ -4,8 +4,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
 
-public class AppToolKitService {
-
+public class AppToolKitService
+{
     private static volatile AppToolKitService service;
     private final Object lock = new Object();
     private volatile AppToolKit appToolKit;

@@ -11,8 +11,8 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
+import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
+import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
 import com.googlecode.cchlib.i18n.unit.REF;
 
 public abstract class I18nITBaseConfig
@@ -53,6 +53,7 @@ public abstract class I18nITBaseConfig
                 );
 
         builder.append( part );
+
         return builder.getResult();
     }
 
@@ -65,8 +66,7 @@ public abstract class I18nITBaseConfig
     {
         return AutoI18nCoreFactory.newAutoI18nCore(
                 getConfig(),
-                newI18nResourceBundleName_WithValidBundle(),
-                getLocale()
+                newI18nResourceBundleName_WithValidBundle()
                 );
     }
 
@@ -74,24 +74,25 @@ public abstract class I18nITBaseConfig
     {
         return AutoI18nCoreFactory.newAutoI18nCore(
                 getConfig(),
-                newI18nResourceBundleName_WithExistingButNotValidBundle(),
+                newI18nResourceBundleName_WithExistingButNotValidBundle()
+                );
+    }
+
+    public final I18nResourceBundle newI18nResourceBundleName_WithValidBundle()
+    {
+        return I18nResourceFactory.newI18nResourceBundle(
+                REF.class.getPackage(),
+                REF.class.getSimpleName(),
                 getLocale()
                 );
     }
 
-    public final I18nResourceBundleName newI18nResourceBundleName_WithValidBundle()
+    public final I18nResourceBundle newI18nResourceBundleName_WithExistingButNotValidBundle()
     {
-        return I18nResourceBundleNameFactory.newI18nResourceBundleName(
+        return I18nResourceFactory.newI18nResourceBundle(
                 REF.class.getPackage(),
-                REF.class.getSimpleName()
-                );
-    }
-
-    public final I18nResourceBundleName newI18nResourceBundleName_WithExistingButNotValidBundle()
-    {
-        return I18nResourceBundleNameFactory.newI18nResourceBundleName(
-                REF.class.getPackage(),
-                REF.class.getSimpleName() + "-empty"
+                REF.class.getSimpleName() + "-empty",
+                getLocale()
                 );
     }
 
