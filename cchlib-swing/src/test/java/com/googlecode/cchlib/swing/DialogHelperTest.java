@@ -29,7 +29,7 @@ public class DialogHelperTest
     }
 
     private static final Logger LOGGER = Logger.getLogger( DialogHelperTest.class );
-    private static final int SECONDS_TO_WAIT = 5;
+    private static final int SECONDS_TO_WAIT = 20;
 
     @Test
     public void test_showMessageExceptionDialog()
@@ -38,7 +38,7 @@ public class DialogHelperTest
         // Stop if GUI usage is not allowed
         assumeTrue( SafeSwingUtilities.isSwingAvailable() );
 
-        LOGGER.info( "test_showMessageExceptionDialog()" );
+        LOGGER.info( "test_showMessageExceptionDialog() - Wait: " + SECONDS_TO_WAIT );
 
         final boolean result = Threads.startAndWait(
                 () -> showMessageExceptionDialog(),
