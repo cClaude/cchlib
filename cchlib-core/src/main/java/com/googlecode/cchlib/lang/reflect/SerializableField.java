@@ -12,8 +12,8 @@ import javax.annotation.Nonnull;
  * @since 4.2
  * @see SerializableMethod
  */
-public class SerializableField implements Serializable {
-
+public class SerializableField implements Serializable
+{
     private static final long serialVersionUID = 1L;
     private transient Field field;
 
