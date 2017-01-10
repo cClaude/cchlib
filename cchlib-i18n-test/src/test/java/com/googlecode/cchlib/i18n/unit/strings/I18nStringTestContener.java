@@ -15,7 +15,7 @@ public final class I18nStringTestContener implements I18nAutoCoreUpdatable
 {
     @I18nString private String myString;
 
-    // Strange situation, but since @I18nIgnore is use, the field should be ignore.
+    // Strange case, but since @I18nIgnore is use, the field should be ignore.
     @I18nString @I18nIgnore private String myStringIgnore;
 
     @I18nString(id="I18nStringTestContener_GlobalStringID1") private String myGlobalStringID;
@@ -46,13 +46,20 @@ public final class I18nStringTestContener implements I18nAutoCoreUpdatable
     @Override // I18nAutoCoreUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
-        Logger.getLogger( I18nStringTestContener.class )
-              .info( "before I18nStringTestContener.performeI18n(AutoI18nCore) : " + this );
+        getLogger().info(
+            "before I18nStringTestContener.performeI18n(AutoI18nCore) : " + this
+            );
 
         autoI18n.performeI18n( this, this.getClass() );
 
-        Logger.getLogger( I18nStringTestContener.class )
-              .info( "after I18nStringTestContener.performeI18n(AutoI18nCore) : " + this );
+        getLogger().info(
+            "after I18nStringTestContener.performeI18n(AutoI18nCore) : " + this
+            );
+    }
+
+    private Logger getLogger()
+    {
+        return Logger.getLogger( I18nStringTestContener.class );
     }
 
     final String getMyString()
