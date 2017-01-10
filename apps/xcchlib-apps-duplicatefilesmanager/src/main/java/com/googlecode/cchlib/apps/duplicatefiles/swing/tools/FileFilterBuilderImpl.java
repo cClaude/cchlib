@@ -20,9 +20,9 @@ public class FileFilterBuilderImpl implements FileFilterBuilder, Serializable
     @Nullable private final Pattern           pattern;
 
     public FileFilterBuilderImpl( //
-            @Nonnull final Collection<String> namesList, //
-            @Nullable final Pattern           pattern //
-            )
+        @Nonnull final Collection<String> namesList,
+        @Nullable final Pattern           pattern
+        )
     {
         this.namesList = Collections.unmodifiableCollection( namesList );
         this.pattern   = pattern;
