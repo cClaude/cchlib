@@ -69,7 +69,10 @@ public class I18nResourceBundle implements I18nResource, Serializable
             return this.resourceBundle.getString( key );
             }
         catch( final java.util.MissingResourceException e ) {
-            throw new MissingResourceException( e );
+            throw new MissingResourceException(
+                "Can't find resource for bundle java.util.PropertyResourceBundle: \""
+                    + this.resourceBundleFullBaseName + "\", key \"" + key + '"',
+                    e );
             }
     }
 

@@ -22,10 +22,10 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.MyResourcesLoader;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Resources;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
+import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
@@ -72,12 +72,13 @@ final class DefaultAppToolKit
     }
 
     @Override // DFToolKit
-    public I18nResourceBundleName getI18nResourceBundleName()
+    public I18nResource getI18nResource()
     {
-        return I18nResourceBundleNameFactory.newI18nResourceBundleName(
-                ResourcesPath.class,
-                I18nResourceBundleNameFactory.DEFAULT_MESSAGE_BUNDLE_BASENAME
-                );
+        return I18nResourceFactory.newI18nResourceBundle(
+            ResourcesPath.class,
+            I18nResourceFactory.DEFAULT_MESSAGE_BUNDLE_BASENAME,
+            getValidLocale()
+          );
     }
 
     public void setMainWindow( final DuplicateFilesFrame mainWindow )
