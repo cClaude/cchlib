@@ -10,7 +10,7 @@ import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTes
 import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.LOCALIZED_FIELDS;
 import static org.fest.assertions.api.Assertions.assertThat;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
@@ -162,7 +162,7 @@ public class I18nStringTestReference implements TestReference, com.googlecode.cc
      }
 
     @Override // I18nAutoUpdatable (required by tests and I18nResourceBuilder process)
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, I18nStringTestReference.class );
     }

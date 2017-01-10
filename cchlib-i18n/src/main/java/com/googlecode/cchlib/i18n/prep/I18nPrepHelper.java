@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
@@ -97,7 +97,7 @@ public final class I18nPrepHelper
         final PrepCollector<Integer> usageStatCollector = new PrepCollector<>();
         final PrepCollector<String>  notUseCollector    = new PrepCollector<>();
         final File                   outputFile         = newOutputFile( i18nPrep.getI18nResourceBundleName() );
-        final AutoI18nCore           autoI18n           = i18nPrep.getAutoI18nCore();
+        final AutoI18n           autoI18n           = i18nPrep.getAutoI18n();
 
         i18nPrep.openOutputFile( outputFile );
 
@@ -120,7 +120,7 @@ public final class I18nPrepHelper
 
     private static void defaultPrep(
         final I18nPrep                i18nPrep,
-        final AutoI18nCore            autoI18n,
+        final AutoI18n            autoI18n,
         final PrepCollector<Integer>  usageStatCollector,
         final PrepCollector<String>   notUseCollector,
         final I18nAutoUpdatable...i18nConteners

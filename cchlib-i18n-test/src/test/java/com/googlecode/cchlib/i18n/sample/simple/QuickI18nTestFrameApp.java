@@ -11,8 +11,8 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 public class QuickI18nTestFrameApp extends JFrame implements I18nAutoUpdatable
@@ -59,7 +59,7 @@ public class QuickI18nTestFrameApp extends JFrame implements I18nAutoUpdatable
     }
 
     @Override
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }
@@ -100,16 +100,16 @@ public class QuickI18nTestFrameApp extends JFrame implements I18nAutoUpdatable
     static QuickI18nTestFrameApp newQuickI18nTestFrame()
     {
         final QuickI18nTestFrameApp frame    = new QuickI18nTestFrameApp();
-        final AutoI18nCore          autoI18n = newAutoI18nCore();
+        final AutoI18n          autoI18n = newAutoI18n();
 
         frame.performeI18n( autoI18n );
 
         return frame;
     }
 
-    static AutoI18nCore newAutoI18nCore()
+    static AutoI18n newAutoI18n()
     {
-        return AutoI18nCoreFactory.newAutoI18nCore(
+        return AutoI18nFactory.newAutoI18n(
                 EnumSet.of( AutoI18nConfig.DO_DEEP_SCAN ),
                 QuickI18nTestFrameApp.class
                 );

@@ -5,8 +5,8 @@ import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
-import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nCoreService;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nService;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 /**
@@ -41,7 +41,7 @@ public class AboutDialog
      */
     public static void open()
     {
-        final AutoI18nCore autoI18n = AutoI18nCoreService.getInstance().getAutoI18nCore();
+        final AutoI18n autoI18n = AutoI18nService.getInstance().getAutoI18n();
 
         try {
             final AboutDialog dialog = new AboutDialog();
@@ -61,7 +61,7 @@ public class AboutDialog
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this.contentPanel, this.contentPanel.getClass() );
     }

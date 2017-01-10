@@ -14,7 +14,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.prefs.PreferencesDial
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControlerFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.ResourcesPath;
-import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nCoreService;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nService;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
@@ -65,7 +65,7 @@ public class DuplicateFilesI18nPrep
 
         final I18nResourceBuilder builder
             = I18nResourceBuilderFactory.newI18nResourceBuilder(
-                    AutoI18nCoreService.getInstance().getAutoI18nCore()
+                    AutoI18nService.getInstance().getAutoI18n()
                     );
 
         for( final I18nAutoUpdatable i18nObject : i18nConteners ) {

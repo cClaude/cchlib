@@ -14,7 +14,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search.errors.ErrorTableModel;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 //NOT public
@@ -179,7 +179,7 @@ abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implem
     }
 
     @Override
-    public final void performeI18n( final AutoI18nCore autoI18n )
+    public final void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
         autoI18n.performeI18n( this.tableModelErrorList, ErrorTableModel.class );

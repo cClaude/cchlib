@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
 import com.googlecode.cchlib.resources.ResourcesLoader;
 
@@ -14,23 +14,24 @@ import com.googlecode.cchlib.resources.ResourcesLoader;
  * NEEDDOC
  *
  */
-public class SwingAutoI18nCoreFactory
+public class SwingAutoI18nFactory
 {
-    private static SwingAutoI18nCoreFactory factory;
-    private final Map<Locale,AutoI18nCore> map = new HashMap<>();
+    private static SwingAutoI18nFactory factory;
+    private final Map<Locale,AutoI18n>  map = new HashMap<>();
 
-    private SwingAutoI18nCoreFactory()
+    private SwingAutoI18nFactory()
     {
+        // private
     }
 
-    private AutoI18nCore newCurrentSwingAutoI18nCore()
+    private AutoI18n newCurrentSwingAutoI18n()
     {
         final Locale locale  = Locale.getDefault();
 
-        AutoI18nCore current = this.map.get( locale );
+        AutoI18n current = this.map.get( locale );
 
         if( current == null ) {
-            current = AutoI18nCoreFactory.newAutoI18nCore(
+            current = AutoI18nFactory.newAutoI18n(
                     EnumSet.noneOf( AutoI18nConfig.class ),
                     I18nResourceFactory.newI18nResourceBundle(
                             ResourcesLoader.class.getPackage().getName() + ".i18n",
@@ -42,12 +43,12 @@ public class SwingAutoI18nCoreFactory
         return current;
     }
 
-    public static AutoI18nCore getCurrentSwingAutoI18nCore()
+    public static AutoI18n getCurrentSwingAutoI18n()
     {
         if( factory == null ) {
-            factory = new SwingAutoI18nCoreFactory();
+            factory = new SwingAutoI18nFactory();
             }
 
-        return factory.newCurrentSwingAutoI18nCore();
+        return factory.newCurrentSwingAutoI18n();
     }
 }

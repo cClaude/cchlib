@@ -21,7 +21,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search.JPanelS
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.select.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 /**
@@ -253,7 +253,7 @@ public class DuplicateFilesMainPanel
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(getJPanel0Select(),getJPanel0Select().getClass());

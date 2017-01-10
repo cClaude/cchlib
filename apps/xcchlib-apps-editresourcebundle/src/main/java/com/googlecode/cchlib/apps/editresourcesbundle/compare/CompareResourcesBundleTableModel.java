@@ -22,7 +22,7 @@ import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FormattedCustomProperties;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.table.LeftDotTableCellRenderer;
 
@@ -202,7 +202,7 @@ class CompareResourcesBundleTableModel
             };
     private final ArrayList<String>  keyList = new ArrayList<>();
     private final CustomProperties[] customProperties;
-    private final AutoI18nCore       autoI18n;
+    private final AutoI18n       autoI18n;
 
     /**
      *
@@ -211,7 +211,7 @@ class CompareResourcesBundleTableModel
      */
     public CompareResourcesBundleTableModel(
         final FilesConfig   filesConfig,
-        final AutoI18nCore  autoI18n
+        final AutoI18n  autoI18n
         )
     {
         this.autoI18n = autoI18n;

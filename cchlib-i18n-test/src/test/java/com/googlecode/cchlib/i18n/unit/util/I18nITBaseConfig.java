@@ -5,8 +5,8 @@ import java.util.EnumSet;
 import java.util.Locale;
 import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
@@ -19,14 +19,14 @@ public abstract class I18nITBaseConfig
 {
     protected void do_performeI18n_WithValidBundle( final I18nAutoUpdatable part )
     {
-        final AutoI18nCore autoI18n = newAutoI18nCoreWithValidBundle();
+        final AutoI18n autoI18n = newAutoI18nWithValidBundle();
 
         do_performeI18n( part, autoI18n );
     }
 
     protected void do_performeI18n_WithNotValidBundle( final I18nAutoUpdatable part )
     {
-        final AutoI18nCore autoI18n = newAutoI18nCoreWithExistingButNotValidBundle();
+        final AutoI18n autoI18n = newAutoI18nWithExistingButNotValidBundle();
 
         do_performeI18n( part, autoI18n );
     }
@@ -36,7 +36,7 @@ public abstract class I18nITBaseConfig
         )
     {
         final I18nResourceBuilder builder = I18nResourceBuilderFactory.newI18nResourceBuilder(
-                newAutoI18nCoreWithValidBundle()
+                newAutoI18nWithValidBundle()
                 );
 
         builder.append( part );
@@ -49,7 +49,7 @@ public abstract class I18nITBaseConfig
         )
     {
         final I18nResourceBuilder builder = I18nResourceBuilderFactory.newI18nResourceBuilder(
-                newAutoI18nCoreWithExistingButNotValidBundle()
+                newAutoI18nWithExistingButNotValidBundle()
                 );
 
         builder.append( part );
@@ -57,22 +57,22 @@ public abstract class I18nITBaseConfig
         return builder.getResult();
     }
 
-    private void do_performeI18n( final I18nAutoUpdatable part, final AutoI18nCore autoI18n )
+    private void do_performeI18n( final I18nAutoUpdatable part, final AutoI18n autoI18n )
     {
         part.performeI18n( autoI18n );
     }
 
-    public final AutoI18nCore newAutoI18nCoreWithValidBundle()
+    public final AutoI18n newAutoI18nWithValidBundle()
     {
-        return AutoI18nCoreFactory.newAutoI18nCore(
+        return AutoI18nFactory.newAutoI18n(
                 getConfig(),
                 newI18nResourceBundleName_WithValidBundle()
                 );
     }
 
-    public final AutoI18nCore newAutoI18nCoreWithExistingButNotValidBundle()
+    public final AutoI18n newAutoI18nWithExistingButNotValidBundle()
     {
-        return AutoI18nCoreFactory.newAutoI18nCore(
+        return AutoI18nFactory.newAutoI18n(
                 getConfig(),
                 newI18nResourceBundleName_WithExistingButNotValidBundle()
                 );

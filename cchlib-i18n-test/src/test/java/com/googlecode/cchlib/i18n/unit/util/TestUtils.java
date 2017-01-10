@@ -9,8 +9,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
@@ -132,7 +132,7 @@ public class TestUtils
     public static void performeI18n( final I18nAutoUpdatable frame )
     {
         final Set<AutoI18nConfig> config   = getDebugConfig();
-        final AutoI18nCore        autoI18n = AutoI18nCoreFactory.newAutoI18nCore(
+        final AutoI18n        autoI18n = AutoI18nFactory.newAutoI18n(
                 config,
                 VALID_MESSAGE_BUNDLE,
                 Locale.ENGLISH

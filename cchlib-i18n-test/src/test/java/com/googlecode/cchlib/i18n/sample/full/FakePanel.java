@@ -23,7 +23,7 @@ import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 class FakePanel
@@ -309,7 +309,7 @@ class FakePanel
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         LOGGER.info( "performeI18n" );
         autoI18n.performeI18n( this, this.getClass() );

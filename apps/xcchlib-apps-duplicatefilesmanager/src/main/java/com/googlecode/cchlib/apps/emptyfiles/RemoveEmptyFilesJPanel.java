@@ -27,7 +27,7 @@ import com.googlecode.cchlib.apps.emptyfiles.panel.select.SelectDirecoriesJPanel
 import com.googlecode.cchlib.apps.emptyfiles.tasks.FindTask;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 @I18nName("emptyfiles.RemoveEmptyFilesJPanel")
@@ -180,7 +180,7 @@ public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpdatable
     }
 
     @Override
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
 

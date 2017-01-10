@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
@@ -43,7 +43,7 @@ public class I18nPrepFactory
     {
         return newI18nPrep(
             config,
-            AutoI18nCoreFactory.DEFAULT_AUTO_I18N_TYPES,
+            AutoI18nFactory.DEFAULT_AUTO_I18N_TYPES,
             messageBundleName,
             locale
             );

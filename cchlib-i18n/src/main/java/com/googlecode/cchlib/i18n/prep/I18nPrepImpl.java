@@ -24,11 +24,11 @@ import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.AutoI18nTypeLookup;
 import com.googlecode.cchlib.i18n.EventCause;
 import com.googlecode.cchlib.i18n.api.I18nResource;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
-import com.googlecode.cchlib.i18n.core.internal.AutoI18nCoreImpl;
+import com.googlecode.cchlib.i18n.core.internal.AutoI18nImpl;
 import com.googlecode.cchlib.i18n.core.internal.I18nDelegator;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolvedFieldGetter;
@@ -166,7 +166,7 @@ class I18nPrepImpl implements I18nPrep
     private final Map<String,Integer> keyUsageCountMap     = new HashMap<>();
     private final Map<String,String>  missingPropertiesMap = new HashMap<>();
 
-    private AutoI18nCore       autoI18nCore;
+    private AutoI18n           autoI18n;
     private I18nDelegator      i18nDelegator;
     private File               resourceBundleOutputFile;
     private I18nPrepStatResult i18nPrepStatResult;
@@ -210,9 +210,9 @@ class I18nPrepImpl implements I18nPrep
     }
 
     @Override
-    public AutoI18nCore getAutoI18nCore()
+    public AutoI18n getAutoI18n()
     {
-        if( this.autoI18nCore == null ) {
+        if( this.autoI18n == null ) {
             final I18nDelegator delegator = getI18nDelegator();
 
             delegator.addAutoI18nExceptionHandler(
@@ -221,10 +221,10 @@ class I18nPrepImpl implements I18nPrep
             delegator.addAutoI18nEventHandler( new AutoI18nLog4JEventHandler() );
             delegator.addAutoI18nEventHandler( new AutoI18nEventHandlerPrepImpl() );
 
-            this.autoI18nCore = new AutoI18nCoreImpl( delegator );
+            this.autoI18n = new AutoI18nImpl( delegator );
             }
 
-        return this.autoI18nCore;
+        return this.autoI18n;
     }
 
     public I18nResourceBundle getI18nResourceBundle()
@@ -350,8 +350,8 @@ class I18nPrepImpl implements I18nPrep
         builder.append( this.keyUsageCountMap );
         builder.append( ", missingPropertiesMap=" );
         builder.append( this.missingPropertiesMap );
-        builder.append( ", autoI18nCore=" );
-        builder.append( this.autoI18nCore );
+        builder.append( ", autoI18n=" );
+        builder.append( this.autoI18n );
         builder.append( ", i18nDelegator=" );
         builder.append( this.i18nDelegator );
         builder.append( ", resourceBundleOutputFile=" );

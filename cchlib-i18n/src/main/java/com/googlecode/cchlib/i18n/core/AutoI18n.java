@@ -3,11 +3,11 @@ package com.googlecode.cchlib.i18n.core;
 /**
  * Define a class able to be internationalized.
  *
- * @see AutoI18nCoreFactory
+ * @see AutoI18nFactory
  * @see I18nAutoUpdatable
  */
 @FunctionalInterface
-public interface AutoI18nCore
+public interface AutoI18n
 {
     /**
      * Apply internationalization on {@code objectToI18n} based on

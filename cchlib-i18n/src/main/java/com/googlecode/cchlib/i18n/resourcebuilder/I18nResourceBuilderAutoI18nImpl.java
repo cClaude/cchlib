@@ -24,7 +24,7 @@ import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.internal.AbstractAutoI18nExceptionHandler;
-import com.googlecode.cchlib.i18n.core.internal.AutoI18nCoreImpl;
+import com.googlecode.cchlib.i18n.core.internal.AutoI18nImpl;
 import com.googlecode.cchlib.i18n.core.internal.I18nDelegator;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolvedFieldGetter;
@@ -37,7 +37,7 @@ import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
 import com.googlecode.cchlib.i18n.resources.MissingResourceException;
 import com.googlecode.cchlib.util.EnumHelper;
 
-final class I18nResourceBuilderAutoI18nCoreImpl
+final class I18nResourceBuilderAutoI18nImpl
     extends AbstractAutoI18nExceptionHandler // for AutoI18nExceptionHandler
         implements I18nResourceBuilder,
                    AutoI18nEventHandler,
@@ -45,29 +45,28 @@ final class I18nResourceBuilderAutoI18nCoreImpl
 {
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOGGER = Logger.getLogger( I18nResourceBuilderAutoI18nCoreImpl.class );
+    private static final Logger LOGGER = Logger.getLogger( I18nResourceBuilderAutoI18nImpl.class );
 
     private final AutoI18nConfigSet config;
-    private final AutoI18nCoreImpl  builderAutoI18nCore;
-    private final I18nResource            i18nResource;
+    private final AutoI18nImpl      builderAutoI18n;
+    private final I18nResource      i18nResource;
     private final ResourceBundle    resourceBundle;
 
     private final I18nResourceBuilderResultImpl result = new I18nResourceBuilderResultImpl();
 
 
-    public I18nResourceBuilderAutoI18nCoreImpl(
-        @Nonnull final AutoI18nCoreImpl originalAutoI18nCore,
+    public I18nResourceBuilderAutoI18nImpl(
+        @Nonnull final AutoI18nImpl     originalAutoI18n,
         @Nullable final Locale          locale,
         @Nonnull final AutoI18nConfig[] configExtension
         )
     {
-        this.config               = newAutoI18nConfigSet( originalAutoI18nCore, configExtension );
-        this.builderAutoI18nCore  = newBuilderAutoI18nCore(
-                                        originalAutoI18nCore,
+        this.config          = newAutoI18nConfigSet( originalAutoI18n, configExtension );
+        this.builderAutoI18n = newBuilderAutoI18n(
+                                        originalAutoI18n,
                                         this.config
                                         );
-
-        this.i18nResource = originalAutoI18nCore.getI18nDelegator().getI18nResource();
+        this.i18nResource    = originalAutoI18n.getI18nDelegator().getI18nResource();
 
         if( ! (this.i18nResource instanceof I18nResourceBundle) ) {
             throw new UnsupportedOperationException(
@@ -86,12 +85,12 @@ final class I18nResourceBuilderAutoI18nCoreImpl
    }
 
     private static AutoI18nConfigSet newAutoI18nConfigSet(
-        final AutoI18nCoreImpl originalAutoI18nCore,
+        final AutoI18nImpl     originalAutoI18n,
         final AutoI18nConfig[] configExtension
         )
     {
         final EnumSet<AutoI18nConfig> configCopy = EnumHelper.safeCopyOf(
-                originalAutoI18nCore.getConfig().getSafeConfig(),
+                originalAutoI18n.getConfig().getSafeConfig(),
                 AutoI18nConfig.class
                 );
         final EnumSet<AutoI18nConfig> extension = EnumHelper.safeCopyOf(
@@ -104,12 +103,12 @@ final class I18nResourceBuilderAutoI18nCoreImpl
         return new AutoI18nConfigSet( configCopy );
     }
 
-    private AutoI18nCoreImpl newBuilderAutoI18nCore(
-        final AutoI18nCoreImpl  originalAutoI18nCore,
+    private AutoI18nImpl newBuilderAutoI18n(
+        final AutoI18nImpl      originalAutoI18n,
         final AutoI18nConfigSet autoI18nConfigSet
         )
     {
-        final I18nDelegator originalDelegator = originalAutoI18nCore.getI18nDelegator();
+        final I18nDelegator originalDelegator = originalAutoI18n.getI18nDelegator();
         final I18nDelegator delegator         = new I18nDelegator(
                 autoI18nConfigSet,
                 originalDelegator.getAutoI18nTypeLookup(),
@@ -121,14 +120,14 @@ final class I18nResourceBuilderAutoI18nCoreImpl
         delegator.addAutoI18nEventHandler( new AutoI18nLog4JEventHandler() );
         delegator.addAutoI18nEventHandler( this );
 
-        return new AutoI18nCoreImpl( delegator );
+        return new AutoI18nImpl( delegator );
     }
 
     @Override // I18nResourceBuilder
     @SuppressWarnings("ucd") // API
     public void append( final I18nAutoUpdatable i18nContener )
     {
-        i18nContener.performeI18n( this.builderAutoI18nCore );
+        i18nContener.performeI18n( this.builderAutoI18n );
     }
 
     @Override // I18nResourceBuilder

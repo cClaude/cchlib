@@ -4,7 +4,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.text.Document;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 /**
@@ -132,12 +132,12 @@ public class XTextField extends JTextField implements I18nAutoUpdatable
     /**
      * Set text string for copy menu
      * <p>
-     * Do not use this setter if you use {@link #performeI18n(AutoI18nCore)}
+     * Do not use this setter if you use {@link #performeI18n(AutoI18n)}
      *
      * @param copyText
      *            Text string to use for copy menu
      * @return current object for initialization chaining
-     * @see XTextField#performeI18n(AutoI18nCore)
+     * @see XTextField#performeI18n(AutoI18n)
      */
     public XTextField setTextForCopy( final String copyText )
     {
@@ -156,12 +156,12 @@ public class XTextField extends JTextField implements I18nAutoUpdatable
     /**
      * Set text string for paste menu
      * <p>
-     * Do not use this setter if you use {@link #performeI18n(AutoI18nCore)}
+     * Do not use this setter if you use {@link #performeI18n(AutoI18n)}
      *
      * @param pasteText
      *            Text string to use for paste menu
      * @return current object for initialization chaining
-     * @see XTextField#performeI18n(AutoI18nCore)
+     * @see XTextField#performeI18n(AutoI18n)
      */
     public XTextField setTextForPaste( final String pasteText )
     {
@@ -173,7 +173,7 @@ public class XTextField extends JTextField implements I18nAutoUpdatable
      * {@inheritDoc}
      */
     @Override
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }

@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.result.selector;
 
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public class SelectByDisabled extends SelectorPanel
@@ -14,7 +14,7 @@ public class SelectByDisabled extends SelectorPanel
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         //
     }

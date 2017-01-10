@@ -22,11 +22,11 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.about.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search.ScanParams;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.prefs.PreferencesDialogWB;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
-import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nCoreService;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nService;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.SerializableIcon;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Tools;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.JFrames;
@@ -179,7 +179,7 @@ public final class DuplicateFilesFrame
         buildLocaleMenu();
 
         // Apply i18n !
-        performeI18n( AutoI18nCoreService.getInstance().getAutoI18nCore() );
+        performeI18n( AutoI18nService.getInstance().getAutoI18n() );
 
         setSize( getDFToolKit().getPreferences().getWindowDimension() );
 
@@ -235,7 +235,7 @@ public final class DuplicateFilesFrame
     }
 
     @Override // I18nPrepHelperAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(getDFToolKit(),getDFToolKit().getClass());
@@ -470,7 +470,7 @@ public final class DuplicateFilesFrame
         final PreferencesDialogWB dialog = new PreferencesDialogWB(
                 getSize()
                 );
-        dialog.performeI18n( AutoI18nCoreService.getInstance().getAutoI18nCore() );
+        dialog.performeI18n( AutoI18nService.getInstance().getAutoI18n() );
         dialog.setVisible( true );
 
         JFrames.handleMinimumSize(dialog, preferences.getMinimumPreferenceDimension());

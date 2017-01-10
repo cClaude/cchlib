@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
 
@@ -38,7 +38,7 @@ public class FakePanelAppCore extends JFrame
 
             final EnumSet<AutoI18nConfig> config                   = null;
             final I18nResourceBundleName  i18nResourceBundleName   = createI18nResourceBundleName();
-            final AutoI18nCore            autoI18n                 = AutoI18nCoreFactory.newAutoI18nCore( config, i18nResourceBundleName, locale );
+            final AutoI18n            autoI18n                 = AutoI18nFactory.newAutoI18n( config, i18nResourceBundleName, locale );
 
             //autoI18n.setLocale( locale );
             panel.performeI18n( autoI18n );

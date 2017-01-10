@@ -6,7 +6,7 @@ import java.io.PrintStream;
 import java.util.Locale;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
@@ -19,7 +19,7 @@ public class QuickI18nTestResourceBuilderApp
 
     static I18nResourceBuilderResult runTest(
         final I18nAutoUpdatable frame,
-        final AutoI18nCore          standardI18n,
+        final AutoI18n          standardI18n,
         final Locale                locale,
         final AutoI18nConfig ...    configExtension
         ) throws IOException
@@ -54,10 +54,10 @@ public class QuickI18nTestResourceBuilderApp
     {
         // Build frame
         final I18nAutoUpdatable frame = QuickI18nTestFrameApp.newQuickI18nTestFrame();
-        final AutoI18nCore      i18n  = QuickI18nTestFrameApp.newAutoI18nCore();
+        final AutoI18n          i18n  = QuickI18nTestFrameApp.newAutoI18n();
 
         LOGGER.info( "I18nAutoUpdatable = " + frame );
-        LOGGER.info( "AutoI18nCore      = " + i18n );
+        LOGGER.info( "AutoI18n          = " + i18n );
 
         runTest( frame, i18n, Locale.ENGLISH );
 

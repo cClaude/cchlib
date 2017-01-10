@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.html.HTMLPreviewDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.multilineeditor.MultiLineEditorDialog;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 
 class CompareResourcesBundlePopupMenu
@@ -34,7 +34,7 @@ class CompareResourcesBundlePopupMenu
             final JTable                                      jTable,
             final AbstractTableModel                          abstractTableModel,
             final CompareResourcesBundleTableModel.Colunms    colunms,
-            final AutoI18nCore                                autoI18n
+            final AutoI18n                                autoI18n
             )
     {
         super( jTable );

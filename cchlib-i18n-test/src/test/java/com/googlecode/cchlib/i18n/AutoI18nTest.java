@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import org.junit.Assert;
 import org.junit.Test;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 
 public class AutoI18nTest
 {
@@ -12,8 +12,7 @@ public class AutoI18nTest
         final String actual   = AutoI18nConfig.DISABLE_PROPERTIES;
         final String expected = AutoI18n.class.getName() + ".disabled";
 
-        Assert.assertEquals( "Bad AutoI18n.DISABLE_PROPERTIES", expected, actual );
-        assertThat( actual ).isEqualTo( expected );
+        assertThat( actual ).as( "Bad AutoI18n.DISABLE_PROPERTIES" ).isEqualTo( expected );
     }
 
 }

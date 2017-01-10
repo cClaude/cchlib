@@ -24,7 +24,7 @@ public interface I18nPrep
 
     void closeOutputFile() throws IOException;
 
-    AutoI18nCore getAutoI18nCore();
+    AutoI18n getAutoI18n();
 
     I18nPrepStatResult getI18nPrepStatResult();
 

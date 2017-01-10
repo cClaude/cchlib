@@ -23,8 +23,8 @@ import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesOpener;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -129,7 +129,7 @@ public final class CompareResourcesBundleFrame
     private FrameActionListener frameActionListener;
     private final Preferences preferences;
     private final LastSelectedFilesAccessoryDefaultConfigurator lastSelectedFilesAccessoryDefaultConfigurator = new LastSelectedFilesAccessoryDefaultConfigurator();
-    private final AutoI18nCore autoI18n;
+    private final AutoI18n autoI18n;
 
     @I18nString protected String fileSavedMsg = "File '%s' saved."; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
     @I18nString protected String fileSaveNowQuestionMsg = "Save file '%s' now ?"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
@@ -193,7 +193,7 @@ public final class CompareResourcesBundleFrame
             LOGGER.trace( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResourceBundleName() );
             }
 
-        this.autoI18n = AutoI18nCoreFactory.newAutoI18nCore(
+        this.autoI18n = AutoI18nFactory.newAutoI18n(
                 EditResourcesBundleApp.getConfig(),
                 EditResourcesBundleApp.getI18nSimpleResourceBundle( locale )
                 );
@@ -430,7 +430,7 @@ public final class CompareResourcesBundleFrame
      * {@inheritDoc}
      */
     @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());
         autoI18n.performeI18n(this.preferencesOpener,this.preferencesOpener.getClass());

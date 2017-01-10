@@ -6,14 +6,14 @@ import java.util.Set;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JWindow;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 
 /**
  * How to select Fields:
  * <p>
  * By default, I18n process inspect all the fields
  * declared by the class or interface represented.
- * by 'objectToI18n' ({@link AutoI18nCore#performeI18n(Object, Class)}.
+ * by 'objectToI18n' ({@link AutoI18n#performeI18n(Object, Class)}.
  * This includes public, protected, default (package)
  * access, and private fields, but excludes inherited
  * fields.
@@ -26,8 +26,9 @@ public enum AutoI18nConfig
     /**
      * Select only field objects reflecting all the
      * accessible public fields of the class or
-     * interface represented by 'objectToI18n'
-     * ({@link AutoI18nCore#performeI18n(Object, Class)}.
+     * interface represented by 'objectToI18n' :
+     * <br>
+     * {@link AutoI18n#performeI18n(Object, Class)}.
      */
     ONLY_PUBLIC,
 

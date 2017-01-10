@@ -18,7 +18,7 @@ public interface I18nAutoUpdatable
     /**
      * Apply internationalization on this object
      *
-     * @param autoI18n The {@link AutoI18nCore} for current user.
+     * @param autoI18n The {@link AutoI18n} for current user.
      */
-    void performeI18n( AutoI18nCore autoI18n );
+    void performeI18n( AutoI18n autoI18n );
 }

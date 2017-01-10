@@ -2,9 +2,9 @@ package com.googlecode.cchlib.i18n.resourcebuilder;
 
 import java.util.Locale;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
-import com.googlecode.cchlib.i18n.core.internal.AutoI18nCoreImpl;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
+import com.googlecode.cchlib.i18n.core.internal.AutoI18nImpl;
 
 public class I18nResourceBuilderFactory
 {
@@ -16,8 +16,8 @@ public class I18nResourceBuilderFactory
     /**
      * Create a new {@link I18nResourceBuilder}
      *
-     * @param autoI18nCore
-     *            The {@link AutoI18nCore} configuration to use to
+     * @param autoI18n
+     *            The {@link AutoI18n} configuration to use to
      *            internationalize the application.
      * @param locale
      *            Locale to use for resource builder process.
@@ -25,24 +25,24 @@ public class I18nResourceBuilderFactory
      *            Allow to extend configuration for this process.
      * @return the {@link I18nResourceBuilder}
      * @throws UnsupportedOperationException
-     *             if {@link AutoI18nCore} implementation is not supported.
+     *             if {@link AutoI18n} implementation is not supported.
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static I18nResourceBuilder newI18nResourceBuilder(
-        final AutoI18nCore     autoI18nCore,
+        final AutoI18n         autoI18n,
         final Locale           locale,
         final AutoI18nConfig...configExtension
         ) throws UnsupportedOperationException
     {
-        if( autoI18nCore instanceof AutoI18nCoreImpl ) {
-            return new I18nResourceBuilderAutoI18nCoreImpl(
-                    (AutoI18nCoreImpl)autoI18nCore,
+        if( autoI18n instanceof AutoI18nImpl ) {
+            return new I18nResourceBuilderAutoI18nImpl(
+                    (AutoI18nImpl)autoI18n,
                     locale,
                     configExtension
                     );
         } else {
             throw new UnsupportedOperationException(
-                "Dont kwnon how to handle: " + autoI18nCore.getClass()
+                "Dont kwnon how to handle: " + autoI18n.getClass()
                 );
         }
     }
@@ -50,24 +50,24 @@ public class I18nResourceBuilderFactory
     /**
      * Create a new {@link I18nResourceBuilder}
      *
-     * @param autoI18nCore
-     *            The {@link AutoI18nCore} configuration to use to
+     * @param autoI18n
+     *            The {@link AutoI18n} configuration to use to
      *            internationalize the application.
      * @param configExtension
      *            Allow to extend configuration for this process.
      * @return the {@link I18nResourceBuilder}
      * @throws UnsupportedOperationException
-     *             if {@link AutoI18nCore} implementation is not supported.
+     *             if {@link AutoI18n} implementation is not supported.
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public static I18nResourceBuilder newI18nResourceBuilder(
-        final AutoI18nCore     autoI18nCore,
+        final AutoI18n         autoI18n,
         final AutoI18nConfig...configExtension
         )
     {
         return newI18nResourceBuilder(
-                autoI18nCore,
-                AutoI18nCoreFactory.DEFAULT_LOCALE,
+                autoI18n,
+                AutoI18nFactory.DEFAULT_LOCALE,
                 configExtension
                 );
     }

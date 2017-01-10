@@ -12,7 +12,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config.FiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
 
@@ -100,7 +100,7 @@ public class JPanelConfig
                 );
     }
 
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
 

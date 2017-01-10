@@ -23,7 +23,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Resources;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.api.I18nResource;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
 import com.googlecode.cchlib.lang.Threads;
@@ -66,7 +66,7 @@ final class DefaultAppToolKit
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }

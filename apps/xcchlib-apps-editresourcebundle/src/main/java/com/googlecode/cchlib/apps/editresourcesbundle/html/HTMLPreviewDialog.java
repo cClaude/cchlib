@@ -23,7 +23,7 @@ import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBu
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 @I18nName("HTMLPreviewDialog")
@@ -195,7 +195,7 @@ public class HTMLPreviewDialog
     }
 
     @Override
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }

@@ -23,7 +23,7 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeMode
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.filechooser.FileSelectionMode;
@@ -504,7 +504,7 @@ public class RemoveEmptyDirectoriesPanel
     }
 
     @Override//I18nAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }

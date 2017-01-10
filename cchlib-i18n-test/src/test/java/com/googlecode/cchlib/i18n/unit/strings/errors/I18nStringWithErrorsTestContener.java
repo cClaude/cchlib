@@ -4,7 +4,7 @@ import javax.swing.JButton;
 import org.junit.Assert;
 import com.googlecode.cchlib.i18n.annotation.I18nCustomMethod;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 public class I18nStringWithErrorsTestContener implements I18nAutoUpdatable
@@ -29,7 +29,7 @@ public class I18nStringWithErrorsTestContener implements I18nAutoUpdatable
     }
 
     @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
     }

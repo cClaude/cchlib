@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.annotation.I18nCustomMethod;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 public final class I18nStringTestContener implements I18nAutoUpdatable
@@ -44,16 +44,16 @@ public final class I18nStringTestContener implements I18nAutoUpdatable
      * This method will be discover and invoke by I18n process
      */
     @Override // I18nAutoUpdatable
-    public void performeI18n( final AutoI18nCore autoI18n )
+    public void performeI18n( final AutoI18n autoI18n )
     {
         getLogger().info(
-            "before I18nStringTestContener.performeI18n(AutoI18nCore) : " + this
+            "before I18nStringTestContener.performeI18n(AutoI18n) : " + this
             );
 
         autoI18n.performeI18n( this, this.getClass() );
 
         getLogger().info(
-            "after I18nStringTestContener.performeI18n(AutoI18nCore) : " + this
+            "after I18nStringTestContener.performeI18n(AutoI18n) : " + this
             );
     }
 

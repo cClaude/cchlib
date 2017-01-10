@@ -5,9 +5,9 @@ import static org.junit.Assume.assumeTrue;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
-import com.googlecode.cchlib.swing.i18n.SwingAutoI18nCoreFactory;
+import com.googlecode.cchlib.swing.i18n.SwingAutoI18nFactory;
 
 /**
  * The class {@link XTextFieldTest} contains tests for the class
@@ -43,7 +43,7 @@ public class XTextFieldTest
 
         Locale.setDefault( Locale.ENGLISH );
 
-        final AutoI18nCore autoI18n = SwingAutoI18nCoreFactory.getCurrentSwingAutoI18nCore();
+        final AutoI18n autoI18n = SwingAutoI18nFactory.getCurrentSwingAutoI18n();
         xTextField.performeI18n( autoI18n );
 
         final String copyText = xTextField.getTextForCopy();
@@ -60,7 +60,7 @@ public class XTextFieldTest
 
         Locale.setDefault( Locale.FRENCH );
 
-        final AutoI18nCore autoI18n = SwingAutoI18nCoreFactory.getCurrentSwingAutoI18nCore();
+        final AutoI18n autoI18n = SwingAutoI18nFactory.getCurrentSwingAutoI18n();
         xTextField.performeI18n( autoI18n );
 
         final String copyText = xTextField.getTextForCopy();

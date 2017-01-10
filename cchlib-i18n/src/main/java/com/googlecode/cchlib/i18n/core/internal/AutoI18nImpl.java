@@ -7,21 +7,21 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
-import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nApplyable;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 
-public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
+public class AutoI18nImpl implements AutoI18n, Serializable
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger( AutoI18nCoreImpl.class );
+    private static final Logger LOGGER = Logger.getLogger( AutoI18nImpl.class );
 
     private final Map<Class<?>,I18nClass<?>> map = new HashMap<>();
     private final I18nDelegator              i18nDelegator;
 
-    public AutoI18nCoreImpl( final I18nDelegator i18nDelegator )
+    public AutoI18nImpl( final I18nDelegator i18nDelegator )
     {
         this.i18nDelegator = i18nDelegator;
     }
@@ -107,7 +107,7 @@ public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
     @Override
     public String toString()
     {
-        return "AutoI18nCoreImpl [map=" + this.map
+        return "AutoI18nImpl [map=" + this.map
             + ", i18nDelegator=" + this.i18nDelegator
             + "]";
     }
