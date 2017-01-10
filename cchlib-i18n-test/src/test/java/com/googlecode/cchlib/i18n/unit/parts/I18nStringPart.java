@@ -8,7 +8,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nCustomMethod;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.REF;
@@ -17,7 +17,7 @@ import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
 public class I18nStringPart
-    implements I18nAutoCoreUpdatable, TestReference, TestReferenceDeprecated
+    implements I18nAutoUpdatable, TestReference, TestReferenceDeprecated
 {
     private static final Logger LOGGER = Logger.getLogger( I18nStringPart.class );
     private static final String INIT_myString = "my-string-text-1";
@@ -65,7 +65,7 @@ public class I18nStringPart
         this.myGlobalStringIDMethod2 = DEFAULT_BUNDLE_myGlobalStringIDMethod2;
     }
 
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );

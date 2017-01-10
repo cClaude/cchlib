@@ -5,7 +5,7 @@ import javax.swing.JTextField;
 import javax.swing.text.Document;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 /**
  * e<B>X</B>tended <B>TextField</B> is a {@link JTextField} with extra features...
@@ -14,7 +14,7 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
  * </ul>
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
-public class XTextField extends JTextField implements I18nAutoCoreUpdatable
+public class XTextField extends JTextField implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
 

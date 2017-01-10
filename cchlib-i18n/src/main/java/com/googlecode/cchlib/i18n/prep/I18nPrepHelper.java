@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
@@ -91,7 +91,7 @@ public final class I18nPrepHelper
      */
     public static I18nPrepResult defaultPrep(
         final I18nPrep                i18nPrep,
-        final I18nAutoCoreUpdatable...i18nConteners
+        final I18nAutoUpdatable...i18nConteners
         ) throws I18nPrepException
     {
         final PrepCollector<Integer> usageStatCollector = new PrepCollector<>();
@@ -123,10 +123,10 @@ public final class I18nPrepHelper
         final AutoI18nCore            autoI18n,
         final PrepCollector<Integer>  usageStatCollector,
         final PrepCollector<String>   notUseCollector,
-        final I18nAutoCoreUpdatable...i18nConteners
+        final I18nAutoUpdatable...i18nConteners
         )
     {
-        for( final I18nAutoCoreUpdatable i18nContener : i18nConteners ) {
+        for( final I18nAutoUpdatable i18nContener : i18nConteners ) {
             i18nContener.performeI18n( autoI18n );
         }
 

@@ -28,10 +28,10 @@ import com.googlecode.cchlib.apps.emptyfiles.tasks.FindTask;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 @I18nName("emptyfiles.RemoveEmptyFilesJPanel")
-public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoCoreUpdatable
+public class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( RemoveEmptyFilesJPanel.class );

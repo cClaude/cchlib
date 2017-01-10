@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
  * <BR>
  * This name is used to prefix keys found on object
  * 
- * @see com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable
+ * @see com.googlecode.cchlib.i18n.core.I18nAutoUpdatable
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

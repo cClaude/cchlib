@@ -23,21 +23,24 @@ public abstract class AbstractAutoI18nExceptionHandler
 {
     private static final long serialVersionUID = 1L;
 
-    protected abstract void doHandle( String msg, Throwable e );
+    protected abstract void doHandle( String msg, Throwable cause );
 
-    private void doHandleForField( final String msg, final Exception e )
+    private void doHandleForField( final String msg, final Exception cause )
     {
-        doHandle( msg, e );
+        doHandle( msg, cause );
     }
 
-    protected void doHandleMissingResourceException( final Exception e, final I18nField i18nField )
+    protected void doHandleMissingResourceException(
+        final Exception cause,
+        final I18nField i18nField
+        )
     {
         final String msg = "* error Missing Resource for: ["
                 + i18nField.getKeyBase()
                 + "] - "
-                + e.getLocalizedMessage();
+                + cause.getLocalizedMessage();
 
-        doHandle( msg, e );
+        doHandle( msg, cause );
     }
 
     @SuppressWarnings("squid:S00100")
@@ -130,6 +133,8 @@ public abstract class AbstractAutoI18nExceptionHandler
             case JCOMPONENT_MULTI_TOOLTIPTEXT:
                 doHandleMissingResourceException( cause, i18nField ); // FIXME : to do check this !
                 break;
+            case AUTO_UPDATABLE_FIELD:
+                throw new UnsupportedOperationException();
             }
     }
 
@@ -190,6 +195,8 @@ public abstract class AbstractAutoI18nExceptionHandler
             case JCOMPONENT_MULTI_TOOLTIPTEXT:
                 doHandleMissingResourceException( cause, i18nField ); // FIXME : todo check this !
                 break;
+            case AUTO_UPDATABLE_FIELD:
+                throw new UnsupportedOperationException();
             }
     }
 }

@@ -17,7 +17,7 @@ import com.googlecode.cchlib.i18n.unit.TestReference;
 
 public class I18nStringTestReference implements TestReference, com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated
 {
-    // This is a I18nAutoCoreUpdatable object, should be
+    // This is a I18nAutoUpdatable object, should be
     // discovers by I18n process
     private final I18nStringTestContener objectToI18n;
 
@@ -161,7 +161,7 @@ public class I18nStringTestReference implements TestReference, com.googlecode.cc
         assertThat( result.getUnusedProperties()  ).hasSize( 0 );
      }
 
-    @Override // I18nAutoCoreUpdatable (required by tests and I18nResourceBuilder process)
+    @Override // I18nAutoUpdatable (required by tests and I18nResourceBuilder process)
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, I18nStringTestReference.class );

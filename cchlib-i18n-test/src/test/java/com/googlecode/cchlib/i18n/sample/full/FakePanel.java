@@ -24,11 +24,11 @@ import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 class FakePanel
     extends JPanel
-        implements I18nAutoCoreUpdatable
+        implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( FakePanel.class );
@@ -308,7 +308,7 @@ class FakePanel
         this.refreshButton.setText( this.refreshButtonText );
     }
 
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         LOGGER.info( "performeI18n" );

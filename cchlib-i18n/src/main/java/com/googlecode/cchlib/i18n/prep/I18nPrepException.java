@@ -7,8 +7,6 @@ import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 /**
  * Exception from {@link I18nPrepHelper}
  *
- * @see I18nPrepHelper#defaultPrep(com.googlecode.cchlib.i18n.core.I18nPrep,
- *      com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable...)
  * @deprecated use {@link I18nResourceBuilderFactory} instead
  */
 @Deprecated

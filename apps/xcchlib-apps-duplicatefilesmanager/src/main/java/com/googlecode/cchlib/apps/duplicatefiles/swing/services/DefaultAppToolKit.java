@@ -24,7 +24,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -35,7 +35,7 @@ import com.googlecode.cchlib.swing.filechooser.WaitingJFileChooserInitializer;
 //NOT public
 @I18nName("DefaultAppToolKit")
 final class DefaultAppToolKit
-    implements AppToolKit, I18nAutoCoreUpdatable
+    implements AppToolKit, I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DefaultAppToolKit.class );

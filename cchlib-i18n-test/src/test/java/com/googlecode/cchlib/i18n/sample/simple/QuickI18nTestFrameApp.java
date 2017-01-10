@@ -13,9 +13,9 @@ import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
-public class QuickI18nTestFrameApp extends JFrame implements I18nAutoCoreUpdatable
+public class QuickI18nTestFrameApp extends JFrame implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private final JPanel contentPane;

@@ -27,7 +27,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.SerializableIcon;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Tools;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.JFrames;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
@@ -41,7 +41,7 @@ import com.googlecode.cchlib.util.HashMapSet;
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public final class DuplicateFilesFrame
     extends DuplicateFilesFrameWB
-        implements I18nAutoCoreUpdatable
+        implements I18nAutoUpdatable
 {
     private final class UpdateDisplayTask implements Runnable {
         @Override

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.Set;
 import javax.annotation.Nullable;
-import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.util.EnumHelper;
 
@@ -22,7 +21,7 @@ public class AutoI18nConfigSet implements Serializable
     {
         final Set<AutoI18nConfig> fixedConfig = EnumHelper.safeCopyOf( config, AutoI18nConfig.class );
 
-        if( Boolean.getBoolean( AutoI18n.DISABLE_PROPERTIES )) {
+        if( Boolean.getBoolean( AutoI18nConfig.DISABLE_PROPERTIES )) {
             // Internalization is disabled.
             fixedConfig.add( AutoI18nConfig.DISABLE );
             }

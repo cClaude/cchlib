@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Assume;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.REF;
@@ -23,7 +23,7 @@ import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class I18nDefaultPart
     extends JPanel
-        implements I18nAutoCoreUpdatable, TestReference, TestReferenceDeprecated
+        implements I18nAutoUpdatable, TestReference, TestReferenceDeprecated
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nDefaultPart.class );
@@ -83,7 +83,7 @@ public class I18nDefaultPart
         }
     }
 
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );

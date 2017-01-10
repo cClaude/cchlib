@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.i18n.core;
 
+
 /**
  * Describe how an {@link I18nField} should be handle.
  */
@@ -16,4 +17,5 @@ public enum I18nFieldType
     JCOMPONENT_MULTI_TOOLTIPTEXT,
 
     AUTO_UPDATABLE_FIELD,
-    }
+    ;
+}

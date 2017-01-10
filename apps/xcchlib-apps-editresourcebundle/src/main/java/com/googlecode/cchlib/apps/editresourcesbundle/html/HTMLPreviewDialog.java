@@ -24,12 +24,12 @@ import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 @I18nName("HTMLPreviewDialog")
 public class HTMLPreviewDialog
     extends JDialog
-        implements I18nAutoCoreUpdatable
+        implements I18nAutoUpdatable
 {
     private static final int FONT_SIZE = 12;
 

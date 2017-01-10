@@ -7,7 +7,7 @@ import java.util.Locale;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderHelper;
@@ -18,7 +18,7 @@ public class QuickI18nTestResourceBuilderApp
     private static final Logger LOGGER = Logger.getLogger( QuickI18nTestResourceBuilderApp.class );
 
     static I18nResourceBuilderResult runTest(
-        final I18nAutoCoreUpdatable frame,
+        final I18nAutoUpdatable frame,
         final AutoI18nCore          standardI18n,
         final Locale                locale,
         final AutoI18nConfig ...    configExtension
@@ -30,9 +30,9 @@ public class QuickI18nTestResourceBuilderApp
                 configExtension
                 );
 
-        final I18nAutoCoreUpdatable[] i18nObjects = { frame };
+        final I18nAutoUpdatable[] i18nObjects = { frame };
 
-        for( final I18nAutoCoreUpdatable i18nObject : i18nObjects ) {
+        for( final I18nAutoUpdatable i18nObject : i18nObjects ) {
             builder.append( i18nObject );
         }
 
@@ -53,11 +53,11 @@ public class QuickI18nTestResourceBuilderApp
     public static void main( final String...args ) throws Exception
     {
         // Build frame
-        final I18nAutoCoreUpdatable frame = QuickI18nTestFrameApp.newQuickI18nTestFrame();
-        final AutoI18nCore          i18n  = QuickI18nTestFrameApp.newAutoI18nCore();
+        final I18nAutoUpdatable frame = QuickI18nTestFrameApp.newQuickI18nTestFrame();
+        final AutoI18nCore      i18n  = QuickI18nTestFrameApp.newAutoI18nCore();
 
-        LOGGER.info( "I18nAutoCoreUpdatable = " + frame );
-        LOGGER.info( "AutoI18nCore          = " + i18n );
+        LOGGER.info( "I18nAutoUpdatable = " + frame );
+        LOGGER.info( "AutoI18nCore      = " + i18n );
 
         runTest( frame, i18n, Locale.ENGLISH );
 

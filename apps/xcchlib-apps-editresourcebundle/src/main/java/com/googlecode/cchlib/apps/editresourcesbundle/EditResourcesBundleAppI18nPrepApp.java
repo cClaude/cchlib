@@ -12,7 +12,7 @@ import com.googlecode.cchlib.apps.editresourcesbundle.html.HTMLPreviewDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.load.LoadDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.multilineeditor.MultiLineEditorDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
 import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
@@ -76,7 +76,7 @@ public class EditResourcesBundleAppI18nPrepApp implements Runnable
 
         Threads.sleep( 1, TimeUnit.SECONDS );
 
-        final I18nAutoCoreUpdatable[] i18nConteners = {
+        final I18nAutoUpdatable[] i18nConteners = {
             mainFrame,
             loadFrame,
             htmlFrame,
@@ -107,7 +107,7 @@ public class EditResourcesBundleAppI18nPrepApp implements Runnable
 
     @SuppressWarnings("squid:S106")
     private I18nPrepResult launchI18nPrep(
-            final I18nAutoCoreUpdatable[] i18nConteners,
+            final I18nAutoUpdatable[] i18nConteners,
             final I18nPrep                i18nPrep
             ) throws I18nPrepException
     {

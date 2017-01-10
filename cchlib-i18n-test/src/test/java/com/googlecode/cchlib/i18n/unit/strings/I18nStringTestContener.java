@@ -9,9 +9,9 @@ import com.googlecode.cchlib.i18n.annotation.I18nCustomMethod;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
-public final class I18nStringTestContener implements I18nAutoCoreUpdatable
+public final class I18nStringTestContener implements I18nAutoUpdatable
 {
     @I18nString private String myString;
 
@@ -43,7 +43,7 @@ public final class I18nStringTestContener implements I18nAutoCoreUpdatable
     /**
      * This method will be discover and invoke by I18n process
      */
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         getLogger().info(

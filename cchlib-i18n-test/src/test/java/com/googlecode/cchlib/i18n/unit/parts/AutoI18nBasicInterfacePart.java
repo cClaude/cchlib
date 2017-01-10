@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.REF;
@@ -14,7 +14,7 @@ import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
 public final class AutoI18nBasicInterfacePart
-    implements I18nAutoCoreUpdatable, TestReference, TestReferenceDeprecated
+    implements I18nAutoUpdatable, TestReference, TestReferenceDeprecated
 {
     private static final class MyAutoI18nBasicInterface implements AutoI18nBasicInterface
     {
@@ -50,7 +50,7 @@ public final class AutoI18nBasicInterfacePart
         this.myAutoI18nBasicInterface = new MyAutoI18nBasicInterface( INIT_TEXT );
     }
 
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );

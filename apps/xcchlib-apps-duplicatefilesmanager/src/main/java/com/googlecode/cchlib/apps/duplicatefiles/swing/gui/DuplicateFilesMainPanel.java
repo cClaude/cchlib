@@ -22,7 +22,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.select.JPanelS
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 /**
  * Main frame layout for DuplicateFilesManager
@@ -30,7 +30,7 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 @I18nName("DuplicateFilesMainPanel")
 public class DuplicateFilesMainPanel
     extends JPanel
-        implements I18nAutoCoreUpdatable
+        implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( DuplicateFilesMainPanel.class );
@@ -252,7 +252,7 @@ public class DuplicateFilesMainPanel
         return new JPanelConfirm();
     }
 
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());

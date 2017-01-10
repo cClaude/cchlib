@@ -1,13 +1,13 @@
 package com.googlecode.cchlib.i18n.unit;
 
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 
 /**
- * extends "I18nAutoCoreUpdatable" is required by tests and I18nResourceBuilder
+ * extends {@link I18nAutoUpdatable} is required by tests and I18nResourceBuilder
  * process, but not formally by I18n process
  */
-public interface TestReference extends I18nAutoCoreUpdatable
+public interface TestReference extends I18nAutoUpdatable
 {
     void beforePerformeI18nTest();
 

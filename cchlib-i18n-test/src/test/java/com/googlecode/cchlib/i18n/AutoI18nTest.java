@@ -9,7 +9,7 @@ public class AutoI18nTest
     @Test
     public void testCONSTANTS()
     {
-        final String actual   = AutoI18n.DISABLE_PROPERTIES;
+        final String actual   = AutoI18nConfig.DISABLE_PROPERTIES;
         final String expected = AutoI18n.class.getName() + ".disabled";
 
         Assert.assertEquals( "Bad AutoI18n.DISABLE_PROPERTIES", expected, actual );

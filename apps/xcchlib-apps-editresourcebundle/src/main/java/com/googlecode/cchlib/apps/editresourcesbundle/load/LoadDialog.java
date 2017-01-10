@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
+import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
 import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
@@ -13,7 +14,7 @@ import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.Windows;
@@ -26,7 +27,7 @@ import cx.ath.choisnet.util.FormattedProperties;
 @I18nName("LoadDialog")
 public class LoadDialog
     extends LoadDialogWB
-        implements I18nAutoCoreUpdatable
+        implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 2L;
     private static final Logger LOGGER = Logger.getLogger( LoadDialog.class );
@@ -76,7 +77,7 @@ public class LoadDialog
         init( parentFrame );
     }
 
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
@@ -95,8 +96,8 @@ public class LoadDialog
     {
         initFixComponents();
 
-        setDefaultCloseOperation( LoadDialog.DISPOSE_ON_CLOSE );
-        setTitle( strMsgTitle );
+        setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
+        setTitle( this.strMsgTitle );
         setLocationRelativeTo( parentFrame );
         getContentPane().setPreferredSize( this.getSize() );
         pack();
@@ -107,28 +108,28 @@ public class LoadDialog
     public void initFixComponents()
     {
         // Load tab
-        if( filesConfig.getLeftFileObject() != null ) {
+        if( this.filesConfig.getLeftFileObject() != null ) {
             getCheckBox_LeftReadOnly().setSelected(
-                filesConfig.getLeftFileObject().isReadOnly()
+                this.filesConfig.getLeftFileObject().isReadOnly()
                 );
             }
 
         initCheckBox(
                 getCheckBox_ShowLineNumbers(),
                 LoadDialogAction.ACTION_Change_ShowLineNumbers,
-                filesConfig.isShowLineNumbers()
+                this.filesConfig.isShowLineNumbers()
                 );
 
         // Load tab - FileType
         initCheckBox(
                 getCheckBox_Properties(),
                 LoadDialogAction.ACTION_FT_Properties,
-                FilesConfig.FileType.PROPERTIES == filesConfig.getFileType()
+                FilesConfig.FileType.PROPERTIES == this.filesConfig.getFileType()
                 );
         initCheckBox(
                 getCheckBox_FormattedProperties(),
                 LoadDialogAction.ACTION_FT_FormattedProperties,
-                FilesConfig.FileType.FORMATTED_PROPERTIES == filesConfig.getFileType()
+                FilesConfig.FileType.FORMATTED_PROPERTIES == this.filesConfig.getFileType()
                 );
         initCheckBox(
                 getCheckBox_ini(),
@@ -140,42 +141,42 @@ public class LoadDialog
         initCheckBox(
                 getCheckBox_RightUseLeftHasDefaults(),
                 LoadDialogAction.ACTION_Change_isUseLeftHasDefault,
-                filesConfig.isUseLeftHasDefault()
+                this.filesConfig.isUseLeftHasDefault()
                 );
 
         // FormattedProperties tab
         initCheckBox(
                 getCheckBox_CUT_LINE_AFTER_HTML_BR(),
                 LoadDialogAction.ACTION_Change_CUT_LINE_AFTER_HTML_BR,
-                filesConfig.getFormattedPropertiesStore().contains(
+                this.filesConfig.getFormattedPropertiesStore().contains(
                         FormattedProperties.Store.CUT_LINE_AFTER_HTML_BR
                         )
                 );
         initCheckBox(
                 getCheckBox_CUT_LINE_AFTER_HTML_END_P(),
                 LoadDialogAction.ACTION_Change_CUT_LINE_AFTER_HTML_END_P,
-                filesConfig.getFormattedPropertiesStore().contains(
+                this.filesConfig.getFormattedPropertiesStore().contains(
                         FormattedProperties.Store.CUT_LINE_AFTER_HTML_END_P
                         )
                 );
         initCheckBox(
                 getCheckBox_CUT_LINE_AFTER_NEW_LINE(),
                 LoadDialogAction.ACTION_Change_CUT_LINE_AFTER_NEW_LINE,
-                filesConfig.getFormattedPropertiesStore().contains(
+                this.filesConfig.getFormattedPropertiesStore().contains(
                         FormattedProperties.Store.CUT_LINE_AFTER_NEW_LINE
                         )
                 );
         initCheckBox(
                 getCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P(),
                 LoadDialogAction.ACTION_Change_CUT_LINE_BEFORE_HTML_BEGIN_P,
-                filesConfig.getFormattedPropertiesStore().contains(
+                this.filesConfig.getFormattedPropertiesStore().contains(
                         FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BEGIN_P
                         )
                 );
         initCheckBox(
                 getCheckBox_CUT_LINE_BEFORE_HTML_BR(),
                 LoadDialogAction.ACTION_Change_CUT_LINE_BEFORE_HTML_BR,
-                filesConfig.getFormattedPropertiesStore().contains(
+                this.filesConfig.getFormattedPropertiesStore().contains(
                         FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BR
                         )
                 );
@@ -227,7 +228,7 @@ public class LoadDialog
 
     protected JFileChooser getJFileChooser()
     {
-        return jFileChooserInitializer.getJFileChooser();
+        return this.jFileChooserInitializer.getJFileChooser();
     }
 
     private FileObject getLoadFile(
@@ -256,7 +257,7 @@ public class LoadDialog
     private void jButton_LeftMouseMousePressed()
     {
         final FileObject fo = getLoadFile(
-                        filesConfig.getLeftFileObject(),
+                        this.filesConfig.getLeftFileObject(),
                         getCheckBox_LeftReadOnly().isSelected()
                         );
         if( fo != null ) {
@@ -270,7 +271,7 @@ public class LoadDialog
     protected void jButton_RightMouseMousePressed( final int index )
     {
         final FileObject fo = getLoadFile(
-                        filesConfig.getFileObject( index ),
+                        this.filesConfig.getFileObject( index ),
                         false
                         );
         if( fo != null ) {
@@ -290,7 +291,7 @@ public class LoadDialog
     //@Override
     protected void jButton_OkMouseMousePressed()
     {
-        if( !filesConfig.isFilesExists() ) {
+        if( !this.filesConfig.isFilesExists() ) {
             Toolkit.getDefaultToolkit().beep();
             //TODO: display alert !
             return;
@@ -298,19 +299,19 @@ public class LoadDialog
 
         // Update left file is ReadOnly has change
         final FileObject foLeft = new FileObject(
-                filesConfig.getLeftFileObject().getFile(),
+                this.filesConfig.getLeftFileObject().getFile(),
                 getCheckBox_LeftReadOnly().isSelected()
                 );
-        filesConfig.setFileObject( foLeft, 0 );
+        this.filesConfig.setFileObject( foLeft, 0 );
 
         try {
-            filesConfig.load();
+            this.filesConfig.load();
             }
         catch( final IOException e ) {
-            DialogHelper.showMessageExceptionDialog( this, strMsg_ErrorWhileLoading, e );
+            DialogHelper.showMessageExceptionDialog( this, this.strMsg_ErrorWhileLoading, e );
             }
 
-        preferences.setLastDirectory( foLeft.getFile().getParentFile() );
+        this.preferences.setLastDirectory( foLeft.getFile().getParentFile() );
         dispose();
     }
 
@@ -318,10 +319,10 @@ public class LoadDialog
     private void updateStoreOptions(final JCheckBox jCheckBox,final FormattedProperties.Store storeOption)
     {
         if( jCheckBox.isSelected() ) {
-            filesConfig.add( storeOption );
+            this.filesConfig.add( storeOption );
             }
         else {
-            filesConfig.remove( storeOption );
+            this.filesConfig.remove( storeOption );
             }
     }
 
@@ -397,25 +398,25 @@ public class LoadDialog
                 break;
 
             case ACTION_Change_ShowLineNumbers:
-                filesConfig.setShowLineNumbers(
+                this.filesConfig.setShowLineNumbers(
                         getCheckBox_ShowLineNumbers().isSelected()
                         );
                 break;
 
             case ACTION_Change_isUseLeftHasDefault:
-                filesConfig.setUseLeftHasDefault(
+                this.filesConfig.setUseLeftHasDefault(
                         getCheckBox_RightUseLeftHasDefaults().isSelected()
                         );
                 break;
 
             case ACTION_FT_FormattedProperties:
                 udpateTabFileTypeDisplay();
-                filesConfig.setFileType( FilesConfig.FileType.FORMATTED_PROPERTIES );
+                this.filesConfig.setFileType( FilesConfig.FileType.FORMATTED_PROPERTIES );
                 break;
 
             case ACTION_FT_Properties:
                 udpateTabFileTypeDisplay();
-                filesConfig.setFileType( FilesConfig.FileType.PROPERTIES );
+                this.filesConfig.setFileType( FilesConfig.FileType.PROPERTIES );
                break;
 
             case ACTION_FT_ini:

@@ -16,7 +16,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControle
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.ResourcesPath;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nCoreService;
 import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderHelper;
@@ -56,7 +56,7 @@ public class DuplicateFilesI18nPrep
         // Build frame
         final DuplicateFilesFrame duplicateFilesFrame  = new DuplicateFilesFrame( preferences );
 
-        final I18nAutoCoreUpdatable[] i18nConteners = {
+        final I18nAutoUpdatable[] i18nConteners = {
             duplicateFilesFrame,
             new AboutDialog(),
             new PreferencesDialogWB(),
@@ -68,7 +68,7 @@ public class DuplicateFilesI18nPrep
                     AutoI18nCoreService.getInstance().getAutoI18nCore()
                     );
 
-        for( final I18nAutoCoreUpdatable i18nObject : i18nConteners ) {
+        for( final I18nAutoUpdatable i18nObject : i18nConteners ) {
             builder.append( i18nObject );
         }
 
@@ -82,7 +82,7 @@ public class DuplicateFilesI18nPrep
         final I18nResourceBuilderResult result = builder.getResult();
 
         // Dispose all windows.
-        for( final I18nAutoCoreUpdatable contener : i18nConteners ) {
+        for( final I18nAutoUpdatable contener : i18nConteners ) {
             if( contener instanceof Window ) {
                 ((Window)contener).dispose();
                 }

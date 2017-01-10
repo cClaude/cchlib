@@ -5,9 +5,9 @@ import org.junit.Assert;
 import com.googlecode.cchlib.i18n.annotation.I18nCustomMethod;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
-public class I18nStringWithErrorsTestContener implements I18nAutoCoreUpdatable
+public class I18nStringWithErrorsTestContener implements I18nAutoUpdatable
 {
     @I18nString private Object thisNotAString1;
     @I18nString private JButton thisNotAString2;
@@ -22,13 +22,13 @@ public class I18nStringWithErrorsTestContener implements I18nAutoCoreUpdatable
     public void customizeString1()
     {
         // Should be something like :
-        myGlobalStringIDMethod1 = I18nStringWithErrorsTestReference.DEFAULT_BUNDLE_myGlobalStringIDMethod1;
+        this.myGlobalStringIDMethod1 = I18nStringWithErrorsTestReference.DEFAULT_BUNDLE_myGlobalStringIDMethod1;
 
         // But there is a syntax exception, and should not be called
         Assert.fail();
     }
 
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
@@ -36,7 +36,7 @@ public class I18nStringWithErrorsTestContener implements I18nAutoCoreUpdatable
 
     final String getMyGlobalStringIDMethod1()
     {
-        return myGlobalStringIDMethod1;
+        return this.myGlobalStringIDMethod1;
     }
 
     final void setMyGlobalStringIDMethod1( final String myGlobalStringIDMethod1 )

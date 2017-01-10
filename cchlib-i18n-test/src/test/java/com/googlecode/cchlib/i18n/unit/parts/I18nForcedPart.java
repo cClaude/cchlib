@@ -16,7 +16,7 @@ import org.junit.Assume;
 import org.junit.Ignore;
 import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.REF;
@@ -27,7 +27,7 @@ import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class I18nForcedPart
     extends JPanel
-        implements I18nAutoCoreUpdatable, TestReference, TestReferenceDeprecated
+        implements I18nAutoUpdatable, TestReference, TestReferenceDeprecated
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nForcedPart.class );
@@ -128,7 +128,7 @@ public class I18nForcedPart
     }
 
     @Ignore
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );

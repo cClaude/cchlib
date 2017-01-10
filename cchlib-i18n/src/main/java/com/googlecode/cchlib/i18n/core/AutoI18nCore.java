@@ -4,7 +4,7 @@ package com.googlecode.cchlib.i18n.core;
  * Define a class able to be internationalized.
  *
  * @see AutoI18nCoreFactory
- * @see I18nAutoCoreUpdatable
+ * @see I18nAutoUpdatable
  */
 @FunctionalInterface
 public interface AutoI18nCore

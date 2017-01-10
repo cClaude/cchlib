@@ -19,6 +19,7 @@ import com.googlecode.cchlib.i18n.core.AutoI18nCore;
  * fields.
  *
  * @see AutoI18n
+ * @see #DISABLE_PROPERTIES
  */
 public enum AutoI18nConfig
 {
@@ -55,6 +56,14 @@ public enum AutoI18nConfig
      * TODO : HANDLE_ONLY_FIELDS_WITH_ANNOTATION
      */
     ;
+
+    /**
+     * Configuration through system properties
+     * <p>
+     * System properties : {@value #DISABLE_PROPERTIES}<br>
+     * If set with "true" disable automation of internalization process.
+     */
+    public static final String DISABLE_PROPERTIES = "com.googlecode.cchlib.i18n.AutoI18n.disabled";
 
     public static Set<AutoI18nConfig> newAutoI18nConfig()
     {

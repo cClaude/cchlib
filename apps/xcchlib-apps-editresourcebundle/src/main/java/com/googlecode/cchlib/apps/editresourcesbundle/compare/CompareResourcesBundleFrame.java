@@ -25,7 +25,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.JFrames;
@@ -43,7 +43,7 @@ import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 @SuppressWarnings({"squid:MaximumInheritanceDepth"})
 public final class CompareResourcesBundleFrame
     extends CompareResourcesBundleFrameWB
-        implements I18nAutoCoreUpdatable
+        implements I18nAutoUpdatable
 {
     private class FrameActionListener implements ActionListener, Serializable
     {
@@ -429,7 +429,7 @@ public final class CompareResourcesBundleFrame
      *
      * {@inheritDoc}
      */
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n(this,this.getClass());

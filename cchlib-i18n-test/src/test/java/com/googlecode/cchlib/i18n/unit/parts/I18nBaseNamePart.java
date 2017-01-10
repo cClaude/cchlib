@@ -10,7 +10,7 @@ import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.REF;
@@ -22,7 +22,7 @@ import com.googlecode.cchlib.swing.SafeSwingUtilities;
 @I18nName("I18nBaseNameTest")
 public class I18nBaseNamePart
     extends JPanel
-        implements I18nAutoCoreUpdatable, TestReference, TestReferenceDeprecated
+        implements I18nAutoUpdatable, TestReference, TestReferenceDeprecated
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nBaseNamePart.class );

@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.json.JSONHelperException;
 import com.googlecode.cchlib.swing.DialogHelper;
 
@@ -23,7 +23,7 @@ import com.googlecode.cchlib.swing.DialogHelper;
 @SuppressWarnings({"squid:MaximumInheritanceDepth","squid:S00100","squid:S00117"})
 public final class PreferencesDialogWB
     extends PreferencesDialogI18n
-        implements I18nAutoCoreUpdatable
+        implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 4L;
     private static final Logger LOGGER = Logger.getLogger( PreferencesDialogWB.class );

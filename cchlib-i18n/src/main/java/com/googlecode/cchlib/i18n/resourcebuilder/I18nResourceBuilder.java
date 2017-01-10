@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 /**
  * @see I18nResourceBuilderFactory
@@ -21,7 +21,7 @@ public interface I18nResourceBuilder
      * @param i18nObject
      *            The component to internationalize.
      */
-    void append( I18nAutoCoreUpdatable i18nObject );
+    void append( I18nAutoUpdatable i18nObject );
 
     /**
      * Generate final report

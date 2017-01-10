@@ -11,7 +11,7 @@ import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCoreFactory;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
 import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
@@ -72,7 +72,7 @@ public class TestUtils
         autoI18n.addAutoI18nExceptionHandler( exceptionCollector );
 
         return new PrepTestPart() {
-            private final List<I18nAutoCoreUpdatable> list = new ArrayList<>();
+            private final List<I18nAutoUpdatable> list = new ArrayList<>();
             @Override
             public I18nPrep getAutoI18n()
             {
@@ -89,14 +89,14 @@ public class TestUtils
                 return notUsePrintStream;
             }
             @Override
-            public void add( final I18nAutoCoreUpdatable frame )
+            public void add( final I18nAutoUpdatable frame )
             {
                 this.list.add( frame );
             }
             @Override
-            public I18nAutoCoreUpdatable[] getI18nConteners()
+            public I18nAutoUpdatable[] getI18nConteners()
             {
-                return this.list.toArray( new I18nAutoCoreUpdatable[ this.list.size() ] );
+                return this.list.toArray( new I18nAutoUpdatable[ this.list.size() ] );
             }
             @Override
             public AutoI18nExceptionCollector getAutoI18nExceptionHandlerCollector()
@@ -109,7 +109,7 @@ public class TestUtils
     @Deprecated
     public static void preparePrepTest(
         final PrepTestPart prepTest,
-        final I18nAutoCoreUpdatable frame
+        final I18nAutoUpdatable frame
         )
     {
         prepTest.add( frame );
@@ -129,7 +129,7 @@ public class TestUtils
     }
 
     @Deprecated
-    public static void performeI18n( final I18nAutoCoreUpdatable frame )
+    public static void performeI18n( final I18nAutoUpdatable frame )
     {
         final Set<AutoI18nConfig> config   = getDebugConfig();
         final AutoI18nCore        autoI18n = AutoI18nCoreFactory.newAutoI18nCore(

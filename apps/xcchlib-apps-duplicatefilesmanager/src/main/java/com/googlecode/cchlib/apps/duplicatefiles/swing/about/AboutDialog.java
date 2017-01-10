@@ -7,7 +7,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nCoreService;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 /**
  * Display about dialog
@@ -15,7 +15,7 @@ import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public class AboutDialog
     extends JDialog
-        implements I18nAutoCoreUpdatable, AboutPanelAction
+        implements I18nAutoUpdatable, AboutPanelAction
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( AboutDialog.class );

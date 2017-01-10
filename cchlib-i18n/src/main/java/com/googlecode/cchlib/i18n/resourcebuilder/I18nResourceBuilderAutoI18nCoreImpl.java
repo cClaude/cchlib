@@ -21,7 +21,7 @@ import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.EventCause;
 import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.internal.AbstractAutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.core.internal.AutoI18nCoreImpl;
@@ -126,7 +126,7 @@ final class I18nResourceBuilderAutoI18nCoreImpl
 
     @Override // I18nResourceBuilder
     @SuppressWarnings("ucd") // API
-    public void append( final I18nAutoCoreUpdatable i18nContener )
+    public void append( final I18nAutoUpdatable i18nContener )
     {
         i18nContener.performeI18n( this.builderAutoI18nCore );
     }

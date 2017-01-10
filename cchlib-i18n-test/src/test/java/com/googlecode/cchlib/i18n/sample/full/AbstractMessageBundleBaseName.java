@@ -5,7 +5,7 @@ import java.io.PrintStream;
 import java.util.Locale;
 import java.util.Set;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
 import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
@@ -22,7 +22,7 @@ abstract class AbstractMessageBundleBaseName
     }
 
     public I18nPrepResult start(
-        final I18nAutoCoreUpdatable[] i18nConteners
+        final I18nAutoUpdatable[] i18nConteners
         ) throws IOException, I18nPrepException
     {
         // Default language !
@@ -38,7 +38,7 @@ abstract class AbstractMessageBundleBaseName
     }
 
     private I18nPrepResult start(
-        final I18nAutoCoreUpdatable[] i18nConteners,
+        final I18nAutoUpdatable[] i18nConteners,
         final Locale                  locale,
         final PrintStream             notUsePrintStream,
         final PrintStream             usageStatPrintStream

@@ -3,7 +3,7 @@ package com.googlecode.cchlib.i18n.sample.full;
 import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import org.junit.Test;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.prep.I18nPrepException;
 import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
@@ -24,7 +24,7 @@ public class FakePanelPrepAppMissing extends AbstractMessageBundleBaseName
         final FakePanel frameOrPanel = new FakePanel();
 
         // Other frames,panel,... if any
-        final I18nAutoCoreUpdatable[] i18nConteners = { frameOrPanel };
+        final I18nAutoUpdatable[] i18nConteners = { frameOrPanel };
 
         final FakePanelPrepAppMissing instance = new FakePanelPrepAppMissing();
         final I18nPrepResult          result   = instance.start( i18nConteners );

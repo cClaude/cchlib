@@ -15,10 +15,10 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search.errors.
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 //NOT public
-abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implements I18nAutoCoreUpdatable // $codepro.audit.disable largeNumberOfFields
+abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implements I18nAutoUpdatable // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( JPanelSearchingLayoutWB.class );

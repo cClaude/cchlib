@@ -10,7 +10,7 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nApplyable;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 
 public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
@@ -71,7 +71,7 @@ public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
         for( final Field autoUpdatableField : i18nClass.getAutoUpdatableFields() ) {
             try {
                 autoUpdatableField.setAccessible( true ); // TODO find a way to restore state.
-                final I18nAutoCoreUpdatable autoUpdatable = (I18nAutoCoreUpdatable)autoUpdatableField.get( objectToI18n );
+                final I18nAutoUpdatable autoUpdatable = (I18nAutoUpdatable)autoUpdatableField.get( objectToI18n );
 
                 autoUpdatable.performeI18n( this );
             }

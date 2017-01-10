@@ -6,12 +6,12 @@ import org.junit.Assert;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
 import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
-public class I18nToolTipTextIgnorePart implements I18nAutoCoreUpdatable, TestReferenceDeprecated
+public class I18nToolTipTextIgnorePart implements I18nAutoUpdatable, TestReferenceDeprecated
 {
     private static final Logger LOGGER = Logger.getLogger( I18nToolTipTextIgnorePart.class );
     private static final String TOOLTIPTEXT_INIT = "my tool tip text 1";
@@ -27,7 +27,7 @@ public class I18nToolTipTextIgnorePart implements I18nAutoCoreUpdatable, TestRef
         this.myButtonWithToolTipText1.setToolTipText( TOOLTIPTEXT_INIT );
     }
 
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );

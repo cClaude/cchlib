@@ -20,7 +20,7 @@ import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.MethodContener;
 import com.googlecode.cchlib.i18n.core.MethodProviderFactory;
@@ -182,7 +182,7 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
                 continue;
             }
 
-            if( I18nAutoCoreUpdatable.class.isAssignableFrom( ftype ) ) {
+            if( I18nAutoUpdatable.class.isAssignableFrom( ftype ) ) {
                 // Field itself is not handle but content could be handle.
                 i18nDelegator.fireIgnoreField(
                         field,

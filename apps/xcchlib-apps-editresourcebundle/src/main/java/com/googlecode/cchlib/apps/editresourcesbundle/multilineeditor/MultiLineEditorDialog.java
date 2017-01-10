@@ -22,11 +22,11 @@ import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBu
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 public final class MultiLineEditorDialog
     extends JDialog
-        implements I18nAutoCoreUpdatable
+        implements I18nAutoUpdatable
 {
     private static final int FONT_SIZE = 12;
 

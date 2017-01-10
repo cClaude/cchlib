@@ -16,7 +16,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitServic
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder;
 import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder.Attributs;
@@ -25,7 +25,7 @@ import com.googlecode.cchlib.swing.menu.AbstractJPopupMenuBuilder.Attributs;
 @SuppressWarnings({
     "squid:MaximumInheritanceDepth" // because swing
     })
-public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUpdatable
+public final class JPanelResult extends JPanelResultWB implements I18nAutoUpdatable
 {
     private static final long               serialVersionUID = 2L;
     private static final Logger             LOGGER           = Logger.getLogger( JPanelResult.class );
@@ -259,7 +259,7 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoCoreUp
         }, "onRefresh()" ).start();
     }
 
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, getClass() );

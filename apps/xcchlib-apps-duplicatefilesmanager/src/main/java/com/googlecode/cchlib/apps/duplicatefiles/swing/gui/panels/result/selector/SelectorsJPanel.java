@@ -5,9 +5,9 @@ import java.util.EnumMap;
 import java.util.Map;
 import javax.swing.JPanel;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
-import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
-public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
+public class SelectorsJPanel extends JPanel implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
 
@@ -20,7 +20,7 @@ public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
         )
     {
         this.layout   = new CardLayout(0, 0);
-        setLayout( layout );
+        setLayout( this.layout );
 
         for( final Selectors s : Selectors.values() ) {
             final SelectorPanel item = s.newSelectorPanel( duplicateData );
@@ -33,17 +33,17 @@ public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
 
     public SelectorComboBox getSelectorComboBox()
     {
-        if( selectorComboBox == null ) {
-            selectorComboBox = new SelectorComboBox(this);
+        if( this.selectorComboBox == null ) {
+            this.selectorComboBox = new SelectorComboBox(this);
             }
-        return selectorComboBox;
+        return this.selectorComboBox;
     }
 
     public void updateDisplay()
     {
-        final SelectorPanel item = this.map.get( selectorComboBox.getEnumAt( selectorComboBox.getSelectedIndex() ) );
+        final SelectorPanel item = this.map.get( this.selectorComboBox.getEnumAt( this.selectorComboBox.getSelectedIndex() ) );
 
-        layout.show( this, getNameFor( item ) );
+        this.layout.show( this, getNameFor( item ) );
 
         item.updateDisplay();
     }
@@ -55,7 +55,7 @@ public class SelectorsJPanel extends JPanel implements I18nAutoCoreUpdatable
         return item.getClass().getName();
     }
 
-    @Override // I18nAutoCoreUpdatable
+    @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18nCore autoI18n )
     {
         autoI18n.performeI18n( this, getClass() );
