@@ -248,4 +248,15 @@ public class I18nDelegator implements Serializable
             exceptionHandler.handleSetFieldException( cause, i18nField, i18nResolver );
             }
     }
+
+    /**
+     * Invoke when field is not initialized
+     * @param i18nField The {@link I18nField}
+     */
+    public void handleI18nNullPointer( final I18nField i18nField )
+    {
+        for( final AutoI18nExceptionHandler exceptionHandler : this.exceptionHandlerList ) {
+            exceptionHandler.handleI18nNullPointer( i18nField );
+            }
+    }
 }

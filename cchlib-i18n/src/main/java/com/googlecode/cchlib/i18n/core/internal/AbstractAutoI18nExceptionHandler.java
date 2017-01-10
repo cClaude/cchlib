@@ -199,4 +199,15 @@ public abstract class AbstractAutoI18nExceptionHandler
                 throw new UnsupportedOperationException();
             }
     }
+
+    @Override
+    public void handleI18nNullPointer( final I18nField i18nField )
+    {
+        final String msg = "* warn field is null ["
+                + i18nField.getField()
+                + "] - "
+                + i18nField.getFieldType();
+
+        doHandle( msg, null );
+    }
 }

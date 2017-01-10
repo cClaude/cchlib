@@ -73,7 +73,13 @@ public class AutoI18nImpl implements AutoI18n, Serializable
                 autoUpdatableField.setAccessible( true ); // TODO find a way to restore state.
                 final I18nAutoUpdatable autoUpdatable = (I18nAutoUpdatable)autoUpdatableField.get( objectToI18n );
 
-                autoUpdatable.performeI18n( this );
+                if( autoUpdatable != null ) {
+                    autoUpdatable.performeI18n( this );
+                } else {
+                    this.i18nDelegator.handleI18nNullPointer(
+                            I18nFieldFactory.newI18nField( autoUpdatableField )
+                            );
+                }
             }
             catch( final IllegalArgumentException cause ) {
                 this.i18nDelegator.handleIllegalArgumentException(

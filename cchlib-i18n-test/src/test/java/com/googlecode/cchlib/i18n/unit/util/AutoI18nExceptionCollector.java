@@ -171,4 +171,10 @@ public class AutoI18nExceptionCollector implements AutoI18nExceptionHandler
     {
         return this.collectSetFieldException;
     }
+
+    @Override
+    public void handleI18nNullPointer( final I18nField i18nField )
+    {
+        // NOT IMPLEMENTED (deprecated class)
+    }
 }

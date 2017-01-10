@@ -18,39 +18,39 @@ public interface AutoI18nExceptionHandler extends Serializable
     /**
      * Handle I18n syntax error
      *
-     * @param cause the cause
-     * @param field related field
+     * @param cause The cause
+     * @param field The {@link I18nField}
      */
     void handleI18nSyntaxException( I18nSyntaxException cause, Field field );
 
     /**
      * Invoke when an {@link IllegalAccessException} occurred
      *
-     * @param cause     the cause
-     * @param i18nField related field
+     * @param cause     The cause
+     * @param i18nField The {@link I18nField}
      */
     void handleIllegalAccessException( IllegalAccessException cause, I18nField i18nField );
 
     /**
      * Invoke when an {@link IllegalArgumentException} occurred
      *
-     * @param cause     the cause
-     * @param i18nField related field
+     * @param cause     The cause
+     * @param i18nField The {@link I18nField}
      */
     void handleIllegalArgumentException( IllegalArgumentException cause, I18nField i18nField );
 
     /**
      * Invoke when an {@link InvocationTargetException} occur
      *
-     * @param cause     the cause
-     * @param i18nField related field
+     * @param cause     The cause
+     * @param i18nField The {@link I18nField}
      */
     void handleInvocationTargetException( InvocationTargetException cause, I18nField i18nField );
 
     /**
      *
-     * @param cause         the cause
-     * @param i18nField     related field
+     * @param cause         The cause
+     * @param i18nField     The {@link I18nField}
      * @param i18nResolver  NEEDDOC
      */
     void handleMissingKeyException(
@@ -63,10 +63,10 @@ public interface AutoI18nExceptionHandler extends Serializable
      * Invoke when an {@link MissingResourceException} occurred
      *
      * @param <T>           Type of {@code objectToI18n}
-     * @param cause         The exception to handle
+     * @param cause         The cause
      * @param i18nField     The {@link I18nField} concern by the exception
      * @param objectToI18n  Object to I18n that contain field.
-     * @param i18nResource  NEEDDOC
+     * @param i18nResource  The {@link I18nResource}
      */
     <T> void handleMissingResourceException(
         MissingResourceException cause,
@@ -78,45 +78,51 @@ public interface AutoI18nExceptionHandler extends Serializable
     /**
      * NEEDDOC
      *
-     * @param cause   the cause
-     * @param field   related field
+     * @param cause   The cause
+     * @param field   The {@link I18nField}
      */
     void handleNoSuchMethodException( NoSuchMethodException cause, Field field );
 
     /**
      * Invoke when an {@link NoSuchMethodException} occurred
      *
-     * @param cause     the cause
-     * @param i18nField related field
+     * @param cause     The cause
+     * @param i18nField The {@link I18nField}
      */
     void handleNoSuchMethodException( NoSuchMethodException cause, I18nField i18nField );
 
     /**
-     * NEEDDOC
+     * Invoke when a {@link SecurityException} occur.
      *
-     * @param cause NEEDDOC
-     * @param field NEEDDOC
+     * @param cause The cause
+     * @param i18nField The {@link I18nField}
      */
     void handleSecurityException( MethodProviderSecurityException cause, Field field );
 
     /**
      * Invoke when an {@link SecurityException} occurred
      *
-     * @param cause The exception to handle
-     * @param i18nField NEEDDOC
+     * @param cause The cause
+     * @param i18nField The {@link I18nField}
      */
     void handleSecurityException( SecurityException cause, I18nField i18nField );
 
     /**
-     * NEEDDOC
+     * Invoke when field can not be set
      *
-     * @param cause NEEDDOC
-     * @param i18nField NEEDDOC
-     * @param i18nResolver NEEDDOC
+     * @param cause The cause
+     * @param i18nField The {@link I18nField}
+     * @param i18nResolver The {@link I18nResolver}
      */
     void handleSetFieldException(
         SetFieldException cause,
         I18nField         i18nField,
         I18nResolver      i18nResolver
         );
+
+    /**
+     * Invoke when field is not initialized
+     * @param i18nField The {@link I18nField}
+     */
+    void handleI18nNullPointer( I18nField i18nField );
 }

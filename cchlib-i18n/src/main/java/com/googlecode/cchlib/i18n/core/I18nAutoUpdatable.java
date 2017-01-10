@@ -3,7 +3,6 @@ package com.googlecode.cchlib.i18n.core;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 
 /**
- *
  * A typically implementation of this interface is :
  * <pre>
  *   autoI18n.performeI18n( this, this.getClass() );
@@ -13,7 +12,7 @@ import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
  * This interface is also use by {@link I18nResourceBuilder}
  */
 @SuppressWarnings("squid:S1609") // This is probably not an functional interface
-public interface I18nAutoUpdatable 
+public interface I18nAutoUpdatable
 {
     /**
      * Apply internationalization on this object

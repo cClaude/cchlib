@@ -55,7 +55,11 @@ public class AutoI18nLog4JExceptionHandler
             LOGGER.log( this.level, msg, cause );
             }
         else {
-            LOGGER.log( this.level, msg + " : " + cause.getMessage() );
+            if( cause != null ) {
+                LOGGER.log( this.level, msg + " : " + cause.getMessage() );
+            } else {
+                LOGGER.log( this.level, msg );
+            }
             }
     }
 }
