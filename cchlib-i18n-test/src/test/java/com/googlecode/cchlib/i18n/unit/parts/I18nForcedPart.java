@@ -142,7 +142,7 @@ public class I18nForcedPart
     }
 
     @Override
-    public void afterPrepTest()
+    public void afterPrepTest( final boolean firstRun )
     {
         beforePerformeI18nTest();
     }
@@ -150,7 +150,7 @@ public class I18nForcedPart
     @Override
     public void performeI18n()
     {
-        afterPrepTest();
+        beforePerformeI18nTest();
 
         TestUtils.performeI18n( this );
 

@@ -85,7 +85,7 @@ public class RunI18nTestAppTest
 
         // Value should not change (check before)
         for( final TestReferenceDeprecated test : tests ) {
-            test.afterPrepTest();
+            test.afterPrepTest( true );
 
             syntaxeExceptionCount += test.getSyntaxeExceptionCount();
             missingResourceExceptionCount += test.getMissingResourceExceptionCount();
@@ -99,7 +99,7 @@ public class RunI18nTestAppTest
 
         // Value should not change (check after)
         for( final TestReferenceDeprecated test : tests ) {
-            test.afterPrepTest();
+            test.afterPrepTest( false );
             }
 
         final AutoI18nExceptionCollector collector = prepTest.getAutoI18nExceptionHandlerCollector();

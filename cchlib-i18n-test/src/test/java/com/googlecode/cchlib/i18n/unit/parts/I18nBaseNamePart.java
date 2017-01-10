@@ -63,7 +63,7 @@ public class I18nBaseNamePart
     }
 
     @Override
-    public void afterPrepTest()
+    public void afterPrepTest( final boolean firstRun )
     {
         Assert.assertEquals( INIT_myString1, this.myString1 );
         Assert.assertEquals( INIT_myString2, this.myString2 );

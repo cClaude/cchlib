@@ -80,7 +80,7 @@ public class I18nStringPart
 
     @Override
     @Deprecated
-    public void afterPrepTest()
+    public void afterPrepTest( final boolean firstRun )
     {
         Assert.assertEquals( INIT_myString, this.myString );
         Assert.assertEquals( INIT_myString, this.myStringIgnore );
@@ -95,7 +95,7 @@ public class I18nStringPart
     @Deprecated
     public void performeI18n()
     {
-        afterPrepTest();
+        afterPrepTest( true );
 
         // Also verify values using custom methods
         Assert.assertEquals( INIT_myGlobalStringIDMethod1, this.myGlobalStringIDMethod1 );

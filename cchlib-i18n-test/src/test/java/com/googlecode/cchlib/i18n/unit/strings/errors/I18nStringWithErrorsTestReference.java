@@ -28,7 +28,7 @@ public class I18nStringWithErrorsTestReference implements TestReferenceDeprecate
    }
 
     @Override
-    public void afterPrepTest()
+    public void afterPrepTest( final boolean firstRun )
     {
         // Nothing
     }
@@ -36,7 +36,7 @@ public class I18nStringWithErrorsTestReference implements TestReferenceDeprecate
     @Override
     public void performeI18n()
     {
-        afterPrepTest();
+        afterPrepTest( true );
 
         // Also verify values using custom methods
         Assert.assertEquals( INIT_myGlobalStringIDMethod1, this.objectToI18n.getMyGlobalStringIDMethod1() );

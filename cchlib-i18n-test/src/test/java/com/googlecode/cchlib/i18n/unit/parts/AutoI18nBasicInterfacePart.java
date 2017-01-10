@@ -65,7 +65,7 @@ public final class AutoI18nBasicInterfacePart
 
     @Override //TestReferenceDeprecated
     @Deprecated
-    public void afterPrepTest()
+    public void afterPrepTest( final boolean firstRun )
     {
         Assert.assertEquals( INIT_TEXT, this.myAutoI18nBasicInterface.getI18nString() );
     }
@@ -74,7 +74,7 @@ public final class AutoI18nBasicInterfacePart
     @Deprecated
     public void performeI18n()
     {
-        afterPrepTest();
+        afterPrepTest( true );
 
         TestUtils.performeI18n( this );
 

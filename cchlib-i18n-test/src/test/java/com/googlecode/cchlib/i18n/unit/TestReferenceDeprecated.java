@@ -10,7 +10,7 @@ public interface TestReferenceDeprecated
     void performeI18n();
 
     @Deprecated
-    void afterPrepTest();
+    void afterPrepTest( boolean firstRun );
 
     @Deprecated
     int getSyntaxeExceptionCount();

@@ -63,7 +63,7 @@ public class I18nToolTipText_for_JTabbedPanePart implements TestReferenceDepreca
     }
 
     @Override
-    public void afterPrepTest()
+    public void afterPrepTest( final boolean firstRun )
     {
         assertThat( this.myJTabbedPane.getTabCount() ).isEqualTo( 4 );
 
@@ -82,7 +82,7 @@ public class I18nToolTipText_for_JTabbedPanePart implements TestReferenceDepreca
     @Deprecated
     public void performeI18n()
     {
-        afterPrepTest();
+        afterPrepTest( true );
 
         for( int i = 0; i<4; i++ ) {
             LOGGER.info( "before contentJTabbedPane.getTitleAt( " + i + " ) =" + this.myJTabbedPane.getTitleAt( i ) );

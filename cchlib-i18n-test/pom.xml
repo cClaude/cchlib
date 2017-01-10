@@ -48,7 +48,7 @@
         <scope>test</scope>
     </dependency>
 
-    <dependency>
+    <dependency><!-- Need only for deprecated prep tests -->
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>18.0-rc2</version>

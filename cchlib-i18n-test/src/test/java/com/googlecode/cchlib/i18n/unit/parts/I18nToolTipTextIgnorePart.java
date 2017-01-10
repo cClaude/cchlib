@@ -41,7 +41,7 @@ public class I18nToolTipTextIgnorePart implements I18nAutoCoreUpdatable, TestRef
     }
 
     @Override
-    public void afterPrepTest()
+    public void afterPrepTest( final boolean firstRun )
     {
         Assert.assertEquals( TEXT_INIT, this.myButtonWithToolTipText1.getText() );
         Assert.assertEquals( TOOLTIPTEXT_INIT, this.myButtonWithToolTipText1.getToolTipText() );
