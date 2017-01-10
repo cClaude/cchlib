@@ -34,7 +34,9 @@ abstract class AbstractI18nField implements I18nField
         ) throws I18nSyntaxException
     {
         if( (! keyIdValue.isEmpty()) && (methodContener != null ) ) {
-            throw new I18nSyntaxCanNotHandledIdAndMethodAtOnceException( this.serializableField.getField() );
+            throw new I18nSyntaxCanNotHandledIdAndMethodAtOnceException(
+                    serializableField.getField()
+                    );
         }
 
         this.i18nDelegator       = i18nDelegator;

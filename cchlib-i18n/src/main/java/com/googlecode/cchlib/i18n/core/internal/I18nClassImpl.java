@@ -20,6 +20,7 @@ import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nField;
 import com.googlecode.cchlib.i18n.core.MethodContener;
 import com.googlecode.cchlib.i18n.core.MethodProviderFactory;
@@ -53,12 +54,13 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         java.util.logging.Logger.class,
     };
 
-    private final Class<? extends T> objectToI18nClass;
-    private final List<I18nField>    fieldList = new ArrayList<>();
-    private final I18nDelegator      i18nDelegator;
-    private final I18nKeyFactory     i18nKeyFactory;
+    private final Class<? extends T>   objectToI18nClass;
+    private final ArrayList<I18nField> fieldList = new ArrayList<>();
+    private final I18nDelegator        i18nDelegator;
+    private final I18nKeyFactory       i18nKeyFactory;
+    private final ArrayList<Field>     autoUpdatablefields = new ArrayList<>();
 
-    public I18nClassImpl(
+    I18nClassImpl(
         final Class<? extends T> objectToI18nClass,
         final I18nDelegator      i18nDelegator
         )
@@ -72,27 +74,38 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
 
         while( (currentClass != null) && !stop ) {
 
-            for( final Class<?> c : NOT_HANDLED_CLASS_TYPES ) {
-                if( currentClass.equals( c ) ) {
-                    // Nothing to customize in default API classes
+            stop = isClassNotHandled( currentClass );
+
+            if( ! stop ) {
+                handleFields( i18nDelegator, currentClass );
+
+                if( i18nDelegator.getConfig().contains( AutoI18nConfig.DO_DEEP_SCAN )) {
+                    currentClass = currentClass.getSuperclass();
+                    }
+                else {
                     stop = true;
                     }
                 }
-
-            if( stop ) {
-                break;
-                }
-
-            handleFields( i18nDelegator, currentClass );
-
-            if( i18nDelegator.getConfig().contains( AutoI18nConfig.DO_DEEP_SCAN )) {
-                currentClass = currentClass.getSuperclass();
-                }
-            else {
-                stop = true;
-                }
             }
         //?? TODO ?? eventHandle.ignoreSuperClass(?)
+    }
+
+    @Override
+    public List<Field> getAutoUpdatableFields()
+    {
+        return this.autoUpdatablefields;
+    }
+
+    private boolean isClassNotHandled( final Class<?> currentClass )
+    {
+        for( final Class<?> c : NOT_HANDLED_CLASS_TYPES ) {
+            if( currentClass.equals( c ) ) {
+                // Nothing to customize in default API classes
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private Field[] getFields(
@@ -112,7 +125,9 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
         return fields;
     }
 
-    @SuppressWarnings("squid:S135") // single "break" or "continue"
+    @SuppressWarnings({
+        "squid:S135" // single "break" or "continue"
+        })
     private void handleFields(
         final I18nDelegator i18nDelegator,
         final Class<?>      currentClass
@@ -130,26 +145,20 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             // Check special types
             //
             if( ftype.isAnnotation() ) {
+                // ignore annotations
                 i18nDelegator.fireIgnoreField( field, null, EventCause.FIELD_TYPE_IS_ANNOTATION, null );
-                continue; // ignore annotations
+                continue;
             }
             if( ftype.isPrimitive() ) {
+                // ignore primitive (numbers, ...)
                 i18nDelegator.fireIgnoreField( field, null, EventCause.FIELD_TYPE_IS_PRIMITIVE, null );
-                continue; // ignore primitive (numbers)
+                continue;
             }
 
-            boolean skip = false;
-
-            for( final Class<?> notHandleClass : NOT_HANDLED_FIELD_TYPES ) {
-                if( notHandleClass.isAssignableFrom( ftype ) ) {
-                    i18nDelegator.fireIgnoreField( field, null, EventCause.FIELD_TYPE_IS_NOT_HANDLE, null );
-                    skip = true;
-                    break;
-                }
-            }
+            final boolean skip = isFieldNotHandle( i18nDelegator, field );
 
             if( skip ) {
-                continue; // ignore numbers
+                continue; // ignore NOT_HANDLED_FIELD_TYPES
             }
 
             // Special handle for tool tip text
@@ -164,13 +173,46 @@ class I18nClassImpl<T> implements I18nClass<T>, Serializable
             final I18nIgnore ignoreIt = field.getAnnotation( I18nIgnore.class );
 
             if( ignoreIt != null ) {
-                i18nDelegator.fireIgnoreField( field, null, EventCause.ANNOTATION_I18N_IGNORE_DEFINE, null );
+                i18nDelegator.fireIgnoreField(
+                        field,
+                        null,
+                        EventCause.ANNOTATION_I18N_IGNORE_DEFINE,
+                        null
+                        );
                 continue;
             }
 
-            // Add field (if possible)
-            addValueToCustomize( field );
+            if( I18nAutoCoreUpdatable.class.isAssignableFrom( ftype ) ) {
+                // Field itself is not handle but content could be handle.
+                i18nDelegator.fireIgnoreField(
+                        field,
+                        null,
+                        EventCause.HANDLE_CONTENT_I18N_AUTO_CORE_UPDATABLE,
+                        null
+                        );
+                this.autoUpdatablefields.add( field );
+            } else {
+                // Add field (if possible)
+                addValueToCustomize( field );
+            }
         }
+    }
+
+    private boolean isFieldNotHandle(
+        final I18nDelegator i18nDelegator,
+        final Field         field
+        )
+    {
+        final Class<?> ftype = field.getType();
+
+        for( final Class<?> notHandleClass : NOT_HANDLED_FIELD_TYPES ) {
+            if( notHandleClass.isAssignableFrom( ftype ) ) {
+                i18nDelegator.fireIgnoreField( field, null, EventCause.FIELD_TYPE_IS_NOT_HANDLE, null );
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void addValueToCustomizeForToolTipTextAndHandleErrors(

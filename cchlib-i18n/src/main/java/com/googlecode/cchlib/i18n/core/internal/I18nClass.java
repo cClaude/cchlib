@@ -1,6 +1,8 @@
 package com.googlecode.cchlib.i18n.core.internal;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
 import com.googlecode.cchlib.i18n.core.I18nField;
 
 /**
@@ -15,4 +17,6 @@ interface I18nClass<T> extends Serializable, Iterable<I18nField>
 {
     /** Original class */
    Class<? extends T> getObjectToI18nClass();
+
+   List<Field> getAutoUpdatableFields();
 }

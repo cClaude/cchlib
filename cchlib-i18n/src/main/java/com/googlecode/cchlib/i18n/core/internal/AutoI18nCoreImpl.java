@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.i18n.core.internal;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nonnull;
@@ -9,6 +10,7 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
 import com.googlecode.cchlib.i18n.core.AutoI18nCore;
 import com.googlecode.cchlib.i18n.core.I18nApplyable;
+import com.googlecode.cchlib.i18n.core.I18nAutoCoreUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 
 public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
@@ -45,7 +47,7 @@ public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
         )
     {
         assert objectToI18n != null : "Object to I18n is null";
-        assert clazz != null : "Class of object to I18n is null";
+        assert clazz        != null : "Class of object to I18n is null";
 
         if( getConfig().getSafeConfig().contains( AutoI18nConfig.DISABLE ) ) {
             // Internalization is disabled.
@@ -60,6 +62,32 @@ public class AutoI18nCoreImpl implements AutoI18nCore, Serializable
         final I18nApplyable<T> applyer   = new I18nApplyableImpl<>( i18nClass, this.i18nDelegator );
 
         applyer.performeI18n( objectToI18n );
+
+        handleAutoUpdatableField( objectToI18n, i18nClass );
+    }
+
+    private <T> void handleAutoUpdatableField( final T objectToI18n, final I18nClass<T> i18nClass )
+    {
+        for( final Field autoUpdatableField : i18nClass.getAutoUpdatableFields() ) {
+            try {
+                autoUpdatableField.setAccessible( true ); // TODO find a way to restore state.
+                final I18nAutoCoreUpdatable autoUpdatable = (I18nAutoCoreUpdatable)autoUpdatableField.get( objectToI18n );
+
+                autoUpdatable.performeI18n( this );
+            }
+            catch( final IllegalArgumentException cause ) {
+                this.i18nDelegator.handleIllegalArgumentException(
+                        cause,
+                        I18nFieldFactory.newI18nField( autoUpdatableField )
+                        );
+            }
+            catch( final IllegalAccessException cause ) {
+                this.i18nDelegator.handleIllegalAccessException(
+                        cause,
+                        I18nFieldFactory.newI18nField( autoUpdatableField )
+                        );
+            }
+        }
     }
 
     private <T> I18nClass<T> getI18nClass( final Class<? extends T> clazz )

@@ -4,13 +4,64 @@ import java.lang.reflect.Field;
 import javax.swing.JTabbedPane;
 import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.I18nField;
+import com.googlecode.cchlib.i18n.core.I18nFieldType;
 import com.googlecode.cchlib.i18n.core.MethodContener;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
+import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
+import com.googlecode.cchlib.lang.reflect.SerializableField;
 
 //NOT public
 final class I18nFieldFactory
 {
+    private static final class I18nFieldOnlyForExceptions implements I18nField
+    {
+        private static final long serialVersionUID = 1L;
+        private final SerializableField autoUpdatableSerializableField;
+
+        private I18nFieldOnlyForExceptions( final Field autoUpdatableField )
+        {
+            this.autoUpdatableSerializableField = new SerializableField( autoUpdatableField );
+        }
+
+        @Override
+        public MethodContener getMethodContener()
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public String getKeyBase()
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public I18nFieldType getFieldType()
+        {
+            return I18nFieldType.AUTO_UPDATABLE_FIELD;
+        }
+
+        @Override
+        public Field getField()
+        {
+            return this.autoUpdatableSerializableField.getField();
+        }
+
+        @Override
+        public AutoI18nType getAutoI18nTypes()
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public <T> I18nResolver createI18nResolver( final T objectToI18n, final I18nResource i18nResource )
+        {
+            throw new UnsupportedOperationException();
+        }
+    }
+
     private I18nFieldFactory()
     {
         // All static
@@ -116,5 +167,10 @@ final class I18nFieldFactory
                             keyIdValue
                             );
             }
+    }
+
+    public static I18nField newI18nField( final Field autoUpdatableField )
+    {
+        return new I18nFieldOnlyForExceptions( autoUpdatableField );
     }
 }
