@@ -12,7 +12,6 @@ import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBu
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.StringHelper;
@@ -24,6 +23,10 @@ import cx.ath.choisnet.util.FormattedProperties;
 /**
  *
  */
+@SuppressWarnings({
+    "squid:S00100", "squid:S00116", // naming convention
+    "squid:MaximumInheritanceDepth" // Swing
+    })
 @I18nName("LoadDialog")
 public class LoadDialog
     extends LoadDialogWB
@@ -41,9 +44,6 @@ public class LoadDialog
     private static final int LOAD_DIALOG_MINIMUM_WIDTH = 400;
     private static final int LOAD_DIALOG_MINIMUM_HEIGHT = 250;
 
-    @I18nString private final String strMsgTitle = "Load...";
-    @I18nString private final String strMsg_ErrorWhileLoading = "Error while loading files";
-
     private ActionListener thisActionListener;
     private final Preferences preferences;
 
@@ -52,14 +52,7 @@ public class LoadDialog
         final Preferences                   preferences
         )
     {
-        super( parentFrame, preferences.getNumberOfFiles() );
-
-        this.preferences = preferences;
-        this.filesConfig = new FilesConfig( preferences );
-
-        this.jFileChooserInitializer = parentFrame.getJFileChooserInitializer();
-
-        init( parentFrame );
+        this( parentFrame, new FilesConfig( preferences ) );
     }
 
     public LoadDialog(
@@ -69,13 +62,12 @@ public class LoadDialog
     {
         super( parentFrame, filesConfig.getNumberOfFiles() );
 
-        this.preferences = parentFrame.getPreferences();
-        this.filesConfig = filesConfig;
-
+        this.preferences             = parentFrame.getPreferences();
+        this.filesConfig             = filesConfig;
         this.jFileChooserInitializer = parentFrame.getJFileChooserInitializer();
 
         init( parentFrame );
-    }
+   }
 
     @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18n autoI18n )
@@ -97,7 +89,7 @@ public class LoadDialog
         initFixComponents();
 
         setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
-        setTitle( this.strMsgTitle );
+        setTitle( this.msgTitle );
         setLocationRelativeTo( parentFrame );
         getContentPane().setPreferredSize( this.getSize() );
         pack();
@@ -231,6 +223,7 @@ public class LoadDialog
         return this.jFileChooserInitializer.getJFileChooser();
     }
 
+    @SuppressWarnings("squid:S1066")
     private FileObject getLoadFile(
             final FileObject          previousFile,
             final boolean             readOnly
@@ -308,7 +301,7 @@ public class LoadDialog
             this.filesConfig.load();
             }
         catch( final IOException e ) {
-            DialogHelper.showMessageExceptionDialog( this, this.strMsg_ErrorWhileLoading, e );
+            DialogHelper.showMessageExceptionDialog( this, this.msgErrorWhileLoading, e );
             }
 
         this.preferences.setLastDirectory( foLeft.getFile().getParentFile() );
@@ -359,7 +352,7 @@ public class LoadDialog
             }
     }
 
-    private void actionPerform( final LoadDialogAction action ) // $codepro.audit.disable cyclomaticComplexity
+    private void actionPerform( final LoadDialogAction action )
     {
         switch( action ) {
             case ACTION_Change_CUT_LINE_AFTER_HTML_BR:

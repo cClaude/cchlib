@@ -9,12 +9,17 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.html.HTMLPreviewDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.multilineeditor.MultiLineEditorDialog;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.swing.table.JPopupMenuForJTable;
 
-class CompareResourcesBundlePopupMenu
+/** public for ResourceBuilder only */
+@I18nName("CompareResourcesBundlePopupMenu")
+public class CompareResourcesBundlePopupMenu
     extends JPopupMenuForJTable
+        implements I18nAutoUpdatable
 {
     private static final long serialVersionUID = 1L;
     //
@@ -25,21 +30,18 @@ class CompareResourcesBundlePopupMenu
     private final AbstractTableModel  abstractTableModel;
     private final CompareResourcesBundleTableModel.Colunms colunms;
 
-    @I18nString protected String txtHTMLPreview = "HTML Preview"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String txtEditLines = "Edit lines"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String txtCopy = "Copy"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String txtPaste = "Paste"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String txtHTMLPreview = "HTML Preview";
+    @I18nString protected String txtEditLines = "Edit lines";
+    @I18nString protected String txtCopy  = "Copy";
+    @I18nString protected String txtPaste = "Paste";
 
     public CompareResourcesBundlePopupMenu(
-            final JTable                                      jTable,
-            final AbstractTableModel                          abstractTableModel,
-            final CompareResourcesBundleTableModel.Colunms    colunms,
-            final AutoI18n                                autoI18n
+            final JTable                                   jTable,
+            final AbstractTableModel                       abstractTableModel,
+            final CompareResourcesBundleTableModel.Colunms colunms
             )
     {
         super( jTable );
-
-        autoI18n.performeI18n(this,this.getClass());
 
         this.abstractTableModel = abstractTableModel;
         this.colunms            = colunms;
@@ -47,14 +49,14 @@ class CompareResourcesBundlePopupMenu
 
     @Override
     protected JPopupMenu createContextMenu(
-            final int rowIndex,
-            final int columnIndex
-            )
+        final int rowIndex,
+        final int columnIndex
+        )
     {
         final JPopupMenu contextMenu = new JPopupMenu();
 
-        addCopyMenuItem(contextMenu, txtCopy, rowIndex, columnIndex);
-        addPasteMenuItem(contextMenu, txtPaste, rowIndex, columnIndex);
+        addCopyMenuItem(contextMenu, this.txtCopy, rowIndex, columnIndex);
+        addPasteMenuItem(contextMenu, this.txtPaste, rowIndex, columnIndex);
         contextMenu.addSeparator();
 
         addShowHTMLMenuItem(contextMenu, rowIndex, columnIndex);
@@ -64,21 +66,21 @@ class CompareResourcesBundlePopupMenu
     }
 
     protected void addShowHTMLMenuItem(
-            final JPopupMenu  contextMenu,
-            final int         rowIndex,
-            final int         columnIndex
-            )
+        final JPopupMenu  contextMenu,
+        final int         rowIndex,
+        final int         columnIndex
+        )
     {
-        if( columnIndex == colunms.getColunmKey()) {
+        if( columnIndex == this.colunms.getColunmKey()) {
             return;
             }
-        else if( colunms.getColunmLineIndex( columnIndex ) != -1 ) {
+        else if( this.colunms.getColunmLineIndex( columnIndex ) != -1 ) {
             return;
             }
 
         final JMenuItem previewMenu = new JMenuItem();
 
-        previewMenu.setText( txtHTMLPreview );
+        previewMenu.setText( this.txtHTMLPreview );
         previewMenu.addActionListener(
                 e -> {
                     final Object value = getValueAt( rowIndex, columnIndex );
@@ -86,7 +88,7 @@ class CompareResourcesBundlePopupMenu
                     if( value instanceof String ) {
                         final HTMLPreviewDialog d = new HTMLPreviewDialog(
                                 getFrame(),
-                                txtHTMLPreview,
+                                this.txtHTMLPreview,
                                 value.toString()
                                 );
                         d.pack();
@@ -103,16 +105,16 @@ class CompareResourcesBundlePopupMenu
         final int         columnIndex
         )
     {
-        if( columnIndex == colunms.getColunmKey() ) {
+        if( columnIndex == this.colunms.getColunmKey() ) {
             return;
             }
-        else if( colunms.getColunmLineIndex( columnIndex ) != -1 ) {
+        else if( this.colunms.getColunmLineIndex( columnIndex ) != -1 ) {
             return;
             }
 
         final JMenuItem copyMenu = new JMenuItem();
 
-        copyMenu.setText( txtEditLines );
+        copyMenu.setText( this.txtEditLines );
         copyMenu.addActionListener(
                 e -> {
                     final Object value = getValueAt( rowIndex, columnIndex );
@@ -140,7 +142,7 @@ class CompareResourcesBundlePopupMenu
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.trace(
                     String.format(
-                        "openMultiLineEditor @(%d;%d)\n",
+                        "openMultiLineEditor @(%d;%d)%n",
                         Integer.valueOf( rowIndex ),
                         Integer.valueOf( columnIndex )
                         )
@@ -150,7 +152,11 @@ class CompareResourcesBundlePopupMenu
         final MultiLineEditorDialog.StoreResult storeResult = text -> {
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace(
-                    String.format( "Update value @(%d;%d)\n", Integer.valueOf( rowIndex ), Integer.valueOf( columnIndex ) )
+                    String.format(
+                        "Update value @(%d;%d)%n",
+                        Integer.valueOf( rowIndex ),
+                        Integer.valueOf( columnIndex )
+                        )
                     );
                 }
 
@@ -162,11 +168,15 @@ class CompareResourcesBundlePopupMenu
 
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace(
-                    String.format( "Update display @(%d;%d)\n", Integer.valueOf( row ), Integer.valueOf( col ) )
+                    String.format(
+                        "Update display @(%d;%d)%n",
+                        Integer.valueOf( row ),
+                        Integer.valueOf( col )
+                        )
                     );
                 }
 
-            abstractTableModel.fireTableCellUpdated(
+            this.abstractTableModel.fireTableCellUpdated(
                     row,
                     col
                     );
@@ -174,7 +184,7 @@ class CompareResourcesBundlePopupMenu
 
         final MultiLineEditorDialog d = new MultiLineEditorDialog(
             getFrame(),
-            storeResult , txtEditLines,
+            storeResult , this.txtEditLines,
             contentText
             );
         d.pack();
@@ -184,10 +194,10 @@ class CompareResourcesBundlePopupMenu
 
     private CompareResourcesBundleFrame getFrame()
     {
-        if( frame == null ) {
+        if( this.frame == null ) {
             for( Container c = getJTable(); c != null; c = c.getParent() ) {
                 if( c instanceof CompareResourcesBundleFrame ) {
-                    frame = CompareResourcesBundleFrame.class.cast( c );
+                    this.frame = CompareResourcesBundleFrame.class.cast( c );
                     break;
                     }
                 else if( c instanceof Frame ) {
@@ -196,12 +206,17 @@ class CompareResourcesBundlePopupMenu
                    }
                 }
 
-            if( frame == null ) {
+            if( this.frame == null ) {
                 LOGGER.fatal( "Parent frame not found" );
                 }
             }
 
-        return frame;
+        return this.frame;
     }
 
+    @Override
+    public void performeI18n( final AutoI18n autoI18n )
+    {
+        autoI18n.performeI18n( this, this.getClass() );
+    }
 }

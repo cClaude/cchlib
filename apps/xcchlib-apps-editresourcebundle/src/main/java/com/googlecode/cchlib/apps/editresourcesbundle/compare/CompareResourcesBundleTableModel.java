@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.compare;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.io.Serializable;
@@ -9,97 +7,41 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.FilesConfig;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.CustomProperties;
 import com.googlecode.cchlib.apps.editresourcesbundle.files.FormattedCustomProperties;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.swing.table.LeftDotTableCellRenderer;
 
 /**
  * {@link TableModel} for {@link CompareResourcesBundleFrame}
+ * <p>
+ * public for ResourceBuilder only
  */
-class CompareResourcesBundleTableModel
+@I18nName("CompareResourcesBundleTableModel")
+public class CompareResourcesBundleTableModel
     extends AbstractTableModel
+        implements I18nAutoUpdatable
 {
     private static final Logger LOGGER = Logger.getLogger(CompareResourcesBundleTableModel.class);
     private static final long serialVersionUID = 3L;
-
-    private final class MyJTable extends JTable
-    {
-        private static final long serialVersionUID = 1L;
-
-        private final MyJLabel myJLabel = new MyJLabel();
-        private final DefaultTableCellRenderer leftDotRenderer = new MyTableCellRenderer();
-
-        private MyJTable( final TableModel dm )
-        {
-            super( dm );
-        }
-
-        @Override
-        public TableCellRenderer getCellRenderer( final int row, final int column )
-        {
-            if( column == CompareResourcesBundleTableModel.this.colunms.colunmKey ) {
-                return this.leftDotRenderer;
-                }
-            else if( CompareResourcesBundleTableModel.this.colunms.getColunmValueIndex( column ) != -1 ) {
-                return this.myJLabel;
-                }
-            else {
-                return super.getCellRenderer(row, column);
-                }
-        }
-    }
-
-    @SuppressWarnings("squid:MaximumInheritanceDepth")
-    private final class MyTableCellRenderer extends LeftDotTableCellRenderer
-    {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public Component getTableCellRendererComponent(
-                final JTable  table,
-                final Object  value,
-                final boolean isSelected,
-                final boolean hasFocus,
-                final int     row,
-                final int     column
-                )
-            {
-                //Component c =
-                super.getTableCellRendererComponent(
-                        table,
-                        value,
-                        isSelected,
-                        hasFocus,
-                        row,
-                        column
-                        );
-                setBackground( Color.LIGHT_GRAY );
-
-                return this;
-            }
-    }
 
     public static class Colunms implements Serializable
     {
         private static final long serialVersionUID = 3L;
 
         private int   colunmCount;
-        private int   colunmKey;   // column number for key
         private int[] colunmLine;  // column number for line number or -1 if hidden
         private int[] colunmValue; // column number for value
+        private int   colunmKey;   // column number for key
 
         protected int getColunmKey()
         {
@@ -145,64 +87,17 @@ class CompareResourcesBundleTableModel
         }
     }
 
-    private class MyJLabel extends JLabel implements TableCellRenderer
-    {
-        private static final long serialVersionUID = 1L;
+    final Colunms colunms = new Colunms();
 
-        public MyJLabel()
-        {
-            setOpaque(true);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(
-                final JTable  table,
-                final Object  value,
-                final boolean isSelected,
-                final boolean hasFocus,
-                final int     row,
-                final int     column
-                )
-        {
-            final String str = String.class.cast( value );
-
-            if( value == null ) {
-                setBackground( Color.RED );
-                }
-            else if( isStringEditable( str ) ) {
-                if( str.trim().length() == 0 ) {
-                    // WhiteCharacters are ignored by properties
-                    setBackground( Color.YELLOW );
-                }
-                else {
-                    setBackground( Color.WHITE );
-                    }
-                }
-            else {
-                setBackground( Color.LIGHT_GRAY );
-                }
-
-            setText( str );
-
-            return this;
-        }
-    // The following methods override the defaults for performance reasons
-    @Override public void validate() { /* Empty*/ }
-    @Override public void revalidate() { /* Empty*/ }
-    @Override protected void firePropertyChange(final String propertyName, final Object oldValue, final Object newValue) { /* Empty*/ }
-    @Override public void firePropertyChange(final String propertyName, final boolean oldValue, final boolean newValue) { /* Empty*/ }
-    }
-    private final Colunms colunms = new Colunms();
-
-    @I18nString private final String txtNoFile = "<<NoFile>>";
-    @I18nString private final String columnKeyNames = "Key";
+    @I18nString private String txtNoFile;
+    @I18nString private String columnKeyNames;
     private final String[] columnOtherNames = {
             "#",
             "(%s%s)",
             };
     private final ArrayList<String>  keyList = new ArrayList<>();
     private final CustomProperties[] customProperties;
-    private final AutoI18n       autoI18n;
+    //private final AutoI18n           autoI18n;
 
     /**
      *
@@ -210,16 +105,10 @@ class CompareResourcesBundleTableModel
      * @param autoI18n
      */
     public CompareResourcesBundleTableModel(
-        final FilesConfig   filesConfig,
-        final AutoI18n  autoI18n
+        final FilesConfig filesConfig
         )
     {
-        this.autoI18n = autoI18n;
-
-        // Perform internationalization
-        autoI18n.performeI18n(this,this.getClass());
-
-        final ChangeListener cpChangeLstener = e -> fireTableStructureChanged();
+        beSureNotFinal();
 
         this.customProperties = new CustomProperties[ filesConfig.getNumberOfFiles() ];
 
@@ -227,10 +116,10 @@ class CompareResourcesBundleTableModel
             this.customProperties[ i ] = filesConfig.getCustomProperties( i );
 
             if( this.customProperties[ i ] == null ) {
-                throw new IllegalArgumentException( "customProperties[" + i + "] is null" );
+                throw new IllegalStateException( "customProperties[" + i + "] is null" );
                 }
 
-            this.customProperties[ i ].addChangeListener( cpChangeLstener );
+            this.customProperties[ i ].addChangeListener( e -> fireTableStructureChanged() );
 
             LOGGER.info( "CP[" + i + "]=" + this.customProperties[ i ] );
             }
@@ -255,6 +144,12 @@ class CompareResourcesBundleTableModel
 
         LOGGER.info( "keys:" + this.keyList.size()) ;
         LOGGER.info( "this:" + this  );
+    }
+
+    private void beSureNotFinal()
+    {
+        this.txtNoFile      = "<<NoFile>>";
+        this.columnKeyNames = "Key";
     }
 
     private void showLineNumberIfPossible( final FilesConfig filesConfig )
@@ -369,17 +264,6 @@ class CompareResourcesBundleTableModel
         return false;
     }
 
-    private boolean isStringEditable( final String str )
-    {
-        if( str == null ) {
-            return true;
-            }
-        else if( str.contains( "\n" ) || str.contains( "\r" ) ) {
-            return false;
-            }
-
-        return true;
-    }
 
     @Override
     public int getRowCount()
@@ -425,21 +309,9 @@ class CompareResourcesBundleTableModel
             }
     }
 
-    public JTable getJTable()
+    public CompareResourcesBundleTable getJTable()
     {
-        final JTable jTable = new MyJTable( CompareResourcesBundleTableModel.this );
-
-        final CompareResourcesBundlePopupMenu popupMenu
-            = new CompareResourcesBundlePopupMenu(
-                    jTable,
-                    this,
-                    this.colunms,
-                    this.autoI18n
-                    );
-
-        popupMenu.addMenu();
-
-        return jTable;
+        return new CompareResourcesBundleTable( this, this.colunms );
     }
 
     public CustomProperties getCustomProperties( final int index )
@@ -488,5 +360,24 @@ class CompareResourcesBundleTableModel
         builder.append( ']' );
 
         return builder.toString();
+    }
+
+    static boolean isStringEditable( final String str )
+    {
+        if( str == null ) {
+            return true;
+            }
+        else if( str.contains( "\n" ) || str.contains( "\r" ) ) {
+            return false;
+            }
+
+        return true;
+    }
+
+    @Override // I18nAutoUpdatable
+    public void performeI18n( final AutoI18n autoI18n )
+    {
+        // Perform internationalization
+        autoI18n.performeI18n(this,this.getClass());
     }
 }

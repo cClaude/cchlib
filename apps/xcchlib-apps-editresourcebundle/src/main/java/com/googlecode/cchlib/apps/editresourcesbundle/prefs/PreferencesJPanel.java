@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import java.awt.GridBagConstraints;
@@ -12,16 +11,52 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
-//NOT public
-class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFields
+/** Visible for ResourceBuilder */
+@SuppressWarnings({
+    "squid:S00116", "squid:S00117"
+    })
+@I18nName("PreferencesJPanel")
+public class PreferencesJPanel extends JPanel implements I18nAutoUpdatable
 {
+    private final class PreferencesCurentSaveParametersImpl implements PreferencesCurentSaveParameters
+    {
+        @Override
+        public int getNumberOfFiles()
+        {
+            return PreferencesJPanel.this.numberOfFilesJSlider.getValue();
+        }
+
+        @Override
+        public int getSelectedLanguageIndex()
+        {
+            return PreferencesJPanel.this.languageJComboBox.getSelectedIndex();
+        }
+
+        @Override
+        public boolean isSaveWindowSize()
+        {
+            return PreferencesJPanel.this.saveWindowSizeJCheckBox.isSelected();
+        }
+
+        @Override
+        public boolean isSaveLookAndFeel()
+        {
+            return PreferencesJPanel.this.saveLookAndFeelJCheckBox.isSelected();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
-    private JButton btnCancel;
-    private JButton btnSave;
-    private JCheckBox saveLookAndFeelJCheckBox;
-    private JCheckBox saveWindowSizeJCheckBox;
+    @I18nIgnore private JCheckBox saveLookAndFeelJCheckBox;
+    @I18nIgnore private JCheckBox saveWindowSizeJCheckBox;
+
+    private JButton           btnCancel;
+    private JButton           btnSave;
     private JComboBox<String> languageJComboBox;
     private JLabel            languageJLabel;
     private JLabel            numberOfFilesJLabel;
@@ -30,12 +65,10 @@ class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFi
     private JSlider           numberOfFilesJSlider;
     private JTextField        numberOfFilesJTextField;
 
-    /**
-     * Create the panel.
-     */
+    @SuppressWarnings("squid:S1199")
     public PreferencesJPanel(
-        final PreferencesDefaultsParametersValues initParams,
-        final PreferencesAction     action
+        final PreferencesValues initParams,
+        final PreferencesAction action
         )
     {
         final GridBagLayout gridBagLayout = new GridBagLayout();
@@ -46,137 +79,116 @@ class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFi
         setLayout(gridBagLayout);
 
         {
-            numberOfFilesJLabel = new JLabel("Number of files");
+            this.numberOfFilesJLabel = new JLabel("Number of files");
             final GridBagConstraints gbc_numberOfFilesJLabel = new GridBagConstraints();
             gbc_numberOfFilesJLabel.gridwidth = 2;
             gbc_numberOfFilesJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_numberOfFilesJLabel.insets = new Insets(0, 0, 5, 5);
             gbc_numberOfFilesJLabel.gridx = 0;
             gbc_numberOfFilesJLabel.gridy = 0;
-            add(numberOfFilesJLabel, gbc_numberOfFilesJLabel);
+            add(this.numberOfFilesJLabel, gbc_numberOfFilesJLabel);
         }
         {
-            numberOfFilesJTextField = new JTextField();
-            numberOfFilesJTextField.setEditable(false);
+            this.numberOfFilesJTextField = new JTextField();
+            this.numberOfFilesJTextField.setEditable(false);
             final GridBagConstraints gbc_numberOfFilesJTextField = new GridBagConstraints();
             gbc_numberOfFilesJTextField.insets = new Insets(0, 0, 5, 5);
             gbc_numberOfFilesJTextField.fill = GridBagConstraints.HORIZONTAL;
             gbc_numberOfFilesJTextField.gridx = 2;
             gbc_numberOfFilesJTextField.gridy = 0;
-            add(numberOfFilesJTextField, gbc_numberOfFilesJTextField);
-            numberOfFilesJTextField.setColumns(2);
+            add(this.numberOfFilesJTextField, gbc_numberOfFilesJTextField);
+            this.numberOfFilesJTextField.setColumns(2);
         }
         {
-            numberOfFilesJSlider = new JSlider();
-            numberOfFilesJSlider.setValue(2);
-            numberOfFilesJSlider.addChangeListener(e -> numberOfFilesJTextField.setText( Integer.toString( numberOfFilesJSlider.getValue() ) ));
-            numberOfFilesJSlider.setMaximum(10);
-            numberOfFilesJSlider.setMinimum(2);
+            this.numberOfFilesJSlider = new JSlider();
+            this.numberOfFilesJSlider.setValue(2);
+            this.numberOfFilesJSlider.addChangeListener(e -> this.numberOfFilesJTextField.setText( Integer.toString( this.numberOfFilesJSlider.getValue() ) ));
+            this.numberOfFilesJSlider.setMaximum(10);
+            this.numberOfFilesJSlider.setMinimum(2);
             final GridBagConstraints gbc_numberOfFilesJSlider = new GridBagConstraints();
             gbc_numberOfFilesJSlider.gridwidth = 2;
             gbc_numberOfFilesJSlider.fill = GridBagConstraints.HORIZONTAL;
             gbc_numberOfFilesJSlider.insets = new Insets(0, 0, 5, 0);
             gbc_numberOfFilesJSlider.gridx = 3;
             gbc_numberOfFilesJSlider.gridy = 0;
-            add(numberOfFilesJSlider, gbc_numberOfFilesJSlider);
+            add(this.numberOfFilesJSlider, gbc_numberOfFilesJSlider);
         }
         {
-            languageJLabel = new JLabel("Language");
+            this.languageJLabel = new JLabel("Language");
             final GridBagConstraints gbc_languageJLabel = new GridBagConstraints();
             gbc_languageJLabel.gridwidth = 2;
             gbc_languageJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_languageJLabel.insets = new Insets(0, 0, 5, 5);
             gbc_languageJLabel.gridx = 0;
             gbc_languageJLabel.gridy = 1;
-            add(languageJLabel, gbc_languageJLabel);
+            add(this.languageJLabel, gbc_languageJLabel);
         }
         {
-            languageJComboBox = new JComboBox<>();
+            this.languageJComboBox = new JComboBox<>();
             final GridBagConstraints gbc_languageJComboBox = new GridBagConstraints();
             gbc_languageJComboBox.fill = GridBagConstraints.HORIZONTAL;
             gbc_languageJComboBox.insets = new Insets(0, 0, 5, 5);
             gbc_languageJComboBox.anchor = GridBagConstraints.NORTH;
             gbc_languageJComboBox.gridx = 2;
             gbc_languageJComboBox.gridy = 1;
-            add(languageJComboBox, gbc_languageJComboBox);
+            add(this.languageJComboBox, gbc_languageJComboBox);
         }
         {
-            saveWindowSizeJLabel = new JLabel("Save current windows size");
+            this.saveWindowSizeJLabel = new JLabel("Save current windows size");
             final GridBagConstraints gbc_saveWindowSizeJLabel = new GridBagConstraints();
             gbc_saveWindowSizeJLabel.gridwidth = 2;
             gbc_saveWindowSizeJLabel.fill = GridBagConstraints.HORIZONTAL;
             gbc_saveWindowSizeJLabel.insets = new Insets(0, 0, 5, 5);
             gbc_saveWindowSizeJLabel.gridx = 0;
             gbc_saveWindowSizeJLabel.gridy = 2;
-            add(saveWindowSizeJLabel, gbc_saveWindowSizeJLabel);
+            add(this.saveWindowSizeJLabel, gbc_saveWindowSizeJLabel);
         }
         {
-            saveWindowSizeJCheckBox = new JCheckBox("");
+            this.saveWindowSizeJCheckBox = new JCheckBox("");
             final GridBagConstraints gbc_saveWindowSizeJCheckBox = new GridBagConstraints();
             gbc_saveWindowSizeJCheckBox.fill = GridBagConstraints.HORIZONTAL;
             gbc_saveWindowSizeJCheckBox.insets = new Insets(0, 0, 5, 5);
             gbc_saveWindowSizeJCheckBox.gridx = 2;
             gbc_saveWindowSizeJCheckBox.gridy = 2;
-            add(saveWindowSizeJCheckBox, gbc_saveWindowSizeJCheckBox);
+            add(this.saveWindowSizeJCheckBox, gbc_saveWindowSizeJCheckBox);
         }
         {
-            btnCancel = new JButton("Cancel");
-            btnCancel.addActionListener(e -> action.onCancel());
+            this.btnCancel = new JButton("Cancel");
+            this.btnCancel.addActionListener(e -> action.onCancel());
             {
-                saveLookAndFeelJLabel = new JLabel("save current Look And Feel ");
+                this.saveLookAndFeelJLabel = new JLabel("save current Look And Feel ");
                 final GridBagConstraints gbc_saveLookAndFeelJLabel = new GridBagConstraints();
                 gbc_saveLookAndFeelJLabel.fill = GridBagConstraints.HORIZONTAL;
                 gbc_saveLookAndFeelJLabel.gridwidth = 2;
                 gbc_saveLookAndFeelJLabel.insets = new Insets(0, 0, 5, 5);
                 gbc_saveLookAndFeelJLabel.gridx = 0;
                 gbc_saveLookAndFeelJLabel.gridy = 3;
-                add(saveLookAndFeelJLabel, gbc_saveLookAndFeelJLabel);
+                add(this.saveLookAndFeelJLabel, gbc_saveLookAndFeelJLabel);
             }
             {
-                saveLookAndFeelJCheckBox = new JCheckBox("");
+                this.saveLookAndFeelJCheckBox = new JCheckBox("");
                 final GridBagConstraints gbc_saveLookAndFeelJCheckBox = new GridBagConstraints();
                 gbc_saveLookAndFeelJCheckBox.fill = GridBagConstraints.HORIZONTAL;
                 gbc_saveLookAndFeelJCheckBox.insets = new Insets(0, 0, 5, 5);
                 gbc_saveLookAndFeelJCheckBox.gridx = 2;
                 gbc_saveLookAndFeelJCheckBox.gridy = 3;
-                add(saveLookAndFeelJCheckBox, gbc_saveLookAndFeelJCheckBox);
+                add(this.saveLookAndFeelJCheckBox, gbc_saveLookAndFeelJCheckBox);
             }
             final GridBagConstraints gbc_btnCancel = new GridBagConstraints();
             gbc_btnCancel.fill = GridBagConstraints.HORIZONTAL;
             gbc_btnCancel.insets = new Insets(0, 0, 0, 5);
             gbc_btnCancel.gridx = 0;
             gbc_btnCancel.gridy = 5;
-            add(btnCancel, gbc_btnCancel);
+            add(this.btnCancel, gbc_btnCancel);
         }
         {
-            btnSave = new JButton("Save");
-            btnSave.addActionListener(e -> action.onSave(new PreferencesCurentSaveParameters() {
-                @Override
-                public int getNumberOfFiles()
-                {
-                    return numberOfFilesJSlider.getValue();
-                }
-                @Override
-                public int getSelectedLanguageIndex()
-                {
-                    return languageJComboBox.getSelectedIndex();
-                }
-                @Override
-                public boolean isSaveWindowSize()
-                {
-                    return saveWindowSizeJCheckBox.isSelected();
-                }
-                @Override
-                public boolean isSaveLookAndFeel()
-                {
-                    return saveLookAndFeelJCheckBox.isSelected();
-                }
-            }));
+            this.btnSave = new JButton("Save");
+            this.btnSave.addActionListener( e -> onSave( action ) );
             final GridBagConstraints gbc_btnSave = new GridBagConstraints();
             gbc_btnSave.fill = GridBagConstraints.HORIZONTAL;
             gbc_btnSave.gridx = 4;
             gbc_btnSave.gridy = 5;
-            add(btnSave, gbc_btnSave);
+            add(this.btnSave, gbc_btnSave);
         }
 
         // Init
@@ -186,5 +198,16 @@ class PreferencesJPanel extends JPanel // $codepro.audit.disable largeNumberOfFi
         this.languageJComboBox.setSelectedIndex( initParams.getSelectedLanguageIndex() );
 
         this.saveWindowSizeJCheckBox.setSelected( initParams.isSaveWindowSize() );
+    }
+
+    private void onSave( final PreferencesAction action )
+    {
+        action.onSave(new PreferencesCurentSaveParametersImpl());
+    }
+
+    @Override
+    public void performeI18n( final AutoI18n autoI18n )
+    {
+        autoI18n.performeI18n( this, getClass() );
     }
 }

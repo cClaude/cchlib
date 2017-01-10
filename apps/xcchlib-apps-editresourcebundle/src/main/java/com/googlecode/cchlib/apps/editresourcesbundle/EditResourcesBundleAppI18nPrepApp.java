@@ -1,23 +1,29 @@
 package com.googlecode.cchlib.apps.editresourcesbundle;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
+import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundlePopupMenu;
+import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleTableModel;
+import com.googlecode.cchlib.apps.editresourcesbundle.files.FileObject;
 import com.googlecode.cchlib.apps.editresourcesbundle.html.HTMLPreviewDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.load.LoadDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.multilineeditor.MultiLineEditorDialog;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJPanel;
+import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesValues;
+import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
-import com.googlecode.cchlib.i18n.core.I18nPrep;
-import com.googlecode.cchlib.i18n.prep.I18nPrepException;
-import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
-import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderHelper;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.lang.Threads;
 
 /**
@@ -27,25 +33,23 @@ public class EditResourcesBundleAppI18nPrepApp implements Runnable
 {
     private static final Logger LOGGER = Logger.getLogger( EditResourcesBundleAppI18nPrepApp.class );
 
-    private boolean           done = false;
-    private I18nPrepResult    doneResult;
-    private I18nPrepException doneCause;
+    private volatile boolean                   done = false;
+    private volatile I18nResourceBuilderResult doneResult;
+    private volatile Exception                 doneCause;
 
     public boolean isDone()
     {
         return this.done;
     }
 
-    public I18nPrepException getDoneCause()
+    public Exception getDoneCause()
     {
         return this.doneCause;
     }
 
-    I18nPrepResult runDoPrep() throws InvocationTargetException, InterruptedException
+    I18nResourceBuilderResult doResourceBuilder()
     {
-        final EditResourcesBundleAppI18nPrepApp instance = new EditResourcesBundleAppI18nPrepApp();
-
-        SwingUtilities.invokeLater( instance );
+        SwingUtilities.invokeLater( this );
 
         for( int i = 1; (i < 10) && ! this.done; i++ ) {
             LOGGER.info( "Launch EditResourcesBundleAppI18nPrep not yet ready (" + i + ")" );
@@ -53,7 +57,8 @@ public class EditResourcesBundleAppI18nPrepApp implements Runnable
             Threads.sleep( 1, TimeUnit.SECONDS );
         }
 
-        LOGGER.info( "Launch EditResourcesBundleAppI18nPrep result: " + this.done );
+        LOGGER.info( "doResourceBuilder() result: " + this.done );
+        Threads.sleep( 1, TimeUnit.SECONDS );
 
         return this.doneResult;
     }
@@ -62,67 +67,95 @@ public class EditResourcesBundleAppI18nPrepApp implements Runnable
     @SuppressWarnings({"squid:S2142","squid:S00108"})
     public void run()
     {
-        final Preferences                 prefs     = Preferences.createDefaultPreferences();
-        final CompareResourcesBundleFrame mainFrame = new CompareResourcesBundleFrame( prefs );
-
-        final FilesConfig       filesConfig = new FilesConfig( prefs );
-        final LoadDialog        loadFrame   = new LoadDialog( mainFrame, filesConfig );
-        final HTMLPreviewDialog htmlFrame   = new HTMLPreviewDialog(mainFrame, "<<fakeTitle>>", "**FakeContent**" );
-
-        final MultiLineEditorDialog.StoreResult storeResult = text -> { final int todo; };
-        final MultiLineEditorDialog             mLineFrame  = new MultiLineEditorDialog( mainFrame, storeResult , "<<fakeTitle>>", "**FakeContent**" );
-
-        final Locale defaultLocale = Locale.ENGLISH;
+        final Preferences                 prefs       = Preferences.createDefaultPreferences();
+        final CompareResourcesBundleFrame mainFrame   = new CompareResourcesBundleFrame( prefs );
+        final FilesConfig                 filesConfig = newFilesConfig( prefs );
 
         Threads.sleep( 1, TimeUnit.SECONDS );
 
         final I18nAutoUpdatable[] i18nConteners = {
             mainFrame,
-            loadFrame,
-            htmlFrame,
-            mLineFrame
+            new LoadDialog( mainFrame, filesConfig ),
+            new HTMLPreviewDialog( mainFrame, "<<fakeTitle>>", "**FakeContent**" ),
+            newMultiLineEditorDialog( mainFrame ),
+            new CompareResourcesBundleTableModel( filesConfig ),
+            new CompareResourcesBundlePopupMenu( new JTable(), null, null ),
+            new CompareResourcesBundleFrame(),
+            new PreferencesJPanel( newPreferencesValues(), null ),
             };
 
-        final I18nPrep i18nPrep = I18nPrepFactory.newI18nPrep(
-                EditResourcesBundleApp.getConfig(),
-                EditResourcesBundleApp.getI18nResourceBundleName(),
-                defaultLocale
+        final Locale              defaultLocale = Locale.ENGLISH;
+        final AutoI18n            autoI18n      = EditResourcesBundleApp.newAutoI18n( defaultLocale );
+        final I18nResourceBuilder builder       = I18nResourceBuilderFactory.newI18nResourceBuilder(
+                autoI18n,
+                defaultLocale,
+                AutoI18nConfig.PRINT_STACKTRACE_IN_LOGS
                 );
 
         try {
-            this.done       = true;
-            this.doneResult = launchI18nPrep( i18nConteners, i18nPrep );
+            for( final I18nAutoUpdatable i18nAutoUpdatable : i18nConteners ) {
+                builder.append( i18nAutoUpdatable );
+            }
+
+            final File outputFile = I18nResourceBuilderHelper.newOutputFile(
+                    EditResourcesBundleApp.getReferencePackage()
+                    );
+            builder.saveMissingResourceBundle( outputFile );
+
+            LOGGER.info( "I18nResourceBuilder saveMissingResourceBundle to " + outputFile );
+
+            this.doneResult = builder.getResult();
             this.doneCause  = null;
+            this.done       = true;
         }
-        catch( final I18nPrepException cause ) {
-            LOGGER.error( "I18n prep issue", cause );
+        catch( final Exception cause ) {
+            LOGGER.error( "I18nResourceBuilder error", cause );
 
             this.done       = true;
             this.doneResult = null;
             this.doneCause  = cause;
         }
 
-        LOGGER.info( "done" );
+        LOGGER.info( "I18nResourceBuilder done = " + this.done );
     }
 
-    @SuppressWarnings("squid:S106")
-    private I18nPrepResult launchI18nPrep(
-            final I18nAutoUpdatable[] i18nConteners,
-            final I18nPrep                i18nPrep
-            ) throws I18nPrepException
+    private I18nAutoUpdatable newMultiLineEditorDialog( final CompareResourcesBundleFrame mainFrame )
     {
-        final I18nPrepResult result = I18nPrepHelper.defaultPrep( i18nPrep, i18nConteners );
+        return new MultiLineEditorDialog(
+                mainFrame,
+                text -> {/*fake*/} ,
+                "<<fakeTitle>>",
+                "**FakeContent**"
+                );
+    }
 
-        final PrintStream usageStatPrintStream = System.err;
-        final PrintStream notUsePrintStream    = System.out;
+    private PreferencesValues newPreferencesValues()
+    {
+        return new PreferencesValues() {
+            @Override
+            public boolean isSaveWindowSize() { return false; }
+            @Override
+            public int getSelectedLanguageIndex() { return 0; }
+            @Override
+            public int getNumberOfFiles() { return 0; }
+            @Override
+            public String[] getLanguages() { return new String[] {"Fake"}; }
+        };
+    }
 
-        I18nPrepHelper.fmtUsageStatCollector( usageStatPrintStream, result );
-        I18nPrepHelper.fmtNotUseCollector( notUsePrintStream, result );
+    private FilesConfig newFilesConfig( final Preferences prefs )
+    {
+        final FilesConfig fc = new FilesConfig( prefs ) {
+            private static final long serialVersionUID = 1L;
 
-        System.err.flush();
-        System.out.flush();
+            @Override
+            public int getNumberOfFiles()
+            {
+                return 0;
+            }
+        };
 
-        return result;
+        return fc.setFileObject( new FileObject( new File("pom.xml"), true ), 0 );
     }
 
     public static void main( final String[] args ) throws IOException

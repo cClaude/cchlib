@@ -1,4 +1,3 @@
-// $codepro.audit.disable numericLiterals
 package com.googlecode.cchlib.apps.editresourcesbundle.load;
 
 import java.awt.Color;
@@ -21,15 +20,20 @@ import com.googlecode.cchlib.apps.editresourcesbundle.Resources;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 
 //NOT public
-abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumberOfFields
+@SuppressWarnings({
+    "squid:S00100", "squid:S00116", "squid:S00117", // naming convention
+    "squid:MaximumInheritanceDepth" // Swing
+    })
+abstract class LoadDialogWB extends JDialog
 {
-    private static final long serialVersionUID  = 4L;
+    private static final long serialVersionUID = 4L;
 
     private final int numberOfFiles;
 
-    private ButtonGroup buttonGroup_FileType;
     private FilesPanel selectJPanel;
+    @SuppressWarnings("squid:S1450") // For I18n
     private JButton jButton_Cancel;
+    @SuppressWarnings("squid:S1450") // For I18n
     private JButton jButton_Ok;
     private JCheckBox checkBox_CUT_LINE_AFTER_HTML_BR;
     private JCheckBox checkBox_CUT_LINE_AFTER_HTML_END_P;
@@ -48,19 +52,32 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
     private JScrollPane scrollPane;
     private JTabbedPane jTabbedPaneRoot;
 
-    @I18nString private final String msgStringLeft  = "Left";
-    @I18nString private final String msgStringFmt = "File %d";
-    @I18nString private final String msgButton = "Select";
+    @I18nString private String msgStringLeft;
+    @I18nString private String msgStringFmt;
+    @I18nString private String msgButton;
+    @I18nString protected String msgTitle;
+    @I18nString protected String msgErrorWhileLoading;
 
     public LoadDialogWB( final Frame parent, final int numberOfFiles )
     {
         super( parent );
+        beSureNotFinal();
 
         this.numberOfFiles = (numberOfFiles < 2) ? 2 : numberOfFiles;
 
         initComponents();
     }
 
+    private void beSureNotFinal()
+    {
+        this.msgStringLeft        = "Left";
+        this.msgStringFmt         = "File %d";
+        this.msgButton            = "Select";
+        this.msgTitle             = "Load...";
+        this.msgErrorWhileLoading = "Error while loading files";
+    }
+
+    @SuppressWarnings("squid:S1199") // Generated code
     private void initComponents()
     {
         setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -81,12 +98,12 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
             gbc_jTabbedPaneRoot.gridx = 0;
             gbc_jTabbedPaneRoot.gridy = 0;
 
-            jTabbedPaneRoot = new JTabbedPane();
-            jTabbedPaneRoot.addTab("Files", getJPanel_TabSelect());
-            jTabbedPaneRoot.addTab("Properties", getJPanel_TabProperties());
-            jTabbedPaneRoot.addTab("Formatted Properties", getJPanel_TabFMTProperties());
+            this.jTabbedPaneRoot = new JTabbedPane();
+            this.jTabbedPaneRoot.addTab("Files", getJPanel_TabSelect());
+            this.jTabbedPaneRoot.addTab("Properties", getJPanel_TabProperties());
+            this.jTabbedPaneRoot.addTab("Formatted Properties", getJPanel_TabFMTProperties());
 
-            getContentPane().add(jTabbedPaneRoot, gbc_jTabbedPaneRoot);
+            getContentPane().add(this.jTabbedPaneRoot, gbc_jTabbedPaneRoot);
         }
         {
             final GridBagConstraints gbc_jButton_Ok = new GridBagConstraints();
@@ -94,11 +111,11 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
             gbc_jButton_Ok.insets = new Insets(0, 0, 0, 5);
             gbc_jButton_Ok.gridx = 0;
             gbc_jButton_Ok.gridy = 1;
-            jButton_Ok = new JButton("OK");
-            jButton_Ok.setIcon(new ImageIcon( Resources.class.getResource("ok.png")));
-            jButton_Ok.setActionCommand( LoadDialogAction.ACTIONCMD_OK_BUTTON.name() );
-            jButton_Ok.addActionListener( getActionListener() );
-            getContentPane().add(jButton_Ok, gbc_jButton_Ok);
+            this.jButton_Ok = new JButton("OK");
+            this.jButton_Ok.setIcon(new ImageIcon( Resources.class.getResource("ok.png")));
+            this.jButton_Ok.setActionCommand( LoadDialogAction.ACTIONCMD_OK_BUTTON.name() );
+            this.jButton_Ok.addActionListener( getActionListener() );
+            getContentPane().add(this.jButton_Ok, gbc_jButton_Ok);
         }
         {
             final GridBagConstraints gbc_jButton_Cancel = new GridBagConstraints();
@@ -106,11 +123,11 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
             gbc_jButton_Cancel.gridx = 2;
             gbc_jButton_Cancel.gridy = 1;
 
-            jButton_Cancel = new JButton("Cancel");
-            jButton_Cancel.setIcon(new ImageIcon( Resources.class.getResource("cancel.png")));
-            jButton_Cancel.setActionCommand( LoadDialogAction.ACTIONCMD_CANCEL_BUTTON.name() );
-            jButton_Cancel.addActionListener( getActionListener() );
-            getContentPane().add(jButton_Cancel, gbc_jButton_Cancel);
+            this.jButton_Cancel = new JButton("Cancel");
+            this.jButton_Cancel.setIcon(new ImageIcon( Resources.class.getResource("cancel.png")));
+            this.jButton_Cancel.setActionCommand( LoadDialogAction.ACTIONCMD_CANCEL_BUTTON.name() );
+            this.jButton_Cancel.addActionListener( getActionListener() );
+            getContentPane().add(this.jButton_Cancel, gbc_jButton_Cancel);
         }
 
         initButtonGroup_FileType();
@@ -118,75 +135,77 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
     }
 
     protected JCheckBox getCheckBox_ShowLineNumbers() {
-        if (checkBox_ShowLineNumbers == null) {
-            checkBox_ShowLineNumbers = new JCheckBox();
-            checkBox_ShowLineNumbers.setText("Show line numbers (if possible)");
+        if (this.checkBox_ShowLineNumbers == null) {
+            this.checkBox_ShowLineNumbers = new JCheckBox();
+            this.checkBox_ShowLineNumbers.setText("Show line numbers (if possible)");
             }
 
-        return checkBox_ShowLineNumbers;
+        return this.checkBox_ShowLineNumbers;
     }
 
     protected JCheckBox getCheckBox_CUT_LINE_AFTER_HTML_END_P() {
-        if (checkBox_CUT_LINE_AFTER_HTML_END_P == null) {
-            checkBox_CUT_LINE_AFTER_HTML_END_P = new JCheckBox();
-            checkBox_CUT_LINE_AFTER_HTML_END_P.setText("CUT_LINE_AFTER_HTML_END_P");
+        if (this.checkBox_CUT_LINE_AFTER_HTML_END_P == null) {
+            this.checkBox_CUT_LINE_AFTER_HTML_END_P = new JCheckBox();
+            this.checkBox_CUT_LINE_AFTER_HTML_END_P.setText("CUT_LINE_AFTER_HTML_END_P");
             }
 
-        return checkBox_CUT_LINE_AFTER_HTML_END_P;
+        return this.checkBox_CUT_LINE_AFTER_HTML_END_P;
     }
 
     protected JCheckBox getCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P() {
-        if (checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P == null) {
-            checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P = new JCheckBox();
-            checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P.setText("CUT_LINE_BEFORE_HTML_BEGIN_P");
+        if (this.checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P == null) {
+            this.checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P = new JCheckBox();
+            this.checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P.setText("CUT_LINE_BEFORE_HTML_BEGIN_P");
             }
 
-        return checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P;
+        return this.checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P;
     }
 
     protected JCheckBox getCheckBox_CUT_LINE_BEFORE_HTML_BR() {
-        if (checkBox_CUT_LINE_BEFORE_HTML_BR == null) {
-            checkBox_CUT_LINE_BEFORE_HTML_BR = new JCheckBox();
-            checkBox_CUT_LINE_BEFORE_HTML_BR.setText("CUT_LINE_BEFORE_HTML_BR");
+        if (this.checkBox_CUT_LINE_BEFORE_HTML_BR == null) {
+            this.checkBox_CUT_LINE_BEFORE_HTML_BR = new JCheckBox();
+            this.checkBox_CUT_LINE_BEFORE_HTML_BR.setText("CUT_LINE_BEFORE_HTML_BR");
             }
 
-        return checkBox_CUT_LINE_BEFORE_HTML_BR;
+        return this.checkBox_CUT_LINE_BEFORE_HTML_BR;
     }
 
     protected JCheckBox getCheckBox_CUT_LINE_AFTER_HTML_BR() {
-        if (checkBox_CUT_LINE_AFTER_HTML_BR == null) {
-            checkBox_CUT_LINE_AFTER_HTML_BR = new JCheckBox();
-            checkBox_CUT_LINE_AFTER_HTML_BR.setText("CUT_LINE_AFTER_HTML_BR");
+        if (this.checkBox_CUT_LINE_AFTER_HTML_BR == null) {
+            this.checkBox_CUT_LINE_AFTER_HTML_BR = new JCheckBox();
+            this.checkBox_CUT_LINE_AFTER_HTML_BR.setText("CUT_LINE_AFTER_HTML_BR");
             }
-        return checkBox_CUT_LINE_AFTER_HTML_BR;
+        return this.checkBox_CUT_LINE_AFTER_HTML_BR;
     }
 
     protected JCheckBox getCheckBox_CUT_LINE_AFTER_NEW_LINE() {
-        if (checkBox_CUT_LINE_AFTER_NEW_LINE == null) {
-            checkBox_CUT_LINE_AFTER_NEW_LINE = new JCheckBox();
-            checkBox_CUT_LINE_AFTER_NEW_LINE.setText("CUT_LINE_AFTER_NEW_LINE");
+        if (this.checkBox_CUT_LINE_AFTER_NEW_LINE == null) {
+            this.checkBox_CUT_LINE_AFTER_NEW_LINE = new JCheckBox();
+            this.checkBox_CUT_LINE_AFTER_NEW_LINE.setText("CUT_LINE_AFTER_NEW_LINE");
             }
 
-        return checkBox_CUT_LINE_AFTER_NEW_LINE;
+        return this.checkBox_CUT_LINE_AFTER_NEW_LINE;
     }
 
-    private JPanel getJPanel_TabFMTProperties() {
-        if (jPanel_TabFMTProperties == null) {
-            jPanel_TabFMTProperties = new JPanel();
+    @SuppressWarnings("squid:S1199") // Generated code
+    private JPanel getJPanel_TabFMTProperties()
+    {
+        if (this.jPanel_TabFMTProperties == null) {
+            this.jPanel_TabFMTProperties = new JPanel();
 
             final GridBagLayout gbl_jPanel_TabFMTProperties = new GridBagLayout();
             gbl_jPanel_TabFMTProperties.columnWidths = new int[]{0, 0, 0};
             gbl_jPanel_TabFMTProperties.rowHeights = new int[]{23, 23, 23, 23, 23, 0};
             gbl_jPanel_TabFMTProperties.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
             gbl_jPanel_TabFMTProperties.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-            jPanel_TabFMTProperties.setLayout(gbl_jPanel_TabFMTProperties);
+            this.jPanel_TabFMTProperties.setLayout(gbl_jPanel_TabFMTProperties);
             {
                 final GridBagConstraints gbc_checkBox_CUT_LINE_AFTER_NEW_LINE = new GridBagConstraints();
                 gbc_checkBox_CUT_LINE_AFTER_NEW_LINE.anchor = GridBagConstraints.WEST;
                 gbc_checkBox_CUT_LINE_AFTER_NEW_LINE.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_CUT_LINE_AFTER_NEW_LINE.gridx = 0;
                 gbc_checkBox_CUT_LINE_AFTER_NEW_LINE.gridy = 0;
-                jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_AFTER_NEW_LINE(), gbc_checkBox_CUT_LINE_AFTER_NEW_LINE);
+                this.jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_AFTER_NEW_LINE(), gbc_checkBox_CUT_LINE_AFTER_NEW_LINE);
             }
             {
                 final GridBagConstraints gbc_checkBox_CUT_LINE_AFTER_HTML_BR = new GridBagConstraints();
@@ -194,7 +213,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 gbc_checkBox_CUT_LINE_AFTER_HTML_BR.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_CUT_LINE_AFTER_HTML_BR.gridx = 0;
                 gbc_checkBox_CUT_LINE_AFTER_HTML_BR.gridy = 1;
-                jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_AFTER_HTML_BR(), gbc_checkBox_CUT_LINE_AFTER_HTML_BR);
+                this.jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_AFTER_HTML_BR(), gbc_checkBox_CUT_LINE_AFTER_HTML_BR);
             }
             {
                 final GridBagConstraints gbc_checkBox_CUT_LINE_BEFORE_HTML_BR = new GridBagConstraints();
@@ -202,7 +221,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BR.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BR.gridx = 0;
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BR.gridy = 2;
-                jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_BEFORE_HTML_BR(), gbc_checkBox_CUT_LINE_BEFORE_HTML_BR);
+                this.jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_BEFORE_HTML_BR(), gbc_checkBox_CUT_LINE_BEFORE_HTML_BR);
             }
             {
                 final GridBagConstraints gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P = new GridBagConstraints();
@@ -210,7 +229,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P.gridx = 0;
                 gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P.gridy = 3;
-                jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P(), gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P);
+                this.jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P(), gbc_checkBox_CUT_LINE_BEFORE_HTML_BEGIN_P);
             }
             {
                 final GridBagConstraints gbc_checkBox_CUT_LINE_AFTER_HTML_END_P = new GridBagConstraints();
@@ -218,34 +237,35 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 gbc_checkBox_CUT_LINE_AFTER_HTML_END_P.anchor = GridBagConstraints.WEST;
                 gbc_checkBox_CUT_LINE_AFTER_HTML_END_P.gridx = 0;
                 gbc_checkBox_CUT_LINE_AFTER_HTML_END_P.gridy = 4;
-                jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_AFTER_HTML_END_P(), gbc_checkBox_CUT_LINE_AFTER_HTML_END_P);
+                this.jPanel_TabFMTProperties.add(getCheckBox_CUT_LINE_AFTER_HTML_END_P(), gbc_checkBox_CUT_LINE_AFTER_HTML_END_P);
             }
             }
-        return jPanel_TabFMTProperties;
+        return this.jPanel_TabFMTProperties;
     }
 
     protected JCheckBox getCheckBox_RightUseLeftHasDefaults() {
-        if (checkBox_RightUseLeftHasDefaults == null) {
-            checkBox_RightUseLeftHasDefaults = new JCheckBox();
-            checkBox_RightUseLeftHasDefaults.setText("Right file use Left file has defaults");
+        if (this.checkBox_RightUseLeftHasDefaults == null) {
+            this.checkBox_RightUseLeftHasDefaults = new JCheckBox();
+            this.checkBox_RightUseLeftHasDefaults.setText("Right file use Left file has defaults");
             }
 
-        return checkBox_RightUseLeftHasDefaults;
+        return this.checkBox_RightUseLeftHasDefaults;
     }
 
     protected JCheckBox getCheckBox_LeftReadOnly()
     {
-        if (checkBox_LeftReadOnly == null) {
-            checkBox_LeftReadOnly = new JCheckBox();
-            checkBox_LeftReadOnly.setText("Left file readonly");
+        if (this.checkBox_LeftReadOnly == null) {
+            this.checkBox_LeftReadOnly = new JCheckBox();
+            this.checkBox_LeftReadOnly.setText("Left file readonly");
             }
 
-        return checkBox_LeftReadOnly;
+        return this.checkBox_LeftReadOnly;
     }
 
     private void initButtonGroup_FileType()
     {
-        buttonGroup_FileType = new ButtonGroup();
+        final ButtonGroup buttonGroup_FileType = new ButtonGroup();
+
         buttonGroup_FileType.add(getCheckBox_Properties());
         buttonGroup_FileType.add(getCheckBox_FormattedProperties());
         buttonGroup_FileType.add(getCheckBox_ini());
@@ -253,67 +273,68 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
 
     protected JCheckBox getCheckBox_Properties()
     {
-        if (checkBox_Properties == null) {
-            checkBox_Properties = new JCheckBox();
-            checkBox_Properties.setText("Properties");
+        if (this.checkBox_Properties == null) {
+            this.checkBox_Properties = new JCheckBox();
+            this.checkBox_Properties.setText("Properties");
             }
 
-        return checkBox_Properties;
+        return this.checkBox_Properties;
     }
 
     protected JCheckBox getCheckBox_ini()
     {
-        if (checkBox_ini == null) {
-            checkBox_ini = new JCheckBox();
-            checkBox_ini.setText("*.ini files");
-            checkBox_ini.setEnabled(false);
+        if (this.checkBox_ini == null) {
+            this.checkBox_ini = new JCheckBox();
+            this.checkBox_ini.setText("*.ini files");
+            this.checkBox_ini.setEnabled(false);
             }
 
-        return checkBox_ini;
+        return this.checkBox_ini;
     }
 
     protected JCheckBox getCheckBox_FormattedProperties()
     {
-        if (checkBox_FormattedProperties == null) {
-            checkBox_FormattedProperties = new JCheckBox();
-            checkBox_FormattedProperties.setText("Formatted Properties");
+        if (this.checkBox_FormattedProperties == null) {
+            this.checkBox_FormattedProperties = new JCheckBox();
+            this.checkBox_FormattedProperties.setText("Formatted Properties");
             }
-        return checkBox_FormattedProperties;
+        return this.checkBox_FormattedProperties;
     }
 
     private JPanel getJPanel_TabProperties()
     {
-        if (jPanel_TabProperties == null) {
-            jPanel_TabProperties = new JPanel();
+        if (this.jPanel_TabProperties == null) {
+            this.jPanel_TabProperties = new JPanel();
             final GridBagLayout gbl_jPanel_TabProperties = new GridBagLayout();
             gbl_jPanel_TabProperties.columnWidths = new int[]{0, 0, 0};
             gbl_jPanel_TabProperties.rowHeights = new int[]{23, 0};
             gbl_jPanel_TabProperties.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
             gbl_jPanel_TabProperties.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-            jPanel_TabProperties.setLayout(gbl_jPanel_TabProperties);
+            this.jPanel_TabProperties.setLayout(gbl_jPanel_TabProperties);
 
             final GridBagConstraints gbc_checkBox_RightUseLeftHasDefaults = new GridBagConstraints();
             gbc_checkBox_RightUseLeftHasDefaults.insets = new Insets(0, 0, 0, 5);
             gbc_checkBox_RightUseLeftHasDefaults.anchor = GridBagConstraints.NORTHWEST;
             gbc_checkBox_RightUseLeftHasDefaults.gridx = 0;
             gbc_checkBox_RightUseLeftHasDefaults.gridy = 0;
-            jPanel_TabProperties.add(getCheckBox_RightUseLeftHasDefaults(), gbc_checkBox_RightUseLeftHasDefaults);
+            this.jPanel_TabProperties.add(getCheckBox_RightUseLeftHasDefaults(), gbc_checkBox_RightUseLeftHasDefaults);
             }
 
-        return jPanel_TabProperties;
+        return this.jPanel_TabProperties;
     }
 
+    @SuppressWarnings("squid:S1199") // Generated code
     private JPanel getJPanel_TabSelect()
     {
-        if (jPanel_TabSelect == null) {
+        if (this.jPanel_TabSelect == null) {
             {
-                jPanel_TabSelect = new JPanel();
+                this.jPanel_TabSelect = new JPanel();
                 final GridBagLayout gbl_jPanel_TabSelect = new GridBagLayout();
                 gbl_jPanel_TabSelect.columnWidths = new int[]{0, 0, 0};
                 gbl_jPanel_TabSelect.rowHeights = new int[]{50, 0, 0, 0, 0};
                 gbl_jPanel_TabSelect.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
                 gbl_jPanel_TabSelect.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-                jPanel_TabSelect.setLayout(gbl_jPanel_TabSelect);
+                this.jPanel_TabSelect.setLayout(gbl_jPanel_TabSelect);
             }
             {
                 final GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -322,7 +343,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
                 gbc_scrollPane.gridx = 0;
                 gbc_scrollPane.gridy = 0;
-                jPanel_TabSelect.add(getScrollPane(), gbc_scrollPane);
+                this.jPanel_TabSelect.add(getScrollPane(), gbc_scrollPane);
             }
             {
                 final GridBagConstraints gbc_checkBox_Properties = new GridBagConstraints();
@@ -330,7 +351,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 gbc_checkBox_Properties.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_Properties.gridx = 0;
                 gbc_checkBox_Properties.gridy = 1;
-                jPanel_TabSelect.add(getCheckBox_Properties(), gbc_checkBox_Properties);
+                this.jPanel_TabSelect.add(getCheckBox_Properties(), gbc_checkBox_Properties);
             }
             {
                 final GridBagConstraints gbc_checkBox_LeftReadOnly = new GridBagConstraints();
@@ -338,7 +359,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 gbc_checkBox_LeftReadOnly.insets = new Insets(0, 0, 5, 0);
                 gbc_checkBox_LeftReadOnly.gridx = 1;
                 gbc_checkBox_LeftReadOnly.gridy = 1;
-                jPanel_TabSelect.add(getCheckBox_LeftReadOnly(), gbc_checkBox_LeftReadOnly);
+                this.jPanel_TabSelect.add(getCheckBox_LeftReadOnly(), gbc_checkBox_LeftReadOnly);
             }
             {
                 final GridBagConstraints gbc_checkBox_FormattedProperties = new GridBagConstraints();
@@ -346,7 +367,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 gbc_checkBox_FormattedProperties.insets = new Insets(0, 0, 5, 5);
                 gbc_checkBox_FormattedProperties.gridx = 0;
                 gbc_checkBox_FormattedProperties.gridy = 2;
-                jPanel_TabSelect.add(getCheckBox_FormattedProperties(), gbc_checkBox_FormattedProperties);
+                this.jPanel_TabSelect.add(getCheckBox_FormattedProperties(), gbc_checkBox_FormattedProperties);
             }
             {
                 final GridBagConstraints gbc_checkBox_ShowLineNumbers = new GridBagConstraints();
@@ -354,7 +375,7 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 gbc_checkBox_ShowLineNumbers.insets = new Insets(0, 0, 5, 0);
                 gbc_checkBox_ShowLineNumbers.gridx = 1;
                 gbc_checkBox_ShowLineNumbers.gridy = 2;
-                jPanel_TabSelect.add(getCheckBox_ShowLineNumbers(), gbc_checkBox_ShowLineNumbers);
+                this.jPanel_TabSelect.add(getCheckBox_ShowLineNumbers(), gbc_checkBox_ShowLineNumbers);
             }
             {
                 final GridBagConstraints gbc_checkBox_ini = new GridBagConstraints();
@@ -362,16 +383,16 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
                 gbc_checkBox_ini.insets = new Insets(0, 0, 0, 5);
                 gbc_checkBox_ini.gridx = 0;
                 gbc_checkBox_ini.gridy = 3;
-                jPanel_TabSelect.add(getCheckBox_ini(), gbc_checkBox_ini);
+                this.jPanel_TabSelect.add(getCheckBox_ini(), gbc_checkBox_ini);
             }
         }
 
-        return jPanel_TabSelect;
+        return this.jPanel_TabSelect;
     }
 
     protected JTabbedPane getJTabbedPaneRoot()
     {
-        return jTabbedPaneRoot;
+        return this.jTabbedPaneRoot;
     }
 
     protected abstract ActionListener getActionListener();
@@ -383,20 +404,20 @@ abstract class LoadDialogWB extends JDialog // $codepro.audit.disable largeNumbe
 
     protected FilesPanel getSelectJPanel()
     {
-        if( selectJPanel == null ) {
-            selectJPanel = new FilesPanel( numberOfFiles, msgStringLeft, msgStringFmt, msgButton, getActionListener() );
+        if( this.selectJPanel == null ) {
+            this.selectJPanel = new FilesPanel( this.numberOfFiles, this.msgStringLeft, this.msgStringFmt, this.msgButton, getActionListener() );
             }
 
-        return selectJPanel;
+        return this.selectJPanel;
     }
 
     private JScrollPane getScrollPane()
     {
-        if (scrollPane == null) {
-            scrollPane = new JScrollPane();
-            scrollPane.setViewportView(getSelectJPanel());
+        if (this.scrollPane == null) {
+            this.scrollPane = new JScrollPane();
+            this.scrollPane.setViewportView(getSelectJPanel());
             }
 
-        return scrollPane;
+        return this.scrollPane;
     }
 }

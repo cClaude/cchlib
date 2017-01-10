@@ -65,7 +65,6 @@ public class FilesConfig implements Serializable
         setNumberOfFiles( preferences.getNumberOfFiles() );
      }
 
-
     /**
      * Build {@link FilesConfig} based on a existing one
      *
@@ -82,8 +81,12 @@ public class FilesConfig implements Serializable
         this.showLineNumbers          = filesConfig.showLineNumbers;
     }
 
-    public void setNumberOfFiles( final int numberOfFiles )
+    public FilesConfig setNumberOfFiles( final int numberOfFiles )
     {
+        if( numberOfFiles < 1 ) {
+            throw new IllegalArgumentException( "Should be at least one file: numberOfFiles=" + numberOfFiles );
+        }
+
         this.numberOfFiles = numberOfFiles;
 
         if( this.fileObjects == null ) {
@@ -98,6 +101,8 @@ public class FilesConfig implements Serializable
 
             System.arraycopy( oldArray, 0, this.fileObjects, 0, min );
             }
+
+        return this;
     }
 
     public int getNumberOfFiles()
@@ -122,12 +127,14 @@ public class FilesConfig implements Serializable
         return this.fileObjects[ index ];
     }
 
-    public void setFileObject(
+    public FilesConfig setFileObject(
         final FileObject fileObject,
         final int        index
         )
     {
         this.fileObjects[ index ] = fileObject;
+
+        return this;
     }
 
     /**
@@ -139,7 +146,12 @@ public class FilesConfig implements Serializable
      */
     public CustomProperties getCustomProperties( final int index )
     {
-        return this.fileObjects[ index ].getCustomProperties();
+        final FileObject fileObject = this.fileObjects[ index ];
+
+        if( fileObject == null ) {
+            throw new IllegalStateException( "value not define for index=" + index );
+        }
+        return fileObject.getCustomProperties();
     }
 
     /**
@@ -316,7 +328,7 @@ public class FilesConfig implements Serializable
     @Override
     public int hashCode()
     {
-        final int prime = 31; // $codepro.audit.disable numericLiterals
+        final int prime = 31;
         int result = 1;
         result = (prime * result) + Arrays.hashCode( this.fileObjects );
         result = (prime * result)

@@ -7,11 +7,83 @@ import javax.swing.JFrame;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.swing.DialogHelper;
 
 @I18nName("PreferencesOpener")
 public class PreferencesOpener implements Serializable
 {
+    private final class MyPreferencesDefaultsParametersValues
+        implements PreferencesValues
+    {
+        private final String[] languages;
+        private final int      selectedLanguageIndex;
+
+        private MyPreferencesDefaultsParametersValues(
+            final String[] languages,
+            final int      selectedLanguageIndex
+            )
+        {
+            this.languages = languages;
+            this.selectedLanguageIndex = selectedLanguageIndex;
+        }
+
+        @Override
+        public int getNumberOfFiles()
+        {
+            return PreferencesOpener.this.preferences.getNumberOfFiles();
+        }
+
+        @Override
+        public String[] getLanguages()
+        {
+            return this.languages;
+        }
+
+        @Override
+        public int getSelectedLanguageIndex()
+        {
+            return this.selectedLanguageIndex;
+        }
+
+        @Override
+        public boolean isSaveWindowSize()
+        {
+            return false; // FIXME ??
+        }
+    }
+
+    private final class MyPreferencesAction extends AbstractPreferencesAction
+    {
+        private final Locale[] locales;
+
+        private MyPreferencesAction( final Locale[] locales )
+        {
+            this.locales = locales;
+        }
+
+        @Override
+        public void onSave( final PreferencesCurentSaveParameters saveParams )
+        {
+            final Locale locale = this.locales[ saveParams.getSelectedLanguageIndex() ];
+            PreferencesOpener.this.preferences.setLocale( locale );
+
+            if( saveParams.isSaveWindowSize() ) {
+                PreferencesOpener.this.preferences.setWindowDimension( PreferencesOpener.this.rootFrame.getSize() );
+                }
+
+            PreferencesOpener.this.preferences.setNumberOfFiles( saveParams.getNumberOfFiles() );
+
+            if( saveParams.isSaveLookAndFeel() ) {
+                PreferencesOpener.this.preferences.setLookAndFeelClassName();
+                }
+
+            savePreferences();
+
+            this.dispose();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( PreferencesOpener.class );
     private static final Locale[] LOCALES = {
@@ -26,11 +98,11 @@ public class PreferencesOpener implements Serializable
     private final String[] languages = {
         null,
         LOCALES[1].getDisplayLanguage(),
-        LOCALES[2].getDisplayLanguage() // $codepro.audit.disable numericLiterals
+        LOCALES[2].getDisplayLanguage()
         };
     private final JFrame rootFrame;
     private final Preferences preferences;
-    private final PreferencesDefaultsParametersValues initParams;
+    private final PreferencesValues initParams;
 
     public PreferencesOpener( final JFrame rootFrame, final Preferences preferences )
     {
@@ -66,76 +138,34 @@ public class PreferencesOpener implements Serializable
         return selectedLanguageIndex;
     }
 
-    public void open()
+    public I18nAutoUpdatable open()
     {
         final AbstractPreferencesAction action = newPreferencesAction( LOCALES );
         final PreferencesJDialog        dialog = new PreferencesJDialog( this.initParams, action );
 
         dialog.setVisible( true );
+
+        return dialog;
+
     }
 
     private AbstractPreferencesAction newPreferencesAction( final Locale[] locales )
     {
-        final AbstractPreferencesAction action = new AbstractPreferencesAction()
-        {
-            @Override
-            public void onSave( final PreferencesCurentSaveParameters saveParams )
-            {
-                final Locale locale = locales[ saveParams.getSelectedLanguageIndex() ];
-                PreferencesOpener.this.preferences.setLocale( locale );
-
-                if( saveParams.isSaveWindowSize() ) {
-                    PreferencesOpener.this.preferences.setWindowDimension( PreferencesOpener.this.rootFrame.getSize() );
-                    }
-
-                PreferencesOpener.this.preferences.setNumberOfFiles( saveParams.getNumberOfFiles() );
-
-                if( saveParams.isSaveLookAndFeel() ) {
-                    PreferencesOpener.this.preferences.setLookAndFeelClassName();
-                    }
-
-                savePreferences();
-
-                this.dispose();
-            }
-        };
-        return action;
+        return new MyPreferencesAction( locales );
     }
 
-    private PreferencesDefaultsParametersValues newPreferencesDefaultsParametersValues(
+    private PreferencesValues newPreferencesDefaultsParametersValues(
             final String[] languages,
             final int      selectedLanguageIndex
             )
     {
-        final PreferencesDefaultsParametersValues initParams = new PreferencesDefaultsParametersValues()
-        {
-            @Override
-            public int getNumberOfFiles()
-            {
-                return PreferencesOpener.this.preferences.getNumberOfFiles();
-            }
-            @Override
-            public String[] getLanguages()
-            {
-                return languages;
-            }
-            @Override
-            public int getSelectedLanguageIndex()
-            {
-                return selectedLanguageIndex;
-            }
-            @Override
-            public boolean isSaveWindowSize()
-            {
-                return false; // FIXME ??
-            }
-        };
-        return initParams;
+        return new MyPreferencesDefaultsParametersValues( languages, selectedLanguageIndex );
     }
 
     private void savePreferences()
     {
         LOGGER.info( "Save prefs: " + this.preferences );
+
         try {
             this.preferences.save();
             }
@@ -147,5 +177,4 @@ public class PreferencesOpener implements Serializable
                 );
             }
     }
-
 }

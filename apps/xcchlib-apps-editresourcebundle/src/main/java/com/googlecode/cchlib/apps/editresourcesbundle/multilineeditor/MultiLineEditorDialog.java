@@ -11,19 +11,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.Resources;
 import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
+import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
+@I18nName("MultiLineEditorDialog")
 public final class MultiLineEditorDialog
     extends JDialog
         implements I18nAutoUpdatable
@@ -73,7 +75,7 @@ public final class MultiLineEditorDialog
         setSize( getPreferences().getMultiLineEditorDimension() );
 
         setTitle( title );
-        setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+        setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
         setLocationRelativeTo( owner );
         getContentPane().setPreferredSize( getSize() );
 
@@ -89,10 +91,10 @@ public final class MultiLineEditorDialog
         getContentPane().setLayout(gridBagLayout);
 
         {
-            jTextArea = new JTextArea( contentText );
-            final JScrollPane jScrollPane = new JScrollPane( jTextArea );
-            jTextArea.setLineWrap( getPreferences().isMultiLineEditorLineWrap() );
-            jTextArea.setWrapStyleWord( getPreferences().isMultiLineEditorWordWrap() );
+            this.jTextArea = new JTextArea( contentText );
+            final JScrollPane jScrollPane = new JScrollPane( this.jTextArea );
+            this.jTextArea.setLineWrap( getPreferences().isMultiLineEditorLineWrap() );
+            this.jTextArea.setWrapStyleWord( getPreferences().isMultiLineEditorWordWrap() );
 
             final GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
             gbc_jScrollPane.gridwidth = 4; // $codepro.audit.disable numericLiterals
@@ -103,34 +105,34 @@ public final class MultiLineEditorDialog
             getContentPane().add(jScrollPane, gbc_jScrollPane);
         }
         {
-            jButtonCommit = new JButton( "Ok",
+            this.jButtonCommit = new JButton( "Ok",
                     new ImageIcon(
                             Resources.class.getResource( "ok.png" )
                             )
                     );
-            jButtonCommit.addActionListener( actionListener );
-            jButtonCommit.setActionCommand( ACTIONCMD_OK );
+            this.jButtonCommit.addActionListener( actionListener );
+            this.jButtonCommit.setActionCommand( ACTIONCMD_OK );
             final GridBagConstraints gbc_jButtonCommit = new GridBagConstraints();
             gbc_jButtonCommit.fill = GridBagConstraints.BOTH;
             gbc_jButtonCommit.insets = new Insets(0, 0, 0, 5); // $codepro.audit.disable numericLiterals
             gbc_jButtonCommit.gridx = 1;
             gbc_jButtonCommit.gridy = 1;
-            getContentPane().add(jButtonCommit, gbc_jButtonCommit);
+            getContentPane().add(this.jButtonCommit, gbc_jButtonCommit);
         }
         {
-            jButtonCancel = new JButton( "Cancel",
+            this.jButtonCancel = new JButton( "Cancel",
                     new ImageIcon(
                             Resources.class.getResource( "close.png" )
                             )
                     );
-            jButtonCancel.addActionListener( actionListener );
-            jButtonCancel.setActionCommand( ACTIONCMD_CANCEL  );
+            this.jButtonCancel.addActionListener( actionListener );
+            this.jButtonCancel.setActionCommand( ACTIONCMD_CANCEL  );
             final GridBagConstraints gbc_jButtonCancel = new GridBagConstraints();
             gbc_jButtonCancel.fill = GridBagConstraints.BOTH;
             gbc_jButtonCancel.insets = new Insets(0, 0, 0, 5); // $codepro.audit.disable numericLiterals
             gbc_jButtonCancel.gridx = 2; // $codepro.audit.disable numericLiterals
             gbc_jButtonCancel.gridy = 1;
-            getContentPane().add(jButtonCancel, gbc_jButtonCancel);
+            getContentPane().add(this.jButtonCancel, gbc_jButtonCancel);
         }
     }
 
@@ -139,22 +141,22 @@ public final class MultiLineEditorDialog
         final String c = event.getActionCommand();
 
         if( ACTIONCMD_OK.equals( c ) ) {
-            storeResult.storeResult( jTextArea.getText() );
+            storeResult.storeResult( this.jTextArea.getText() );
             dispose();
             }
         else if( ACTIONCMD_CANCEL.equals( c ) ) {
             dispose();
             }
         else if( ACTIONCMD_LINEWRAP.equals( c ) ) {
-            final boolean lw = jCheckBoxMenuItem_LineWrap.isSelected();
+            final boolean lw = this.jCheckBoxMenuItem_LineWrap.isSelected();
 
-            jTextArea.setLineWrap( lw );
+            this.jTextArea.setLineWrap( lw );
             owner.getPreferences().setMultiLineEditorLineWrap( lw );
             }
         else if( ACTIONCMD_WORDWRAP.equals( c ) ) {
-            final boolean ww = jCheckBoxMenuItem_WordWrap.isSelected();
+            final boolean ww = this.jCheckBoxMenuItem_WordWrap.isSelected();
 
-            jTextArea.setWrapStyleWord( ww );
+            this.jTextArea.setWrapStyleWord( ww );
             owner.getPreferences().setMultiLineEditorWordWrap( ww );
             }
     }
@@ -163,21 +165,21 @@ public final class MultiLineEditorDialog
     {
         final JMenuBar jMenuBar = new JMenuBar();
 
-        jMenu_Options = new JMenu( "Options" );
+        this.jMenu_Options = new JMenu( "Options" );
 
-        jCheckBoxMenuItem_LineWrap = new JCheckBoxMenuItem( "Line Wrap" );
-        jCheckBoxMenuItem_LineWrap.setSelected( getPreferences().isMultiLineEditorLineWrap() );
-        jCheckBoxMenuItem_LineWrap.setActionCommand( ACTIONCMD_LINEWRAP );
-        jCheckBoxMenuItem_LineWrap.addActionListener( actionListener );
-        jMenu_Options.add( jCheckBoxMenuItem_LineWrap );
+        this.jCheckBoxMenuItem_LineWrap = new JCheckBoxMenuItem( "Line Wrap" );
+        this.jCheckBoxMenuItem_LineWrap.setSelected( getPreferences().isMultiLineEditorLineWrap() );
+        this.jCheckBoxMenuItem_LineWrap.setActionCommand( ACTIONCMD_LINEWRAP );
+        this.jCheckBoxMenuItem_LineWrap.addActionListener( actionListener );
+        this.jMenu_Options.add( this.jCheckBoxMenuItem_LineWrap );
 
-        jCheckBoxMenuItem_WordWrap = new JCheckBoxMenuItem( "Word Wrap" );
-        jCheckBoxMenuItem_WordWrap.setSelected(  getPreferences().isMultiLineEditorWordWrap() );
-        jCheckBoxMenuItem_WordWrap.setActionCommand( ACTIONCMD_WORDWRAP );
-        jCheckBoxMenuItem_WordWrap.addActionListener( actionListener );
-        jMenu_Options.add( jCheckBoxMenuItem_WordWrap );
+        this.jCheckBoxMenuItem_WordWrap = new JCheckBoxMenuItem( "Word Wrap" );
+        this.jCheckBoxMenuItem_WordWrap.setSelected(  getPreferences().isMultiLineEditorWordWrap() );
+        this.jCheckBoxMenuItem_WordWrap.setActionCommand( ACTIONCMD_WORDWRAP );
+        this.jCheckBoxMenuItem_WordWrap.addActionListener( actionListener );
+        this.jMenu_Options.add( this.jCheckBoxMenuItem_WordWrap );
 
-        jMenuBar.add( jMenu_Options );
+        jMenuBar.add( this.jMenu_Options );
         setJMenuBar( jMenuBar );
     }
 

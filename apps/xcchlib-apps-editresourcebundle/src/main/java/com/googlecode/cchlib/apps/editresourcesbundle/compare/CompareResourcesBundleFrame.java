@@ -24,7 +24,6 @@ import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesOpener;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.AutoI18n;
-import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -40,7 +39,10 @@ import com.googlecode.cchlib.swing.filechooser.accessory.LastSelectedFilesAccess
 import com.googlecode.cchlib.swing.filechooser.accessory.TabbedAccessory;
 
 @I18nName("CompareResourcesBundleFrame")
-@SuppressWarnings({"squid:MaximumInheritanceDepth"})
+@SuppressWarnings({
+    "squid:MaximumInheritanceDepth",
+    "squid:S00100" // naming convention
+    })
 public final class CompareResourcesBundleFrame
     extends CompareResourcesBundleFrameWB
         implements I18nAutoUpdatable
@@ -62,33 +64,6 @@ public final class CompareResourcesBundleFrame
                 final CompareResourcesBundleFrameAction action = CompareResourcesBundleFrameAction.valueOf( actionCommandString );
 
                 action.doAction( CompareResourcesBundleFrame.this );
-/*
-                switch( action ) {
-                    case ACTIONCMD_OPEN:
-                        jMenuItem_Open();
-                        break;
-
-                    case ACTIONCMD_PREFS:
-                        openPreferences();
-                        break;
-
-                    case ACTIONCMD_QUIT:
-                        dispose();
-                        break;
-
-                    case ACTIONCMD_SAVE_ALL:
-                        saveAll();
-                        break;
-
-                    case ACTIONCMD_SAVE_LEFT:
-                        saveFile( 0 );
-                        break;
-
-                    case ACTIONCMD_SAVE_RIGHT_PREFIX:
-                        // should not occur
-                        break;
-                }
-*/
             }
         }
     }
@@ -131,16 +106,16 @@ public final class CompareResourcesBundleFrame
     private final LastSelectedFilesAccessoryDefaultConfigurator lastSelectedFilesAccessoryDefaultConfigurator = new LastSelectedFilesAccessoryDefaultConfigurator();
     private final AutoI18n autoI18n;
 
-    @I18nString protected String fileSavedMsg = "File '%s' saved."; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String fileSaveNowQuestionMsg = "Save file '%s' now ?"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String saveLeftFileTypeMsg = "Left File"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String saveRightFileTypeMsg = "Right File"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String fileSaveIOException = "Error while saving '%s'"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String jFileChooserInitializerTitle     = "Waiting..."; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String jFileChooserInitializerMessage   = "Analyze disk structure"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String msgStringAlertLocaleTitle = "Change language"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String msgStringAlertLocale = "You need to restart application to apply this language: %s"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
-    @I18nString protected String txtNoFile = "<<NoFile>>"; // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.instanceFieldSecurity
+    @I18nString protected String fileSavedMsg = "File '%s' saved.";
+    @I18nString protected String fileSaveNowQuestionMsg = "Save file '%s' now ?";
+    @I18nString protected String saveLeftFileTypeMsg = "Left File";
+    @I18nString protected String saveRightFileTypeMsg = "Right File";
+    @I18nString protected String fileSaveIOExceptionMsg = "Error while saving '%s'";
+    @I18nString protected String jFileChooserInitializerTitle     = "Waiting...";
+    @I18nString protected String jFileChooserInitializerMessage   = "Analyze disk structure";
+    @I18nString protected String msgStringAlertLocaleTitle = "Change language";
+    @I18nString protected String msgStringAlertLocale = "You need to restart application to apply this language: %s";
+    @I18nString protected String txtNoFile = "«No file»";
 
     private final PreferencesOpener preferencesOpener;
 
@@ -193,10 +168,7 @@ public final class CompareResourcesBundleFrame
             LOGGER.trace( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResource( locale ) );
             }
 
-        this.autoI18n = AutoI18nFactory.newAutoI18n(
-                EditResourcesBundleApp.getConfig(),
-                EditResourcesBundleApp.getI18nResource( locale )
-                );
+        this.autoI18n = EditResourcesBundleApp.newAutoI18n( locale );
 
         if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "I18n Init: done" );
@@ -277,14 +249,15 @@ public final class CompareResourcesBundleFrame
 
         if( this.filesConfig.isFilesExists() ) {
             this.tableModel = new CompareResourcesBundleTableModel(
-                    this.filesConfig,
-                    this.autoI18n
+                    this.filesConfig
                     );
+            this.tableModel.performeI18n( this.autoI18n );
+
             setjTableProperties( this.tableModel.getJTable() );
             getjScrollPaneProperties().setViewportView( getjTableProperties() );
-            getjTableProperties().setModel(this.tableModel);
-            getjTableProperties().setAutoCreateRowSorter(true);
-            this.tableModel.setColumnWidth(getjTableProperties());
+            getjTableProperties().setModel( this.tableModel );
+            getjTableProperties().setAutoCreateRowSorter( true );
+            this.tableModel.setColumnWidth( getjTableProperties() );
         }
     }
 
@@ -371,7 +344,7 @@ public final class CompareResourcesBundleFrame
                 LOGGER.error( e );
                 DialogHelper.showMessageExceptionDialog(
                     this,
-                    String.format( this.fileSaveIOException, fileObject.getDisplayName( this.txtNoFile ) ),
+                    String.format( this.fileSaveIOExceptionMsg, fileObject.getDisplayName( this.txtNoFile ) ),
                     e
                     );
                 }
@@ -422,8 +395,6 @@ public final class CompareResourcesBundleFrame
         return this.frameActionListener;
     }
 
-
-
     /**
      * I18n this frame !
      *
@@ -432,13 +403,15 @@ public final class CompareResourcesBundleFrame
     @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18n autoI18n )
     {
-        autoI18n.performeI18n(this,this.getClass());
-        autoI18n.performeI18n(this.preferencesOpener,this.preferencesOpener.getClass());
+        autoI18n.performeI18n( this, this.getClass() );
+        autoI18n.performeI18n( this.preferencesOpener, this.preferencesOpener.getClass() );
     }
 
     public void openPreferences()
     {
-        this.preferencesOpener.open();
+        final I18nAutoUpdatable i18nAutoUpdatable = this.preferencesOpener.open();
+
+        i18nAutoUpdatable.performeI18n( this.autoI18n );
     }
 
     public Preferences getPreferences()

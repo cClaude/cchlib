@@ -19,7 +19,7 @@ apps/xcchlib-apps-duplicatefilesmanager/com.googlecode.cchlib.apps.duplicatefile
 apps/xcchlib-apps-duplicatefilesmanager/target/
 apps/xcchlib-apps-duplicatefilesmanager/testResults/
 apps/xcchlib-apps-editresourcebundle/.classpath
-apps/xcchlib-apps-editresourcebundle/com.googlecode.cchlib.apps.editresourcesbundle.MessagesBundle
+apps/xcchlib-apps-editresourcebundle/com.googlecode.cchlib.apps.editresourcesbundle.MessagesBundle.properties
 apps/xcchlib-apps-editresourcebundle/target/
 apps/xcchlib-apps-regexpbuilder/.classpath
 apps/xcchlib-apps-regexpbuilder/target/

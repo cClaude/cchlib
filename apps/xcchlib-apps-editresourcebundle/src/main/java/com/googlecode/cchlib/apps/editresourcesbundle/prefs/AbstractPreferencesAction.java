@@ -2,7 +2,8 @@ package com.googlecode.cchlib.apps.editresourcesbundle.prefs;
 
 import java.awt.Window;
 
-/* not public */ abstract class AbstractPreferencesAction implements PreferencesAction
+//Not public
+abstract class AbstractPreferencesAction implements PreferencesAction
 {
     private Window window;
 
@@ -14,11 +15,11 @@ import java.awt.Window;
     @Override
     public final void onCancel()
     {
-        window.dispose();
+        this.window.dispose();
     }
 
     public final void dispose()
     {
-        window.dispose();
+        this.window.dispose();
     }
 }
