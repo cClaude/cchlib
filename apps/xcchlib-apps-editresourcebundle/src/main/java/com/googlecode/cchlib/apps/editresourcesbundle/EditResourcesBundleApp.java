@@ -4,9 +4,10 @@ import java.util.Locale;
 import java.util.Set;
 import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory;
-import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
+import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
 
 /**
  * Application launcher.
@@ -35,7 +36,7 @@ public class EditResourcesBundleApp
             );
     }
 
-    public static I18nSimpleResourceBundle getI18nSimpleResourceBundle( final Locale locale )
+    public static I18nResource getI18nResource( final Locale locale )
     {
         final Locale i18nLocale;
 
@@ -46,8 +47,8 @@ public class EditResourcesBundleApp
             i18nLocale = locale;
         }
 
-        return new I18nSimpleResourceBundle(
-                EditResourcesBundleApp.getI18nResourceBundleName(),
+        return I18nResourceFactory.newI18nResourceBundle(
+                EditResourcesBundleApp.class.getPackage(),
                 i18nLocale
                 );
     }

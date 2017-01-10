@@ -190,12 +190,12 @@ public final class CompareResourcesBundleFrame
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.trace( "I18n Init: Locale.getDefault()=" + Locale.getDefault() );
             LOGGER.trace( "I18n Init: locale = " + locale );
-            LOGGER.trace( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResourceBundleName() );
+            LOGGER.trace( "I18n Init: getMessagesBundle() = " + EditResourcesBundleApp.getI18nResource( locale ) );
             }
 
         this.autoI18n = AutoI18nFactory.newAutoI18n(
                 EditResourcesBundleApp.getConfig(),
-                EditResourcesBundleApp.getI18nSimpleResourceBundle( locale )
+                EditResourcesBundleApp.getI18nResource( locale )
                 );
 
         if( LOGGER.isDebugEnabled() ) {
