@@ -11,7 +11,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.FileChooserEntryPoint;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Resources;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
+import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.swing.filechooser.JFileChooserInitializer;
 
 /**
@@ -128,8 +128,8 @@ public class FakeAppToolKit implements AppToolKit
     }
 
     @Override
-    public I18nResourceBundleName getI18nResourceBundleName()
+    public I18nResource getI18nResource()
     {
-        return this.delegator.getI18nResourceBundleName();
+        return this.delegator.getI18nResource();
     }
 }
