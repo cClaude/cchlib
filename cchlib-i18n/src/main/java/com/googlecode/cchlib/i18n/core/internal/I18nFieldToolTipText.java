@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import javax.swing.JComponent;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.api.I18nResource;
+import com.googlecode.cchlib.i18n.core.I18nFieldType;
 import com.googlecode.cchlib.i18n.core.resolve.GetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolvedFieldGetter;
@@ -114,9 +115,9 @@ final class I18nFieldToolTipText extends AbstractI18nField
     }
 
     @Override
-    public FieldType getFieldType()
+    public I18nFieldType getFieldType()
     {
-        return FieldType.JCOMPONENT_TOOLTIPTEXT;
+        return I18nFieldType.JCOMPONENT_TOOLTIPTEXT;
     }
 
     @Override

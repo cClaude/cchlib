@@ -5,6 +5,7 @@ import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.I18nSyntaxException;
 import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.I18nField;
+import com.googlecode.cchlib.i18n.core.I18nFieldType;
 import com.googlecode.cchlib.i18n.core.MethodContener;
 import com.googlecode.cchlib.i18n.core.resolve.I18nKeyFactory;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
@@ -31,9 +32,9 @@ final class I18nFieldMethodsResolution
     }
 
     @Override
-    public FieldType getFieldType()
+    public I18nFieldType getFieldType()
     {
-        return FieldType.METHODS_RESOLUTION;
+        return I18nFieldType.METHODS_RESOLUTION;
     }
 
     @Override

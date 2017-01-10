@@ -7,24 +7,11 @@ import com.googlecode.cchlib.i18n.AutoI18nType;
 import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.resolve.I18nResolver;
 
-@NeedDoc
+/**
+ * Private interface
+ */
 public interface I18nField extends Serializable
 {
-    /**
-     * Describe how an {@link I18nField} should be handle.
-     */
-    public enum FieldType {
-        SIMPLE_KEY,
-        LATE_KEY,
-        METHODS_RESOLUTION,
-
-        /** Handle tool tip text */
-        JCOMPONENT_TOOLTIPTEXT,
-
-        /** Handle tool tip text for JTabbedPane */
-        JCOMPONENT_MULTI_TOOLTIPTEXT,
-        }
-
     /**
      * @return the reflexion {@link Field} for this I18nField
      */
@@ -43,8 +30,11 @@ public interface I18nField extends Serializable
      */
     MethodContener getMethodContener();
 
-    @NeedDoc
-    FieldType getFieldType();
+    /**
+     * Returns field qualifier
+     * @return field qualifier
+     */
+    I18nFieldType getFieldType();
 
     /**
      * @return {@link AutoI18nType} for this I18nField, if supported. Returns null otherwise.
