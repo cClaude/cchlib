@@ -186,7 +186,10 @@ public class DefaultHexEditorModel implements HexEditorModel
     }
 
     @Override
-    @SuppressWarnings("squid:MethodCyclomaticComplexity")
+    @SuppressWarnings({
+        "squid:MethodCyclomaticComplexity",
+        "squid:SwitchLastCaseIsDefaultCheck"
+        })
     public void keyPressed(final KeyEvent e)
     {
         switch(e.getKeyCode())
