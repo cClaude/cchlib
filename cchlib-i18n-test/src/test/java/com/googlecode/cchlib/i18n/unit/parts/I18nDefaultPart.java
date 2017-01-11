@@ -24,14 +24,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
-import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 
-public class I18nDefaultPart
-    extends JPanel
-        implements I18nAutoUpdatable, TestReference
+public class I18nDefaultPart extends JPanel implements TestReference
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nDefaultPart.class );

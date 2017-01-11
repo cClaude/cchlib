@@ -10,12 +10,11 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import javax.swing.JButton;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 
-public class I18nToolTipTextPart implements I18nAutoUpdatable, TestReference
+public class I18nToolTipTextPart implements TestReference
 {
     @I18nToolTipText private final JButton myButtonWithToolTipText1;
 

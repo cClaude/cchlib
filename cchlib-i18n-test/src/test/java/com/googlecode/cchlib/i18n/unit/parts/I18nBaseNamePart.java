@@ -17,15 +17,12 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 
 @I18nName("I18nBaseNameTest")
-public class I18nBaseNamePart
-    extends JPanel
-        implements I18nAutoUpdatable, TestReference
+public class I18nBaseNamePart extends JPanel implements TestReference
 {
     private static final long serialVersionUID = 1L;
 

@@ -7,13 +7,11 @@ import static com.googlecode.cchlib.i18n.unit.parts.AutoI18nBasicInterfaceTest.L
 import static org.fest.assertions.api.Assertions.assertThat;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
-import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 
-public final class AutoI18nBasicInterfacePart
-    implements I18nAutoUpdatable, TestReference
+public final class AutoI18nBasicInterfacePart implements TestReference
 {
     private static final class MyAutoI18nBasicInterface implements AutoI18nBasicInterface
     {

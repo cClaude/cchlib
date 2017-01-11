@@ -17,13 +17,11 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nCustomMethod;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 
-public class I18nStringPart
-    implements I18nAutoUpdatable, TestReference
+public class I18nStringPart implements TestReference
 {
     private static final Logger LOGGER = Logger.getLogger( I18nStringPart.class );
 
