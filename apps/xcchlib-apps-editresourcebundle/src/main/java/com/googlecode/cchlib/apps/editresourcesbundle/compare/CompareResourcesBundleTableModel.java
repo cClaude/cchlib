@@ -91,19 +91,13 @@ public class CompareResourcesBundleTableModel
 
     @I18nString private String txtNoFile;
     @I18nString private String columnKeyNames;
-    private final String[] columnOtherNames = {
+    private static final String[] COLUMN_OTHER_NAMES = {
             "#",
             "(%s%s)",
             };
     private final ArrayList<String>  keyList = new ArrayList<>();
     private final CustomProperties[] customProperties;
-    //private final AutoI18n           autoI18n;
 
-    /**
-     *
-     * @param filesConfig
-     * @param autoI18n
-     */
     public CompareResourcesBundleTableModel(
         final FilesConfig filesConfig
         )
@@ -208,7 +202,7 @@ public class CompareResourcesBundleTableModel
             return this.columnKeyNames;
             }
         else if( this.colunms.getColunmLineIndex( column ) != -1 ) {
-            return this.columnOtherNames[0];
+            return CompareResourcesBundleTableModel.COLUMN_OTHER_NAMES[ 0 ];
             }
         else if( (computedIndex = this.colunms.getColunmValueIndex( column ) ) != -1 ) {
             String prefix;
@@ -221,7 +215,7 @@ public class CompareResourcesBundleTableModel
                 }
 
             return String.format(
-                this.columnOtherNames[1],
+                CompareResourcesBundleTableModel.COLUMN_OTHER_NAMES[ 1 ],
                 prefix,
                 this.customProperties[ computedIndex ].getFileObject().getDisplayName( this.txtNoFile )
                 );
@@ -241,6 +235,7 @@ public class CompareResourcesBundleTableModel
     }
 
     @Override
+    @SuppressWarnings("squid:S1871") // same implementation (same return false;)
     public boolean isCellEditable( final int rowIndex, final int columnIndex )
     {
         final int computedIndex;
@@ -321,31 +316,35 @@ public class CompareResourcesBundleTableModel
 
     public void setColumnWidth( final JTable table )
     {// Not Override
-        final Font font = table.getFont();
-        final FontMetrics fm = table.getFontMetrics( font );
+        final Font        font        = table.getFont();
+        final FontMetrics fontMetrics = table.getFontMetrics( font );
 
-        for( int ci = 0; ci < getColumnCount(); ci++ ) {
-            int maxWidth = 0;
+        for( int columnIndex = 0; columnIndex < getColumnCount(); columnIndex++ ) {
+            final int maxWidth = findMaxWidth( fontMetrics, columnIndex );
 
-            // Find max for this column
-            for( int ri = 0; ri < this.keyList.size(); ri++ ) {
-                final Object content = getValueAt( ri, ci );
-
-                if( content instanceof String ) {
-                    final String s = String.class.cast( content );
-
-                    final int width = fm.stringWidth( s );
-
-                    if( width > maxWidth ) {
-                        maxWidth = width;
-                    }
-                }
-            }
-
-            final TableColumn column = table.getColumnModel().getColumn( ci );
+            final TableColumn column = table.getColumnModel().getColumn( columnIndex );
 
             column.setPreferredWidth( maxWidth );
         }
+    }
+
+    private int findMaxWidth( final FontMetrics fontMetrics, final int columnIndex )
+    {
+        int maxWidth = 0;
+
+        // Find max for this column
+        for( int ri = 0; ri < this.keyList.size(); ri++ ) {
+            final Object content = getValueAt( ri, columnIndex );
+
+            if( content instanceof String ) {
+                final int width = fontMetrics.stringWidth( (String)content );
+
+                if( width > maxWidth ) {
+                    maxWidth = width;
+                }
+            }
+        }
+        return maxWidth;
     }
 
     @Override
