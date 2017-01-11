@@ -1,24 +1,21 @@
 package com.googlecode.cchlib.i18n.unit.parts;
 
+import static com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextTest.IGNORED_FIELDS;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextTest.LOCALIZED_FIELDS;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextTest.TEXT_DEFAULT_BUNDLE;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextTest.TEXT_INIT;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextTest.TOOLTIPTEXT_DEFAULT_BUNDLE;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextTest.TOOLTIPTEXT_INIT;
+import static org.fest.assertions.api.Assertions.assertThat;
 import javax.swing.JButton;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
-import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
-import com.googlecode.cchlib.i18n.unit.PrepTestPart;
-import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
-import com.googlecode.cchlib.i18n.unit.util.TestUtils;
+import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
+import com.googlecode.cchlib.i18n.unit.REF;
+import com.googlecode.cchlib.i18n.unit.TestReference;
 
-public class I18nToolTipTextPart implements I18nAutoUpdatable, TestReferenceDeprecated
+public class I18nToolTipTextPart implements TestReference
 {
-    private static final Logger LOGGER = Logger.getLogger( I18nToolTipTextPart.class );
-    private static final String TOOLTIPTEXT_INIT = "my tool tip text 1";
-    private static final String TOOLTIPTEXT_DEFAULT_BUNDLE = "OK(ToolTipText)";
-
-    private static final String TEXT_INIT = "my button with tool tip text 1";
-    private static final String TEXT_DEFAULT_BUNDLE = "OK(myButtonWithToolTipText1)";
-
     @I18nToolTipText private final JButton myButtonWithToolTipText1;
 
     public I18nToolTipTextPart()
@@ -34,48 +31,42 @@ public class I18nToolTipTextPart implements I18nAutoUpdatable, TestReferenceDepr
     }
 
     @Override
-    @Deprecated
-    public void beforePrepTest(final PrepTestPart prepTest)
+    public void beforePerformeI18nTest()
     {
-        TestUtils.preparePrepTest( prepTest, this );
+        assertThat( this.myButtonWithToolTipText1.getText() ).isEqualTo( TEXT_INIT );
+        assertThat( this.myButtonWithToolTipText1.getToolTipText() ).isEqualTo( TOOLTIPTEXT_INIT );
     }
 
     @Override
-    public void afterPrepTest( final boolean firstRun )
+    public void afterPerformeI18nTest_WithValidBundle()
     {
-        Assert.assertEquals( TEXT_INIT, this.myButtonWithToolTipText1.getText() );
-        Assert.assertEquals( TOOLTIPTEXT_INIT, this.myButtonWithToolTipText1.getToolTipText() );
+        assertThat( this.myButtonWithToolTipText1.getText() )
+            .isEqualTo( TEXT_DEFAULT_BUNDLE );
+        assertThat( this.myButtonWithToolTipText1.getToolTipText() )
+            .isEqualTo( TOOLTIPTEXT_DEFAULT_BUNDLE );
     }
 
     @Override
-    @Deprecated
-    public void performeI18n()
+    public void afterPerformeI18nTest_WithNotValidBundle()
     {
-        Assert.assertEquals( TEXT_INIT, this.myButtonWithToolTipText1.getText() );
-        Assert.assertEquals( TOOLTIPTEXT_INIT, this.myButtonWithToolTipText1.getToolTipText() );
-
-        TestUtils.performeI18n( this );
-
-        final String toolTipText = this.myButtonWithToolTipText1.getToolTipText();
-
-        LOGGER.info( "TEST RESULT: getToolTipText() " + toolTipText );
-        Assert.assertEquals( TOOLTIPTEXT_DEFAULT_BUNDLE, toolTipText );
-
-        final String text = this.myButtonWithToolTipText1.getText();
-
-        LOGGER.info( "TEST RESULT: getText() " + text );
-        Assert.assertEquals( TEXT_DEFAULT_BUNDLE, text );
+        beforePerformeI18nTest();
     }
 
-    @Override
-    public int getSyntaxeExceptionCount()
+    @Override // TestReference
+    public void afterResourceBuilderTest_WithValidBundle( final I18nResourceBuilderResult result )
     {
-        return 0;
+        assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
+        assertThat( result.getLocalizedFields() ).hasSize( LOCALIZED_FIELDS );
+        assertThat( result.getMissingProperties() ).hasSize( 0 );
+        assertThat( result.getUnusedProperties() ).hasSize( REF.size() - LOCALIZED_FIELDS );
     }
 
-    @Override
-    public int getMissingResourceExceptionCount()
+    @Override // TestReference
+    public void afterResourceBuilderTest_WithNotValidBundle( final I18nResourceBuilderResult result )
     {
-        return 2;
-    }
+        assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
+        assertThat( result.getLocalizedFields() ).hasSize( 0 );
+        assertThat( result.getMissingProperties() ).hasSize( LOCALIZED_FIELDS );
+        assertThat( result.getUnusedProperties() ).hasSize( 0 );
+     }
 }
