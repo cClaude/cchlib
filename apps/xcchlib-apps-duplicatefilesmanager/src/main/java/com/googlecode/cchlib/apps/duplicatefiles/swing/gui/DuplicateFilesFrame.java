@@ -178,9 +178,6 @@ public final class DuplicateFilesFrame
         // Menu: Locale
         buildLocaleMenu();
 
-        // Apply i18n !
-        performeI18n( AutoI18nService.getInstance().getAutoI18n() );
-
         setSize( getDFToolKit().getPreferences().getWindowDimension() );
 
         // Init display
@@ -237,12 +234,12 @@ public final class DuplicateFilesFrame
     @Override // I18nPrepHelperAutoUpdatable
     public void performeI18n( final AutoI18n autoI18n )
     {
-        autoI18n.performeI18n(this,this.getClass());
-        autoI18n.performeI18n(getDFToolKit(),getDFToolKit().getClass());
+        autoI18n.performeI18n( this, this.getClass() );
+        autoI18n.performeI18n( getDFToolKit(), getDFToolKit().getClass() );
 
-        getDuplicateFilesMainPanel().performeI18n( autoI18n );
-        getRemoveEmptyDirectoriesPanel().performeI18n( autoI18n );
-        getDeleteEmptyFilesPanel().performeI18n( autoI18n );
+        // Auto discovered: getDuplicateFilesMainPanel().performeI18n( autoI18n ) not need
+        // Auto discovered: getRemoveEmptyDirectoriesPanel().performeI18n( autoI18n ) not need
+        // Auto discovered: getDeleteEmptyFilesPanel().performeI18n( autoI18n ) not need
     }
 
     private void initFixComponents()
@@ -448,7 +445,8 @@ public final class DuplicateFilesFrame
 
         setEnabledAt( REMOVE_EMPTY_DIRECTORIES_TAB, advanced );
         setEnabledAt( DELETE_EMPTY_FILES_TAB, advanced );
-        //TODO: more panel ?
+
+        // more panel ? Add then here
     }
 
     @Override

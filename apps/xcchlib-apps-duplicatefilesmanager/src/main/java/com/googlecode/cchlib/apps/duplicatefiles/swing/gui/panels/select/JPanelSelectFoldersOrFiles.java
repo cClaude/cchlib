@@ -103,7 +103,9 @@ public class JPanelSelectFoldersOrFiles extends JPanel
     private static final Logger LOGGER = Logger.getLogger( JPanelSelectFoldersOrFiles.class );
 
     private final JTable jTableSelectedFoldersOrFiles;
+
     private final XTextField jTextFieldCurrentDir;
+
     private final JButton jButtonSelectDir;
     private final JButton jButtonSelectFile;
     private final JButton jButtonAddEntry;

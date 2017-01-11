@@ -14,6 +14,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
 import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
@@ -30,9 +31,14 @@ public final class JPanelResult extends JPanelResultWB implements I18nAutoUpdata
     private static final long               serialVersionUID = 2L;
     private static final Logger             LOGGER           = Logger.getLogger( JPanelResult.class );
 
+    @I18nIgnore  // Prevent recursive analysis
     private final AppToolKit                dFToolKit;
+
+    @I18nIgnore  // Prevent recursive analysis
     private final DuplicatesContextualMenu  duplicatesContextualMenu;
+    @I18nIgnore  // Prevent recursive analysis
     private FilesContextualMenu             keptIntactContextualMenu;
+    @I18nIgnore  // Prevent recursive analysis
     private FilesContextualMenu             willBeDeletedContextualMenu;
 
     // TODO: @I18nString private String txtCanExecuteFirstLetter ?

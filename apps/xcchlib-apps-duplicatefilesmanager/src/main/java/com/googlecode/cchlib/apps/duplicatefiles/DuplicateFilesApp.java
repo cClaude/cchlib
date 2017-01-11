@@ -18,6 +18,7 @@ import com.googlecode.cchlib.Version;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.DuplicateFilesFrame;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControlerFactory;
+import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nService;
 import com.googlecode.cchlib.swing.DialogHelper;
 import com.googlecode.cchlib.swing.JFrames;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
@@ -109,6 +110,10 @@ public class DuplicateFilesApp
             }
 
             frame.setTitle( title );
+
+            // Apply i18n !
+            frame.performeI18n( AutoI18nService.getInstance().getAutoI18n() );
+
             frame.getContentPane().setPreferredSize( frame.getSize() );
             frame.pack();
             frame.setLocationRelativeTo( null );

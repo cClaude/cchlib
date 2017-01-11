@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
@@ -69,7 +70,9 @@ final class FilesContextualMenu extends JPopupMenuForJList<KeyFileState>
 
     private static final String ACTION_OBJECT    = "KeyFile";
 
+    @I18nIgnore  // Prevent recursive analysis
     private final AppToolKit         dFToolKit;
+    @I18nIgnore  // Prevent recursive analysis
     private final JPanelResult       jPanelResult;
     private transient ActionListener actionListenerContextSubMenu;
 

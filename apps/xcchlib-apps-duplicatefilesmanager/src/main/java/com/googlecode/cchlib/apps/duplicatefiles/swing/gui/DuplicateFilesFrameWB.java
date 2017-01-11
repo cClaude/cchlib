@@ -26,8 +26,9 @@ import com.googlecode.cchlib.i18n.annotation.I18nToolTipText;
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n
-{
-    private final class DuplicateFilesFrameWindowAdapter extends WindowAdapter {
+{ // Child class of DuplicateFilesFrameWB implements I18nAutoUpdatable
+
+   private final class DuplicateFilesFrameWindowAdapter extends WindowAdapter {
         @Override
         public void windowClosing(final WindowEvent e) {
             exitApplication();
@@ -189,11 +190,6 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n
     RemoveEmptyDirectoriesPanel getRemoveEmptyDirectoriesPanel()
     {
         return this.jPanelRemoveEmptyDirectories;
-    }
-
-    RemoveEmptyFilesJPanel getDeleteEmptyFilesPanel()
-    {
-        return this.jPanelDeleteEmptyFiles;
     }
 
     public abstract ActionListener getActionListener();

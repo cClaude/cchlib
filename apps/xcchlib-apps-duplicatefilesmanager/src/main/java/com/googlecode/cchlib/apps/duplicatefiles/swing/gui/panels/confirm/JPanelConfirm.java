@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.DialogHelper;
@@ -157,11 +158,13 @@ public class JPanelConfirm extends JPanel
     private static final Logger LOGGER = Logger.getLogger(JPanelConfirm.class);
     public static final String ACTIONCMD_GENERATE_SCRIPT = "ACTIONCMD_GENERATE_SCRIPT";
 
+    @I18nIgnore  // Prevent recursive analysis
     private final AppToolKit dfToolKit;
-    private final JTable jTableFiles2Delete;
-    private final JLabel jLabelTitle;
+
+    private final JTable       jTableFiles2Delete;
+    private final JLabel       jLabelTitle;
     private final JProgressBar jProgressBarDeleteProcess;
-    private final JButton jButtonDoScript;
+    private final JButton      jButtonDoScript;
 
     private AbstractTableModel tableModel;
     private JPanelConfirmModel tableDataToDelete;

@@ -21,6 +21,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search.JPanelS
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.select.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
 import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
@@ -39,17 +40,25 @@ public class DuplicateFilesMainPanel
     public static final String ACTIONCMD_NEXT    = "ACTIONCMD_NEXT";
     public static final String ACTIONCMD_CANCEL  = "ACTIONCMD_CANCEL";
 
+    @I18nIgnore // Prevent recursive analysis
     private DuplicateFilesFrameWB       mainActionListenerSupport;
+
     private CardLayout                  jPanelMainCardLayout;
     private JButton                     jButtonCancel;
     private JButton                     jButtonNextStep;
     private JButton                     jButtonRestart;
+    @I18nIgnore // Prevent recursive analysis
     private JPanel                      jPanelMain;
-    private JPanelConfig                jPanel1Config;
-    private JPanelConfirm               jPanel4Confirm;
-    private JPanelResult                jPanel3Result;
-    private JPanelSearching             jPanel2Searching;
+    @I18nIgnore // Prevent recursive analysis
     private JPanelSelectFoldersOrFiles  jPanel0Select;
+    @I18nIgnore // Prevent recursive analysis
+    private JPanelConfig                jPanel1Config;
+    @I18nIgnore // Prevent recursive analysis
+    private JPanelSearching             jPanel2Searching;
+    @I18nIgnore // Prevent recursive analysis
+    private JPanelResult                jPanel3Result;
+    @I18nIgnore // Prevent recursive analysis
+    private JPanelConfirm               jPanel4Confirm;
 
     /**
      * Fake JPannel for builder
@@ -255,12 +264,14 @@ public class DuplicateFilesMainPanel
     @Override // I18nAutoUpdatable
     public void performeI18n( final AutoI18n autoI18n )
     {
-        autoI18n.performeI18n(this,this.getClass());
-        autoI18n.performeI18n(getJPanel0Select(),getJPanel0Select().getClass());
-        getJPanel1Config().performeI18n(autoI18n);
+        autoI18n.performeI18n( this, this.getClass() );
+        autoI18n.performeI18n( getJPanel0Select(), getJPanel0Select().getClass() );
+
+        getJPanel1Config().performeI18n( autoI18n );
         getJPanel2Searching().performeI18n( autoI18n );
-        getJPanel3Result().performeI18n(autoI18n);
-        autoI18n.performeI18n(getJPanel4Confirm(),getJPanel4Confirm().getClass());
+        getJPanel3Result().performeI18n( autoI18n );
+
+        autoI18n.performeI18n( getJPanel4Confirm(), getJPanel4Confirm().getClass( ));
     }
 
     public void initFixComponents()

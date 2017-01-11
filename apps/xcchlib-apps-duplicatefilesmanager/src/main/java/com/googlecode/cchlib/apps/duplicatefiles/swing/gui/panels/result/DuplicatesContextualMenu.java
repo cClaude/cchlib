@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFiles;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.list.JPopupMenuForJList;
@@ -34,6 +35,7 @@ final class DuplicatesContextualMenu implements Serializable
     @I18nString private String txtMenuFirstFileDepthAscendingOrder;
     @I18nString private String txtMenuFirstFileDepthDescendingOrder;
 
+    @I18nIgnore // Prevent recursive analysis
     private final JPanelResult jPanelResult;
 
     public DuplicatesContextualMenu( final JPanelResult jPanelResult )

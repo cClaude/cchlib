@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.TooManyListenersException;
 import java.util.concurrent.TimeUnit;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.VisibleForTesting;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.about.AboutDialog;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.DuplicateFilesFrame;
@@ -15,7 +16,6 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControle
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControlerFactory;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.ResourcesPath;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nService;
-import com.googlecode.cchlib.apps.emptyfiles.RemoveEmptyFilesJPanel;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
@@ -29,9 +29,11 @@ import com.googlecode.cchlib.lang.Threads;
  * This class is design to generate i18n files
  */
 @SuppressWarnings("ucd") // Development configuration entry point
-public class DuplicateFilesI18nPrep
+public class DuplicateFilesI18nResourceBuilderApp
 {
-    private DuplicateFilesI18nPrep()
+    private static final Logger LOGGER = Logger.getLogger( DuplicateFilesI18nResourceBuilderApp.class );
+
+    private DuplicateFilesI18nResourceBuilderApp()
     {
         // Empty
     }
@@ -39,8 +41,12 @@ public class DuplicateFilesI18nPrep
     @SuppressWarnings("squid:S106") // System.out
     public static void main( final String[] args ) throws Exception
     {
+        LOGGER.info( "Launch I18nResourceBuilder" );
+
         final I18nResourceBuilderResult result = runResourceBuilder();
         I18nResourceBuilderHelper.fmtAll( System.out, result );
+
+        LOGGER.info( "I18nResourceBuilder done" );
     }
 
     @VisibleForTesting
@@ -60,7 +66,7 @@ public class DuplicateFilesI18nPrep
             duplicateFilesFrame,
             new AboutDialog(),
             new PreferencesDialogWB(),
-            new RemoveEmptyFilesJPanel()
+            // new RemoveEmptyFilesJPanel() - Already discovered in duplicateFilesFrame
             };
 
         final I18nResourceBuilder builder

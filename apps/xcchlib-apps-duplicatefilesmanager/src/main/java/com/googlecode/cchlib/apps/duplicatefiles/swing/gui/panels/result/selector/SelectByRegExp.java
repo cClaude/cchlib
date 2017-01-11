@@ -16,6 +16,7 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ConfigMode;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
@@ -25,10 +26,10 @@ import com.googlecode.cchlib.swing.combobox.XComboBoxPattern;
  */
 @I18nName("JPanelResult.SelectByRegExp")
 @SuppressWarnings({"squid:MaximumInheritanceDepth"})
-public class SelectByRegExp extends SelectorPanel
+public final class SelectByRegExp extends SelectorPanel
 {
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER  = Logger.getLogger( SelectByRegExp.class );
+    private static final Logger LOGGER = Logger.getLogger( SelectByRegExp.class );
 
     @I18nString private String txtPatternSyntaxExceptionTitle;
 
@@ -37,7 +38,10 @@ public class SelectByRegExp extends SelectorPanel
     private final JCheckBox jCheckBoxKeepOne;
     private final XComboBoxPattern xComboBoxPatternRegEx;
 
+    @I18nIgnore  // Prevent recursive analysis
     private final AppToolKit dFToolKit;
+
+    @I18nIgnore  // Prevent recursive analysis
     private final DuplicateData duplicateData;
 
     @SuppressWarnings({"squid:S1199","squid:S00117"})
@@ -121,66 +125,92 @@ public class SelectByRegExp extends SelectorPanel
         try {
             return this.xComboBoxPatternRegEx.getSelectedPattern();
         }
-        catch( final java.util.regex.PatternSyntaxException e ) {
-          JOptionPane.showMessageDialog(
-                      this,
-                      e.getLocalizedMessage(),
-                      this.txtPatternSyntaxExceptionTitle ,
-                      JOptionPane.ERROR_MESSAGE
-                      );
-          return null;
-      }
+        catch( final java.util.regex.PatternSyntaxException cause ) {
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( "Can not build pattern", cause );
+            }
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    cause.getLocalizedMessage(),
+                    this.txtPatternSyntaxExceptionTitle,
+                    JOptionPane.ERROR_MESSAGE
+                    );
+
+            return null;
+        }
     }
 
     private void onButtonRegExDelete()
     {
-        final Pattern p = getCurrentPattern();
+        final Pattern pattern = getCurrentPattern();
 
-        if( p == null ) {
+        if( pattern == null ) {
             return;
             }
         final boolean keepOne = this.jCheckBoxKeepOne.isSelected();
 
         for( final KeyFileState f : this.duplicateData.getListModelDuplicatesFiles().getAllDuplicates() ) {
             if( !f.isSelectedToDelete() ) {
-                LOGGER.info( p.matcher( f.getPath() ).matches() + "=" + f.getPath() );
-                if( p.matcher( f.getPath() ).matches() ) {
-                    if( keepOne ) {
-                        final String            k = f.getKey();
-                        final Set<KeyFileState> s = this.duplicateData.getListModelDuplicatesFiles().getStateSet( k );
-                        int               c = 0;
-
-                        for(final KeyFileState fc:s) {
-                            if( !fc.isSelectedToDelete() ) {
-                                c++;
-                                }
-                            }
-                        LOGGER.info( "count=" + c );
-                        if( c > 1 ) {
-                            f.setSelectedToDelete( true );
-                            }
-                        }
-                    else {
-                        f.setSelectedToDelete( true );
-                        }
-                    }
+                selectedToDelete( pattern, keepOne, f );
                 }
             }
 
         this.duplicateData.updateDisplay();
     }
 
+    @SuppressWarnings("squid:S1066") // Merge 'if'
+    private void selectedToDelete(
+        final Pattern      pattern,
+        final boolean      keepOne,
+        final KeyFileState keyFS
+        )
+    {
+        LOGGER.info( pattern.matcher( keyFS.getPath() ).matches() + "=" + keyFS.getPath() );
+
+        if( pattern.matcher( keyFS.getPath() ).matches() ) {
+            if( keepOne ) {
+                final String            key   = keyFS.getKey();
+                final Set<KeyFileState> set   = this.duplicateData.getListModelDuplicatesFiles().getStateSet( key );
+                final int               count = getSelectedToDeleteCount( set );
+
+                LOGGER.info( "count=" + count );
+
+                if( count > 1 ) {
+                    keyFS.setSelectedToDelete( true );
+                    }
+                }
+            else {
+                keyFS.setSelectedToDelete( true );
+                }
+            }
+    }
+
+    private int getSelectedToDeleteCount( final Set<KeyFileState> set )
+    {
+        int count = 0;
+
+        for( final KeyFileState fc : set ) {
+            if( !fc.isSelectedToDelete() ) {
+                count++;
+                }
+            }
+
+        return count;
+    }
+
+    @SuppressWarnings("squid:S1066") // Merge 'if'
     private void onButtonRegExRestore()
     {
-        final Pattern p = getCurrentPattern();
+        final Pattern pattern = getCurrentPattern();
 
-        if( p == null ) {
+        if( pattern == null ) {
             return;
             }
 
         for( final KeyFileState f : this.duplicateData.getListModelDuplicatesFiles().getAllDuplicates() ) {
             if( f.isSelectedToDelete() ) {
-                if( p.matcher( f.getPath() ).matches() ) {
+                if( pattern.matcher( f.getPath() ).matches() ) {
                     f.setSelectedToDelete( false );
                     }
                 }

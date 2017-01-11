@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import javax.annotation.Nullable;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesApp;
-import com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesI18nPrep;
+import com.googlecode.cchlib.apps.duplicatefiles.DuplicateFilesI18nResourceBuilderApp;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.json.JSONHelper;
 import com.googlecode.cchlib.json.JSONHelperException;
@@ -25,7 +25,7 @@ public final class PreferencesControlerFactory
     }
 
     /**
-     * Create a default {@link PreferencesControler} for {@link DuplicateFilesI18nPrep},
+     * Create a default {@link PreferencesControler} for {@link DuplicateFilesI18nResourceBuilderApp},
      * or if option {@link DuplicateFilesApp#NO_PREFERENCE} is set
      *
      * @return a valid {@link PreferencesControler}
