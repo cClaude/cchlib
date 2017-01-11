@@ -2,9 +2,11 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import java.lang.reflect.InvocationTargetException;
+import org.junit.Assume;
 import org.junit.Test;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderHelper;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class EditResourcesBundleAppI18nPrepTest
 {
@@ -17,8 +19,12 @@ public class EditResourcesBundleAppI18nPrepTest
     public void test_EditResourcesBundleAppI18nPrep()
         throws InvocationTargetException, InterruptedException
     {
+        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+
         final EditResourcesBundleAppI18nPrepApp instance = new EditResourcesBundleAppI18nPrepApp();
         final I18nResourceBuilderResult         result   = instance.doResourceBuilder();
+
+        assertThat( result ).isNotNull();
 
         I18nResourceBuilderHelper.fmtAll( System.out, result );
 

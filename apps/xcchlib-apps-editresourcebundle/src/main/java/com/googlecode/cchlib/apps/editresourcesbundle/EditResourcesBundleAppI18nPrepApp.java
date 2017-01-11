@@ -51,7 +51,7 @@ public class EditResourcesBundleAppI18nPrepApp implements Runnable
     {
         SwingUtilities.invokeLater( this );
 
-        for( int i = 1; (i < 10) && ! this.done; i++ ) {
+        for( int i = 1; (i < 30) && ! this.done; i++ ) {
             LOGGER.info( "Launch EditResourcesBundleAppI18nPrep not yet ready (" + i + ")" );
 
             Threads.sleep( 1, TimeUnit.SECONDS );
