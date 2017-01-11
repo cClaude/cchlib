@@ -122,30 +122,6 @@ public class AutoI18nFactory
     }
 
     /**
-     * Create a reasonable {@link AutoI18n}
-     *
-     * @param resourceBundleName
-     *            The {@link com.googlecode.cchlib.i18n.resources.I18nResourceBundleName}
-     * @param locale
-     *            The wanted {@link Locale}, use {@link Locale#getDefault()} if null
-     * @return an {@link AutoI18n} with giving configuration
-     *
-     * @see com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory
-     * @deprecated use {@link I18nResourceFactory} and {@link #newAutoI18n(I18nResource)} instead.
-     */
-    @Deprecated
-    public static AutoI18n newAutoI18n(
-        @Nonnull final com.googlecode.cchlib.i18n.resources.I18nResourceBundleName resourceBundleName,
-        @Nullable final Locale                                                     locale
-        )
-    {
-         return newAutoI18n(
-             DEFAULT_AUTO_I18N_CONFIG,
-             I18nResourceFactory.newI18nResourceBundle( resourceBundleName, locale )
-             );
-    }
-
-    /**
      * Create a reasonable {@link AutoI18n} based on defaults
      *
      * @param i18nResource
@@ -155,31 +131,13 @@ public class AutoI18nFactory
      * @see #DEFAULT_AUTO_I18N_TYPES
      */
     public static AutoI18n newAutoI18n(
-        @Nonnull final I18nResource resourceBundle
+        @Nonnull final I18nResource i18nResource
         )
     {
          return newAutoI18n(
              DEFAULT_AUTO_I18N_CONFIG,
-             resourceBundle
+             i18nResource
              );
-    }
-
-    /**
-     * Create a reasonable {@link AutoI18n}
-     *
-     * @param resourceBundleName
-     *            The {@link com.googlecode.cchlib.i18n.resources.I18nResourceBundleName}
-     * @return an {@link AutoI18n} with giving configuration
-     *
-     * @see com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory
-     * @deprecated use {@link I18nResourceFactory} and {@link #newAutoI18n(I18nResource)} instead.
-     */
-    @Deprecated
-    public static AutoI18n newAutoI18n(
-        @Nonnull final com.googlecode.cchlib.i18n.resources.I18nResourceBundleName resourceBundleName
-        )
-    {
-         return newAutoI18n( resourceBundleName, DEFAULT_LOCALE  );
     }
 
     /**

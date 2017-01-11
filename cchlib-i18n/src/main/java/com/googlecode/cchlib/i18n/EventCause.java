@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.i18n;
 
 /**
- * Event type for {@link AutoI18n} system
+ * Event type I18n API
  */
 public enum EventCause
 {

@@ -42,8 +42,8 @@ public class I18nResourceFactory
     }
 
     public static I18nResourceBundle newI18nResourceBundle(
-        final String resourceBundleFullBaseName,
-        final Locale locale
+        @Nonnull final String  resourceBundleFullBaseName,
+        @Nullable final Locale locale
         )
     {
         return new I18nResourceBundle(
@@ -66,7 +66,7 @@ public class I18nResourceFactory
      */
     public static I18nResource newI18nResource(
         @Nonnull final Class<?> referenceType,
-        @Nonnull final Locale   locale
+        @Nullable final Locale  locale
         )
     {
          return newI18nResourceBundle( referenceType, locale );
@@ -84,7 +84,7 @@ public class I18nResourceFactory
      */
     public static I18nResourceBundle newI18nResourceBundle(
         @Nonnull final Class<?> referenceType,
-        @Nonnull final Locale   locale
+        @Nullable final Locale  locale
         )
     {
         return newI18nResourceBundle(
@@ -152,8 +152,9 @@ public class I18nResourceFactory
      * Create a {@link I18nResourceBundleName} based on package name and
      * {@link #DEFAULT_MESSAGE_BUNDLE_BASENAME} value
      *
-     * @param packageMessageBundleBase package to use
-     * @return an {@link I18nResourceBundleName}
+     * @param packageMessageBundleBase Package to use
+     * @param locale The {@link Locale}
+     * @return an {@link I18nResourceBundle}
      */
     public static I18nResourceBundle newI18nResourceBundle(
         @Nonnull final Package packageMessageBundleBase,

@@ -95,7 +95,7 @@ public interface AutoI18nExceptionHandler extends Serializable
      * Invoke when a {@link SecurityException} occur.
      *
      * @param cause The cause
-     * @param i18nField The {@link I18nField}
+     * @param field The {@link Field} that concern
      */
     void handleSecurityException( MethodProviderSecurityException cause, Field field );
 

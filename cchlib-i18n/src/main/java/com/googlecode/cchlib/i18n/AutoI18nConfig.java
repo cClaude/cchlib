@@ -44,7 +44,7 @@ public enum AutoI18nConfig
 
     /**
      * Disable internalization process, could be also done
-     * using {@link AutoI18n#DISABLE_PROPERTIES}.
+     * using {@link #DISABLE_PROPERTIES}.
      */
     DISABLE,
 

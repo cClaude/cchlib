@@ -4,8 +4,6 @@ package com.googlecode.cchlib.i18n;
  * AutoI18nBasicInterface is design to help localization
  * process for objects which have only one value to
  * localize.
- *
- * @see AutoI18n
  */
 public interface AutoI18nBasicInterface
 {
