@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.duplicatefiles.swing.services;
 
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 
 public class AutoI18nService

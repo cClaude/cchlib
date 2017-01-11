@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.ResourceBundle;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nExceptionHandler;
 import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
 import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;

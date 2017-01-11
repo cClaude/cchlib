@@ -20,9 +20,9 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.editresourcesbundle.Resources;
 import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 @I18nName("MultiLineEditorDialog")

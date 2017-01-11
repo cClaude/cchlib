@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.core.I18nPrep;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;

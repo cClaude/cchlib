@@ -3,8 +3,8 @@ package com.googlecode.cchlib.swing.textfield;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.text.Document;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 /**

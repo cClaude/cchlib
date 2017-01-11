@@ -25,8 +25,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControle
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AutoI18nService;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.SerializableIcon;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Tools;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.JFrames;

@@ -13,8 +13,8 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.AppToolKit;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search.errors.ErrorTableModel;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 //NOT public

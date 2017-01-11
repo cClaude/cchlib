@@ -21,9 +21,9 @@ import com.googlecode.cchlib.apps.emptydirectories.gui.tree.FolderTreeCellEditor
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModel1;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeModelable1;
 import com.googlecode.cchlib.apps.emptydirectories.gui.tree.model.FolderTreeNode;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.swing.filechooser.FileSelectionMode;

@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.i18n.core;
 
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 
 /**

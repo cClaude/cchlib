@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JWindow;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 
 /**
  * How to select Fields:

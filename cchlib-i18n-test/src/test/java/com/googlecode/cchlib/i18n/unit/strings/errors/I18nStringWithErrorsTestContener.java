@@ -2,9 +2,9 @@ package com.googlecode.cchlib.i18n.unit.strings.errors;
 
 import javax.swing.JButton;
 import org.junit.Assert;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nCustomMethod;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 public class I18nStringWithErrorsTestContener implements I18nAutoUpdatable

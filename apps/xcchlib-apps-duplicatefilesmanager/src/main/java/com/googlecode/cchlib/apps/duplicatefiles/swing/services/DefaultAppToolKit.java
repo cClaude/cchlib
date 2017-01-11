@@ -20,10 +20,10 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControle
 import com.googlecode.cchlib.apps.duplicatefiles.swing.ressources.ResourcesPath;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.MyResourcesLoader;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.tools.Resources;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.api.I18nResource;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
 import com.googlecode.cchlib.lang.Threads;

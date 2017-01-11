@@ -11,8 +11,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.FileFilterBuilderConfigur
 import com.googlecode.cchlib.apps.duplicatefiles.swing.FileFilterBuilders;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.filtersconfig.config.FiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.prefs.PreferencesControler;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.menu.LookAndFeelListener;
 

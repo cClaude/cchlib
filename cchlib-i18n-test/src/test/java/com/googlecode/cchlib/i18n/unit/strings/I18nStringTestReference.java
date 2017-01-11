@@ -10,7 +10,7 @@ import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTes
 import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.LOCALIZED_FIELDS;
 import static org.fest.assertions.api.Assertions.assertThat;
 import org.apache.log4j.Logger;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;

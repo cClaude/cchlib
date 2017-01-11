@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.Locale;
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 

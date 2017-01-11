@@ -3,9 +3,9 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 import java.util.Locale;
 import java.util.Set;
 import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.api.I18nResource;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
 

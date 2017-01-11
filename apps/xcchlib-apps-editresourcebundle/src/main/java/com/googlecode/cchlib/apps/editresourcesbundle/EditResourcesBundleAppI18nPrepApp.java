@@ -17,8 +17,8 @@ import com.googlecode.cchlib.apps.editresourcesbundle.multilineeditor.MultiLineE
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesJPanel;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.PreferencesValues;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;

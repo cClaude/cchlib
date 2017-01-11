@@ -4,7 +4,7 @@ import java.awt.CardLayout;
 import java.util.EnumMap;
 import java.util.Map;
 import javax.swing.JPanel;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 public class SelectorsJPanel extends JPanel implements I18nAutoUpdatable

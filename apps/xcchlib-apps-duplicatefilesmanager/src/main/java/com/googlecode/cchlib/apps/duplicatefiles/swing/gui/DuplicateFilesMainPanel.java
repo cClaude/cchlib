@@ -20,8 +20,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search.JPanelS
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.search.JPanelSearchingSingleThread;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.panels.select.JPanelSelectFoldersOrFiles;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.services.AppToolKitService;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 /**

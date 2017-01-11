@@ -25,9 +25,9 @@ import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
 import com.googlecode.cchlib.apps.emptyfiles.panel.select.SelectDirecoriesJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.tasks.FindTask;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 @I18nName("emptyfiles.RemoveEmptyFilesJPanel")

@@ -5,7 +5,7 @@ import static org.junit.Assume.assumeTrue;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 import com.googlecode.cchlib.swing.i18n.SwingAutoI18nFactory;
 

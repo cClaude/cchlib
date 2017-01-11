@@ -1,4 +1,7 @@
-package com.googlecode.cchlib.i18n.core;
+package com.googlecode.cchlib.i18n;
+
+import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
+import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 /**
  * Define a class able to be internationalized.

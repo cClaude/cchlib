@@ -1,8 +1,8 @@
 package com.googlecode.cchlib.i18n.resourcebuilder;
 
 import java.util.Locale;
+import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
-import com.googlecode.cchlib.i18n.core.AutoI18n;
 import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.core.internal.AutoI18nImpl;
 
