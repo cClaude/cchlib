@@ -41,7 +41,7 @@ import com.googlecode.cchlib.util.duplicate.stream.PrepareDuplicateFile;
  * This class is use if number of Thread is greater than 1
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
-public class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurrentFile
+public final class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurrentFile
 {
     private final class FileVisitorPass1 implements FileVisitor<Path> {
         private final FileFilter dirFilter;

@@ -5,11 +5,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import org.apache.log4j.Logger;
 
 @SuppressWarnings("squid:MaximumInheritanceDepth") // Because swing
 public class EmptyfilesTestApp extends JFrame
 {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger( EmptyfilesTestApp.class );
 
     private final JPanel contentPane;
 
@@ -20,13 +22,14 @@ public class EmptyfilesTestApp extends JFrame
     {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setBounds( 100, 100, 450, 300 );
+
         this.contentPane = new JPanel();
         this.contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         this.contentPane.setLayout( new BorderLayout( 0, 0 ) );
         setContentPane( this.contentPane );
 
-        //DFToolKit fake = new FakeDFToolKit();
         final RemoveEmptyFilesJPanel testPanel = new RemoveEmptyFilesJPanel();
+
         this.contentPane.add( testPanel );
     }
 
@@ -42,8 +45,8 @@ public class EmptyfilesTestApp extends JFrame
                 final EmptyfilesTestApp frame = new EmptyfilesTestApp();
                 frame.setVisible( true );
             }
-            catch( final Exception e ) {
-                e.printStackTrace();
+            catch( final Exception cause ) {
+                LOGGER.fatal( EmptyfilesTestApp.class, cause );
             }
         });
     }
