@@ -16,8 +16,8 @@ import com.googlecode.cchlib.i18n.unit.TestReference;
 
 public class I18nToolTipTextIgnorePart implements TestReference
 {
-    @I18nToolTipText // I18n for tool tip text
-    @I18nIgnore  // No I18n for button
+    @I18nToolTipText // I18n for tool tip text on button
+    @I18nIgnore  // But no I18n for button text
     private final JButton myButtonWithToolTipText1;
 
     public I18nToolTipTextIgnorePart()

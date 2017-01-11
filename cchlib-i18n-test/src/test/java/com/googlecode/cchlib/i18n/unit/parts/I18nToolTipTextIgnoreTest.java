@@ -14,7 +14,7 @@ public class I18nToolTipTextIgnoreTest extends I18nITBase
     static final String TEXT_INIT = "my button with tool tip text 1";
 
     static final int LOCALIZED_FIELDS = 1;
-    static final int IGNORED_FIELDS   = 2;
+    static final int IGNORED_FIELDS   = 1;
 
     @Test
     public void testI18n_WithValidBundle_I18nToolTipTextIgnorePart()
