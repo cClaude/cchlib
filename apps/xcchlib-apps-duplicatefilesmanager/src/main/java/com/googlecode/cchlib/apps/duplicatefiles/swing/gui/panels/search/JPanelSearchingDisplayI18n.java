@@ -9,10 +9,10 @@ public class JPanelSearchingDisplayI18n extends JPanel
 {
     private static final long serialVersionUID = 1L;
 
-    @I18nString private String txtDuplicateSetsFound = "%,d";
-    @I18nString private String txtDuplicateFilesFound = "%,d";
-    @I18nString private String txtNumberOfFilesProcessed = "Number of files processed: %,d";
-    @I18nString private String txtOctectsToCheck = "Octects to check: %,d";
+    @I18nString private String txtDuplicateSetsFound;
+    @I18nString private String txtDuplicateFilesFound;
+    @I18nString private String txtNumberOfFilesProcessed;
+    @I18nString private String txtOctectsToCheck;
 
     @I18nString private String txtCurrentFile;
     @I18nString private String txtCurrentDir;
@@ -30,32 +30,32 @@ public class JPanelSearchingDisplayI18n extends JPanel
 
     protected final String getTxtDuplicateSetsFound()
     {
-        return txtDuplicateSetsFound;
+        return this.txtDuplicateSetsFound;
     }
 
     protected final String getTxtDuplicateFilesFound()
     {
-        return txtDuplicateFilesFound;
+        return this.txtDuplicateFilesFound;
     }
 
     protected final String getTxtNumberOfFilesProcessed()
     {
-        return txtNumberOfFilesProcessed;
+        return this.txtNumberOfFilesProcessed;
     }
 
     protected final String getTxtOctectsToCheck()
     {
-        return txtOctectsToCheck;
+        return this.txtOctectsToCheck;
     }
 
     protected final String getTxtCurrentFile()
     {
-        return txtCurrentFile;
+        return this.txtCurrentFile;
     }
 
     protected final String getTxtCurrentDir()
     {
-        return txtCurrentDir;
+        return this.txtCurrentDir;
     }
 
     private final void setTxtDuplicateSetsFound( final String txtDuplicateSetsFound )

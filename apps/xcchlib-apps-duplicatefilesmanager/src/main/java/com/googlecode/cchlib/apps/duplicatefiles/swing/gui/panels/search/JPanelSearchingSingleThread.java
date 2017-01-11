@@ -14,7 +14,6 @@ import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.KeyFileState;
 import com.googlecode.cchlib.apps.duplicatefiles.swing.gui.ShouldNotOccurRuntimeException;
-import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.io.FileIterable;
 import com.googlecode.cchlib.lang.Threads;
 import com.googlecode.cchlib.util.duplicate.DuplicateFileFinder;
@@ -29,7 +28,7 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestFactory;
  * This class is use if number of Thread is equal to 1
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
-public class JPanelSearchingSingleThread extends JPanelSearching
+public final class JPanelSearchingSingleThread extends JPanelSearching
 {
     /** TODO try to use {@link GlobalDuplicateFileFinderListener} instead */
     private static final class MyDuplicateFileFinderEventListener implements DuplicateFileFinderEventListener
@@ -94,11 +93,6 @@ public class JPanelSearchingSingleThread extends JPanelSearching
 
     private DuplicateFileFinder dff;
 
-    @I18nString private String txtDuplicateSetsFound;
-    @I18nString private String txtDuplicateFilesFound;
-    @I18nString private String txtNumberOfFilesProcessed;
-    @I18nString private String txtOctectsToCheck;
-
     private int     pass2CountFile;
     private long    pass2BytesCount;
 
@@ -116,16 +110,6 @@ public class JPanelSearchingSingleThread extends JPanelSearching
     public JPanelSearchingSingleThread()
     {
         super( NUMBER_OF_THREADS );
-
-        initI18N();
-    }
-
-    private void initI18N()
-    {
-        this.txtDuplicateSetsFound     = "%,d";
-        this.txtDuplicateFilesFound    = "%,d";
-        this.txtNumberOfFilesProcessed = "Number of files processed: %,d";
-        this.txtOctectsToCheck         = "Octects to check: %,d";
     }
 
     @Override
@@ -248,14 +232,14 @@ public class JPanelSearchingSingleThread extends JPanelSearching
         getjLabelDuplicateSetsFoundValue().setText(
                 String.format(
                     locale,
-                    this.txtDuplicateSetsFound,
+                    this.getTxtDuplicateSetsFound(),
                     Integer.valueOf( status.getSets() )
                     )
                 );
         getjLabelDuplicateFilesFoundValue().setText(
                 String.format(
                     locale,
-                    this.txtDuplicateFilesFound,
+                    this.getTxtDuplicateFilesFound(),
                     Integer.valueOf( status.getFiles() )
                     )
                 );
@@ -266,14 +250,14 @@ public class JPanelSearchingSingleThread extends JPanelSearching
             getjProgressBarFiles().setString(
                     String.format(
                         locale,
-                        this.txtNumberOfFilesProcessed,
+                        this.getTxtNumberOfFilesProcessed(),
                         Integer.valueOf( getPass1FilesCount() )
                         )
                     );
             getjProgressBarOctets().setString(
                 String.format(
                     locale,
-                    this.txtOctectsToCheck,
+                    this.getTxtOctectsToCheck(),
                     Long.valueOf( getPass1BytesCount() )
                     )
                 );
