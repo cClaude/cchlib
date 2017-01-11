@@ -22,7 +22,6 @@ import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
-import com.googlecode.cchlib.i18n.unit.parts.AutoI18nBasicInterfacePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nBaseNamePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nDefaultPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nForcedPart;
@@ -30,7 +29,6 @@ import com.googlecode.cchlib.i18n.unit.parts.I18nStringPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextIgnorePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart;
-import com.googlecode.cchlib.i18n.unit.strings.errors.I18nStringWithErrorsTestReference;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 /**
@@ -44,7 +42,7 @@ public class RunI18nTestAppTest
     private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );
 
     // see REF.properties
-    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 3 + 2;
+    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 3 + 3;
     private static final int NUMBERS_OF_SWING_PROPERTIES  = 30;
 
     // When this class is modify, you must test both configuration
@@ -65,10 +63,10 @@ public class RunI18nTestAppTest
             list.add( new I18nToolTipText_for_JTabbedPanePart() );
         }
 
-        list.add( new AutoI18nBasicInterfacePart() );
+        //DEPRECATED list.add( new AutoI18nBasicInterfacePart() );
         list.add( new I18nStringPart() );
         //DEPRECATED list.add( new I18nStringTestReference() );
-        list.add( new I18nStringWithErrorsTestReference() );
+        //DEPRECATED list.add( new I18nStringWithErrorsTestReference() );
 
         return list;
     }
@@ -123,7 +121,7 @@ public class RunI18nTestAppTest
         assertThat( collector.getMissingKeyExceptionCollector().size() ).isZero();
 
         assertThat( collector.getMissingResourceExceptionCollector().size() )
-            .isEqualTo( missingResourceExceptionCount - 2 );
+            .isEqualTo( missingResourceExceptionCount );
 
         assertThat( collector.getNoSuchMethodExceptionCollector().size() ).isZero();
         assertThat( collector.getMethodProviderSecurityExceptionCollector().size() ).isZero();
@@ -227,11 +225,5 @@ public class RunI18nTestAppTest
     public void launchI18nStringOldTest()
     {
         new I18nStringPart().performeI18n();
-    }
-
-    @Test
-    public void launch_I18nStringWithErrorsTestReference()
-    {
-        new I18nStringWithErrorsTestReference().performeI18n();
     }
 }

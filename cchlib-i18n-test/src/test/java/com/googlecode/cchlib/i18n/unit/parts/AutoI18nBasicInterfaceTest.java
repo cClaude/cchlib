@@ -6,6 +6,12 @@ import com.googlecode.cchlib.i18n.unit.util.I18nITBase;
 
 public class AutoI18nBasicInterfaceTest extends I18nITBase
 {
+    static final String INIT_TEXT           = "my MyAutoI18nBasicInterface text 1";
+    static final String DEFAULT_BUNDLE_TEXT = "OK(myAutoI18nBasicInterface)";
+
+    static final int LOCALIZED_FIELDS = 1;
+    static final int IGNORED_FIELDS   = 0;
+
     @Test
     public void testI18n_WithValidBundle_AutoI18nBasicInterfacePart()
     {

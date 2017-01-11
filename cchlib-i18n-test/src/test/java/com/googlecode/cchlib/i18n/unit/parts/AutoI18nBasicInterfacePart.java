@@ -1,20 +1,19 @@
 package com.googlecode.cchlib.i18n.unit.parts;
 
+import static com.googlecode.cchlib.i18n.unit.parts.AutoI18nBasicInterfaceTest.DEFAULT_BUNDLE_TEXT;
+import static com.googlecode.cchlib.i18n.unit.parts.AutoI18nBasicInterfaceTest.IGNORED_FIELDS;
+import static com.googlecode.cchlib.i18n.unit.parts.AutoI18nBasicInterfaceTest.INIT_TEXT;
+import static com.googlecode.cchlib.i18n.unit.parts.AutoI18nBasicInterfaceTest.LOCALIZED_FIELDS;
 import static org.fest.assertions.api.Assertions.assertThat;
-import org.apache.log4j.Logger;
-import org.junit.Assert;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nBasicInterface;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
-import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
-import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
-import com.googlecode.cchlib.i18n.unit.util.TestUtils;
 
 public final class AutoI18nBasicInterfacePart
-    implements I18nAutoUpdatable, TestReference, TestReferenceDeprecated
+    implements I18nAutoUpdatable, TestReference
 {
     private static final class MyAutoI18nBasicInterface implements AutoI18nBasicInterface
     {
@@ -38,11 +37,6 @@ public final class AutoI18nBasicInterfacePart
         }
     }
 
-    private static final Logger LOGGER = Logger.getLogger( AutoI18nBasicInterfacePart.class );
-
-    private static final String INIT_TEXT = "my MyAutoI18nBasicInterface text 1";
-    private static final String DEFAULT_BUNDLE_TEXT = "OK(myAutoI18nBasicInterface)";
-
     private final MyAutoI18nBasicInterface myAutoI18nBasicInterface;
 
     public AutoI18nBasicInterfacePart()
@@ -54,49 +48,6 @@ public final class AutoI18nBasicInterfacePart
     public void performeI18n( final AutoI18n autoI18n )
     {
         autoI18n.performeI18n( this, this.getClass() );
-    }
-
-    @Override //TestReferenceDeprecated
-    @Deprecated
-    public void beforePrepTest(final PrepTestPart prepTest)
-    {
-        TestUtils.preparePrepTest( prepTest, this );
-    }
-
-    @Override //TestReferenceDeprecated
-    @Deprecated
-    public void afterPrepTest( final boolean firstRun )
-    {
-        Assert.assertEquals( INIT_TEXT, this.myAutoI18nBasicInterface.getI18nString() );
-    }
-
-    @Override //TestReferenceDeprecated
-    @Deprecated
-    public void performeI18n()
-    {
-        afterPrepTest( true );
-
-        TestUtils.performeI18n( this );
-
-        {
-            final String text = this.myAutoI18nBasicInterface.getI18nString();
-            LOGGER.info( "TEST RESULT: this.myAutoI18nBasicInterface.getI18nString() = " + text );
-            Assert.assertEquals( DEFAULT_BUNDLE_TEXT, text );
-        }
-    }
-
-    @Override //TestReferenceDeprecated
-    @Deprecated
-    public int getSyntaxeExceptionCount()
-    {
-        return 0;
-    }
-
-    @Override //TestReferenceDeprecated
-    @Deprecated
-    public int getMissingResourceExceptionCount()
-    {
-        return 1;
     }
 
     @Override // TestReference
@@ -116,9 +67,6 @@ public final class AutoI18nBasicInterfacePart
     {
         beforePerformeI18nTest(); // No Change
     }
-
-    private static final int LOCALIZED_FIELDS = 1;
-    private static final int IGNORED_FIELDS   = 5;
 
     @Override // TestReference
     public void afterResourceBuilderTest_WithValidBundle( final I18nResourceBuilderResult result )

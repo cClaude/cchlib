@@ -12,16 +12,8 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
-import com.googlecode.cchlib.i18n.core.I18nPrep;
-import com.googlecode.cchlib.i18n.prep.I18nPrepException;
-import com.googlecode.cchlib.i18n.prep.I18nPrepFactory;
-import com.googlecode.cchlib.i18n.prep.I18nPrepHelper;
-import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceBundle;
-import com.googlecode.cchlib.i18n.resources.I18nResourceBundleName;
-import com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle;
-import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 
 /**
  * @deprecated use {@link I18nResourceBuilderFactory} instead
@@ -30,15 +22,15 @@ import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 public class TestUtils
 {
     @Deprecated
-    public static final I18nResourceBundleName VALID_MESSAGE_BUNDLE
+    public static final com.googlecode.cchlib.i18n.resources.I18nResourceBundleName VALID_MESSAGE_BUNDLE
         = newI18nResourceBundleName(
-                new I18nITBaseConfig(){}.newI18nResourceBundleName_WithValidBundle()
+                new I18nITBaseConfig(){/*fake*/}.newI18nResourceBundleName_WithValidBundle()
                 );
 
     @Deprecated
-    public static final I18nResourceBundleName NOT_VALID_MESSAGE_BUNDLE_BUT_EXIST
+    public static final com.googlecode.cchlib.i18n.resources.I18nResourceBundleName NOT_VALID_MESSAGE_BUNDLE_BUT_EXIST
         = newI18nResourceBundleName(
-            new I18nITBaseConfig(){}.newI18nResourceBundleName_WithExistingButNotValidBundle()
+            new I18nITBaseConfig(){/*fake*/}.newI18nResourceBundleName_WithExistingButNotValidBundle()
             );
 
     private TestUtils()
@@ -46,13 +38,13 @@ public class TestUtils
         // All static
     }
 
-    private static I18nResourceBundleName newI18nResourceBundleName( final I18nResourceBundle i18nResourceBundle)
+    private static com.googlecode.cchlib.i18n.resources.I18nResourceBundleName newI18nResourceBundleName( final I18nResourceBundle i18nResourceBundle)
     {
         return () -> i18nResourceBundle.getResourceBundleFullBaseName();
     }
 
     @Deprecated
-    public static PrepTestPart newPrepTestPart()
+    public static com.googlecode.cchlib.i18n.unit.PrepTestPart newPrepTestPart()
     {
         // Default language !
         final Locale locale = Locale.ENGLISH;
@@ -61,8 +53,9 @@ public class TestUtils
         final PrintStream usageStatPrintStream = System.err;
         final PrintStream notUsePrintStream    = System.out;
 
-        final Set<AutoI18nConfig> config   = getPrepConfig();
-        final I18nPrep            autoI18n = I18nPrepFactory.newI18nPrep(
+        final Set<AutoI18nConfig>                      config   = getPrepConfig();
+        final com.googlecode.cchlib.i18n.core.I18nPrep autoI18n
+            = com.googlecode.cchlib.i18n.prep.I18nPrepFactory.newI18nPrep(
                 config,
                 NOT_VALID_MESSAGE_BUNDLE_BUT_EXIST,
                 locale
@@ -71,10 +64,10 @@ public class TestUtils
 
         autoI18n.addAutoI18nExceptionHandler( exceptionCollector );
 
-        return new PrepTestPart() {
+        return new com.googlecode.cchlib.i18n.unit.PrepTestPart() {
             private final List<I18nAutoUpdatable> list = new ArrayList<>();
             @Override
-            public I18nPrep getAutoI18n()
+            public com.googlecode.cchlib.i18n.core.I18nPrep getAutoI18n()
             {
                 return autoI18n;
             }
@@ -108,22 +101,32 @@ public class TestUtils
 
     @Deprecated
     public static void preparePrepTest(
-        final PrepTestPart prepTest,
-        final I18nAutoUpdatable frame
+        final com.googlecode.cchlib.i18n.unit.PrepTestPart prepTest,
+        final I18nAutoUpdatable                            frame
         )
     {
         prepTest.add( frame );
     }
 
     @Deprecated
-   public static I18nPrepResult runPrepTest(
-        final PrepTestPart prepTest
-        ) throws I18nPrepException
+   public static com.googlecode.cchlib.i18n.prep.I18nPrepResult runPrepTest(
+        final com.googlecode.cchlib.i18n.unit.PrepTestPart prepTest
+        ) throws com.googlecode.cchlib.i18n.prep.I18nPrepException
     {
-        final I18nPrepResult result = I18nPrepHelper.defaultPrep( prepTest.getAutoI18n(), prepTest.getI18nConteners());
+        final com.googlecode.cchlib.i18n.prep.I18nPrepResult result
+            = com.googlecode.cchlib.i18n.prep.I18nPrepHelper.defaultPrep(
+                    prepTest.getAutoI18n(),
+                    prepTest.getI18nConteners()
+                    );
 
-        I18nPrepHelper.fmtUsageStatCollector( prepTest.getUsageStatPrintStream(), result );
-        I18nPrepHelper.fmtNotUseCollector( prepTest.getNotUsePrintStream(), result );
+        com.googlecode.cchlib.i18n.prep.I18nPrepHelper.fmtUsageStatCollector(
+                    prepTest.getUsageStatPrintStream(),
+                    result
+                    );
+        com.googlecode.cchlib.i18n.prep.I18nPrepHelper.fmtNotUseCollector(
+                    prepTest.getNotUsePrintStream(),
+                    result
+                    );
 
         return result;
     }
@@ -156,10 +159,13 @@ public class TestUtils
     }
 
     static ResourceBundle createResourceBundle(
-        final I18nResourceBundleName resourceBundleName,
-        final Locale                 locale
+        final com.googlecode.cchlib.i18n.resources.I18nResourceBundleName resourceBundleName,
+        final Locale                                                      locale
         )
     {
-        return new I18nSimpleResourceBundle( resourceBundleName, locale ).getResourceBundle();
+        return new com.googlecode.cchlib.i18n.resources.I18nSimpleResourceBundle(
+                    resourceBundleName,
+                    locale
+                    ).getResourceBundle();
     }
 }
