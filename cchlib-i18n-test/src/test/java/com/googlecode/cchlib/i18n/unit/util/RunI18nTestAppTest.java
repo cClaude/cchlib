@@ -22,7 +22,6 @@ import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
-import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextIgnorePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
@@ -37,7 +36,7 @@ public class RunI18nTestAppTest
     private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );
 
     // see REF.properties
-    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 3 + 26;
+    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 3 + 27;
     private static final int NUMBERS_OF_SWING_PROPERTIES  = 30;
 
     // When this class is modify, you must test both configuration
@@ -53,7 +52,7 @@ public class RunI18nTestAppTest
             //DEPRECATED list.add( new I18nBaseNamePart() );
             //DEPRECATED list.add( new I18nDefaultPart() );
             //DEPRECATED list.add( new I18nForcedPart() );
-            list.add( new I18nToolTipTextIgnorePart() );
+            //DEPRECATED list.add( new I18nToolTipTextIgnorePart() );
             //DEPRECATED list.add( new I18nToolTipTextPart() );
             list.add( new I18nToolTipText_for_JTabbedPanePart() );
         }
