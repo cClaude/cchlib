@@ -7,7 +7,6 @@ public enum EventCause
 {
     FIELD_TYPE_IS_ANNOTATION,
     FIELD_TYPE_IS_PRIMITIVE,
-    //FIELD_TYPE_IS_NUMBER,
     FIELD_TYPE_IS_NOT_HANDLE,
     ANNOTATION_I18N_IGNORE_DEFINE,
     NOT_HANDLED,
@@ -18,5 +17,4 @@ public enum EventCause
     OTHER_ANNOTATION_ALREADY_EXIST,
     /** Field is not handle directly, but recurse on content */
     HANDLE_CONTENT_I18N_AUTO_CORE_UPDATABLE,
-    //DEPRECATED,
     }

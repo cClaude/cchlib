@@ -21,26 +21,6 @@ public class I18nResourceFactory
         // All static
     }
 
-    /**
-     * Create an {@link I18nResourceBundle}
-     *
-     * @param resourceBundleName the resource bundle name
-     * @param locale the locale
-     * @return a new {@link I18nResourceBundle}
-     * @deprecated avoid to use deprecated {@link I18nResourceBundleName}
-     */
-    @Deprecated
-    public static I18nResourceBundle newI18nResourceBundle(
-        @Nonnull final I18nResourceBundleName resourceBundleName,
-        @Nullable final Locale                locale
-        )
-    {
-         return newI18nResourceBundle(
-                 resourceBundleName.getName(),
-                 locale
-                 );
-    }
-
     public static I18nResourceBundle newI18nResourceBundle(
         @Nonnull final String  resourceBundleFullBaseName,
         @Nullable final Locale locale
@@ -149,7 +129,7 @@ public class I18nResourceFactory
     }
 
     /**
-     * Create a {@link I18nResourceBundleName} based on package name and
+     * Create a {@link I18nResourceBundle} based on package name and
      * {@link #DEFAULT_MESSAGE_BUNDLE_BASENAME} value
      *
      * @param packageMessageBundleBase Package to use
@@ -164,7 +144,7 @@ public class I18nResourceFactory
         return newI18nResourceBundle(
             ResourceBundleHelper.newName(
                packageMessageBundleBase,
-               I18nResourceFactory.DEFAULT_MESSAGE_BUNDLE_BASENAME
+               DEFAULT_MESSAGE_BUNDLE_BASENAME
                ),
             locale
             );

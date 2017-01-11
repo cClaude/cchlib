@@ -96,33 +96,6 @@ public class AutoI18nFactory
     }
 
     /**
-     * Create a reasonable {@link AutoI18n}
-     *
-     * @param config
-     *            The wanted configuration, if null use default configuration
-     * @param resourceBundleName
-     *            The {@link com.googlecode.cchlib.i18n.resources.I18nResourceBundleName}
-     * @param locale
-     *            The wanted {@link Locale}, use {@link Locale#getDefault()} if null
-     * @return an {@link AutoI18n} with giving configuration
-     *
-     * @see com.googlecode.cchlib.i18n.resources.I18nResourceBundleNameFactory
-     * @deprecated use {@link I18nResourceFactory} and {@link #newAutoI18n(Set, I18nResource)} instead.
-     */
-    @Deprecated
-    public static AutoI18n newAutoI18n(
-        @Nullable final Set<AutoI18nConfig>                                        config,
-        @Nonnull final com.googlecode.cchlib.i18n.resources.I18nResourceBundleName resourceBundleName,
-        @Nullable final Locale                                                     locale
-        )
-    {
-         return newAutoI18n(
-             config,
-             I18nResourceFactory.newI18nResourceBundle( resourceBundleName, locale )
-             );
-    }
-
-    /**
      * Create a reasonable {@link AutoI18n} based on defaults
      *
      * @param i18nResource
