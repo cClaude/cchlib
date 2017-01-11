@@ -1,5 +1,19 @@
 package com.googlecode.cchlib.i18n.unit.parts;
 
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.DEFAULT_BUNDLE_myJButton;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.DEFAULT_BUNDLE_myJCheckBox;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.DEFAULT_BUNDLE_myJLabel;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.DEFAULT_BUNDLE_myJTabbedPane1;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.DEFAULT_BUNDLE_myJTabbedPane2;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.DEFAULT_BUNDLE_myTitledBorder;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.IGNORED_FIELDS;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.INIT_myJButton;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.INIT_myJCheckBox;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.INIT_myJLabel;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.INIT_myJTabbedPane1;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.INIT_myJTabbedPane2;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.INIT_myTitledBorder;
+import static com.googlecode.cchlib.i18n.unit.parts.I18nDefaultTest.LOCALIZED_FIELDS;
 import static org.fest.assertions.api.Assertions.assertThat;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -9,48 +23,26 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Assume;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
-import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
-import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
-import com.googlecode.cchlib.i18n.unit.util.TestUtils;
-import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class I18nDefaultPart
     extends JPanel
-        implements I18nAutoUpdatable, TestReference, TestReferenceDeprecated
+        implements I18nAutoUpdatable, TestReference
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( I18nDefaultPart.class );
 
-    private static final String INIT_myJLabel = "my JLabel text";
-    private static final String DEFAULT_BUNDLE_myJLabel = "OK(myJLabel)";
-    private final JLabel myJLabel;
-
-    private static final String INIT_myJButton = "my JButton text";
-    private static final String DEFAULT_BUNDLE_myJButton = "OK(myJButton)";
-    private final JButton myJButton;
-
-    private static final String INIT_myJCheckBox = "my JCheckBox text";
-    private static final String DEFAULT_BUNDLE_myJCheckBox = "OK(myJCheckBox)";
-    private final JCheckBox myJCheckBox;
-
-    private static final String INIT_myJTabbedPane1 =  "my JTabbedPane panel1";
-    private static final String INIT_myJTabbedPane2 =  "my JTabbedPane panel2";
-    private static final String DEFAULT_BUNDLE_myJTabbedPane1 = "OK(myJTabbedPane1)";
-    private static final String DEFAULT_BUNDLE_myJTabbedPane2 = "OK(myJTabbedPane2)";
-    private final JTabbedPane myJTabbedPane;
-    private final JPanel panel1;
-    private final JPanel panel2;
-
-    private static final String INIT_myTitledBorder = "my myTitledBorder text";
-    private static final String DEFAULT_BUNDLE_myTitledBorder = "OK(myTitledBorder)";
-    private final TitledBorder myTitledBorder;
+    private final JLabel        myJLabel;
+    private final JButton       myJButton;
+    private final JCheckBox     myJCheckBox;
+    private final JTabbedPane   myJTabbedPane;
+    private final JPanel        panel1;
+    private final JPanel        panel2;
+    private final TitledBorder  myTitledBorder;
 
     public I18nDefaultPart()
     {
@@ -89,63 +81,23 @@ public class I18nDefaultPart
         autoI18n.performeI18n( this, this.getClass() );
     }
 
-    @Override
-    @Deprecated
-    public void beforePrepTest(final PrepTestPart prepTest)
-    {
-        TestUtils.preparePrepTest( prepTest, this );
-    }
-
-    @Override
-    public void afterPrepTest( final boolean firstRun )
-    {
-        beforePerformeI18nTest();
-    }
-
-    @Override
-    @Deprecated
-    public void performeI18n()
-    {
-        beforePerformeI18nTest();
-
-        TestUtils.performeI18n( this );
-
-        afterPerformeI18nTest_WithValidBundle();
-    }
-
-    @Override
-    public int getSyntaxeExceptionCount()
-    {
-        return 0;
-    }
-
-    @Override
-    public int getMissingResourceExceptionCount()
-    {
-        return 5;
-    }
-
     @Override // TestReference
     public void beforePerformeI18nTest()
     {
-        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
+        assertThat( this.myJLabel.getText() ).isEqualTo( INIT_myJLabel );
+        assertThat( this.myJButton.getText() ).isEqualTo( INIT_myJButton );
+        assertThat( this.myJCheckBox.getText() ).isEqualTo( INIT_myJCheckBox );
 
-        Assert.assertEquals( INIT_myJLabel, this.myJLabel.getText() );
-        Assert.assertEquals( INIT_myJButton, this.myJButton.getText() );
-        Assert.assertEquals( INIT_myJCheckBox, this.myJCheckBox.getText() );
+        assertThat( this.myJTabbedPane.getTabCount() ).isEqualTo( 2 );
+        assertThat( this.myJTabbedPane.getTitleAt( 0 ) ).isEqualTo( INIT_myJTabbedPane1 );
+        assertThat( this.myJTabbedPane.getTitleAt( 1 ) ).isEqualTo( INIT_myJTabbedPane2 );
 
-        Assert.assertEquals( 2, this.myJTabbedPane.getTabCount() );
-        Assert.assertEquals( INIT_myJTabbedPane1, this.myJTabbedPane.getTitleAt( 0 ) );
-        Assert.assertEquals( INIT_myJTabbedPane2, this.myJTabbedPane.getTitleAt( 1 ) );
-
-        Assert.assertEquals( INIT_myTitledBorder, this.myTitledBorder.getTitle() );
+        assertThat( this.myTitledBorder.getTitle() ).isEqualTo( INIT_myTitledBorder );
     }
 
     @Override // TestReference
     public void afterPerformeI18nTest_WithValidBundle()
     {
-        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
-
         LOGGER.info( "TEST RESULT: this.myJLabel.getText() = " + this.myJLabel.getText() );
         LOGGER.info( "TEST RESULT: this.myJButton.getText() = " + this.myJButton.getText() );
         LOGGER.info( "TEST RESULT: this.myJCheckBox.getText() = " + this.myJCheckBox.getText() );
@@ -165,19 +117,12 @@ public class I18nDefaultPart
     @Override // TestReference
     public void afterPerformeI18nTest_WithNotValidBundle()
     {
-        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
-
         beforePerformeI18nTest(); // No Change
     }
-
-    private static final int LOCALIZED_FIELDS = 6;
-    private static final int IGNORED_FIELDS   = 18;
 
     @Override // TestReference
     public void afterResourceBuilderTest_WithValidBundle( final I18nResourceBuilderResult result )
     {
-        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
-
         assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
         assertThat( result.getLocalizedFields() ).hasSize( LOCALIZED_FIELDS );
         assertThat( result.getMissingProperties() ).hasSize( 0 );
@@ -187,8 +132,6 @@ public class I18nDefaultPart
     @Override // TestReference
     public void afterResourceBuilderTest_WithNotValidBundle( final I18nResourceBuilderResult result )
     {
-        Assume.assumeTrue( SafeSwingUtilities.isSwingAvailable() );
-
         assertThat( result.getIgnoredFields() ).hasSize( IGNORED_FIELDS );
         assertThat( result.getLocalizedFields() ).hasSize( 0 );
         assertThat( result.getMissingProperties() ).hasSize( LOCALIZED_FIELDS );

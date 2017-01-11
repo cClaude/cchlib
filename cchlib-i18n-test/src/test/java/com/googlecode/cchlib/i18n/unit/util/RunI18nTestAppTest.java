@@ -22,12 +22,7 @@ import com.googlecode.cchlib.i18n.prep.I18nPrepResult;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.unit.PrepTestPart;
 import com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated;
-import com.googlecode.cchlib.i18n.unit.parts.I18nBaseNamePart;
-import com.googlecode.cchlib.i18n.unit.parts.I18nDefaultPart;
-import com.googlecode.cchlib.i18n.unit.parts.I18nForcedPart;
-import com.googlecode.cchlib.i18n.unit.parts.I18nStringPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextIgnorePart;
-import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
@@ -42,7 +37,7 @@ public class RunI18nTestAppTest
     private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );
 
     // see REF.properties
-    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 3 + 3;
+    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 3 + 26;
     private static final int NUMBERS_OF_SWING_PROPERTIES  = 30;
 
     // When this class is modify, you must test both configuration
@@ -55,16 +50,16 @@ public class RunI18nTestAppTest
         final ArrayList<TestReferenceDeprecated> list = new ArrayList<>();
 
         if( DO_SWING ) {
-            list.add( new I18nBaseNamePart() );
-            list.add( new I18nDefaultPart() );
-            list.add( new I18nForcedPart() );
+            //DEPRECATED list.add( new I18nBaseNamePart() );
+            //DEPRECATED list.add( new I18nDefaultPart() );
+            //DEPRECATED list.add( new I18nForcedPart() );
             list.add( new I18nToolTipTextIgnorePart() );
-            list.add( new I18nToolTipTextPart() );
+            //DEPRECATED list.add( new I18nToolTipTextPart() );
             list.add( new I18nToolTipText_for_JTabbedPanePart() );
         }
 
         //DEPRECATED list.add( new AutoI18nBasicInterfacePart() );
-        list.add( new I18nStringPart() );
+        //DEPRECATED list.add( new I18nStringPart() );
         //DEPRECATED list.add( new I18nStringTestReference() );
         //DEPRECATED list.add( new I18nStringWithErrorsTestReference() );
 
@@ -219,11 +214,5 @@ public class RunI18nTestAppTest
             }
 
         LOGGER.info( "ALL runPerformeI18nTest() done"  );
-    }
-
-    @Test
-    public void launchI18nStringOldTest()
-    {
-        new I18nStringPart().performeI18n();
     }
 }
