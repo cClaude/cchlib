@@ -20,7 +20,7 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
 
 @I18nName("emptyfiles.WorkingJPanel")
-public class WorkingJPanel extends JPanel
+public final class WorkingJPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( WorkingJPanel.class );

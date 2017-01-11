@@ -23,7 +23,7 @@ import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
 import com.googlecode.cchlib.util.iterable.Iterables;
 
 @I18nName("emptyfiles.WorkingTableModel")
-public class WorkingTableModel
+public final class WorkingTableModel
     extends AbstractTableModel
         implements TableModel, Serializable, ForceColumnWidthModel
 {
