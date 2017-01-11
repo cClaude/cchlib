@@ -72,9 +72,8 @@ public abstract class DuplicateFilesFrameWB extends DuplicateFilesFrameI18n
 
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S3346","squid:S1199"})
     public DuplicateFilesFrameWB( final PreferencesControler preferences )
-        throws
-            HeadlessException,
-            TooManyListenersException
+        throws HeadlessException,
+               TooManyListenersException
     {
         this.dfToolKit = AppToolKitService.getInstance().createAppToolKit( preferences, (DuplicateFilesFrame)this );
 

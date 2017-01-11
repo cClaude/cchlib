@@ -27,7 +27,7 @@ import com.googlecode.cchlib.swing.filechooser.FileSelectionMode;
 import com.googlecode.cchlib.swing.list.NoDuplicateListModel;
 
 @I18nName("emptyfiles.SelectDirecoriesJPanel")
-public class SelectDirecoriesJPanel extends JPanel
+public final class SelectDirecoriesJPanel extends JPanel
 {
     //non static
     private final class MyListDataListener implements ListDataListener
