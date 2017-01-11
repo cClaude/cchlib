@@ -33,32 +33,34 @@ class FakePanel
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( FakePanel.class );
 
+    static final String JTEXT_AREA_NO_I18N_INIT_TEXT = "jTextArea l1\r\njTextArea l2 (no I18n)";
+
     private final TitledBorder panelTitleBorder;
     private final JPanel jPanel; // TODO @I18nTitledBorder private JPanel jPanel;
 
     @I18nIgnore private final JLabel jLabelNoI18n; // No I18n
-    private final JProgressBar jProgressBar; // No I18n
+    @I18nToolTipText private final JProgressBar jProgressBarNoI18n; // No I18n, but tool tip text
+    @I18nToolTipText private final JProgressBar jProgressBarToI18n; // TODO I18n JProgressBar and tool tip text
 
     private final JCheckBox jCheckBox; // I18n default process
 
-    @I18n(id="JButtonID") private final JButton jButton;
-    @I18n                 private final JLabel jLabel; // annotation not needed
+    @I18n(id="JButtonID") private final JButton jButtonToI18n;
+    @I18n @I18nToolTipText private final JLabel  jLabelToI18n; // annotation not needed
     //TODO @I18n(method="myI18n") private Object dummy = new Object(); // ex: declare field to apply a custom method
-
-    @I18n private final JTextArea jTextArea;
 
     @I18n(id="myJTextFieldDefineWithId")
     private final JTextField myJTextFieldDefineWithId; // use specific Id TODO
 
+    @I18nToolTipText private final JTextArea jTextAreaNoI18n; // No I18n, but tool tip text
+    @I18n private final JTextArea jTextAreaToI18n;  //I18n, but not tool tip text
 
-    private final JTextArea jTextAreaNoI18n;
     private final JTextField  myJTextField;
     private final JEditorPane jEditorPane;
-    private final JProgressBar jProgressBarToI18n; // TODO
 
-    @I18nToolTipText private final JButton buttonToolTipsButton; // Default process I18n on JButton and special I18n on tool tip text
-    @I18nIgnore @I18nToolTipText private final JButton buttonIgnoreButton; // No I18n on JButton and special I18n on tool tip text
-
+    // Default process I18n on JButton and special I18n on tool tip text
+    @I18nToolTipText private final JButton buttonToolTipsButton;
+    // No I18n on JButton and special I18n on tool tip text
+    @I18nIgnore @I18nToolTipText private final JButton buttonIgnoreButton;
 
     @I18nIgnore private final JButton refreshButton;
     @I18nString private final String refreshButtonText = "Refresh (default String)";
@@ -77,7 +79,7 @@ class FakePanel
 
     public FakePanel()
     {
-        this.panelTitleBorder = new TitledBorder(null, "TitleBorder", TitledBorder.LEADING, TitledBorder.TOP, null, null);
+        this.panelTitleBorder = new TitledBorder(null, "TitleBorderNoI18nYet", TitledBorder.LEADING, TitledBorder.TOP, null, null);
 
         setBorder( this.panelTitleBorder );
         final GridBagLayout gridBagLayout = new GridBagLayout();
@@ -88,37 +90,37 @@ class FakePanel
         setLayout(gridBagLayout);
 
         {
-            this.jLabel = new JLabel("jLabel");
-            this.jLabel.setToolTipText("<html>jLabel<br/>toolTipText to I18n</html>");
+            this.jLabelToI18n = new JLabel("JLabelNoI18nYet");
+            this.jLabelToI18n.setToolTipText("<html>jLabel<br/>toolTipText to I18n</html>");
             final GridBagConstraints gbc_jLabel = new GridBagConstraints();
             gbc_jLabel.fill = GridBagConstraints.VERTICAL;
             gbc_jLabel.insets = new Insets(0, 0, 5, 5);
             gbc_jLabel.anchor = GridBagConstraints.EAST;
             gbc_jLabel.gridx = 0;
             gbc_jLabel.gridy = 1;
-            add(this.jLabel, gbc_jLabel);
+            add(this.jLabelToI18n, gbc_jLabel);
         }
         {
-            this.jProgressBar = new JProgressBar();
-            this.jProgressBar.setStringPainted(true);
-            this.jProgressBar.setValue(50);
-            this.jProgressBar.setString( "My JProgressBar" );
-            this.jProgressBar.setToolTipText("<html>JProgressBar<br/>ToolTipText to i18n</html>");
-            this.jProgressBar.setOrientation(SwingConstants.VERTICAL);
+            this.jProgressBarNoI18n = new JProgressBar();
+            this.jProgressBarNoI18n.setStringPainted(true);
+            this.jProgressBarNoI18n.setValue(50);
+            this.jProgressBarNoI18n.setString( "JProgressBar (No_I18n)" );
+            this.jProgressBarNoI18n.setToolTipText("<html>JProgressBar<br/>ToolTipText to i18n</html>");
+            this.jProgressBarNoI18n.setOrientation(SwingConstants.VERTICAL);
             final GridBagConstraints gbc_jProgressBar = new GridBagConstraints();
             gbc_jProgressBar.gridheight = 5;
             gbc_jProgressBar.fill = GridBagConstraints.VERTICAL;
             gbc_jProgressBar.insets = new Insets(0, 0, 5, 5);
             gbc_jProgressBar.gridx = 1;
             gbc_jProgressBar.gridy = 1;
-            add(this.jProgressBar, gbc_jProgressBar);
+            add(this.jProgressBarNoI18n, gbc_jProgressBar);
         }
         {
             this.jProgressBarToI18n = new JProgressBar();
             this.jProgressBarToI18n.setValue(50);
             this.jProgressBarToI18n.setToolTipText("<html>JProgressBar to I18n<br/>ToolTipText to i18n</html>");
             this.jProgressBarToI18n.setStringPainted(true);
-            this.jProgressBarToI18n.setString("My JProgressBar to I18n");
+            this.jProgressBarToI18n.setString("JProgressBarNoI18nYet");
             this.jProgressBarToI18n.setOrientation(SwingConstants.VERTICAL);
             final GridBagConstraints gbc_jProgressBarToI18n = new GridBagConstraints();
             gbc_jProgressBarToI18n.fill = GridBagConstraints.VERTICAL;
@@ -131,8 +133,8 @@ class FakePanel
         {
             this.jTextAreaNoI18n = new JTextArea();
             this.jTextAreaNoI18n.setEditable(false);
-            this.jTextAreaNoI18n.setToolTipText("<html>jTextArea<br/>ToolTipText to i18n</html>");
-            this.jTextAreaNoI18n.setText("jTextArea l1\r\njTextArea l2 (no I18n)");
+            this.jTextAreaNoI18n.setToolTipText("<html>jTextAreaNoI18n<br/>ToolTipText to i18n</html>");
+            this.jTextAreaNoI18n.setText( JTEXT_AREA_NO_I18N_INIT_TEXT );
             final GridBagConstraints gbc_jTextAreaNoI18n = new GridBagConstraints();
             gbc_jTextAreaNoI18n.insets = new Insets(0, 0, 5, 0);
             gbc_jTextAreaNoI18n.gridheight = 4;
@@ -142,20 +144,20 @@ class FakePanel
             add(this.jTextAreaNoI18n, gbc_jTextAreaNoI18n);
         }
         {
-            this.jTextArea = new JTextArea();
-            this.jTextArea.setToolTipText("<html>jTextArea<br/>ToolTipText to i18n</html>");
-            this.jTextArea.setText("jTextArea l1\r\njTextArea l2");
-            this.jTextArea.setEditable(false);
+            this.jTextAreaToI18n = new JTextArea();
+            this.jTextAreaToI18n.setToolTipText("<html>jTextAreaToI18n to I18n<br>but not ToolTipText</html>");
+            this.jTextAreaToI18n.setText( "jTextAreaToI18n" );
+            this.jTextAreaToI18n.setEditable(false);
             final GridBagConstraints gbc_jTextArea = new GridBagConstraints();
             gbc_jTextArea.gridheight = 4;
             gbc_jTextArea.insets = new Insets(0, 0, 5, 0);
             gbc_jTextArea.fill = GridBagConstraints.BOTH;
             gbc_jTextArea.gridx = 4;
             gbc_jTextArea.gridy = 1;
-            add(this.jTextArea, gbc_jTextArea);
+            add(this.jTextAreaToI18n, gbc_jTextArea);
         }
         {
-            this.jLabelNoI18n = new JLabel("jLabel (No_I18n)");
+            this.jLabelNoI18n = new JLabel("JLabel (No_I18n)");
             final GridBagConstraints gbc_jLabelNoI18n = new GridBagConstraints();
             gbc_jLabelNoI18n.anchor = GridBagConstraints.EAST;
             gbc_jLabelNoI18n.insets = new Insets(0, 0, 5, 5);
@@ -164,17 +166,17 @@ class FakePanel
             add(this.jLabelNoI18n, gbc_jLabelNoI18n);
         }
         {
-            this.jButton = new JButton("JButton ");
-            this.jButton.setToolTipText("<html>JButton<br/>toolTipText to I18n</html>");
+            this.jButtonToI18n = new JButton("JButtonNoI18nYet");
+            this.jButtonToI18n.setToolTipText("<html>JButton<br/>toolTipText to I18n</html>");
             final GridBagConstraints gbc_jButton = new GridBagConstraints();
             gbc_jButton.anchor = GridBagConstraints.EAST;
             gbc_jButton.insets = new Insets(0, 0, 5, 5);
             gbc_jButton.gridx = 0;
             gbc_jButton.gridy = 3;
-            add(this.jButton, gbc_jButton);
+            add(this.jButtonToI18n, gbc_jButton);
         }
         {
-            this.jCheckBox = new JCheckBox("jCheckBox");
+            this.jCheckBox = new JCheckBox("JCheckBox");
             this.jCheckBox.setToolTipText("<html>JCheckBox<br/>toolTipText to I18n</html>");
             final GridBagConstraints gbc_jCheckBox = new GridBagConstraints();
             gbc_jCheckBox.insets = new Insets(0, 0, 5, 5);
@@ -314,4 +316,66 @@ class FakePanel
         LOGGER.info( "performeI18n" );
         autoI18n.performeI18n( this, this.getClass() );
     }
+
+    public String getJButtonText()
+    {
+        return this.jButtonToI18n.getText();
+    }
+
+    public String getJLabelToI18nText()
+    {
+        return this.jLabelToI18n.getText();
+    }
+
+    public String getJLabelToI18nToolTipText()
+    {
+        return this.jLabelToI18n.getToolTipText();
+    }
+
+    public String getPanelBorderTitle()
+    {
+        return this.panelTitleBorder.getTitle();
+    }
+
+    public String getProgressBarNoI18nText()
+    {
+        return this.jProgressBarNoI18n.getString();
+    }
+
+    public String getProgressBarNoI18nToolTipText()
+    {
+        return this.jProgressBarNoI18n.getToolTipText();
+    }
+
+    public String getProgressBarToI18nText()
+    {
+        return this.jProgressBarToI18n.getString();
+    }
+
+    public String getProgressBarToI18nToolTipText()
+    {
+        return this.jProgressBarToI18n.getToolTipText();
+    }
+
+    public String getJTextAreaNoI18nText()
+    {
+        return this.jTextAreaNoI18n.getText();
+    }
+
+    public String getJTextAreaNoI18nToolTipText()
+    {
+        return this.jTextAreaNoI18n.getToolTipText();
+    }
+
+    public String getJTextAreaToI18nText()
+    {
+        return this.jTextAreaToI18n.getText();
+    }
+
+    public String getJTextAreaToI18nToolTipText()
+    {
+        return this.jTextAreaToI18n.getToolTipText();
+    }
+
+
 }

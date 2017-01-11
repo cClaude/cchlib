@@ -7,6 +7,7 @@ import java.io.File;
  *
  * @since 4.1.6
  */
+@FunctionalInterface
 public interface FileRoller
 {
     /**
