@@ -16,8 +16,11 @@ public class I18nStringTestReferenceTest extends I18nITBase
     static final String INIT_myGlobalStringIDMethod2           = "my Global string 3 text (noI18n)";
     static final String DEFAULT_BUNDLE_myGlobalStringIDMethod2 = "OK(myGlobalStringIDMethod2)";
 
+    static final String INIT_myString1I18nTestContener2 = "INIT_myString1I18nTestContener2 (neverI18n)";
+    static final String INIT_myString2I18nTestContener2 = "INIT_myString2I18nTestContener2 (neverI18n)";
+
     static final int LOCALIZED_FIELDS = 2;
-    static final int IGNORED_FIELDS   = 2;
+    static final int IGNORED_FIELDS   = 3;
 
     @Test
     public void testI18n_WithValidBundle_I18nStringTestReference()
@@ -59,13 +62,6 @@ public class I18nStringTestReferenceTest extends I18nITBase
         final I18nResourceBuilderResult result = do_I18nResourceBuilder_WithNotValidBundle( part );
 
         runI18nResourceBuilderTests_WithNotValidBundle( part, result );
-    }
-
-    @Test
-    public void testI18n_WithValidBundle_I18nStringTestReference_OLD()
-    {
-        final I18nStringTestReference part = new I18nStringTestReference();
-        part.performeI18n();
     }
 }
 

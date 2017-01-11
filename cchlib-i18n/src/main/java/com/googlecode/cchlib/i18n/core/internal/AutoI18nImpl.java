@@ -98,8 +98,16 @@ public class AutoI18nImpl implements AutoI18n, Serializable
 
     private <T> I18nClass<T> getI18nClass( final Class<? extends T> clazz )
     {
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Know class: " + this.map.keySet() );
+        }
+
         @SuppressWarnings("unchecked")
         I18nClass<T> i18nClass = (I18nClass<T>)this.map.get( clazz );
+
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( "Class: " + clazz + " is " + (i18nClass == null ? "new" : "already in cache" ) );
+        }
 
         if( i18nClass == null ) {
             i18nClass = new I18nClassImpl<>( clazz, this.i18nDelegator );

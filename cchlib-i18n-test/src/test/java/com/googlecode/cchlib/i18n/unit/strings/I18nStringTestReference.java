@@ -7,23 +7,31 @@ import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTes
 import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.INIT_myGlobalStringID1;
 import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.INIT_myGlobalStringIDMethod2;
 import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.INIT_myString;
+import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.INIT_myString1I18nTestContener2;
+import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.INIT_myString2I18nTestContener2;
 import static com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReferenceTest.LOCALIZED_FIELDS;
 import static org.fest.assertions.api.Assertions.assertThat;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
+import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.i18n.unit.REF;
 import com.googlecode.cchlib.i18n.unit.TestReference;
 
-public class I18nStringTestReference implements TestReference, com.googlecode.cchlib.i18n.unit.TestReferenceDeprecated
+public class I18nStringTestReference implements TestReference
 {
     // This is a I18nAutoUpdatable object, should be
     // discovers by I18n process
     private final I18nStringTestContener objectToI18n;
 
+    // This is a I18nAutoUpdatable object, should be ignored
+    @I18nIgnore
+    private final I18nTestContener2 objectNotToI18n;
+
     public I18nStringTestReference()
     {
-        this.objectToI18n = new I18nStringTestContener();
+        this.objectToI18n    = new I18nStringTestContener();
+        this.objectNotToI18n = new I18nTestContener2();
 
         beforePerformeI18nTest();
     }
@@ -31,53 +39,6 @@ public class I18nStringTestReference implements TestReference, com.googlecode.cc
     private static final Logger getLogger()
     {
         return Logger.getLogger( I18nStringTestReference.class );
-    }
-
-    @Override
-    @Deprecated
-    public void beforePrepTest(final com.googlecode.cchlib.i18n.unit.PrepTestPart prepTest)
-    {
-        com.googlecode.cchlib.i18n.unit.util.TestUtils.preparePrepTest( prepTest, this.objectToI18n );
-   }
-
-    @Override
-    public void afterPrepTest( final boolean firstRun )
-    {
-        noChangeTest();
-
-        if( firstRun ) {
-            assertThat( this.objectToI18n.getMyGlobalStringIDMethod2() )
-                .isEqualTo( INIT_myGlobalStringIDMethod2 );
-        } else {
-            assertThat( this.objectToI18n.getMyGlobalStringIDMethod2() )
-                .isEqualTo( DEFAULT_BUNDLE_myGlobalStringIDMethod2 );
-        }
-   }
-
-    @Override
-    @Deprecated
-    public void performeI18n()
-    {
-        beforePerformeI18nTest();
-
-        // Also verify values using custom methods
-        assertThat( this.objectToI18n.getMyGlobalStringIDMethod2() ).isEqualTo( INIT_myGlobalStringIDMethod2 );
-
-        com.googlecode.cchlib.i18n.unit.util.TestUtils.performeI18n( this );
-
-        afterPerformeI18nTest_WithValidBundle();
-    }
-
-    @Override
-    public int getSyntaxeExceptionCount()
-    {
-        return 0;
-    }
-
-    @Override
-    public int getMissingResourceExceptionCount()
-    {
-        return 0;
     }
 
     @Override // TestReference
@@ -93,6 +54,11 @@ public class I18nStringTestReference implements TestReference, com.googlecode.cc
         assertThat( this.objectToI18n.getMyString()                ).isEqualTo( INIT_myString );
         assertThat( this.objectToI18n.getMyStringIgnore()          ).isEqualTo( INIT_myString );
         assertThat( this.objectToI18n.getMyGlobalStringID()        ).isEqualTo( INIT_myGlobalStringID1 );
+
+        assertThat( this.objectNotToI18n.getMyString1I18nTestContener2() )
+            .isEqualTo( INIT_myString1I18nTestContener2 );
+        assertThat( this.objectNotToI18n.getMyString2I18nTestContener2() )
+            .isEqualTo( INIT_myString2I18nTestContener2 );
     }
 
     @Override // TestReference
@@ -130,6 +96,11 @@ public class I18nStringTestReference implements TestReference, com.googlecode.cc
         assertThat( this.objectToI18n.getMyGlobalStringIDMethod2() )
             .as( "getMyGlobalStringIDMethod2():" + this.objectToI18n.getClass().getName() )
             .isEqualTo( DEFAULT_BUNDLE_myGlobalStringIDMethod2 );
+
+        assertThat( this.objectNotToI18n.getMyString1I18nTestContener2() )
+            .isEqualTo( INIT_myString1I18nTestContener2 );
+        assertThat( this.objectNotToI18n.getMyString2I18nTestContener2() )
+            .isEqualTo( INIT_myString2I18nTestContener2 );
     }
 
     @Override // TestReference

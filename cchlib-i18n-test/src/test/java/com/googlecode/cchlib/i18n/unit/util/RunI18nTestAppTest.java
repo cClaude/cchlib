@@ -30,7 +30,6 @@ import com.googlecode.cchlib.i18n.unit.parts.I18nStringPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextIgnorePart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipTextPart;
 import com.googlecode.cchlib.i18n.unit.parts.I18nToolTipText_for_JTabbedPanePart;
-import com.googlecode.cchlib.i18n.unit.strings.I18nStringTestReference;
 import com.googlecode.cchlib.i18n.unit.strings.errors.I18nStringWithErrorsTestReference;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
@@ -45,7 +44,7 @@ public class RunI18nTestAppTest
     private static final Logger LOGGER = Logger.getLogger( RunI18nTestAppTest.class );
 
     // see REF.properties
-    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 3;
+    private static final int NUMBERS_OF_UNUSED_PROPERTIES = 3 + 2;
     private static final int NUMBERS_OF_SWING_PROPERTIES  = 30;
 
     // When this class is modify, you must test both configuration
@@ -68,7 +67,7 @@ public class RunI18nTestAppTest
 
         list.add( new AutoI18nBasicInterfacePart() );
         list.add( new I18nStringPart() );
-        list.add( new I18nStringTestReference() );
+        //DEPRECATED list.add( new I18nStringTestReference() );
         list.add( new I18nStringWithErrorsTestReference() );
 
         return list;
@@ -115,14 +114,16 @@ public class RunI18nTestAppTest
         LOGGER.info( "SecurityException = " + collector.getSecurityExceptionCollector().size() );
         LOGGER.info( "SetFieldException = " + collector.getSetFieldExceptionCollector().size() );
 
-        assertThat( collector.getI18nSyntaxeExceptionCollector().size() ).isEqualTo( syntaxeExceptionCount );
+        assertThat( collector.getI18nSyntaxeExceptionCollector().size() )
+            .isEqualTo( syntaxeExceptionCount );
 
         assertThat( collector.getIllegalAccessExceptionCollector().size() ).isZero();
         assertThat( collector.getIllegalArgumentExceptionCollector().size() ).isZero();
         assertThat( collector.getInvocationTargetExceptionCollector().size() ).isZero();
         assertThat( collector.getMissingKeyExceptionCollector().size() ).isZero();
 
-        assertThat( collector.getMissingResourceExceptionCollector().size() ).isEqualTo( missingResourceExceptionCount );
+        assertThat( collector.getMissingResourceExceptionCollector().size() )
+            .isEqualTo( missingResourceExceptionCount - 2 );
 
         assertThat( collector.getNoSuchMethodExceptionCollector().size() ).isZero();
         assertThat( collector.getMethodProviderSecurityExceptionCollector().size() ).isZero();
@@ -226,12 +227,6 @@ public class RunI18nTestAppTest
     public void launchI18nStringOldTest()
     {
         new I18nStringPart().performeI18n();
-    }
-
-    @Test
-    public void launch_I18nStringTestReference()
-    {
-        new I18nStringTestReference().performeI18n();
     }
 
     @Test
