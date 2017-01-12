@@ -3,7 +3,6 @@ package com.googlecode.cchlib.i18n.sample.full;
 import java.awt.BorderLayout;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,6 +11,8 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.api.I18nResource;
 import com.googlecode.cchlib.i18n.core.AutoI18nFactory;
 import com.googlecode.cchlib.i18n.resources.I18nResourceFactory;
+import com.googlecode.cchlib.swing.RunnableSupplier;
+import com.googlecode.cchlib.swing.RunnableSupplierHelper;
 
 /**
  * See {@link FakePanelAppTest} for JUnit test
@@ -71,23 +72,25 @@ public class FakePanelApp extends JFrame
     public static void main( final String[] args )
     {
         try {
-            start( new RunnableSupplier<>( () -> newFakePanelApp_DO_I18N() ) );
+            start( RunnableSupplierHelper.newRunnableSupplier( () -> newFakePanelApp_DO_I18N() ) );
         }
         catch( final ExecutionException cause ) {
             LOGGER.fatal( "invokeLater", cause );
         }
 
         try {
-            start( new RunnableSupplier<>( () -> newFakePanelApp_NO_I18N() ) );
+            start( RunnableSupplierHelper.newRunnableSupplier( () -> newFakePanelApp_NO_I18N() ) );
         }
         catch( final ExecutionException cause ) {
             LOGGER.fatal( "invokeLater", cause );
         }
     }
 
-    static FakePanel start( final RunnableSupplier<FakePanelApp> runnableSupplier ) throws ExecutionException
+    static FakePanel start( final RunnableSupplier<FakePanelApp> runnableSupplier )
+        throws ExecutionException
     {
-        final FakePanelApp result = RunnableSupplier.invokeLater( runnableSupplier, 1, TimeUnit.SECONDS );
+        final FakePanelApp result
+            = RunnableSupplierHelper.safeInvokeAndWait( runnableSupplier );
 
         return result.getFakePanel();
     }

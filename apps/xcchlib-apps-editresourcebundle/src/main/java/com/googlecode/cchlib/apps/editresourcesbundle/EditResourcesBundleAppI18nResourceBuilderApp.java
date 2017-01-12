@@ -2,7 +2,9 @@ package com.googlecode.cchlib.apps.editresourcesbundle;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
@@ -25,46 +27,26 @@ import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderHelper;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
 import com.googlecode.cchlib.lang.Threads;
+import com.googlecode.cchlib.swing.RunnableSupplier;
+import com.googlecode.cchlib.swing.RunnableSupplierHelper;
 
 /**
  * This small App create resources bundles files
  */
-public class EditResourcesBundleAppI18nPrepApp implements Runnable
+public class EditResourcesBundleAppI18nResourceBuilderApp implements RunnableSupplier<I18nResourceBuilderResult>
 {
-    private static final Logger LOGGER = Logger.getLogger( EditResourcesBundleAppI18nPrepApp.class );
+    private static final Logger LOGGER = Logger.getLogger( EditResourcesBundleAppI18nResourceBuilderApp.class );
 
-    private volatile boolean                   done = false;
-    private volatile I18nResourceBuilderResult doneResult;
-    private volatile Exception                 doneCause;
+    private boolean                   done = false;
+    private I18nResourceBuilderResult doneResult;
+    private ExecutionException        doneCause;
 
-    public boolean isDone()
+    EditResourcesBundleAppI18nResourceBuilderApp()
     {
-        return this.done;
-    }
-
-    public Exception getDoneCause()
-    {
-        return this.doneCause;
-    }
-
-    I18nResourceBuilderResult doResourceBuilder()
-    {
-        SwingUtilities.invokeLater( this );
-
-        for( int i = 1; (i < 30) && ! this.done; i++ ) {
-            LOGGER.info( "Launch EditResourcesBundleAppI18nPrep not yet ready (" + i + ")" );
-
-            Threads.sleep( 1, TimeUnit.SECONDS );
-        }
-
-        LOGGER.info( "doResourceBuilder() result: " + this.done );
-        Threads.sleep( 1, TimeUnit.SECONDS );
-
-        return this.doneResult;
+        // Empty
     }
 
     @Override
-    @SuppressWarnings({"squid:S2142","squid:S00108"})
     public void run()
     {
         final Preferences                 prefs       = Preferences.createDefaultPreferences();
@@ -113,10 +95,28 @@ public class EditResourcesBundleAppI18nPrepApp implements Runnable
 
             this.done       = true;
             this.doneResult = null;
-            this.doneCause  = cause;
+            this.doneCause  = new ExecutionException( cause );
         }
 
         LOGGER.info( "I18nResourceBuilder done = " + this.done );
+    }
+
+    @Override
+    public I18nResourceBuilderResult getResult()
+    {
+        return this.doneResult;
+    }
+
+    @Override
+    public boolean isDone()
+    {
+        return this.done;
+    }
+
+    @Override
+    public ExecutionException getExecutionException()
+    {
+        return this.doneCause;
     }
 
     private I18nAutoUpdatable newMultiLineEditorDialog( final CompareResourcesBundleFrame mainFrame )
@@ -158,8 +158,14 @@ public class EditResourcesBundleAppI18nPrepApp implements Runnable
         return fc.setFileObject( new FileObject( new File("pom.xml"), true ), 0 );
     }
 
+    I18nResourceBuilderResult doResourceBuilder()
+        throws ExecutionException, InvocationTargetException, InterruptedException
+    {
+        return RunnableSupplierHelper.invokeAndWait( this );
+    }
+
     public static void main( final String[] args ) throws IOException
     {
-        SwingUtilities.invokeLater( new EditResourcesBundleAppI18nPrepApp() );
+        SwingUtilities.invokeLater( new EditResourcesBundleAppI18nResourceBuilderApp() );
     }
 }

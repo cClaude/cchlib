@@ -12,6 +12,8 @@ import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderFactory;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderHelper;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
+import com.googlecode.cchlib.swing.RunnableSupplier;
+import com.googlecode.cchlib.swing.RunnableSupplierHelper;
 
 public class FakePanelPrepApp
 {
@@ -53,12 +55,16 @@ public class FakePanelPrepApp
     public static I18nResourceBuilderResult start() throws ExecutionException, IOException
     {
         final String messagesBundle = FakePanelApp.MESSAGES_BUNDLE;
-        final File   outputFile     = I18nResourceBuilderHelper.newOutputFile( FakePanelPrepApp.class.getPackage() );
+        final File   outputFile     = I18nResourceBuilderHelper.newOutputFile(
+                FakePanelPrepApp.class.getPackage()
+                );
 
        final RunnableSupplier<I18nResourceBuilderResult> runnableSupplier
-            = new RunnableSupplier<>( () -> newFakePanelApp( messagesBundle, outputFile ) );
+            = RunnableSupplierHelper.newRunnableSupplier(
+                    () -> newFakePanelApp( messagesBundle, outputFile )
+                    );
 
-        return RunnableSupplier.invokeLater( runnableSupplier, 1, TimeUnit.SECONDS );
+        return RunnableSupplierHelper.safeInvokeAndWait( runnableSupplier, 10, 1, TimeUnit.SECONDS );
     }
 
     public static I18nResourceBuilderResult newFakePanelApp(

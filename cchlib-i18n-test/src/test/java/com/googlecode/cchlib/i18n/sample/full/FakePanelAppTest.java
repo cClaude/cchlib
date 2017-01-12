@@ -3,6 +3,7 @@ package com.googlecode.cchlib.i18n.sample.full;
 import static org.fest.assertions.api.Assertions.assertThat;
 import java.util.concurrent.ExecutionException;
 import org.junit.Test;
+import com.googlecode.cchlib.swing.RunnableSupplierHelper;
 
 public class FakePanelAppTest
 {
@@ -10,7 +11,7 @@ public class FakePanelAppTest
     public void doTest_DO_I18N() throws ExecutionException
     {
         final FakePanel fakePanel = FakePanelApp.start(
-            new RunnableSupplier<>(
+            RunnableSupplierHelper.newRunnableSupplier(
                 () -> FakePanelApp.newFakePanelApp_DO_I18N()
                 )
             );
@@ -49,7 +50,7 @@ public class FakePanelAppTest
     public void doTest_NO_I18N() throws ExecutionException
     {
         final FakePanel fakePanel = FakePanelApp.start(
-                new RunnableSupplier<>(
+                RunnableSupplierHelper.newRunnableSupplier(
                     () -> FakePanelApp.newFakePanelApp_NO_I18N()
                     )
                 );

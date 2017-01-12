@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderHelper;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
+import com.googlecode.cchlib.swing.RunnableSupplier;
+import com.googlecode.cchlib.swing.RunnableSupplierHelper;
 
 public class FakePanelPrepMissingBundleAppTest
 {
@@ -20,12 +22,17 @@ public class FakePanelPrepMissingBundleAppTest
     public void test() throws ExecutionException, IOException
     {
         final String messagesBundle = "MessagesBundleMissing";
-        final File   outputFile     = I18nResourceBuilderHelper.newOutputFile( FakePanelPrepMissingBundleAppTest.class.getPackage() );
+        final File   outputFile     = I18nResourceBuilderHelper.newOutputFile(
+                FakePanelPrepMissingBundleAppTest.class.getPackage()
+                );
 
         final RunnableSupplier<I18nResourceBuilderResult> runnableSupplier
-            = new RunnableSupplier<>( () -> FakePanelPrepApp.newFakePanelApp( messagesBundle, outputFile ) );
+            = RunnableSupplierHelper.newRunnableSupplier(
+                    () -> FakePanelPrepApp.newFakePanelApp( messagesBundle, outputFile )
+                    );
 
-        final I18nResourceBuilderResult result = RunnableSupplier.invokeLater( runnableSupplier, 1, TimeUnit.SECONDS );
+        final I18nResourceBuilderResult result =
+                RunnableSupplierHelper.safeInvokeAndWait( runnableSupplier, 10, 1, TimeUnit.SECONDS );
 
         assertThat( result.getIgnoredFields()     ).hasSize( IGNORED_FIELDS     );
         assertThat( result.getLocalizedFields()   ).hasSize( LOCALIZED_FIELDS   );
