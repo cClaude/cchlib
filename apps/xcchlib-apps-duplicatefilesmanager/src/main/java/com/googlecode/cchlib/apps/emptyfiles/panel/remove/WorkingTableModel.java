@@ -85,8 +85,8 @@ public final class WorkingTableModel
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( WorkingTableModel.class );
 
-    private int[] forceColumnWidths;
-    @I18nString private String[] columnNames;
+    private int[]                     forceColumnWidths;
+    @I18nString private String[]      columnNames;
     private final List<File>          fileList    = new ArrayList<>();
     private final Map<File,FileInfo>  lasyInfoMap  = new HashMap<>();
     private final boolean             selectedDefaultState = true; // FIXME : should be configurable
@@ -153,7 +153,7 @@ public final class WorkingTableModel
             final FileInfo fi   = getFileInfo( file );
 
             return ! fi.isDeleted();
-            }
+        }
 
         return false;
     }
@@ -194,10 +194,10 @@ public final class WorkingTableModel
 
             if( LOGGER.isTraceEnabled() ) {
                 LOGGER.trace( "selection is " + aValue + " for " + file );
-                }
+            }
 
             super.fireTableCellUpdated( rowIndex, columnIndex );
-            }
+        }
     }
 
     SelectionState getSelectionState()
@@ -208,21 +208,18 @@ public final class WorkingTableModel
         for( final FileInfo fi : getFileInfos() ) {
             if( fi.isSelected() ) {
                 isAtLeastOneFileSelected = true;
-                }
-            else {
+            } else {
                 isAtLeastOneFileUnSelected = true;
-                }
             }
+        }
 
         if( isAtLeastOneFileSelected ) {
             if( isAtLeastOneFileUnSelected ) {
                 return SelectionState.AT_LEAST_ONE_FILE_SELECTED;
-                }
-            else {
+            } else {
                 return SelectionState.ALL_SELECTED;
-                }
             }
-        else {
+        } else {
             return SelectionState.NONE_SELECTED;
         }
     }
@@ -248,7 +245,7 @@ public final class WorkingTableModel
     {
         for( final FileInfo value : getFileInfos() ) {
             value.setSelected( false );
-            }
+        }
 
         fireTableDataChanged();
     }
@@ -257,7 +254,7 @@ public final class WorkingTableModel
     {
         for( final File file : this.fileList ) {
             getFileInfo( file ).setSelected( true );
-            }
+        }
 
         fireTableDataChanged();
     }
@@ -268,7 +265,9 @@ public final class WorkingTableModel
         final FileInfo value = getFileInfo( file );
 
         if( value.isSelected() ) {
-            LOGGER.info( "doDelete: " + file );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "doDelete: " + file );
+            }
 
             final boolean deleted = file.delete();
 
@@ -278,12 +277,11 @@ public final class WorkingTableModel
                 fireTableRowsUpdated( rowIndex, rowIndex );
 
                 return true;
-                }
-            else {
+            } else {
                 // Not deleted
                 LOGGER.warn( "Can't delete : " + file );
-                }
             }
+        }
 
         return false;
     }
@@ -296,7 +294,7 @@ public final class WorkingTableModel
             value = new FileInfo( file, this.selectedDefaultState, this.fileInfoFormater );
 
             this.lasyInfoMap.put( file, value );
-            }
+        }
 
         return value;
     }
@@ -312,9 +310,9 @@ public final class WorkingTableModel
 
         for( final FileInfo value : getFileInfos() ) {
             if( value.isSelected() ) {
-                count ++;
-                }
+                count++;
             }
+        }
 
         return count;
     }
@@ -340,12 +338,13 @@ public final class WorkingTableModel
     private int[] getForceColumnWidths()
     {
         if( this.forceColumnWidths == null ) {
-            this.forceColumnWidths = new int[ Columns.values().length ];
+            this.forceColumnWidths = new int[Columns.values().length];
 
-            for( int i = 0; i<this.forceColumnWidths.length; i++ ) {
+            for( int i = 0; i < this.forceColumnWidths.length; i++ ) {
                 this.forceColumnWidths[ i ] = Columns.values()[ i ].getForceColumnWidth();
-                }
             }
+        }
+
         return this.forceColumnWidths;
     }
 
