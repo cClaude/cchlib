@@ -8,18 +8,21 @@ import oldies.tools.phone.contacts.ContactProperties;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.FileHelper;
 
-public class MPECVSContactListTest
+public class MPECVSContactListTestApp
 {
-    private static final Logger LOGGER = Logger.getLogger( MPECVSContactListTest.class );
+    private static final Logger LOGGER = Logger.getLogger( MPECVSContactListTestApp.class );
+
+    private MPECVSContactListTestApp()
+    {
+        // App
+    }
 
     public static void main( final String[] args ) throws IOException, BadFileFormatException
     {
         //
-        final String filename = "2011-12-10_Tel-Concats.csv";
-
-        //String filename = "2012-01-18.ContactsTel[EN].csv";
-        final File telDirFile = FileHelper.getUserHomeDirectoryFile(
-                "Mes documents\\#Tel\\Contacts"
+        final String filename   = "yyyy-mm-dd_Tel-Concats.csv";
+        final File   telDirFile = FileHelper.getUserHomeDirectoryFile(
+                "My Tel/Contacts"
                 );
         final File myPhoneExplorerCVSFile = new File( telDirFile, filename );
 
