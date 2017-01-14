@@ -2,15 +2,12 @@ package com.googlecode.cchlib.sandbox.swing;
 
 import javax.swing.table.AbstractTableModel;
 
-class MyTableModel extends AbstractTableModel {
-    // The following private field holds all names for the leftmost
-    // column's rows.
-
-    /**
-     *
-     */
+class MyTableModel extends AbstractTableModel
+{
     private static final long serialVersionUID = 1L;
 
+    // The following private field holds all names for the leftmost
+    // column's rows.
     private final String[]    names            = { "John Doe", "Jane Smith", "Jack Jones", "Paul Finch", };
 
     // The following private field holds all hours worked values for
@@ -26,7 +23,7 @@ class MyTableModel extends AbstractTableModel {
         // behind the scenes.)
 
         for( int i = 0; i < this.hoursWorked.length; i++ ) {
-            this.hoursWorked[ i ] = new Integer( 0 );
+            this.hoursWorked[ i ] = Integer.valueOf( 0 );
         }
     }
 
@@ -46,13 +43,11 @@ class MyTableModel extends AbstractTableModel {
             case 0:
                 return String.class;
             case 1:
-                return Integer.class;
             case 2:
                 return Integer.class;
 
-                // The default case should never be reached. However, the
-                // compiler complains without the default.
-
+            // The default case should never be reached. However, the
+            // compiler complains without the default.
             default:
                 return Object.class;
         }
@@ -71,9 +66,8 @@ class MyTableModel extends AbstractTableModel {
             case 2:
                 return "% worked";
 
-                // The default case should never be reached. However, the
-                // compiler complains without the default.
-
+            // The default case should never be reached. However, the
+            // compiler complains without the default.
             default:
                 return "";
         }
@@ -83,7 +77,6 @@ class MyTableModel extends AbstractTableModel {
     public int getColumnCount()
     {
         // There will be only three columns in this program's table.
-
         return 3;
     }
 
@@ -94,7 +87,6 @@ class MyTableModel extends AbstractTableModel {
         // you might want to add entries to the names field. (You will
         // probably not want to add columns, which is why 3 is hard-coded
         // in the previous getColumnCount() method).
-
         return this.names.length;
     }
 
@@ -106,7 +98,7 @@ class MyTableModel extends AbstractTableModel {
         // code is just a safety check.
 
         if( rowIndex >= this.names.length ) {
-            throw new IllegalArgumentException( "" + rowIndex );
+            throw new IllegalArgumentException( Integer.toBinaryString( rowIndex ) );
         }
 
         // Return the data at the appropriate rowIndex for each column.
@@ -119,13 +111,11 @@ class MyTableModel extends AbstractTableModel {
             case 0:
                 return this.names[ rowIndex ];
             case 1:
-                return this.hoursWorked[ rowIndex ];
             case 2:
                 return this.hoursWorked[ rowIndex ];
 
-                // The default case should never be reached. However, the
-                // compiler complains without the default.
-
+            // The default case should never be reached. However, the
+            // compiler complains without the default.
             default:
                 return null;
         }
@@ -148,7 +138,7 @@ class MyTableModel extends AbstractTableModel {
         // code is just a safety check.
 
         if( rowIndex > this.names.length ) {
-            throw new IllegalArgumentException( "" + rowIndex );
+            throw new IllegalArgumentException( Integer.toString( rowIndex ) );
         }
 
         // Set the value at the appropriate rowIndex for column 1. Only
