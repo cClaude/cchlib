@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.log4j.Logger;
 import com.googlecode.cchlib.NeedDoc;
 
 @NeedDoc
@@ -159,9 +160,10 @@ public final class DuplicateFileBuilder
                 try {
                     visitor.visitFileFailed( p, walkIOE );
                 }
-                catch( final Exception visitorIOE ) {
+                catch( final Exception visitorException ) {
                     // Should not occur
-                    visitorIOE.printStackTrace();
+                    Logger.getLogger( DuplicateFileBuilder.class )
+                        .warn( " Should not occur", visitorException );
                 }
             }
         } );
