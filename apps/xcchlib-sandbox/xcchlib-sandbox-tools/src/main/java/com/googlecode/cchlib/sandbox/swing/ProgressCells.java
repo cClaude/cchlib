@@ -127,12 +127,12 @@ class ProgressCells extends JFrame
 
                 // If that value is less than 0, change it to 0.
                 if( i < 0 ) {
-                    tm.setValueAt( new Integer( 0 ), row, column );
+                    tm.setValueAt( Integer.valueOf( 0 ), row, column );
                 }
 
                 // If that value is greater than 40, change it to 40.
                 if( i > 40 ) {
-                    tm.setValueAt( new Integer( 40 ), row, column );
+                    tm.setValueAt( Integer.valueOf( 40 ), row, column );
                 }
             }
         }
