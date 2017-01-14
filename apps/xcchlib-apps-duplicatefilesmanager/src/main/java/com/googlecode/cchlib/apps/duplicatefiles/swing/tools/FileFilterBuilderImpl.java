@@ -16,8 +16,8 @@ public class FileFilterBuilderImpl implements FileFilterBuilder, Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    @Nonnull private final Collection<String> namesList;
-    @Nullable private final Pattern           pattern;
+    private final Collection<String> namesList;
+    @Nullable private final Pattern  pattern;
 
     public FileFilterBuilderImpl( //
         @Nonnull final Collection<String> namesList,
@@ -27,6 +27,7 @@ public class FileFilterBuilderImpl implements FileFilterBuilder, Serializable
         this.namesList = Collections.unmodifiableCollection( namesList );
         this.pattern   = pattern;
     }
+
 
     @Override
     @Nonnull

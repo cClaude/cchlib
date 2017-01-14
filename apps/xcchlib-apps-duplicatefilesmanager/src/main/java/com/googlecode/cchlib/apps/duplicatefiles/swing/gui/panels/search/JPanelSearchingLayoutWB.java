@@ -18,6 +18,9 @@ import com.googlecode.cchlib.i18n.annotation.I18nIgnore;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 //NOT public
+@SuppressWarnings({
+    "squid:MaximumInheritanceDepth" // Swing
+    })
 abstract class JPanelSearchingLayoutWB extends JPanelSearchingDisplayI18n implements I18nAutoUpdatable // $codepro.audit.disable largeNumberOfFields
 {
     private static final long serialVersionUID = 1L;

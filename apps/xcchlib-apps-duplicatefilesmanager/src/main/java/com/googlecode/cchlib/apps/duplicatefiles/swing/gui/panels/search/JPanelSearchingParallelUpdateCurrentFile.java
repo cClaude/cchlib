@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.Arrays;
 import org.apache.log4j.Logger;
 
+@SuppressWarnings({
+    "squid:MaximumInheritanceDepth" // Swing
+    })
 public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSearching
 {
     private static final long serialVersionUID = 1L;
@@ -21,23 +24,23 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
 
         final int numberOfThreads = getNumberOfThreads();
 
-        displayFiles = new File[ numberOfThreads ];
-        threadIds    = new long[ numberOfThreads ];
+        this.displayFiles = new File[ numberOfThreads ];
+        this.threadIds    = new long[ numberOfThreads ];
    }
 
     private final long getThreadId( final int threadNumber )
     {
         assert threadNumber >= 0;
         assert threadNumber < getNumberOfThreads();
-        assert threadNumber < threadIdCount;
+        assert threadNumber < this.threadIdCount;
 
-        return threadIds[ threadNumber ];
+        return this.threadIds[ threadNumber ];
     }
 
     private final int getThreadNumber( final long threadId )
     {
-        for( int i = 0; i<threadIdCount; i++ ) {
-            if( threadIds[ i ] == threadId ) {
+        for( int i = 0; i<this.threadIdCount; i++ ) {
+            if( this.threadIds[ i ] == threadId ) {
                 return i;
             }
         }
@@ -47,12 +50,12 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
 
     private final File getDisplayFileUsingThreadId( final long threadId )
     {
-        return displayFiles[ getThreadNumber( threadId ) ];
+        return this.displayFiles[ getThreadNumber( threadId ) ];
     }
 
     protected void updateCurrentFilesDisplay()
     {
-        for( int threadNumber = 0; threadNumber < threadIdCount; threadNumber++ ) {
+        for( int threadNumber = 0; threadNumber < this.threadIdCount; threadNumber++ ) {
             updateCurrentFilesDisplay_( threadNumber );
         }
     }
@@ -85,15 +88,15 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
         int threadNumber = getThreadNumber( threadId );
 
         if( threadNumber < 0 ) {
-            threadNumber = threadIdCount;
-            threadIds[ threadNumber ] = threadId;
-            threadIdCount++;
+            threadNumber = this.threadIdCount;
+            this.threadIds[ threadNumber ] = threadId;
+            this.threadIdCount++;
 
             assert threadNumber >= 0;
-            assert threadIdCount <= getNumberOfThreads();
+            assert this.threadIdCount <= getNumberOfThreads();
         }
 
-        displayFiles[ threadNumber ] = file;
+        this.displayFiles[ threadNumber ] = file;
    }
 
     private static final <T> void clear( final T [] array )
@@ -103,8 +106,8 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
 
     protected final void clearDisplayFiles()
     {
-        clear( displayFiles );
-        threadIdCount = 0;
+        clear( this.displayFiles );
+        this.threadIdCount = 0;
     }
 
     @Override
@@ -115,7 +118,7 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
 
     private final void setSynchronizedPass1DisplayFile( final File file )
     {
-        synchronized( lockSynchronizedPass1DisplayFile  ) {
+        synchronized( this.lockSynchronizedPass1DisplayFile  ) {
             setDisplayFileUsingThreadId( FIRST_PASS_THREAD_ID, file );
         }
     }
