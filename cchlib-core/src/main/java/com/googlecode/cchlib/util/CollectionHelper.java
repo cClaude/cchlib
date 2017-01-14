@@ -66,18 +66,6 @@ public final class CollectionHelper
     }
 
     /**
-     * @param <T> deprecated
-     * @param enumeration deprecated
-     * @return deprecated
-     * @deprecated use {@link #newList(Enumeration)} instead
-     */
-    @Deprecated
-    public static <T> List<T> toList( @Nullable final Enumeration<T> enumeration )
-    {
-        return newList( enumeration );
-    }
-
-    /**
      * Create a {@link List} from an {@link Enumeration}
      * @param <T> the class of the objects in the list
      * @param enumeration the enumeration whose elements are to be placed into this list
