@@ -62,6 +62,39 @@ public class NamedTree<T>
         extends DefaultBinaryTreeNode<T>
             implements NamedTreeNode<T>
     {
+        private final class NamedTreeNodeIterator implements Iterator<NamedTreeNode<T>>
+        {
+            private NamedTreeNode<T> n;
+
+            private NamedTreeNodeIterator( final NamedTreeNode<T> root )
+            {
+                this.n = root;
+            }
+
+            @Override
+            public boolean hasNext()
+            {
+                return this.n != null;
+            }
+
+            @Override
+            public NamedTreeNode<T> next()
+            {
+                if( this.n == null ) {
+                    throw new NoSuchElementException();
+                }
+                final NamedTreeNode<T> r = this.n;
+                this.n = (NamedTreeNode<T>)this.n.getRightNode();
+                return r;
+            }
+
+            @Override
+            public void remove()
+            {
+                throw new UnsupportedOperationException();
+            }
+        }
+
         private static final long serialVersionUID = 1L;
         private String name;
         private final DefaultNamedTreeNode<T> parent;
@@ -137,30 +170,9 @@ public class NamedTree<T>
         @Override
         public Iterator<NamedTreeNode<T>> iterator()
         {
-            return new Iterator<NamedTreeNode<T>>()
-            {
-                NamedTreeNode<T> n = (NamedTreeNode<T>)getLeftNode();
-                @Override
-                public boolean hasNext()
-                {
-                    return this.n != null;
-                }
-                @Override
-                public NamedTreeNode<T> next()
-                {
-                    if( this.n == null ) {
-                        throw new NoSuchElementException();
-                    }
-                    final NamedTreeNode<T> r = this.n;
-                    this.n = (NamedTreeNode<T>)this.n.getRightNode();
-                    return r;
-                }
-                @Override
-                public void remove()
-                {
-                    throw new UnsupportedOperationException();
-                }
-            };
+            final NamedTreeNode<T> root = (NamedTreeNode<T>)getLeftNode();
+
+            return new NamedTreeNodeIterator( root );
         }
         /**
          * Returns last child node for this node.
@@ -229,7 +241,7 @@ public class NamedTree<T>
      *             could be null)
      */
     @SuppressWarnings("null")
-    public @Nullable T put( @Nullable final T content, final String...pathName)
+    @Nullable public T put( @Nullable final T content, final String...pathName)
         throws BadRootNameException
     {
         final String rname = pathName[0];
@@ -261,7 +273,7 @@ public class NamedTree<T>
         }
         else {
             // No head
-            this.head = new DefaultNamedTreeNode<T>(rname, null);
+            this.head = new DefaultNamedTreeNode<>(rname, null);
 
             if( pathName.length == 1 ) {
                 //Set head !
@@ -283,7 +295,7 @@ public class NamedTree<T>
             }
             else {
                 // Node not found.
-                next = new DefaultNamedTreeNode<T>(pathName[i], n);
+                next = new DefaultNamedTreeNode<>(pathName[i], n);
 
                 final DefaultNamedTreeNode<T> prev = n.getLastChild();
                 if( prev == null ) {
@@ -307,7 +319,7 @@ public class NamedTree<T>
             return prev;
         }
         else {
-            final DefaultNamedTreeNode<T> fnode = new DefaultNamedTreeNode<T>(pathName[pathName.length-1], n, content);
+            final DefaultNamedTreeNode<T> fnode = new DefaultNamedTreeNode<>(pathName[pathName.length-1], n, content);
             final DefaultNamedTreeNode<T> prev = n.getLastChild();
 
             if( prev == null ) {
@@ -323,13 +335,17 @@ public class NamedTree<T>
 
     // Look for child in this node,
     // return first child node with this name.
-    private static <T> DefaultNamedTreeNode<T> lookup(final DefaultNamedTreeNode<T> node, final String childName)
+    private static <T> DefaultNamedTreeNode<T> lookup(
+        final DefaultNamedTreeNode<T> node,
+        final String                  childName
+        )
     {
-        for(final NamedTreeNode<T> n : node) {
+        for( final NamedTreeNode<T> n : node ) {
             if( childName.equals( n.getName() ) ) {
                 return (DefaultNamedTreeNode<T>)n;
                 }
             }
+
         return null;
     }
 
@@ -396,8 +412,8 @@ public class NamedTree<T>
      * @param visitor
      */
     public void walkDepthFirst(
-            final Visitor<NamedTreeNode<T>> visitor
-            )
+        final Visitor<NamedTreeNode<T>> visitor
+        )
     {
         if( this.head != null ) {
             walkerHelperDepthFirst( this.head, visitor );
@@ -405,9 +421,9 @@ public class NamedTree<T>
     }
 
     private static <T> VisitResult walkerHelperDepthFirst(
-            final NamedTreeNode<T>            node,
-            final Visitor<NamedTreeNode<T>>   visitor
-            )
+        final NamedTreeNode<T>            node,
+        final Visitor<NamedTreeNode<T>>   visitor
+        )
     {
         if( node.getLeftNode() == null ) {
             // No childs for this node...
