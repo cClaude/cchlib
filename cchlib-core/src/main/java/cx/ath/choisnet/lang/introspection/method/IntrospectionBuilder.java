@@ -1,7 +1,5 @@
-// $codepro.audit.disable numericLiterals
 package cx.ath.choisnet.lang.introspection.method;
 
-import com.googlecode.cchlib.util.EnumHelper;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.EnumSet;
@@ -9,15 +7,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.util.EnumHelper;
 
 /**
  *
- * @author CC
  * @param <O> Object to inspect
  */
 public class IntrospectionBuilder<O>
 {
-    /** Some logs */
     private static final Logger LOGGER = Logger.getLogger(IntrospectionBuilder.class);
 
     /** Getter Methods list */
@@ -27,19 +24,20 @@ public class IntrospectionBuilder<O>
     private final Map<String,Method> setterMethodsMap = new TreeMap<>();
 
     /**
+     * TIPS: Use EnumSet.of( {@link IntrospectionParameters#ONLY_PUBLIC},
+     * {@link IntrospectionParameters#NO_DEPRECATED} ) for {@code parameters}
      *
      * @param inpectClass Class of object to analyze
      * @param parameters  Parameters
      * @see IVIgnore
-     *
-     *  TIPS: Use EnumSet.of(Introspection.Attrib.ONLY_PUBLIC, Introspection.Attrib.NO_DEPRECATED) for parameter attribSet
      */
     public IntrospectionBuilder(
         final Class<O>                     inpectClass,
         final Set<IntrospectionParameters> parameters
         )
     {
-        final EnumSet<IntrospectionParameters> safeParameters = getSafeParameters( parameters );
+        final EnumSet<IntrospectionParameters> safeParameters =
+                EnumHelper.safeCopyOf( parameters, IntrospectionParameters.class );
 
         buildGetterSetterList( inpectClass, safeParameters );
     }
@@ -57,61 +55,68 @@ public class IntrospectionBuilder<O>
         }
     }
 
+    @SuppressWarnings("squid:S1066") // Collapsible "if" statements
     private void addGetterOrSetter(
-            final EnumSet<IntrospectionParameters> safeParameters,
-            final Method method )
+        final Set<IntrospectionParameters> parameters,
+        final Method                       method
+        )
     {
-        boolean getThis = true;
+        boolean tryToHandle = true;
 
-        if( safeParameters.contains( IntrospectionParameters.ONLY_PUBLIC ) ) {
-            getThis = Modifier.isPublic( method.getModifiers() );
+        if( parameters.contains( IntrospectionParameters.ONLY_PUBLIC ) ) {
+            tryToHandle = Modifier.isPublic( method.getModifiers() );
             }
-        if( getThis ) {
-            if( safeParameters.contains( IntrospectionParameters.NO_DEPRECATED ) ) {
-                getThis = ! method.isAnnotationPresent( Deprecated.class );
+
+        if( tryToHandle ) {
+            if( parameters.contains( IntrospectionParameters.NO_DEPRECATED ) ) {
+                tryToHandle = ! method.isAnnotationPresent( Deprecated.class );
                 }
             }
-        if( getThis ) {
-            getThis = ! method.isAnnotationPresent( IVIgnore.class );
+
+        if( tryToHandle ) {
+            tryToHandle = ! method.isAnnotationPresent( IVIgnore.class );
             }
 
-        if( getThis ) {
+        if( tryToHandle ) {
             if( method.getParameterTypes().length == 0 ) {
-                final String methodName = method.getName();
-
-                //TODO: check if return something !
-
-                if( methodName.equals( "getClass" ) ) {
-                    // ignore privateSLog.trace( "Ignored Method: " + m );
-                    }
-                else if( methodName.startsWith( "is" ) ) {
-                    addGetter( methodName.substring( 2 ), method );
-                    }
-                else if( methodName.startsWith( "get" ) ) {
-                    addGetter( methodName.substring( 3 ), method );
-                    }
+                handleGetter( method );
                 }
             else if( method.getParameterTypes().length == 1 ) {
-                final String methodName = method.getName();
-
-                if( methodName.startsWith( "is" ) ) {
-                    // for some set method witch have name like isSomeThing
-                    addSetter( methodName.substring( 2 ), method );
-                } else if( methodName.startsWith( "set" ) ) {
-                    addSetter( methodName.substring( 3 ), method );
-                }
+                handleSetter( method );
             }
-        } // if( getThis )
-        else if( LOGGER.isDebugEnabled() ) {
+        }
+        else /* getThis == false */ if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "* (out of scope) Ignore this Method: " + method );
         }
     }
 
-    protected static EnumSet<IntrospectionParameters> getSafeParameters(
-        final Set<IntrospectionParameters> parameters
-        )
+    private void handleSetter( final Method method )
     {
-        return EnumHelper.safeCopyOf( parameters, IntrospectionParameters.class );
+        final String methodName = method.getName();
+
+        if( methodName.startsWith( "is" ) ) {
+            // for some set method witch have name like isSomeThing
+            addSetter( methodName.substring( 2 ), method );
+        } else if( methodName.startsWith( "set" ) ) {
+            addSetter( methodName.substring( 3 ), method );
+        }
+    }
+
+    private void handleGetter( final Method method )
+    {
+        final Class<?> returnType = method.getReturnType();
+
+        if( (returnType != Void.class) && (returnType != void.class) ) {
+            final String methodName = method.getName();
+
+            if( ! "getClass".equals( methodName ) ) {
+                if( methodName.startsWith( "is" ) ) {
+                    addGetter( methodName.substring( 2 ), method );
+                } else if( methodName.startsWith( "get" ) ) {
+                    addGetter( methodName.substring( 3 ), method );
+                }
+            }
+        }
     }
 
     private final void addGetter( final String beanName, final Method method )
@@ -130,7 +135,7 @@ public class IntrospectionBuilder<O>
         final Method                method
         )
     {
-        Method previous = methodsMap.put( beanName, method );
+        final Method previous = methodsMap.put( beanName, method );
 
         // Verify than method does not already exist in Map !
         if( previous != null ) {
@@ -146,7 +151,7 @@ public class IntrospectionBuilder<O>
      */
     public Map<String, Method> getGetterMethodsMap()
     {
-        return getterMethodsMap;
+        return this.getterMethodsMap;
     }
 
     /**
@@ -154,7 +159,7 @@ public class IntrospectionBuilder<O>
      */
     public Map<String, Method> getSetterMethodsMap()
     {
-        return setterMethodsMap;
+        return this.setterMethodsMap;
     }
 
 }
