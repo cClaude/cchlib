@@ -10,9 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//** Elle ne gere pas les notions d'heure ou de calendrier, elle pourra etre
-//** complete en utilisant les methodes statiques de FullCalendar
-
 /**
  * Cette classe gere les problemes de date au sens commun (jour, mois, annee)
  * <P>
@@ -49,7 +46,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
 {
     private static final long serialVersionUID = 1L;
 
-    private static final long MILLISECONDS_BY_DAY = (1000L * 60L * 60L * 24L);
+    private static final long MILLISECONDS_BY_DAY = 1000L * 60L * 60L * 24L;
 
     /**
      * {@link DateFormat} format : {@value}
@@ -68,7 +65,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
     /**
      ** Construit avec la date du jour
      */
-    public BasicDate() // -----------------------------------------------------
+    public BasicDate()
     {
         this( new java.util.Date() );
     }
@@ -81,7 +78,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      **
      ** @see #getJavaDate()
      */
-    public BasicDate( final java.util.Date javaDate ) // ----------------------------
+    public BasicDate( final java.util.Date javaDate )
     {
         set( javaDate );
     }
@@ -93,14 +90,11 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      * @param date
      *            BasicDate <B>valide</B>
      */
-    public BasicDate( final BasicDate date ) // -----------------------------------
+    public BasicDate( final BasicDate date )
     {
-        // class_year = new Integer( date.getYear () );
-        // class_month = new Integer( date.getMonth() );
-        // class_day = new Integer( date.getDay () );
-        this.year = date.getYear();
+        this.year  = date.getYear();
         this.month = date.getMonth();
-        this.day = date.getDay();
+        this.day   = date.getDay();
     }
 
     /**
@@ -113,35 +107,11 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      **
      ** @exception ParseException if any
      */
-    public BasicDate( final String date, final SimpleDateFormat fmt ) // -----------------
+    public BasicDate( final String date, final SimpleDateFormat fmt )
         throws ParseException
     {
         this( fmt.parse( date ) ); // -> BasicDate( java.util.Date javadate )
     }
-
-    // /*
-    // *
-    // ** Construit une date BasicDate avec une chaene ayant le format YYYYMMDD
-    // **
-    // ** @param date date au format YYYYMMDD
-    // **
-    // ** @exception BasicDateException
-    // */
-    // public BasicDate( String date ) throws BasicDateException // ------------
-    // {
-    // if( date.length() != 8 ) {
-    // throw new BasicDateException( "BasicDate bad length" );
-    // }
-    //
-    // SimpleDateFormat fmt = new SimpleDateFormat( SIMPLE_DATE_FORMAT );
-    //
-    // try {
-    // set( fmt.parse( date ) );
-    // }
-    // catch( ParseException bug ) {
-    // throw new RuntimeException( "BasicDate( String ) INTERNAL ERROR" );
-    // }
-    // }
 
     /**
      * Construit une date BasicDate avec la date specifiee
@@ -157,8 +127,8 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      *
      * @exception BasicDateException if any
      */
-    public BasicDate( final int year, final int month, final int day ) // ----------------------
-            throws BasicDateException
+    public BasicDate( final int year, final int month, final int day )
+        throws BasicDateException
     {
         set( year, month, day );
     }
@@ -171,7 +141,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      *
      * @see #getSQLDate()
      */
-    public BasicDate( final java.sql.Date sqlDate ) // -----------------------------
+    public BasicDate( final java.sql.Date sqlDate )
     {
         final String strDate = sqlDate.toString();
 
@@ -185,13 +155,6 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
         this.month = Integer.parseInt( strDate.substring( 5, 7 ) );
         this.day   = Integer.parseInt( strDate.substring( 8 ) );
     }
-
-    /*
-     **
-     ** @exception BasicDateException
-     *                public void set( int year, int month, int day ) // ------------------------ throws
-     *                BasicDateException { set( new Integer( year ), new Integer( month ), new Integer( day ) ); }
-     */
 
     /**
      ** Initialise l'objet BasicDate e partir de l'annee, du mois et du jour.
@@ -239,7 +202,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      *
      * @exception BasicDateException if any
      */
-    public void setYear( final int year ) throws BasicDateException // -------------
+    public void setYear( final int year ) throws BasicDateException
     {
         set( year, -1, -1 );
     }
@@ -252,7 +215,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      *
      * @exception BasicDateException if any
      */
-    public void setMonth( final int month ) throws BasicDateException // -----------
+    public void setMonth( final int month ) throws BasicDateException
     {
         set( -1, month, -1 );
     }
@@ -265,7 +228,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      *
      * @exception BasicDateException if any
      */
-    public void setDay( final int day ) throws BasicDateException // ---------------
+    public void setDay( final int day ) throws BasicDateException
     {
         set( -1, -1, day );
     }
@@ -276,7 +239,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      * @param javaDate
      *            date
      */
-    public void set( final Date javaDate ) // ----------------------------
+    public void set( final Date javaDate )
     {
         setWithFmtString( new SimpleDateFormat( DATEFMT ).format( javaDate ) );
     }
@@ -284,7 +247,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
     /*
      * Initialise l'objet BasicDate avec une String formatee avec le format interne
      */
-    protected void setWithFmtString( final String fmtTime ) // ----------------------
+    protected void setWithFmtString( final String fmtTime )
     {
         // ** @see #getSimpleDateFormat
         // yyyyMMdd
@@ -302,7 +265,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
     public int getDay()
     {
         return this.day;
-    } // -------------------------------
+    }
 
     /**
      ** retourne le numero du mois.
@@ -312,7 +275,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
     public int getMonth()
     {
         return this.month;
-    } // ---------------------------
+    }
 
     /**
      ** retourne le numero de l'annee.
@@ -322,7 +285,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
     public int getYear()
     {
         return this.year;
-    } // -----------------------------
+    }
 
     /**
      ** retourne la date au format java.util.Date.
@@ -331,7 +294,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      **
      ** @see #BasicDate(java.util.Date )
      */
-    public java.util.Date getJavaDate() // ------------------------------------
+    public java.util.Date getJavaDate()
     {
         try {
             return new SimpleDateFormat( DATEFMT ).parse( this.toString() );
@@ -348,24 +311,10 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      **
      ** @see #BasicDate(java.sql.Date )
      */
-    public java.sql.Date getSQLDate() // --------------------------------------
+    public java.sql.Date getSQLDate()
     {
         return new java.sql.Date( this.getJavaDate().getTime() );
     }
-
-//    /**
-//     ** @see #equals(DateInterface )
-//     */
-//    @Override
-//    public boolean equals( final Object o ) // --------------------------------------
-//    {
-//        try {
-//            return this.equals( (DateInterface)o );
-//        }
-//        catch( final ClassCastException e ) {
-//            return false;
-//        }
-//    }
 
     /**
      ** Compare deux BasicDate.
@@ -379,7 +328,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
     }
 
     /**
-     ** @see #compareTo(DateInterface ) public int compareTo( Object o ) // ---------------------------------------
+     ** @see #compareTo(DateInterface ) public int compareTo( Object o ) ---
      *      throws ClassCastException { return compareTo( (DateInterface)o ); }
      */
 
@@ -443,24 +392,24 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      ** @return la date au format YYYYMMDD
      */
     @Override
-    public String toString() // -----------------------------------------------
+    public String toString()
     {
         return toStringYear() + toStringMonth() + toStringDay();
     }
 
-    public String toStringYear() // -------------------------------------------
+    public String toStringYear()
     {
         final String yearStr = "000" + this.year;
 
         return yearStr.substring( yearStr.length() - 4 );
     }
 
-    public String toStringMonth() // ------------------------------------------
+    public String toStringMonth()
     {
         return ((this.month > 9) ? "" : "0") + this.month;
     }
 
-    public String toStringDay() // --------------------------------------------
+    public String toStringDay()
     {
         return ((this.day > 9) ? "" : "0") + this.day;
     }
@@ -474,7 +423,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      ** @return la date formatee
      */
     @Override
-    public String toString( final Format formatter ) // -----------------------------
+    public String toString( final Format formatter )
     {
         return formatter.format( this.getJavaDate() );
     }
@@ -486,7 +435,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      ** @return le nombre de jour depuis le 1er January 1970,
      */
     @Override
-    public long longValue() // ------------------------------------------------
+    public long longValue()
     {
         return this.getJavaDate().getTime() / MILLISECONDS_BY_DAY;
     }
@@ -496,7 +445,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      ** <P>
      * Passe automatiquement e l'annee suivante, en cas de depassement de capacite de l'annee (9999) retour e l'an 0.
      */
-    public void incYear() // -------------------------------------------------
+    public void incYear()
     {
         int newYear = this.getYear() + 1; // Incremente
 
@@ -518,7 +467,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      ** <P>
      * Passe automatiquement e l'annee suivante, en cas de depassement de capacite de l'annee (9999) retour e l'an 0.
      */
-    public void incMonth() // -------------------------------------------------
+    public void incMonth()
     {
         int newYear  = this.getYear();
         int newMonth = this.getMonth() + 1; // Incremente
@@ -559,7 +508,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
      *
      * @return duree (en jours) entre la date de debut et la date de fin
      */
-    public int countOfDay( final BasicDate endOfPeriod ) // ------------------------
+    public int countOfDay( final BasicDate endOfPeriod )
     {
 
         final long msBeginOfPeriod = this.getJavaDate().getTime();
@@ -573,7 +522,7 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
         return (int)countofday;
     }
 
-    protected void check() throws BasicDateException // ----------------------
+    protected void check() throws BasicDateException
     {
         //
         // Verification que la date est consistante.
@@ -593,13 +542,13 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
     @Override
     public BasicDate add( final BasicDate anotherDate ) throws BasicDateTimeException
     {
-        throw new UnsupportedOperationException( "$$$$ NOT YET IMPLEMENTED $$$$" );
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public BasicDate sub( final BasicDate anotherDate ) throws BasicDateTimeException
     {
-        throw new UnsupportedOperationException( "$$$$ NOT YET IMPLEMENTED $$$$" );
+        throw new UnsupportedOperationException();
     }
 
     private void writeObject( final ObjectOutputStream stream )
@@ -657,80 +606,4 @@ public class BasicDate implements Serializable, DateInterface<BasicDate>
         }
         return true;
     }
-
-
-//    /**
-//     ** Ajoute de UN jour e la date courante.
-//     ** <P>
-//     * Passe automatiquement au mois et e l'annee suivante si besoin.
-//     */
-//    public void incDay() // ---------------------------------------------------
-//    {
-//        final int day = this.getDay() + 1; // Incremente
-//
-//        if( day > 28 ) {
-//            // Il y a un risque potentiel de changement de mois,
-//            // dans ce cas on utilise un calendrier.
-//            final FullCalendar calendar = new FullCalendar( this );
-//
-//            // System.out.println( "cal :" + calendar.getDate( SIMPLE_DATE_FORMAT ) );
-//            // System.out.println( "dat :" + dateYYYYMMDD );
-//
-//            calendar.add( FullCalendar.DATE, 1 );
-//
-//            // Recupere une date toute propre ;-)
-//            dateYYYYMMDD = calendar.getDate( SIMPLE_DATE_FORMAT );
-//
-//            // System.out.println( "cal :" + calendar.getDate( SIMPLE_DATE_FORMAT ) );
-//            // System.out.println( "dat :" + dateYYYYMMDD );
-//        } else {
-//            try {
-//                setDay( day );
-//            }
-//            catch( final BasicDateException ignore ) {
-//                commun.util.mail.SendAnException.sendAnException( 5, this, ignore, null, "incDay() INTERNAL ERROR" );
-//            }
-//        }
-//    }
-
-//    /**
-//     ** Ajoute 'numberOfDay' jours e la date.
-//     **
-//     ** @param numberOfDay
-//     *            nombres de jours e ajouter e partir de la date courante (valeur <B>positive uniquement</B>).
-//     */
-//    public void incDay( int numberOfDay ) // ----------------------------------
-//    {
-//        if( numberOfDay > 0 ) {
-//            while( numberOfDay-- > 0 ) {
-//                this.incDay();
-//            }
-//        }
-//    }
-
-//    /**
-//     ** Retire UN jour e la date courante.
-//     ** <P>
-//     * Ajoute automatiquement le mois et l'annee si besoin.
-//     */
-//    public void decDay() // ---------------------------------------------------
-//    {
-//        this.decDay( 1 );
-//    }
-
-//    /**
-//     ** Retire 'numberOfDay' jours e la date.
-//     **
-//     ** @param numberOfDay
-//     *            nombres de jours e retirer e partir de la date courante (valeur <B>positive uniquement</B>).
-//     */
-//    public void decDay( final int numberOfDay ) // ----------------------------------
-//    {
-//        if( numberOfDay > 0 ) {
-//            final FullCalendar calendar = new FullCalendar( this );
-//
-//            calendar.add( FullCalendar.DATE, -numberOfDay );
-//            dateYYYYMMDD = calendar.getDate( SIMPLE_DATE_FORMAT );
-//        }
-//    }
 }
