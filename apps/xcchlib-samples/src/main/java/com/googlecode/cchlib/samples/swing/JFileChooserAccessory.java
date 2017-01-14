@@ -367,7 +367,7 @@ public class JFileChooserAccessory extends JFrame
         if( returnVal == JFileChooser.APPROVE_OPTION ) {
             final File f = jfc.getSelectedFile();
 
-            System.out.printf( "You chose to open this file: %s\n", f);
+            System.out.printf( "You chose to open this file: %s%n", f);
             setLastSelected( f.getPath() );
             }
         else {
