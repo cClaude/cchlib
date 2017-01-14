@@ -4,6 +4,7 @@ import java.util.Date;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@SuppressWarnings("squid:S1700") // A field should not duplicate the name of its containing class (why?)
 public enum DBFType {
     /**
      * Define a {@link String}
@@ -55,7 +56,7 @@ public enum DBFType {
         final DBFField field = new DBFField();
 
         field.setName( name );
-        field.setDataType( this.dbfType );;
+        field.setDataType( this.dbfType );
 
         return field;
     }

@@ -35,6 +35,9 @@ import org.apache.log4j.Logger;
  * <tr><td>D</td><td>java.util.Date</td></tr>
  * </table>
  */
+@SuppressWarnings({
+    "squid:S2674" //The value returned from a stream read should be checked
+    })
 public class DBFReader extends DBFBase
 {
     private static final Logger LOGGER = Logger.getLogger( DBFReader.class );

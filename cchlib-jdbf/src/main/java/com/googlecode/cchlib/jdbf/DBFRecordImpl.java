@@ -7,6 +7,7 @@ import com.googlecode.cchlib.util.iterator.ArrayIterator;
 /**
  * Default implementation of {@link DBFRecord}
  */
+@SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
 final class DBFRecordImpl implements DBFRecord
 {
     private final DBFReader dbfReader;
@@ -24,20 +25,20 @@ final class DBFRecordImpl implements DBFRecord
     @Override
     public Iterator<DBFEntry> iterator()
     {
-        return new ArrayIterator<DBFEntry>( entries );
+        return new ArrayIterator<>( this.entries );
     }
 
     @Override
     public DBFEntry getDBFEntry( final int columnNumber )
     {
-        return entries[ columnNumber ];
+        return this.entries[ columnNumber ];
     }
 
     @Override
     public DBFEntry getDBFEntry( final String columnName )
         throws DBFUnknownFieldNameException
     {
-        return entries[ this.dbfReader.getColumnNumber( columnName ) ];
+        return this.entries[ this.dbfReader.getColumnNumber( columnName ) ];
     }
 
     @Override
