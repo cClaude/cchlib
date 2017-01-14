@@ -20,7 +20,7 @@ public final class Objects
 
     public static <T> T[] emptyArray( final Class<T> clazz )
     {
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings({ "squid:S1488", "unchecked" })
         final T[] array = (T[])Array.newInstance(clazz,0);
         return array;
     }
