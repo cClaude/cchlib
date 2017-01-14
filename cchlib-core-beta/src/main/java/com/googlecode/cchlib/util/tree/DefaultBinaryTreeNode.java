@@ -18,13 +18,14 @@ public class DefaultBinaryTreeNode<T>
      */
     public DefaultBinaryTreeNode()
     {
+        // an empty node
     }
 
     /**
      * Create an empty node with content
      * @param data content of node.
      */
-    public DefaultBinaryTreeNode(T data)
+    public DefaultBinaryTreeNode(final T data)
     {
         this.data = data;
     }
@@ -32,13 +33,13 @@ public class DefaultBinaryTreeNode<T>
     @Override
     public T getData()
     {
-        return data;
+        return this.data;
     }
 
     @Override
-    public T setData( T data )
+    public T setData( final T data )
     {
-        T old = this.data;
+        final T old = this.data;
         this.data = data;
         return old;
     }
@@ -46,13 +47,13 @@ public class DefaultBinaryTreeNode<T>
     @Override
     public BinaryTreeNode<T> getLeftNode()
     {
-        return left;
+        return this.left;
     }
 
     @Override
-    public BinaryTreeNode<T> setLeftNode( BinaryTreeNode<T> left )
+    public BinaryTreeNode<T> setLeftNode( final BinaryTreeNode<T> left )
     {
-        BinaryTreeNode<T> old = this.left;
+        final BinaryTreeNode<T> old = this.left;
         this.left = left;
         return old;
     }
@@ -60,13 +61,13 @@ public class DefaultBinaryTreeNode<T>
     @Override
     public BinaryTreeNode<T> getRightNode()
     {
-        return right;
+        return this.right;
     }
 
     @Override
-    public BinaryTreeNode<T> setRightNode( BinaryTreeNode<T> right )
+    public BinaryTreeNode<T> setRightNode( final BinaryTreeNode<T> right )
     {
-        BinaryTreeNode<T> old = this.right;
+        final BinaryTreeNode<T> old = this.right;
         this.right = right;
         return old;
     }
