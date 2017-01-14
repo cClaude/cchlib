@@ -162,14 +162,6 @@ public class NDSFileFormat extends FileStructure
         return structure.length;
     }
 
-
-//    public static NDSFileFormat load( Path path ) throws IOException
-//    {
-//        byte[] bytes = Files.readAllBytes( path );
-//
-//        return new NDSFileFormat( bytes );
-//    }
-
     public static NDSFileFormat load( final File file ) throws IOException
     {
         final int    size   = getSize();
