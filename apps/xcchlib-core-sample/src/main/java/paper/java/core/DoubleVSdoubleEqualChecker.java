@@ -2,6 +2,11 @@ package paper.java.core;
 
 public class DoubleVSdoubleEqualChecker
 {
+    private DoubleVSdoubleEqualChecker()
+    {
+        // All static
+    }
+
     public static void main(final String...args)
     {
         checkDouble();
