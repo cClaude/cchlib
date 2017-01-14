@@ -10,14 +10,17 @@ import org.junit.Assert;
  * Note: new versions version of JUnit already include this
  * feature.
  */
-final
-public class ArrayAssert
+@SuppressWarnings({
+    "squid:S1192", // Duplicated String literals
+    "squid:S00100" // naming convention
+    })
+public final class ArrayAssert
 {
     private ArrayAssert()
     {//All static
     }
 
-    private static <T> void rowAppend( final StringBuilder sb, final Object array )
+    private static <T> void rowAppend( final StringBuilder sb, final T array )
     {
         sb.append( array );
     }
@@ -53,33 +56,28 @@ public class ArrayAssert
      * @param actual
      *            actual bytes array value.
      */
+    @SuppressWarnings({
+        "squid:S2583" // Already evaluated (be clearest)
+        })
     public static <T> void assertEquals(
-            final String    message,
-            final T[]       expected,
-            final T[]       actual
-            )
+        final String message,
+        final T[]    expected,
+        final T[]    actual
+        )
     {
         if( expected == actual ) {
             return; // Same ref.
             }
 
         if( Arrays.equals( actual, expected) ) {
-        	return; // Same content (quicker)
-        	}
+            return; // Same content (quicker)
+            }
 
         if( (expected == null) && (actual != null) ) {
-            final StringBuilder sb = new StringBuilder();
-
-            if( message != null ) {
-                sb.append( message );
-                sb.append( ' ' );
-                }
-
-            sb.append( "expected=null actual=" );
-            rowAppend( sb, actual );
+            final StringBuilder sb = assertEquals_expected_not_null_actual_null( message, actual );
 
             Assert.fail( sb.toString() );
-            return;
+            return; // Just to avoid SONAR warning
            }
 
         if( (expected != null) && (actual == null) ) {
@@ -94,7 +92,7 @@ public class ArrayAssert
             sb.append( " actual=null" );
 
             Assert.fail( sb.toString() );
-            return;
+            return; // Just to avoid SONAR warning
             }
 
         if( expected != null ) {
@@ -160,6 +158,24 @@ public class ArrayAssert
         }
     }
 
+    private static <T> StringBuilder assertEquals_expected_not_null_actual_null(
+        final String message,
+        final T[]    actual
+        )
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        if( message != null ) {
+            sb.append( message );
+            sb.append( ' ' );
+            }
+
+        sb.append( "expected=null actual=" );
+        rowAppend( sb, actual );
+
+        return sb;
+    }
+
     /**
      * Asserts that two bytes arrays are equal. If they
      * are not, an AssertionError is thrown with the
@@ -169,7 +185,11 @@ public class ArrayAssert
      * @param expected expected bytes array value.
      * @param actual actual bytes array value.
      */
-    @SuppressWarnings("boxing")
+    @SuppressWarnings({
+        "boxing",
+        "squid:MethodCyclomaticComplexity",
+        "squid:S2583" // Already evaluated (be clearest)
+        })
     public static void assertEquals(
             final String message,
             final byte[] expected,
@@ -181,54 +201,24 @@ public class ArrayAssert
             }
 
         if( Arrays.equals( actual, expected) ) {
-        	return; // Same content (quicker)
-        	}
+            return; // Same content (quicker)
+            }
 
         if( (expected == null) && (actual != null) ) {
-            final StringBuilder sb = new StringBuilder();
-
-            if( message != null ) {
-                sb.append( message );
-                sb.append( ' ' );
-                }
-
-            sb.append( "expected=null actual=" );
-            rowAppend( sb, actual );
+            final StringBuilder sb = assertEquals_bytes_expected_null_actual_not_null( message, actual );
 
             Assert.fail( sb.toString() );
+            return; // Just to avoid SONAR warning
             }
 
         if( (expected != null) && (actual == null) ) {
-            final StringBuilder sb = new StringBuilder();
-
-            if( message != null ) {
-                sb.append( message );
-                sb.append( ' ' );
-                }
-
-            sb.append( "expected=");
-            rowAppend( sb, expected );
-            sb.append( " actual=null" );
+            final StringBuilder sb = assertEquals_bytes_expected_not_null_actual_null( message, expected );
 
             Assert.fail( sb.toString() );
             }
         else if( expected != null ) {
             if( expected.length != actual.length ) {
-                final StringBuilder sb = new StringBuilder();
-
-                if( message != null ) {
-                    sb.append( message );
-                    sb.append( ' ' );
-                    }
-
-                sb.append( "expected(size=");
-                sb.append( expected.length );
-                sb.append( ")=" );
-                rowAppend( sb, expected );
-                sb.append( " actual(size=" );
-                sb.append( actual.length );
-                sb.append( ")=" );
-                rowAppend( sb, actual );
+                final StringBuilder sb = assertEquals_bytes_expected_actual_not_same_size( message, expected, actual );
 
                 Assert.fail( sb.toString() );
                 }
@@ -242,6 +232,67 @@ public class ArrayAssert
                 }
             }
         }
+    }
+
+    private static StringBuilder assertEquals_bytes_expected_actual_not_same_size(
+        final String message,
+        final byte[] expected,
+        final byte[] actual
+        )
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        if( message != null ) {
+            sb.append( message );
+            sb.append( ' ' );
+            }
+
+        sb.append( "expected(size=");
+        sb.append( expected.length );
+        sb.append( ")=" );
+        rowAppend( sb, expected );
+        sb.append( " actual(size=" );
+        sb.append( actual.length );
+        sb.append( ")=" );
+        rowAppend( sb, actual );
+
+        return sb;
+    }
+
+    private static StringBuilder assertEquals_bytes_expected_not_null_actual_null(
+        final String message,
+        final byte[] expected
+        )
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        if( message != null ) {
+            sb.append( message );
+            sb.append( ' ' );
+            }
+
+        sb.append( "expected=");
+        rowAppend( sb, expected );
+
+        return sb.append( " actual=null" );
+    }
+
+    private static StringBuilder assertEquals_bytes_expected_null_actual_not_null(
+        final String message,
+        final byte[] actual
+        )
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        if( message != null ) {
+            sb.append( message );
+            sb.append( ' ' );
+            }
+
+        sb.append( "expected=null actual=" );
+        rowAppend( sb, actual );
+
+        return sb;
     }
 
     /**
@@ -268,20 +319,23 @@ public class ArrayAssert
      * @param expected expected chars array value.
      * @param actual actual chars array value.
      */
-    @SuppressWarnings("boxing")
+    @SuppressWarnings({
+        "boxing",
+        "squid:S2583" // Already evaluated (be clearest)
+        })
     public static void assertEquals(
-            final String message,
-            final char[] expected,
-            final char[] actual
-            )
+        final String message,
+        final char[] expected,
+        final char[] actual
+        )
     {
         if( expected == actual ) {
             return; // Same ref.
             }
 
         if( Arrays.equals( actual, expected) ) {
-        	return; // Same content (quicker)
-        	}
+            return; // Same content (quicker)
+            }
 
         if( (expected == null) && (actual != null) ) {
             final StringBuilder sb = new StringBuilder();
@@ -294,7 +348,9 @@ public class ArrayAssert
             sb.append( actual );
 
             Assert.fail( sb.toString() );
+            return; // Just to avoid SONAR warning
             }
+
         if( (expected != null) && (actual == null) ) {
             final StringBuilder sb = new StringBuilder();
 
@@ -307,6 +363,7 @@ public class ArrayAssert
             sb.append( " actual=null" );
 
             Assert.fail( sb.toString() );
+            return; // Just to avoid SONAR warning
             }
 
         if( expected != null ) {
@@ -327,6 +384,7 @@ public class ArrayAssert
                 sb.append( actual );
 
                 Assert.fail( sb.toString() );
+                return; // Just to avoid SONAR warning
                 }
 
             for( int i=0; i<expected.length; i++ ) {
@@ -351,6 +409,7 @@ public class ArrayAssert
             sb.append( message );
             sb.append( " - " );
             }
+
         sb.append( "Not same value at offet: " );
         sb.append( offset );
         sb.append( " expected=" );
