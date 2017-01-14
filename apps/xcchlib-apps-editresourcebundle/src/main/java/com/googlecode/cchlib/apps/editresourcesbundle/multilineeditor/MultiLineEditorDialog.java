@@ -26,6 +26,9 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 @I18nName("MultiLineEditorDialog")
+@SuppressWarnings({
+    "squid:MaximumInheritanceDepth" // Swing
+    })
 public final class MultiLineEditorDialog
     extends JDialog
         implements I18nAutoUpdatable

@@ -11,16 +11,13 @@ import java.io.Writer;
 import java.nio.CharBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import com.googlecode.cchlib.lang.StringHelper;
 
-/**
- *
- */
 public class NTFSStream
 {
-    private static final String EMPTY = "";
     private final StringBuilder sb;
-    private final CharBuffer cb;
-    private final char[] cbuf;
+    private final CharBuffer    cb;
+    private final char[]        cbuf;
 
     public NTFSStream()
     {
@@ -29,23 +26,22 @@ public class NTFSStream
         this.cbuf = new char[1024];
     }
 
+    @SuppressWarnings("squid:S106")
     private static void printf( final String format, final Object...args )
     {
         System.out.printf( format, args );
     }
 
+    @SuppressWarnings("squid:S106")
     private static void printfErr( final String format, final Object...args )
     {
         System.err.printf( format, args );
     }
 
-    public void read( final Reader reader )
-        throws IOException
+    public void read( final Reader reader ) throws IOException
     {
-//        cb.clear();
-//        reader.read( cb );
-//        cb.flip();
         this.sb.setLength( 0 );
+
         final int len = reader.read( this.cbuf, 0, this.cbuf.length );
 
         if( len > 0 ) {
@@ -53,8 +49,7 @@ public class NTFSStream
         }
     }
 
-    public String getBegin( final Reader reader )
-        throws IOException
+    public String getBegin( final Reader reader ) throws IOException
     {
         read( reader );
 
@@ -117,31 +112,14 @@ public class NTFSStream
 
     private static String fastStreamCopy1( final File filename )
     {
-        String s = EMPTY;
+        String s = StringHelper.EMPTY;
 
         try( final FileInputStream fis = new FileInputStream( filename ) ) {
              try( final FileChannel fc = fis.getChannel() ) {
 
-                 // int length = (int)fc.size();
-
                  final MappedByteBuffer byteBuffer = fc.map(
                          FileChannel.MapMode.READ_ONLY, 0, fc.size() );
-                 // CharBuffer charBuffer =
-                 // Charset.forName("ISO-8859-1").newDecoder().decode(byteBuffer);
 
-                 // ByteBuffer byteBuffer = ByteBuffer.allocate(length);
-                 // ByteBuffer byteBuffer = ByteBuffer.allocateDirect(length);
-                 // CharBuffer charBuffer = byteBuffer.asCharBuffer();
-
-                 // CharBuffer charBuffer =
-                 // ByteBuffer.allocateDirect(length).asCharBuffer();
-                 /*int size = charBuffer.length(); if (size > 0) { StringBuffer sb =
-                  * new StringBuffer(size); for (int count=0; count<size; count++)
-                  * sb.append(charBuffer.get()); s = sb.toString(); }
-                  *
-                  * if (length > 0) { StringBuffer sb = new StringBuffer(length); for
-                  * (int count=0; count<length; count++) {
-                  * sb.append(byteBuffer.get()); } s = sb.toString(); } */
                  final int size = byteBuffer.capacity();
 
                  if( size > 0 ) {
@@ -167,28 +145,13 @@ public class NTFSStream
     {
         final String s;
 
-        try( final FileInputStream fis_ = new FileInputStream( filename ) ) {
-             try( final FileChannel fc = fis_.getChannel() ) {
-                // int length = (int)fc.size();
-
+        try( final FileInputStream fis = new FileInputStream( filename ) ) {
+             try( final FileChannel fc = fis.getChannel() ) {
                 final MappedByteBuffer byteBuffer = fc.map(
-                        FileChannel.MapMode.READ_ONLY, 0, fc.size() );
-                // CharBuffer charBuffer =
-                // Charset.forName("ISO-8859-1").newDecoder().decode(byteBuffer);
-
-                // ByteBuffer byteBuffer = ByteBuffer.allocate(length);
-                // ByteBuffer byteBuffer = ByteBuffer.allocateDirect(length);
-                // CharBuffer charBuffer = byteBuffer.asCharBuffer();
-
-                // CharBuffer charBuffer =
-                // ByteBuffer.allocateDirect(length).asCharBuffer();
-                /*int size = charBuffer.length(); if (size > 0) { StringBuffer sb =
-                 * new StringBuffer(size); for (int count=0; count<size; count++)
-                 * sb.append(charBuffer.get()); s = sb.toString(); }
-                 *
-                 * if (length > 0) { StringBuffer sb = new StringBuffer(length); for
-                 * (int count=0; count<length; count++) {
-                 * sb.append(byteBuffer.get()); } s = sb.toString(); } */
+                        FileChannel.MapMode.READ_ONLY,
+                        0,
+                        fc.size()
+                        );
                 final int size = byteBuffer.capacity();
 
                 if( size > 0 ) {
@@ -199,7 +162,7 @@ public class NTFSStream
                     s = new String( bytes );
                     }
                 else {
-                    s = EMPTY;
+                    s = StringHelper.EMPTY;
                     }
                 }
             }
