@@ -8,11 +8,11 @@ import cx.ath.choisnet.lang.introspection.method.Introspection;
 import cx.ath.choisnet.lang.introspection.method.IntrospectionParameters;
 
 /**
- * @author CC
+ *
  * @param <FRAME> NEEDDOC
  * @param <OBJECT> NEEDDOC
  */
-@SuppressWarnings("squid:S00119")
+@SuppressWarnings("squid:S00119") // Type parameter names naming convention
 public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
     extends AbstractSwingIntrospectorObjectInterface<
                 FRAME,
@@ -22,60 +22,63 @@ public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
 {
     private static final Integer ZERO = Integer.valueOf( 0 );
 
-    private FrameFieldPopulator<FRAME,OBJECT>   frameFieldPopulator;
-    private FRAME                               frameFieldPopulatorFRAME;
-    private OBJECT                              frameFieldPopulatorOBJECT;
+    private FrameFieldPopulator<FRAME,OBJECT> frameFieldPopulator;
+    private FRAME                             frameFieldPopulatorFRAME;
+    private OBJECT                            frameFieldPopulatorOBJECT;
 
     public DefaultSwingIntrospectorObjectInterface(
-            final Class<FRAME>                                            frameClass,
-            final Introspection<OBJECT,DefaultIntrospectionItem<OBJECT>>  introspection,
-            final ComponentInitializer                                    componentInitializer
-            )
+        final Class<FRAME>                                           frameClass,
+        final Introspection<OBJECT,DefaultIntrospectionItem<OBJECT>> introspection,
+        final ComponentInitializer                                   componentInitializer
+        )
     {
         super( frameClass, introspection, componentInitializer );
     }
 
     public DefaultSwingIntrospectorObjectInterface(
-            final Class<FRAME>    frameClass,
-            final Class<OBJECT>   objectClass
-            )
+        final Class<FRAME>  frameClass,
+        final Class<OBJECT> objectClass
+        )
     {
         super(
-                frameClass,
-                new DefaultIntrospection<OBJECT>(
-                        objectClass,
-                        EnumSet.of(
-                                IntrospectionParameters.ONLY_PUBLIC,
-                                IntrospectionParameters.NO_DEPRECATED
-                                )
-                        )
-                );
+            frameClass,
+            new DefaultIntrospection<OBJECT>(
+                objectClass,
+                EnumSet.of(
+                    IntrospectionParameters.ONLY_PUBLIC,
+                    IntrospectionParameters.NO_DEPRECATED
+                    )
+                )
+            );
     }
 
     @Override
     public ObjectPopulator<FRAME,DefaultIntrospectionItem<OBJECT>> getObjectPopulator(
-            final FRAME     frame,
-            final OBJECT    object
-            )
+        final FRAME  frame,
+        final OBJECT object
+        )
     {
         return ( iItem, rootItem ) -> {
             final Map<Integer, SwingIntrospectorItem<FRAME>> map = rootItem.getRootItemsMap();
 
             if( map.size() == 1 ) {
-                final Object value = ObjectPopulatorHelper.getFieldValue( map.get( ZERO ).getFieldObject( frame ), iItem );
+                final Object value = ObjectPopulatorHelper.getFieldValue(
+                        map.get( ZERO ).getFieldObject( frame ),
+                        iItem
+                        );
                 iItem.setObjectValue( object, value );
             }
             else {
-                throw new SwingIntrospectorException("Don't handle multiple rootItem");
+                throw new SwingIntrospectorException( "Don't handle multiple rootItem" );
             }
         };
     }
 
     @Override
     public FrameFieldPopulator<FRAME,OBJECT> getFrameFieldPopulator(
-            final FRAME     frame,
-            final OBJECT    object
-            )
+        final FRAME  frame,
+        final OBJECT object
+        )
     {
         // In cache ?
         if( (this.frameFieldPopulator == null)
@@ -89,5 +92,4 @@ public class DefaultSwingIntrospectorObjectInterface<FRAME,OBJECT>
 
         return this.frameFieldPopulator;
     }
-
 }

@@ -16,8 +16,8 @@ public class IntrospectionTest
 {
     private static Logger LOGGER = Logger.getLogger( IntrospectionTest.class );
 
-    private TstFrame tstFrame;
-    private SwingIntrospector<TstFrame, TstObject, DefaultIntrospectionItem<TstObject>> swingIntrospector;
+    private TstFrameApp tstFrame;
+    private SwingIntrospector<TstFrameApp, TstObject, DefaultIntrospectionItem<TstObject>> swingIntrospector;
 
     @Before
     public void setUp() throws Exception
@@ -27,7 +27,7 @@ public class IntrospectionTest
 
         LOGGER.info( "-- setUp()" );
 
-        this.tstFrame          = new TstFrame();
+        this.tstFrame          = new TstFrameApp();
         this.swingIntrospector = this.tstFrame.getSwingIntrospector();
     }
 
@@ -35,7 +35,7 @@ public class IntrospectionTest
     public void test_SwingIntrospector()
     {
         LOGGER.info( "-- test_SwingIntrospector()" );
-        final Map<String, SwingIntrospectorRootItem<TstFrame>> map = this.swingIntrospector.getItemMap();
+        final Map<String, SwingIntrospectorRootItem<TstFrameApp>> map = this.swingIntrospector.getItemMap();
 
         Assert.assertEquals("Bad SwingIntrospectorRootItem count !", 7, map.size());
 
@@ -88,7 +88,7 @@ public class IntrospectionTest
         compareFrameObject( this.tstFrame );
     }
 
-    private void compareFrameObject( final TstFrame frame )
+    private void compareFrameObject( final TstFrameApp frame )
         throws ParseException
     {
         final TstObject object = frame.getTstObject();

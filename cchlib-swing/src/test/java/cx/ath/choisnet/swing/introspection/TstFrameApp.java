@@ -34,12 +34,19 @@ import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
  * @see IntrospectionTest
  */
 //VS 4E -- DO NOT REMOVE THIS LINE!
-class TstFrame
+@SuppressWarnings({
+    "squid:MaximumInheritanceDepth", // Swing !
+    "squid:S00100", // naming convention for methods (generated code)
+    "squid:S00116", // naming convention for fields (swing.introspection convention)
+    })
+class TstFrameApp
     extends JFrame
         implements MouseWheelListener
 {
     private static final long serialVersionUID = 1L;
-    private transient SwingIntrospector<TstFrame,TstObject,DefaultIntrospectionItem<TstObject>> introspector;
+
+    private transient SwingIntrospector<TstFrameApp,TstObject,DefaultIntrospectionItem<TstObject>> introspector;
+
     private final TstObject tstObject = new TstObject();
 
     private JLabel                      jLabel_JCheckBox;
@@ -64,20 +71,20 @@ class TstFrame
     private JButton                     jButtonRandomObject;
     private JButton                     jButtonPopulateFrame;
     private JButton                     jButtonPopulateObject;
-    //private static final String PREFERRED_LOOK_AND_FEEL = "javax.swing.plaf.metal.MetalLookAndFeel";
 
-    public TstFrame()
+    public TstFrameApp()
     {
         //http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045691
         addMouseWheelListener(this);
+
         initComponents();
         initFixComponents();
     }
 
     private void initFixComponents()
     {
-        //jFormattedTextField_TestFMTString$root.setValue( );
         setJFormattedTextFieldValue( 0xA1B2C3D4 );
+
         try {
             initComponentsWithException();
         }
@@ -104,6 +111,7 @@ class TstFrame
         catch(final ParseException e) {
             e.printStackTrace();
             }
+
         return mask;
     }
 
@@ -112,9 +120,9 @@ class TstFrame
         this.jFormattedTextField_TestFMTString$root.setValue( "11-22-33-44" );
     }
 
-    private void initComponents() {
+    private void initComponents()
+    {
         add(getJScrollPaneMain(), BorderLayout.CENTER);
-        //add(getJPanelMain(), BorderLayout.CENTER);
         add(getjPanelBottom(), BorderLayout.SOUTH);
         setSize(348, 263);
     }
@@ -247,23 +255,7 @@ class TstFrame
     private JPanel getJPanelMain() {
         if (this.jPanelMain == null) {
             this.jPanelMain = new JPanel();
-//    		jPanelMain.setLayout(new GroupLayout());
-//    		jPanelMain.add(getJLabel_JCheckBox(), new Constraints(new Leading(14, 12, 12), new Leading(12, 12, 12)));
-//    		jPanelMain.add(getJCheckBox_TestBoolean(), new Constraints(new Leading(164, 10, 10), new Leading(8, 10, 217)));
-//    		jPanelMain.add(getJLabel_JComboBox(), new Constraints(new Leading(14, 10, 10), new Leading(42, 12, 12)));
-//    		jPanelMain.add(getJComboBox_TestIntegerJComboBox(), new Constraints(new Leading(164, 93, 10, 10), new Leading(40, 20, 10, 189)));
-//    		jPanelMain.add(getJLabel_TestIntegerJComboBox(), new Constraints(new Leading(263, 12, 12), new Leading(42, 10, 191)));
-//    		jPanelMain.add(getJLabel_JFormattedTextField(), new Constraints(new Leading(14, 12, 12), new Leading(76, 12, 12)));
-//    		jPanelMain.add(getJFormattedTextField_TestFMTString(), new Constraints(new Leading(164, 93, 12, 12), new Leading(74, 10, 155)));
-//    		jPanelMain.add(getJLabel_JSlider(), new Constraints(new Leading(14, 12, 12), new Leading(107, 12, 12)));
-//    		jPanelMain.add(getJSlider_TestIntegerJSlider(), new Constraints(new Leading(164, 93, 12, 12), new Leading(105, 20, 10, 124)));
-//    		jPanelMain.add(getJLabel_JTextField(), new Constraints(new Leading(14, 12, 12), new Leading(135, 12, 12)));
-//    		jPanelMain.add(getJLabel_LimitedIntegerJTextField(), new Constraints(new Leading(14, 12, 12), new Leading(163, 12, 12)));
-//    		jPanelMain.add(getJTextField_TestIntegerLimitedIntegerJTextField(), new Constraints(new Leading(164, 93, 12, 12), new Leading(161, 10, 68)));
-//    		jPanelMain.add(getJTextField_TestIntegerJSlider(), new Constraints(new Leading(263, 12, 12), new Leading(105, 10, 124)));
-//    		jPanelMain.add(getJTextField_TestString(), new Constraints(new Leading(164, 93, 10, 10), new Leading(133, 10, 96)));
-//    		jPanelMain.add(getJLabel_JSpinner(), new Constraints(new Leading(14, 12, 12), new Leading(193, 12, 12)));
-//    		jPanelMain.add(getJSpinner_TestIntegerJSpinner(), new Constraints(new Leading(164, 93, 12, 12), new Leading(189, 12, 12)));
+
             this.jPanelMain.setLayout(new GridLayout(7,3));
 
             this.jPanelMain.add(getJLabel_JCheckBox());
@@ -310,8 +302,7 @@ class TstFrame
     private JScrollPane getJScrollPaneMain() {
         if (this.jScrollPaneMain == null) {
             this.jScrollPaneMain = new JScrollPane();
-            this.jScrollPaneMain.setViewportView(getJPanelMain());
-            //jScrollPaneMain.addMouseWheelListener(this);
+            this.jScrollPaneMain.setViewportView( getJPanelMain() );
             this.jScrollPaneMain.setWheelScrollingEnabled( false );
         }
         return this.jScrollPaneMain;
@@ -329,7 +320,6 @@ class TstFrame
     public JFormattedTextField getJFormattedTextField_TestFMTString() {
         if (this.jFormattedTextField_TestFMTString$root == null) {
             this.jFormattedTextField_TestFMTString$root = new JFormattedTextField(getMaskFormatter());
-            //jFormattedTextField_TestFMTString$root.setText("TestFMTString");
         }
         return this.jFormattedTextField_TestFMTString$root;
     }
@@ -348,18 +338,23 @@ class TstFrame
             this.jSlider_TestIntegerJSlider$root.setMaximum(30);
             this.jSlider_TestIntegerJSlider$root.setMinimum(20);
             this.jSlider_TestIntegerJSlider$root.setValue(25);
-            this.jSlider_TestIntegerJSlider$root.addChangeListener(event -> jSlider_TestIntegerJSlider$root_ChangeStateChanged(event));
+            this.jSlider_TestIntegerJSlider$root.addChangeListener(
+                this::jSlider_TestIntegerJSlider$root_ChangeStateChanged
+                );
         }
         return this.jSlider_TestIntegerJSlider$root;
     }
 
-    public JComboBox<String> getJComboBox_TestIntegerJComboBox() {
+    public JComboBox<String> getJComboBox_TestIntegerJComboBox()
+    {
         if (this.jComboBox_TestIntegerJComboBox$root == null) {
-            this.jComboBox_TestIntegerJComboBox$root = new JComboBox<String>();
+            this.jComboBox_TestIntegerJComboBox$root = new JComboBox<>();
             this.jComboBox_TestIntegerJComboBox$root.setModel(new DefaultComboBoxModel<String>(new String[] { "item0", "item1", "item2", "item3" }));
             this.jComboBox_TestIntegerJComboBox$root.setDoubleBuffered(false);
             this.jComboBox_TestIntegerJComboBox$root.setBorder(null);
-            this.jComboBox_TestIntegerJComboBox$root.addItemListener(event -> jComboBox_TestIntegerJComboBox$rootItemItemStateChanged(event));
+            this.jComboBox_TestIntegerJComboBox$root.addItemListener(
+                this::jComboBox_TestIntegerJComboBox$rootItemItemStateChanged
+                );
         }
         return this.jComboBox_TestIntegerJComboBox$root;
     }
@@ -371,44 +366,6 @@ class TstFrame
             this.jCheckBox_TestBoolean$root.setText("TestBoolean");
         }
         return this.jCheckBox_TestBoolean$root;
-    }
-
-//    @SuppressWarnings("unused")
-//    private static void installLnF()
-//    {
-//        try {
-//            String lnfClassname = PREFERRED_LOOK_AND_FEEL;
-//            if( lnfClassname == null )
-//                lnfClassname = UIManager.getCrossPlatformLookAndFeelClassName();
-//            UIManager.setLookAndFeel( lnfClassname );
-//        }
-//        catch( Exception e ) {
-//            Syst em.er r.println( "Cannot install " + PREFERRED_LOOK_AND_FEEL
-//                    + " on this platform:" + e.getMessage() );
-//        }
-//    }
-
-    public static void main( final String[] args )
-    {
-        //installLnF();
-        SwingUtilities.invokeLater( ( ) -> {
-            final TstFrame frame = new TstFrame();
-            try {
-                frame.initComponentsWithException();
-            }
-            catch( final SwingIntrospectorIllegalAccessException e1 ) {
-                e1.printStackTrace();
-            }
-            catch( final SwingIntrospectorException e2 ) {
-                e2.printStackTrace();
-            }
-            frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-            frame.setTitle( "TstXFrame" );
-            frame.getContentPane().setPreferredSize( frame.getSize() );
-            frame.pack();
-            frame.setLocationRelativeTo( null );
-            frame.setVisible( true );
-        } );
     }
 
     private void jSlider_TestIntegerJSlider$root_ChangeStateChanged(final ChangeEvent event)
@@ -458,11 +415,11 @@ class TstFrame
         System.out.println(this.tstObject);
     }
 
-    public SwingIntrospector<TstFrame, TstObject, DefaultIntrospectionItem<TstObject>> getSwingIntrospector()
+    public SwingIntrospector<TstFrameApp, TstObject, DefaultIntrospectionItem<TstObject>> getSwingIntrospector()
     {
         if( this.introspector == null ) {
             this.introspector = SwingIntrospector.buildSwingIntrospector(
-                TstFrame.class,
+                TstFrameApp.class,
                 TstObject.class
                 );
         }
@@ -504,7 +461,6 @@ class TstFrame
     private void jComboBox_TestIntegerJComboBox$rootItemItemStateChanged(final ItemEvent event)
     {
        final int    index = this.jComboBox_TestIntegerJComboBox$root.getSelectedIndex();
-       //String text  = jComboBox_TestIntegerJComboBox$root.getItemAt( index ).toString();
        final String text  = this.jComboBox_TestIntegerJComboBox$root.getItemAt( index );
 
        this.jLabel_TestIntegerJComboBox.setText( text );
@@ -517,7 +473,7 @@ class TstFrame
     {
         final Component focusOwner = getFocusOwner();
 
-        System.out.printf( "mouseWheelMoved: %s\n", focusOwner );
+        System.out.printf( "mouseWheelMoved: %s%n", focusOwner );
 
         if( focusOwner instanceof JComboBox ) {
                 final JComboBox<?> combo = JComboBox.class.cast( focusOwner );
@@ -579,5 +535,29 @@ class TstFrame
 //                }
 //            }
 //        }
+    }
+
+    public static void main( final String[] args )
+    {
+        SwingUtilities.invokeLater( () -> {
+            final TstFrameApp frame = new TstFrameApp();
+
+            try {
+                frame.initComponentsWithException();
+            }
+            catch( final SwingIntrospectorIllegalAccessException e ) {
+                e.printStackTrace();
+            }
+            catch( final SwingIntrospectorException e ) {
+                e.printStackTrace();
+            }
+
+            frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+            frame.setTitle( "TstXFrame" );
+            frame.getContentPane().setPreferredSize( frame.getSize() );
+            frame.pack();
+            frame.setLocationRelativeTo( null );
+            frame.setVisible( true );
+        });
     }
 }

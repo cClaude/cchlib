@@ -1,6 +1,3 @@
-/**
- *
- */
 package cx.ath.choisnet.swing.introspection;
 
 import java.text.ParseException;
@@ -13,12 +10,9 @@ import javax.swing.JTextField;
 import com.googlecode.cchlib.swing.textfield.LimitedIntegerJTextField;
 import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
 
-/**
- *
- * @author CC
- */
-@SuppressWarnings("squid:S00119")
-public class ObjectPopulatorHelper
+@SuppressWarnings("squid:S00119") // Type parameter names naming convention
+//Not public
+class ObjectPopulatorHelper
 {
     private ObjectPopulatorHelper()
     {//All static
@@ -100,14 +94,13 @@ public class ObjectPopulatorHelper
         "squid:S1160"
         })
     public static <OBJECT> Object getFieldValue(
-            final Object                    fieldObject,
-            final IntrospectionItem<OBJECT> iItem
-            )
-        throws SwingIntrospectorUnsupportedClassException,
-               SwingIntrospectorParseException
-               //TODO: warning inconsistency:
-               //      DefaulfFrameFieldPopulator - handle JTextComponent
-               //      ObjectPopulatorHelper      - handle JTextField
+        final Object                    fieldObject,
+        final IntrospectionItem<OBJECT> iItem
+        ) throws SwingIntrospectorUnsupportedClassException,
+                 SwingIntrospectorParseException
+                 //TODO: warning inconsistency:
+                 //      DefaulfFrameFieldPopulator - handle JTextComponent
+                 //      ObjectPopulatorHelper      - handle JTextField
     {
         Object value;
 

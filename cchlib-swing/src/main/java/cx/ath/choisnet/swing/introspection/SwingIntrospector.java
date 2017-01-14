@@ -30,7 +30,9 @@ import cx.ath.choisnet.lang.introspection.method.DefaultIntrospectionItem;
  * @see SwingIntrospectorItem
  * @see SwingIntrospectorObjectInterface
  */
-@SuppressWarnings({"squid:S00119"})
+@SuppressWarnings({
+    "squid:S00119" // Type parameter names naming convention
+    })
 public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 {
     /**
@@ -110,6 +112,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
             else {
                 fields = clazz.getDeclaredFields();
                 }
+
             return fields;
         }
 
@@ -142,13 +145,14 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
 
                 map.put( bean.getBeanName(), list );
                 }
+
             return list;
         }
 
         private final boolean isSubClass( final Class<?> clazz, final Class<?> compareToClass )
         {
-            final String    canonicalName   = compareToClass.getCanonicalName();
-            Class<?>        current         = clazz;
+            final String canonicalName = compareToClass.getCanonicalName();
+            Class<?>     current       = clazz;
 
             while( current != null ) {
                 if( current.getCanonicalName().equals( canonicalName ) ) {
@@ -182,7 +186,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         final SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY> objectInterface
         )
     {
-        this(objectInterface, null);
+        this( objectInterface, null );
     }
 
     /**
@@ -317,15 +321,15 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
      * @see #populateFrameWithException(Object, Object)
      */
     public synchronized void populateFrameWithoutException(
-        final FRAME     frame,
-        final OBJECT    object
+        final FRAME  frame,
+        final OBJECT object
         )
     {
         final FramePopulator<FRAME,OBJECT> fp = this.objectInterface.getFramePopulator( frame, object );
 
         for( final Entry<String, SwingIntrospectorRootItem<FRAME>> entry : this.itemsMap.entrySet() ) {
-            final String                      beanName = entry.getKey();
-            final SwingIntrospectorRootItem<FRAME>   rootItem = entry.getValue();
+            final String                           beanName = entry.getKey();
+            final SwingIntrospectorRootItem<FRAME> rootItem = entry.getValue();
 
             if( rootItem != null ) {
                 try {
