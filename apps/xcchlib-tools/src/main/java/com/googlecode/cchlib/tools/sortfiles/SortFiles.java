@@ -18,11 +18,16 @@ import com.googlecode.cchlib.tools.sortfiles.filetypes.FileType;
 
 public class SortFiles
 {
+    private SortFiles()
+    {
+        // All static
+    }
+
     private static final FileAttribute<?>[] createDirectoriesFileAttributes = new FileAttribute[ 0 ];
     private static final int RENAME_MAX_NUMBER = 10000;
     private static final Set<FileVisitOption> fileVisitOptions = EnumSet.noneOf( FileVisitOption.class );
 
-    public static void main(String[] args) throws IOException
+    public static void main(final String[] args) throws IOException
     {
         FileType.check();
         {
@@ -46,15 +51,15 @@ public class SortFiles
 
     public static void doDirectory( final File baseInputPath, final Path baseOuputPath ) throws IOException
     {
-        for( FileType fileType : FileType.values() ) {
+        for( final FileType fileType : FileType.values() ) {
             System.out.println( FileType.toString( fileType ) );
 
             final Path outputPath = baseOuputPath.resolve( fileType.getFolder() );
 
-            File[] files = baseInputPath.listFiles( fileType.getFileFilter() );
+            final File[] files = baseInputPath.listFiles( fileType.getFileFilter() );
 
-            if( files != null && files.length > 0 ) {
-                for( File file : files ) {
+            if( (files != null) && (files.length > 0) ) {
+                for( final File file : files ) {
                     moveTo( file, outputPath );
                     }
                 }
@@ -73,19 +78,19 @@ public class SortFiles
                 new FileVisitor<Path>() {
                     @Override
                     public FileVisitResult preVisitDirectory(
-                            Path                dir,
-                            BasicFileAttributes attrs ) throws IOException
+                            final Path                dir,
+                            final BasicFileAttributes attrs ) throws IOException
                     {
                         return FileVisitResult.CONTINUE;
                     }
 
                     @Override
-                    public FileVisitResult visitFile( Path file,
-                            BasicFileAttributes attrs ) throws IOException
+                    public FileVisitResult visitFile( final Path file,
+                            final BasicFileAttributes attrs ) throws IOException
                     {
-                        File fileFile = file.toFile();
+                        final File fileFile = file.toFile();
 
-                        for( FileType fileType : FileType.values() ) {
+                        for( final FileType fileType : FileType.values() ) {
                             if( fileType.getFileFilter().accept( fileFile ) ) {
                                 moveTo( file, baseOuputPath, fileType );
                                 return FileVisitResult.CONTINUE;
@@ -96,15 +101,15 @@ public class SortFiles
                     }
 
                     @Override
-                    public FileVisitResult visitFileFailed( Path file,
-                            IOException exc ) throws IOException
+                    public FileVisitResult visitFileFailed( final Path file,
+                            final IOException exc ) throws IOException
                     {
                         return FileVisitResult.CONTINUE;
                     }
 
                     @Override
-                    public FileVisitResult postVisitDirectory( Path dir,
-                            IOException exc ) throws IOException
+                    public FileVisitResult postVisitDirectory( final Path dir,
+                            final IOException exc ) throws IOException
                     {
                         return FileVisitResult.CONTINUE;
                     }});
@@ -123,21 +128,21 @@ public class SortFiles
                 new FileVisitor<Path>() {
                     @Override
                     public FileVisitResult preVisitDirectory(
-                            Path                dir,
-                            BasicFileAttributes attrs ) throws IOException
+                            final Path                dir,
+                            final BasicFileAttributes attrs ) throws IOException
                     {
                         return FileVisitResult.CONTINUE;
                     }
 
                     @Override
-                    public FileVisitResult visitFile( Path file,
-                            BasicFileAttributes attrs ) throws IOException
+                    public FileVisitResult visitFile( final Path file,
+                            final BasicFileAttributes attrs ) throws IOException
                     {
-                        String filename = file.toFile().getName();
-                        int    extPos   = filename.lastIndexOf( '.' );
+                        final String filename = file.toFile().getName();
+                        final int    extPos   = filename.lastIndexOf( '.' );
 
                         if( extPos >= 0 ) {
-                            String ext = filename.substring( extPos );
+                            final String ext = filename.substring( extPos );
 
                             extensions.add( ext );
                             }
@@ -146,27 +151,27 @@ public class SortFiles
                     }
 
                     @Override
-                    public FileVisitResult visitFileFailed( Path file,
-                            IOException exc ) throws IOException
+                    public FileVisitResult visitFileFailed( final Path file,
+                            final IOException exc ) throws IOException
                     {
                         return FileVisitResult.CONTINUE;
                     }
 
                     @Override
-                    public FileVisitResult postVisitDirectory( Path dir,
-                            IOException exc ) throws IOException
+                    public FileVisitResult postVisitDirectory( final Path dir,
+                            final IOException exc ) throws IOException
                     {
                         return FileVisitResult.CONTINUE;
                     }});
 
-        for( String ext : extensions ) {
-            String extension = ext.substring( 1 );
+        for( final String ext : extensions ) {
+            final String extension = ext.substring( 1 );
             System.out.println( "    zzz_" + extension
                     + "( new IgnoreCaseExtensionsFileFilter( \"" + extension +"\" ) ),"
                     );
             }
     }
-    private static void moveTo( File file, Path outputPath ) throws IOException
+    private static void moveTo( final File file, final Path outputPath ) throws IOException
     {
         final Path source = file.toPath();
         final Path target = outputPath.resolve( file.getName() );
@@ -174,7 +179,7 @@ public class SortFiles
         moveTo( source, target );
     }
 
-    private static void moveTo( Path source, Path baseOuputPath, FileType fileType ) throws IOException
+    private static void moveTo( final Path source, final Path baseOuputPath, final FileType fileType ) throws IOException
     {
         final Path outputPath = baseOuputPath.resolve( fileType.getFolder() );
         final Path target     = outputPath.resolve( source.getFileName());
@@ -182,9 +187,9 @@ public class SortFiles
         moveTo( source, target );
     }
 
-    private static void moveTo( Path source, Path target ) throws IOException
+    private static void moveTo( final Path source, final Path target ) throws IOException
     {
-        Path targetParentPath = target.getParent();
+        final Path targetParentPath = target.getParent();
 
         if( ! Files.isDirectory( targetParentPath ) ) {
             Files.createDirectories( targetParentPath, createDirectoriesFileAttributes );
@@ -197,8 +202,8 @@ public class SortFiles
             move( source, target );
             }
         else {
-            String filename = target.toFile().getName();
-            int    extPos   = filename.lastIndexOf( '.' );
+            final String filename = target.toFile().getName();
+            final int    extPos   = filename.lastIndexOf( '.' );
             String ext;
             String name;
 
@@ -214,7 +219,7 @@ public class SortFiles
             System.out.println( "*** Move" + source + " TO " + target + " need rename" );
 
             for( int i = 2; i<RENAME_MAX_NUMBER; i++ ) {
-                 Path newTarget = targetParentPath.resolve( name + '(' + i + ')' + ext );
+                 final Path newTarget = targetParentPath.resolve( name + '(' + i + ')' + ext );
 
                  //System.out.println( "*** Try" + newTarget );
                  if( ! Files.exists( newTarget ) ) {
@@ -227,12 +232,12 @@ public class SortFiles
             }
     }
 
-    private static void move( Path source, Path target ) throws IOException
+    private static void move( final Path source, final Path target ) throws IOException
     {
         try {
             Files.move( source, target );
             }
-        catch( NoSuchFileException e ) {
+        catch( final NoSuchFileException e ) {
             System.err.println( "*** " + source + " : " + e.getMessage() );
             }
     }
