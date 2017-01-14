@@ -351,13 +351,14 @@ public final class FormattedProperties
      */
     @Override
     @Deprecated
+    @SuppressWarnings("squid:S1133") // Required by API
     public synchronized void save( final OutputStream out, final String comment )
     {
         try {
             store(out,comment);
             }
         catch( final IOException cause ) {
-            throw new FormattedPropertiesRuntimeException( cause ); // Show exception to the word :)
+            throw new FormattedPropertiesRuntimeException( cause ); // Show exception to the world :)
             }
     }
 
@@ -753,7 +754,6 @@ public final class FormattedProperties
     @Override
     public Set<Object> keySet()
     {
-        // TODO return super.keySet(); : must be modifiable
         return Collections.unmodifiableSet(
                 super.keySet()
                 );
