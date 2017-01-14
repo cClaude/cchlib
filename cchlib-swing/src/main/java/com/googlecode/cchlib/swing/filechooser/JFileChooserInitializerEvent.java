@@ -5,6 +5,7 @@ package com.googlecode.cchlib.swing.filechooser;
  *
  * @since 4.1.6
  */
+@FunctionalInterface // Make sonar happy, but implementation should probably need to extend EventObject
 public interface JFileChooserInitializerEvent
 {
     /**
