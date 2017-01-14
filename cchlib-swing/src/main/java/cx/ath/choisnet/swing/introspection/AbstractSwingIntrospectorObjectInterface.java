@@ -2,6 +2,7 @@ package cx.ath.choisnet.swing.introspection;
 
 import java.util.Map;
 import org.apache.log4j.Logger;
+import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import cx.ath.choisnet.lang.introspection.method.Introspection;
 import cx.ath.choisnet.lang.introspection.method.IntrospectionItem;
 
@@ -63,27 +64,34 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
      */
     @Override
     public FramePopulator<FRAME,OBJECT> getFramePopulator(
-        final FRAME   frame,
-        final OBJECT  object
+        final FRAME  frame,
+        final OBJECT object
         )
     {
         // TODO: ?? store frame and object on instance
         // if they have not change, don't build a new object ???
         final FrameFieldPopulator<FRAME,OBJECT> ffp = getFrameFieldPopulator( frame, object );
 
-        return ( rootItem, beanname ) -> {
-            final IntrospectionItem<OBJECT> iItem = getObjectEntry( beanname );
-
-            if( iItem != null ) {
-                ffp.populateFields( rootItem, iItem );
-            }
-            else {
-                // TODO some exception !!
-                LOGGER.fatal( "*** Not InspectionItem for: " + beanname );
-            }
-        };
+        return ( rootItem, beanname ) -> populateFrame( ffp, rootItem, beanname );
     }
 
+    private void populateFrame(
+        final FrameFieldPopulator<FRAME,OBJECT> ffp ,
+        final SwingIntrospectorRootItem<FRAME>  rootItem,
+        final String                            beanName
+        ) throws SwingIntrospectorException,
+                 IntrospectionInvokeException
+    {
+        final IntrospectionItem<OBJECT> iItem = getObjectEntry( beanName );
+
+        if( iItem != null ) {
+            ffp.populateFields( rootItem, iItem );
+        }
+        else {
+            // TODO some exception !!
+            LOGGER.fatal( "*** Not InspectionItem for: " + beanName );
+        }
+    }
     /**
      * This method is use by {@link #getFramePopulator(Object, Object)}
      * provide by this implementation to populate Frame fields.

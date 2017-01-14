@@ -11,8 +11,8 @@ public interface FramePopulator<FRAME,OBJECT>
      *
      * @param rootItem
      *            SwingIntrospectorRootItem to populate
-     * @param beanname
-     *            bean name to use for identify value from OBJECT
+     * @param beanName
+     *            bean name to use for identify value from &lt;OBJECT&gt;
      * @throws SwingIntrospectorException
      *             if any
      * @throws IntrospectionInvokeException
@@ -21,7 +21,7 @@ public interface FramePopulator<FRAME,OBJECT>
     @SuppressWarnings("squid:S1160") // Exception are not of same kind at all.
     void populateFrame(
         SwingIntrospectorRootItem<FRAME>    rootItem,
-        String                              beanname
+        String                              beanName
         ) throws SwingIntrospectorException,
                  IntrospectionInvokeException;
 
