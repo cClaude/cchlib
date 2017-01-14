@@ -23,7 +23,7 @@ public class SerializableHelperTest
 {
     private static final Logger LOGGER = Logger.getLogger( SerializableHelperTest.class );
 
-    /**
+    /*
      * Run the Serializable clone(T,Class<? extends T>) method test.
      * @throws ClassNotFoundException
      * @throws IOException
@@ -73,22 +73,6 @@ public class SerializableHelperTest
 //        assertNotNull(result);
 //    }
 
-    /**
-     * Run the Serializable loadObject(File,Class<? extends T>) method test.
-     */
-    @Test
-    @Ignore // TODO need to be done!!!
-    public void testLoadObject_1()
-        throws Exception
-    {
-        final File aFile = newFile( "testLoadObject_1" );
-        final Class<? extends Serializable> clazz = Serializable.class;
-
-        final Serializable result = SerializableHelper.loadObject(aFile, clazz);
-
-        // TODO add additional test code here
-        assertNotNull(result);
-    }
 
     private File newFile( final String tag ) throws IOException
     {
