@@ -33,7 +33,6 @@ public class DBFFileWriter extends DBFWriter implements Closeable
                 return;
                 }
 
-            //this.header.read( this.raf );
             readHeaderFrom( this.raf );
 
             /* position file pointer at the end of the raf */
@@ -48,7 +47,6 @@ public class DBFFileWriter extends DBFWriter implements Closeable
             throw new DBFException( e.getMessage() + " while reading header", e );
             }
 
-        //this.recordCount = this.header.getNumberOfRecords();
         this.recordCount = getHeaderNumberOfRecords();
     }
 
@@ -66,7 +64,6 @@ public class DBFFileWriter extends DBFWriter implements Closeable
         try {
             if( (this.raf != null) && (this.raf.length() == 0) ) {
                 /*this is a new/non-existent file. So write header before proceeding */
-                //this.header.write( this.raf );
                 writeHeaderFrom( this.raf );
                 }
             }
@@ -78,26 +75,23 @@ public class DBFFileWriter extends DBFWriter implements Closeable
     /**
      * Add a record.
      *
-     * @param values Record to add
-     * @throws DBFException if any
+     * @param values
+     *            Record to add
+     * @throws DBFException
+     *             if any
      */
     @Override
     public void addRecord( final Object[] values ) throws DBFException
     {
         addRecordValidateParams( values );
 
-//        if( this.raf == null ) {
-//            this.records.add( values );
-//        } else {
-            try {
-                writeRecord( this.raf, values );
-                this.recordCount++;
-            }
-            catch( final IOException e ) {
-                throw new DBFException( "Error occured while writing record. "
-                        + e.getMessage(), e );
-            }
-//        }
+        try {
+            writeRecord( this.raf, values );
+            this.recordCount++;
+        }
+        catch( final IOException e ) {
+            throw new DBFException( "Error occured while writing record. " + e.getMessage(), e );
+        }
     }
 
     /**
@@ -112,10 +106,8 @@ public class DBFFileWriter extends DBFWriter implements Closeable
         try {
             /* everything is written already. just update the header for
              * record count and the END_OF_DATA mark */
-            //this.header.setNumberOfRecords( this.recordCount );
             setHeaderNumberOfRecords( this.recordCount );
             this.raf.seek( 0 );
-            //this.header.write( this.raf );
             writeHeaderFrom( this.raf );
             this.raf.seek( this.raf.length() );
             this.raf.writeByte( END_OF_DATA );
