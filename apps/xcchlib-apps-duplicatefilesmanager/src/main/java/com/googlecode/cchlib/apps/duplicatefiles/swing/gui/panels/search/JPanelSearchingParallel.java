@@ -43,13 +43,14 @@ import com.googlecode.cchlib.util.duplicate.stream.PrepareDuplicateFile;
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public final class JPanelSearchingParallel extends JPanelSearchingParallelUpdateCurrentFile
 {
-    private final class FileVisitorPass1 implements FileVisitor<Path> {
+    private final class FileVisitorPass1 implements FileVisitor<Path>
+    {
         private final FileFilter dirFilter;
         private final FileFilter fileFilter;
 
         private FileVisitorPass1( final FileFilter dirFilter, final FileFilter fileFilter )
         {
-            this.dirFilter = dirFilter;
+            this.dirFilter  = dirFilter;
             this.fileFilter = fileFilter;
         }
 
@@ -97,7 +98,7 @@ public final class JPanelSearchingParallel extends JPanelSearchingParallelUpdate
         {
             this.filesCount = filesCount;
             this.bytesCount = bytesCount;
-            this.setsCount = setsCount;
+            this.setsCount  = setsCount;
         }
 
         public final int getFilesCount()
@@ -116,9 +117,12 @@ public final class JPanelSearchingParallel extends JPanelSearchingParallelUpdate
         }
     }
 
-    private static final long serialVersionUID = 2L;
-    private static final Logger LOGGER = Logger.getLogger( JPanelSearchingParallel.class );
+    private static final long serialVersionUID = 3L;
+
     private static final int NOT_ENOUGH_FOR_DUPLICATE = 2;
+
+    private static final Logger LOGGER = Logger.getLogger( JPanelSearchingParallel.class );
+
     private final Serializable lockpass1StatsAdd = new SerializableObject();
 
     private final AtomicInteger pass2FilesCount = new AtomicInteger();
@@ -286,7 +290,7 @@ public final class JPanelSearchingParallel extends JPanelSearchingParallelUpdate
         clearDisplayFiles();
 
         //Be sure to have a coherent ending display !
-        //(Include ignored files) -> FIXME expecting sizes should be adapt instead of result - NOSONAR
+        //(Include ignored files) -> FIXME expecting sizes should be adapt instead of result
         this.pass2FilesCount.set( getPass1FilesCount() );
         this.pass2BytesCount.set( getPass1BytesCount() );
         updateDisplay();
@@ -312,8 +316,7 @@ public final class JPanelSearchingParallel extends JPanelSearchingParallelUpdate
             return duplicateFileFinder.computeHash( computePass1 );
         }
         catch( final IllegalStateException | NoSuchAlgorithmException | InterruptedException | ExecutionException e ) {
-            // TODO ADD some logs !
-            e.printStackTrace();
+            LOGGER.warn( "Error while preparing pass 2", e );
 
             return Collections.emptyMap();
         }
@@ -444,17 +447,10 @@ public final class JPanelSearchingParallel extends JPanelSearchingParallelUpdate
                     )
                 );
 
-        switch( this.displayPass ) {
-            case PASS1:
-                updateDisplayPass1( locale );
-                break;
-            case PASS2:
-                updateDisplayPass2( locale );
-                break;
-        }
+        this.displayPass.updateDisplay( this, locale );
     }
 
-    private void updateDisplayPass1(final Locale locale )
+    void updateDisplayPass1(final Locale locale )
     {
         getjProgressBarFiles().setString(
                 String.format(
@@ -472,7 +468,7 @@ public final class JPanelSearchingParallel extends JPanelSearchingParallelUpdate
             );
     }
 
-    private void updateDisplayPass2( final Locale locale )
+    void updateDisplayPass2( final Locale locale )
     {
         getjProgressBarFiles().setValue( this.pass2FilesCount.get() );
         getjProgressBarFiles().setString( String.format( locale, "%,d / %,d", Integer.valueOf( this.pass2FilesCount.get() ), Integer.valueOf( getPass1FilesCount() ) ) );
