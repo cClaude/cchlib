@@ -41,10 +41,9 @@ public class LoadDialog
     private static final int PROPERTIES = 1;
     private static final int FORMATTED_PROPERTIES = 2;
 
-    private static final int LOAD_DIALOG_MINIMUM_WIDTH = 400;
+    private static final int LOAD_DIALOG_MINIMUM_WIDTH  = 400;
     private static final int LOAD_DIALOG_MINIMUM_HEIGHT = 250;
 
-    private ActionListener thisActionListener;
     private final Preferences preferences;
 
     public LoadDialog(
@@ -322,10 +321,7 @@ public class LoadDialog
     @Override
     protected ActionListener getActionListener()
     {
-        if( this.thisActionListener == null ) {
-            this.thisActionListener = e -> actionPerform( e.getActionCommand() );
-            }
-        return this.thisActionListener;
+        return e -> actionPerform( e.getActionCommand() );
     }
 
     private void jButtonSelectedPressed( final int index )
@@ -344,90 +340,107 @@ public class LoadDialog
 
         if( index != null ) {
             jButtonSelectedPressed( index.intValue() );
-            }
-        else {
+        } else {
             final LoadDialogAction action = LoadDialogAction.valueOf( actionCommandString );
 
-            actionPerform( action );
+            try {
+                action.perform( this );
             }
+            catch( final Exception cause ) {
+                // Unexpected error
+                LOGGER.error(
+                        "Unexpected error on: " + actionCommandString + " - " + action,
+                        cause
+                        );
+            }
+        }
     }
 
-    private void actionPerform( final LoadDialogAction action )
+    void actionSelectPrefix()
     {
-        switch( action ) {
-            case ACTION_Change_CUT_LINE_AFTER_HTML_BR:
-                updateStoreOptions(
-                        getCheckBox_CUT_LINE_AFTER_HTML_BR(),
-                        FormattedProperties.Store.CUT_LINE_AFTER_HTML_BR
-                        );
-                break;
+        // Should never occur
+        throw new IllegalStateException();
+    }
 
-            case ACTION_Change_CUT_LINE_AFTER_HTML_END_P:
-                updateStoreOptions(
-                        getCheckBox_CUT_LINE_AFTER_HTML_END_P(),
-                        FormattedProperties.Store.CUT_LINE_AFTER_HTML_END_P
-                        );
-                break;
+    void actionOkButton()
+    {
+        jButton_OkMouseMousePressed();
+    }
 
-            case ACTION_Change_CUT_LINE_AFTER_NEW_LINE:
-                updateStoreOptions(
-                        getCheckBox_CUT_LINE_AFTER_NEW_LINE(),
-                        FormattedProperties.Store.CUT_LINE_AFTER_NEW_LINE
-                        );
-                break;
+    void actionCancelButton()
+    {
+        jButton_CancelMouseMousePressed();
+    }
 
-            case ACTION_Change_CUT_LINE_BEFORE_HTML_BEGIN_P:
-                updateStoreOptions(
-                        getCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P(),
-                        FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BEGIN_P
-                        );
-                break;
+    void actionFtIni()
+    {
+        udpateTabFileTypeDisplay();
+        //TODO: later (*.ini files)
+    }
 
-            case ACTION_Change_CUT_LINE_BEFORE_HTML_BR:
-                updateStoreOptions(
-                        getCheckBox_CUT_LINE_BEFORE_HTML_BR(),
-                        FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BR
-                        );
-                break;
+    void actionFtProperties()
+    {
+        udpateTabFileTypeDisplay();
+        this.filesConfig.setFileType( FilesConfig.FileType.PROPERTIES );
+    }
 
-            case ACTION_Change_ShowLineNumbers:
-                this.filesConfig.setShowLineNumbers(
-                        getCheckBox_ShowLineNumbers().isSelected()
-                        );
-                break;
+    void actionFtFormattedproperties()
+    {
+        udpateTabFileTypeDisplay();
+        this.filesConfig.setFileType( FilesConfig.FileType.FORMATTED_PROPERTIES );
+    }
 
-            case ACTION_Change_isUseLeftHasDefault:
-                this.filesConfig.setUseLeftHasDefault(
-                        getCheckBox_RightUseLeftHasDefaults().isSelected()
-                        );
-                break;
+    void actionChangeIsuselefthasdefault()
+    {
+        this.filesConfig.setUseLeftHasDefault(
+                getCheckBox_RightUseLeftHasDefaults().isSelected()
+                );
+    }
 
-            case ACTION_FT_FormattedProperties:
-                udpateTabFileTypeDisplay();
-                this.filesConfig.setFileType( FilesConfig.FileType.FORMATTED_PROPERTIES );
-                break;
+    void actionChangeShowlinenumbers()
+    {
+        this.filesConfig.setShowLineNumbers(
+                getCheckBox_ShowLineNumbers().isSelected()
+                );
+    }
 
-            case ACTION_FT_Properties:
-                udpateTabFileTypeDisplay();
-                this.filesConfig.setFileType( FilesConfig.FileType.PROPERTIES );
-               break;
+    void actionChangeCutLineBeforeHtmlBr()
+    {
+        updateStoreOptions(
+                getCheckBox_CUT_LINE_BEFORE_HTML_BR(),
+                FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BR
+                );
+    }
 
-            case ACTION_FT_ini:
-                udpateTabFileTypeDisplay();
-                //TODO: later (*.ini files)
-                break;
+    void actionChangeCutLineBeforeHtmlBeginP()
+    {
+        updateStoreOptions(
+                getCheckBox_CUT_LINE_BEFORE_HTML_BEGIN_P(),
+                FormattedProperties.Store.CUT_LINE_BEFORE_HTML_BEGIN_P
+                );
+    }
 
-            case ACTIONCMD_CANCEL_BUTTON:
-                jButton_CancelMouseMousePressed();
-                break;
+    void actionChangeCutLineAfterNewLine()
+    {
+        updateStoreOptions(
+                getCheckBox_CUT_LINE_AFTER_NEW_LINE(),
+                FormattedProperties.Store.CUT_LINE_AFTER_NEW_LINE
+                );
+    }
 
-            case ACTIONCMD_OK_BUTTON:
-                jButton_OkMouseMousePressed();
-                break;
+    void actionChangeCutLineAfterHtmlEndP()
+    {
+        updateStoreOptions(
+                getCheckBox_CUT_LINE_AFTER_HTML_END_P(),
+                FormattedProperties.Store.CUT_LINE_AFTER_HTML_END_P
+                );
+    }
 
-            case ACTIONCMD_SELECT_PREFIX:
-                // Should never occur
-                break;
-        }
+    void actionChangeCutLineAfterHtmlBr()
+    {
+        updateStoreOptions(
+                getCheckBox_CUT_LINE_AFTER_HTML_BR(),
+                FormattedProperties.Store.CUT_LINE_AFTER_HTML_BR
+                );
     }
 }
