@@ -27,7 +27,8 @@ import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 @I18nName("MultiLineEditorDialog")
 @SuppressWarnings({
-    "squid:MaximumInheritanceDepth" // Swing
+    "squid:MaximumInheritanceDepth", // Swing
+    "squid:S00116", "squid:S00117", "squid:S1199" // Generated code
     })
 public final class MultiLineEditorDialog
     extends JDialog
@@ -35,7 +36,7 @@ public final class MultiLineEditorDialog
 {
     private static final int FONT_SIZE = 12;
 
-
+    @FunctionalInterface
     public interface StoreResult
     {
         void storeResult(String text);
