@@ -77,23 +77,25 @@ class KeyFileStateListCellRenderer
         try {
             sizeStr = Long.toString( Files.size( path ) ) + " o";
         }
-        catch( final NoSuchFileException e ) {
+        catch( final NoSuchFileException cause ) {
             //
-            sizeStr = e.getMessage();
+            sizeStr = getMessage( cause );
 
             final String message = "File not found " + path;
 
             if( LOGGER.isTraceEnabled() ) {
                 // Don't care the exception
-                LOGGER.trace( message, e );
+                LOGGER.trace( message, cause );
             } else {
                 LOGGER.debug( message );
             }
         }
-        catch( final IOException e ) {
-            sizeStr = e.getMessage();
+        catch( final IOException cause ) {
+            sizeStr = getMessage( cause );
 
-            LOGGER.debug( "Can not compute File size of " + path, e );
+            if( LOGGER.isDebugEnabled() ) {
+                LOGGER.debug( "Can not compute file size of " + path, cause );
+            }
         }
 
         return sizeStr;
@@ -106,22 +108,29 @@ class KeyFileStateListCellRenderer
         try {
             permStr = getPosixFilePermissions( path );
         }
-        catch( final NoSuchFileException e ) {
-            permStr = e.getMessage();
+        catch( final NoSuchFileException cause ) {
+            final String exceptionMessage = getMessage( cause );
 
-            final String message = "File removed: " + path + " (" + e.getMessage() + ')';
+            permStr = exceptionMessage;
+
+            final String message = "File removed: " + path + " (" + exceptionMessage + ')';
 
             if( LOGGER.isTraceEnabled() ) {
-                LOGGER.trace( message, e );
+                LOGGER.trace( message, cause );
             } else {
                 LOGGER.warn( message );
             }
         }
-        catch( final IOException e ) {
-            permStr = e.getMessage();
+        catch( final IOException cause ) {
+            final String exceptionMessage = getMessage( cause );
+
+            permStr = exceptionMessage;
 
             if( LOGGER.isTraceEnabled() ) {
-                LOGGER.trace( "Can not compute File Permissions of " + path + " (" + e.getMessage() + ')', e );
+                LOGGER.trace(
+                    "Can not compute File Permissions of " + path + " (" + exceptionMessage + ')',
+                    cause
+                    );
             }
         }
 
@@ -135,28 +144,42 @@ class KeyFileStateListCellRenderer
 
             return Enums.toString( perms );
         }
-        catch( final NoSuchFileException e ) {
-            final String message = "File removed: " + path + " (" + e.getMessage() + ')';
+        catch( final NoSuchFileException cause ) {
+            final String message = "File removed: " + path + " (" + getMessage( cause ) + ')';
 
             if( LOGGER.isTraceEnabled() ) {
-                LOGGER.trace( message, e );
+                LOGGER.trace( message, cause );
             } else {
                 LOGGER.warn( message );
             }
 
-            throw e;
+            throw cause;
         }
-        catch( final UnsupportedOperationException e ) {
-            final String message = "Can not compute Posix File Permissions of " + path + " (" + e.getMessage() + ')';
+        catch( final UnsupportedOperationException cause ) {
+            final String exceptionMessage = getMessage( cause );
+
+            final String message = "Can not compute Posix File Permissions of " + path
+                            + " (" + exceptionMessage + ')';
 
             if( LOGGER.isTraceEnabled() ) {
-                LOGGER.trace( message, e );
+                LOGGER.trace( message, cause );
             } else {
                 LOGGER.warn( message );
             }
 
             return getPermsString( path );
         }
+    }
+
+    private String getMessage( final Throwable exception )
+    {
+        String exceptionMessage = exception.getMessage();
+
+        if( exceptionMessage == null ) {
+            exceptionMessage = exception.getClass().getName();
+        }
+
+        return exceptionMessage;
     }
 
     private String getPermsString( final Path path ) throws IOException
