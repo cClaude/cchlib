@@ -23,38 +23,12 @@ import com.googlecode.cchlib.util.duplicate.digest.FileDigestListener;
 @NeedDoc
 public class DuplicateFileFinderUsingStream
 {
-    /* *
-     * @ deprecated use {@link FileDigestFactory} instead
-     * /
-    @ Deprecated
-    public interface MessageDigestFileBuilder {
-        XMessageDigestFile newMessageDigestFile() throws NoSuchAlgorithmException;
-
-        /** @see MessageDigest#getInstance * /
-        public static MessageDigestFileBuilder newMessageDigestFileBuilder( final String algorithm, final int bufferSize ) throws NoSuchAlgorithmException {
-            return ( ) -> new XMessageDigestFile( algorithm, bufferSize );
-        }
-    }
-
-    @ Deprecated
-    public interface DuplicateFileFinderListener extends DigestEventListener {
-//        void computeDigest( long threadId, File file );
-//
-//        @Override
-//        default void computeDigest( final File file ) {
-//            final long threadId = Thread.currentThread().getId();
-//
-//            computeDigest( threadId, file );
-//        }
-    } */
-
-    //private final MessageDigestFileBuilder messageDigestFileBuilder;
-
     private final FileDigestFactory                 fileDigestFactory;
     private final FileDigestListener                fileDigestListener;
     private final DuplicateFileFinderEventListener  listener;
 
     @NeedDoc
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public DuplicateFileFinderUsingStream(
         @Nonnull final FileDigestFactory                fileDigestFactory,
         @Nonnull final DuplicateFileFinderEventListener listener
@@ -82,14 +56,21 @@ public class DuplicateFileFinderUsingStream
             public void computeDigest( final File file, final int length )
             {
                 // TODO Auto-generated method stub
-
             }
         };
     }
 
     @NeedDoc
-    public synchronized Map<String, Set<File>> computeHash(@Nonnull final Map<Long, Set<File>> mapLengthFiles )
-        throws IllegalStateException, NoSuchAlgorithmException, InterruptedException, ExecutionException
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S1160"
+        })
+    public synchronized Map<String, Set<File>> computeHash(
+        @Nonnull final Map<Long, Set<File>> mapLengthFiles
+        ) throws IllegalStateException,
+                 NoSuchAlgorithmException,
+                 InterruptedException,
+                 ExecutionException
     {
         if( mapLengthFiles == null ) {
             throw new InvalidParameterException( "mapSet is null" );
@@ -99,8 +80,7 @@ public class DuplicateFileFinderUsingStream
         }
 
         final Map<String, Set<File>> mapHashFiles = new HashMap<>( computeMapSize( mapLengthFiles ) );
-        //final XMessageDigestFile xMessageDigestFile = newMessageDigestFile();
-        final FileDigest fileDigest = this.fileDigestFactory.newInstance();
+        final FileDigest             fileDigest   = this.fileDigestFactory.newInstance();
 
         for( final Set<File> set : mapLengthFiles.values() ) {
             if( set.size() > 1 ) {
@@ -135,7 +115,13 @@ public class DuplicateFileFinderUsingStream
         }
     }
 
-    private static void addAll( final Map<String, Set<File>> mapHashFiles, final Map<String, Set<File>> hashForSet )
+    @SuppressWarnings({
+        "squid:S3346" // assert usage
+        })
+    private static void addAll(
+        final Map<String, Set<File>> mapHashFiles,
+        final Map<String, Set<File>> hashForSet
+        )
     {
         for( final Entry<String, Set<File>> entry : hashForSet.entrySet() ) {
             assert ! mapHashFiles.containsKey( entry.getKey() );
@@ -146,10 +132,14 @@ public class DuplicateFileFinderUsingStream
         }
     }
 
-    private Map<String, Set<File>> computeHashForSet( //
-            final FileDigest fileDigest,
-            final Set<File> filesSet
-            )
+    @SuppressWarnings({
+        "squid:S1166", // Cancel exception
+        "squid:S3346" // assert usage
+        })
+    private Map<String, Set<File>> computeHashForSet(
+        final FileDigest fileDigest,
+        final Set<File>  filesSet
+        )
     {
         final Map<String, Set<File>> hashs = new HashMap<>();
 
@@ -180,7 +170,7 @@ public class DuplicateFileFinderUsingStream
 
     protected String computeHashForFile(
         final FileDigest fileDigest,
-        final File file
+        final File       file
         ) throws CancelRequestException
     {
         this.listener.analysisStart( file );
@@ -194,7 +184,7 @@ public class DuplicateFileFinderUsingStream
 
             return hashString;
             }
-        catch(final IOException ioe) {
+        catch( final IOException ioe ) {
             this.listener.ioError( file, ioe );
             return null;
             }
