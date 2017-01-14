@@ -16,28 +16,26 @@ public class DefaultIntrospection<O>
      * @param attribSet NEEDDOC
      */
     public DefaultIntrospection(
-            final Class<O>                     inpectClass,
-            final Set<IntrospectionParameters> attribSet
-            )
+        final Class<O>                     inpectClass,
+        final Set<IntrospectionParameters> attribSet
+        )
     {
         super(
            inpectClass,
-           ( getter, setter ) -> new DefaultIntrospectionItem<>( getter, setter ),
+           DefaultIntrospectionItem::new,
            attribSet
            );
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString()
     {
         final StringBuilder builder = new StringBuilder();
+
         builder.append( "DefaultIntrospection [getMap()=" );
         builder.append( getMap() );
         builder.append( ']' );
+
         return builder.toString();
     }
-
 }
