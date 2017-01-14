@@ -14,10 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 import com.googlecode.cchlib.apps.editresourcesbundle.Resources;
 import com.googlecode.cchlib.apps.editresourcesbundle.compare.CompareResourcesBundleFrame;
 import com.googlecode.cchlib.apps.editresourcesbundle.prefs.Preferences;
@@ -27,6 +27,10 @@ import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 
 @I18nName("HTMLPreviewDialog")
+@SuppressWarnings({
+    "squid:MaximumInheritanceDepth", // Swing
+    "squid:S00116", "squid:S00117", "squid:S1199" // Generated code
+    })
 public class HTMLPreviewDialog
     extends JDialog
         implements I18nAutoUpdatable
@@ -69,7 +73,7 @@ public class HTMLPreviewDialog
         setForeground(Color.black);
         setSize( frame.getPreferences().getHTMLPreviewDimension() );
 
-        setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+        setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );
         setTitle( title );
         setLocationRelativeTo( frame );
         getContentPane().setPreferredSize( getSize() );
@@ -84,10 +88,10 @@ public class HTMLPreviewDialog
         getContentPane().setLayout(gridBagLayout);
 
         {
-            htmlComponent = new JEditorPane();
-            htmlComponent.setEditable( false );
-            htmlComponent.setContentType( "text/html" );
-            htmlComponent.setText( html.toString() );
+            this.htmlComponent = new JEditorPane();
+            this.htmlComponent.setEditable( false );
+            this.htmlComponent.setContentType( "text/html" );
+            this.htmlComponent.setText( html.toString() );
             putClientProperty(
                 JEditorPane.W3C_LENGTH_UNITS,
                 frame.getPreferences().isHTMLPreview_W3C_LENGTH_UNITS()
@@ -97,7 +101,7 @@ public class HTMLPreviewDialog
                 frame.getPreferences().isHTMLPreview_HONOR_DISPLAY_PROPERTIES()
                 );
 
-            final JScrollPane jScrollPane = new JScrollPane(htmlComponent);
+            final JScrollPane jScrollPane = new JScrollPane(this.htmlComponent);
             final GridBagConstraints gbc_jScrollPane = new GridBagConstraints();
             gbc_jScrollPane.gridwidth = 3; // $codepro.audit.disable numericLiterals
             gbc_jScrollPane.fill = GridBagConstraints.BOTH;
@@ -108,18 +112,18 @@ public class HTMLPreviewDialog
         }
 
         {
-            jButtonClose = new JButton( "Close",
+            this.jButtonClose = new JButton( "Close",
                     new ImageIcon(
                             Resources.class.getResource( "close.png" )
                             )
                     );
-            jButtonClose.addActionListener(e -> dispose());
+            this.jButtonClose.addActionListener(e -> dispose());
             final GridBagConstraints gbc_jButtonOk = new GridBagConstraints();
             gbc_jButtonOk.fill = GridBagConstraints.HORIZONTAL;
             gbc_jButtonOk.insets = new Insets(0, 0, 0, 5); // $codepro.audit.disable numericLiterals
             gbc_jButtonOk.gridx = 1;
             gbc_jButtonOk.gridy = 1;
-            getContentPane().add(jButtonClose, gbc_jButtonOk);
+            getContentPane().add(this.jButtonClose, gbc_jButtonOk);
         }
 
         {
@@ -132,15 +136,15 @@ public class HTMLPreviewDialog
             final JMenu jMenuOptions = new JMenu("Options");
             jMenuBar.add(jMenuOptions);
 
-            jCheckBoxMenuItem_W3C_LENGTH_UNITS = new JCheckBoxMenuItem("W3C_LENGTH_UNITS");
-            jCheckBoxMenuItem_W3C_LENGTH_UNITS.setActionCommand( HTMLPreviewDialogAction.ACTIONCMD_W3C_LENGTH_UNITS.name() );
-            jCheckBoxMenuItem_W3C_LENGTH_UNITS.addActionListener( actionListener );
-            jMenuOptions.add( jCheckBoxMenuItem_W3C_LENGTH_UNITS );
+            this.jCheckBoxMenuItem_W3C_LENGTH_UNITS = new JCheckBoxMenuItem("W3C_LENGTH_UNITS");
+            this.jCheckBoxMenuItem_W3C_LENGTH_UNITS.setActionCommand( HTMLPreviewDialogAction.ACTIONCMD_W3C_LENGTH_UNITS.name() );
+            this.jCheckBoxMenuItem_W3C_LENGTH_UNITS.addActionListener( actionListener );
+            jMenuOptions.add( this.jCheckBoxMenuItem_W3C_LENGTH_UNITS );
 
-            jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES = new JCheckBoxMenuItem("HONOR_DISPLAY_PROPERTIES");
-            jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.setActionCommand( HTMLPreviewDialogAction.ACTIONCMD_HONOR_DISPLAY_PROPERTIES.name() );
-            jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.addActionListener( actionListener );
-            jMenuOptions.add( jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES );
+            this.jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES = new JCheckBoxMenuItem("HONOR_DISPLAY_PROPERTIES");
+            this.jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.setActionCommand( HTMLPreviewDialogAction.ACTIONCMD_HONOR_DISPLAY_PROPERTIES.name() );
+            this.jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.addActionListener( actionListener );
+            jMenuOptions.add( this.jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES );
 
             super.setJMenuBar( jMenuBar );
         }
@@ -148,7 +152,7 @@ public class HTMLPreviewDialog
 
     private void putClientProperty( final String key, final boolean b )
     {
-        htmlComponent.putClientProperty( key, Boolean.valueOf( b ) );
+        this.htmlComponent.putClientProperty( key, Boolean.valueOf( b ) );
     }
 
     private ActionListener newActionListener( final CompareResourcesBundleFrame frame )
@@ -158,27 +162,28 @@ public class HTMLPreviewDialog
 
     private void doActionPerformed( final CompareResourcesBundleFrame frame, final ActionEvent event )
     {
-        final HTMLPreviewDialogAction action = HTMLPreviewDialogAction.valueOf( HTMLPreviewDialogAction.class,  event.getActionCommand() );
+        final HTMLPreviewDialogAction action = Enum.valueOf(
+                HTMLPreviewDialogAction.class,
+                event.getActionCommand()
+                );
 
-        switch( action ) {
-            case ACTIONCMD_HONOR_DISPLAY_PROPERTIES:
-            {
-                final boolean b = jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.isSelected();
+        action.performe( this, frame );
+    }
 
-                putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, b );
-                frame.getPreferences().setHTMLPreview_HONOR_DISPLAY_PROPERTIES( b );
-            }
-            break;
+    void actionW3cLengthUnits( final CompareResourcesBundleFrame frame )
+    {
+        final boolean b = this.jCheckBoxMenuItem_W3C_LENGTH_UNITS.isSelected();
 
-            case ACTIONCMD_W3C_LENGTH_UNITS:
-            {
-                final boolean b = jCheckBoxMenuItem_W3C_LENGTH_UNITS.isSelected();
+        putClientProperty( JEditorPane.W3C_LENGTH_UNITS, b );
+        frame.getPreferences().setHTMLPreview_W3C_LENGTH_UNITS( b );
+    }
 
-                putClientProperty( JEditorPane.W3C_LENGTH_UNITS, b );
-                frame.getPreferences().setHTMLPreview_W3C_LENGTH_UNITS( b );
-            }
-            break;
-        }
+    void actionHonorDisplayProperties( final CompareResourcesBundleFrame frame )
+    {
+        final boolean b = this.jCheckBoxMenuItem_HONOR_DISPLAY_PROPERTIES.isSelected();
+
+        putClientProperty( JEditorPane.HONOR_DISPLAY_PROPERTIES, b );
+        frame.getPreferences().setHTMLPreview_HONOR_DISPLAY_PROPERTIES( b );
     }
 
     @Override
@@ -187,8 +192,8 @@ public class HTMLPreviewDialog
         // TODO something better !!! (size is store every time windows size is changed -> need to be optionnal)
         final Dimension frameSize = getSize();
 
-        if( ! frameSize.equals( preferences.getHTMLPreviewDimension() )) {
-            preferences.setHTMLPreviewDimension( getSize() );
+        if( ! frameSize.equals( this.preferences.getHTMLPreviewDimension() )) {
+            this.preferences.setHTMLPreviewDimension( getSize() );
             }
 
         super.dispose();
