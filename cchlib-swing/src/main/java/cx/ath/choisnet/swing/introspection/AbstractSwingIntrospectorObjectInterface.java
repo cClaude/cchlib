@@ -63,7 +63,7 @@ public abstract class AbstractSwingIntrospectorObjectInterface<FRAME,OBJECT,OBJE
      * @return FramePopulator for these instances
      */
     @Override
-    public FramePopulator<FRAME,OBJECT> getFramePopulator(
+    public FramePopulator<FRAME> getFramePopulator(
         final FRAME  frame,
         final OBJECT object
         )

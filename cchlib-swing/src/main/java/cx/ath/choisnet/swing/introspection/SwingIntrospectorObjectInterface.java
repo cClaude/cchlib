@@ -30,7 +30,7 @@ public interface SwingIntrospectorObjectInterface<FRAME,OBJECT,OBJECT_ENTRY>
      * @param object NEEDDOC
      * @return FramePopulator for these instances
      */
-    FramePopulator<FRAME,OBJECT> getFramePopulator( FRAME frame, OBJECT object );
+    FramePopulator<FRAME> getFramePopulator( FRAME frame, OBJECT object );
 
     /**
      * Get a ObjectPopulator for giving values

@@ -4,7 +4,7 @@ import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 
 @FunctionalInterface
 @SuppressWarnings("squid:S00119") // naming convention for type parameter
-public interface FramePopulator<FRAME,OBJECT>
+public interface FramePopulator<FRAME>
 {
     /**
      * Populate frame for this rootItem using giving bean name

@@ -296,7 +296,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         ) throws    IntrospectionInvokeException,
                     SwingIntrospectorException
     {
-        final FramePopulator<FRAME,OBJECT> fp = this.objectInterface.getFramePopulator( frame, object );
+        final FramePopulator<FRAME> fp = this.objectInterface.getFramePopulator( frame, object );
 
         for( final Entry<String, SwingIntrospectorRootItem<FRAME>> entry : this.itemsMap.entrySet() ) {
             final String                             beanName = entry.getKey();
@@ -325,7 +325,7 @@ public class SwingIntrospector<FRAME,OBJECT,OBJECT_ENTRY>
         final OBJECT object
         )
     {
-        final FramePopulator<FRAME,OBJECT> fp = this.objectInterface.getFramePopulator( frame, object );
+        final FramePopulator<FRAME> fp = this.objectInterface.getFramePopulator( frame, object );
 
         for( final Entry<String, SwingIntrospectorRootItem<FRAME>> entry : this.itemsMap.entrySet() ) {
             final String                           beanName = entry.getKey();
