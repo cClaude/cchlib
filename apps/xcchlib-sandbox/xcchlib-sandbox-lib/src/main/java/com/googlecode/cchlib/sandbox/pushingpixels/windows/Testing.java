@@ -8,6 +8,7 @@ import java.awt.GraphicsEnvironment;
  * @deprecated just for testing
  */
 @Deprecated
+@SuppressWarnings("squid:S1133")
 public class Testing
 {
     private Testing()
@@ -15,6 +16,7 @@ public class Testing
         // All static
     }
 
+    @SuppressWarnings("squid:S106")
     public static void main(final String[] args)
     {
         final GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
