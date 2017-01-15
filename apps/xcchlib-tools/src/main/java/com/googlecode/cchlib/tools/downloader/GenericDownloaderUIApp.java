@@ -233,10 +233,10 @@ public class GenericDownloaderUIApp extends JFrame
             this.cardsPanel_JScrollPane.setViewportView(this.cardsPanel);
             this.cardsPanel.setLayout(new CardLayout(0, 0));
 
-            for( final GenericDownloaderUIPanel panel : this.downloaderUIPanels ) {
+            for( final GenericDownloaderUIPanel cPanel : this.downloaderUIPanels ) {
                 this.cardsPanel.add(
-                        panel,
-                        panel.getDownloaderData().getSiteName()
+                        cPanel,
+                        cPanel.getDownloaderData().getSiteName()
                         );
             }
         }
@@ -247,8 +247,8 @@ public class GenericDownloaderUIApp extends JFrame
                 final String panelName = String.class.cast( event.getItem() );
                 cl.show(this.cardsPanel, panelName );
 
-                for( final GenericDownloaderUIPanel panel : this.downloaderUIPanels ) {
-                    final DownloaderData data = panel.getDownloaderData();
+                for( final GenericDownloaderUIPanel cPanel : this.downloaderUIPanels ) {
+                    final DownloaderData data = cPanel.getDownloaderData();
 
                     if( data.getSiteName().equals( panelName ) ) {
                         //xxxxx
@@ -257,8 +257,8 @@ public class GenericDownloaderUIApp extends JFrame
                     }
             });
 
-            for( final GenericDownloaderUIPanel panel : this.downloaderUIPanels ) {
-                this.siteJComboBox.addItem( panel.getDownloaderData().getSiteName() );
+            for( final GenericDownloaderUIPanel cPanel : this.downloaderUIPanels ) {
+                this.siteJComboBox.addItem( cPanel.getDownloaderData().getSiteName() );
                 }
 
             final GridBagConstraints gbc_siteJComboBox = new GridBagConstraints();
@@ -482,9 +482,9 @@ public class GenericDownloaderUIApp extends JFrame
 
         // UI get values
         //final GenericDownloaderAppInterface gdai__  = this.downloadEntriesTypeList.get( this.siteJComboBox.getSelectedIndex() );
-        final GenericDownloaderUIPanel panel    = this.downloaderUIPanels.get( this.siteJComboBox.getSelectedIndex() );
-        final DownloaderData           data     = panel.getDownloaderData();
-        final DownloaderHandler        handler  = panel.getDownloaderHandler();
+        final GenericDownloaderUIPanel cPanel   = this.downloaderUIPanels.get( this.siteJComboBox.getSelectedIndex() );
+        final DownloaderData           data     = cPanel.getDownloaderData();
+        final DownloaderHandler        handler  = cPanel.getDownloaderHandler();
         final Proxy proxy = this.proxyComboBoxModel.getElementAt( this.proxyJComboBox.getSelectedIndex() ).getProxy();
         final int downloadThreadNumber = this.downloadThreadNumberSpinnerModel.getNumber().intValue();
 
