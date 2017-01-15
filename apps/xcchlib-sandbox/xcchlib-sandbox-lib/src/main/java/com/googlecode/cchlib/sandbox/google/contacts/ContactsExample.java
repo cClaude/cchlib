@@ -37,6 +37,17 @@ import com.google.gdata.util.ServiceException;
  * <p>Full documentation about the API can be found at:
  * http://code.google.com/apis/contacts/
  */
+@SuppressWarnings({ // Hide this sample in sonar
+    "squid:S00112",
+    "squid:S1166",
+    "squid:S1132",
+    "squid:S1192",
+    "squid:MethodCyclomaticComplexity",
+    "squid:RedundantThrowsDeclarationCheck",
+    "squid:S2696", // Instance methods should not write to "static" fields
+    "squid:S1160", // Number of exceptions
+    "squid:S134", // Deeply
+    })
 public class ContactsExample
 {
     /**

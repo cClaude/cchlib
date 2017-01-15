@@ -89,6 +89,14 @@ import com.google.gdata.util.XmlBlob;
  *
  *
  */
+@SuppressWarnings({ // Hide this sample in sonar
+    "squid:S00112",
+    "squid:S1166",
+    "squid:S1132",
+    "squid:S1192",
+    "squid:MethodCyclomaticComplexity",
+    "squid:RedundantThrowsDeclarationCheck"
+    })
 public enum ElementHelper implements ElementHelperInterface {
 
   BILLING_INFORMATION {
@@ -349,8 +357,9 @@ public enum ElementHelper implements ElementHelperInterface {
      *
      * @throws IOException in case of any IO error.
      */
-    private XmlBlob readFromFile(final File f) throws IOException {
-      final StringBuffer xmlBuffer = new StringBuffer();
+    private XmlBlob readFromFile(final File f) throws IOException
+    {
+      final StringBuilder xmlBuffer = new StringBuilder();
 
       try(final BufferedReader reader = new BufferedReader( new FileReader( f ) ) ) {
         String line;
@@ -1664,8 +1673,10 @@ public void parseGroup(final ContactGroupEntry group, final ElementParser parser
    *
    * @return the usage help text for all elements.
    */
-  public static String getUsageString() {
-    final StringBuffer buffer = new StringBuffer();
+  public static String getUsageString()
+  {
+    final StringBuilder buffer = new StringBuilder();
+
     for (final ElementHelper helper : values()) {
       buffer.append("             --" + helper.toString().toLowerCase());
       if (helper.repetable) {
