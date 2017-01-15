@@ -65,6 +65,7 @@ public class BookmarksAccessory
             }
         }
 
+        @SuppressWarnings("squid:S1066") // Collapsible "if"
         private void doAdd()
         {
             final File f = BookmarksAccessory.this.jFileChooser.getCurrentDirectory();
@@ -168,7 +169,10 @@ public class BookmarksAccessory
      * @param jFileChooser  {@link JFileChooser} to use
      * @param config        Initial configuration for this BookmarksAccessory
      */
-    @SuppressWarnings("squid:S1199") // Generated code
+    @SuppressWarnings({
+        "squid:CommentedOutCodeLine", // Commented code is need for WindowsBuilder
+        "squid:S1199", // Generated code
+    })
     public BookmarksAccessory(
             final JFileChooser                   jFileChooser,
             final BookmarksAccessoryConfigurator config
@@ -308,12 +312,24 @@ public class BookmarksAccessory
         return resourcesUtils.getJButton( ResourcesUtils.ID.BOOKMARK_REMOVE );
     }
 
+    /**
+     * Could be override to have a (localized) text of
+     * tab name (i.e. "Bookmark"). This implementation
+     * return null (don't use text)
+     *
+     * {@inheritDoc}
+     */
     @Override // TabbedAccessoryInterface
     public String getTabName()
     {
-        return null; //"Bookmark"; // TODO Localization
+        return null;
     }
 
+    /**
+     * Could be override to customize icon
+     *
+     * {@inheritDoc}
+     */
     @Override // TabbedAccessoryInterface
     public Icon getTabIcon()
     {
