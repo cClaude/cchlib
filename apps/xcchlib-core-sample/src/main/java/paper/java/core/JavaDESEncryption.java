@@ -50,96 +50,96 @@ public class JavaDESEncryption
         // All static
     }
 
-    public static void main(final String[] args) {
-
+    @SuppressWarnings("squid:S106")
+    public static void main( final String[] args ) throws Exception
+    {
         final File folderFile    = FileHelper.getUserHomeDirectoryFile();
         final File clearFile     = new File( folderFile, "input.txt" );
         final File encryptedFile = new File( folderFile, "encrypted.txt" );
         final File decryptedFile = new File( folderFile, "decrypted.txt" );
 
-        try {
-            final SecretKey              secret_key      = KeyGenerator.getInstance("DES").generateKey();
-            final AlgorithmParameterSpec alogrithm_specs = new IvParameterSpec(initialization_vector);
+        final SecretKey              secretKey      = KeyGenerator.getInstance("DES").generateKey();
+        final AlgorithmParameterSpec alogrithmSpecs = new IvParameterSpec( initialization_vector );
 
-            // set encryption mode ...
-            final Encrypt encrypt = new Encrypt( "DES/CBC/PKCS5Padding", secret_key, alogrithm_specs );
+        // set encryption mode ...
+        final Encrypt encrypt = new Encrypt( "DES/CBC/PKCS5Padding", secretKey, alogrithmSpecs );
 
-            // encrypt file
-            try( final InputStream is = new FileInputStream( clearFile ) ) {
-                try( final OutputStream os = new FileOutputStream( encryptedFile ) ) {
-                    encrypt.encrypt( is, os );
-                    }
-            }
-
-            // set decryption mode
-            final Decrypt decrypt = new Decrypt( "DES/CBC/PKCS5Padding", secret_key, alogrithm_specs );
-
-            // decrypt file
-            try( final InputStream is = new FileInputStream( encryptedFile ) ) {
-                try( final OutputStream os = new FileOutputStream( decryptedFile ) ) {
-                    decrypt.decrypt( is, os );
-                    }
-            }
-
-            System.out.println("End of Encryption/Decryption procedure!");
-
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException
-                | InvalidKeyException | InvalidAlgorithmParameterException
-                | IOException e) {
-            e.printStackTrace();
+        // encrypt file
+        try( final InputStream is = new FileInputStream( clearFile ) ) {
+            try( final OutputStream os = new FileOutputStream( encryptedFile ) ) {
+                encrypt.encrypt( is, os );
+                }
         }
 
+        // set decryption mode
+        final Decrypt decrypt = new Decrypt( "DES/CBC/PKCS5Padding", secretKey, alogrithmSpecs );
+
+        // decrypt file
+        try( final InputStream is = new FileInputStream( encryptedFile ) ) {
+            try( final OutputStream os = new FileOutputStream( decryptedFile ) ) {
+                decrypt.decrypt( is, os );
+                }
+        }
+
+        System.out.println("End of Encryption/Decryption procedure!");
     }
 
+    @SuppressWarnings("squid:S1700") // Not a bean
     private static class Encrypt
     {
         private final Cipher encrypt;
 
         public Encrypt(
-                final String                 transformation,
-                final Key                    secret_key,
-                final AlgorithmParameterSpec alogrithm_specs
-                )
-            throws InvalidKeyException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchPaddingException
+            final String                 transformation,
+            final Key                    secretKey,
+            final AlgorithmParameterSpec alogrithmSpecs
+            ) throws InvalidKeyException,
+                     InvalidAlgorithmParameterException,
+                     NoSuchAlgorithmException,
+                     NoSuchPaddingException
         {
             this.encrypt = Cipher.getInstance( transformation /*"DES/CBC/PKCS5Padding"*/ );
-            this.encrypt.init(Cipher.ENCRYPT_MODE, secret_key, alogrithm_specs);
+            this.encrypt.init(Cipher.ENCRYPT_MODE, secretKey, alogrithmSpecs);
         }
 
-        void encrypt(final InputStream input, OutputStream output) throws IOException
+        void encrypt(final InputStream input, final OutputStream output) throws IOException
         {
-            output = new CipherOutputStream(output, this.encrypt);
-            writeBytes(input, output);
+            writeBytes(
+                    input,
+                    new CipherOutputStream( output, this.encrypt )
+                    );
         }
     }
 
+    @SuppressWarnings("squid:S1700") // Not a bean
     private static class Decrypt
     {
         private final Cipher decrypt;
 
         public Decrypt(
             final String                 transformation,
-            final SecretKey              secret_key,
-            final AlgorithmParameterSpec alogrithm_specs
-            )
-            throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException
+            final SecretKey              secretKey,
+            final AlgorithmParameterSpec alogrithmSpecs
+            ) throws NoSuchAlgorithmException,
+                     NoSuchPaddingException,
+                     InvalidKeyException,
+                     InvalidAlgorithmParameterException
         {
             this.decrypt = Cipher.getInstance( transformation /*"DES/CBC/PKCS5Padding"*/ );
-            this.decrypt.init(Cipher.DECRYPT_MODE, secret_key, alogrithm_specs);
+            this.decrypt.init( Cipher.DECRYPT_MODE, secretKey, alogrithmSpecs );
         }
 
-        void decrypt(InputStream input, final OutputStream output) throws IOException
+        void decrypt( final InputStream input, final OutputStream output ) throws IOException
         {
-            input = new CipherInputStream(input, this.decrypt);
-            writeBytes(input, output);
+            writeBytes( new CipherInputStream( input, this.decrypt ), output );
         }
     }
 
-    private static void writeBytes(final InputStream input, final OutputStream output)
+    private static void writeBytes( final InputStream input, final OutputStream output )
         throws IOException
     {
-        final byte[] writeBuffer = new byte[512];
-        int    readBytes   = 0;
+        final byte[] writeBuffer = new byte[ 512 ];
+        int          readBytes   = 0;
 
         try {
             try {
