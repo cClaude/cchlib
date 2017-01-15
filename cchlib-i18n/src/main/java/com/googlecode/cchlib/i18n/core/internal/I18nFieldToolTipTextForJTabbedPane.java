@@ -41,11 +41,16 @@ final class I18nFieldToolTipTextForJTabbedPane
                 return new IndexKeys( getKeyBase(), c.getTabCount() );
                 }
             catch( final IllegalArgumentException e ) {
-                throw new KeyException( "objectToI18n is: " + this.objectToI18n, e );
+                throw new KeyException( getMessage( this.objectToI18n ), e );
                 }
             catch( final IllegalAccessException e ) {
                 throw new KeyException( e );
                 }
+        }
+
+        private String getMessage( final T objectToI18n  )
+        {
+            return "objectToI18n is: " + objectToI18n;
         }
 
         @Override
@@ -71,7 +76,7 @@ final class I18nFieldToolTipTextForJTabbedPane
                 return new IndexValues( tips );
                 }
             catch( final IllegalArgumentException e ) {
-                throw new GetFieldException( "objectToI18n is: " + this.objectToI18n, e );
+                throw new GetFieldException( getMessage( this.objectToI18n ), e );
                 }
             catch( final IllegalAccessException e ) {
                 throw new GetFieldException( e );
@@ -85,7 +90,8 @@ final class I18nFieldToolTipTextForJTabbedPane
         }
 
         @SuppressWarnings("squid:S3346") // assert usage
-        private void getI18nResolvedFieldSetter( final Keys keys, final Values values ) throws SetFieldException
+        private void getI18nResolvedFieldSetter( final Keys keys, final Values values )
+            throws SetFieldException
         {
             assert keys.size() == values.size();
 
@@ -99,7 +105,7 @@ final class I18nFieldToolTipTextForJTabbedPane
                     }
                 }
             catch( final IllegalArgumentException e ) {
-                throw new SetFieldException( "objectToI18n is: " + this.objectToI18n, e );
+                throw new SetFieldException( getMessage( this.objectToI18n ), e );
                 }
             catch( final IllegalAccessException e ) {
                 throw new SetFieldException( e );
