@@ -121,9 +121,10 @@ public final class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpda
         progressBar.setIndeterminate( true );
         progressBar.setStringPainted( true );
 
-        final TableModelListener tableModelListener = (final TableModelEvent e) -> {
+        final TableModelListener tableModelListener =
+            (final TableModelEvent e) ->
             progressBar.setString( String.format( this.findFilesFmt, Integer.valueOf( this.tableModel.getRowCount() ) ) );
-        };
+
         this.tableModel.addTableModelListener( tableModelListener  );
 
         final FindTask findTask = new FindTask(this.tableModel, fileVisitOption, maxDepth, linkOption);
