@@ -77,7 +77,7 @@ public class Iterables
     @SafeVarargs
     public static <T> Iterable<T> create( final T...values )
     {
-        return new ArrayIterable<T>( values );
+        return new ArrayIterable<>( values );
     }
 
     /**

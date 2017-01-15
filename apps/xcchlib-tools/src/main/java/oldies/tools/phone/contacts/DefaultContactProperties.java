@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import org.apache.log4j.Logger;
 
 public class DefaultContactProperties
@@ -22,7 +21,8 @@ public class DefaultContactProperties
     private final String[]              defaultValues;
     private final List<String>          defaultValueList;
 
-    private final Map<ContactValueType,Collection<Integer>> typeIndexMap = new HashMap<>();
+    private final EnumMap<ContactValueType,Collection<Integer>> typeIndexMap
+            = new EnumMap<>( ContactValueType.class );
 
     public DefaultContactProperties(
         final ContactPropertiesBuilder builder

@@ -18,9 +18,9 @@ public abstract class AbstratContact implements Contact, Serializable
         )
     {
         this.contactProperties = contactProperties;
-        this.values = new LinkedList<String>(
-                contactProperties.getDefaultCollecion()
-                );
+        this.values            = new LinkedList<>(
+                                    contactProperties.getDefaultCollecion()
+                                    );
     }
 
     @Override

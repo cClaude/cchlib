@@ -89,11 +89,9 @@ class TstFrameApp
             initComponentsWithException();
         }
         catch( final SwingIntrospectorIllegalAccessException e ) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         catch( final SwingIntrospectorException e ) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

@@ -1,11 +1,12 @@
 package oldies.tools.phone.contacts;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  *
  */
-public interface ContactProperties
+public interface ContactProperties extends Serializable
 {
     /**
      * Returns number of properties for this ContactProperties

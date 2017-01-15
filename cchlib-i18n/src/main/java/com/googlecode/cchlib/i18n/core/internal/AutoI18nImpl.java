@@ -135,6 +135,6 @@ public class AutoI18nImpl implements AutoI18n, Serializable
     {
         return "AutoI18nImpl [map=" + this.map
             + ", i18nDelegator=" + this.i18nDelegator
-            + "]";
+            + ']';
     }
 }
