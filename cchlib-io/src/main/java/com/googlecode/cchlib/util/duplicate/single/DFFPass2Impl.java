@@ -130,7 +130,7 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
     @SuppressWarnings("squid:S1166") // Hide a cancel exception
     private String handlePass2ForFile( final File file )
     {
-        notify_analysisStart( file );
+        notifyAnalysisStart( file );
 
         String hashString = null;
 
@@ -142,13 +142,13 @@ public class DFFPass2Impl extends AbstractDFFPass2WithFileDigestListener impleme
             hashString = fd.digestString();
             }
         catch( final IOException ioe ) {
-            notify_ioError( file, ioe );
+            notifyIOError( file, ioe );
             }
         catch( final CancelRequestException e ) {
             getConfig().setCancelProcess( true );
             }
         finally {
-            notify_analysisDone( file, hashString );
+            notifyAnalysisDone( file, hashString );
         }
         return hashString;
     }

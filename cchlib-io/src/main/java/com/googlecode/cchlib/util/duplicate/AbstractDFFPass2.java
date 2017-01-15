@@ -58,7 +58,7 @@ public abstract class AbstractDFFPass2 implements DFFPass2 {
         }
     }
 
-    protected void notify_analysisStart( @Nonnull final File file )
+    protected void notifyAnalysisStart( @Nonnull final File file )
     {
         synchronized( this.listeners ) {
             for(final DuplicateFileFinderEventListener l:this.listeners) {
@@ -67,7 +67,7 @@ public abstract class AbstractDFFPass2 implements DFFPass2 {
        }
     }
 
-    protected void notify_ioError( @Nonnull final File file, final IOException ioe )
+    protected void notifyIOError( @Nonnull final File file, final IOException ioe )
     {
         synchronized( this.listeners ) {
             for(final DuplicateFileFinderEventListener l:this.listeners) {
@@ -76,7 +76,7 @@ public abstract class AbstractDFFPass2 implements DFFPass2 {
         }
     }
 
-    protected void notify_analysisStatus( @Nonnull final File file, @Nonnegative final int length )
+    protected void notifyAnalysisStatus( @Nonnull final File file, @Nonnegative final int length )
     {
         synchronized( this.listeners ) {
             for(final DuplicateFileFinderEventListener l:this.listeners) {
@@ -85,7 +85,7 @@ public abstract class AbstractDFFPass2 implements DFFPass2 {
        }
     }
 
-    protected void notify_analysisDone( @Nonnull final File file, @Nullable final String hashString )
+    protected void notifyAnalysisDone( @Nonnull final File file, @Nullable final String hashString )
     {
         synchronized( this.listeners ) {
             for(final DuplicateFileFinderEventListener l:this.listeners) {

@@ -16,7 +16,7 @@ public abstract class AbstractDFFPass2WithFileDigestListener extends AbstractDFF
         @Override
         public void computeDigest( final File file, final int length )
         {
-            notify_analysisStatus( file, length );
+            notifyAnalysisStatus( file, length );
         }
 
         @Override
