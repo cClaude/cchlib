@@ -161,52 +161,16 @@ public class URICache implements Closeable
     }
 
     /**
-     * Check if an {@link URL} is in cache and if file is already in
-     * cache directory.
-     *
-     * @param url
-     *            {@link URL} to check
-     * @return true if {@link URL} is in cache and if cached file exist
-     *         in directory cache, false otherwise
-     * @throws URISyntaxException if {@code url } is not valid
-     *
-     * @see #isInCacheIndex(URI)
-     * @deprecated use {@link #isInCacheIndex(URI)} instead
-     */
-    @Deprecated
-    public boolean isInCacheIndex( final URL url ) throws URISyntaxException
-    {
-        return isInCache( url.toURI() );
-    }
-
-    /**
-     * Add a new ({@link URL},filename) couple in cache
-     *
-     * @param url             {@link URL} for this filename
-     * @param date            Date for the entry
-     * @param contentHashCode URL content Hash code, or null
-     * @param filename        Local filename
-     * @throws URISyntaxException if {@code url } is not valid
-     * @deprecated use {@link #add(URI, Date, String, String)} instead
-     */
-    @Deprecated
-    public void add(
-        final URL    url,
-        final Date   date,
-        final String contentHashCode,
-        final String filename
-        ) throws URISyntaxException
-    {
-        add( url.toURI(), date, contentHashCode, filename );
-    }
-
-    /**
      * Add a new ({@link URI},filename) couple in cache
      *
-     * @param uri             {@link URI} for this filename
-     * @param date            The {@link Date} for this entry
-     * @param contentHashCode URL content Hash code, or null
-     * @param filename        Local filename
+     * @param uri
+     *            {@link URI} for this filename
+     * @param date
+     *            The {@link Date} for this entry
+     * @param contentHashCode
+     *            URL content Hash code, or null
+     * @param filename
+     *            Local filename
      */
     public void add(
         final URI    uri,
@@ -290,9 +254,9 @@ public class URICache implements Closeable
     /**
      * Returns filename for giving {@link URI}
      *
-     * @param uri {@link URI} to retrieve
-     * @return filename for giving {@link URL},
-     *         or null if URL is not in cache
+     * @param uri
+     *            {@link URI} to retrieve
+     * @return filename for giving {@link URL}, or null if URL is not in cache
      */
     @Nullable
     public String getRelativeFilename( final URI uri )
