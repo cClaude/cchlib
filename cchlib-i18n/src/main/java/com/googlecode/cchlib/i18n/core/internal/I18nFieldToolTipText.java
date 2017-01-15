@@ -15,6 +15,7 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.UniqKeys;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
+import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
 
 //NOT public
 final class I18nFieldToolTipText extends AbstractI18nField
@@ -88,11 +89,16 @@ final class I18nFieldToolTipText extends AbstractI18nField
         private JComponent getComponent( final T objectToI18n )
             throws IllegalArgumentException, IllegalAccessException
         {
-            final Field f = getField();
-            f.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access) !
-            final Object     v = f.get( objectToI18n );
+            final Field              field      = getField();
+            final AccessibleRestorer accessible = new AccessibleRestorer( field );
 
-            return (JComponent)v;
+            try {
+                final Object value = field.get( objectToI18n );
+
+                return (JComponent)value;
+            } finally {
+                accessible.restore();
+            }
         }
     }
 

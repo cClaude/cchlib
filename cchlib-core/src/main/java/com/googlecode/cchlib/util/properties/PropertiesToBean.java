@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
 
 //Not public
 class PropertiesToBean<E>
@@ -31,11 +32,11 @@ class PropertiesToBean<E>
         this.bean       = bean;
 
         if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
-            this.prefix = null;
+            this.prefix       = null;
             this.prefixLength = 0;
             }
         else {
-            this.prefix = new StringBuilder( propertiesPrefix );
+            this.prefix      = new StringBuilder( propertiesPrefix );
             this.prefixLength = this.prefix.length();
             }
      }
@@ -62,7 +63,12 @@ class PropertiesToBean<E>
                     entryValue.setValue( this.bean, strValue, getter.getReturnType() );
                 }
                 catch( IllegalArgumentException | IllegalAccessException | PropertiesPopulatorRuntimeException | InvocationTargetException | ConvertCantNotHandleTypeException e ) {
-                    LOGGER.warn( "Cannot set field for Method: " + getter + " * strValue=[" + strValue + "] / defaultValue=[" + defaultValue + ']', e );
+                    LOGGER.warn(
+                        "Cannot set field for Method: " + getter
+                            + " * strValue=[" + strValue
+                            + "] / defaultValue=[" + defaultValue + ']',
+                            e
+                        );
                 }
             }
             else {
@@ -84,33 +90,38 @@ class PropertiesToBean<E>
     }
 
     private void handleNonArrayMethod( //
-        final String attributeName,
+        final String                                    attributeName,
         final PropertiesPopulatorAnnotationForMethod<E> value,
-        final Class<?> type //
+        final Class<?>                                  type //
         )
     {
-        final String defaultValue  = getDefaultValue( value );
-        final String strValue      = getStringValue( attributeName, defaultValue );
-        final Method setter        = value.getSetter();
-
-        final boolean setterIsAccessible = setter.isAccessible();
+        final String             defaultValue = getDefaultValue( value );
+        final String             strValue     = getStringValue( attributeName, defaultValue );
+        final Method             setter       = value.getSetter();
+        final AccessibleRestorer accessible   = new AccessibleRestorer( setter );
 
         try {
-            setter.setAccessible( true );
-
             value.getPropertiesPopulatorSetter().setValue( this.bean, strValue, type );
             }
-        catch( final ConvertCantNotHandleTypeException ccnhte ) {
+        catch( final ConvertCantNotHandleTypeException cause ) {
             if( ! tryToSetUsingConstructor( value, type, strValue ) ) {
-                throw new PropertiesPopulatorRuntimeException( "Bad value [" + strValue + "] for method " + setter, ccnhte );
+                throw new PropertiesPopulatorRuntimeException(
+                        "Bad value [" + strValue + "] for method " + setter,
+                        cause
+                        );
             }
             }
         catch( IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
             // ignore !
-            LOGGER.fatal( "Cannot set field for Method: " + setter + " * strValue=[" + strValue + "] / defaultValue=[" + defaultValue + ']', e );
+            LOGGER.fatal(
+                "Cannot set field for Method: " + setter
+                    + " * strValue=[" + strValue
+                    + "] / defaultValue=[" + defaultValue + ']',
+                e
+                );
             }
         finally {
-            setter.setAccessible( setterIsAccessible );
+            accessible.restore();
             }
     }
 
@@ -142,43 +153,48 @@ class PropertiesToBean<E>
     }
 
     private void handleArrayMethod( //
-        final String attributeName, //
+        final String                                    attributeName, //
         final PropertiesPopulatorAnnotationForMethod<E> propertiesPopulatorAnnotation, //
-        final StringBuilder prefix, //
-        final int prefixLength //
+        final StringBuilder                             prefix, //
+        final int                                       prefixLength //
         )
     {
-        final Method        method      = propertiesPopulatorAnnotation.getGetter();
-        final List<String> stringValues = getStringValues( prefix, prefixLength, attributeName );
-
-        final boolean methodIsAccessible = method.isAccessible();
+        final Method             method       = propertiesPopulatorAnnotation.getGetter();
+        final List<String>       stringValues = getStringValues( prefix, prefixLength, attributeName );
+        final AccessibleRestorer accessible   = new AccessibleRestorer( method );
 
         try {
-            method.setAccessible( true );
-
             Object array = method.invoke( this.bean );
 
-            final PropertiesPopulatorSetter<E,Method> propertiesPopulatorSetter = propertiesPopulatorAnnotation.getPropertiesPopulatorSetter();
+            final PropertiesPopulatorSetter<E, Method> propertiesPopulatorSetter =
+                    propertiesPopulatorAnnotation.getPropertiesPopulatorSetter();
 
-            final int       length          = stringValues.size();
-            final Class<?>  arrayType       = method.getReturnType();
-            final Class<?>  componentType   = arrayType.getComponentType();
+            final int      length        = stringValues.size();
+            final Class<?> arrayType     = method.getReturnType();
+            final Class<?> componentType = arrayType.getComponentType();
 
             if( (array == null) || (length != Array.getLength( array )) ) {
                 array = Array.newInstance( componentType, length );
 
                 propertiesPopulatorAnnotation.getSetter().invoke( this.bean, array );
-                }
-
-            populateArray( array, arrayType, length, stringValues, propertiesPopulatorSetter, componentType );
             }
+
+            populateArray(
+                    array,
+                    arrayType,
+                    length,
+                    stringValues,
+                    propertiesPopulatorSetter,
+                    componentType
+                    );
+        }
         catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e ) {
             // ignore !
             LOGGER.warn( "Cannot set Method:" + method, e );
-            }
+        }
         finally {
-            method.setAccessible( methodIsAccessible );
-            }
+            accessible.restore();
+        }
     }
 
     public void populateFields( final Map<Field, PropertiesPopulatorAnnotation<E, Field>> fieldsMap )
@@ -186,7 +202,9 @@ class PropertiesToBean<E>
         for( final Entry<Field, PropertiesPopulatorAnnotation<E, Field>> entry : fieldsMap.entrySet() ) {
             final Field     field = entry.getKey();
             final Class<?>  type  = field.getType();
-            final PropertiesPopulatorAnnotationForField<E> entryValue = (PropertiesPopulatorAnnotationForField<E>)(entry.getValue());
+
+            final PropertiesPopulatorAnnotationForField<E> entryValue =
+                    (PropertiesPopulatorAnnotationForField<E>)(entry.getValue());
 
             if( type.isArray() ) {
                 handleArrayField( entryValue, this.prefix, this.prefixLength );
@@ -202,15 +220,12 @@ class PropertiesToBean<E>
         final Class<?>                                  type
         )
     {
-        final String defaultValue = getDefaultValue( entryValue );
-        final Field  field        = entryValue.getField();
-        final String strValue     = getStringValue( field.getName(), defaultValue );
-
-        final boolean fieldIsAccessible = field.isAccessible();
+        final String             defaultValue = getDefaultValue( entryValue );
+        final Field              field        = entryValue.getField();
+        final String             strValue     = getStringValue( field.getName(), defaultValue );
+        final AccessibleRestorer accessible   = new AccessibleRestorer( field );
 
         try {
-            field.setAccessible( true );
-
             if( PopulatorContener.class.isAssignableFrom( type ) ) {
                 final Object o = field.get( this.bean );
 
@@ -230,7 +245,7 @@ class PropertiesToBean<E>
             LOGGER.warn( "Cannot set field:" + field, e );
             }
         finally {
-            field.setAccessible( fieldIsAccessible );
+            accessible.restore();
             }
     }
 
@@ -259,6 +274,7 @@ class PropertiesToBean<E>
         else {
             this.prefix.setLength( this.prefixLength );
             this.prefix.append( attributName );
+
             strValue = this.properties.getProperty( this.prefix.toString(), defaultValue );
             }
 
@@ -287,17 +303,15 @@ class PropertiesToBean<E>
         ) throws ArrayIndexOutOfBoundsException,
                  PropertiesPopulatorRuntimeException
     {
-        final Field        field        = propertiesPopulatorAnnotation.getField();
-        final List<String> stringValues = getStringValues( prefix, prefixLength, field.getName() );
-
-
-        final boolean fieldIsAccessible = field.isAccessible();
+        final Field              field        = propertiesPopulatorAnnotation.getField();
+        final List<String>       stringValues = getStringValues( prefix, prefixLength, field.getName() );
+        final AccessibleRestorer accessible   = new AccessibleRestorer( field );
 
         try {
-            field.setAccessible( true );
-
             Object array = field.get( this.bean );
-            final PropertiesPopulatorSetter<E,Field> propertiesPopulatorSetter = propertiesPopulatorAnnotation.getPropertiesPopulatorSetter();
+
+            final PropertiesPopulatorSetter<E,Field> propertiesPopulatorSetter
+                = propertiesPopulatorAnnotation.getPropertiesPopulatorSetter();
 
             final int       length          = stringValues.size();
             final Class<?>  arrayType       = field.getType();
@@ -306,17 +320,24 @@ class PropertiesToBean<E>
             if( (array == null) || (length != Array.getLength( array )) ) {
                 array = Array.newInstance( componentType, length );
                 field.set( this.bean, array );
-                }
-
-            populateArray( array, arrayType, length, stringValues, propertiesPopulatorSetter, componentType );
             }
+
+            populateArray(
+                    array,
+                    arrayType,
+                    length,
+                    stringValues,
+                    propertiesPopulatorSetter,
+                    componentType
+                    );
+        }
         catch( IllegalArgumentException | IllegalAccessException e ) {
             // ignore !
             LOGGER.warn( "Cannot set field:" + field, e );
-            }
+        }
         finally {
-            field.setAccessible( fieldIsAccessible );
-            }
+            accessible.restore();
+        }
     }
 
     private void populateArray( //
@@ -328,9 +349,14 @@ class PropertiesToBean<E>
         final Class<?>                       componentType
         )
     {
-        for( int i = 0; i < length; i ++ ) {
+        for( int index = 0; index < length; index ++ ) {
             try {
-                propertiesPopulatorSetter.setArrayEntry( array, i, stringValues.get( i ), componentType );
+                propertiesPopulatorSetter.setArrayEntry(
+                        array,
+                        index,
+                        stringValues.get( index ),
+                        componentType
+                        );
                 }
             catch( final ConvertCantNotHandleTypeException e ) {
                 throw new PopulatorException(

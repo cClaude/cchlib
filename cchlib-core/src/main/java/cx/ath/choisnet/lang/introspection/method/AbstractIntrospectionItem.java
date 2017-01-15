@@ -1,9 +1,10 @@
 package cx.ath.choisnet.lang.introspection.method;
 
-import cx.ath.choisnet.lang.introspection.IntrospectionClassCastException;
-import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
+import cx.ath.choisnet.lang.introspection.IntrospectionClassCastException;
+import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 
 /**
  * Provide a default implementation for IntrospectionItem
@@ -30,7 +31,7 @@ public abstract class AbstractIntrospectionItem<O>
     @Override
     public Method getGetterMethod()
     {
-        return getterMethod;
+        return this.getterMethod;
     }
 
     /**
@@ -39,17 +40,8 @@ public abstract class AbstractIntrospectionItem<O>
     @Override
     public Method getSetterMethod()
     {
-        return setterMethod;
+        return this.setterMethod;
     }
-
-    @Override
-    public abstract Object getMinValue();
-
-    @Override
-    public abstract Object getDefaultValue();
-
-    @Override
-    public abstract Object getMaxValue();
 
     /**
      * Get invocation raw result has an Object.
@@ -60,50 +52,66 @@ public abstract class AbstractIntrospectionItem<O>
      * @throws IntrospectionInvokeException if any problems occurs during method invocation
      */
     @Override
-    final public Object getObjectValue( final O object )
-            throws IntrospectionInvokeException
+    public final Object getObjectValue( final O object )
+        throws IntrospectionInvokeException
     {
-        try {
-            //workaround for bug:
-            // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4071957
-            this.getterMethod.setAccessible(true);
+        final AccessibleRestorer access = new AccessibleRestorer( this.getterMethod );
 
+        try {
             return this.getterMethod.invoke( object, (Object[])null );
             }
         catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e ) {
             throw new IntrospectionInvokeException( e, this.setterMethod );
             }
+        finally {
+            access.restore();
+        }
     }
 
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S1160" // 2 exceptions
+        })
     public int getIntegerValue( final O object )
-            throws IntrospectionInvokeException, IntrospectionClassCastException
+        throws IntrospectionInvokeException,
+               IntrospectionClassCastException
     {
         try {
             return Integer.class.cast( getObjectValue( object ) ).intValue();
             }
-        catch( ClassCastException e ) {
+        catch( final ClassCastException e ) {
             throw new IntrospectionClassCastException( e, this.setterMethod );
             }
     }
 
-    public boolean getBooleanValue( final O object ) // $codepro.audit.disable booleanMethodNamingConvention
-            throws IntrospectionInvokeException, IntrospectionClassCastException
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S1160" // 2 exceptions
+        })
+    public boolean getBooleanValue( final O object )
+        throws IntrospectionInvokeException,
+               IntrospectionClassCastException
     {
         try {
             return Boolean.class.cast( getObjectValue( object ) ).booleanValue();
             }
-        catch( ClassCastException e ) {
+        catch( final ClassCastException e ) {
             throw new IntrospectionClassCastException( e, this.setterMethod );
             }
     }
 
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        "squid:S1160" // 2 exceptions
+        })
     public String getStringValue( final O object )
-            throws IntrospectionInvokeException, IntrospectionClassCastException
+        throws IntrospectionInvokeException,
+               IntrospectionClassCastException
     {
         try {
             return String.class.cast( getObjectValue( object ) ).trim();
             }
-        catch( ClassCastException e ) {
+        catch( final ClassCastException e ) {
             throw new IntrospectionClassCastException( e, this.setterMethod );
             }
     }
@@ -119,17 +127,18 @@ public abstract class AbstractIntrospectionItem<O>
     public void setObjectValue( final O object, final Object value )
         throws IntrospectionInvokeException
     {
-        final Object[] params = new Object[] { value };
+        final AccessibleRestorer accessible = new AccessibleRestorer( this.setterMethod );
+        final Object[]           params     = new Object[] { value };
 
         try {
-            //workaround for bug:
-            // http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4071957
-            this.setterMethod.setAccessible(true);
             this.setterMethod.invoke( object, params );
             }
         catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e ) {
             throw new IntrospectionInvokeException( e, this.setterMethod, params.getClass() );
             }
+        finally {
+            accessible.restore();
+        }
     }
 
     /**
@@ -141,7 +150,7 @@ public abstract class AbstractIntrospectionItem<O>
      * @throws IntrospectionInvokeException if any problems occurs during method invocation
      */
     public void setIntegerValue( final O object, final int value )
-            throws IntrospectionInvokeException
+        throws IntrospectionInvokeException
     {
         setObjectValue( object, Integer.valueOf( value ) );
     }
@@ -155,7 +164,7 @@ public abstract class AbstractIntrospectionItem<O>
      * @throws IntrospectionInvokeException if any problems occurs during method invocation
      */
     public void setBooleanValue( final O object, final boolean value )
-            throws IntrospectionInvokeException
+        throws IntrospectionInvokeException
     {
         setObjectValue( object, Boolean.valueOf( value ) );
     }
@@ -169,7 +178,7 @@ public abstract class AbstractIntrospectionItem<O>
      * @throws IntrospectionInvokeException if any problems occurs during method invocation
      */
     public void setStringValue( final O object, final String value )
-            throws IntrospectionInvokeException
+        throws IntrospectionInvokeException
     {
         setObjectValue( object, value );
     }
@@ -180,11 +189,11 @@ public abstract class AbstractIntrospectionItem<O>
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append( "IntrospectionItem [getterMethod=" );
-        builder.append( getterMethod.getName() );
+        builder.append( this.getterMethod.getName() );
         builder.append( ", setterMethod=" );
-        builder.append( setterMethod.getName() );
+        builder.append( this.setterMethod.getName() );
         builder.append( ']' );
         return builder.toString();
     }

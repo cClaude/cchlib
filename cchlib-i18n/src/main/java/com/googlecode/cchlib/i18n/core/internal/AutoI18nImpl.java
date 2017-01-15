@@ -11,6 +11,7 @@ import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
+import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
 
 public class AutoI18nImpl implements AutoI18n, Serializable
 {
@@ -70,30 +71,40 @@ public class AutoI18nImpl implements AutoI18n, Serializable
     private <T> void handleAutoUpdatableField( final T objectToI18n, final I18nClass<T> i18nClass )
     {
         for( final Field autoUpdatableField : i18nClass.getAutoUpdatableFields() ) {
-            try {
-                autoUpdatableField.setAccessible( true ); // TODO find a way to restore state.
-                final I18nAutoUpdatable autoUpdatable = (I18nAutoUpdatable)autoUpdatableField.get( objectToI18n );
+            handleAutoUpdatableField( objectToI18n, autoUpdatableField );
+            }
+    }
 
-                if( autoUpdatable != null ) {
-                    autoUpdatable.performeI18n( this );
-                } else {
-                    this.i18nDelegator.handleI18nNullPointer(
-                            I18nFieldFactory.newI18nField( autoUpdatableField )
-                            );
-                }
-            }
-            catch( final IllegalArgumentException cause ) {
-                this.i18nDelegator.handleIllegalArgumentException(
-                        cause,
+    private <T> void handleAutoUpdatableField( final T objectToI18n, final Field autoUpdatableField )
+    {
+        final AccessibleRestorer accessible = new AccessibleRestorer( autoUpdatableField );
+
+        try {
+            final I18nAutoUpdatable autoUpdatable =
+                 (I18nAutoUpdatable)autoUpdatableField.get( objectToI18n );
+
+            if( autoUpdatable != null ) {
+                autoUpdatable.performeI18n( this );
+            } else {
+                this.i18nDelegator.handleI18nNullPointer(
                         I18nFieldFactory.newI18nField( autoUpdatableField )
                         );
             }
-            catch( final IllegalAccessException cause ) {
-                this.i18nDelegator.handleIllegalAccessException(
-                        cause,
-                        I18nFieldFactory.newI18nField( autoUpdatableField )
-                        );
-            }
+        }
+        catch( final IllegalArgumentException cause ) {
+            this.i18nDelegator.handleIllegalArgumentException(
+                    cause,
+                    I18nFieldFactory.newI18nField( autoUpdatableField )
+                    );
+        }
+        catch( final IllegalAccessException cause ) {
+            this.i18nDelegator.handleIllegalAccessException(
+                    cause,
+                    I18nFieldFactory.newI18nField( autoUpdatableField )
+                    );
+        }
+        finally {
+            accessible.restore();
         }
     }
 

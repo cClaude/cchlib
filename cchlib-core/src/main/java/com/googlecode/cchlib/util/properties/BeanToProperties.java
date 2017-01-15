@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
+import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
 
 //Not public
 final class BeanToProperties<E>
@@ -31,16 +32,20 @@ final class BeanToProperties<E>
         this.properties  = properties;
 
         if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
-            prefix       = new StringBuilder();
-            prefixLength = 0;
+            this.prefix       = new StringBuilder();
+            this.prefixLength = 0;
             }
         else {
-            prefix       = new StringBuilder( propertiesPrefix );
-            prefixLength = prefix.length();
+            this.prefix       = new StringBuilder( propertiesPrefix );
+            this.prefixLength = this.prefix.length();
             }
     }
 
-    /* package */ void loadForField( final Map<Field, PropertiesPopulatorAnnotation<E, Field>> fieldsMap ) throws PropertiesPopulatorRuntimeException
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    /* package */
+    void loadForField(
+        final Map<Field, PropertiesPopulatorAnnotation<E, Field>> fieldsMap
+        ) throws PropertiesPopulatorRuntimeException
     {
         for( final Entry<Field, PropertiesPopulatorAnnotation<E, Field>> entry : fieldsMap.entrySet() ) {
             final PropertiesPopulatorAnnotationForField<E> entryValue = (PropertiesPopulatorAnnotationForField<E>)(entry.getValue());
@@ -49,7 +54,11 @@ final class BeanToProperties<E>
             }
     }
 
-    /* package */ void loadForMethod( final Map<String, PropertiesPopulatorAnnotation<E, Method>> getterSetterMap ) throws PropertiesPopulatorRuntimeException
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    /* package */
+    void loadForMethod(
+        final Map<String, PropertiesPopulatorAnnotation<E, Method>> getterSetterMap
+        ) throws PropertiesPopulatorRuntimeException
     {
         for( final Entry<String, PropertiesPopulatorAnnotation<E, Method>> entry : getterSetterMap.entrySet() ) {
             final PropertiesPopulatorAnnotationForMethod<E> entryValue = (PropertiesPopulatorAnnotationForMethod<E>)(entry.getValue());
@@ -62,13 +71,11 @@ final class BeanToProperties<E>
         final PropertiesPopulatorAnnotationForMethod<E> entryValue
         )
     {
-        final Method  method             = entryValue.getGetter();
-        final boolean methodIsAccessible = method.isAccessible();
+        final Method             method     = entryValue.getGetter();
+        final AccessibleRestorer accessible = new AccessibleRestorer( method );
 
         try {
-            method.setAccessible( true );
-
-            final Object result = method.invoke( bean);
+            final Object result = method.invoke( this.bean);
 
             if( result != null ) {
                 if( method.getReturnType().isArray() ) {
@@ -93,7 +100,7 @@ final class BeanToProperties<E>
             LOGGER.warn( "Cannot read method:" + method, e );
             }
         finally {
-            method.setAccessible( methodIsAccessible );
+            accessible.restore();
             }
     }
 
@@ -128,13 +135,11 @@ final class BeanToProperties<E>
         final PropertiesPopulatorAnnotationForField<E> entryValue
         )
     {
-        final Field   field             = entryValue.getField();
-        final boolean fieldIsAccessible = field.isAccessible();
+        final Field              field      = entryValue.getField();
+        final AccessibleRestorer accessible = new AccessibleRestorer( field );
 
         try {
-            field.setAccessible( true );
-
-            final Object o = field.get( bean );
+            final Object o = field.get( this.bean );
 
             if( o != null ) {
                 if( field.getType().isArray() ) {
@@ -159,7 +164,7 @@ final class BeanToProperties<E>
             LOGGER.warn( "Cannot read field:" + field, e );
             }
         finally {
-            field.setAccessible( fieldIsAccessible );
+            accessible.restore();
             }
     }
 
@@ -181,13 +186,13 @@ final class BeanToProperties<E>
     {
         final String strValue = PopulatorContener.class.cast( objectValue ).getConvertToString();
 
-        if( prefixLength == 0 ) {
-            properties.put( field.getName(), strValue );
+        if( this.prefixLength == 0 ) {
+            this.properties.put( field.getName(), strValue );
             }
         else {
-            prefix.setLength( prefixLength );
-            prefix.append( field.getName() );
-            properties.put( prefix.toString(), strValue );
+            this.prefix.setLength( this.prefixLength );
+            this.prefix.append( field.getName() );
+            this.properties.put( this.prefix.toString(), strValue );
             }
     }
 
@@ -227,24 +232,24 @@ final class BeanToProperties<E>
 
     private void setValue( final String name, final int i, final String stringValue )
     {
-        prefix.setLength( prefixLength );
-        prefix.append( name );
-        prefix.append( '.' );
-        prefix.append( i );
+        this.prefix.setLength( this.prefixLength );
+        this.prefix.append( name );
+        this.prefix.append( '.' );
+        this.prefix.append( i );
 
-        properties.put( prefix.toString(), stringValue );
+        this.properties.put( this.prefix.toString(), stringValue );
     }
 
     private void setValue( final String name, final String stringValue )
     {
         // Handle non arrays
-        if( prefixLength == 0 ) {
-            properties.put( name, stringValue );
+        if( this.prefixLength == 0 ) {
+            this.properties.put( name, stringValue );
             }
         else {
-            prefix.setLength( prefixLength );
-            prefix.append( name );
-            properties.put( prefix.toString(), stringValue );
+            this.prefix.setLength( this.prefixLength );
+            this.prefix.append( name );
+            this.properties.put( this.prefix.toString(), stringValue );
             }
     }
 }

@@ -15,6 +15,7 @@ import com.googlecode.cchlib.i18n.core.resolve.KeyException;
 import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
+import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
 
 //NOT public
 final class I18nFieldStringArray  extends AbstractI18nField
@@ -119,13 +120,17 @@ final class I18nFieldStringArray  extends AbstractI18nField
         // Keys and Values inconsistent size
         assert keys.size() == values.size() : "Keys and Values inconsistent size";
 
+        final AccessibleRestorer accessible = new AccessibleRestorer( field );
+
         try {
-            field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
             field.set( objectToI18n, values.toArray() );
             }
         catch( final IllegalArgumentException | IllegalAccessException e ) {
             throw new SetFieldException( e );
             }
+        finally {
+            accessible.restore();
+        }
     }
 
     @SuppressWarnings({
@@ -133,10 +138,14 @@ final class I18nFieldStringArray  extends AbstractI18nField
         "squid:S00100" // Naming conventions
         })
     private static final <T> String[] _getComponent( final T objectToI18n, final Field field )
-            throws IllegalArgumentException, IllegalAccessException
+        throws IllegalArgumentException, IllegalAccessException
     {
-        field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+        final AccessibleRestorer accessible = new AccessibleRestorer( field );
 
-        return (String[])field.get( objectToI18n );
+        try {
+            return (String[])field.get( objectToI18n );
+        } finally {
+            accessible.restore();
+        }
     }
 }

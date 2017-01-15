@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Set;
 import javax.annotation.Nonnull;
+import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
 import com.googlecode.cchlib.lang.reflect.SerializableField;
 
 /**
@@ -24,6 +25,8 @@ public class SwingIntrospectorItem<FRAME>
     /** @serial */
     private final boolean isRoot;
 
+    private final boolean forceFieldAccess;
+
     /**
      * Create a SwingIntrospectorItem
      *
@@ -32,16 +35,13 @@ public class SwingIntrospectorItem<FRAME>
      * @param attributes NEEDDOC
      */
     public SwingIntrospectorItem(
-            @Nonnull final Bean                          bean,
-            @Nonnull final Field                         field,
-            @Nonnull final Set<SwingIntrospector.Attrib> attributes
-            )
+        @Nonnull final Bean                          bean,
+        @Nonnull final Field                         field,
+        @Nonnull final Set<SwingIntrospector.Attrib> attributes
+        )
     {
-        this.sField = new SerializableField( field );
-
-        if( ! attributes.contains( SwingIntrospector.Attrib.ONLY_ACCESSIBLE_PUBLIC_FIELDS )) {
-            field.setAccessible( true );
-        }
+        this.sField           = new SerializableField( field );
+        this.forceFieldAccess = ! attributes.contains( SwingIntrospector.Attrib.ONLY_ACCESSIBLE_PUBLIC_FIELDS );
 
         if( bean.isIndexed() ) {
             this.index = bean.getIndex();
@@ -91,20 +91,27 @@ public class SwingIntrospectorItem<FRAME>
     public Object getFieldObject( final FRAME objectToInspect )
         throws SwingIntrospectorIllegalAccessException
     {
+        final AccessibleRestorer accessible;
+
+        if( this.forceFieldAccess ) {
+            accessible = new AccessibleRestorer( getField() );
+        } else {
+            accessible = null;
+        }
+
         try {
-            return this.getField().get( objectToInspect );
+            return getField().get( objectToInspect );
         }
-        catch( final IllegalArgumentException e ) {
+        catch( final IllegalArgumentException | IllegalAccessException e ) {
             throw new SwingIntrospectorIllegalAccessException( e );
         }
-        catch( final IllegalAccessException e ) {
-            throw new SwingIntrospectorIllegalAccessException( e );
+        finally {
+            if( accessible != null ) {
+                accessible.restore();
+            }
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString()
     {

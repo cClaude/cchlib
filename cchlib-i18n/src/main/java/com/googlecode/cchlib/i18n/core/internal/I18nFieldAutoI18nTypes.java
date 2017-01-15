@@ -14,6 +14,7 @@ import com.googlecode.cchlib.i18n.core.resolve.Keys;
 import com.googlecode.cchlib.i18n.core.resolve.MissingKeyException;
 import com.googlecode.cchlib.i18n.core.resolve.SetFieldException;
 import com.googlecode.cchlib.i18n.core.resolve.Values;
+import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
 
 //NOT public
 final class I18nFieldAutoI18nTypes extends AbstractI18nField
@@ -94,9 +95,9 @@ final class I18nFieldAutoI18nTypes extends AbstractI18nField
         try {
             final Object fieldObject = _getComponent(objectToI18n, field );
 
-            return autoI18nType.getText(fieldObject);
-        } catch (final IllegalArgumentException | IllegalAccessException e) {
-            throw new GetFieldException(e);
+            return autoI18nType.getText( fieldObject );
+        } catch( final IllegalArgumentException | IllegalAccessException cause ) {
+            throw new GetFieldException( cause );
         }
     }
 
@@ -112,12 +113,11 @@ final class I18nFieldAutoI18nTypes extends AbstractI18nField
             ) throws SetFieldException //
     {
         try {
-
             final Object fieldObject = _getComponent(objectToI18n, field );
 
             autoI18nType.setText(fieldObject, values);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new SetFieldException(e);
+        } catch( IllegalArgumentException | IllegalAccessException cause ) {
+            throw new SetFieldException( cause );
         }
     }
 
@@ -126,10 +126,14 @@ final class I18nFieldAutoI18nTypes extends AbstractI18nField
         "squid:S00100" // Method name
     })
     private static final <T> Object _getComponent( final T objectToI18n, final Field field )
-            throws IllegalArgumentException, IllegalAccessException
+        throws IllegalArgumentException, IllegalAccessException
     {
-        field.setAccessible( true ); // FIXME: try to restore ! (need to handle concurrent access)
+        final AccessibleRestorer accessible = new AccessibleRestorer( field );
 
-        return field.get( objectToI18n );
+        try {
+            return field.get( objectToI18n );
+        } finally {
+            accessible.restore();
+        }
     }
 }
