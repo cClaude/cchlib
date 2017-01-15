@@ -1,8 +1,6 @@
-// $codepro.audit.disable concatenationInAppend
 package samples.threadpool;
 
 import java.util.concurrent.ArrayBlockingQueue;
-//import java.util.concurrent.FutureTask;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import com.googlecode.cchlib.lang.Threads;
@@ -10,14 +8,19 @@ import com.googlecode.cchlib.lang.Threads;
 /**
  * Test only
  */
+
+@SuppressWarnings({ // This is just a sample
+    "squid:S1170",  // should be "static final"
+    "squid:S106",   // Standard outputs
+    "squid:S1148",  // Use logger
+    })
 public class MyThreadPool2
 {
     private final int poolSize = 2;
     private final int maxPoolSize = 5;
     private final long keepAliveTime = 10;
     private ThreadPoolExecutor threadPool = null;
-    //private static FutureTask<?> futureTask = null;
-    private final ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(5);
+    private final ArrayBlockingQueue<Runnable> queue = new ArrayBlockingQueue<>( 5 );
 
     public MyThreadPool2()
     {
@@ -47,14 +50,13 @@ public class MyThreadPool2
         Threads.sleep( 2, TimeUnit.SECONDS );
         mtp.shutDown();
     }
-
-//    private static void callCancel()
-//    {
-//        futureTask.cancel(true);
-//        System.out.println("Cancelling...");
-//    }
 }
 
+@SuppressWarnings({ // This is just a sample
+    "squid:S1170",  // should be "static final"
+    "squid:S106",   // Standard outputs
+    "squid:S1148",  // Use logger
+    })
 class MyTask2 implements Runnable
 {
     final String orgString;
@@ -68,7 +70,7 @@ class MyTask2 implements Runnable
     {
         final StringBuilder reversedString = new StringBuilder();
 
-        for (int i = (str.length() - 1); i >= 0; i--) {
+        for (int i = str.length() - 1; i >= 0; i--) {
             reversedString.append( str.charAt( i ) );
             System.out.println( "Reversing one character per second."
                     + reversedString );
