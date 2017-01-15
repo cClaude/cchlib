@@ -153,7 +153,10 @@ public class MultiProperties implements Serializable
      *         name's is not found
      * @throws RootPropertiesDoesNotContainsKeyException NEEDDOC
      */
-    @SuppressWarnings("squid:S1160")
+    @SuppressWarnings({
+        "squid:S1066",  // Collapsible "if"
+        "squid:S1160" // 2 exceptions
+        })
     public synchronized String getPropertyFrom( final String name, final String key )
         throws PropertiesDoesNotExistException,
                RootPropertiesDoesNotContainsKeyException
