@@ -6,6 +6,12 @@ import java.util.EnumSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings({
+    "squid:S106", // Standard outputs
+    "squid:CommentedOutCodeLine", // Keep code in comments
+    "squid:S00115", // Constant names
+    "squid:S134"
+})
 public class AutoRenameStep1Main
 {
     private final File homeDir;
@@ -59,11 +65,11 @@ public class AutoRenameStep1Main
                             String dd   = name.substring( 8, 10 );
                             final String end  = name.substring( 11 );
 
-                            if( mm.equals( "__" ) ) {
+                            if( "__".equals( mm ) ) {
                                 mm = "00";
                             }
 
-                            if( dd.equals( "__" ) ) {
+                            if( "__".equals( dd ) ) {
                                 dd = "00";
                             }
 
