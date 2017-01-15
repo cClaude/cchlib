@@ -31,6 +31,10 @@ import javax.swing.JScrollPane;
  * To unregister this component use {@link #unregisterForce()}
  * </p>
  */
+@SuppressWarnings({
+    "squid:S00116", // Naming convention for fields
+    "squid:S00117"  // Naming convention for local variables
+    })
 public class LastSelectedFilesAccessory
     extends JPanel
         implements  TabbedAccessoryInterface,
@@ -39,14 +43,10 @@ public class LastSelectedFilesAccessory
 {
     private static final long serialVersionUID = 1L;
 
-    /** @serial */
-    private JScrollPane             jScrollPane_LastSelectedFiles;
-    /** @serial */
+    private JScrollPane                   jScrollPane_LastSelectedFiles;
     private final DefaultListModel<File>  listModel_LastSelectedFiles;
-    /** @serial */
-    private JButton             jButton_Refresh = new JButton("Refresh");
-    /** @serial */
-    private JButton             jButton_RemoveFile = new JButton("Delete");
+    private JButton                       jButton_Refresh    = new JButton("Refresh");
+    private JButton                       jButton_RemoveFile = new JButton("Delete");
 
     /** @serial */
     private final JFileChooser    jFileChooser;
@@ -64,7 +64,7 @@ public class LastSelectedFilesAccessory
         this.configurator = config;
         this.resourcesUtils = new ResourcesUtils();
 
-        this.listModel_LastSelectedFiles = new DefaultListModel<File>();
+        this.listModel_LastSelectedFiles = new DefaultListModel<>();
 
         initComponents();
         initLayout();
@@ -78,7 +78,8 @@ public class LastSelectedFilesAccessory
 
     private void initComponents()
     {
-        final JList<File> jList_LastSelectedFiles = new JList<File>(this.listModel_LastSelectedFiles);
+        final JList<File> jList_LastSelectedFiles = new JList<>( this.listModel_LastSelectedFiles );
+
         jList_LastSelectedFiles.addMouseListener(
             new MouseAdapter()
             {
@@ -138,11 +139,7 @@ public class LastSelectedFilesAccessory
 
         this.jScrollPane_LastSelectedFiles = new JScrollPane(jList_LastSelectedFiles);
 
-        final Dimension dim = new Dimension(320, 240);
-//        setSize(dim.width, dim.height);
-//        setMinimumSize(dim);
-//        setMaximumSize(dim);
-        setPreferredSize(dim);
+        setPreferredSize( new Dimension(320, 240) );
     }
 
     private void initLayout()
@@ -198,6 +195,7 @@ public class LastSelectedFilesAccessory
         }
     }
     @Override // PropertyChangeListener
+    @SuppressWarnings("squid:S1066") // Collapsible "if"
     public void propertyChange( final PropertyChangeEvent e )
     {
         if( "ancestor".equals( e.getPropertyName() )) {
