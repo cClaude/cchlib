@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.AutoI18nConfig;
 import com.googlecode.cchlib.i18n.core.AutoI18nConfigSet;
-import com.googlecode.cchlib.i18n.core.I18nApplyable;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilder;
 
@@ -58,10 +57,12 @@ public class AutoI18nImpl implements AutoI18n, Serializable
             LOGGER.debug( "I18n found class \"" + clazz.getName() + "\" for " + objectToI18n );
             }
 
-        final I18nClass<T>     i18nClass = getI18nClass( clazz );
-        final I18nApplyable<T> applyer   = new I18nApplyableImpl<>( i18nClass, this.i18nDelegator );
-
-        applyer.performeI18n( objectToI18n );
+        final I18nClass<T>            i18nClass            = getI18nClass( clazz );
+        final CurrentObjectInvoker<T> currentObjectInvoker = new CurrentObjectInvoker<>(
+                objectToI18n,
+                this.i18nDelegator
+                );
+        currentObjectInvoker.performeI18n( i18nClass );
 
         handleAutoUpdatableField( objectToI18n, i18nClass );
     }
