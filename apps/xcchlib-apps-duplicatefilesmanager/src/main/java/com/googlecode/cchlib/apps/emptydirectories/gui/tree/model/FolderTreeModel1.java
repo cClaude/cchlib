@@ -97,16 +97,7 @@ public final class FolderTreeModel1
         if( newRoot != null ) {
             LOGGER.debug( "notify JTree that a newRoot has been added: " + newRoot );
 
-//            // Try to notify.
-//            TreePath path = getPath( newRoot.getParent() );
-//
-//            this.jTree.collapsePath( path );
-//
-            //super.nodeChanged( root );
             fireStructureChanged();
-            //this.jTree.expandPath( path );
-
-            //jTree.scrollPathToVisible(new TreePath(getRootNode().getLastLeaf().getPath()));
             }
 
         if( LOGGER.isTraceEnabled() ) {
@@ -119,7 +110,6 @@ public final class FolderTreeModel1
         if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "Clear selection" );
             }
-        //this.modifiedCheckState.clear();
 
         this.selectedNodes.clear();
     }
@@ -167,7 +157,6 @@ public final class FolderTreeModel1
         else {
             // Nothing is select, clear (default is not select)
             clearSelected();
-            //modifiedCheckState.clear();
             }
 
         fireStructureChanged();
@@ -203,20 +192,6 @@ public final class FolderTreeModel1
                      parentPath,
                      (l,e)-> l.treeStructureChanged( e )
                      );
-//            final Object[] pairs = this.listenerList.getListenerList();
-//            TreeModelEvent event = null;
-//
-//            for( int i = pairs.length - 2; i >= 0; i -= 2 ) {
-//                if( pairs[i] == TreeModelListener.class ) {
-//                    if( event == null ) {
-//                        event = new TreeModelEvent(this, parentPath, null, null);
-//                        }
-//
-//                    final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
-//
-//                    l.treeStructureChanged( event );
-//                    }
-//                }
             }
         catch( final RuntimeException e ) {
             LOGGER.error( "UI Error : parentPath=" + parentPath, e );
@@ -239,7 +214,6 @@ public final class FolderTreeModel1
 
                 final TreeModelListener l = TreeModelListener.class.cast( pairs[i + 1] );
 
-                //l.treeStructureChanged( event );
                 functionSelector.function( l, event );
                 }
             }
