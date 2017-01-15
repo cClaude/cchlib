@@ -134,6 +134,7 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable
                 }
         }
 
+        @SuppressWarnings("squid:S3346") // assert usage
         private void moveFileTo( final File source, final File destinationFolder )
         {
             assert source.isFile();

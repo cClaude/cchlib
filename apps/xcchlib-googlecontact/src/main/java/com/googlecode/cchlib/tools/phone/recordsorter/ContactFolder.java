@@ -55,14 +55,15 @@ public class ContactFolder {
 
     private boolean isValid( final char c )
     {
-        return c >= 'a' && c <= 'z'
-            || (c >= 'A' && c <= 'Z')
-            || (c >= '0' && c <= '9')
+        return ((c >= 'a') && (c <= 'z'))
+            || ((c >= 'A') && (c <= 'Z'))
+            || ((c >= '0') && (c <= '9'))
             || (c == '_') || (c == '-') || (c == '.')
             || (c == '(') || (c == ')')
             || (c=='#');
     }
 
+    @SuppressWarnings("squid:S3346") // assert usage
     private String toHexFromInt( final int i )
     {
         final String hex = Integer.toHexString( i );

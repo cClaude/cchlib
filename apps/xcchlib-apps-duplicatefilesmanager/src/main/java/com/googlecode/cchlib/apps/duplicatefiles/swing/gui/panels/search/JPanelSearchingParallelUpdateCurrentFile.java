@@ -28,6 +28,7 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
         this.threadIds    = new long[ numberOfThreads ];
    }
 
+    @SuppressWarnings("squid:S3346") // assert usage
     private final long getThreadId( final int threadNumber )
     {
         assert threadNumber >= 0;
@@ -83,6 +84,7 @@ public abstract class JPanelSearchingParallelUpdateCurrentFile extends JPanelSea
         setDisplayFileUsingThreadId( threadId, file );
     }
 
+    @SuppressWarnings("squid:S3346") // assert usage
     protected final void setDisplayFileUsingThreadId( final long threadId, final File file )
     {
         int threadNumber = getThreadNumber( threadId );

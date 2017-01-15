@@ -54,6 +54,7 @@ public abstract class AbstractBRRunnable implements BRRunnable
      * @param sourceFile Current sourceFile, must be a file (not a directory)
      */
     @Override
+    @SuppressWarnings("squid:S3346") // assert usage
     public File buildOutputFile( final File sourceFile )
             throws BRInterruptedException
     {
