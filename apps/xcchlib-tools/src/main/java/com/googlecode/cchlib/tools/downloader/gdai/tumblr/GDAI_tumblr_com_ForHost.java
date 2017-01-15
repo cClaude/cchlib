@@ -9,6 +9,9 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppButton;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 import com.googlecode.cchlib.tools.downloader.comboconfig.DefaultComboBoxConfig;
 
+@SuppressWarnings({
+    "squid:S00101", // Class naming convention
+    })
 class GDAI_tumblr_com_ForHost
     extends GDAI_tumblr_com
 {

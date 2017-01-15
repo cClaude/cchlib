@@ -20,6 +20,9 @@ import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterf
 /*
  * http://senorgif.memebase.com/page/5/ 1600
  */
+@SuppressWarnings({
+    "squid:S00101", // Class naming convention
+    })
 public class DownloadI_senorgif
     extends AbstractDownloaderAppInterface
 {

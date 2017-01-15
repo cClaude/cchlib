@@ -22,6 +22,9 @@ import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterf
  *
  *http://www.photofunia.com/output/4/1/I/V/c/IVcOXqVdzyhMjNamUoG1IA_s.jpg
  */
+@SuppressWarnings({
+    "squid:S00101", // Class naming convention
+    })
 public class DownloadI_www_epins_fr
     extends AbstractDownloaderAppInterface
 {

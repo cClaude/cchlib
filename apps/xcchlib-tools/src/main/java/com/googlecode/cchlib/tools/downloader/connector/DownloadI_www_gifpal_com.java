@@ -22,6 +22,9 @@ import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterf
  * http://www.gifpal.com/gallery/top-week/3/
  *
  */
+@SuppressWarnings({
+    "squid:S00101", // Class naming convention
+    })
 public class DownloadI_www_gifpal_com
     extends AbstractDownloaderAppInterface
         implements GenericDownloaderAppInterface

@@ -23,6 +23,9 @@ import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterf
  * http://picasion.com/gallery/24151868/
  * 4gifs.com
  */
+@SuppressWarnings({
+    "squid:S00101", // Class naming convention
+    })
 public class DownloadI_www_gifmash_com
     extends AbstractDownloaderAppInterface
 {

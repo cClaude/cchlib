@@ -15,6 +15,9 @@ import com.googlecode.cchlib.lang.StringHelper;
  * Configuration panel for {@link GDAI_tumblr_com}
  */
 // Not public
+@SuppressWarnings({
+    "squid:S00101", // Class naming convention
+    })
 abstract class GDAI_tumblr_com_ConfigJPanel extends JPanel
 {
     private static final long serialVersionUID = 1L;

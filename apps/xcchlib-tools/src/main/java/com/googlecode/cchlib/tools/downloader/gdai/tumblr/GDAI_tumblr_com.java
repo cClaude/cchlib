@@ -19,6 +19,9 @@ import com.googlecode.cchlib.tools.downloader.comboconfig.DefaultComboBoxConfig;
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 import com.googlecode.cchlib.tools.downloader.proxy.PolyURLDownloadFileURL;
 
+@SuppressWarnings({
+    "squid:S00101", // Class naming convention
+    })
 public abstract class GDAI_tumblr_com
     extends AbstractDownloaderAppInterface
         implements GenericDownloaderAppInterface

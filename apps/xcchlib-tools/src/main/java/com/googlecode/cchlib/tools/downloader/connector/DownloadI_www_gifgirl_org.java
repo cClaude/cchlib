@@ -28,6 +28,9 @@ import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterf
  * http://www.gifgirl.org/search?updated-max=2012-06-18T16:07:00-05:00&max-results=4&start=4&by-date=false
  * http://www.gifgirl.org/search?updated-max=2012-05-29T23:59:00-05:00&max-results=4&start=44&by-date=false
  */
+@SuppressWarnings({
+    "squid:S00101", // Class naming convention
+    })
 public class DownloadI_www_gifgirl_org
     extends AbstractDownloaderAppInterface
 {

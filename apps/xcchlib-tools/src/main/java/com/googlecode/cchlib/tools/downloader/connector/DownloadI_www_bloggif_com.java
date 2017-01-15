@@ -16,6 +16,9 @@ import com.googlecode.cchlib.tools.downloader.GenericDownloaderAppUIResults;
 import com.googlecode.cchlib.tools.downloader.GenericDownloaderUIPanelEntry.Item;
 import com.googlecode.cchlib.tools.downloader.common.AbstractDownloaderAppInterface;
 
+@SuppressWarnings({
+    "squid:S00101", // Class naming convention
+    })
 public class DownloadI_www_bloggif_com
     extends AbstractDownloaderAppInterface
 {
