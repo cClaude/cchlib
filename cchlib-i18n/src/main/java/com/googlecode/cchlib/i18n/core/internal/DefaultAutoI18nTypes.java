@@ -17,6 +17,56 @@ import com.googlecode.cchlib.i18n.types.AbstractTypeUniqKeys;
 class DefaultAutoI18nTypes
     extends AbstractAutoI18nTypes
 {
+    private static final class TypeJTabbedPane extends AbstractType<JTabbedPane>
+    {
+        private static final long serialVersionUID = 1L;
+
+        private TypeJTabbedPane( final Class<JTabbedPane> type )
+        {
+            super( type );
+        }
+
+        @Override
+        public Keys getKeys( final Object toI18n, final String keyBaseName )
+        {
+            final JTabbedPane o   = cast( toI18n );
+            final int         len = o.getTabCount();
+
+            return new IndexKeys( keyBaseName, len );
+        }
+
+        @Override
+        public void setText( final Object toI18n, final Values values )
+        {
+            final JTabbedPane o     = cast( toI18n );
+            final int         len   = o.getTabCount();
+            int               index = 0;
+
+            for( final String value : values ) {
+                o.setTitleAt( index++, value );
+
+                if( index >= len ) {
+                    // TODO: log something !
+                    break;
+                    }
+                }
+        }
+
+        @Override
+        public Values getText( final Object toI18n )
+        {
+            final JTabbedPane o      = cast( toI18n );
+            final int         len    = o.getTabCount();
+            final String[]    values = new String[ len ];
+
+            for( int i = 0; i<len; i++ ) {
+                values[ i ] = o.getTitleAt( i );
+                }
+
+            return new IndexValues( values );
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -132,47 +182,7 @@ class DefaultAutoI18nTypes
      */
     public AbstractType<JTabbedPane> getJTabbedPane()
     {
-        return new AbstractType<JTabbedPane>(JTabbedPane.class)
-        {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public Keys getKeys( final Object toI18n, final String keyBaseName )
-            {
-                final JTabbedPane o   = cast( toI18n );
-                final int         len = o.getTabCount();
-
-                return new IndexKeys( keyBaseName, len );
-            }
-            @Override
-            public void setText( final Object toI18n, final Values values )
-            {
-                final JTabbedPane o     = cast( toI18n );
-                final int         len   = o.getTabCount();
-                int               index = 0;
-
-                for( final String value : values ) {
-                    o.setTitleAt( index++, value );
-
-                    if( index >= len ) {
-                        // TODO: log something !
-                        break;
-                        }
-                    }
-            }
-            @Override
-            public Values getText( final Object toI18n )
-            {
-                final JTabbedPane o      = cast( toI18n );
-                final int         len    = o.getTabCount();
-                final String[]    values = new String[ len ];
-
-                for( int i = 0; i<len; i++ ) {
-                    values[ i ] = o.getTitleAt( i );
-                    }
-
-                return new IndexValues( values );
-            }
-        };
+        return new TypeJTabbedPane( JTabbedPane.class );
     }
 
     /**
