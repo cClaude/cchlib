@@ -26,7 +26,7 @@ public class AccessibleRestorer
      *            a valid value, but most of the time you want to use this
      *            object for a {@link Field} or for a {@link Method}.
      *
-     * @throw SecurityException if the access request is denied.
+     * @throws SecurityException if the access request is denied.
      */
     public AccessibleRestorer( final AccessibleObject fieldOrMethod )
     {
@@ -41,7 +41,7 @@ public class AccessibleRestorer
     /**
      * Restore initial state.
      *
-     * @throw SecurityException if the access request is denied.
+     * @throws SecurityException if the access request is denied.
      */
     public void restore()
     {
