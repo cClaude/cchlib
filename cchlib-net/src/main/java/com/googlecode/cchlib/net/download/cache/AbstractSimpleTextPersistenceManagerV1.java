@@ -16,9 +16,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import org.apache.log4j.Logger;
 
-public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICachePersistenceManager
+public abstract class AbstractSimpleTextPersistenceManagerV1 implements URICachePersistenceManager
 {
-    private static final Logger LOGGER = Logger.getLogger( SimpleTextPersistenceManagerV2.class );
+    private static final Logger LOGGER = Logger.getLogger( AbstractSimpleTextPersistenceManagerV1.class );
 
     private final String version;
 
@@ -57,7 +57,6 @@ public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICach
         final Map.Entry<URI,URIDataCacheEntry> entry
         ) throws IOException
     {
-
         w.append( convertEntryURL_URI_ToString( entry ) ).append( '\n' );
 
         final URIDataCacheEntry cacheEntry = entry.getValue();
@@ -105,12 +104,12 @@ public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICach
     }
 
     protected void loadContent(
-            final File cacheFile,
-            final CacheContent cache,
-            final BufferedReader reader //
-            ) throws IOException, PersistenceFileBadVersionException
+        final File           cacheFile,
+        final CacheContent   cache,
+        final BufferedReader reader
+        ) throws IOException,
+                 PersistenceFileBadVersionException
     {
-
         for(;;) {
             // First line
             final URI  uri;
@@ -147,7 +146,7 @@ public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICach
                 }
 
             try {
-                date = new Date( Long.parseLong( line ) ); // $codepro.audit.disable avoidInstantiationInLoops
+                date = new Date( Long.parseLong( line ) );
                 }
             catch( final NumberFormatException e ) {
                 LOGGER.error( "Bad DATE format (use 0) in cache file : " + cacheFile
@@ -172,8 +171,9 @@ public abstract class AbstractSimpleTextPersistenceManagerV1  implements URICach
             if( filename == null ) {
                 break; // EOF (ignore entry)
                 }
+
             // Add entry !
-            cache.put( uri, new DefaultURICacheEntry( date, hashCode, filename ) ); // $codepro.audit.disable avoidInstantiationInLoops
+            cache.put( uri, new DefaultURICacheEntry( date, hashCode, filename ) );
             }
     }
 }
