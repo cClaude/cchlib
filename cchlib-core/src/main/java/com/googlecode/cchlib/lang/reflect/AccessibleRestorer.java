@@ -8,19 +8,23 @@ import java.lang.reflect.Method;
  * Restore store of an {@link AccessibleObject}
  *
  * @since 4.2
- * @see AccessibleHelper
  */
 public class AccessibleRestorer
 {
     private final AccessibleObject fieldOrMethod;
-    private final boolean isAccessible;
+    private final boolean          isAccessible;
 
     /**
      * Create an {@link AccessibleRestorer} from a {@link Field} or a {@link Method}
      * an make this object accessible.
+     * <p>
+     * {@link #restore()} should be invoke to restore initial state of
+     * {@code fieldOrMethod}
      *
      * @param fieldOrMethod
-     *            The field or the method.
+     *            The field or the method (any {@link AccessibleObject} is
+     *            a valid value, but most of the time you want to use this
+     *            object for a {@link Field} or for a {@link Method}.
      *
      * @throw SecurityException if the access request is denied.
      */
