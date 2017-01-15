@@ -254,6 +254,7 @@ public class XMessageDigestFile
      * @throws NumberFormatException if any
      * @see #computeDigestKeyString(byte[])
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"}) // Exceptions
     public static byte[] computeDigestKey(
             final String digestHexKey
             )
@@ -289,6 +290,7 @@ public class XMessageDigestFile
      * @throws FileNotFoundException deprecated
      * @throws IOException deprecated
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"}) // 2 exceptions
     public byte[] compute( final File file )
         throws FileNotFoundException,
                IOException
@@ -321,12 +323,14 @@ public class XMessageDigestFile
      * @throws IOException any unexpected IO error
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"}) // 2 exceptions
     public byte[] compute(
             final File                            file,
             final Collection<DigestEventListener> listeners
             )
         throws FileNotFoundException,
-               IOException, CancelRequestException
+               IOException,
+               CancelRequestException
     {
         reset();
 
@@ -378,12 +382,14 @@ public class XMessageDigestFile
      * @throws IOException any unexpected IO error
      * @throws CancelRequestException if any listeners ask to cancel operation
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"}) // 2 exceptions
     public byte[] compute(
             final File                file,
             final DigestEventListener listener
             )
         throws FileNotFoundException,
-               IOException, CancelRequestException
+               IOException,
+               CancelRequestException
     {
         reset();
 
@@ -431,6 +437,7 @@ public class XMessageDigestFile
      * @throws FileNotFoundException deprecated
      * @throws IOException deprecated
      */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"}) // 2 exceptions
     public byte[] computeInputStream( final File file )
         throws FileNotFoundException,
                IOException
