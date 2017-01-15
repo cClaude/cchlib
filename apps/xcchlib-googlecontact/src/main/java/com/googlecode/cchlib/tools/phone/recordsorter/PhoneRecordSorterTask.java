@@ -44,9 +44,9 @@ public class PhoneRecordSorterTask extends AbstractBRRunnable
           task.saveConf();
           }
       catch( final IOException e ) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+          LOGGER.error( e.getMessage(), e );
           }
+
       LOGGER.info( "DONE execute() : " + sourceFile + " -> " + destinationFile );
     }
 
