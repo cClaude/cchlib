@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.util.EnumHelper;
 import cx.ath.choisnet.lang.introspection.IntrospectionInvokeException;
 
 
@@ -41,7 +42,7 @@ public class Introspection<O,I extends IntrospectionItem<O>>
         final Set<IntrospectionParameters>                   parameters
         )
     {
-        final EnumSet<IntrospectionParameters> safeParameters = IntrospectionBuilder.getSafeParameters( parameters );
+        final EnumSet<IntrospectionParameters> safeParameters = EnumHelper.safeCopyOf( parameters, IntrospectionParameters.class );
 
         // get generic class !
         this.itemFactory    = itemFactory;
@@ -63,6 +64,7 @@ public class Introspection<O,I extends IntrospectionItem<O>>
     /**
      *
      */
+    @SuppressWarnings("squid:S00112")
     private void addMethod( final String beanName, final Method getter, final Method setter )
     {
         @SuppressWarnings("unchecked")
@@ -73,6 +75,7 @@ public class Introspection<O,I extends IntrospectionItem<O>>
         if( previous != null ) {
             // Should not occur
             final StringBuilder msg = new StringBuilder();
+
             msg.append( "*** " );
             msg.append( getter.getName() );
             msg.append( " found twice ! " );
@@ -119,6 +122,7 @@ public class Introspection<O,I extends IntrospectionItem<O>>
      * @throws IntrospectionInvokeException NEEDDOC
      * @throws IntrospectionCompareException NEEDDOC
      */
+    @SuppressWarnings("squid:S1160") // 2 exceptions
     public int compareWithException( final O o1, final O o2 )
         throws IntrospectionInvokeException, IntrospectionCompareException
     {
