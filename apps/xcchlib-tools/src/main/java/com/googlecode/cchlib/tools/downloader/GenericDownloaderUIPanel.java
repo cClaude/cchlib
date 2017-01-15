@@ -24,7 +24,7 @@ public class GenericDownloaderUIPanel
     @I18nString private final String numberOfPicturesByPageTxt = "%d picture(s) by page";
     private JSpinner pageScanCountJSpinner;
     private SpinnerNumberModel pageScanCountSpinnerModel;
-    private final List<GenericDownloaderUIPanelEntry> entryJPanelList = new ArrayList<GenericDownloaderUIPanelEntry>();
+    private final List<GenericDownloaderUIPanelEntry> entryJPanelList = new ArrayList<>();
 
     //private final GenericDownloaderAppInterface config;
     private final DownloaderData    data;

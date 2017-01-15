@@ -47,8 +47,8 @@ public abstract class AbstractContact implements Contact
         final ContactValueType type
         )
     {
-        final Collection<Integer> indexes    = this.contactProperties.getTypeCollection( type );
-        final ArrayList<String>   vList    = new ArrayList<String>();
+        final Collection<Integer> indexes = this.contactProperties.getTypeCollection( type );
+        final ArrayList<String>   vList   = new ArrayList<>();
 
         for( final Integer index : indexes ) {
             vList.add( getValue( index.intValue() ) );
