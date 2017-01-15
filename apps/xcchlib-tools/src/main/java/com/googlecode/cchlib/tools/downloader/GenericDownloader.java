@@ -165,7 +165,7 @@ public class GenericDownloader
 
         if( LOGGER.isDebugEnabled() ) {
             LOGGER.debug( "destinationDirectoryFile = " + this.destinationDirectoryFile );
-            }
+        }
 
         final File cacheIndexFile = new File( rootCacheDirectoryFile, ".cache" );
 
@@ -174,13 +174,25 @@ public class GenericDownloader
 
         try  {
             this.cache.load();
-            }
+        }
         catch( final FileNotFoundException ignore ) {
-            LOGGER.warn( "* warn: cache file not found - " + this.cache.getCacheFile() );
+            final String message = "* warn: cache file not found - " + this.cache.getCacheFile();
+
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( message, ignore );
+            } else {
+                LOGGER.warn( message );
             }
+        }
         catch( final Exception ignore ) {
-            LOGGER.warn( "* warn: can't load cache file : " + ignore.getMessage() );
+            final String message = "* warn: can't load cache file : " + ignore.getMessage();
+
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( message, ignore );
+            } else {
+                LOGGER.warn( message );
             }
+        }
     }
 
     /**
