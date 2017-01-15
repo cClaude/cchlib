@@ -9,10 +9,9 @@ import javax.annotation.Nullable;
  */
 public class DefaultURICacheEntry implements URIDataCacheEntry
 {
-    private final String  hashCode;
-    private final Date    date;
-    @Nullable
-    private final String  filename;
+    private final String           hashCode;
+    private final Date             date;
+    @Nullable private final String filename;
 
     /**
      * Create a {@link URIDataCacheEntry}
@@ -25,12 +24,9 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
      *            Local file name for this entry
      */
     public DefaultURICacheEntry(
-        @Nullable
-        final Date   date,
-        @Nonnull
-        final String hashCode,
-        @Nullable
-        final String filename
+        @Nullable final Date   date,
+        @Nonnull final  String hashCode,
+        @Nullable final String filename
         )
     {
         if( hashCode == null ) {
@@ -42,15 +38,13 @@ public class DefaultURICacheEntry implements URIDataCacheEntry
 
         if( filename == null ) {
             this.filename = null;
-            }
-        else {
+        } else {
             if( filename.isEmpty() ) {
                 this.filename = null;
-                }
-            else {
+            } else {
                 this.filename = filename;
-                }
             }
+        }
     }
 
     @Override
