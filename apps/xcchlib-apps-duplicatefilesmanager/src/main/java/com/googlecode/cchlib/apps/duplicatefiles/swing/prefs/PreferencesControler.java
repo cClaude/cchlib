@@ -146,13 +146,9 @@ public class PreferencesControler implements Serializable
 
     public Dimension getMinimumWindowDimension()
     {
-        final Dimension dimension    = Dimensions.toDimension( this.preferences.getMinimumWindowDimension() );
-        final Dimension newDimension = createFixedMinDimension( dimension, MINIMUM_WINDOW_WIDTH, MINIMUM_WINDOW_HEIGHT );
+        final Dimension dimension = Dimensions.toDimension( this.preferences.getMinimumWindowDimension() );
 
-        // TODO remove this later...
-        //this.preferences.setMinimumWindowDimension( Dimensions.toSerializableDimension( newDimension ) );
-
-        return newDimension;
+        return createFixedMinDimension( dimension, MINIMUM_WINDOW_WIDTH, MINIMUM_WINDOW_HEIGHT );
     }
 
     private static Dimension createFixedMinDimension( //
