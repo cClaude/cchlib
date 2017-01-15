@@ -11,7 +11,7 @@ import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class EditResourcesBundleAppI18nResourceBuilderAppTest
 {
-    private static final int IGNORED_FIELDS     = 79;
+    private static final int IGNORED_FIELDS     = 78;
     private static final int LOCALIZED_FIELDS   = 63;
     private static final int MISSING_PROPERTIES = 0;
     private static final int UNUSED_PROPERTIES  = 1; // (1 for tests)
@@ -34,9 +34,9 @@ public class EditResourcesBundleAppI18nResourceBuilderAppTest
         assertThat( instance.isDone() ).isTrue();
         assertThat( instance.getExecutionException() ).isNull();
 
-        assertThat( result.getIgnoredFields()     ).hasSize( IGNORED_FIELDS );
         assertThat( result.getLocalizedFields()   ).hasSize( LOCALIZED_FIELDS );
         assertThat( result.getMissingProperties() ).hasSize( MISSING_PROPERTIES );
         assertThat( result.getUnusedProperties()  ).hasSize( UNUSED_PROPERTIES );
+        assertThat( result.getIgnoredFields()     ).hasSize( IGNORED_FIELDS );
     }
 }
