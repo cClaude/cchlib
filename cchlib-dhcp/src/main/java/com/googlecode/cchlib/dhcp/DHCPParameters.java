@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 /**
@@ -112,8 +113,11 @@ public class DHCPParameters
      *
      * @return a DHCPParameters object with information from byte array.
      */
-    private void init( final byte[] ibuf ) // ---------------------------------
-            throws ArrayIndexOutOfBoundsException
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
+    private void init( final byte[] ibuf )
+        throws ArrayIndexOutOfBoundsException
     {
         synchronized( this.lock ) {
             final ByteArrayInputStream bais = new ByteArrayInputStream( ibuf );
@@ -144,8 +148,11 @@ public class DHCPParameters
         }
     }
 
-    private void init( final DHCPParameters src ) // --------------------------
-            throws ArrayIndexOutOfBoundsException
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
+    private void init( final DHCPParameters src )
+        throws ArrayIndexOutOfBoundsException
     {
         synchronized( this.lock ) {
             this.op = src.op;
@@ -326,7 +333,7 @@ public class DHCPParameters
      * @return flags field.
      * @see #setFlags(short)
      */
-    public short getFlags() // ------------------------------------------------
+    public short getFlags()
     {
         return this.flags;
     }
@@ -339,7 +346,7 @@ public class DHCPParameters
      *
      * @see #getCIAddr()
      */
-    public void setCIAddr( final byte[] ciaddr ) // ---------------------------
+    public void setCIAddr( final byte[] ciaddr )
     {
         set( ciaddr, this.ciaddr, "ciaddr" );
     }
@@ -349,7 +356,7 @@ public class DHCPParameters
      * @return client IP address.
      * @see #setCIAddr(byte[])
      */
-    public byte[] getCIAddr() // ----------------------------------------------
+    public byte[] getCIAddr()
     {
         return this.ciaddr;
     }
@@ -362,7 +369,7 @@ public class DHCPParameters
      *
      * @see #getYIAddr()
      */
-    public void setYIAddr( final byte[] yiaddr ) // ---------------------------
+    public void setYIAddr( final byte[] yiaddr )
     {
         set( yiaddr, this.yiaddr, "yiaddr" );
     }
@@ -372,7 +379,7 @@ public class DHCPParameters
      * @return 'your' (client) IP address.
      * @see #setYIAddr(byte[])
      */
-    public byte[] getYIAddr() // ----------------------------------------------
+    public byte[] getYIAddr()
     {
         return this.yiaddr;
     }
@@ -385,7 +392,7 @@ public class DHCPParameters
      *
      * @see #getSIAddr()
      */
-    public void setSIAddr( final byte[] siaddr ) // ---------------------------
+    public void setSIAddr( final byte[] siaddr )
     {
         set( siaddr, this.siaddr, "siaddr" );
     }
@@ -395,7 +402,7 @@ public class DHCPParameters
      * @return address of next server to use in bootstrap.
      * @see #setSIAddr(byte[])
      */
-    public byte[] getSIAddr() // ----------------------------------------------
+    public byte[] getSIAddr()
     {
         return this.siaddr;
     }
@@ -408,7 +415,7 @@ public class DHCPParameters
      *
      * @see #getGIAddr()
      */
-    public void setGIAddr( final byte[] giaddr ) // ---------------------------
+    public void setGIAddr( final byte[] giaddr )
     {
         set( giaddr, this.giaddr, "siaddr" );
     }
@@ -418,7 +425,7 @@ public class DHCPParameters
      * @return relay agent IP address.
      * @see #setGIAddr(byte[])
      */
-    public byte[] getGIAddr() // ----------------------------------------------
+    public byte[] getGIAddr()
     {
         return this.giaddr;
     }
@@ -431,7 +438,7 @@ public class DHCPParameters
      *
      * @see #getCHAddr()
      */
-    public void setChaddr( final byte[] chaddr ) // ---------------------------
+    public void setChaddr( final byte[] chaddr )
     {
         set( chaddr, this.chaddr, "chaddr" );
     }
@@ -441,7 +448,7 @@ public class DHCPParameters
      * @return client harware address.
      * @see #setChaddr(byte[])
      */
-    public byte[] getCHAddr() // ----------------------------------------------
+    public byte[] getCHAddr()
     {
         return this.chaddr;
     }
@@ -454,7 +461,7 @@ public class DHCPParameters
      *
      * @see #getSName()
      */
-    public void setSName( final byte[] sname ) // -----------------------------
+    public void setSName( final byte[] sname )
     {
         set( sname, this.sname, "sname", true );
     }
@@ -464,7 +471,7 @@ public class DHCPParameters
      * @return optional server host name.
      * @see #setSName(byte[])
      */
-    public byte[] getSName() // -----------------------------------------------
+    public byte[] getSName()
     {
         return this.sname;
     }
@@ -477,7 +484,7 @@ public class DHCPParameters
      *
      * @see #getFile()
      */
-    public void setFile( final byte[] file ) // -------------------------------
+    public void setFile( final byte[] file )
     {
         set( file, this.file, "file", true );
     }
@@ -487,7 +494,7 @@ public class DHCPParameters
      *
      * @see #setFile(byte[])
      */
-    public byte[] getFile() // ------------------------------------------------
+    public byte[] getFile()
     {
         return this.file;
     }
@@ -504,8 +511,10 @@ public class DHCPParameters
      * @see #setFilename(String)
      * @see #getFilename()
      */
-    public void setFilename( // -----------------------------------------------
-            final String filename, final String charsetName ) throws java.io.UnsupportedEncodingException
+    public void setFilename(
+        final String filename,
+        final String charsetName
+        ) throws UnsupportedEncodingException
     {
         setFile( filename.getBytes( charsetName ) );
     }
@@ -521,8 +530,7 @@ public class DHCPParameters
      * @see #getFilename()
      * @see String#getBytes()
      */
-    public void setFilename( // -----------------------------------------------
-            final String filename )
+    public void setFilename( final String filename )
     {
         setFile( filename.getBytes() );
     }
@@ -534,41 +542,42 @@ public class DHCPParameters
      * @see #setFilename(String,String)
      * @see #setFilename(String)
      */
-    public String getFilename() // --------------------------------------------
+    public String getFilename()
     {
         return DHCPParameters.toString( getFile() );
     }
 
     /**
-     * Sets DHCP options in DHCPParameters. If option already exists then remove old option and insert a new one.
+     * Sets DHCP options in DHCPParameters. If option already exists
+     * then remove old option and insert a new one.
      *
      * @param optNum
      *            option number
      * @param optionDataArray
      *            option data
      */
-    public void setOption( // -------------------------------------------------
-            final byte optNum, final byte[] optionDataArray )
+    public void setOption(  final byte optNum, final byte[] optionDataArray )
     {
         this.dhcpOptions.setOption( optNum, optionDataArray );
     }
 
     /**
-     * Sets DHCP options in DHCPParameters. If option already exists then remove old option and insert a new one.
+     * Sets DHCP options in DHCPParameters. If option already exists
+     * then remove old option and insert a new one.
      *
      * @param optNum
      *            option number
      * @param optionData
      *            option data (1 byte)
      */
-    public void setOption( // -------------------------------------------------
-            final byte optNum, final byte optionData )
+    public void setOption( final byte optNum, final byte optionData )
     {
         this.dhcpOptions.setOption( optNum, optionData );
     }
 
     /**
-     * Sets DHCP options in DHCPParameters. If option already exists then remove old option and insert a new one.
+     * Sets DHCP options in DHCPParameters. If option already exists
+     * then remove old option and insert a new one.
      *
      * @param optNum
      *            option number
@@ -577,8 +586,7 @@ public class DHCPParameters
      *
      * @see String#getBytes()
      */
-    public void setOption( // -------------------------------------------------
-            final byte optNum, final String optionData )
+    public void setOption( final byte optNum, final String optionData )
     {
         this.dhcpOptions.setOption( optNum, optionData.getBytes() );
     }
@@ -589,26 +597,27 @@ public class DHCPParameters
      *
      * @see DHCPOptions#setOptions(DHCPOptions)
      */
-    public void setOptions( // ------------------------------------------------
-            final DHCPParameters anOtherDHCPParameters )
+    public void setOptions( final DHCPParameters anOtherDHCPParameters )
     {
         this.dhcpOptions.setOptions( anOtherDHCPParameters.dhcpOptions );
     }
 
     /**
-     * Returns specified DHCP option that matches the input code. Null is returned if option is not set.
+     * Returns specified DHCP option that matches the input code. Null is
+     * returned if option is not set.
      *
      * @param optNum
      *            option number
      * @return specified DHCP option
      */
-    public byte[] getOption( final byte optNum ) // ---------------------------
+    public byte[] getOption( final byte optNum )
     {
         return this.dhcpOptions.getOption( optNum );
     }
 
     /**
-     * Returns specified DHCP option that matches the input code. Null is returned if option is not set.
+     * Returns specified DHCP option that matches the input code. Null is
+     * returned if option is not set.
      *
      * @param optNum
      *            option number
@@ -619,8 +628,11 @@ public class DHCPParameters
      *             if option is not defined
      *
      */
-    public byte getOptionAsByte( final byte optNum ) // -----------------------
-            throws IllegalArgumentException, NullPointerException
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
+    public byte getOptionAsByte( final byte optNum )
+        throws IllegalArgumentException, NullPointerException
     {
         final byte[] datas = getOption( optNum );
 

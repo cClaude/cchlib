@@ -2,26 +2,32 @@ package cx.ath.choisnet.net;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
-/**
- **
- ** @version 2.02.020
- */
+ /**
+  *
+  * @since 2.02
+  */
 public class PseudoPing
 {
     private final String ipAddress;
 
-    public PseudoPing( final String ipAddress ) // ----------------------------------
+    public PseudoPing( final String ipAddress )
     {
         this.ipAddress = ipAddress;
     }
 
-    public String sendRequest( // ---------------------------------------------
-            final byte[] bytes,
-            final int    port
-            ) throws java.net.UnknownHostException, java.io.IOException
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
+    public String sendRequest(
+        final byte[] bytes,
+        final int    port
+        ) throws UnknownHostException, IOException
     {
         final StringBuilder result = new StringBuilder();
 
@@ -41,10 +47,10 @@ public class PseudoPing
         return result.toString();
     }
 
-    public String sendRequestNoException( // ----------------------------------
-            final byte[] bytes,
-            final int    port
-            )
+    public String sendRequestNoException(
+        final byte[] bytes,
+        final int    port
+        )
     {
         try {
             return sendRequest( bytes, port );
@@ -56,7 +62,7 @@ public class PseudoPing
         }
     }
 
-    public boolean helloPing() // ---------------------------------------------
+    public boolean helloPing()
     {
         try {
             final String str = sendRequest( "Hello\n".getBytes(), 7 );
