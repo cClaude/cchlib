@@ -182,7 +182,7 @@ public abstract class GDAI_tumblr_com
         final String[] blogNames        =
                 ConfigHelper.toArrayString( entries, entry -> entry.getName() );
         final String[] blogDescriptions =
-                ConfigHelper.toArrayString( entries, entry -> entry.getDescription() );;
+                ConfigHelper.toArrayString( entries, entry -> entry.getDescription() );
 
         return new GDAI_tumblr_com_ForHost(
                 ownerFrame,

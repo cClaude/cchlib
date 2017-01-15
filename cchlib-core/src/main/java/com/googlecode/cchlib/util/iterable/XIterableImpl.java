@@ -31,6 +31,9 @@ class XIterableImpl<T> implements XIterable<T>
     }
 
     @NeedDoc
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public <S> XIterableImpl(
         final Iterable<S>                      iterable,
         final Wrappable<? super S,? extends T> wrapper
@@ -51,7 +54,7 @@ class XIterableImpl<T> implements XIterable<T>
     @Override
     public Iterator<T> iterator()
     {
-        return iterable.iterator();
+        return this.iterable.iterator();
     }
 
     @Override

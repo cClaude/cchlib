@@ -59,6 +59,10 @@ public abstract class AbstractDownloaderHandler implements DownloaderHandler
         return sdURLList;
     }
 
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public abstract ContentDownloadURI<String> getDownloadStringURL( final int pageNumber )
         throws MalformedURLException, URISyntaxException;
 
@@ -122,6 +126,10 @@ public abstract class AbstractDownloaderHandler implements DownloaderHandler
         return imagesURLCollection;
     }
 
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public abstract ContentDownloadURI<File> getDownloadURLFrom( String src, int regexpIndex )
         throws MalformedURLException, URISyntaxException;
 }

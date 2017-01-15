@@ -17,7 +17,7 @@ import com.googlecode.cchlib.tools.phone.recordsorter.conf.Contact;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 
-public class JSONConfigFactory extends AbstractConfigFactory 
+public class JSONConfigFactory extends AbstractConfigFactory
 {
     private static JSONConfigFactory INSTANCE;
 
@@ -36,7 +36,11 @@ public class JSONConfigFactory extends AbstractConfigFactory
      * Serialisation into a file
      */
     @Override
-    public void encodeToFile( final Config config, final File file ) throws FileNotFoundException, IOException
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
+    public void encodeToFile( final Config config, final File file )
+        throws FileNotFoundException, IOException
     {
         final List<JSONContactImpl> list = new ArrayList<>();
 

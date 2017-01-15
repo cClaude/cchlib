@@ -5,13 +5,16 @@ import java.util.Collection;
 /**
  *
  */
+@SuppressWarnings({
+    "squid:RedundantThrowsDeclarationCheck",
+    })
 public interface Config
 {
     Contact findContactByName( String name );
     Contact findContactByNumber( String number );
 
     Collection<Contact> getContacts();
-    
+
     Contact newContact() throws UnsupportedOperationException;
     Contact addContact( Contact contact ) throws UnsupportedOperationException;
 }

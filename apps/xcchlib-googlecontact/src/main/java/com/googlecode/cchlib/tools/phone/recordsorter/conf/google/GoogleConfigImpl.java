@@ -84,12 +84,18 @@ public class GoogleConfigImpl extends AbstractReadConfig
     }
 
     @Override
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public Contact newContact() throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();
     }
 
     @Override
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public Contact addContact( final Contact contact ) throws UnsupportedOperationException
     {
         throw new UnsupportedOperationException();

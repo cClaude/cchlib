@@ -31,6 +31,9 @@ public class SMSLoaderPass1
         }
     }
 
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     private void loadMailIn( final String[] mailInFiles )
         throws FileNotFoundException, IOException
     {
@@ -58,7 +61,11 @@ public class SMSLoaderPass1
         this.loader.sort();
     }
 
-    public static void run(
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
+   public static void run(
         final String[] csvInFiles,
         final String[] mailInFiles,
         final String   outFile,

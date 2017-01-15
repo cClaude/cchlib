@@ -106,6 +106,9 @@ public class DefaultContactProperties
     }
 
     @Override
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public void checkIndex( final int index )
         throws IllegalArgumentException
     {

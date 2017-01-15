@@ -112,6 +112,10 @@ public class Pinger extends Thread
      * @throws UnknownHostException
      * @throws IOException
      */
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public static boolean ping(final String host, final int timeout )
         throws UnknownHostException, IOException
     {

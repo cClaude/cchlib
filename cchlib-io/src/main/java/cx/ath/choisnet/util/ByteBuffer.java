@@ -119,6 +119,9 @@ public class ByteBuffer implements Comparable<ByteBuffer>, Cloneable, Serializab
      *
      * @see #length()
      */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public void setLength( final int newLength ) // ---------------------------
         throws IndexOutOfBoundsException
     {

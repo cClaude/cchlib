@@ -68,10 +68,12 @@ public class DuplicateFilesMainPanel
         //Empty
     }
 
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public DuplicateFilesMainPanel(
         final DuplicateFilesFrameWB mainActionListenerSupport
-        )
-        throws HeadlessException, TooManyListenersException
+        ) throws HeadlessException, TooManyListenersException
     {
         this.mainActionListenerSupport = mainActionListenerSupport;
 
@@ -207,6 +209,9 @@ public class DuplicateFilesMainPanel
      * @throws HeadlessException if any
      * @throws TooManyListenersException if any
      */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public JPanelSelectFoldersOrFiles createJPanel0Select()
         throws HeadlessException, TooManyListenersException
     {

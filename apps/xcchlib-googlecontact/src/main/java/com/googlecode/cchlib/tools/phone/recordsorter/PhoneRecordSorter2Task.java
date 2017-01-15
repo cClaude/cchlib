@@ -10,6 +10,9 @@ public class PhoneRecordSorter2Task extends AbstractBRRunnable
     private static final long serialVersionUID = 1L;
 
     @Override
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public void execute( final BRExecutionEvent event ) throws BRUserCancelException,
             BRExecutionException
     {

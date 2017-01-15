@@ -93,8 +93,12 @@ public abstract class AbstractDownloaderAppInterface
      * @throws MalformedURLException NEEDDOC
      * @throws URISyntaxException NEEDDOC
      */
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public abstract ContentDownloadURI<String> getDownloadStringURL( final int pageNumber )
-            throws MalformedURLException, URISyntaxException;
+        throws MalformedURLException, URISyntaxException;
 
     /**
      * {@inheritDoc}
@@ -124,6 +128,10 @@ public abstract class AbstractDownloaderAppInterface
      * @throws MalformedURLException NEEDDOC
      * @throws URISyntaxException NEEDDOC
      */
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public abstract ContentDownloadURI<File> getDownloadURLFrom( String src, int regexpIndex )
         throws MalformedURLException, URISyntaxException;
 

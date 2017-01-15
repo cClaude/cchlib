@@ -24,6 +24,9 @@ public class DefaultCustomProperties
     private final Properties properties;
     private final FileObject fileObject;
 
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public DefaultCustomProperties(
         final FileObject  fileObject,
         final Properties  defaults
@@ -46,6 +49,9 @@ public class DefaultCustomProperties
     }
 
     @Override
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public boolean store() throws FileNotFoundException, IOException
     {
         if( this.fileObject.isReadOnly() ) {
@@ -59,6 +65,9 @@ public class DefaultCustomProperties
     }
 
     @Override
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public boolean storeAs( final File file ) throws FileNotFoundException, IOException
     {
         final String comment = file.getPath();

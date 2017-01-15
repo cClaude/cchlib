@@ -98,6 +98,10 @@ public class SMSLoader
      * @throws IOException if any
      * @throws ParseException if any
      */
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public void addFile( final File file ) throws IOException, ParseException
     {
         load( file );

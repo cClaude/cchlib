@@ -105,6 +105,10 @@ public class SMSCVSReader implements Closeable
      * @throws IOException if any
      * @throws ParseException if any
      */
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public List<SMS> getSMSList() throws IOException, ParseException
     {
         if( this.smsList == null ) {

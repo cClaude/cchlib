@@ -31,6 +31,9 @@ public interface XDigestFileCollector
      * @return number of file removed in Collection
      * @throws UnsupportedOperationException if not supported
      */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     int removeDuplicate()
         throws UnsupportedOperationException;
 
@@ -44,6 +47,9 @@ public interface XDigestFileCollector
      * @return number of file removed in Collection
      * @throws UnsupportedOperationException if not supported
      */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     int removeNonDuplicate()
         throws UnsupportedOperationException;
 

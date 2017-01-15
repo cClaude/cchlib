@@ -26,6 +26,10 @@ public class SMSLoaderPass2
         run( inFiles, outFile );
     }
 
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public static void run( final String[] inFiles, final String outFile )
         throws InconsistantSMSException, IOException, ParseException
     {

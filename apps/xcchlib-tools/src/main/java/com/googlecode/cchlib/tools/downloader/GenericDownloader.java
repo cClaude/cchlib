@@ -204,10 +204,15 @@ public class GenericDownloader
      * @throws RejectedExecutionException if any
      * @throws URISyntaxException if any
      */
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     protected Collection<ContentDownloadURI<File>> collectDownloadURLs()
         throws  IOException,
                 RejectedExecutionException,
-                DownloadConfigurationException, URISyntaxException
+                DownloadConfigurationException,
+                URISyntaxException
     {
         final Collection<ContentDownloadURI<File>>   urls        = new HashSet<>();
         final List<ContentDownloadURI<String>>       contentList = loads( this.handler.getURLDownloadAndParseCollection() );
@@ -229,9 +234,14 @@ public class GenericDownloader
      * @throws DownloadConfigurationException if any
      * @throws RejectedExecutionException if any
      */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     protected List<ContentDownloadURI<String>> loads(
         final Collection<ContentDownloadURI<String>> urls
-        ) throws IOException, RejectedExecutionException, DownloadConfigurationException
+        ) throws IOException,
+                 RejectedExecutionException,
+                 DownloadConfigurationException
     {
         final List<ContentDownloadURI<String>> result           = new ArrayList<>();
         final DownloadExecutor                 downloadExecutor = new DownloadExecutor( this.downloadMaxThread, null );
@@ -272,6 +282,10 @@ public class GenericDownloader
         return result;
     }
 
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public void onClickStartDownload()
         throws IOException,
                RejectedExecutionException,

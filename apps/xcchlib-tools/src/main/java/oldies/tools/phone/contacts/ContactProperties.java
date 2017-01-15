@@ -27,6 +27,9 @@ public interface ContactProperties extends Serializable
      * @throws IllegalArgumentException if value is
      *         out of range
      */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     void checkIndex(int index)
         throws IllegalArgumentException;
 

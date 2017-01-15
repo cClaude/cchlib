@@ -33,8 +33,12 @@ public class XMLDOMTools
      * @throws TransformerConfigurationException if any
      * @throws TransformerException if any
      */
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public static void writeXML( final Node node, final OutputStream output )
-            throws TransformerConfigurationException, TransformerException
+        throws TransformerConfigurationException, TransformerException
     {
         // Prepare the DOM document for writing
         final Source source = new DOMSource( node );
@@ -56,6 +60,10 @@ public class XMLDOMTools
      * @throws TransformerConfigurationException if any
      * @throws TransformerException if any
      */
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public static void writeXML( final Node node, final Writer output )
         throws TransformerConfigurationException, TransformerException
     {

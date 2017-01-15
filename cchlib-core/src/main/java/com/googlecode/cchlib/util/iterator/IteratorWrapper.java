@@ -62,7 +62,7 @@ public class IteratorWrapper<T,O>
     @Override
     public boolean hasNext()
     {
-        return iterator.hasNext();
+        return this.iterator.hasNext();
     }
 
     /**
@@ -71,9 +71,12 @@ public class IteratorWrapper<T,O>
      * @throws NoSuchElementException iteration has no more elements.
      */
     @Override
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public O next() throws NoSuchElementException
     {
-        return wrapper.wrap(iterator.next());
+        return this.wrapper.wrap(this.iterator.next());
     }
 
     /**
@@ -91,8 +94,11 @@ public class IteratorWrapper<T,O>
      *         next method.
      */
     @Override
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public void remove() throws UnsupportedOperationException
     {
-        iterator.remove();
+        this.iterator.remove();
     }
 }

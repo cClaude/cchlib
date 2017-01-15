@@ -201,6 +201,10 @@ public class URLHelper
      * @throws IOException if any
      * @since 3.02.021
      */
+    @SuppressWarnings({
+        "squid:S1160", // More than on exception
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public Status download(
         final URL  url,
         final File outputFile

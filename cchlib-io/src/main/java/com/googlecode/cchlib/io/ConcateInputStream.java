@@ -117,6 +117,9 @@ public class ConcateInputStream extends InputStream
         return false;
     }
 
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     private void check() throws RuntimeException
     {
         if(this.inputStreamArray == null) {

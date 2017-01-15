@@ -29,6 +29,9 @@ public final class PropertiesHelper
      * @throws IllegalArgumentException - if the input stream contains a malformed Unicode escape sequence.
      * @see Properties#load(InputStream)
     */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public static Properties loadProperties(
         final File propertiesFile
         ) throws IOException, IllegalArgumentException
@@ -47,6 +50,9 @@ public final class PropertiesHelper
      * @throws IOException - if an error occurred when reading from the input stream.
      * @throws IllegalArgumentException - if the input stream contains a malformed Unicode escape sequence.
      */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
     public static Properties getResourceAsProperties(
         final ClassLoader classLoader,
         final String      resourceName
@@ -57,7 +63,11 @@ public final class PropertiesHelper
             }
     }
 
-    private static Properties loadProperties( final InputStream is ) throws IOException, IllegalArgumentException
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck",
+        })
+   private static Properties loadProperties( final InputStream is )
+        throws IOException, IllegalArgumentException
     {
         final Properties  properties = new Properties();
         properties.load( is );
