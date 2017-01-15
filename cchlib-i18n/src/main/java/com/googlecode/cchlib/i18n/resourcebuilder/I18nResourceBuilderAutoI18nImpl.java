@@ -10,7 +10,6 @@ import java.util.EnumSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.apache.log4j.Level;
@@ -47,13 +46,10 @@ final class I18nResourceBuilderAutoI18nImpl
 
     private static final Logger LOGGER = Logger.getLogger( I18nResourceBuilderAutoI18nImpl.class );
 
-    private final AutoI18nConfigSet config;
-    private final AutoI18nImpl      builderAutoI18n;
-    private final I18nResource      i18nResource;
-    private final ResourceBundle    resourceBundle;
-
+    private final AutoI18nConfigSet             config;
+    private final AutoI18nImpl                  builderAutoI18n;
+    private final I18nResourceBundle            i18nResourceBundle;
     private final I18nResourceBuilderResultImpl result = new I18nResourceBuilderResultImpl();
-
 
     public I18nResourceBuilderAutoI18nImpl(
         @Nonnull final AutoI18nImpl     originalAutoI18n,
@@ -66,18 +62,17 @@ final class I18nResourceBuilderAutoI18nImpl
                                         originalAutoI18n,
                                         this.config
                                         );
-        this.i18nResource    = originalAutoI18n.getI18nDelegator().getI18nResource();
+        final I18nResource i18nResource = originalAutoI18n.getI18nDelegator().getI18nResource();
 
-        if( ! (this.i18nResource instanceof I18nResourceBundle) ) {
+        if( ! (i18nResource instanceof I18nResourceBundle) ) {
             throw new UnsupportedOperationException(
-                    "Dont kwnon how to handle: " + this.i18nResource.getClass()
+                    "Dont kwnon how to handle: " + i18nResource.getClass()
                         + " expected " + I18nResourceBundle.class
                     );
         }
 
-        final I18nResourceBundle i18nResourceBundle = (I18nResourceBundle)this.i18nResource;
-
-        this.resourceBundle = i18nResourceBundle.getResourceBundle();
+        this.i18nResourceBundle = (I18nResourceBundle)originalAutoI18n.getI18nDelegator()
+                .getI18nResource();
 
         if( locale != null ) {
             Locale.setDefault( locale );
@@ -134,7 +129,10 @@ final class I18nResourceBuilderAutoI18nImpl
     @SuppressWarnings("ucd") // API
     public I18nResourceBuilderResult getResult()
     {
-        this.result.computeUnused( this.resourceBundle.keySet(), this.i18nResource );
+        this.result.computeUnused(
+                this.i18nResourceBundle.getResourceBundle().keySet(),
+                this.i18nResourceBundle
+                );
 
         return this.result;
     }
