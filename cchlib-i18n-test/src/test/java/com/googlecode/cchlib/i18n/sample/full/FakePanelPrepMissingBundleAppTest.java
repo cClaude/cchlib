@@ -3,8 +3,8 @@ package com.googlecode.cchlib.i18n.sample.full;
 import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderHelper;
 import com.googlecode.cchlib.i18n.resourcebuilder.I18nResourceBuilderResult;
@@ -19,7 +19,8 @@ public class FakePanelPrepMissingBundleAppTest
     private static final int UNUSED_PROPERTIES  = 0; // File is empty
 
     @Test
-    public void test() throws ExecutionException, IOException
+    public void test()
+        throws IOException, InvocationTargetException, InterruptedException, ExecutionException
     {
         final String messagesBundle = "MessagesBundleMissing";
         final File   outputFile     = I18nResourceBuilderHelper.newOutputFile(
@@ -31,8 +32,10 @@ public class FakePanelPrepMissingBundleAppTest
                     () -> FakePanelPrepApp.newFakePanelApp( messagesBundle, outputFile )
                     );
 
+        // This crash sometime on CI :
+        // RunnableSupplierHelper.safeInvokeAndWait( runnableSupplier, 10, 1, TimeUnit.SECONDS )
         final I18nResourceBuilderResult result =
-                RunnableSupplierHelper.safeInvokeAndWait( runnableSupplier, 10, 1, TimeUnit.SECONDS );
+                RunnableSupplierHelper.invokeAndWait( runnableSupplier );
 
         assertThat( result.getIgnoredFields()     ).hasSize( IGNORED_FIELDS     );
         assertThat( result.getLocalizedFields()   ).hasSize( LOCALIZED_FIELDS   );
