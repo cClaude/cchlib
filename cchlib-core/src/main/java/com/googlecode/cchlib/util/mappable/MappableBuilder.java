@@ -103,6 +103,7 @@ public class MappableBuilder
      * keys String are sorted.
      *
      * @param <T> Type of the {@code object} to examine.
+     * @param <C> Type to use to examine.
      * @param object Object to examine.
      * @param type  Type to use to examine {@code object}
      * @return a Map view of the {@code object}

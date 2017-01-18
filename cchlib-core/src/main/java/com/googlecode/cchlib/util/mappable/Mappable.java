@@ -4,9 +4,8 @@ import java.util.Map;
 
 /**
  * Give a view of all Attributes(name,value) for this object, could be use to
- * generate XML files, HTML, debugging, ...
+ * generate XML files, HTML, Swing or JavaFx view, debugging, ...
  *
- * @see AbstractMappable
  * @see MappableBuilder
  * @see MappableBuilderFactory
  * @see MappableHelper
