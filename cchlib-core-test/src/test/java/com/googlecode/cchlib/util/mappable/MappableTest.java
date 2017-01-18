@@ -290,9 +290,8 @@ public class MappableTest
 
         assertThat( map ).isNotNull();
 
-        assertThat( map ).hasSize( 5 );
+        assertThat( map ).hasSize( 4 );
         assertThat( map ).containsKey( "getInteger" );
-        assertThat( map ).containsKey( "getListOfString" );
         assertThat( map ).containsKey( "getString" );
 
         assertThat( map ).containsKey( "getNullString" );
@@ -300,7 +299,6 @@ public class MappableTest
 
         assertThat( map ).contains(
             entry( "getInteger", "-10" ),
-            entry( "getListOfString", "[Str1, Str2]" ),
             entry( "getString", "string" ),
 
             entry( "getNullString", null ),
