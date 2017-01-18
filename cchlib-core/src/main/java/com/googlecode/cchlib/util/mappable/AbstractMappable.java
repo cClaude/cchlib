@@ -4,7 +4,11 @@ import java.util.Map;
 
 /**
  * Basic implementation for {@link Mappable}
+ *
+ * @deprecated use {@link MappableHelper#toMap(Object)}, {@link MappableHelper#toMap(Object, Class)}
+ *             or {@link MappableHelper#toMap(MappableBuilder, Object, Class)} instead.
  */
+@Deprecated
 public abstract class AbstractMappable
     implements Mappable
 {
@@ -18,7 +22,7 @@ public abstract class AbstractMappable
     @Override
     public Map<String,String> toMap()
     {
-        MappableBuilder mappableHelper = new MappableBuilder( createMappableBuilderFactory() );
+        final MappableBuilder mappableHelper = new MappableBuilder( createMappableBuilderFactory() );
 
         return mappableHelper.toMap( getObjectToMap() );
     }
@@ -34,6 +38,7 @@ public abstract class AbstractMappable
 
     /**
      * Create a default MappableBuilderFactory.
+     * <p>
      * Default implementation is based on {@link MappableBuilder#createMappableBuilderFactory()}
      *
      * @return a {@link MappableBuilderFactory}

@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
  * Factory for {@link MappableBuilder}
  *
  * @see Mappable
+ * @see DefaultMappableBuilderFactory
  */
 public interface MappableBuilderFactory extends Serializable
 {

@@ -11,6 +11,7 @@ import java.util.Map;
  * @see MappableBuilderFactory
  * @see MappableHelper
  */
+@FunctionalInterface
 public interface Mappable
 {
     /**

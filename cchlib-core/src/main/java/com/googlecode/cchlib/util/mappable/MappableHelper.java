@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import com.googlecode.cchlib.NeedDoc;
 
 /**
@@ -16,8 +17,9 @@ import com.googlecode.cchlib.NeedDoc;
  * change.
  * </p>
  * Code review in progress.
+ * <p>
+ * NEEDDOC
  */
-@NeedDoc
 public class MappableHelper
 {
     private static final String XML_CLASS_NAME = "<class name=\"";
@@ -32,19 +34,69 @@ public class MappableHelper
      *
      * @param <T> type of the object to map
      * @param object object to map
-     * @return NEEDDOC
+     * @return a Map view of the {@code object}
      *
      * @see MappableBuilder#toMap(Object)
      */
-    public static <T> Map<String,String> toMap( final T object )
+    public static <T> Map<String,String> toMap( @Nonnull final T object )
     {
-        final MappableBuilder mb = MappableBuilder.createMappableBuilder();
+        @SuppressWarnings("unchecked")
+        final Class<T> type = (Class<T>)object.getClass();
 
-        return mb.toMap( object );
+        return toMap( object, type );
     }
 
     /**
-     *  NEEDDOC
+     * Build Map using default factory.
+     *
+     * @param <T> Type of the {@code object} to examine.
+     * @param <C> Type to use to examine.
+     * @param object Object to examine.
+     * @param type  Type to use to examine {@code object}
+     * @return a Map view of the {@code object}
+     * @since 4.2
+     *
+     * @see MappableBuilder#toMap(Object, Class)
+     * @see MappableBuilder#createMappableBuilder()
+     */
+    public static <T extends C,C> Map<String,String> toMap(
+        @Nullable final T       object,
+        @Nonnull final Class<C> type
+        )
+    {
+        return toMap(
+            MappableBuilder.createMappableBuilder(),
+            object,
+            type
+            );
+    }
+
+    /**
+     * Build Map using default factory.
+     *
+     * @param <T> Type of the {@code object} to examine.
+     * @param <C> Type to use to examine.
+     * @param mappableBuilder Configured {@link MappableBuilder}
+     * @param object Object to examine.
+     * @param type  Type to use to examine {@code object}
+     * @return a Map view of the {@code object}
+     * @since 4.2
+     *
+     * @see MappableBuilder#toMap(Object, Class)
+     * @see MappableBuilder
+     * @see MappableBuilder#createMappableBuilder()
+     */
+    public static <T extends C,C> Map<String,String> toMap(
+        @Nonnull final MappableBuilder mappableBuilder,
+        @Nullable final T              object,
+        @Nonnull final Class<C>        type
+        )
+    {
+        return mappableBuilder.toMap( object, type );
+    }
+
+    /**
+     * Build a XML view of the object
      *
      * @param out   Output for result
      * @param clazz Class to use to analyze {@code mappableObject}

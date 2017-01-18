@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.NeedDoc;
 
@@ -64,8 +66,8 @@ public class MappableBuilder
      * Equivalent to invoke:
      * <pre>
      *   new DefaultMappableBuilderFactory()
-     *      .add( MAPPABLE_ITEM_DEFAULT_CONFIG )
-     *      .add( CLASSES_STANDARDS_TYPES );
+     *      .add( MappableItem.MAPPABLE_ITEM_DEFAULT_CONFIG )
+     *      .add( MappableTypes.ALL_TYPES );
      * </pre>
      *
      * @return a new MappableBuilderFactory
@@ -74,44 +76,88 @@ public class MappableBuilder
     {
         return new DefaultMappableBuilderFactory()
             .add( MappableItem.MAPPABLE_ITEM_DEFAULT_CONFIG )
-            .add( MappableTypes.CLASSES_STANDARDS_TYPES )
+            .add( MappableTypes.ALL_TYPES )
             ;
+    }
+
+    /**
+     * Build Map according to specified factory.
+     *
+     * @param <T>
+     *            Type of the {@code object} to examine.
+     * @param object
+     *            Object to examine.
+     * @return a Map view of the {@code object}
+     * @see #toMap(Object, Class)
+     */
+    public <T> Map<String,String> toMap( @Nonnull final T object )
+    {
+        @SuppressWarnings("unchecked")
+        final Class<T> type = (Class<T>)object.getClass();
+        return toMap( object, type );
     }
 
     /**
      * Build Map according to specified factory.
      * <p>
      * keys String are sorted.
-     * </p>
+     *
+     * @param <T> Type of the {@code object} to examine.
      * @param object Object to examine.
+     * @param type  Type to use to examine {@code object}
      * @return a Map view of the {@code object}
+     * @since 4.2
      */
-    public Map<String,String> toMap( final Object object )
+    public <T extends C,C> Map<String,String> toMap(
+        @Nullable final T       object,
+        @Nonnull final Class<C> type
+        )
     {
         final Map<String,String> map     = new HashMap<>();
-        final Class<?>           clazz   = object.getClass();
-        final Set<Method>        methods = getMethodsToHandle(clazz);
+        final Set<Method>        methods = getMethodsToHandle( type );
 
         for( final Method method : methods ) {
             if( (method.getParameterTypes().length == 0)
                 && this.methodesNamePattern.matcher( method.getName() ).matches()
                 ) {
-                handleMethodWithValueForToMap( object, map, method );
+                toMap( object, map, method );
                 }
             }
 
         return new TreeMap<>( map );
     }
 
+    private <T> void toMap(
+        @Nullable final T                  object,
+        @Nonnull final Map<String, String> map,
+        @Nonnull final Method              method
+        )
+    {
+        if( object == null ) {
+            map.put( getKey( method ), this.toStringNullValue );
+        } else {
+            handleMethodWithValueForToMap( object, map, method );
+        }
+    }
+
+    private String getKey( final Method method )
+    {
+        final String[] params = {
+                method.getName()
+                };
+
+            return this.mappableBuilderFormat.getMessageFormatMethodName().format( params );
+    }
+
     @SuppressWarnings("squid:MethodCyclomaticComplexity")
-    private void handleMethodWithValueForToMap(
-        final Object             object,
-        final Map<String,String> map,
-        final Method             method
+    private <T> void handleMethodWithValueForToMap(
+        @Nonnull final T                  object,
+        @Nonnull final Map<String,String> map,
+        @Nonnull final Method             method
         )
     {
         final Class<?> returnType = method.getReturnType();
-        Object   result0;
+        Object         result0;
 
         if( isMappable( returnType ) ) {
             if( returnType.isArray() ) {
@@ -154,44 +200,49 @@ public class MappableBuilder
         invokeMethodWithValueForToMap( object, map, method, returnType );
     }
 
-    private void invokeMethodWithValueForToMap( final Object object, final Map<String, String> map, final Method method, final Class<?> returnType )
+    private void invokeMethodWithValueForToMap(
+        final Object              object,
+        final Map<String, String> map,
+        final Method              method,
+        final Class<?>            returnType
+        )
     {
         final Object methodResult = invoke(object, method, map, Object.class);
 
         if( returnType.isArray() ) {
-            final String methodName = method.getName();
 
             if( methodResult == null ) {
                 map.put(
-                        formatMethodName( methodName ),
-                        toString( methodResult )
-                        );
+                    getKey( method ),
+                    toString( methodResult )
+                    );
                 }
             else {
-                final int len = Array.getLength( methodResult );
+                final String methodName = method.getName();
+                final int    len        = Array.getLength( methodResult );
 
                 for(int i = 0; i < len; i++) {
                     final Object value = Array.get( methodResult, i );
 
                     map.put(
-                            formatArrayEntry(methodName, i, len),
-                            toString(value)
-                            );
+                        formatArrayEntry( methodName, i, len ),
+                        toString( value )
+                        );
                     }
                 }
         }
         else {
             if( methodResult == null ) {
                 map.put(
-                        formatMethodName(method.getName()),
-                        null
-                        );
+                    getKey( method ),
+                    null
+                    );
                 }
             else {
                 map.put(
-                        formatMethodName(method.getName()),
-                        methodResult.toString()
-                        );
+                    getKey( method ),
+                    methodResult.toString()
+                    );
                 }
         }
     }
@@ -202,21 +253,22 @@ public class MappableBuilder
         final Method             method
         )
     {
-        final Enumeration<?> enum0      = (Enumeration<?>)invoke(object, method, map, Enumeration.class);
-        final String         methodName = method.getName();
+        final Enumeration<?> enumeration = (Enumeration<?>)invoke( object, method, map, Enumeration.class );
 
-        int i = 0;
         map.put(
-                formatMethodName( methodName ),
-                (enum0 == null) ? null : enum0.toString()
-                );
+            getKey( method ),
+            (enumeration == null) ? null : enumeration.toString()
+            );
 
-        if( enum0 != null ) {
-            while( enum0.hasMoreElements() ) {
+        if( enumeration != null ) {
+            final String methodName = method.getName();
+            int          i          = 0;
+
+            while( enumeration.hasMoreElements() ) {
                 map.put(
-                        formatEnumerationEntry(methodName, i++, -1),
-                        toString( enum0.nextElement() )
-                        );
+                    formatEnumerationEntry( methodName, i++, -1 ),
+                    toString( enumeration.nextElement() )
+                    );
                 }
             }
     }
@@ -227,24 +279,24 @@ public class MappableBuilder
         final Method             method
         )
     {
-        final Iterable<?> list       = (Iterable<?>)invoke(object, method, map, Iterable.class);
-        final String      methodName = method.getName();
+        final Iterable<?> iterable = (Iterable<?>)invoke(object, method, map, Iterable.class);
 
         map.put(
-                formatMethodName( methodName ),
-                (list == null) ? null : list.toString()
-                );
+            getKey( method ),
+            (iterable == null) ? null : iterable.toString()
+            );
 
-        if( list != null ) {
-            final Iterator<?> iter = list.iterator();
-            int               i    = 0;
+        if( iterable != null ) {
+            final String      methodName = method.getName();
+            final Iterator<?> iter       = iterable.iterator();
+            int               i          = 0;
 
             if( iter != null ) {
                 while( iter.hasNext() ) {
                     map.put(
-                            formatIterableEntry(methodName, i++, -1),
-                            toString(iter.next())
-                            );
+                        formatIterableEntry( methodName, i++, -1 ),
+                        toString( iter.next() )
+                        );
                 }
             }
         }
@@ -256,19 +308,21 @@ public class MappableBuilder
         final Method             method
         )
     {
-        final Iterator<?> iter = (Iterator<?>)invoke(object, method, map, Iterator.class);
-        final String      name = method.getName();
+        final Iterator<?> iterator = (Iterator<?>)invoke(object, method, map, Iterator.class);
 
-        int i = 0;
         map.put(
-                formatMethodName(name),
-                (new StringBuilder()).append(iter).toString()
-                );
-        while( iter.hasNext() ) {
+            getKey( method ),
+            String.valueOf( iterator )
+            );
+
+        while( iterator.hasNext() ) {
+            final String name = method.getName();
+            int          i    = 0;
+
             map.put(
-                    formatIteratorEntry(name, i++, -1),
-                    toString( iter.next())
-                    );
+                formatIteratorEntry( name, i++, -1 ),
+                toString( iterator.next() )
+                );
         }
     }
 
@@ -347,16 +401,6 @@ public class MappableBuilder
         return this.mappableBuilderFormat.getMessageFormatArrayEntry().format(
             buildStringArray( methodeName, index, max )
             );
-    }
-
-    @NeedDoc
-    protected String formatMethodName( final String methodeName )
-    {
-        final String[] params = {
-            methodeName
-            };
-
-        return this.mappableBuilderFormat.getMessageFormatMethodName().format(params);
     }
 
     /** Build methods list to handle */
@@ -563,9 +607,9 @@ public class MappableBuilder
     {
          for( final Map.Entry<String,String> entry : object.toMap().entrySet() ) {
             hashMap.put(
-                    methodName + entry.getKey(),
-                    entry.getValue()
-                    );
+                methodName + entry.getKey(),
+                entry.getValue()
+                );
              }
     }
 
@@ -598,9 +642,10 @@ public class MappableBuilder
             }
 
             hashMap.put(
-                    formatMethodName( method.getName() ),
-                    "ExceptionInInitializerError: " + e.getCause()
-                    );
+                getKey( method ),
+                "ExceptionInInitializerError: " + e.getCause()
+                );
+
             return null;
             }
         catch( final IllegalAccessException ignore ) {
@@ -616,9 +661,9 @@ public class MappableBuilder
             }
 
             hashMap.put(
-                    formatMethodName( method.getName() ),
-                    "InvocationTargetException: " + e.getCause()
-                    );
+                getKey( method ),
+                "InvocationTargetException: " + e.getCause()
+                );
             }
 
         return null;
@@ -638,9 +683,9 @@ public class MappableBuilder
 
         if( result == null ) {
             hashMap.put(
-                    formatMethodName( method.getName() ),
-                    this.toStringNullValue
-                    );
+                getKey( method ),
+                this.toStringNullValue
+                );
 
             return null;
         }

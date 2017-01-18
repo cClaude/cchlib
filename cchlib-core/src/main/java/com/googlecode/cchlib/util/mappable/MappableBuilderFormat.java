@@ -13,13 +13,13 @@ class MappableBuilderFormat
     private final MessageFormat messageFormatArrayEntry;
     private final MessageFormat messageFormatMethodName;
 
-    public MappableBuilderFormat(final MappableBuilderFactory factory )
+    public MappableBuilderFormat( final MappableBuilderFactory factory )
     {
-        this.messageFormatIteratorEntry     = new MessageFormat(factory.getMessageFormatIteratorEntry());
-        this.messageFormatIterableEntry     = new MessageFormat(factory.getMessageFormatIterableEntry());
-        this.messageFormatEnumerationEntry  = new MessageFormat(factory.getMessageFormatEnumerationEntry());
-        this.messageFormatArrayEntry        = new MessageFormat(factory.getMessageFormatArrayEntry());
-        this.messageFormatMethodName        = new MessageFormat(factory.getMessageFormatMethodName());
+        this.messageFormatIteratorEntry     = new MessageFormat( factory.getMessageFormatIteratorEntry() );
+        this.messageFormatIterableEntry     = new MessageFormat( factory.getMessageFormatIterableEntry() );
+        this.messageFormatEnumerationEntry  = new MessageFormat( factory.getMessageFormatEnumerationEntry() );
+        this.messageFormatArrayEntry        = new MessageFormat( factory.getMessageFormatArrayEntry() );
+        this.messageFormatMethodName        = new MessageFormat( factory.getMessageFormatMethodName() );
     }
 
     protected MessageFormat getMessageFormatIteratorEntry()
