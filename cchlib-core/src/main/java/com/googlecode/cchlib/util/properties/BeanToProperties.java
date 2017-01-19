@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
@@ -16,20 +15,19 @@ final class BeanToProperties<E>
 {
     private static final Logger LOGGER = Logger.getLogger( BeanToProperties.class );
 
-    private final E bean;
-    private final Properties properties;
-
-    private final StringBuilder prefix;
-    private final int prefixLength;
+    private final E                  bean;
+    private final Map<String,String> properties;
+    private final StringBuilder      prefix;
+    private final int                prefixLength;
 
     /* package */ BeanToProperties(
-        final E                                            bean,
-        final Properties                                   properties,
-        final String                                       propertiesPrefix
+        final E                  bean,
+        final Map<String,String> properties,
+        final String             propertiesPrefix
         )
     {
-        this.bean        = bean;
-        this.properties  = properties;
+        this.bean       = bean;
+        this.properties = properties;
 
         if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
             this.prefix       = new StringBuilder();
@@ -42,8 +40,7 @@ final class BeanToProperties<E>
     }
 
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
-    /* package */
-    void loadForField(
+    /* package */ void loadForField(
         final Map<Field, PropertiesPopulatorAnnotation<E, Field>> fieldsMap
         ) throws PropertiesPopulatorRuntimeException
     {
@@ -55,8 +52,7 @@ final class BeanToProperties<E>
     }
 
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
-    /* package */
-    void loadForMethod(
+    /* package */ void loadForMethod(
         final Map<String, PropertiesPopulatorAnnotation<E, Method>> getterSetterMap
         ) throws PropertiesPopulatorRuntimeException
     {
@@ -67,7 +63,7 @@ final class BeanToProperties<E>
             }
     }
 
-    private void loadDataForMethod( //
+    private void loadDataForMethod(
         final PropertiesPopulatorAnnotationForMethod<E> entryValue
         )
     {
@@ -75,7 +71,7 @@ final class BeanToProperties<E>
         final AccessibleRestorer accessible = new AccessibleRestorer( method );
 
         try {
-            final Object result = method.invoke( this.bean);
+            final Object result = method.invoke( this.bean );
 
             if( result != null ) {
                 if( method.getReturnType().isArray() ) {
@@ -97,17 +93,20 @@ final class BeanToProperties<E>
             }
         catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e ) {
             // ignore !
-            LOGGER.warn( "Cannot read method:" + method, e );
+            final String message = "Cannot read from method: " + method
+                    + " on object [" + this.bean + "] of type " + this.bean.getClass();
+
+            LOGGER.warn( message, e );
             }
         finally {
             accessible.restore();
             }
     }
 
-    private void handleNonArrayForMethod( //
-            final PropertiesPopulatorAnnotationForMethod<E> entryValue, //
-            final Object result //
-            )
+    private void handleNonArrayForMethod(
+        final PropertiesPopulatorAnnotationForMethod<E> entryValue,
+        final Object                                    result
+        )
     {
         final String name        = entryValue.getAttributeName();
         final String stringValue = entryValue.toString( result );
@@ -121,9 +120,9 @@ final class BeanToProperties<E>
         throw new UnsupportedOperationException();
     }
 
-    private void handleArrayForMethod( //
-        final PropertiesPopulatorAnnotationForMethod<E> entryValue, //
-        final Object values //
+    private void handleArrayForMethod(
+        final PropertiesPopulatorAnnotationForMethod<E> entryValue,
+        final Object                                    values
         )
     {
         final String name = entryValue.getAttributeName();
@@ -131,7 +130,7 @@ final class BeanToProperties<E>
         setValues( entryValue, values, name );
     }
 
-    private void loadDataForField( //
+    private void loadDataForField(
         final PropertiesPopulatorAnnotationForField<E> entryValue
         )
     {
@@ -170,7 +169,7 @@ final class BeanToProperties<E>
 
     private void handleNonArrayForField(
         final PropertiesPopulatorAnnotationForField<E> entryValue,
-        final Object value
+        final Object                                   value
         )
     {
         final String name        = entryValue.getField().getName();
@@ -198,7 +197,7 @@ final class BeanToProperties<E>
 
     private void handleArrayForField(
         final PropertiesPopulatorAnnotationForField<E> entryValue,
-        final Object values
+        final Object                                   values
         )
     {
         final String name = entryValue.getField().getName();
@@ -206,36 +205,36 @@ final class BeanToProperties<E>
         setValues( entryValue, values, name );
     }
 
-    private void setValues( //
-            final PropertiesPopulatorAnnotation<E,?> propertiesPopulatorAnnotation, //
-            final Object values, //
-            final String name //
-            )
+    private void setValues(
+        final PropertiesPopulatorAnnotation<E,?> propertiesPopulatorAnnotation,
+        final Object                             values,
+        final String                             name
+        )
     {
         // Handle Arrays
        final int length = Array.getLength( values );
 
-        for( int i = 0; i < length; i ++ ) {
-            final Object value = Array.get( values, i );
+        for( int index = 0; index < length; index ++ ) {
+            final Object value = Array.get( values, index );
             final String stringValue;
 
             if( value == null ) {
                 stringValue = StringHelper.EMPTY;
                 }
             else {
-                stringValue =  propertiesPopulatorAnnotation.toString( value );
+                stringValue = propertiesPopulatorAnnotation.toString( value );
                 }
 
-            setValue( name, i, stringValue );
+            setValue( name, index, stringValue );
             }
     }
 
-    private void setValue( final String name, final int i, final String stringValue )
+    private void setValue( final String name, final int index, final String stringValue )
     {
         this.prefix.setLength( this.prefixLength );
         this.prefix.append( name );
         this.prefix.append( '.' );
-        this.prefix.append( i );
+        this.prefix.append( index );
 
         this.properties.put( this.prefix.toString(), stringValue );
     }
@@ -253,4 +252,3 @@ final class BeanToProperties<E>
             }
     }
 }
-

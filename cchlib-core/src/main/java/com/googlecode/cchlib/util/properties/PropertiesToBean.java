@@ -17,15 +17,15 @@ class PropertiesToBean<E>
 {
     private static final Logger LOGGER = Logger.getLogger( PropertiesToBean.class );
 
-    private final Properties    properties;
+    private final Map<?,?>      properties;
     private final E             bean;
     private final StringBuilder prefix;
     private final int           prefixLength;
 
-    public PropertiesToBean(
-        final String     propertiesPrefix,
-        final Properties properties,
-        final E          bean
+    /* package */ public PropertiesToBean(
+        final String   propertiesPrefix,
+        final Map<?,?> properties,
+        final E        bean
         )
     {
         this.properties = properties;
@@ -36,7 +36,7 @@ class PropertiesToBean<E>
             this.prefixLength = 0;
             }
         else {
-            this.prefix      = new StringBuilder( propertiesPrefix );
+            this.prefix       = new StringBuilder( propertiesPrefix );
             this.prefixLength = this.prefix.length();
             }
      }
@@ -73,7 +73,7 @@ class PropertiesToBean<E>
             }
             else {
                 final PropertiesPopulatorAnnotationForMethod<E> entryValue = (PropertiesPopulatorAnnotationForMethod<E>)value;
-                final Method setter = entryValue.getSetter();
+                final Method                                    setter     = entryValue.getSetter();
 
                 assert setter.getParameterCount() == 1;
 
@@ -89,10 +89,10 @@ class PropertiesToBean<E>
         }
     }
 
-    private void handleNonArrayMethod( //
+    private void handleNonArrayMethod(
         final String                                    attributeName,
         final PropertiesPopulatorAnnotationForMethod<E> value,
-        final Class<?>                                  type //
+        final Class<?>                                  type
         )
     {
         final String             defaultValue = getDefaultValue( value );
@@ -126,7 +126,11 @@ class PropertiesToBean<E>
     }
 
     /** try to find a constructor based on String */
-    private boolean tryToSetUsingConstructor( final PropertiesPopulatorAnnotationForMethod<E> value, final Class<?> type, final String strValue )
+    private boolean tryToSetUsingConstructor(
+        final PropertiesPopulatorAnnotationForMethod<E> value,
+        final Class<?>                                  type,
+        final String                                    strValue
+        )
     {
         try {
             final Object realValue = type.getConstructor( String.class ).newInstance( strValue );
@@ -135,16 +139,19 @@ class PropertiesToBean<E>
 
             return true;
             }
-        catch( InstantiationException | IllegalAccessException //
-                | IllegalArgumentException | InvocationTargetException //
+        catch( InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException newInstanceException ) {
-            LOGGER.warn( "Can not find a constructor for " + type + " using String[" + strValue + ']', newInstanceException );
+            LOGGER.warn(
+                    "Can not find a constructor for " + type + " using String[" + strValue + ']',
+                    newInstanceException
+                    );
             return false;
             }
     }
 
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
-    private void setValue( final Method method, final Object realValue ) //
+    private void setValue( final Method method, final Object realValue )
         throws IllegalAccessException,
                IllegalArgumentException,
                InvocationTargetException
@@ -152,11 +159,11 @@ class PropertiesToBean<E>
         method.invoke( this.bean, realValue );
     }
 
-    private void handleArrayMethod( //
-        final String                                    attributeName, //
-        final PropertiesPopulatorAnnotationForMethod<E> propertiesPopulatorAnnotation, //
-        final StringBuilder                             prefix, //
-        final int                                       prefixLength //
+    private void handleArrayMethod(
+        final String                                    attributeName,
+        final PropertiesPopulatorAnnotationForMethod<E> propertiesPopulatorAnnotation,
+        final StringBuilder                             prefix,
+        final int                                       prefixLength
         )
     {
         final Method             method       = propertiesPopulatorAnnotation.getGetter();
@@ -216,8 +223,8 @@ class PropertiesToBean<E>
     }
 
     private void handleNonArrayField(
-        final PropertiesPopulatorAnnotationForField<E>  entryValue,
-        final Class<?>                                  type
+        final PropertiesPopulatorAnnotationForField<E> entryValue,
+        final Class<?>                                 type
         )
     {
         final String             defaultValue = getDefaultValue( entryValue );
@@ -230,7 +237,11 @@ class PropertiesToBean<E>
                 final Object o = field.get( this.bean );
 
                 if( o == null ) {
-                    throw new PopulatorException( "Can't handle null for PopulatorContener field", field, field.getType() );
+                    throw new PopulatorException(
+                            "Can't handle null for PopulatorContener field",
+                            field,
+                            field.getType()
+                            );
                     }
                 final PopulatorContener contener = PopulatorContener.class.cast( o );
 
@@ -269,17 +280,18 @@ class PropertiesToBean<E>
         final String strValue;
 
         if( this.prefixLength == 0 ) {
-            strValue = this.properties.getProperty( attributName, defaultValue );
+            strValue = getProperty( this.properties, attributName, defaultValue );
             }
         else {
             this.prefix.setLength( this.prefixLength );
             this.prefix.append( attributName );
 
-            strValue = this.properties.getProperty( this.prefix.toString(), defaultValue );
+            strValue = getProperty( this.properties, this.prefix.toString(), defaultValue );
             }
 
         return strValue;
     }
+
 
     private String getDefaultValue( final PropertiesPopulatorAnnotation<E,?> ppa )
     {
@@ -297,9 +309,9 @@ class PropertiesToBean<E>
 
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void handleArrayField(
-        final PropertiesPopulatorAnnotationForField<E>  propertiesPopulatorAnnotation,
-        final StringBuilder                             prefix,
-        final int                                       prefixLength
+        final PropertiesPopulatorAnnotationForField<E> propertiesPopulatorAnnotation,
+        final StringBuilder                            prefix,
+        final int                                      prefixLength
         ) throws ArrayIndexOutOfBoundsException,
                  PropertiesPopulatorRuntimeException
     {
@@ -369,10 +381,10 @@ class PropertiesToBean<E>
             }
     }
 
-    private List<String> getStringValues( //
-        final StringBuilder prefixStringBuilder, //
-        final int           prefixLength, //
-        final String        name //
+    private List<String> getStringValues(
+        final StringBuilder prefixStringBuilder,
+        final int           prefixLength,
+        final String        name
         )
     {
         final List<String>  values = new ArrayList<>();
@@ -390,13 +402,13 @@ class PropertiesToBean<E>
         // TODO: handle default values ???
 
         // Put arrays values in a list of strings
-        for( int i=0; ;i++ ) {
+        for( int index = 0 ; ; index++ ) {
             valuePrefix.setLength( prefixLength );
             valuePrefix.append(  name );
             valuePrefix.append( '.' );
-            valuePrefix.append( i );
+            valuePrefix.append( index );
 
-            final String strValue = this.properties.getProperty( valuePrefix.toString() );
+            final String strValue = getProperty( this.properties, valuePrefix.toString() );
 
             if( strValue == null ) {
                 break;
@@ -407,5 +419,29 @@ class PropertiesToBean<E>
             }
 
         return values;
+    }
+
+    // Properties and Map support
+    private static String getProperty( final Map<?, ?> map, final String key )
+    {
+        if( map instanceof Properties ) {
+            return ((Properties)map).getProperty( key );
+        } else {
+            final Object oval = map.get(key);
+
+            return (oval instanceof String) ? (String)oval : null;
+        }
+    }
+
+    // Properties and Map support
+    private String getProperty( final Map<?, ?> map, final String key, final String defaultValue )
+    {
+        if( map instanceof Properties ) {
+            return ((Properties)map).getProperty( key, defaultValue );
+        } else {
+            final String val = getProperty( map, key );
+
+            return (val == null) ? defaultValue : val;
+        }
     }
 }

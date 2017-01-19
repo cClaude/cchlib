@@ -9,7 +9,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 
@@ -35,56 +34,56 @@ import org.apache.log4j.Logger;
  */
 public class PropertiesPopulator<E> implements Serializable
 {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
 
     private static final Logger LOGGER = Logger.getLogger( PropertiesPopulator.class );
 
-    private static final int IS_LENGTH = 2;
+    private static final int IS_LENGTH      = 2;
     private static final int GET_SET_LENGTH = 3;
 
-    private transient Class<? extends E> clazz;
-    private final Map<Field ,PropertiesPopulatorAnnotation<E,Field>>  fieldsMap      = new HashMap<>();
+    private transient Class<? extends E> beanType;
+    private final Map<Field ,PropertiesPopulatorAnnotation<E,Field>>  fieldsMap       = new HashMap<>();
     private final Map<String,PropertiesPopulatorAnnotation<E,Method>> getterSetterMap = new HashMap<>();
 
     /**
      * Create a {@link PropertiesPopulator} object for giving class.
      *
-     * @param clazz {@link Class} to use to create this {@link PropertiesPopulator}.
+     * @param type {@link Class} to use to create this {@link PropertiesPopulator}.
      */
-    public PropertiesPopulator( final Class<? extends E> clazz )
+    public PropertiesPopulator( final Class<? extends E> type )
     {
-        this.clazz = clazz;
+        this.beanType = type;
 
         init();
     }
 
     private void init()
     {
-        buildFieldMap( this.clazz.getDeclaredFields() );
-        buildMethodMaps( this.clazz.getDeclaredMethods() );
+        buildFieldMap( this.beanType.getDeclaredFields() );
+        buildMethodMaps( this.beanType.getDeclaredMethods() );
 
         if( LOGGER.isTraceEnabled() ) {
-            LOGGER.trace( "Found " + this.fieldsMap.size() + " fields on " + this.clazz );
+            LOGGER.trace( "Found " + this.fieldsMap.size() + " fields on " + this.beanType );
 
-            for( final Entry<Field, PropertiesPopulatorAnnotation<E, Field>> entry : this.fieldsMap.entrySet() ) {
+            for( final Map.Entry<Field, PropertiesPopulatorAnnotation<E, Field>> entry : this.fieldsMap.entrySet() ) {
                 LOGGER.trace( "Key[" + entry.getKey() + "]=" + entry.getValue() );
                 }
 
-            for( final Entry<String, PropertiesPopulatorAnnotation<E, Method>> entry : this.getterSetterMap.entrySet() ) {
+            for( final Map.Entry<String, PropertiesPopulatorAnnotation<E, Method>> entry : this.getterSetterMap.entrySet() ) {
                 LOGGER.trace( "Method[" + entry.getKey() + "]=" + entry.getValue() );
                 }
             }
     }
 
-    //Serializable
-    private void writeObject(final ObjectOutputStream out)
+    // Serializable
+    private void writeObject( final ObjectOutputStream out )
         throws IOException
     {
         out.defaultWriteObject();
     }
 
-    //Serializable
-    private void readObject(final ObjectInputStream in)
+    // Serializable
+    private void readObject( final ObjectInputStream in )
         throws IOException, ClassNotFoundException
     {
         in.defaultReadObject();
@@ -106,7 +105,10 @@ public class PropertiesPopulator<E> implements Serializable
             if( persistent != null ) {
                 final String attributeName = getAttributeNameForGetter( method );
 
-                this.getterSetterMap.put( attributeName, new PropertiesPersistentAnnotationForMethodImpl<>( persistent, method, attributeName )  );
+                this.getterSetterMap.put(
+                        attributeName,
+                        new PropertiesPersistentAnnotationForMethodImpl<>( persistent, method, attributeName )
+                        );
                 }
         }
     }
@@ -121,50 +123,55 @@ public class PropertiesPopulator<E> implements Serializable
         return null;
     }
 
-    private void tryToBuildMethodPopulator( final Method[] methods, final Method method, final Populator populator )
+    private void tryToBuildMethodPopulator(
+        final Method[]  methods,
+        final Method    method,
+        final Populator populator
+        )
     {
-        Method getter;
-        Method setter;
-        String attributName;
+        final Method getter;
+        final Method setter;
+        final String attributName;
 
         if( method.getParameterCount() == 0 ) {
             final String methodName = method.getName();
 
             if( methodName.startsWith( "get" ) ) {
-                getter = method;
+                getter       = method;
                 attributName = methodName.substring( GET_SET_LENGTH );
-                setter = findSetter( attributName, methods, method.getReturnType() );
+                setter       = findSetter( attributName, methods, method.getReturnType() );
             } else if( methodName.startsWith( "is" ) ) {
-                getter = method;
+                getter       = method;
                 attributName = methodName.substring( IS_LENGTH );
-                setter = findSetter( attributName, methods, method.getReturnType() );
+                setter       = findSetter( attributName, methods, method.getReturnType() );
             } else {
-                getter = null;
-                setter = null;
+                getter       = null;
+                setter       = null;
                 attributName = null;
             }
-
-        } else  if( method.getParameterCount() == 1 ) {
+        } else if( method.getParameterCount() == 1 ) {
             final String methodName = method.getName();
 
             if( methodName.startsWith( "set" ) ) {
-                setter = method;
+                setter       = method;
                 attributName = methodName.substring( GET_SET_LENGTH );
 
                 final Class<?> returnType = method.getReturnType();
-                getter = findMethod( "get" + attributName, methods, returnType , 0 );
+                final Method   getgetter  = findMethod( "get" + attributName, methods, returnType , 0 );
 
-                if( getter == null ) {
+                if( getgetter == null ) {
                     getter = findMethod( "is" + attributName, methods, returnType, 0 );
+                } else {
+                    getter = getgetter;
                 }
             } else {
-                getter = null;
-                setter = null;
+                getter       = null;
+                setter       = null;
                 attributName = null;
             }
         } else {
-            getter = null;
-            setter = null;
+            getter       = null;
+            setter       = null;
             attributName = null;
         }
 
@@ -174,23 +181,29 @@ public class PropertiesPopulator<E> implements Serializable
                     new PropertiesPopulatorAnnotationForMethodImpl<>( populator, getter, setter, attributName ) //
                     );
         } else {
-            LOGGER.warn( "Populator warning : can not handle Method " + method + " getter=" + getter + " / setter=" + setter + " / attributName=[" + attributName + ']' );
+            LOGGER.warn(
+                "Populator warning : can not handle Method " + method
+                    + " getter=" + getter
+                    + " / setter=" + setter
+                    + " / attributName=[" + attributName
+                    + ']'
+                );
         }
     }
 
     private Method findSetter(
-            final String   attributName,
-            final Method[] methods,
-            final Class<?> type
-            )
+        final String   attributName,
+        final Method[] methods,
+        final Class<?> returnType
+        )
     {
-        return findMethod( "set" + attributName, methods, type, 1 );
+        return findMethod( "set" + attributName, methods, returnType, 1 );
     }
 
     private Method findMethod(
             final String   methodName,
             final Method[] methods,
-            final Class<?> type,
+            final Class<?> returnType,
             final int      parameterCount
             )
     {
@@ -211,24 +224,32 @@ public class PropertiesPopulator<E> implements Serializable
             final Populator populator = field.getAnnotation( Populator.class );
 
             if( populator != null ) {
-                this.fieldsMap.put( field, new PropertiesPopulatorAnnotationForFieldImpl<>( populator, field ) );
+                this.fieldsMap.put(
+                    field,
+                    new PropertiesPopulatorAnnotationForFieldImpl<>( populator, field )
+                    );
                 }
 
             final Persistent persistent = field.getAnnotation( Persistent.class );
 
             if( persistent != null ) {
-                this.fieldsMap.put( field, new PropertiesPersistentAnnotationForFieldImpl<E>( persistent, field ) );
+                this.fieldsMap.put(
+                    field,
+                    new PropertiesPersistentAnnotationForFieldImpl<E>( persistent, field )
+                    );
                 }
             }
     }
 
     /**
-     * Store fields annotate with {@link Populator} from bean
-     * to properties
+     * Store fields annotate with {@link Populator} from bean to properties
      *
-     * @param bean       Object to use to get values
-     * @param properties {@link Properties} to use to store values
-     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
+     * @param bean
+     *            Object to use to get values
+     * @param properties
+     *            {@link Properties} to use to store values
+     * @throws PropertiesPopulatorRuntimeException
+     *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateProperties(
@@ -240,15 +261,38 @@ public class PropertiesPopulator<E> implements Serializable
     }
 
     /**
-     * Store fields annotate with {@link Populator} from bean
-     * to properties.<br>
-     * Null entries are not stored in properties, but null entries
-     * from arrays are stored.
+     * Store fields annotate with {@link Populator} from bean to a {@link Map}
      *
-     * @param propertiesPrefix Prefix for properties names, if null or empty ignored.
-     * @param bean       Object to use to get values
-     * @param properties {@link Properties} to use to store values
-     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
+     * @param bean
+     *            Object to use to get values
+     * @param map
+     *            {@link Map} to use to store values
+     * @throws PropertiesPopulatorRuntimeException
+     *             if there is a mapping error
+     */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    public void populateMap(
+        final E                  bean,
+        final Map<String,String> map
+        ) throws PropertiesPopulatorRuntimeException
+    {
+        populateMap( null, bean, map );
+    }
+
+    /**
+     * Store fields annotate with {@link Populator} from bean to properties.
+     * <p>
+     * Null entries are not stored in properties, but null entries from
+     * arrays are stored.
+     *
+     * @param propertiesPrefix
+     *            Prefix for properties names, if null or empty ignored.
+     * @param bean
+     *            Object to use to get values
+     * @param properties
+     *            {@link Properties} to use to store values
+     * @throws PropertiesPopulatorRuntimeException
+     *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateProperties(
@@ -257,20 +301,51 @@ public class PropertiesPopulator<E> implements Serializable
         final Properties properties
         ) throws PropertiesPopulatorRuntimeException
     {
-        final BeanToProperties<E> loader //
-        = new BeanToProperties<>( bean, properties, propertiesPrefix );
+        final Map<String,String> map = new HashMap<>();
+
+        populateMap( propertiesPrefix, bean, map );
+
+        properties.putAll( map );
+    }
+
+    /**
+     * Store fields annotate with {@link Populator} from bean to a {@link Map}.
+     * <p>
+     * Null entries are not stored in properties, but null entries from
+     * arrays are stored.
+     *
+     * @param propertiesPrefix
+     *            Prefix for properties names, if null or empty ignored.
+     * @param bean
+     *            Object to use to get values
+     * @param map
+     *            {@link Map} to use to store values
+     * @throws PropertiesPopulatorRuntimeException
+     *             if there is a mapping error
+     */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    public void populateMap(
+        final String             propertiesPrefix,
+        final E                  bean,
+        final Map<String,String> map
+        ) throws PropertiesPopulatorRuntimeException
+    {
+        final BeanToProperties<E> loader
+            = new BeanToProperties<>( bean, map, propertiesPrefix );
 
         loader.loadForField( this.fieldsMap );
         loader.loadForMethod( this.getterSetterMap );
     }
 
     /**
-     * Set fields annotate with {@link Populator} from properties
-     * on bean
+     * Set fields annotate with {@link Populator} from properties on bean
      *
-     * @param bean       Object to use to store values
-     * @param properties {@link Properties} to use to get values
-     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
+     * @param bean
+     *            Object to use to store values
+     * @param properties
+     *            {@link Properties} to use to get values
+     * @throws PropertiesPopulatorRuntimeException
+     *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateBean(
@@ -282,13 +357,35 @@ public class PropertiesPopulator<E> implements Serializable
     }
 
     /**
-     * Set fields annotate with {@link Populator} from properties
-     * on bean
+     * Set fields annotate with {@link Populator} from properties on bean
      *
-     * @param propertiesPrefix Prefix for properties names, if null or empty ignored.
-     * @param bean       Object to use to store values
-     * @param properties {@link Properties} to use to get values
-     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
+     * @param bean
+     *            Object to use to store values
+     * @param map
+     *            {@link Map} to use to get values
+     * @throws PropertiesPopulatorRuntimeException
+     *             if there is a mapping error
+     */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    public void populateBean(
+        final Map<String,String> map,
+        final E                  bean
+        ) throws PropertiesPopulatorRuntimeException
+    {
+        populateBean( null, map, bean );
+    }
+
+    /**
+     * Set fields annotate with {@link Populator} from properties on bean
+     *
+     * @param propertiesPrefix
+     *            Prefix for properties names, if null or empty ignored.
+     * @param bean
+     *            Object to use to store values
+     * @param properties
+     *            {@link Properties} to use to get values
+     * @throws PropertiesPopulatorRuntimeException
+     *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateBean(
@@ -297,7 +394,35 @@ public class PropertiesPopulator<E> implements Serializable
         final E          bean
         ) throws PropertiesPopulatorRuntimeException
     {
-        final PropertiesToBean<E> propertiesToBean = new PropertiesToBean<>( propertiesPrefix, properties, bean);
+        final PropertiesToBean<E> propertiesToBean
+            = new PropertiesToBean<>( propertiesPrefix, properties, bean );
+
+        propertiesToBean.populateFields( this.fieldsMap );
+        propertiesToBean.populateMethods( this.getterSetterMap );
+    }
+
+    /**
+     * Set fields annotate with {@link Populator} from properties on bean
+     *
+     * @param propertiesPrefix
+     *            Prefix for properties names, if null or empty ignored.
+     * @param bean
+     *            Object to use to store values
+     * @param map
+     *            {@link Map} to use to get values
+     * @throws PropertiesPopulatorRuntimeException
+     *             if there is a mapping error
+     * @since 4.2
+     */
+    @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
+    public void populateBean(
+        final String             propertiesPrefix,
+        final Map<String,String> map,
+        final E                  bean
+        ) throws PropertiesPopulatorRuntimeException
+    {
+        final PropertiesToBean<E> propertiesToBean
+            = new PropertiesToBean<>( propertiesPrefix, map, bean );
 
         propertiesToBean.populateFields( this.fieldsMap );
         propertiesToBean.populateMethods( this.getterSetterMap );
@@ -306,13 +431,19 @@ public class PropertiesPopulator<E> implements Serializable
     /**
      * Initialize a bean from a properties file.
      *
-     * @param <E> type of the bean
-     * @param propertiesFile    File to load
-     * @param bean              Bean initialize
-     * @param clazz             Class of bean
+     * @param <E>
+     *            type of the bean
+     * @param propertiesFile
+     *            File to load
+     * @param bean
+     *            Bean initialize
+     * @param clazz
+     *            Class of bean
      * @return giving bean for initialization chaining.
-     * @throws IOException if any I/O occur
-     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
+     * @throws IOException
+     *             if any I/O occur
+     * @throws PropertiesPopulatorRuntimeException
+     *             if there is a mapping error
      * @since 4.1.7
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -322,20 +453,29 @@ public class PropertiesPopulator<E> implements Serializable
         final Class<E>  clazz
         ) throws IOException, PropertiesPopulatorRuntimeException
     {
-        final Properties properties = PropertiesHelper.loadProperties( propertiesFile );
-        new PropertiesPopulator<>( clazz ).populateBean( properties, bean );
+        final Properties             properties = PropertiesHelper.loadProperties( propertiesFile );
+        final PropertiesPopulator<E> populator  = new PropertiesPopulator<>( clazz );
+
+        populator.populateBean( properties, bean );
+
         return bean;
     }
 
     /**
      * Save a bean to a properties file.
      *
-     * @param <E> type of the bean
-     * @param propertiesFile File to create
-     * @param bean           Bean to save
-     * @param clazz          Class of bean
-     * @throws IOException if any I/O occur
-     * @throws PropertiesPopulatorRuntimeException if there is a mapping error
+     * @param <E>
+     *            type of the bean
+     * @param propertiesFile
+     *            File to create
+     * @param bean
+     *            Bean to save
+     * @param clazz
+     *            Class of bean
+     * @throws IOException
+     *             if any I/O occur
+     * @throws PropertiesPopulatorRuntimeException
+     *             if there is a mapping error
      * @since 4.1.7
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -345,8 +485,57 @@ public class PropertiesPopulator<E> implements Serializable
         final Class<E>  clazz
         ) throws IOException, PropertiesPopulatorRuntimeException
     {
-        final Properties properties = new Properties();
-        new PropertiesPopulator<>( clazz ).populateProperties( bean, properties );
+        final Properties             properties = new Properties();
+        final PropertiesPopulator<E> populator  = new PropertiesPopulator<>( clazz );
+
+        populator.populateProperties( bean, properties );
+
         PropertiesHelper.saveProperties( propertiesFile, properties );
+    }
+
+    public Map<String, String> newMapForBean()
+        throws InstantiationException, IllegalAccessException
+    {
+        return newMapForBean( (String)null, this.beanType );
+    }
+
+    public Map<String, String> newMapForBean(
+        final Class<? extends E> concreteBeanInstance
+        ) throws InstantiationException, IllegalAccessException
+    {
+        return newMapForBean( (String)null, concreteBeanInstance );
+    }
+
+    /**
+     * NEEDDOC
+     *
+     * @param propertiesPrefix
+     *            Prefix for properties names, if null or empty ignored.
+     * @param concreteBeanInstance
+     *            NEEDDOC
+     * @return a {@link Map} that corresponding to the bean with default values.
+     * @throws InstantiationException
+     *             if this Class represents an abstract class, an interface, an
+     *             array class, a primitive type, or void; or if the class has no
+     *             nullary constructor; or if the instantiation fails for some
+     *             other reason.
+     * @throws IllegalAccessException
+     *             if the class or its nullary constructor is not accessible.
+     * @see Class#newInstance()
+     * @since 4.2
+     */
+    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
+    public Map<String, String> newMapForBean(
+        final String             propertiesPrefix,
+        final Class<? extends E> concreteBeanInstance
+        ) throws InstantiationException, IllegalAccessException
+    {
+        final Map<String,String> map  = new HashMap<>();
+        final E                  bean = concreteBeanInstance.newInstance();
+
+        populateBean( propertiesPrefix, map, bean );
+        populateMap( propertiesPrefix, bean, map );
+
+        return map;
     }
 }
