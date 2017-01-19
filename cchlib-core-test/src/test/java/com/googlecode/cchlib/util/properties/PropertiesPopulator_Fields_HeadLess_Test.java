@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.properties;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.IOException;
@@ -7,9 +8,11 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-public class PropertiesPopulatorFieldsTestHeadLess
+public class PropertiesPopulator_Fields_HeadLess_Test
 {
-    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulatorFieldsTestHeadLess.class );
+    private static final Logger LOGGER = Logger.getLogger(
+            PropertiesPopulator_Fields_HeadLess_Test.class
+            );
 
     @Test
     public void test_PropertiesPopulator_without_prefix() throws PopulatorException
@@ -54,9 +57,10 @@ public class PropertiesPopulatorFieldsTestHeadLess
                     new boolean[]{true,false,false,false,false}
                     );
 
-        final String prefix = "with_a_prefix.";
+        final String     prefix     = "with_a_prefix.";
         final Properties properties = new Properties();
-        pp.populateProperties(prefix, bean, properties);
+
+        pp.populateProperties( prefix, bean, properties );
 
         Tools.logProperties( LOGGER, properties );
 
@@ -120,7 +124,8 @@ public class PropertiesPopulatorFieldsTestHeadLess
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 
-        assertEquals("Must be equal", bean, copy);
+        //assertEquals("Must be equal", bean, copy);
+        assertThat( copy ).isEqualTo( bean );
     }
 
     @Test
