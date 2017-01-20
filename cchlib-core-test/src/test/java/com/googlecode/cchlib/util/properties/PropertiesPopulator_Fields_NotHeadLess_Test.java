@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.util.properties;
 
-import static org.junit.Assert.assertEquals;
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assume.assumeTrue;
 import java.io.File;
 import java.io.IOException;
@@ -10,9 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
-public class PropertiesPopulatorFieldsTestNotHeadLess
+public class PropertiesPopulator_Fields_NotHeadLess_Test
 {
-    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulatorFieldsTestNotHeadLess.class );
+    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulator_Fields_NotHeadLess_Test.class );
 
     @Before
     public void setUp() throws Exception
@@ -46,15 +46,18 @@ public class PropertiesPopulatorFieldsTestNotHeadLess
         Tools.logProperties( LOGGER, properties );
 
         final BeanAnnotationOnFieldsNotHeadLess copy = new BeanAnnotationOnFieldsNotHeadLess();
-        pp.populateBean(properties, copy);
+        pp.populateBean( properties, copy );
 
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 
-        assertEquals("Must be equal", bean.aString, copy.aString);
-
-        final int cmp = bean.compareTo( copy );
-        assertEquals("Must be equal", 0, cmp);
+        assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
+        assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
+        assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
+        assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
+        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
+        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
+        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
     }
 
     @Test
@@ -86,8 +89,13 @@ public class PropertiesPopulatorFieldsTestNotHeadLess
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 
-        final int cmp = bean.compareTo( copy );
-        assertEquals("Must be equal", 0, cmp);
+        assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
+        assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
+        assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
+        assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
+        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
+        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
+        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
     }
 
     @Test
@@ -118,8 +126,13 @@ public class PropertiesPopulatorFieldsTestNotHeadLess
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 
-        final int cmp = bean.compareTo( copy );
-        assertEquals("Must be equal", 0, cmp);
+        assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
+        assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
+        assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
+        assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
+        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
+        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
+        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
     }
 
     @Test
@@ -143,7 +156,8 @@ public class PropertiesPopulatorFieldsTestNotHeadLess
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 
-        assertEquals("Must be equal", bean, copy);
+        assertThat( copy.myStrangeClass.getPrivateRealContent() )
+            .isEqualTo( bean.myStrangeClass.getPrivateRealContent() );
     }
 
     @Test
@@ -153,6 +167,7 @@ public class PropertiesPopulatorFieldsTestNotHeadLess
                 this.getClass().getName(),
                 ".properties"
                 );
+        file.deleteOnExit();
         final BeanAnnotationOnFieldsNotHeadLess bean = new BeanAnnotationOnFieldsNotHeadLess(
             "This is my test String",
             1024,
@@ -170,8 +185,14 @@ public class PropertiesPopulatorFieldsTestNotHeadLess
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 
-        final int cmp = bean.compareTo( copy );
-        assertEquals("Must be equal", 0, cmp);
+        assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
+        assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
+        assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
+        assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
+        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
+        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
+        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
+
         file.delete();
     }
 }

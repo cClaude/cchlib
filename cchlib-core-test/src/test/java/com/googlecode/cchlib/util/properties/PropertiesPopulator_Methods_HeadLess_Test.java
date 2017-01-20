@@ -1,6 +1,6 @@
 package com.googlecode.cchlib.util.properties;
 
-import static org.junit.Assert.assertEquals;
+import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
@@ -8,9 +8,9 @@ import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class PropertiesPopulatorGetterTestHeadLess
+public class PropertiesPopulator_Methods_HeadLess_Test
 {
-    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulatorGetterTestHeadLess.class );
+    private static final Logger LOGGER = Logger.getLogger( PropertiesPopulator_Methods_HeadLess_Test.class );
 
     @Test
     public void test_PropertiesPopulator_without_prefix_populateProperties() throws PopulatorException
@@ -77,10 +77,10 @@ public class PropertiesPopulatorGetterTestHeadLess
 
         LOGGER.info( "copy : " + copy );
 
-        assertEquals("Must be equal", bean.aString, copy.aString);
-        //assertTrue("Must be equal", bean.compareTo( copy ) == 0);
-        final int cmp = bean.compareTo( copy );
-        assertEquals("Must be equal", 0, cmp);
+        assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
+        assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
+        assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
+        assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
     }
 
     @Test
@@ -107,10 +107,10 @@ public class PropertiesPopulatorGetterTestHeadLess
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 
-        assertEquals("Must be equal", bean.aString, copy.aString);
-        final int cmp = bean.compareTo( copy );
-        assertEquals("Must be equal", 0, cmp);
-
+        assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
+        assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
+        assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
+        assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
     }
 
     @Test
@@ -138,8 +138,10 @@ public class PropertiesPopulatorGetterTestHeadLess
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 
-        final int cmp = bean.compareTo( copy );
-        assertEquals("Must be equal", 0, cmp);
+        assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
+        assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
+        assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
+        assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
     }
 
     @Test
@@ -167,8 +169,10 @@ public class PropertiesPopulatorGetterTestHeadLess
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 
-        final int cmp = bean.compareTo( copy );
-        assertEquals("Must be equal", 0, cmp);
+        assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
+        assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
+        assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
+        assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
     }
 
     @Test
@@ -178,6 +182,8 @@ public class PropertiesPopulatorGetterTestHeadLess
                 this.getClass().getName(),
                 ".properties"
                 );
+        file.deleteOnExit();
+
         final BeanAnnotationOnGettersHeadLess bean = new BeanAnnotationOnGettersHeadLess(
             "This is my test String",
             1024,
@@ -192,8 +198,10 @@ public class PropertiesPopulatorGetterTestHeadLess
         LOGGER.info( "expected : [" + bean + "]" );
         LOGGER.info( "actual   : [" + copy + "]" );
 
-        final int cmp = bean.compareTo( copy );
-        assertEquals("Must be equal", 0, cmp);
+        assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
+        assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
+        assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
+        assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
 
         file.delete();
     }
