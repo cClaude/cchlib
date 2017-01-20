@@ -2,17 +2,18 @@ package com.googlecode.cchlib.util.properties;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import com.googlecode.cchlib.lang.reflect.SerializableField;
 import com.googlecode.cchlib.lang.reflect.SerializableMethod;
 
-public class FieldOrMethod implements Serializable {
-
+public class FieldOrMethod implements Serializable
+{
     private static final long serialVersionUID = 1L;
     private SerializableMethod method;
     private SerializableField field;
 
-    public FieldOrMethod( final Object methodOrField )
+    public FieldOrMethod( final Member methodOrField )
     {
         if( methodOrField instanceof Method ) {
             this.method = new SerializableMethod( (Method)methodOrField );
