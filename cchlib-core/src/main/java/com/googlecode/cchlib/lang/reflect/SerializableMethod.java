@@ -64,7 +64,7 @@ public class SerializableMethod implements Serializable {
         final Class<?> parentClass = (Class<?>)in.readObject();
         final String   name        = (String)in.readObject();
 
-        final int count  = in.readInt();
+        final int        count  = in.readInt();
         final Class<?>[] params = new Class<?>[ count ];
 
         for( int i = 0; i<count; i++ ) {
