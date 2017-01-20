@@ -4,7 +4,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import javax.swing.Icon;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -24,11 +23,11 @@ public class IconResourcesTest
     {
         final IconResources iconResourcesGetIntance = IconResources.getInstance();
 
-        final List<Method> staticMethodsList = Methods.getStaticMethods( IconResources.class );
+        final Iterable<Method> staticMethodsList = Methods.getStaticMethods( IconResources.class );
 
         assertThat( staticMethodsList ).hasSize( 1 );
 
-        final Method method = staticMethodsList.get( 0 );
+        final Method method = staticMethodsList.iterator().next();
 
         LOGGER.info( "method: " + method );
         final Object methodResult = method.invoke( null, Objects.emptyArray() );

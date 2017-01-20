@@ -3,7 +3,6 @@ package com.googlecode.cchlib.apps.duplicatefiles.swing.tools;
 import static org.fest.assertions.api.Assertions.assertThat;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +13,7 @@ public class MyResourcesLoaderTest
 {
     private static final Logger LOGGER = Logger.getLogger( MyResourcesLoaderTest.class );
 
-    private List<Method> methodList;
+    private Iterable<Method> methodList;
 
     @Before
     public void setUp() throws Exception
@@ -46,13 +45,13 @@ public class MyResourcesLoaderTest
     @Test
     public void test_AllStatic() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException
     {
-        for( final Method m : this.methodList ) {
-            LOGGER.info( "m: " + m );
+        for( final Method method : this.methodList ) {
+            LOGGER.info( "m: " + method );
 
-            if( m.getParameterCount() == 0 ) {
-                final Object result = m.invoke( null, Objects.emptyArray() );
+            if( method.getParameterCount() == 0 ) {
+                final Object result = method.invoke( null, Objects.emptyArray() );
 
-                LOGGER.info( "m: " + m + " => " + result );
+                LOGGER.info( "m: " + method + " => " + result );
 
                 // add additional test code here
                 assertThat( result ).isNotNull();
