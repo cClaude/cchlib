@@ -34,11 +34,10 @@ class PropertiesToBean<E>
         if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
             this.prefix       = null;
             this.prefixLength = 0;
-            }
-        else {
+        } else {
             this.prefix       = new StringBuilder( propertiesPrefix );
             this.prefixLength = this.prefix.length();
-            }
+        }
      }
 
     @SuppressWarnings("squid:S3346") // assert usage
@@ -102,7 +101,7 @@ class PropertiesToBean<E>
 
         try {
             value.getPropertiesPopulatorSetter().setValue( this.bean, strValue, type );
-            }
+        }
         catch( final ConvertCantNotHandleTypeException cause ) {
             if( ! tryToSetUsingConstructor( value, type, strValue ) ) {
                 throw new PropertiesPopulatorRuntimeException(
@@ -110,7 +109,7 @@ class PropertiesToBean<E>
                         cause
                         );
             }
-            }
+        }
         catch( IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
             // ignore !
             LOGGER.fatal(
@@ -119,10 +118,10 @@ class PropertiesToBean<E>
                     + "] / defaultValue=[" + defaultValue + ']',
                 e
                 );
-            }
+        }
         finally {
             accessible.restore();
-            }
+        }
     }
 
     /** try to find a constructor based on String */
@@ -299,10 +298,10 @@ class PropertiesToBean<E>
 
         if( ppa.isDefaultValueNull() ) {
             defaultValue = null;
-            }
+        }
         else {
             defaultValue = ppa.defaultValue();
-            }
+        }
 
         return defaultValue;
     }
@@ -369,7 +368,7 @@ class PropertiesToBean<E>
                         stringValues.get( index ),
                         componentType
                         );
-                }
+            }
             catch( final ConvertCantNotHandleTypeException e ) {
                 throw new PopulatorException(
                         "Bad type for field",
@@ -377,8 +376,8 @@ class PropertiesToBean<E>
                         arrayType,
                         e
                         );
-                }
             }
+        }
     }
 
     private List<String> getStringValues(
@@ -394,8 +393,7 @@ class PropertiesToBean<E>
             assert prefixLength == 0;
 
             valuePrefix = new StringBuilder();
-            }
-        else {
+        } else {
             valuePrefix = prefixStringBuilder;
         }
 
@@ -412,11 +410,10 @@ class PropertiesToBean<E>
 
             if( strValue == null ) {
                 break;
-                }
-            else {
+            } else {
                 values.add( strValue );
-                }
             }
+        }
 
         return values;
     }

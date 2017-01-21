@@ -4,17 +4,17 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 //NOT public
-class PropertiesPersistentAnnotationForMethodImpl<E> //
-    extends AbstractPropertiesPersistentAnnotation<E,Method> //
+class PropertiesPersistentAnnotationForMethodImpl<E>
+    extends AbstractPropertiesPersistentAnnotation<E,Method>
         implements PropertiesPersistentAnnotationForMethod<E>
 {
     private final Method method;
     private final String attributeName;
 
-    PropertiesPersistentAnnotationForMethodImpl( //
-        final Persistent persistent, //
-        final Method method, //
-        final String attributeName //
+    PropertiesPersistentAnnotationForMethodImpl(
+        final Persistent persistent,
+        final Method     method,
+        final String     attributeName
         )
     {
         super( persistent );

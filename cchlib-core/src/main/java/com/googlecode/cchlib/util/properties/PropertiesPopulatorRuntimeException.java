@@ -18,5 +18,4 @@ public class PropertiesPopulatorRuntimeException extends RuntimeException
     {
         super( message, cause );
     }
-
 }

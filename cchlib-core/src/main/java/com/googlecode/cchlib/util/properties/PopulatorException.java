@@ -13,11 +13,11 @@ public class PopulatorException extends PropertiesPopulatorRuntimeException
     private final String   causeFieldOrMethod;
     private final Class<?> causeType;
 
-    private PopulatorException( //
-        final String    message, //
-        final Object    causeFieldOrMethod, //
-        final Class<?>  causeType, //
-        final Throwable cause //
+    private PopulatorException(
+        final String    message,
+        final Object    causeFieldOrMethod,
+        final Class<?>  causeType,
+        final Throwable cause
         )
     {
         super( buildMessage( message, causeFieldOrMethod, causeType ), cause );
@@ -26,31 +26,31 @@ public class PopulatorException extends PropertiesPopulatorRuntimeException
         this.causeType          = causeType;
     }
 
-    public PopulatorException( //
-        final String        message, //
-        final FieldOrMethod causeFieldOrMethod, //
-        final Class<?>      causeType, //
-        final Throwable     cause //
+    public PopulatorException(
+        final String        message,
+        final FieldOrMethod causeFieldOrMethod,
+        final Class<?>      causeType,
+        final Throwable     cause
         )
     {
         this( message, (Object)causeFieldOrMethod, causeType, cause );
     }
 
-    public PopulatorException( //
-        final String    message, //
-        final Method    causeMethod, //
-        final Class<?>  causeType, //
-        final Throwable cause //
+    public PopulatorException(
+        final String    message,
+        final Method    causeMethod,
+        final Class<?>  causeType,
+        final Throwable cause
         )
     {
         this( message, (Object)causeMethod, causeType, cause );
     }
 
-    public PopulatorException( //
-        final String    message, //
-        final Field     causeField, //
-        final Class<?>  causeType, //
-        final Throwable cause //
+    public PopulatorException(
+        final String    message,
+        final Field     causeField,
+        final Class<?>  causeType,
+        final Throwable cause
         )
     {
         this( message, (Object)causeField, causeType, cause );
@@ -65,10 +65,10 @@ public class PopulatorException extends PropertiesPopulatorRuntimeException
         this( message, (Object)causeField, causeType, null );
     }
 
-    private static String buildMessage( //
-        final String    message, //
-        final Object    causeFieldOrMethod, //
-        final Class<?>  causeType //
+    private static String buildMessage(
+        final String   message,
+        final Object   causeFieldOrMethod,
+        final Class<?> causeType
         )
     {
         return message + " for " + causeFieldOrMethod + " usign type " + causeType;

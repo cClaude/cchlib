@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 //NOT public
-final class PropertiesPopulatorAnnotationForMethodImpl<E> //
-    extends AbstractPropertiesPopulatorAnnotation<E,Method> //
+final class PropertiesPopulatorAnnotationForMethodImpl<E>
+    extends AbstractPropertiesPopulatorAnnotation<E,Method>
         implements  PropertiesPopulatorAnnotationForMethod<E>,
                     PropertiesPopulatorSetter<E,Method>
 {
@@ -14,11 +14,11 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E> //
     private final Method setter;
     private final String attributeName;
 
-    PropertiesPopulatorAnnotationForMethodImpl( //
-        final Populator populator, //
-        final Method getter, //
-        final Method setter, //
-        final String attributeName //
+    PropertiesPopulatorAnnotationForMethodImpl(
+        final Populator populator,
+        final Method getter,
+        final Method setter,
+        final String attributeName
         )
     {
         super( populator );

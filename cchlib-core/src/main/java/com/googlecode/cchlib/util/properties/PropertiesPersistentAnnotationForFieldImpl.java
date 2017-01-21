@@ -35,7 +35,7 @@ final class PropertiesPersistentAnnotationForFieldImpl<E> //
     @Override
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setArrayEntry(
-        final Object    array,
+        final Object   array,
         final int      index,
         final String   strValue,
         final Class<?> type

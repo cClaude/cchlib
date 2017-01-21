@@ -5,8 +5,8 @@ import java.lang.reflect.Field;
 import org.apache.log4j.Logger;
 
 //NOT public
-final class PropertiesPopulatorAnnotationForFieldImpl<E> //
-    extends AbstractPropertiesPopulatorAnnotation<E,Field> //
+final class PropertiesPopulatorAnnotationForFieldImpl<E>
+    extends AbstractPropertiesPopulatorAnnotation<E,Field>
         implements PropertiesPopulatorAnnotationForField<E>,
                    PropertiesPopulatorSetter<E,Field>
 {

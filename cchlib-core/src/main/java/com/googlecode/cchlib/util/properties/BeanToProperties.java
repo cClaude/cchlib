@@ -32,11 +32,11 @@ final class BeanToProperties<E>
         if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
             this.prefix       = new StringBuilder();
             this.prefixLength = 0;
-            }
+        }
         else {
             this.prefix       = new StringBuilder( propertiesPrefix );
             this.prefixLength = this.prefix.length();
-            }
+        }
     }
 
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -48,7 +48,7 @@ final class BeanToProperties<E>
             final PropertiesPopulatorAnnotationForField<E> entryValue = (PropertiesPopulatorAnnotationForField<E>)(entry.getValue());
 
             loadDataForField( entryValue );
-            }
+        }
     }
 
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -60,7 +60,7 @@ final class BeanToProperties<E>
             final PropertiesPopulatorAnnotationForMethod<E> entryValue = (PropertiesPopulatorAnnotationForMethod<E>)(entry.getValue());
 
             loadDataForMethod( entryValue );
-            }
+        }
     }
 
     private void loadDataForMethod(
@@ -76,31 +76,29 @@ final class BeanToProperties<E>
             if( result != null ) {
                 if( method.getReturnType().isArray() ) {
                     handleArrayForMethod( entryValue, result );
-                    }
-                else if( PopulatorContener.class.isAssignableFrom( method.getReturnType() ) ) {
+                } else if( PopulatorContener.class.isAssignableFrom( method.getReturnType() ) ) {
                     handlePopulatorContenerForMethod( method, result );
-                    }
-                else {
+                } else {
                     handleNonArrayForMethod( entryValue, result );
-                    }
                 }
+            }
             else {
                 // Ignore null entries
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace( "Ignore null value from method " + method );
-                    }
                 }
             }
+        }
         catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e ) {
             // ignore !
             final String message = "Cannot read from method: " + method
                     + " on object [" + this.bean + "] of type " + this.bean.getClass();
 
             LOGGER.warn( message, e );
-            }
+        }
         finally {
             accessible.restore();
-            }
+        }
     }
 
     private void handleNonArrayForMethod(
@@ -143,28 +141,27 @@ final class BeanToProperties<E>
             if( o != null ) {
                 if( field.getType().isArray() ) {
                     handleArrayForField( entryValue, o );
-                    }
+                }
                 else if( PopulatorContener.class.isAssignableFrom( field.getType() ) ) {
                     handlePopulatorContenerForField( field, o );
-                    }
-                else {
+                } else {
                     handleNonArrayForField( entryValue, o );
-                    }
                 }
+            }
             else {
                 // Ignore null entries
                 if( LOGGER.isTraceEnabled() ) {
                     LOGGER.trace( "Ignore null value from field " + field );
-                    }
                 }
             }
+        }
         catch( IllegalArgumentException | IllegalAccessException e ) {
             // ignore !
             LOGGER.warn( "Cannot read field:" + field, e );
-            }
+        }
         finally {
             accessible.restore();
-            }
+        }
     }
 
     private void handleNonArrayForField(
@@ -187,12 +184,12 @@ final class BeanToProperties<E>
 
         if( this.prefixLength == 0 ) {
             this.properties.put( field.getName(), strValue );
-            }
+        }
         else {
             this.prefix.setLength( this.prefixLength );
             this.prefix.append( field.getName() );
             this.properties.put( this.prefix.toString(), strValue );
-            }
+        }
     }
 
     private void handleArrayForField(
@@ -220,13 +217,12 @@ final class BeanToProperties<E>
 
             if( value == null ) {
                 stringValue = StringHelper.EMPTY;
-                }
-            else {
+            } else {
                 stringValue = propertiesPopulatorAnnotation.toString( value );
-                }
+            }
 
             setValue( name, index, stringValue );
-            }
+        }
     }
 
     private void setValue( final String name, final int index, final String stringValue )
@@ -244,11 +240,11 @@ final class BeanToProperties<E>
         // Handle non arrays
         if( this.prefixLength == 0 ) {
             this.properties.put( name, stringValue );
-            }
+        }
         else {
             this.prefix.setLength( this.prefixLength );
             this.prefix.append( name );
             this.properties.put( this.prefix.toString(), stringValue );
-            }
+        }
     }
 }
