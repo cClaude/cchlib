@@ -10,7 +10,9 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.util.populator.PopulatorConfig;
 
 /**
  * PropertiesPopulator is a simple way to store values in a properties
@@ -42,6 +44,8 @@ public class PropertiesPopulator<E> implements Serializable
     private static final int GET_SET_LENGTH = 3;
 
     private transient Class<? extends E> beanType;
+    private PopulatorConfig              config;
+
     private final Map<Field ,PropertiesPopulatorAnnotation<E,Field>>  fieldsMap       = new HashMap<>();
     private final Map<String,PropertiesPopulatorAnnotation<E,Method>> getterSetterMap = new HashMap<>();
 
@@ -50,17 +54,37 @@ public class PropertiesPopulator<E> implements Serializable
      *
      * @param type {@link Class} to use to create this {@link PropertiesPopulator}.
      */
-    public PropertiesPopulator( final Class<? extends E> type )
+    public PropertiesPopulator( @Nonnull final Class<? extends E> type )
+    {
+        this( type, PopulatorConfig.getDefaultConfig() );
+        // Remark :
+        // Compatibility of default configuration is break, here
+        // Previously it was :
+        // buildFieldMap( this.beanType.getDeclaredFields() ) - for fields
+        // buildMethodMaps( this.beanType.getDeclaredMethods() ) - for methods
+    }
+
+    /**
+     * Create a {@link PropertiesPopulator} object for giving class.
+     *
+     * @param type {@link Class} to use to create this {@link PropertiesPopulator}.
+     * @param populatorConfig Configuration
+     */
+    public PropertiesPopulator(
+        @Nonnull final Class<? extends E> type,
+        @Nonnull final PopulatorConfig    populatorConfig
+        )
     {
         this.beanType = type;
+        this.config   = populatorConfig;
 
         init();
     }
 
     private void init()
     {
-        buildFieldMap( this.beanType.getDeclaredFields() );
-        buildMethodMaps( this.beanType.getDeclaredMethods() );
+        buildFieldMap( this.config.getFieldsConfig().getFields( this.beanType ) );
+        buildMethodMaps( this.config.getMethodsConfig().getMethods( this.beanType ) );
 
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.trace( "Found " + this.fieldsMap.size() + " fields on " + this.beanType );
@@ -493,26 +517,14 @@ public class PropertiesPopulator<E> implements Serializable
         PropertiesHelper.saveProperties( propertiesFile, properties );
     }
 
-    public Map<String, String> newMapForBean()
-        throws InstantiationException, IllegalAccessException
-    {
-        return newMapForBean( (String)null, this.beanType );
-    }
-
-    public Map<String, String> newMapForBean(
-        final Class<? extends E> concreteBeanInstance
-        ) throws InstantiationException, IllegalAccessException
-    {
-        return newMapForBean( (String)null, concreteBeanInstance );
-    }
-
     /**
-     * NEEDDOC
+     * Create a {@link Map} with empty values corresponding to a none
+     * initialized instance of the bean.
+     * <p>
+     * The method require {@link PropertiesPopulator} to be initialized
+     * with a concrete object and having a default constructor - see
+     * {@link Class#newInstance()} for more details.
      *
-     * @param propertiesPrefix
-     *            Prefix for properties names, if null or empty ignored.
-     * @param concreteBeanInstance
-     *            NEEDDOC
      * @return a {@link Map} that corresponding to the bean with default values.
      * @throws InstantiationException
      *             if this Class represents an abstract class, an interface, an
@@ -521,6 +533,66 @@ public class PropertiesPopulator<E> implements Serializable
      *             other reason.
      * @throws IllegalAccessException
      *             if the class or its nullary constructor is not accessible.
+     *
+     * @see #newMapForBean(Class)
+     * @see #newMapForBean(String, Class)
+     * @since 4.2
+     */
+    @SuppressWarnings("squid:S1160")
+    public Map<String, String> newMapForBean()
+        throws InstantiationException, IllegalAccessException
+    {
+        return newMapForBean( (String)null, this.beanType );
+    }
+
+    /**
+     * Create a {@link Map} with empty values corresponding to a none
+     * initialized instance of the bean.
+     *
+     * @param concreteBeanInstance
+     *            A concrete type for this {@link PropertiesPopulator} having
+     *            a default constructor - see {@link Class#newInstance()} for
+     *            more details.
+     * @return a {@link Map} that corresponding to the bean with default values.
+     * @throws InstantiationException
+     *             if this Class represents an abstract class, an interface, an
+     *             array class, a primitive type, or void; or if the class has no
+     *             nullary constructor; or if the instantiation fails for some
+     *             other reason.
+     * @throws IllegalAccessException
+     *             if the class or its nullary constructor is not accessible.
+     *
+     * @see #newMapForBean()
+     * @see #newMapForBean(String, Class)
+     * @since 4.2
+     */
+    @SuppressWarnings("squid:S1160")
+    public Map<String, String> newMapForBean(
+        final Class<? extends E> concreteBeanInstance
+        ) throws InstantiationException, IllegalAccessException
+    {
+        return newMapForBean( (String)null, concreteBeanInstance );
+    }
+
+    /**
+     * Create a {@link Map} with empty values corresponding to a none
+     * initialized instance of the bean.
+     *
+     * @param propertiesPrefix
+     *            Prefix for properties names, if null or empty ignored.
+     * @param concreteBeanInstance
+     *            A concrete type for this {@link PropertiesPopulator} having
+     *            a default constructor - see {@link Class#newInstance()} for
+     *            more details.
+     * @return a {@link Map} that corresponding to the bean with default values.
+     * @throws InstantiationException
+     *             if this Class represents an abstract class, an interface, an
+     *             array class, a primitive type, or void; or if the class has no
+     *             nullary constructor; or if the instantiation fails for some
+     *             other reason.
+     * @throws IllegalAccessException
+     *             if the class or its nullary constructor is not accessible.
+     *
      * @see Class#newInstance()
      * @since 4.2
      */
