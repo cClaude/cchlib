@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Properties;
 import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
+import com.googlecode.cchlib.lang.annotation.Annotations;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
 
 /**
@@ -93,6 +94,8 @@ public class PropertiesPopulator<E> implements Serializable
                 LOGGER.trace( "Key[" + entry.getKey() + "]=" + entry.getValue() );
                 }
 
+            LOGGER.trace( "Found " + this.fieldsMap.size() + " methods on " + this.beanType );
+
             for( final Map.Entry<String, PropertiesPopulatorAnnotation<E, Method>> entry : this.getterSetterMap.entrySet() ) {
                 LOGGER.trace( "Method[" + entry.getKey() + "]=" + entry.getValue() );
                 }
@@ -118,7 +121,7 @@ public class PropertiesPopulator<E> implements Serializable
     private void buildMethodMaps( final Method[] methods )
     {
         for( final Method method : methods ) {
-            final Populator populator = method.getAnnotation( Populator.class );
+            final Populator populator = Annotations.getAnnotation( method, Populator.class );
 
             if( populator != null ) {
                 tryToBuildMethodPopulator( methods, method, populator );
