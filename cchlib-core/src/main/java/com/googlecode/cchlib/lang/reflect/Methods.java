@@ -71,8 +71,12 @@ public final class Methods
      * and those inherited from superclasses and superinterfaces.
      * <ul>
      * <li>Keys map are method names</li>
-     * <li>Values map are {@link Set} of {@link Method}
-     * </li>
+     * <li>Values map are {@link Set} of {@link Method}</li>
+     * </ul>
+     *
+     * @param type The class object
+     * @return all static methods of the giving class,
+     *         {@link Method} sorted are by ( name, then parameters types )
      *
      * @see Class#getMethods()
      * @since 4.2
@@ -92,15 +96,11 @@ public final class Methods
      * @return all static methods of the giving class,
      *         {@link Method} sorted are by ( name, then parameters types )
      *
-     * @param type The class object
-     * @return all static methods of the giving class,
-     *         {@link Method} sorted are by ( name, then parameters types )
-     *
      * @see Class#getMethods()
      */
-    public static Iterable<Method> getPublicMethods( final Class<?> clazz )
+    public static Iterable<Method> getPublicMethods( final Class<?> type )
     {
-        return Collections.unmodifiableCollection( getPublicMethodSet( clazz ) );
+        return Collections.unmodifiableCollection( getPublicMethodSet( type ) );
     }
 
     private static Set<Method> getPublicMethodSet( final Class<?> clazz )
@@ -146,8 +146,8 @@ public final class Methods
      * and those inherited from superclasses and superinterfaces.
      * <ul>
      * <li>Keys map are method names</li>
-     * <li>Values map are {@link Set} of {@link Method}
-     * </li>
+     * <li>Values map are {@link Set} of {@link Method}</li>
+     * </ul>
      *
      * @param type The class object
      * @return all static methods of the giving class,
@@ -166,9 +166,9 @@ public final class Methods
     }
 
     private static Set<Method> getStaticMethodSet(
-            final Class<?>          type,
-            final Predicate<Method> predicate
-            )
+        final Class<?>          type,
+        final Predicate<Method> predicate
+        )
     {
         @SuppressWarnings("squid:S2293") // SonarError: could diamond operator here
         final Set<Method> methods = new TreeSet<Method>( Methods::compare );
