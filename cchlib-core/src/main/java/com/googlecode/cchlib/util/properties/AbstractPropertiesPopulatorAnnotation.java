@@ -1,10 +1,11 @@
 package com.googlecode.cchlib.util.properties;
 
+import java.lang.reflect.Member;
 import java.util.Collection;
 
 //NOT public
 @SuppressWarnings("squid:S00119")
-abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
+abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD extends Member>
     implements PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD>
 {
     private final Populator populator;
@@ -78,7 +79,9 @@ abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD> //
                 return null;
             }
         } else {
-            throw new ConvertCantNotHandleTypeException( "Value is \"" + strValue + "\", expected type is " + type );
+            throw new ConvertCantNotHandleTypeException(
+                    "Value is \"" + strValue + "\", expected type is " + type
+                    );
         }
     }
 

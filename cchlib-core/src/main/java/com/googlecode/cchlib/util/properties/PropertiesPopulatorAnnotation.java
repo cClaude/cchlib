@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.util.properties;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
 /**
@@ -10,7 +11,7 @@ import java.lang.reflect.Method;
  */
 @SuppressWarnings("squid:S00119")
 //NOT public
-interface PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD>
+interface PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD extends Member>
 {
     /**
      * Return annotation value
