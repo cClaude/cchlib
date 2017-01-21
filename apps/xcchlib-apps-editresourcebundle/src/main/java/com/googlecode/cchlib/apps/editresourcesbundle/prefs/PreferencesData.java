@@ -8,7 +8,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.StringHelper;
-import com.googlecode.cchlib.util.properties.Populator;
+import com.googlecode.cchlib.util.populator.Populator;
 
 //NOT public
 @SuppressWarnings({"squid:S00100","squid:S00116"})

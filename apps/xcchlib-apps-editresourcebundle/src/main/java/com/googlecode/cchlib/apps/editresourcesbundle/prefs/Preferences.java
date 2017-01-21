@@ -11,8 +11,8 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.swing.DialogHelper;
+import com.googlecode.cchlib.util.populator.PropertiesPopulator;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
-import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 
 /**
  * User preferences

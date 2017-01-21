@@ -7,9 +7,9 @@ import java.util.Collections;
 import java.util.Properties;
 import com.googlecode.cchlib.io.FileHelper;
 import com.googlecode.cchlib.util.ArrayCollection;
-import com.googlecode.cchlib.util.properties.Populator;
+import com.googlecode.cchlib.util.populator.Populator;
+import com.googlecode.cchlib.util.populator.PropertiesPopulator;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
-import com.googlecode.cchlib.util.properties.PropertiesPopulator;
 
 /**
  * Allow test case to use specific configuration according
