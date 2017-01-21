@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.properties;
 
+import java.util.Arrays;
 
 //NOT public
 class BeanAnnotationOnFieldsHeadLess implements BeanAnnotationHeadLess
@@ -30,16 +31,11 @@ class BeanAnnotationOnFieldsHeadLess implements BeanAnnotationHeadLess
     }
 
     @Override
-    public String toString()
-    {
-        return BeanAnnotationHeadLess.toString( this );
-    }
-
-    @Override
     public final String getaString()
     {
         return this.aString;
     }
+
     @Override
     public final void setaString(final String aString)
     {
@@ -51,6 +47,7 @@ class BeanAnnotationOnFieldsHeadLess implements BeanAnnotationHeadLess
     {
         return this.aInt;
     }
+
     @Override
     public final void setaInt(final int aInt)
     {
@@ -62,6 +59,7 @@ class BeanAnnotationOnFieldsHeadLess implements BeanAnnotationHeadLess
     {
         return this.aFloat;
     }
+
     @Override
     public final void setaFloat(final float aFloat)
     {
@@ -77,5 +75,21 @@ class BeanAnnotationOnFieldsHeadLess implements BeanAnnotationHeadLess
     public final void setSomeBooleans(final boolean[] someBooleans)
     {
         this.someBooleans = someBooleans;
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append( "BeanAnnotationOnFieldsHeadLess [aString=" );
+        builder.append( this.aString );
+        builder.append( ", aInt=" );
+        builder.append( this.aInt );
+        builder.append( ", aFloat=" );
+        builder.append( this.aFloat );
+        builder.append( ", someBooleans=" );
+        builder.append( Arrays.toString( this.someBooleans ) );
+        builder.append( "]" );
+        return builder.toString();
     }
 }

@@ -1,5 +1,6 @@
 package com.googlecode.cchlib.util.properties;
 
+import java.util.Arrays;
 
 //NOT public
 class BeanAnnotationOnGettersHeadLess implements BeanAnnotationHeadLess
@@ -7,7 +8,7 @@ class BeanAnnotationOnGettersHeadLess implements BeanAnnotationHeadLess
     protected String    aString;
     private   int       aInt;
     private   float     aFloat;
-    private boolean[]   someBooleans;
+    public    boolean[] someBooleans;
 
     public BeanAnnotationOnGettersHeadLess()
     {
@@ -28,12 +29,6 @@ class BeanAnnotationOnGettersHeadLess implements BeanAnnotationHeadLess
     }
 
     @Override
-    public String toString()
-    {
-        return BeanAnnotationHeadLess.toString( this );
-    }
-
-    @Override
     @Populator
     public final String getaString()
     {
@@ -41,8 +36,7 @@ class BeanAnnotationOnGettersHeadLess implements BeanAnnotationHeadLess
     }
 
     @Override
-    public
-    final void setaString(final String aString)
+    public final void setaString( final String aString )
     {
         this.aString = aString;
     }
@@ -55,8 +49,7 @@ class BeanAnnotationOnGettersHeadLess implements BeanAnnotationHeadLess
     }
 
     @Override
-    public
-    final void setaInt(final int aInt)
+    public final void setaInt( final int aInt )
     {
         this.aInt = aInt;
     }
@@ -69,7 +62,7 @@ class BeanAnnotationOnGettersHeadLess implements BeanAnnotationHeadLess
     }
 
     @Override
-    public final void setaFloat(final float aFloat)
+    public final void setaFloat( final float aFloat )
     {
         this.aFloat = aFloat;
     }
@@ -85,5 +78,23 @@ class BeanAnnotationOnGettersHeadLess implements BeanAnnotationHeadLess
     public final void setSomeBooleans( final boolean[] someBooleans )
     {
         this.someBooleans = someBooleans;
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append( "BeanAnnotationOnGettersHeadLess [aString=" );
+        builder.append( this.aString );
+        builder.append( ", aInt=" );
+        builder.append( this.aInt );
+        builder.append( ", aFloat=" );
+        builder.append( this.aFloat );
+        builder.append( ", someBooleans=" );
+        builder.append( Arrays.toString( this.someBooleans ) );
+        builder.append( ']' );
+
+        return builder.toString();
     }
 }

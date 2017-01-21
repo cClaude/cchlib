@@ -1,16 +1,19 @@
 package com.googlecode.cchlib.util.properties;
 
+import java.util.Arrays;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 //NOT public
-class BeanAnnotationOnFieldsNotHeadLess implements BeanAnnotationNotHeadLess
+class BeanAnnotationOnFieldsNotHeadLess
+    extends BeanAnnotationOnFieldsHeadLess
+        implements BeanAnnotationNotHeadLess
 {
-    @Populator protected String    aString;
-    @Populator private   int       aInt;
-    @Populator private   float     aFloat;
-    @Populator public    boolean[] someBooleans;
+    // @Populator protected String    aString;       - in BeanAnnotationOnFieldsHeadLess
+    // @Populator private   int       aInt;          - in BeanAnnotationOnFieldsHeadLess
+    // @Populator private   float     aFloat;        - in BeanAnnotationOnFieldsHeadLess
+    // @Populator public    boolean[] someBooleans;  - in BeanAnnotationOnFieldsHeadLess
 
     /** default text ERROR */
     @Persistent private final JTextField aJTextField;
@@ -21,6 +24,8 @@ class BeanAnnotationOnFieldsNotHeadLess implements BeanAnnotationNotHeadLess
 
     public BeanAnnotationOnFieldsNotHeadLess()
     {
+        super();
+
         this.aJTextField = new JTextField();
         this.aJTextField.setText( "ERROR" );
 
@@ -40,66 +45,16 @@ class BeanAnnotationOnFieldsNotHeadLess implements BeanAnnotationNotHeadLess
         final int       jComboBoxSelectedIndex
         )
     {
-        this();
+        super( aString, aInt, aFloat, booleans );
 
-        this.aString        = aString;
-        this.aInt           = aInt;
-        this.aFloat         = aFloat;
-        this.someBooleans   = booleans;
-
+        this.aJTextField = new JTextField();
         this.aJTextField.setText( jTextFieldString );
+
+        this.aJCheckBox  = new JCheckBox();
         this.aJCheckBox.setSelected( jCheckBoxSelected );
+
+        this.aJComboBox  = new JComboBox<String>( BeanAnnotationNotHeadLess.getComboBoxModel() );
         this.aJComboBox.setSelectedIndex( jComboBoxSelectedIndex );
-    }
-
-    @Override
-    public String toString()
-    {
-        return BeanAnnotationNotHeadLess.toString( this );
-    }
-
-    @Override
-    public final String getaString()
-    {
-        return this.aString;
-    }
-    @Override
-    public final void setaString(final String aString)
-    {
-        this.aString = aString;
-    }
-
-    @Override
-    public final int getaInt()
-    {
-        return this.aInt;
-    }
-    @Override
-    public final void setaInt(final int aInt)
-    {
-        this.aInt = aInt;
-    }
-
-    @Override
-    public final float getaFloat()
-    {
-        return this.aFloat;
-    }
-    @Override
-    public final void setaFloat(final float aFloat)
-    {
-        this.aFloat = aFloat;
-    }
-
-    @Override
-    public final boolean[] getSomeBooleans()
-    {
-        return this.someBooleans;
-    }
-    @Override
-    public final void setSomeBooleans(final boolean[] someBooleans)
-    {
-        this.someBooleans = someBooleans;
     }
 
     @Override
@@ -118,5 +73,27 @@ class BeanAnnotationOnFieldsNotHeadLess implements BeanAnnotationNotHeadLess
     public JComboBox<String> getaJComboBox()
     {
         return this.aJComboBox;
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append( "BeanAnnotationOnFieldsNotHeadLess [aJTextField=" );
+        builder.append( this.aJTextField );
+        builder.append( ", aJCheckBox=" );
+        builder.append( this.aJCheckBox );
+        builder.append( ", aJComboBox=" );
+        builder.append( this.aJComboBox );
+        builder.append( ", getaString()=" );
+        builder.append( getaString() );
+        builder.append( ", getaInt()=" );
+        builder.append( getaInt() );
+        builder.append( ", getaFloat()=" );
+        builder.append( getaFloat() );
+        builder.append( ", getSomeBooleans()=" );
+        builder.append( Arrays.toString( getSomeBooleans() ) );
+        builder.append( "]" );
+        return builder.toString();
     }
 }

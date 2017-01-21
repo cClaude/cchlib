@@ -1,17 +1,15 @@
 package com.googlecode.cchlib.util.properties;
 
+import java.util.Arrays;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 //NOT public
-class BeanAnnotationOnGettersNotHeadLess implements BeanAnnotationNotHeadLess
+class BeanAnnotationOnGettersNotHeadLess
+    extends BeanAnnotationOnGettersHeadLess
+        implements BeanAnnotationNotHeadLess
 {
-    protected String    aString;
-    private   int       aInt;
-    private   float     aFloat;
-    private boolean[]   someBooleans;
-
     /** default text ERROR */
     private final JTextField aJTextField;
     /** default state unselected */
@@ -21,6 +19,8 @@ class BeanAnnotationOnGettersNotHeadLess implements BeanAnnotationNotHeadLess
 
     public BeanAnnotationOnGettersNotHeadLess()
     {
+        super();
+
         this.aJTextField = new JTextField();
         this.aJTextField.setText( "ERROR" );
 
@@ -40,76 +40,16 @@ class BeanAnnotationOnGettersNotHeadLess implements BeanAnnotationNotHeadLess
         final int       jComboBoxSelectedIndex
         )
     {
-        this();
+        super( aString, aInt, aFloat, booleans );
 
-        this.aString        = aString;
-        this.aInt           = aInt;
-        this.aFloat         = aFloat;
-        this.someBooleans   = booleans;
-
+        this.aJTextField = new JTextField();
         this.aJTextField.setText( jTextFieldString );
+
+        this.aJCheckBox  = new JCheckBox();
         this.aJCheckBox.setSelected( jCheckBoxSelected );
+
+        this.aJComboBox  = new JComboBox<String>( BeanAnnotationNotHeadLess.getComboBoxModel() );
         this.aJComboBox.setSelectedIndex( jComboBoxSelectedIndex );
-    }
-
-    @Override
-    public String toString()
-    {
-        return BeanAnnotationNotHeadLess.toString( this );
-    }
-
-    @Override
-    @Populator
-    public final String getaString()
-    {
-        return this.aString;
-    }
-
-    @Override
-    public
-    final void setaString(final String aString)
-    {
-        this.aString = aString;
-    }
-
-    @Override
-    @Populator
-    public final int getaInt()
-    {
-        return this.aInt;
-    }
-
-    @Override
-    public
-    final void setaInt(final int aInt)
-    {
-        this.aInt = aInt;
-    }
-
-    @Override
-    @Populator
-    public final float getaFloat()
-    {
-        return this.aFloat;
-    }
-
-    @Override
-    public final void setaFloat(final float aFloat)
-    {
-        this.aFloat = aFloat;
-    }
-
-    @Override
-    @Populator
-    public final boolean[] getSomeBooleans()
-    {
-        return this.someBooleans;
-    }
-
-    @Override
-    public final void setSomeBooleans( final boolean[] someBooleans )
-    {
-        this.someBooleans = someBooleans;
     }
 
     @Override
@@ -131,5 +71,27 @@ class BeanAnnotationOnGettersNotHeadLess implements BeanAnnotationNotHeadLess
     public JComboBox<String> getaJComboBox()
     {
         return this.aJComboBox;
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append( "BeanAnnotationOnGettersNotHeadLess [aJTextField=" );
+        builder.append( this.aJTextField );
+        builder.append( ", aJCheckBox=" );
+        builder.append( this.aJCheckBox );
+        builder.append( ", aJComboBox=" );
+        builder.append( this.aJComboBox );
+        builder.append( ", getaString()=" );
+        builder.append( getaString() );
+        builder.append( ", getaInt()=" );
+        builder.append( getaInt() );
+        builder.append( ", getaFloat()=" );
+        builder.append( getaFloat() );
+        builder.append( ", getSomeBooleans()=" );
+        builder.append( Arrays.toString( getSomeBooleans() ) );
+        builder.append( "]" );
+        return builder.toString();
     }
 }
