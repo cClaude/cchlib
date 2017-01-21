@@ -26,7 +26,7 @@ public class PropertiesPopulator_Methods_NotHeadLess_Test
     }
 
     @Test
-    public void test_PropertiesPopulator_without_prefix_populateProperties() throws PopulatorException
+    public void test_PropertiesPopulator_OnGetters_without_prefix() throws PopulatorException
     {
         final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
             = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
@@ -55,9 +55,9 @@ public class PropertiesPopulator_Methods_NotHeadLess_Test
         Assert.assertEquals( "false", properties.getProperty( "SomeBooleans.3" ) );
         Assert.assertEquals( "false", properties.getProperty( "SomeBooleans.4" ) );
 
-        Assert.assertEquals( "MyTestString for JTextField", properties.getProperty( "aJTextField" ) );
-        Assert.assertEquals( "true", properties.getProperty( "aJCheckBox" ) );
-        Assert.assertEquals( "3", properties.getProperty( "aJComboBox" ) );
+        Assert.assertEquals( "MyTestString for JTextField", properties.getProperty( "JTextField" ) );
+        Assert.assertEquals( "true", properties.getProperty( "JCheckBox" ) );
+        Assert.assertEquals( "3", properties.getProperty( "JComboBox" ) );
 
         Assert.assertEquals( 11, properties.size() );
     }
@@ -89,9 +89,9 @@ public class PropertiesPopulator_Methods_NotHeadLess_Test
         properties.setProperty( "SomeBooleans.3", "false" );
         properties.setProperty( "SomeBooleans.4", "false" );
 
-        properties.setProperty( "aJTextField", "MyTestString for JTextField" );
-        properties.setProperty( "aJCheckBox", "true" );
-        properties.setProperty( "aJComboBox", "3" );
+        properties.setProperty( "JTextField", "MyTestString for JTextField" );
+        properties.setProperty( "JCheckBox", "true" );
+        properties.setProperty( "JComboBox", "3" );
 
         PropertiesTestTools.logProperties( LOGGER, properties );
 
@@ -104,9 +104,10 @@ public class PropertiesPopulator_Methods_NotHeadLess_Test
         assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
         assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
         assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
-        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
-        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
-        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
+
+        assertThat( copy.getTestValueJTextFieldText() ).isEqualTo( bean.getTestValueJTextFieldText() );
+        assertThat( copy.getTestValueJCheckBoxSelected() ).isEqualTo( bean.getTestValueJCheckBoxSelected()  );
+        assertThat( copy.getTestValueJComboBoxSelectedIndex() ).isEqualTo( bean.getTestValueJComboBoxSelectedIndex() );
     }
 
     @Test
@@ -140,9 +141,10 @@ public class PropertiesPopulator_Methods_NotHeadLess_Test
         assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
         assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
         assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
-        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
-        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
-        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
+
+       assertThat( copy.getTestValueJTextFieldText() ).isEqualTo( bean.getTestValueJTextFieldText()  );
+       assertThat( copy.getTestValueJCheckBoxSelected() ).isEqualTo( bean.getTestValueJCheckBoxSelected() );
+       assertThat( copy.getTestValueJComboBoxSelectedIndex() ).isEqualTo( bean.getTestValueJComboBoxSelectedIndex() );
     }
 
     @Test
@@ -177,13 +179,14 @@ public class PropertiesPopulator_Methods_NotHeadLess_Test
         assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
         assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
         assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
-        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
-        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
-        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
+
+        assertThat( copy.getTestValueJTextFieldText() ).isEqualTo( bean.getTestValueJTextFieldText()  );
+        assertThat( copy.getTestValueJCheckBoxSelected() ).isEqualTo( bean.getTestValueJCheckBoxSelected() );
+        assertThat( copy.getTestValueJComboBoxSelectedIndex() ).isEqualTo( bean.getTestValueJComboBoxSelectedIndex() );
     }
 
     @Test
-    public void test_PropertiesPopulator2() throws PopulatorException
+    public void test_PropertiesPopulator_OnGetters_with_a_prefix() throws PopulatorException
     {
         final PropertiesPopulator<BeanAnnotationOnGettersNotHeadLess> pp
             = new PropertiesPopulator<>( BeanAnnotationOnGettersNotHeadLess.class );
@@ -214,13 +217,14 @@ public class PropertiesPopulator_Methods_NotHeadLess_Test
         assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
         assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
         assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
-        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
-        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
-        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
+
+        assertThat( copy.getTestValueJTextFieldText() ).isEqualTo( bean.getTestValueJTextFieldText()  );
+        assertThat( copy.getTestValueJCheckBoxSelected() ).isEqualTo( bean.getTestValueJCheckBoxSelected() );
+        assertThat( copy.getTestValueJComboBoxSelectedIndex() ).isEqualTo( bean.getTestValueJComboBoxSelectedIndex() );
     }
 
     @Test
-    public void test_loadsave() throws IOException
+    public void test_loadsave_OnGetters() throws IOException
     {
         final File file = File.createTempFile(
                 this.getClass().getName(),
@@ -248,9 +252,10 @@ public class PropertiesPopulator_Methods_NotHeadLess_Test
         assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
         assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
         assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
-        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
-        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
-        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
+
+        assertThat( copy.getTestValueJTextFieldText() ).isEqualTo( bean.getTestValueJTextFieldText()  );
+        assertThat( copy.getTestValueJCheckBoxSelected() ).isEqualTo( bean.getTestValueJCheckBoxSelected() );
+        assertThat( copy.getTestValueJComboBoxSelectedIndex() ).isEqualTo( bean.getTestValueJComboBoxSelectedIndex() );
 
         file.delete();
     }

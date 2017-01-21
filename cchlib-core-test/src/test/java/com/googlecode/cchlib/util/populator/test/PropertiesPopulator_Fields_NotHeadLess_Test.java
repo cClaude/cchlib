@@ -57,11 +57,11 @@ public class PropertiesPopulator_Fields_NotHeadLess_Test
         assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
         assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
         assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
-
         assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
-        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
-        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
-        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
+
+        assertThat( copy.getTestValueJTextFieldText() ).isEqualTo( bean.getTestValueJTextFieldText()  );
+        assertThat( copy.getTestValueJCheckBoxSelected() ).isEqualTo( bean.getTestValueJCheckBoxSelected() );
+        assertThat( copy.getTestValueJComboBoxSelectedIndex() ).isEqualTo( bean.getTestValueJComboBoxSelectedIndex() );
     }
 
     @Test
@@ -97,9 +97,10 @@ public class PropertiesPopulator_Fields_NotHeadLess_Test
         assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
         assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
         assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
-        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
-        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
-        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
+
+        assertThat( copy.getTestValueJTextFieldText() ).isEqualTo( bean.getTestValueJTextFieldText()  );
+        assertThat( copy.getTestValueJCheckBoxSelected() ).isEqualTo( bean.getTestValueJCheckBoxSelected() );
+        assertThat( copy.getTestValueJComboBoxSelectedIndex() ).isEqualTo( bean.getTestValueJComboBoxSelectedIndex() );
     }
 
     @Test
@@ -133,11 +134,11 @@ public class PropertiesPopulator_Fields_NotHeadLess_Test
         assertThat( copy.getaFloat() ).isEqualTo( bean.getaFloat() );
         assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
         assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
-
         assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
-        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
-        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
-        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
+
+        assertThat( copy.getTestValueJTextFieldText() ).isEqualTo( bean.getTestValueJTextFieldText()  );
+        assertThat( copy.getTestValueJCheckBoxSelected() ).isEqualTo( bean.getTestValueJCheckBoxSelected() );
+        assertThat( copy.getTestValueJComboBoxSelectedIndex() ).isEqualTo( bean.getTestValueJComboBoxSelectedIndex() );
     }
 
     @Test
@@ -194,9 +195,10 @@ public class PropertiesPopulator_Fields_NotHeadLess_Test
         assertThat( copy.getaInt() ).isEqualTo( bean.getaInt() );
         assertThat( copy.getaString() ).isEqualTo( bean.getaString() );
         assertThat( copy.getSomeBooleans() ).isEqualTo( bean.getSomeBooleans() );
-        assertThat( copy.getaJCheckBox().getText() ).isEqualTo( bean.getaJCheckBox().getText() );
-        assertThat( copy.getaJComboBox().getSelectedIndex() ).isEqualTo( bean.getaJComboBox().getSelectedIndex() );
-        assertThat( copy.getaJTextField().getText() ).isEqualTo( bean.getaJTextField().getText()  );
+
+        assertThat( copy.getTestValueJTextFieldText() ).isEqualTo( bean.getTestValueJTextFieldText()  );
+        assertThat( copy.getTestValueJCheckBoxSelected() ).isEqualTo( bean.getTestValueJCheckBoxSelected() );
+        assertThat( copy.getTestValueJComboBoxSelectedIndex() ).isEqualTo( bean.getTestValueJComboBoxSelectedIndex() );
 
         file.delete();
     }

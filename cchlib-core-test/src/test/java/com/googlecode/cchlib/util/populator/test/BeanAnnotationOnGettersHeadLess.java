@@ -3,8 +3,8 @@ package com.googlecode.cchlib.util.populator.test;
 import java.util.Arrays;
 import com.googlecode.cchlib.util.populator.Populator;
 
-//NOT public
-class BeanAnnotationOnGettersHeadLess implements BeanAnnotationHeadLess
+//public access required by populator
+public class BeanAnnotationOnGettersHeadLess implements BeanAnnotationHeadLess
 {
     protected String    aString;
     private   int       aInt;

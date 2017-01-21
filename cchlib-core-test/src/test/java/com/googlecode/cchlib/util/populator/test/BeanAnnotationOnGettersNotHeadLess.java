@@ -6,8 +6,8 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import com.googlecode.cchlib.util.populator.Persistent;
 
-//NOT public
-class BeanAnnotationOnGettersNotHeadLess
+// public access required by populator
+public class BeanAnnotationOnGettersNotHeadLess
     extends BeanAnnotationOnGettersHeadLess
         implements BeanAnnotationNotHeadLess
 {
@@ -55,21 +55,21 @@ class BeanAnnotationOnGettersNotHeadLess
 
     @Override
     @Persistent
-    public JTextField getaJTextField()
+    public JTextField getJTextField()
     {
         return this.aJTextField;
     }
 
     @Override
     @Persistent
-    public JCheckBox getaJCheckBox()
+    public JCheckBox getJCheckBox()
     {
         return this.aJCheckBox;
     }
 
     @Override
     @Persistent
-    public JComboBox<String> getaJComboBox()
+    public JComboBox<String> getJComboBox()
     {
         return this.aJComboBox;
     }

@@ -59,19 +59,19 @@ class BeanAnnotationOnFieldsNotHeadLess
     }
 
     @Override
-    public JTextField getaJTextField()
+    public JTextField getJTextField()
     {
         return this.aJTextField;
     }
 
     @Override
-    public JCheckBox getaJCheckBox()
+    public JCheckBox getJCheckBox()
     {
         return this.aJCheckBox;
     }
 
     @Override
-    public JComboBox<String> getaJComboBox()
+    public JComboBox<String> getJComboBox()
     {
         return this.aJComboBox;
     }
