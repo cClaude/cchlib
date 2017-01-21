@@ -11,10 +11,11 @@ import java.util.Properties;
  *
  * @since 4.1.7
  */
-@SuppressWarnings("squid:S2160") // Don't wan't to override equals
+@SuppressWarnings("squid:S2160") // Don't want to override equals
 public class PropertiesFile extends Properties
 {
     private static final long serialVersionUID = 1L;
+
     private File file;
 
     /**
@@ -90,9 +91,9 @@ public class PropertiesFile extends Properties
      */
     public PropertiesFile load() throws IOException
     {
-        try (InputStream is = new FileInputStream( getFile() )) {
+        try( final InputStream is = new FileInputStream( getFile() ) ) {
             load( is );
-            }
+        }
 
         return this;
     }

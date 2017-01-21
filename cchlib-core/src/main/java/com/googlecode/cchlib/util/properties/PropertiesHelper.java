@@ -23,12 +23,15 @@ public final class PropertiesHelper
     /**
      * Create a {@link Properties} from a file.
      *
-     * @param propertiesFile File to load.
+     * @param propertiesFile
+     *            File to load.
      * @return a {@link Properties} filled with value found on file.
-     * @throws IOException - if an error occurred when reading from the input stream.
-     * @throws IllegalArgumentException - if the input stream contains a malformed Unicode escape sequence.
+     * @throws IOException
+     *             if an error occurred when reading from the input stream.
+     * @throws IllegalArgumentException
+     *             if the input stream contains a malformed Unicode escape sequence.
      * @see Properties#load(InputStream)
-    */
+     */
     @SuppressWarnings({
         "squid:RedundantThrowsDeclarationCheck",
         })
@@ -36,19 +39,23 @@ public final class PropertiesHelper
         final File propertiesFile
         ) throws IOException, IllegalArgumentException
    {
-       try (final InputStream is = new FileInputStream( propertiesFile )) {
+       try( final InputStream is = new FileInputStream( propertiesFile ) ) {
            return loadProperties( is );
            }
        }
 
     /**
-    * Create a {@link Properties} from a {@code ressourceName}
-      *
-     * @param classLoader   {@link ClassLoader} to use to find resource
-     * @param resourceName  Resource name
+     * Create a {@link Properties} from a {@code ressourceName}
+     *
+     * @param classLoader
+     *            {@link ClassLoader} to use to find resource
+     * @param resourceName
+     *            Resource name
      * @return a {@link Properties} filled with value found on resource.
-     * @throws IOException - if an error occurred when reading from the input stream.
-     * @throws IllegalArgumentException - if the input stream contains a malformed Unicode escape sequence.
+     * @throws IOException
+     *             if an error occurred when reading from the input stream.
+     * @throws IllegalArgumentException
+     *             if the input stream contains a malformed Unicode escape sequence.
      */
     @SuppressWarnings({
         "squid:RedundantThrowsDeclarationCheck",
@@ -58,7 +65,7 @@ public final class PropertiesHelper
         final String      resourceName
         ) throws IOException, IllegalArgumentException
     {
-        try (final InputStream is = classLoader.getResourceAsStream( resourceName )) {
+        try( final InputStream is = classLoader.getResourceAsStream( resourceName ) ) {
             return loadProperties( is );
             }
     }
@@ -69,23 +76,29 @@ public final class PropertiesHelper
    private static Properties loadProperties( final InputStream is )
         throws IOException, IllegalArgumentException
     {
-        final Properties  properties = new Properties();
+        final Properties properties = new Properties();
+
         properties.load( is );
+
         return properties;
     }
 
     /**
      * Store properties content into a file using a OutputStream.
      *
-     * @param propertiesFile    File to use
-     * @param properties        Properties to store.
-     * @param comment           Extra comments for header (could be null)
-     * @throws IOException if any I/O occur
+     * @param propertiesFile
+     *            File to use
+     * @param properties
+     *            Properties to store.
+     * @param comment
+     *            Extra comments for header (could be null)
+     * @throws IOException
+     *             if any I/O occur
      */
     public static void saveProperties(
-        final File          propertiesFile,
-        final Properties    properties,
-        final String        comment
+        final File       propertiesFile,
+        final Properties properties,
+        final String     comment
         ) throws IOException
     {
         // TODO allow to choice OutputStream / writer !
@@ -97,14 +110,17 @@ public final class PropertiesHelper
     /**
      * Store properties content into a file.
      *
-     * @param propertiesFile    File to use
-     * @param properties        Properties to store.
-     * @throws IOException if any I/O occur
+     * @param propertiesFile
+     *            File to use
+     * @param properties
+     *            Properties to store.
+     * @throws IOException
+     *             if any I/O occur
      * @see #saveProperties(File, Properties, String)
      */
     public static void saveProperties(
-        final File          propertiesFile,
-        final Properties    properties
+        final File       propertiesFile,
+        final Properties properties
         ) throws IOException
     {
         saveProperties( propertiesFile, properties, null );
@@ -113,7 +129,8 @@ public final class PropertiesHelper
     /**
      * Create a new {@link Properties} object with shadow copy of {@code propertiesMap}
      *
-     * @param propertiesMap Map to clone
+     * @param propertiesMap
+     *            Map to clone
      * @return a new {@link Properties}
      */
     public static Properties cloneFrom( final Map<String,String> propertiesMap )
@@ -126,5 +143,4 @@ public final class PropertiesHelper
 
         return properties;
     }
-
 }
