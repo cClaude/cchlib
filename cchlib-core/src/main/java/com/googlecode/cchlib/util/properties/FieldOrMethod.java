@@ -7,7 +7,8 @@ import java.lang.reflect.Method;
 import com.googlecode.cchlib.lang.reflect.SerializableField;
 import com.googlecode.cchlib.lang.reflect.SerializableMethod;
 
-public class FieldOrMethod implements Serializable
+//Not public
+final class FieldOrMethod implements Serializable
 {
     private static final long serialVersionUID = 1L;
     private SerializableMethod method;
@@ -54,5 +55,4 @@ public class FieldOrMethod implements Serializable
             return this.field.getField();
         }
     }
-
 }
