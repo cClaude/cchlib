@@ -1,19 +1,22 @@
 package com.googlecode.cchlib.util.populator;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import org.apache.log4j.Logger;
 
 //NOT public
-final class PropertiesPersistentAnnotationForFieldImpl<E> //
-    extends AbstractPropertiesPersistentAnnotation<E,Field> //
-        implements PropertiesPopulatorSetter<E,Field>,
-                   PropertiesPopulatorAnnotationForField<E>
+final class PopulatorAnnotationForFieldImpl<E>
+    extends AbstractPopulatorAnnotation<E,Field>
+        implements PopulatorAnnotationForField<E>,
+                   PopulatorSetter<E,Field>
 {
+    private static final Logger LOGGER = Logger.getLogger( AbstractPopulatorAnnotation.class );
+
     private final Field field;
 
-    PropertiesPersistentAnnotationForFieldImpl( final Persistent persistent, final Field field )
+    PopulatorAnnotationForFieldImpl( final Populator populator, final Field field )
     {
-        super( persistent );
+        super( populator );
 
         this.field = field;
     }
@@ -24,12 +27,19 @@ final class PropertiesPersistentAnnotationForFieldImpl<E> //
         throws IllegalArgumentException,
                IllegalAccessException,
                ConvertCantNotHandleTypeException,
-               PropertiesPopulatorRuntimeException,
-               InvocationTargetException
+               PopulatorRuntimeException
     {
-        final Object swingObject = this.field.get( bean );
+        try {
+            this.field.set( bean, convertStringToObject( strValue, type ) );
+        } catch( final NumberFormatException e ) {
+            final String message = "Can not set field \"" + this.field + "\" with value \"" + strValue + '"';
 
-        setValue( swingObject, strValue );
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace( message, e );
+            } else {
+                LOGGER.warn( message + " : " + e.getMessage() );
+            }
+        }
     }
 
     @Override
@@ -42,9 +52,9 @@ final class PropertiesPersistentAnnotationForFieldImpl<E> //
         ) throws ArrayIndexOutOfBoundsException,
                  IllegalArgumentException,
                  ConvertCantNotHandleTypeException,
-                 PropertiesPopulatorRuntimeException
+                 PopulatorRuntimeException
     {
-        throw new PersistentException( "@Persistent does not handle array" );
+        Array.set( array, index, convertStringToObject( strValue, type ) );
     }
 
     @Override
@@ -54,7 +64,7 @@ final class PropertiesPersistentAnnotationForFieldImpl<E> //
     }
 
     @Override
-    public PropertiesPopulatorSetter<E,Field> getPropertiesPopulatorSetter()
+    public PopulatorSetter<E,Field> getPropertiesPopulatorSetter()
     {
         return this;
     }

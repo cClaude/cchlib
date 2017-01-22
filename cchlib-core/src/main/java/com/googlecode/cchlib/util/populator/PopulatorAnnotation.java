@@ -9,9 +9,9 @@ import java.lang.reflect.Method;
  * @param <E> Type of the object to populate
  * @param <METHOD_OR_FIELD> Type {@link Method} or {@link Field}
  */
-@SuppressWarnings("squid:S00119")
+@SuppressWarnings("squid:S00119") // naming convention
 //NOT public
-interface PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD extends Member>
+interface PopulatorAnnotation<E,METHOD_OR_FIELD extends Member>
 {
     /**
      * Return annotation value
@@ -30,14 +30,14 @@ interface PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD extends Member>
      *
      * @param o object to convert
      * @return object value has a String
-     * @throws PropertiesPopulatorRuntimeException if any
+     * @throws PopulatorRuntimeException if any
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
-    String toString( Object o ) throws PropertiesPopulatorRuntimeException;
+    String toString( Object o ) throws PopulatorRuntimeException;
 
     /**
      * Retrieve setter for this entry
-     * @return a {@link PropertiesPopulatorSetter} for this entry
+     * @return a {@link PopulatorSetter} for this entry
      */
-    PropertiesPopulatorSetter<E,METHOD_OR_FIELD> getPropertiesPopulatorSetter();
+    PopulatorSetter<E,METHOD_OR_FIELD> getPropertiesPopulatorSetter();
 }

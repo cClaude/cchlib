@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 import com.googlecode.cchlib.NeedDoc;
 
 @NeedDoc
-public class PopulatorException extends PropertiesPopulatorRuntimeException
+public class PopulatorException extends PopulatorRuntimeException
 {
     private static final long serialVersionUID = 2L;
 

@@ -11,16 +11,16 @@ import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
 
 //Not public
-final class BeanToProperties<E>
+final class BeanToMap<E>
 {
-    private static final Logger LOGGER = Logger.getLogger( BeanToProperties.class );
+    private static final Logger LOGGER = Logger.getLogger( BeanToMap.class );
 
     private final E                  bean;
     private final Map<String,String> properties;
     private final StringBuilder      prefix;
     private final int                prefixLength;
 
-    /* package */ BeanToProperties(
+    /* package */ BeanToMap(
         final E                  bean,
         final Map<String,String> properties,
         final String             propertiesPrefix
@@ -41,30 +41,26 @@ final class BeanToProperties<E>
 
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     /* package */ void loadForField(
-        final Map<Field, PropertiesPopulatorAnnotation<E, Field>> fieldsMap
-        ) throws PropertiesPopulatorRuntimeException
+        final Map<Field, PopulatorAnnotation<E, Field>> fieldsMap
+        ) throws PopulatorRuntimeException
     {
-        for( final Entry<Field, PropertiesPopulatorAnnotation<E, Field>> entry : fieldsMap.entrySet() ) {
-            final PropertiesPopulatorAnnotationForField<E> entryValue = (PropertiesPopulatorAnnotationForField<E>)(entry.getValue());
-
-            loadDataForField( entryValue );
+        for( final Entry<Field, PopulatorAnnotation<E, Field>> entry : fieldsMap.entrySet() ) {
+            loadDataForField( (PopulatorAnnotationForField<E>)(entry.getValue()) );
         }
     }
 
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     /* package */ void loadForMethod(
-        final Map<String, PropertiesPopulatorAnnotation<E, Method>> getterSetterMap
-        ) throws PropertiesPopulatorRuntimeException
+        final Map<String, PopulatorAnnotation<E, Method>> getterSetterMap
+        ) throws PopulatorRuntimeException
     {
-        for( final Entry<String, PropertiesPopulatorAnnotation<E, Method>> entry : getterSetterMap.entrySet() ) {
-            final PropertiesPopulatorAnnotationForMethod<E> entryValue = (PropertiesPopulatorAnnotationForMethod<E>)(entry.getValue());
-
-            loadDataForMethod( entryValue );
+        for( final Entry<String, PopulatorAnnotation<E, Method>> entry : getterSetterMap.entrySet() ) {
+            loadDataForMethod( (PopulatorAnnotationForMethod<E>)(entry.getValue()) );
         }
     }
 
     private void loadDataForMethod(
-        final PropertiesPopulatorAnnotationForMethod<E> entryValue
+        final PopulatorAnnotationForMethod<E> entryValue
         )
     {
         final Method             method     = entryValue.getGetter();
@@ -102,8 +98,8 @@ final class BeanToProperties<E>
     }
 
     private void handleNonArrayForMethod(
-        final PropertiesPopulatorAnnotationForMethod<E> entryValue,
-        final Object                                    result
+        final PopulatorAnnotationForMethod<E> entryValue,
+        final Object                          result
         )
     {
         final String name        = entryValue.getAttributeName();
@@ -119,8 +115,8 @@ final class BeanToProperties<E>
     }
 
     private void handleArrayForMethod(
-        final PropertiesPopulatorAnnotationForMethod<E> entryValue,
-        final Object                                    values
+        final PopulatorAnnotationForMethod<E> entryValue,
+        final Object                          values
         )
     {
         final String name = entryValue.getAttributeName();
@@ -129,7 +125,7 @@ final class BeanToProperties<E>
     }
 
     private void loadDataForField(
-        final PropertiesPopulatorAnnotationForField<E> entryValue
+        final PopulatorAnnotationForField<E> entryValue
         )
     {
         final Field              field      = entryValue.getField();
@@ -165,8 +161,8 @@ final class BeanToProperties<E>
     }
 
     private void handleNonArrayForField(
-        final PropertiesPopulatorAnnotationForField<E> entryValue,
-        final Object                                   value
+        final PopulatorAnnotationForField<E> entryValue,
+        final Object                         value
         )
     {
         final String name        = entryValue.getField().getName();
@@ -193,8 +189,8 @@ final class BeanToProperties<E>
     }
 
     private void handleArrayForField(
-        final PropertiesPopulatorAnnotationForField<E> entryValue,
-        final Object                                   values
+        final PopulatorAnnotationForField<E> entryValue,
+        final Object                         values
         )
     {
         final String name = entryValue.getField().getName();
@@ -203,9 +199,9 @@ final class BeanToProperties<E>
     }
 
     private void setValues(
-        final PropertiesPopulatorAnnotation<E,?> propertiesPopulatorAnnotation,
-        final Object                             values,
-        final String                             name
+        final PopulatorAnnotation<E,?> propertiesPopulatorAnnotation,
+        final Object                   values,
+        final String                   name
         )
     {
         // Handle Arrays

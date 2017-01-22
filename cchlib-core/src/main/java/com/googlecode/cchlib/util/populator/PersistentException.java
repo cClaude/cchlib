@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.util.populator;
 
 
-public class PersistentException extends PropertiesPopulatorRuntimeException
+public class PersistentException extends PopulatorRuntimeException
 {
     private static final long serialVersionUID = 1L;
 

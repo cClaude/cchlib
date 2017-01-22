@@ -1,31 +1,32 @@
 package com.googlecode.cchlib.util.populator;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 //NOT public
-final class PropertiesPopulatorAnnotationForMethodImpl<E>
-    extends AbstractPropertiesPopulatorAnnotation<E,Method>
-        implements  PropertiesPopulatorAnnotationForMethod<E>,
-                    PropertiesPopulatorSetter<E,Method>
+class PersistentAnnotationForMethodImpl<E>
+    extends AbstractPersistentAnnotation<E,Method>
+        implements PersistentAnnotationForMethod<E>
 {
-    private final Method getter;
-    private final Method setter;
+    private final Method method;
     private final String attributeName;
 
-    PropertiesPopulatorAnnotationForMethodImpl(
-        final Populator populator,
-        final Method getter,
-        final Method setter,
-        final String attributeName
+    PersistentAnnotationForMethodImpl(
+        final Persistent persistent,
+        final Method     method,
+        final String     attributeName
         )
     {
-        super( populator );
+        super( persistent );
 
-        this.getter        = getter;
-        this.setter        = setter;
+        this.method        = method;
         this.attributeName = attributeName;
+    }
+
+    @Override
+    public PopulatorSetter<E, Method> getPropertiesPopulatorSetter()
+    {
+        return this;
     }
 
     @Override
@@ -34,12 +35,12 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E>
         throws IllegalArgumentException,
                IllegalAccessException,
                ConvertCantNotHandleTypeException,
-               PropertiesPopulatorRuntimeException,
+               PopulatorRuntimeException,
                InvocationTargetException
     {
-        final Object[] parameters = new Object[] { convertStringToObject( strValue, type ) };
+        final Object swingObject = this.method.invoke( bean );
 
-        this.setter.invoke( bean, parameters );
+        setValue( swingObject, strValue );
     }
 
     @Override
@@ -52,33 +53,27 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E>
         ) throws ArrayIndexOutOfBoundsException,
                  IllegalArgumentException,
                  ConvertCantNotHandleTypeException,
-                 PropertiesPopulatorRuntimeException
+                 PopulatorRuntimeException
     {
-        Array.set( array, index, convertStringToObject( strValue, type ) );
+        throw new PersistentException( "@Persistent does not handle array" );
     }
 
     @Override
     public Method getMethodOrField()
     {
-        return this.setter;
-    }
-
-    @Override
-    public PropertiesPopulatorSetter<E,Method> getPropertiesPopulatorSetter()
-    {
-        return this;
+        return this.method;
     }
 
     @Override
     public Method getGetter()
     {
-        return this.getter;
+        return this.method;
     }
 
     @Override
     public Method getSetter()
     {
-        return this.setter;
+        return this.method;
     }
 
     @Override
@@ -90,6 +85,6 @@ final class PropertiesPopulatorAnnotationForMethodImpl<E>
     @Override
     public FieldOrMethod getFieldOrMethod()
     {
-        return new FieldOrMethod( this.setter );
+        return new FieldOrMethod( this.method );
     }
 }

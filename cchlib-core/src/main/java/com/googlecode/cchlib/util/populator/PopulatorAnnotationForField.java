@@ -3,8 +3,8 @@ package com.googlecode.cchlib.util.populator;
 import java.lang.reflect.Field;
 
 //Not public
-interface PropertiesPopulatorAnnotationForField<E> //
-    extends PropertiesPopulatorAnnotation<E,Field>
+interface PopulatorAnnotationForField<E>
+    extends PopulatorAnnotation<E,Field>
 {
     Field getField();
 }

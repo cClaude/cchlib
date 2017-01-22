@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 
 //NOT public
 @SuppressWarnings("squid:S00119") // Type one char only ! Why ?
-interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD extends Member>
+interface PopulatorSetter<E,METHOD_OR_FIELD extends Member>
 {
     /**
      * Set value using a String. Best effort will be done to transform
@@ -26,7 +26,7 @@ interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD extends Member>
      *             if any
      * @throws ConvertCantNotHandleTypeException
      *             if any
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if any
      * @throws InvocationTargetException
      *             if any
@@ -36,7 +36,7 @@ interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD extends Member>
         throws IllegalArgumentException,
                IllegalAccessException,
                ConvertCantNotHandleTypeException,
-               PropertiesPopulatorRuntimeException,
+               PopulatorRuntimeException,
                InvocationTargetException;
 
     /**
@@ -56,7 +56,7 @@ interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD extends Member>
      *             if any
      * @throws ConvertCantNotHandleTypeException
      *             if any
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if any
      */
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
@@ -64,7 +64,7 @@ interface PropertiesPopulatorSetter<E,METHOD_OR_FIELD extends Member>
         throws ArrayIndexOutOfBoundsException,
                IllegalArgumentException,
                ConvertCantNotHandleTypeException,
-               PropertiesPopulatorRuntimeException;
+               PopulatorRuntimeException;
 
     /**
      * return a {@link Method} or a {@link Field} to use to populate value

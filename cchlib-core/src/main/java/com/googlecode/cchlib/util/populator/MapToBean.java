@@ -13,16 +13,16 @@ import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.reflect.AccessibleRestorer;
 
 //Not public
-class PropertiesToBean<E>
+class MapToBean<E>
 {
-    private static final Logger LOGGER = Logger.getLogger( PropertiesToBean.class );
+    private static final Logger LOGGER = Logger.getLogger( MapToBean.class );
 
     private final Map<?,?>      properties;
     private final E             bean;
     private final StringBuilder prefix;
     private final int           prefixLength;
 
-    /* package */ public PropertiesToBean(
+    /* package */ public MapToBean(
         final String   propertiesPrefix,
         final Map<?,?> properties,
         final E        bean
@@ -42,15 +42,15 @@ class PropertiesToBean<E>
 
     @SuppressWarnings("squid:S3346") // assert usage
     public void populateMethods(
-        final Map<String, PropertiesPopulatorAnnotation<E, Method>> getterSetterMap
+        final Map<String, PopulatorAnnotation<E, Method>> getterSetterMap
         )
     {
-        for( final Entry<String, PropertiesPopulatorAnnotation<E, Method>> entry : getterSetterMap.entrySet() ) {
-            final PropertiesPopulatorAnnotation<E, Method> value = entry.getValue();
+        for( final Entry<String, PopulatorAnnotation<E, Method>> entry : getterSetterMap.entrySet() ) {
+            final PopulatorAnnotation<E, Method> value = entry.getValue();
 
-            if( value instanceof PropertiesPersistentAnnotationForMethod ) {
-                final PropertiesPersistentAnnotationForMethod<E> entryValue = (PropertiesPersistentAnnotationForMethod<E>)value;
-                final Method getter = entryValue.getGetter();
+            if( value instanceof PersistentAnnotationForMethod ) {
+                final PersistentAnnotationForMethod<E> entryValue = (PersistentAnnotationForMethod<E>)value;
+                final Method                           getter     = entryValue.getGetter();
 
                 assert getter.getParameterCount() == 0;
 
@@ -61,7 +61,7 @@ class PropertiesToBean<E>
                 try {
                     entryValue.setValue( this.bean, strValue, getter.getReturnType() );
                 }
-                catch( IllegalArgumentException | IllegalAccessException | PropertiesPopulatorRuntimeException | InvocationTargetException | ConvertCantNotHandleTypeException e ) {
+                catch( IllegalArgumentException | IllegalAccessException | PopulatorRuntimeException | InvocationTargetException | ConvertCantNotHandleTypeException e ) {
                     LOGGER.warn(
                         "Cannot set field for Method: " + getter
                             + " * strValue=[" + strValue
@@ -71,8 +71,8 @@ class PropertiesToBean<E>
                 }
             }
             else {
-                final PropertiesPopulatorAnnotationForMethod<E> entryValue = (PropertiesPopulatorAnnotationForMethod<E>)value;
-                final Method                                    setter     = entryValue.getSetter();
+                final PopulatorAnnotationForMethod<E> entryValue = (PopulatorAnnotationForMethod<E>)value;
+                final Method                          setter     = entryValue.getSetter();
 
                 assert setter.getParameterCount() == 1;
 
@@ -89,9 +89,9 @@ class PropertiesToBean<E>
     }
 
     private void handleNonArrayMethod(
-        final String                                    attributeName,
-        final PropertiesPopulatorAnnotationForMethod<E> value,
-        final Class<?>                                  type
+        final String                          attributeName,
+        final PopulatorAnnotationForMethod<E> value,
+        final Class<?>                        type
         )
     {
         final String             defaultValue = getDefaultValue( value );
@@ -104,7 +104,7 @@ class PropertiesToBean<E>
         }
         catch( final ConvertCantNotHandleTypeException cause ) {
             if( ! tryToSetUsingConstructor( value, type, strValue ) ) {
-                throw new PropertiesPopulatorRuntimeException(
+                throw new PopulatorRuntimeException(
                         "Bad value [" + strValue + "] for method " + setter,
                         cause
                         );
@@ -126,9 +126,9 @@ class PropertiesToBean<E>
 
     /** try to find a constructor based on String */
     private boolean tryToSetUsingConstructor(
-        final PropertiesPopulatorAnnotationForMethod<E> value,
-        final Class<?>                                  type,
-        final String                                    strValue
+        final PopulatorAnnotationForMethod<E> value,
+        final Class<?>                        type,
+        final String                          strValue
         )
     {
         try {
@@ -159,10 +159,10 @@ class PropertiesToBean<E>
     }
 
     private void handleArrayMethod(
-        final String                                    attributeName,
-        final PropertiesPopulatorAnnotationForMethod<E> propertiesPopulatorAnnotation,
-        final StringBuilder                             prefix,
-        final int                                       prefixLength
+        final String                          attributeName,
+        final PopulatorAnnotationForMethod<E> propertiesPopulatorAnnotation,
+        final StringBuilder                   prefix,
+        final int                             prefixLength
         )
     {
         final Method             method       = propertiesPopulatorAnnotation.getGetter();
@@ -172,7 +172,7 @@ class PropertiesToBean<E>
         try {
             Object array = method.invoke( this.bean );
 
-            final PropertiesPopulatorSetter<E, Method> propertiesPopulatorSetter =
+            final PopulatorSetter<E, Method> propertiesPopulatorSetter =
                     propertiesPopulatorAnnotation.getPropertiesPopulatorSetter();
 
             final int      length        = stringValues.size();
@@ -203,14 +203,14 @@ class PropertiesToBean<E>
         }
     }
 
-    public void populateFields( final Map<Field, PropertiesPopulatorAnnotation<E, Field>> fieldsMap )
+    public void populateFields( final Map<Field, PopulatorAnnotation<E, Field>> fieldsMap )
     {
-        for( final Entry<Field, PropertiesPopulatorAnnotation<E, Field>> entry : fieldsMap.entrySet() ) {
+        for( final Entry<Field, PopulatorAnnotation<E, Field>> entry : fieldsMap.entrySet() ) {
             final Field     field = entry.getKey();
             final Class<?>  type  = field.getType();
 
-            final PropertiesPopulatorAnnotationForField<E> entryValue =
-                    (PropertiesPopulatorAnnotationForField<E>)(entry.getValue());
+            final PopulatorAnnotationForField<E> entryValue =
+                    (PopulatorAnnotationForField<E>)(entry.getValue());
 
             if( type.isArray() ) {
                 handleArrayField( entryValue, this.prefix, this.prefixLength );
@@ -222,8 +222,8 @@ class PropertiesToBean<E>
     }
 
     private void handleNonArrayField(
-        final PropertiesPopulatorAnnotationForField<E> entryValue,
-        final Class<?>                                 type
+        final PopulatorAnnotationForField<E> entryValue,
+        final Class<?>                       type
         )
     {
         final String             defaultValue = getDefaultValue( entryValue );
@@ -260,16 +260,16 @@ class PropertiesToBean<E>
     }
 
     private void handleNonArrayField(
-        final PropertiesPopulatorAnnotationForField<E> entryValue,
-        final Class<?>                                 type,
-        final Field                                    field,
-        final String                                   strValue
+        final PopulatorAnnotationForField<E> entryValue,
+        final Class<?>                       type,
+        final Field                          field,
+        final String                         strValue
         ) throws IllegalAccessException
     {
         try {
             entryValue.getPropertiesPopulatorSetter().setValue( this.bean, strValue, type );
             }
-        catch( final ConvertCantNotHandleTypeException | PropertiesPopulatorRuntimeException | InvocationTargetException e ) {
+        catch( final ConvertCantNotHandleTypeException | PopulatorRuntimeException | InvocationTargetException e ) {
             throw new PopulatorException( "Bad type for field", field, field.getType(), e );
             }
     }
@@ -292,7 +292,7 @@ class PropertiesToBean<E>
     }
 
 
-    private String getDefaultValue( final PropertiesPopulatorAnnotation<E,?> ppa )
+    private String getDefaultValue( final PopulatorAnnotation<E,?> ppa )
     {
         final String defaultValue;
 
@@ -308,11 +308,11 @@ class PropertiesToBean<E>
 
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     private void handleArrayField(
-        final PropertiesPopulatorAnnotationForField<E> propertiesPopulatorAnnotation,
-        final StringBuilder                            prefix,
-        final int                                      prefixLength
+        final PopulatorAnnotationForField<E> propertiesPopulatorAnnotation,
+        final StringBuilder                  prefix,
+        final int                            prefixLength
         ) throws ArrayIndexOutOfBoundsException,
-                 PropertiesPopulatorRuntimeException
+                 PopulatorRuntimeException
     {
         final Field              field        = propertiesPopulatorAnnotation.getField();
         final List<String>       stringValues = getStringValues( prefix, prefixLength, field.getName() );
@@ -321,12 +321,12 @@ class PropertiesToBean<E>
         try {
             Object array = field.get( this.bean );
 
-            final PropertiesPopulatorSetter<E,Field> propertiesPopulatorSetter
+            final PopulatorSetter<E,Field> propertiesPopulatorSetter
                 = propertiesPopulatorAnnotation.getPropertiesPopulatorSetter();
 
-            final int       length          = stringValues.size();
-            final Class<?>  arrayType       = field.getType();
-            final Class<?>  componentType   = arrayType.getComponentType();
+            final int      length        = stringValues.size();
+            final Class<?> arrayType     = field.getType();
+            final Class<?> componentType = arrayType.getComponentType();
 
             if( (array == null) || (length != Array.getLength( array )) ) {
                 array = Array.newInstance( componentType, length );
@@ -351,13 +351,13 @@ class PropertiesToBean<E>
         }
     }
 
-    private void populateArray( //
-        final Object                         array,
-        final Class<?>                       arrayType,
-        final int                            length,
-        final List<String>                   stringValues,
-        final PropertiesPopulatorSetter<E,?> propertiesPopulatorSetter,
-        final Class<?>                       componentType
+    private void populateArray(
+        final Object               array,
+        final Class<?>             arrayType,
+        final int                  length,
+        final List<String>         stringValues,
+        final PopulatorSetter<E,?> propertiesPopulatorSetter,
+        final Class<?>             componentType
         )
     {
         for( int index = 0; index < length; index ++ ) {

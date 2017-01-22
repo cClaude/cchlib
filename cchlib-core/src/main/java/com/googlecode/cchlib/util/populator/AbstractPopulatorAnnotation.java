@@ -4,13 +4,13 @@ import java.lang.reflect.Member;
 import java.util.Collection;
 
 //NOT public
-@SuppressWarnings("squid:S00119")
-abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD extends Member>
-    implements PropertiesPopulatorAnnotation<E,METHOD_OR_FIELD>
+@SuppressWarnings("squid:S00119") // naming convention
+abstract class AbstractPopulatorAnnotation<E,METHOD_OR_FIELD extends Member>
+    implements PopulatorAnnotation<E,METHOD_OR_FIELD>
 {
     private final Populator populator;
 
-    AbstractPropertiesPopulatorAnnotation( final Populator populator )
+    AbstractPopulatorAnnotation( final Populator populator )
     {
         this.populator = populator;
     }
@@ -85,16 +85,13 @@ abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD extends M
         }
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private static Object getEnumValueUnchecked(
         final Class  enumType,
         final String enumName
         )
     {
-        @SuppressWarnings({ "unchecked", "squid:S1488" })
-        final Enum<?> value = Enum.valueOf( enumType, enumName );
-
-        return value;
+        return Enum.valueOf( enumType, enumName );
     }
 
     private static <T> T newInstance( final Class<T> type )
@@ -103,7 +100,7 @@ abstract class AbstractPropertiesPopulatorAnnotation<E,METHOD_OR_FIELD extends M
             return type.newInstance();
         }
         catch( InstantiationException | IllegalAccessException shouldNotOccur ) {
-            throw new PropertiesPopulatorRuntimeException( shouldNotOccur );
+            throw new PopulatorRuntimeException( shouldNotOccur );
         }
     }
 }

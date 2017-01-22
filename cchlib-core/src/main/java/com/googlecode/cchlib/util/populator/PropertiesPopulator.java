@@ -16,10 +16,10 @@ import com.googlecode.cchlib.lang.annotation.Annotations;
 import com.googlecode.cchlib.util.properties.PropertiesHelper;
 
 /**
- * PropertiesPopulator is a simple way to store values in a properties
+ * {@link PropertiesPopulator} is a simple way to store values in a properties
  * with a minimum work.
  * <p>
- * PropertiesPopulator is able to set or get {@link Field} values
+ * {@link PropertiesPopulator} is able to set or get {@link Field} values
  * annotates with {@link Populator} or {@link Persistent}.
  * <p>
  * <i>Warn:</i>Only primitive type are supported (and standard derived object) by
@@ -47,8 +47,8 @@ public class PropertiesPopulator<E> implements Serializable
     private transient Class<? extends E> beanType;
     private PopulatorConfig              config;
 
-    private final Map<Field ,PropertiesPopulatorAnnotation<E,Field>>  fieldsMap       = new HashMap<>();
-    private final Map<String,PropertiesPopulatorAnnotation<E,Method>> getterSetterMap = new HashMap<>();
+    private final Map<Field ,PopulatorAnnotation<E,Field>>  fieldsMap       = new HashMap<>();
+    private final Map<String,PopulatorAnnotation<E,Method>> getterSetterMap = new HashMap<>();
 
     /**
      * Create a {@link PropertiesPopulator} object for giving class using
@@ -98,13 +98,13 @@ public class PropertiesPopulator<E> implements Serializable
         if( LOGGER.isTraceEnabled() ) {
             LOGGER.trace( "Found " + this.fieldsMap.size() + " fields on " + this.beanType );
 
-            for( final Map.Entry<Field, PropertiesPopulatorAnnotation<E, Field>> entry : this.fieldsMap.entrySet() ) {
+            for( final Map.Entry<Field, PopulatorAnnotation<E, Field>> entry : this.fieldsMap.entrySet() ) {
                 LOGGER.trace( "Key[" + entry.getKey() + "]=" + entry.getValue() );
                 }
 
             LOGGER.trace( "Found " + this.fieldsMap.size() + " methods on " + this.beanType );
 
-            for( final Map.Entry<String, PropertiesPopulatorAnnotation<E, Method>> entry : this.getterSetterMap.entrySet() ) {
+            for( final Map.Entry<String, PopulatorAnnotation<E, Method>> entry : this.getterSetterMap.entrySet() ) {
                 LOGGER.trace( "Method[" + entry.getKey() + "]=" + entry.getValue() );
                 }
             }
@@ -146,7 +146,7 @@ public class PropertiesPopulator<E> implements Serializable
 
                 this.getterSetterMap.put(
                         attributeName,
-                        new PropertiesPersistentAnnotationForMethodImpl<>( persistent, method, attributeName )
+                        new PersistentAnnotationForMethodImpl<>( persistent, method, attributeName )
                         );
                 }
         }
@@ -217,7 +217,7 @@ public class PropertiesPopulator<E> implements Serializable
         if( (getter != null) && (setter != null) && (attributName != null) ) {
             this.getterSetterMap.put( //
                     attributName, //
-                    new PropertiesPopulatorAnnotationForMethodImpl<>( populator, getter, setter, attributName ) //
+                    new PopulatorAnnotationForMethodImpl<>( populator, getter, setter, attributName ) //
                     );
         } else {
             LOGGER.warn(
@@ -240,11 +240,11 @@ public class PropertiesPopulator<E> implements Serializable
     }
 
     private Method findMethod(
-            final String   methodName,
-            final Method[] methods,
-            final Class<?> returnType,
-            final int      parameterCount
-            )
+        final String   methodName,
+        final Method[] methods,
+        final Class<?> returnType,
+        final int      parameterCount
+        )
     {
         for( final Method method : methods ) {
             if( method.getName().equals( methodName )  && (method.getParameterCount() == parameterCount) ) {
@@ -265,7 +265,7 @@ public class PropertiesPopulator<E> implements Serializable
             if( populator != null ) {
                 this.fieldsMap.put(
                     field,
-                    new PropertiesPopulatorAnnotationForFieldImpl<>( populator, field )
+                    new PopulatorAnnotationForFieldImpl<>( populator, field )
                     );
                 }
 
@@ -274,7 +274,7 @@ public class PropertiesPopulator<E> implements Serializable
             if( persistent != null ) {
                 this.fieldsMap.put(
                     field,
-                    new PropertiesPersistentAnnotationForFieldImpl<E>( persistent, field )
+                    new PersistentAnnotationForFieldImpl<E>( persistent, field )
                     );
                 }
             }
@@ -287,14 +287,14 @@ public class PropertiesPopulator<E> implements Serializable
      *            Object to use to get values
      * @param properties
      *            {@link Properties} to use to store values
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateProperties(
         final E          bean,
         final Properties properties
-        ) throws PropertiesPopulatorRuntimeException
+        ) throws PopulatorRuntimeException
     {
         populateProperties( null, bean, properties );
     }
@@ -306,14 +306,14 @@ public class PropertiesPopulator<E> implements Serializable
      *            Object to use to get values
      * @param map
      *            {@link Map} to use to store values
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateMap(
         final E                  bean,
         final Map<String,String> map
-        ) throws PropertiesPopulatorRuntimeException
+        ) throws PopulatorRuntimeException
     {
         populateMap( null, bean, map );
     }
@@ -330,7 +330,7 @@ public class PropertiesPopulator<E> implements Serializable
      *            Object to use to get values
      * @param properties
      *            {@link Properties} to use to store values
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -338,7 +338,7 @@ public class PropertiesPopulator<E> implements Serializable
         final String     propertiesPrefix,
         final E          bean,
         final Properties properties
-        ) throws PropertiesPopulatorRuntimeException
+        ) throws PopulatorRuntimeException
     {
         final Map<String,String> map = new HashMap<>();
 
@@ -359,7 +359,7 @@ public class PropertiesPopulator<E> implements Serializable
      *            Object to use to get values
      * @param map
      *            {@link Map} to use to store values
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -367,10 +367,10 @@ public class PropertiesPopulator<E> implements Serializable
         final String             propertiesPrefix,
         final E                  bean,
         final Map<String,String> map
-        ) throws PropertiesPopulatorRuntimeException
+        ) throws PopulatorRuntimeException
     {
-        final BeanToProperties<E> loader
-            = new BeanToProperties<>( bean, map, propertiesPrefix );
+        final BeanToMap<E> loader
+            = new BeanToMap<>( bean, map, propertiesPrefix );
 
         loader.loadForField( this.fieldsMap );
         loader.loadForMethod( this.getterSetterMap );
@@ -383,14 +383,14 @@ public class PropertiesPopulator<E> implements Serializable
      *            Object to use to store values
      * @param properties
      *            {@link Properties} to use to get values
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateBean(
         final Properties properties,
         final E          bean
-        ) throws PropertiesPopulatorRuntimeException
+        ) throws PopulatorRuntimeException
     {
         populateBean( null, properties, bean );
     }
@@ -402,14 +402,14 @@ public class PropertiesPopulator<E> implements Serializable
      *            Object to use to store values
      * @param map
      *            {@link Map} to use to get values
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public void populateBean(
         final Map<String,String> map,
         final E                  bean
-        ) throws PropertiesPopulatorRuntimeException
+        ) throws PopulatorRuntimeException
     {
         populateBean( null, map, bean );
     }
@@ -423,7 +423,7 @@ public class PropertiesPopulator<E> implements Serializable
      *            Object to use to store values
      * @param properties
      *            {@link Properties} to use to get values
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if there is a mapping error
      */
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
@@ -431,10 +431,10 @@ public class PropertiesPopulator<E> implements Serializable
         final String     propertiesPrefix,
         final Properties properties,
         final E          bean
-        ) throws PropertiesPopulatorRuntimeException
+        ) throws PopulatorRuntimeException
     {
-        final PropertiesToBean<E> propertiesToBean
-            = new PropertiesToBean<>( propertiesPrefix, properties, bean );
+        final MapToBean<E> propertiesToBean
+            = new MapToBean<>( propertiesPrefix, properties, bean );
 
         propertiesToBean.populateFields( this.fieldsMap );
         propertiesToBean.populateMethods( this.getterSetterMap );
@@ -449,7 +449,7 @@ public class PropertiesPopulator<E> implements Serializable
      *            Object to use to store values
      * @param map
      *            {@link Map} to use to get values
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if there is a mapping error
      * @since 4.2
      */
@@ -458,10 +458,10 @@ public class PropertiesPopulator<E> implements Serializable
         final String             propertiesPrefix,
         final Map<String,String> map,
         final E                  bean
-        ) throws PropertiesPopulatorRuntimeException
+        ) throws PopulatorRuntimeException
     {
-        final PropertiesToBean<E> propertiesToBean
-            = new PropertiesToBean<>( propertiesPrefix, map, bean );
+        final MapToBean<E> propertiesToBean
+            = new MapToBean<>( propertiesPrefix, map, bean );
 
         propertiesToBean.populateFields( this.fieldsMap );
         propertiesToBean.populateMethods( this.getterSetterMap );
@@ -481,7 +481,7 @@ public class PropertiesPopulator<E> implements Serializable
      * @return giving bean for initialization chaining.
      * @throws IOException
      *             if any I/O occur
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if there is a mapping error
      * @since 4.1.7
      */
@@ -490,7 +490,7 @@ public class PropertiesPopulator<E> implements Serializable
         final File      propertiesFile,
         final E         bean,
         final Class<E>  clazz
-        ) throws IOException, PropertiesPopulatorRuntimeException
+        ) throws IOException, PopulatorRuntimeException
     {
         final Properties             properties = PropertiesHelper.loadProperties( propertiesFile );
         final PropertiesPopulator<E> populator  = new PropertiesPopulator<>( clazz );
@@ -513,7 +513,7 @@ public class PropertiesPopulator<E> implements Serializable
      *            Class of bean
      * @throws IOException
      *             if any I/O occur
-     * @throws PropertiesPopulatorRuntimeException
+     * @throws PopulatorRuntimeException
      *             if there is a mapping error
      * @since 4.1.7
      */
@@ -522,7 +522,7 @@ public class PropertiesPopulator<E> implements Serializable
         final File      propertiesFile,
         final E         bean,
         final Class<E>  clazz
-        ) throws IOException, PropertiesPopulatorRuntimeException
+        ) throws IOException, PopulatorRuntimeException
     {
         final Properties             properties = new Properties();
         final PropertiesPopulator<E> populator  = new PropertiesPopulator<>( clazz );

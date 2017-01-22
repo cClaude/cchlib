@@ -1,32 +1,31 @@
 package com.googlecode.cchlib.util.populator;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 //NOT public
-class PropertiesPersistentAnnotationForMethodImpl<E>
-    extends AbstractPropertiesPersistentAnnotation<E,Method>
-        implements PropertiesPersistentAnnotationForMethod<E>
+final class PopulatorAnnotationForMethodImpl<E>
+    extends AbstractPopulatorAnnotation<E,Method>
+        implements  PopulatorAnnotationForMethod<E>,
+                    PopulatorSetter<E,Method>
 {
-    private final Method method;
+    private final Method getter;
+    private final Method setter;
     private final String attributeName;
 
-    PropertiesPersistentAnnotationForMethodImpl(
-        final Persistent persistent,
-        final Method     method,
-        final String     attributeName
+    PopulatorAnnotationForMethodImpl(
+        final Populator populator,
+        final Method getter,
+        final Method setter,
+        final String attributeName
         )
     {
-        super( persistent );
+        super( populator );
 
-        this.method        = method;
+        this.getter        = getter;
+        this.setter        = setter;
         this.attributeName = attributeName;
-    }
-
-    @Override
-    public PropertiesPopulatorSetter<E, Method> getPropertiesPopulatorSetter()
-    {
-        return this;
     }
 
     @Override
@@ -35,45 +34,51 @@ class PropertiesPersistentAnnotationForMethodImpl<E>
         throws IllegalArgumentException,
                IllegalAccessException,
                ConvertCantNotHandleTypeException,
-               PropertiesPopulatorRuntimeException,
+               PopulatorRuntimeException,
                InvocationTargetException
     {
-        final Object swingObject = this.method.invoke( bean );
+        final Object[] parameters = new Object[] { convertStringToObject( strValue, type ) };
 
-        setValue( swingObject, strValue );
+        this.setter.invoke( bean, parameters );
     }
 
     @Override
     @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck"})
     public void setArrayEntry(
-        final Object array,
-        final int index,
-        final String strValue,
+        final Object   array,
+        final int      index,
+        final String   strValue,
         final Class<?> type
         ) throws ArrayIndexOutOfBoundsException,
                  IllegalArgumentException,
                  ConvertCantNotHandleTypeException,
-                 PropertiesPopulatorRuntimeException
+                 PopulatorRuntimeException
     {
-        throw new PersistentException( "@Persistent does not handle array" );
+        Array.set( array, index, convertStringToObject( strValue, type ) );
     }
 
     @Override
     public Method getMethodOrField()
     {
-        return this.method;
+        return this.setter;
+    }
+
+    @Override
+    public PopulatorSetter<E,Method> getPropertiesPopulatorSetter()
+    {
+        return this;
     }
 
     @Override
     public Method getGetter()
     {
-        return this.method;
+        return this.getter;
     }
 
     @Override
     public Method getSetter()
     {
-        return this.method;
+        return this.setter;
     }
 
     @Override
@@ -85,6 +90,6 @@ class PropertiesPersistentAnnotationForMethodImpl<E>
     @Override
     public FieldOrMethod getFieldOrMethod()
     {
-        return new FieldOrMethod( this.method );
+        return new FieldOrMethod( this.setter );
     }
 }
