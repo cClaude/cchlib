@@ -51,9 +51,13 @@ public class PropertiesPopulator<E> implements Serializable
     private final Map<String,PropertiesPopulatorAnnotation<E,Method>> getterSetterMap = new HashMap<>();
 
     /**
-     * Create a {@link PropertiesPopulator} object for giving class.
+     * Create a {@link PropertiesPopulator} object for giving class using
+     * default configuration : {@link PopulatorConfig#getDefaultConfig()}
      *
-     * @param type {@link Class} to use to create this {@link PropertiesPopulator}.
+     * @param type
+     *            {@link Class} to use to create this {@link PropertiesPopulator}.
+     *
+     * @see PopulatorConfig#getDefaultConfig()
      */
     public PropertiesPopulator( @Nonnull final Class<? extends E> type )
     {
@@ -68,9 +72,13 @@ public class PropertiesPopulator<E> implements Serializable
     /**
      * Create a {@link PropertiesPopulator} object for giving class.
      *
-     * @param type {@link Class} to use to create this {@link PropertiesPopulator}.
-     * @param populatorConfig Configuration
-     */
+     * @param type
+     *            {@link Class} to use to create this {@link PropertiesPopulator}.
+     * @param populatorConfig
+     *            Configuration
+     *
+     * @see PopulatorConfig#getDefaultConfig()
+    */
     public PropertiesPopulator(
         @Nonnull final Class<? extends E> type,
         @Nonnull final PopulatorConfig    populatorConfig
@@ -121,7 +129,11 @@ public class PropertiesPopulator<E> implements Serializable
     private void buildMethodMaps( final Method[] methods )
     {
         for( final Method method : methods ) {
-            final Populator populator = Annotations.getAnnotation( method, Populator.class );
+            final Populator populator = Annotations.findAnnotation(
+                                            method,
+                                            Populator.class,
+                                            this.config.getAnnotationLookup()
+                                            );
 
             if( populator != null ) {
                 tryToBuildMethodPopulator( methods, method, populator );

@@ -1,67 +1,26 @@
 package com.googlecode.cchlib.util.populator;
 
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Function;
+import javax.annotation.Nonnull;
 
-public enum FieldsConfig
+/**
+ * Implementation should specify how {@link Field} are discovered.
+ *
+ * @see FieldsConfigValue for some basics implementations
+ *
+ * @since 4.2
+ */
+@FunctionalInterface
+public interface FieldsConfig
 {
     /**
-     * No fields
-     */
-    NONE( c -> empty() ),
-
-    /**
-     * Use {@link Class#getFields()}
-     */
-    FIELDS( c -> c.getFields() ),
-
-    /**
-     * Use {@link Class#getDeclaredFields()}
-     */
-    DECLARED_FIELDS( c -> c.getDeclaredFields() ),
-
-    /**
+     * Returns an array of fields to need be analyzed for giving {@code type},
+     * if no field should return an empty array.
      *
+     * @param type
+     *            Reference type
+     * @return an array of fields
      */
-    ALL_DECLARED_FIELDS( FieldsConfig::getRecursiveDeclaredFields ),
-    ;
-    private static final Field[] EMPTY = new Field[ 0 ];
-
-    private Function<Class<?>,Field[]> function;
-
-    private FieldsConfig( final Function<Class<?>,Field[]> function )
-    {
-        this.function = function;
-    }
-
-    public Field[] getFields( final Class<?> type )
-    {
-        return this.function.apply( type );
-    }
-
-    private static Field[] empty()
-    {
-        return EMPTY;
-    }
-
-    private static Field[] getRecursiveDeclaredFields( final Class<?> type )
-    {
-        final Set<Field> allFields = new HashSet<>();
-
-        Class<?> currentClass = type;
-
-        while( currentClass != null ) {
-            final Field[] fields = currentClass.getDeclaredFields();
-
-            for( final Field field : fields ) {
-                allFields.add( field );
-            }
-
-            currentClass = currentClass.getSuperclass();
-        }
-
-        return allFields.toArray( new Field[ allFields.size() ] );
-    }
+    @Nonnull
+    Field[] getFields( @Nonnull Class<?> type );
 }

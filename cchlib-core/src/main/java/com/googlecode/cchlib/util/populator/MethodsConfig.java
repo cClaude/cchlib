@@ -1,67 +1,25 @@
 package com.googlecode.cchlib.util.populator;
 
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Function;
+import javax.annotation.Nonnull;
 
-public enum MethodsConfig
+/**
+ * Implementation should specify how {@link Method} are discovered.
+ *
+ * @see MethodsConfigValue for some basics implementations
+ *
+ * @since 4.2
+ */
+@FunctionalInterface
+public interface MethodsConfig
 {
     /**
-     * No Methods
-     */
-    NONE( c -> empty() ),
-
-    /**
-     * Use {@link Class#getMethods()}
-     */
-    METHODS( c -> c.getMethods() ),
-
-    /**
-     * Use {@link Class#getDeclaredMethods()}
-     */
-    DECLARED_METHODS( c -> c.getDeclaredMethods() ),
-
-    /**
+     * Returns an array of methods to need be analyzed for giving {@code type},
+     * if no method should return an empty array.
      *
+     * @param type
+     *            Reference type
+     * @return an array of methods
      */
-    ALL_DECLARED_METHODS( MethodsConfig::getRecursiveDeclaredMethods ),
-    ;
-    private static final Method[] EMPTY = new Method[ 0 ];
-
-    private Function<Class<?>,Method[]> function;
-
-    private MethodsConfig( final Function<Class<?>,Method[]> function )
-    {
-        this.function = function;
-    }
-
-    public Method[] getMethods( final Class<?> type )
-    {
-        return this.function.apply( type );
-    }
-
-    private static Method[] empty()
-    {
-        return EMPTY;
-    }
-
-    private static Method[] getRecursiveDeclaredMethods( final Class<?> type )
-    {
-        final Set<Method> allMethods = new HashSet<>();
-
-        Class<?> currentClass = type;
-
-        while( currentClass != null ) {
-            final Method[] methods = currentClass.getDeclaredMethods();
-
-            for( final Method method : methods ) {
-                allMethods.add( method );
-            }
-
-            currentClass = currentClass.getSuperclass();
-        }
-
-        return allMethods.toArray( new Method[ allMethods.size() ] );
-    }
+    @Nonnull Method[] getMethods( @Nonnull Class<?> type );
 }
