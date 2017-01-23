@@ -5,6 +5,8 @@ import javax.annotation.Nonnull;
 
 /**
  * Implementation should specify how {@link Field} are discovered.
+ * <p>
+ * Implementation should be invariant.
  *
  * @see FieldsConfigValue for some basics implementations
  *

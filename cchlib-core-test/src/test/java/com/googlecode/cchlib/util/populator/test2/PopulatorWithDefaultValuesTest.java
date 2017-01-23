@@ -11,7 +11,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import com.googlecode.cchlib.util.populator.PopulatorConfig;
-import com.googlecode.cchlib.util.populator.PropertiesPopulator;
+import com.googlecode.cchlib.util.populator.MapPopulator;
 
 public class PopulatorWithDefaultValuesTest
 {
@@ -41,7 +41,7 @@ public class PopulatorWithDefaultValuesTest
     @Test
     public void test_on_interface() throws InstantiationException, IllegalAccessException
     {
-        final PropertiesPopulator<MyInterface> pp  = new PropertiesPopulator<>( MyInterface.class );
+        final MapPopulator<MyInterface> pp  = new MapPopulator<>( MyInterface.class );
         final Map<String, String>              map = pp.newMapForBean( MyInterfaceImpl.class );
 
         LOGGER.info( "map = " + map );
@@ -54,7 +54,7 @@ public class PopulatorWithDefaultValuesTest
     public void test_on_implementation_populateMap()
     {
         final MyInterfaceImpl                      bean = newBean();
-        final PropertiesPopulator<MyInterfaceImpl> pp   = new PropertiesPopulator<>( MyInterfaceImpl.class );
+        final MapPopulator<MyInterfaceImpl> pp   = new MapPopulator<>( MyInterfaceImpl.class );
         final Map<String, String>                  map  = new HashMap<>();
 
         pp.populateMap( bean, map );
@@ -74,7 +74,7 @@ public class PopulatorWithDefaultValuesTest
     @Test
     public void test_on_implementation_newMapForBean() throws InstantiationException, IllegalAccessException
     {
-        final PropertiesPopulator<MyInterfaceImpl> pp  = new PropertiesPopulator<>( MyInterfaceImpl.class );
+        final MapPopulator<MyInterfaceImpl> pp  = new MapPopulator<>( MyInterfaceImpl.class );
         final Map<String, String>                  map = pp.newMapForBean();
 
         LOGGER.info( "map = " + map );
@@ -94,7 +94,7 @@ public class PopulatorWithDefaultValuesTest
     {
         final MyInterfaceImpl                      bean   = newBean();
         final PopulatorConfig                      config = newPopulatorConfig();
-        final PropertiesPopulator<MyInterfaceImpl> pp     = new PropertiesPopulator<>( MyInterfaceImpl.class, config );
+        final MapPopulator<MyInterfaceImpl> pp     = new MapPopulator<>( MyInterfaceImpl.class, config );
         final Map<String, String>                  map    = new HashMap<>();
 
         pp.populateMap( bean, map );
@@ -118,7 +118,7 @@ public class PopulatorWithDefaultValuesTest
     public void test_on_implementation_with_config_newMapForBean() throws InstantiationException, IllegalAccessException
     {
         final PopulatorConfig                      config = newPopulatorConfig();
-        final PropertiesPopulator<MyInterfaceImpl> pp     = new PropertiesPopulator<>( MyInterfaceImpl.class, config );
+        final MapPopulator<MyInterfaceImpl> pp     = new MapPopulator<>( MyInterfaceImpl.class, config );
         final Map<String, String>                  map    = pp.newMapForBean();
 
         LOGGER.info( "map     = " + map );

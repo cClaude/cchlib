@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.googlecode.cchlib.util.populator.PropertiesPopulator;
+import com.googlecode.cchlib.util.populator.MapPopulator;
 
 public class PropertiesPopulatorTest
 {
@@ -15,8 +15,8 @@ public class PropertiesPopulatorTest
     @Test
     public void test_bean_to_map()
     {
-        final PropertiesPopulator<BeanAnnotationOnGettersHeadLess> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnGettersHeadLess.class );
+        final MapPopulator<BeanAnnotationOnGettersHeadLess> pp
+            = new MapPopulator<>( BeanAnnotationOnGettersHeadLess.class );
 
         final BeanAnnotationOnGettersHeadLess bean
             = new BeanAnnotationOnGettersHeadLess(
@@ -46,8 +46,8 @@ public class PropertiesPopulatorTest
     @Test
     public void test_bean2_to_map()
     {
-        final PropertiesPopulator<BeanAnnotationOnGettersHeadLess> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnGettersHeadLess.class );
+        final MapPopulator<BeanAnnotationOnGettersHeadLess> pp
+            = new MapPopulator<>( BeanAnnotationOnGettersHeadLess.class );
 
         final BeanAnnotationOnGettersHeadLess bean2
             = new BeanAnnotationOnGettersHeadLess(
@@ -74,8 +74,8 @@ public class PropertiesPopulatorTest
     @Test
     public void test_null_to_map() throws InstantiationException, IllegalAccessException
     {
-        final PropertiesPopulator<BeanAnnotationHeadLess> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnGettersHeadLess.class );
+        final MapPopulator<BeanAnnotationHeadLess> pp
+            = new MapPopulator<>( BeanAnnotationOnGettersHeadLess.class );
 
         final Map<String, String> map = pp.newMapForBean( BeanAnnotationOnGettersHeadLess.class );
 
@@ -92,8 +92,8 @@ public class PropertiesPopulatorTest
     @Test
     public void test_bean_to_map_with_prefix()
     {
-        final PropertiesPopulator<BeanAnnotationOnGettersHeadLess> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnGettersHeadLess.class );
+        final MapPopulator<BeanAnnotationOnGettersHeadLess> pp
+            = new MapPopulator<>( BeanAnnotationOnGettersHeadLess.class );
 
         final BeanAnnotationOnGettersHeadLess bean
             = new BeanAnnotationOnGettersHeadLess(
@@ -123,8 +123,8 @@ public class PropertiesPopulatorTest
     @Test
     public void test_map_to_bean()
     {
-        final PropertiesPopulator<BeanAnnotationOnGettersHeadLess> pp
-            = new PropertiesPopulator<>( BeanAnnotationOnGettersHeadLess.class );
+        final MapPopulator<BeanAnnotationOnGettersHeadLess> pp
+            = new MapPopulator<>( BeanAnnotationOnGettersHeadLess.class );
 
         final Map<String, String> map = new HashMap<>();
 

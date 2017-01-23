@@ -8,9 +8,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Field annotation for {@link PropertiesPopulator} that handle Swing input fields.
+ * Field annotation for {@link MapPopulator} that handle Swing input fields.
  *
- * @see PropertiesPopulator
+ * @see MapPopulator
  */
 @Documented
 @Inherited

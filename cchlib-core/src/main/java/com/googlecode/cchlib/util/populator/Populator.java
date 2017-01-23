@@ -8,8 +8,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Field annotation for {@link PropertiesPopulator}
+ * Field annotation for {@link MapPopulator}
  *
+ * @see MapPopulator
  * @see PropertiesPopulator
  */
 @Documented
@@ -19,7 +20,9 @@ import java.lang.annotation.Target;
 public @interface Populator
 {
     /**
-     * Default value if field is not define
+     * Returns default value if field is not define, see {@link #defaultValueIsNull()}
+     * to define null as default value.
+     *
      * @return default value if field is not define
      */
     public String defaultValue() default "";

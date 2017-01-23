@@ -19,8 +19,9 @@ import com.googlecode.cchlib.util.properties.PropertiesHelper;
  */
 public class Preferences extends PreferencesData implements Serializable
 {
+    private static final long serialVersionUID = 4L;
+
     private static final Logger LOGGER = Logger.getLogger( Preferences.class );
-    private static final long serialVersionUID = 3L;
 
     private static final String DEFAULT_PREFS_FILE = Preferences.class.getName() + ".properties";
 

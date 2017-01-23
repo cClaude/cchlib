@@ -5,6 +5,8 @@ import javax.annotation.Nonnull;
 
 /**
  * Implementation should specify how {@link Method} are discovered.
+ * <p>
+ * Implementation should be invariant.
  *
  * @see MethodsConfigValue for some basics implementations
  *

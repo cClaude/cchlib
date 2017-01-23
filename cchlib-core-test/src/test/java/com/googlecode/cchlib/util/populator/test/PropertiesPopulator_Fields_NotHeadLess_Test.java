@@ -185,7 +185,12 @@ public class PropertiesPopulator_Fields_NotHeadLess_Test
             );
         PropertiesPopulator.saveProperties( file, bean, BeanAnnotationOnFieldsNotHeadLess.class );
 
-        final BeanAnnotationOnFieldsNotHeadLess copy = PropertiesPopulator.loadProperties( file, new BeanAnnotationOnFieldsNotHeadLess(), BeanAnnotationOnFieldsNotHeadLess.class );
+        final BeanAnnotationOnFieldsNotHeadLess copy
+            = PropertiesPopulator.loadProperties(
+                    file,
+                    new BeanAnnotationOnFieldsNotHeadLess(),
+                    BeanAnnotationOnFieldsNotHeadLess.class
+                    );
 
         LOGGER.info( "File = [" + file + "]" );
         LOGGER.info( "expected : [" + bean + "]" );

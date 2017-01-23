@@ -19,7 +19,8 @@ import com.googlecode.cchlib.util.properties.PropertiesHelper;
  */
 public class TestConfigurationHelper
 {
-    private final PropertiesPopulator<TestConfigurationHelper.Config> pp = new PropertiesPopulator<>( TestConfigurationHelper.Config.class );
+    private final PropertiesPopulator<TestConfigurationHelper.Config> pp
+            = new PropertiesPopulator<>( TestConfigurationHelper.Config.class );
 
     private final Config config;
 

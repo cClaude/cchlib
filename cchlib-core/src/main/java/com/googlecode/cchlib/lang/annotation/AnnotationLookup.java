@@ -4,6 +4,8 @@ import java.lang.annotation.Annotation;
 
 /**
  * Implementation should specify how to find {@link Annotation}
+ * <p>
+ * Implementation should be invariant.
  *
  * @see AnnotationLookupOrder for some basics implementations
  * @since 4.2
