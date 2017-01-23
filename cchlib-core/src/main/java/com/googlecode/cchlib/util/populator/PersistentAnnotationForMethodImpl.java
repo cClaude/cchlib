@@ -12,12 +12,13 @@ class PersistentAnnotationForMethodImpl<E>
     private final String attributeName;
 
     PersistentAnnotationForMethodImpl(
-        final Persistent persistent,
-        final Method     method,
-        final String     attributeName
+        final Persistent         persistent,
+        final PersistentResolver resolver,
+        final Method             method,
+        final String             attributeName
         )
     {
-        super( persistent );
+        super( persistent, resolver );
 
         this.method        = method;
         this.attributeName = attributeName;

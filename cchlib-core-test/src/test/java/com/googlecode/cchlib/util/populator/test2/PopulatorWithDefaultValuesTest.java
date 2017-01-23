@@ -10,8 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import com.googlecode.cchlib.util.populator.PopulatorConfig;
 import com.googlecode.cchlib.util.populator.MapPopulator;
+import com.googlecode.cchlib.util.populator.PersistentResolverFactories;
+import com.googlecode.cchlib.util.populator.PopulatorConfig;
 
 public class PopulatorWithDefaultValuesTest
 {
@@ -42,7 +43,7 @@ public class PopulatorWithDefaultValuesTest
     public void test_on_interface() throws InstantiationException, IllegalAccessException
     {
         final MapPopulator<MyInterface> pp  = new MapPopulator<>( MyInterface.class );
-        final Map<String, String>              map = pp.newMapForBean( MyInterfaceImpl.class );
+        final Map<String, String>       map = pp.newMapForBean( MyInterfaceImpl.class );
 
         LOGGER.info( "map = " + map );
 
@@ -53,9 +54,9 @@ public class PopulatorWithDefaultValuesTest
     @Test
     public void test_on_implementation_populateMap()
     {
-        final MyInterfaceImpl                      bean = newBean();
+        final MyInterfaceImpl               bean = newBean();
         final MapPopulator<MyInterfaceImpl> pp   = new MapPopulator<>( MyInterfaceImpl.class );
-        final Map<String, String>                  map  = new HashMap<>();
+        final Map<String, String>           map  = new HashMap<>();
 
         pp.populateMap( bean, map );
 
@@ -72,10 +73,11 @@ public class PopulatorWithDefaultValuesTest
     }
 
     @Test
-    public void test_on_implementation_newMapForBean() throws InstantiationException, IllegalAccessException
+    public void test_on_implementation_newMapForBean()
+        throws InstantiationException, IllegalAccessException
     {
         final MapPopulator<MyInterfaceImpl> pp  = new MapPopulator<>( MyInterfaceImpl.class );
-        final Map<String, String>                  map = pp.newMapForBean();
+        final Map<String, String>           map = pp.newMapForBean();
 
         LOGGER.info( "map = " + map );
 
@@ -90,12 +92,13 @@ public class PopulatorWithDefaultValuesTest
     }
 
     @Test
-    public void test_on_implementation_with_config_populateMap() throws InstantiationException, IllegalAccessException
+    public void test_on_implementation_with_config_populateMap()
+        throws InstantiationException, IllegalAccessException
     {
-        final MyInterfaceImpl                      bean   = newBean();
-        final PopulatorConfig                      config = newPopulatorConfig();
+        final MyInterfaceImpl               bean   = newBean();
+        final PopulatorConfig               config = newPopulatorConfig();
         final MapPopulator<MyInterfaceImpl> pp     = new MapPopulator<>( MyInterfaceImpl.class, config );
-        final Map<String, String>                  map    = new HashMap<>();
+        final Map<String, String>           map    = new HashMap<>();
 
         pp.populateMap( bean, map );
 
@@ -106,20 +109,25 @@ public class PopulatorWithDefaultValuesTest
         assertThat( METHODS.getMethods( MyInterfaceImpl.class ) ).hasSize( 19 );
 
         assertThat( map ).hasSize( 5 );
-
     }
 
     private static PopulatorConfig newPopulatorConfig()
     {
-        return new PopulatorConfig( NONE, METHODS, INTERFACES_FIRST );
+        return new PopulatorConfig(
+                NONE,
+                METHODS,
+                INTERFACES_FIRST,
+                PersistentResolverFactories.newDefaultPersistentResolverFactory()
+                );
     }
 
     @Test
-    public void test_on_implementation_with_config_newMapForBean() throws InstantiationException, IllegalAccessException
+    public void test_on_implementation_with_config_newMapForBean()
+        throws InstantiationException, IllegalAccessException
     {
-        final PopulatorConfig                      config = newPopulatorConfig();
+        final PopulatorConfig               config = newPopulatorConfig();
         final MapPopulator<MyInterfaceImpl> pp     = new MapPopulator<>( MyInterfaceImpl.class, config );
-        final Map<String, String>                  map    = pp.newMapForBean();
+        final Map<String, String>           map    = pp.newMapForBean();
 
         LOGGER.info( "map     = " + map );
         LOGGER.info( "METHODS = " + Arrays.toString( METHODS.getMethods( MyInterfaceImpl.class ) ) );
@@ -128,7 +136,5 @@ public class PopulatorWithDefaultValuesTest
         assertThat( METHODS.getMethods( MyInterfaceImpl.class ) ).hasSize( 19 );
 
         assertThat( map ).hasSize( 5 );
-
     }
-
 }

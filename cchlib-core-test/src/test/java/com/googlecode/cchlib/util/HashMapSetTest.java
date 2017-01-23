@@ -4,9 +4,6 @@ import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- *
- */
 public class HashMapSetTest
 {
     @SuppressWarnings("boxing")
@@ -14,7 +11,7 @@ public class HashMapSetTest
     public void test_StringString()
     {
         final HashMapSet<String,String> hms  = new HashMapSet<String,String>();
-        final int                 size = 10;
+        final int                       size = 10;
 
         for(int i=0;i<size;i++) {
             hms.add(
@@ -50,16 +47,14 @@ public class HashMapSetTest
 
     private int sizeOfHashMapSet( final HashMapSet<?,?> hms )
     {
-        int         size = 0;
+        int               size = 0;
         final Iterator<?> iter = hms.iterator();
 
-        while(iter.hasNext()) { // $codepro.audit.disable com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.minimizeScopeOfLocalVariables
+        while(iter.hasNext()) {
             iter.next();
             size++;
             }
 
         return size;
     }
-
-
 }

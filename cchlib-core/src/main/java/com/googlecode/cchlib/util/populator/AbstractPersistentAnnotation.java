@@ -1,20 +1,26 @@
 package com.googlecode.cchlib.util.populator;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
+import javax.annotation.Nonnull;
+import com.googlecode.cchlib.lang.reflect.InvokeByNameException;
+import com.googlecode.cchlib.lang.reflect.Methods;
 
 //NOT public
 @SuppressWarnings("squid:S00119") // naming convention
 abstract class AbstractPersistentAnnotation<E,METHOD_OR_FIELD extends Member>
     implements PersistentAnnotation<E,METHOD_OR_FIELD>
 {
-    private final Persistent persistent;
+    private final Persistent         persistent;
+    private final PersistentResolver resolver;
 
-    AbstractPersistentAnnotation( final Persistent persistent )
+    AbstractPersistentAnnotation(
+        @Nonnull final Persistent         persistent,
+        @Nonnull final PersistentResolver resolver
+        )
     {
         this.persistent = persistent;
+        this.resolver   = resolver;
     }
 
     @Override
@@ -29,48 +35,61 @@ abstract class AbstractPersistentAnnotation<E,METHOD_OR_FIELD extends Member>
         return this.persistent.defaultValue();
     }
 
+    private Object toStringInvoke( final Object object )
+    {
+        try {
+            return invoke( "toString", new Object[] { object } );
+        }
+        catch( InvocationTargetException | SecurityException | InvokeByNameException cause ) {
+            throw new PersistentException( buildMessage( object ), cause );
+        }
+    }
+
+    private void setValueInvoke( final Object object, final String value )
+    {
+        try {
+            invoke( "setValue", new Object[] { object, value } );
+        }
+        catch( InvocationTargetException | SecurityException | InvokeByNameException cause ) {
+            throw new PersistentException(
+                    buildMessage( object ),
+                    cause
+                    );
+        }
+    }
+
+    private String buildMessage( final Object object )
+    {
+        return "@Persistent does not handle type " + object.getClass();
+    }
+
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck","squid:S1160", // More than one exception
+        "unchecked", "rawtypes",
+        })
+    private Object invoke( final String methodName, final Object[] arguments )
+        throws InvocationTargetException, SecurityException, InvokeByNameException
+    {
+        return Methods.invokeByName(
+                this.resolver,
+                (Class)this.resolver.getClass(),
+                methodName,
+                arguments
+                );
+    }
+
     @Override
     @SuppressWarnings("squid:RedundantThrowsDeclarationCheck")
     public final String toString( final Object swingObject )
         throws PopulatorRuntimeException
     {
-        if( swingObject instanceof JTextField ) {
-            return JTextField.class.cast( swingObject ).getText();
-        }
-        else if( swingObject instanceof JCheckBox ) {
-            return Boolean.toString( JCheckBox.class.cast( swingObject ).isSelected() );
-        }
-        else if( swingObject instanceof JComboBox ) {
-            final JComboBox<?> jc    = JComboBox.class.cast( swingObject );
-            final int          index = jc.getSelectedIndex(); // Store only selected index
-
-            return Integer.toString( index );
-        }
-        else {
-            throw new PersistentException(
-                    "@Persistent does not handle type " + swingObject.getClass()
-                    );
-        }
+        // resolver.toString( swingObject ):
+        return (String)toStringInvoke( swingObject );
     }
 
     protected void setValue( final Object swingObject, final String strValue )
     {
-        if( swingObject instanceof JTextField ) {
-            JTextField.class.cast( swingObject ).setText( strValue );
-        }
-        else if( swingObject instanceof JCheckBox ) {
-            JCheckBox.class.cast( swingObject ).setSelected( Boolean.parseBoolean( strValue ) );
-        }
-        else if( swingObject instanceof JComboBox ) {
-            final JComboBox<?> jc    = JComboBox.class.cast( swingObject );
-            final int          index = Integer.parseInt( strValue );
-
-            jc.setSelectedIndex( index );
-        }
-        else {
-            throw new PersistentException(
-                    "@Persistent does not handle type " + swingObject.getClass()
-                    );
-        }
+        // resolver.setValue( swingObject, strValue ):
+        setValueInvoke( swingObject, strValue );
     }
 }

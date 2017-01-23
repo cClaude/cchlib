@@ -43,6 +43,7 @@ public class MapPopulator<E> implements Serializable
 
     private transient Class<? extends E> beanType;
     private PopulatorConfig              config;
+    private final PersistentResolver     persistentResolver;
 
     private final Map<Field ,PopulatorAnnotation<E,Field>>  fieldsMap       = new HashMap<>();
     private final Map<String,PopulatorAnnotation<E,Method>> getterSetterMap = new HashMap<>();
@@ -81,8 +82,9 @@ public class MapPopulator<E> implements Serializable
         @Nonnull final PopulatorConfig    populatorConfig
         )
     {
-        this.beanType = type;
-        this.config   = populatorConfig;
+        this.beanType           = type;
+        this.config             = populatorConfig;
+        this.persistentResolver = this.config.getPersistentResolverFactory().newPersistentResolver();
 
         init();
     }
@@ -142,7 +144,7 @@ public class MapPopulator<E> implements Serializable
 
                 this.getterSetterMap.put(
                         attributeName,
-                        new PersistentAnnotationForMethodImpl<>( persistent, method, attributeName )
+                        new PersistentAnnotationForMethodImpl<>( persistent, this.persistentResolver, method, attributeName )
                         );
                 }
         }
@@ -270,7 +272,7 @@ public class MapPopulator<E> implements Serializable
             if( persistent != null ) {
                 this.fieldsMap.put(
                     field,
-                    new PersistentAnnotationForFieldImpl<E>( persistent, field )
+                    new PersistentAnnotationForFieldImpl<E>( persistent, this.persistentResolver, field )
                     );
                 }
             }

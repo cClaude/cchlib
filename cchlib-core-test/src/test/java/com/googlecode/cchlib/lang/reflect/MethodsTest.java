@@ -3,6 +3,7 @@ package com.googlecode.cchlib.lang.reflect;
 import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.File;
 import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Map;
@@ -156,5 +157,83 @@ public class MethodsTest
         }
 
         assertThat( count ).isEqualTo( 57 );
+    }
+
+    @Test
+    public void test_invokeByName() throws InvocationTargetException, SecurityException, InvokeByNameException
+    {
+        final ExtendsMyTestByName                  bean          = new ExtendsMyTestByName();
+        final Class<? extends ExtendsMyTestByName> beanType      = bean.getClass();
+        final Class<? extends MyTestByName>        beanType2     = bean.getClass();
+        final Class<?>                             beanSupertype = beanType.getSuperclass();
+
+        final String     methodName           = "invokeByNameTest";
+        final Object[]   arguments            = new Object[ 0 ];
+        final Class<?>[] methodParameterTypes = new Class[ 0 ];;
+
+        @SuppressWarnings("unchecked")
+        final Object result1 = Methods.invokeByName( bean, (Class<ExtendsMyTestByName>)bean.getClass(), methodName, arguments );
+        LOGGER.info( "result1 = " + result1 );
+
+        @SuppressWarnings("unchecked")
+        final Object result2 = Methods.invokeByName( bean, (Class<ExtendsMyTestByName>)bean.getClass(), methodName, methodParameterTypes, arguments );
+        LOGGER.info( "result2 = " + result2 );
+
+        @SuppressWarnings("unchecked")
+        final Object result3 = Methods.invokeByName( bean, (Class<ExtendsMyTestByName>)beanType, methodName, methodParameterTypes, arguments );
+        LOGGER.info( "result3 = " + result3 );
+
+        @SuppressWarnings("unchecked")
+        final Object result4 = Methods.invokeByName( bean, (Class<ExtendsMyTestByName>)beanType2, methodName, methodParameterTypes, arguments );
+        LOGGER.info( "result4 = " + result4 );
+
+        @SuppressWarnings("unchecked")
+        final Object result5 = Methods.invokeByName( bean, (Class<ExtendsMyTestByName>)beanSupertype, methodName, methodParameterTypes, arguments );
+        LOGGER.info( "result5 = " + result5 );
+
+        final Object result6 = Methods.invokeByName( bean, ExtendsMyTestByName.class, methodName, methodParameterTypes, arguments );
+        LOGGER.info( "result6 = " + result6 );
+
+        final Object result7 = Methods.invokeByName( bean, MyTestByName.class, methodName, methodParameterTypes, arguments );
+        LOGGER.info( "result7 = " + result7 );
+
+        // compilation error (crash if cast):
+        // Methods.invokeByName( bean, String.class, methodName, methodParameterTypes, arguments );
+
+        // compilation error (crash if cast):
+        // Methods.invokeByName( bean, File.class, methodName, arguments );
+    }
+
+    @Test
+    public void test_invokeByName2() throws InvocationTargetException, SecurityException, InvokeByNameException
+    {/*
+        final ExtendsMyTestByName                  bean          = new ExtendsMyTestByName();
+        final Class<? extends ExtendsMyTestByName> beanType      = bean.getClass();
+        final Class<? extends MyTestByName>        beanType2     = bean.getClass();
+        final Class<?>                             beanSupertype = beanType.getSuperclass();
+
+        final String     methodName           = "invokeByNameTest";
+        final Object[]   arguments            = new Object[ 0 ];
+        final Class<?>[] methodParameterTypes = new Class[ 0 ];;
+
+        final Object result1 = Methods.invokeByName( bean, bean.getClass(), methodName, arguments );
+        LOGGER.info( "result1 = " + result1 );
+        final Object result2 = Methods.invokeByName( bean, bean.getClass(), methodName, methodParameterTypes, arguments );
+        LOGGER.info( "result2 = " + result2 );
+
+        LOGGER.info( "result = " + result );
+        LOGGER.info( "result = " + result );
+
+        final Object result2 = Methods.invokeByName( bean, ExtendsMyTestByName.class, methodName, methodParameterTypes, arguments );
+        final Object result3 = Methods.invokeByName( bean, MyTestByName.class, methodName, methodParameterTypes, arguments );
+        // compilation error :
+        Methods.invokeByName( bean, String.class, methodName, methodParameterTypes, arguments );
+        // compilation error :
+        Methods.invokeByName( bean, File.class, methodName, arguments );
+
+        final Object result4 = Methods.invokeByName( bean, beanClass, methodName, arguments );
+
+        final Object result5 = Methods.invokeByName( bean, beanSuperclass, methodName, arguments );
+*/
     }
 }

@@ -1,21 +1,21 @@
 package com.googlecode.cchlib.lang.reflect;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Predicate;
-import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.CollectionHelper;
 
 /**
  *
  * @since 4.1.8
  */
-@NeedDoc
 public final class Methods
 {
     private Methods(){}
@@ -200,5 +200,117 @@ public final class Methods
         }
 
         return methodMapSet;
+    }
+
+    /**
+     * NEEDDOC
+     *
+     * @param <T>
+     *            NEEDDOC
+     * @param <I>
+     *            NEEDDOC
+     * @param obj
+     *            The object the underlying method is invoked from
+     * @param type
+     *            The class object
+     * @param methodName
+     *            the name of the method
+     * @param methodParameterTypes
+     *            the list of parameters
+     * @param arguments
+     *            The arguments used for the method call
+     * @return the result of dispatching the method represented by this object on
+     *         {@code obj} with parameters {@code arguments}
+     * @throws InvocationTargetException
+     *             if the underlying method throws an exception.
+     * @throws InvokeByNameException
+     *             if method could not be find
+     * @throws SecurityException
+     *             if any
+     */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck","squid:S1160", // More than one exception
+        })
+    public static <T,I extends T> Object invokeByName(
+        final I          obj,
+        final Class<T>   type,
+        final String     methodName,
+        final Class<?>[] methodParameterTypes,
+        final Object[]   arguments
+        ) throws InvocationTargetException,
+                 InvokeByNameException,
+                 SecurityException
+    {
+        Method method;
+
+        try {
+            method = type.getMethod( methodName, methodParameterTypes );
+        }
+        catch( final NoSuchMethodException e ) {
+            final String message = "Can not find "
+                    + methodName + '.' + Arrays.toString( methodParameterTypes )
+                    + " on " + type.getSimpleName();
+            throw new InvokeByNameException( message, e );
+        }
+
+        try {
+            return method.invoke( obj, arguments );
+        }
+        catch( IllegalAccessException | IllegalArgumentException e ) {
+            final String message = "Acces error " + method;
+            throw new InvokeByNameException( message, e );
+        }
+    }
+
+    /**
+     * NEEDDOC
+     *
+     * @param <T>
+     *            NEEDDOC
+     * @param <I>
+     *            NEEDDOC
+     * @param obj
+     *            The object the underlying method is invoked from
+     * @param type
+     *            The class object
+     * @param methodName
+     *            the name of the method
+     * @param arguments
+     *            The arguments used for the method call and to use to identify parameters
+     *            types (none of this value could be null)
+     * @return the result of dispatching the method represented by this object on
+     *            {@code obj} with parameters {@code arguments}
+     * @throws InvocationTargetException
+     *             if the underlying method throws an exception.
+     * @throws SecurityException
+     *             if any
+     * @throws InvokeByNameException
+     *             if method could not be find
+     */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck","squid:S1160", // More than one exception
+        })
+    public static <T,I extends T> Object invokeByName(
+        final I        obj,
+        final Class<T> type,
+        final String   methodName,
+        final Object[] arguments
+        ) throws InvocationTargetException,
+                 SecurityException,
+                 InvokeByNameException
+    {
+        final Class<?>[] methodParameterTypes = new Class[ arguments.length ];
+
+        for( int i = 0; i < arguments.length; i++ ) {
+            final Object argument = arguments[ i ];
+
+            if( argument == null ) {
+                throw new IllegalArgumentException( "arguments arrays contain null" );
+            }
+
+            methodParameterTypes[ i ] = argument.getClass();
+        }
+
+        return invokeByName( obj, type, methodName, methodParameterTypes, arguments );
     }
 }

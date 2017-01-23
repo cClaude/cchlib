@@ -11,9 +11,13 @@ final class PersistentAnnotationForFieldImpl<E>
 {
     private final Field field;
 
-    PersistentAnnotationForFieldImpl( final Persistent persistent, final Field field )
+    PersistentAnnotationForFieldImpl(
+        final Persistent         persistent,
+        final PersistentResolver resolver,
+        final Field              field
+        )
     {
-        super( persistent );
+        super( persistent, resolver );
 
         this.field = field;
     }
