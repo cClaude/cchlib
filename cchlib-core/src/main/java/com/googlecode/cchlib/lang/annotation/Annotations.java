@@ -77,13 +77,14 @@ public class Annotations
         )
     {
         // Find annotation on interfaces
-        final T annotation = findAnnotationOnInterfaces( annotationType, declaringClass, methodName, parameterTypes );
-        if( annotation != null ) {
-            return annotation;
+        T annotation = findAnnotationOnInterfaces( annotationType, declaringClass, methodName, parameterTypes );
+
+        if( annotation == null ) {
+            // Find annotation on super classes
+            annotation = findAnnotationOnSuperclass( annotationType, declaringClass, methodName, parameterTypes );
         }
 
-        // Find annotation on super classes
-        return findAnnotationOnSuperclass( annotationType, declaringClass, methodName, parameterTypes );
+        return annotation;
     }
 
     /* private */
@@ -96,17 +97,13 @@ public class Annotations
     {
         // Find annotation on super classes
         T annotation = findAnnotationOnSuperclass( annotationType, declaringClass, methodName, parameterTypes );
-        if( annotation != null ) {
-            return annotation;
+
+        if( annotation == null ) {
+            // Find annotation on interfaces
+            annotation = findAnnotationOnInterfaces( annotationType, declaringClass, methodName, parameterTypes );
         }
 
-        // Find annotation on interfaces
-        annotation = findAnnotationOnInterfaces( annotationType, declaringClass, methodName, parameterTypes );
-        if( annotation != null ) {
-            return annotation;
-        }
-
-        return notFound();
+        return annotation;
     }
 
     // Could be public (warn, did not check current class)
