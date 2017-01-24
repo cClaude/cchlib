@@ -203,12 +203,10 @@ public final class Methods
     }
 
     /**
-     * NEEDDOC
+     * Invoke method by name
      *
      * @param <T>
-     *            NEEDDOC
-     * @param <I>
-     *            NEEDDOC
+     *            The type of the object
      * @param obj
      *            The object the underlying method is invoked from
      * @param type
@@ -231,8 +229,8 @@ public final class Methods
     @SuppressWarnings({
         "squid:RedundantThrowsDeclarationCheck","squid:S1160", // More than one exception
         })
-    public static <T,I extends T> Object invokeByName(
-        final I          obj,
+    public static <T> Object invokeByName(
+        final T          obj,
         final Class<T>   type,
         final String     methodName,
         final Class<?>[] methodParameterTypes,
@@ -241,17 +239,19 @@ public final class Methods
                  InvokeByNameException,
                  SecurityException
     {
-        Method method;
+        if( methodParameterTypes == null ) {
+            throw new NullPointerException( "methodParameterTypes is null" );
+        }
 
-        try {
-            method = type.getMethod( methodName, methodParameterTypes );
+        if( arguments == null ) {
+            throw new NullPointerException( "arguments is null" );
         }
-        catch( final NoSuchMethodException e ) {
-            final String message = "Can not find "
-                    + methodName + '.' + Arrays.toString( methodParameterTypes )
-                    + " on " + type.getSimpleName();
-            throw new InvokeByNameException( message, e );
+
+        if( methodParameterTypes.length != arguments.length ) {
+            throw new IllegalArgumentException( "methodParameterTypes and arguments don't have same length" );
         }
+
+        final Method method = getMethod( type, methodName, methodParameterTypes );
 
         try {
             return method.invoke( obj, arguments );
@@ -262,22 +262,43 @@ public final class Methods
         }
     }
 
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck","squid:S1160", // More than one exception
+        })
+    private static <T> Method getMethod(
+        final Class<T>   type,
+        final String     methodName,
+        final Class<?>[] methodParameterTypes
+        ) throws SecurityException, InvokeByNameException
+    {
+        try {
+            return type.getMethod( methodName, methodParameterTypes );
+        }
+        catch( final NoSuchMethodException e ) {
+            final String message = "Can not find "
+                    + methodName + '.' + Arrays.toString( methodParameterTypes )
+                    + " on " + type.getSimpleName();
+            throw new InvokeByNameException( message, e );
+        }
+    }
+
     /**
-     * NEEDDOC
+     * Invoke method by name
+     * <P>
+     * Type of the object is inferred for
      *
      * @param <T>
-     *            NEEDDOC
-     * @param <I>
-     *            NEEDDOC
+     *            The type of object
      * @param obj
      *            The object the underlying method is invoked from
      * @param type
-     *            The class object
+     *            The class of object
      * @param methodName
      *            the name of the method
      * @param arguments
      *            The arguments used for the method call and to use to identify parameters
-     *            types (none of this value could be null)
+     *            types (since type of argument is inferred from argument value,
+     *            none of these values could be null)
      * @return the result of dispatching the method represented by this object on
      *            {@code obj} with parameters {@code arguments}
      * @throws InvocationTargetException
@@ -290,8 +311,8 @@ public final class Methods
     @SuppressWarnings({
         "squid:RedundantThrowsDeclarationCheck","squid:S1160", // More than one exception
         })
-    public static <T,I extends T> Object invokeByName(
-        final I        obj,
+    public static <T> Object invokeByName(
+        final T        obj,
         final Class<T> type,
         final String   methodName,
         final Object[] arguments
@@ -312,5 +333,43 @@ public final class Methods
         }
 
         return invokeByName( obj, type, methodName, methodParameterTypes, arguments );
+    }
+
+    /**
+     * Invoke method by name
+     * <P>
+     * Type of the object is inferred from {@code object}
+     *
+     * @param obj
+     *            The object the underlying method is invoked from
+     * @param methodName
+     *            the name of the method
+     * @param arguments
+     *            The arguments used for the method call and to use to identify parameters
+     *            types (since type of argument is inferred from argument value,
+     *            none of these values could be null)
+     * @return the result of dispatching the method represented by this object on
+     *            {@code obj} with parameters {@code arguments}
+     * @throws InvocationTargetException
+     *             if the underlying method throws an exception.
+     * @throws SecurityException
+     *             if any
+     * @throws InvokeByNameException
+     *             if method could not be find
+     */
+    @SuppressWarnings({
+        "squid:RedundantThrowsDeclarationCheck","squid:S1160", // More than one exception
+        })
+    public static Object invokeByName(
+        final Object   obj,
+        final String   methodName,
+        final Object[] arguments
+        ) throws InvocationTargetException,
+                 SecurityException,
+                 InvokeByNameException
+    {
+        @SuppressWarnings("unchecked")
+        final Class<Object> type = (Class<Object>)obj.getClass();
+        return invokeByName( obj, type, methodName, arguments );
     }
 }

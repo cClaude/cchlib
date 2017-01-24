@@ -160,7 +160,8 @@ public class MethodsTest
     }
 
     @Test
-    public void test_invokeByName() throws InvocationTargetException, SecurityException, InvokeByNameException
+    public void test_invokeByName_check_signature()
+        throws InvocationTargetException, SecurityException, InvokeByNameException
     {
         final ExtendsMyTestByName                  bean          = new ExtendsMyTestByName();
         final Class<? extends ExtendsMyTestByName> beanType      = bean.getClass();
@@ -174,28 +175,35 @@ public class MethodsTest
         @SuppressWarnings("unchecked")
         final Object result1 = Methods.invokeByName( bean, (Class<ExtendsMyTestByName>)bean.getClass(), methodName, arguments );
         LOGGER.info( "result1 = " + result1 );
+        assertThat( result1 ).isEqualTo( "ExtendsMyTestByName" );
 
         @SuppressWarnings("unchecked")
         final Object result2 = Methods.invokeByName( bean, (Class<ExtendsMyTestByName>)bean.getClass(), methodName, methodParameterTypes, arguments );
         LOGGER.info( "result2 = " + result2 );
+        assertThat( result2 ).isEqualTo( "ExtendsMyTestByName" );
 
         @SuppressWarnings("unchecked")
         final Object result3 = Methods.invokeByName( bean, (Class<ExtendsMyTestByName>)beanType, methodName, methodParameterTypes, arguments );
         LOGGER.info( "result3 = " + result3 );
+        assertThat( result3 ).isEqualTo( "ExtendsMyTestByName" );
 
         @SuppressWarnings("unchecked")
         final Object result4 = Methods.invokeByName( bean, (Class<ExtendsMyTestByName>)beanType2, methodName, methodParameterTypes, arguments );
         LOGGER.info( "result4 = " + result4 );
+        assertThat( result4 ).isEqualTo( "ExtendsMyTestByName" );
 
         @SuppressWarnings("unchecked")
         final Object result5 = Methods.invokeByName( bean, (Class<ExtendsMyTestByName>)beanSupertype, methodName, methodParameterTypes, arguments );
         LOGGER.info( "result5 = " + result5 );
+        assertThat( result5 ).isEqualTo( "ExtendsMyTestByName" );
 
         final Object result6 = Methods.invokeByName( bean, ExtendsMyTestByName.class, methodName, methodParameterTypes, arguments );
         LOGGER.info( "result6 = " + result6 );
+        assertThat( result6 ).isEqualTo( "ExtendsMyTestByName" );
 
         final Object result7 = Methods.invokeByName( bean, MyTestByName.class, methodName, methodParameterTypes, arguments );
         LOGGER.info( "result7 = " + result7 );
+        assertThat( result7 ).isEqualTo( "ExtendsMyTestByName" );
 
         // compilation error (crash if cast):
         // Methods.invokeByName( bean, String.class, methodName, methodParameterTypes, arguments );
@@ -204,36 +212,74 @@ public class MethodsTest
         // Methods.invokeByName( bean, File.class, methodName, arguments );
     }
 
+    @Test(expected=InvokeByNameException.class)
+    public void test_invokeByName_method_does_not_exist()
+        throws InvocationTargetException, SecurityException, InvokeByNameException
+    {
+        final ExtendsMyTestByName bean = new ExtendsMyTestByName();
+
+        final String     methodName = "doesNotExist";
+        final Object[]   arguments  = new Object[ 0 ];
+
+        Methods.invokeByName( bean, ExtendsMyTestByName.class, methodName, arguments );
+    }
+
+    @Test(expected=InvokeByNameException.class)
+    public void test_invokeByName_error_on_primitives()
+        throws InvocationTargetException, SecurityException, InvokeByNameException
+    {
+        final ExtendsMyTestByName bean = new ExtendsMyTestByName();
+
+        final String   methodName = "invokeByNameTest";
+        final Object[] arguments  = new Object[] { 1, 2 };
+
+        Methods.invokeByName( bean, ExtendsMyTestByName.class, methodName, arguments );
+    }
+
     @Test
-    public void test_invokeByName2() throws InvocationTargetException, SecurityException, InvokeByNameException
-    {/*
-        final ExtendsMyTestByName                  bean          = new ExtendsMyTestByName();
-        final Class<? extends ExtendsMyTestByName> beanType      = bean.getClass();
-        final Class<? extends MyTestByName>        beanType2     = bean.getClass();
-        final Class<?>                             beanSupertype = beanType.getSuperclass();
+    public void test_invokeByName_using_primitives()
+        throws InvocationTargetException, SecurityException, InvokeByNameException
+    {
+        final ExtendsMyTestByName bean = new ExtendsMyTestByName();
 
         final String     methodName           = "invokeByNameTest";
-        final Object[]   arguments            = new Object[ 0 ];
-        final Class<?>[] methodParameterTypes = new Class[ 0 ];;
+        final Object[]   arguments            = new Object[] { 1, 2 };
+        final Class<?>[] methodParameterTypes = new Class[] { int.class, int.class };
 
-        final Object result1 = Methods.invokeByName( bean, bean.getClass(), methodName, arguments );
-        LOGGER.info( "result1 = " + result1 );
-        final Object result2 = Methods.invokeByName( bean, bean.getClass(), methodName, methodParameterTypes, arguments );
-        LOGGER.info( "result2 = " + result2 );
-
+        final Object result = Methods.invokeByName( bean, ExtendsMyTestByName.class, methodName, methodParameterTypes, arguments );
         LOGGER.info( "result = " + result );
+        assertThat( result ).isEqualTo( 3 );
+    }
+
+    @Test
+    public void test_invokeByName_using_primitive_wrapper()
+        throws InvocationTargetException, SecurityException, InvokeByNameException
+    {
+        final ExtendsMyTestByName bean = new ExtendsMyTestByName();
+
+        final String   methodName = "add";
+        final Object[] arguments  = new Object[] {
+                                        Integer.valueOf( 4 ),
+                                        2 // This value is promoted to a Integer
+                                        };
+
+        final Object result = Methods.invokeByName( bean, methodName, arguments );
         LOGGER.info( "result = " + result );
+        assertThat( result ).isEqualTo( 6 );
+    }
 
-        final Object result2 = Methods.invokeByName( bean, ExtendsMyTestByName.class, methodName, methodParameterTypes, arguments );
-        final Object result3 = Methods.invokeByName( bean, MyTestByName.class, methodName, methodParameterTypes, arguments );
-        // compilation error :
-        Methods.invokeByName( bean, String.class, methodName, methodParameterTypes, arguments );
-        // compilation error :
-        Methods.invokeByName( bean, File.class, methodName, arguments );
+    @Test(expected=InvokeByNameException.class)
+    public void test_invokeByName_using_primitive_wrapper_error()
+        throws InvocationTargetException, SecurityException, InvokeByNameException
+    {
+        final ExtendsMyTestByName bean = new ExtendsMyTestByName();
 
-        final Object result4 = Methods.invokeByName( bean, beanClass, methodName, arguments );
+        final String   methodName = "add";
+        final Object[] arguments  = new Object[] {
+                                        Integer.valueOf( 4 ),
+                                        2.0F // this value is promoted to a Float
+                                        };
 
-        final Object result5 = Methods.invokeByName( bean, beanSuperclass, methodName, arguments );
-*/
+        Methods.invokeByName( bean, methodName, arguments );
     }
 }
