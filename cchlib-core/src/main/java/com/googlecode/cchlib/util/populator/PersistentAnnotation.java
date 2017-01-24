@@ -1,11 +1,10 @@
 package com.googlecode.cchlib.util.populator;
 
-import java.lang.reflect.Member;
+import java.lang.reflect.AnnotatedElement;
 
-@SuppressWarnings("squid:S00119") // naming convention
 //Not public
-interface PersistentAnnotation<E,METHOD_OR_FIELD extends Member>
-    extends PopulatorAnnotation<E,METHOD_OR_FIELD>
+interface PersistentAnnotation<E,M extends AnnotatedElement>
+    extends PopulatorAnnotation<E,M>
 {
     // empty
 }

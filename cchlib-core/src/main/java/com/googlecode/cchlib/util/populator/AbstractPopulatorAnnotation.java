@@ -1,11 +1,11 @@
 package com.googlecode.cchlib.util.populator;
 
-import java.lang.reflect.Member;
+import java.lang.reflect.AnnotatedElement;
 import java.util.Collection;
 
 //NOT public
 @SuppressWarnings("squid:S00119") // naming convention
-abstract class AbstractPopulatorAnnotation<E,METHOD_OR_FIELD extends Member>
+abstract class AbstractPopulatorAnnotation<E,METHOD_OR_FIELD extends AnnotatedElement>
     implements PopulatorAnnotation<E,METHOD_OR_FIELD>
 {
     private final Populator populator;

@@ -1,14 +1,18 @@
 package com.googlecode.cchlib.util.populator;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
-//NOT public
-@SuppressWarnings("squid:S00119") // Type one char only ! Why ?
-interface PopulatorSetter<E,METHOD_OR_FIELD extends Member>
-{
+/**
+*
+* @param <T> Type of the object to populate
+* @param <A> Type of a class {@link Member} (formally a {@link AnnotatedElement} : {@link Method} or {@link Field})
+*/
+interface PopulatorSetter<E,A extends AnnotatedElement>
+{// Only interface need to be public
     /**
      * Set value using a String. Best effort will be done to transform
      * {@code strValue} to giving {@code type}
@@ -70,7 +74,7 @@ interface PopulatorSetter<E,METHOD_OR_FIELD extends Member>
      * return a {@link Method} or a {@link Field} to use to populate value
      * @return a solution to populate value
      */
-    METHOD_OR_FIELD getMethodOrField();
+    A getMethodOrField();
 
     /**
      * return a {@link FieldOrMethod} to use to populate value

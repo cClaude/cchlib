@@ -1,14 +1,14 @@
 package com.googlecode.cchlib.util.populator;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Member;
 import javax.annotation.Nonnull;
 import com.googlecode.cchlib.lang.reflect.InvokeByNameException;
 import com.googlecode.cchlib.lang.reflect.Methods;
 
 //NOT public
 @SuppressWarnings("squid:S00119") // naming convention
-abstract class AbstractPersistentAnnotation<E,METHOD_OR_FIELD extends Member>
+abstract class AbstractPersistentAnnotation<E,METHOD_OR_FIELD extends AnnotatedElement>
     implements PersistentAnnotation<E,METHOD_OR_FIELD>
 {
     private final Persistent         persistent;

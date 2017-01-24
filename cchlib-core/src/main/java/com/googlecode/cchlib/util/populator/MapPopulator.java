@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -134,11 +136,8 @@ public class MapPopulator<E> implements Serializable
                                             this.config.getAnnotationLookup()
                                             );
 
-            if( LOGGER.isTraceEnabled() ) {
-                LOGGER.trace(
-                        "find " + Populator.class.getSimpleName() + " = " + populator
-                            + " based on " + method
-                        );
+            if( LOGGER.isDebugEnabled() ) {
+                logBuildMapTraceMessage( populator, method );
             }
 
             if( populator != null ) {
@@ -163,6 +162,38 @@ public class MapPopulator<E> implements Serializable
         }
     }
 
+    private static  void logBuildMapTraceMessage(
+        final Populator        populator,
+        final AnnotatedElement methodOrFields
+        )
+    {
+        if( LOGGER.isTraceEnabled() ) {
+            LOGGER.trace( buildMapTraceMessage( populator, methodOrFields ) );
+        } else if( populator != null ) {
+            LOGGER.debug( buildMapTraceMessage( populator, methodOrFields ) );
+        }
+    }
+
+    private static String buildMapTraceMessage(
+        final Populator        populator,
+        final AnnotatedElement methodOrFields
+        )
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append( populator == null ? "no " : "found " )
+          .append( Populator.class.getSimpleName() )
+          .append( " on " ).append( methodOrFields );
+
+        if( populator != null ) {
+            sb.append( "find " )
+              .append( " : " )
+              .append( populator );
+        }
+
+        return sb.toString();
+    }
+
     private static String getAttributeNameForGetter( final Method method )
     {
         final String name = method.getName();
@@ -170,6 +201,7 @@ public class MapPopulator<E> implements Serializable
         if( name.startsWith( "get" ) ) {
             return name.substring( GET_SET_LENGTH );
         }
+
         return null;
     }
 
@@ -226,19 +258,62 @@ public class MapPopulator<E> implements Serializable
         }
 
         if( (getter != null) && (setter != null) && (attributName != null) ) {
-            this.getterSetterMap.put( //
-                    attributName, //
-                    new PopulatorAnnotationForMethodImpl<>( populator, getter, setter, attributName ) //
-                    );
+            addPopulatorMethods( populator, attributName, getter, setter );
         } else {
-            LOGGER.warn(
-                "Populator warning : can not handle Method " + method
-                    + " getter=" + getter
-                    + " / setter=" + setter
-                    + " / attributName=[" + attributName
-                    + ']'
-                );
+            LOGGER.warn( buildCanNotHandleMethodMessage( populator, method, attributName, getter, setter ) );
         }
+    }
+
+    private void addPopulatorMethods(
+        final Populator populator,
+        final String    attributName,
+        final Method    getter,
+        final Method    setter
+        )
+    {
+        if( LOGGER.isDebugEnabled() ) {
+            final StringBuilder sb = new StringBuilder();
+
+            sb.append( "Found getter and setter for \"" ).append( attributName ).append( '\"' );
+
+            if( LOGGER.isTraceEnabled() ) {
+                sb.append( " : " ).append( setter ).append( " / " ).append( getter );
+
+                LOGGER.trace( sb.toString() );
+            } else {
+                LOGGER.debug( sb.toString() );
+            }
+        }
+
+        this.getterSetterMap.put(
+            attributName,
+            new PopulatorAnnotationForMethodImpl<>( populator, getter, setter, attributName )
+            );
+    }
+
+    private static String buildCanNotHandleMethodMessage(
+        final Populator populator,
+        final Method    method,
+        final String    attributName,
+        final Method    getter,
+        final Method   setter
+        )
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append( "Populator warning : can not handle Method " ).append( method )
+          .append( " with annonation " ).append( populator );
+
+        if( attributName == null ) {
+            sb.append( " because this not a getter nor a setter :" );
+        } else {
+            sb.append( " for attribut \"" ).append( attributName )
+              .append(  " \" because can not find" );
+        }
+
+        sb.append( " (getter, setter)=(" ).append( getter ).append( ',' ).append( setter ).append( ')' );
+
+        return sb.toString();
     }
 
     private Method findSetter(
@@ -272,6 +347,10 @@ public class MapPopulator<E> implements Serializable
     {
         for( final Field field : fields ) {
             final Populator populator = field.getAnnotation( Populator.class );
+
+            if( LOGGER.isDebugEnabled() ) {
+                logBuildMapTraceMessage( populator, field );
+            }
 
             if( populator != null ) {
                 this.fieldsMap.put(
@@ -510,5 +589,26 @@ public class MapPopulator<E> implements Serializable
         populateMap( propertiesPrefix, bean, map );
 
         return map;
+    }
+
+    /**
+     * Returns an unmodifiable view of {@link Populator} fields
+     *
+     * @return an unmodifiable view of {@link Populator} fields
+     */
+    protected Map<Field ,PopulatorAnnotation<E,Field>> getPopulatorFields()
+    {
+        return Collections.unmodifiableMap( this.fieldsMap );
+    }
+
+
+    /**
+     * Returns an unmodifiable view of {@link Populator} methods
+     *
+     * @return an unmodifiable view of {@link Populator} methods
+     */
+    protected Map<String, PopulatorAnnotation<E, Method>> getPopulatorMethods()
+    {
+        return Collections.unmodifiableMap( this.getterSetterMap );
     }
 }

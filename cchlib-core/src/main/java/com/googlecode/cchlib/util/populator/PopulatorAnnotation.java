@@ -1,18 +1,17 @@
 package com.googlecode.cchlib.util.populator;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
 /**
  *
- * @param <E> Type of the object to populate
- * @param <METHOD_OR_FIELD> Type {@link Method} or {@link Field}
+ * @param <T> Type of the object to populate
+ * @param <A> Type of a class {@link Member} (formally a {@link AnnotatedElement} : {@link Method} or {@link Field})
  */
-@SuppressWarnings("squid:S00119") // naming convention
-//NOT public
-interface PopulatorAnnotation<E,METHOD_OR_FIELD extends Member>
-{
+public interface PopulatorAnnotation<T,A extends AnnotatedElement>
+{// Only interface need to be public
     /**
      * Return annotation value
      * @return true if default value is be null
@@ -39,5 +38,5 @@ interface PopulatorAnnotation<E,METHOD_OR_FIELD extends Member>
      * Retrieve setter for this entry
      * @return a {@link PopulatorSetter} for this entry
      */
-    PopulatorSetter<E,METHOD_OR_FIELD> getPropertiesPopulatorSetter();
+    PopulatorSetter<T,A> getPropertiesPopulatorSetter();
 }
