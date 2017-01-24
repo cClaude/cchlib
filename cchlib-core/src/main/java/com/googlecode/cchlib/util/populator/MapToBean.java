@@ -17,19 +17,19 @@ class MapToBean<E>
 {
     private static final Logger LOGGER = Logger.getLogger( MapToBean.class );
 
-    private final Map<?,?>      properties;
+    private final Map<?,?>      propertiesMap;
     private final E             bean;
     private final StringBuilder prefix;
     private final int           prefixLength;
 
     /* package */ public MapToBean(
         final String   propertiesPrefix,
-        final Map<?,?> properties,
+        final Map<?,?> propertiesMap,
         final E        bean
         )
     {
-        this.properties = properties;
-        this.bean       = bean;
+        this.propertiesMap = propertiesMap;
+        this.bean          = bean;
 
         if( (propertiesPrefix == null) || propertiesPrefix.isEmpty() ) {
             this.prefix       = null;
@@ -279,13 +279,13 @@ class MapToBean<E>
         final String strValue;
 
         if( this.prefixLength == 0 ) {
-            strValue = getProperty( this.properties, attributName, defaultValue );
+            strValue = getProperty( this.propertiesMap, attributName, defaultValue );
             }
         else {
             this.prefix.setLength( this.prefixLength );
             this.prefix.append( attributName );
 
-            strValue = getProperty( this.properties, this.prefix.toString(), defaultValue );
+            strValue = getProperty( this.propertiesMap, this.prefix.toString(), defaultValue );
             }
 
         return strValue;
@@ -406,7 +406,7 @@ class MapToBean<E>
             valuePrefix.append( '.' );
             valuePrefix.append( index );
 
-            final String strValue = getProperty( this.properties, valuePrefix.toString() );
+            final String strValue = getProperty( this.propertiesMap, valuePrefix.toString() );
 
             if( strValue == null ) {
                 break;
