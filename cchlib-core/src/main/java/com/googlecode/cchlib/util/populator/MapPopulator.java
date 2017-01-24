@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.lang.annotation.Annotations;
@@ -133,6 +134,13 @@ public class MapPopulator<E> implements Serializable
                                             this.config.getAnnotationLookup()
                                             );
 
+            if( LOGGER.isTraceEnabled() ) {
+                LOGGER.trace(
+                        "find " + Populator.class.getSimpleName() + " = " + populator
+                            + " based on " + method
+                        );
+            }
+
             if( populator != null ) {
                 tryToBuildMethodPopulator( methods, method, populator );
                 }
@@ -144,7 +152,12 @@ public class MapPopulator<E> implements Serializable
 
                 this.getterSetterMap.put(
                         attributeName,
-                        new PersistentAnnotationForMethodImpl<>( persistent, this.persistentResolver, method, attributeName )
+                        new PersistentAnnotationForMethodImpl<>(
+                                persistent,
+                                this.persistentResolver,
+                                method,
+                                attributeName
+                                )
                         );
                 }
         }
@@ -373,10 +386,15 @@ public class MapPopulator<E> implements Serializable
         final E        bean
         )
     {
-        final MapToBean<E> propertiesToBean = new MapToBean<>( propertiesPrefix, map, bean );
+        final MapToBean<E> mapToBean = new MapToBean<>( propertiesPrefix, map, bean );
 
-        propertiesToBean.populateFields( this.fieldsMap );
-        propertiesToBean.populateMethods( this.getterSetterMap );
+        if( ! this.fieldsMap.isEmpty() ) {
+            mapToBean.populateFields( this.fieldsMap );
+        }
+
+        if( ! this.getterSetterMap.isEmpty() ) {
+            mapToBean.populateMethods( this.getterSetterMap );
+        }
     }
 
     /**
@@ -396,44 +414,40 @@ public class MapPopulator<E> implements Serializable
      * @throws IllegalAccessException
      *             if the class or its nullary constructor is not accessible.
      *
-     * @see #newMapForBean(Class)
-     * @see #newMapForBean(String, Class)
+     * @see #newMapForBean(Supplier)
+     * @see #newMapForBean(String, Supplier)
+     * @see #newMapForBean(String, Supplier, Supplier)
+     *
      * @since 4.2
      */
     @SuppressWarnings("squid:S1160")
     public final Map<String, String> newMapForBean()
         throws InstantiationException, IllegalAccessException
     {
-        return newMapForBean( (String)null, this.beanType );
+        final E instance = this.beanType.newInstance();
+
+        return newMapForBean( (String)null, () -> instance );
     }
 
     /**
      * Create a {@link Map} with empty values corresponding to a none
      * initialized instance of the bean.
      *
-     * @param concreteBeanInstance
-     *            A concrete type for this {@link MapPopulator} having
-     *            a default constructor - see {@link Class#newInstance()} for
-     *            more details.
+     * @param instanceSupplier
+     *            A {@link Supplier} able to create an "empty" concrete instance.
      * @return a {@link Map} that corresponding to the bean with default values.
-     * @throws InstantiationException
-     *             if this Class represents an abstract class, an interface, an
-     *             array class, a primitive type, or void; or if the class has no
-     *             nullary constructor; or if the instantiation fails for some
-     *             other reason.
-     * @throws IllegalAccessException
-     *             if the class or its nullary constructor is not accessible.
      *
      * @see #newMapForBean()
-     * @see #newMapForBean(String, Class)
+     * @see #newMapForBean(String, Supplier)
+     * @see #newMapForBean(String, Supplier, Supplier)
+     *
      * @since 4.2
      */
-    @SuppressWarnings("squid:S1160")
     public final Map<String, String> newMapForBean(
-        final Class<? extends E> concreteBeanInstance
-        ) throws InstantiationException, IllegalAccessException
+        final Supplier<E> instanceSupplier
+        )
     {
-        return newMapForBean( (String)null, concreteBeanInstance );
+        return newMapForBean( (String)null, instanceSupplier );
     }
 
     /**
@@ -442,30 +456,55 @@ public class MapPopulator<E> implements Serializable
      *
      * @param propertiesPrefix
      *            Prefix for properties names, if null or empty ignored.
-     * @param concreteBeanInstance
-     *            A concrete type for this {@link MapPopulator} having
-     *            a default constructor - see {@link Class#newInstance()} for
-     *            more details.
+     * @param instanceSupplier
+     *            A {@link Supplier} able to create an "empty" concrete instance.
      * @return a {@link Map} that corresponding to the bean with default values.
-     * @throws InstantiationException
-     *             if this Class represents an abstract class, an interface, an
-     *             array class, a primitive type, or void; or if the class has no
-     *             nullary constructor; or if the instantiation fails for some
-     *             other reason.
-     * @throws IllegalAccessException
-     *             if the class or its nullary constructor is not accessible.
      *
-     * @see Class#newInstance()
+     * @see #newMapForBean()
+     * @see #newMapForBean(Supplier)
+     * @see #newMapForBean(String, Supplier)
+     *
      * @since 4.2
      */
-    @SuppressWarnings({"squid:RedundantThrowsDeclarationCheck","squid:S1160"})
     public final Map<String, String> newMapForBean(
-        final String             propertiesPrefix,
-        final Class<? extends E> concreteBeanInstance
-        ) throws InstantiationException, IllegalAccessException
+        final String      propertiesPrefix,
+        final Supplier<E> instanceSupplier
+        )
     {
-        final Map<String,String> map  = new HashMap<>();
-        final E                  bean = concreteBeanInstance.newInstance();
+        return newMapForBean(
+                propertiesPrefix,
+                instanceSupplier,
+                HashMap::new
+                );
+    }
+
+    /**
+     * Fill a {@link Map} with empty values corresponding to a none
+     * initialized instance of the bean.
+     *
+     * @param propertiesPrefix
+     *            Prefix for properties names, if null or empty ignored.
+     * @param instanceSupplier
+     *            A {@link Supplier} able to create an "empty" concrete instance.
+     * @param mapSupplier
+     *            A {@link Supplier} able to create a {@link Map} with
+     *            any required specifications.
+     * @return a {@link Map} that corresponding to the bean with default values.
+     *
+     * @see #newMapForBean()
+     * @see #newMapForBean(Supplier)
+     * @see #newMapForBean(String, Supplier, Supplier)
+     *
+     * @since 4.2
+     */
+    public final Map<String, String> newMapForBean(
+        final String                       propertiesPrefix,
+        final Supplier<E>                  instanceSupplier,
+        final Supplier<Map<String,String>> mapSupplier
+        )
+    {
+        final E                  bean = instanceSupplier.get();
+        final Map<String,String> map  = mapSupplier.get();
 
         populateBean( propertiesPrefix, map, bean );
         populateMap( propertiesPrefix, bean, map );

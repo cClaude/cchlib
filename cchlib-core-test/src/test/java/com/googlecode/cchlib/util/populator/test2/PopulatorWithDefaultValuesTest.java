@@ -43,7 +43,7 @@ public class PopulatorWithDefaultValuesTest
     public void test_on_interface() throws InstantiationException, IllegalAccessException
     {
         final MapPopulator<MyInterface> pp  = new MapPopulator<>( MyInterface.class );
-        final Map<String, String>       map = pp.newMapForBean( MyInterfaceImpl.class );
+        final Map<String, String>       map = pp.newMapForBean( MyInterfaceImpl::new );
 
         LOGGER.info( "map = " + map );
 

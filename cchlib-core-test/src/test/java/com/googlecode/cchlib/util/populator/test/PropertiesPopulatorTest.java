@@ -77,7 +77,7 @@ public class PropertiesPopulatorTest
         final MapPopulator<BeanAnnotationHeadLess> pp
             = new MapPopulator<>( BeanAnnotationOnGettersHeadLess.class );
 
-        final Map<String, String> map = pp.newMapForBean( BeanAnnotationOnGettersHeadLess.class );
+        final Map<String, String> map = pp.newMapForBean( BeanAnnotationOnGettersHeadLess::new );
 
         LOGGER.info( "test_bean_to_map() : map = " + map );
 
