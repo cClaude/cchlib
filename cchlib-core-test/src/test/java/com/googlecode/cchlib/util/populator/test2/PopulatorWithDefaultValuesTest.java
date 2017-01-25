@@ -8,9 +8,13 @@ import static org.fest.assertions.api.Assertions.entry;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import com.googlecode.cchlib.lang.annotation.AnnotationLookupOrder;
+import com.googlecode.cchlib.util.populator.FieldsConfigValue;
 import com.googlecode.cchlib.util.populator.MapPopulator;
+import com.googlecode.cchlib.util.populator.MethodsConfigValue;
 import com.googlecode.cchlib.util.populator.PersistentResolverFactories;
 import com.googlecode.cchlib.util.populator.PopulatorConfig;
 
@@ -89,6 +93,42 @@ public class PopulatorWithDefaultValuesTest
                 entry( "SchemaName" , Const.DEFAULT_SCHEMA_NAME ),
                 entry( "Password"   , Const.DEFAULT_PASSWORD    )
                 );
+    }
+
+    @Test
+    public void test_on_implementation_newMapForBean_String_Supplier_Supplier()
+    {
+        final MapPopulator<MyInterfaceImpl> populator = new MapPopulator<>(
+                MyInterfaceImpl.class,
+                new PopulatorConfig(
+                    FieldsConfigValue.NONE, // There no field here
+                    MethodsConfigValue.METHODS,
+                    AnnotationLookupOrder.INTERFACES_FIRST, // Annotations are on an interface
+                    PersistentResolverFactories.newDefaultPersistentResolverFactory()
+                    )
+                );
+        final String              prefix = "P.";
+        final Map<String, String> map    = populator.newMapForBean( prefix, MyInterfaceImpl::new, TreeMap::new );
+
+        LOGGER.info( "map = " + map );
+
+        assertThat( map ).hasSize( 5 );
+        assertThat( map ).contains(
+                entry( prefix + "Username"   , Const.DEFAULT_USERNAME    ),
+                entry( prefix + "Port"       , Const.DEFAULT_PORT        ),
+                entry( prefix + "Hostname"   , Const.DEFAULT_HOSTNAME    ),
+                entry( prefix + "SchemaName" , Const.DEFAULT_SCHEMA_NAME ),
+                entry( prefix + "Password"   , Const.DEFAULT_PASSWORD    )
+                );
+        // Use a TreeMap
+        assertThat( map.keySet() )
+            .containsExactly(
+                    prefix + "Hostname",
+                    prefix + "Password",
+                    prefix + "Port",
+                    prefix + "SchemaName",
+                    prefix + "Username"
+                    );
     }
 
     @Test

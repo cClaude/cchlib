@@ -80,4 +80,14 @@ final class PopulatorAnnotationForFieldImpl<E>
     {
         return new FieldOrMethod( this.field );
     }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append( "PopulatorAnnotationForFieldImpl [field=" );
+        builder.append( this.field );
+        builder.append( "]" );
+        return builder.toString();
+    }
 }

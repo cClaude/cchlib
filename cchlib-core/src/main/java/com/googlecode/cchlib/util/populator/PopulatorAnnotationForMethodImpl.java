@@ -92,4 +92,18 @@ final class PopulatorAnnotationForMethodImpl<E>
     {
         return new FieldOrMethod( this.setter );
     }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+        builder.append( "PopulatorAnnotationForMethodImpl [attributeName=" );
+        builder.append( this.attributeName );
+        builder.append( ", getter=" );
+        builder.append( this.getter );
+        builder.append( ", setter=" );
+        builder.append( this.setter );
+        builder.append( "]" );
+        return builder.toString();
+    }
 }
