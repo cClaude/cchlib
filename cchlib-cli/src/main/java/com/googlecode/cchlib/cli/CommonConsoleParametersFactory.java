@@ -7,7 +7,8 @@ import com.googlecode.cchlib.cli.apachecli.OptionBuilderInstance;
 import com.googlecode.cchlib.cli.apachecli.OptionHelper;
 import com.googlecode.cchlib.cli.apachecli.OptionHelperRuntimeException;
 
-public abstract class CommonConsoleParametersFactory<T extends ConsoleParameters> extends ConsoleParametersFactory<T>
+public abstract class CommonConsoleParametersFactory<T extends ConsoleParameters>
+    extends ConsoleParametersFactory<T>
 {
     private static final Logger   LOGGER = Logger.getLogger( CommonConsoleParametersFactory.class );
 
@@ -17,14 +18,16 @@ public abstract class CommonConsoleParametersFactory<T extends ConsoleParameters
     @Override
     protected final Options createCLIOptions()
     {
-        addOption(
-            getOptionBuilderInstance().withLongOpt( CommonConsoleParameters.HELP )
-                .withDescription( "Display this message" )
-                .hasArg( false )
-                .create( "h" )
-            );
+        if( this.builder == null ) {
+            addOption(
+                    getOptionBuilderInstance().withLongOpt( CommonConsoleParameters.HELP )
+                        .withDescription( "Display this message" )
+                        .hasArg( false )
+                        .create( "h" )
+                    );
 
-        customizeCLIOptions(); // customize
+                customizeCLIOptions(); // customize
+        } // else option already created
 
         return getOptions();
     }
