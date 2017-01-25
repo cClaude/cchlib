@@ -42,7 +42,6 @@ public class PopulatorWithDefaultValuesTest
         return bean;
     }
 
-
     @Test
     public void test_on_interface() throws InstantiationException, IllegalAccessException
     {
