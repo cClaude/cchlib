@@ -52,7 +52,7 @@ import com.googlecode.cchlib.util.iterator.CascadingIterator;
 @SuppressWarnings("squid:S00119")
 public class HashMapSet<KEY,VALUE>
     extends HashMap<KEY,Set<VALUE>>
-        implements  MapSet<KEY,VALUE>,
+        implements  XMapSet<KEY,VALUE>,
                     Iterable<VALUE>,
                     Serializable
 

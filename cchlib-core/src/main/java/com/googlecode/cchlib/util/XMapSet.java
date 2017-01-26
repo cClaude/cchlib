@@ -6,17 +6,17 @@ import java.util.Set;
 /**
  *
  *
- * @param <KEY> the type of keys maintained by this map
- * @param <VALUE> the type of values
+ * @param <K> the type of keys maintained by this map
+ * @param <V> the type of values
  *
  * @since 4.2
  * @see HashMapSet
  */
-public interface MapSet<KEY, VALUE> extends Map<KEY, Set<VALUE>> {
+public interface XMapSet<K,V> extends Map<K,Set<V>>
+{
+    boolean containsValueInSet( V value );
 
-    boolean containsValueInSet( VALUE value );
-
-    boolean removeInSet( KEY key, VALUE value );
+    boolean removeInSet( K key, V value );
 
     /**
      * Add an couple of key value in this HashMapSet.
@@ -33,5 +33,5 @@ public interface MapSet<KEY, VALUE> extends Map<KEY, Set<VALUE>> {
      * @return true if Set associated with the specified key
      *         did not already contain the specified value
      */
-    boolean add( KEY key, VALUE value );
+    boolean add( K key, V value );
 }
