@@ -1,7 +1,7 @@
 package com.googlecode.cchlib.apps.editresourcesbundle.compare;
 
+import java.util.function.Consumer;
 import com.googlecode.cchlib.util.EnumHelper;
-import com.googlecode.cchlib.util.function.Action;
 
 enum CompareResourcesBundleFrameAction
 {
@@ -13,10 +13,10 @@ enum CompareResourcesBundleFrameAction
     ACTIONCMD_PREFS( f -> f.openPreferences() ),
     ;
 
-    private Action<CompareResourcesBundleFrame> action;
+    private Consumer<CompareResourcesBundleFrame> action;
 
     private CompareResourcesBundleFrameAction(
-        final Action<CompareResourcesBundleFrame> action
+        final Consumer<CompareResourcesBundleFrame> action
         )
     {
         this.action = action;
@@ -24,7 +24,7 @@ enum CompareResourcesBundleFrameAction
 
     public void doAction( final CompareResourcesBundleFrame frame )
     {
-        this.action.doAction( frame );
+        this.action.accept( frame );
     }
 
     public String getActionCommand( final int index )
