@@ -26,49 +26,17 @@ import com.fasterxml.jackson.databind.ObjectWriter;
  */
 public class JSONHelper
 {
-    @FunctionalInterface
-    private interface ObjectWriterGetter
-    {
-        ObjectWriter getObjectWriter( ObjectMapper mapper );
-    }
-
-    /** NEEDDOC */
-    public enum PrintMode {
-        /** NEEDDOC */
-        PRETTY( JSONHelper::getPrettyPrintObjectWriter ),
-        /**
-         * Same than {@link #PRETTY} but also format array using
-         * default indentation
-         *          * @see DefaultIndenter#SYSTEM_LINEFEED_INSTANCE
-         */
-        PRETTY_ARRAYS( JSONHelper::getPrettyPrintArrayObjectWriter ),
-        ;
-
-        private ObjectWriterGetter objectWriterGetter;
-
-        private PrintMode( final ObjectWriterGetter objectWriterGetter )
-        {
-            this.objectWriterGetter = objectWriterGetter;
-        }
-
-        private ObjectWriter getObjectWriter( final ObjectMapper mapper )
-        {
-            return this.objectWriterGetter.getObjectWriter( mapper );
-
-        }
-    }
+    /**
+     * @see JSONPrintMode#PRETTY
+     */
+    public static final Set<JSONPrintMode> PRETTY_PRINT =
+            Collections.unmodifiableSet( EnumSet.of( JSONPrintMode.PRETTY ) );
 
     /**
-     * @see PrintMode#PRETTY
+     * @see JSONPrintMode
      */
-    public static final Set<PrintMode> PRETTY_PRINT =
-            Collections.unmodifiableSet( EnumSet.of( PrintMode.PRETTY ) );
-
-    /**
-     * @see PrintMode
-     */
-    public static final Set<PrintMode> COMPACT_PRINT =
-            Collections.unmodifiableSet( EnumSet.noneOf( PrintMode.class ) );
+    public static final Set<JSONPrintMode> COMPACT_PRINT =
+            Collections.unmodifiableSet( EnumSet.noneOf( JSONPrintMode.class ) );
 
     private JSONHelper()
     {
@@ -231,14 +199,14 @@ public class JSONHelper
      *            {@link ObjectMapper#setSerializationInclusion(Include)}).
      *            If value is null, use default strategy.
      * @throws JSONHelperException if any error occur
-     * @see PrintMode
+     * @see JSONPrintMode
      * @see #COMPACT_PRINT
      * @see #PRETTY_PRINT
      */
     public static <T> void save( //
         final File           jsonFile,
         final T              value,
-        final Set<PrintMode> printMode,
+        final Set<JSONPrintMode> printMode,
         @Nullable
         final Include        serializationInclusionMode
         ) throws JSONHelperException
@@ -253,7 +221,7 @@ public class JSONHelper
     }
 
     private static ObjectWriter createObjectWriter(
-        final Set<PrintMode> printMode,
+        final Set<JSONPrintMode> printMode,
         final Include        serializationInclusionMode
         )
     {
@@ -266,9 +234,9 @@ public class JSONHelper
         final ObjectWriter writer;
 
         if( isUseArraysPrettyPrint( printMode ) ) {
-            writer = PrintMode.PRETTY_ARRAYS.getObjectWriter( mapper );
+            writer = JSONPrintMode.PRETTY_ARRAYS.getObjectWriter( mapper );
         }  else if( isUseStandardPrettyPrint( printMode ) ) {
-            writer = PrintMode.PRETTY.getObjectWriter( mapper );
+            writer = JSONPrintMode.PRETTY.getObjectWriter( mapper );
         } else {
             writer = mapper.writer();
         }
@@ -292,14 +260,14 @@ public class JSONHelper
      *            {@link ObjectMapper#setSerializationInclusion(Include)}).
      *            If value is null, use default strategy.
      * @throws JSONHelperException if any error occur
-     * @see PrintMode
+     * @see JSONPrintMode
      * @see #COMPACT_PRINT
      * @see #PRETTY_PRINT
      */
     public static <T> void save(
         final OutputStream   out,
         final T              value,
-        final Set<PrintMode> printMode,
+        final Set<JSONPrintMode> printMode,
         final Include        serializationInclusionMode
         ) throws JSONHelperException
     {
@@ -321,17 +289,17 @@ public class JSONHelper
         return false;
     }
 
-    private static boolean isUseArraysPrettyPrint( final Set<PrintMode> printMode )
+    private static boolean isUseArraysPrettyPrint( final Set<JSONPrintMode> printMode )
     {
-        if( isContaint( printMode, PrintMode.PRETTY_ARRAYS  ) ) {
+        if( isContaint( printMode, JSONPrintMode.PRETTY_ARRAYS  ) ) {
             return true;
         }
         return isUseArraysPrettyPrint();
     }
 
-    private static boolean isUseStandardPrettyPrint( final Set<PrintMode> printMode )
+    private static boolean isUseStandardPrettyPrint( final Set<JSONPrintMode> printMode )
     {
-        if( isContaint( printMode, PrintMode.PRETTY ) ) {
+        if( isContaint( printMode, JSONPrintMode.PRETTY ) ) {
             return true;
         }
 
@@ -350,12 +318,12 @@ public class JSONHelper
         return Boolean.getBoolean( "UseArraysPrettyPrint" );
     }
 
-    private static ObjectWriter getPrettyPrintObjectWriter( final ObjectMapper mapper )
+    static ObjectWriter getPrettyPrintObjectWriter( final ObjectMapper mapper )
     {
         return mapper.writerWithDefaultPrettyPrinter();
     }
 
-    private static ObjectWriter getPrettyPrintArrayObjectWriter( final ObjectMapper mapper )
+    static ObjectWriter getPrettyPrintArrayObjectWriter( final ObjectMapper mapper )
     {
         final PrettyPrinter        pp = mapper.getSerializationConfig().getDefaultPrettyPrinter();
         final DefaultPrettyPrinter dpp;

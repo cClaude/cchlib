@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.googlecode.cchlib.json.JSONHelper.PrintMode;
 
 /**
  * Class helper to test your serialization using JSON
@@ -80,7 +79,7 @@ public class JSONTestHelper
     public static <I, T extends I> I serializationOverJSON(
         @Nonnull final I        original,
         @Nonnull final Class<T> type,
-        final Set<PrintMode>    printMode,
+        final Set<JSONPrintMode>    printMode,
         final Include           serializationInclusionMode
         ) throws IOException, JSONHelperException
     {

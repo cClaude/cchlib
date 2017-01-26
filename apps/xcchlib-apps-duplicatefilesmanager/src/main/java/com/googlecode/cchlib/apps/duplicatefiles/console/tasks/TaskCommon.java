@@ -17,8 +17,8 @@ import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFilterFa
 import com.googlecode.cchlib.apps.duplicatefiles.console.filefilter.FileFiltersConfig;
 import com.googlecode.cchlib.apps.duplicatefiles.console.model.HashFiles;
 import com.googlecode.cchlib.json.JSONHelper;
-import com.googlecode.cchlib.json.JSONHelper.PrintMode;
 import com.googlecode.cchlib.json.JSONHelperException;
+import com.googlecode.cchlib.json.JSONPrintMode;
 
 /**
  * Handle file filters for files and directories
@@ -203,7 +203,7 @@ public abstract class TaskCommon<R> implements CommandTask<R>
     {
         createParentDirsOf( this.jsonOutputFile ); // TODO should be optional
 
-        final Set<PrintMode> printMode;
+        final Set<JSONPrintMode> printMode;
 
         if( this.prettyJson ) {
             printMode = JSONHelper.PRETTY_PRINT;
