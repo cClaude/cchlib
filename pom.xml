@@ -462,7 +462,8 @@
     <module>cchlib-sql</module>
     <module>cchlib-swing</module>
     <module>cchlib-sys</module>
-    <module>cchlib-unit</module>
+    <module>cchlib-unit</module>   
+    <module>cchlib-mysql</module><!-- Need: cchlib-sql -->
   </modules>
 
 </project>
