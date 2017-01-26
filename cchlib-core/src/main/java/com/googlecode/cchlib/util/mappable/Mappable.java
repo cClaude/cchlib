@@ -21,5 +21,5 @@ public interface Mappable
      * </p>
      * @return a Map of attributes for this object.
      */
-    public abstract Map<String,String> toMap();
+    Map<String,String> toMap();
 }
