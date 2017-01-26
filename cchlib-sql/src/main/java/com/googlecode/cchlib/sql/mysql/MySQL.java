@@ -1,6 +1,7 @@
 package com.googlecode.cchlib.sql.mysql;
 
 import java.util.Collection;
+import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.sql.DataSource;
@@ -20,9 +21,14 @@ public final class MySQL
         = java.util.logging.Logger.getLogger( SQL_LOGGER_NAME );
 
     /**
-     * Default driver name : {@value}
+     * Driver class name for version 1.x to 5.x : {@value}
      */
     public static final String MYSQL_JDBC_DRIVER_CLASS = "com.mysql.jdbc.Driver";
+
+    /**
+     * Driver class name since version 6 : {@value}
+     */
+    public static final String MYSQL_JDBC_DRIVER_6_CLASS = "com.mysql.cj.jdbc.Driver";
 
     /**
      * Default port : {@value}
@@ -111,8 +117,25 @@ public final class MySQL
         @Nonnull final MySQLConfig mysql
         ) throws DataSourceFactoryClassNotFoundException
     {
+        String driverClassName;
+
+        try {
+            driverClassName = MySQL.MYSQL_JDBC_DRIVER_6_CLASS;
+            Class.forName( driverClassName );
+        }
+        catch( final ClassNotFoundException e ) {
+            if( SQL_LOGGER.isLoggable( Level.FINE ) ) {
+                SQL_LOGGER.log(
+                    Level.FINE,
+                    "Warning MySQL JDBC driver version 6 or more not found",
+                    e
+                    );
+            }
+            driverClassName = MySQL.MYSQL_JDBC_DRIVER_CLASS;
+        }
+
         return newDataSource(
-                MySQL.MYSQL_JDBC_DRIVER_CLASS,
+                driverClassName,
                 getURL( mysql ),
                 mysql.getUsername(),
                 mysql.getPassword(),
