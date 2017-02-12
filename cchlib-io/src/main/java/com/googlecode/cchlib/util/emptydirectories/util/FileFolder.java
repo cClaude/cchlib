@@ -17,13 +17,13 @@ public class FileFolder implements Folder
     @Override
     public Path getPath()
     {
-        return file.toPath();
+        return this.file.toPath();
     }
 
     @Override
     public File getFile()
     {
-        return file;
+        return this.file;
     }
 
     @Override
@@ -32,5 +32,17 @@ public class FileFolder implements Folder
         final FileFolder other = FileFolder.class.cast( otherFolder );
 
         return this.file.compareTo( other.file );
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append( "FileFolder [file=" );
+        builder.append( this.file );
+        builder.append( ']' );
+
+        return builder.toString();
     }
 }
