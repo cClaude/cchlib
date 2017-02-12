@@ -22,20 +22,22 @@ import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
 @I18nName("emptyfiles.WorkingJPanel")
 public final class WorkingJPanel extends JPanel
 {
-    private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( WorkingJPanel.class );
+    private static final long serialVersionUID = 1L;
 
+    private final JButton deleteButton;
+    private final JButton deselectAllButton;
+    private final JButton restartButton;
+    private final JButton selectAllButton;
+
+    private final JLabel messageLabel;
+    private final JPanel panel;
+
+    private final JProgressBar progressBar;
+    private final JScrollPane scrollPane;
     private final JTable table;
     private final JTableColumnsAutoSizer autoSizer;
-    private final JPanel panel;
-    private final JLabel messageLabel;
-    private final JProgressBar progressBar;
-    private final JButton deleteButton;
-    private final JButton selectAllButton;
-    private final JButton deselectAllButton;
     private final WorkingTableModel tableModel;
-    private final JScrollPane scrollPane;
-    private final JButton restartButton;
 
     @SuppressWarnings({"squid:S00117","squid:S1199"})
     public WorkingJPanel(
@@ -164,25 +166,14 @@ public final class WorkingJPanel extends JPanel
 
     private void applySelectionState()
     {
-        switch( this.tableModel.getSelectionState() ) {
-            case ALL_SELECTED:
-                this.deleteButton.setEnabled( true );
-                this.selectAllButton.setEnabled( false );
-                this.deselectAllButton.setEnabled( true );
-               break;
+        this.tableModel.getSelectionState().applyButtonsState( this );
+    }
 
-            case AT_LEAST_ONE_FILE_SELECTED:
-                this.deleteButton.setEnabled( true );
-                this.selectAllButton.setEnabled( true );
-                this.deselectAllButton.setEnabled( true );
-                break;
+    public void deleteDone()
+    {
+        this.progressBar.setEnabled( false );
 
-            case NONE_SELECTED:
-                this.deleteButton.setEnabled( false );
-                this.selectAllButton.setEnabled( true );
-                this.deselectAllButton.setEnabled( false );
-                break;
-            }
+        setEnabledAll( true );
     }
 
     private void doDelete()
@@ -195,6 +186,32 @@ public final class WorkingJPanel extends JPanel
         new Thread( new DeleteTask( this, this.tableModel, this.progressBar ), "doDelete()" ).start();
     }
 
+    private void setAllButtonsEnabled( final boolean b )
+    {
+        this.deleteButton.setEnabled( b );
+        this.selectAllButton.setEnabled( b );
+        this.deselectAllButton.setEnabled( b );
+    }
+
+    void setButtonsStateAllSelected()
+    {
+        this.deleteButton.setEnabled( true );
+        this.selectAllButton.setEnabled( false );
+        this.deselectAllButton.setEnabled( true );
+    }
+
+    void setButtonsStateAtLeastOneFileSelected()
+    {
+        setAllButtonsEnabled( true );
+    }
+
+    void setButtonsStateNoneSelected()
+    {
+        this.deleteButton.setEnabled( false );
+        this.selectAllButton.setEnabled( true );
+        this.deselectAllButton.setEnabled( false );
+    }
+
     private void setEnabledAll( final boolean b )
     {
         this.restartButton.setEnabled( b );
@@ -203,16 +220,7 @@ public final class WorkingJPanel extends JPanel
             applySelectionState();
             }
         else {
-            this.deleteButton.setEnabled( false );
-            this.selectAllButton.setEnabled( false );
-            this.deselectAllButton.setEnabled( false );
+            setAllButtonsEnabled( false );
             }
-    }
-
-    public void deleteDone()
-    {
-        this.progressBar.setEnabled( false );
-
-        setEnabledAll( true );
     }
 }

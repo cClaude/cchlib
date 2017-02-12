@@ -5,6 +5,7 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingJPanel;
 import com.googlecode.cchlib.apps.emptyfiles.panel.remove.WorkingTableModel;
+import com.googlecode.cchlib.swing.SafeSwingUtilities;
 
 public class DeleteTask implements Runnable
 {
@@ -39,7 +40,7 @@ public class DeleteTask implements Runnable
             LOGGER.warn( "Can not launch all delete process", e );
         }
 
-        this.workingJPanel.deleteDone();
+        SafeSwingUtilities.invokeLater( this.workingJPanel::deleteDone );
     }
 
     @SuppressWarnings("squid:S1066") // Collapse "if"
