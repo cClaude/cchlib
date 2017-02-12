@@ -5,6 +5,7 @@ import java.nio.file.AccessDeniedException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -32,26 +33,30 @@ final class DeleteEmptyFileVisitor extends SimpleFileVisitor<Path>
     }
 
     @Override
-    @SuppressWarnings("squid:S1066") // Collapse "if"
+    @SuppressWarnings("squid:S1066")
+    // Collapse "if"
     public FileVisitResult visitFile( final Path file, final BasicFileAttributes attrs )
         throws IOException
     {
-        if( ! Files.isDirectory( file, this.linkOption ) ) {
+        if( !Files.isDirectory( file, this.linkOption ) ) {
             if( Files.size( file ) == 0 ) {
                 this.tableModel.add( file.toFile() );
-                }
             }
+        }
+
         return FileVisitResult.CONTINUE;
     }
 
     @Override
-    public FileVisitResult visitFileFailed( final Path file, final IOException exc )
+    public FileVisitResult visitFileFailed( final Path file, final IOException ioException )
         throws IOException
     {
-        if( exc instanceof AccessDeniedException ) {
-            LOGGER.warn( "visitFileFailed : " + exc.getMessage() );
+        if( ioException instanceof AccessDeniedException ) {
+            LOGGER.warn( "visitFileFailed - Access Denied : " + ioException.getMessage() );
+        } else if( ioException instanceof NoSuchFileException ) {
+            LOGGER.warn( "visitFileFailed - File removed : " + ioException.getMessage() );
         } else {
-            LOGGER.error( "visitFileFailed", exc );
+            LOGGER.error( "visitFileFailed", ioException );
         }
 
         return FileVisitResult.CONTINUE;
