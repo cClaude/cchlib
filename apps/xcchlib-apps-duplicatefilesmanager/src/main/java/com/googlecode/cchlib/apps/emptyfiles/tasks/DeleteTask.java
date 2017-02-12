@@ -11,15 +11,20 @@ public class DeleteTask implements Runnable
     private static final Logger LOGGER = Logger.getLogger( DeleteTask.class );
 
     private final WorkingTableModel tableModel;
-    private final JProgressBar progressBar;
-    private int progressBarValue;
-    private final WorkingJPanel workingJPanel;
+    private final JProgressBar      progressBar;
+    private final WorkingJPanel     workingJPanel;
+    private int                     progressBarValue;
 
-    public DeleteTask( final WorkingJPanel workingJPanel, final WorkingTableModel tableModel, final JProgressBar progressBar )
+    public DeleteTask(
+        final WorkingJPanel     workingJPanel,
+        final WorkingTableModel tableModel,
+        final JProgressBar      progressBar
+        )
     {
-        this.workingJPanel = workingJPanel;
-        this.tableModel    = tableModel;
-        this.progressBar   = progressBar;
+        this.workingJPanel    = workingJPanel;
+        this.tableModel       = tableModel;
+        this.progressBar      = progressBar;
+        this.progressBarValue = 0;
     }
 
     @Override
@@ -27,6 +32,7 @@ public class DeleteTask implements Runnable
     {
         try {
             safeRun();
+
             LOGGER.info( "All delete process launched" );
         }
         catch( final Exception e ) {
