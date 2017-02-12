@@ -50,10 +50,10 @@ public class FindTask
     private void findFiles( final Path directoryPath ) throws IOException
     {
         Files.walkFileTree(
-                directoryPath,
-                this.fileVisitOption,
-                this.maxDepth,
-                new DeleteEmptyFileVisitor( this.linkOption, this.tableModel )
-                );
+            directoryPath,
+            this.fileVisitOption,
+            this.maxDepth,
+            new DeleteEmptyFileVisitor( this.linkOption, this.tableModel )
+            );
     }
 }
