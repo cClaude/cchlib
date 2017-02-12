@@ -23,17 +23,31 @@ public final class SafeSwingUtilities
      *
      * @param target
      *            the object whose run method is invoked when this thread
-     *            is started. If
+     *            is started.
      * @param threadName
      *            Thread name to use
      */
-    @SuppressWarnings("squid:S1172") // Is used !
     public static void invokeLater(
         final Runnable target,
         final String   threadName
         )
     {
-        new Thread( (Runnable)() -> SafeSwingUtilities.safeRun( target ), threadName ).start();
+        new Thread( () -> SafeSwingUtilities.safeRun( target ), threadName ).start();
+    }
+
+    /**
+     * Make sure to be outside swing even threads and log errors if any
+     *
+     * @param target
+     *            the object whose run method is invoked when this thread
+     *            is started.
+     * @since 4.2
+     */
+    public static void invokeLater(
+        final Runnable target
+        )
+    {
+        new Thread( () -> SafeSwingUtilities.safeRun( target ) ).start();
     }
 
     @SuppressWarnings("squid:UnusedPrivateMethod") // Is used !
