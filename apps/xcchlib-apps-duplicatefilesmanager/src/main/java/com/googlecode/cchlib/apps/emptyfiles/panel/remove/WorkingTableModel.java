@@ -4,12 +4,11 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
 import javax.swing.Icon;
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import org.apache.log4j.Logger;
@@ -19,7 +18,6 @@ import com.googlecode.cchlib.apps.emptyfiles.interfaces.FileInfoFormater;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.swing.table.ForceColumnWidthModel;
-import com.googlecode.cchlib.swing.table.JTableColumnsAutoSizer;
 import com.googlecode.cchlib.util.iterable.Iterables;
 
 @I18nName("emptyfiles.WorkingTableModel")
@@ -27,76 +25,25 @@ public final class WorkingTableModel
     extends AbstractTableModel
         implements TableModel, Serializable, ForceColumnWidthModel
 {
-    private enum Columns {
-        FILE_ICON(
-            16 + JTableColumnsAutoSizer.DEFAULT_COLUMN_MARGIN,
-            (m,f) -> m.getIconValue( f ),
-            Icon.class
-            ),
-        FILE_SELECTED( (m,f) -> m.getSelectedValue( f ), Boolean.class ),
-        FILE_FILE( (m,f) -> f, String.class ),
-        FILE_SIZE( (m,f) -> m.getFileInfo( f ).getLengthString(), String.class ),
-        FILE_DATE( (m,f) -> m.getFileInfo( f ).getLastModifiedDate(), Date.class ),
-        FILE_ATTR( (m,f) -> m.getFileInfo( f ).getFileAttributsString(), String.class ),
-        ;
-        private final int                                       forceColumnWidth;
-        private final BiFunction<WorkingTableModel,File,Object> valueShowView;
-        private final Class<?>                                  type;
-
-        private Columns(
-            final BiFunction<WorkingTableModel,File,Object> valueShowView,
-            final Class<?>                                        type
-            )
-        {
-            this( 0, valueShowView, type );
-        }
-
-        private Columns(
-            final int                                       forceColumnWidth,
-            final BiFunction<WorkingTableModel,File,Object> valueShowView,
-            final Class<?>                                        type
-            )
-        {
-            this.forceColumnWidth = forceColumnWidth;
-            this.valueShowView    = valueShowView;
-            this.type             = type;
-        }
-
-        public int getForceColumnWidth()
-        {
-            return this.forceColumnWidth;
-        }
-
-        public Object getValue( final WorkingTableModel model, final File file )
-        {
-            return this.valueShowView.apply( model, file );
-        }
-
-        public Class<?> getColumnClass()
-        {
-            return this.type;
-        }
-
-        public String getLabel( final String[] columnNames )
-        {
-            return columnNames[ super.ordinal() ];
-        }
-    }
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( WorkingTableModel.class );
 
     private int[]                     forceColumnWidths;
     @I18nString private String[]      columnNames;
-    private final List<File>          fileList    = new ArrayList<>();
-    private final Map<File,FileInfo>  lasyInfoMap  = new HashMap<>();
-    private final boolean             selectedDefaultState = true; // FIXME : should be configurable
+    private final List<File>          fileList             = new ArrayList<>();
+    private final Map<File,FileInfo>  lasyInfoMap          = new HashMap<>();
+    private final boolean                   selectedDefaultState;
 
     private final FileInfoFormater fileInfoFormater;
     private final IconResources iconResources = IconResources.getInstance();
 
-    public WorkingTableModel( final FileInfoFormater fileInfoFormater )
+    public WorkingTableModel(
+        final FileInfoFormater fileInfoFormater,
+        final boolean          selectedDefaultState
+        )
     {
-        this.fileInfoFormater = fileInfoFormater;
+        this.fileInfoFormater     = fileInfoFormater;
+        this.selectedDefaultState = selectedDefaultState;
 
         i18nNotFinalStatic();
     }
@@ -167,7 +114,7 @@ public final class WorkingTableModel
         return column.getValue( this, file );
     }
 
-    private Icon getIconValue( final File file )
+    Icon getIconValue( final File file )
     {
         final FileInfo fi = getFileInfo( file );
 
@@ -177,7 +124,7 @@ public final class WorkingTableModel
                 this.iconResources.getFileIcon();
     }
 
-    private boolean getSelectedValue( final File file )
+    boolean getSelectedValue( final File file )
     {
         final FileInfo fi = getFileInfo( file );
 
@@ -272,9 +219,11 @@ public final class WorkingTableModel
             final boolean deleted = file.delete();
 
             if( deleted ) {
-                value.setSelected( false );
+                SwingUtilities.invokeLater( () -> {
+                    value.setSelected( false );
 
-                fireTableRowsUpdated( rowIndex, rowIndex );
+                    fireTableRowsUpdated( rowIndex, rowIndex );
+                });
 
                 return true;
             } else {
@@ -286,7 +235,7 @@ public final class WorkingTableModel
         return false;
     }
 
-    private FileInfo getFileInfo( final File file )
+    FileInfo getFileInfo( final File file )
     {
         FileInfo value = this.lasyInfoMap.get( file );
 

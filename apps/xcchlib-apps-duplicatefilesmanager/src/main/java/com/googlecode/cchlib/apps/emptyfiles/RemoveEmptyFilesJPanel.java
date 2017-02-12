@@ -29,9 +29,10 @@ import com.googlecode.cchlib.i18n.AutoI18n;
 import com.googlecode.cchlib.i18n.annotation.I18nName;
 import com.googlecode.cchlib.i18n.annotation.I18nString;
 import com.googlecode.cchlib.i18n.core.I18nAutoUpdatable;
+import com.googlecode.cchlib.lang.Threads;
 
 @I18nName("emptyfiles.RemoveEmptyFilesJPanel")
-public final class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpdatable
+public final class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpdatable, FileInfoFormater
 {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger( RemoveEmptyFilesJPanel.class );
@@ -86,29 +87,9 @@ public final class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpda
     {
         getDFToolKit().initJFileChooser();
 
-        final FileInfoFormater fileInfoFormater = new FileInfoFormater()
-        {
-            private static final long serialVersionUID = 1L;
+        final boolean selectedDefaultState = true; // TODO should be in prefs
 
-            @Override
-            public String formatAttributs( final File file )
-            {
-                return "TODO"; // TODO formatAttributs
-            }
-
-            @Override
-            public String formatAttributsDelete()
-            {
-                return RemoveEmptyFilesJPanel.this.fileAttributsDelete;
-            }
-
-            @Override
-            public String formatLength( final File file )
-            {
-                return String.format( RemoveEmptyFilesJPanel.this.fileLengthFmt, Long.valueOf( file.length() ) );
-            }
-        };
-        this.tableModel = new WorkingTableModel( fileInfoFormater );
+        this.tableModel = new WorkingTableModel( /*FileInfoFormater*/this, selectedDefaultState );
     }
 
     public void doFindFiles( final Collection<File> directoryFiles, final JProgressBar progressBar )
@@ -163,7 +144,7 @@ public final class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpda
     {
         LOGGER.info( "doImport()" );
 
-        final Runnable importDirectories = () -> {
+        Threads.start( "doImport():importDirectories", () -> {
             final List<File> dirs = getDFToolKit().getRootDirectoriesList();
 
             for( final File file : dirs ) {
@@ -171,13 +152,15 @@ public final class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpda
             }
 
             LOGGER.info( "doImport() done" );
-        };
-        new Thread( importDirectories, "doImport():importDirectories" ).start();
+        } );
     }
 
     public JFileChooser getJFileChooser()
     {
-        return getDFToolKit().getJFileChooser( this.dfToolKit.getMainFrame(), FileChooserEntryPoint.REMOVE_EMPTY_FILES );
+        return getDFToolKit().getJFileChooser(
+                this.dfToolKit.getMainFrame(),
+                FileChooserEntryPoint.REMOVE_EMPTY_FILES
+                );
     }
 
     @Override
@@ -188,5 +171,23 @@ public final class RemoveEmptyFilesJPanel extends JPanel implements I18nAutoUpda
         autoI18n.performeI18n( this.selecDirecoriesJPanel, SelectDirecoriesJPanel.class );
         autoI18n.performeI18n( this.workingJPanel, WorkingJPanel.class );
         autoI18n.performeI18n( this.tableModel, WorkingTableModel.class );
+    }
+
+    @Override // FileInfoFormater
+    public String formatAttributs( final File file )
+    {
+        return "TODO"; // TODO formatAttributs
+    }
+
+    @Override // FileInfoFormater
+    public String formatAttributsDelete()
+    {
+        return this.fileAttributsDelete;
+    }
+
+    @Override // FileInfoFormater
+    public String formatLength( final File file )
+    {
+        return String.format( this.fileLengthFmt, Long.valueOf( file.length() ) );
     }
 }

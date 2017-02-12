@@ -1,6 +1,5 @@
 package com.googlecode.cchlib.apps.emptyfiles.tasks;
 
-import java.lang.reflect.InvocationTargetException;
 import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
@@ -27,24 +26,39 @@ public class DeleteTask implements Runnable
     public void run()
     {
         try {
-            for( int i = 0; i < this.tableModel.getRowCount(); i++ ) {
-                final int rowIndex = i;
+            safeRun();
+            LOGGER.info( "All delete process launched" );
+        }
+        catch( final Exception e ) {
+            LOGGER.warn( "Can not launch all delete process", e );
+        }
 
-                if( this.tableModel.isRowSelected( rowIndex ) ) {
-                    SwingUtilities.invokeAndWait( () -> {
-                        if( tableModel.doDelete( rowIndex ) ) {
-                            progressBar.setValue( ++progressBarValue );
-                        }
-                    });
-                    }
+        this.workingJPanel.deleteDone();
+    }
+
+    @SuppressWarnings("squid:S1066") // Collapse "if"
+    private void safeRun()
+    {
+        for( int i = 0; i < this.tableModel.getRowCount(); i++ ) {
+            final int rowIndex = i;
+
+            if( this.tableModel.isRowSelected( rowIndex ) ) {
+                if( this.tableModel.doDelete( rowIndex ) ) {
+                    this.progressBarValue++;
+
+                    updateProgressBar();
                 }
-
-            LOGGER.info( "All process started" );
+            }
         }
-        catch( InvocationTargetException | InterruptedException e ) {
-            LOGGER.warn( "Can't stark all process", e );
-        }
+    }
 
-        workingJPanel.deleteDone();
+    private void updateProgressBar()
+    {
+        try {
+            SwingUtilities.invokeLater( () ->  this.progressBar.setValue( this.progressBarValue ) );
+        }
+        catch( final Exception e ) {
+            LOGGER.warn( "Can't not update display", e );
+        }
     }
 }
