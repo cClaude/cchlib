@@ -36,7 +36,7 @@ public final class JPanelSearchingSingleThread extends JPanelSearching
         private static final long serialVersionUID = 1L;
 
         private static final Logger ILOGGER = Logger.getLogger( MyDuplicateFileFinderEventListener.class );
-        private static final String IO_EXCEPTION_MSG_FMT = "IOException %s : %s\n";
+        private static final String IO_EXCEPTION_MSG_FMT = "IO Exception %s : %s";
 
         private final JPanelSearchingSingleThread jPanelSearching;
 

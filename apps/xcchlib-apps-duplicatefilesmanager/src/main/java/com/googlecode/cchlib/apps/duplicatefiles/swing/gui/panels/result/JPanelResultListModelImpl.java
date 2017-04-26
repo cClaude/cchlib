@@ -121,21 +121,25 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     {
         return this.selectFirstMode;
     }
+
     @Override
     public int getSize()
     {
         return this.duplicatesFileCacheList.size();
     }
+
     @Override
     public SortMode getSortMode()
     {
         return this.sortMode;
     }
+
     @Override
     public Set<Map.Entry<String,Set<KeyFileState>>> getStateEntrySet()
     {
         return this.getDuplicateFiles().entrySet();
     }
+
     @Override
     public Set<KeyFileState> getStateSet( final String key )
     {
@@ -181,7 +185,7 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
 
                 if( ! kfs.isFileExists() ) {
                     // File no more exist (delete by an other process)
-                    LOGGER.info( "refreshList() : File \"" + kfs + "\" no more exist" );
+                    LOGGER.warn( "refreshList() : File \"" + kfs + "\" does not exist any more." );
                     kfsIterator.remove();
                     }
                 }
@@ -203,7 +207,12 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
             duplicatesCurrentIndex++;
             }
 
-        LOGGER.info( "refreshList() end : duplicateFiles.size() = " + getDuplicateFiles().size() + " * index0=" + index0 + " index1=" + index1 );
+        if( LOGGER.isDebugEnabled() ) {
+            LOGGER.debug(
+                "refreshList() end : duplicateFiles.size() = " + getDuplicateFiles().size()
+                    + " * index0=" + index0 + " index1=" + index1
+                );
+        }
 
         if( index0 >= 0 ) {
             updateCache();
@@ -222,17 +231,18 @@ class JPanelResultListModelImpl extends AbstractListModel<KeyFiles> implements J
     @Override
     public void setKeepDelete(
         final String            key,
-        final Set<KeyFileState> s
+        final Set<KeyFileState> setOfFiles
         )
     {
         if( LOGGER.isTraceEnabled() ) {
-            LOGGER.trace( "setKeepDelete: " + s );
+            LOGGER.trace( "setKeepDelete: " + setOfFiles );
             }
+
         this.key = key;
 
         final SortedSet<KeyFileState> ss = new TreeSet<>();
 
-        ss.addAll( s );
+        ss.addAll( setOfFiles );
 
         this.listModelWillBeDeleted.clear();
         this.listModelKeptIntact.clear();
