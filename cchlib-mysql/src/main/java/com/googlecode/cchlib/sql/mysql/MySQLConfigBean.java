@@ -1,8 +1,6 @@
 package com.googlecode.cchlib.sql.mysql;
 
 import java.io.Serializable;
-import java.util.EnumSet;
-import java.util.Set;
 import javax.annotation.Nonnull;
 
 /**
@@ -14,12 +12,12 @@ public class MySQLConfigBean implements MySQLConfig, Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private String               hostname;
-    private int                  port = MySQL.DEFAULT_PORT;
-    private Set<MySQLParameters> parameters;
-    private String               username;
-    private String               password;
-    private int                  timeout = MySQL.DEFAULT_TIMEOUT;
+    private String          hostname;
+    private int             port = MySQL.DEFAULT_PORT;
+    private MySQLParameters parameters;
+    private String          username;
+    private String          password;
+    private int             timeout = MySQL.DEFAULT_TIMEOUT;
 
     @Override
     public String getHostname()
@@ -47,18 +45,14 @@ public class MySQLConfigBean implements MySQLConfig, Serializable
 
     @Override
     @Nonnull
-    public Set<MySQLParameters> getParameters()
+    public MySQLParameters getMySQLParameters()
     {
         return this.parameters;
     }
 
-    public MySQLConfigBean setParameters( final Set<MySQLParameters> parameters )
+    public MySQLConfigBean setMySQLParameters( final MySQLParameters parameters )
     {
-        if( parameters== null ) {
-            this.parameters = EnumSet.noneOf( MySQLParameters.class );
-        } else {
-            this.parameters = EnumSet.copyOf( parameters );
-        }
+        this.parameters = MySQLParametersImpl.copyOf( parameters );
         return this;
    }
 

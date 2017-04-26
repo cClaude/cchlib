@@ -5,11 +5,11 @@ import java.util.EnumSet;
 import java.util.Set;
 
 /**
- * Configuration for {@link MySQL#getURL(String, int, java.util.Collection)}
+ * Configuration for {@link MySQL#getURL(String, int, MySQLParameters)}
  *
  * @since 4.2
  */
-public enum MySQLParameters implements MySQLParametersConfig
+public enum MySQLStandardParameters implements MySQLStandardParametersConfig
 {
     /**
      *  Handle : Value '0000-00-00 00:00:00' can be represented as {@link java.sql.Timestamp}
@@ -112,7 +112,7 @@ public enum MySQLParameters implements MySQLParametersConfig
     /**
      * Configuration required for compatibility with MySQL 3.0
      */
-    public static final Set<MySQLParameters> MYSQL3 = Collections.unmodifiableSet(
+    public static final Set<MySQLStandardParameters> MYSQL3 = Collections.unmodifiableSet(
         EnumSet.of(
             AUTO_CLOSEP_STMT_STREAMS,
             DONT_TRACK_OPEN_RESOURCES,
@@ -134,12 +134,12 @@ public enum MySQLParameters implements MySQLParametersConfig
     /**
      * Alias for {@link ZERO_DATE_TIME_BEHAVIOR}
      */
-    public static final MySQLParameters HANDLE_0000_00_00_00_00_00_TIMESTAMP
+    public static final MySQLStandardParameters HANDLE_0000_00_00_00_00_00_TIMESTAMP
         = ZERO_DATE_TIME_BEHAVIOR;
 
     private String parameterConfig;
 
-    private MySQLParameters( final String parameterConfig )
+    private MySQLStandardParameters( final String parameterConfig )
     {
         this.parameterConfig = parameterConfig;
     }

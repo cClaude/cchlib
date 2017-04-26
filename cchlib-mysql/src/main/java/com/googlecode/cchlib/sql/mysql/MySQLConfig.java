@@ -1,7 +1,5 @@
 package com.googlecode.cchlib.sql.mysql;
 
-import java.util.Collection;
-import java.util.EnumSet;
 
 /**
  * Configuration interface for {@link MySQL}
@@ -23,11 +21,7 @@ public interface MySQLConfig
      */
     int getPort();
 
-    /**
-     * Return typically a {@link EnumSet}&lt;{@link MySQLParameters}&gt;
-     * @return parameters for {@link MySQL#getURL(String, int, Collection)}
-     */
-    Collection<? extends MySQLParametersConfig> getParameters();
+    MySQLParameters getMySQLParameters();
 
     /**
      * @return user name for MySQL database
