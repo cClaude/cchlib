@@ -2,7 +2,6 @@ package com.googlecode.cchlib.util.iterator;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import com.googlecode.cchlib.NeedDoc;
 import com.googlecode.cchlib.util.iterable.ArrayIterable;
 
 /**
@@ -24,7 +23,7 @@ public class CascadingIterator<T>
      *
      * @param iterator an Iterator of Iterator
      */
-    public CascadingIterator(final Iterator<? extends Iterable<? extends T>> iterator)
+    public CascadingIterator( final Iterator<? extends Iterable<? extends T>> iterator )
     {
         this.mainIterator    = iterator;
         this.currentIterator = null;
@@ -37,7 +36,6 @@ public class CascadingIterator<T>
      * @since 4.1.8
      */
     @SafeVarargs
-    @NeedDoc
     public CascadingIterator( final Iterable<? extends T>...iterators )
     {
         this( newIterator( iterators ) );

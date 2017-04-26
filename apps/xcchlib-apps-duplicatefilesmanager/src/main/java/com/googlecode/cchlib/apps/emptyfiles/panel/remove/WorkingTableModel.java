@@ -32,7 +32,7 @@ public final class WorkingTableModel
     @I18nString private String[]      columnNames;
     private final List<File>          fileList             = new ArrayList<>();
     private final Map<File,FileInfo>  lasyInfoMap          = new HashMap<>();
-    private final boolean                   selectedDefaultState;
+    private final boolean             selectedDefaultState;
 
     private final FileInfoFormater fileInfoFormater;
     private final IconResources iconResources = IconResources.getInstance();
