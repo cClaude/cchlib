@@ -1,10 +1,10 @@
 package com.googlecode.cchlib.sql.mysql;
 
-import java.util.Collection;
 import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.sql.DataSource;
+import com.googlecode.cchlib.lang.StringHelper;
 import com.googlecode.cchlib.sql.DataSourceFactory;
 import com.googlecode.cchlib.sql.DataSourceFactoryClassNotFoundException;
 
@@ -15,6 +15,8 @@ import com.googlecode.cchlib.sql.DataSourceFactoryClassNotFoundException;
  */
 public final class MySQL
 {
+    private static final String AMP_HTML = "&amp;";
+    private static final String AMP = "&";
     private static final String SQL_LOGGER_NAME = "SQLLOGGER";
 
     private static final java.util.logging.Logger SQL_LOGGER
@@ -52,7 +54,9 @@ public final class MySQL
      *            Host name for the database
      * @return a connection URL (has a String)
      */
-    public static String getURL( final String host )
+    public static String getURL(
+        final String host
+        )
     {
         return getURL( host, MySQL.DEFAULT_PORT, null );
     }
@@ -65,53 +69,81 @@ public final class MySQL
      * @param port
      *            Port of the database (default is {@link #DEFAULT_PORT}
      * @param parameters
-     *            Extras parameters for special need (see {@link MySQLParameters})
+     *            Parameters for special need (see {@link MySQLParameters})
      * @return a connection URL (has a String)
      */
     public static String getURL(
-        @Nonnull final String host,
-        final int             port,
-        @Nullable
-        final Collection<? extends MySQLParametersConfig> parameters
+        @Nonnull final String           host,
+        final int                       port,
+        @Nullable final MySQLParameters parameters
         )
     {
         final StringBuilder sb = new StringBuilder();
 
         sb.append( "jdbc:mysql://" ).append( host ).append( ':' ).append( port ).append( '/' );
 
-        if( (parameters != null) && !parameters.isEmpty() ) {
-            sb.append( '?' );
-
-            boolean first = true;
-
-            for( final MySQLParametersConfig mySQLParameters : parameters ) {
-                if( first ) {
-                    first = false;
-                } else {
-                    sb.append( "&amp;" );
-                }
-                sb.append( mySQLParameters.getParameterConfig() );
-            }
+        if( parameters != null ) {
+            handlerParameters( parameters, sb );
         }
+
         return sb.toString();
     }
 
-    private static String getURL( final MySQLConfig mysql )
+    private static void handlerParameters(
+        final MySQLParameters parameters,
+        final StringBuilder   urlBuilder
+        )
+    {
+        boolean first = true;
+
+        for( final MySQLStandardParametersConfig mySQLStdParameter : parameters.getMySQLStandardParameters() ) {
+            if( first ) {
+                urlBuilder.append( '?' );
+                first = false;
+            } else {
+                urlBuilder.append( AMP );
+            }
+
+            urlBuilder.append( mySQLStdParameter.getParameterConfig() );
+        }
+
+        final String   customParameters = parameters.getCustomParameters();
+        final String[] cParams          = customParameters.split( AMP_HTML );
+
+        for( final String cParam : cParams ) {
+            if( ! StringHelper.isNullOrEmpty( cParam ) ) {
+                if( first ) {
+                    urlBuilder.append( '?' );
+                    first = false;
+                } else {
+                    urlBuilder.append( AMP );
+                }
+
+                urlBuilder.append( cParam );
+            }
+        }
+    }
+
+    public static String getURL(
+        final MySQLConfig mysql
+        )
     {
         return getURL(
                 mysql.getHostname(),
                 mysql.getPort(),
-                mysql.getParameters()
+                mysql.getMySQLParameters()
                 );
     }
 
     /**
-     * Create a {@link DataSource} based on values givens by {@link MySQLConfig}
-     * and using {@link #MYSQL_JDBC_DRIVER_CLASS}
+     * Create a {@link DataSource} based on values givens by {@link MySQLConfig} and using
+     * {@link #MYSQL_JDBC_DRIVER_CLASS}
      *
-     * @param mysql Configuration
+     * @param mysql
+     *            Configuration
      * @return a {@link DataSource}
-     * @throws DataSourceFactoryClassNotFoundException if any
+     * @throws DataSourceFactoryClassNotFoundException
+     *             if any
      */
     public static DataSource newDataSource( //
         @Nonnull final MySQLConfig mysql
@@ -149,7 +181,7 @@ public final class MySQL
      * @param driverClassName
      *            Driver class
      * @param dbURL
-     *            String connection (see {@link #getURL(String, int, Collection)})
+     *            String connection (see {@link #getURL(String, int, MySQLParameters)})
      * @param username
      *            Database user name
      * @param password
