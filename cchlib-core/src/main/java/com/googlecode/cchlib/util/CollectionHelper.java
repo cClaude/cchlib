@@ -160,6 +160,58 @@ public final class CollectionHelper
     }
 
     /**
+     * Returns an non null value based on the giving {@link List}
+     *
+     * @param list
+     *            value to evaluate
+     * @return the original value or an empty {@link List}
+     * @since 4.2
+     */
+    public static <T> List<T> nonNullList( @Nullable final List<T> list )
+    {
+        return list == null ? Collections.emptyList() : list;
+    }
+
+    /**
+     * Returns an non null value based on the giving {@link Collection}
+     *
+     * @param collection
+     *            value to evaluate
+     * @return the original value or an empty {@link Collection}
+     * @since 4.2
+     */
+    public static <T> Collection<T> nonNullCollection( @Nullable final Collection<T> collection )
+    {
+        return collection == null ? Collections.emptyList() : collection;
+    }
+
+    /**
+     * Returns an non null value based on the giving {@link Set}
+     *
+     * @param set
+     *            value to evaluate
+     * @return the original value or an empty {@link Set}
+     * @since 4.2
+     */
+    public static <T> Set<T> nonNullSet( @Nullable final Set<T> set )
+    {
+        return set == null ? Collections.emptySet() : set;
+    }
+
+    /**
+     * Returns an non null value based on the giving {@link Map}
+     *
+     * @param map
+     *            value to evaluate
+     * @return the original value or an empty {@link Map}
+     * @since 4.2
+     */
+    public static <K,V> Map<K,V> nonNullMap( @Nullable final Map<K,V> map )
+    {
+        return map == null ? Collections.emptyMap() : map;
+    }
+
+    /**
      * Test if a {@link Collection} is empty
      *
      * @param <T>
@@ -200,6 +252,7 @@ public final class CollectionHelper
 
         return reverseMap( map, mapSupplier, setSupplier );
     }
+
 
     /**
      * Returns a {@link Map}&lt;V,{@link Set}&lt;K&gt;&gt; build by exchange
