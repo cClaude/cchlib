@@ -20,12 +20,14 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.Executor;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * {@link Connection} wrapper to add some debug informations
  */
-public final class ConnectionDebug implements Connection {
-
+public final class ConnectionDebug implements Connection
+{
     /**
      * Configuration options for {@link ConnectionDebug}
      */
@@ -55,15 +57,31 @@ public final class ConnectionDebug implements Connection {
      * delegator
      *
      * @param connection Connection to use
-     * @param config EnumSet of options
+     * @param config {@link Set} of options
      */
-    public ConnectionDebug( final Connection connection, final Set<Config> config ) {
+    public ConnectionDebug(
+        @Nonnull final Connection   connection,
+        @Nullable final Set<Config> config
+        )
+    {
         this.delegate = connection;
         this.config   = config == null ? EnumSet.allOf(ConnectionDebug.Config.class) : config;
     }
 
+    /**
+     * Create {@link ConnectionDebug} which is a {@link Connection}
+     * delegator
+     *
+     * @param connection Connection to use
+     */
+    public ConnectionDebug( @Nonnull final Connection connection )
+    {
+        this( connection, null );
+    }
+
     @Override
-    public void close() throws SQLException {
+    public void close() throws SQLException
+    {
         if( this.config.contains( Config.Close_Log4j_Logger ) ) {
             LOGGER.info( "Connection:" + this + ".close()" );
         }
@@ -74,130 +92,164 @@ public final class ConnectionDebug implements Connection {
     }
 
     @Override
-    public <T> T unwrap(final Class<T> iface) throws SQLException {
+    public <T> T unwrap(final Class<T> iface) throws SQLException
+    {
         return this.delegate.unwrap(iface);
     }
 
     @Override
-    public boolean isWrapperFor(final Class<?> iface) throws SQLException {
+    public boolean isWrapperFor(final Class<?> iface) throws SQLException
+    {
         return this.delegate.isWrapperFor(iface);
     }
 
     @Override
-    public Statement createStatement() throws SQLException {
+    public Statement createStatement() throws SQLException
+    {
         return this.delegate.createStatement();
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql) throws SQLException {
+    public PreparedStatement prepareStatement(final String sql) throws SQLException
+    {
         return this.delegate.prepareStatement(sql);
     }
 
     @Override
-    public CallableStatement prepareCall(final String sql) throws SQLException {
+    public CallableStatement prepareCall(final String sql) throws SQLException
+    {
         return this.delegate.prepareCall(sql);
     }
 
     @Override
-    public String nativeSQL(final String sql) throws SQLException {
+    public String nativeSQL(final String sql) throws SQLException
+    {
         return this.delegate.nativeSQL(sql);
     }
 
     @Override
-    public void setAutoCommit(final boolean autoCommit) throws SQLException {
+    public void setAutoCommit(final boolean autoCommit) throws SQLException
+    {
         this.delegate.setAutoCommit(autoCommit);
     }
 
     @Override
-    public boolean getAutoCommit() throws SQLException {
+    public boolean getAutoCommit() throws SQLException
+    {
         return this.delegate.getAutoCommit();
     }
 
     @Override
-    public void commit() throws SQLException {
+    public void commit() throws SQLException
+    {
         this.delegate.commit();
     }
 
     @Override
-    public void rollback() throws SQLException {
+    public void rollback() throws SQLException
+    {
         this.delegate.rollback();
     }
 
     @Override
-    public boolean isClosed() throws SQLException {
+    public boolean isClosed() throws SQLException
+    {
         return this.delegate.isClosed();
     }
 
     @Override
-    public DatabaseMetaData getMetaData() throws SQLException {
+    public DatabaseMetaData getMetaData() throws SQLException
+    {
         return this.delegate.getMetaData();
     }
 
     @Override
-    public void setReadOnly(final boolean readOnly) throws SQLException {
+    public void setReadOnly(final boolean readOnly) throws SQLException
+    {
         this.delegate.setReadOnly(readOnly);
     }
 
     @Override
-    public boolean isReadOnly() throws SQLException {
+    public boolean isReadOnly() throws SQLException
+    {
         return this.delegate.isReadOnly();
     }
 
     @Override
-    public void setCatalog(final String catalog) throws SQLException {
+    public void setCatalog(final String catalog) throws SQLException
+    {
         this.delegate.setCatalog( catalog );
     }
 
     @Override
-    public String getCatalog() throws SQLException {
+    public String getCatalog() throws SQLException
+    {
         return this.delegate.getCatalog();
     }
 
     @Override
-    public void setTransactionIsolation(final int level) throws SQLException {
+    public void setTransactionIsolation(final int level) throws SQLException
+    {
         this.delegate.setTransactionIsolation(level);
     }
 
     @Override
-    public int getTransactionIsolation() throws SQLException {
+    public int getTransactionIsolation() throws SQLException
+    {
         return this.delegate.getTransactionIsolation();
     }
 
     @Override
-    public SQLWarning getWarnings() throws SQLException {
+    public SQLWarning getWarnings() throws SQLException
+    {
         return this.delegate.getWarnings();
     }
 
     @Override
-    public void clearWarnings() throws SQLException {
+    public void clearWarnings() throws SQLException
+    {
         this.delegate.clearWarnings();
     }
 
     @Override
-    public Statement createStatement(final int resultSetType, final int resultSetConcurrency) throws SQLException {
-        return this.delegate.createStatement(resultSetType, resultSetConcurrency);
+    public Statement createStatement(
+        final int resultSetType,
+        final int resultSetConcurrency
+        ) throws SQLException
+    {
+        return this.delegate.createStatement( resultSetType, resultSetConcurrency );
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql, final int resultSetType, final int resultSetConcurrency)
-            throws SQLException {
-        return this.delegate.prepareStatement(sql, resultSetType, resultSetConcurrency);
+    public PreparedStatement prepareStatement(
+        final String sql,
+        final int resultSetType,
+        final int resultSetConcurrency
+        ) throws SQLException
+    {
+        return this.delegate.prepareStatement( sql, resultSetType, resultSetConcurrency );
     }
 
     @Override
-    public CallableStatement prepareCall(final String sql, final int resultSetType, final int resultSetConcurrency)
-            throws SQLException {
-        return this.delegate.prepareCall(sql, resultSetType, resultSetConcurrency);
+    public CallableStatement prepareCall(
+        final String sql,
+        final int    resultSetType,
+        final int    resultSetConcurrency
+        ) throws SQLException
+    {
+        return this.delegate.prepareCall( sql, resultSetType, resultSetConcurrency );
     }
 
     @Override
-    public Map<String, Class<?>> getTypeMap() throws SQLException {
+    public Map<String, Class<?>> getTypeMap() throws SQLException
+    {
         return this.delegate.getTypeMap();
     }
 
     @Override
-    public void setTypeMap(final Map<String, Class<?>> map) throws SQLException {
-        this.delegate.setTypeMap(map);
+    public void setTypeMap( final Map<String, Class<?>> map ) throws SQLException
+    {
+        this.delegate.setTypeMap( map );
     }
 
     @Override
